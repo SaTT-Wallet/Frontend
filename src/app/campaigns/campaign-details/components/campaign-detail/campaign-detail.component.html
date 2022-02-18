@@ -27,7 +27,7 @@
     class="div-top-bar align-content-center justify-content-between"
     id="campaign-top-bar"
   >
-    <div class="d-flex gap-3 align-items-center">
+    <div class="d-flex gap-4 align-items-center">
       <img
         [src]="campaign.logo"
         class="top-bar-logo"
@@ -220,10 +220,11 @@
     <!----div back to top---->
     <div class="div-back-top text-center">
       <div class="div-pic" (click)="scrollToTop()">
-        <img src="/assets/Images/chevron_up.svg" id="back-top-pic" />
+        <img src="/assets/Images/chevron_up.svg" id="back-top-pic" [hidden]="!scrolling" />
         <img
           src="/assets/Images/chevron_up_disabled.svg"
           id="back-top-pic-disabled"
+          [hidden]="!inTop"
         />
       </div>
 
@@ -231,10 +232,11 @@
         (click)="scrollToTop()"
         id="back-top-text"
         class="span-text blue-text"
+        [hidden]="!scrolling"
       >
         Back to top
       </span>
-      <span class="span-text disabled-text" id="back-top-text-disabled"
+      <span [hidden]="!inTop" class="span-text disabled-text" id="back-top-text-disabled"
         >Back to top</span
       >
     </div>
