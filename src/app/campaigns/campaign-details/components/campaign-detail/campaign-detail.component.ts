@@ -2,7 +2,6 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  HostListener,
   Inject,
   OnDestroy,
   OnInit,
@@ -51,7 +50,6 @@ import { ToastrService } from 'ngx-toastr';
 import { CampaignsListStoreService } from '@app/campaigns/services/campaigns-list-store.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Big } from 'big.js';
-import { WindowRefService } from '@app/core/windowRefService';
 declare var $: any;
 @Component({
   selector: 'app-campaign-detail',
@@ -59,8 +57,6 @@ declare var $: any;
   styleUrls: ['./campaign-detail.component.scss']
 })
 export class CampaignDetailComponent implements OnInit {
-  scrolling = false;
-  inTop = true;
   downloadFilsClick: boolean = false;
   imageBlobUrl!: string | ArrayBuffer | null;
   updateCoverResponseMsg: any;
@@ -155,9 +151,7 @@ export class CampaignDetailComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: string,
     private translate: TranslateService,
     private toastr: ToastrService,
-    private campaignListStoreService: CampaignsListStoreService,
-    private Window: WindowRefService,
-    private campaignsHttpService: CampaignHttpApiService
+    private campaignListStoreService: CampaignsListStoreService
   ) {
     this.sendform = new FormGroup({
       url: new FormControl(null, Validators.required)
@@ -181,18 +175,16 @@ export class CampaignDetailComponent implements OnInit {
               this.histEarning = true;
             }
           }
+          // console.log(
+          //   this.history[this.history.length - 1],
+          //   `/campaign/${this.campaignId}?type=earnings`,
+          //   this.histEarning
+          // );
         });
     }
   }
 
   ngOnInit(): void {
-    this.campaignsHttpService.scrolling.subscribe(() => {
-      this.scrolling = true;
-    });
-    // cover.style.position = 'fixed';
-    // main.style.marginTop = '28%';
-    // // cover.style.position = 'fixed';
-
     this.campaignsStoreService.emitLogoCampaignUpdated
       .pipe(takeUntil(this.isDestroyed))
       .subscribe(() => {
@@ -742,7 +734,6 @@ export class CampaignDetailComponent implements OnInit {
       span[0].scrollIntoView({ behavior: 'smooth' });
     }
   }
-
   goToEditPage(id: string) {
     this.router.navigate(['home/campaign', id, 'edit']);
   }

@@ -64,23 +64,16 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
   @Input() validFormPicture: any;
   @Input() validFormParam: any;
   @Input() validFormBudgetRemun: any;
-  @Input() selectedYoutube: any;
   @Output() notValidPresentation: EventEmitter<any> = new EventEmitter<any>();
   @Output() notValidParam: EventEmitter<any> = new EventEmitter<any>();
   @Output() notValidBudgetRemun: EventEmitter<any> = new EventEmitter<any>();
   @Output() notValidPicture: EventEmitter<any> = new EventEmitter<any>();
-  @Output() formMission: EventEmitter<any> = new EventEmitter<any>();
-  @Input()
-  draftData!: Campaign;
+
   sendErrorToParam: any;
   sendErrorToPresentation: any;
   sendErrorToBudgetRemun: any;
   sendErrorToPicture: any;
-  sendToRemuSelectedYoutube: any;
-  sendToRemuSelectedFacebook: any;
-  sendToRemuSelectedInstagram: any;
-  sendToRemuSelectedLinkedin: any;
-  sendToRemuSelectedTwitter: any;
+
   alertRequired: boolean = false;
   @ViewChild('checkUserLegalKYCModal') checkUserLegalKYCModal!: ElementRef;
   @ViewChild('useDesktopModal', { static: false })
@@ -108,7 +101,6 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
   isDestroyed$: Subject<any> = new Subject<any>();
   campaignData$ = new Observable<Campaign>();
   showModal: boolean = false;
-  checked: boolean = false;
   constructor(
     private _formBuilder: FormBuilder,
     private CampaignService: CampaignHttpApiService,
@@ -171,6 +163,7 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
       this.sendErrorToPicture = true;
     }
   }
+
   saveAndLaunchCampaign() {
     this.checkValidation();
 
@@ -284,19 +277,6 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
   listenForPictureChange(event: any) {
     this.validFormPicture = event;
   }
-  listenForMissionChange(event: any, type: string) {
-    if (type === 'youtube') {
-      this.sendToRemuSelectedYoutube = event;
-    } else if (type === 'facebook') {
-      this.sendToRemuSelectedFacebook = event;
-    } else if (type === 'instagram') {
-      this.sendToRemuSelectedInstagram = event;
-    } else if (type === 'twitter') {
-      this.sendToRemuSelectedTwitter = event;
-    } else if (type === 'linkedin') {
-      this.sendToRemuSelectedLinkedin = event;
-    }
-  }
 
   /**
    * Get campaign data.
@@ -379,6 +359,20 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
     } else {
       this.showModal = false;
       this.modalService.dismissAll(this.useDesktopModal);
+    }
+  }
+
+  saveCampaign() {
+    this.checkValidation();
+    if (
+      this.validFormParam &&
+      this.validFormPresentation &&
+      this.validFormMission
+    ) {
+      this.alertRequired = false;
+      this.router.navigate(['/ad-pools']);
+    } else {
+      this.alertRequired = true;
     }
   }
 }

@@ -28,6 +28,24 @@
   color: white;
   box-shadow: 0px 4px 20px 0px #00000033;
 }
+.btn-edit-ad-pool{
+  justify-content: center;
+  border: none;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 19px;
+  text-align: center;
+  align-items: center;
+  letter-spacing: 0.03em;
+  height: 48px;
+  /* width: 169px; */
+  width: 300px;
+  border-radius: 30px;
+  background-color: #4048FF;
+  color: white;
+  box-shadow: 0px 4px 20px 0px #00000033;
+}
 
 .img-container {
   /* box-shadow: 0px 4px 20px rgb(0 0 0 / 20%);
@@ -234,7 +252,7 @@
   color: #1f2337;
   max-width: 70%;
   line-height: 1.3;
-  margin-top: 0.5em;
+  /* margin-top: 2em; */
   text-transform: capitalize;
 }
 
@@ -255,7 +273,6 @@
   /* 02.GREYS/hard grey */
   color: #75758f;
   transform: matrix(1, 0, 0, 1, 0, 0);
-  margin-top: 0.5em;
 }
 
 @media (min-width: 768px) {
@@ -672,7 +689,7 @@
   box-shadow: 0px 4px 4px 0px #00000040;
   background: #f6f6ff;
   display: none;
-  padding-left: 5.5em;
+  padding-left: 3em;
   padding-right: 3em;
 }
 
@@ -710,8 +727,8 @@
 
 .btn-scroll-top {
   background: #ffffff;
-  height: 44px;
-  width: 44px;
+  height: 48px;
+  width: 48px;
   text-align: center;
   display: flex;
   align-items: center;
@@ -725,7 +742,6 @@
   font-size: 2.1vw;
   line-height: 18px;
   min-width: 80px;
-  color: #1f2337;
 }
 
 .dark-gray {
@@ -750,7 +766,6 @@
   /* width: 169px; */
   min-width: 169px;
   border-radius: 30px;
-  width: 182px;
 }
 
 .top-bar-logo {
@@ -759,7 +774,7 @@
   max-width: 72px;
   min-width: 72px;
   /* width: 6vw; */
-  // margin-top: 4px;
+  margin-top: 4px;
 }
 
 .btn-apply:hover {
@@ -789,7 +804,7 @@ a {
   height: 62px;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5em;
+  padding: 1em;
   background: white;
   // flex-direction: row;
   position: fixed;
@@ -831,7 +846,6 @@ a {
   flex-direction: column;
   align-items: center;
   cursor: pointer;
-  max-width: 50%;
 }
 
 .div-center {
@@ -847,8 +861,8 @@ a {
   justify-content: center;
   background: #f6f6ff;
   border-radius: 30px;
-  width: 45px;
-  height: 45px;
+  width: 50px;
+  height: 50px;
   margin-top: 6px;
   z-index: 1;
   span {
@@ -895,7 +909,4 @@ a {
 .back-top-pic-disabled,
 .back-top-text-disabled {
   display: none;
-}
-#back-top-pic-disabled {
-  margin-top: 0.5em;
 }

@@ -12,6 +12,10 @@
       (saveFormStatus)="onSaveDraftStatusChange($event)"
     ></app-draft-campaign-presentation>
   </div>
+  <div class="row">
+    <hr class="horizontal-line" />
+  </div>
+
   <!------------------------- bloc picture----------------------->
   <div class="div-block mt-3 pb-3">
     <app-draft-picture
@@ -21,6 +25,9 @@
       [draftData]="campaignData"
       (saveFormStatus)="onSaveDraftStatusChange($event)"
     ></app-draft-picture>
+  </div>
+  <div class="row">
+    <hr class="horizontal-line" />
   </div>
   <!------------------------- bloc param----------------------->
   <div class="div-block mt-3 pb-3">
@@ -32,33 +39,31 @@
       (saveFormStatus)="onSaveDraftStatusChange($event)"
     ></app-draft-campaign-parametres>
   </div>
-
+  <div class="row">
+    <hr class="horizontal-line" />
+  </div>
   <!------------------------- bloc Rémunération and budget ----------------------->
 
   <app-remuneration
+    [hidden]="campaignData.isActive && campaignData.isOwnedByUser"
     [draftData]="campaignData"
     [id]="draftId"
     [notValidBudgetRemun]="sendErrorToBudgetRemun"
     (validFormBudgetRemun)="listenForBudgetRemunChange($event)"
-    [isSelectedYoutube]="sendToRemuSelectedYoutube"
-    [isSelectedFacebook]="sendToRemuSelectedFacebook"
-    [isSelectedInstagram]="sendToRemuSelectedInstagram"
-    [isSelectedLinkedin]="sendToRemuSelectedLinkedin"
-    [isSelectedTwitter]="sendToRemuSelectedTwitter"
   ></app-remuneration>
-
+  <div class="row">
+    <hr class="horizontal-line" />
+  </div>
   <!------------------------- bloc Missions ----------------------->
   <div class="div-block mt-3 pb-3">
     <app-missions
       [draftData]="campaignData"
       [id]="draftId"
-      (selectedYoutube)="listenForMissionChange($event, 'youtube')"
-      (selectedFacebook)="listenForMissionChange($event, 'facebook')"
-      (selectedInstagram)="listenForMissionChange($event, 'instagram')"
-      (selectedTwitter)="listenForMissionChange($event, 'twitter')"
-      (selectedLinkedin)="listenForMissionChange($event, 'linkedin')"
       (validFormMission)="listenForBudgetMissionChange($event)"
     ></app-missions>
+  </div>
+  <div class="row">
+    <hr class="horizontal-line" />
   </div>
   <!------------------------- bloc kit----------------------->
   <div class="div-block mt-3 pb-3">
@@ -68,7 +73,9 @@
       (saveFormStatus)="onSaveDraftStatusChange($event)"
     ></app-draft-campaign-kit>
   </div>
-
+  <div class="row">
+    <hr class="horizontal-line" />
+  </div>
   <div class="row d-flex justify-content-center mt-4">
     <div
       class="col-xl-4 col-md-4 col-lg-4 col-sm-8 d-flex justify-content-center"
@@ -81,7 +88,20 @@
     <div
       class="col-xl-4 col-md-4 col-lg-4 col-sm-8 d-flex justify-content-center pt-3-mobile"
     >
-      <button type="button" class="btn-blue" (click)="saveAndLaunchCampaign()">
+      <button
+        type="button"
+        class="btn-blue"
+        (click)="saveCampaign()"
+        *ngIf="campaignData.isActive && campaignData.isOwnedByUser"
+      >
+        Save Changes
+      </button>
+      <button
+        type="button"
+        class="btn-blue"
+        (click)="saveAndLaunchCampaign()"
+        *ngIf="!campaignData.isActive"
+      >
         <img src="/assets/Images/Rectangle-lancer_compagne.svg" class="me-4" />
         {{ 'start my campaign now!' | translate | capitalizePhrase }}
       </button>
