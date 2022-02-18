@@ -232,10 +232,10 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     this.showSelectedValue = false;
     this.selectedBlockchain = 'erc20';
     this.f.currency?.setValue('SATT');
+    this.amountUsd = '0.00';
   }
 
   ngAfterContentChecked() {
-    this.amountUsd = '0.00';
     this.cdref.detectChanges();
     this.cdref.markForCheck();
   }
