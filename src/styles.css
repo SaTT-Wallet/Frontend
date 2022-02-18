@@ -351,8 +351,8 @@ body {
 
 .page-content {
     padding: 20px 15px;
-    margin-bottom: 20px;
-    /* margin-bottom: 100px; */
+   
+    margin-bottom: 100px;
     max-width: 1600px;
 }
 
