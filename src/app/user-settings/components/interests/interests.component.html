@@ -1,0 +1,153 @@
+<div class="container-fluid page-content wallet-page">
+  <div class="row show-mobile mb-2">
+    <div class="col-md-12 col-lg-12 col-xs-12">
+      <button type="button" class="btn-back" [routerLink]="['/home/settings/']">
+        <
+      </button>
+      <!-- <span class="title_page"><a class="title_page pe-2" [routerLink]="['/profile']"> {{'parameters' |translate}}
+                </a> > <a class="title_page ps-2" [routerLink]="['/profile/interests']">{{ 'Profil.interests' | translate }}
+                </a> </span> -->
+    </div>
+  </div>
+
+  <div class="tab-content interest-card">
+    <div
+      class="tab-pane fade show active"
+      id="info"
+      role="tabpanel"
+      aria-labelledby="info-tab"
+    >
+      <div class="justify-content-center">
+        <div class="col-12 px-3 padding-small-version mb-5">
+          <div class="justify-content-center">
+            <div class="d-flex pt-4 justify-content-center">
+              <span class="bold-title">{{
+                'Profil.choose_interests' | translate
+              }}</span>
+            </div>
+            <div class="d-flex pt-4 justify-content-center">
+              <span class="interestsPercent bold-title">
+                {{ this.interestsPercent }}%
+              </span>
+            </div>
+            <div
+              class="
+                col-md-12 col-lg-12 col-xs-12
+                d-flex
+                flex-row
+                padding-x
+                pt-3
+              "
+            >
+              <div class="col">
+                <label
+                  class="nav-link"
+                  aria-selected="false"
+                  [ngClass]="{ active: selectedItemsNumber >= 1 }"
+                >
+                </label>
+              </div>
+              <div class="col">
+                <label
+                  class="nav-link"
+                  aria-selected="false"
+                  [ngClass]="{ active: selectedItemsNumber >= 2 }"
+                >
+                </label>
+              </div>
+              <div class="col">
+                <label
+                  class="nav-link"
+                  aria-selected="false"
+                  [ngClass]="{ active: selectedItemsNumber >= 3 }"
+                >
+                </label>
+              </div>
+              <div class="col">
+                <label
+                  class="nav-link"
+                  aria-selected="false"
+                  [ngClass]="{ active: selectedItemsNumber >= 4 }"
+                >
+                </label>
+              </div>
+              <div class="col">
+                <label
+                  class="nav-link"
+                  aria-selected="false"
+                  [ngClass]="{ active: selectedItemsNumber >= 5 }"
+                >
+                </label>
+              </div>
+              <div class="col">
+                <label
+                  class="nav-link"
+                  aria-selected="false"
+                  [ngClass]="{ active: selectedItemsNumber == 6 }"
+                >
+                </label>
+              </div>
+            </div>
+            <div class="d-flex pt-4 justify-content-center">
+              <span *ngIf="selectedItemsNumber == 6" class="grey-title">{{
+                'reach-selction-limit' | translate
+              }}</span>
+            </div>
+            <div class="interest pt-5">
+              <div
+                class="interest-block justify-content-center"
+                *ngFor="
+                  let option of interestsList | orderBy: 'name';
+                  trackBy: trackByInterests
+                "
+              >
+                <input
+                  type="checkbox"
+                  class="checkbox"
+                  id="checkbox-{{ option.name }}"
+                  (change)="selectInterest($event, option.name)"
+                  [checked]="option.checked"
+                />
+                <label for="checkbox-{{ option.name }}">
+                  <img
+                    src="assets/Images/interest/{{ option.name }}.png"
+                    [ngClass]="{ checked: option.checked == true }"
+                    alt=""
+                  />
+                </label>
+                <span>{{ option.name | translate }}</span>
+              </div>
+            </div>
+
+            <div class="done d-flex pt-5 justify-content-center">
+              <button
+                class="btn_edit social-button mb-5"
+                (click)="addInterests()"
+                [disabled]="this.disabled == true"
+              >
+                <span *ngIf="!this.showSpinner">{{
+                  'confirm_' | translate
+                }}</span>
+                <div
+                  *ngIf="this.showSpinner"
+                  class="spinner-border text-light"
+                  role="status"
+                >
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </button>
+              <!--<a [routerLink]="" (click)="this.disabled == false ? addInterests() : null " [ngClass]=" {'enabled' : this.disabled==false, 'disabled' : this.disabled==true }">
+                             
+                                </a>-->
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--div spinner -->
+      <!-- <div class="spinner-wrapper">
+                <app-loading-logo *ngIf="showSpinner" class="spinner"></app-loading-logo>
+            </div> -->
+      <!-- End div spinner -->
+    </div>
+  </div>
+</div>

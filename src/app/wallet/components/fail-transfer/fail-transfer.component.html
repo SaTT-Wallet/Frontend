@@ -1,0 +1,136 @@
+<div class="row flex-column">
+  <div>
+    <app-header-send-receive-buy
+      [title]="'Buy'"
+      class="error"
+      (clickedBack)="linstingBack($event)"
+    ></app-header-send-receive-buy>
+  </div>
+  <div class="row white-bloc justify-content-center">
+    <div class="div-content d-flex flex-column align-items-center">
+      <div class="d-flex justify-content-center flex-column align-items-center">
+        <img src="assets/Images/MoonBoy/moonboy-error.svg" width="133px" />
+        <span class="pink-text title-text mt-2">Oops ! </span>
+        <span class="pink-text title-text">{{
+          'sth_went_wrong_title' | translate
+        }}</span>
+      </div>
+      <div class="text-center mt-2">
+        <p class="m-0">
+          {{ 'An-error-appeared-during-transaction' | translate }}
+        </p>
+        <p>{{ 'Please-verify-your-informations' | translate }}</p>
+      </div>
+      <div class="mt-3 d-flex text-center">
+        <button
+          type="submit"
+          class="white-btn"
+          [routerLink]="['/wallet/buy-token']"
+        >
+          {{ 'Send-again' | translate }}
+        </button>
+      </div>
+      <div class="mt-3 d-flex text-center">
+        <button
+          type="submit"
+          class="white-btn"
+          [routerLink]="['/FAQ']"
+          [fragment]="'support'"
+        >
+          {{ 'support_contact' | translate }}
+        </button>
+      </div>
+    </div>
+    <div
+      class="
+        showMobile
+        div-footer-mobile
+        d-none d-xl-none d-lg-none d-md-none d-sm-block d-xs-block
+        p-0
+      "
+    >
+      <div class="div-pic-text">
+        <div class="">
+          <p class="text-moonboy d-flex flex-column">
+            <span>{{ 'you-need-help' | translate }}</span>
+            <span>{{ 'Read-our-FAQ-about' | translate }}</span
+            ><a class="router-text" [routerLink]="['/FAQ']">
+              {{ 'How-to-Tokens' | translate: { action: 'Buy' } }} ></a
+            >
+          </p>
+        </div>
+        <img
+          src="assets/Images/MoonBoy/moonboy-help.svg"
+          class="picture-moonboy"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="
+    d-block d-xl-block d-lg-block d-md-block d-sm-none d-xs-none
+    div-footer
+  "
+>
+  <app-footer-send-receive-buy [pageName]="'Buy'"></app-footer-send-receive-buy>
+</div>
+
+<!-- <div class="container white-block-desktop">
+  <div class="white-box">
+    <div class="row d-flex justify-content-start mt-2">
+      <div class="col-12 justify-content-end">
+        <button type="button" class="btn-back" [routerLink]="['/wallet']">
+          < <span class=""> {{ 'send.back_to_wallet' | translate }} </span>
+                        </button>
+                </div>
+            </div>
+            <div class="col-lg-10 align">
+                <div class="mt-4">
+                    <div class="col-12 text-center mt-2">
+                        <img class="" src="../../../../assets/Images/fail-transfer.svg" />
+                    </div>
+                    <div class="col-12 d-flex justify-content-center mt-2">
+                        <span class="fail-title">
+            {{ 'Oops !' }} <br />
+            {{ ' Something went wrong' | translate }}
+          </span>
+                    </div>
+                    <div class="col-12 d-flex justify-content-center mt-2">
+                        <span class="text">
+            {{ 'An error appeared during transaction.' }} <br />
+            {{
+              'Please verify your informations and then try again or contact support.'
+                | translate
+            }}
+          </span>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="
+            col-lg-6 col-md-6 col-sm-12
+            d-flex
+            justify-content-center
+            d-flex
+            justify-content-md-end
+            mb-2 mb-md-0
+          ">
+                        <button class="buy_button" [routerLink]="['/wallet/buy-token']">
+            Try again
+          </button>
+                    </div>
+                    <div class="
+            col-lg-6 col-md-6 col-sm-12
+            d-flex
+            justify-content-center
+            d-flex
+            justify-content-md-start
+          ">
+                        <button class="buy_button" [routerLink]="['/FAQ']">
+            Contact support
+          </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->

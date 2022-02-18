@@ -1,0 +1,759 @@
+<div class="container-fluid page-content">
+  <!----------------------------------need a help? --------------------------------------------->
+  <div class="d-block mb-5">
+    <h3 class="HaveQ">
+      {{ 'Aide.Vous avez une question ? ' | translate }}
+    </h3>
+    <div class="d-flex justify-content-center">
+      <input
+        id="key"
+        class="key input_filed mb-2"
+        type="search"
+        (keyup.enter)="search()"
+        name="search"
+        [(ngModel)]="term"
+        autocomplete="on"
+        placeholder="{{ 'Saisissez votre question ici' | translate }}"
+      />
+      <button class="btn-search" (click)="search()">
+        <i class="fa fa-search" aria-hidden="true"></i>
+      </button>
+    </div>
+  </div>
+  <!---------------------------------------------------------------------------------------->
+  <div class="">
+    <div class="d-flex justify-content-center mb-2">
+      <div
+        (click)="closeAndShow0()"
+        class="col blockk me-2 d-flex justify-content-center flex-column mb-2"
+      >
+        <span class="icon-ic1 ico iconHelp"></span>
+        <span class="title-Aide d-none d-md-block">{{
+          'Aide.Votre portefeuille' | translate
+        }}</span>
+      </div>
+      <div
+        (click)="closeAndShow1()"
+        class="col blockk me-2 d-flex justify-content-center flex-column mb-2 x"
+      >
+        <span class="icon-ico2 iconHelp"></span>
+        <span class="title-Aide d-none d-md-block">{{
+          'Aide.Gérer votre compte' | translate
+        }}</span>
+      </div>
+      <!-------
+            <div (click)="closeAndShow2()" class="col blockk me-2 d-flex justify-content-center flex-column mb-2" >
+                <span class="icon-ic3 ico iconHelp "></span>
+                <span class="title-Aide d-none d-md-block ">{{'Aide.Gérer une campagne'| translate}}</span>
+            </div>
+          -->
+
+      <div
+        (click)="closeAndShow3()"
+        class="col blockk me-2 d-flex justify-content-center flex-column mb-2"
+      >
+        <span class="icon-ic2 ico iconHelp"></span>
+        <span class="title-Aide d-none d-md-block">{{
+          'Aide.Participer à une campagne' | translate
+        }}</span>
+      </div>
+
+      <div
+        (click)="closeAndShow4()"
+        class="col blockk me-2 d-flex justify-content-center flex-column mb-2"
+      >
+        <span class="icon-scurit ico iconHelp"></span>
+        <span class="title-Aide d-none d-md-block">{{
+          'Aide.Sécurité des transactions' | translate
+        }}</span>
+      </div>
+      <div
+        (click)="closeAndShow5()"
+        class="col blockk d-flex justify-content-center flex-column mb-2"
+      >
+        <span class="icon-final-svg ico iconHelp"></span>
+        <span class="title-Aide d-none d-md-block">{{
+          'Aide.L’Open Source' | translate
+        }}</span>
+      </div>
+    </div>
+    <!---------------------------------------------------------------------------------------->
+    <div class="blockBig p-4 faq" id="faq">
+      <ul class="faq-list">
+        <li class="item wallet">
+          <div
+            data-bs-toggle="collapse"
+            class="
+              panel-title
+              collapsed
+              question
+              d-flex
+              align-items-center
+              text-left
+            "
+            href="#faq1"
+          >
+            <h3>{{ 'faq_1' | translate }}</h3>
+          </div>
+          <div id="faq1" class="collapse" data-bs-parent=".faq-list">
+            <p>
+              {{ 'faq_rep_1a' | translate }}
+
+              <a
+                href="https://etherscan.io/token/0xdf49c9f599a0a9049d97cff34d0c30e468987389"
+                >ERC20
+              </a>
+              {{ 'faq_rep_1c' | translate }}
+              <a
+                href="https://bscscan.com/token/0x448bee2d93be708b54ee6353a7cc35c4933f1156"
+                >BEP20
+              </a>
+              <br />
+            </p>
+          </div>
+        </li>
+        <li class="item">
+          <div
+            data-bs-toggle="collapse"
+            class="panel-title collapsed question d-flex align-items-center"
+            href="#faq2"
+          >
+            <h3>{{ 'faq_2' | translate }}</h3>
+          </div>
+          <div id="faq2" class="collapse" data-bs-parent=".faq-list">
+            <p>{{ 'faq_rep_2a' | translate }}</p>
+            <p>{{ 'faq_rep_2b' | translate }}</p>
+          </div>
+        </li>
+        <li class="item opensource" *ngIf="glossaryShowen">
+          <div
+            data-bs-toggle="collapse"
+            class="panel-title collapsed question d-flex align-items-center"
+            href="#faq3"
+          >
+            <h3>{{ 'faq_3' | translate }}?</h3>
+          </div>
+          <div id="faq3" class="collapse" data-bs-parent=".faq-list">
+            <p>{{ 'faq_rep_3a' | translate }}</p>
+          </div>
+        </li>
+        <!----------------------------------------------------->
+        <li class="item opensource" *ngIf="glossaryShowen">
+          <div
+            data-bs-toggle="collapse"
+            class="panel-title collapsed question d-flex align-items-center"
+            href="#faq78"
+          >
+            <h3>{{ 'faq_3a' | translate }}?</h3>
+          </div>
+          <div id="faq78" class="collapse" data-bs-parent=".faq-list">
+            <p>{{ 'faq_3b' | translate }}</p>
+          </div>
+        </li>
+        <!----------------------------------------------------->
+        <li class="item opensource" *ngIf="glossaryShowen">
+          <div
+            data-bs-toggle="collapse"
+            class="panel-title collapsed question d-flex align-items-center"
+            href="#faq79"
+          >
+            <h3>{{ 'faq_Impres' | translate }}?</h3>
+          </div>
+          <div id="faq79" class="collapse" data-bs-parent=".faq-list">
+            <p>{{ 'faq_Impresa' | translate }}</p>
+          </div>
+        </li>
+        <!----------------------------------------------------->
+        <li class="item opensource" *ngIf="glossaryShowen">
+          <div
+            data-bs-toggle="collapse"
+            class="panel-title collapsed question d-flex align-items-center"
+            href="#faq89"
+          >
+            <h3>{{ 'faq_pools' | translate }}?</h3>
+          </div>
+          <div id="faq89" class="collapse" data-bs-parent=".faq-list">
+            <p>{{ 'faq_poolsa' | translate }}</p>
+          </div>
+        </li>
+        <!----------------------------------------------------->
+        <li class="item opensource" *ngIf="glossaryShowen">
+          <div
+            data-bs-toggle="collapse"
+            class="panel-title collapsed question d-flex align-items-center"
+            href="#faq87"
+          >
+            <h3>{{ 'faq_farmming' | translate }}?</h3>
+          </div>
+          <div id="faq87" class="collapse" data-bs-parent=".faq-list">
+            <p>{{ 'faq_farmminga' | translate }}</p>
+          </div>
+        </li>
+
+        <li class="item wallet">
+          <div
+            data-bs-toggle="collapse"
+            class="panel-title collapsed question d-flex align-items-center"
+            href="#faq4"
+          >
+            <h3>{{ 'faq_4' | translate }}</h3>
+          </div>
+          <div id="faq4" class="collapse" data-bs-parent=".faq-list">
+            <p>
+              {{ 'faq_rep_4a' | translate }}
+              <a href="https://www.probit.com/app/exchange/SATT-USDT">Probit</a>
+              or <a href="https://hitbtc.com/satt-to-usdt">HitBTC</a>. <br />
+            </p>
+            <p>
+              {{ 'faq_rep_4b' | translate }}
+              <a
+                href="https://exchange.pancakeswap.finance/?_gl=1*110i1vq*_ga*MTkwMDkyMjM5MC4xNjEzMDAzNDM5*_ga_334KNG3DMQ*MTYxMzY1NzEyOC4xOC4xLjE2MTM2NTgxMjcuMA..#/swap?inputCurrency=BNB&outputCurrency=0x448bee2d93be708b54ee6353a7cc35c4933f1156"
+                >Pancakeswap</a
+              >
+              -
+              <a
+                href="https://satt-token.com/blog/2021/02/23/pancakeswap-bnb-%E2%86%94-satt-bep20-en/"
+                >Pancakeswap tutorial</a
+              >
+            </p>
+            <p>
+              {{ 'faq_rep_4c' | translate }} <br />
+              {{ 'faq_rep_4d' | translate }}
+              <a href="https://app.uniswap.org/#/swap">Uniswap</a> -
+              <a
+                href="https://satt-token.com/blog/2020/10/16/getting-on-uniswap-1-how-to-get-wsatt-so-as-to-provide-liquidity-on-uniswap-to-collect-rewards/"
+                >Uniswap tutorial</a
+              >
+              <br />
+            </p>
+            <p>
+              {{ 'faq_rep_4e' | translate }}
+              <a
+                href="https://etherscan.io/token/0x70A6395650b47D94A77dE4cFEDF9629f6922e645"
+                >0x70A6395650b47D94A77dE4cFEDF9629f6922e645</a
+              >
+            </p>
+          </div>
+        </li>
+        <li class="item">
+          <div
+            data-bs-toggle="collapse"
+            class="panel-title collapsed question d-flex align-items-center"
+            href="#faq5"
+          >
+            <h3>{{ 'faq_5' | translate }}</h3>
+          </div>
+          <div id="faq5" class="collapse" data-bs-parent=".faq-list">
+            <h5 class="ml-4">{{ 'faq_rep_5b' | translate }}</h5>
+            <br />
+            <p class="ml-4">{{ 'faq_rep_5a' | translate }}</p>
+            <p>
+              <a href="https://www.youtube.com/watch?v=rM6Efps3KBo" class="ml-4"
+                >Tutorial ERC20 to BEP20</a
+              >
+              <br />
+              <a href="https://www.youtube.com/watch?v=T7abb9A3sIM" class="ml-4"
+                >Tutorial BEP20 to ERC20</a
+              >
+            </p>
+            <h5 class="ml-4">{{ 'faq_rep_5e' | translate }}</h5>
+            <p>
+              <a href="https://www.youtube.com/watch?v=A11RQkNLsgI" class="ml-4"
+                >Tutorial ERC20 to BEP20</a
+              >
+              <br />
+              <a href="https://www.youtube.com/watch?v=lxtT1bl5ypA" class="ml-4"
+                >Tutorial BEP20 to ERC20</a
+              >
+            </p>
+            <h5 class="ml-4">{{ 'faq_rep_5h' | translate }}</h5>
+            <p>
+              <a href="https://www.youtube.com/watch?v=hSOwJDu8xj0" class="ml-4"
+                >Tutorial ERC20 to BEP20</a
+              >
+              <br />
+              <a href="https://www.youtube.com/watch?v=4NLdbnaPumM" class="ml-4"
+                >Tutorial BEP20 to ERC20</a
+              >
+            </p>
+            <p class="ml-4">
+              {{ 'faq_rep_5k' | translate }} <br />
+              <b>{{ 'faq_rep_x' | translate }} </b><br />
+              {{ 'faq_rep_y' | translate }} <br />
+            </p>
+            <h5 class="ml-4">{{ 'faq_rep_5l' | translate }}</h5>
+            <ul>
+              <li>{{ 'faq_rep_5m' | translate }}</li>
+              <li>{{ 'faq_rep_5n' | translate }}</li>
+            </ul>
+          </div>
+        </li>
+        <li class="item wallet">
+          <div
+            data-bs-toggle="collapse"
+            class="panel-title collapsed question d-flex align-items-center"
+            href="#faq6"
+          >
+            <h3>{{ 'faq_6' | translate }}</h3>
+          </div>
+          <div id="faq6" class="collapse" data-bs-parent=".faq-list">
+            <p>{{ 'conf_metamask' | translate }}</p>
+
+            <p class="ml-4">
+              <a
+                href="https://satt-token.com/blog/2021/01/08/tutorial-register-on-metamask-and-export-your-satt/"
+                >{{ 'faq_rep_6b' | translate }}</a
+              >
+              <span class="vertical"></span>&nbsp;
+              <a
+                href="https://satt-token.com/blog/2021/02/19/tutorial-configure-metamask-for-bsc-and-convert-your-satt/"
+                >{{ 'faq_rep_6c' | translate }}</a
+              >
+            </p>
+
+            <p class="ml-4">
+              <a
+                href="https://satt-token.com/blog/2021/02/19/tutorial-download-trust-wallet-and-export-your-satt-erc20-wallet/"
+                >{{ 'faq_rep_6e' | translate }}</a
+              >
+              <span class="vertical"></span>&nbsp;
+              <a
+                href="https://satt-token.com/blog/2021/02/19/tutorial-configure-trust-wallet-for-bsc-and-convert-your-satt/"
+                >{{ 'faq_rep_6f' | translate }}</a
+              >
+            </p>
+
+            <p class="ml-4">
+              {{ 'faq_rep_6g' | translate }}
+              <a
+                href="https://satt-token.com/blog/2021/02/17/how-to-use-the-erc20-bep20-bridge/"
+                >{{ 'faq_rep_6h' | translate }}</a
+              >
+            </p>
+          </div>
+        </li>
+        <li class="item security">
+          <div
+            data-bs-toggle="collapse"
+            class="panel-title collapsed question d-flex align-items-center"
+            href="#faq7"
+          >
+            <h3>{{ 'faq_7' | translate }}</h3>
+          </div>
+          <div id="faq7" class="collapse" data-bs-parent=".faq-list">
+            <p>{{ 'faq_rep_7a' | translate }}</p>
+          </div>
+        </li>
+        <li class="item wallet">
+          <div
+            data-bs-toggle="collapse"
+            class="panel-title collapsed question d-flex align-items-center"
+            href="#faq8"
+          >
+            <h3>{{ 'faq_8' | translate }}</h3>
+          </div>
+          <div id="faq8" class="collapse" data-bs-parent=".faq-list">
+            <p>
+              {{ 'faq_rep_8a' | translate }}
+              <a href="https://iframe-apps.com/" target="_blank"
+                >Iframe Apps
+              </a>
+              {{ 'faq_rep_8b' | translate }}
+            </p>
+          </div>
+        </li>
+        <li class="item wallet">
+          <div
+            data-bs-toggle="collapse"
+            class="panel-title collapsed question d-flex align-items-center"
+            href="#faq9"
+          >
+            <h3>{{ 'faq_9' | translate }}</h3>
+          </div>
+          <div id="faq9" class="collapse" data-bs-parent=".faq-list">
+            <p>
+              {{ 'faq_rep_9' | translate }}
+              <a href="http://satt.atayen.us">SaTT wallet,</a>
+              {{ 'faq_rep_store' | translate }}
+            </p>
+          </div>
+        </li>
+        <li class="item">
+          <div
+            data-bs-toggle="collapse"
+            class="panel-title collapsed question d-flex align-items-center"
+            href="#faq10"
+          >
+            <h3>{{ 'faq_10' | translate }}</h3>
+          </div>
+          <div id="faq10" class="collapse" data-bs-parent=".faq-list">
+            <p>{{ 'faq_rep_10a' | translate }}</p>
+            <ul>
+              <li>
+                Facebook :
+                <a href="https://www.facebook.com/SaTT.Token" target="_blank"
+                  >https://www.facebook.com/SaTT.Token</a
+                >
+              </li>
+              <li>
+                Twitter :
+                <a href="https://twitter.com/SaTT_Token" target="_blank"
+                  >https://twitter.com/SaTT_Token</a
+                >
+              </li>
+              <li>
+                Telegram :
+                <a href="https://t.me/satttoken" target="_blank">
+                  https://t.me/satttoken</a
+                >
+              </li>
+              <li>
+                Discord :
+                <a href="https://discord.gg/ut4GfUc" target="_blank"
+                  >https://discord.gg/ut4GfUc</a
+                >
+              </li>
+              <li>
+                Email :
+                <a href="mailto:contact@atayen.us">contact@satt-token.com</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="item account security">
+          <div
+            data-bs-toggle="collapse"
+            class="panel-title collapsed question d-flex align-items-center"
+            href="#faq11"
+          >
+            <h3>{{ 'faq_11' | translate }}</h3>
+          </div>
+          <div id="faq11" class="collapse" data-bs-parent=".faq-list">
+            <p>{{ 'faq_rep_11b' | translate }}</p>
+          </div>
+        </li>
+        <li class="item account">
+          <div
+            data-bs-toggle="collapse"
+            class="panel-title collapsed question d-flex align-items-center"
+            href="#faq12"
+          >
+            <h3>{{ 'faq_12' | translate }}</h3>
+          </div>
+          <div id="faq12" class="collapse" data-bs-parent=".faq-list">
+            <p>
+              {{ 'faq_rep_assistance' | translate }}
+              <a
+                href="mailto:contact@satt-token.com?subject=I%20contact%20you%20from%20Satt-token.com"
+                >contact@satt-token.com</a
+              >
+              {{ 'faq_rep_12' | translate }}
+            </p>
+          </div>
+        </li>
+        <!--
+                <li class="item compaigns">
+                    <div data-bs-toggle="collapse" class="panel-title collapsed question d-flex align-items-center" href="#faq13">
+                      <h3>{{'faq_13'|translate}}</h3>
+                    </div>
+                    <div id="faq13" class="collapse" data-bs-parent=".faq-list">
+                      <p>{{'faq_rep_13a' | translate }}</p>
+                      <p>{{'faq_rep_13b' | translate}}</p>
+                    </div>
+                </li>
+              <li class="item compaigns">
+                    <div data-bs-toggle="collapse" class="panel-title collapsed question d-flex align-items-center" href="#faq14">
+                      <h3>{{'faq_14'|translate}}</h3>
+                    </div>
+                    <div id="faq14" class="collapse" data-bs-parent=".faq-list">
+                        <p>{{'faq_rep_14a'|translate}}</p>
+                        <p>{{'faq_rep_14b'|translate}}</p>
+                        <p>{{'faq_rep_14c'|translate}}</p>
+                        <p>{{'faq_rep_14d'|translate}}</p>
+                        <p>{{'faq_rep_14e'|translate}}</p>
+                        <p>{{'faq_rep_14f'|translate}}</p>
+                        <p>{{'faq_rep_14i'|translate}}</p>
+                      <p>{{'faq_rep_14j'|translate}}</p>
+                    </div>
+                </li>
+-->
+        <li class="item compaignss">
+          <div
+            data-bs-toggle="collapse"
+            class="panel-title collapsed question d-flex align-items-center"
+            href="#faq13"
+          >
+            <h3>{{ 'faq_13' | translate }}</h3>
+          </div>
+          <div id="faq13" class="collapse" data-bs-parent=".faq-list">
+            <p>{{ 'faq_rep_13a' | translate }}</p>
+            <p>{{ 'faq_rep_13b' | translate }}</p>
+          </div>
+        </li>
+        <li class="item compaignss ad_pools">
+          <div
+            data-bs-toggle="collapse"
+            class="panel-title collapsed question d-flex align-items-center"
+            href="#faq16"
+          >
+            <h3>{{ 'faq_16' | translate }}</h3>
+          </div>
+
+          <div
+            id="faq16"
+            class="collapse ad_poolsText"
+            data-bs-parent=".faq-list"
+          >
+            <p>
+              {{ 'faq70a' | translate }}
+              <b>{{ 'Ad_Pools' | translate }} </b> {{ 'faq_pool' | translate }}
+            </p>
+            <p>
+              {{ 'faq_478' | translate }}
+            </p>
+            <p>{{ 'faq_778' | translate }}</p>
+          </div>
+        </li>
+
+        <li class="item compaignss">
+          <div
+            data-bs-toggle="collapse"
+            class="panel-title collapsed question d-flex align-items-center"
+            href="#faq70"
+          >
+            <h3>{{ 'faq_70' | translate }}</h3>
+          </div>
+          <div id="faq70" class="collapse" data-bs-parent=".faq-list">
+            <p>
+              {{ 'faq70b' | translate }}
+              <b>{{ 'Ad_Pools' | translate }}</b>
+              {{ 'faq_poolb' | translate }}
+              <b> {{ 'create_adpool' | translate }} </b>
+              {{ 'faq_478a' | translate }}
+              <b>{{ 'faq_launch_ad' | translate }}</b>
+              {{ 'faq_778a' | translate }}
+            </p>
+          </div>
+        </li>
+        <li class="item compaignss">
+          <div
+            data-bs-toggle="collapse"
+            class="panel-title collapsed question d-flex align-items-center"
+            href="#faq80"
+          >
+            <h3>{{ 'faq_80' | translate }}</h3>
+          </div>
+          <div id="faq80" class="collapse" data-bs-parent=".faq-list">
+            <p>{{ 'faq80a' | translate }}</p>
+            <p>{{ 'faq80b' | translate }}</p>
+          </div>
+        </li>
+        <li class="item compaignss">
+          <div
+            data-bs-toggle="collapse"
+            class="panel-title collapsed question d-flex align-items-center"
+            href="#faq17"
+          >
+            <h3>{{ 'faq_17' | translate }}</h3>
+          </div>
+          <div id="faq17" class="collapse" data-bs-parent=".faq-list">
+            <p>{{ 'faq_rep_17a' | translate }}</p>
+          </div>
+        </li>
+
+        <li class="item">
+          <div
+            data-bs-toggle="collapse"
+            class="panel-title collapsed question d-flex align-items-center"
+            href="#faq88"
+          >
+            <h3>{{ 'Aide.When-moon' | translate }}?</h3>
+          </div>
+          <div id="faq88" class="collapse" data-bs-parent=".faq-list">
+            <p>
+              {{ 'faq_whenmoon' | translate }}
+              <!-- <a href="https://play.google.com/store/apps/details?id=com.atayen.whenmoon" target="_blank">{{"faq_whenmoonAndroid" | translate}}</a>
+                            <span> {{"faq_And" |translate}} </span>
+                            <a href="https://apps.apple.com/app/id1438240248" target="_blank">{{"faq_whenmoonIOS" |translate}}</a> -->
+            </p>
+            <div class="text-center pb-1">
+              <a
+                href="https://play.google.com/store/apps/details?id=com.atayen.whenmoon"
+                target="_blank"
+                ><img src="/assets/Images/play-store-dl.png"
+              /></a>
+
+              <a href="https://apps.apple.com/app/id1438240248" target="_blank"
+                ><img class="mx-1" src="/assets/Images/app-store-dl.png"
+              /></a>
+            </div>
+          </div>
+        </li>
+      </ul>
+
+      <!--<div *ngIf="this.taged">
+             <li id="textTag" *ngFor="let user of array | filter:term ;let i=index">
+                <a data-bs-toggle="collapse" class="panel-title collapsed question d-flex align-items-center" href="#faq{{i}}">
+                     <h3>{{user.question}}</h3>
+                </a>
+                <div class="collapse ResponseStyle" id="faq{{i}}">
+                        {{user.answer}}
+                </div>
+                <hr class="separateur" />
+            </li>
+
+           </div>-->
+    </div>
+
+    <div class="HaveQ my-3">
+      <span>{{ 'Vous n’avez pas trouvé votre réponse ?' | translate }}</span>
+    </div>
+    <!------------------------------send mail form------------------------------------------------------------>
+    <div class="row blockBig p-4 mt-2">
+      <!-- <h6 class="remarque">{{'Dans le cas où vous n’auriez pas trouvé la réponse à votre question, n’hésitez pas à contacter notre support.' | translate}}</h6>-->
+      <!--<hr class="separateur" />-->
+
+      <h3 class="HaveQ">{{ 'Aide.contact-us' | translate }}</h3>
+      <form
+        [formGroup]="form"
+        (ngSubmit)="sendMail()"
+        class="justify-content-center"
+      >
+        <div class="row d-flex justify-content-center mb-3">
+          <div class="col-xl-5 col-md-9 col-lg-8 col-sm-10 pt-3">
+            <label for="name" class="type-label">{{
+              'Aide.Votre nom' | translate
+            }}</label>
+            <input
+              formControlName="NameFAQ"
+              type="text"
+              class="form-control type-input"
+              id="name"
+            />
+            <div class="error pt-2">
+              <span
+                *ngIf="this.form.get('NameFAQ')?.errors?.required && isSubmited"
+                >{{ 'Profil.field_required' | translate }}</span
+              >
+            </div>
+          </div>
+        </div>
+        <!--------------------->
+        <div class="row d-flex justify-content-center mb-3">
+          <div class="col-xl-5 col-md-9 col-lg-8 col-sm-10 pt-3">
+            <label for="email" class="type-label">{{
+              'Aide.Votre mail' | translate
+            }}</label>
+            <input
+              formControlName="emailFAQ"
+              email="true"
+              type="email"
+              class="form-control type-input"
+              id="email"
+            />
+            <div class="error pt-2">
+              <span
+                *ngIf="
+                  !this.form.get('emailFAQ')?.errors?.required &&
+                  this.form.get('emailFAQ')?.errors?.pattern
+                "
+                >{{ 'field_mustbe_email' | translate }}</span
+              >
+            </div>
+            <div class="error pt-2">
+              <span
+                *ngIf="
+                  this.form.get('emailFAQ')?.errors?.required && isSubmited
+                "
+                >{{ 'Profil.field_required' | translate }}</span
+              >
+            </div>
+            <!--  <app-loading-logo *ngIf="showSpinner"></app-loading-logo>-->
+          </div>
+        </div>
+        <!--------------------->
+        <div class="row d-flex justify-content-center mb-3">
+          <div class="col-xl-5 col-md-9 col-lg-8 col-sm-10 pt-3">
+            <label for="objet" class="type-label">{{
+              'Aide.Objet' | translate
+            }}</label>
+            <input
+              formControlName="ObjetFAQ"
+              type="text"
+              class="form-control type-input"
+              id="objet"
+            />
+            <div class="error pt-2">
+              <span
+                *ngIf="
+                  this.form.get('ObjetFAQ')?.errors?.required && isSubmited
+                "
+                >{{ 'Profil.field_required' | translate }}</span
+              >
+            </div>
+          </div>
+        </div>
+        <!--------------------->
+        <div class="row d-flex justify-content-center mb-3">
+          <div class="col-xl-5 col-md-9 col-lg-8 col-sm-10 pt-3">
+            <label for="msg" class="type-label">{{
+              'Aide.Message' | translate
+            }}</label>
+            <textarea
+              formControlName="MessageFAQ"
+              class="type-textarea"
+              id="msg"
+            ></textarea>
+            <div class="error pt-2">
+              <span
+                *ngIf="
+                  this.form.get('MessageFAQ')?.errors?.required && isSubmited
+                "
+                >{{ 'Profil.field_required' | translate }}</span
+              >
+            </div>
+          </div>
+        </div>
+        <!--------------------->
+        <div class="row d-flex justify-content-center mb-3">
+          <div class="col-xl-3 col-md-5 col-lg-5 col-sm-8 pt-3">
+            <button
+              type="submit"
+              (click)="this.confirmMail = confirmMailModal"
+              class="btn-blue"
+            >
+              <span *ngIf="!showSpinner">{{ 'Aide.envoyer' | translate }}</span>
+              <div
+                *ngIf="showSpinner"
+                class="spinner-border text-light"
+                style="width: 1.6rem; height: 1.6rem"
+                role="status"
+              >
+                <span class="sr-only">Loading...</span>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- <div class="row mb-3 ">
+                    <div class="row justify-content-center"><button type="submit"
+                            (click)="this.confirmMail = confirmMailModal" class="sendMail_button"><span
+                                class="sendMail_word">{{ "Aide.envoyer" | translate }}</span></button>
+                    </div>
+                </div> -->
+        <!--------------------->
+      </form>
+    </div>
+    <!----------------------------------end send mail----------------------------------------------------->
+  </div>
+</div>
+
+<!-- Confirmation mail modal -->
+<ng-template #confirmMailModal>
+  <div class="modal-header d-flex justify-content-center">
+    <img src="/assets/Images/lettreVert.svg" />
+  </div>
+  <div class="modal-body d-flex justify-content-center">
+    <span class="confirmText">{{ 'send_msg' | translate }}</span>
+  </div>
+</ng-template>

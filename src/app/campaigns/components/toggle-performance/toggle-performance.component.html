@@ -1,0 +1,18 @@
+<div class="toggle-container">
+  <div
+    class="left-toggle-button d-flex align-items-center justify-content-center"
+    [ngClass]="{ toggled: left }"
+    (click)="toggleLeft()"
+  >
+    <img *ngIf="!left" src="assets/Images/performance.svg" />
+    <img *ngIf="left" src="assets/Images/performance-white.svg" />
+  </div>
+  <div
+    class="right-toggle-button d-flex align-items-center justify-content-center"
+    [ngClass]="{ toggled: right }"
+    (click)="toggleRight()"
+  >
+    <img *ngIf="!right" src="assets/Images/publication.svg" />
+    <img *ngIf="right" src="assets/Images/publication-white.svg" />
+  </div>
+</div>

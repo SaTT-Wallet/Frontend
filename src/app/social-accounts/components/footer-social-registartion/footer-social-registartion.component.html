@@ -1,0 +1,66 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 line_footer d-none d-lg-block"></div>
+    <div class="col-md-12 d-flex justify-content-left footer-content">
+      <img
+        src="../../assets/Images/atayen_logo_white.svg"
+        class="img-fluid logo_footer_login"
+        *ngIf="router.url !== '/auth/login'"
+      />
+
+      <span
+        class="Copyright_footer_login"
+        *ngIf="router.url != '/auth/login'"
+        style="margin: 10px"
+      >
+        Copyright © 2022 ATAYEN, Inc. {{ 'Sidebar.copyright' | translate }} ,
+        <a class="" [routerLink]="['/cgu']" target="_blank">CONDITIONS</a>
+        and
+        <a class="" [routerLink]="['/privacy-policy']" target="_blank"
+          >PRIVACY POLICY</a
+        >
+      </span>
+
+      <div class="social-media-icons-container d-flex justify-content-end">
+        <div class="overlay"></div>
+
+        <a
+          href="https://t.me/satttoken"
+          target="_blank"
+          rel="noopener"
+          class="social-media-icons m-1 me-2 hvr-grow3"
+        >
+          <div class="overlay"></div>
+          <span class="icon-telegramico iconfoot"></span>
+        </a>
+
+        <a
+          href="https://www.facebook.com/SaTT.Token/?hc_location=ufi"
+          target="_blank"
+          rel="noopener"
+          class="social-media-icons m-1 me-2 hvr-grow3"
+        >
+          <span class="icon-Facebookico iconfoot"></span>
+        </a>
+
+        <a
+          href="https://twitter.com/SaTT_Token"
+          target="_blank"
+          rel="noopener"
+          class="social-media-icons m-1 me-2 hvr-grow3"
+        >
+          <span class="icon-Twitterico iconfoot"></span>
+        </a>
+
+        <a
+          href="https://bitcointalk.org/index.php?topic=3407522"
+          target="_blank"
+          rel="noopener"
+          class="social-media-icons m-1 me-2 hvr-grow3"
+        >
+          <span class="icon-Bitcoinico iconfoot"></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

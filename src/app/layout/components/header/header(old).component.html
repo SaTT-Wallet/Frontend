@@ -1,0 +1,152 @@
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid responsive-header" >
+       <a class="navbar-brand d-none d-md-block">
+        <img class="" style="width: 99%; height: 50px; margin-top: 4%" src="assets/Images/satt_logototal_blanc.svg"/>
+      </a> 
+      
+      <a class="navbar-toggler sidebar-toggler-btn" *ngIf="router.url!=='password_wallet'"(click)="toggleSidebar()" style="margin-left: 10%;" >
+        <i class="fa fa-chevron-left" *ngIf="this.sidebarService.toggleSidebar.value"></i>
+        <i class="fa fa-bars" *ngIf="!this.sidebarService.toggleSidebar.value"></i>
+      </a>
+  <!--==================== Mobile version sidebar toggler =============================================-->
+      <a class="modile-version-sidebar-toggler d-md-none d-sm-block" (click)="toggleSidebarMobile()" >
+        <i class="fa fa-bars" *ngIf="!this.sidebarService.toggleSidebarMobile.value"></i>
+        <i class="fa fa-times" *ngIf="this.sidebarService.toggleSidebarMobile.value" aria-hidden="true"></i>
+      </a>
+  <!-- =====================End Mobile version sidebar toggler ===========================================-->
+      <img class="d-md-none d-sm-block logoresp" src="assets/Images/satt_logo_responsive.svg" />
+      <button class="navbar-toggler three-points" type="button" data-bs-toggle="collapse" data-bs-target="#more" aria-controls="more" aria-expanded="false" aria-label="Toggle navigation">
+      <img src="https://img.icons8.com/fluent-systems-filled/24/ffffff/more.png"/>
+       
+     </button>
+  <!--<div class="blockmore separator collapse navbar-collapse" id="more" [ngClass] ="{'show':!isClickedOutside}">
+    <div class="nav-item dropdown">
+      <a class="first_link"> 
+        <img [src]=" user?.userPicture" (error)="onImgError($event)" width="60" height="60" class="rounded-circle img3 " /> 
+          <span class="user_name user_name2" *ngIf="user?.firstName && user?.lastName"> {{ user?.getFullName() }}</span>
+      </a>
+      <div class="dropdown">
+        <a id="sett" class="dropdown-toggle settingmore" data-toggle="dropdown" role="button"
+          aria-expanded="false"><img class="setting" src="assets/Images/parametre.svg" />
+        </a>
+        <ul class="dropdown-menu dropdown-menu3 me-auto" aria-labelledby="sett">
+          <a class="dropdown-item" [routerLink]="['settings']" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">
+              <li>{{ "Profil" | translate }}</li></a>
+          <a class="dropdown-item" [routerLink]="['settings/Legal_KYC']" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">
+              <li>{{ "legal" | translate }}</li></a>
+          <a class="dropdown-item" [routerLink]="['settings/security']" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">
+              <li>{{ "informations_securite" | translate }}</li> </a>
+          <a class="dropdown-item dropdown-toggle" type="button" role="menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="Lang">
+            {{ "language" | translate }}</a>
+          <div class=" dropdown-menu dropdown-menu-lang" aria-labelledby="Lang">
+            <li *ngFor="let language of translate.getLangs()">
+              <a class="dropdown-item" (click)="switchLang(language)" *ngIf="language === 'en'"  data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">English</a>
+              <a class="dropdown-item" (click)="switchLang(language)" *ngIf="language === 'fr'"  data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">Français</a>
+            </li>
+          </div>
+          <a class="dropdown-item divider" (click)="signOut()"><i class="fa fa-power-off"></i>{{ "logout" | translate }} </a>
+        </ul>
+      </div>
+    </div>
+  </div>-->
+  <!--=================================username icone====================================================================-->
+  </div>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+        <form class="d-flex">
+          <ul class="navbar-nav"  >
+            <li class="btnTest dropdown " style=" width:50%;" *ngIf="router.url!=='password_wallet'" >
+              <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink2" role="button" aria-haspopup="true" aria-expanded="false" style="margin-top: 3px ;cursor:default">
+                <img class="avatarimage rounded-circle img2 border:none " [src]=" user?.userPicture " width="60" height="60" (error)="onImgError($event)" style="cursor:default " />
+                <span class="user mt-2 " *ngIf="user?.firstName && user?.lastName">{{ user?.getFullName() }}</span>
+              </a>
+              <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink2" role="button" aria-haspopup="true" aria-expanded="false" 
+                style="cursor: pointer !important;margin-top: 0px;cursor: default;margin-left: 3%;width:15%" data-toggle="dropdown">
+                <i aria-haspopup="true" aria-expanded="false" class="fa fa-angle-down angledown angeStyle" aria-hidden="true" style="cursor: pointer;margin-left: -80%;"></i>
+             </a>
+  <!-----------====================== dropdown profile   ============================================= -------------;-->
+            <ul class="dropdown-menu" style="margin-left: 1%;margin-top: 4%;">
+                <a class="dropdown-item" [routerLink]="['settings']" ><li style="cursor:pointer">{{ "Profil" | translate }}</li></a>
+                <a class="dropdown-item"  [routerLink]="['settings/Legal_KYC']"><li style="cursor:pointer">{{ "legal" | translate }}</li></a>
+                <a class="dropdown-item" [routerLink]="['settings/security']" ><li style="cursor:pointer">{{ "informations_securite" | translate }}</li></a>
+                <div><a class="dropdown-item divider" (click)="signOut()"><i class="fa fa-power-off" style="margin-left: 1%;"></i>{{ "logout" | translate }}</a></div>
+              </ul>
+            </li>
+  <!-----------====================== dropdown notification ============================================= -------------;-->
+      <li class="dropdown" *ngIf="router.url!=='password_wallet'" (click)="closeBalanceSection()">
+            <a (click)="closeBalanceSection()" class="dropdown-toggle notification" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" >           
+                 <img src="./assets/Images/notifi.svg" />
+            </a>
+        <!---------------------------------liste notif affiché on click satrt---------------------------------->
+          <ul class="dropdown-menu" style="border-radius: 30px; background-color: #F6F6FF;" id="dropdown-menu_notification"  >
+           <li ><h6 class="title-notif" >{{ 'notifications' |translate}} <img class="notif_foward" src="/assets/Images/Forward.png "> </h6></li>                 
+           <li class="list-scroll"  >
+              <div classs="container" >
+                <div class="col-md-12"  *ngFor="let notification of data_notification">
+                  <div class="media" >
+                    <a class="list-group-item" style="border:none; background-color: #F6F6FF; " routerLink="notification"> 
+                      <div class="d-flex flex-row justify-content-md-start">
+                        <div class=" photo_notif col-md-1 pe-2"><img src="{{ notification.img }}"  alt="avtar" class="pic_avatar_notif"/></div>
+                          <div class="col-md-11 col-lg-11 col-9 col-sm-9">
+                            <span class="ps-3 m-0 media-heading text-md-start text-lg-start text-xl-start" [translate]="notification._label" [translateParams]="notification._params"></span>
+                              <p class="label_time_notif" > {{notification.created }}</p>
+                          </div> 
+                      </div>
+                           <hr>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="col-md-12 dropdown-menu-footer d-flex justify-content-center" style="border-radius: 0px 0px 30px 30px;background-color: #F6F6FF; " *ngIf="data_notification!==''">
+              <a class="" aria-hidden="false" routerLink="notification" *ngIf="data_notification !==''">   {{ 'voir_tout' | translate }} <img class="see_more" src="/assets/Images/Rectangle 278.png "> </a>
+            </li>
+            <!-------------------------------------if we hav no notif---------------------------------------------->
+            <li class="col-md-12 dropdown-menu-footer d-flex justify-content-center" *ngIf="data_notification==''" >
+              <a class="" aria-hidden="false"> {{ "No_notifications" | translate }} </a>
+            </li>
+          </ul>
+          <!---------------------------------liste notif affiché on click end----------------------------------->
+     </li>
+  <!--=================================------- End dropdown notification=======================================----->
+  
+  
+         <!-----------------------without password version-------------------------------->
+    <li class="dropdown" style="margin-top:5%" *ngIf="router.url==='password_wallet'">
+      <a (click)="signOut()"><i class="fa fa-power-off"></i> {{ "logout" | translate }}</a>
+    </li>
+  <!--===================================setting end=====================================================================================--> 
+  
+  
+  <!--===================================Gaz start  ==================================================================================--> 
+    <li (clicK)="closeBalanceSection()"><span class="btnTest" style="cursor:default" >
+      <svg style="margin-right: 10px; margin-left: 15px;margin-top: -2%; text-align: center;" width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14.0324 3.24573L14.0434 3.2325L10.8855 0.712507L9.89079 1.92117L11.5226 3.22317C11.1182 3.46521 10.797 3.82139 10.6006 4.2455C10.4043 4.66962 10.3418 5.14209 10.4213 5.60161C10.5389 6.30083 11.0261 6.90517 11.6568 7.24428C12.365 7.62539 12.9871 7.59116 13.5389 7.3975L13.5271 12.2057C13.5281 12.3345 13.4964 12.4615 13.435 12.5752C13.3736 12.6889 13.2844 12.7857 13.1755 12.8569C13.0665 12.9281 12.9413 12.9714 12.8111 12.9829C12.6809 12.9944 12.5498 12.9738 12.4297 12.9228C12.3357 12.8832 12.2504 12.8259 12.1787 12.754C12.1057 12.682 12.0479 12.5965 12.0084 12.5024C11.969 12.4083 11.9488 12.3075 11.9489 12.2057L11.9671 10.6502C11.9679 10.344 11.9071 10.0407 11.7883 9.75786C11.6695 9.47498 11.4949 9.2181 11.2747 9.00205C11.0548 8.7849 10.7936 8.61261 10.506 8.49503C10.2184 8.37745 9.91006 8.3169 9.59868 8.31683H8.80921V2.09462C8.80921 1.23673 8.10105 0.539062 7.23026 0.539062H1.70395C0.833158 0.539062 0.125 1.23673 0.125 2.09462V12.9835C0.125 13.8414 0.833158 14.539 1.70395 14.539H7.23026C8.10105 14.539 8.80921 13.8414 8.80921 12.9835V9.87238H9.59868C9.70605 9.87238 9.80947 9.89338 9.90737 9.93305C10.0953 10.0141 10.245 10.1622 10.3266 10.3476C10.3675 10.4434 10.3885 10.5463 10.3882 10.6502L10.3692 12.2057C10.3692 12.5215 10.4316 12.8272 10.5555 13.1142C10.6747 13.3934 10.8461 13.643 11.0616 13.8538C11.2807 14.072 11.5418 14.245 11.8296 14.3626C12.1174 14.4803 12.4261 14.5403 12.7376 14.539C13.0582 14.539 13.3676 14.4784 13.6597 14.3555C13.9424 14.2388 14.1966 14.07 14.4105 13.8569C14.6315 13.6407 14.8068 13.3834 14.9262 13.1C15.0456 12.8165 15.1067 12.5126 15.1061 12.2057L15.125 5.20572C15.1242 4.81498 15.0237 4.43071 14.8328 4.08822C14.6419 3.74573 14.3666 3.45602 14.0324 3.24573ZM1.70395 2.09462H7.23026L7.23105 5.20572H1.70395V2.09462ZM1.70395 12.9835V6.76128H7.23105L7.23184 12.9835H1.70395ZM12.7566 5.9835C12.5472 5.9835 12.3464 5.90156 12.1983 5.75569C12.0503 5.60983 11.9671 5.412 11.9671 5.20572C11.9671 4.99944 12.0503 4.80161 12.1983 4.65575C12.3464 4.50989 12.5472 4.42795 12.7566 4.42795C12.966 4.42795 13.1668 4.50989 13.3148 4.65575C13.4629 4.80161 13.5461 4.99944 13.5461 5.20572C13.5461 5.412 13.4629 5.60983 13.3148 5.75569C13.1668 5.90156 12.966 5.9835 12.7566 5.9835Z"
+                    fill="white"/>
+      </svg>
+      <span class="tool"> ETH: {{EthGaz}} Gwei/ BNB:{{GazPriceBnB}} Gwei
+        <span class="tooltext">{{"gaz-est"| translate }}</span>
+      </span></span>
+    </li>
+  <!--===================================Gaz end  =====================================================================================--> 
+  
+  
+  <!--===================================langue start  ===============================================================================--> 
+    <li class="dropdown">
+      <button (click)="closeBalanceSection()" class="btntoggle dropdown-toggle2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  style="margin-left: 10px">
+          <span *ngIf="languageSelected === 'en'"> English </span> 
+          <span *ngIf="languageSelected === 'fr'" > Français</span>
+          <i class="fa fa-chevron-down"></i>
+      </button>
+      <ul class="dropdown-menu style-dropdown" aria-labelledby="dropdownMenuButton">
+        <li *ngFor="let language of translate.getLangs()">
+          <a (click)="switchLang(language)" *ngIf="language === 'en'">English</a>
+          <a (click)="switchLang(language)" *ngIf="language === 'fr'">Français</a>
+        </li>
+      </ul>
+    </li>
+  <!--===================================langue end  ===============================================================================--> 
+  </ul>
+  </form>
+  </div>
+  </nav>

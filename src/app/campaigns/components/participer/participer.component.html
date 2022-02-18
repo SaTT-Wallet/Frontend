@@ -1,0 +1,564 @@
+<div
+  class="container-fluid page-content participate-page"
+  *ngIf="!success && !error"
+>
+  <div class="envoyer_lien send_col">
+    <div class="col-sm-12 col-md-10 col-lg-8 monotize_div">
+      <form
+        [formGroup]="sendform"
+        autocomplete="off"
+        class="col-xl-10 col-lg-12 col-md-12"
+      >
+        <div class="row titre">
+          <div class="col-12 col-xs-8 ms-2 monotize_title">
+            <h3 class="send_title">{{ 'monetize_your_post' | translate }}</h3>
+          </div>
+          <button type="button" class="btn-back" (click)="goBack(campaignId)">
+            <
+            <span class="span_btn_back">
+              {{ 'send.back_to_wallet' | translate }}
+            </span>
+          </button>
+          <!-- <div class="col-sm-3 col-md-3 col-lg-3 col-xs-4 back me-3">
+                        <span class="span_back" (click)="goBack(campaignId)">
+              <i class="fa fa-chevron-left back_arrow"></i>
+              {{ 'back' | translate }}
+            </span>
+                        d-none d-md-block<button (click)="goBack(campaignId)" class="btn_back d-sm-flex d-md-none"> 
+             <i class="fa fa-chevron-left back_arrow"></i> </button> 
+                    </div> -->
+        </div>
+        <div class="row info_link" *ngIf="successMessage">
+          <p class="successMessage">
+            {{ 'account_linked_with_success' | translate }}
+          </p>
+        </div>
+        <div class="row info_link" *ngIf="requiredChannel && isGoogleUrl">
+          <p class="errorMessage">{{ 'channel_required' | translate }}</p>
+        </div>
+        <div class="row info_link" *ngIf="requiredChannel && !isGoogleUrl">
+          <p class="errorMessage">{{ 'page_required' | translate }}</p>
+        </div>
+        <div class="row info_link" *ngIf="errorfbin">
+          <p class="errorMessage">{{ 'errorMessagefbins' | translate }}</p>
+        </div>
+        <div class="p-3">
+          <span class="titre_add mt-2"> {{ 'add_link' | translate }} </span>
+
+          <!-- fake inputs are added to prevent default browser value -->
+          <input style="display: none" type="text" />
+          <input style="display: none" type="password" />
+          <div class="row input_link">
+            <input
+              autocomplete="false"
+              placeholder="https://"
+              name="hidden"
+              type="text"
+              class="link linkk"
+              type="url"
+              formControlName="url"
+              id="url"
+              [ngClass]="{
+                success:
+                  sendform.controls['url'].valid &&
+                  (sendform.controls['url'].dirty ||
+                    sendform.controls['url'].touched) &&
+                  linkNetorwkMutch &&
+                  linked,
+                error:
+                  (sendform.controls['url'].invalid || !validUrl) &&
+                  (sendform.controls['url'].dirty ||
+                    sendform.controls['url'].touched),
+                fbLinkSpinner:
+                  spinner &&
+                  sendform.controls['url'].value.indexOf(
+                    'https://www.facebook.com/'
+                  ) == 0,
+                fbLink:
+                  !spinner &&
+                  sendform.controls['url'].value.indexOf(
+                    'https://www.facebook.com/'
+                  ) == 0,
+                twitterLink:
+                  !spinner &&
+                  sendform.controls['url'].value.indexOf(
+                    'https://twitter.com/'
+                  ) == 0,
+                twitterLinkSpinner:
+                  spinner &&
+                  sendform.controls['url'].value.indexOf(
+                    'https://twitter.com/'
+                  ) == 0,
+                instaLink:
+                  !spinner &&
+                  sendform.controls['url'].value.indexOf(
+                    'https://www.instagram.com/'
+                  ) == 0,
+
+                instaLinkSpinner:
+                  spinner &&
+                  sendform.controls['url'].value.indexOf(
+                    'https://www.instagram.com/'
+                  ) == 0,
+
+                youtubeLinkSpinner:
+                  (spinner &&
+                    sendform.controls['url'].value.indexOf(
+                      'https://www.youtube.com/'
+                    ) == 0) ||
+                  sendform.controls['url'].value.indexOf('https://youtu.be/') ==
+                    0 ||
+                  sendform.controls['url'].value.indexOf(
+                    'https://www.youtube.com/embed/'
+                  ) == 0,
+                youtubeLink:
+                  (!spinner &&
+                    sendform.controls['url'].value.indexOf(
+                      'https://www.youtube.com/'
+                    ) == 0) ||
+                  sendform.controls['url'].value.indexOf('https://youtu.be/') ==
+                    0 ||
+                  sendform.controls['url'].value.indexOf(
+                    'https://www.youtube.com/embed/'
+                  ) == 0,
+
+                linkedinLink:
+                  !spinner &&
+                  sendform.controls['url'].value.indexOf(
+                    'https://www.linkedin.com/'
+                  ) == 0,
+
+                linkedinLinkSpinner:
+                  spinner &&
+                  sendform.controls['url'].value.indexOf(
+                    'https://www.linkedin.com/'
+                  ) == 0
+              }"
+            />
+            <div
+              *ngIf="
+                (sendform.controls['url'].invalid || !validUrl) &&
+                (sendform.controls['url'].dirty ||
+                  sendform.controls['url'].touched)
+              "
+            >
+              <div
+                *ngIf="
+                  sendform.get('url')?.errors?.required &&
+                  sendform.controls['url'].touched
+                "
+                class="errors"
+              >
+                {{ 'link_required' | translate }}
+              </div>
+              <div
+                *ngIf="
+                  (sendform.get('url')?.errors?.pattern || !validUrl) &&
+                  !sendform.get('url')?.errors?.required
+                "
+                class="errors"
+              >
+                {{ 'invalid_link' | translate }}
+              </div>
+            </div>
+
+            <div class="error_container errorr">
+              <span class="error0" *ngIf="balanceNotEnough">{{
+                'msg2' | translate
+              }}</span>
+            </div>
+
+            <div class="error_container errorr">
+              <span class="error0" *ngIf="oracleLinkMessage">{{
+                'oracle_not_selected_error' | translate
+              }}</span>
+            </div>
+
+            <div
+              class="error_container div-error mt-2"
+              *ngIf="connectValue === 'twitter'"
+            >
+              <!-- *ngIf="user.idSn !== 1"-->
+              <label class="d-flex justify-content-center mt-3 errorSocial"
+                >{{ 'sendMSGtwitter' | translate }}
+              </label>
+
+              <div class="d-flex justify-content-center mt-2 mb-3">
+                <div
+                  class="div-connect-twitter position-relative"
+                  (click)="connect('twitter')"
+                >
+                  <!-- (click)="snlogin('facebook')"-->
+                  <img
+                    src=".../../assets/Images/Shape_twitter.svg"
+                    class="facebook_icon"
+                    width="30px"
+                  />
+                  <span
+                    class="
+                      d-flex
+                      align-self-center
+                      white-text-span
+                      .facebook_text_en
+                      ps-2
+                    "
+                  >
+                    {{ 'twitter_signup' | translate }}</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="error_container div-error mt-2"
+              *ngIf="connectValue === 'facebook'"
+            >
+              <label class="d-flex justify-content-center mt-3 errorSocial">{{
+                'sendMSGfacebook' | translate
+              }}</label>
+
+              <div class="d-flex justify-content-center mt-2 mb-3">
+                <div
+                  class="div-connect-fb position-relative"
+                  (click)="connect('facebook')"
+                >
+                  <img
+                    src="./assets/Images/vector-fb.svg"
+                    class="facebook_icon"
+                    width="30px"
+                  />
+                  <span
+                    class="
+                      d-flex
+                      align-self-center
+                      white-text-span
+                      .facebook_text_en
+                      ps-2
+                    "
+                  >
+                    {{ 'facebook_signup' | translate }}</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="
+                error_container
+                div-error
+                d-flex
+                justify-content-center
+                mt-2
+              "
+              *ngIf="connectValue === 'google'"
+            >
+              <!-- *ngIf="user.idSn !== 1"-->
+              <label class="mt-3 errorSocial"
+                >{{ 'sendMSGgoogle' | translate }}
+              </label>
+
+              <div class="d-flex justify-content-center mt-2 mb-3">
+                <div class="div-connect-google" (click)="connect('google')">
+                  <!--(click)="snlogin('google')" src="./assets/Images/vector-google.svg"-->
+                  <img
+                    src="./assets/Images/vector-google.svg"
+                    class="goog_icon"
+                    width="30px"
+                  />
+                  <span class="d-flex align-self-center gray-text-span ps-2">
+                    {{ 'google_signup' | translate }}</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="
+                error_container
+                div-error
+                d-flex
+                justify-content-center
+                mt-2
+              "
+              *ngIf="connectValue === 'linkedin'"
+            >
+              <!-- *ngIf="user.idSn !== 1"-->
+              <label class="mt-3 errorSocial"
+                >{{ 'sendMSGlinkedin' | translate }}
+              </label>
+
+              <div class="d-flex justify-content-center mt-2 mb-3">
+                <div class="div-connect-linkedin" (click)="connect('linkedin')">
+                  <img
+                    src="./assets/Images/vector-linkedin.svg"
+                    class="goog_icon"
+                    width="27px"
+                  />
+                  <span
+                    class="
+                      d-flex
+                      align-self-center
+                      gray-text-span
+                      ps-2
+                      mt-1
+                      linkedinText
+                    "
+                  >
+                    {{ 'linkedin_signup' | translate }}</span
+                  >
+                  <!--gray-text-span-->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="fb-root"></div>
+          <div *ngIf="validUrl">
+            <div
+              [hidden]="
+                !idlinkedin || userfaceook || idstatus || idvideo || idinstagram
+              "
+              class="block-video mt-3 mb-3 justify-content-center"
+              id="likedin-div"
+              #linkDiv
+            >
+              <embed
+                #linkedinDiv
+                id="linkedin-embed-0"
+                height="240"
+                width="504"
+                frameborder="0"
+                allowfullscreen=""
+                title="Post intégré"
+              />
+            </div>
+          </div>
+
+          <div
+            [hidden]="
+              !idinstagram || userfaceook || idstatus || idvideo || idlinkedin
+            "
+            class="block-video mt-3 mb-3 justify-content-center"
+            id="insta-div"
+            #instaDiv
+          >
+            <embed
+              #instagramDiv
+              class="instagram-media instagram-media-rendered"
+              id="instagram-embed-0"
+              allowtransparency="true"
+              allowfullscreen="true"
+              frameborder="0"
+              height="745"
+              data-instgrm-payload-id="instagramframe"
+              scrolling="no"
+              style="
+                background: white;
+                max-width: 540px;
+                /* width: calc(100% - 2px); */
+                border-radius: 3px;
+                border: 1px solid rgb(219, 219, 219);
+                box-shadow: none;
+                display: block;
+                margin: 0px 0px 12px;
+                min-width: 326px;
+                padding: 0px;
+                height: 541px;
+              "
+            />
+          </div>
+
+          <div
+            #facebookDiv
+            id="facebook-div"
+            [hidden]="
+              !userfaceook || idinstagram || idstatus || idvideo || idlinkedin
+            "
+            class="block-facebook mt-3 mb-3 justify-content-center"
+          >
+            <embed
+              #myIframe
+              class="embed-facebook"
+              id="myIframe"
+              style="
+                position: absolute;
+                top: 7%;
+                /* left: 144px; */
+                width: 62%;
+                height: 201%;
+              "
+              scrolling="no"
+              allowfullscreen="true"
+              allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+            />
+          </div>
+
+          <div class="row pass pass_post" *ngIf="linked">
+            <div class="block-video-youtube mt-3 mb-3" *ngIf="idvideo">
+              <div class="title-video mb-1">{{ titlevideo }}</div>
+
+              <div style="text-align: center">
+                <img class="image-video" [src]="this.imagevideo" />
+              </div>
+            </div>
+
+            <div
+              class="block-video mt-3 mb-3 justify-content-center"
+              *ngIf="this.idstatus"
+              [hidden]="idvideo"
+              id="block-twitter"
+            >
+              <ngx-tweet
+                #tweetId
+                class="tweet-class me-3"
+                tweetId="{{ this.idstatus }}"
+                style="
+                  width: -webkit-calc(100% - 2px);
+                  text-align: -webkit-center;
+                "
+              ></ngx-tweet>
+            </div>
+
+            <span class="titre_pass"> {{ 'ur_pass' | translate }} </span>
+            <div class="div_input position-relative mt-1">
+              <img class="ps-1" src="/assets/Images/Kep-password.svg" /><input
+                autocomplete="new-password"
+                class="input-amount"
+                type="password"
+                formControlName="password"
+              />
+            </div>
+            <div class="error_container errors">
+              <span class="error1" *ngIf="errorMessage">{{
+                errorMessage | translate | capitalizePhrase
+              }}</span>
+            </div>
+          </div>
+
+          <div class="help_div">
+            <div class="row info_link">
+              <div
+                *ngIf="!ratioLink"
+                class="Alert d-flex"
+                routerLink="/home/FAQ"
+                [fragment]="'faq16'"
+              >
+                <img src="assets/Images/blueAlert.svg" class="pe-1" />
+                <a class="span_link">
+                  {{ 'Aide.particpateCampagne' | translate }}</a
+                >
+                <i class="fa fa-chevron-right right_arrow"></i>
+              </div>
+              <div
+                class="Alert d-flex"
+                *ngIf="ratioLink"
+                (click)="openYoutubeurl()"
+              >
+                <img src="assets/Images/blueAlert.svg" class="pe-1" />
+                <a class="span_link">
+                  {{ 'Aide.particpateCampagneTwitter' | translate }}</a
+                >
+                <i class="fa fa-chevron-right right_arrow"></i>
+              </div>
+            </div>
+            <div class="row info_link2">
+              <div class="Alert d-flex" (click)="goToDoc()">
+                <img src="assets/Images/blueAlert.svg" class="pe-1" />
+                <span class="span_link">{{
+                  'Aide.linkCampagne' | translate
+                }}</span>
+                <i class="fa fa-chevron-right right_arrow"></i>
+              </div>
+            </div>
+          </div>
+          <div class="row button_send mb-5">
+            <button
+              class="butt_send2"
+              (click)="applyCampaign()"
+              [disabled]="sendform.invalid"
+            >
+              <span *ngIf="!loadingButton">{{ 'Send' | translate }}</span>
+              <div class="spinner-border" role="status" *ngIf="loadingButton">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid page-content participate-page" *ngIf="success">
+  <div>
+    <div class="envoyer_lien success_page">
+      <div class="success-link">
+        <img src="/assets/Images/success_info.svg" class="img-style mt-5" />
+        <h3 class="success-title mt-2">{{ 'titre_succes' | translate }}</h3>
+        <label class="text">{{ 'paragraph_succes' | translate }}</label>
+        <app-copy-transaction-hash
+          [transactionHash]="transactionHash"
+          [networkWallet]="networkWallet"
+          class="transaction-width"
+        ></app-copy-transaction-hash>
+        <button class="btn-info me-2 mt-5 mb-2" (click)="redirect('send_link')">
+          {{ 'send_new_post' | translate }} >
+        </button>
+        <button
+          class="btn-info me-2 mt-2 mb-4"
+          (click)="redirect('campaign_details')"
+        >
+          < {{ 'Retour_aux_infos' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid page-content participate-page" *ngIf="error">
+  <div class="envoyer_lien error_page">
+    <div class="success-link">
+      <img src="/assets/Images/error-info.svg" class="img-style mt-5" />
+
+      <h3 class="error-title text-break mt-2">{{ error | translate }}</h3>
+
+      <!--  <p class="error-text">{{"paragraph_erreur"|translate}}</p> -->
+      <button
+        *ngIf="error == 'Not_your_link'"
+        class="btn-info me-2 mt-5 mb-2"
+        [routerLink]="['/home/settings/social-networks']"
+      >
+        <span *ngIf="oracleType == 'facebook'">
+          {{ 'Add_channel_facebook' | translate }}
+        </span>
+        <span *ngIf="oracleType == 'youtube'">
+          {{ 'Add_channel_youtube' | translate }}
+        </span>
+        <span *ngIf="oracleType == 'instagram'">
+          {{ 'Add_channel_insta' | translate }}
+        </span>
+        <span *ngIf="oracleType == 'twitter'">
+          {{ 'Add_channel_twitter' | translate }}
+        </span>
+        <span *ngIf="oracleType == 'linkedin'">
+          {{ 'Add_channel_linkedin' | translate }}
+        </span>
+      </button>
+      <button
+        *ngIf="error != 'Not_your_link' && error"
+        class="btn-info me-2 mt-5 mb-2"
+        (click)="redirect('send_link')"
+      >
+        {{ 'Réessayer' | translate }}
+      </button>
+      <!-- <button  class="btn-info me-2 mt-2 mb-2"   [routerLink]="['/home']">{{"bye_gaz"|translate}} </button> -->
+      <button
+        class="btn-info me-2 mt-2 mb-4"
+        routerLink="/home/FAQ"
+        [fragment]="'support'"
+      >
+        {{ 'support_contact' | translate }}
+      </button>
+    </div>
+  </div>
+</div>

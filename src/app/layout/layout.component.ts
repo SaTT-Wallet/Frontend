@@ -1,0 +1,222 @@
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Inject,
+  OnInit,
+  Output,
+  PLATFORM_ID,
+  TemplateRef,
+  ViewChild
+} from '@angular/core';
+import { Router } from '@angular/router';
+import { SidebarService } from '@core/services/sidebar/sidebar.service';
+import { DraftCampaignStoreService } from '@core/services/draft-campaign-store.service';
+import { CampaignsStoreService } from '@campaigns/services/campaigns-store.service';
+import { WalletStoreService } from '@core/services/wallet-store.service';
+import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
+import { WalletFacadeService } from '@core/facades/wallet-facade.service';
+import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-facade.service';
+import { off } from 'process';
+import { truncate } from 'fs';
+import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
+import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
+import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-facade/socialAcounts-facade.service';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { WindowRefService } from '@app/core/windowRefService';
+@Component({
+  selector: 'app-layout',
+  templateUrl: './layout.component.html',
+  styleUrls: ['./layout.component.css']
+})
+export class LayoutComponent implements OnInit {
+  @ViewChild('useDesktopModal', { static: false })
+  public useDesktopModal!: TemplateRef<any>;
+  scrollTopChange: boolean = false;
+  smDevice = false;
+  scrolled: boolean = false;
+  constructor(
+    public router: Router,
+    private draftCampaignStore: DraftCampaignStoreService,
+    private campaignService: CampaignHttpApiService,
+    private walletFacade: WalletFacadeService,
+    private profileSettingsFacade: ProfileSettingsFacadeService,
+    private accountFacadeService: AccountFacadeService,
+    private tokenStorageService: TokenStorageService,
+    private socialAccountFacadeService: SocialAccountFacadeService,
+    @Inject(DOCUMENT) private document: any,
+    @Inject(PLATFORM_ID) private platformId: string,
+    private Window: WindowRefService
+  ) {}
+  ngOnInit(): void {
+    if (window.innerWidth <= 768 && isPlatformBrowser(this.platformId)) {
+      this.smDevice = true;
+    } else {
+      this.smDevice = false;
+    }
+    if (
+      this.tokenStorageService.getSecureWallet('visited-passPhrase') === 'false'
+    ) {
+      this.router.navigate(['social-registration/pass-phrase']);
+    }
+    if (this.tokenStorageService.getToken()) {
+      this.walletFacade.initWallet(); // initialize total balance// initialize crypto list and gaz
+      this.draftCampaignStore.init(); // initialize draft campaign list data
+      this.profileSettingsFacade.loadUserProfilePic(); // initialize user profile picture
+      this.accountFacadeService.initAccount();
+      this.socialAccountFacadeService.initSocialAccount();
+    }
+  }
+  //change chart wallet position on the window re-size
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    if (isPlatformBrowser(this.platformId)) {
+      let topBar = this.document.getElementById('campaign-top-bar');
+      let header = this.document.getElementById('navbar-id');
+      let btnApply = this.document.getElementById('btn-apply');
+      if (window.innerWidth < 768) {
+        this.smDevice = true;
+      } else {
+        this.smDevice = false;
+      }
+      if (this.router.url.startsWith('/campaign/')) {
+        if (event.target.innerWidth < 768 && topBar) {
+          topBar.style.display = 'none';
+          if (btnApply) btnApply.style.display = 'flex';
+        }
+        //  else {
+        //   if (this.scrolled) {
+        //     topBar.style.display = 'flex';
+        //     if (btnApply) btnApply.style.display = 'none';
+        //     header.style.backgroundColor = '#2F3347';
+        //   } else {
+        //     topBar.style.display = 'none';
+        //     if (btnApply) btnApply.style.display = 'flex';
+        //     header.style.backgroundColor = 'transparent';
+        //   }
+        // }
+      }
+      if (this.router.url.startsWith('/wallet')) {
+        let chart = this.document.getElementById('chart');
+        if (chart) {
+          if (event.target.innerWidth > 767.98) {
+            chart.style.position = 'relative';
+          } else {
+            chart.style.position = 'absolute';
+          }
+        }
+      }
+    }
+  }
+  @HostListener('scroll', ['$event'])
+  onScroll(event: any) {
+    // console.log('event.target.clientWidth', event.target.clientWidth);
+    // visible height + pixel scrolled >= total height
+    if (isPlatformBrowser(this.platformId)) {
+      if (
+        event.target.offsetHeight + event.target.scrollTop >
+        event.target.scrollHeight - 3
+      ) {
+        if (this.router.url.startsWith('/ad-pools')) {
+          this.campaignService.loadDataAddPoolWhenEndScroll.next(true);
+        }
+        if (this.router.url.startsWith('/farm-posts')) {
+          this.campaignService.loadDataPostFarmWhenEndScroll.next(true);
+        }
+        if (this.router.url.startsWith('/campaign/')) {
+          this.campaignService.loadDataEarningsWhenEndScroll.next(true);
+        }
+        if (this.router.url.startsWith('/welcome') && this.smDevice) {
+          this.campaignService.loadDataWelcomePageWhenEndScroll.next(true);
+        }
+      }
+      let cover = this.document.getElementById('campaign-cover');
+      //change chart wallet position on scroll
+      if (this.router.url.startsWith('/wallet')) {
+        let chart = this.document.getElementById('chart');
+        if (event.target.clientWidth < 768) {
+          if (chart) {
+            if (event.target.scrollTop >= 68) {
+              chart.style.position = 'relative';
+            }
+            if (event.target.scrollTop < 68) {
+              chart.style.position = 'absolute';
+            }
+            if (event.target.scrollTop < 274) {
+              chart.style.position = 'absolute';
+            }
+          }
+        }
+      } else if (this.router.url.startsWith('/campaign/') && cover) {
+        let main = this.document.getElementById('campaign-main-content');
+        let topBar = this.document.getElementById('campaign-top-bar');
+        let header = this.document.getElementById('navbar-id');
+        let btnApply = this.document.getElementById('btn-apply');
+        let disabledPic = this.document.getElementById('back-top-pic-disabled');
+        let disabledText = this.document.getElementById(
+          'back-top-text-disabled'
+        );
+        let bluePic = this.document.getElementById('back-top-pic');
+        let blueText = this.document.getElementById('back-top-text');
+        if (cover && main) {
+          if (event.target.clientWidth < 768) {
+            if (event.target.scrollTop < 159) {
+              if (blueText && bluePic && disabledText && disabledPic) {
+                blueText.style.display = 'none';
+                bluePic.style.display = 'none';
+                disabledText.style.display = 'block';
+                disabledPic.style.display = 'block';
+                this.campaignService.scrolling.next(true);
+              }
+
+              // cover.style.position = 'fixed';
+              // main.style.marginTop = '28%';
+              // // cover.style.position = 'fixed';
+              header.style.backgroundColor = 'transparent';
+            } else {
+              // cover.style.position = 'relative';
+              // main.style.marginTop = '-16vw';
+              if (blueText && bluePic && disabledText && disabledPic) {
+                blueText.style.display = 'block';
+                bluePic.style.display = 'block';
+                disabledText.style.display = 'none';
+                disabledPic.style.display = 'none';
+                this.campaignService.scrolling.next(false);
+              }
+              header.style.backgroundColor = '#2F3347';
+            }
+            topBar.style.display = 'none';
+          } else {
+            if (
+              event.target.clientWidth > 1024 &&
+              event.target.scrollTop >= 744
+            ) {
+              //cover.style.position = 'relative';
+              //  main.style.marginTop = '-35px';
+              topBar.style.display = 'flex';
+              if (btnApply) btnApply.style.display = 'none';
+              header.style.backgroundColor = '#2F3347';
+            } else if (
+              event.target.clientWidth <= 1024 &&
+              event.target.scrollTop > 477
+            ) {
+              this.scrolled = true;
+              cover.style.position = 'relative';
+              main.style.marginTop = '-16vw';
+              topBar.style.display = 'flex';
+              if (btnApply) btnApply.style.display = 'none';
+              header.style.backgroundColor = '#2F3347';
+            } else {
+              this.scrolled = false;
+              topBar.style.display = 'none';
+              if (btnApply) btnApply.style.display = 'flex';
+              cover.style.position = 'fixed';
+              main.style.marginTop = '28%';
+              header.style.backgroundColor = 'transparent';
+            }
+          }
+        }
+      }
+    }
+  }
+}

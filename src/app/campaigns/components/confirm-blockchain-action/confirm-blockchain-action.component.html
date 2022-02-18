@@ -1,0 +1,41 @@
+<img src="/assets/Images/Password_modal_logo.svg" alt="" class="key-image" />
+
+<h3 class="title">{{ 'campaign_password.title' | translate }}</h3>
+
+<p class="confirmation-info">
+  {{ 'campaign_password.description2' | translate }}
+</p>
+
+<form [formGroup]="form" (ngSubmit)="onFormSubmit()" class="confirm-form">
+  <div
+    class="div_input_add position-relative"
+    [ngClass]="{ 'error-input': password.invalid && form.touched }"
+  >
+    <img src="/assets/Images/input_password_logo.svg" width="46px" alt="" />
+    <input
+      type="password"
+      name="password"
+      formControlName="password"
+      class="input_oeil"
+      [readonly]="isLoading"
+    />
+  </div>
+
+  <div class="errors">
+    <span class="error-message" [hidden]="!errorMessage">
+      {{ errorMessage | translate | capitalizePhrase }}</span
+    >
+    <span class="error-message" [hidden]="password.valid || !form.touched">
+      {{ 'field_required' | translate | capitalizePhrase }}</span
+    >
+  </div>
+
+  <div class="confirm-button-wrapper">
+    <button type="submit" class="change_btn">
+      <span *ngIf="!isLoading" class="btn-text"
+        >{{ 'campaign_password.confirm' | translate | capitalizePhrase }}
+      </span>
+      <i *ngIf="isLoading" class="fa fa-circle-o-notch fa-spin fa-sm fa-fw"></i>
+    </button>
+  </div>
+</form>

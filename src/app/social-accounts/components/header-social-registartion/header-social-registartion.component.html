@@ -1,0 +1,60 @@
+<header class="header-set-lang">
+  <div class="row">
+    <img
+      src="/assets/Images/satt_logo_white.svg"
+      class="logo_satt logo_satt_show"
+      alt="logo"
+    />
+    <img
+      src="/assets/Images/satt_logo_white.svg"
+      class="logo_satt logo_satt_showMob"
+      alt="logo"
+    />
+
+    <button
+      class="btn_signOut logo_satt_show"
+      (click)="signOut()"
+      [ngClass]="{
+        btn_signOut_english: this.english && this.languageSelected == 'en'
+      }"
+    >
+      <img class="logout_icon" src="/assets/Images/logout_icon.svg" />
+      <span class="logout_span text-justify">
+        {{ 'Header.logout' | translate }}
+      </span>
+    </button>
+
+    <img
+      class="logo_satt_showMob logout_mobile_icon"
+      (click)="signOut()"
+      src="/assets/Images/logout_icon.svg"
+    />
+    <div class="dropdown">
+      <!--data-toggle="dropdown"-->
+      <button
+        class="btn btntoggle dropdown-toggle"
+        type="button"
+        id="dropdownMenuButton"
+        data-toggle=""
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <span *ngIf="languageSelected === 'en'"> En </span>
+        <span *ngIf="languageSelected === 'fr'"> Fr</span>
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <li
+          class="lang-select"
+          (click)="switchLang(language)"
+          *ngFor="
+            let language of translate.getLangs();
+            trackBy: trackByLanguage
+          "
+        >
+          <a [routerLink]="" *ngIf="language === 'en'" class="lang-en">En</a>
+          <a [routerLink]="" *ngIf="language === 'fr'" class="lang-fr">Fr</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>

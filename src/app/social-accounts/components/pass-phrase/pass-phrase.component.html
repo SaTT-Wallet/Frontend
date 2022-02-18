@@ -1,0 +1,221 @@
+<app-header-social-registartion> </app-header-social-registartion>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xl-5 col-lg-5 col-md-5">
+      <app-left-component></app-left-component>
+    </div>
+    <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 padding-top margin-bottom">
+      <div class="row d-flex justify-content-center">
+        <div
+          class="col-xl-8 col-lg-10 col-md-11 col-sm-8 d-flex justify-content-start"
+        >
+          <app-monetize-steps></app-monetize-steps>
+        </div>
+      </div>
+      <div class="row d-flex justify-content-center">
+        <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8 make-center mt-5">
+          <h1 class="title_page">{{ 'yourPassphrase' | translate }}</h1>
+
+          <!-- <label class="form-check-label mt-5" for="flexCheckDefault"> -->
+          <p *ngIf="!showConfirmForm" class="drak-gray_text">
+            {{ 'writePassPhrase' | translate }}
+            <span class="bolder-500-text">{{ 'exact_order' | translate }}</span>
+            {{ 'writePassPhrase_second_phrase' | translate }}
+            <span class="bolder-600-text">{{
+              'writePassPhrase_third_phrase' | translate
+            }}</span>
+          </p>
+          <p *ngIf="showConfirmForm" class="drak-gray_text mb-5">
+            {{ 'passPhraseOrderedText' | translate }}
+          </p>
+          <!-- </label> -->
+        </div>
+      </div>
+      <div class="row d-flex justify-content-center">
+        <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8 padding-x">
+          <form [formGroup]="confirmForm">
+            <div class="row" *ngIf="!showConfirmForm">
+              <div class="flex-row-wrapper pt-3 tag-wrapper">
+                <span
+                  class="flex-item tag-item"
+                  *ngFor="
+                    let tag of passPhrase;
+                    trackBy: trackByPassPhraseId;
+                    let i = index
+                  "
+                >
+                  <span class="gray-span me-2">{{ i + 1 }}.</span
+                  >{{ tag }}</span
+                >
+              </div>
+            </div>
+            <input
+              *ngIf="!showConfirmForm"
+              class="form-check-input me-3"
+              type="checkbox"
+              value="confirm1"
+              id="flexCheckDefault"
+              formControlName="agreeBox1"
+              name="agreeBox1"
+              (change)="onCheckboxChange($event, 'agreeBox1')"
+            />
+            <label class="form-check-label mt-3" for="flexCheckDefault">
+              <span *ngIf="!showConfirmForm" class="drak-gray_text text-start">
+                {{ 'pwd_text2' | translate }}
+              </span>
+            </label>
+
+            <div class="row d-flex pb-3" *ngIf="!showConfirmForm">
+              <div
+                class="col-xl-8 col-lg-10 col-md-11 col-sm-10 top-10 display-flex"
+              >
+                <button
+                  type="submit"
+                  class="btn-green btn-atayen-primary mt-4"
+                  [disabled]="
+                    passPhrase.length === 0 || this.confirmForm.invalid
+                  "
+                  (click)="onShowConfirmForm(); shufflePassPhrase()"
+                >
+                  {{ 'confirm' | translate | capitalizePhrase }}
+                </button>
+              </div>
+              0
+            </div>
+          </form>
+          <div cdkDropListGroup>
+            <div *ngIf="showConfirmForm" class="example-container">
+              <div class="flex-row-wrapper example-list">
+                <button
+                  (click)="addItem(tag)"
+                  class="flex-item tag-item"
+                  *ngFor="
+                    let tag of passPhraseShuffled;
+                    trackBy: trackByPassPhraseShuffledId;
+                    let i = index
+                  "
+                >
+                  {{ tag }}
+                </button>
+              </div>
+
+              <!-- <div class="row d-flex justify-content-center">
+                <div
+                  class="
+                    col-xl-12 col-lg-12 col-md-12 col-sm-12
+                    d-flex
+                    justify-content-center
+                  "
+                >
+                  <hr class="horizontal-line" />
+                </div>
+              </div> -->
+              <div>
+                <div class="row d-flex justify-content-center">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                    <div class="">
+                      <div
+                        class="grey-card"
+                        [ngClass]="{
+                          'success-border': this.check === 'correct',
+                          'danger-border': this.check === 'incorrect'
+                        }"
+                      >
+                        <div class="wrong-pass-phrase">
+                          <span *ngIf="this.check === 'incorrect'">
+                            <img
+                              class="wrong-img"
+                              src="/assets/Images/echecicon.svg"
+                              alt=""
+                            />
+                            {{ 'wrongPassPhrase' | translate }}
+                          </span>
+                        </div>
+                        <div
+                          #contenedor
+                          class="flex-row-wrapper pt-2 pb-3 ml-1 d-flex justify-content-start passPhrase-container"
+                          cdkDropListGroup
+                        >
+                          <ng-container
+                            *ngFor="
+                              let item of passPhraseOrdered;
+                              let i = index
+                            "
+                          >
+                            <div
+                              class=""
+                              cdkDropList
+                              cdkDropListOrientation="horizontal"
+                              [cdkDropListData]="{ item: item, index: i }"
+                              (cdkDropListDropped)="switchPassPhrase($event)"
+                            >
+                              <div class="inner flex-item tag-item" cdkDrag>
+                                <div
+                                  class="example-custom-placeholder"
+                                  *cdkDragPlaceholder
+                                ></div>
+                                <span
+                                  class="gray-span"
+                                  [ngClass]="{
+                                    success: this.check === 'correct',
+                                    danger: this.check === 'incorrect'
+                                  }"
+                                >
+                                  {{ i + 1 }}.</span
+                                >
+                                {{ item }}
+                                <button
+                                  class="btn-close"
+                                  (click)="deleteItem(item)"
+                                ></button>
+                              </div>
+                            </div>
+                          </ng-container>
+                        </div>
+                        <div class="btn-refresh-wrapper" (click)="reset()">
+                          <span *ngIf="this.check === 'incorrect'">{{
+                            'Reset All Words'
+                          }}</span>
+                          <img
+                            *ngIf="this.check === ''"
+                            src="/assets/Images/refresh-grey.svg"
+                            class="btn-refresh correct"
+                          />
+                          <img
+                            *ngIf="this.check === 'incorrect'"
+                            src="/assets/Images/red-refresh.svg"
+                            class="btn-refresh incorrect"
+                          />
+                        </div>
+                      </div>
+                      <div class="done d-flex pt-3 justify-content-center">
+                        <button
+                          class="btn_edit social-button mb-3"
+                          (click)="confirm()"
+                          [disabled]="disabled"
+                        >
+                          <span *ngIf="!this.showSpinner"
+                            >{{ 'continue' | translate }} >
+                          </span>
+                          <div
+                            *ngIf="this.showSpinner"
+                            class="spinner-border text-light"
+                            role="status"
+                          >
+                            <span class="sr-only">Loading...</span>
+                          </div>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer-social-registartion></app-footer-social-registartion>

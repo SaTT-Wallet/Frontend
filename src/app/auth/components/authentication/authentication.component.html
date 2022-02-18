@@ -1,0 +1,627 @@
+<app-header-auth *ngIf="!showBigSpinner"> </app-header-auth>
+<div class="container-fluid" *ngIf="!showBigSpinner">
+  <div class="row position-relative">
+    <!----------------------------------------------------------->
+
+    <!-------------------------------------------------------------- right bloc--------------------------------------------------------->
+    <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 auth_col">
+      <main class="container auth-body">
+        <div
+          *ngIf="loginshow"
+          class="col-xl-8 col-lg-10 col-md-10 col-sm-12 left-side-content"
+        >
+          <div class="row d-flex justify-content-center">
+            <h3 class="title_welcome">
+              {{ 'sign_in' | translate }}
+            </h3>
+          </div>
+          <div *ngIf="timeLeftToUnLock">
+            <countdown
+              #countdown
+              class="timer error-message"
+              [config]="{ leftTime: timeLeftToUnLock, notify: [1] }"
+              (event)="finishTest($event)"
+            >
+              $!m!:$!s!
+            </countdown>
+          </div>
+
+          <div class="social-media-login" style="padding: 0 2em">
+            <div class="facebook_log row" (click)="snlogin('facebook')">
+              <a
+                [routerLink]=""
+                (click)="snlogin('facebook')"
+                class="sn-icon-facebook"
+              >
+                <img
+                  class="icon-facebook"
+                  src="/assets/Images/f-white.svg"
+                  alt=""
+                />
+              </a>
+              {{ 'continuer_avec_fb' | translate }}
+            </div>
+            <div class="google_log row" (click)="snlogin('google')">
+              <a
+                (click)="snlogin('google')"
+                class="sn-icon-googleEnglish"
+                [ngClass]="{
+                  'sn-icon-googleFrensh':
+                    this.english && this.languageSelected === 'en'
+                }"
+              >
+                <img
+                  class="icon-google"
+                  src="/assets/Images/google_image.svg"
+                  alt=""
+                  [ngClass]="{
+                    'google-icon':
+                      this.english && this.languageSelected === 'en'
+                  }"
+                />
+              </a>
+              {{ 'continuer_avec_gg' | translate }}
+            </div>
+
+            <div
+              class="row"
+              (click)="isClicked = true; convertToScript()"
+              [ngClass]="{
+                telegram_log2: isClicked,
+                telegram_log: !isClicked
+              }"
+            >
+              <a (click)="convertToScript()">
+                <div class="d-flex justify-content-center">
+                  <div
+                    #script
+                    class="d-flex justify-content-center"
+                    style="cursor: pointer; opacity: 0; z-index: 3; width: 93%"
+                  >
+                    <ng-content></ng-content>
+                  </div>
+                </div>
+              </a>
+              <span class="tgm"> {{ 'continuer_avec_tgm' | translate }}</span>
+            </div>
+          </div>
+          <span class="label_login_ou">{{ 'or' | translate }}</span>
+          <form
+            [formGroup]="authForm"
+            class="col-xxl-10 col-xl-12 col-lg-12 col-md-12"
+          >
+            <!-- <div *ngIf="errorMessage != 'account_already_activated'" class="error-message form-error">
+                            <ng-container *ngIf="errorMessage || errorMessage_validation">
+                                <p style="padding-bottom: 7px" *ngIf="errorMessage">
+                                    {{ errorMessage | translate }}
+                                </p>
+                                <p *ngIf="errorMessageValidation">
+                                    {{ errorMessageValidation | translate }}
+                                </p>
+
+                            </ng-container>
+                        </div> -->
+            <!-- <div *ngIf="errorMessage === 'account_already_activated'" class="rrr form-error">
+                            <ng-container *ngIf="errorMessage || errorMessage_validation">
+                                <p *ngIf="errorMessage">{{ errorMessage | translate }}</p>
+                            </ng-container>
+                        </div> -->
+
+            <div class="row email-input">
+              <input
+                placeholder="EMAIL"
+                type="email"
+                name="email"
+                formControlName="email"
+                class="input_login"
+                required
+                [ngClass]="{ error: this.f.email.dirty && f.email?.errors }"
+              />
+
+              <span
+                *ngIf="
+                  errorMessage !== 'account_already_activated' &&
+                  errorMessage &&
+                  !this.loggedrs
+                "
+                class="far fa-times field-icon close-error-icon"
+                (click)="
+                  this.getControls.email.setValue('');
+                  this.getControls.email.updateValueAndValidity();
+                  this.errorMessage = ''
+                "
+              ></span>
+            </div>
+            <div class="error-message">
+              <p *ngIf="this.f.email.dirty && f.email.errors?.email">
+                {{ 'field_mustbe_email' | translate }}
+              </p>
+              <p *ngIf="this.f.email.dirty && f.email.errors?.required">
+                {{ 'field_required' | translate }}
+              </p>
+            </div>
+            <div class="row password-input">
+              <input
+                placeholder="PASSWORD"
+                type="password"
+                autocomplete="on"
+                name="password"
+                formControlName="password"
+                class="input_login"
+                required
+                #password_field
+                [ngClass]="{
+                  error: this.f.password.dirty && f.password?.errors
+                }"
+              />
+              <span
+                (click)="
+                  password_field.type =
+                    password_field.type === 'password' ? 'text' : 'password'
+                "
+                class="d-flex field-icon far fa-fw toggle-password"
+                [ngClass]="
+                  password_field.type === 'password'
+                    ? 'far fa-eye-slash '
+                    : 'far fa-eye'
+                "
+              ></span>
+            </div>
+            <div class="error-message input-error">
+              <p *ngIf="this.f.password.dirty && f.password.errors?.required">
+                {{ 'field_required' | translate }}
+              </p>
+            </div>
+            <div
+              class="d-flex justify-content-center"
+              *ngIf="this.errorMessage !== ''"
+            >
+              <span
+                class="danger_error p-2"
+                *ngIf="this.errorMessage !== 'account_already_activated'"
+              >
+                <img src="assets/Images/false.svg" class="me-2" />
+                <span> {{ this.errorMessage | translate }}</span>
+              </span>
+              <span
+                class="success_error p-2"
+                *ngIf="this.errorMessage === 'account_already_activated'"
+              >
+                <img src="assets/Images/true.svg" class="me-2" />
+                <span> {{ this.errorMessage | translate }}</span>
+              </span>
+            </div>
+            <button
+              type="submit"
+              [disabled]="authForm.invalid"
+              class="btn_register col-12"
+              (click)="captchapuzzle(puzzle)"
+            >
+              <span *ngIf="!this.showSpinner">{{ 'sign_in' | translate }}</span>
+              <div
+                *ngIf="this.showSpinner"
+                class="spinner-border text-light"
+                role="status"
+              >
+                <span class="sr-only">Loading...</span>
+              </div>
+            </button>
+            <div class="forgot_link">
+              <a
+                [ngClass]="{ isDisabled: blockedForgetPassword }"
+                (click)="openModal(lostpwdModal); chooseModal()"
+                [routerLink]=""
+                >{{ 'forget_password' | translate }}</a
+              >
+            </div>
+            <button
+              class="btn btntoggle btn_create_mobile d-sm-block d-md-none col-12"
+              (click)="goToSignup()"
+            >
+              {{ 'creer_un_compte' | translate }}
+            </button>
+          </form>
+        </div>
+        <!-------------------------verification code -------------------------------------------------->
+
+        <div
+          *ngIf="confirmCodeShow"
+          class="col-lg-8 col-md-10 col-sm-12 left-side-content"
+        >
+          <div class="row d-flex justify-content-center">
+            <h3
+              class="title_welcome"
+              [routerLink]="['/social-registration/monetize-facebook']"
+            >
+              {{ 'sign_in' | translate }}
+            </h3>
+            <h3
+              class="title_welcome-code"
+              [routerLink]="['/social-registration/monetize-facebook']"
+            >
+              {{ 'code-input' | translate }}
+            </h3>
+          </div>
+          <div class="row">
+            <form [formGroup]="formCode">
+              <div class="row d-flex justify-content-center">
+                <div class="confirm-code">
+                  <div>
+                    <span
+                      class="code d-flex justify-content-center mb-2"
+                      [ngClass]="{
+                        successCode: this.errorMessagecode === 'code correct',
+                        errorCode: this.errorMessagecode === 'code incorrect',
+                        code: !this.errorMessagecode
+                      }"
+                      >Authentification code</span
+                    >
+
+                    <app-code-input-auth
+                      [events]="eventsSubject.asObservable()"
+                      (codeCompleted)="onCodeCompleted($event)"
+                      [ngClass]="{
+                        'success-code':
+                          this.errorMessagecode === 'code correct',
+                        'danger-code':
+                          this.errorMessagecode === 'code incorrect'
+                      }"
+                    ></app-code-input-auth>
+                    <span
+                      class="error_input code-status"
+                      *ngIf="this.errorMessagecode"
+                      [ngClass]="{
+                        'success-code':
+                          this.errorMessagecode === 'code correct',
+                        'danger-code':
+                          this.errorMessagecode === 'code incorrect'
+                      }"
+                    >
+                      {{ errorMessagecode | translate }}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="d-flex justify-content-center mt-2">
+                  <button
+                    [disabled]="!this.codesms"
+                    type="submit"
+                    class="btn-valid btn-green"
+                    (click)="nextRedirection()"
+                  >
+                    {{ 'onBoarding.next' | translate }}
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <div
+      class="col-xl-5 col-lg-5 col-md-5 Password_lost_background position-relative show-pc-version"
+    >
+      <!----desktop image------->
+      <div class="d-flex justify-content-center">
+        <img src="/assets/Images/signin_ILLU.png" class="icon_pc" alt="" />
+        <!-- <h3 class="title_token">{{ 'token_révolution' | translate }}</h3> -->
+      </div>
+    </div>
+    <app-footer *ngIf="!showBigSpinner"></app-footer>
+  </div>
+</div>
+
+<app-loading-logo class="SpinnerAuth" *ngIf="showBigSpinner"></app-loading-logo>
+
+<!-- Confirmation mail modal -->
+<!-- <ng-template #confirmMailModal>
+    <div class="modal-header modal-custom">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="closeModal(confirmMailModal)"></button>
+    </div>
+    <div class="modal-body modal-custom">
+        <img class="satt-modal-header-img" src="/assets/Images/mail-open.svg" />
+        <h3 class="textpwd">{{ "info_after_signup_title" | translate }}</h3>
+        <p>{{ "info_after_signup_text1" | translate }}
+            <span class="blue_email">{{this.authForm.get('ema 
+  }
+</ng-template> -->
+<!-- Confirmation mail modal -->
+
+<!-- Forgot password modal -->
+<ng-template #lostpwdModal>
+  <div class="modal-content-auth">
+    <div class="modal-header modal-customm">
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        (click)="closeModal(lostpwdModal)"
+      ></button>
+    </div>
+    <div class="modal-body modal-customm">
+      <img class="satt-modal-header-img" src="assets/Images/lost-pwd.png" />
+      <h3 class="textpwd margin-pw" *ngIf="forgotpassword">
+        {{ 'forgot_password' | translate }}
+      </h3>
+      <div class="row justify-content-center">
+        <!-- <p>{{ "passwordLost" | translate }}</p> -->
+      </div>
+      <form
+        [formGroup]="formL"
+        [ngClass]="show === 'first' ? '' : 'display-none'"
+      >
+        <span class="lostpassword">{{ 'lostpassword' | translate }}</span>
+        <div class="row mt-2 px-1 justify-content-center">
+          <input
+            type="text"
+            formControlName="email"
+            name="email"
+            class="input_lpwd"
+            ngModel
+            [ngClass]="{ error: this.isSub && formF.email?.errors }"
+          />
+        </div>
+
+        <span class="error_input ms-4" *ngIf="this.errorMessagePwd">
+          {{ errorMessagePwd | translate }}
+        </span>
+        <div class="row mt-4 mb-3 px-1 justify-content-center">
+          <button
+            type="submit"
+            class="btn-reset-passwd"
+            (click)="resetPassword()"
+          >
+            {{ 'pwdreinitialiser' | translate }}
+          </button>
+        </div>
+        <a href="" rel="noopener" class="resend display-none">{{
+          'resend' | translate
+        }}</a>
+      </form>
+      <form
+        class="CodeForm"
+        [formGroup]="formCode"
+        [ngClass]="show === 'second' ? '' : 'display-none'"
+      >
+        <h3 class="textpwd margin-pw" *ngIf="recoverpassword">
+          {{ 'recover_password' | translate }}
+        </h3>
+        <div class="codeconfirmation">
+          <span class="codeconfirm">{{ 'codeconfirm' | translate }}</span>
+          <span class="codeconfirm">{{ 'secondcodeconfirm' | translate }}</span>
+        </div>
+        <div class="row mt-4 px-1 justify-content-center">
+          <div
+            class="d-flex align-self-center make-center padding-right confirm-code"
+          >
+            <span
+              [ngClass]="{
+                successCode: this.errorMessagecode === 'code correct',
+                errorCode: this.errorMessagecode === 'code incorrect',
+                code: !this.errorMessagecode
+              }"
+            >
+              Authentification code
+            </span>
+            <app-code-input-auth
+              [ngClass]="{
+                'success-code': this.errorMessagecode === 'code correct',
+                'danger-code':
+                  this.errorMessagecode === 'code incorrect' ||
+                  this.errorMessagecode === 'code expired'
+              }"
+              (codeCompleted)="onCodeConfirmCompleted($event)"
+            ></app-code-input-auth>
+            <span
+              class="error_input code-status"
+              *ngIf="this.errorMessagecode"
+              [ngClass]="{
+                'success-code': this.errorMessagecode === 'code correct',
+                'danger-code':
+                  this.errorMessagecode === 'code incorrect' ||
+                  this.errorMessagecode === 'code expired'
+              }"
+            >
+              {{ errorMessagecode | translate }}
+            </span>
+          </div>
+        </div>
+
+        <div class="row mt-3 mb-3 px-1 justify-content-center">
+          <button
+            type="submit"
+            class="btn-reset-passwd"
+            (click)="changePwd(); closeModal(lostpwdModal)"
+            [disabled]="
+              this.errorMessagecode === 'code incorrect' ||
+              this.errorMessagecode === '' ||
+              this.errorMessagecode === 'code expired'
+            "
+          >
+            {{ 'pwdreinitialiser' | translate }}
+          </button>
+        </div>
+        <a
+          [routerLink]=""
+          (click)="resetPassword()"
+          rel="noopener"
+          class="resend"
+          >{{ 'resend' | translate }}</a
+        >
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+<!-- no account modal -->
+<ng-template #ErrorModal>
+  <div class="modal-content-auth">
+    <div class="modal-header modal-customm">
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        (click)="closeModal(ErrorModal)"
+      ></button>
+    </div>
+
+    <div class="modal-body modal-customm">
+      <img src="assets/Images/noAccount.svg" />
+      <h3 class="textpwd">{{ 'Error_title' | translate }}</h3>
+      <div class="d-flex justify-content-center">
+        <p>{{ 'Error_parag1' | translate }}</p>
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <p>{{ 'Error_parag2' | translate }}</p>
+      </div>
+      <div>
+        <div class="d-flex justify-content-center">
+          <button class="btnModalError" [routerLink]="['/auth/registration']">
+            {{ 'create_new' | translate }}
+          </button>
+        </div>
+        <div class="d-flex justify-content-center">
+          <button class="btnModalError" [routerLink]="['/home/FAQ']">
+            {{ 'support_contact' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #confirmMailModal>
+  <div class="modal-content-auth">
+    <div class="modal-header modal-custom">
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        (click)="closeModal(confirmMailModal)"
+      ></button>
+    </div>
+    <div
+      class="modal-body modal-custom d-flex flex-column justify-content-center align-items-center"
+    >
+      <img class="satt-modal-header-img" src="/assets/Images/mail-open.svg" />
+      <div
+        class="d-flex flex-column justify-content-center align-items-center txtModal"
+      >
+        <h3 class="textpwd">{{ 'info_after_signup_title' | translate }}</h3>
+
+        <span class="darck-green"
+          >{{ 'info_after_signup_text1' | translate }}
+        </span>
+        <div class="nobr">
+          <span class="blue-text"
+            >{{ this.authForm.get('email')?.value }}
+          </span>
+          <span class="darck-green"
+            >{{ 'info_after_signup_text_adress' | translate }} .
+          </span>
+        </div>
+
+        <br />
+
+        <span class="darck-green"> {{ 'recieve_nothing' | translate }} </span>
+      </div>
+      <div
+        class="col-xl-6 col-lg-8 col-md-12 col-sm-12 d-flex flex-column justify-content-center align-items-center mt-4"
+      >
+        <button
+          class="white-btn"
+          promise-btn="signupLoading"
+          (click)="sendConfirmationMail()"
+          type="button"
+        >
+          {{ 'info_after_signup_btn' | translate }}
+        </button>
+      </div>
+      <div
+        class="col-xl-6 col-lg-8 col-md-12 col-sm-12 d-flex flex-column justify-content-center align-items-center"
+      >
+        <button type="button" class="green-btn">
+          {{ 'i_have_validatet_mail' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!-- 
+<ng-template [ngIf]="cookiesClicked==true">
+    <div class="modalCook d-block d-sm-none mx-3">
+        <h3 class="cookieTitle d-flex justify-content-center mt-2 col-sm-12">{{'Prenez un cookie' |translate}}</h3>
+        <div class=" row d-flex justify-content-center">
+            <img class="cookiesPIC d-flex justify-content-center" width="90px" height="90px" src="/assets/Images/cookies.png" alt="cookies">
+            <p class="texteCOOK">{{'cookiesText'|translate}}</p>
+            <span class="boldcook">{{'parametrs' |translate}} ></span>
+            <button class="btnCOOkiesB  mb-2" (click)="acceptCookies()">{{'accepter'|translate}}</button>
+            <button class="btnCOOkies  mb-5 " (click)="denyCookies()"> {{'refuser'|translate}}</button>
+        </div>
+    </div>
+</ng-template> -->
+<div
+  class="cookiesBlock d-flex justify-content-center"
+  *ngIf="cookiesClicked === true && !cookieExists"
+  [ngClass]="{ cookiesBlockAlert: this.scale || this.isClicked }"
+>
+  <div class="row" style="width: 100%">
+    <h4 class="titleCookie titleCookieMobile">
+      {{ 'titleCookie' | translate }}
+    </h4>
+    <div
+      class="col-xl-2 col-lg-2 col-md-2 col-sm-2 d-flex justify-content-center imageCOOK mt-2"
+    >
+      <img class="cookiesPIC" src="/assets/Images/cookies.png" alt="cookies" />
+    </div>
+    <div
+      class="col-xl-8 col-lg-8 col-md-7 col-sm-7 d-flex justify-content-center texteCOOK mt-4"
+    >
+      <div class="d-block">
+        <h4 class="titleCookie titleCookieWeb">
+          {{ 'titleCookie' | translate }}
+        </h4>
+        <p [innerHTML]="'cookiesText' | translate"></p>
+        <!-- <span class="boldcook">{{'parametrs' |translate}} ></span> -->
+      </div>
+    </div>
+    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 btnCOOK mt-4">
+      <div class="btn_row_cookies px-2">
+        <button class="btnCOOkiesB px-5 mb-2" (click)="cookies()">
+          {{ 'accepter' | translate }}
+        </button>
+        <button class="btnCOOkies px-5" (click)="cookies()">
+          {{ 'refuser' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #puzzle class="">
+  <div class="modal-header modal-custom">
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="modal"
+      (click)="closeModal(puzzle)"
+    ></button>
+    <span class="title-puzzle d-none d-md-block">
+      {{ 'puzzle-verification' | translate }}
+    </span>
+  </div>
+
+  <div class="modal-body modal-custom d-flex flex-column">
+    <span class="title-puzzle pb-2 d-block d-md-none">
+      {{ 'puzzle-verification' | translate }}
+    </span>
+    <app-xfu-slide-control
+      (onValueChanged)="onValueChanged($event, puzzle)"
+    ></app-xfu-slide-control>
+  </div>
+
+  <!-- <div class="modal-footer modal-custom height">
+       
+    </div> -->
+</ng-template>

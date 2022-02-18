@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 25.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 591 963" style="enable-background:new 0 0 591 963;" xml:space="preserve">
+<style type="text/css">
+	.st0{clip-path:url(#SVGID_2_);}
+	.st1{fill:url(#SVGID_3_);}
+</style>
+<g>
+	<defs>
+		<rect id="SVGID_1_" width="591" height="963"/>
+	</defs>
+	<clipPath id="SVGID_2_">
+		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+	</clipPath>
+	<g class="st0">
+		
+			<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="295.5" y1="768.1519" x2="295.5" y2="-296.0806" gradientTransform="matrix(1 0 0 -1 0 964)">
+			<stop  offset="0" style="stop-color:#1F2337"/>
+			<stop  offset="1" style="stop-color:#4048FF"/>
+		</linearGradient>
+		<path class="st1" d="M591,0H0v963h591V0z"/>
+	</g>
+</g>
+</svg>

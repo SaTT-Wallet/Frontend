@@ -1,0 +1,245 @@
+<div class="col-12 px-3 padding-small-version">
+  <form [formGroup]="form">
+    <div class="col-md-12 col-lg-12 col-xs-12 d-flex justify-content-center">
+      <label class="title-section"> {{ 'parameters' | translate }}</label>
+    </div>
+
+    <div class="row d-flex justify-content-center align-items-end pt-3 mb-1">
+      <div
+        class="col-xl-10 col-md-12 col-lg-10 col-sm-12 d-flex align-items-center flex-xl-row flex-lg-row flex-md-row flex-sm-column flex-column"
+      >
+        <div class="col-xl-3 col-md-3 col-lg-4 col-sm-12 col-12">
+          <label
+            class="label-type d-flex justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-start justify-content-center"
+            >{{ 'create_campaign_form.campaign_start_date' | translate }}
+          </label>
+        </div>
+        <div
+          class="ps-0 col-xl-8 col-md-9 col-lg-8 col-sm-12 col-12 align-items-center d-flex flex-xl-row flex-lg-row flex-md-row flex-sm-row flex-column"
+        >
+          <div class="col-xl-4 col-md-6 col-lg-6 col-sm-5 col-11">
+            <!-- <label class="label-type d-flex"
+          >{{ 'create_campaign_form.campaign_start_date' | translate }} -->
+            <!-- <div class="tool d-block">
+            <span class="icon-ic5"></span>
+            <span class="alertText p-2"
+              >{{ 'create_campaign_form.alert_expire' | translate }}
+            </span>
+          </div> -->
+            <!-- </label> -->
+            <!-- <input placeholder="Date" class="textbox-n" type="text" onfocus="(this.type='date')" id="date"> -->
+
+            <input
+              type="date"
+              id="minStartDate"
+              [(ngModel)]="draftData.startDate"
+              name="startDate"
+              formControlName="startDate"
+              class="input-type"
+              placeholder="Date"
+            />
+            <!-- error msg  startDate -->
+            <div class="error">
+              <span
+                *ngIf="
+                  (this.form.get('startDate')?.errors?.required &&
+                    notValidParam === true) ||
+                  (this.form.get('startDate')?.errors?.required &&
+                    this.form.get('startDate')?.touched)
+                "
+                >{{ 'Profil.field_required' | translate }}</span
+              >
+              <!-- <span *ngIf="this.form.get('startDate')?.errors?.required && this.form.get('startDate')?.touched ">{{
+                        "Profil.field_required" |
+                        translate }}</span> -->
+              <span
+                *ngIf="
+                  !this.form.get('startDate')?.errors?.required &&
+                  this.form.errors?.invaineFrom
+                "
+              >
+                {{
+                  'create_campaign_form.date_must_grater_today' | translate
+                }}</span
+              >
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6 col-lg-6 col-sm-5 col-11 pt-3-mobile">
+            <!-- <label class="label-type">{{
+          'create_campaign_form.campaign_end_date' | translate
+        }}</label> -->
+            <input
+              type="date"
+              id="minEndDate"
+              name="endDate"
+              [min]="today"
+              [(ngModel)]="draftData.endDate"
+              formControlName="endDate"
+              class="input-type"
+            />
+            <!--error msg endDate -->
+            <div class="error">
+              <!-- <span *ngIf=" this.form.get('endDate')?.errors?.required && this.form.get('endDate')?.touched || 
+                        this.form.get('endDate')?.errors?.required && (this.getControls.targetedCountries.dirty || this.getControls.tags.dirty ) ">{{
+                        "Profil.field_required" | translate }}</span> -->
+              <span
+                *ngIf="
+                  !this.form.get('endDate')?.errors?.required &&
+                  this.form.errors?.invaineTo
+                "
+                >{{
+                  'create_campaign_form.date_must_grater_today' | translate
+                }}</span
+              >
+              <span
+                *ngIf="
+                  this.form.get('endDate')?.errors?.required &&
+                  notValidParam === true
+                "
+                >{{ 'Profil.field_required' | translate }}</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <!--
+
+        <input
+          type="date"
+          id="minStartDate"
+          [min]="today"
+          [(ngModel)]="draftData.startDate"
+          name="startDate"
+          formControlName="startDate"
+          class="input-type"
+        />
+        <div class="error">
+          <span
+            *ngIf="
+              (this.form.get('startDate')?.errors?.required &&
+                notValidParam == true) ||
+              (this.form.get('startDate')?.errors?.required &&
+                this.form.get('startDate')?.touched)
+            "
+            >{{ 'Profil.field_required' | translate }}</span
+          >
+          <span
+            *ngIf="
+              !this.form.get('startDate')?.errors?.required &&
+              this.form.errors?.invaineFrom
+            "
+          >
+            {{
+              'create_campaign_form.date_must_grater_today' | translate
+            }}</span
+          >
+        </div>
+      </div> -->
+      </div>
+    </div>
+    <!--error msg End Date should be grater than start Date -->
+    <div class="row d-flex justify-content-center pt-3 mb-1">
+      <div
+        class="col-xl-4 col-md-6 col-lg-5 col-sm-8 d-flex justify-content-center"
+      >
+        <div class="error">
+          <span
+            *ngIf="
+              !this.form.get('startDate')?.errors?.required &&
+              !this.form.get('endDate')?.errors?.required &&
+              this.form.errors?.dates
+            "
+            >{{
+              'create_campaign_form.end_must_grater_start' | translate
+            }}</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <!----------countries-->
+    <div class="row d-flex justify-content-center pt-2 mb-1">
+      <div
+        class="col-xl-10 col-md-12 col-lg-10 col-sm-12 d-flex align-items-center flex-xl-row flex-lg-row flex-md-row flex-sm-column flex-column"
+      >
+        <div class="col-xl-3 col-md-3 col-lg-4 col-sm-12">
+          <label
+            class="label-type mt-3 d-flex justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-start justify-content-center"
+            >{{ 'create_campaign_form.choose_countries' | translate }}</label
+          >
+        </div>
+        <div class="col-xl-9 col-md-9 col-lg-8 col-sm-12">
+          <ng-multiselect-dropdown
+            #countries
+            formControlName="targetedCountries"
+            [settings]="dropdownSettings"
+            [data]="dropdownList"
+            (onSelect)="onItemSelect($event)"
+            [(ngModel)]="selectedAttributes"
+            (onSelectAll)="onSelectAll($event)"
+            class="input_country country_input"
+          >
+          </ng-multiselect-dropdown>
+
+          <div class="error">
+            <span
+              *ngIf="
+                this.form.get('targetedCountries')?.errors?.required &&
+                notValidParam === true
+              "
+              >{{ 'Profil.field_required' | translate }}</span
+            >
+            <!-- <span *ngIf="
+              this.form.get('targetedCountries')?.errors?.required && this.form.get('targetedCountries')?.touched  || 
+              this.form.get('targetedCountries')?.errors?.required && this.getControls.tags.dirty">{{
+                        "Profil.field_required" | translate }}</span> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!----------Ctargories-->
+    <div
+      class="row d-flex justify-content-center mt-4 mb-1 px-xxl-3 px-xl-3 px-lg-3 px-md-3 px-sm-3 px-0"
+    >
+      <div class="col-xl-10 col-md-12 col-lg-10 col-sm-12">
+        <div
+          class="d-flex flex-xl-row flex-lg-row flex-md-row flex-sm-row flex-column align-items-center justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-start justify-content-center"
+        >
+          <label class="label-type mb-0">{{
+            'create_campaign_form.choose_categories' | translate
+          }}</label
+          ><span class="gray-text">
+            {{
+              'create_campaign_form.choose_categories_3centres' | translate
+            }}</span
+          >
+        </div>
+      </div>
+      <div
+        class="col-xl-10 col-md-12 col-lg-10 col-sm-12 col-11 mt-3 d-flex flex-wrap gap-2"
+      >
+        <ng-container *ngFor="let tag of InterestList; let i = index">
+          <label
+            class="flex-item"
+            for="{{ tag.name }}"
+            (click)="toggleTag(tag.name, i)"
+            required
+            [ngClass]="{ success: tag.checked && maxTags <= 3 }"
+            >{{ tag.name }}</label
+          >
+
+          <input type="checkbox" hidden id="{{ tag.name }}" #tagLabel />
+        </ng-container>
+
+        <div class="error">
+          <span
+            *ngIf="
+              this.form.get('tags')?.errors?.required && notValidParam === true
+            "
+            >{{ 'Profil.field_required' | translate }}</span
+          >
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

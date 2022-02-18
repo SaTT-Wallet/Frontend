@@ -1,0 +1,78 @@
+<app-header-social-registartion> </app-header-social-registartion>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xl-5 col-lg-5 col-md-5">
+      <app-left-component></app-left-component>
+    </div>
+    <div
+      class="
+        col-lg-7 col-md-7 col-sm-12 col-xl-7
+        d-flex
+        flex-column
+        margin-bottom
+        padding-top
+      "
+    >
+      <div class="row d-flex justify-content-center align-items-center">
+        <div
+          class="
+            col-xl-8 col-lg-10 col-md-11 col-sm-8
+            d-flex
+            justify-content-start
+          "
+        >
+          <app-monetize-steps></app-monetize-steps>
+        </div>
+      </div>
+      <div class="row d-flex justify-content-center align-items-center">
+        <div class="row d-flex justify-content-center padding-top-top">
+          <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8 make-center mt-2">
+            <span class="title_page">{{ 'config_title' | translate }}</span>
+          </div>
+        </div>
+        <div class="row d-flex justify-content-center d-md-none">
+          <app-moon-boy-social-medias
+            style="transform: scale(0.75)"
+            [percentNet2]="percentNet2"
+          ></app-moon-boy-social-medias>
+        </div>
+        <div class="row d-flex justify-content-center container-gray-text">
+          <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8 make-center">
+            <!-- <p class="drak-gray_text mt-2">{{ "config_text1" | translate }}</p>-->
+            <p class="drak-gray_text details-container">
+              {{ 'config_text2' | translate }}
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="
+            row
+            mb-3
+            justify-content-center
+            margin-top-btn
+            container-secure-wallet-btn
+          "
+        >
+          <div
+            class="
+              col-xl-8 col-lg-10 col-md-11 col-sm-8
+              display-flex
+              d-flex
+              justify-content-center
+            "
+          >
+            <button
+              type="submit"
+              class="btn-green"
+              [routerLink]="['/social-registration/transactionPassword']"
+            >
+              {{ 'config_button' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer-social-registartion></app-footer-social-registartion>

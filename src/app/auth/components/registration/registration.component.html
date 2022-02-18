@@ -1,0 +1,642 @@
+<app-header-register></app-header-register>
+
+<div class="container-fluid">
+  <div class="row position-relative">
+    <!------------------------------------------------------------ left bloc--------------------------------------------------------->
+    <div
+      class="
+        col-xl-5 col-lg-5 col-md-5
+        Password_lost_background
+        position-relative
+        show-pc-version
+      "
+    >
+      <div class="d-flex justify-content-center align-items-center">
+        <img src="/assets/Images/signup_ILLU.png" class="icon_pc" alt="" />
+      </div>
+    </div>
+    <!-------------------------------------------------------------- right bloc--------------------------------------------------------->
+    <div
+      class="col-xl-7 col-lg-7 col-md-7 col-sm-12 right-side-content auth_col"
+    >
+      <main class="container auth-body">
+        <!-- <div class="img_login"> <img src="/assets/Images/register_img.svg" class="img_login_image">  </div> -->
+        <div class="col-xl-8 col-lg-10 col-md-12 col-sm-12 left-side-content">
+          <div class="row d-flex justify-content-center">
+            <h3 class="title_welcome">{{ 'sign_up' | translate }}</h3>
+            <p class="d-flex justify-content-center token-text">
+              {{ 'token_révolution_signup' | translate }}
+            </p>
+          </div>
+          <div class="social-media-login" style="padding: 0 2em">
+            <div class="facebook_log row" (click)="snlogin('facebook')">
+              <a
+                [routerLink]=""
+                (click)="snlogin('facebook')"
+                class="sn-icon-facebook"
+              >
+                <img
+                  class="facebook-icon"
+                  src="/assets/Images/f-white.svg"
+                  alt=""
+                />
+              </a>
+              {{ 'inscription_avec_fb' | translate }}
+            </div>
+            <div class="google_log row" (click)="snlogin('google')">
+              <a
+                [routerLink]=""
+                (click)="snlogin('google')"
+                class="sn-icon-googleEnglish"
+                [ngClass]="{
+                  'sn-icon-googleFrensh':
+                    this.english && this.languageSelected == 'en'
+                }"
+              >
+                <img
+                  class="google-icon icon-google"
+                  src="/assets/Images/google_image.svg"
+                  alt=""
+                  [ngClass]="{
+                    'google-icon': this.english && this.languageSelected == 'en'
+                  }"
+                />
+              </a>
+              {{ 'inscription_avec_gg' | translate }}
+            </div>
+            <div class="telegram_log row" (click)="convertToScript()">
+              <a [routerLink]="" class="" (click)="convertToScript()">
+                <div class="d-flex justify-content-center">
+                  <!-- <img class="telegram-icon" src="/assets/Images/share_image.svg" alt="" />  -->
+                  <div #script class="d-flex justify-content-center">
+                    <ng-content></ng-content>
+                  </div>
+                </div>
+              </a>
+              <span class="tgm"> {{ 'inscription_avec_tgm' | translate }}</span>
+            </div>
+          </div>
+          <span class="label_login_ou">{{ 'or' | translate }}</span>
+          <form
+            [formGroup]="authForm"
+            class="col-xxl-10 col-xl-12 col-lg-12 col-md-12"
+          >
+            <div class="row p-1 row_label">
+              <!-- <label for="mail">{{ 'ur_mail' | translate }}</label> -->
+            </div>
+            <div class="row email-input">
+              <input
+                placeholder="EMAIL"
+                type="email"
+                name="email"
+                #emailValue
+                formControlName="email"
+                class="input_login"
+                [ngClass]="{
+                  error:
+                    this.getControls.email.touched &&
+                    this.getControls.email.errors,
+                  success: this.getControls.email.valid
+                }"
+              />
+              <span
+                *ngIf="
+                  (this.getControls.email.dirty ||
+                    this.getControls.email.touched) &&
+                  this.getControls.email.errors
+                "
+                class="fa fa-times field-icon close-error-icon"
+                (click)="
+                  this.getControls.email.setValue('');
+                  this.getControls.email.updateValueAndValidity()
+                "
+              ></span>
+              <span
+                *ngIf="this.getControls.email.valid"
+                class="fa fa-check field-icon success-icon"
+              ></span>
+            </div>
+
+            <div class="error-message input-error">
+              <span
+                *ngIf="
+                  this.authForm.get('email')?.errors?.required &&
+                  this.getControls.email.touched
+                "
+                >{{ 'Profil.field_required' | translate }}</span
+              >
+            </div>
+            <!-- <div class="error"> <span *ngIf="duplicateEmail && !this.authForm.get('email')?.errors?.required && !this.authForm.get('email')?.errors?.pattern">{{ 'duplicate_contact_email' | translate }}</span> </div> -->
+            <div class="error-message input-error">
+              <span
+                *ngIf="
+                  this.authForm.get('email')?.errors?.pattern &&
+                  !this.authForm.get('email')?.errors?.required
+                "
+                >{{ 'field_mustbe_email' | translate }}</span
+              >
+            </div>
+
+            <!-- <div class="error-message input-error" *ngIf="(this.getControls.email.dirty && this.getControls.email.touched) && this.getControls.email.errors">
+               <p *ngIf="this.getControls.password.dirty &&this.getControls.email.errors">
+                 {{ "field_email" | translate }}
+               </p>
+               <p *ngIf="this.getControls.password.touched && getControls.email.errors?.required">
+                 {{'field_required' | tra           <div class=" d-flex flex-row">  nslate}}
+               </p> 
+               [ngClass]="{errorMsg: this.formUpdatePassword.get('password')?.invalid && !this.formUpdatePassword.get('password')?.errors?.required ,
+                                        success:  this.formUpdatePassword.get('password')?.valid}"
+             </div> -->
+            <!-- <a (click)="openModal(confirmMailModal)" [routerLink]=""> error </a>   -->
+            <div class="row p-2 row_label">
+              <!-- <label for="pwd"> {{ 'ur_password' | translate }} </label> -->
+            </div>
+            <div class="row password-input">
+              <input
+                placeholder="PASSWORD"
+                id="pwd"
+                type="password"
+                name="password"
+                autocomplete="on"
+                formControlName="password"
+                class="input_login"
+                #password_field
+                [ngClass]="{
+                  error:
+                    this.getControls.password.dirty &&
+                    this.authForm.get('password')?.errors,
+                  success:
+                    this.authForm.get('password')?.valid ||
+                    this.passwordStrengthMsg == 'password_strong'
+                }"
+                style="padding: 0px 50px 0px 10px"
+              />
+              <div class="d-flex field-icon">
+                <span
+                  (click)="
+                    password_field.type =
+                      password_field.type == 'password' ? 'text' : 'password'
+                  "
+                  class="far fa-fw toggle-password"
+                  [ngClass]="
+                    password_field.type == 'password'
+                      ? ' far fa-eye-slash '
+                      : ' far fa-eye'
+                  "
+                ></span>
+                <span
+                  *ngIf="
+                    this.getControls.password.touched &&
+                    this.getControls.password.errors
+                  "
+                  class="
+                    fa fa-times
+                    field-icon-pass
+                    pass_error
+                    close-error-icon
+                  "
+                  (click)="this.getControls.password.setValue('')"
+                ></span>
+                <span
+                  *ngIf="this.getControls.password.valid"
+                  class="fa fa-check field-icon-pass pass_sucess success-icon"
+                ></span>
+              </div>
+            </div>
+            <div
+              *ngIf="this.passwordStrengthMsg !== 'password_strong'"
+              class="error-message input-error"
+            >
+              <div
+                *ngIf="
+                  this.getControls.password.dirty &&
+                  this.getControls.password.errors?.pattern
+                "
+              >
+                <span>
+                  {{ 'pass_check' | translate }}
+                </span>
+                <br />
+
+                <span
+                  *ngIf="
+                    this.getControls.password.dirty &&
+                    this.getControls.password.errors?.pattern
+                  "
+                  class="mr-1"
+                  id="errMsgUpper"
+                  #errMsgUpper
+                >
+                  <span
+                    *ngIf="successUpper"
+                    class="
+                      mr-3
+                      fa fa-check
+                      field-icon-pass
+                      pass_sucess
+                      success-icon
+                    "
+                  ></span>
+                  <span
+                    *ngIf="!successUpper"
+                    class="mr-2 fa fa-times close-error-icon"
+                  ></span>
+                  {{ 'pass_check1' | translate }}</span
+                >
+                <br />
+                <span
+                  *ngIf="
+                    this.getControls.password.dirty &&
+                    this.getControls.password.errors?.pattern
+                  "
+                  class="mr-1"
+                  id="errMsgLower"
+                  #errMsgLower
+                >
+                  <span
+                    *ngIf="successLower"
+                    class="
+                      mr-3
+                      fa fa-check
+                      field-icon-pass
+                      pass_sucess
+                      success-icon
+                    "
+                  ></span>
+                  <span
+                    *ngIf="!successLower"
+                    class="mr-2 fa fa-times close-error-icon"
+                  ></span>
+                  {{ 'pass_check2' | translate }}</span
+                >
+                <br />
+                <span
+                  *ngIf="
+                    this.getControls.password.dirty &&
+                    this.getControls.password.errors?.pattern
+                  "
+                  class="mr-1"
+                  id="errMsgNumber"
+                  #errMsgNumber
+                >
+                  <span
+                    *ngIf="successNumber"
+                    class="
+                      mr-3
+                      fa fa-check
+                      field-icon-pass
+                      pass_sucess
+                      success-icon
+                    "
+                  ></span>
+                  <span
+                    *ngIf="!successNumber"
+                    class="mr-2 fa fa-times close-error-icon"
+                  ></span>
+                  {{ 'pass_check3' | translate }}</span
+                >
+                <br />
+                <span
+                  *ngIf="
+                    this.getControls.password.dirty &&
+                    this.getControls.password.errors?.pattern
+                  "
+                  class="mr-1"
+                  id="errMsgSpecial"
+                  #errMsgSpecial
+                >
+                  <span
+                    *ngIf="successSpecial"
+                    class="
+                      mr-3
+                      fa fa-check
+                      field-icon-pass
+                      pass_sucess
+                      success-icon
+                    "
+                  ></span>
+                  <span
+                    *ngIf="!successSpecial"
+                    class="mr-2 fa fa-times close-error-icon"
+                  ></span>
+                  {{ 'pass_check4' | translate }}</span
+                >
+                <p
+                  class="mr-1"
+                  id="errLength"
+                  #errLength
+                  *ngIf="
+                    this.getControls.password.dirty &&
+                    this.getControls.password.errors?.minlength
+                  "
+                >
+                  <span
+                    *ngIf="successLength"
+                    class="
+                      mr-3
+                      fa fa-check
+                      field-icon-pass
+                      pass_sucess
+                      success-icon
+                    "
+                  ></span>
+                  <span
+                    *ngIf="!successLength"
+                    class="mr-2 fa fa-times close-error-icon"
+                  ></span>
+                  {{ 'check_min_length' | translate }}
+                </p>
+              </div>
+
+              <p
+                *ngIf="
+                  this.getControls.password.touched &&
+                  this.getControls.password.errors?.required
+                "
+              >
+                {{ 'field_required' | translate }}
+              </p>
+            </div>
+
+            <!--   <div class="checkdiv">
+                            <input type="checkbox" class="checkbox" id="confidential" formControlName="confidential" (click)="check()">
+                            <label class="checkbox_c align-self-center">
+                               <span>{{"CheckBoc_confidential"|translate}}  </span>
+                                <span class="blue-text ps-1 align-self-center"  [routerLink]="['/cgu']">{{"CheckBoc_confidential2"|translate}} </span></label>
+                        </div>
+                        <div class="error-message">
+                            <p *ngIf="this.getControls.confidential.touched && this.getControls.confidential.errors?.required"> {{'field_required' | translate}} </p>
+                        </div>-->
+
+            <div class="pt-2" *ngIf="getControls.password.value !== null">
+              <div
+                class="password-meter p-0"
+                [ngClass]="{ hidden: this.passwordStrengthMsg === '' }"
+              >
+                <p #passwordStrengthText class="password-meter-text d-flex">
+                  <i
+                    [ngClass]="{ sshow: this.passwordStrengthMsg === '' }"
+                    class="fa fa-info-circle pt-2 pe-2"
+                  ></i>
+                  <span class="pt-1">{{
+                    passwordStrengthMsg | translate
+                  }}</span>
+                </p>
+              </div>
+            </div>
+            <div
+              class="d-flex justify-content-center"
+              *ngIf="this.errorMessage !== ''"
+            >
+              <span class="danger_error p-2">
+                <img src="assets/Images/false.svg" class="me-2" />
+                <span> {{ this.errorMessage | translate }}</span>
+              </span>
+            </div>
+
+            <div class="ml-4 d-flex align-items-center">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value="confirm"
+                id="flexCheckDefault"
+                formControlName="agreeBox"
+                name="agreeBox"
+                (change)="onCheckboxChange($event, 'agreeBox')"
+              />
+              <label class="checkbox_c" for="flexCheckDefault">
+                <span class="drak-gray_text"
+                  >{{ 'CheckBoc_confidential' | translate }}
+                  <a [routerLink]="['/cgu']" target="_blank" class="text-link"
+                    >TCU</a
+                  >
+                  {{ 'faq_And' | translate }}
+                  <a
+                    [routerLink]="['/privacy-policy']"
+                    target="_blank"
+                    class="text-link ms-1"
+                    >{{ 'CheckBoc-confidential' | translate }}</a
+                  >
+                </span>
+              </label>
+            </div>
+            <div class="ml-4 d-flex align-items-center">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value="confirm"
+                id="flexCheckDefaultNewsLetter"
+                formControlName="newsLetterBox"
+                name="newsLetterBox"
+                (change)="onCheckboxChangeNewsLetter($event, 'newsLetterBox')"
+              />
+              <label class="checkbox_c" for="flexCheckDefaultNewsLetter">
+                <span class="drak-gray_text"
+                  >{{ 'CheckBoc_newsLetters' | translate }}
+                </span>
+              </label>
+            </div>
+
+            <button
+              [disabled]="authForm.invalid"
+              type="submit"
+              class="btn_register"
+              (click)="captchapuzzle(puzzle)"
+            >
+              <span *ngIf="!this.showSpinner">{{ 'sign_up' | translate }}</span>
+              <div
+                *ngIf="this.showSpinner"
+                class="spinner-border text-light"
+                role="status"
+              >
+                <span class="sr-only">Loading...</span>
+              </div>
+            </button>
+
+            <button
+              class="btn_login_white d-sm-block d-md-none"
+              (click)="goToLogin()"
+            >
+              {{ 'deja_un_compte' | translate }}
+            </button>
+          </form>
+
+          <!-- Mobile icons -->
+          <!-- <div class="social-media-login_mobile social-media-show-mobile">
+                        <a (click)="snlogin('facebook')" class="sn-icon">
+                            <div class="overlay"></div>
+                            <img class="facebook-icon" src="/assets/Images/facebook_image.svg" alt="" style="width:35px; height:35px;" />
+                        </a>
+                        <a class="sn-icon" (click)="convertToScript()">
+                            <div class="telegram-icon">
+                                <div class="overlay"></div>
+                                <img class="telegram-icon" src="/assets/Images/share_image.svg" alt="telegram" style="width:35px; height:35px;" />
+                                <div #script>
+                                    <ng-content></ng-content>
+                                </div>
+                            </div>
+                        </a>
+                        <a (click)="snlogin('google')" class="sn-icon">
+                            <div class="overlay"></div>
+                            <img class="google-icon" src="/assets/Images/white_google.svg" style="width:32px; height:35px;" alt="" />
+                        </a>
+                    </div> -->
+          <!-- Mobile icons -->
+        </div>
+      </main>
+    </div>
+    <app-footer></app-footer>
+  </div>
+</div>
+
+<!-- Confirmation mail modal -->
+
+<ng-template #confirmMailModal>
+  <div class="modal-header modal-custom">
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="modal"
+      (click)="closeModal(confirmMailModal)"
+    ></button>
+  </div>
+  <div
+    class="
+      modal-body modal-custom
+      d-flex
+      flex-column
+      justify-content-center
+      align-items-center
+    "
+  >
+    <img class="satt-modal-header-img" src="/assets/Images/mail-open.svg" />
+    <div
+      class="
+        d-flex
+        flex-column
+        justify-content-center
+        align-items-center
+        txtModal
+      "
+    >
+      <h3 class="textpwd">{{ 'info_after_signup_title' | translate }}</h3>
+
+      <span class="darck-green"
+        >{{ 'info_after_signup_text1' | translate }}
+      </span>
+      <div class="nobr">
+        <span class="blue-text">{{ this.authForm.get('email')?.value }} </span>
+        <span class="darck-green"
+          >{{ 'info_after_signup_text_adress' | translate }} .
+        </span>
+      </div>
+
+      <br />
+
+      <span class="darck-green"> {{ 'recieve_nothing' | translate }} </span>
+    </div>
+    <div
+      class="
+        col-xl-6 col-lg-8 col-md-12 col-sm-12
+        d-flex
+        flex-column
+        justify-content-center
+        align-items-center
+        mt-4
+      "
+    >
+      <button
+        class="white-btn"
+        promise-btn="signupLoading"
+        (click)="sendConfirmationMail()"
+        type="button"
+      >
+        {{ 'info_after_signup_btn' | translate }}
+      </button>
+    </div>
+    <div
+      class="
+        col-xl-6 col-lg-8 col-md-12 col-sm-12
+        d-flex
+        flex-column
+        justify-content-center
+        align-items-center
+      "
+    >
+      <button
+        type="button"
+        class="green-btn"
+        data-bs-dismiss="modal"
+        (click)="closeModal(puzzle)"
+      >
+        {{ 'i_have_validatet_mail' | translate }}
+      </button>
+    </div>
+  </div>
+</ng-template>
+<div
+  class="cookiesBlock d-flex"
+  *ngIf="cookiesClicked == true && !cookieExists"
+  [ngClass]="{ cookiesBlockAlert: this.isClicked }"
+>
+  <div class="row">
+    <div
+      class="
+        col-xl-2 col-lg-2 col-md-2 col-sm-2
+        d-flex
+        justify-content-center
+        imageCOOK
+        mt-2
+      "
+    >
+      <img
+        class="cookiesPIC ms-3"
+        src="/assets/Images/cookies.svg"
+        alt="cookies"
+      />
+    </div>
+    <div
+      class="
+        col-xl-8 col-lg-8 col-md-7 col-sm-7
+        d-flex
+        justify-content-center
+        texteCOOK
+        mt-4
+      "
+    >
+      <div class="d-block">
+        <p>{{ 'cookiesText' | translate }}</p>
+        <!--<span class="boldcook">{{'parametrs' |translate}} ></span>-->
+      </div>
+    </div>
+    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 btnCOOK mt-4">
+      <div class="btn_row_cookies px-2">
+        <button class="btnCOOkiesB px-5 mb-2" (click)="cookies()">
+          {{ 'accepter' | translate }}
+        </button>
+        <button class="btnCOOkies px-5" (click)="cookies()">
+          {{ 'refuser' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #puzzle class="">
+  <div class="modal-header modal-custom">
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="modal"
+      (click)="closeModal(puzzle)"
+    ></button>
+    <span style="margin-top: 20px">
+      {{ 'puzzle-verification' | translate }}
+    </span>
+  </div>
+
+  <div class="modal-body modal-customm">
+    <app-xfu-slide-control
+      (onValueChanged)="onValueChanged($event, puzzle)"
+    ></app-xfu-slide-control>
+  </div>
+</ng-template>

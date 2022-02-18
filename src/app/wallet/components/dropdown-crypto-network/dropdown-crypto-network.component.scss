@@ -1,0 +1,193 @@
+/*-----------css dropdowen------ */
+
+.dropdown-toggle::after {
+  outline: none !important;
+  display: none;
+}
+
+button:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.dropdown-menu {
+  width: 98%;
+  border: none;
+  background: none;
+  position: relative !important;
+  transform: none !important;
+  top: 0px !important;
+  padding-left: 13% !important;
+  // padding-left: 4% !important;
+  max-height: max-content;
+  // max-height: 146px;
+  overflow: hidden;
+}
+
+.dropdown-menu2 {
+  width: 98%;
+  border: none;
+  background: none;
+  position: relative !important;
+  transform: none !important;
+  top: 0px !important;
+  padding-left: 13% !important;
+  // padding-left: 4% !important;
+  max-height: max-content;
+  // max-height: 146px;
+  overflow: hidden;
+}
+
+.overflow {
+  overflow: scroll !important;
+  overflow-x: hidden !important;
+}
+
+.dropdown {
+  outline: none !important;
+  background: #ffffff;
+  border-radius: 30px;
+  // width: 145px;
+  width: 183px;
+  position: relative;
+  border: 1px solid #d6d6e8;
+  padding: 0;
+  height: max-content;
+  z-index: 3;
+}
+
+.dropdown2 {
+  outline: none !important;
+  background: #ffffff;
+  border-radius: 30px;
+  // width: 145px;
+  width: 183px;
+  position: relative;
+  border: 1px solid #d6d6e8;
+  padding: 0;
+  z-index: 3;
+}
+
+.li-select {
+  /* padding-left: 5px; */
+  /*padding-top:5px;*/
+  padding-bottom: 10px;
+  cursor: pointer;
+}
+
+.li-select-text {
+  color: #00041b;
+  font-weight: 600;
+  text-align: center;
+  font-size: 16px;
+}
+
+.chevron:before {
+  font-family: 'FontAwesome';
+  font-style: normal;
+  font-size: 1.2rem;
+  content: '\f107';
+  display: inline-block;
+  line-height: 22px;
+  color: #00041b;
+  position: absolute;
+  left: 12px;
+  top: 15px;
+}
+
+.chevron2:before {
+  font-family: 'FontAwesome';
+  font-style: normal;
+  font-size: 1.2rem;
+  content: '\f107';
+  display: inline-block;
+  line-height: 22px;
+  color: #00041b;
+  position: absolute;
+  left: 12px;
+  top: 15px;
+}
+
+.btn-dropdown {
+  // position: relative;
+  height: 48px;
+  padding-left: 2%;
+  // width: 100%;
+  // width: 145px;
+  text-align: initial;
+}
+
+.btn-dropdown:disabled {
+  opacity: 1;
+}
+
+/*-----------end css dropdowen------ */
+
+.crypto-image {
+  height: 31px;
+  width: 31px;
+  position: absolute;
+  right: 4px;
+}
+
+.width_icon_crypto {
+  width: 31px;
+  position: absolute;
+  right: 1px;
+}
+
+.width_icon_network {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  right: 1px;
+}
+
+.width-network-erc20 {
+  width: 26px;
+  height: 26px;
+}
+
+.width_icon_selectednetwork {
+  width: 23px;
+  height: 30px;
+  position: absolute;
+  right: 6px;
+}
+
+.width_icon_selectednetwork-erc20 {
+  width: 28px;
+  height: 28px;
+  position: absolute;
+  right: 4px;
+}
+
+.dropdown-text {
+  color: #00041b;
+  font-weight: 600;
+  text-align: center;
+  font-size: 20px;
+}
+
+.dropdown-wrapper {
+  position: absolute;
+}
+
+@media (max-width: 424.98px) {
+  .dropdown {
+    width: 144px;
+  }
+  .dropdown-text {
+    font-size: 14px;
+  }
+  .crypto-image {
+    height: 26px;
+  }
+  .width_icon_crypto {
+    width: 25px;
+    right: 23px;
+  }
+  .width_icon_network {
+    right: 22px;
+  }
+}

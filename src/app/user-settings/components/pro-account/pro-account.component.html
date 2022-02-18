@@ -1,0 +1,162 @@
+<div class="container-fluid page-content wallet-page">
+  <!--<div class="row">
+        <div class="col-md-12 col-lg-12 col-xs-12">
+            <span class="title_page"><a  class="title_page pe-2" [routerLink]="['/profile']"> {{'parameters' |translate}} </a> > <a class="title_page ps-2" [routerLink]="['/profile/pro']">{{'Profil.pro' | translate}}</a> </span>
+        </div>
+    </div>-->
+
+  <div class="tab-content" id="myTabContent">
+    <div
+      class="tab-pane fade show active mt-3"
+      id="info"
+      role="tabpanel"
+      aria-labelledby="info-tab"
+    >
+      <div class="div_block">
+        <div class="row d-flex justify-content-center" *ngIf="user">
+          <div class="col-12 px-3 padding-small-version">
+            <form [formGroup]="formCompany">
+              <div class="row d-flex justify-content-center">
+                <div
+                  class="
+                    col-md-11 col-lg-8 col-xl-6 col-sm-8
+                    pt-4
+                    d-flex
+                    justify-content-center
+                  "
+                >
+                  <span class="professional_information">{{
+                    'Profil.professional_information' | translate
+                  }}</span>
+                </div>
+              </div>
+              <div class="row d-flex justify-content-center">
+                <div class="col-md-11 col-lg-9 col-xl-6 col-sm-11 pt-3">
+                  <p class="warning_msg">
+                    {{ 'Profil.warning_msg_Pro' | translate }}
+                  </p>
+                </div>
+              </div>
+              <div class="row d-flex justify-content-center">
+                <div class="col-md-7 col-lg-5 col-xl-4 col-sm-7 pt-1">
+                  <label class="label_input">{{
+                    'Profil.company_name' | translate
+                  }}</label>
+                  <input
+                    type="text"
+                    name="organisation"
+                    formControlName="organisation"
+                    class="type-input"
+                    [(ngModel)]="user.organisation"
+                  />
+                </div>
+              </div>
+
+              <div class="row d-flex justify-content-center">
+                <div class="col-md-7 col-lg-5 col-xl-4 col-sm-7 pt-3">
+                  <label class="label_input">
+                    {{ 'Profil.address' | translate }}</label
+                  >
+                  <input
+                    type="text"
+                    name="address"
+                    class="type-input"
+                    disabled
+                  />
+                </div>
+              </div>
+
+              <div class="row d-flex justify-content-center">
+                <div class="col-md-7 col-lg-5 col-xl-4 col-sm-7 pt-3">
+                  <label class="label_input">
+                    {{ 'Profil.city' | translate }}</label
+                  >
+                  <input type="text" name="city" class="type-input" disabled />
+                </div>
+              </div>
+
+              <div class="row d-flex justify-content-center">
+                <div class="col-md-7 col-lg-5 col-xl-4 col-sm-7 pt-3">
+                  <label class="label_input">
+                    {{ 'Profil.country' | translate }}</label
+                  >
+                  <div class="dropdown">
+                    <button
+                      class="btn btntoggle dropdown-toggle fltr"
+                      type="button"
+                      id="dropdownMenuButton"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
+                      <span class="text-align-left black-text2 ps-2">{{
+                        selectedCountryValue | translate
+                      }}</span>
+
+                      <i class="chevron fa fa-fw"></i>
+                    </button>
+
+                    <ul
+                      class="dropdown-menu"
+                      aria-labelledby="dropdownMenuButton"
+                    >
+                      <li
+                        class="li-select"
+                        *ngFor="
+                          let c of countriesListObj;
+                          trackBy: trackByCountriesCode;
+                          let i = index
+                        "
+                        (click)="selectedCountry(c.name, c.code)"
+                      >
+                        <ng-container *ngIf="c.code !== selectedCountryValue">
+                          <span class="black-text">{{ c.name }}</span>
+                        </ng-container>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row d-flex justify-content-center">
+                <div class="col-md-7 col-lg-5 col-xl-4 col-sm-7 pt-3">
+                  <label class="label_input">
+                    {{ 'Profil.NTVA' | translate }}
+                  </label>
+                  <input
+                    type="number"
+                    name="NTVA"
+                    formControlName="ntva"
+                    class="type-input"
+                    [(ngModel)]="user.ntva"
+                  />
+                </div>
+              </div>
+
+              <div class="row d-flex justify-content-center mt-4">
+                <div class="col-md-7 col-lg-5 col-xl-4 col-sm-7">
+                  <button
+                    type="submit"
+                    class="btn-green greenhov"
+                    (click)="addCompany()"
+                    disabled
+                  >
+                    {{ 'Profil.save' | translate }}
+                  </button>
+                </div>
+              </div>
+
+              <div class="row d-flex justify-content-center mb-4 mt-2">
+                <div class="col-md-7 col-lg-5 col-xl-4 col-sm-7">
+                  <button type="submit" class="btn-white" disabled>
+                    {{ 'Profil.deactivate_account_pro' | translate }}
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

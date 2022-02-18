@@ -1,0 +1,46 @@
+<div class="oracles-container d-flex justify-content-around flex-wrap">
+  <div
+    class="oracle d-flex justify-content-center align-items-center"
+    [ngClass]="{ 'instagram-selected': instaSelected }"
+    (click)="toggleInsta()"
+  >
+    <img *ngIf="!instaSelected" src="assets/Images/insta-purple.png" />
+    <img *ngIf="instaSelected" src="assets/Images/insta-white.png" />
+  </div>
+  <div
+    class="oracle d-flex justify-content-center align-items-center"
+    [ngClass]="{ 'facebook-selected': facebookSelected }"
+    (click)="toggleFacebook()"
+  >
+    <img *ngIf="!facebookSelected" src="assets/Images/facebook-purple.png" />
+    <img *ngIf="facebookSelected" src="assets/Images/facebook-white.png" />
+  </div>
+  <div
+    class="oracle d-flex justify-content-center align-items-center"
+    [ngClass]="{ 'twitter-selected': twitterSelected }"
+    (click)="toggleTwitter()"
+  >
+    <img *ngIf="!twitterSelected" src="assets/Images/twitter-purple.png" />
+    <img *ngIf="twitterSelected" src="assets/Images/twitter-white.png" />
+  </div>
+  <div
+    class="oracle d-flex justify-content-center align-items-center"
+    [ngClass]="{ 'youtube-selected': youtubeSelected }"
+    (click)="toggleYoutube()"
+  >
+    <img *ngIf="!youtubeSelected" src="assets/Images/youtube-purple.png" />
+    <img
+      *ngIf="youtubeSelected"
+      src="assets/Images/youtube-white.png"
+      style="width: 19; height: 14px"
+    />
+  </div>
+  <div
+    class="oracle d-flex justify-content-center align-items-center"
+    [ngClass]="{ 'linkedIn-selected': linkedInSelected }"
+    (click)="toggleLinkedIn()"
+  >
+    <img *ngIf="!linkedInSelected" src="assets/Images/linkedinPurple.svg" />
+    <img *ngIf="linkedInSelected" src="assets/Images/linkedinWhite.svg" />
+  </div>
+</div>

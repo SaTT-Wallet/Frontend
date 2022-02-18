@@ -1,0 +1,58 @@
+<div class="container-fluid page-content">
+  <div class="div-white-block">
+    <div
+      class="image-icon-wrapper"
+      [ngClass]="{ 'success-bg': isSuccessful, 'failure-bg': isFailure }"
+    >
+      <img
+        src="/assets/Images/success-transaction-icon.svg"
+        *ngIf="isSuccessful"
+      />
+      <img
+        src="/assets/Images/failure-transaction-icon.svg"
+        *ngIf="isFailure"
+      />
+    </div>
+
+    <div class="title-wrapper">
+      <h3 class="title">
+        <span class="success-text" *ngIf="isSuccessful">{{
+          'transaction_success_title' | translate | capitalizePhrase
+        }}</span>
+        <span class="failure-text" *ngIf="isFailure">{{
+          'transaction_failure_title' | translate | capitalizePhrase
+        }}</span>
+      </h3>
+      <p *ngIf="isSuccessful" class="">
+        <span>{{ text | translate | capitalizePhrase }}</span>
+      </p>
+      <p *ngIf="isFailure" class="">
+        <span>{{ text | translate | capitalizePhrase }}</span>
+      </p>
+    </div>
+    <app-copy-transaction-hash
+      [networkWallet]="networkWallet"
+      [transactionHash]="this.transactionHash"
+    ></app-copy-transaction-hash>
+
+    <div class="buttons-wrapper">
+      <a
+        class="btn-default"
+        *ngIf="isSuccessful"
+        (click)="redirectTo(['home/TransactionsHistory'])"
+        >{{ 'send.see_history_transac' | translate | capitalizePhrase }}</a
+      >
+      <a
+        class="btn-default"
+        *ngIf="isFailure"
+        [routerLink]="['/home/FAQ']"
+        [fragment]="'support'"
+        >{{ 'support_contact' | translate | capitalizePhrase }}</a
+      >
+
+      <a class="btn-default" (click)="goToCampaign()">{{
+        'send.return_to_campaign' | translate | capitalizePhrase
+      }}</a>
+    </div>
+  </div>
+</div>

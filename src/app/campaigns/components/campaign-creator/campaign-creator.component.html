@@ -1,0 +1,171 @@
+<div class="campaign-sponsored-posts" [ngClass]="{ active: true }">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <div class="block-wrapper links-list-wrapper">
+          <div class="links-header">
+            <div style="margin: 0 auto; display: flex">
+              <h6 class="h6-title" style="margin: 0 auto">
+                {{ proms?.length }} Liens envoyés (1 en attente de validation)
+              </h6>
+            </div>
+            <div style="display: flex">
+              <input
+                id="key"
+                class="key input_filed"
+                type="text"
+                name="search"
+                autocomplete="on"
+              />
+              <button class="btn-blue" tabindex="0" ng-reflect-router-link="">
+                Rechercher
+              </button>
+              <img
+                src="/assets/Images/extra.svg"
+                alt=""
+                class="img-filter-icon ms-1"
+              />
+            </div>
+          </div>
+          <!--------------------------------------------------------------------------------------------------------------------->
+          <div class="links-list-table">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="table-header"></th>
+                  <th class="table-header"></th>
+                  <th class="table-header"></th>
+                  <th class="table-header"></th>
+                  <th class="table-header"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <!--------------------------------------------------------------------------------------------------------------------->
+                <tr style="background: #f6f6ff">
+                  <th>
+                    <div class="media-icon-link-wrapper">
+                      <img
+                        class="s-media-icon"
+                        src="/assets/Images/twitter-icon.svg"
+                        alt=""
+                      />
+                      <a class="s-media-link" href=""
+                        >samir samir
+                        <img
+                          class="Icons me-1"
+                          src="/assets/Images/link2.svg"
+                          alt=""
+                          style="width: 12px"
+                        />
+                      </a>
+                    </div>
+                  </th>
+                  <!----------------------->
+                  <td></td>
+                  <td></td>
+                  <td>
+                    <img
+                      class="Icons me-1"
+                      src="/assets/Images/supp_media.svg"
+                      alt=""
+                      style="float: right"
+                    />
+                  </td>
+                  <td>
+                    <button
+                      _ngcontent-hmm-c203=""
+                      type="submit"
+                      class="btn-green"
+                    >
+                      Accepter
+                    </button>
+                  </td>
+                </tr>
+                <!--------------------------------------------------------------------------------------------------------------------->
+                <tr *ngFor="let _prom of proms; trackBy: trackById">
+                  <th style="width: 50%">
+                    <div class="media-icon-link-wrapper">
+                      <img
+                        class="s-media-icon"
+                        src="/assets/Images/{{
+                          socialMediaIcons[_prom.typeSN]
+                        }}"
+                        alt=""
+                      />
+                      <a class="s-media-link" href="{{ _prom._link }}"
+                        >{{ _prom.meta.name }}
+                        <img
+                          class="Icons me-1"
+                          src="/assets/Images/link2.svg"
+                          alt=""
+                          style="width: 12px"
+                        />
+                      </a>
+                    </div>
+                  </th>
+                  <!----------------------->
+                  <td>
+                    <div>
+                      <div style="float: right">
+                        {{ _prom.view_count }}
+                        <img
+                          class="Icons me-1 mt-1 ms-2"
+                          src="/assets/Images/icon.svg"
+                          alt=""
+                          style="width: 16px; float: right"
+                        />
+                      </div>
+                    </div>
+                  </td>
+                  <!----------------------->
+                  <td>
+                    <div>
+                      <div style="float: right">
+                        {{ _prom.like_count }}
+                        <img
+                          class="Icons me-1 mt-1 ms-2"
+                          src="/assets/Images/like-media.svg"
+                          alt=""
+                          style="width: 16px; float: right"
+                        />
+                      </div>
+                    </div>
+                  </td>
+                  <!----------------------->
+                  <td>
+                    <div>
+                      <div style="float: right">
+                        {{ _prom.share_count }}
+                        <img
+                          class="Icons me-1 mt-1 ms-2"
+                          src="/assets/Images/share-media.svg"
+                          alt=""
+                          style="width: 16px; float: right"
+                        />
+                      </div>
+                    </div>
+                  </td>
+                  <!----------------------->
+                  <td>
+                    <div>
+                      <div style="float: right">
+                        {{ _prom.total_earned }}
+                        <img
+                          class="Icons me-1 mt-1 ms-2"
+                          src="/assets/Images/TotalG.svg"
+                          alt=""
+                          style="width: 16px; float: right"
+                        />
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <!--------------------------------------------------------------------------------------------------------------------->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

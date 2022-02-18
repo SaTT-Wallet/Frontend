@@ -1,0 +1,14 @@
+:host {
+  // padding: 2vw;
+  display: block;
+  // .content {
+  //   padding: 2em 0;
+  //   text-align: -webkit-center;
+  // }
+}
+
+@media (max-width: 786.98px) {
+  :host {
+    padding-bottom: 100px !important;
+  }
+}

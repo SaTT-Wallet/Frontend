@@ -1,0 +1,180 @@
+<div class="row container-fluid d-none d-md-block p-0 margin-top mt-4">
+  <div
+    class="row d-flex flex-row align-items-center justify-content-center p-0"
+  >
+    <ul class="d-flex flex-row align-items-center">
+      <li class="col d-flex justify-content-center max-width">
+        <div
+          class="col d-flex justify-content-center max-width first-step active"
+        >
+          <img src="/assets/Images/completeProfileVictor.svg" />
+        </div>
+      </li>
+      <li class="col d-flex justify-content-center">
+        <span class="line" [ngClass]="{ active: visitedFb }"> </span>
+      </li>
+      <li
+        class="col d-flex justify-content-center max-width"
+        (click)="redirectFromSteps('facebook')"
+        [ngClass]="{ 'cursor-pointer': visitedFb }"
+      >
+        <div
+          class="
+            col
+            d-flex
+            justify-content-center
+            align-items-center
+            max-width
+            picture
+          "
+          [ngClass]="{ 'active cursor-pointer': visitedFb }"
+        >
+          <img
+            src="/assets/Images/vector/facebookGrey.svg"
+            *ngIf="!visitedFb"
+          />
+          <img
+            src="/assets/Images/vector/FacebookVisited.svg"
+            *ngIf="visitedFb"
+          />
+        </div>
+      </li>
+      <li class="col d-flex justify-content-center">
+        <span class="line" [ngClass]="{ active: visitedFb }"> </span>
+      </li>
+      <!-- <li class="col d-flex justify-content-center max-width" *ngIf="idSnUser !== '5'">
+                <div class="col d-flex justify-content-center max-width picture" [ngClass]="{'active cursor-pointer': visited_telegram }">
+                    <img src="/assets/Images/whitetelegram.svg" width="18px" class="me-1" />
+                </div>
+            </li>
+            <li class="col d-flex justify-content-center " *ngIf="idSnUser !== '5'">
+                <hr class="hrline" [ngClass]="{'active': visited_telegram }" />
+            </li> -->
+
+      <li
+        class="col d-flex justify-content-center max-width"
+        (click)="redirectFromSteps('twitter')"
+        [ngClass]="{ 'cursor-pointer': visitedTwitter }"
+      >
+        <div
+          class="
+            col
+            d-flex
+            justify-content-center
+            align-items-center
+            max-width
+            picture
+          "
+          [ngClass]="{ 'active cursor-pointer': visitedTwitter }"
+        >
+          <img
+            src="/assets/Images/vector/twiiterGrey.svg"
+            *ngIf="!visitedTwitter"
+          />
+          <img
+            src="/assets/Images/vector/TwitterVisited.svg"
+            *ngIf="visitedTwitter"
+          />
+        </div>
+      </li>
+      <li class="col d-flex justify-content-center">
+        <span class="line" [ngClass]="{ active: visitedTwitter }"> </span>
+      </li>
+
+      <li
+        class="col d-flex justify-content-center max-width"
+        (click)="redirectFromSteps('linkedin')"
+        [ngClass]="{ 'cursor-pointer': visitedLinkedin }"
+      >
+        <div
+          class="
+            col
+            d-flex
+            justify-content-center
+            align-items-center
+            max-width
+            picture
+          "
+          [ngClass]="{ 'active cursor-pointer': visitedLinkedin }"
+        >
+          <img
+            *ngIf="!visitedLinkedin"
+            src="/assets/Images/vector/linkedInGrey.svg"
+            class=""
+          />
+          <img
+            *ngIf="visitedLinkedin"
+            src="/assets/Images/vector/linkedinVisited.svg"
+            class=""
+          />
+        </div>
+      </li>
+      <li class="col d-flex justify-content-center">
+        <span class="line" [ngClass]="{ active: visitedLinkedin }"> </span>
+      </li>
+
+      <li
+        class="col d-flex justify-content-center max-width picture"
+        (click)="redirectFromSteps('google')"
+        [ngClass]="{ 'cursor-pointer': visitedGoogle }"
+      >
+        <div
+          class="
+            col
+            d-flex
+            justify-content-center
+            align-items-center
+            max-width
+            picture
+          "
+          [ngClass]="{ 'active cursor-pointer': visitedGoogle }"
+        >
+          <img
+            *ngIf="!visitedGoogle"
+            src="/assets/Images/vector/youtubeGrey.svg"
+          />
+          <img
+            *ngIf="visitedGoogle"
+            src="/assets/Images/vector/YoutubeVisitedd.svg"
+          />
+        </div>
+      </li>
+      <li class="col d-flex justify-content-center">
+        <span class="line" [ngClass]="{ active: visitedGoogle }"> </span>
+      </li>
+      <li class="col d-flex justify-content-center max-width picture">
+        <div
+          class="col d-flex justify-content-center max-width picture"
+          [ngClass]="{ 'active ': visitedConfig }"
+        >
+          <img
+            *ngIf="!visitedConfig"
+            src="/assets/Images/vector/jsonGrey.svg"
+          />
+          <img
+            *ngIf="visitedConfig"
+            src="/assets/Images/vector/JsonVisited.svg"
+          />
+        </div>
+      </li>
+      <li class="col d-flex justify-content-center">
+        <span class="line" [ngClass]="{ active: visitedConfig }"> </span>
+      </li>
+      <li class="col d-flex justify-content-center max-width picture">
+        <div
+          class="col d-flex justify-content-center max-width picture"
+          [ngClass]="{ active: visitedActivePass }"
+        >
+          <img
+            *ngIf="!visitedActivePass"
+            src="/assets/Images/vector/DoneGrey.svg"
+          />
+          <img
+            *ngIf="visitedActivePass"
+            src="/assets/Images/vector/DoneVisited.svg"
+          />
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,338 @@
+<div class="container-fluid page-content">
+  <!-- <div class="row">
+        <div class="col-md-12 col-lg-12 col-xs-12 mb-2">
+            <span class="title_page"> {{'Historique _des_transactions' | translate }} </span>
+        </div>
+    </div>-->
+
+  <!-------------------------------------------------------------------------------------------------------------->
+  <div class="History_table">
+    <div class="row">
+      <div class="d-flex flex-row">
+        <div class="col-lg-4 col-md-6 nav-item-active">
+          <label
+            class="nav-link active"
+            id="tout-tab"
+            aria-controls="tout"
+            aria-selected="false"
+            >{{ 'Toutes' | translate }}</label
+          >
+        </div>
+        <div class="col-lg-4 col-md-6 nav-item d-flex justify-content-center">
+          <label
+            class="nav-link"
+            id="campagnes-tab"
+            aria-controls="campagnes"
+            aria-selected="true"
+          >
+            Ad Pools</label
+          >
+        </div>
+        <!-- <div class="col-4 nav-item d-flex justify-content-center">
+                    <label class="nav-link" id="p2p" aria-controls="p2p" aria-selected="false">{{'P2P' | translate }}</label>
+                </div> -->
+      </div>
+    </div>
+    <!-------------------------------------------------------------------------------------------------------------->
+    <div class="tab-content" id="myTabContent">
+      <div
+        class="mt-3 mb-4 d-none d-sm-block display"
+        #filterDiv
+        id="tout"
+        role="tabpanel"
+        aria-labelledby="tout-tab"
+        *ngIf="displayFilter"
+      >
+        <div class="row">
+          <!-------------------------------------------------------------------------------------------------------------->
+          <div
+            class="col-xl-4 col-lg-3 col-md-4 col-sm-12 ps-2 pe-3 date_width"
+          >
+            <label class="Lato_Font"
+              >{{ 'Type de transaction' | translate }}:
+            </label>
+            <div class="bt-types Zindex">
+              <div class="dropdown Zindex">
+                <app-custom-dropdown
+                  appClickElseWhere
+                  [formControl]="sendReceiveType"
+                  [options]="sendReceiveTypeTypeOptions"
+                  [inputCheckBoxId]="'sendReceiveType'"
+                >
+                </app-custom-dropdown>
+              </div>
+            </div>
+          </div>
+          <!-------------------------------------------------------------------------------------------------------------->
+          <div
+            class="col-xl-2 col-lg-3 col-md-4 col-sm-6 ps-2 m-top date_width"
+          >
+            <label class="Lato_Font">{{ 'trans.du' | translate }}:</label>
+            <input
+              type="date"
+              name="startDateType"
+              class="Filter Zindex"
+              [formControl]="startDateType"
+            />
+          </div>
+          <!-------------------------------------------------------------------------------------------------------------->
+          <div
+            class="col-xl-2 col-lg-3 col-md-4 col-sm-6 ps-2 m-top2 date_width"
+          >
+            <label class="Lato_Font">{{ 'trans.au' | translate }}:</label>
+            <input
+              type="date"
+              name="endDateType"
+              class="Filter Zindex"
+              [formControl]="endDateType"
+            />
+          </div>
+          <!-------------------------------------------------------------------------------------------------------------->
+          <div class="col-lg-2 col-md-4 col-sm-6 ps-2 m-bottom">
+            <label class="Lato_Font">Blockchain:</label>
+            <div class="bt-types">
+              <div class="dropdown">
+                <app-custom-dropdown
+                  appClickElseWhere
+                  [formControl]="campaignBlockchainType"
+                  [options]="campaignBlockchainTypeOptions"
+                  [inputCheckBoxId]="'campaignBlockchainType'"
+                >
+                </app-custom-dropdown>
+              </div>
+            </div>
+          </div>
+          <!-------------------------------------------------------------------------------------------------------------->
+          <div class="col-lg-2 col-md-4 col-sm-6 ps-2 pe-3 m-bottom">
+            <label class="Lato_Font">Token</label>
+            <div class="bt-types Zindex1">
+              <div class="dropdown Zindex1">
+                <app-custom-dropdown
+                  appClickElseWhere
+                  [formControl]="tokenType"
+                  [options]="tokenTypeOptions"
+                  [inputCheckBoxId]="'tokenType'"
+                ></app-custom-dropdown>
+              </div>
+            </div>
+          </div>
+          <!-------------------------------------------------------------------------------------------------------------->
+        </div>
+      </div>
+      <table class="table">
+        <tbody>
+          <br class="hide_mobile" />
+          <tr class="transactions_content">
+            <th colspan="3" class="Lato_Font">Txn Hash</th>
+            <th colspan="3" class="Lato_Font">
+              {{ 'Transactions.Age' | translate }}
+            </th>
+            <th colspan="3" class="Lato_Font">
+              {{ 'Transactions.Expéditeur' | translate }}
+            </th>
+            <th colspan="3" class="Lato_Font">
+              {{ 'Transactions.Destinataire' | translate }}
+            </th>
+            <th colspan="3" class="Lato_Font">
+              {{ 'Transactions.Valeur' | translate }}
+            </th>
+            <th colspan="3" class="Lato_Font">
+              {{ 'Transactions.Réseau' | translate }}
+            </th>
+            <th colspan="4" class="Lato_Font">
+              {{ 'Transactions.Token' | translate }}
+            </th>
+          </tr>
+          <br class="hide_mobile" />
+          <tr
+            *ngFor="
+              let transaction of filtertransaction
+                | paginate: { itemsPerPage: 10, currentPage: pa }
+            "
+            class="transactions_content"
+          >
+            <th colspan="3" class="center Lato_Font">
+              <div class="d-flex logo_trs">
+                <img
+                  class="img_trs"
+                  src="/assets/Images/{{
+                    handelTransactionType(transaction.from)
+                  }}.svg"
+                  alt=""
+                />
+                <div class="text_ellipsis ps-3">
+                  <a
+                    class="blue"
+                    target="_blank"
+                    href="{{
+                      transactionDetails(transaction.hash, transaction.network)
+                    }}"
+                    >{{ transaction.hash }}</a
+                  >
+                </div>
+              </div>
+            </th>
+            <th colspan="3" class="center Lato_Font drk">
+              {{ transaction.time }}
+            </th>
+            <th colspan="3" class="Lato_Font text_ellipsis">
+              <a
+                class="blue"
+                href="
+              {{
+                  transactionDetailsFrom(transaction.from, transaction.network)
+                }}
+              "
+                >{{ transaction.from }}</a
+              >
+            </th>
+            <th colspan="3" class="Lato_Font text_ellipsis">
+              <a
+                class="blue"
+                href="
+              {{ transactionDetailsTo(transaction.to, transaction.network) }}
+              
+              "
+                >{{ transaction.to }}</a
+              >
+            </th>
+            <th colspan="3" class="Lato_Font text_ellipsis drk">
+              {{ transaction.result }}
+            </th>
+            <th colspan="3" class="Lato_Font drk">{{ transaction.network }}</th>
+            <th colspan="4" class="Lato_Font">
+              <div class="d-flex justify-content-center">
+                <img
+                  width="32px"
+                  src="/assets/Images/symbol_crypto/{{
+                    cryptoIcons(transaction)
+                  }}.svg"
+                  onerror="src='/assets/Images/symbol_crypto/indispo.svg'"
+                  alt=""
+                />
+                <div class="trs_symbol">{{ transaction.tokenSymbol }}</div>
+              </div>
+            </th>
+          </tr>
+        </tbody>
+      </table>
+      <div class="Mobile_version">
+        <div class="d-flex justify-content-center">
+          <img
+            src="/assets/Images/transactions_filter.svg"
+            class="width-50"
+            alt=""
+            (click)="showFilter()"
+          />
+        </div>
+        <br />
+        <div
+          class="Mobile_Rows"
+          *ngFor="
+            let transaction of filtertransaction
+              | paginate: { itemsPerPage: 10, currentPage: pa }
+          "
+        >
+          <div>
+            <div class="d-flex img-send">
+              <img
+                src="/assets/Images/send_transaction.svg"
+                alt=""
+                class="img_send"
+              />
+              <div class="text_ellipsis txt-hash">
+                <a [href]="transaction.direction" target="_blank">{{
+                  transaction.hash
+                }}</a>
+              </div>
+              <button
+                (click)="expand($event)"
+                [ngClass]="
+                  testdropdown[fakedate.indexOf(transaction)]
+                    ? 'close_section'
+                    : 'open_section'
+                "
+                id="{{ fakedate.indexOf(transaction) }}"
+              ></button>
+            </div>
+          </div>
+          <div class="margin-tab">
+            <table>
+              <tr>
+                <th class="title_font">Date</th>
+                <th class="Lato_Font drk">{{ transaction.time }}</th>
+              </tr>
+              <tr>
+                <th class="title_font">{{ 'Valeur' | translate }}</th>
+                <th class="Lato_Font drk">{{ transaction.result }}</th>
+              </tr>
+
+              <tr *ngIf="testdropdown[fakedate.indexOf(transaction)]">
+                <th class="title_font">{{ 'Expediteur' | translate }}</th>
+                <th class="Lato_Font">
+                  <div class="text_ellipsis blue txt-size">
+                    {{ transaction.from }}
+                  </div>
+                </th>
+              </tr>
+              <tr *ngIf="testdropdown[fakedate.indexOf(transaction)]">
+                <th class="title_font">{{ 'Distinataire' | translate }}</th>
+                <th class="Lato_Font">
+                  <div class="text_ellipsis blue txt-size">
+                    {{ transaction.to }}
+                  </div>
+                </th>
+              </tr>
+              <tr *ngIf="testdropdown[fakedate.indexOf(transaction)]">
+                <th class="title_font">{{ 'Réseau' | translate }}</th>
+                <th class="Lato_Font drk">
+                  {{ transaction.network }}
+                </th>
+              </tr>
+              <tr>
+                <th class="title_font">Token</th>
+                <th class="Lato_Font">
+                  <div class="d-flex">
+                    <img
+                      class="crypto_icon"
+                      src="/assets/Images/symbol_crypto/{{
+                        cryptoIcons(transaction)
+                      }}.svg"
+                      alt=""
+                    />
+                    <div class="token_symbol">
+                      {{ transaction.tokenSymbol }}
+                    </div>
+                  </div>
+                </th>
+              </tr>
+            </table>
+          </div>
+          <br />
+        </div>
+      </div>
+      <div>
+        <div class="navigation-wrapper">
+          <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+              <pagination-controls
+                (pageChange)="pa = $event"
+                previousLabel="{{ 'Transactions.Previous' | translate }}"
+                nextLabel="{{ 'Transactions.Next' | translate }}"
+                class="my-pagination"
+                [responsive]="true"
+              >
+              </pagination-controls>
+            </ul>
+          </nav>
+        </div>
+      </div>
+      <!-- Transactions_Table_mobile_version -->
+    </div>
+  </div>
+</div>
+<!--div spinner -->
+<div class="spinner-wrapper">
+  <app-loading-logo *ngIf="showSpinner"></app-loading-logo>
+</div>
+<!-- End div spinner -->

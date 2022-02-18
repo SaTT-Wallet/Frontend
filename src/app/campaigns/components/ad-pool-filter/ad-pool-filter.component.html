@@ -1,0 +1,988 @@
+<form [formGroup]="filterCampaigns">
+  <!-- <div class="d-flex justify-content-between align-items-center px-2">
+    <button
+      (click)="this.toggleFilter()"
+      class="btn-flt"
+      [ngClass]="{ toggled: this.showFilter }"
+      id="btn-flt"
+    >
+      <span class="icon-new-filter"></span>
+    </button>
+  </div> -->
+  <div class="d-flex justify-content-between d-lg-none mt-3">
+    <div class="d-flex gap-2">
+      <button
+        (click)="this.toggleFilter()"
+        class="btn-flt"
+        [ngClass]="{ toggled: this.showFilter }"
+      >
+        <span class="icon-new-filter"></span>
+      </button>
+      <button
+        (click)="this.toggleSort()"
+        [ngClass]="{ toggled: this.showSort }"
+        class="btn-sort"
+        type="button"
+      >
+        Sort by
+      </button>
+    </div>
+
+    <app-toggle-style-host
+      (isFormatGrid)="listenForStyleHost($event)"
+      [displayItems]="displayedItems"
+    ></app-toggle-style-host>
+  </div>
+  <div class="justify-content-center d-none d-lg-flex mt-4">
+    <div
+      class="row justify-content-around"
+      style="width: 98vw; margin-left: 5px"
+    >
+      <div
+        class="
+          col-lg-3 col-md-4
+          d-flex
+          align-items-center
+          gap-2
+          d-none d-md-flex
+        "
+      >
+        <h6 class="d-flex align-items-center">
+          <span class="title-case form-control-title">social media</span>
+        </h6>
+        <app-select-social-media
+          (oracleValue)="filterByOracle($event)"
+        ></app-select-social-media>
+      </div>
+      <div class="col-lg-2 col-md-4 d-flex align-items-center d-none d-md-flex">
+        <span class="d-flex align-items-center">
+          <h6 class="form-control-title title-case">Live Campaigns</h6>
+        </span>
+        <img
+          src="assets/Images/Toggleon.svg"
+          class="cursor-pointer picture-toggle ml-1"
+          *ngIf="onlyLiveCampaigns"
+          (click)="toggleOnlyLiveCampaigns()"
+        />
+        <img
+          src="assets/Images/Toggleoff.svg"
+          class="cursor-pointer picture-toggle ml-1"
+          *ngIf="!onlyLiveCampaigns"
+          (click)="toggleOnlyLiveCampaigns()"
+        />
+      </div>
+      <div class="col-lg-2 col-md-4 d-flex align-items-center d-none d-md-flex">
+        <span class="d-flex align-items-center mr-2">
+          <h6 class="form-control-title title-case">BLOCKCHAIN</h6>
+        </span>
+        <app-double-toggle-button
+          (toggleValue)="filterByBlockChainType($event)"
+        >
+        </app-double-toggle-button>
+      </div>
+      <div
+        class="
+          col-lg-2 col-md-4
+          d-flex
+          align-items-center
+          gap-2
+          d-none d-md-flex
+          remuneration-toggle
+        "
+      >
+        <span class="d-flex align-items-center">
+          <h6
+            class="form-control-title title-case"
+            style="max-width: 120px !important"
+          >
+            TYPE OF POOLS
+          </h6>
+        </span>
+
+        <app-toggle-performance
+          class="d-flex align-items-center"
+          (toggleValue)="filterByPerformanceType($event)"
+        >
+        </app-toggle-performance>
+        <div class="d-block">
+          <span class="tool">
+            <img src="assets/Images/help.svg" alt="" class="help-icon" />
+          </span>
+          <span class="tooltextM2 p-2 d-flex flex-column">
+            Performance : your earnings increase with the actions of your
+            followers.<br />
+            Post : your earning is calculated after the number of your
+            followers.
+          </span>
+        </div>
+      </div>
+      <div
+        class="col-lg-3 col-md-4 d-flex justify-content-end align-items-center"
+      >
+        <img
+          *ngIf="!showMore"
+          class="filter-button"
+          src="assets/Images/more-filters.svg"
+          (click)="toggleFilters()"
+        />
+        <img
+          *ngIf="showMore"
+          class="filter-button"
+          src="assets/Images/less-filters.svg"
+          (click)="toggleFilters()"
+        />
+        <app-toggle-style-host
+          class="ml-2"
+          (isFormatGrid)="listenForStyleHost($event)"
+          [displayItems]="displayedItems"
+        ></app-toggle-style-host>
+      </div>
+    </div>
+  </div>
+  <div class="mt-2 d-none d-md-flex" *ngIf="showMore">
+    <div class="row" style="width: 98vw; margin-left: 5px">
+      <div class="col-lg-3" *ngIf="this.connected === true">
+        <div class="form-control-wrapper d-flex align-items-center gap-2">
+          <h6 class="form-control-title title-case">My Campaigns</h6>
+          <img
+            src="assets/Images/Toggleon.svg"
+            class="cursor-pointer picture-toggle"
+            *ngIf="isUserCampaignsToggled"
+            (click)="toggleIsUserCampaigns()"
+          />
+          <img
+            src="assets/Images/Toggleoff.svg"
+            class="cursor-pointer picture-toggle"
+            *ngIf="!isUserCampaignsToggled"
+            (click)="toggleIsUserCampaigns()"
+          />
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="form-control-wrapper d-flex align-items-center gap-2">
+          <h6 class="form-control-title title-case align-self-start">
+            Choose Cryptos
+          </h6>
+          <div class="dropdown" id="dropdown-ul">
+            <button
+              class="
+                btn
+                btntoggle
+                dropdown-toggle
+                btn-dropdown
+                d-flex
+                align-items-center
+              "
+              style="outline: none !important"
+              type="button"
+              id="dropdownMenuButton"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <span
+                style="width: 90%; overflow-x: 'scroll'"
+                class="d-flex align-items-center hide-scroll-bar"
+              >
+                <span
+                  class="text-align-left dark_grey ps-2"
+                  *ngIf="!cryptoListTags.length"
+                >
+                  Choose crypto</span
+                >
+                <span
+                  *ngFor="
+                    let cryptoTag of cryptoListTags.slice(0, 4);
+                    trackBy: trackByCryptoTag
+                  "
+                  class="
+                    p-3
+                    crypto-tag
+                    d-flex
+                    justify-content-center
+                    align-items-center
+                    mr-2
+                  "
+                >
+                  <span class="crypto-tag-text">
+                    {{ cryptoTag.symbol }}
+                  </span>
+                  <img
+                    style="cursor: pointer"
+                    (click)="unselectCrypto(cryptoTag)"
+                    src="assets/Images/delete-times.png"
+                  />
+                </span>
+                <span
+                  *ngIf="cryptoListTags.length > 4"
+                  class="
+                    p-3
+                    crypto-tag
+                    d-flex
+                    justify-content-center
+                    align-items-center
+                    mr-2
+                  "
+                >
+                  <span class="crypto-tag-text">
+                    + {{ cryptoListTags.length - 4 }}
+                  </span>
+                </span>
+              </span>
+              <span
+                style="width: 10%"
+                class="d-flex align-items-center justify-content-center"
+              >
+                <i
+                  class="fa fa-chevron-down"
+                  (click)="dropdownCrypto.hidden = false"
+                  *ngIf="dropdownCrypto.hidden"
+                  style="margin-left: auto; margin-right: 1rem"
+                ></i>
+                <i
+                  class="fa fa-chevron-up"
+                  (click)="dropdownCrypto.hidden = true"
+                  *ngIf="!dropdownCrypto.hidden"
+                  style="margin-left: auto; margin-right: 1rem"
+                ></i>
+              </span>
+            </button>
+            <ul #dropdownCrypto class="dropdown-menu2 mb-3" [hidden]="true">
+              <li
+                class="li-select mt-2"
+                style="border-radius: 10px; padding: 5px 10px"
+                [ngClass]="{ 'crypto-selected': !!c.selected && c.selected }"
+                *ngFor="let c of cryptoList; trackBy: trackByCryptoList"
+              >
+                <ng-container>
+                  <div class="d-flex mt-2">
+                    <span>
+                      <img
+                        class="cryptoIcon"
+                        src="/assets/Images/symbol_crypto/{{
+                          getCurrencyName(c.undername2)
+                        }}.svg"
+                      />
+                    </span>
+                    <div
+                      style="
+                        display: inline-block;
+                        white-space: nowrap;
+                        margin-left: 1rem;
+                      "
+                    >
+                      <div>
+                        <div class="crypto-title">
+                          {{ c.name }}
+                        </div>
+                        <div class="crypto-network">
+                          {{ c.network }}
+                        </div>
+                      </div>
+                    </div>
+                    <span style="margin-left: auto; margin-right: 1rem">
+                      <img
+                        src="assets/Images/check-box-selected.png"
+                        *ngIf="!!c.selected && c.selected"
+                        (click)="c.selected = false; checkCryptoFilter()"
+                      />
+                      <img
+                        src="assets/Images/check-box-not-selected.png"
+                        *ngIf="!c.selected"
+                        (click)="c.selected = true; checkCryptoFilter()"
+                      />
+                    </span>
+                  </div>
+                </ng-container>
+                <!--<ng-container
+                  *ngIf="
+                    c.code !== selectedCountryValue && c.code !== user?.country
+                  "
+                >
+                  <span class="dark_grey">{{ c.name }}</span>
+                </ng-container>-->
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 pt-2">
+        <app-multi-range-slider
+          (budgetValue)="filterByBudget($event)"
+        ></app-multi-range-slider>
+      </div>
+    </div>
+  </div>
+</form>
+<div class="d-lg-none" [ngClass]="{ 'div-sort': showSort }">
+  <div class="d-lg-none" [ngClass]="{ 'hide-content': !showSort }">
+    <label class="result-found ms-2 mt-2 ml-2">Sort By</label>
+    <span class="span-close" (click)="close('sort')">X</span>
+  </div>
+  <!-- <div class="" [ngClass]="{ 'hide-content': !showSort }">
+    <div
+      class="d-md-none"
+      style="
+        padding: 10px;
+        width: 100%;
+        border-bottom: 1px solid #d6d6e8;
+        align-items: center;
+      "
+    >
+      <div>
+        <div class="row">
+          <div class="col-11 d-flex align-items-center justify-content-start">
+            <span class="filter-title">ADPOOL NAME</span>
+          </div>
+          <div class="col-1 row justify-content-start align-items-center">
+            <span
+              *ngIf="sort1Details.hidden"
+              class="fa fa-chevron-down"
+              style="font-size: 10px"
+              (click)="sort1Details.hidden = false"
+            ></span>
+            <span
+              *ngIf="!sort1Details.hidden"
+              class="fa fa-chevron-up"
+              style="font-size: 10px"
+              (click)="sort1Details.hidden = true"
+            ></span>
+          </div>
+        </div>
+
+        <div class="row" [hidden]="true" #sort1Details>
+          <div class="col-11">
+            <div class="filter-detail">from + to - recent</div>
+            <div class="filter-detail">from - to + recent</div>
+          </div>
+          <div class="col-1"></div>
+        </div>
+      </div>
+    </div>
+  </div>-->
+  <div class="" [ngClass]="{ 'hide-content': !showSort }">
+    <div
+      class="d-flex sort-item"
+      (click)="this.sortItem = '1'"
+      [ngClass]="{ 'sort-item-active': sortItem === '1' }"
+    >
+      <div class="div-sort-div-span d-flex flex-column">
+        <span>ADPOOL NAME</span>
+        <span><small>From + to - recent</small></span>
+      </div>
+      <div class="div-sort-div-btn" *ngIf="sortItem === '1'">
+        <img
+          *ngIf="!sortAdPoolUp"
+          (click)="
+            sortCampaignsByField('adpool-name', true);
+            sortAdPoolUp = !sortAdPoolUp
+          "
+          src="/assets/Images/newImages/sort-up-white.svg"
+        />
+        <img
+          *ngIf="sortAdPoolUp"
+          (click)="
+            sortCampaignsByField('adpool-name', false);
+            sortAdPoolUp = !sortAdPoolUp
+          "
+          src="/assets/Images/newImages/sort-down-white.svg"
+        />
+      </div>
+      <div class="div-sort-div-btn" *ngIf="sortItem !== '1'">
+        <img
+          (click)="sortCampaignsByField('adpool-name', false)"
+          src="/assets/Images/newImages/sort-down-gray.svg"
+        />
+      </div>
+    </div>
+    <div
+      class="d-flex sort-item"
+      (click)="this.sortItem = '2'"
+      [ngClass]="{ 'sort-item-active': sortItem === '2' }"
+    >
+      <div class="div-sort-div-span d-flex flex-column">
+        <span>MEDIA</span>
+        <span><small>From + to - recent</small></span>
+      </div>
+      <div class="div-sort-div-btn" *ngIf="sortItem === '2'">
+        <img
+          *ngIf="!sortMediaUp"
+          (click)="
+            sortCampaignsByField('media', true); sortMediaUp = !sortMediaUp
+          "
+          src="/assets/Images/newImages/sort-up-white.svg"
+        />
+        <img
+          *ngIf="sortMediaUp"
+          (click)="
+            sortCampaignsByField('media', false); sortMediaUp = !sortMediaUp
+          "
+          src="/assets/Images/newImages/sort-down-white.svg"
+        />
+      </div>
+      <div class="div-sort-div-btn" *ngIf="sortItem !== '2'">
+        <img
+          (click)="sortCampaignsByField('media', false)"
+          src="/assets/Images/newImages/sort-down-gray.svg"
+        />
+      </div>
+    </div>
+    <div
+      class="d-flex sort-item"
+      (click)="this.sortItem = '3'"
+      [ngClass]="{ 'sort-item-active': sortItem === '3' }"
+    >
+      <div class="div-sort-div-span d-flex flex-column">
+        <span>Date</span>
+        <span><small>From + to - recent</small></span>
+      </div>
+      <div class="div-sort-div-btn" *ngIf="sortItem === '3'">
+        <img
+          *ngIf="!sortEndOnUp"
+          (click)="
+            sortCampaignsByField('endDate', true); sortEndOnUp = !sortEndOnUp
+          "
+          src="/assets/Images/newImages/sort-up-white.svg"
+        />
+        <img
+          *ngIf="sortEndOnUp"
+          (click)="
+            sortCampaignsByField('endDate', false); sortEndOnUp = !sortEndOnUp
+          "
+          src="/assets/Images/newImages/sort-down-white.svg"
+        />
+      </div>
+      <div class="div-sort-div-btn" *ngIf="sortItem !== '3'">
+        <img
+          (click)="sortCampaignsByField('endDate', false)"
+          src="/assets/Images/newImages/sort-down-gray.svg"
+        />
+      </div>
+    </div>
+    <div
+      class="d-flex sort-item"
+      (click)="this.sortItem = '4'"
+      [ngClass]="{ 'sort-item-active': sortItem === '4' }"
+    >
+      <div class="div-sort-div-span d-flex flex-column">
+        <span>EARNING TYPE</span>
+        <span><small>From + to - recent</small></span>
+      </div>
+      <div class="div-sort-div-btn" *ngIf="sortItem === '4'">
+        <img
+          *ngIf="!sortRemunerationUp"
+          (click)="
+            sortCampaignsByField('remuneration', true);
+            sortRemunerationUp = !sortRemunerationUp
+          "
+          src="/assets/Images/newImages/sort-up-white.svg"
+        />
+        <img
+          *ngIf="sortRemunerationUp"
+          (click)="
+            sortCampaignsByField('remuneration', false);
+            sortRemunerationUp = !sortRemunerationUp
+          "
+          src="/assets/Images/newImages/sort-down-white.svg"
+        />
+      </div>
+      <div class="div-sort-div-btn" *ngIf="sortItem !== '4'">
+        <img
+          (click)="sortCampaignsByField('remuneration', false)"
+          src="/assets/Images/newImages/sort-down-gray.svg"
+        />
+      </div>
+    </div>
+    <div
+      class="d-flex sort-item"
+      (click)="this.sortItem = '5'"
+      [ngClass]="{ 'sort-item-active': sortItem === '5' }"
+    >
+      <div class="div-sort-div-span d-flex flex-column">
+        <span>FUNDS</span>
+        <span><small>From + to - recent</small></span>
+      </div>
+      <div class="div-sort-div-btn" *ngIf="sortItem === '5'">
+        <img
+          *ngIf="!sortFundsUp"
+          (click)="
+            sortCampaignsByField('funds', true); sortFundsUp = !sortFundsUp
+          "
+          src="/assets/Images/newImages/sort-up-white.svg"
+        />
+        <img
+          *ngIf="sortFundsUp"
+          (click)="
+            sortCampaignsByField('funds', false); sortFundsUp = !sortFundsUp
+          "
+          src="/assets/Images/newImages/sort-down-white.svg"
+        />
+      </div>
+      <div class="div-sort-div-btn" *ngIf="sortItem !== '5'">
+        <img
+          (click)="sortCampaignsByField('funds', false)"
+          src="/assets/Images/newImages/sort-down-gray.svg"
+        />
+      </div>
+    </div>
+
+    <!--  <div
+      class="d-flex sort-item"
+      (click)="this.sortItem = '2'"
+      [ngClass]="{ 'sort-item-active': sortItem === '2' }"
+    >
+      <div class="div-sort-div-span">
+        <span>Date of publication</span>
+        <span><small>From + to - recent</small></span>
+      </div>
+      <div class="div-sort-div-btn" *ngIf="sortItem === '2'">
+        <img
+          *ngIf="!sortDownDate"
+          (click)="sortDate('up')"
+          src="/assets/Images/newImages/sort-up-white.svg"
+        />
+        <img
+          *ngIf="sortDownDate"
+          (click)="sortDate('down')"
+          src="/assets/Images/newImages/sort-down-white.svg"
+        />
+      </div>
+      <div class="div-sort-div-btn" *ngIf="sortItem !== '2'">
+        <img
+          (click)="sortDate('down')"
+          src="/assets/Images/newImages/sort-down-gray.svg"
+        />
+      </div>
+    </div>
+    <div
+      class="d-flex sort-item"
+      *ngIf="this.campaign.bounties?.length !== 0"
+      (click)="this.sortItem = '3'"
+      [ngClass]="{ 'sort-item-active': sortItem === '3' }"
+    >
+      <div class="div-sort-div-span">
+        <span>Number of subscribers</span>
+        <span><small>From + to - recent</small></span>
+      </div>
+      <div class="div-sort-div-btn" *ngIf="sortItem === '3'">
+        <img
+          *ngIf="!sortDownAbosNumber"
+          (click)="sortAbosNumber('up')"
+          src="/assets/Images/newImages/sort-up-white.svg"
+        />
+        <img
+          *ngIf="sortDownAbosNumber"
+          (click)="sortAbosNumber('down')"
+          src="/assets/Images/newImages/sort-down-white.svg"
+        />
+      </div>
+      <div class="div-sort-div-btn" *ngIf="sortItem !== '3'">
+        <img
+          (click)="sortAbosNumber('down')"
+          src="/assets/Images/newImages/sort-down-gray.svg"
+        />
+      </div>
+    </div>
+    <div
+      class="d-flex sort-item"
+      *ngIf="this.campaign.ratios?.length !== 0"
+      (click)="this.sortItem = '3'"
+      [ngClass]="{ 'sort-item-active': sortItem === '3' }"
+    >
+      <div class="div-sort-div-span">
+        <span>Number of view</span>
+        <span><small>From + to - recent</small></span>
+      </div>
+      <div class="div-sort-div-btn" *ngIf="sortItem === '3'">
+        <img
+          *ngIf="!sortDownViews"
+          (click)="sortViews('up')"
+          src="/assets/Images/newImages/sort-up-white.svg"
+        />
+        <img
+          *ngIf="sortDownViews"
+          (click)="sortViews('down')"
+          src="/assets/Images/newImages/sort-down-white.svg"
+        />
+      </div>
+      <div class="div-sort-div-btn" *ngIf="sortItem !== '3'">
+        <img
+          (click)="sortViews('down')"
+          src="/assets/Images/newImages/sort-down-gray.svg"
+        />
+      </div>
+    </div>
+    <div
+      class="d-flex sort-item"
+      *ngIf="this.campaign.ratios?.length !== 0"
+      (click)="this.sortItem = '4'"
+      [ngClass]="{ 'sort-item-active': sortItem === '4' }"
+    >
+      <div class="div-sort-div-span">
+        <span>Number of likes</span>
+        <span><small>From + to - recent</small></span>
+      </div>
+      <div class="div-sort-div-btn" *ngIf="sortItem === '4'">
+        <img
+          *ngIf="!sortDownLikes"
+          (click)="sortLikes('up')"
+          src="/assets/Images/newImages/sort-up-white.svg"
+        />
+        <img
+          *ngIf="sortDownLikes"
+          (click)="sortLikes('down')"
+          src="/assets/Images/newImages/sort-down-white.svg"
+        />
+      </div>
+      <div class="div-sort-div-btn" *ngIf="sortItem !== '4'">
+        <img
+          (click)="sortLikes('down')"
+          src="/assets/Images/newImages/sort-down-gray.svg"
+        />
+      </div>
+    </div>
+
+    <div
+      class="d-flex sort-item"
+      *ngIf="this.campaign.ratios?.length !== 0"
+      (click)="this.sortItem = '5'"
+      [ngClass]="{ 'sort-item-active': sortItem === '5' }"
+    >
+      <div class="div-sort-div-span">
+        <span>Number of shares</span>
+        <span><small>From + to - recent</small></span>
+      </div>
+      <div class="div-sort-div-btn" *ngIf="sortItem === '5'">
+        <img
+          *ngIf="!sortDownShares"
+          (click)="sortShares('up')"
+          src="/assets/Images/newImages/sort-up-white.svg"
+        />
+        <img
+          *ngIf="sortDownShares"
+          (click)="sortShares('down')"
+          src="/assets/Images/newImages/sort-down-white.svg"
+        />
+      </div>
+      <div class="div-sort-div-btn" *ngIf="sortItem !== '5'">
+        <img
+          (click)="sortShares('down')"
+          src="/assets/Images/newImages/sort-down-gray.svg"
+        />
+      </div>
+    </div>
+    <div
+      class="d-flex sort-item"
+      (click)="this.sortItem = '6'"
+      [ngClass]="{ 'sort-item-active': sortItem === '6' }"
+    >
+      <div class="div-sort-div-span">
+        <span>Earnings</span>
+        <span><small>From + to - recent</small></span>
+      </div>
+      <div class="div-sort-div-btn" *ngIf="sortItem === '6'">
+        <img
+          *ngIf="!sortDownEarnings"
+          (click)="sortEarnings('up')"
+          src="/assets/Images/newImages/sort-up-white.svg"
+        />
+        <img
+          *ngIf="sortDownEarnings"
+          (click)="sortEarnings('down')"
+          src="/assets/Images/newImages/sort-down-white.svg"
+        />
+      </div>
+      <div class="div-sort-div-btn" *ngIf="sortItem !== '6'">
+        <img
+          (click)="sortEarnings('down')"
+          src="/assets/Images/newImages/sort-down-gray.svg"
+        />
+      </div>
+    </div>
+    <div
+      class="d-flex sort-item"
+      *ngIf="!isOwnedByUser"
+      (click)="this.sortItem = '7'"
+      [ngClass]="{ 'sort-item-active': sortItem === '7' }"
+    >
+      <div class="div-sort-div-span">
+        <span>Rest to Harvest</span>
+        <span><small>From + to - recent</small></span>
+      </div>
+      <div class="div-sort-div-btn" *ngIf="sortItem === '7'">
+        <img
+          *ngIf="!sortDownRestToClaim"
+          (click)="sortRestToClaim('up')"
+          src="/assets/Images/newImages/sort-up-white.svg"
+        />
+        <img
+          *ngIf="sortDownRestToClaim"
+          (click)="sortRestToClaim('down')"
+          src="/assets/Images/newImages/sort-down-white.svg"
+        />
+      </div>
+      <div class="div-sort-div-btn" *ngIf="sortItem !== '7'">
+        <img
+          (click)="sortRestToClaim('down')"
+          src="/assets/Images/newImages/sort-down-gray.svg"
+        />
+      </div>
+    </div>-->
+  </div>
+</div>
+<div class="d-lg-none" [ngClass]="{ 'div-sort': showFilter }">
+  <div class="d-lg-none" [ngClass]="{ 'hide-content': !showFilter }">
+    <label class="result-found ms-2 mt-2 ml-2">Filter By</label>
+    <span class="span-close" (click)="close('filter')">X</span>
+  </div>
+
+  <div
+    [ngClass]="{ 'hide-content': !showFilter }"
+    style="overflow-y: 'scroll'; overflow-x: hidden"
+  >
+    <div class="pr-3 pl-3">
+      <div class="row mt-3">
+        <div class="col-4 d-flex align-items-center">
+          <h6 class="d-flex align-items-center">
+            <span class="title-case form-control-title">social media</span>
+          </h6>
+        </div>
+        <div class="col-8 d-flex align-items-center justify-content-center">
+          <app-select-social-media
+            (oracleValue)="filterByOracle($event)"
+          ></app-select-social-media>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-4 d-flex align-items-center">
+          <span class="d-flex align-items-center">
+            <h6 class="form-control-title title-case">Live Campaigns</h6>
+          </span>
+        </div>
+        <div class="col-8 d-flex align-items-center justify-content-center">
+          <img
+            src="assets/Images/Toggleon.svg"
+            class="cursor-pointer picture-toggle ml-1"
+            *ngIf="onlyLiveCampaigns"
+            (click)="toggleOnlyLiveCampaigns()"
+          />
+          <img
+            src="assets/Images/Toggleoff.svg"
+            class="cursor-pointer picture-toggle ml-1"
+            *ngIf="!onlyLiveCampaigns"
+            (click)="toggleOnlyLiveCampaigns()"
+          />
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-4 d-flex align-items-center">
+          <span class="d-flex align-items-center ml-1">
+            <h6 class="form-control-title title-case mt-1">BLOCKCHAIN</h6>
+          </span>
+        </div>
+        <div class="col-8 d-flex align-items-center justify-content-center">
+          <app-double-toggle-button
+            (toggleValue)="filterByBlockChainType($event)"
+          >
+          </app-double-toggle-button>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-4 d-flex align-items-center">
+          <span class="d-flex align-items-center">
+            <h6
+              class="form-control-title title-case"
+              style="max-width: 120px !important"
+            >
+              TYPE OF POOLS
+            </h6>
+          </span>
+        </div>
+        <div class="col-8 d-flex align-items-center justify-content-center">
+          <app-toggle-performance
+            class="d-flex align-items-center"
+            (toggleValue)="filterByPerformanceType($event)"
+          >
+          </app-toggle-performance>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-4 d-flex align-items-center">
+          <h6 class="form-control-title title-case">My Campaigns</h6>
+        </div>
+        <div class="col-8 d-flex align-items-center justify-content-center">
+          <img
+            src="assets/Images/Toggleon.svg"
+            class="cursor-pointer picture-toggle"
+            *ngIf="isUserCampaignsToggled"
+            (click)="toggleIsUserCampaigns()"
+          />
+          <img
+            src="assets/Images/Toggleoff.svg"
+            class="cursor-pointer picture-toggle"
+            *ngIf="!isUserCampaignsToggled"
+            (click)="toggleIsUserCampaigns()"
+          />
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-4 d-flex align-items-center">
+          <h6 class="form-control-title title-case align-self-start mt-3">
+            Choose Cryptos
+          </h6>
+        </div>
+        <div class="col-8 d-flex align-items-center justify-content-center">
+          <div class="dropdown" id="dropdown-ul">
+            <button
+              class="
+                btn
+                btntoggle
+                dropdown-toggle
+                btn-dropdown
+                d-flex
+                align-items-center
+              "
+              style="outline: none !important"
+              type="button"
+              id="dropdownMenuButton"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <span
+                style="width: 90%; overflow-x: 'scroll'"
+                class="d-flex align-items-center hide-scroll-bar"
+              >
+                <span
+                  class="text-align-left dark_grey ps-2"
+                  *ngIf="!cryptoListTags.length"
+                >
+                  Choose crypto</span
+                >
+                <span
+                  *ngFor="
+                    let cryptoTag of cryptoListTags.slice(0, 4);
+                    trackBy: trackByCryptoListTags
+                  "
+                  class="
+                    p-3
+                    crypto-tag
+                    d-flex
+                    justify-content-center
+                    align-items-center
+                    mr-2
+                  "
+                >
+                  <span class="crypto-tag-text">
+                    {{ cryptoTag.symbol }}
+                  </span>
+                  <img
+                    style="cursor: pointer"
+                    (click)="unselectCrypto(cryptoTag)"
+                    src="assets/Images/delete-times.png"
+                  />
+                </span>
+                <span
+                  *ngIf="cryptoListTags.length > 4"
+                  class="
+                    p-3
+                    crypto-tag
+                    d-flex
+                    justify-content-center
+                    align-items-center
+                    mr-2
+                  "
+                >
+                  <span class="crypto-tag-text">
+                    + {{ cryptoListTags.length - 4 }}
+                  </span>
+                </span>
+              </span>
+              <span
+                style="width: 10%"
+                class="d-flex align-items-center justify-content-center"
+              >
+                <i
+                  class="fa fa-chevron-down"
+                  (click)="dropdownCrypto.hidden = false"
+                  *ngIf="dropdownCrypto.hidden"
+                  style="margin-left: auto; margin-right: 1rem"
+                ></i>
+                <i
+                  class="fa fa-chevron-up"
+                  (click)="dropdownCrypto.hidden = true"
+                  *ngIf="!dropdownCrypto.hidden"
+                  style="margin-left: auto; margin-right: 1rem"
+                ></i>
+              </span>
+            </button>
+            <ul #dropdownCrypto class="dropdown-menu2 mb-3" [hidden]="true">
+              <li
+                class="li-select mt-2"
+                style="border-radius: 10px; padding: 5px 10px"
+                [ngClass]="{ 'crypto-selected': !!c.selected && c.selected }"
+                *ngFor="let c of cryptoList; trackBy: trackBySelectedCryptoTag"
+              >
+                <ng-container>
+                  <div class="d-flex mt-2">
+                    <span>
+                      <img
+                        class="cryptoIcon"
+                        src="/assets/Images/symbol_crypto/{{
+                          getCurrencyName(c.undername2)
+                        }}.svg"
+                      />
+                    </span>
+                    <div
+                      style="
+                        display: inline-block;
+                        white-space: nowrap;
+                        margin-left: 1rem;
+                      "
+                    >
+                      <div>
+                        <div class="crypto-title">
+                          {{ c.name }}
+                        </div>
+                        <div class="crypto-network">
+                          {{ c.network }}
+                        </div>
+                      </div>
+                    </div>
+                    <span style="margin-left: auto; margin-right: 1rem">
+                      <img
+                        src="assets/Images/check-box-selected.png"
+                        *ngIf="!!c.selected && c.selected"
+                        (click)="c.selected = false; checkCryptoFilter()"
+                      />
+                      <img
+                        src="assets/Images/check-box-not-selected.png"
+                        *ngIf="!c.selected"
+                        (click)="c.selected = true; checkCryptoFilter()"
+                      />
+                    </span>
+                  </div>
+                </ng-container>
+                <!--<ng-container
+                  *ngIf="
+                    c.code !== selectedCountryValue && c.code !== user?.country
+                  "
+                >
+                  <span class="dark_grey">{{ c.name }}</span>
+                </ng-container>-->
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-12 d-flex align-items-center justify-content-center">
+          <app-multi-range-slider
+            style="width: 90%"
+            (budgetValue)="filterByBudget($event)"
+          ></app-multi-range-slider>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

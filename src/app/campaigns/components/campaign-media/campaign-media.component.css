@@ -1,0 +1,429 @@
+.img-filter-icon {
+    padding: 7px;
+    margin-left: 32%;
+}
+
+.btn1 {
+    background-image: url('assets/Images/Cryptoup.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+    border: none;
+    width: 30px;
+    height: 50px;
+}
+
+.imgwidth {
+    width: 2.5vw;
+    margin-top: 9%;
+    margin-bottom: 15%;
+}
+
+.btn-blue {
+    background: #4048ff;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 22px;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.03em;
+    border-radius: 30px;
+    color: #ffffff;
+    border: none;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    height: 50px;
+    width: 60%;
+    cursor: pointer;
+}
+
+.btn-white {
+    background: #ffffff;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 22px;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.03em;
+    border-radius: 30px;
+    color: #4048ff;
+    border: none;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    height: 50px;
+    width: 60%;
+    cursor: pointer;
+}
+
+.btn-green {
+    font-style: normal;
+    font-weight: 900;
+    font-size: 17px;
+    line-height: 24px;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.03em;
+    background: #00cc9e;
+    color: #f6f6ff;
+    border-radius: 30px;
+    border: none;
+    width: 100%;
+    height: 50px;
+    cursor: pointer;
+}
+
+.Text7 {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 22px;
+    /* or 100% */
+    display: flex;
+    align-items: center;
+    letter-spacing: 1px;
+    /* Primary */
+    color: #1f2337;
+}
+
+.fa[_ngcontent-nku-c115] {
+    color: #fff3e6;
+    display: inline;
+    padding-right: 20px;
+    margin-left: 20px;
+    margin-left: 20px;
+    color: #75758f;
+}
+
+.angeStyle[_ngcontent-nku-c115] {
+    float: right;
+    color: #75758f;
+}
+
+.input_filed {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 2vw;
+    background: #ffffff;
+    border: 1px solid #d6d6e8;
+    border-radius: 30px;
+    width: 90%;
+}
+
+#key {
+    background-image: url('/assets/Images/search5.svg');
+    background-position: 13px;
+    background-repeat: no-repeat;
+    padding-left: 5%;
+    width: 100%;
+    font-style: normal;
+    font-size: 20px;
+    height: 50px;
+}
+
+
+/*
+    margin-top: 9%;
+    margin-bottom: 15%;
+  */
+
+table {
+    height: 100%;
+    width: 100%;
+    text-align: justify;
+}
+
+.fa {
+    /* font-size: 12px; */
+    font-size: 19px;
+}
+
+table>tr {
+    height: 70px;
+}
+
+table>th {
+    width: 20%;
+}
+
+.thFont {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 1vw;
+    line-height: 125.9%;
+    letter-spacing: 0.03em;
+    color: #75758f;
+}
+
+.TableFont {
+    color: #75758f;
+}
+
+.Icons {
+    /* height: 2.5vw; */
+    width: 2.5vw;
+}
+
+.CryptoID {
+    text-align: justify;
+}
+
+.totalFont {
+    letter-spacing: 0.03em;
+    font-size: 1vw;
+    text-align: end;
+}
+
+
+/*.IconsName1 {
+    margin-top: 4px;
+    font-style: normal;
+    font-weight: normal;
+    color: #75758F;
+    font-size: 20px;
+  }*/
+
+.center {
+    text-align: center;
+}
+
+
+/*******************************/
+
+.Cryptoname {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 1vw;
+    line-height: 11px;
+    letter-spacing: 0.03em;
+    color: #1f2337;
+}
+
+.CryptoUNDERname {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 0.7vw;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #75758f;
+}
+
+.cryptoprice {
+    left: 20px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1vw;
+    line-height: 6px;
+    text-align: start;
+    letter-spacing: 0.03em;
+    color: #1f2337;
+}
+
+.cryptoQTE {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.03em;
+    color: #162746;
+}
+
+.tight {
+    width: 20%;
+    white-space: nowrap;
+}
+
+
+/*******************************/
+
+.textalignEnd {
+    text-align: end;
+}
+
+.textalignCenter {
+    text-align: center;
+}
+
+.indicatorfont {
+    font-size: 0.8vw;
+}
+
+.arrow {
+    font-size: 8px;
+    margin-bottom: 10px;
+}
+
+.indicatorposition {
+    position: relative;
+    left: 42px;
+    width: auto;
+}
+
+
+/*tbody, td, tfoot, th, thead, tr {
+    border-color: inherit;
+    border-style: solid;
+    border-width: 0;
+    padding: 14px 0px;
+  } */
+
+
+/*----------------------------------- Small devices (landscape phones, 576px and up)---------------------------------- */
+
+@media (min-width: 320px) and (max-width: 425px) {
+    .indicatorfont {
+        font-size: 11px;
+    }
+    .Cryptoname {
+        font-style: normal;
+        font-weight: bold;
+        font-size: 12px;
+        line-height: 12px;
+        letter-spacing: 0.03em;
+        color: #1f2337;
+    }
+    .CryptoUNDERname {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 11px;
+        line-height: 13px;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        color: #75758f;
+    }
+    .cryptoprice {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 8px;
+        line-height: 10px;
+        text-align: start;
+        letter-spacing: 0.03em;
+        color: #1f2337;
+    }
+    .cryptoQTEx {
+        font-weight: 400;
+        font-size: 14px;
+    }
+    .imgwidth2 {
+        width: 100%;
+        margin-left: 85%;
+    }
+    .imgwidth3 {
+        width: 100%;
+        margin-left: -285%;
+    }
+    .imgwidth4 {
+        width: 100%;
+        margin-left: -250%;
+    }
+    .Icons {
+        height: 39px;
+        width: 30px;
+    }
+}
+
+@media (min-width: 426px) and (max-width: 766px) {
+    .indicatorfont {
+        font-size: 11px;
+    }
+    .Icons {
+        width: 30px;
+        height: fit-content;
+    }
+    .imgwidth2 {
+        width: 100%;
+        margin-left: -11%;
+    }
+    .imgwidth3 {
+        width: 100%;
+        margin-left: -475%;
+    }
+    .imgwidth4 {
+        width: 100%;
+        margin-left: -396%;
+    }
+    .cryptoprice {
+        left: 20px;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 1vw;
+        line-height: 6px;
+        text-align: start;
+        letter-spacing: 0.03em;
+        color: #1f2337;
+    }
+}
+
+.mb-5 {
+    margin-bottom: 50rem !important;
+}
+
+@media (min-width: 150px) and (max-width: 397px) {
+    .img-filter-icon {
+        border-radius: 50%;
+        box-shadow: 0px 2px 2px 0px #8b8686;
+        padding: 7px;
+        margin-left: -11%;
+    }
+}
+
+@media (min-width: 767px) and (max-width: 990px) {
+    .imgwidth {
+        width: 27px !important;
+    }
+    .thFont[_ngcontent-csp-c115] {
+        font-style: normal;
+        font-weight: bold;
+        font-size: 16px !important;
+        line-height: 125.9%;
+        letter-spacing: 0.03em;
+        color: #75758f;
+    }
+    .tight {
+        width: 20%;
+        white-space: nowrap;
+        font-size: 16px;
+    }
+    .Icons {
+        width: 30px;
+    }
+    .Cryptoname {
+        font-style: normal;
+        font-weight: bold;
+        font-size: 14px;
+        line-height: 16px;
+        letter-spacing: 0.03em;
+        color: #1f2337;
+        margin-top: 17%;
+    }
+    .CryptoUNDERname {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 11px;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        color: #75758f;
+    }
+    .cryptoprice {
+        left: 20px;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 1.5vw;
+        line-height: 0px;
+        text-align: start;
+        letter-spacing: 0.03em;
+        color: #1f2337;
+    }
+    .cryptoQTEx {
+        font-weight: 400;
+        font-size: 2vw !important;
+        letter-spacing: 0.03em;
+    }
+    .textalignStart {
+        font-size: 1.8vw !important;
+    }
+    .indicatorfont {
+        font-size: 1.3vw;
+    }
+}

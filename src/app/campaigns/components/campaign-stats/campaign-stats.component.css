@@ -1,0 +1,94 @@
+:host {
+  width: 100%;
+}
+.chart-wrapper {
+  margin-top: 57%;
+  margin-left: 26%;
+}
+.chart-title {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 111%;
+  line-height: 125.9%;
+  text-align: center;
+  letter-spacing: 0.03em;
+  color: #75758f;
+}
+canvas {
+  margin-top: 10%;
+}
+.Icons{
+  width: 16px;
+}
+.creator-title {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 125.9%;
+  text-align: center;
+  letter-spacing: 0.03em;
+  color: #75758f;
+}
+.statistics {
+  color: rgba(17, 21, 41, 1);
+  text-align: center;
+
+  font-style: normal;
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 34px;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+.chart-title-social {
+
+  font-style: normal;
+  font-weight: bold;
+  font-size: 111%;
+  line-height: 125.9%;
+  text-align: center;
+  letter-spacing: 0.03em;
+  color: #75758f;
+}
+.chart-title-rem {
+
+  font-style: normal;
+  font-weight: bold;
+  font-size: 111%;
+  line-height: 125.9%;
+  text-align: center;
+  letter-spacing: 0.03em;
+  color: #75758f;
+}
+.insta {
+  background-image: url(assets/Images/Instagram-stat.svg);
+  background-repeat: no-repeat;
+  background-position: 1%;
+}
+.facebook {
+  background-image: url(assets/Images/facebook-stat.svg);
+  background-repeat: no-repeat;
+  background-position: 1%;
+}
+
+.share-stat {
+  background-image: url(assets/Images/share-stat.svg);
+  background-repeat: no-repeat;
+  background-position: 1%;
+}
+
+.youtube {
+  background-image: url(assets/Images/Youtube-.svg);
+  background-repeat: no-repeat;
+  background-position: 1%;
+}
+.social-stats {
+  margin-top: 8%;
+  margin-left: 61%;
+  color: rgba(31, 35, 55, 1);
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 130%;
+  letter-spacing: 0.03em;
+}

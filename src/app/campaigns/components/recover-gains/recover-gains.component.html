@@ -1,0 +1,139 @@
+<header>
+  <h2
+    (click)="goToCampaign()"
+    class="campaign-title cursor-pointer capitalize-first-letter"
+    *ngIf="campaignData$ | async as campaign"
+  >
+    {{ campaign.title }}
+    <span class="text-grey capitalize-first-letter influencer-account-name">
+      {{ campaign.brand }}
+    </span>
+  </h2>
+
+  <button
+    type="button"
+    (click)="back()"
+    class="go-back-link border-0 bg-transparent"
+  >
+    {{ '\< back' }}
+  </button>
+</header>
+
+<main class="main-content" *ngIf="videoDescription$ | async as video">
+  <h3 class="post-title">{{ video?.title }}</h3>
+  <hr class="hr-separator" />
+
+  <ng-container *ngIf="promData$ | async as prom">
+    <p class="start-date-text text-grey text-uppercase">
+      {{ 'applied on' }}
+      <span>{{ prom.applyDate | date: 'dd/MM/yyyy' }}</span>
+      {{ 'at' | translate }}
+      <span>{{
+        (prom.applyDate | date: 'HH') + 'H' + (prom.applyDate | date: 'HH')
+      }}</span>
+    </p>
+
+    <div class="participation-link-wrapper" *ngIf="postLink$ | async as link">
+      <a class="participation-link" [href]="link" target="_blank">
+        {{ link }}
+      </a>
+      <img class="youtube-icon" [src]="oracleImageSrc" />
+    </div>
+
+    <div
+      class="statistics-wrapper"
+      *ngIf="totalEarnedInSaTT$ | async as earnings"
+    >
+      <div class="statistic-element">
+        <div class="stats-wrapper">
+          <span class="pr-2">{{ prom.views }}</span>
+          <img src="/assets/Images/campagne/view_gain.svg" />
+        </div>
+        :
+        <div class="value-in-satt">
+          <span class="pr-2">{{
+            earnings.viewsInSaTT || '0' | fromWeiTo: currencyName
+          }}</span>
+          <img
+            src="/assets/Images/icons-crypto/black/{{ currencyName }}.svg"
+            width="18px"
+          />
+        </div>
+      </div>
+      <span class="separator"></span>
+      <div class="statistic-element">
+        <div class="stats-wrapper">
+          <span class="pr-2">{{ prom.likes }}</span>
+          <img
+            style="height: 17px; margin-top: -4px !important"
+            src="/assets/Images/campagne/like_gain.svg"
+          />
+        </div>
+        :
+        <div class="value-in-satt">
+          <span class="pr-2">{{
+            earnings.likesInSaTT || '0' | fromWeiTo: currencyName
+          }}</span>
+          <img
+            src="/assets/Images/icons-crypto/black/{{ currencyName }}.svg"
+            width="18px"
+          />
+        </div>
+      </div>
+      <span class="separator"></span>
+      <div class="statistic-element">
+        <div class="stats-wrapper">
+          <span class="pr-2"> {{ prom.shares }}</span>
+          <img
+            style="height: 17px"
+            src="/assets/Images/campagne/share_gain.svg"
+          />
+        </div>
+        :
+        <div class="value-in-satt">
+          <span class="pr-2">{{
+            earnings.sharesInSaTT || '0' | fromWeiTo: currencyName
+          }}</span>
+          <img
+            src="/assets/Images/icons-crypto/black/{{ currencyName }}.svg"
+            width="18px"
+          />
+        </div>
+      </div>
+    </div>
+    <hr class="hr-separator" />
+
+    <div class="budget-wrapper text-center">
+      <div class="text-grey budget-in-usd text-uppercase">
+        ≃ {{ '$' + prom.totalToEarnInUSD }}
+      </div>
+      <div
+        class="budget-in-satt bif-text blue-text d-flex justify-content-center"
+      >
+        {{ prom.totalToEarn | fromWeiTo: currencyName:3 | number }}
+        <img
+          src="/assets/Images/icons-crypto/blue/{{ currencyName }}.svg"
+          width="32px"
+        />
+      </div>
+      <div *ngIf="campaignData$ | async as campaign">
+        <div
+          class="text-grey gas-fee"
+          *ngIf="campaign.currency.type === 'erc20'"
+        >
+          Gas fees ETH: ${{ eRC20Gaz }}
+        </div>
+        <div
+          class="text-grey gas-fee"
+          *ngIf="campaign.currency.type === 'bep20'"
+        >
+          Gas fees BNB: ${{ bEPGaz }}
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</main>
+
+<div class="confirm-wallet-password bg-grey">
+  <app-confirm-blockchain-action></app-confirm-blockchain-action>
+</div>

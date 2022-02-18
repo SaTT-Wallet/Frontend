@@ -1,0 +1,75 @@
+.oracles-container {
+  padding: 4.08107px 6.52972px;
+  width: 197.14px;
+  height: 40.04px;
+  left: 423.22px;
+  top: 243.9px;
+  background: #d8daff;
+  border-radius: 29.3288px;
+}
+.oracle {
+  width: 31.87px;
+  height: 31.87px;
+
+  /* White */
+
+  background: #ffffff;
+  border-radius: 40.8107px;
+  cursor: pointer;
+}
+.twitter-oracle {
+  width: 31.87px;
+  height: 31.87px;
+
+  /* White */
+
+  background: #ffffff;
+  border-radius: 40.8107px;
+}
+.facebook-oracle {
+  left: 0%;
+  right: 0%;
+  top: 0%;
+  bottom: 0%;
+  width: 31.87px;
+  height: 31.87px;
+
+  /* White */
+
+  background: #ffffff;
+  border-radius: 40.8107px;
+}
+.youtube-oracle {
+  left: 0%;
+  right: 0%;
+  top: 0%;
+  bottom: 0%;
+  width: 31.87px;
+  height: 31.87px;
+
+  /* White */
+
+  background: #ffffff;
+  border-radius: 40.8107px;
+}
+.instagram-selected {
+  background: linear-gradient(
+    0deg,
+    #e09b3d -46.1%,
+    #c74c4d 11.28%,
+    #c21975 68.66%,
+    #7024c4 145.16%
+  );
+}
+.facebook-selected {
+  background: #1967ff;
+}
+.twitter-selected {
+  background: #55acee;
+}
+.youtube-selected {
+  background: #ff0000;
+}
+.linkedIn-selected {
+  background: #0e76a8;
+}

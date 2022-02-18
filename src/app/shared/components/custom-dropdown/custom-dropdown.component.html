@@ -1,0 +1,58 @@
+<div class="custom-dropdown">
+  <input
+    type="checkbox"
+    [attr.id]="inputCheckBoxId"
+    class="input-checkbox"
+    [checked]="isDropdownOpen"
+    (change)="isDropdownOpen = !isDropdownOpen"
+  />
+  <label [attr.for]="inputCheckBoxId" class="toggle-menu-label" #checkboxLabel>
+    <span *ngIf="!multiOptions">{{ selectedOption?.text  | translate }}</span>
+    <span class="selcted-items-wrapper" *ngIf="multiOptions">
+      <ng-container *ngFor="let option of selectedOptions | keyvalue">
+        <span class="selected-item" *ngIf="option.value">
+          {{ getOptionText(option.key) | translate}}
+        </span>
+      </ng-container>
+      <span class="default-select-message" *ngIf="showDefaultMessage()">
+        {{
+          this.options[0].text | translate
+        }}</span
+      >
+    </span>
+    <i class="fa fa-chevron-down label-icon" aria-hidden="true"></i>
+  </label>
+  <!-- One option list -->
+  <ul class="options-list" *ngIf="!multiOptions">
+    <ng-container *ngFor="let option of options">
+      <li
+        class="option-item"
+        (click)="changeSelectedOptions(option)"
+        *ngIf="option.value !== selectedOption.value">
+        <span> {{ option.text | translate }} </span>
+      </li>
+    </ng-container>
+  </ul>
+
+  <!-- Multi options list -->
+  <ul class="options-list" *ngIf="multiOptions">
+    <ng-container *ngFor="let option of options">
+      <li class="option-item" *ngIf="option?.value !== selectedOption?.value">
+        <input
+          class="check"
+          type="checkbox"
+          value="{{ option.value }}"
+          id="{{ option.value }}"
+          tabindex="0"
+          aria-checked="false"
+          aria-invalid="false"
+          #checkboxes
+          (click)="changeSelectedOptions(option)"
+        />
+        <label class="form-label" for="{{ option?.value }}">{{
+          option.text | translate 
+        }}</label>
+      </li>
+    </ng-container>
+  </ul>
+</div>

@@ -1,0 +1,129 @@
+
+*,
+*:focus {
+    outline: none;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-y: hidden;
+}
+
+/* body {
+    position: relative;
+} */
+.auth-body {
+    padding: 10px;
+    padding-bottom: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 0;
+    margin-right: 0;
+    margin: 0 auto;
+    margin-top: 55px;
+}
+
+:host {
+    /* background: url("/assets/Images/darkk 1.svg") no-repeat;  */
+    background: linear-gradient(180deg, #1F2337 46.44%, #4048FF 239.98%);;
+    background-size: cover;
+    min-height: 100vh;
+    max-width: 100vw;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden !important;
+    position: relative;
+    color:#ffffff;
+}
+.logo_satt {
+  height: 45px;
+  margin: 15px;
+}
+.title {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 48px;
+  line-height: 50px;
+  text-align: center;
+  letter-spacing: 1px;
+  display: flex;
+  justify-content: center;
+}
+.lost_in_space_img {
+  width: 70%;
+  margin: 3em auto;
+}
+.err_desc {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 22px;
+  text-align: center;
+  letter-spacing: 1px;
+  display: flex;
+  justify-content: center;
+}
+.BorderList{
+  border-left: 1px solid #FFFFFF;
+}
+.list{
+  margin :2em auto;
+}
+.list_title{
+font-style: normal;
+font-weight: bold;
+font-size: 22px;
+line-height: 22px;
+text-align: center;
+letter-spacing: 1px;
+color: #FFFFFF;
+display: flex;
+justify-content: center;
+margin-bottom: 20px;
+margin-top: 10px;
+white-space: nowrap;
+}
+::ng-deep iframe {
+  opacity: 0.001;
+  z-index:-1 !important;
+}
+a {
+  text-decoration: none;
+  color: #ffffff;
+}
+@media (max-width: 767.98px) {
+  .no-mobile{
+    display: none !important;
+  }
+  .BorderList{
+    border-left: 0px solid #FFFFFF;
+  }
+  .list_title{
+     justify-content: flex-start;
+  }
+.auth-body {
+  padding: 20px;
+  margin-top: 100px;
+}
+}
+@media (max-width: 400px){
+h2{
+   font-size: 25px;
+}
+h4{
+  font-size: 14px
+}
+.list_title{
+  font-size: 14px
+}
+li{
+  font-size: 12px;
+}
+}

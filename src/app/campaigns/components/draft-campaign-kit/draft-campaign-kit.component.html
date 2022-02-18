@@ -1,0 +1,240 @@
+<div class="col-12 px-3 padding-small-version">
+  <form [formGroup]="form">
+    <div
+      class="col-md-12 col-lg-12 col-xs-12 d-flex justify-content-center pt-4"
+    >
+      <label class="title-section">
+        {{ 'campaign.kit de campagne' | translate }}</label
+      >
+    </div>
+    <div class="row d-flex justify-content-center pt-3 mb-1">
+      <div class="col-xl-10 col-md-12 col-lg-10 col-sm-12">
+        <label class="label-type">{{
+          'campaign_details.add_files' | translate
+        }}</label>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center pt-3 mb-1">
+      <div class="col-xl-10 col-md-12 col-lg-10 col-sm-12">
+        <p class="small-label mb-0">{{ 'campaign.ajout_desc' | translate }}</p>
+        <p class="small-labels">
+          {{ 'campaign.ajout_description' | translate }}
+        </p>
+      </div>
+    </div>
+    <div class="row justify-content-center pt-3 mb-1">
+      <div class="d-flex col-xl-10 col-md-12 col-lg-10 col-sm-12">
+        <div
+          class="col-3 p-0"
+          [ngClass]="
+            countImages() === 5
+              ? 'background-choose-img'
+              : 'background-upload-img'
+          "
+        >
+          <label
+            class="cursor-pointer w-100 h-100 flex-column gap-4 d-flex align-self-center justify-content-center align-items-center justify-content-center"
+          >
+            <input
+              *ngIf="countImages() < 5"
+              type="file"
+              name="file"
+              formControlName="file"
+              (change)="onFileChange($event)"
+              accept="image/*"
+            />
+            <img
+              *ngIf="countImages() >= 5"
+              src="assets/Images/choose-picture.svg"
+              width="50px"
+            />
+            <img
+              *ngIf="countImages() < 5"
+              src="assets/Images/upload-picture-icon.svg"
+              width="50px"
+            />
+
+            <label class="label-upload text-center" *ngIf="countImages() < 5"
+              >Upload from gallery</label
+            >
+          </label>
+        </div>
+        <div class="col-9 p-0">
+          <owl-carousel-o [options]="customOptions">
+            <ng-container
+              *ngFor="let elem of kits; index as i; trackBy: trackByKits"
+            >
+              <ng-template
+                carouselSlide
+                id="{{ i }}"
+                *ngIf="!elem.link"
+                [width]="213"
+              >
+                <div
+                  class="div-uploaded-pic d-flex justify-content-center align-items-center"
+                >
+                  <img
+                    src="/assets/Images/delete-kit-new.svg"
+                    alt=""
+                    class="img-kit cursor-pointer"
+                    (click)="deleteKitElement(i)"
+                  />
+
+                  <img
+                    class="uploaded-pic"
+                    [src]="elem.url || elem.selectedFile"
+                    *ngIf="elem.contentType !== 'application/pdf'"
+                    id="imagekit{{ i }}"
+                    alt="your image"
+                  />
+                  <img
+                    class="img-responsive"
+                    src="{{ pdf }}"
+                    *ngIf="elem.contentType === 'application/pdf'"
+                  />
+
+                  <span>
+                    <img
+                      *ngIf="zoomIn"
+                      src="/assets/Images/zoom-in-eye.svg"
+                      alt=""
+                      class="eye-uploaded-pic cursor-pointer"
+                      data-toggle="modal"
+                      data-target="#exampleModal"
+                      (click)="
+                        elem.selectedFile
+                          ? openModalZoomIn(elem.selectedFile)
+                          : openModalZoomIn(elem.url)
+                      "
+                    />
+                    <img
+                      *ngIf="zoomOut"
+                      src="/assets/Images/zoom-out-eye.svg"
+                      alt=""
+                      class="eye-uploaded-pic cursor-pointer"
+                      (click)="zoomout(i)"
+                    />
+
+                    <img
+                      src="/assets/Images/download-kit-2.svg"
+                      alt=""
+                      id="btn"
+                      class="download-uploaded-pic cursor-pointer"
+                      (click)="downloadMyFile(i, id)"
+                    />
+                  </span>
+                </div>
+              </ng-template>
+            </ng-container>
+          </owl-carousel-o>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12 mt-3 mb-3">
+      <label class="success" *ngIf="isConformKit === true"
+        ><img src="assets/Images/successImage.svg" class="p-1" />{{
+          'campaign.valid_picture' | translate
+        }}</label
+      >
+      <label class="danger" *ngIf="isConformKit === false"
+        ><img src="assets/Images/false.svg" class="p-1" />{{
+          'campaign.invalid_picture' | translate
+        }}</label
+      >
+    </div>
+
+    <div class="row d-flex justify-content-center pt-3 mb-1">
+      <div class="col-xl-10 col-md-12 col-lg-10 col-sm-12">
+        <label class="label-type">{{
+          'campaign_details.add_new_links' | translate
+        }}</label>
+      </div>
+      <div
+        class="d-flex gap-2 col-xl-10 col-md-12 col-lg-10 col-sm-12 flex-xl-row flex-lg-row flex-md-row flex-sm-row flex-column"
+      >
+        <input
+          type="text"
+          name="filterName"
+          formControlName="url"
+          #url
+          class="input-type"
+          placeholder="http://"
+        />
+        <button type="button" class="btn-white" (click)="addLinkToKits()">
+          + {{ 'kit_campaign.add' | translate }}
+        </button>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center pt-1 mb-1">
+      <div class="col-xl-10 col-md-12 col-lg-10 col-sm-12">
+        <span class="error" *ngIf="this.form.get('url')?.errors?.pattern">
+          {{ 'field_mustbe_url' | translate }}</span
+        >
+      </div>
+    </div>
+
+    <div
+      class="row d-flex justify-content-center pt-3 mb-1 w-100 position-relative"
+    >
+      <div
+        class="col-xl-10 col-md-12 col-lg-10 col-sm-12 d-flex flex-row flex-wrap justify-content-left mb-3"
+      >
+        <div
+          class="w-100 div-kit-elements me-2 mb-2"
+          *ngFor="let elem of kits; trackBy: trackBykitelemnt"
+        >
+          <label
+            *ngIf="elem.link"
+            class="elem-name flex-item tag-item fake-link"
+          >
+            {{ elem.link }}
+            <img
+              src="/assets/Images/deleteImageKit.svg"
+              (click)="deleteKitElement(kits.indexOf(elem))"
+              class="cursor-pointer"
+              alt=""
+            />
+          </label>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body center-cropped">
+        <img
+          src="/assets/Images/close-popup.svg"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        />
+        <img
+          id="img-reader"
+          [src]="urlImage"
+          class="justify-content-center kit-cmp"
+          alt="your image"
+          style="width: 100%; height: 100%; object-fit: cover"
+        />
+        <object
+          style="width: 100%; height: 100%; object-fit: cover"
+          type="application/pdf"
+          frameBorder="0"
+          scrolling="auto"
+          height="100%"
+          width="100%"
+          id="pdf-reader"
+        ></object>
+      </div>
+    </div>
+  </div>
+</div>

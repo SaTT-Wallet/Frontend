@@ -1,0 +1,383 @@
+.title-section {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 28px;
+    text-align: center;
+    letter-spacing: 1px;
+    color: #1f2337;
+}
+
+.flex-item {
+    background-color: #ffffff;
+    border-radius: 30px;
+    overflow-wrap: anywhere;
+    padding: 0.7em 1.5em;
+    border: 1px solid #d6d6e8;
+    box-sizing: border-box;
+    cursor: pointer;
+    border-radius: 30px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 130%;
+    /* or 21px */
+    letter-spacing: 0.03em;
+    color: #16274b;
+}
+
+
+/* .flex-item:focus {
+    background-color: #7A7FFF;
+}
+.flex-item:active {
+    background-color: #7A7FFF;
+} 
+.flex-item:visited {
+    background-color: #7A7FFF;
+}*/
+
+.danger {
+    background-color: #f6f6ff;
+    border-radius: 30px;
+    overflow-wrap: anywhere;
+    padding: 0.7em 1.5em;
+    border: none;
+    cursor: pointer;
+}
+
+.success {
+    background-color: #7a7fff;
+    border-radius: 30px;
+    overflow-wrap: anywhere;
+    padding: 0.7em 1.5em;
+    border: none;
+    cursor: pointer;
+}
+
+.label-type {
+    font-family: 'Poppins';
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 130%;
+    font-style: normal;
+    letter-spacing: 0.03em;
+    color: #75758f;
+}
+
+.input-type {
+    width: 100%;
+    min-width: 95%;
+    height: 48px;
+    padding: 6px 15px;
+    line-height: 1.57142857;
+    border: 1px solid #d6d6e8;
+    font-size: 16px;
+    background-color: white;
+    color: #323754;
+    border-radius: 30px;
+    font-style: normal;
+    font-weight: normal;
+}
+
+
+/*-- css to change default icon date---*/
+
+input[type='date']::-webkit-inner-spin-button {
+    opacity: 0;
+}
+
+input[type='date']::-webkit-calendar-picker-indicator {
+    background: url('assets/Images/calender.svg') right no-repeat;
+    color: #323754;
+    opacity: 0.5;
+}
+
+input[type='date']::-webkit-calendar-picker-indicator:hover {
+    background: url('assets/Images/calender.svg') right no-repeat;
+    opacity: 0.8;
+}
+
+input[type='date'] {
+    display: block;
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    min-height: 1.2em;
+}
+
+@media (max-width: 767.98px) {
+    /* .label-type {
+        justify-content: center;
+        display: flex;
+    } */
+    .tool .alertText {
+        margin-top: 28px !important;
+        margin-left: -88px !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .pt-3-mobile {
+        padding-top: 1rem !important;
+    }
+}
+
+.horizontal-line {
+    border: 1px solid #d6d6e8;
+    height: 0px;
+    width: 100% !important;
+}
+
+.error {
+    text-align: center;
+    color: #f52079;
+    position: absolute;
+    font-size: 13px;
+    line-height: 13px;
+}
+
+.normal-font-weight {
+    font-weight: normal !important;
+}
+
+.red-hyphen {
+    color: #f52079;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+
+/*------- input tag ---------------------------------*/
+
+::ng-deep .ng2-tag-input__text-input {
+    display: inline;
+    vertical-align: middle;
+    border-radius: 30px;
+    border: 1px solid;
+    padding: 0 0.5rem;
+    height: 38px;
+    /* margin-left: 7%; */
+    font-size: 1em;
+    font-family: Poppins;
+}
+
+::ng-deep ::placeholder {}
+
+::ng-deep .ng2-tag-input {
+    width: 100%;
+    height: auto !important;
+    min-height: 48px !important;
+    padding: 4px 5px !important;
+    line-height: 1.57142857;
+    border: 1px solid #d6d6e8 !important;
+    font-size: 15px;
+    color: #162746;
+    font-family: 'Poppins';
+    border-radius: 30px;
+}
+
+::ng-deep tag {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    letter-spacing: 0.05rem;
+    border-radius: 16px;
+    transition: 0.3s;
+    margin: 0.2rem 0.2rem !important;
+    padding: 0.08rem 0.45rem !important;
+    height: 32px;
+    background: #f6f6ff;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    overflow: hidden;
+    outline: 0;
+    cursor: pointer;
+    position: relative;
+    font-family: Poppins !important;
+    font-style: normal;
+    font-weight: 400 !important;
+    font-size: 1em !important;
+    line-height: 32px !important;
+    align-items: center;
+    color: #47526a !important;
+}
+
+::ng-deep .ng2-tag-input.ng2-tag-input--focused {
+    border: 1px solid #d6d6e9 !important;
+}
+
+::ng-deep .delete-icon {
+    vertical-align: bottom;
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+    width: 15px !important;
+    height: 32px;
+    font-weight: bold !important;
+    color: #47526a !important;
+}
+
+.overflow {
+    overflow-y: auto;
+}
+
+
+/*--------end input tag----------------------------- */
+
+
+/*---------  css dropdown countries-----------*/
+
+.country_input {
+    display: block;
+    width: 100%;
+    font-size: 1rem;
+    font-family: 'Poppins' !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    line-height: 1.5;
+    color: #212529;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 30px;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.input_country {
+    background: #ffffff !important;
+    border: 1px solid #d6d6e8 !important;
+    border-radius: 30px !important;
+    outline: none;
+    min-height: 47px;
+    height: auto;
+    width: 100%;
+    font-family: 'Poppins' !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-size: 15px !important;
+    line-height: 125.9% !important;
+    letter-spacing: 0.03em !important;
+    color: #8b93a5 !important;
+}
+
+::ng-deep.dropdown-btn {
+    margin-left: 2%;
+    padding: 10px 0px !important;
+    font-family: 'Poppins' !important;
+    font-style: normal !important;
+    font-weight: 550 !important;
+    font-size: 15px !important;
+    line-height: 125.9% !important;
+    letter-spacing: 0.03em !important;
+    color: #969dae !important;
+    border: none !important;
+    outline: none !important;
+    width: 98% !important;
+}
+
+::ng-deep.multiselect-item-checkbox input[type='checkbox']+div:before {
+    border: 1px solid #337ab7 !important;
+}
+
+::ng-deep .dropdown-btn .selected-item {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    font-family: 'Poppins';
+    font-weight: normal;
+    font-size: 1em;
+    letter-spacing: 0.05rem;
+    color: #75758f !important;
+    border: none !important;
+    border-radius: 16px !important;
+    transition: 0.3s;
+    height: 32px;
+    line-height: 30px;
+    background: #ffffff !important;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    overflow: hidden;
+    outline: 0;
+    cursor: pointer;
+    position: relative;
+    max-width: 300px !important;
+}
+
+::ng-deep.selected-item>a {
+    font-size: 13px !important;
+    font-weight: 300 !important;
+    padding: 0px !important;
+    color: #585858 !important;
+}
+
+::ng-deep .multiselect-dropdown {
+    outline: none;
+}
+
+
+/*----------end  css dropdown countries-----------*/
+
+@media (min-width: 768px) {
+    .mt-4-option {
+        margin-top: 1.5rem !important;
+    }
+}
+
+.delete-bg {
+    background-color: #d6d6e8;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 23px;
+}
+
+.icon-ic5 {
+    color: blue;
+    font-size: 24px;
+}
+
+.tool .alertText {
+    visibility: hidden;
+    background-color: #4048ff;
+    color: #fff;
+    box-sizing: border-box;
+    border: none;
+    opacity: 0.9;
+    border-radius: 17px;
+    position: absolute;
+    z-index: 1;
+    width: auto;
+    max-width: 284px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 150%;
+    letter-spacing: 0.03em;
+    margin-top: -19px;
+}
+
+.tool:hover .alertText {
+    visibility: visible !important;
+}
+
+.gray-text {
+    font-weight: 400px;
+    color: #adadc8;
+    font-size: 16px;
+    line-height: 24px;
+    font-style: italic;
+}
+
+::ng-deep .multiselect-dropdown .dropdown-btn .dropdown-multiselect__caret {
+    top: 11px !important;
+}

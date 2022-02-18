@@ -1,0 +1,4 @@
+<!-- user picture in add-pools -->
+<img [src]="user?.userPicture" (error)="onImgError($event)" class="avatar" alt="" *ngIf="!isHeaderPic" />
+<!-- user picture in header -->
+<img [src]="user?.userPicture" (error)="onImgError($event)" class="avatarimage" alt="" *ngIf="isHeaderPic" />

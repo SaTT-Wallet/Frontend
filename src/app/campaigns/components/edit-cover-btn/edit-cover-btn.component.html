@@ -1,0 +1,66 @@
+<button (click)="openModal(changeCoverModal)" class="btn-edit">
+  <img class="" src="/assets/Images/blue-vector-edit.svg" />
+</button>
+
+<ng-template #changeCoverModal>
+  <div class="modal-header">
+    <h3>Edit cover</h3>
+  </div>
+  <div class="modal-body modal-custom">
+    <div class="d-flex flex-row gap-2 justify-content-end m-2">
+      <button type="button" class="btn-zoom me-2" (click)="zoomIn()">
+        <img class="" src="/assets/Images/search-plus.svg" />
+      </button>
+      <button type="button" class="btn-zoom me-2" (click)="zoomOut()">
+        <img class="" src="/assets/Images/search-minus.svg" />
+      </button>
+    </div>
+
+    <div class="cropArea" [style.max-width]="cropperStaticWidth">
+      <image-cropper
+        [imageBase64]="imageBase64"
+        [imageChangedEvent]="imageChangedEvent"
+        [containWithinAspectRatio]="true"
+        [aspectRatio]="aspectRatio"
+        (imageCropped)="imageCropped($event)"
+        [cropperStaticWidth]="cropperStaticWidth"
+        [cropperStaticHeight]="cropperStaticHeight"
+        [resizeToWidth]="resizeToWidth"
+        [transform]="transform"
+        [hideResizeSquares]="hideResizeSquares"
+        [roundCropper]="roundCropper"
+      >
+      </image-cropper>
+    </div>
+
+    <input
+      type="file"
+      name="file"
+      [hidden]="true"
+      accept="image/*"
+      (change)="fileChangeEvent($event)"
+      id="cover"
+    />
+    <label for="cover" class="browse-btn">
+      <span>Choose an image...</span>
+    </label>
+  </div>
+  <div class="modal-footer">
+    <div class="btn-wrapper d-flex gap-3 justify-content-center w-100">
+      <button
+        type="submit"
+        class="btn-green btn-cancel"
+        (click)="closeModal(changeCoverModal)"
+      >
+        {{ 'Cancel' | translate }}
+      </button>
+      <button
+        type="submit"
+        class="btn-green"
+        (click)="saveImage(); closeModal(changeCoverModal)"
+      >
+        {{ 'Profil.save' | translate }}
+      </button>
+    </div>
+  </div>
+</ng-template>

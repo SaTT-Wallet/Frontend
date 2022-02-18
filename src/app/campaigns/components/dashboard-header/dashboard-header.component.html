@@ -1,0 +1,253 @@
+<form [formGroup]="filterCampaignsForm" *ngIf="title.startsWith('ad-pools')">
+    <div class="d-flex justify-content-between align-items-center px-2">
+        <h1 class="title title-case">Ad Pools</h1>
+        <!-- <div class="d-flex search-input-wrapper">
+            <input id="key" class="placeholder-search" type="text" name="search" autocomplete="on" formControlName="searchTerm" autocomplete="off" placeholder="{{ 'recherche_campaign' | translate }}" style="width: 60vw; margin-right: -0.5rem" (ngModelChange)="onTextChange($event)"
+            />
+            <button [hidden]="true" (click)="this.toggleFilter()" class="btn-flt" [ngClass]="{ toggled: this.showFilter }" id="btn-flt">
+        <span class="icon-new-filter"></span>
+      </button>
+        </div> -->
+    </div>
+
+    <!--
+  <div
+    class="filter-wrapper"
+    [ngClass]="{ 'show-filter': showFilter }"
+    [hidden]="true"
+  >
+    <div class="form-control-wrapper">
+      <h6 class="form-control-title title-case">Campaign status</h6>
+      <app-multi-select
+        formControlName="status"
+        [options]="statusOptions"
+        [multiOptions]="true"
+        class="select-group"
+      >
+        <ng-template appResetBtn let-reset let-isControlEmpty="isControlEmpty">
+          <button
+            class="reset-btn label-filter-option"
+            (click)="reset()"
+            [class.selected]="isControlEmpty"
+          >
+            All
+          </button>
+        </ng-template>
+        <ng-template
+          appOption
+          let-onSelectedOptionChange="onSelectedOptionChange"
+          let-option
+          let-value="value"
+          let-index="index"
+          let-selected="selected"
+        >
+          <input
+            id="{{ index + value }}"
+            type="checkbox"
+            name="status"
+            [value]="value"
+            [hidden]="true"
+            (change)="onSelectedOptionChange($event)"
+          />
+          <label
+            class="label-filter-option"
+            for="{{ index + value }}"
+            [class.selected]="selected"
+          >
+            &lt;!&ndash; <span class="icon-ic1 icoSidebar"></span> &ndash;&gt;
+            <img [src]="option.iconUrl" *ngIf="!selected" />
+            <img [src]="option.selectedIconUrl" *ngIf="selected" />
+          </label>
+        </ng-template>
+      </app-multi-select>
+    </div>
+    <div class="form-control-wrapper">
+      <h6 class="form-control-title title-case">Blockchain</h6>
+      <app-multi-select
+        formControlName="blockchainType"
+        [options]="blockchainTypeOptions"
+        class="select-group"
+      >
+        <ng-template appResetBtn let-reset let-isControlEmpty="isControlEmpty">
+          <button
+            class="reset-btn label-filter-option"
+            (click)="reset()"
+            [class.selected]="isControlEmpty"
+          >
+            All
+          </button>
+        </ng-template>
+        <ng-template
+          appOption
+          let-onSelectedOptionChange="onSelectedOptionChange"
+          let-value="value"
+          let-index="index"
+          let-selected="selected"
+        >
+          <label
+            class="label-filter-option"
+            for="{{ index }}"
+            [class.selected]="selected"
+            >{{ value | uppercase }}</label
+          >
+          <input
+            id="{{ index }}"
+            type="radio"
+            name="status"
+            [value]="value"
+            [hidden]="true"
+            (change)="onSelectedOptionChange($event)"
+          />
+        </ng-template>
+      </app-multi-select>
+    </div>
+    <div class="form-control-wrapper">
+      <h6 class="form-control-title title-case">Social media</h6>
+      <app-multi-select
+        formControlName="oracles"
+        [options]="oraclesOptions"
+        [multiOptions]="true"
+        class="select-group"
+      >
+        <ng-template
+          appOption
+          let-onSelectedOptionChange="onSelectedOptionChange"
+          let-option
+          let-value="value"
+          let-index="index"
+          let-selected="selected"
+        >
+          <input
+            id="{{ index + value }}"
+            type="checkbox"
+            name="status"
+            [value]="value"
+            [hidden]="true"
+            #checkbox
+            (change)="onSelectedOptionChange($event)"
+          />
+          <label
+            class="label-filter-option social-media-option"
+            for="{{ index + value }}"
+            [ngStyle]="{ background: selected ? option.bgColor : '#f6f6ff' }"
+          >
+            <img [src]="option.iconUrl" *ngIf="!selected" />
+            <img [src]="option.selectedIconUrl" *ngIf="selected" />
+          </label>
+        </ng-template>
+      </app-multi-select>
+    </div>
+    <div class="form-control-wrapper">
+      <h6 class="form-control-title title-case">
+        remaining Budget(<span class="satt-symbol">SaTT</span>)
+      </h6>
+      <app-flat-select
+        formControlName="remainingBudget"
+        [options]="remainedBudgetOptions"
+        [multiOptions]="true"
+        [filterRemaining]="true"
+        class="select-group"
+      >
+      </app-flat-select>
+    </div>
+  </div>
+-->
+</form>
+<form [formGroup]="filterParticipationForm" *ngIf="title.startsWith('farm-postssss')">
+    <div class="d-flex justify-content-between align-items-center px-2">
+        <h1 class="title title-case">Post Farming</h1>
+        <div class="d-flex search-input-wrapper">
+            <input id="key" class="key input_filed" type="text" name="search" autocomplete="on" formControlName="searchTerm" autocomplete="off" />
+            <button [hidden]="true" (click)="this.toggleFilter()" class="btn-flt" [ngClass]="{ toggled: this.showFilter }" id="btn-flt">
+        <span class="icon-new-filter"></span>
+      </button>
+        </div>
+    </div>
+    <!--  <div
+    class="filter-wrapper"
+    [ngClass]="{ 'show-filter': showFilter }"
+    [hidden]="true"
+  >
+    <div class="form-control-wrapper">
+      <h6 class="form-control-title title-case">Statut de lien</h6>
+      <app-multi-select
+        formControlName="status"
+        [options]="participationStatusOptions"
+        [multiOptions]="false"
+        class="select-group"
+      >
+        <ng-template appResetBtn let-reset let-isControlEmpty="isControlEmpty">
+          <button
+            class="reset-btn label-filter-option"
+            (click)="reset()"
+            [class.selected]="isControlEmpty"
+          >
+            All
+          </button>
+        </ng-template>
+        <ng-template
+          appOption
+          let-onSelectedOptionChange="onSelectedOptionChange"
+          let-option
+          let-value="value"
+          let-index="index"
+          let-selected="selected"
+        >
+          <input
+            id="{{ index + value }}"
+            type="radio"
+            name="status"
+            [value]="value"
+            [hidden]="true"
+            #checkbox
+            (change)="onSelectedOptionChange($event)"
+          />
+          <label
+            class="label-filter-option link-status-label"
+            for="{{ index + value }}"
+            [class.selected]="selected"
+          >
+            <img [src]="option.iconUrl" />
+          </label>
+        </ng-template>
+      </app-multi-select>
+    </div>
+
+    <div class="form-control-wrapper">
+      <h6 class="form-control-title title-case">Social media</h6>
+      <app-multi-select
+        formControlName="oracles"
+        [options]="oraclesOptions"
+        [multiOptions]="true"
+        class="select-group"
+      >
+        <ng-template
+          appOption
+          let-onSelectedOptionChange="onSelectedOptionChange"
+          let-option
+          let-value="value"
+          let-index="index"
+          let-selected="selected"
+        >
+          <input
+            id="{{ index + value }}"
+            type="checkbox"
+            name="status"
+            [value]="value"
+            [hidden]="true"
+            #checkbox
+            (change)="onSelectedOptionChange($event)"
+          />
+          <label
+            class="label-filter-option social-media-option"
+            for="{{ index + value }}"
+            [ngStyle]="{ background: selected ? option.bgColor : '#f6f6ff' }"
+          >
+            <img [src]="option.iconUrl" *ngIf="!selected" />
+            <img [src]="option.selectedIconUrl" *ngIf="selected" />
+          </label>
+        </ng-template>
+      </app-multi-select>
+    </div>
+  </div>-->
+</form>

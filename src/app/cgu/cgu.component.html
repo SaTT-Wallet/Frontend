@@ -1,0 +1,935 @@
+<div class="container-fluid main-page p-0">
+  <div
+    class="sideMenu p-3 mt-3"
+    [ngStyle]="{ width: toggleSideMenu ? '350px' : '64px' }"
+  >
+    <img
+      class="cursor-pointer"
+      src="../../../assets/Images/arrow-left.svg "
+      *ngIf="!toggleSideMenu"
+      (click)="toggleSideMenu = !toggleSideMenu"
+    />
+
+    <div
+      class="d-flex justify-content-between"
+      [ngClass]="{ 'hide-text': !toggleSideMenu }"
+    >
+      <span (click)="goToSection('DISCLAIMER')"> DISCLAIMER</span>
+      <img
+        class="cursor-pointer"
+        src="../../../assets/Images/arrow-left.svg "
+        *ngIf="toggleSideMenu"
+        (click)="toggleSideMenu = !toggleSideMenu"
+      />
+    </div>
+    <div
+      class="d-flex flex-column"
+      [ngClass]="{ 'hide-text': !toggleSideMenu }"
+    >
+      <span (click)="goToSection('section1')" class=""> 1. DEFINITION </span>
+      <span (click)="goToSection('section2')" class=""> 2. SUBJECT </span>
+      <span (click)="goToSection('section3')" class="">
+        3. SERVICE OPERATOR
+      </span>
+      <span (click)="goToSection('section4')" class="">
+        4. ACCESS TO THE SITE AND SERVICES
+      </span>
+      <span (click)="goToSection('section5')" class="">
+        5. SaTT ACCOUNT AND ACCESS
+      </span>
+      <span (click)="goToSection('section5_1')" class="">
+        5.1 REGISTRATION OF THE SATT ACCOUNT
+      </span>
+      <span (click)="goToSection('section5_2')" class="">
+        5.2 IDENTITY VERIFICATION (KYC PROCEDURE)
+      </span>
+      <span (click)="goToSection('section5_3')" class=""> 5.3 ACCESS </span>
+
+      <span (click)="goToSection('section6')" class="mt-1">
+        6. CRYPTO-ASSET SERVICES
+      </span>
+      <span (click)="goToSection('section6_1')" class="">
+        6.1 GENERAL INFORMATION
+      </span>
+      <span (click)="goToSection('section6_2')" class="">
+        6.2 CRYPTO-ASSET TRANSACTIONS
+      </span>
+      <span (click)="goToSection('section6_3')" class="">
+        6.3 SUPPORTED CRYPTO-ASSETS
+      </span>
+      <span (click)="goToSection('section6_4')" class="">
+        6.4 STORAGE OF CRYPTO-ASSETS AND TRANSMISSION TIMES
+      </span>
+      <span (click)="goToSection('section6_6')" class="">
+        6.6 OPERATION OF CRYPTO ASSET PROTOCOLS
+      </span>
+      <span (click)="goToSection('section6_7')" class="">
+        6.7 CONVERSION FEES
+      </span>
+
+      <span (click)="goToSection('section7')" class="mt-1">
+        7. SUSPENSION
+      </span>
+
+      <span (click)="goToSection('section8')" class="mt-1">
+        8. INTELLECTUAL PROPERTY
+      </span>
+      <span (click)="goToSection('section9')" class="">
+        9. OBLIGATION OF THE USER
+      </span>
+      <span (click)="goToSection('section9_1')" class="">
+        9.1 PASSWORD SECURITY
+      </span>
+      <span (click)="goToSection('section9_2')" class="">
+        9.2 BREACH OF SECURITY
+      </span>
+
+      <span (click)="goToSection('section10')" class="mt-1">
+        10. USER'S WARRANTY
+      </span>
+      <span (click)="goToSection('section11')" class="">
+        11. RESPONSIBILITY
+      </span>
+      <span (click)="goToSection('section12')" class="">
+        12. PROHIBITED CONDUCT
+      </span>
+      <span (click)="goToSection('section13')" class="">
+        13. PENALTIES FOR NON-COMPLIANCE
+      </span>
+      <span (click)="goToSection('section14')" class="">
+        14. LIABILITY AND WARRANTY OF ATAYEN, Inc.
+      </span>
+      <span (click)="goToSection('section15')" class="">
+        15. DATA PROTECTION
+      </span>
+      <span (click)="goToSection('section15_1')" class="">
+        15.1 OWNERSHIP OF USER DATA
+      </span>
+      <span (click)="goToSection('section15_2')" class="">
+        15.2 CONFIDENTIALITY OF USER DATA
+      </span>
+
+      <span (click)="goToSection('section16')" class="mt-1">
+        16. WHISTLEBLOWING AND ABUSE REPORTING PROCEDURES
+      </span>
+      <span (click)="goToSection('section17')" class="">
+        17. FORCE MAJEURE
+      </span>
+      <span (click)="goToSection('section18')" class=""> 18. ADVERTISING </span>
+      <span (click)="goToSection('section19')" class="">
+        19. LINKS AND THIRD-PARTY SITES
+      </span>
+      <span (click)="goToSection('section20')" class=""> 20. CHANGES </span>
+      <span (click)="goToSection('section21')" class=""> 21. LANGUAGE </span>
+      <span (click)="goToSection('section22')" class="">
+        22. SETTLEMENT OF DISPUTES
+      </span>
+    </div>
+  </div>
+  <div class="col page-content panel-satt p-3 mt-3">
+    <!--[ngStyle]="{width: toggleSideMenu ? '' : '100%'} "-->
+
+    <h1 class="page-header m-0">
+      Terms and conditions of use - <strong>SaTT</strong> wallet
+    </h1>
+    <p class="page-header">
+      These terms and conditions will be effective immediately for all new users
+      who register on or after March 27, 2018.
+    </p>
+    <h1 class="DISCLAIMER">DISCLAIMER</h1>
+    <p class="text-justify">
+      By using the website and services offered by <strong>ATAYEN, Inc</strong>.
+      the user acknowledges the risks involved in making purchases on the
+      crypto-asset market. Crypto-asset markets are decentralized and
+      unregulated. The services delivered by <strong>ATAYEN, Inc</strong>. and
+      in particular the <strong>SaTT wallet</strong>, therefore relate to
+      unregulated markets that are not governed by any specific European
+      regulatory framework. As a result, the client is aware that, when
+      operating on such markets, he does not benefit from the protections
+      offered to users of regulated financial services. In the state of the
+      current French regulations, <strong>ATAYEN, Inc</strong>. draws the
+      attention of users to the following risks relating to the acquisition and
+      sale of crypto-assets:
+    </p>
+
+    <ul>
+      <li>
+        A crypto-asset is not a "currency " in the sense of article l. 111-1 of
+        the monetary and financial code. Only the euro (€) is the legal currency
+        in France.
+      </li>
+      <li>
+        Crypto-assets cannot be qualified as "electronic money " within the
+        meaning of Article l. 315-1 of the Monetary and Financial Code;
+      </li>
+      <li>
+        <strong>ATAYEN, Inc. does</strong> not guarantee the legal qualification
+        or price of crypto-assets;
+      </li>
+      <li>
+        More generally, a crypto-asset cannot be considered a financial
+        instrument. As such, users do not benefit from the protection offered by
+        the protective provisions of the mif ii directive as transposed into
+        French law.
+      </li>
+      <li>
+        The user understands and agrees that the service involves assets with a
+        high level of risk, not suitable for many buyers.
+        <strong>ATAYEN, Inc</strong>. cannot explain all risks or how those
+        risks apply to your particular circumstances. If you are unsure, you
+        should contact a professional. It is important to fully understand the
+        risks involved before deciding to purchase crypto assets. The client
+        acknowledges that he/she fully understands the risks before deciding to
+        purchase crypto-assets and must have sufficient financial resources to
+        bear these risks. Buying in the crypto-asset market, of any kind,
+        presents a risk to your capital. You should not buy with the money you
+        cannot afford to lose.
+      </li>
+    </ul>
+    <h1 class="section1">1. DEFINITION</h1>
+    <p class="text-justify">
+      Blockchain refers to a complete list of all completed transaction blocks
+      since the beginning of Bitcoin To enhance the security of the system, the
+      blockchain was designed so that each block of transactions contains the
+      hash generated from the previous block. The Blockchain is a technology for
+      storing and transmitting information at minimal cost, secure, transparent,
+      and operating without a central controlling body. By extension, the
+      Blockchain designates a secure and distributed database (because it is
+      shared by its various users), containing a set of transactions whose
+      validity can be verified by anyone. The Blockchain can therefore be
+      compared to a public, anonymous, and unfalsifiable accounting ledger.
+    </p>
+
+    <p class="text-justify">
+      "Crypto-assets "refers to a set of assets related to the Blockchain such
+      as: crypto-currencies, tokens, etc
+    </p>
+
+    <p class="text-justify">
+      "Exchange "refers to a marketplace where crypto-assets are exchanged with
+      each other or against fiat currencies. This allows you to invest or
+      speculate on the price of crypto-assets (e.g. Binance, Gate.io, Bittrex,
+      etc.).
+    </p>
+
+    <p class="text-justify">
+      Hold, Holding"refers to the fact of keeping a crypto-asset and not selling
+      it no matter what the price changes (up/down)
+    </p>
+
+    <p class="text-justify">
+      KYC"means the process of verifying the identity of a company's users to
+      ensure customer compliance with legislation relating to anti-corruption,
+      money laundering, financial fraud, terrorist financing, etc.
+    </p>
+
+    <p class="text-justify">
+      "Token / Tokens"refers to the uniquely issued assets for each
+      crypto-currency or project, For example, Ethers are the Tokens of the
+      Ethereum network.
+    </p>
+
+    <h1 class="section2">2. SUBJECT</h1>
+    <p class="text-justify">
+      The present general terms and conditions of use (hereinafter the "General
+      Terms and Conditions of Use" or "GTCU") define the conditions of access to
+      and operation of the Site and the SaTT Wallet and indicate the means made
+      available to users to use them (hereinafter the "Users").
+    </p>
+
+    <p class="text-justify">
+      <strong>ATAYEN, Inc. does not act as an</strong>intermediary or
+      marketplace between other <strong>SaTT</strong> buyers and sellers or as a
+      SaTT exchange.
+    </p>
+
+    <p class="text-justify">
+      The acceptance of the GTC by the User as indicated above and the version
+      of the General Conditions thus accepted by the User are kept and archived
+      in the computer systems in an unalterable, safe and reliable way.
+    </p>
+
+    <p class="text-justify">
+      The aforementioned GTC are accessible and printable at any time.
+    </p>
+
+    <p class="text-justify">
+      They may be supplemented, if necessary, by specific terms of use for
+      certain Services. In case of contradiction, the specific conditions
+      prevail over these general conditions.
+    </p>
+
+    <p class="text-justify">
+      Services offered by <strong>ATAYEN, Inc</strong>: <br />
+      The following services are provided to you by
+      <strong>ATAYEN, Inc</strong>:
+    </p>
+
+    <p class="text-justify">
+      One or more hosted digital asset wallets that allow you to store, track,
+      transfer and manage your balances of certain supported digital assets,
+      such as the <strong> SaTT</strong>, Bitcoin or Ethereum token (hereinafter
+      the "Wallet");
+    </p>
+
+    <p class="text-justify">
+      A crypto asset exchange service allowing you to get prices for your crypto
+      asset purchases and sales.
+    </p>
+
+    <p class="text-justify">
+      The services offered by <strong>ATAYEN, Inc</strong>. are not regulated.
+      <strong>ATAYEN, Inc</strong>. is not a regulated financial services
+      provider. <strong>ATAYEN, Inc</strong>. is based and provides its services
+      in the USA (Delaware).
+    </p>
+
+    <h1 class="section3">3. SERVICE OPERATOR</h1>
+    <p class="text-justify">
+      The Site and the Services are operated by <strong>ATAYEN, Inc</strong>.
+      located at 2915 ogletown rd, 19713 of newark, USA (hereinafter referred to
+      as "<strong>ATAYEN, Inc</strong>.").
+    </p>
+    <p class="text-justify">
+      <strong>ATAYEN, Inc</strong>. can be contacted at the following
+      coordinates:
+    </p>
+    <p class="text-justify">
+      Mailing address: 2915 ogletown rd, 19713 de newark, USA.
+    </p>
+    <p class="text-justify">E-mail address : <a>contact@atayen.us</a></p>
+
+    <h1 class="section4">4. ACCESS TO THE SITE AND SERVICES</h1>
+
+    <p class="text-justify">
+      Users are personally responsible for setting up the computer and
+      telecommunication resources required to access the Site. They are
+      responsible for the telecommunication costs incurred when accessing the
+      Internet and using the Site. Users are entirely responsible for the proper
+      functioning of their computer equipment, their modem, and their telephone
+      line, as well as their Internet connection. Users will have taken care to
+      ensure that this equipment is free of problems or viruses and has
+      sufficient security to prevent the risk of a third party obtaining access
+      to data relating to the Services provided to customers. Users shall make
+      every effort to maintain such security. In particular, Users shall ensure
+      that there is no risk of hostile programs or viruses accessing and
+      disrupting the Platform's computer systems. In particular, Users shall
+      ensure the security of their computer by using and regularly updating
+      anti-virus and anti-spyware software and a personal firewall. Users assume
+      the technical risks related in particular to a power cut, a connection
+      interruption, a malfunction or an overload of the networks or systems.
+      Furthermore, Users are aware that they must contact the Internet service
+      provider of their choice to access the Internet and the Platform. In this
+      context, Users are aware that it is their responsibility to select their
+      Internet service provider and to determine the terms of their relationship
+      with that provider. <strong>ATAYEN, Inc. shall</strong> not be responsible
+      for the risks related to Internet access and the risks related to the
+      transmission of data remotely by Users or to Users, in particular in the
+      event of disputes between Users and their Internet service provider, in
+      relation to the confidential/personal nature of the data transmitted, the
+      cost of transmission, the maintenance of telephone lines and the Internet
+      network or service interruptions.
+    </p>
+    <p class="text-justify">
+      The Services are accessible, subject to the restrictions provided for on
+      the site:
+    </p>
+
+    <p class="text-justify">
+      - to any natural person with the full legal capacity to commit to these
+      terms and conditions. A natural person who does not have full legal
+      capacity may only access the Site and the Services with the agreement of
+      his/her legal representative;
+    </p>
+
+    <p class="text-justify">
+      - any legal entity acting through a natural person who has the legal
+      capacity to contract in the name and on behalf of the legal entity.
+    </p>
+
+    <h1 class="section5">5. SaTT ACCOUNT AND ACCESS</h1>
+    <h3 class="section5_1">5.1 REGISTRATION OF THE SATT ACCOUNT</h3>
+    <p class="text-justify">
+      To use the <strong> ATAYEN, Inc.</strong> services, you will need to
+      register for a <strong>SaTT</strong> account by providing your first and
+      last name, email address, password and agree to the terms of these terms
+      and conditions. We may, in your sole discretion, refuse to open a
+      <strong>SaTT</strong> Account, or limit the number of
+      <strong>SaTT</strong> Accounts you may hold.
+    </p>
+    <h3 class="section5_2">5.2 IDENTITY VERIFICATION (KYC PROCEDURE)</h3>
+    <p class="text-justify">
+      You agree to provide us with the information we request for purposes of
+      identity verification and detection of money laundering, terrorist
+      financing, fraud or other financial crimes and to allow us to keep a
+      record of such information. You will be required to achieve certain
+      verification procedures before you can use the
+      <strong>ATAYEN, Inc.</strong> services, including certain crypto asset
+      transfers. The information we request may include certain personal
+      information, including, but not limited to, your name, address, telephone
+      number, email address, date of birth, bank account information. By
+      providing us with this information or any other information that may be
+      required, you confirm that the information is accurate and genuine. You
+      agree to keep us informed if any of the information provided changes.
+    </p>
+    <p class="text-justify">
+      The User agrees and authorizes <strong>ATAYEN, Inc</strong>. to make
+      requests, directly or through third parties, that we deem necessary to
+      verify your identity or protect you and/or us from fraud or other
+      financial crime, and to take such action as we deem necessary based on the
+      results of such request. You acknowledge and agree that your personal
+      information may be disclosed to fraud prevention or financial crime
+      referral agencies. In addition, we may ask you to wait for a period of
+      time after the completion of a transaction before allowing you to use
+      other Services offered by <strong>ATAYEN, Inc</strong>.
+    </p>
+    <h3 class="section5_3">5.3 ACCESS</h3>
+    <p class="text-justify">
+      In order to access the Services offered, you must have the necessary
+      equipment (such as a smartphone or tablet) and the associated
+      telecommunication service subscriptions to access the Internet. The
+      Services offered by <strong>ATAYEN, Inc</strong>. are directly accessible
+      via the website
+      <a href="https://www.atayen.us/">https://www.atayen.us/</a>
+    </p>
+    <h1 class="section6">6.CRYPTO-ASSET SERVICES</h1>
+    <h3 class="section6_1">6.1GENERAL INFORMATION</h3>
+
+    <p class="text-justify">
+      You can load funds into your <strong>SaTT</strong> wallet (Wallet) using
+      any of the payment methods available on the
+      <strong>ATAYEN</strong> website such as a credit or debit card, Bitcoin or
+      Ethereum transfer, or wire transfer. When you "load" funds into the
+      <strong>SaTT</strong> account, you will receive a Wallet from
+      <strong>ATAYEN, Inc</strong>. The Wallet is not a deposit account, which
+      means you will not be protected by the financial services compensation
+      system. <br />
+      To purchase crypto-assets, such as <strong>SaTT</strong> tokens, for
+      example, you must follow the appropriate instructions on the
+      <strong>ATAYEN, Inc</strong>.
+    </p>
+    <p class="text-justify">
+      Your <strong>SaTT</strong> wallet allows you to send crypto-assets to
+      third parties, request, receive and store crypto-assets by giving
+      instructions via the <strong>ATAYEN</strong> site.
+    </p>
+
+    <h3 class="section6_2">6.2 CRYPTO-ASSET TRANSACTIONS</h3>
+    <p class="text-justify">
+      <strong>ATAYEN, Inc</strong>. will process crypto-asset transactions in
+      accordance with the instructions it receives from the User. The User must
+      therefore verify all transaction information before sending it.
+      <strong>ATAYEN, Inc</strong>. does not guarantee the identity of any user,
+      recipient or other party. Crypto asset transactions cannot be reversed
+      once ordered. <strong>ATAYEN, Inc</strong>. has the ability to charge a
+      network fee (miner's fee) to process a transaction on your behalf. The fee
+      is calculated at the discretion of <strong>ATAYEN, Inc</strong>. but the
+      User will always be informed of the network fee at the time or prior to
+      the authorization of the crypto asset transaction. A transaction may be
+      refused or reversed if required by law or by any court or authority to
+      which <strong>ATAYEN, Inc</strong>. is subject.
+    </p>
+    <h3 class="section6_3">6.3 SUPPORTED CRYPTO-ASSETS</h3>
+    <p class="text-justify">
+      Our Services are available only in connection with cryptocurrencies
+      supported by<strong>ATAYEN, Inc</strong>. and this may change. Under no
+      circumstances should you attempt to use your Wallet to store, send,
+      request or receive crypto-assets that the Site and Services offered do not
+      support. User understands and agrees that<strong>ATAYEN, Inc</strong>.
+      assumes no responsibility for any attempt to use your Wallet for
+      unsupported crypto-assets.
+    </p>
+    <h3 class="section6_4">
+      6.4 STORAGE OF CRYPTO-ASSETS AND TRANSMISSION TIMES
+    </h3>
+    <p class="text-justify">
+      <strong>ATAYEN, Inc</strong>. has no control over the delivery, quality,
+      safety, legality or any other aspect of the goods or services you may
+      purchase or sell to a third party. Accordingly,
+      <strong>ATAYEN, Inc</strong>. is not responsible for ensuring that any
+      third-party buyer or seller with whom you deal completes the transaction
+      or is authorized to do so. If you have a problem with goods or services
+      purchased or sold to a third party using the crypto-assets transferred
+      using the SaTT service offered by ATAYEN, Inc. or if you have a dispute
+      with that third party, the dispute must be resolved directly with the
+      third party.
+    </p>
+    <h3 class="section6_6">6.6 OPERATION OF CRYPTO ASSET PROTOCOLS</h3>
+    <p class="text-justify">
+      The User understands that crypto-assets are controlled by underlying
+      software that governs the operation of the crypto-assets that can be
+      exchanged on the various Exchanges that exist. As a general rule, the
+      underlying protocols are open source and, therefore, anyone can use, copy,
+      modify and distribute them. The said protocols may be subject to sudden
+      changes in the rules of operation ("Forks") and these Forks may impact the
+      value, function, and even the name of the crypto asset. The User,
+      therefore, understands that the information delivered by the Site and the
+      Services offered by
+      <strong>ATAYEN, Inc</strong>. cannot predict Forks and their impact on the
+      value of cryptocurrencies.
+    </p>
+    <h3 class="section6_7">6.7 CONVERSION FEES</h3>
+    <p class="text-justify">
+      Each purchase or sale of crypto-assets using other crypto-assets or by
+      credit card is subject to a fee. The applicable conversion fee will be
+      displayed to you on the <strong>ATAYEN</strong> website prior to each
+      transaction and will be indicated in each receipt we send you. These
+      conversion fees are adjustable at any time. We will not process a
+      transaction if the conversion fee and any other associated fees exceed, in
+      the aggregate, the value of the transaction.
+    </p>
+    <h1 class="section7">7. SUSPENSION</h1>
+    <p class="text-justify">
+      <strong> ATAYEN, Inc</strong> reserves the right to (i) refuse to
+      complete, block or cancel any transaction authorized by you; (ii) suspend,
+      restrict or terminate your access to any or all of the Services offered
+      and/or (iii) deactivate or cancel your <strong>SaTT</strong> Account with
+      immediate effect for any reason, including, but not limited to:
+    </p>
+
+    <p>
+      -If we reasonably suspect that you are acting in violation of this
+      Agreement;<br />
+      -If we fear an erroneous transaction or suspect a breach of security of
+      your <strong>SaTT</strong> Account or that the Site is being used in a
+      fraudulent or unauthorized manner; <br />
+      -If we reasonably suspect money laundering, terrorist financing, fraud or
+      any other financial crime;
+
+      <br />
+      -If your credit or debit card or other linked validated payment method is
+      declined ; <br />
+      -If the use of your <strong>SaTT</strong> Account is subject to any
+      pending litigation, investigation or governmental proceeding, and we find
+      a lack of legal compliance related to the use of your Account;
+    </p>
+
+    <p class="text-justify">
+      If you take steps to circumvent our control such as opening multiple
+      <strong>SaTT</strong> accounts or abusing promotions we may offer from
+      time to time. <br />
+      If we refuse to complete a transaction and/or suspend or terminate your
+      <strong>SaTT</strong> account, or terminate your use of the Services
+      offered by <strong> ATAYEN, Inc</strong>. we will inform you (unless it is
+      illegal for us to do so) of our actions and/or the reasons for our
+      refusal. We may suspend, restrict or terminate your access to any or all
+      of the Services offered and/or deactivate or cancel your
+      <strong>SaTT</strong> account, without cause, upon two (2) months notice
+      to you. You acknowledge that our decision to take certain actions,
+      including limiting access, suspending or terminating your
+      <strong>SaTT</strong> Account, may be based on confidentiality criteria
+      essential to our risk management and security protocols. You agree that
+      you will not be required to disclose the details of these risk management
+      and security procedures.
+    </p>
+    <h1 class="section8">8.INTELLECTUAL PROPERTY</h1>
+
+    <p class="text-justify">
+      All software, designs, text, images, sound recordings, animations,
+      trademarks (including the name "
+      <strong>SaTT</strong>" and the <strong>SaTT</strong> logo) and other works
+      included in the Site and/or the Services are protected by intellectual
+      property rights and are the property of <strong> ATAYEN, Inc</strong>.
+      These rights are reserved, and no ownership rights shall be transferred to
+      Users or third parties. The trademarks and domain names as well as the
+      designs appearing on the Site and the Services are also the exclusive
+      property of <strong> ATAYEN, Inc</strong>. <br />
+      No license or right other than the right to visit the Site and use the
+      Service is granted to any person with respect to intellectual property
+      rights. <br />
+      The reproduction of documents appearing on the Site is only authorized for
+      the exclusive purpose of information for strictly personal and private
+      use. <br />
+      In this regard, Users may print off one copy and download extracts from
+      any page of the Site and/or the Services for their personal reference.
+      However, Users shall not modify any hard or digital copies of the
+      materials published on the Site and/or the Services offered, which they
+      have printed or downloaded in any way, nor shall they use any portion of
+      such materials from the Site and/or the Services for commercial purposes
+      or link to the website and/or the Services without the prior written
+      consent of <strong> ATAYEN, Inc</strong>.
+    </p>
+
+    <h1 class="section9">9. OBLIGATION OF THE USER</h1>
+    <p class="text-justify">
+      Without prejudice to the other obligations provided for herein, the User
+      undertakes to comply with the following obligations:
+    </p>
+    <p class="text-justify">
+      The User undertakes, in his use of the Site, to respect the laws and
+      regulations in force and not to infringe the rights of third parties or
+      public order. <br />
+      He is notably solely responsible for the proper completion of all
+      administrative, fiscal and/or social formalities and for all payments of
+      contributions, taxes or duties of any kind that are incumbent upon him,
+      where applicable, in relation to his use of the Site. The responsibility
+      of <strong>ATAYEN, Inc</strong>. can in no way be engaged in this respect.
+      <br />
+      The User acknowledges that he/she has taken note of the characteristics
+      and constraints, particularly technical, of the entire Site. He is solely
+      responsible for his use of the Site. The User is informed and accepts that
+      the implementation of the Site and the Services requires that he be
+      connected to the Internet and that the quality of the Site and the
+      Services depends directly on this connection, for which he is solely
+      responsible. <br />
+      The User is also solely responsible for the relationships he/she may
+      establish with other Users and the information he/she communicates to them
+      in the context of the Services. It is the User's responsibility to
+      exercise due care and discretion in these relationships and
+      communications. The User also undertakes to respect the usual rules of
+      politeness and courtesy in his exchanges with other Users. <br />
+      The User is solely responsible for messages, content of any kind
+      (editorial, graphic, audiovisual or other, including the name and/or image
+      possibly chosen by the User to identify him/her on the site) and
+      information put on line by him/her on the Site or the proposed Services
+      (hereinafter referred to as the "Content"), within the meaning of the
+      provisions of law n°2004-575 of 21 June 2005 for confidence in the digital
+      economy, <strong>ATAYEN, Inc</strong>. cannot be held responsible for this
+      Content and over which <strong>ATAYEN, Inc</strong>. has no power of
+      control or supervision. <br />
+      He/she guarantees <strong>ATAYEN, Inc</strong>. that he/she has all the
+      rights and authorizations necessary for the distribution of this Content.
+      He/she undertakes to ensure that the said Content is lawful, does not
+      infringe public order, good morals or the rights of third parties, does
+      not violate any legislative or regulatory provision, and, more generally,
+      is in no way likely to bring into play the civil or criminal liability of
+      <strong>ATAYEN, Inc</strong>. <br />
+      The User is thus forbidden to distribute, in particular, and without this
+      list being exhaustive : <br />- pornographic, obscene, indecent, shocking
+      or unsuitable for a family audience, defamatory, insulting, violent,
+      racist, xenophobic or revisionist Content, <br />
+      - infringing Content, <br />
+      - Content that is harmful to the image of a third party, <br />
+      - Content that is false, misleading or that proposes or promotes illegal,
+      fraudulent or deceptive activities, <br />
+      - Content that is harmful to the computer systems of third parties (such
+      as viruses, worms, Trojan horses, etc.), <br />
+      - and more generally Content likely to infringe the rights of third
+      parties or to be prejudicial to third parties, in any way and in any form
+      whatsoever. <br />
+      The User acknowledges that the Services offer him an additional but not
+      alternative solution to the means he already uses elsewhere to achieve the
+      same objective and that this solution cannot replace these other means.
+    </p>
+    <h3 class="section9_1">9.1 PASSWORD SECURITY</h3>
+    <p class="text-justify">
+      To access the Services offered by <strong>ATAYEN, Inc</strong>. you must
+      create or receive security information, including a user name and
+      password. You are responsible for the security of the electronic device
+      through which you access the proposed Services and for the proper security
+      and control of all security details you use to access the Services. This
+      includes taking all reasonable steps to prevent loss, theft or misuse. Any
+      loss or compromise of your electronic device or security information may
+      result in unauthorized access to your SaTT Account by third parties and
+      the loss or theft of your crypto-assets held in your SaTT Account.
+    </p>
+    <h3 class="section9_2">9.2 BREACH OF SECURITY</h3>
+    <p class="text-justify">
+      If you believe that your SaTT Account or security information has been
+      compromised or if you become aware of any fraud, attempted fraud, or other
+      security incident (including a cyber attack), you must notify
+      <strong>ATAYEN, Inc</strong>. as soon as possible by email:
+    </p>
+    <p class="text-justify">
+      <strong>contact@atayen.us</strong> and continue to provide accurate and
+      up-to-date information throughout the duration of the security breach. You
+      must take all steps reasonably necessary for us to mitigate, manage or
+      report any security breach. Failure of the User to cooperate promptly may
+      be taken into account in our determination of the appropriate resolution
+      of the matter.
+    </p>
+    <h1 class="section10">10. USER'S WARRANTY</h1>
+    <p class="text-justify">
+      The User indemnifies <strong>ATAYEN, Inc</strong>. against all complaints,
+      claims, actions and/or demands of any kind that
+      <strong>ATAYEN, Inc</strong>. may suffer as a result of the User's
+      violation of any of its obligations or guarantees under the terms of these
+      general conditions. The User undertakes to indemnify
+      <strong>ATAYEN, Inc</strong>. for any prejudice it may suffer and to pay
+      all costs, charges and/or judgements it may have to bear as a result.
+    </p>
+    <h1 class="section11">11. RESPONSIBILITY</h1>
+    <p class="text-justify">
+      <strong>ATAYEN, Inc</strong>. will do its best to ensure that the Site is
+      accessible, that the Services are available, and that transmissions are
+      error-free. However, due to the nature of the Internet, this cannot be
+      guaranteed. In addition, your access to the Site or Services may
+      occasionally be suspended or limited to allow for repairs, maintenance, or
+      the addition of a new feature or service. ATAYEN, Inc. will endeavor to
+      limit the frequency and duration of any such suspension or limitation.
+      ATAYEN, Inc. is not responsible for (i) losses that were not caused by its
+      fault, (ii) commercial losses (including loss of profits, earnings,
+      contracts, anticipated savings, data, goodwill, or unnecessary expenses),
+      and (iii) losses, whether indirect or consequential, that were not
+      foreseeable when you began using the Site and/or the Services. The Site
+      and Services offered by <strong>ATAYEN, Inc</strong>. may contain links to
+      third-party sites, including social networking sites. If you click on a
+      link to a third-party site, you are leaving the Services governed by these
+      Terms of Use and understand and agree that we do not control such
+      third-party websites. We cannot guarantee that a third-party site adheres
+      to the same security and privacy practices as we do. Therefore, we cannot
+      be held responsible for the use that may be made of your Personal
+      Information by these sites. We recommend you to check the general
+      conditions of use of all the service providers that you use.
+      <strong>ATAYEN, Inc</strong>. cannot be held responsible in case of misuse
+      of the Site and/or Services by the User, or theft or compromise of his/her
+      connection information. In the hypothesis where a User would undergo,
+      because of an obvious dysfunction of the Site and/or the Service not
+      resulting from a bad use, any direct or indirect damage, loss of turnover
+      or opportunities, incidents or losses, the responsibility of
+      <strong>ATAYEN, Inc</strong>. cannot be committed in any case.
+      <strong>ATAYEN, Inc</strong>. shall only be liable for loss or damage
+      caused directly and reasonably foreseeable by its breach of these terms
+      and conditions, and ATAYEN, Inc.'s liability in such circumstances is
+      limited as set out above.
+    </p>
+    <h1 class="section12">12. PROHIBITED CONDUCT</h1>
+    <p class="text-justify">
+      It is strictly forbidden to use the Site or the Services for the following
+      purposes: - Carrying out illegal or fraudulent activities or activities
+      that infringe on the rights or safety of third parties;
+    </p>
+    <ul>
+      <li>
+        The violation of public order or the violation of laws and regulations
+        in force;
+      </li>
+      <li>
+        Intrusion into a third party's computer system or any activity of nature
+        to harm, control, interfere with, or intercept all or part of a third
+        party's computer system, violate its integrity or security.
+      </li>
+      <li>
+        The sending of unsolicited emails and/or commercial prospecting or
+        solicitation;
+      </li>
+      <li>
+        Manipulations intended to improve the referencing of a third-party site;
+      </li>
+      <li>
+        Aiding or abetting, in any form or manner, one or more of the acts and
+        activities described above;
+      </li>
+      <li>
+        And more generally, any practice that diverts the Services to purposes
+        other than those for which they were designed.
+      </li>
+    </ul>
+    <p>
+      It is strictly forbidden for Users to copy and/or divert for their own
+      purposes or those of third parties the concept, technologies and other
+      elements of the Site and the Services offered.<br />
+      The following are also strictly prohibited: (a) any behavior likely to
+      interrupt, suspend, slow down or prevent the continuity of the Services;
+      (b) any intrusions or attempted intrusions into ATAYEN, Inc. systems; (c)
+      any diversion of ATAYEN, Inc. s system resources; (d) any actions of a
+      nature to impose a disproportionate burden on the latter's
+      infrastructures; (e) any infringement of security and authentication
+      measures; (f) any acts of nature to undermine the financial, commercial or
+      moral rights and interests of ATAYEN, Inc. or of the users of its Site and
+      its Wallet. And finally, more generally, (g) any breach of these general
+      conditions.<br />
+      It is strictly forbidden to monetize, sell, or license all or part of the
+      access to the Services or the Site, as well as the information hosted
+      and/or shared therein.
+    </p>
+    <h1 class="section13">13. PENALTIES FOR NON-COMPLIANCE</h1>
+    <p class="text-justify">
+      In the event of a breach of the provisions of these general terms and
+      conditions or, more generally, a breach of the laws and regulations in
+      force by a User,<strong>ATAYEN, Inc</strong>. reserves the right to take
+      any appropriate action and in particular to :
+    </p>
+    <p class="text-justify">
+      Suspend or terminate the access to the Services of the User, author of the
+      breach or infringement, or having participated in it;<br />
+      delete any content posted on the site;<br />
+      publish on the site any information message that
+      <strong>ATAYEN, Inc</strong>. will consider useful; <br />
+      notify any relevant authority;<br />
+      initiate any legal action.
+    </p>
+
+    <h1 class="section14">
+      14.LIABILITY AND WARRANTY OF <strong>ATAYEN, Inc</strong>.
+    </h1>
+    <p class="text-justify">
+      <strong>ATAYEN, Inc</strong>. undertakes to provide the services
+      diligently and in accordance with the rules of the trade, it is specified
+      that it has an obligation of means, to the exclusion of any obligation of
+      result, which the users expressly acknowledge and accept.<br />
+      <strong>ATAYEN, Inc</strong>. has no knowledge of the contents put online
+      by users within the framework of the services, on which it does not carry
+      out any moderation, selection, verification or control of any kind and
+      with regard to which it intervenes only as a hosting provider.<br />
+      Consequently, <strong>ATAYEN, Inc</strong>. cannot be held responsible for
+      the contents, the authors of which are third parties, any possible claim
+      having to be directed in the first place towards the author of the
+      contents in question.<br />
+      <strong>ATAYEN, Inc</strong>. undertakes to carry out regular checks to
+      verify the operation and accessibility of the site and the wallet. In this
+      respect, <strong>ATAYEN, Inc</strong>. reserves the right to temporarily
+      interrupt access to the site and the services for maintenance reasons. In
+      the same way, <strong>ATAYEN, Inc</strong>. could not be held responsible
+      for the difficulties or momentary impossibilities of access to the site
+      which would have for origin circumstances which are external to it, the
+      force majeure (cf. article 17), or which would be due to disturbances of
+      the telecommunication networks.<br />
+      <strong>ATAYEN, Inc</strong>. does not warrant to users that (a) the
+      services, being subject to constant research to improve performance and
+      progress, will be completely free of errors, defects or deficiencies, (b)
+      the services, being standard and not offered solely for the benefit of a
+      given user based on his or her own personal concerns, will specifically
+      meet his or her needs and expectations.<br />
+      In any case, the responsibility likely to be incurred by
+      <strong>ATAYEN, Inc</strong>. under the present terms is expressly limited
+      to the only direct damage suffered by the user.
+    </p>
+    <h1 class="section15">15. DATA PROTECTION</h1>
+    <h3 class="section15_1">15.1 OWNERSHIP OF USER DATA</h3>
+    <p class="text-justify">
+      The User remains the exclusive owner of the data entrusted to
+      <strong>ATAYEN, Inc</strong>. With the exception of the Client Data and
+      the Personal Data, the Service and all of its contents are the exclusive
+      property of the Company. The Company only grants each Client user a
+      non-exclusive, non-transferable, and temporary right to use the Service.
+    </p>
+    <h3 class="section15_2">15.2 CONFIDENTIALITY OF USER DATA</h3>
+    <p class="text-justify">
+      By using the Site and the Services offered by
+      <strong>ATAYEN, Inc</strong>. the User entrusts
+      <strong>ATAYEN, Inc</strong>. information and documents in the form of
+      files or texts. The User retains full ownership of this information. The
+      Company does not claim any property right concerning them. These terms and
+      conditions do not grant any rights to such information or intellectual
+      property, except for the limited rights required for the performance of
+      the Site and/or the Services offered. <strong>ATAYEN, Inc</strong>.
+      implements all the most appropriate means to ensure the protection and
+      confidentiality of the collection, storage, and processing of User Data.
+      This obligation of means includes, in particular, the conservation of User
+      Data on certified and secured infrastructures.
+    </p>
+    <h1 class="section16">16. WHISTLEBLOWING AND ABUSE REPORTING PROCEDURES</h1>
+    <p class="text-justify">
+      You are invited to inform <strong>ATAYEN, Inc. of</strong> any fraudulent
+      use of the Site and/or of the proposed Services of which you would have
+      the knowledge and in particular of any message whose content would
+      contravene the prohibitions set out in the present General Conditions of
+      Use and more generally of all legal provisions in force. <br />
+      If you believe that there has been a violation on the Site and/or the
+      proposed Services of a right of which you are the holder, you have the
+      possibility of notifying <strong>ATAYEN, Inc</strong>. by registered mail
+      with acknowledgment of receipt specifying the following information
+    </p>
+    <p class="text-justify">
+      If you are a natural person: surname, first name, date of birth,
+      nationality, domicile, profession. If you are a legal entity: form,
+      company name, registered office, legal representative body.<br />
+      A precise description of the offending content and the precise URL at
+      which it is located on the site. <br />
+      The reasons why this content must be removed, with the mention of the
+      applicable legal provisions.
+    </p>
+
+    <h1 class="section17">17. FORCE MAJEURE</h1>
+    <p class="text-justify">
+      Any event beyond the control of the parties that cannot reasonably be
+      foreseen and overcome will be considered a force majeure event. Thus, the
+      Company shall not be held responsible for delays or non-performance of its
+      contractual obligations resulting from the occurrence of events beyond its
+      control, such as: acts of God, weather disturbances, absence or suspension
+      of electricity supply, lightning or fire, decision of a competent
+      administrative authority, war, public unrest, acts or omissions on the
+      part of other telecommunication operators, or other events beyond the
+      reasonable control of the Company. Any such circumstances arising after
+      the conclusion of the contract and preventing the performance of the
+      service under normal conditions shall be considered as a cause for
+      exemption from all or part of the obligations of the parties.
+      Consequently, the Company shall not be held responsible for any resulting
+      interruptions in service.
+    </p>
+    <h1 class="section18">18. ADVERTISING</h1>
+    <p class="text-justify">
+      <strong>ATAYEN, Inc</strong>. reserves the right to insert on any page of
+      the Site and Services offered and in any communication to Users any
+      advertising or promotional messages in a form and under conditions that
+      <strong>ATAYEN, Inc</strong>. will be the sole judge.
+    </p>
+    <h1 class="sectio19">19. LINKS AND THIRD-PARTY SITES</h1>
+    <p class="text-justify">
+      <strong>ATAYEN, Inc. shall in no way</strong> be held responsible for the
+      technical availability of websites or mobile applications operated by
+      third parties (including its possible partners) to which the User may have
+      access through the site. <strong>ATAYEN, Inc</strong>. assumes no
+      responsibility for the content, advertising, products and/or services
+      available on such third-party websites and mobile applications, which are
+      governed by their own terms of use. <strong>ATAYEN, Inc</strong>. is not
+      responsible for transactions between the User and any advertiser,
+      professional, or merchant (including its possible partners) to which the
+      User is directed through the site and shall not be a party to any disputes
+      with these third parties concerning the delivery of products and/or
+      services, guarantees, declarations and any other obligations to which
+      these third parties are bound.
+    </p>
+    <h1 class="section20">20. CHANGES</h1>
+    <p class="text-justify">
+      <strong>ATAYEN, Inc</strong>. reserves the right to modify the present
+      general conditions at any time. The User will be informed of these
+      modifications by any useful means. The User who does not accept the
+      modified General Conditions must not use the Site and the proposed
+      Services. Any User who uses the Site and the proposed Services after the
+      entry into force of the modified General Conditions is deemed to have
+      accepted these modifications.
+    </p>
+    <h1 class="section21">21. LANGUAGE</h1>
+    <p class="text-justify">
+      In the event of a translation of these general terms and conditions into
+      one or more languages, the language of interpretation shall be French in
+      the event of a contradiction or dispute over the meaning of a term or
+      provision.
+    </p>
+    <h1 class="section22">22. SETTLEMENT OF DISPUTES</h1>
+    <p class="text-justify">
+      The present General Conditions of Use are subject to American law. For all
+      disputes that may arise between the User and
+      <strong>ATAYEN, Inc. relating to</strong> the formation, interpretation,
+      and execution of the present Terms of Use, the Parties undertake to submit
+      their dispute, prior to any arbitration proceedings, to conciliators, each
+      of the Parties designating one, except in the case where they agree on the
+      choice of a single conciliator. This appointment shall be made no later
+      than fifteen (15) days after the dispute arises. The two conciliators
+      shall appoint a third conciliator. This conciliator or conciliators shall
+      endeavor to settle the difficulties submitted to them and to have the
+      Parties accept an amicable solution, within a maximum period of three (3)
+      months from their appointment. The costs and fees relating to the
+      conciliation procedure shall be borne by each of the Parties in respect of
+      the conciliator appointed by it and by both Parties, in equal shares, in
+      respect of the sole conciliator or the third conciliator. Failing
+      conciliation, any dispute arising out of or in connection with this
+      contract shall be finally settled under the Rules of Arbitration of the
+      International Chamber of Commerce by one or more arbitrators appointed in
+      accordance with those Rules. The Parties agree to keep all matters
+      relating to the arbitration, including related court proceedings,
+      confidential to the fullest extent possible. For purposes of this
+      arbitration clause, references to the Parties shall also include their
+      respective subsidiaries, affiliates, agents, employees, predecessors,
+      successors, and assigns.
+    </p>
+    <div class="d-flex justify-content-center align-items-center mt-5">
+      <img class="logo_satt" src="../../../assets/Images/footer_atayen.svg" />
+      <label class="Copyright mt-2">
+        Copyright © 2022 ATAYEN, Inc. ALL RIGHT RESERVED ,
+        <a class="Copyright_footer_login_black" [routerLink]="['/cgu']"
+          >CONDITIONS</a
+        >
+        and
+        <a
+          class="Copyright_footer_login_black"
+          [routerLink]="['/privacy-policy']"
+        >
+          PRIVACY POLICY</a
+        >
+      </label>
+    </div>
+  </div>
+</div>

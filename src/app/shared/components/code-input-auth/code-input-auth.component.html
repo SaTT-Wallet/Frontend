@@ -1,0 +1,10 @@
+<code-input
+  class="codeinput"
+  type="number"
+  [codeLength]="6"
+  name="code"
+  #codeInput
+  (codeCompleted)="onCodeCompleted($event)"
+  (codeChanged)="onCodeChanged($event)"
+>
+</code-input>

@@ -1,0 +1,31 @@
+.moonboy-left {
+  position: relative;
+}
+.cercle {
+  top: 94px !important;
+}
+.picture-groupe {
+  max-width: calc(100% - 110px);
+  width: calc(100% - 110px);
+  /* width: 49vh; */
+  /* position: absolute;
+  top: 31vh; */
+  /* width: 30vh; */
+  /* width: 320px; */
+}
+.config-done {
+  width: 31vh;
+  max-width: unset;
+}
+
+.pourcentage {
+  color: #ffffff;
+  position: absolute;
+  top: 17%;
+  left: 51.4%;
+  transform: translate(-50%);
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.8rem;
+  display: block;
+}

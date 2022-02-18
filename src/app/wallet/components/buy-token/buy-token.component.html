@@ -1,0 +1,669 @@
+<div class="row flex-column">
+  <div>
+    <app-header-send-receive-buy
+      [title]="'Buy'"
+      class="buy-component"
+      (clickedBack)="linstingBack($event)"
+    ></app-header-send-receive-buy>
+  </div>
+  <div class="row white-bloc justify-content-center">
+    <!--------------------AmountBloc----------------------------------->
+    <div class="div-content d-flex flex-column align-items-center mt-3">
+      <form [formGroup]="convertform" (ngSubmit)="onSumbit()">
+        <div class="row justify-content-center p-2 height-drop">
+          <div class="d-flex col-6 justify-content-end">
+            <div class="dropdown" id="dropdown-ul">
+              <button
+                class="btn btntoggle dropdown-toggle btn-dropdown d-flex justify-content-between align-items-center w-100"
+                data-flip="false"
+                type="button"
+                id="dropdownButton2"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <div class="d-flex align-items-center gap-2">
+                  <img
+                    src="../../../assets/Images/symbol_crypto/{{
+                      selectedBlockchainNetworkLogo
+                    }}"
+                    alt=""
+                    class="crypto-image"
+                  />
+                  <span class="dropdown-text">
+                    {{ selectedBlockchainNetwork }}
+                  </span>
+                </div>
+                <i class="fa fa-chevron-down label-icon" aria-hidden="true"></i>
+              </button>
+              <ul
+                class="dropdown-menu dropdown-menu-buy mb-3"
+                aria-labelledby="dropdownButton2"
+                id="dropdownButtonUl"
+              >
+                <li
+                  class="li-select"
+                  (click)="toggleNetwork(eBlockchainNetwork.ERC20)"
+                  *ngIf="selectedBlockchainNetwork !== eBlockchainNetwork.ERC20"
+                >
+                  <div class="d-flex align-items-center gap-2">
+                    <img
+                      src="../../../assets/Images/symbol_crypto/Ethereum.svg"
+                      alt=""
+                      class="crypto-image"
+                    />
+                    <span class="li-select-text d-flex">
+                      {{ eBlockchainNetwork.ERC20 }}</span
+                    >
+                  </div>
+                </li>
+                <li
+                  class="li-select"
+                  (click)="toggleNetwork(eBlockchainNetwork.BEP20)"
+                  *ngIf="selectedBlockchainNetwork !== eBlockchainNetwork.BEP20"
+                >
+                  <div class="d-flex align-items-center gap-2">
+                    <img
+                      src="../../../assets/Images/symbol_crypto/bsc-black-icon.svg"
+                      alt=""
+                      class="crypto-image"
+                    />
+                    <span class="li-select-text d-flex">
+                      {{ eBlockchainNetwork.BEP20 }}</span
+                    >
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="d-flex col-6">
+            <div class="dropdown" id="dropdown-ul">
+              <button
+                class="btn btntoggle dropdown-toggle btn-dropdown d-flex justify-content-between align-items-center w-100"
+                data-flip="false"
+                type="button"
+                id="dropdownButton2"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <div>
+                  <img
+                    class="crypto-image"
+                    src="../../../assets/Images/symbol_crypto/{{
+                      selectedCryptoLogo
+                    }}"
+                  />
+                  <span class="dropdown-text2">
+                    {{ requestedCrypto }}
+                  </span>
+                </div>
+                <i class="fa fa-chevron-down label-icon" aria-hidden="true"></i>
+              </button>
+              <ul
+                class="dropdown-menu custom-dropdown-menu"
+                aria-labelledby="dropdownButton2"
+                id="dropdownButtonUl"
+              >
+                <ng-container
+                  *ngFor="
+                    let crypto of cryptoList;
+                    trackBy: trackByCryptoListValue;
+                    let i = index
+                  "
+                >
+                  <li
+                    class="li-select"
+                    (click)="onSelectCrypto(crypto.symbol, crypto.logo)"
+                    *ngIf="
+                      crypto.symbol !== requestedCrypto &&
+                      crypto.network.toUpperCase() === selectedBlockchainNetwork
+                    "
+                  >
+                    <img
+                      class="width_icon_crypto"
+                      src="../../../assets/Images/symbol_crypto/{{
+                        crypto.logo
+                      }}"
+                    />
+                    <span class="li-select-text"> {{ crypto.symbol }}</span>
+                  </li>
+                </ng-container>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="">
+          <input
+            [ngClass]="{
+              'text-error':
+                (this.convertform.get('Amount')?.errors?.required &&
+                  this.convertform.get('Amount')?.dirty) ||
+                errMsg
+            }"
+            id="amount1"
+            type="number"
+            pattern="(\d{1,2}([\.,])?)*([\d{1,2}]?)*"
+            formControlName="Amount"
+            (keydown)="restrictZero($event)"
+            input
+            class="input-amount"
+            placeholder="{{ selectedtLogo }} 0"
+            [(ngModel)]="amount"
+            (input)="convertCrypto()"
+          />
+        </div>
+        <div class="text-center mt-4">
+          <p class="hard-gray-text">
+            <!-- requestedCrypto === 'SATT-SC' ? 'SATT (BEP20)' : requestedCrypto -->
+
+            1{{
+              requestedCrypto === 'SATT-SC'
+                ? 'SATT (BEP20)'
+                : requestedCrypto === 'SATT-ERC20'
+                ? 'SATT (ERC20)'
+                : requestedCrypto
+            }}
+            = {{ this.cryptoPrice?.toFixed(8) }} USD
+          </p>
+        </div>
+        <div class="mt-4">
+          <p class="input-amount-usd" *ngIf="cryptoAmount">
+            ≈{{ cryptoAmount | number: '1.0-2' }}
+          </p>
+          <p class="input-amount-usd" *ngIf="!cryptoAmount">≈ 0</p>
+        </div>
+        <div class="row justify-content-center p-2 height-drop">
+          <div class="d-flex col-6 justify-content-end">
+            <div class="dropdown" id="dropdown-ul">
+              <button
+                class="btn btntoggle dropdown-toggle btn-dropdown d-flex justify-content-between align-items-center w-100"
+                data-flip="false"
+                type="button"
+                id="dropdownButton2"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <div class="d-flex align-items-center gap-2">
+                  <img
+                    src="../../../assets/Images/symbol_crypto/{{
+                      selectedCurrencyTypeLogo
+                    }}"
+                    alt=""
+                    class="crypto-image"
+                  />
+                  <span class="dropdown-text">
+                    {{ selectedCurrencyType.toUpperCase() }}
+                  </span>
+                </div>
+                <i class="fa fa-chevron-down label-icon" aria-hidden="true"></i>
+              </button>
+              <ul
+                class="dropdown-menu dropdown-menu-buy mb-3"
+                aria-labelledby="dropdownButton2"
+                id="dropdownButtonUl"
+              >
+                <li
+                  class="li-select"
+                  (click)="toggleCurrencyType(eCurrencyType.FIAT)"
+                  *ngIf="selectedCurrencyType !== eCurrencyType.FIAT"
+                >
+                  <div class="d-flex align-items-center gap-2">
+                    <img
+                      src="../../../assets/Images/symbol_crypto/bank-icon-black.svg"
+                      alt=""
+                      class="crypto-image"
+                    />
+                    <span class="li-select-text d-flex">
+                      {{ eCurrencyType.FIAT.toUpperCase() }}</span
+                    >
+                  </div>
+                </li>
+                <li
+                  class="li-select"
+                  (click)="toggleCurrencyType(eCurrencyType.BEP20)"
+                  *ngIf="selectedCurrencyType !== eCurrencyType.BEP20"
+                >
+                  <div class="d-flex align-items-center gap-2">
+                    <img
+                      src="../../../assets/Images/symbol_crypto/bsc-black-icon.svg"
+                      alt=""
+                      class="crypto-image"
+                    />
+                    <span class="li-select-text d-flex">
+                      {{ eCurrencyType.BEP20.toUpperCase() }}</span
+                    >
+                  </div>
+                </li>
+                <li
+                  class="li-select"
+                  (click)="toggleCurrencyType(eCurrencyType.ERC20)"
+                  *ngIf="selectedCurrencyType !== eCurrencyType.ERC20"
+                >
+                  <div class="d-flex align-items-center gap-2">
+                    <img
+                      src="../../../assets/Images/symbol_crypto/Ethereum.svg"
+                      alt=""
+                      class="crypto-image"
+                    />
+                    <span class="li-select-text d-flex">
+                      {{ eCurrencyType.ERC20.toUpperCase() }}</span
+                    >
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="d-flex col-6">
+            <div class="dropdown" id="dropdown-ul">
+              <button
+                class="btn btntoggle dropdown-toggle btn-dropdown d-flex justify-content-between align-items-center w-100"
+                data-flip="false"
+                type="button"
+                id="dropdownButton2"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <div class="d-flex align-items-center gap-2">
+                  <img
+                    *ngIf="
+                      selectedCurrencyType === eCurrencyType.BEP20 ||
+                      selectedCurrencyType === eCurrencyType.ERC20
+                    "
+                    class="crypto-image"
+                    src="../../../assets/Images/symbol_crypto/{{
+                      selectedCurrencyLogo
+                    }}"
+                  />
+                  <span
+                    class="symbol2"
+                    *ngIf="selectedCurrencyType === eCurrencyType.FIAT"
+                    >{{ selectedCurrencyLogo }}</span
+                  >
+                  <span class="dropdown-text2">
+                    {{ selectedTargetCurrency }}
+                  </span>
+                </div>
+                <i class="fa fa-chevron-down label-icon" aria-hidden="true"></i>
+              </button>
+              <ul
+                class="dropdown-menu"
+                aria-labelledby="dropdownButton2"
+                id="dropdownButtonUl"
+              >
+                <ng-container
+                  *ngFor="
+                    let crypto of targetCurrencyList;
+                    trackBy: trackByCryptoListValue;
+                    let i = index
+                  "
+                >
+                  <ng-container
+                    *ngIf="
+                      selectedCurrencyType === eCurrencyType.BEP20 ||
+                      selectedCurrencyType === eCurrencyType.ERC20
+                    "
+                  >
+                    <li
+                      class="li-select"
+                      (click)="onSelectCurrency(crypto, $any(crypto).logo)"
+                      *ngIf="
+                        !(
+                          selectedTargetCurrency.includes(crypto.symbol) &&
+                          selectedTargetCurrency.includes(
+                            $any(crypto).network.toUpperCase()
+                          )
+                        ) && crypto.symbol !== selectedTargetCurrency
+                      "
+                    >
+                      <img
+                        class="width_icon_crypto"
+                        src="../../../assets/Images/symbol_crypto/{{
+                          $any(crypto).logo
+                        }}"
+                      />
+                      <span class="li-select-text">
+                        {{
+                          crypto.symbol === 'SATT'
+                            ? 'SATT (' +
+                              $any(crypto).network.toUpperCase() +
+                              ')'
+                            : crypto.symbol
+                        }}</span
+                      >
+                    </li>
+                  </ng-container>
+                  <ng-container
+                    *ngIf="selectedCurrencyType === eCurrencyType.FIAT"
+                  >
+                    <li
+                      class="li-select d-flex align-items-center gap-2"
+                      (click)="onSelectCurrency(crypto, $any(crypto).logo)"
+                    >
+                      <span class="symbol2">{{ crypto.symbol }}</span>
+                      <span class="li-select-text">
+                        {{ $any(crypto).value }}</span
+                      >
+                    </li>
+                  </ng-container>
+                </ng-container>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center" *ngIf="!isConnected">
+          <div
+            class="mt-3 div-input-icon p-1"
+            [ngClass]="{
+              'border-error':
+                (this.convertform.get('walletId')?.errors?.required &&
+                  this.convertform.get('walletId')?.dirty) ||
+                (this.convertform.get('walletId')?.errors?.pattern &&
+                  !this.convertform.get('walletId')?.errors?.required)
+            }"
+          >
+            <img src="assets/Images/wallet-icon-black.svg" />
+
+            <input
+              formControlName="walletId"
+              class="input-icon ms-2"
+              type="text"
+              placeholder="Id wallet"
+            />
+          </div>
+        </div>
+        <div class="text-center" *ngIf="!isConnected">
+          <span
+            class="error_msg"
+            *ngIf="
+              this.convertform.get('walletId')?.errors?.required &&
+              this.convertform.get('walletId')?.dirty
+            "
+            >{{ 'Wallet.field_required' | translate }}</span
+          >
+        </div>
+        <div class="text-center mt-1" *ngIf="!isConnected">
+          <span
+            class="error_msg"
+            *ngIf="
+              this.convertform.get('walletId')?.errors?.pattern &&
+              !this.convertform.get('walletId')?.errors?.required
+            "
+            >{{ 'Wallet.Invalid address' | translate }}</span
+          >
+        </div>
+        <div class="mb-1 mt-1 d-flex justify-content-center" *ngIf="errMsg">
+          <!-- <img src="assets/Images/false.svg" class="me-2" style="width: 21px" /> -->
+          <span class="error_msg"> {{ errMsg }}</span>
+        </div>
+        <div
+          class="text-center mt-2"
+          [ngClass]="{ 'margin-top-btn': isConnected }"
+        >
+          <button
+            type="submit"
+            [disabled]="convertform.invalid || errMsg || errorMsg"
+            class="buy-swap-btn"
+            *ngIf="selectedCurrencyType === eCurrencyType.FIAT"
+          >
+            <img
+              src="../../../assets/Images/symbol_crypto/pay-creditcard-icon.svg"
+              alt=""
+            />
+            <span class="purshase-btn-text">{{
+              'Pay by Credit Card' | translate
+            }}</span>
+          </button>
+
+          <a
+            class="buy-swap-btn"
+            *ngIf="
+              selectedCurrencyType === eCurrencyType.BEP20 &&
+              selectedBlockchainNetwork === eBlockchainNetwork.BEP20
+            "
+            href="https://pancakeswap.finance/swap"
+            target="_blank"
+          >
+            <img
+              src="../../../assets/Images/symbol_crypto/pancakeswap-icon.svg"
+              alt=""
+            />
+            <span class="purshase-btn-text">{{
+              'Swap with pancakeswap' | translate
+            }}</span>
+          </a>
+
+          <a
+            class="buy-swap-btn"
+            *ngIf="
+              selectedCurrencyType === eCurrencyType.ERC20 &&
+              selectedBlockchainNetwork === eBlockchainNetwork.ERC20
+            "
+            href="https://app.uniswap.org/#/swap"
+            target="_blank"
+          >
+            <img
+              src="../../../assets/Images/symbol_crypto/pay-creditcard-icon.svg"
+              alt=""
+            />
+
+            <span class="purshase-btn-text">{{
+              'Swap with uniswap' | translate
+            }}</span>
+          </a>
+        </div>
+      </form>
+    </div>
+    <div
+      class="showMobile div-footer-mobile d-none d-xl-none d-lg-none d-md-none d-sm-block d-xs-block p-0"
+    >
+      <div class="div-pic-text">
+        <div class="">
+          <p class="text-moonboy d-flex flex-column">
+            <span>{{ 'you-need-help' | translate }}</span>
+            <span>{{ 'Read-our-FAQ-about' | translate }}</span
+            ><a class="router-text" [routerLink]="['/FAQ']">
+              {{ 'How-to-Tokens' | translate: { action: 'Buy' } }} ></a
+            >
+          </p>
+        </div>
+        <img
+          src="assets/Images/MoonBoy/moonboy-help.svg"
+          class="picture-moonboy"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="d-block d-xl-block d-lg-block d-md-block d-sm-none d-xs-none div-footer"
+>
+  <app-footer-send-receive-buy [pageName]="'Buy'"></app-footer-send-receive-buy>
+</div>
+<!-- <div class="container white-block-desktop">
+  <div class="white-box">
+
+    <div class="d-flex justify-content-center">
+      <hr />
+    </div>
+    <div class="align">
+      <form [formGroup]="convertform" class="convertform" (ngSubmit)="onSumbit()">
+        <div class="mb-3">
+          <div class="col-12 d-flex justify-content-center align-items-center">
+            <label for="buy_currency" class="form-label justify_h">{{
+              'Spend' | translate
+            }}</label>
+          </div>
+
+          <div class="d-flex input-group">
+            <div class="col-8 p-0">
+              <input
+                aria-describedby="basic-addon1"
+                class="form-control send"
+                type="number"
+                pattern="(\d{1,2}([\.,])?)*([\d{1,2}]?)*"
+                formControlName="Amount"
+                required
+                placeholder="{{ selectedtLogo }} 0.00"
+                #inputAmount
+                [(ngModel)]="amount"
+                (input)="convertCrypto()"
+                [ngClass]="{ error: errMsg }"
+              />
+            </div>
+            <div class="dropdown2 list-height amount col-4" id="dropdown-ul">
+              <button
+                class="btn btntoggle dropdown-toggle fltr-send"
+                type="button"
+                id="dropdownMenuButton2"
+                data-toggle="dropdown"
+                aria-haspop
+              >
+                <div class="d-none d-md-block pl-1">
+                  <span class="symbol d-none d-md-block">
+                    {{ selectedtLogo }}</span
+                  >
+                </div>
+                {{ selectedCurrencyValue }}<i class="chevron fa fa-fw"></i>
+              </button>
+
+              <ul
+                class="dropdown-menu"
+                aria-labelledby="dropdownMenuButton"
+                id="send_currency"
+              >
+                <ng-container *ngFor="let currency of cryptoMoneyList">
+                  <li
+                    [id]="currency.symbol"
+                    class="li-select"
+                    (click)="onSelect(currency.value, currency.symbol)"
+                    *ngIf="currency.value !== selectedCurrencyValue"
+                  >
+                    <div class="d-none d-md-block">
+                      <span
+                        class="symbol"
+                        [ngClass]="{
+                          otherSymbol:
+                            currency.value === 'AZN' ||
+                            currency.value === 'XAF' ||
+                            currency.value === 'DOP' ||
+                            currency.value === 'MAD' ||
+                            currency.value === 'TWD' ||
+                            currency.value === 'MYR' ||
+                            currency.value === 'CHF' ||
+                            currency.value === 'MAD'
+                        }"
+                        >{{ currency.symbol }}</span
+                      >
+                    </div>
+                    {{ currency.value }}
+                  </li>
+                </ng-container>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-4"></div>
+
+          <div class="justify-content-center mt-4">
+            <span class="col-12 d-flex justify-content-center d-none"
+              ><img src="../../../assets/Images/convert2.svg"
+            /></span>
+                            <span class="col-12 d-flex justify-content-center convert-text">
+              <img src="../../../assets/Images/conv.svg" class="pr-2" /> 1
+              {{
+                requestedCrypto === 'SATT-SC' ? 'SATT (BEP20)' : requestedCrypto
+              }}
+              = {{ this.cryptoPrice }} USD
+            </span>
+                    </div>
+
+                    <div class="mt-4">
+                        <label for="buy_currency" class="form-label justify_h pl-2">{{
+              'Receive' | translate
+            }}</label>
+                    </div>
+
+                    <div class="d-flex input-group">
+                        <div class="col-8 p-0">
+                            <p class="input-wrapper crypto amount pl-3" *ngIf="cryptoAmount">
+                                ≈ {{ cryptoAmount | number: '1.0-2' }}
+                            </p>
+                            <p class="input-wrapper crypto amount pl-3" *ngIf="!cryptoAmount">
+                                ≈ 0.00
+                            </p>
+                        </div>
+                        <div class="dropdown2 list-height col-4">
+                            <button class="btn btntoggle dropdown-toggle fltr-send" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div class="d-none d-md-block pl-1 ellipsis_text">
+                  <img
+                    class="crypto-image"
+                    src="../../../assets/Images/symbol_crypto/{{ fiatLogo }}"
+                  />
+                </div>
+                <div class="ellipsis_text">
+                  {{
+                    requestedCrypto === 'SATT-SC'
+                      ? 'SATT (BEP20)'
+                      : requestedCrypto === 'SATT-ERC20'
+                      ? 'SATT (ERC20)'
+                      : requestedCrypto
+                  }}
+                </div>
+                <i class="chevron fa fa-fw"></i>
+              </button>
+                            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" id="send_currency">
+                                <ng-container *ngFor="let crypto of cryptoList">
+                                    <li class="li-select" (click)="onSelectCrypto(crypto.symbol, crypto.logo)" *ngIf="
+                      crypto.symbol !== requestedCrypto &&
+                      crypto.logo !== fiatLogo
+                    ">
+                                        <img class="crypto-image d-none d-md-block pl-1" src="../../../assets/Images/symbol_crypto/{{
+                        crypto.logo
+                      }}" />
+                                        <span class="">
+                      {{
+                        crypto.symbol === 'SATT-SC'
+                          ? 'SATT'
+                          : crypto.symbol === 'SATT-ERC20'
+                          ? 'SATT (ERC20)'
+                          : crypto.symbol
+                      }}
+                    </span>
+                                    </li>
+                                </ng-container>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <button class="question d-flex justify-content-center" [routerLink]="['/home/FAQ']">
+            <img src="../../../../assets/Images/question.svg" class="me-2" />
+            {{ 'A question ? Contact the support !' | translate }} >
+          </button>
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <div class="mb-1 d-flex justify-content-center">
+                        <span class="danger_error p-2 mt-1 d-flex justify-content-center" *ngIf="errMsg">
+              <img
+                src="assets/Images/false.svg"
+                class="me-2"
+                style="width: 21px"
+              />
+              <span> {{ errMsg }}</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center mt-1">
+                    <button type="submit" class="buy_token" [disabled]="convertform.invalid || errMsg || errorMsg">
+            {{ 'Buy' | translate }}
+          </button>
+                </div>
+                </form>
+            </div>
+            </div>
+        </div> -->

@@ -1,0 +1,43 @@
+.slider-container {
+  background: #d8daff;
+  border-radius: 35.9327px;
+  height: 26px !important;
+  padding-top: 5px;
+}
+::ng-deep .step-indicators {
+  background: white !important;
+}
+
+::ng-deep .filler span {
+  background: #4048ff !important;
+}
+
+::ng-deep .left-handle {
+  background: white !important;
+  border: 7px solid white !important;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
+}
+
+::ng-deep .right-handle {
+  background: white !important;
+  border: 7px solid white !important;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
+}
+
+::ng-deep .values {
+  display: none !important;
+}
+
+::ng-deep .handle-tooltip {
+  color: white !important;
+  background: #4048ff !important ;
+  border: none !important;
+}
+
+::ng-deep .bar {
+  box-shadow: none !important;
+}
+
+::ng-deep .filler {
+  border: none !important;
+}

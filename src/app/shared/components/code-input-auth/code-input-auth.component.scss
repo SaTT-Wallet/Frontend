@@ -1,0 +1,86 @@
+.codeinput {
+  width: 100%;
+  text-align: center;
+  display: flex;
+  float: center;
+  margin-right: 0.5rem;
+  /* margin-left: 34%; */
+  --item-spacing: 5px;
+  --item-background: white;
+  --item-border-radius: 10px;
+  --item-border: 1px solid #d6d6e8;
+}
+
+::ng-deep .codeinput input {
+  width: 40px !important;
+  height: 40px !important;
+  margin-right: 0.1rem;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 22px;
+  color: #4048ff !important;
+}
+
+@media (max-width: 380px) {
+  ::ng-deep .codeinput input {
+    width: 33px !important;
+    height: 33px !important;
+  }
+}
+
+::ng-deep .codeinput input:focus {
+  border: 1px solid rgba(64, 72, 255, 0.41) !important;
+}
+
+// @media (max-width: 922px){
+//     ::ng-deep .codeinput input {
+//         width: 36px !important;
+//         Height: 36px !important;
+//     }
+// }
+
+::ng-deep .success-code {
+  color: #00cc9e !important;
+}
+
+::ng-deep .success-code .codeinput input {
+  color: #00cc9e !important;
+  border: 1px solid #00cc9e !important;
+}
+::ng-deep .codeinput input.has-value {
+  border: 1px solid rgba(64, 72, 255, 0.41) !important;
+}
+::ng-deep .success-code .codeinput input.has-value {
+  border: 1px solid #00cc9e !important;
+}
+
+.danger-code {
+  color: #f52079 !important;
+}
+
+::ng-deep .danger-code .codeinput input {
+  color: #f52079 !important;
+  border: 1px solid #f52079 !important;
+}
+
+.code-status {
+  display: block;
+  text-align: center;
+}
+
+// ::ng-deep .codeinput span{
+//     width: 15% !important;
+//     padding-right: 1% !important;
+// }
+
+::ng-deep .codeinput span:last-child {
+  padding-right: var(--item-spacing) !important;
+}
+
+code-input :not(:last-child) span {
+  padding-right: 15px !important;
+}
+code-input:last-child span {
+  padding-right: 0px !important;
+}

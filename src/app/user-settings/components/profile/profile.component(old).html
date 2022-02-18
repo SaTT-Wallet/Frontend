@@ -1,0 +1,641 @@
+<div class="container-fluid page-content wallet-page">
+  <div class="row">
+    <div class="col-md-12 col-lg-12 col-xs-12">
+      <div class="title-block">
+        <span class="">{{ 'Profil.account' | translate }} </span>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-lg-12 col-xs-12 d-flex flex-row">
+      <div class="col-4 nav-item-active" [routerLink]="['/profile']">
+        <label
+          class="nav-link active"
+          id="info-tab"
+          aria-controls="info"
+          aria-selected="false"
+          >{{ 'Profil.informations_generales' | translate }}</label
+        >
+      </div>
+      <div
+        class="col-4 nav-item d-flex justify-content-center"
+        [routerLink]="['/profile/Legal_KYC']"
+      >
+        <label
+          class="nav-link"
+          id="legal-kyc-tab"
+          aria-controls="legal-kyc"
+          aria-selected="true"
+          >{{ 'Profil.legal' | translate }}</label
+        >
+      </div>
+      <div
+        class="col-4 nav-item d-flex justify-content-center"
+        [routerLink]="['/profile/security']"
+      >
+        <label
+          class="nav-link"
+          id="security-tab"
+          aria-controls="security"
+          aria-selected="false"
+          >{{ 'Profil.informations_securite' | translate }}</label
+        >
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="myTabContent">
+    <div
+      class="tab-pane fade show active mt-3"
+      id="info"
+      role="tabpanel"
+      aria-labelledby="info-tab"
+    >
+      <!----- Section profil and bio-------->
+      <div class="row d-flex justify-content-between">
+        <!----------------------  section profile------->
+        <div class="col-md-12 col-sm-12 col-lg-4 col-xl-4 col-xxl-3 mb-3">
+          <div class="div_block p-3 overflow-auto">
+            <div class="row d-flex justify-content-between align-self-center">
+              <div class="d-flex justify-content-center position-relative">
+                <img
+                  [src]="user?.userPicture"
+                  (error)="onImgError($event)"
+                  class="pic-profil"
+                />
+                <button
+                  class="
+                    d-xl-none d-lg-none d-md-block d-sm-block
+                    align-self-start
+                    bg-transparent
+                    border-0
+                    modifbut
+                  "
+                  [routerLink]="['/profile/edit']"
+                >
+                  <!--                                    <img class="pic-edit border-0 " src="" />-->
+                </button>
+              </div>
+            </div>
+            <div
+              class="row pt-3 d-flex justify-content-center"
+              *ngIf="user?.firstName && user?.lastName"
+            >
+              <div
+                class="
+                  col-lg-12 col-xl-12 col-sm-12 col-md-12
+                  d-flex
+                  justify-content-center
+                "
+              >
+                <label class="title_section">{{ user?.getFullName() }} </label>
+              </div>
+            </div>
+            <div class="row pt-1" *ngIf="user?.gender || user?.birthday">
+              <div
+                class="
+                  col-lg-12 col-xs-12 col-md-12
+                  d-flex
+                  justify-content-center
+                "
+                *ngIf="user?.gender == 'male'"
+              >
+                <label class="text-label"
+                  >( {{ 'Profil.campaign_list.genre_masculin' | translate }} ,{{
+                  user.getAge() || 0 }}{{ years | translate }} )</label
+                >
+              </div>
+              <div
+                class="
+                  col-lg-12 col-xs-12 col-md-12
+                  d-flex
+                  justify-content-center
+                "
+                *ngIf="user?.gender == 'female'"
+              >
+                <label class="text-label"
+                  >( {{ 'Profil.campaign_list.genre_feminin' | translate }} ,{{
+                  user.getAge() || 0 }} {{ years | translate }} )</label
+                >
+              </div>
+              <div
+                class="
+                  col-lg-12 col-xs-12 col-md-12
+                  d-flex
+                  justify-content-center
+                "
+                *ngIf="!user?.gender"
+              >
+                <label class="text-label"
+                  >({{ user?.getAge() || 0 }} {{ years | translate }} )</label
+                >
+              </div>
+            </div>
+            <!--                        px-xxl-5 px-sm-5 px-xl-1 px-md-3-->
+            <div
+              class="
+                row
+                pt-3
+                d-flex
+                justify-content-center
+                ms-detailsProfil
+                px-md-2
+              "
+            >
+              <div
+                class="row d-flex justify-content-center"
+                *ngIf="user?.email"
+              >
+                <div
+                  class="
+                    col-sm-12 col-md-6 col-xl-12 col-lg-12 col-xxl-12
+                    d-flex
+                    align-self-center
+                  "
+                >
+                  <img
+                    src="./assets/Images/email_icon.svg"
+                    class="d-flex align-self-start"
+                  /><label class="text-label">{{ user?.email }}</label>
+                </div>
+              </div>
+              <div
+                class="row d-flex justify-content-center"
+                *ngIf="user?.address"
+              >
+                <div
+                  class="
+                    col-sm-12 col-md-6 col-xl-12 col-lg-12 col-xxl-12
+                    d-flex
+                    align-self-center
+                  "
+                >
+                  <img
+                    src="./assets/Images/location.svg"
+                    class="d-flex align-self-start"
+                  /><label class="text-label"
+                    >{{ user?.address }} {{ user?.zipCode }} {{ user?.city }} {{
+                    user?.country }}
+                  </label>
+                </div>
+              </div>
+              <div
+                class="row d-flex justify-content-center"
+                *ngIf="user?.phone"
+              >
+                <div
+                  class="
+                    col-sm-12 col-md-6 col-xl-12 col-lg-12 col-xxl-12
+                    d-flex
+                    align-self-center
+                  "
+                >
+                  <img
+                    src="./assets/Images/tel.svg"
+                    class="d-flex align-self-start"
+                  />
+                  <label class="text-label">+{{ user?.phone }}</label>
+                </div>
+              </div>
+            </div>
+            <div class="row pt-3 d-none d-sm-none d-md-none d-lg-block">
+              <div class="d-flex justify-content-center">
+                <!--                                /siwar5/-->
+                <div
+                  class="
+                    col-lg-8 col-xl-8 col-xxl-5
+                    d-none d-sm-none d-md-none d-lg-block
+                  "
+                >
+                  <button class="btn_edit" [routerLink]="['/profile/edit']">
+                    {{ 'Profil.edit_img' | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!----------------------  end section profile-------->
+        <!--div spinner -->
+        <div class="loader" *ngIf="showSpinner"></div>
+        <!-- End div spinner -->
+        <!------------------------ section bio--------------->
+        <div class="col-md-12 col-sm-12 col-lg-8 col-xl-8 col-xxl-9 mb-3">
+          <div class="div_block p-4 ps-xl-5 pt-sm-3">
+            <div
+              class="
+                row
+                d-flex
+                justify-content-xl-between
+                justify-content-lg-between
+                justify-content-md-center
+              "
+            >
+              <div
+                class="
+                  col-sm-12 col-md-12 col-sm-12 col-lg-4 col-xxl-5 col-xl-4
+                  title_section
+                  d-flex
+                  align-self-center
+                  justify-content-lg-start
+                  justify-content-md-center
+                  justify-content-sm-center
+                  make-center
+                  position-relative
+                "
+              >
+                <span class="d-flex align-self-center"
+                  >{{ 'Profil.biography' | translate }}
+                </span>
+                <button
+                  class="
+                    d-xl-none d-lg-none d-md-block d-sm-block
+                    bg-transparent
+                    border-0
+                    modifbut
+                  "
+                  [routerLink]="['/profile/networks']"
+                >
+                  <!--                                    <img class="pic-edit border-0 ms-editBiog" src="" />-->
+                </button>
+              </div>
+              <div
+                class="
+                  col-lg-5 col-xl-4 col-xxl-3
+                  d-none d-sm-none d-md-none d-lg-block d-flex
+                  justify-content-end
+                "
+              >
+                <div class="d-flex d-flex justify-content-end">
+                  <button class="btn_edit" [routerLink]="['/profile/networks']">
+                    {{ 'Profil.edit_img' | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="row pt-3">
+              <p class="text-label px-2 pt-2">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Maecenas convallis nisl vel risus luctus efficitur. Nulla rutrum
+                dui tincidunt molestie lobortis. Aliquam malesuada, libero nec
+                imperdiet dignissim, justo neque porttitor dui, ut vestibulum
+                eros ligula sit amet ipsum. Donec vestibulum dui vel metus
+                tristique pharetra. Donec vestibulum luctus leo, sed lacinia
+                massa hendrerit id. Aenean imperdiet elit ut dapibus imperdiet.
+                Sed et dictum orci, volutpat congue leo. Phasellus massa metus,
+                vehicula id ullamcorper sit amet, cursus id diam. Nam gravida
+                viverra elementum.
+              </p>
+            </div>
+            <div class="row pb-3">
+              <div
+                class="
+                  col-md-12 col-lg-12 col-xl-5 col-xxl-4 col-sm-12
+                  title_section
+                  d-flex
+                  align-self-center
+                  justify-content-lg-start
+                  make-center
+                  pb-1
+                "
+              >
+                <span class="d-flex align-self-center">
+                  {{ 'Profil.networks' | translate }}</span
+                >
+              </div>
+              <div
+                class="
+                  col-md-12 col-lg-12 col-xl-6 col-xxl-3 col-sm-12
+                  d-flex
+                  align-self-center
+                  justify-content-lg-start
+                  make-center
+                "
+              >
+                <a
+                  *ngIf="user?.instagramLink"
+                  id="addInsta"
+                  href="{{ user?.instagramLink }}"
+                  target="_blank"
+                  class="px-1 d-flex align-self-center"
+                >
+                  <img
+                    src="./assets/Images/instagram-icon.svg"
+                    class="icon-link"
+                /></a>
+                <a
+                  *ngIf="user?.fbLink"
+                  id="addFb"
+                  href="{{ user?.fbLink }}"
+                  target="_blank"
+                  class="px-1 d-flex align-self-center"
+                  ><img
+                    src="./assets/Images/facebook-icon.svg"
+                    class="icon-link"
+                /></a>
+                <a
+                  *ngIf="user?.twitterLink"
+                  id="addTwitter"
+                  href="{{ user?.twitterLink }}"
+                  target="_blank"
+                  class="px-1 d-flex align-self-center"
+                >
+                  <img src="./assets/Images/twitter-icon.svg" class="icon-link"
+                /></a>
+                <a
+                  *ngIf="user?.linkedinLink"
+                  id="linkedin-link"
+                  href="{{ user?.linkedinLink }}"
+                  target="_blank"
+                  class="px-1 d-flex align-self-center"
+                >
+                  <img
+                    src="./assets/Images/linkedin-icon.svg"
+                    class="icon-link"
+                /></a>
+                <a
+                  *ngIf="user?.youtubeLink"
+                  id="youtube-link"
+                  href="{{ user?.youtubeLink }}"
+                  target="_blank"
+                  class="px-1 d-flex align-self-center"
+                >
+                  <img src="./assets/Images/youtube-icon.svg" class="icon-link"
+                /></a>
+              </div>
+            </div>
+            <div class="row pt-2">
+              <div
+                class="
+                  col-sm-12 col-md-12 col-lg-12
+                  title_section
+                  d-flex
+                  align-self-center
+                  justify-content-lg-start
+                  make-center
+                "
+              >
+                <span class="d-flex align-self-center">
+                  {{ 'Profil.interests' | translate }}</span
+                >
+              </div>
+              <div
+                class="
+                  row
+                  d-flex
+                  justify-content-md-center justify-content-lg-start
+                  pt-3
+                "
+              >
+                <div class="col-12 div_interestes-tag">
+                  <label class="interestes-tag"> interest1 </label>
+                  <label class="interestes-tag"> interest2</label>
+                  <label class="interestes-tag"> interest3</label>
+                  <label class="interestes-tag">interest4</label>
+                  <label class="interestes-tag"> interest5</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!------------------------ end section bio------------------>
+      </div>
+      <!-----end Section profil and bio-------->
+
+      <!---------------- section auth google,fb,telegram--------------->
+      <!-- <div class="row pb-3 pt-3"  *ngIf="isShown4" >
+    <app-social-media-link-account [user]="this.user"></app-social-media-link-account>
+</div>-->
+      <!---------------- end section auth google,fb,telegram--------------->
+
+      <!------------------------------ block company  ---------------->
+      <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+          <div class="div_block">
+            <!-----isEntreprise==true-->
+            <div
+              class="
+                d-flex
+                flex-xl-row
+                flex-lg-row
+                flex-md-column
+                flex-sm-column
+                flex-direction
+                p-2
+              "
+              *ngIf="user?.isEntreprise == true"
+            >
+              <div
+                class="
+                  col-sm-12 col-md-12 col-lg-8 col-xl-10 col-xxl-10
+                  d-flex
+                  justify-content-start
+                  align-self-xl-center align-self-lg-center
+                  mt-md-2
+                "
+              >
+                <div class="col-sm-3 col-md-2 col-xl-1 col-lg-2 col-xxl-1">
+                  <ui-switch
+                    color="#00CC9E"
+                    [checked]="true"
+                    (click)="updateCompany()"
+                  ></ui-switch>
+                </div>
+                <div class="col-sm-9 col-md-10 col-xl-11 col-lg-11 col-xxl-11">
+                  <span class="text-toggle ms-10 ms-12">
+                    {{ organisation | translate }} {{ nameOrganisation }}</span
+                  >
+                </div>
+              </div>
+              <div
+                class="
+                  make-sm-center
+                  col-sm-12 col-md-12 col-lg-4 col-xl-2 col-xxl-2
+                  d-flex
+                  justify-content-sm-center
+                  justify-content-md-center
+                  justify-content-lg-end
+                  justify-content-xl-end
+                "
+              >
+                <button
+                  class="btn_edit"
+                  (click)="openModal(updateCompanyModal)"
+                >
+                  {{ 'Profil.edit_img' | translate }}
+                </button>
+              </div>
+            </div>
+            <!-----isEntreprise==false-->
+            <div
+              class="d-flex flex-row p-3"
+              *ngIf="user?.isEntreprise == false || !user?.isEntreprise"
+            >
+              <div class="col-sm-3 col-md-2 col-xl-1 col-lg-1 col-xxl-1">
+                <ui-switch
+                  color="#00CC9E"
+                  [checked]="false"
+                  (click)="toggle()"
+                ></ui-switch>
+              </div>
+              <div class="col-sm-9 col-md-9 col-xl-11 col-lg-10 col-xxl-11">
+                <span class="text-toggle ms-10">
+                  {{ organisation | translate }} {{ nameOrganisation }}</span
+                >
+              </div>
+            </div>
+            <ng-container
+              *ngIf="
+                show && (user?.isEntreprise == false || !user?.isEntreprise)
+              "
+            >
+              <div
+                class="
+                  col-sm-12 col-md-12 col-lg-12 col-xl-10 col-xxl-10
+                  p-4
+                  margin-left
+                "
+              >
+                <form [formGroup]="formCompany">
+                  <div class="row">
+                    <div
+                      class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12"
+                    >
+                      <label class="label_input"
+                        >{{ 'Profil.company_name' | translate }}</label
+                      >
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
+                      <input
+                        type="text"
+                        name="organisation"
+                        formControlName="organisation"
+                        class="type-input"
+                        [(ngModel)]="user.organisation"
+                      />
+                    </div>
+                  </div>
+                  <div class="error">
+                    <span *ngIf="isValidCompany('organisation')"
+                      >{{ 'Profil.field_required' | translate }}</span
+                    >
+                  </div>
+
+                  <div class="row mt-3">
+                    <div
+                      class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12"
+                    >
+                      <label class="label_input"
+                        >{{ 'Profil.NTVA' | translate }}</label
+                      >
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
+                      <input
+                        type="number"
+                        name="NTVA"
+                        formControlName="ntva"
+                        class="type-input"
+                        [(ngModel)]="user.ntva"
+                      />
+                    </div>
+                  </div>
+                  <div class="error">
+                    <span *ngIf="isValidCompany('ntva')"
+                      >{{ 'Profil.field_required' | translate }}</span
+                    >
+                  </div>
+                  <div class="row pt-5">
+                    <div class="col-sm-10 col-md-5 col-lg-5 col-xl-3 col-xxl-2">
+                      <button
+                        type="submit"
+                        [disabled]="formCompany.invalid"
+                        class="btn-green"
+                        (click)="addCompany()"
+                      >
+                        {{ 'Profil.create_campaign_form.save' | translate }}
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+      <!----------------------end  block company  ------------------------>
+      <!------------- update company modal -->
+      <ng-template #updateCompanyModal>
+        <div class="modal-header">
+          <h5>{{ 'Profil.mod_company_title' | translate }}</h5>
+          <button
+            type="button"
+            class="btn-close pull-right close"
+            (click)="closeModal(updateCompanyModal)"
+            data-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body" class="p-4">
+          <form [formGroup]="formCompany">
+            <div class="row mt-2">
+              <label class="label_input"
+                >{{ 'Profil.company_name' | translate }}</label
+              >
+            </div>
+            <div class="row">
+              <input
+                type="text"
+                name="organisation"
+                formControlName="organisation"
+                class="type-input"
+                [(ngModel)]="user.organisation"
+              />
+            </div>
+            <div class="error pt-1">
+              <span *ngIf="isValidCompany('organisation')"
+                >{{ 'Profil.field_required' | translate }}</span
+              >
+            </div>
+
+            <div class="row pt-4">
+              <label class="label_input">
+                {{ 'Profil.NTVA' | translate }}
+              </label>
+            </div>
+            <div class="row">
+              <input
+                type="number"
+                name="NTVA"
+                formControlName="ntva"
+                class="type-input"
+                [(ngModel)]="user.ntva"
+              />
+            </div>
+            <div class="error pt-1">
+              <span *ngIf="isValidCompany('ntva')">
+                {{ 'Profil.field_required' | translate }}</span
+              >
+            </div>
+            <div class="row d-flex justify-content-center pt-5">
+              <div class="col-12">
+                <button
+                  type="submit"
+                  class="btn-green"
+                  [disabled]="formCompany.invalid"
+                  (click)="addCompany()"
+                >
+                  {{ 'Profil.save' | translate }}
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </ng-template>
+      <!------------ end update company modal -->
+    </div>
+  </div>
+</div>

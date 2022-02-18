@@ -1,0 +1,76 @@
+.btn-bind-fb {
+  background-color: #3b5998;
+  min-height: 65px;
+  color: #fff;
+  font-size: 15px;
+  border-radius: 5px;
+  font-weight: 400;
+  width: 100%;
+  text-align: center;
+}
+.btn-bind-gplus {
+  background-color: #dc4e41;
+  min-height: 65px;
+  color: #fff !important;
+  font-size: 15px;
+  border-radius: 5px;
+  font-weight: 400;
+  width: 100%;
+  text-align: center;
+}
+
+.btn-bind-telegram {
+  background-color: #54a9eb;
+  border-radius: 5px;
+  height: 65px;
+  vertical-align: super;
+  padding: 6px 15px;
+  margin: 0 auto;
+  display: block;
+  text-align: center;
+}
+
+.link-account-btn-text {
+    color: white !important;
+}
+
+.content-div {
+  clear: both;
+}
+.bin_telegram {
+  margin-top: -28px;
+  color: #fff !important;
+  font-size: 15px;
+  font-weight: 400;
+  text-align: center !important;
+}
+.btn-bind-telegram.disabled,
+.btn-bind-telegram[disabled],
+fieldset[disabled] .btn-bind-telegram {
+  cursor: not-allowed;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  background-color: #54a9ebe3;
+}
+.btn-bind-telegram.disabled div#link-telegram,
+.btn-bind-telegram[disabled] div#link-telegram,
+fieldset[disabled] .btn-bind-telegram div#link-telegram {
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+}
+.btn-bind-telegram.disabled .bin_telegram,
+.btn-bind-telegram[disabled] .bin_telegram,
+fieldset[disabled] .btn-bind-telegram .bin_telegram {
+  cursor: not-allowed;
+}
+#link-telegram {
+    opacity: 0.01;
+}
+/* div#link-telegram {
+  opacity: 0.01;
+}
+iframe#telegram-login-SaTT_token_bot button {
+  opacity: 0.01;
+} */

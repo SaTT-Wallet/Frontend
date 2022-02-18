@@ -1,0 +1,92 @@
+:host {
+  --cs-green: #00cc9e;
+  --cs-red: #f52079;
+  --cs-darkblue: #323754;
+  --cs-blue: #4048ff;
+  // display: block;
+  // background-color: white;
+  // margin: 10em 1vw;
+  // border-radius: 30px;
+  // box-shadow: 0px 4px 20px rgb(0 0 0 / 20%);
+  // padding: 1em;
+  // font-style: normal;
+  color: var(--cs-darkblue);
+  // text-align: center;
+  .div-white-block {
+    background: #ffffff;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+    border-radius: 30px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin: 2em 0 2em 0;
+    text-align: center;
+    padding: 15px;
+  }
+  .image-icon-wrapper {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    // left: 50%;
+    // transform: translateX(-50%);
+    // top: -50px;
+    top: -40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--cs-darkblue);
+  }
+  .title-wrapper {
+    margin-top: 5em;
+  }
+  .success-bg {
+    background-color: var(--cs-green);
+  }
+  .failure-bg {
+    background-color: var(--cs-red);
+  }
+  .success-text {
+    color: var(--cs-green);
+  }
+  .failure-text {
+    color: var(--cs-red);
+  }
+  .buttons-wrapper {
+    display: flex;
+    margin: 1em auto 3em;
+    gap: 2em;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  // .buttons-wrapper a {
+  //   white-space: nowrap;
+  // }
+  .btn-default {
+    background: #ffffff;
+    box-shadow: 0px 2px 6px rgb(50 55 84 / 40%);
+    border-radius: 56px;
+    width: 100%;
+    padding: 0.8em;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 27px;
+    color: var(--cs-blue) !important;
+    border: 2px solid transparent;
+    cursor: pointer;
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .btn-default * {
+    text-decoration: none;
+  }
+  .btn-default:hover {
+    border-color: #0009d3;
+    box-shadow: none;
+  }
+}

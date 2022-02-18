@@ -1,0 +1,238 @@
+<!--red bloc: mobile-->
+<!-- <div class="mb-2 showMobile">
+    <div class=" div_red" id="red-bloc-mobile" *ngIf="hideRedBloc=='false'">
+        <img src="/assets/Images/Rectangle-rouge_mobile_png.png">
+        <span class="div_red_text pt-1 ms-3" (click)="goToCampaign()"> {{'wallet.participate_full_text' | translate}} ></span>
+        <img src="/assets/Images/close.svg" alt="" class="icon-close" (click)="closeRedBloc()" />
+    </div>
+</div> -->
+
+<!-- <div class="wallet container-fluid"> -->
+<div class="wallet">
+  <!--red bloc:desktop and tablette-->
+  <!-- <div class="mb-2 showDesktop" role="button">
+        <div class=" div_red" id="red-bloc" *ngIf="!this.sidebarService.toggleSidebar.value && hideRedBloc=='false'">
+            <img src="/assets/Images/Rectangle-rouge_mobile_png.png" class="div_red_pic thumbnail " (click)="goToCampaign()">
+            <span class="div_red_text pt-1 ms-3 d-none d-md-block d-lg-none d-xl-none" (click)="goToCampaign()"> {{'wallet.participate_full_text' | translate}} ></span>
+            <span class="div_red_text pt-1 ms-3 d-none d-md-none d-lg-block d-xl-block" (click)="goToCampaign()"> {{'wallet.participate_full_text' | translate}}</span>
+            <button type="button" class="div_red_btn d-none d-md-none d-lg-block d-xl-block" (click)="goToCampaign()">{{'Monetize.Apply_Campaign' |translate}}</button>
+            <img src="/assets/Images/close.svg" alt="" class="icon-close" (click)="closeRedBloc()" />
+        </div>
+    </div> -->
+  <div
+    *ngIf="hidePortfolio"
+    class="row mb-2 positon-mobile"
+    id="chart"
+    style="position: absolute"
+  >
+    <div class="col-md-12 col-sm-12 col-lg-12 p-0 h-100">
+      <div class="blockk mb-4">
+        <!--portfolio estimation-->
+        <!-- <div class="d-flex justify-content-center">-->
+        <div class="currentbalance">
+          <h3 class="walletEstim d-flex justify-content-center">
+            {{ 'Wallet.Your_total_portfolio_is_estimated_at' | translate }} :
+          </h3>
+          <div class="d-flex justify-content-center">
+            <div class="walletTotal d-block">
+              <div class="d-flex first_layer" id="totalAmount1">
+                $ {{ totalAmount | number: '1.0-2' }}
+              </div>
+              <!-- <div class="d-flex justify-content-center">
+
+                            <h1 class="indicatorfont " [ngStyle]="{ color: arrowColor }"> {{arrowvar }} {{variationamount}} % </h1>
+                        </div> -->
+            </div>
+          </div>
+        </div>
+        <!--</div>-->
+
+        <div id="legend">
+          <button
+            class="show_button"
+            [ngClass]="{ show_button: showMonth, hide_button: !showMonth }"
+            (click)="togglemonth()"
+          >
+            {{ 'Mois' | translate }}
+          </button>
+          <button
+            class="hide_button"
+            [ngClass]="{ show_button: showSemaine, hide_button: !showSemaine }"
+            (click)="toggleWeek()"
+          >
+            {{ 'Semaine' | translate }}
+          </button>
+          <button
+            class="hide_button"
+            [ngClass]="{ show_button: showDaily, hide_button: !showDaily }"
+            (click)="toggleDay()"
+          >
+            {{ 'Jours' | translate }}
+          </button>
+        </div>
+        <canvas
+          class="canV canvdaily"
+          *ngIf="showDaily"
+          #myCanvas1
+          baseChart
+          height="182px"
+          width="1652vw"
+          [datasets]="lineChartDataDaily"
+          [options]="lineChartOptionsDaily"
+          [colors]="lineChartColors"
+          [legend]="lineChartLegend"
+          [chartType]="lineChartType"
+          [plugins]="lineChartPlugins"
+          [labels]="lineChartLabelsDaily"
+        >
+        </canvas>
+        <canvas
+          class="canV"
+          *ngIf="showMonth"
+          #myCanvas3
+          baseChart
+          height="182vh"
+          width="1652vw"
+          style="width: 700px !important"
+          [datasets]="lineChartDataMonth"
+          [options]="lineChartOptionsMonthly"
+          [colors]="lineChartColors"
+          [legend]="lineChartLegend"
+          [chartType]="lineChartType"
+          [plugins]="lineChartPlugins"
+        >
+        </canvas>
+        <canvas
+          class="canV"
+          *ngIf="showSemaine"
+          #myCanvas2
+          baseChart
+          height="182px"
+          width="1652px"
+          [datasets]="lineChartDataSemaine"
+          [options]="lineChartOptionsWeekly"
+          [colors]="lineChartColors"
+          [legend]="lineChartLegend"
+          [chartType]="lineChartType"
+          [plugins]="lineChartPlugins"
+        >
+        </canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="showDesktop">
+    <div class="scroll-page" id="page-2">
+      <app-crypto-list
+        (hidePortfolio)="togglePortfolio($event)"
+        (onMakeAnimation)="triggerAnimation($event)"
+      >
+      </app-crypto-list>
+    </div>
+  </div>
+</div>
+
+<div class="showMobile">
+  <div class="scroll-page" id="page-2">
+    <app-crypto-list
+      (hidePortfolio)="togglePortfolio($event)"
+      (onMakeAnimation)="triggerAnimation($event)"
+    >
+    </app-crypto-list>
+  </div>
+</div>
+<ng-template #checkUserLegalKYCModal>
+  <div class="modal-header modal-custom">
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="modal"
+      (click)="this.modalService.dismissAll(checkUserLegalKYCModal)"
+    ></button>
+  </div>
+  <div class="modal-body modal-custom mb-3">
+    <h3>{{ 'Wallet.userLegal_notice_title' | translate }}</h3>
+    <p>{{ 'Wallet.userLegal_notice_msg' | translate }}</p>
+    <a
+      class="btn-link"
+      routerLink="/home/settings/Legal_KYC"
+      (click)="this.modalService.dismissAll()"
+      >{{ 'Wallet.userLegal_notice_btn' | translate }}</a
+    >
+  </div>
+</ng-template>
+
+<!--div spinner -->
+<div class="loader" *ngIf="showSpinner"></div>
+<!-- End div spinner -->
+
+<!-- Welcome modal -->
+<ng-template #welcomeModal>
+  <div class="modal-header modal-customm">
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="modal"
+      (click)="closeModal(welcomeModal)"
+    ></button>
+  </div>
+  <div class="modal-body welcome-body modal-customm">
+    <div class="row d-flex justify-content-center">
+      <circle-progress
+        class="prog"
+        [percent]="this.percentProfil"
+      ></circle-progress>
+      <img
+        [src]="user?.userPicture"
+        (error)="onImgError($event)"
+        class="pic-profile"
+      />
+      <span class="cercle">{{ percentProfil }}%</span>
+    </div>
+    <h3 class="textpwd">{{ 'Welcome_title' | translate }}</h3>
+    <div class="d-flex justify-content-center welcome-paragraph">
+      <p>{{ 'welcome_parag' | translate }}</p>
+    </div>
+    <div class="d-flex flex-column justify-content-center align-items-center">
+      <div
+        class="
+          d-flex
+          align-items-center
+          justify-content-center
+          col-xl-6 col-lg-8 col-md-8 col-sm-8
+        "
+      >
+        <button
+          class="btnModalError btn_fill_profile"
+          (click)="goToProfile(modalService)"
+        >
+          {{ 'fill_profile' | translate }}
+        </button>
+      </div>
+      <div
+        class="
+          col-xl-6 col-lg-8 col-md-8 col-sm-8
+          d-flex
+          flex-column
+          justify-content-center
+          align-items-center
+        "
+      >
+        <button
+          class="btnModalError btn_later"
+          (click)="closeModal(welcomeModal)"
+        >
+          {{ 'later' | translate }}
+        </button>
+      </div>
+    </div>
+    <div class="col-12 d-flex justify-content-start">
+      <div class="col-12">
+        <input type="checkbox" id="confirm" (click)="dontShowAgain()" />
+        <label class="dont_show ms-2">{{
+          "don't_show_again" | translate
+        }}</label>
+      </div>
+    </div>
+  </div>
+</ng-template>

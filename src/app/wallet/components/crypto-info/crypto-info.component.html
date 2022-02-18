@@ -1,0 +1,212 @@
+<div class="bg-header d-flex justify-content-center">
+  <div
+    class="bg-header-info justify-content-center justify-content-md-between align-items-end mb-3"
+  >
+    <div
+      class="d-md-none d-flex justify-content-end back-button"
+      routerLink="/"
+      style="cursor: pointer"
+    >
+      < Back
+    </div>
+
+    <div
+      class="crypto-logo d-flex justify-content-center align-items-center flex-md-row flex-column"
+    >
+      <img
+        *ngIf="!cryptoImgUrl"
+        class="spinner"
+        src="/assets/Images/loadingLogo.gif"
+      />
+
+      <!--<img
+        *ngIf="crypto"
+        class="crypto-logo-img mr-md-2"
+        src="assets/Images/symbol_crypto/{{ crypto.symbol }}.svg"
+      />-->
+      <img
+        *ngIf="cryptoImgUrl"
+        class="crypto-logo-img mr-md-2"
+        src="{{ cryptoImgUrl }}"
+      />
+      <div
+        *ngIf="cryptoName && cryptoPrice"
+        class="crypto-logo-details d-flex flex-column align-items-md-start align-items-center"
+      >
+        <div class="crypto-logo-text">{{ cryptoName }}</div>
+        <div class="crypto-logo-text">
+          ${{ showNumbersRule.transform(cryptoPrice, true) }}
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="bg-header-buttons flex-column align-items-end justify-content-end d-none d-md-flex"
+    >
+      <div class="back-button mr-1" routerLink="/" style="cursor: pointer">
+        < Back
+      </div>
+      <div class="buttons-container d-flex justify-content-end mt-5">
+        <div
+          class="send-button"
+          (click)="goTosend(crypto.symbol, crypto.network)"
+        >
+          <img src="assets/Images/crypto-info/Send.png" class="mr-2" />Send
+        </div>
+        <div
+          class="buy-button"
+          (click)="goToBuy(crypto.symbol, crypto.network)"
+        >
+          <img src="assets/Images/crypto-info/Buy.svg" class="mr-2" />Buy
+        </div>
+        <div
+          class="request-button"
+          (click)="goTorecieve(crypto.symbol, crypto.network)"
+        >
+          <img
+            src="assets/Images/crypto-info/Request.svg"
+            class="mr-2"
+          />Request
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="crypto-details-container container d-flex justify-content-center">
+  <div
+    class="flex-column justify-content-center align-items-start crypto-info-body"
+  >
+    <div class="chart-header mb-3" *ngIf="!isLoading">
+      <div class="price-title">Price</div>
+      <div class="chart-filters d-flex align-items-center justify-content-end">
+        <span class="filter-box" (click)="filterChartByPeriod('1')">1D</span>
+        <span class="filter-box" (click)="filterChartByPeriod('7')">1W</span>
+        <span class="filter-box" (click)="filterChartByPeriod('30')">1M</span>
+        <span class="filter-box" (click)="filterChartByPeriod('max')">1Y</span>
+        <span class="filter-box" (click)="filterChartByPeriod('max')">All</span>
+      </div>
+    </div>
+    <div [chart]="chart" class="chart" *ngIf="!!chart"></div>
+    <div class="mt-4" *ngIf="!isLoading">
+      <div class="details-boxes-container">
+        <div class="details-box border-top-sm">
+          <div class="gray-title title-border-md">MARKET CAP</div>
+          <div class="right-part-sm-details-box">
+            <div class="text-value">${{ marketCap }}</div>
+            <div
+              class="percent-change title-border-md"
+              [ngStyle]="{
+                color: marketCapChange >= 0 ? '#00cc9e' : '#f52079'
+              }"
+            >
+              <span *ngIf="marketCapChange >= 0 && marketCapChange">+</span
+              >{{ marketCapChange }}%
+            </div>
+          </div>
+        </div>
+        <div class="details-box">
+          <div class="gray-title title-border-md">Fully diluted market cap</div>
+          <div class="right-part-sm-details-box">
+            <div class="text-value">
+              {{ !!marketCapFD ? '$' + marketCapFD : '-' }}
+            </div>
+            <div
+              class="percent-change title-border-md"
+              [ngStyle]="{
+                color: marketCapChange >= 0 ? '#00cc9e' : '#f52079'
+              }"
+            >
+              <span *ngIf="marketCapChange >= 0 && !!marketCapFD">+</span
+              >{{ !!marketCapFD ? marketCapChange + '%' : '-' }}
+            </div>
+          </div>
+        </div>
+        <div class="details-box">
+          <div class="gray-title title-border-md">Volume 24h</div>
+          <div class="right-part-sm-details-box">
+            <div class="text-value">${{ volume24h }}</div>
+            <div
+              class="percent-change title-border-md"
+              [ngStyle]="{
+                color: volume24hChange >= 0 ? '#00cc9e' : '#f52079'
+              }"
+            >
+              <span *ngIf="volume24hChange >= 0">+</span>{{ volume24hChange }}%
+            </div>
+          </div>
+        </div>
+        <div class="details-box">
+          <div class="gray-title title-border-md">circulating supply</div>
+          <div class="right-part-sm-details-box">
+            <div class="text-value">
+              {{ circulatingSupply }} {{ cryptoSymbol }}
+            </div>
+            <div class="percent-change title-border-md" style="color: #75758f">
+              <span *ngIf="circulatingSupplyChange >= 0">+</span
+              >{{ circulatingSupplyChange }}%
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-5">
+      <div class="price-title" *ngIf="!isLoading">
+        {{ cryptoSymbol }} Price Live Data
+      </div>
+      <div class="crypto-text-details mt-2">
+        <div class="crypto-text-details-part" id="crypto-description">
+          {{ cryptoDescription }}
+        </div>
+        <div class="crypto-text-details-part mt-3" *ngIf="!isLoading">
+          Here are some other articles that you may be interested in:
+        </div>
+        <ul class="mt-3" *ngIf="!isLoading">
+          <li>What Is a Crypto Faucet?</li>
+          <li>What Are Crypto Debit Cards?</li>
+          <li>What Is Web 3.0?</li>
+          <li>What Is Yield Farming?</li>
+          <li>What Is Crypto Lending?</li>
+          <li>What Is the Metaverse?</li>
+          <li>What Are Fan Tokens?</li>
+          <li>Newbie Catchup: The A-Z of NFTs</li>
+          <li>What Are Automated Market Makers?</li>
+          <li>What Is a Crypto ETF?</li>
+        </ul>
+        <div
+          *ngIf="!isLoading"
+          class="buttons-container d-flex w-100 justify-content-start justify-content-md-center"
+          style="margin-bottom: 5rem"
+        >
+          <div
+            class="visit-button mr-2"
+            *ngIf="cryptoBinanceContract"
+            (click)="openInBSCScan()"
+          >
+            View on BSCScan
+            <img src="assets/Images/crypto-info/visit.svg" class="ml-2" />
+          </div>
+          <div
+            class="visit-button mr-2"
+            *ngIf="cryptoName === 'SaTT'"
+            (click)="openInBSCScan()"
+          >
+            View on BSCScan
+            <img src="assets/Images/crypto-info/visit.svg" class="ml-2" />
+          </div>
+          <div
+            class="visit-button mr-2"
+            *ngIf="cryptoEtheriumContract"
+            (click)="openInEtherscan()"
+          >
+            View on Etherscan
+            <img src="assets/Images/crypto-info/visit.svg" class="ml-2" />
+          </div>
+          <div class="visit-button mr-2" (click)="openInBitcoinOrg()">
+            Visit Bitcoin.org
+            <img src="assets/Images/crypto-info/visit.svg" class="ml-2" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

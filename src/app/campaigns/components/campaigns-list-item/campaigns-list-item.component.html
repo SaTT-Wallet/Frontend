@@ -1,0 +1,324 @@
+<div (click)="goToDetailsPage(campaign.id)">
+  <div
+    class="img-block"
+    tabindex="0"
+    style="border-bottom: 0.5px solid #d6d6e8"
+  >
+    <div class="crypto-renumeration-badge d-flex justify-content-end">
+      <span
+        class="d-flex justify-content-start align-items-center"
+        *ngIf="campaign.type !== 'draft'"
+      >
+        <!-- <div
+          *ngIf="campaign.remuneration === 'performance'"
+          class="renumeration d-flex justify-content-center align-items-center"
+        >
+          <img
+            style="width: 20px !important; height: 24px !important"
+            src="assets/Images/performance.svg"
+          />
+        </div> -->
+        <!-- <div
+          class="renumeration d-flex justify-content-center align-items-center"
+          *ngIf="campaign.remuneration === 'publication'"
+        >
+          <img
+            src="assets/Images/publication.svg"
+            style="width: 20px !important; height: 24px !important"
+          />
+        </div> -->
+      </span>
+      <!-- <span class="ml-1">
+        <img
+          *ngIf="campaign.type !== 'draft'"
+          class="cryptoIcon"
+          [ngClass]="{
+            cryptoIcon:
+              getCurrencyName(campaign) !== 'SATT' &&
+              getCurrencyName(campaign) !== 'SATTBEP20',
+            cryptoIconSatt:
+              getCurrencyName(campaign) === 'SATT' ||
+              getCurrencyName(campaign) === 'SATTBEP20'
+          }"
+          src="/assets/Images/icons-crypto/black/{{
+            getCurrencyName(campaign)
+          }}.svg"
+      /></span> -->
+    </div>
+    <div class="logo-badge d-flex justify-content-start">
+      <!-- <span
+        class="d-flex justify-content-start align-items-center"
+        *ngIf="campaign.type !== 'draft'"
+      >
+        <img
+          [src]="
+            !!campaign.logo ? campaign.logo : 'assets/Images/wlcm-moon-boy.png'
+          "
+          class="logo"
+          alt=""
+        />
+      </span> -->
+    </div>
+    <!-- <app-user-picture [isHeaderPic]="false" *ngIf="campaign.isOwnedByUser"></app-user-picture> -->
+    <!--  <img
+      [src]="campaign.urlPicUser"
+      *ngIf="campaign.isOwnedByUser"
+      (error)="onImgError($event)"
+      class="avatar"
+      alt=""
+    />-->
+
+    <img
+      *ngIf="!!campaign.cover"
+      class="img-campaign ng-isolate-scope"
+      alt=""
+      loading="lazy"
+      [src]="campaign.cover"
+    />
+    <div
+      class="
+        d-flex
+        align-items-center
+        justify-content-center
+        w-100
+        h-100
+        flex-nowrap
+      "
+      *ngIf="!campaign.cover"
+      style="background: white"
+    >
+      <div style="width: 90%" class="d-flex justify-content-around">
+        <img style="height: 60px" src="assets/Images/draft-logo.svg" />
+        <span class="ml-2">
+          <span class="logo-draft-details d-block">
+            {{ 'campaign.draftNoCover' | translate }}</span
+          >
+          <span class="logo-draft-details-dimentions d-block">
+            {{ 'campaign.draftCoverImgDimentions' | translate }}: 1080X 577 px
+            <br />
+            {{ 'campaign.draftCoverImgFormats' | translate }}: JPG, PNG, GIF
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="details-block"
+    [ngStyle]="{ background: campaign.type === 'draft' ? '#F6F6FF' : 'white' }"
+  >
+    <div class="social-Icons">
+      <img src="./assets/Images/instagram.svg" *ngIf="isInstagramSelected" />
+      <img
+        src="./assets/Images/desabled-insta.svg"
+        *ngIf="
+          !isInstagramSelected &&
+          !isTwitterSelected &&
+          !isFacebookSelected &&
+          !isYoutubeSelected &&
+          !isLinkedinSelected &&
+          campaign.type === 'draft'
+        "
+      />
+      <img src="./assets/Images/twitter.svg" *ngIf="isTwitterSelected" />
+      <img
+        src="./assets/Images/desabled-twiter.svg"
+        *ngIf="
+          !isInstagramSelected &&
+          !isTwitterSelected &&
+          !isFacebookSelected &&
+          !isYoutubeSelected &&
+          !isLinkedinSelected &&
+          campaign.type === 'draft'
+        "
+      />
+      <img src="./assets/Images/facebook.svg" *ngIf="isFacebookSelected" />
+      <img
+        src="./assets/Images/desabled-fb.svg"
+        *ngIf="
+          !isInstagramSelected &&
+          !isTwitterSelected &&
+          !isFacebookSelected &&
+          !isYoutubeSelected &&
+          !isLinkedinSelected &&
+          campaign.type === 'draft'
+        "
+      />
+      <img src="./assets/Images/youtube.svg" *ngIf="isYoutubeSelected" />
+      <img
+        src="./assets/Images/desabled-youtube.svg"
+        *ngIf="
+          !isInstagramSelected &&
+          !isTwitterSelected &&
+          !isFacebookSelected &&
+          !isYoutubeSelected &&
+          !isLinkedinSelected &&
+          campaign.type === 'draft'
+        "
+      />
+      <img
+        src="./assets/Images/linkedin-desactivate.svg"
+        *ngIf="
+          !isInstagramSelected &&
+          !isTwitterSelected &&
+          !isFacebookSelected &&
+          !isYoutubeSelected &&
+          !isLinkedinSelected &&
+          campaign.type === 'draft'
+        "
+      />
+      <img src="./assets/Images/linkedin.svg" *ngIf="isLinkedinSelected" />
+    </div>
+
+    <h3 class="title" [ngClass]="{ 'gray-title': !campaign?.hash }">
+      {{ campaign.title }}
+    </h3>
+
+    <h3 class="pink-text mt-2" *ngIf="campaign?.hash">
+      <span class="campaign-funds-details d-flex justify-content-center">
+        <span class="d-flex align-items-center">
+          {{ 'Monetize.funds' | translate }}:
+          {{ campaign.budget | fromWeiTo: currencyName:3 | number }}
+        </span>
+        <span class="d-flex align-items-center ml-1">
+          <img
+            *ngIf="campaign.type !== 'draft'"
+            style="height: 20px"
+            src="/assets/Images/icons-crypto/black/{{
+              getCurrencyName(campaign)
+            }}.svg"
+          />
+        </span>
+      </span>
+    </h3>
+
+    <div class="orang-text" *ngIf="campaign?.hash">
+      <img src="assets/Images/calender.svg" width="16px" />
+
+      <span
+        class="under_gains date"
+        *ngIf="localId === 'en'"
+        style="text-transform: uppercase"
+      >
+        {{ 'AllCampains.campaign_ends_on' | translate }}:
+        <!-- h:mm:ss a -->
+        {{ campaign.endDate | date: 'MM/dd/yyyy ':undefined:localId || '' }}
+      </span>
+      <span
+        class="under_gains date"
+        *ngIf="localId === 'fr'"
+        style="text-transform: uppercase"
+      >
+        {{ 'AllCampains.campaign_ends_on' | translate }}:
+        <img src="assets/Images/calender.svg" width="16px" />
+        {{ campaign.endDate | date: 'dd/MM/yyyy':undefined:localId || '' }}
+      </span>
+    </div>
+    <!--<div class="blue-text" *ngIf="!campaign?.hash">
+      {{ 'complete-your-informations' | translate }}
+    </div>-->
+    <div class="text-draft mt-1" *ngIf="!campaign?.hash">
+      ({{ 'AllCampains.draft' | translate }})
+    </div>
+  </div>
+
+  <div class="buttons-wrapper" *ngIf="campaign.isActive">
+    <button
+      type="button"
+      class="buttom_camp"
+      (click)="goToDetailsPage(campaign.id)"
+    >
+      <span class="btn-apply-text" *ngIf="!campaign.isOwnedByUser">{{
+        'Monetize.Apply_Campaign' | translate
+      }}</span>
+      <!-- <span class="btn-apply-text" *ngIf="campaign.inProgress">{{ "in progress" }}</span> -->
+    </button>
+    <button
+      type="button"
+      class="green-btn"
+      *ngIf="campaign.isOwnedByUser"
+      (click)="goToDetailsPage(campaign.id)"
+    >
+      <span class="btn-apply-text">{{
+        'AllCampains.Augmenter budget' | translate
+      }}</span>
+    </button>
+  </div>
+  <div class="buttons-wrapper" *ngIf="campaign.inProgress">
+    <button type="button" class="btn-disabled">
+      {{ 'Monetize.pending' | translate }}
+    </button>
+  </div>
+  <div class="buttons-wrapper" *ngIf="campaign.isFinished">
+    <button type="button" class="btn-disabled">
+      {{ 'campaign-finished' | translate }}
+    </button>
+  </div>
+</div>
+<div class="btn-wrapper" *ngIf="campaign.isDraft && campaign.isOwnedByUser">
+  <button
+    type="button"
+    class="buttom_camp2"
+    (click)="goToEditPage(campaign.id)"
+  >
+    <img
+      src="../../../assets/Images/custom_icons/white-icon-edit.svg"
+      class="pb-2"
+      width="20px"
+    />
+    <span class="btn-apply-text ms-2">{{
+      'AllCampains.Modify_campagin' | translate
+    }}</span>
+  </button>
+  <button
+    type="button"
+    class="buttom_camp3"
+    (click)="openModal(modifiercampaign)"
+  >
+    <span class="btn-apply-text"
+      ><img src="/assets/Images/suppicon.svg"
+    /></span>
+  </button>
+</div>
+
+<ng-template #modifiercampaign>
+  <div class="modal-header modal-custom">
+    <button
+      type="button"
+      class="btn-close pull-right close"
+      (click)="closeModal(modifiercampaign)"
+      data-dismiss="modal"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="modal-body modal-custom">
+    <div class="">
+      <img src="../../../../assets/Images/deleteModal.svg" alt="" />
+    </div>
+    <div class="d-flex justify-content-center">
+      <h5 class="mx-4 text-delete">
+        {{ 'AllCampains.delete_camp_quest' | translate }}
+      </h5>
+    </div>
+    <div class="row d-flex justify-content-center">
+      <div class="col-7 d-flex justify-content-center mb-1">
+        <button type="button" class="btn" (click)="deleteCampaign(campaign.id)">
+          <span class="btn-apply-text-annuler">{{
+            'AllCampains.Confirm' | translate
+          }}</span>
+        </button>
+      </div>
+      <div class="col-7 d-flex justify-content-center mb-2">
+        <button
+          type="button"
+          class="btn increase-budget"
+          (click)="closeModal(modifiercampaign)"
+        >
+          <span class="btn-apply-text-annuler">{{
+            'AllCampains.Cancel' | translate
+          }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>

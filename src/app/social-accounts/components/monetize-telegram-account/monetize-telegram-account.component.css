@@ -1,0 +1,210 @@
+/* :host {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+} */
+
+.margin-bottom {
+    margin-bottom: 70px;
+}
+
+:host {
+    background-color: #ffffff;
+    min-height: 100vh;
+    max-width: 100vw;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden !important;
+    position: relative;
+}
+
+.padding-top {
+    /* padding-top: 55px; */
+    padding-top: 70px;
+}
+
+@media (max-width: 767.98px) {
+    .top-10 {
+        margin-top: 15px !important;
+    }
+    .margin-bottom {
+        margin-bottom: 0 !important;
+    }
+     :host {
+        background-image: url('assets/Images/backgrounds/bgdblue-simple.svg');
+        min-height: 100vh;
+        max-width: 100vw;
+        min-width: 300px;
+        background-size: cover;
+        display: flex;
+        flex-direction: column;
+        background-repeat: no-repeat;
+        overflow: hidden;
+        align-items: center;
+        justify-content: center;
+    }
+    /* .padding-top {
+        padding-top: 80px !important;
+    } */
+    .skip-page,
+    .drak-gray_text,
+    .title_page {
+        color: white !important;
+    }
+    .show-mobile {
+        display: block !important;
+    }
+    .make-center {
+        text-align: center !important;
+    }
+    .display-flex {
+        justify-content: center;
+        display: flex;
+    }
+    .telegram_log {
+        width: 300px !important;
+        background-position-x: 11px !important;
+    }
+    .disabled {
+        width: 300px !important;
+        font-size: 18px !important;
+    }
+    .tgm {
+        left: 53px !important;
+        font-size: 18px !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .title_page {
+        font-size: 25px !important;
+        line-height: 26px !important;
+    }
+    .height-pic {
+        height: 113px !important;
+    }
+    .margin-top-btn {
+        margin-top: 1rem !important;
+    }
+}
+
+.margin-top-btn {
+    margin-top: 3rem;
+}
+
+.title_page {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 44px;
+    letter-spacing: 0.03em;
+    color: #1F2337;
+}
+
+.drak-gray_text {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: 0.03em;
+    color: #323754;
+}
+
+.login_img:hover {
+    transform: scale(1.1);
+    transition: 0.5s;
+}
+
+.login_img {
+    margin-bottom: 0.5em;
+    cursor: pointer;
+}
+
+.white-text-span {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 130%;
+    color: #FFFFFF;
+}
+
+.skip-page {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 17px;
+    line-height: 15px;
+    color: #4048FF;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+a:not([href]):not([tabindex]) {
+    color: #4048FF;
+}
+
+.top-10 {
+    margin-top: 10vh;
+}
+
+.telegram_log {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 130%;
+    color: #ffffff;
+    cursor: pointer;
+    background: url('/assets/Images/share_image.svg')no-repeat, #54a9eb;
+    border-radius: 50px;
+    height: 52px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    background-position-x: 40px;
+    background-position-y: 9px;
+    position: relative;
+    width: 396px;
+}
+
+.tgm {
+    position: absolute;
+    left: 88px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+}
+
+.show-mobile {
+    display: none;
+}
+
+.error-message {
+    color: #f52079;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+}
+
+.successLink {
+    color: #00cc9e;
+}
+
+.disabled {
+    background: #d6d6e8;
+    border: none;
+    border-radius: 50px;
+    height: 52px;
+    align-items: center;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 130%;
+    letter-spacing: -0.02em;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    width: 396px;
+}

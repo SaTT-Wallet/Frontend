@@ -1,0 +1,10 @@
+clone:
+  depth: full
+pipelines:
+  branches:
+    '{master,release,develop}':
+    - step:
+        script:
+          - git push --mirror git@github.com:Atayen/SaTT_Atayen.git
+          
+     

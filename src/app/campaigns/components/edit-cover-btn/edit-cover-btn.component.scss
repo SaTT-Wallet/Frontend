@@ -1,0 +1,63 @@
+:host {
+  .btn-edit {
+    border: none;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+  }
+}
+
+.browse-btn {
+  border: none;
+  cursor: pointer;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 24px;
+  text-align: center;
+  letter-spacing: 0.03em;
+  padding: 1em;
+  border: 2px solid transparent;
+  color: #1f2337;
+}
+
+.browse-btn:hover {
+  border: 2px solid #1f2337;
+  border-radius: 10px;
+}
+
+.btn-zoom {
+  width: fit-content !important;
+  margin: 0 !important;
+}
+
+.btn-green {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 27px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.01em;
+
+  background: #00cc9e;
+  color: #f6f6ff;
+  border-radius: 30px;
+  border: none;
+  padding: 0.5em 1em;
+}
+
+.btn-cancel {
+  background-color: white;
+  color: #4048ff;
+  box-shadow: 0px 2px 6px rgba(50, 55, 84, 0.4);
+}
+
+.cropArea {
+  max-width: 640px;
+}
