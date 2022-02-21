@@ -28,6 +28,24 @@
   color: white;
   box-shadow: 0px 4px 20px 0px #00000033;
 }
+.btn-edit-ad-pool {
+  justify-content: center;
+  border: none;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 19px;
+  text-align: center;
+  align-items: center;
+  letter-spacing: 0.03em;
+  height: 48px;
+  /* width: 169px; */
+  width: 300px;
+  border-radius: 30px;
+  background-color: #4048ff;
+  color: white;
+  box-shadow: 0px 4px 20px 0px #00000033;
+}
 
 .img-container {
   /* box-shadow: 0px 4px 20px rgb(0 0 0 / 20%);
@@ -759,7 +777,6 @@
   max-width: 72px;
   min-width: 72px;
   /* width: 6vw; */
-  // margin-top: 4px;
 }
 
 .btn-apply:hover {
