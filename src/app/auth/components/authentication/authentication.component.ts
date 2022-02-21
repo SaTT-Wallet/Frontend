@@ -568,7 +568,7 @@ getCookie(key: string){
         )
         .pipe(
           filter((res: any) => {
-            if(!res){
+            if (!res) {
               return false;
             }
             return res.myWallet !== null;
@@ -642,6 +642,9 @@ getCookie(key: string){
       });
   }
   nextRedirection() {
+    if (!this.codesms) {
+      return;
+    }
     this.authService
       .verifyAccount()
       .pipe(
