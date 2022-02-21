@@ -138,7 +138,7 @@
     >
       <form [formGroup]="receiveform">
         <div class="text-center">
-          <img src="assets/Images/MoonBoy/moonboy-receive.svg" />
+          <img src="assets/Images/moonboy/moonboy-receive.svg" />
         </div>
         <div class="d-flex flex-column text-center">
           <label class="requestion-text"
@@ -190,7 +190,7 @@
       *ngIf="showSuccessBloc"
     >
       <div class="d-flex justify-content-center flex-column align-items-center">
-        <img src="assets/Images/MoonBoy/moonboy-success.svg" width="133px" />
+        <img src="assets/Images/moonboy/moonboy-success.svg" width="133px" />
         <span class="green-text mt-2">{{
           'receive.receive_successfully' | translate
         }}</span>
@@ -205,12 +205,7 @@
       </div>
     </div>
     <div
-      class="
-        showMobile
-        div-footer-mobile
-        d-none d-xl-none d-lg-none d-md-none d-sm-block d-xs-block
-        p-0
-      "
+      class="showMobile div-footer-mobile d-none d-xl-none d-lg-none d-md-none d-sm-block d-xs-block p-0"
     >
       <div class="div-pic-text">
         <div class="">
@@ -223,7 +218,7 @@
           </p>
         </div>
         <img
-          src="assets/Images/MoonBoy/moonboy-help.svg"
+          src="assets/Images/moonboy/moonboy-help.svg"
           class="picture-moonboy"
         />
       </div>
@@ -231,10 +226,7 @@
   </div>
 </div>
 <div
-  class="
-    d-block d-xl-block d-lg-block d-md-block d-sm-none d-xs-none
-    div-footer
-  "
+  class="d-block d-xl-block d-lg-block d-md-block d-sm-none d-xs-none div-footer"
 >
   <app-footer-send-receive-buy
     [pageName]="'Receive'"

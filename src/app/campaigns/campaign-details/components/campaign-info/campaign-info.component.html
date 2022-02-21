@@ -426,7 +426,10 @@
             <div class="div-missions mt-3">
               <div
                 class="d-flex align-items-center gap-3 gray-background-mission mb-2 p-2"
-                *ngFor="let m of campaignMissions(bounty.oracle); let index = index"
+                *ngFor="
+                  let m of campaignMissions(bounty.oracle);
+                  let index = index
+                "
               >
                 <span class="font-weight-bold dark-gray font-size-16"
                   >{{ i + 1 }}.</span
@@ -668,10 +671,13 @@
                 </div>
               </div>
             </div>
-            <div class="div-missions mt-3" >
+            <div class="div-missions mt-3">
               <div
                 class="d-flex align-items-center gap-2 gray-background-mission mb-2 p-2"
-                *ngFor="let m of campaignMissions(ratio.oracle); let index = index"
+                *ngFor="
+                  let m of campaignMissions(ratio.oracle);
+                  let index = index
+                "
               >
                 <span class="font-weight-bold dark-gray font-size-16"
                   >{{ i + 1 }}.</span
@@ -1350,7 +1356,7 @@
           </p>
         </div>
         <img
-          src="assets/Images/MoonBoy/moonboy-help.svg"
+          src="assets/Images/moonboy/moonboy-help.svg"
           class="picture-moonboy"
         />
       </div>
