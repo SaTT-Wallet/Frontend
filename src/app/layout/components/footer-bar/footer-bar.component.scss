@@ -6,6 +6,10 @@ a {
   text-decoration: none;
 }
 
+*:focus {
+  outline: none;
+}
+
 .span-text {
   font-style: normal;
   font-weight: 500;
