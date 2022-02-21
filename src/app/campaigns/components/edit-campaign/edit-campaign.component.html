@@ -13,7 +13,6 @@
     ></app-draft-campaign-presentation>
   </div>
 
-
   <!------------------------- bloc picture----------------------->
   <div class="div-block mt-3 pb-3">
     <app-draft-picture
@@ -56,13 +55,9 @@
       [draftData]="campaignData"
       [id]="draftId"
       (selectedYoutube)="listenForMissionChange($event, 'youtube')"
-
       (selectedFacebook)="listenForMissionChange($event, 'facebook')"
-
       (selectedInstagram)="listenForMissionChange($event, 'instagram')"
-
       (selectedTwitter)="listenForMissionChange($event, 'twitter')"
-
       (selectedLinkedin)="listenForMissionChange($event, 'linkedin')"
       (validFormMission)="listenForBudgetMissionChange($event)"
     ></app-missions>
@@ -152,7 +147,7 @@
   <div class="modal-body modal-custom modal-customm">
     <div class="text-center">
       <img
-        src="assets/Images/MoonBoy/moonboy-adpool.svg"
+        src="assets/Images/moonboy/moonboy-adpool.svg"
         class="moonboy-mobile"
       />
     </div>

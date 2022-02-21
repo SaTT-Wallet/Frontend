@@ -542,6 +542,14 @@ getCookie(key: string){
                       ]);
                       this.showBigSpinner = true;
                       // this.spinner.hide();
+                    } else {
+                      return this.walletFacade.getUserWallet().pipe(
+                        map((myWallet: IResponseWallet) => ({
+                          myWallet,
+                          response
+                        })),
+                        takeUntil(this.onDestroy$)
+                      );
                     }
                   } else {
                     return this.walletFacade.getUserWallet().pipe(
@@ -559,8 +567,11 @@ getCookie(key: string){
           )
         )
         .pipe(
-          filter(({ myWallet, response }: any) => {
-            return myWallet !== null;
+          filter((res: any) => {
+            if(!res){
+              return false;
+            }
+            return res.myWallet !== null;
           }),
           takeUntil(this.onDestroy$)
         )
