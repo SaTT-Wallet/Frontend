@@ -193,9 +193,11 @@ export class BuyTokenComponent implements OnInit {
         .filter((crypto: Crypto) => crypto.type.toUpperCase() === network);
     } else {
       if (network === EBlockchainNetwork.BEP20) {
-        this.selectedCurrencyType = ECurrencyType.BEP20;
+        // this.selectedCurrencyType = ECurrencyType.BEP20;
+        this.toggleCurrencyType(ECurrencyType.BEP20);
       } else if (network === EBlockchainNetwork.ERC20) {
-        this.selectedCurrencyType = ECurrencyType.ERC20;
+        this.toggleCurrencyType(ECurrencyType.ERC20);
+        // this.selectedCurrencyType = ECurrencyType.ERC20;
       }
       this.sourceCryptoList = this.cryptoList.filter(
         (crypto: Crypto) => crypto.type.toUpperCase() === network
