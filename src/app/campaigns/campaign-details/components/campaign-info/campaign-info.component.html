@@ -302,7 +302,7 @@
                 *ngIf="
                   !campaign.isOwnedByUser &&
                   bounty.oracle === 'youtube' &&
-                  channelGoogle.length === 0
+                  channelGoogle?.length === 0
                 "
               >
                 <div class="">
@@ -327,7 +327,7 @@
                 *ngIf="
                   !campaign.isOwnedByUser &&
                   bounty.oracle === 'facebook' &&
-                  channelFacebook.length === 0
+                  channelFacebook?.length === 0
                 "
               >
                 <div class="">
@@ -352,7 +352,7 @@
                 *ngIf="
                   !campaign.isOwnedByUser &&
                   bounty.oracle === 'instagram' &&
-                  channelInstagram.length === 0
+                  channelFacebook?.length === 0
                 "
               >
                 <div class="">
@@ -377,7 +377,7 @@
                 *ngIf="
                   !campaign.isOwnedByUser &&
                   bounty.oracle === 'linkedin' &&
-                  channelLinkedin.length === 0
+                  channelLinkedin?.length === 0
                 "
               >
                 <div class="">
@@ -403,7 +403,7 @@
                 *ngIf="
                   !campaign.isOwnedByUser &&
                   bounty.oracle === 'twitter' &&
-                  channelTwitter.length === 0
+                  channelTwitter?.length === 0
                 "
                 (click)="linkAccount()"
               >
@@ -426,7 +426,7 @@
             <div class="div-missions mt-3">
               <div
                 class="d-flex align-items-center gap-3 gray-background-mission mb-2 p-2"
-                *ngFor="let m of arrayMission; let index = index"
+                *ngFor="let m of campaignMissions(bounty.oracle); let index = index"
               >
                 <span class="font-weight-bold dark-gray font-size-16"
                   >{{ i + 1 }}.</span
@@ -547,7 +547,7 @@
                 *ngIf="
                   !campaign.isOwnedByUser &&
                   ratio.oracle === 'youtube' &&
-                  channelGoogle.length === 0
+                  channelGoogle?.length === 0
                 "
               >
                 <div class="">
@@ -572,7 +572,7 @@
                 *ngIf="
                   !campaign.isOwnedByUser &&
                   ratio.oracle === 'facebook' &&
-                  channelFacebook.length === 0
+                  channelFacebook?.length === 0
                 "
               >
                 <div class="">
@@ -597,7 +597,7 @@
                 *ngIf="
                   !campaign.isOwnedByUser &&
                   ratio.oracle === 'instagram' &&
-                  channelInstagram.length === 0
+                  channelFacebook?.length === 0
                 "
               >
                 <div class="">
@@ -622,7 +622,7 @@
                 *ngIf="
                   !campaign.isOwnedByUser &&
                   ratio.oracle === 'linkedin' &&
-                  channelLinkedin.length === 0
+                  channelLinkedin?.length === 0
                 "
               >
                 <div class="">
@@ -648,7 +648,7 @@
                 *ngIf="
                   !campaign.isOwnedByUser &&
                   ratio.oracle === 'twitter' &&
-                  channelTwitter.length === 0
+                  channelTwitter?.length === 0
                 "
                 (click)="linkAccount()"
               >
@@ -668,10 +668,10 @@
                 </div>
               </div>
             </div>
-            <div class="div-missions mt-3">
+            <div class="div-missions mt-3" >
               <div
                 class="d-flex align-items-center gap-2 gray-background-mission mb-2 p-2"
-                *ngFor="let m of arrayMission; let index = index"
+                *ngFor="let m of campaignMissions(ratio.oracle); let index = index"
               >
                 <span class="font-weight-bold dark-gray font-size-16"
                   >{{ i + 1 }}.</span
