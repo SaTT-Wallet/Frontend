@@ -155,8 +155,8 @@ export class CampaignDetailComponent implements OnInit {
     private translate: TranslateService,
     private toastr: ToastrService,
     private campaignListStoreService: CampaignsListStoreService,
-  private Window: WindowRefService,
-  private campaignsHttpService: CampaignHttpApiService
+    private Window: WindowRefService,
+    private campaignsHttpService: CampaignHttpApiService
   ) {
     this.sendform = new FormGroup({
       url: new FormControl(null, Validators.required)
@@ -185,11 +185,8 @@ export class CampaignDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.campaignsHttpService.scrolling.subscribe(() => {
-
       this.scrolling = true;
-
     });
 
     // cover.style.position = 'fixed';
@@ -197,7 +194,6 @@ export class CampaignDetailComponent implements OnInit {
     // main.style.marginTop = '28%';
 
     // // cover.style.position = 'fixed';
-
 
     this.campaignsStoreService.emitLogoCampaignUpdated
       .pipe(takeUntil(this.isDestroyed))
@@ -230,6 +226,11 @@ export class CampaignDetailComponent implements OnInit {
   ngOnDestroy(): void {
     this.isDestroyed.next('');
     this.isDestroyed.unsubscribe();
+    let header = this.document.getElementById('navbar-id');
+    if (header) {
+      header.style.backgroundColor = 'transparent';
+    }
+
     //this.ParticipationListService.clearDataParticipations()
     //this.campaignsStoreService.clearDataStore()
   }
