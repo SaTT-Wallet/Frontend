@@ -375,13 +375,13 @@ export class BuyTokenComponent implements OnInit {
     } else if (this.selectedCurrencyType === ECurrencyType.FIAT) {
       return 'bank-icon-black.svg';
     } else {
-      return 'Ethereum.svg';
+      return 'etherium-blockchain-icon.png';
     }
   }
 
   get selectedBlockchainNetworkLogo() {
     if (this.selectedBlockchainNetwork === EBlockchainNetwork.ERC20) {
-      return 'Ethereum.svg';
+      return 'etherium-blockchain-icon.png';
     } else {
       return 'bsc-black-icon.svg';
     }
