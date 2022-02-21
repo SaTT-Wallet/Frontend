@@ -170,10 +170,10 @@ export class TokenStorageService {
   }
 
   public setIdUser(idUser: any) {
-    return this.localStorage.setItem('idUser', idUser);
+    return this.localStorage.setItem('userId', idUser);
   }
   public getIdUser() {
-    return this.localStorage.getItem('idUser');
+    return this.localStorage.getItem('userId');
   }
 
   public setTypeSN(typeSN: any) {
