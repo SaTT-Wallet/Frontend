@@ -28,9 +28,9 @@ import { CampaignHttpApiService } from '@core/services/campaign/campaign.service
 import { arrayCountries, ListTokens } from '@config/atn.config';
 import { Editor } from 'ngx-editor';
 import { WalletStoreService } from '@core/services/wallet-store.service';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
 import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
-import { filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { filter, map, mergeMap, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { from, Observable, Subject } from 'rxjs';
 import { ConvertFromWei } from '@shared/pipes/wei-to-sa-tt.pipe';
 import { Campaign } from '@app/models/campaign.model';
@@ -48,6 +48,7 @@ import { WindowRefService } from '@app/core/windowRefService';
 import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-facade/socialAcounts-facade.service';
 import { Big } from 'big.js';
 import FileSaver from 'file-saver';
+import { IGetSocialNetworksResponse } from '@user-settings/components/social-networks/social-networks.component';
 
 @Component({
   selector: 'app-campaign-info',
@@ -160,11 +161,11 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
   imgLoadedHeight: any;
   private isDestroyed$ = new Subject();
   private socialAccount$ = this.socialAccountFacadeService.socialAccount$;
-  channelGoogle = [];
-  channelTwitter = [];
-  channelFacebook = [];
-  channelInstagram = [];
-  channelLinkedin = [];
+  channelGoogle: any;
+  channelTwitter : any;
+  channelFacebook : any;
+  channelInstagram : any;
+  channelLinkedin : any;
   arrayMission: Array<{ mission: string }>;
   showmoonboy: boolean = false;
   constructor(
@@ -875,7 +876,39 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
   trackByKitLink(index: any, kit: any) {
     return kit?.link;
   }
-  getSocialNetwork() {
+  getSocialNetwork(): void {
+    this.socialAccount$
+      .pipe(
+        filter((res) => res !== null),
+        mergeMap((data: IGetSocialNetworksResponse | null) => {
+          return this.route.queryParams.pipe(
+            map((params) => {
+              return { params, data };
+            })
+          );
+        }),
+        takeUntil(this.isDestroyed$)
+      )
+      .subscribe(
+        ({
+           params,
+           data
+         }: {
+          params: Params;
+          data: IGetSocialNetworksResponse | null;
+        }) => {
+          if (data !== null) {
+            let count = 0;
+            this.channelGoogle = data.google;
+            this.channelTwitter = data.twitter;
+            this.channelFacebook = data.facebook;
+            this.channelLinkedin = data.linkedin;
+
+          }
+        }
+      );
+  }
+  /*getSocialNetwork() {
     this.socialAccount$
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe((data: any) => {
@@ -900,8 +933,18 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
           this.channelInstagram = [];
         }
       });
-  }
+  }*/
   linkAccount() {
     this.router.navigate(['/settings/social-networks']);
+  }
+
+  campaignMissions(oracle: any) {
+    if(this.campaign.missions.filter((res: any) => res.oracle === oracle).length >= 0){
+      //@ts-ignore
+      return this.campaign.missions.filter((res: any) => res.oracle === oracle)[0]?.sub_missions;
+    } else {
+      return [];
+    }
+
   }
 }

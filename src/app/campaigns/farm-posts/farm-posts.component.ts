@@ -247,8 +247,8 @@ export class FarmPostsComponent implements OnInit {
   toggleSort() {
     this.showFilter = false;
     this.showSort = !this.showSort;
-    //@ts-ignore
-    this.document.getElementById('center-content')?.style.overflow = 'hidden';
+    // //@ts-ignore
+    // this.document.getElementById('center-content')?.style.overflow = 'hidden';
   }
 
   close(type: string) {
