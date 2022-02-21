@@ -29,16 +29,15 @@ export class CampaignDetailsContainerComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.showmoonboy = true;
-    }, 3000);
-
     this.campaignsStoreService.clearCampaignDetailsStore();
     this.route.params
       .pipe(
         map((params: any) => {
           this.campaignsStoreService.initCampaignStore(params['id']);
           this.campaignId = params['id'];
+          setTimeout(() => {
+            this.showmoonboy = true;
+          }, 3000);
           return this.campaignId;
         }),
         takeUntil(this.isDestroyed)
