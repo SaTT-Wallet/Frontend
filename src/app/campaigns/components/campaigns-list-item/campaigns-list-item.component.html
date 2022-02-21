@@ -76,14 +76,7 @@
       [src]="campaign.cover"
     />
     <div
-      class="
-        d-flex
-        align-items-center
-        justify-content-center
-        w-100
-        h-100
-        flex-nowrap
-      "
+      class="d-flex align-items-center justify-content-center w-100 h-100 flex-nowrap"
       *ngIf="!campaign.cover"
       style="background: white"
     >
@@ -144,7 +137,10 @@
           campaign.type === 'draft'
         "
       />
-      <img src="./assets/Images/youtube.svg" *ngIf="isYoutubeSelected" />
+      <img
+        src="./assets/Images/youtube-activated.svg"
+        *ngIf="isYoutubeSelected"
+      />
       <img
         src="./assets/Images/desabled-youtube.svg"
         *ngIf="
