@@ -101,6 +101,9 @@
 .margin-top-btn {
     margin-top: 3rem;
 }
+.make-center {
+    text-align: center !important;
+}
 
 .title_page {
     font-style: normal;
@@ -187,10 +190,14 @@ a:not([href]):not([tabindex]) {
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
+    display: flex;
+    justify-content: center;
 }
 
 .successLink {
     color: #00cc9e;
+    display: flex;
+    justify-content: center;
 }
 
 .disabled {
