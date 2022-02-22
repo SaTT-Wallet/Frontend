@@ -231,6 +231,12 @@
 }
 
 @media (max-width: 767.98px) {
+    .btn-blue{
+        display: none;
+    }
+    .btn-white{
+        display:none;
+    }
     .div-footer-bar {
         display: flex;
       }
@@ -493,6 +499,7 @@
   }
   
   .span-text {
+    font-family: 'Poppins';
     font-style: normal;
     font-weight: 500;
     font-size: 11px;
