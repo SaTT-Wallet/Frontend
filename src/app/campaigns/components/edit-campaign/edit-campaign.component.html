@@ -30,6 +30,7 @@
   <div class="div-block mt-3 pb-3">
     <app-draft-campaign-parametres
       [id]="draftId"
+      [isActive]="campaignData.isActive && campaignData.isOwnedByUser"
       [notValidParam]="sendErrorToParam"
       (validFormParam)="listenForParamChange($event)"
       [draftData]="campaignData"

@@ -77,6 +77,7 @@ export class DraftCampaignParametresComponent implements OnInit {
   selectedTags: string[] = [];
   maxTags = 0;
   @ViewChild('countries', { static: false }) countries?: any;
+  @Input() isActive = false;
 
   constructor(
     private service: DraftCampaignService,
@@ -199,6 +200,13 @@ export class DraftCampaignParametresComponent implements OnInit {
   onItemSelect(item: any) {}
   onSelectAll(items: any) {}
   ngOnChanges(changes: SimpleChanges) {
+    this.InterestList.forEach((tag: any) => {
+      if (this.draftData.tags.indexOf(tag.name) >= 0) {
+        tag.checked = true;
+        this.selectedTags.push(tag.name);
+      }
+    });
+    this.maxTags = this.selectedTags.length;
     let today = new Date();
     let start: any;
     if (this.draftData.startDate) {

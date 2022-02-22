@@ -32,6 +32,7 @@ import { ConvertFromWei } from '@app/shared/pipes/wei-to-sa-tt.pipe';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { DraftPictureComponent } from './components/draft-picture/draft-picture.component';
+import { CommonModule } from '@angular/common';
 @NgModule({
   declarations: [
     CampaignsDashboardComponent,
@@ -55,6 +56,7 @@ import { DraftPictureComponent } from './components/draft-picture/draft-picture.
     DraftPictureComponent
   ],
   imports: [
+    CommonModule,
     CampaignsRoutingModule,
     CampaignsSharedUiModule,
     NgxTweetModule,
