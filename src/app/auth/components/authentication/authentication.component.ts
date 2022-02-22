@@ -161,6 +161,7 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
   loggedrs: boolean = false;
   private onDestroy$ = new Subject();
   private account$ = this.accountFacadeService.account$;
+  blockDate: any;
   constructor(
     private modalService: NgbModal,
     private authService: AuthService,
@@ -349,6 +350,15 @@ getCookie(key: string){
               this.errorMessage = '';
               this.router.navigate(['/auth/login']);
             }, 6000);
+          } else if (p.message.indexOf('account_locked') > -1) {
+            this.errorMessage = 'account_locked';
+            this.blockDate = Number(p.message.split(':')[1]);
+            this.blocktime = this.blockDate + 1800;
+            if (this.blocktime && this.blocktime !== this.blockDate) {
+              this.counter?.restart();
+              this.timeLeftToUnLock =
+                this.blocktime - Math.floor(Date.now() / 1000);
+            }
           }
           if (p.token) {
             this.showBigSpinner = true;
@@ -501,7 +511,7 @@ getCookie(key: string){
           filter(({ data, response }: any) => {
             return response !== null;
           }),
-          catchError((error: HttpErrorResponse) => {
+          catchError((error: any) => {
             if (error.error.text === 'Invalid Access Token') {
               this.tokenStorageService.signOut();
             }
@@ -834,7 +844,8 @@ getCookie(key: string){
             this.clickedReset = !this.clickedReset;
             if (data.message === 'account_locked') {
               this.closeModal(this.lostpwdModal);
-              //if(this.blocktime && this.blocktime != data.blockedDate) this.counter.restart();
+              //if(this.blocktime && this.blocktime != data.blockedDate)
+              // this.counter.restart();
               this.errorMessage = 'account_locked';
               this.blocktime = data.blockedDate + 1800;
               this.timeLeftToUnLock =
