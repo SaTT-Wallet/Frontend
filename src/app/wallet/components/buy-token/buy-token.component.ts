@@ -55,13 +55,13 @@ export class BuyTokenComponent implements OnInit {
   requestedCrypto = 'SATT';
   fiatCurrency = 'USD';
   fiatLogo = 'SATTBEP20.svg';
-  cryptoAmount!: number;
+  cryptoAmount = 0;
   errMsg = '';
   errorMsg = '';
   quoteId: any;
   cryptoList$ = this.walletFacade.cryptoList$;
   ethPrice: any;
-  cryptoPrice: any;
+  cryptoPrice = 0;
   private isDestroyed = new Subject();
 
   position: any;
@@ -71,7 +71,7 @@ export class BuyTokenComponent implements OnInit {
     ? this.tokenStorageService.getIdWallet()
     : '';
   isConnected: boolean = false;
-  sattprice: any;
+  sattprice = 0;
   routerSub: any;
   isCryptoRouter: boolean = false;
   eBlockchainNetwork = EBlockchainNetwork;
@@ -349,6 +349,9 @@ export class BuyTokenComponent implements OnInit {
       this.targetCurrency = crypto;
       this.switchTokensWhenIdentical();
     }
+
+    this.convertCryptoUnitToUSD();
+    this.convertCrypto();
   }
 
   switchTokensWhenIdentical() {
@@ -435,8 +438,8 @@ export class BuyTokenComponent implements OnInit {
         .convertCrypto(
           this.requestedCrypto,
           this.amount,
-          this.selectedCurrencyValue,
-          this.fiatCurrency
+          this.selectedTargetCurrency,
+          this.selectedTargetCurrency
         )
         .pipe(
           tap((data: any) => {
@@ -449,7 +452,8 @@ export class BuyTokenComponent implements OnInit {
           takeUntil(this.isDestroyed)
         )
         .subscribe((data: any) => {
-          this.cryptoAmount = data.digital_money?.amount;
+          this.cryptoAmount = data.digital_money?.amount || 0;
+
           this.quoteId = data.quote_id;
         });
     }
