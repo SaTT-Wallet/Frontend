@@ -4,10 +4,10 @@
   </div>
 </ng-container>
 <ng-template #loading>
-  <app-loading-logo></app-loading-logo>
+  <app-loading-logo> </app-loading-logo>
 </ng-template>
 <div
-  *ngIf="this.showmoonboy === true"
+  *ngIf="this.showmoonboy"
   class="d-block d-xl-block d-lg-block d-md-block div-footer"
   style="position: absolute; bottom: 1px; right: 0; z-index: 99"
 >
@@ -15,6 +15,23 @@
     [pageName]="'apply in '"
   ></app-footer-send-receive-buy>
 </div>
+
+<!-- <div 
+*ngIf="this.showmoonboy === true"
+class="div-pic-text"
+style="position: absolute; bottom: 1px; right: 0; z-index: 99"
+>
+  <div class="">
+    <p class="text-moonboy d-flex flex-column">
+      <span>{{ 'you-need-help' | translate }}</span>
+      <span>{{ 'Read-our-FAQ-about' | translate }}</span
+      ><a class="router-text" routerLink="/FAQ">
+        {{ 'How-to-Tokens' | translate: { action: 'apply in ' } }} ></a
+      >
+    </p>
+  </div>
+  <img src="assets/Images/MoonBoy/moonboy-help.svg" class="picture-moonboy" />
+</div> -->
 
 <!--------------------footer mobile moonboy-------------------------------->
 <div
@@ -31,6 +48,6 @@
         >
       </p>
     </div>
-    <img src="assets/Images/moonboy/moonboy-help.svg" class="picture-moonboy" />
+    <img src="assets/Images/MoonBoy/moonboy-help.svg" class="picture-moonboy" />
   </div>
 </div>
