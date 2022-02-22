@@ -1358,7 +1358,6 @@ export class HeaderComponent implements OnInit {
       let element0 = this.document.getElementById('introo');
       //@ts-ignore
       element0?.style.width = element0.offsetWidth + 'px';
-
       let element2 = this.document.getElementById('intro2');
       //@ts-ignore
       element2?.style.width = element2.offsetWidth + 'px';
@@ -1368,6 +1367,17 @@ export class HeaderComponent implements OnInit {
       let element4 = this.document.getElementById('intro4');
       //@ts-ignore
       element4?.style.width = element4.offsetWidth + 'px';
+
+      let element6 = this.document.getElementById('intro6');
+      //@ts-ignore
+      element6?.style.width = element6.offsetWidth + 'px';
+
+      let element7 = this.document.getElementById('intro7');
+      //@ts-ignore
+      element7?.style.width = element7.offsetWidth + 'px';
+      let element8 = this.document.getElementById('intro8');
+      //@ts-ignore
+      element8?.style.width = element8.offsetWidth + 'px';
     }, 1000);
   }
   @HostListener('window:resize', ['$event'])
