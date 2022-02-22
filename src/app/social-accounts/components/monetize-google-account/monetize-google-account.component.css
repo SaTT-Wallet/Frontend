@@ -209,10 +209,14 @@ a:not([href]):not([tabindex]) {
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
+    display: flex;
+    justify-content: center;
 }
 
 .successLink {
     color: #00cc9e;
+    display: flex;
+    justify-content: center;
 }
 
 .gray-text-span {
