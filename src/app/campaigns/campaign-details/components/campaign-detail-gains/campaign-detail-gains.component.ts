@@ -224,6 +224,7 @@ export class CampaignDetailGainsComponent implements OnInit {
   }
 
   getCampaignList() {
+    this.campaignService.isLoading.next(true);
     this.ParticipationListService.listLinks$
       .pipe(
         takeUntil(this.isDestroyed),
@@ -233,6 +234,7 @@ export class CampaignDetailGainsComponent implements OnInit {
         delay(5000)
       )
       .subscribe((links: Participation[]) => {
+        this.campaignService.isLoading.next(false);
         this.showSpinner = false;
         this.isFirstLoad = false;
         this.campaignLinks = links;
@@ -335,6 +337,7 @@ export class CampaignDetailGainsComponent implements OnInit {
         )
       );
     } else {
+      this.campaignService.isLoading.next(true);
       this.influencerProms = this.activatedRoute.params.pipe(
         tap((params) => {
           this.showSpinner = true;
@@ -391,6 +394,7 @@ export class CampaignDetailGainsComponent implements OnInit {
               //   this.checkingGains(array);
               this.getStatEarnings(array);
               this.showSpinner = false;
+              this.campaignService.isLoading.next(false);
             })
           )
         ),
