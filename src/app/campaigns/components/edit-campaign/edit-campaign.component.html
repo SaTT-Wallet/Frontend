@@ -2,6 +2,8 @@
   class="container-fluid wallet-page"
   (window:resize)="onResizeWindow($event)"
 >
+  <span id="span-top" class="span-top"></span>
+
   <!------------------------- bloc prsentation----------------------->
   <div class="div-block mt-3 pb-3">
     <app-draft-campaign-presentation
@@ -114,6 +116,105 @@
 </div>
 
 <ng-template #loading> Loading ... </ng-template>
+
+<!------------------ starrrrrrrrrt fooooter baaaaaaaaaaar----------------- -->
+<div
+  class="div-menu div-footer-bar align-content-center justify-content-between"
+  id="campaign-footer-bar"
+>
+  <!------div wallet -->
+  <div class="div-wallet text-center" [routerLink]="['/wallet']">
+    <div class="div-pic">
+      <img src="assets/Images/blue-icons/wallet-icon-blue.svg" width="32" />
+    </div>
+
+    <span class="span-text blue-text">{{ 'Sidebar.Wallet' | translate }}</span>
+  </div>
+  <!------end div wallet -->
+  <!------div adpoooool -->
+  <div class="div-adPool text-center" [routerLink]="['/ad-pools']">
+    <div class="div-pic">
+      <img src="assets/Images/blue-icons/list-ul.svg" />
+    </div>
+
+    <span class="span-text blue-text">AdPool list</span>
+  </div>
+  <!------end div adpoooool -->
+  <!------------ div center -->
+  <div class="div-center text-center">
+    <!------ div Finalize -->
+    <div
+      (click)="saveAndLaunchCampaign()"
+      *ngIf="!campaignData.isActive"
+      class="div-pic-center"
+    >
+      <img src="assets/Images/pencil-square-pink.svg" />
+    </div>
+    <span
+      class="span-text pink-text"
+      (click)="saveAndLaunchCampaign()"
+      *ngIf="!campaignData.isActive"
+      >Finalize</span
+    >
+    <!-- -----end div finalize -->
+  </div>
+  <!------end div center  -->
+  <!------ div kit+ delete +budget-->
+  <div class="div-home text-center">
+    <!------ div kit-->
+
+    <!------ div delete-->
+    <div
+      class="div-pic"
+      *ngIf="!campaignData.isActive"
+      (click)="deleteCampaign(draftId)"
+    >
+      <img src="assets/Images/blue-icons/corbeille-blue.svg" />
+    </div>
+
+    <span
+      class="span-text blue-text"
+      (click)="deleteCampaign(draftId)"
+      *ngIf="!campaignData.isActive"
+      >Delete</span
+    >
+    <!------end div delete-->
+  </div>
+  <!------end div kit+ delete -->
+
+  <!----div back to top---->
+  <div class="div-back-top text-center">
+    <div class="div-pic" (click)="scrollToTop()">
+      <img
+        src="/assets/Images/chevron_up.svg"
+        id="back-top-pic"
+        [hidden]="!scrolling"
+      />
+      <img
+        src="/assets/Images/chevron_up_disabled.svg"
+        id="back-top-pic-disabled"
+        [hidden]="!inTop"
+      />
+    </div>
+
+    <span
+      (click)="scrollToTop()"
+      id="back-top-text"
+      class="span-text blue-text"
+      [hidden]="!scrolling"
+    >
+      Back to top
+    </span>
+    <span
+      [hidden]="!inTop"
+      class="span-text disabled-text"
+      id="back-top-text-disabled"
+      >Back to top</span
+    >
+  </div>
+  <!---- end div back to top---->
+</div>
+<!------------------fooooter baaaaaaaaaaar----------------- -->
 
 <ng-template #checkUserLegalKYCModal>
   <div class="modal-header modal-custom">
