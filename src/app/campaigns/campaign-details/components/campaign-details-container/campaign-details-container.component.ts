@@ -25,21 +25,26 @@ export class CampaignDetailsContainerComponent implements OnInit {
   constructor(
     private campaignsStoreService: CampaignsStoreService,
     private route: ActivatedRoute,
-    private meta: Meta
+    private meta: Meta,
+    private campaignService: CampaignHttpApiService
   ) {}
 
   ngOnInit(): void {
+    this.campaignService.isLoading.subscribe((res) => {
+      if (res === false) {
+        this.showmoonboy = true;
+      } else {
+        this.showmoonboy = false;
+      }
+    });
     this.campaignsStoreService.clearCampaignDetailsStore();
     this.route.params
       .pipe(
-        map((params: any) => {
+        tap((params: any) => {
           this.campaignsStoreService.initCampaignStore(params['id']);
           this.campaignId = params['id'];
-          setTimeout(() => {
-            this.showmoonboy = true;
-          }, 3000);
-          return this.campaignId;
         }),
+
         takeUntil(this.isDestroyed)
       )
       .subscribe();
@@ -47,6 +52,10 @@ export class CampaignDetailsContainerComponent implements OnInit {
 
     this.campaign$.pipe(takeUntil(this.isDestroyed)).subscribe((campaign) => {
       this.campaign = campaign;
+      setTimeout(() => {
+        this.showmoonboy = campaign.id === this.campaignId;
+      }, 1000);
+
       this.meta.addTag({
         name: 'og:title',
         content: campaign.title
