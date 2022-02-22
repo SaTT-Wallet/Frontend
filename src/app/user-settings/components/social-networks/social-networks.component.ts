@@ -43,7 +43,6 @@ export class SocialNetworksComponent implements OnInit {
   channelTitle: string = '';
   id: string = '';
   channelName: string = '';
-  userId = this.tokenStorageService.getIdUser();
   errorMessage = '';
   successMessage = '';
   routerSub: any;
@@ -64,6 +63,7 @@ export class SocialNetworksComponent implements OnInit {
   networkName: string = '';
   percentSocial: any;
   private isDestroyed = new Subject();
+  userId = this.tokenStorageService.getIdUser();
 
   private socialAccount$ = this.socialAccountFacadeService.socialAccount$;
   constructor(

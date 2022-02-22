@@ -512,8 +512,8 @@ button:focus {
   transform: none !important;
   top: 0px !important;
   padding: 5px !important;
-  max-height: max-content;
-  overflow: hidden;
+  max-height: 200px;
+  overflow-y: auto;
   text-overflow: ellipsis;
 }
 
@@ -532,6 +532,7 @@ button:focus {
   padding: 0;
   height: max-content;
   z-index: 6;
+  overflow: hidden;
 }
 
 .dropdown2 {
@@ -702,4 +703,12 @@ button:focus {
 .purshase-btn-text {
   width: 100%;
   margin: 0 20px;
+}
+
+.img-width-32 {
+  width: 32px;
+}
+
+.border-radius-circle {
+  border-radius: 50%;
 }

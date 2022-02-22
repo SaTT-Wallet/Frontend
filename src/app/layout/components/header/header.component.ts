@@ -1357,17 +1357,17 @@ export class HeaderComponent implements OnInit {
     setTimeout(() => {
       let element0 = this.document.getElementById('introo');
       //@ts-ignore
-      element0.style.width = element0.offsetWidth + 'px';
+      element0?.style.width = element0.offsetWidth + 'px';
 
       let element2 = this.document.getElementById('intro2');
       //@ts-ignore
-      element2.style.width = element2.offsetWidth + 'px';
+      element2?.style.width = element2.offsetWidth + 'px';
       let element3 = this.document.getElementById('intro3');
       //@ts-ignore
-      element3.style.width = element3.offsetWidth + 'px';
+      element3?.style.width = element3.offsetWidth + 'px';
       let element4 = this.document.getElementById('intro4');
       //@ts-ignore
-      element4.style.width = element4.offsetWidth + 'px';
+      element4?.style.width = element4.offsetWidth + 'px';
     }, 1000);
   }
   @HostListener('window:resize', ['$event'])
