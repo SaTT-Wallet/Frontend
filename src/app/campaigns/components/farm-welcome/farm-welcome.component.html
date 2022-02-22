@@ -120,9 +120,7 @@
     <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
       <div class="info-box d-flex justify-content-between align-items-center">
         <span class="info-name">Harvested</span>
-        <span class="info-value"
-          >$ {{ harvested | fromWeiTo: 'SATT':3 | number }}</span
-        >
+        <span class="info-value">$ {{ harvested | number }}</span>
       </div>
     </div>
   </div>
@@ -163,15 +161,7 @@
 </div>
 
 <div
-  class="
-    row
-    welcome-page-footer
-    d-flex
-    flex-column
-    align-items-center
-    justify-content-center
-    mt-4
-  "
+  class="row welcome-page-footer d-flex flex-column align-items-center justify-content-center mt-4"
 >
   <div class="welcome-page-footer-title">Follow us</div>
   <div class="d-flex justify-content-center align-items-center">
@@ -210,13 +200,7 @@
   </div>
 
   <div
-    class="
-      d-flex
-      justify-content-center
-      align-items-center
-      copyrights
-      flex-column
-    "
+    class="d-flex justify-content-center align-items-center copyrights flex-column"
   >
     <div>Copyright © 2022 Atayen, Inc.</div>
     <div>
