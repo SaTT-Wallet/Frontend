@@ -45,7 +45,7 @@ import { WalletStoreService } from '@core/services/wallet-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AuthStoreService } from '@core/services/Auth/auth-store.service';
 import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-facade.service';
-import { filter, takeUntil, mergeMap, tap } from 'rxjs/operators';
+import { filter, takeUntil, mergeMap, tap, switchMap } from 'rxjs/operators';
 import { DOCUMENT, ViewportScroller } from '@angular/common';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { forkJoin, of, Subject } from 'rxjs';
@@ -658,7 +658,6 @@ export class WalletComponent implements OnInit, OnDestroy {
       }
     }
   }
-
   ngOnInit(): void {
     this.walletFacade.getTotalBalance();
 
@@ -857,11 +856,12 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
 
   getDetails() {
-    let count = 0;
     this.account$
       .pipe(
+        takeUntil(this.onDestoy$),
         filter((res) => res !== null),
         mergeMap((response: any) => {
+          let count = 0;
           if (response !== null && response !== undefined) {
             this.picUserUpdated = response.photoUpdated;
             this.user = new User(response);
@@ -895,7 +895,6 @@ export class WalletComponent implements OnInit, OnDestroy {
             if (this.user.birthday && this.user.birthday !== '') {
               count++;
             }
-
             let calcul = (count * 100) / 10;
             this.percentProfil = calcul.toFixed(0);
 

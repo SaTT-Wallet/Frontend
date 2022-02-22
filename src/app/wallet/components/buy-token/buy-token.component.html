@@ -48,9 +48,9 @@
                 >
                   <div class="d-flex align-items-center gap-2">
                     <img
-                      src="../../../assets/Images/symbol_crypto/Ethereum.svg"
+                      src="../../../assets/Images/symbol_crypto/etherium-blockchain-icon.png"
                       alt=""
-                      class="crypto-image"
+                      class="crypto-image border-radius-circle"
                     />
                     <span class="li-select-text d-flex">
                       {{ eBlockchainNetwork.ERC20 }}</span
@@ -66,7 +66,7 @@
                     <img
                       src="../../../assets/Images/symbol_crypto/bsc-black-icon.svg"
                       alt=""
-                      class="crypto-image"
+                      class="crypto-image border-radius-circle"
                     />
                     <span class="li-select-text d-flex">
                       {{ eBlockchainNetwork.BEP20 }}</span
@@ -87,7 +87,7 @@
                 aria-haspopup="true"
                 aria-expanded="false"
               >
-                <div>
+                <div class="d-flex align-items-center gap-2">
                   <img
                     class="crypto-image"
                     src="../../../assets/Images/symbol_crypto/{{
@@ -107,18 +107,15 @@
               >
                 <ng-container
                   *ngFor="
-                    let crypto of cryptoList;
+                    let crypto of sourceCryptoList;
                     trackBy: trackByCryptoListValue;
                     let i = index
                   "
                 >
                   <li
                     class="li-select"
-                    (click)="onSelectCrypto(crypto.symbol, crypto.logo)"
-                    *ngIf="
-                      crypto.symbol !== requestedCrypto &&
-                      crypto.network.toUpperCase() === selectedBlockchainNetwork
-                    "
+                    (click)="onSelectCrypto(crypto.symbole, crypto.logo)"
+                    *ngIf="crypto.symbole !== requestedCrypto"
                   >
                     <img
                       class="width_icon_crypto"
@@ -126,7 +123,7 @@
                         crypto.logo
                       }}"
                     />
-                    <span class="li-select-text"> {{ crypto.symbol }}</span>
+                    <span class="li-select-text"> {{ crypto.symbole }}</span>
                   </li>
                 </ng-container>
               </ul>
@@ -243,7 +240,7 @@
                 >
                   <div class="d-flex align-items-center gap-2">
                     <img
-                      src="../../../assets/Images/symbol_crypto/Ethereum.svg"
+                      src="../../../assets/Images/symbol_crypto/etherium-blockchain-icon.png"
                       alt=""
                       class="crypto-image"
                     />
@@ -311,11 +308,13 @@
                       (click)="onSelectCurrency(crypto, $any(crypto).logo)"
                       *ngIf="
                         !(
-                          selectedTargetCurrency.includes(crypto.symbol) &&
                           selectedTargetCurrency.includes(
-                            $any(crypto).network.toUpperCase()
+                            $any(crypto).symbole
+                          ) &&
+                          selectedTargetCurrency.includes(
+                            $any(crypto).type.toUpperCase()
                           )
-                        ) && crypto.symbol !== selectedTargetCurrency
+                        ) && $any(crypto).symbole !== selectedTargetCurrency
                       "
                     >
                       <img
@@ -326,11 +325,9 @@
                       />
                       <span class="li-select-text">
                         {{
-                          crypto.symbol === 'SATT'
-                            ? 'SATT (' +
-                              $any(crypto).network.toUpperCase() +
-                              ')'
-                            : crypto.symbol
+                          $any(crypto).symbole === 'SATT'
+                            ? 'SATT (' + $any(crypto).type.toUpperCase() + ')'
+                            : $any(crypto).symbole
                         }}</span
                       >
                     </li>
@@ -342,7 +339,7 @@
                       class="li-select d-flex align-items-center gap-2"
                       (click)="onSelectCurrency(crypto, $any(crypto).logo)"
                     >
-                      <span class="symbol2">{{ crypto.symbol }}</span>
+                      <span class="symbol2">{{ $any(crypto).symbol }}</span>
                       <span class="li-select-text">
                         {{ $any(crypto).value }}</span
                       >
@@ -445,8 +442,9 @@
             target="_blank"
           >
             <img
-              src="../../../assets/Images/symbol_crypto/pay-creditcard-icon.svg"
+              src="../../../assets/Images/symbol_crypto/Uniswap.svg"
               alt=""
+              class="img-width-32"
             />
 
             <span class="purshase-btn-text">{{

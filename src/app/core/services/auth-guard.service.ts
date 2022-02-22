@@ -15,6 +15,7 @@ import {
 import { TokenStorageService } from './tokenStorage/token-storage-service.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AccountFacadeService } from '../facades/account-facade/account-facade.service';
+import { User } from '@app/models/User';
 @Injectable({
   providedIn: 'root'
 })
@@ -51,16 +52,18 @@ export class AuthGuardService implements CanActivate {
           this.tokenStorageService.setPhoneNumber(account.phone);
         }
       }),
-      mergeMap((data: any) => {
-        if (!!data.error || !Object.keys(data).length) {
-          this.tokenStorageService.signOut();
+      mergeMap((data: User) => {
+        if (data.email === '') {
           this.accountFacadeService.dispatchLogoutAccount();
+          this.tokenStorageService.signOut();
           this.router.navigate(['auth/login']);
           return of(false);
-        } else if (data.error === 'Invalid Access Token') {
-          this.router.navigate(['auth/login']);
-          return of(false);
-        } else if (
+        }
+        //   else if (data.error === 'Invalid Access Token') {
+        //   this.router.navigate(['auth/login']);
+        //   return of(false);
+        // }
+        else if (
           (data.completed !== true && data.idSn !== 0) ||
           (data.completed === true &&
             data.idSn !== 0 &&
