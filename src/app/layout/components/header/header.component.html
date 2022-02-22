@@ -77,14 +77,7 @@
     <div *ngIf="isConnected" class="d-md-none div-copy-wallet-mobile">
       <a
         (click)="toggleWallet()"
-        class="
-          d-flex
-          justify-content-center
-          p-2
-          gap-4
-          btnDRP
-          dropdown-toggle dropdown-toggle-content
-        "
+        class="d-flex justify-content-center p-2 gap-4 btnDRP dropdown-toggle dropdown-toggle-content"
         id="drp"
         data-flip="false"
         data-toggle="dropdown"
@@ -105,13 +98,7 @@
     >
       <a
         (click)="closeShowMore()"
-        class="
-          nav-link
-          dropdown-toggle
-          notifLink
-          a_notif
-          position_icon_notif_mobile
-        "
+        class="nav-link dropdown-toggle notifLink a_notif position_icon_notif_mobile"
         data-toggle="dropdown"
         role="button"
         aria-haspopup="true"
@@ -268,7 +255,11 @@
             ><span>{{ 'faq_farmming' | translate }}</span></a
           >
         </li>
-        <li class="li-menu" [ngClass]="{ 'is-visited': menuBuyToken }">
+        <li
+          class="li-menu"
+          [ngClass]="{ 'is-visited': menuBuyToken }"
+          id="intro6"
+        >
           <a
             *ngIf="isConnected"
             class="farmPost"
@@ -283,7 +274,11 @@
             ><span>{{ 'menu_buyToken' | translate }}</span></a
           >
         </li>
-        <li class="li-menu" [ngClass]="{ 'is-visited': menuTokenInfo }">
+        <li
+          class="li-menu"
+          [ngClass]="{ 'is-visited': menuTokenInfo }"
+          id="intro7"
+        >
           <a style="cursor: pointer" (click)="checkMenuTokenInfo()"
             >Token Info</a
           >
@@ -292,6 +287,7 @@
           class="li-menu"
           *ngIf="isConnected"
           [ngClass]="{ 'is-visited': menuHistory }"
+          id="intro8"
         >
           <a
             class="history"
@@ -425,16 +421,7 @@
           <!--d-lg-block d-xl-block d-md-block d-sm-none-->
 
           <a
-            class="
-              d-flex
-              justify-content-center
-              p-2
-              gap-4
-              btnDRP
-              dropdown-toggle
-              dropdown-toggle-content
-              dropdown-toggle-content-wallet
-            "
+            class="d-flex justify-content-center p-2 gap-4 btnDRP dropdown-toggle dropdown-toggle-content dropdown-toggle-content-wallet"
             id="drp"
             data-flip="false"
             data-toggle="dropdown"
