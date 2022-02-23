@@ -145,7 +145,7 @@
                   >
                     <li
                       class="li-select"
-                      (click)="onSelectCurrency(crypto, $any(crypto).logo)"
+                      (click)="onSelectCurrency(crypto)"
                       *ngIf="
                         !(
                           selectedTargetCurrency.includes(
@@ -177,7 +177,7 @@
                   >
                     <li
                       class="li-select d-flex align-items-center gap-2"
-                      (click)="onSelectCurrency(crypto, $any(crypto).logo)"
+                      (click)="onSelectCurrency(crypto)"
                     >
                       <span class="symbol2">{{ $any(crypto).symbol }}</span>
                       <span class="li-select-text">
@@ -218,8 +218,22 @@
           <p class="hard-gray-text">
             <!-- requestedCrypto === 'SATT-SC' ? 'SATT (BEP20)' : requestedCrypto -->
 
-            {{ '1 ' + requestedCrypto }} =
-            {{ this.cryptoPrice?.toFixed(8) + 'USD' }}
+            <ng-container
+              *ngIf="this.selectedCurrencyType !== eCurrencyType.FIAT"
+            >
+              {{ '1 ' + selectedTargetCurrency }} =
+              {{
+                (this.rateExchangePerRequestedCrypto$ | async)?.toFixed(8) +
+                  ' ' +
+                  this.requestedCrypto
+              }}
+            </ng-container>
+            <ng-container
+              *ngIf="this.selectedCurrencyType === eCurrencyType.FIAT"
+            >
+              {{ '1 ' + this.requestedCrypto }} =
+              {{ this.cryptoPrice?.toFixed(8) + ' USD' }}
+            </ng-container>
           </p>
         </div>
         <div class="mt-4">
