@@ -963,6 +963,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
       //@ts-ignore
       return this.campaign.missions.filter(
         (res: any) => res.oracle === oracle
+        //@ts-ignore
       )[0]?.sub_missions;
     } else {
       return [];
