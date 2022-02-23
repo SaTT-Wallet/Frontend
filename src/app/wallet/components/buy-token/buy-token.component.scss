@@ -11,18 +11,18 @@
 .white-bloc {
   height: 100%;
   width: 100%;
-  padding-top: 120px;
+  padding: 120px 1em 1em;
   // margin-top: 80px;
   background: white;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
   // border-radius: 30px;
   // padding: 1em;
-  border: 1px solid #d6d6e8;
+
   overflow: auto;
   overflow-x: hidden;
   margin-left: 0;
-  height: calc(100vh - 63px);
+  // height: calc(100vh - 63px);
 }
 
 .div-content {
@@ -363,9 +363,7 @@ input:-webkit-autofill:active {
   .selected-symbol {
     font-size: 15px;
   }
-  .div-footer {
-    display: none !important;
-  }
+
   .showMobile {
     display: block !important;
   }
@@ -377,9 +375,8 @@ input:-webkit-autofill:active {
     z-index: 3;
     // padding: 1em;
     // height: 100vh;
-    padding: 0;
     padding-top: 1em;
-    height: calc(100vh - 141px);
+    // height: calc(100vh - 141px);
     // margin-bottom: 42px;
   }
   .input-amount-usd {
@@ -410,12 +407,6 @@ input:-webkit-autofill:active {
   .trans-upper {
     font-size: 12px;
   }
-}
-
-.div-footer {
-  position: absolute;
-  bottom: 0;
-  right: 0;
 }
 
 .span-transacHash {
@@ -685,6 +676,12 @@ button:focus {
 .div-footer-mobile {
   margin-top: 3vh;
   height: max-content;
+}
+.div-footer {
+  width: 300px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }
 
 @media (min-height: 840px) {

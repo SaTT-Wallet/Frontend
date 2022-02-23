@@ -450,31 +450,10 @@
         </div>
       </form>
     </div>
-    <div
-      class="showMobile div-footer-mobile d-none d-xl-none d-lg-none d-md-none d-sm-block d-xs-block p-0"
-    >
-      <div class="div-pic-text">
-        <div class="">
-          <p class="text-moonboy d-flex flex-column">
-            <span>{{ 'you-need-help' | translate }}</span>
-            <span>{{ 'Read-our-FAQ-about' | translate }}</span
-            ><a class="router-text" [routerLink]="['/FAQ']">
-              {{ 'How-to-Tokens' | translate: { action: 'Buy' } }} ></a
-            >
-          </p>
-        </div>
-        <img
-          src="assets/Images/moonboy/moonboy-help.svg"
-          class="picture-moonboy"
-        />
-      </div>
-    </div>
   </div>
 </div>
-<div
-  class="d-block d-xl-block d-lg-block d-md-block d-sm-none d-xs-none div-footer"
->
-  <app-footer-send-receive-buy [pageName]="'Buy'"></app-footer-send-receive-buy>
+<div class="div-footer">
+  <app-moonboy-help [pageName]="'Buy'"></app-moonboy-help>
 </div>
 <!-- <div class="container white-block-desktop">
   <div class="white-box">
