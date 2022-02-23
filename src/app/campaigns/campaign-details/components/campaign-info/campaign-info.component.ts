@@ -30,14 +30,7 @@ import { Editor } from 'ngx-editor';
 import { WalletStoreService } from '@core/services/wallet-store.service';
 import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
 import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
-import {
-  filter,
-  map,
-  mergeMap,
-  switchMap,
-  takeUntil,
-  tap
-} from 'rxjs/operators';
+import { filter, map, mergeMap, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { from, Observable, Subject } from 'rxjs';
 import { ConvertFromWei } from '@shared/pipes/wei-to-sa-tt.pipe';
 import { Campaign } from '@app/models/campaign.model';
@@ -169,10 +162,10 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
   private isDestroyed$ = new Subject();
   private socialAccount$ = this.socialAccountFacadeService.socialAccount$;
   channelGoogle: any;
-  channelTwitter: any;
-  channelFacebook: any;
-  channelInstagram: any;
-  channelLinkedin: any;
+  channelTwitter : any;
+  channelFacebook : any;
+  channelInstagram : any;
+  channelLinkedin : any;
   arrayMission: Array<{ mission: string }>;
   showmoonboy: boolean = false;
   constructor(
@@ -322,9 +315,11 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
     this.displayShowMoreLessButton =
       this.descWrapper?.nativeElement.offsetHeight > 250;
     this.cdRef.detectChanges();
+
   }
 
   ngOnInit(): void {
+
     this.CampaignService.stat.subscribe((res) => {
       if (res === true) {
         this.navigationTab = 'stat';
@@ -332,9 +327,13 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
         this.activeInfo = false;
         this.activeTab = 'stat';
         this.cdRef.detectChanges();
+
+      
       } else {
+
       }
     });
+
 
     setTimeout(() => {
       this.showmoonboy = true;
@@ -909,9 +908,9 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
       )
       .subscribe(
         ({
-          params,
-          data
-        }: {
+           params,
+           data
+         }: {
           params: Params;
           data: IGetSocialNetworksResponse | null;
         }) => {
@@ -921,6 +920,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
             this.channelTwitter = data.twitter;
             this.channelFacebook = data.facebook;
             this.channelLinkedin = data.linkedin;
+
           }
         }
       );
@@ -956,16 +956,12 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   campaignMissions(oracle: any) {
-    if (
-      this.campaign.missions.filter((res: any) => res.oracle === oracle)
-        .length >= 0
-    ) {
+    if(this.campaign.missions.filter((res: any) => res.oracle === oracle).length >= 0){
       //@ts-ignore
-      return this.campaign.missions.filter(
-        (res: any) => res.oracle === oracle
-      )[0]?.sub_missions;
+      return this.campaign.missions.filter((res: any) => res.oracle === oracle)[0]?.sub_missions;
     } else {
       return [];
     }
+
   }
 }
