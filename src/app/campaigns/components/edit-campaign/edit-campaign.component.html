@@ -11,7 +11,9 @@
       (saveFormStatus)="onSaveDraftStatusChange($event)"
     ></app-draft-campaign-presentation>
   </div>
-
+  <div class="row w-100 justify-content-center">
+    <hr class="horizontal-line" />
+  </div>
   <!------------------------- bloc picture----------------------->
   <div class="div-block mt-3 pb-3">
     <app-draft-picture
@@ -22,7 +24,9 @@
       (saveFormStatus)="onSaveDraftStatusChange($event)"
     ></app-draft-picture>
   </div>
-
+  <div class="row w-100 justify-content-center">
+    <hr class="horizontal-line" />
+  </div>
   <!------------------------- bloc param----------------------->
   <div class="div-block mt-3 pb-3">
     <app-draft-campaign-parametres
@@ -34,7 +38,9 @@
       (saveFormStatus)="onSaveDraftStatusChange($event)"
     ></app-draft-campaign-parametres>
   </div>
-
+  <div class="row w-100 justify-content-center">
+    <hr class="horizontal-line" />
+  </div>
   <!------------------------- bloc Rémunération and budget ----------------------->
   <div class="div-block mt-3 pb-3">
     <app-remuneration
@@ -42,28 +48,15 @@
       [draftData]="campaignData"
       [id]="draftId"
       [notValidBudgetRemun]="sendErrorToBudgetRemun"
+      [notValidMissionFromEdit]="sendErrorToMissionRemu"
       (validFormBudgetRemun)="listenForBudgetRemunChange($event)"
-      [isSelectedYoutube]="sendToRemuSelectedYoutube"
-      [isSelectedFacebook]="sendToRemuSelectedFacebook"
-      [isSelectedInstagram]="sendToRemuSelectedInstagram"
-      [isSelectedLinkedin]="sendToRemuSelectedLinkedin"
-      [isSelectedTwitter]="sendToRemuSelectedTwitter"
+      (validFormMissionFromRemuToEdit)="listenForMissionChange($event)"
     ></app-remuneration>
   </div>
-
-  <!------------------------- bloc Missions ----------------------->
-  <div class="div-block mt-3 pb-3">
-    <app-missions
-      [draftData]="campaignData"
-      [id]="draftId"
-      (selectedYoutube)="listenForMissionChange($event, 'youtube')"
-      (selectedFacebook)="listenForMissionChange($event, 'facebook')"
-      (selectedInstagram)="listenForMissionChange($event, 'instagram')"
-      (selectedTwitter)="listenForMissionChange($event, 'twitter')"
-      (selectedLinkedin)="listenForMissionChange($event, 'linkedin')"
-      (validFormMission)="listenForBudgetMissionChange($event)"
-    ></app-missions>
+  <div class="row w-100 justify-content-center">
+    <hr class="horizontal-line" />
   </div>
+
   <!------------------------- bloc kit----------------------->
   <div class="div-block mt-3 pb-3">
     <app-draft-campaign-kit
@@ -72,9 +65,12 @@
       (saveFormStatus)="onSaveDraftStatusChange($event)"
     ></app-draft-campaign-kit>
   </div>
+  <div class="row w-100 justify-content-center">
+    <hr class="horizontal-line" />
+  </div>
   <div class="row d-flex justify-content-center mt-4">
     <div
-      class="col-xl-4 col-md-4 col-lg-4 col-sm-8 d-flex justify-content-center"
+      class="col-xl-6 col-md-6 col-lg-6 col-sm-8 d-flex justify-content-center"
     >
       <button type="button" class="btn-white" (click)="goToView()">
         {{ 'create_campaign_form.generate_preview' | translate }}
@@ -82,22 +78,9 @@
     </div>
 
     <div
-      class="col-xl-4 col-md-4 col-lg-4 col-sm-8 d-flex justify-content-center pt-3-mobile"
+      class="col-xl-6 col-md-6 col-lg-6 col-sm-8 d-flex justify-content-center pt-3-mobile"
     >
-      <button
-        type="button"
-        class="btn-blue"
-        (click)="saveCampaign()"
-        *ngIf="campaignData.isActive && campaignData.isOwnedByUser"
-      >
-        Save Changes
-      </button>
-      <button
-        type="button"
-        class="btn-blue"
-        (click)="saveAndLaunchCampaign()"
-        *ngIf="!campaignData.isActive"
-      >
+      <button type="button" class="btn-blue" (click)="saveAndLaunchCampaign()">
         <img src="/assets/Images/Rectangle-lancer_compagne.svg" class="me-4" />
         {{ 'start my campaign now!' | translate | capitalizePhrase }}
       </button>
@@ -248,7 +231,7 @@
   <div class="modal-body modal-custom modal-customm">
     <div class="text-center">
       <img
-        src="assets/Images/moonboy/moonboy-adpool.svg"
+        src="assets/Images/MoonBoy/moonboy-adpool.svg"
         class="moonboy-mobile"
       />
     </div>
