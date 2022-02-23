@@ -132,6 +132,7 @@ import { MoonboyHelpComponent } from './components/moonboy-help/moonboy-help.com
     MultiSelectComponent,
     ToFixedPipe,
     BlockCopyPasteDirective,
+    MoonboyHelpComponent,
     // modules
     CarouselModule,
     CustomFormsModule,
