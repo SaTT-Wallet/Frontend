@@ -66,7 +66,7 @@ import { FooterSendReceiveBuyComponent } from '@app/wallet/components/footer-sen
 import { DropdownCryptoNetworkComponent } from '@app/wallet/components/dropdown-crypto-network/dropdown-crypto-network.component';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { MoonboyHelpComponent } from './moonboy-help/moonboy-help.component';
+import { MoonboyHelpComponent } from './components/moonboy-help/moonboy-help.component';
 
 @NgModule({
   declarations: [
