@@ -315,9 +315,26 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
     this.displayShowMoreLessButton =
       this.descWrapper?.nativeElement.offsetHeight > 250;
     this.cdRef.detectChanges();
+
   }
 
   ngOnInit(): void {
+
+    this.CampaignService.stat.subscribe((res) => {
+      if (res === true) {
+        this.navigationTab = 'stat';
+
+        this.activeInfo = false;
+        this.activeTab = 'stat';
+        this.cdRef.detectChanges();
+
+      
+      } else {
+
+      }
+    });
+
+
     setTimeout(() => {
       this.showmoonboy = true;
     }, 1000);

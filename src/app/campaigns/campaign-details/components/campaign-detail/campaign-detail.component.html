@@ -143,12 +143,14 @@
       <div
         *ngIf="campaign.isFinished && campaign.isOwnedByUser"
         class="div-pic-center"
+        (click)="openstat()"
       >
         <img src="assets/Images/blue-icons/bar-chart.svg" />
       </div>
       <span
         class="span-text blue-text"
         *ngIf="campaign.isFinished && campaign.isOwnedByUser"
+        (click)="openstat()"
         >Stats</span
       >
       <!-- ---end div stat------ -->
