@@ -474,10 +474,10 @@ export class HeaderComponent implements OnInit {
     this.NotificationService.notificationSeen()
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((response: any) => {
-        if (response.message === 'Notification clicked') {
-          this.newNotification = false;
-        } else {
+        if (response.message !== 'Notification clicked') {
           this.newNotification = true;
+        } else {
+          this.newNotification = false;
         }
       });
   }
@@ -620,7 +620,7 @@ export class HeaderComponent implements OnInit {
       .subscribe((data: any) => {
         this.isSend = data.isSend;
 
-        this.ngOnInit();
+        // this.ngOnInit();
         if (this.isSend !== 0) {
           this.NotificationService.newNotification.next(true);
         } else {

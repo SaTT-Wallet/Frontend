@@ -136,6 +136,7 @@ export class CampaignDetailComponent implements OnInit {
   isLoading = true;
   histEarning = false;
   private history: string[] = [];
+
   constructor(
     public router: Router,
     public modalService: NgbModal,
@@ -222,6 +223,9 @@ export class CampaignDetailComponent implements OnInit {
     this.gettingAllproms();
     this.getKits();
     // this.getCampaignList();
+  }
+  openstat() {
+    this.CampaignService.stat.next(true);
   }
   ngOnDestroy(): void {
     this.isDestroyed.next('');
