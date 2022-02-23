@@ -1,7 +1,4 @@
-<div
-  class="container-fluid wallet-page"
-  (window:resize)="onResizeWindow($event)"
->
+<div class="wallet-page" (window:resize)="onResizeWindow($event)">
   <span id="span-top" class="span-top"></span>
 
   <!------------------------- bloc prsentation----------------------->
@@ -39,19 +36,21 @@
   </div>
 
   <!------------------------- bloc Rémunération and budget ----------------------->
+  <div class="div-block mt-3 pb-3">
+    <app-remuneration
+      [hidden]="campaignData.isActive && campaignData.isOwnedByUser"
+      [draftData]="campaignData"
+      [id]="draftId"
+      [notValidBudgetRemun]="sendErrorToBudgetRemun"
+      (validFormBudgetRemun)="listenForBudgetRemunChange($event)"
+      [isSelectedYoutube]="sendToRemuSelectedYoutube"
+      [isSelectedFacebook]="sendToRemuSelectedFacebook"
+      [isSelectedInstagram]="sendToRemuSelectedInstagram"
+      [isSelectedLinkedin]="sendToRemuSelectedLinkedin"
+      [isSelectedTwitter]="sendToRemuSelectedTwitter"
+    ></app-remuneration>
+  </div>
 
-  <app-remuneration
-    [hidden]="campaignData.isActive && campaignData.isOwnedByUser"
-    [draftData]="campaignData"
-    [id]="draftId"
-    [notValidBudgetRemun]="sendErrorToBudgetRemun"
-    (validFormBudgetRemun)="listenForBudgetRemunChange($event)"
-    [isSelectedYoutube]="sendToRemuSelectedYoutube"
-    [isSelectedFacebook]="sendToRemuSelectedFacebook"
-    [isSelectedInstagram]="sendToRemuSelectedInstagram"
-    [isSelectedLinkedin]="sendToRemuSelectedLinkedin"
-    [isSelectedTwitter]="sendToRemuSelectedTwitter"
-  ></app-remuneration>
   <!------------------------- bloc Missions ----------------------->
   <div class="div-block mt-3 pb-3">
     <app-missions
