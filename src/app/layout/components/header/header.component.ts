@@ -246,6 +246,9 @@ export class HeaderComponent implements OnInit {
         }
       }
     });
+    this.NotificationService.newNotification.subscribe((value) => {
+      this.newNotification = value;
+    });
   }
 
   closeBalanceSection() {
@@ -471,10 +474,10 @@ export class HeaderComponent implements OnInit {
     this.NotificationService.notificationSeen()
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((response: any) => {
-        if (response.message !== 'Notification clicked') {
-          this.newNotification = true;
-        } else {
+        if (response.message === 'Notification clicked') {
           this.newNotification = false;
+        } else {
+          this.newNotification = true;
         }
       });
   }
@@ -604,7 +607,7 @@ export class HeaderComponent implements OnInit {
         ls = ls.concat(this.dataNotification);
         this.issendfire = obj.isSend;
         this.dataNotification = ls;
-        if (obj.isSend !== 0) {
+        if (this.issendfire !== 0) {
           this.newNotification = true;
         } else {
           this.newNotification = false;
@@ -616,6 +619,13 @@ export class HeaderComponent implements OnInit {
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((data: any) => {
         this.isSend = data.isSend;
+
+        this.ngOnInit();
+        if (this.isSend !== 0) {
+          this.NotificationService.newNotification.next(true);
+        } else {
+          this.NotificationService.newNotification.next(false);
+        }
 
         if (
           data !== null &&
@@ -638,12 +648,9 @@ export class HeaderComponent implements OnInit {
               this.notifListSize
             );
           }
+
           // if(this.dataNotification.length > 10) this.dataNotification.length = 10;
-          if (data.isSend !== 0) {
-            this.newNotification = true;
-          } else {
-            this.newNotification = false;
-          }
+
           this.dataNotification.forEach((item: any) => {
             this.siwtchFunction(item);
           });

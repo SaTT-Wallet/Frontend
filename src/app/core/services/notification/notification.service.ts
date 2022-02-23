@@ -13,6 +13,8 @@ import { TokenStorageService } from '../tokenStorage/token-storage-service.servi
 export class NotificationService {
   httpOptions: any;
   private currentMessage: BehaviorSubject<any> = new BehaviorSubject(null);
+  public newNotification: BehaviorSubject<any> = new BehaviorSubject(false);
+
   readonly notifications$ = this.currentMessage
     .asObservable()
     .pipe(filter((message) => message !== null));
