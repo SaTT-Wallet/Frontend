@@ -827,24 +827,24 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   selectRemunerateType(type: ERemunerationType) {
     this.selectRemunerateValue = type;
     this.f.remuneration.setValue(type);
-    // this.ratios.clear();
-    // this.bounties.clear();
-    if (this.isSelectedYoutube) {
-      this.toggleOracle('youtube');
-    }
-    if (this.isSelectedFacebook) {
-      this.toggleOracle('facebook');
-    }
+    this.ratios.clear();
+    this.bounties.clear();
+    // if (this.isSelectedYoutube) {
+    //   this.toggleOracle('youtube');
+    // }
+    // if (this.isSelectedFacebook) {
+    //   this.toggleOracle('facebook');
+    // }
 
-    if (this.isSelectedInstagram) {
-      this.toggleOracle('instagram');
-    }
-    if (this.isSelectedTwitter) {
-      this.toggleOracle('twitter');
-    }
-    if (this.isSelectedLinkedin) {
-      this.toggleOracle('linkedin');
-    }
+    // if (this.isSelectedInstagram) {
+    //   this.toggleOracle('instagram');
+    // }
+    // if (this.isSelectedTwitter) {
+    //   this.toggleOracle('twitter');
+    // }
+    // if (this.isSelectedLinkedin) {
+    //   this.toggleOracle('linkedin');
+    // }
   }
 
   handleAmountEntries(form: AbstractControl, control: string) {
