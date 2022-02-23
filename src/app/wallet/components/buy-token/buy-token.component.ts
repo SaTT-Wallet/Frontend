@@ -1,20 +1,13 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import {
-  Component,
-  ElementRef,
-  Inject,
-  OnInit,
-  PLATFORM_ID,
-  ViewChild
-} from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 import { dataList, pattContact } from '@config/atn.config';
 import { cryptoList, ListTokens } from '@config/atn.config';
-import { Subject } from 'rxjs';
-import { concatMap, filter, mapTo, takeUntil, tap } from 'rxjs/operators';
+import { Observable, Subject, zip } from 'rxjs';
+import { filter, map, takeUntil, tap } from 'rxjs/operators';
 import * as _ from 'lodash';
 
 enum EBlockchainNetwork {
@@ -34,6 +27,22 @@ type Crypto = {
   logo: string;
   type: string;
   symbole: string;
+};
+
+type CryptoListItem = {
+  AddedToken: boolean;
+  contract: string;
+  decimal: number;
+  name: string;
+  network: string;
+  picUrl: boolean;
+  price: number;
+  quantity: number;
+  symbol: string;
+  total_balance: number;
+  undername: string;
+  undername2: string;
+  variation: number;
 };
 @Component({
   selector: 'app-buy-token',
@@ -81,6 +90,9 @@ export class BuyTokenComponent implements OnInit {
   selectedTargetCurrency = 'SATT (BEP20)';
   targetCurrencyList: ({ value: string; symbol: string } | Crypto)[] = [];
   sourceCryptoList: Crypto[] = [];
+  requestedCryptoPriceInUSD$ = new Observable<number>();
+  purshaseCryptoPriceInUSD$ = new Observable<number>();
+  rateExchangePerRequestedCrypto$ = new Observable<number>();
 
   constructor(
     private walletFacade: WalletFacadeService,
@@ -210,6 +222,8 @@ export class BuyTokenComponent implements OnInit {
         crypto.name.includes('SATT') &&
         crypto.type.toUpperCase() === this.selectedBlockchainNetwork
     )?.symbole as string;
+
+    this.convertCrypto();
   }
 
   toggleCurrencyType(currencyType: ECurrencyType) {
@@ -270,7 +284,7 @@ export class BuyTokenComponent implements OnInit {
     // this.convertform.get('currency')?.setValue(currency);
     // var getcurrency = this.convertform.get('currency')?.value;
 
-    //this.convertCrypto();
+    this.convertCrypto();
   }
 
   get selectedCryptoLogo() {
@@ -337,10 +351,7 @@ export class BuyTokenComponent implements OnInit {
     this.convertCrypto();
   }
 
-  onSelectCurrency(
-    crypto: { value: string; symbol: string } | Crypto,
-    logo: string
-  ) {
+  onSelectCurrency(crypto: { value: string; symbol: string } | Crypto) {
     if (this.selectedCurrencyType === ECurrencyType.FIAT) {
       this.selectedTargetCurrency = (
         crypto as { value: string; symbol: string }
@@ -433,7 +444,7 @@ export class BuyTokenComponent implements OnInit {
   }
 
   convertCrypto() {
-    if (this.amount) {
+    if (this.amount && this.selectedCurrencyType === ECurrencyType.FIAT) {
       this.walletFacade
         .convertCrypto(
           this.requestedCrypto,
@@ -456,6 +467,47 @@ export class BuyTokenComponent implements OnInit {
 
           this.quoteId = data.quote_id;
         });
+      this.rateExchangePerRequestedCrypto$ = this.cryptoList$.pipe(
+        map(
+          (cryptoList: CryptoListItem[]) =>
+            cryptoList.find(
+              (crypto: CryptoListItem) => crypto.symbol === this.requestedCrypto
+            )?.price || 0
+        )
+      );
+    } else {
+      this.errMsg = '';
+      this.requestedCryptoPriceInUSD$ = this.cryptoList$.pipe(
+        map(
+          (cryptoList: CryptoListItem[]) =>
+            cryptoList.find(
+              (crypto: CryptoListItem) => crypto.symbol === this.requestedCrypto
+            )?.price || 0
+        )
+      );
+
+      this.purshaseCryptoPriceInUSD$ = this.cryptoList$.pipe(
+        map(
+          (cryptoList: CryptoListItem[]) =>
+            cryptoList.find(
+              (crypto: CryptoListItem) =>
+                crypto.symbol === this.selectedTargetCurrency
+            )?.price || 0
+        )
+      );
+
+      this.rateExchangePerRequestedCrypto$ = zip(
+        this.purshaseCryptoPriceInUSD$,
+        this.requestedCryptoPriceInUSD$
+      ).pipe(
+        map(([purshaseCryptoPriceInUSD, requestedCryptoPriceInUSD]) => {
+          if (requestedCryptoPriceInUSD === 0) return 0;
+          this.cryptoAmount =
+            this.amount *
+            (purshaseCryptoPriceInUSD / requestedCryptoPriceInUSD);
+          return purshaseCryptoPriceInUSD / requestedCryptoPriceInUSD;
+        })
+      );
     }
   }
 
