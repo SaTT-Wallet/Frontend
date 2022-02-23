@@ -1,72 +1,41 @@
 <form [formGroup]="form">
-  <!-- Budget -->
-  <div class="div-block mt-3 pb-3">
-    <div class="col-12 px-3 padding-small-version">
-      <div
-        class="col-md-12 col-lg-12 col-xs-12 d-flex justify-content-center pt-4"
-      >
-        <label class="title-section">Budget</label>
-      </div>
-      <div
-        class="col-md-12 col-lg-12 col-xs-12 d-flex justify-content-center pt-4"
-      >
-        <label class="title-section-budget">{{
+    <!--------------------------------------------------- Budget ------------------------------------------------------->
+    <div class="div-block mt-3 pb-3">
+        <div class="col-12 px-3 padding-small-version">
+            <div class="col-md-12 col-lg-12 col-xs-12 d-flex justify-content-center pt-4">
+                <label class="title-section">Budget</label>
+            </div>
+            <div class="col-md-12 col-lg-12 col-xs-12 d-flex justify-content-center pt-4">
+                <label class="title-section-budget">{{
           'create_campaign_form.budjet' | translate
         }}</label>
-      </div>
+            </div>
 
-      <div class="height-drop">
-        <app-dropdown-crypto-network
-          (selectedCrypto)="linstingCrypto($event)"
-          [cryptoFromComponent]="this.cryptoToDropdown"
-        ></app-dropdown-crypto-network>
-      </div>
+            <div class="height-drop">
+                <app-dropdown-crypto-network (selectedCrypto)="linstingCrypto($event)" [cryptoFromComponent]="this.cryptoToDropdown"></app-dropdown-crypto-network>
+            </div>
+            <div class="">
+                <input type="number" id="" pattern="^[1-9][0-9]*$" (keydown)="restrictZero($event)" formControlName="initialBudget" input class="amount input-amount" placeholder="0" (input)="convertcurrency('amount')" [(ngModel)]="this.amount" />
+            </div>
+            <div class="div-use-max mt-3 text-center d-flex justify-content-center align-items-center flex-xl-row flex-lg-row flex-md-row flex-sm-column flex-xs-column gap-2">
+                <!-- <p class="hard-gray-text mb-0">Balance :{{ totalAmount }} USD</p> -->
+                <p class="hard-gray-text mb-0">
+                    Balance :${{ this.selectedCryptoDetails?.total_balance?.toFixed(2) }}
+                </p>
 
-      <div class="">
-        <input
-          type="number"
-          id=""
-          pattern="^[1-9][0-9]*$"
-          (keydown)="restrictZero($event)"
-          formControlName="initialBudget"
-          input
-          class="amount input-amount"
-          placeholder="0"
-          (input)="convertcurrency('amount')"
-          [(ngModel)]="amount"
-        />
-      </div>
-      <div
-        class="div-use-max mt-3 text-center d-flex justify-content-center align-items-center flex-xl-row flex-lg-row flex-md-row flex-sm-column flex-xs-column gap-2"
-      >
-        <!-- <p class="hard-gray-text mb-0">Balance :{{ totalAmount }} USD</p> -->
-        <p class="hard-gray-text mb-0">
-          Balance :${{ this.selectedCryptoDetails?.total_balance?.toFixed(2) }}
-        </p>
-
-        <span class="router-text" (click)="onClickAmount()">{{
+                <span class="router-text" (click)="onClickAmount()">{{
           'useMax' | translate
         }}</span>
-      </div>
-      <div class="">
-        <div class="w-100 d-flex justify-content-center align-items-center">
-          <span class="amount-default-receive-usd">$</span>
-          <input
-            type="number"
-            class="input-number2-receive"
-            pattern="(\d{1,2}([\.,])?)*([\d{1,2}]?)*"
-            class="usd input-amount-usd"
-            (keydown)="restrictZero($event)"
-            placeholder="0"
-            formControlName="initialBudgetInUSD"
-            (input)="convertcurrency('usd')"
-            #inputAmountUsd
-            [(ngModel)]="amountUsd"
-          />
-        </div>
-      </div>
+            </div>
+            <div class="">
+                <div class="w-100 d-flex justify-content-center align-items-center">
+                    <span class="amount-default-receive-usd">$</span>
+                    <input type="number" class="input-number2-receive" pattern="(\d{1,2}([\.,])?)*([\d{1,2}]?)*" class="usd input-amount-usd" (keydown)="restrictZero($event)" placeholder="0" formControlName="initialBudgetInUSD" (input)="convertcurrency('usd')" #inputAmountUsd
+                        [(ngModel)]="this.amountUsd" />
+                </div>
+            </div>
 
-      <!-- <div class="row d-flex justify-content-center pt-3 mb-1">
+            <!-- <div class="row d-flex justify-content-center pt-3 mb-1">
         <div class="col-xl-8 col-md-12 col-lg-10 col-sm-8 d-flex felx-row">
           <label class="label-type">{{
             'create_campaign_form.choose_campaign_type' | translate
@@ -87,8 +56,8 @@
         </div>
       </div> -->
 
-      <!--choose type -->
-      <!-- <div class="row d-flex justify-content-center">
+            <!--choose type -->
+            <!-- <div class="row d-flex justify-content-center">
         <div
           class="
             col-xl-4 col-md-6 col-lg-5 col-sm-8
@@ -129,9 +98,9 @@
         </div>
       </div> -->
 
-      <!-- <div class="diviser"></div> -->
+            <!-- <div class="diviser"></div> -->
 
-      <!-- <div class="row d-flex justify-content-center pt-3 mb-1">
+            <!-- <div class="row d-flex justify-content-center pt-3 mb-1">
         <div class="col-xl-8 col-md-12 col-lg-10 col-sm-8 d-flex felx-row">
           <label class="label-type">{{
             'campaign.budget_initial' | translate
@@ -144,9 +113,9 @@
           </div>
         </div>
       </div> -->
-      <!-- dropdown currency-->
+            <!-- dropdown currency-->
 
-      <!-- <div class="row d-flex justify-content-center pt-3 mb-1">
+            <!-- <div class="row d-flex justify-content-center pt-3 mb-1">
         <div
           class="
             col-xl-8 col-md-12 col-lg-10 col-sm-8
@@ -236,9 +205,9 @@
           >{{ 'field_required' | translate }}</span
         >
       </div> -->
-      <!-- 2 input-->
+            <!-- 2 input-->
 
-      <!-- <div
+            <!-- <div
         class="
           row
           d-flex
@@ -342,90 +311,81 @@
           >
         </div>
         -->
-      <div class="row d-flex justify-content-center pt-3 mb-1">
-        <div
-          class="div-Not-enough-satt col-xxl-3 col-xl-4 col-md-12 col-lg-5 col-sm-8 col-10 d-flex align-items-center justify-content-start"
-        >
-          <img
-            src="assets/Images/exclam-attente.svg"
-            alt="info icon"
-            class="info-icon-image pb-1 pe-2"
-          />
-          <label class="mb-0"
-            >{{ 'create_campaign_form.not-enough-satt' | translate }}
+            <div class="row d-flex justify-content-center pt-3 mb-1">
+                <div class="div-Not-enough-satt col-xxl-3 col-xl-4 col-md-12 col-lg-5 col-sm-8 col-10 d-flex align-items-center justify-content-start">
+                    <img src="assets/Images/exclam-attente.svg" alt="info icon" class="info-icon-image pb-1 pe-2" />
+                    <label class="mb-0">{{ 'create_campaign_form.not-enough-satt' | translate }}
           </label>
-        </div>
-      </div>
-      <div class="row d-flex justify-content-center pt-3 mb-1">
-        <div
-          class="div-Not-enoughsatt col-xxl-3 col-xl-3 col-md-12 col-lg-4 col-sm-8 col-10 d-flex align-items-center justify-content-start"
-        >
-          <img
-            src="assets/Images/exclam.svg"
-            alt="info icon"
-            class="info-icon-image pb-1 pe-2"
-          />
-          <label class="mb-0"
-            >{{ 'create_campaign_form.notenough-satt' | translate }}
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center pt-3 mb-1">
+                <div class="div-Not-enoughsatt col-xxl-3 col-xl-3 col-md-12 col-lg-4 col-sm-8 col-10 d-flex align-items-center justify-content-start">
+                    <img src="assets/Images/exclam.svg" alt="info icon" class="info-icon-image pb-1 pe-2" />
+                    <label class="mb-0">{{ 'create_campaign_form.notenough-satt' | translate }}
           </label>
+                </div>
+            </div>
+            <!-- </div>  -->
         </div>
-      </div>
-      <!-- </div>  -->
     </div>
-  </div>
-
-  <!------------------------------------------------------------- Remuneration ------------------------------------------------->
-  <div class="div-block mt-3 pb-3">
-    <div class="col-12 px-3 padding-small-version">
-      <div
-        class="col-md-12 col-lg-12 col-xs-12 d-flex justify-content-center pt-4"
-      >
-        <label class="title-section">
-          {{ 'campaign_details.remuneration' | translate }}
-        </label>
-      </div>
-
-      <div class="row d-flex justify-content-center">
+    <div class="row d-flex justify-content-center">
         <hr class="horizontal-line" />
-      </div>
-      <div>
-        <div class="row">
-          <!--dropdown renumerate -->
+    </div>
+    <!------------------------------------------------------------- mission ------------------------------------------------->
 
-          <div class="row d-flex justify-content-center pt-3 mb-2">
-            <div
-              class="col-xl-8 col-md-12 col-lg-10 col-sm-8 d-flex justify-content-center flex-column"
-            >
-              <div class="row">
-                <div class="col-6 row">
-                  <div class="col-12">
-                    <button
-                      class="btn-earning"
-                      (click)="
+    <div class="div-block mt-3 pb-3">
+        <app-missions [draftData]="draftData" [id]="draftData.id" [notValidMissionData]="sendErrorToMission" (selectedOracle)="listenForOracleMissionChange($event)" (validFormMission)="listenForMissionValidation($event)"></app-missions>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <hr class="horizontal-line" />
+    </div>
+    <!------------------------------------------------------------- eranings ------------------------------------------------->
+    <div class="div-block mt-3 pb-3">
+        <div class="col-12 px-3 padding-small-version">
+            <div class="col-md-12 col-lg-12 col-xs-12 d-flex justify-content-center pt-4">
+                <label class="title-section">
+          {{ 'Monetize.Gains' | translate }}
+        </label>
+            </div>
+
+            <div>
+                <div class="row">
+                    <!--dropdown renumerate -->
+
+                    <div class="row d-flex justify-content-center pt-3 mb-2">
+                        <div class="col-xl-8 col-md-12 col-lg-10 col-sm-8 d-flex justify-content-center flex-column">
+                            <div class="row">
+                                <div class="col-6 row">
+                                    <div class="col-12">
+                                        <button class="btn-earning" [ngClass]="{
+                        'gray-backGround':
+                          selectRemunerateValue ===
+                          eRemunerationType.Performance
+                      }" (click)="
                         selectRemunerateType(eRemunerationType.Performance)
-                      "
-                    >
+                      ">
                       {{ 'Performance AdPool' | translate }}
                     </button>
-                  </div>
-                </div>
-                <div class="col-6 row">
-                  <div class="col-12">
-                    <button
-                      class="btn-earning"
-                      (click)="
+                                    </div>
+                                </div>
+                                <div class="col-6 row">
+                                    <div class="col-12">
+                                        <button class="btn-earning" [ngClass]="{
+                        'gray-backGround':
+                          selectRemunerateValue ===
+                          eRemunerationType.Publication
+                      }" (click)="
                         selectRemunerateType(eRemunerationType.Publication)
-                      "
-                    >
+                      ">
                       {{ 'Publication AdPool' | translate }}
                     </button>
-                  </div>
-                </div>
-              </div>
-              <!-- <label class="label-type">{{
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <label class="label-type">{{
                 'create_campaign_form.how_remunerate' | translate
               }}</label> -->
-              <!-- <div class="dropdown">
+                            <!-- <div class="dropdown">
                 <button
                   class="btn btntoggle dropdown-toggle fltr"
                   type="button"
@@ -464,11 +424,11 @@
                   </li>
                 </ul>
               </div> -->
-            </div>
-          </div>
-          <!-- <app-custom-dropdown formControlName="remuneration" [options]="remunerationOptions"></app-custom-dropdown> -->
+                        </div>
+                    </div>
+                    <!-- <app-custom-dropdown formControlName="remuneration" [options]="remunerationOptions"></app-custom-dropdown> -->
 
-          <!-- <div class="row d-flex justify-content-center pt-3 mb-1">
+                    <!-- <div class="row d-flex justify-content-center pt-3 mb-1">
             <div class="col-xl-8 col-md-12 col-lg-10 col-sm-8">
               <label class="label-type">{{
                 'create_campaign_form.select_paid_social' | translate
@@ -476,13 +436,11 @@
             </div>
           </div> -->
 
-          <div class="row d-flex justify-content-center pt-3 mb-1">
-            <!-------------bloc select network------>
-            <div
-              class="col-xl-8 col-md-12 col-lg-10 col-sm-8 div_networks make-center-mobile"
-            >
-              <!-- instagram-->
-              <!-- <label
+                    <div class="row d-flex justify-content-center pt-3 mb-1">
+                        <!-------------bloc select network------>
+                        <div class="col-xl-8 col-md-12 col-lg-10 col-sm-8 div_networks make-center-mobile">
+                            <!-- instagram-->
+                            <!-- <label
                 for="instagram"
                 class="div_network_group position-relative"
                 [ngClass]="{ div_network_group_selected: isInstagramSelected }"
@@ -511,8 +469,8 @@
                   *ngIf="isInstagramSelected"
                 ></i>
               </label> -->
-              <!-- facebook-->
-              <!-- <label
+                            <!-- facebook-->
+                            <!-- <label
                 for="facebook"
                 class="div_network_group position-relative"
                 [ngClass]="{ div_network_group_selected: isFacebookSelected }"
@@ -540,8 +498,8 @@
                   *ngIf="isFacebookSelected"
                 ></i>
               </label> -->
-              <!-- twitter-->
-              <!-- <label
+                            <!-- twitter-->
+                            <!-- <label
                 for="twitter"
                 class="div_network_group position-relative"
                 [ngClass]="{ div_network_group_selected: isTwitterSelected }"
@@ -569,8 +527,8 @@
                   *ngIf="isTwitterSelected"
                 ></i>
               </label> -->
-              <!-- youtube-->
-              <!-- <label
+                            <!-- youtube-->
+                            <!-- <label
                 for="youtube"
                 class="div_network_group position-relative"
                 [ngClass]="{ div_network_group_selected: isSelectedYoutube }"
@@ -599,8 +557,8 @@
                 ></i>
               </label> -->
 
-              <!-- linkedin-->
-              <!-- <label
+                            <!-- linkedin-->
+                            <!-- <label
                 for="linkedin"
                 class="div_network_group position-relative"
                 [ngClass]="{ div_network_group_selected: isLinkedinSelected }"
@@ -628,14 +586,12 @@
                   *ngIf="isLinkedinSelected"
                 ></i>
               </label> -->
-            </div>
-          </div>
-          <div class="error d-flex initialBudgetError">
-            <span
-              *ngIf="
+                        </div>
+                    </div>
+                    <div class="error d-flex initialBudgetError">
+                        <span *ngIf="
                 this.form.errors?.remunRequired && this.notValidBudgetRemun
-              "
-              >{{ 'campaign.field_required' | translate }}</span
+              ">{{ 'campaign.field_required' | translate }}</span
             >
           </div>
           <!-------------bloc toggle------>
@@ -676,51 +632,38 @@
 
               <div class="tool d-block">
                 <span class="icon-ic5"></span>
-                <span class="tooltextM p-2"
-                  >{{ 'create_campaign_form.reachmax' | translate }}
+                        <span class="tooltextM p-2">{{ 'create_campaign_form.reachmax' | translate }}
                 </span>
-              </div>
+                    </div>
+                </div>
             </div>
-          </div>
-          <!-------------title (if remunerate publication) ------>
-          <div
-            class="row d-flex justify-content-center pt-3 mb-1"
-            *ngIf="
+            <!-------------title (if remunerate publication) ------>
+            <div class="row d-flex justify-content-center pt-3 mb-1" *ngIf="
               selectRemunerateValue &&
               selectRemunerateValue === eRemunerationType.Publication
-            "
-          >
-            <div class="col-xl-8 col-md-12 col-lg-10 col-sm-8">
-              <label class="label-type">{{
+            ">
+                <div class="col-xl-8 col-md-12 col-lg-10 col-sm-8">
+                    <label class="label-type">{{
                 'create_campaign_form.choose_price' | translate
               }}</label>
+                </div>
             </div>
-          </div>
 
-          <!-------------bloc ranumerate Performance------>
+            <!-------------bloc ranumerate Performance------>
 
-          <ng-container
-            formArrayName="ratios"
-            *ngIf="selectRemunerateValue === eRemunerationType.Performance"
-          >
-            <div class="row d-flex justify-content-center">
-              <div
-                class="col-xl-8 col-md-12 col-lg-10 col-sm-8 row_oracle pt-1 mb-1"
-                *ngFor="
+            <ng-container formArrayName="ratios" *ngIf="selectRemunerateValue === eRemunerationType.Performance">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-xl-8 col-md-12 col-lg-10 col-sm-8 row_oracle pt-1 mb-1" *ngFor="
                   let ratio of ratios.controls;
                   index as i;
                   trackBy: trackByRatios
-                "
-              >
-                <!-- icon and name network common between Performance and Publication-->
-                <div class="container">
-                  <div class="row">
-                    <div class="p-0 col-xl-2 col-lg-2 col-md-2 col-12">
-                      <div
-                        class="width-div-network"
-                        *ngIf="selectRemunerateValue"
-                      >
-                        <span class="bold-font-weight dark_blue pb-2">
+                ">
+                        <!-- icon and name network common between Performance and Publication-->
+                        <div class="container">
+                            <div class="row">
+                                <div class="p-0 col-xl-2 col-lg-2 col-md-2 col-12">
+                                    <div class="width-div-network" *ngIf="selectRemunerateValue">
+                                        <span class="bold-font-weight dark_blue pb-2">
                           {{ 'Transactions.Réseau' | translate }}</span
                         >
 
@@ -760,22 +703,11 @@
                             >
                               {{ 'campaign.Prix/Vue' | translate }}
                             </span>
-                            <div
-                              class="div_input_oracle col-6 col-xl-12 col-lg-12 col-md-10 justify-content-lg-center justify-content-md-center justify-content-xl-center justify-content-start"
-                              [ngClass]="{
+                                        <div class="div_input_oracle col-6 col-xl-12 col-lg-12 col-md-10 justify-content-lg-center justify-content-md-center justify-content-xl-center justify-content-start" [ngClass]="{
                                 errors: isFieldValid(ratio, 'view')
-                              }"
-                            >
-                              <input
-                                type="text"
-                                class="styleForInputMedia ms-3 pe-2"
-                                aria-describedby="basic-addon2"
-                                formControlName="view"
-                                (input)="handleAmountEntries(ratio, 'view')"
-                              />
-                              <span
-                                class="label-type normal-font-weight font-weight-normal me-2 ps-1"
-                                >{{ cryptoSymbol | translate }}</span
+                              }">
+                                            <input type="text" class="styleForInputMedia ms-3 pe-2" aria-describedby="basic-addon2" formControlName="view" (input)="handleAmountEntries(ratio, 'view')" />
+                                            <span class="label-type normal-font-weight font-weight-normal me-2 ps-1">{{ cryptoSymbol | translate }}</span
                               >
                             </div>
                           </div>
@@ -788,22 +720,11 @@
                             >
                               {{ 'campaign.Prix/Like' | translate }}
                             </span>
-                            <div
-                              class="div_input_oracle col-6 col-xl-12 col-lg-12 col-md-10"
-                              [ngClass]="{
+                                            <div class="div_input_oracle col-6 col-xl-12 col-lg-12 col-md-10" [ngClass]="{
                                 errors: isFieldValid(ratio, 'like')
-                              }"
-                            >
-                              <input
-                                type="text"
-                                class="styleForInputMedia ms-3 pe-2"
-                                aria-describedby="basic-addon2"
-                                formControlName="like"
-                                (input)="handleAmountEntries(ratio, 'like')"
-                              />
-                              <span
-                                class="label-type normal-font-weight font-weight-normal me-2 ps-1"
-                                >{{ cryptoSymbol | translate }}</span
+                              }">
+                                                <input type="text" class="styleForInputMedia ms-3 pe-2" aria-describedby="basic-addon2" formControlName="like" (input)="handleAmountEntries(ratio, 'like')" />
+                                                <span class="label-type normal-font-weight font-weight-normal me-2 ps-1">{{ cryptoSymbol | translate }}</span
                               >
                             </div>
                           </div>
@@ -816,22 +737,11 @@
                             >
                               {{ 'campaign.Prix/Partage' | translate }}
                             </span>
-                            <div
-                              class="div_input_oracle col-6 col-xl-12 col-lg-12 col-md-10"
-                              [ngClass]="{
+                                                <div class="div_input_oracle col-6 col-xl-12 col-lg-12 col-md-10" [ngClass]="{
                                 errors: isFieldValid(ratio, 'share')
-                              }"
-                            >
-                              <input
-                                type="text"
-                                class="styleForInputMedia ms-3 pe-2"
-                                aria-describedby="basic-addon2"
-                                formControlName="share"
-                                (input)="handleAmountEntries(ratio, 'share')"
-                              />
-                              <span
-                                class="label-type normal-font-weight font-weight-normal me-2 ps-1"
-                                >{{ cryptoSymbol | translate }}</span
+                              }">
+                                                    <input type="text" class="styleForInputMedia ms-3 pe-2" aria-describedby="basic-addon2" formControlName="share" (input)="handleAmountEntries(ratio, 'share')" />
+                                                    <span class="label-type normal-font-weight font-weight-normal me-2 ps-1">{{ cryptoSymbol | translate }}</span
                               >
                             </div>
                           </div>
@@ -871,53 +781,39 @@
                           <span *ngIf="ratio.errors?.invalidRatioSomme">{{
                             'campaign.must_fill_field' | translate
                           }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--separator line-->
+                                        <div class="row col-12 d-flex justify-content-center d-lg-none d-xl-none" *ngIf="i !== ratios.controls.length - 1">
+                                            <hr class="short-horizontal-line" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                      </div>
-                    </div>
-                    <!--separator line-->
-                    <div
-                      class="row col-12 d-flex justify-content-center d-lg-none d-xl-none"
-                      *ngIf="i !== ratios.controls.length - 1"
-                    >
-                      <hr class="short-horizontal-line" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </ng-container>
-          <div
-            class="col-xl-8 col-md-12 col-lg-10 col-sm-8 error d-flex initialBudgetError"
-          >
-            <span *ngIf="this.form.errors?.InsufficientBudget">{{
+            </ng-container>
+            <div class="col-xl-8 col-md-12 col-lg-10 col-sm-8 error d-flex initialBudgetError">
+                <span *ngIf="this.form.errors?.InsufficientBudget">{{
               'campaign.InsufficientBudget' | translate
             }}</span>
-          </div>
+            </div>
 
-          <!-------------bloc ranumerate Publication----->
+            <!-------------bloc ranumerate Publication----->
 
-          <ng-container
-            formArrayName="bounties"
-            *ngIf="selectRemunerateValue === eRemunerationType.Publication"
-          >
-            <div class="row d-flex justify-content-center">
-              <div
-                class="col-xl-8 col-md-12 col-lg-10 col-sm-8 row_oracle pt-1 mb-1"
-                *ngFor="
+            <ng-container formArrayName="bounties" *ngIf="selectRemunerateValue === eRemunerationType.Publication">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-xl-8 col-md-12 col-lg-10 col-sm-8 row_oracle pt-1 mb-1" *ngFor="
                   let bounty of bounties.controls;
                   index as bountyIndex;
                   trackBy: trackByBounty
-                "
-              >
-                <div class="">
-                  <div class="row">
-                    <div class="p-0 col-xl-2 col-lg-2 col-md-2 col-sm-12">
-                      <!-- icon and name network common between Performance and Publication-->
-                      <div
-                        class="width-div-network"
-                        *ngIf="selectRemunerateValue"
-                      >
-                        <span class="bold-font-weight dark_blue pb-2">
+                ">
+                        <div class="">
+                            <div class="row">
+                                <div class="p-0 col-xl-2 col-lg-2 col-md-2 col-sm-12">
+                                    <!-- icon and name network common between Performance and Publication-->
+                                    <div class="width-div-network" *ngIf="selectRemunerateValue">
+                                        <span class="bold-font-weight dark_blue pb-2">
                           {{ 'Transactions.Réseau' | translate }}</span
                         >
 
@@ -967,105 +863,68 @@
                                         | translate
                                     }}
                                   </span>
-                                  <input
-                                    type="text"
-                                    class="input_followres col-6 col-xl-12 col-lg-12 col-md-10"
-                                    [ngClass]="{
+                                        <input type="text" class="input_followres col-6 col-xl-12 col-lg-12 col-md-10" [ngClass]="{
                                       errors: isFieldValid(
                                         category,
                                         'minFollowers'
                                       )
-                                    }"
-                                    aria-describedby="basic-addon2"
-                                    formControlName="minFollowers"
-                                    (input)="
+                                    }" aria-describedby="basic-addon2" formControlName="minFollowers" (input)="
                                       allowOnlyNumbers(category, 'minFollowers')
-                                    "
-                                  />
-                                </div>
-                                <!-- followers max-->
-                                <div
-                                  class="col-xl-3 col-lg-3 col-md-3 col-sm-12 d-flex follow-min-wrapper"
-                                >
-                                  <span
-                                    class="bold-font-weight dark_blue d-flex justify-content-center mb-lg-3 mb-xl-3 col-6 col-xl-12 col-lg-12 col-md-10"
-                                  >
+                                    " />
+                                    </div>
+                                    <!-- followers max-->
+                                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 d-flex follow-min-wrapper">
+                                        <span class="bold-font-weight dark_blue d-flex justify-content-center mb-lg-3 mb-xl-3 col-6 col-xl-12 col-lg-12 col-md-10">
                                     {{
                                       'create_campaign_form.followers max'
                                         | translate
                                     }}
                                   </span>
-                                  <input
-                                    type="text"
-                                    class="input_followres col-6 col-xl-12 col-lg-12 col-md-10"
-                                    [ngClass]="{
+                                        <input type="text" class="input_followres col-6 col-xl-12 col-lg-12 col-md-10" [ngClass]="{
                                       errors: isFieldValid(
                                         category,
                                         'maxFollowers'
                                       )
-                                    }"
-                                    aria-describedby="basic-addon2"
-                                    formControlName="maxFollowers"
-                                    (input)="
+                                    }" aria-describedby="basic-addon2" formControlName="maxFollowers" (input)="
                                       allowOnlyNumbers(category, 'maxFollowers')
-                                    "
-                                  />
-                                </div>
-                                <!-- Fixed reward-->
-                                <div
-                                  class="col-xl-3 col-lg-3 col-md-3 col-12 d-flex follow-min-wrapper"
-                                >
-                                  <span
-                                    class="bold-font-weight dark_blue d-flex justify-content-center mb-lg-3 mb-xl-3 col-6 col-xl-12 col-lg-12 col-md-10"
-                                  >
+                                    " />
+                                    </div>
+                                    <!-- Fixed reward-->
+                                    <div class="col-xl-3 col-lg-3 col-md-3 col-12 d-flex follow-min-wrapper">
+                                        <span class="bold-font-weight dark_blue d-flex justify-content-center mb-lg-3 mb-xl-3 col-6 col-xl-12 col-lg-12 col-md-10">
                                     {{
                                       'create_campaign_form.Fixed_reward'
                                         | translate
                                     }}
                                   </span>
-                                  <div
-                                    class="input_followres col-6 col-xl-12 col-lg-12 col-md-10"
-                                    [ngClass]="{
+                                        <div class="input_followres col-6 col-xl-12 col-lg-12 col-md-10" [ngClass]="{
                                       errors: isFieldValid(category, 'reward')
-                                    }"
-                                  >
-                                    <input
-                                      type="text"
-                                      class="styleForInputMedia ms-3"
-                                      aria-describedby="basic-addon2"
-                                      formControlName="reward"
-                                      (input)="
+                                    }">
+                                            <input type="text" class="styleForInputMedia ms-3" aria-describedby="basic-addon2" formControlName="reward" (input)="
                                         handleAmountEntries(category, 'reward')
-                                      "
-                                    />
-                                    <span
-                                      class="label-type normal-font-weight me-2 ps-1"
-                                      >{{ cryptoSymbol | translate }}</span
+                                      " />
+                                            <span class="label-type normal-font-weight me-2 ps-1">{{ cryptoSymbol | translate }}</span
                                     >
                                   </div>
                                 </div>
-                                <!-- <div class="col-3">
-                                    <button
-                                      class="mt-3 btn-delete btn-round"
-                                      (click)="
-                                        removeRemunerationCategory(
-                                          bountyIndex,
-                                          categoryIndex,
-                                          bounty.get('oracle')?.value
-                                        )
-                                      "
-                                    >
-                                      <span class="delete-cross">X</span>
-                                    </button>
-                                  </div> -->
-                              </div>
+                                <div class="col-3">
+                                  <button
+                                    class="mt-3 btn-delete btn-round"
+                                    (click)="
+                                      removeRemunerationCategory(
+                                        bountyIndex,
+                                        categoryIndex,
+                                        bounty.get('oracle')?.value
+                                      )
+                                    "
+                                  >
+                                    <span class="delete-cross">X</span>
+                                            </button>
+                                        </div>
+                                    </div>
 
-                              <div
-                                class="error d-flex justify-content-center initialBudgetError"
-                              >
-                                <span
-                                  *ngIf="category.errors?.minBountiesGrater"
-                                  >{{
+                                    <div class="error d-flex justify-content-center initialBudgetError">
+                                        <span *ngIf="category.errors?.minBountiesGrater">{{
                                     'campaign.minfollowers_must_maxfollowers'
                                       | translate
                                   }}</span

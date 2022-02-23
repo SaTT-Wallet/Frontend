@@ -59,36 +59,18 @@ enum FormStatus {
 })
 export class EditCampaignComponent implements OnInit, OnDestroy {
   @Input() cryptoSatt: any;
-  @Input() validFormMission: any;
+  @Input() validationFormMission: any;
   @Input() validFormPresentation: any;
   @Input() validFormPicture: any;
   @Input() validFormParam: any;
   @Input() validFormBudgetRemun: any;
   @Input() selectedYoutube: any;
-  @Output() notValidPresentation: EventEmitter<any> = new EventEmitter<any>();
-  @Output() notValidParam: EventEmitter<any> = new EventEmitter<any>();
-  @Output() notValidBudgetRemun: EventEmitter<any> = new EventEmitter<any>();
-  @Output() notValidPicture: EventEmitter<any> = new EventEmitter<any>();
-  @Output() formMission: EventEmitter<any> = new EventEmitter<any>();
-
-  @Input()
-
-  draftData!: Campaign;
-
+  @Input() draftData!: Campaign;
   sendErrorToParam: any;
   sendErrorToPresentation: any;
   sendErrorToBudgetRemun: any;
   sendErrorToPicture: any;
-  sendToRemuSelectedYoutube: any;
-
-  sendToRemuSelectedFacebook: any;
-
-  sendToRemuSelectedInstagram: any;
-
-  sendToRemuSelectedLinkedin: any;
-
-  sendToRemuSelectedTwitter: any;
-
+  sendErrorToMissionRemu: any;
   alertRequired: boolean = false;
   @ViewChild('checkUserLegalKYCModal') checkUserLegalKYCModal!: ElementRef;
   @ViewChild('useDesktopModal', { static: false })
@@ -161,51 +143,23 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
       this.getCampaignData();
     });
   }
-
-  listenForMissionChange(event: any, type: string) {
-
-    if (type === 'youtube') {
-
-      this.sendToRemuSelectedYoutube = event;
-
-    } else if (type === 'facebook') {
-
-      this.sendToRemuSelectedFacebook = event;
-
-    } else if (type === 'instagram') {
-
-      this.sendToRemuSelectedInstagram = event;
-
-    } else if (type === 'twitter') {
-
-      this.sendToRemuSelectedTwitter = event;
-
-    } else if (type === 'linkedin') {
-
-      this.sendToRemuSelectedLinkedin = event;
-
-    }
-
-  }
   checkValidation() {
     if (this.validFormParam === false) {
-      //this.notValidParam.emit(true);
       this.sendErrorToParam = true;
     }
     if (this.validFormPresentation === false) {
-      //this.notValidPresentation.emit(true);
       this.sendErrorToPresentation = true;
     }
     if (this.validFormBudgetRemun === false) {
-      //this.notValidBudgetRemun.emit(true);
       this.sendErrorToBudgetRemun = true;
     }
     if (this.validFormPicture === false) {
-      //this.notValidPicture.emit(true);
       this.sendErrorToPicture = true;
     }
+    if (this.validationFormMission === false) {
+      this.sendErrorToMissionRemu = true;
+    }
   }
-
   saveAndLaunchCampaign() {
     this.checkValidation();
 
@@ -213,8 +167,8 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
       this.validFormParam &&
       this.validFormPresentation &&
       this.validFormBudgetRemun &&
-      this.validFormMission &&
-      this.sendErrorToPicture
+      this.validationFormMission &&
+      this.validFormPicture
     ) {
       this.alertRequired = false;
       this.router.navigate(['home/check-password'], {
@@ -313,12 +267,25 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
   listenForBudgetRemunChange(event: any) {
     this.validFormBudgetRemun = event;
   }
-  listenForBudgetMissionChange(event: any) {
-    this.validFormMission = event;
+  listenForMissionChange(event: any) {
+    this.validationFormMission = event;
   }
   listenForPictureChange(event: any) {
     this.validFormPicture = event;
   }
+  // listenForMissionChange(event: any, type: string) {
+  //   if (type === 'youtube') {
+  //     this.sendToRemuSelectedYoutube = event;
+  //   } else if (type === 'facebook') {
+  //     this.sendToRemuSelectedFacebook = event;
+  //   } else if (type === 'instagram') {
+  //     this.sendToRemuSelectedInstagram = event;
+  //   } else if (type === 'twitter') {
+  //     this.sendToRemuSelectedTwitter = event;
+  //   } else if (type === 'linkedin') {
+  //     this.sendToRemuSelectedLinkedin = event;
+  //   }
+  // }
 
   /**
    * Get campaign data.
@@ -376,6 +343,7 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
         }
       })
     );
+    // rgrtrtg
   }
   ngAfterViewInit() {
     if (window.innerWidth < 768) {
@@ -401,20 +369,6 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
     } else {
       this.showModal = false;
       this.modalService.dismissAll(this.useDesktopModal);
-    }
-  }
-
-  saveCampaign() {
-    this.checkValidation();
-    if (
-      this.validFormParam &&
-      this.validFormPresentation &&
-      this.validFormMission
-    ) {
-      this.alertRequired = false;
-      this.router.navigate(['/ad-pools']);
-    } else {
-      this.alertRequired = true;
     }
   }
 }

@@ -1,56 +1,27 @@
-<div
-  class="container-fluid wallet-page"
-  (window:resize)="onResizeWindow($event)"
->
-  <!------------------------- bloc prsentation----------------------->
-  <div class="div-block mt-3 pb-3">
-    <app-draft-campaign-presentation
-      [id]="draftId"
-      [notValidPresentation]="sendErrorToPresentation"
-      (validFormPresentation)="listenForPresenationChange($event)"
-      [draftData]="campaignData"
-      (saveFormStatus)="onSaveDraftStatusChange($event)"
-    ></app-draft-campaign-presentation>
-  </div>
-
-  <!------------------------- bloc picture----------------------->
-  <div class="div-block mt-3 pb-3">
-    <app-draft-picture
-      [id]="draftId"
-      [notValidPicture]="sendErrorToPicture"
-      (validFormPicture)="listenForPictureChange($event)"
-      [draftData]="campaignData"
-      (saveFormStatus)="onSaveDraftStatusChange($event)"
-    ></app-draft-picture>
-  </div>
-
-  <!------------------------- bloc param----------------------->
-  <div class="div-block mt-3 pb-3">
-    <app-draft-campaign-parametres
-      [id]="draftId"
-      [notValidParam]="sendErrorToParam"
-      (validFormParam)="listenForParamChange($event)"
-      [draftData]="campaignData"
-      (saveFormStatus)="onSaveDraftStatusChange($event)"
-    ></app-draft-campaign-parametres>
-  </div>
-
-  <!------------------------- bloc Rémunération and budget ----------------------->
-
-  <app-remuneration
-    [hidden]="campaignData.isActive && campaignData.isOwnedByUser"
-    [draftData]="campaignData"
-    [id]="draftId"
-    [notValidBudgetRemun]="sendErrorToBudgetRemun"
-    (validFormBudgetRemun)="listenForBudgetRemunChange($event)"
-    [isSelectedYoutube]="sendToRemuSelectedYoutube"
-    [isSelectedFacebook]="sendToRemuSelectedFacebook"
-    [isSelectedInstagram]="sendToRemuSelectedInstagram"
-    [isSelectedLinkedin]="sendToRemuSelectedLinkedin"
-    [isSelectedTwitter]="sendToRemuSelectedTwitter"
-  ></app-remuneration>
-  <!------------------------- bloc Missions ----------------------->
-  <div class="div-block mt-3 pb-3">
+<div class="container-fluid wallet-page" (window:resize)="onResizeWindow($event)">
+    <!------------------------- bloc prsentation----------------------->
+    <div class="div-block mt-3 pb-3">
+        <app-draft-campaign-presentation [id]="draftId" [notValidPresentation]="sendErrorToPresentation" (validFormPresentation)="listenForPresenationChange($event)" [draftData]="campaignData" (saveFormStatus)="onSaveDraftStatusChange($event)"></app-draft-campaign-presentation>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <hr class="horizontal-line" />
+    </div>
+    <!------------------------- bloc picture----------------------->
+    <div class="div-block mt-3 pb-3">
+        <app-draft-picture [id]="draftId" [notValidPicture]="sendErrorToPicture" (validFormPicture)="listenForPictureChange($event)" [draftData]="campaignData" (saveFormStatus)="onSaveDraftStatusChange($event)"></app-draft-picture>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <hr class="horizontal-line" />
+    </div>
+    <!------------------------- bloc param----------------------->
+    <div class="div-block mt-3 pb-3">
+        <app-draft-campaign-parametres [id]="draftId" [notValidParam]="sendErrorToParam" (validFormParam)="listenForParamChange($event)" [draftData]="campaignData" (saveFormStatus)="onSaveDraftStatusChange($event)"></app-draft-campaign-parametres>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <hr class="horizontal-line" />
+    </div>
+    <!------------------------- bloc Missions ----------------------->
+    <!-- <div class="div-block mt-3 pb-3">
     <app-missions
       [draftData]="campaignData"
       [id]="draftId"
@@ -62,76 +33,61 @@
       (validFormMission)="listenForBudgetMissionChange($event)"
     ></app-missions>
   </div>
-  <!------------------------- bloc kit----------------------->
-  <div class="div-block mt-3 pb-3">
-    <app-draft-campaign-kit
-      [id]="draftId"
-      [draftData]="campaignData"
-      (saveFormStatus)="onSaveDraftStatusChange($event)"
-    ></app-draft-campaign-kit>
-  </div>
-  <div class="row d-flex justify-content-center mt-4">
-    <div
-      class="col-xl-4 col-md-4 col-lg-4 col-sm-8 d-flex justify-content-center"
-    >
-      <button type="button" class="btn-white" (click)="goToView()">
+  <div class="row d-flex justify-content-center">
+    <hr class="horizontal-line" />
+  </div> -->
+    <!------------------------- bloc Rémunération and budget ----------------------->
+
+    <app-remuneration [draftData]="campaignData" [id]="draftId" [notValidBudgetRemun]="sendErrorToBudgetRemun" [notValidMissionFromEdit]="sendErrorToMissionRemu" (validFormBudgetRemun)="listenForBudgetRemunChange($event)" (validFormMissionFromRemuToEdit)="listenForMissionChange($event)"></app-remuneration>
+    <!--  [isSelectedYoutube]="sendToRemuSelectedYoutube"
+    [isSelectedFacebook]="sendToRemuSelectedFacebook"
+    [isSelectedInstagram]="sendToRemuSelectedInstagram"
+    [isSelectedLinkedin]="sendToRemuSelectedLinkedin"
+    [isSelectedTwitter]="sendToRemuSelectedTwitter" -->
+    <div class="row d-flex justify-content-center">
+        <hr class="horizontal-line" />
+    </div>
+    <!-- grtgrt -->
+    <!------------------------- bloc kit----------------------->
+    <div class="div-block mt-3 pb-3">
+        <app-draft-campaign-kit [id]="draftId" [draftData]="campaignData" (saveFormStatus)="onSaveDraftStatusChange($event)"></app-draft-campaign-kit>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <hr class="horizontal-line" />
+    </div>
+    <div class="row d-flex justify-content-center mt-4">
+        <div class="col-xl-4 col-md-4 col-lg-4 col-sm-8 d-flex justify-content-center">
+            <button type="button" class="btn-white" (click)="goToView()">
         {{ 'create_campaign_form.generate_preview' | translate }}
       </button>
-    </div>
+        </div>
 
-    <div
-      class="col-xl-4 col-md-4 col-lg-4 col-sm-8 d-flex justify-content-center pt-3-mobile"
-    >
-      <button
-        type="button"
-        class="btn-blue"
-        (click)="saveCampaign()"
-        *ngIf="campaignData.isActive && campaignData.isOwnedByUser"
-      >
-        Save Changes
-      </button>
-      <button
-        type="button"
-        class="btn-blue"
-        (click)="saveAndLaunchCampaign()"
-        *ngIf="!campaignData.isActive"
-      >
+        <div class="col-xl-4 col-md-4 col-lg-4 col-sm-8 d-flex justify-content-center pt-3-mobile">
+            <button type="button" class="btn-blue" (click)="saveAndLaunchCampaign()">
         <img src="/assets/Images/Rectangle-lancer_compagne.svg" class="me-4" />
         {{ 'start my campaign now!' | translate | capitalizePhrase }}
       </button>
+        </div>
     </div>
-  </div>
-  <div class="row mt-3 d-flex justify-content-center p-2">
-    <label
-      class="col-xl-8 col-md-12 col-lg-10 col-sm-8 danger_pic d-flex align-items-center"
-      *ngIf="alertRequired"
-    >
+    <div class="row mt-3 d-flex justify-content-center p-2">
+        <label class="col-xl-8 col-md-12 col-lg-10 col-sm-8 danger_pic d-flex align-items-center" *ngIf="alertRequired">
       <img src="assets/Images/false.svg" class="pb-1 pe-2" />{{
         'create_campaign_form.alert_required' | translate
       }}
     </label>
-  </div>
+    </div>
 </div>
 
 <ng-template #loading> Loading ... </ng-template>
 
 <ng-template #checkUserLegalKYCModal>
-  <div class="modal-header modal-custom">
-    <button
-      type="button"
-      class="btn-close"
-      data-bs-dismiss="modal"
-      (click)="this.modalService.dismissAll(checkUserLegalKYCModal)"
-    ></button>
-  </div>
-  <div class="modal-body modal-custom mb-3">
-    <h3>{{ 'Wallet.userLegal_notice_title' | translate }}</h3>
-    <p>{{ 'Wallet.userLegal_notice_msg' | translate }}</p>
-    <a
-      class="btn-link"
-      routerLink="/home/settings/Legal_KYC"
-      (click)="this.modalService.dismissAll()"
-      >{{ 'Wallet.userLegal_notice_btn' | translate }}</a
+    <div class="modal-header modal-custom">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="this.modalService.dismissAll(checkUserLegalKYCModal)"></button>
+    </div>
+    <div class="modal-body modal-custom mb-3">
+        <h3>{{ 'Wallet.userLegal_notice_title' | translate }}</h3>
+        <p>{{ 'Wallet.userLegal_notice_msg' | translate }}</p>
+        <a class="btn-link" routerLink="/home/settings/Legal_KYC" (click)="this.modalService.dismissAll()">{{ 'Wallet.userLegal_notice_btn' | translate }}</a
     >
   </div>
 </ng-template>
@@ -147,7 +103,7 @@
   <div class="modal-body modal-custom modal-customm">
     <div class="text-center">
       <img
-        src="assets/Images/moonboy/moonboy-adpool.svg"
+        src="assets/Images/MoonBoy/moonboy-adpool.svg"
         class="moonboy-mobile"
       />
     </div>
