@@ -105,13 +105,13 @@
       <div
         (click)="goToEditPage(campaign.id)"
         class="div-pic-center"
-        *ngIf="campaign.isOwnedByUser && campaign.isActive"
+        *ngIf="isOwnedByUser && campaign.isActive"
       >
         <img src="assets/Images/config-icon-pink.svg" />
       </div>
       <span
         class="span-text pink-text"
-        *ngIf="campaign.isOwnedByUser && campaign.isActive"
+        *ngIf="isOwnedByUser && campaign.isActive"
         >Manage</span
       >
       <!------end div manage -->
@@ -143,12 +143,14 @@
       <div
         *ngIf="campaign.isFinished && campaign.isOwnedByUser"
         class="div-pic-center"
+        (click)="openstat()"
       >
         <img src="assets/Images/blue-icons/bar-chart.svg" />
       </div>
       <span
         class="span-text blue-text"
         *ngIf="campaign.isFinished && campaign.isOwnedByUser"
+        (click)="openstat()"
         >Stats</span
       >
       <!-- ---end div stat------ -->
@@ -220,7 +222,11 @@
     <!----div back to top---->
     <div class="div-back-top text-center">
       <div class="div-pic" (click)="scrollToTop()">
-        <img src="/assets/Images/chevron_up.svg" id="back-top-pic" [hidden]="!scrolling" />
+        <img
+          src="/assets/Images/chevron_up.svg"
+          id="back-top-pic"
+          [hidden]="!scrolling"
+        />
         <img
           src="/assets/Images/chevron_up_disabled.svg"
           id="back-top-pic-disabled"
@@ -236,7 +242,10 @@
       >
         Back to top
       </span>
-      <span [hidden]="!inTop" class="span-text disabled-text" id="back-top-text-disabled"
+      <span
+        [hidden]="!inTop"
+        class="span-text disabled-text"
+        id="back-top-text-disabled"
         >Back to top</span
       >
     </div>

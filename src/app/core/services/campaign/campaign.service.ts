@@ -39,6 +39,9 @@ export class CampaignHttpApiService {
   loadDataPostFarmWhenEndScroll = new Subject();
   loadDataEarningsWhenEndScroll = new Subject();
   loadDataWelcomePageWhenEndScroll = new Subject();
+  isLoading = new Subject();
+  stat = new Subject();
+
   private isDestroyed = new Subject();
   scrolling = new Subject();
   constructor(

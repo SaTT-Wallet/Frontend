@@ -147,7 +147,7 @@ export class LayoutComponent implements OnInit {
             }
           }
         }
-      } else if (this.router.url.startsWith('/campaign/') && cover) {
+      } else if (this.router.url.startsWith('/campaign/')) {
         let main = this.document.getElementById('campaign-main-content');
         let topBar = this.document.getElementById('campaign-top-bar');
         let header = this.document.getElementById('navbar-id');
@@ -158,62 +158,60 @@ export class LayoutComponent implements OnInit {
         );
         let bluePic = this.document.getElementById('back-top-pic');
         let blueText = this.document.getElementById('back-top-text');
-        if (cover && main) {
-          if (event.target.clientWidth < 768) {
-            if (event.target.scrollTop < 159) {
-              if (blueText && bluePic && disabledText && disabledPic) {
-                blueText.style.display = 'none';
-                bluePic.style.display = 'none';
-                disabledText.style.display = 'block';
-                disabledPic.style.display = 'block';
-                this.campaignService.scrolling.next(true);
-              }
+        if (event.target.clientWidth < 768) {
+          if (event.target.scrollTop < 159) {
+            if (blueText && bluePic && disabledText && disabledPic) {
+              blueText.style.display = 'none';
+              bluePic.style.display = 'none';
+              disabledText.style.display = 'block';
+              disabledPic.style.display = 'block';
+              this.campaignService.scrolling.next(true);
+            }
 
-              // cover.style.position = 'fixed';
-              // main.style.marginTop = '28%';
-              // // cover.style.position = 'fixed';
-              header.style.backgroundColor = 'transparent';
-            } else {
-              // cover.style.position = 'relative';
-              // main.style.marginTop = '-16vw';
-              if (blueText && bluePic && disabledText && disabledPic) {
-                blueText.style.display = 'block';
-                bluePic.style.display = 'block';
-                disabledText.style.display = 'none';
-                disabledPic.style.display = 'none';
-                this.campaignService.scrolling.next(false);
-              }
-              header.style.backgroundColor = '#2F3347';
-            }
-            topBar.style.display = 'none';
+            // cover.style.position = 'fixed';
+            // main.style.marginTop = '28%';
+            // // cover.style.position = 'fixed';
+            header.style.backgroundColor = 'transparent';
           } else {
-            if (
-              event.target.clientWidth > 1024 &&
-              event.target.scrollTop >= 744
-            ) {
-              //cover.style.position = 'relative';
-              //  main.style.marginTop = '-35px';
-              topBar.style.display = 'flex';
-              if (btnApply) btnApply.style.display = 'none';
-              header.style.backgroundColor = '#2F3347';
-            } else if (
-              event.target.clientWidth <= 1024 &&
-              event.target.scrollTop > 477
-            ) {
-              this.scrolled = true;
-              cover.style.position = 'relative';
-              main.style.marginTop = '-16vw';
-              topBar.style.display = 'flex';
-              if (btnApply) btnApply.style.display = 'none';
-              header.style.backgroundColor = '#2F3347';
-            } else {
-              this.scrolled = false;
-              topBar.style.display = 'none';
-              if (btnApply) btnApply.style.display = 'flex';
-              cover.style.position = 'fixed';
-              main.style.marginTop = '28%';
-              header.style.backgroundColor = 'transparent';
+            // cover.style.position = 'relative';
+            // main.style.marginTop = '-16vw';
+            if (blueText && bluePic && disabledText && disabledPic) {
+              blueText.style.display = 'block';
+              bluePic.style.display = 'block';
+              disabledText.style.display = 'none';
+              disabledPic.style.display = 'none';
+              this.campaignService.scrolling.next(false);
             }
+            header.style.backgroundColor = '#2F3347';
+          }
+          topBar.style.display = 'none';
+        } else {
+          if (
+            event.target.clientWidth > 1024 &&
+            event.target.scrollTop >= 744
+          ) {
+            //cover.style.position = 'relative';
+            //  main.style.marginTop = '-35px';
+            topBar.style.display = 'flex';
+            if (btnApply) btnApply.style.display = 'none';
+            header.style.backgroundColor = '#2F3347';
+          } else if (
+            event.target.clientWidth <= 1024 &&
+            event.target.scrollTop > 477
+          ) {
+            this.scrolled = true;
+            cover.style.position = 'relative';
+            main.style.marginTop = '-16vw';
+            topBar.style.display = 'flex';
+            if (btnApply) btnApply.style.display = 'none';
+            header.style.backgroundColor = '#2F3347';
+          } else {
+            this.scrolled = false;
+            topBar.style.display = 'none';
+            if (btnApply) btnApply.style.display = 'flex';
+            cover.style.position = 'fixed';
+            main.style.marginTop = '28%';
+            header.style.backgroundColor = 'transparent';
           }
         }
       }

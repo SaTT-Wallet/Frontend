@@ -246,6 +246,9 @@ export class HeaderComponent implements OnInit {
         }
       }
     });
+    this.NotificationService.newNotification.subscribe((value) => {
+      this.newNotification = value;
+    });
   }
 
   closeBalanceSection() {
@@ -604,7 +607,7 @@ export class HeaderComponent implements OnInit {
         ls = ls.concat(this.dataNotification);
         this.issendfire = obj.isSend;
         this.dataNotification = ls;
-        if (obj.isSend !== 0) {
+        if (this.issendfire !== 0) {
           this.newNotification = true;
         } else {
           this.newNotification = false;
@@ -616,6 +619,13 @@ export class HeaderComponent implements OnInit {
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((data: any) => {
         this.isSend = data.isSend;
+
+        // this.ngOnInit();
+        if (this.isSend !== 0) {
+          this.NotificationService.newNotification.next(true);
+        } else {
+          this.NotificationService.newNotification.next(false);
+        }
 
         if (
           data !== null &&
@@ -638,12 +648,9 @@ export class HeaderComponent implements OnInit {
               this.notifListSize
             );
           }
+
           // if(this.dataNotification.length > 10) this.dataNotification.length = 10;
-          if (data.isSend !== 0) {
-            this.newNotification = true;
-          } else {
-            this.newNotification = false;
-          }
+
           this.dataNotification.forEach((item: any) => {
             this.siwtchFunction(item);
           });
@@ -1357,17 +1364,27 @@ export class HeaderComponent implements OnInit {
     setTimeout(() => {
       let element0 = this.document.getElementById('introo');
       //@ts-ignore
-      element0.style.width = element0.offsetWidth + 'px';
-
+      element0?.style.width = element0.offsetWidth + 'px';
       let element2 = this.document.getElementById('intro2');
       //@ts-ignore
-      element2.style.width = element2.offsetWidth + 'px';
+      element2?.style.width = element2.offsetWidth + 'px';
       let element3 = this.document.getElementById('intro3');
       //@ts-ignore
-      element3.style.width = element3.offsetWidth + 'px';
+      element3?.style.width = element3.offsetWidth + 'px';
       let element4 = this.document.getElementById('intro4');
       //@ts-ignore
-      element4.style.width = element4.offsetWidth + 'px';
+      element4?.style.width = element4.offsetWidth + 'px';
+
+      let element6 = this.document.getElementById('intro6');
+      //@ts-ignore
+      element6?.style.width = element6.offsetWidth + 'px';
+
+      let element7 = this.document.getElementById('intro7');
+      //@ts-ignore
+      element7?.style.width = element7.offsetWidth + 'px';
+      let element8 = this.document.getElementById('intro8');
+      //@ts-ignore
+      element8?.style.width = element8.offsetWidth + 'px';
     }, 1000);
   }
   @HostListener('window:resize', ['$event'])

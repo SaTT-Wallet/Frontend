@@ -382,87 +382,9 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         }
       }
     }
-    /***************************************************************************************************/
-    // if (
-    //   !this.ratios.value.map((res: any) => res.oracle).includes(oracle) ||
-    //   !this.bounties.value.map((res: any) => res.oracle).includes(oracle)
-    // ) {
-    //   let group = new FormGroup({});
-    //   if (this.f.remuneration.value === this.eRemunerationType.Performance) {
-    //     group = new FormGroup(
-    //       {
-    //         oracle: new FormControl(oracle),
-    //         view: new FormControl(null, [Validators.required]),
-    //         like: new FormControl(null, [Validators.required]),
-    //         share: new FormControl(null, [Validators.required])
-    //       },
-    //       customValidateRatios()
-    //     );
-    //     this.ratios.push(group);
-    //     this.ratios.updateValueAndValidity();
-    //     if (this.isReachLimitActivated) {
-    //       group.setControl(
-    //         'reachLimit',
-    //         new FormControl(null, [Validators.required])
-    //       );
-    //       group.get('reachLimit')?.setValidators([
-    //         Validators.required,
-    //         Validators.min(1)
-    //         //  Validators.max(100),
-    //       ]);
-    //     }
-    //   } else {
-    //     this.bounties.push(this.addNewBounty(oracle));
-    //   }
-
-    //   this.isSelectedTwitter =
-    //     oracle === 'twitter' ? true : this.isSelectedTwitter;
-    //   this.isSelectedFacebook =
-    //     oracle === 'facebook' ? true : this.isSelectedFacebook;
-    //   this.isSelectedYoutube =
-    //     oracle === 'youtube' ? true : this.isSelectedYoutube;
-    //   this.isSelectedInstagram =
-    //     oracle === 'instagram' ? true : this.isSelectedInstagram;
-    //   this.isSelectedLinkedin =
-    //     oracle === 'linkedin' ? true : this.isSelectedLinkedin;
-    // } else {
-    //   if (this.f.remuneration.value === this.eRemunerationType.Performance) {
-    //     this.ratios.removeAt(
-    //       this.ratios.value.findIndex((ratio: any) => ratio.oracle === oracle)
-    //     );
-    //     this.ratios.updateValueAndValidity();
-    //     console.log(' this.ratios', this.ratios);
-    //   } else {
-    //     this.bounties.removeAt(
-    //       this.bounties.value.findIndex(
-    //         (bounty: any) => bounty.oracle === oracle
-    //       )
-    //     );
-    //     console.log(' this.bounties', this.bounties);
-    //     this.bounties.updateValueAndValidity();
-    //   }
-    //   this.isSelectedTwitter =
-    //     oracle === 'twitter' ? false : this.isSelectedTwitter;
-    //   this.isSelectedFacebook =
-    //     oracle === 'facebook' ? false : this.isSelectedFacebook;
-    //   this.isSelectedYoutube =
-    //     oracle === 'youtube' ? false : this.isSelectedYoutube;
-    //   this.isSelectedInstagram =
-    //     oracle === 'instagram' ? false : this.isSelectedInstagram;
-    //   this.isSelectedLinkedin =
-    //     oracle === 'linkedin' ? false : this.isSelectedLinkedin;
-    //   this.cdref.detectChanges();
-    //   this.cdref.markForCheck();
-    // }
   }
 
   listenForMissionValidation(value: boolean) {
-    //this.notValidMission = event;
-    // if (this.notValidMission === false) {
-    //   this.sendErrorToMission = true;
-    // } else {
-    //   this.sendErrorToMission = false;
-    // }
     this.sendErrorToMission = value;
     this.validFormMissionFromRemuToEdit.emit(value);
   }
@@ -488,13 +410,32 @@ export class RemunerationComponent implements OnInit, OnDestroy {
           } else {
             this.validFormBudgetRemun.emit(false);
           }
-          //  && this.sendErrorToMission === false;
+
           var arrayControl = this.form.get('ratios') as FormArray;
-          const lengthValue = arrayControl.length;
-          if (lengthValue > 0 && this.form.controls.ratios.invalid) {
-            this.sendErrorToMission = true;
-          } else {
-            this.sendErrorToMission = false;
+          const lengthRatios = arrayControl.length;
+          var arrayControlBounties = this.form.get('bounties') as FormArray;
+          const lengthBounties = arrayControlBounties.length;
+
+          if (
+            this.form.get('remuneration')?.value ===
+            this.eRemunerationType.Performance
+          ) {
+            if (lengthRatios > 0 && this.form.controls.ratios.invalid) {
+              this.sendErrorToMission = true;
+            } else {
+              this.sendErrorToMission = false;
+            }
+          }
+
+          if (
+            this.form.get('remuneration')?.value ===
+            this.eRemunerationType.Publication
+          ) {
+            if (lengthBounties > 0 && this.form.controls.bounties.invalid) {
+              this.sendErrorToMission = true;
+            } else {
+              this.sendErrorToMission = false;
+            }
           }
           if (this.draftData.id && this.form.valid) {
             this.sendErrorToMission = false;
@@ -682,6 +623,13 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   }
 
   populateBountiesFormArray(bounties: any[]) {
+    bounties = bounties.filter(
+      (bounty: any) =>
+        this.draftData.missions
+          .filter((res: any) => res.sub_missions.length > 0)
+          .map((res: any) => res.oracle)
+          .indexOf(bounty.oracle) >= 0
+    );
     const controls = bounties.map((bounty) => {
       const group = new FormGroup({
         oracle: new FormControl(bounty.oracle),
@@ -879,8 +827,8 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   selectRemunerateType(type: ERemunerationType) {
     this.selectRemunerateValue = type;
     this.f.remuneration.setValue(type);
-    this.ratios.clear();
-    this.bounties.clear();
+    // this.ratios.clear();
+    // this.bounties.clear();
     if (this.isSelectedYoutube) {
       this.toggleOracle('youtube');
     }

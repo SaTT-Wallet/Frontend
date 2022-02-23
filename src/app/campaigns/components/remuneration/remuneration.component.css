@@ -63,6 +63,12 @@ button:focus {
     color: #1f2337;
 }
 
+@media (max-width: 768px) {
+    .btn-earning{
+        height: 70px;
+    }
+}
+
 .title-section-budget {
     font-family: 'Poppins';
     font-style: normal;

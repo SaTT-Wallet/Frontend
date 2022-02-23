@@ -10,7 +10,8 @@ import {
   Output,
   TemplateRef,
   HostListener,
-  AfterContentChecked
+  AfterContentChecked,
+  Inject
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Editor } from 'ngx-editor';
@@ -29,6 +30,7 @@ import {
   concatMap,
   filter,
   map,
+  mergeMap,
   switchMap,
   take,
   takeUntil
@@ -41,6 +43,8 @@ import { FilesService } from '@core/services/files/files.Service';
 import { CampaignsListStoreService } from '@campaigns/services/campaigns-list-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { ESocialMediaType } from '@app/core/enums';
+import { DOCUMENT } from '@angular/common';
+import { CampaignsStoreService } from '@app/campaigns/services/campaigns-store.service';
 
 enum FormStatus {
   Saving = 'saving',
@@ -58,6 +62,8 @@ enum FormStatus {
   providers: [DraftCampaignService]
 })
 export class EditCampaignComponent implements OnInit, OnDestroy {
+  scrolling = false;
+  inTop = true;
   @Input() cryptoSatt: any;
   @Input() validationFormMission: any;
   @Input() validFormPresentation: any;
@@ -115,7 +121,10 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
     private _snackBar: MatSnackBar,
     private campaignService: CampaignHttpApiService,
     private campaignListStoreService: CampaignsListStoreService,
-    private walletFacade: WalletFacadeService
+    private walletFacade: WalletFacadeService,
+    @Inject(DOCUMENT) private document: Document,
+    private campaignsHttpService: CampaignHttpApiService,
+    private campaignsStore: CampaignsStoreService
   ) {
     this.passForm = new FormGroup(
       {
@@ -131,6 +140,10 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.campaignsHttpService.scrolling.subscribe(() => {
+      this.scrolling = true;
+    });
+
     this.walletFacade
       .getCryptoPriceList()
       .pipe(takeUntil(this.isDestroyed$))
@@ -143,6 +156,27 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
       this.getCampaignData();
     });
   }
+  deleteCampaign(id: any) {
+    this.campaignsStore
+      .removeDraftCampaign(id)
+      .pipe(
+        mergeMap(() => {
+          // this.deleted.emit(id);
+          this.campaignListStoreService.getAllCampaigns(true, {});
+
+          this.router
+            .navigateByUrl('/RefreshComponent', { skipLocationChange: true })
+            .then(() => {
+              this.router.navigate(['home/ad-pools']);
+            });
+          return this.translate.get('campaign_details.deleted');
+        })
+      )
+      .subscribe((data1: any) => {
+        this.toastr.success(data1);
+      });
+  }
+
   checkValidation() {
     if (this.validFormParam === false) {
       this.sendErrorToParam = true;
@@ -217,7 +251,12 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
   goToView() {
     this.router.navigate(['home/campaign/', this.draftId]);
   }
-
+  scrollToTop() {
+    let span = this.document.getElementsByClassName('span-top');
+    if (span.length > 0) {
+      span[0].scrollIntoView({ behavior: 'smooth' });
+    }
+  }
   ngOnDestroy(): void {
     this.deleteCampaignIfNotFilled().subscribe(() => {
       this.campaignListStoreService.getAllCampaigns(true, {});
