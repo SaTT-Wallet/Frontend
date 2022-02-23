@@ -474,7 +474,7 @@ export class BuyTokenComponent implements OnInit {
       this.router.navigate(['/wallet/summary'], {
         queryParams: {
           amount: this.amount,
-          currency: this.selectedCurrencyValue,
+          currency: this.selectedTargetCurrency,
           crypto: this.requestedCrypto,
           cryptoAmount: this.cryptoAmount,
           quote_id: this.quoteId,

@@ -205,7 +205,7 @@
             (keydown)="restrictZero($event)"
             input
             class="input-amount"
-            placeholder="{{ selectedtLogo }} 0"
+            placeholder="0 {{ selectedTargetCurrency }}"
             [(ngModel)]="amount"
             (input)="convertCrypto()"
           />
