@@ -92,6 +92,16 @@
           </label>
         </div>
       </div>
+      <div class="error d-flex initialBudgetError">
+        <span
+          *ngIf="
+            (this.form.get('initialBudget')?.errors?.required ||
+              this.form.get('initialBudget')?.value === 0) &&
+            this.notValidBudgetRemun
+          "
+          >{{ 'campaign.field_required' | translate }}</span
+        >
+      </div>
       <!-- </div>  -->
     </div>
   </div>
