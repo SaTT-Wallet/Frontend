@@ -66,6 +66,7 @@ import { FooterSendReceiveBuyComponent } from '@app/wallet/components/footer-sen
 import { DropdownCryptoNetworkComponent } from '@app/wallet/components/dropdown-crypto-network/dropdown-crypto-network.component';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { MoonboyHelpComponent } from './components/moonboy-help/moonboy-help.component';
 
 @NgModule({
   declarations: [
@@ -96,7 +97,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     ShowNumbersRule,
     BlockCopyPasteDirective,
     FilterBynamePipe,
-    DropdownCryptoNetworkComponent
+    DropdownCryptoNetworkComponent,
+    MoonboyHelpComponent
   ],
   exports: [
     //directives and components
@@ -130,6 +132,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     MultiSelectComponent,
     ToFixedPipe,
     BlockCopyPasteDirective,
+    MoonboyHelpComponent,
     // modules
     CarouselModule,
     CustomFormsModule,
