@@ -15,9 +15,15 @@
   height: 97.57px;
   border: 1px solid;
   padding: 1em;
+  position: relative;
 }
 
 span,
 a {
   white-space: nowrap;
+}
+
+.img-wrapper {
+  margin-top: -50px;
+  margin-left: 55px;
 }
