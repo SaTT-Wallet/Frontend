@@ -6,50 +6,25 @@ import {
   TemplateRef,
   ChangeDetectorRef,
   HostBinding,
-  Input,
   HostListener,
-  ViewContainerRef,
   OnDestroy,
   Inject,
   PLATFORM_ID
 } from '@angular/core';
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpHeaders
-} from '@angular/common/http';
+
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { CookieService } from 'ngx-cookie-service';
 import { CountdownComponent, CountdownEvent } from 'ngx-countdown';
-import {
-  FacebookLoginProvider,
-  SocialAuthService,
-  SocialUser,
-  GoogleLoginProvider
-} from 'angularx-social-login';
-import {
-  FormControl,
-  FormControlName,
-  FormGroup,
-  Validators
-} from '@angular/forms';
+import { SocialUser } from 'angularx-social-login';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ContactMessageService } from '@core/services/contactmessage/contact-message.service';
-import { style } from '@angular/animations';
 import { TelegramLinkAccountService } from '@core/services/telegramAuth/telegram-link-account.service';
 import { MatchPasswordValidator } from '@helpers/form-validators';
 import { NgxSpinnerService } from 'ngx-spinner';
-import {
-  catchError,
-  filter,
-  ignoreElements,
-  mergeMap,
-  takeUntil,
-  map
-} from 'rxjs/operators';
-import { DomSanitizer } from '@angular/platform-browser';
+import { catchError, filter, mergeMap, takeUntil, map } from 'rxjs/operators';
 import { of, Subject, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { sattUrl } from '@config/atn.config';
@@ -58,7 +33,6 @@ import { TokenStorageService } from '@core/services/tokenStorage/token-storage-s
 import { environment } from '@environments/environment';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-facade.service';
-import { AuthStoreService } from '@core/services/Auth/auth-store.service';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { IResponseWallet } from '@app/core/iresponse-wallet';
@@ -67,10 +41,10 @@ import { IresponseAuth } from '@app/core/iresponse-auth';
 import { IresponseCode, IresponseCodeQr } from '@app/core/iresponse-code-qr';
 import { User } from '@app/models/User';
 
-interface credantials {
-  email: string;
-  password: string;
-}
+// interface credantials {
+//   email: string;
+//   password: string;
+// }
 @Component({
   selector: 'app-authentication',
   templateUrl: './authentication.component.html',
@@ -272,7 +246,7 @@ getCookie(key: string){
   }
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
-    if (isPlatformBrowser(this.platformId)) {
+    if (isPlatformBrowser(this.platformId) && event) {
       if (this.mediaQueryList.matches) {
         this.backgroundColor =
           'linear-gradient(180deg, #001C59 20.34%, #F52079 99.19%)';
@@ -350,7 +324,7 @@ getCookie(key: string){
               this.errorMessage = '';
               this.router.navigate(['/auth/login']);
             }, 6000);
-          } else if (p.message.indexOf('account_locked') > -1) {
+          } else if (p.message?.indexOf('account_locked') > -1) {
             this.errorMessage = 'account_locked';
             this.blockDate = Number(p.message.split(':')[1]);
             this.blocktime = this.blockDate + 1800;
@@ -455,7 +429,7 @@ getCookie(key: string){
         .login(this.f.email?.value, this.f.password?.value, noredirect)
         .pipe(
           takeUntil(this.onDestroy$),
-          catchError((err) => {
+          catchError(() => {
             this.errorMessage = 'login_error';
             this.showSpinner = false;
             return of(null);
@@ -509,7 +483,7 @@ getCookie(key: string){
         )
         .pipe(
           filter(({ data, response }: any) => {
-            return response !== null;
+            return response !== null && data !== null;
           }),
           catchError((error: any) => {
             if (error.error.text === 'Invalid Access Token') {
@@ -646,7 +620,6 @@ getCookie(key: string){
           this.codesms = false;
         } else if (data.verifiedCode === true) {
           this.codesms = true;
-          let msg = '';
           this.errorMessagecode = 'code correct';
         }
       });
@@ -831,7 +804,7 @@ getCookie(key: string){
   resetPassword() {
     this.isSub = true;
     let email = this.formL.get('email')?.value;
-    const link = `<span style="color:#4048FF" >${email}</span >`;
+    //const link = `<span style="color:#4048FF" >${email}</span >`;
     this.authService
       .resetPassword(email)
       .pipe(takeUntil(this.onDestroy$))
