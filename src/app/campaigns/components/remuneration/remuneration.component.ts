@@ -701,6 +701,9 @@ export class RemunerationComponent implements OnInit, OnDestroy {
           ...this.dataList.filter((data: any) => data.symbol === 'SATTBEP20'),
           ...this.dataList.filter((data: any) => data.symbol === 'BUSD')
         ];
+        this.cryptoToDropdown = this.dataList.filter(
+          (crypto) => crypto.symbol === this.draftData.currency.name
+        );
       });
   }
 

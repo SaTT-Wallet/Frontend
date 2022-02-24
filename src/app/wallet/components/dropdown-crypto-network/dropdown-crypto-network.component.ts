@@ -10,7 +10,6 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { ListTokens } from '@app/config/atn.config';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
-import { Console } from 'console';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
@@ -232,17 +231,17 @@ export class DropdownCryptoNetworkComponent
   ngOnChanges() {
     if (this.cryptoFromComponent) {
       this.isCryptoRouter = false;
-      if (this.cryptoFromComponent.AddedToken) {
+      if (this.cryptoFromComponent[0].AddedToken) {
         this.isAddedToken = true;
-        this.token = this.cryptoFromComponent.AddedToken;
-        this.cryptoPicName = this.cryptoFromComponent.picUrl;
+        this.token = this.cryptoFromComponent[0].AddedToken;
+        this.cryptoPicName = this.cryptoFromComponent[0].picUrl;
       } else {
         this.token = '';
         this.isAddedToken = false;
-        this.cryptoPicName = this.cryptoFromComponent.undername2;
+        this.cryptoPicName = this.cryptoFromComponent[0].undername2;
       }
-      this.cryptoSymbol = this.cryptoFromComponent.symbol;
-      this.selectedNetworkValue = this.cryptoFromComponent.network;
+      this.cryptoSymbol = this.cryptoFromComponent[0].symbol;
+      this.selectedNetworkValue = this.cryptoFromComponent[0].network;
     }
   }
 }
