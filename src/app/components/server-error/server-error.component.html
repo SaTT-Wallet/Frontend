@@ -1,0 +1,70 @@
+<app-header-register></app-header-register>
+
+<main class="container auth-body">
+  <div class="col-lg-8 col-md-10 col-sm-12">
+    <div class="row title">
+      <div class="">
+        <h2>Oops ! {{ 'sth_went_wrong_title' | translate }}</h2>
+      </div>
+    </div>
+    <div class="row lost_in_space_img">
+      <img src="/assets/Images/server_img.svg" class="server" alt="sever" />
+    </div>
+    <div class="row err_desc">
+      <div class="col-lg-8 col-md-10 col-sm-12">
+        <h4>{{ 'sth_went_wrong_paragraph' | translate }}</h4>
+      </div>
+    </div>
+    <div class="row list d-flex justify-content-center">
+      <div class="col-md-4">
+        <span class="list_title">
+          {{ 'how_to' | translate }}
+        </span>
+        <ul>
+          <li>{{ 'create_wallet' | translate }}</li>
+          <li>{{ 'Create_a_campaign' | translate }}</li>
+          <li>{{ 'Earn_Crypto' | translate }}</li>
+        </ul>
+      </div>
+      <div class="col-md-4 BorderList">
+        <span class="list_title">
+          {{ 'Last_news' | translate }}
+        </span>
+        <ul>
+          <li>
+            <a
+              href="https://satt-token.com/blog/fr/2021/05/18/resultats-jeu-concours-cointribune-x-satt-token/"
+            >
+              {{ 'Crypto_Highlights_Week_#30' | translate }}
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://satt-token.com/blog/fr/2021/03/24/hitbtc-tutoriel-dinscription-dachat-et-dechange-de-satt/"
+            >
+              {{ 'Crypto_Highlights_Week_#29' | translate }}</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://satt-token.com/blog/fr/2021/03/11/airdrop-holder-satt/"
+            >
+              {{ 'Crypto_Highlights_Week_#28' | translate }}</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-4 BorderList">
+        <span class="list_title">
+          {{ 'Our_tools' | translate }}
+        </span>
+        <ul>
+          <li>{{ 'Satt_wallet' | translate }}</li>
+          <li>{{ 'Our_Dex' | translate }}</li>
+          <li>{{ 'When_moon' | translate }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</main>
+<app-footer></app-footer>

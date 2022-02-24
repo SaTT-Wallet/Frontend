@@ -1,0 +1,87 @@
+<div class="col-12 px-3 padding-small-version">
+  <div class="col-md-12 col-lg-12 col-xs-12 d-flex justify-content-center pt-4">
+    <label class="title-section">Missions</label>
+  </div>
+  <form [formGroup]="form" class="d-flex flex-column justify-content-center">
+    <ng-container formArrayName="missions">
+      <ng-container
+        *ngFor="let mission of missions.controls; index as missionIndex"
+      >
+        <ng-container [formGroupName]="missionIndex">
+          <div
+            class="col-xl-8 col-md-12 col-lg-10 col-sm-8 d-flex justify-content-between align-self-center p-0"
+          >
+            <label class="label-type d-flex align-items-center">
+              <img
+                src="{{
+                  '/assets/Images/missions/' +
+                    mission.get('oracle')?.value +
+                    '-icon.png'
+                }}"
+                alt="facebook-icon"
+                class="icons-img"
+              />
+              Choose missions for {{ mission.get('oracle')?.value }} (you can
+              modify our suggestions)
+            </label>
+            <ui-switch
+              class="d-flex align-self-center"
+              id="toggle"
+              #uiSwitch
+              (change)="
+                onToggle($event, missionIndex, mission.get('oracle')?.value)
+              "
+            >
+            </ui-switch>
+          </div>
+          <ng-container *ngIf="uiSwitch.checked">
+            <div
+              class="col-xl-8 col-md-12 col-lg-10 col-sm-8 d-flex justify-content-between flex-column align-self-center p-0"
+            >
+              <ng-container formArrayName="sub_missions">
+                <div
+                  *ngFor="
+                    let subMission of getSubMissions(missionIndex).controls;
+                    let i = index
+                  "
+                  class="position-relative input-wrapper"
+                >
+                  <ng-container [formGroupName]="i">
+                    <input
+                      formControlName="mission"
+                      type="text"
+                      class="input-mission"
+                    />
+                    <span class="position-absolute indecator">
+                      {{ i + 1 }}.
+                    </span>
+                    <button
+                      (click)="removeValue(missionIndex, i)"
+                      class="btn-cancel"
+                    >
+                      <img
+                        *ngIf="i > 0"
+                        src="/assets/Images/missions/delete.svg"
+                      />
+                    </button>
+                  </ng-container>
+                </div>
+              </ng-container>
+
+              <div class="p-2">
+                <button
+                  [disabled]="this.getSubMissions(missionIndex).invalid"
+                  type="submit"
+                  class="btn-white"
+                  (click)="addSubMissions(missionIndex)"
+                >
+                  Add a new mission
+                </button>
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </form>
+</div>

@@ -1,0 +1,943 @@
+<div class="container-fluid page-content wallet-page">
+  <div class="row show-mobile">
+    <div class="col-md-12 col-lg-12 col-xs-12">
+      <button type="button" class="btn-back" [routerLink]="['/home/settings/']">
+        <!-- <span style="    margin-left: -5px;"> -->
+        <
+        <!-- </span>   -->
+      </button>
+      <!-- <a [routerLink]="['/home/settings/']"><img src="/assets/Images/btn-back.svg"> </a> -->
+      <!-- <span class="title_page"><a class="title_page pe-2" [routerLink]="['/profile']"> {{'parameters' |translate}}
+                </a> > <a class="title_page ps-2" [routerLink]="['/profile/edit']">{{ 'Profil.my-profile' | translate }}
+                </a> </span> -->
+    </div>
+  </div>
+
+  <div class="tab-content" id="myTabContent">
+    <div
+      class="tab-pane fade show active mt-3"
+      id="info"
+      role="tabpanel"
+      aria-labelledby="info-tab"
+    >
+      <div class="div_block">
+        <div
+          class="col-md-12 col-lg-12 col-xs-12 d-flex justify-content-center padding-x pt-4"
+        >
+          <label class="label-Profile-completed-at">{{
+            'Profil.Profile_completed_at' | translate
+          }}</label
+          ><label class="green-text ps-1">{{ percentProfil }}%</label>
+        </div>
+        <div class="col-md-12 col-lg-12 col-xs-12 d-flex flex-row padding-x">
+          <div class="col">
+            <label
+              class="nav-link"
+              id="info-tab"
+              aria-controls="info"
+              aria-selected="false"
+              [ngClass]="{ active: percentProfil >= 25 }"
+            >
+            </label>
+          </div>
+          <div class="col">
+            <label
+              class="nav-link"
+              id="contact-tab"
+              aria-controls="contact"
+              aria-selected="true"
+              [ngClass]="{ active: percentProfil >= 50 }"
+            ></label>
+          </div>
+          <div class="col">
+            <label
+              class="nav-link"
+              id="networks-tab"
+              aria-controls="networks"
+              aria-selected="false"
+              [ngClass]="{ active: percentProfil >= 75 }"
+            >
+            </label>
+          </div>
+          <div class="col">
+            <label
+              class="nav-link"
+              id="interests-tab"
+              aria-controls="interests"
+              aria-selected="false"
+              [ngClass]="{ active: percentProfil >= 100 }"
+            >
+            </label>
+          </div>
+        </div>
+        <div class="row d-flex justify-content-center" *ngIf="user">
+          <div class="col-12 px-3 padding-small-version">
+            <form [formGroup]="formProfile">
+              <div class="row d-flex justify-content-center">
+                <div
+                  class="col-md-11 col-lg-8 col-xl-6 col-sm-8 pt-4 d-flex justify-content-center"
+                >
+                  <span class="bold-title">{{
+                    'Profil.personal-info' | translate
+                  }}</span>
+                </div>
+              </div>
+
+              <div class="col-sm-12 p-3 col-12">
+                <div class="d-flex justify-content-center mt-2">
+                  <!-- <img [src]="user?.userPicture" (error)="onImgError($event)" class="avatar" *ngIf="user.idSn === 0">
+                                     <img src={{pic}} (error)="onImgError($event)" class="avatar" *ngIf="user.idSn != 0">  -->
+                  <img
+                    [src]="user?.userPicture"
+                    (error)="onImgError($event)"
+                    class="avatar"
+                  />
+                  <img
+                    class="mt-5 pt-5 ms-5 ps-5 position-absolute modifbut"
+                    src="/assets/Images/modif_but.svg"
+                    (click)="openModal(pictureModal)"
+                  />
+                </div>
+              </div>
+
+              <div class="row d-flex justify-content-center">
+                <div class="col-xl-4 col-md-5 col-lg-5 col-sm-8 pt-3">
+                  <label class="label_input">{{
+                    'Profil.first_name' | translate
+                  }}</label>
+                  <input
+                    type="text"
+                    name="firstName"
+                    formControlName="firstName"
+                    class="type-input"
+                    [(ngModel)]="user.firstName"
+                  />
+                  <div class="error">
+                    <span
+                      *ngIf="
+                        this.formProfile.get('firstName')?.errors?.required &&
+                        isSubmited
+                      "
+                      >{{ 'Profil.field_required' | translate }}</span
+                    >
+                  </div>
+                </div>
+                <div class="col-xl-4 col-md-5 col-lg-5 col-sm-8 pt-3">
+                  <label class="label_input">
+                    {{ 'Profil.last_name' | translate }}</label
+                  >
+                  <input
+                    type="text"
+                    name="lastName"
+                    formControlName="lastName"
+                    class="type-input"
+                    [(ngModel)]="user.lastName"
+                  />
+                  <div class="error">
+                    <span
+                      *ngIf="
+                        this.formProfile.get('lastName')?.errors?.required &&
+                        isSubmited
+                      "
+                      >{{ 'Profil.field_required' | translate }}</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="row d-flex justify-content-center">
+                <div
+                  class="col-xl-4 col-md-5 col-lg-5 col-sm-8 pt-3 d-flex justify-content-center flex-column"
+                >
+                  <label class="label_input">{{
+                    'Profil.gender' | translate
+                  }}</label>
+
+                  <div class="dropdown">
+                    <button
+                      class="btn btntoggle dropdown-toggle btn-dropdown"
+                      type="button"
+                      id="dropdownMenuButton"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
+                      <span class="text-align-left dark_grey ps-2">{{
+                        selectedGenderValue | translate
+                      }}</span>
+
+                      <i class="chevron fa fa-fw"></i>
+                    </button>
+                    <ul
+                      class="dropdown-menu"
+                      aria-labelledby="dropdownMenuButton"
+                    >
+                      <li
+                        class="li-select"
+                        *ngFor="let g of genderList; trackBy: trackByGenderName"
+                        (click)="selectedGender(g.name)"
+                      >
+                        <ng-container
+                          *ngIf="
+                            g.name !== selectedGenderValue &&
+                            g.value !== user?.gender
+                          "
+                        >
+                          <span class="dark_grey">{{
+                            g.name | translate
+                          }}</span>
+                        </ng-container>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-md-5 col-lg-5 col-sm-8 pt-3">
+                  <label class="label_input">
+                    {{ 'Profil.birth_day' | translate }}</label
+                  >
+                  <!-- <input
+                    type="date"
+                    max="{{ maxBirth }}"
+                    name="birthday"
+                    formControlName="birthday"
+                    class="type-input"
+                    [(ngModel)]="user.birthday"
+                  /> -->
+                  <input
+                    class="form-field"
+                    type="date"
+                    formControlName="birthday"
+                    [(ngModel)]="user.birthday"
+                    (change)="checkDate()"
+                  />
+
+                  <!--<mat-form-field class="form-field" appearance="fill">
+                    <input
+                      matInput
+                      class="input-field"
+                      [matDatepicker]="picker"
+                      [(ngModel)]="user.birthday"
+                      formControlName="birthday"
+                    />
+                    <mat-datepicker-toggle
+                      class="field-icon timePicker"
+                      matSuffix
+                      [for]="picker"
+                    >
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>-->
+                  <div class="error" *ngIf="!valideDate">
+                    <span>{{ 'Profil.underEighteen' | translate }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row d-flex justify-content-center">
+                <div
+                  class="col-xl-4 col-md-5 col-lg-5 col-sm-8 pt-3 d-flex justify-content-center flex-column"
+                >
+                  <label class="label_input">{{
+                    'Profil.Choice_language' | translate
+                  }}</label>
+                  <div class="dropdown">
+                    <button
+                      class="btn btntoggle dropdown-toggle btn-dropdown"
+                      type="button"
+                      id="dropdownMenuButton"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                      disabled
+                    >
+                      <span
+                        class="text-align-left dark_grey ps-2"
+                        *ngIf="langchoosen === 'en'"
+                      >
+                        English
+                      </span>
+                      <span
+                        class="text-align-left dark_grey ps-2"
+                        *ngIf="langchoosen === 'fr'"
+                      >
+                        Français</span
+                      >
+                      <i class="chevron fa fa-fw"></i>
+                    </button>
+                    <ul
+                      class="dropdown-menu"
+                      aria-labelledby="dropdownMenuButton"
+                    >
+                      <li
+                        class="li-select"
+                        *ngFor="
+                          let language of translate.getLangs();
+                          trackBy: trackByLanguage
+                        "
+                      >
+                        <ng-container *ngIf="langchoosen !== language">
+                          <p
+                            (click)="switchLang(language)"
+                            *ngIf="language === 'en'"
+                            class="dark_grey"
+                          >
+                            English
+                          </p>
+                          <p
+                            (click)="switchLang(language)"
+                            *ngIf="language === 'fr'"
+                            class="dark_grey"
+                          >
+                            Français
+                          </p>
+                          <!-- <span class="dark_grey ">{{ l.name |translate}}</span> -->
+                        </ng-container>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-md-5 col-lg-5 col-sm-8 pt-3"></div>
+              </div>
+
+              <div class="row d-flex justify-content-center">
+                <div
+                  class="col-xl-8 col-lg-10 col-md-10 col-sm-9 d-flex justify-content-center"
+                >
+                  <hr class="horizontal-line" />
+                </div>
+              </div>
+              <!-- bloc conatact perso -->
+              <div class="row d-flex justify-content-center">
+                <div
+                  class="col-md-11 col-lg-8 col-xl-6 col-sm-8 pt-4 d-flex justify-content-center"
+                >
+                  <span class="bold-title">{{
+                    'Profil.contact' | translate
+                  }}</span>
+                </div>
+              </div>
+              <div class="row d-flex justify-content-center">
+                <div class="col-xl-8 col-md-10 col-lg-10 col-sm-8 pt-3">
+                  <label class="label_input label_email">{{
+                    'Profil.email' | translate
+                  }}</label>
+                </div>
+              </div>
+
+              <div class="row d-flex justify-content-center">
+                <div
+                  class="col-xl-8 col-md-10 col-lg-10 col-sm-8 pt-3 email-div"
+                >
+                  <input
+                    type="text"
+                    name="email"
+                    formControlName="email"
+                    class="type-input email-input"
+                    [(ngModel)]="this.user.email"
+                    [readonly]="true"
+                    ngModel
+                    email="true"
+                  />
+                  <button
+                    type="button"
+                    (click)="showEmailInput()"
+                    class="btn btn-primary mb-1 change_button"
+                  >
+                    {{ 'change' | translate }}
+                  </button>
+                </div>
+              </div>
+
+              <!------------------------------------------------------------->
+              <form
+                [formGroup]="formEmail"
+                id="formEmail"
+                autocomplete="off"
+                (ngSubmit)="submitEmail()"
+              >
+                <div
+                  *ngIf="emailInputShow"
+                  class="row d-flex justify-content-center"
+                >
+                  <div class="col-xl-8 col-md-10 col-lg-10 col-sm-8 pt-3 pb-2">
+                    <div class="confirmation">
+                      <img
+                        src="/assets/Images/cancel-code.svg"
+                        class="close-bouton"
+                        (click)="cancelFunction()"
+                      />
+
+                      <label class="label_input ms-3 mt-5">{{
+                        'new_email' | translate
+                      }}</label>
+                      <input
+                        type="email"
+                        name="donotfillwithemail"
+                        formControlName="email"
+                        class="email_change"
+                        ngModel
+                        email="true"
+                        autocomplete="no"
+                      />
+                      <div class="error_email">
+                        <span
+                          *ngIf="
+                            this.formEmail.get('email')?.errors?.required &&
+                            this.formEmail.get('email')?.dirty
+                          "
+                          >{{ 'Profil.field_required' | translate }}</span
+                        >
+                      </div>
+                      <div class="error_email">
+                        <span
+                          *ngIf="
+                            duplicateEmail &&
+                            !this.formEmail.get('email')?.errors?.required &&
+                            !this.formEmail.get('email')?.errors?.pattern
+                          "
+                          >{{ 'duplicate_contact_email' | translate }}</span
+                        >
+                      </div>
+                      <div class="error_email">
+                        <span
+                          *ngIf="
+                            this.formEmail.get('email')?.errors?.pattern &&
+                            !this.formEmail.get('email')?.errors?.required
+                          "
+                          >{{ 'field_mustbe_email' | translate }}</span
+                        >
+                      </div>
+
+                      <div class="d-flex">
+                        <label class="label_password ms-3">{{
+                          'enter-password' | translate
+                        }}</label>
+                      </div>
+                      <div class="d-flex">
+                        <label class="label_input ms-3 mt-4">{{
+                          'Profil.password' | translate
+                        }}</label>
+                      </div>
+
+                      <div class="col position-relative">
+                        <input
+                          autocomplete="new-password"
+                          type="password"
+                          name="donotfillwithepass"
+                          formControlName="password"
+                          class="password_change"
+                          ngModel
+                          #password_field
+                        />
+                        <div class="d-flex field-icon pb-5">
+                          <span
+                            (click)="
+                              password_field.type =
+                                password_field.type === 'password'
+                                  ? 'text'
+                                  : 'password'
+                            "
+                            class="fa fa-fw toggle-password"
+                            [ngClass]="
+                              password_field.type === 'password'
+                                ? ' fa-eye-slash '
+                                : ' fa-eye'
+                            "
+                          ></span>
+                        </div>
+
+                        <div class="error_email">
+                          <span
+                            *ngIf="
+                              this.formEmail.get('password')?.errors
+                                ?.required &&
+                              this.formEmail.get('password')?.dirty
+                            "
+                            >{{ 'Profil.field_required' | translate }}</span
+                          >
+                        </div>
+                        <div class="error_email">
+                          <span *ngIf="!this.formEmail.get('password')?.errors">
+                            {{ this.errorMsg | translate }}</span
+                          >
+                        </div>
+
+                        <!--    <div class="forgot_link ms-3 mt-2">
+                          <a
+                            class="forgot-password btn text-capitalize"
+                            (click)="openModal(lostpwdModal)"
+                            [routerLink]=""
+                            >{{ "reset-password" | translate }}</a
+                          >
+                        </div>-->
+                      </div>
+
+                      <div class="col d-flex justify-content-center">
+                        <button
+                          [disabled]="formEmail.invalid"
+                          _ngcontent-tys-c204=""
+                          type="submit"
+                          class="btn-valid btn-green"
+                          style="font-weight: 600px !important"
+                        >
+                          {{ 'valider' | translate }}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <form [formGroup]="formCode">
+                  <div
+                    *ngIf="confirmCodeShow"
+                    class="row d-flex justify-content-center"
+                  >
+                    <div class="col-xl-8 col-md-10 col-lg-10 col-sm-8 pt-4">
+                      <div class="confirmation">
+                        <div>
+                          <h3 class="email email_confirm pt-3">
+                            {{ 'code_title' | translate }}
+                          </h3>
+                          <img
+                            src="/assets/Images/cancel-code.svg"
+                            class="bouton-cancel"
+                            (click)="cancelFunction()"
+                          />
+
+                          <label class="text_mail pt-3">
+                            {{ 'code_label' | translate }}
+                          </label>
+                          <h5 class="email code_confirm">
+                            {{ 'enter_label' | translate }}
+                          </h5>
+                          <!-- <input
+                          type="number"
+                          name="code"
+                          formControlName="code"
+                          class="email_change"
+                          ngModel
+                          
+                        /> -->
+
+                          <!-- <code-input class="codeinput"
+                        type="number"
+                        [codeLength]="6"
+                        name="code"
+                        formControlName="code"
+                        ngModel
+                        (codeCompleted)="onCodeCompleted($event)"
+                       >
+                        </code-input> -->
+                          <div class="text-center">
+                            <app-code-input-auth
+                              (codeCompleted)="onCodeCompleted($event)"
+                            ></app-code-input-auth>
+                          </div>
+
+                          <div class="error_email text-center mt-1 mb-2">
+                            <span
+                              *ngIf="
+                                this.formEmail.get('code')?.errors?.required &&
+                                this.formEmail.get('code')?.dirty
+                              "
+                              >{{ 'Profil.field_required' | translate }}</span
+                            >
+                          </div>
+                          <div class="error_email">
+                            <span *ngIf="!this.formEmail.get('code')?.errors">
+                              {{ this.errorMsg | translate }}</span
+                            >
+                          </div>
+                        </div>
+
+                        <div
+                          _ngcontent-tys-c204="pl-5 buttons-confirm btns-cnfrm"
+                          style="display: flex; justify-content: center"
+                        >
+                          <!-- [disabled]="formCode.invalid" -->
+                          <button
+                            [disabled]="!this.codesms"
+                            _ngcontent-tys-c204=""
+                            type="submit"
+                            class="btn-valid btn-green mt-2"
+                            style="font-weight: 600px !important"
+                            (click)="confirmcode()"
+                          >
+                            {{ 'valider' | translate }}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+
+                <div
+                  class="row d-flex justify-content-center"
+                  *ngIf="successmail"
+                >
+                  <div class="col-xl-8 col-md-10 col-lg-10 col-sm-8 pt-3">
+                    <div class="confirmation-success">
+                      <span class="email_success_wrapper">
+                        <span>
+                          <img
+                            src="/assets/Images/sucess-icon-green.svg"
+                            class="succes-icon"
+                          />
+                        </span>
+                        <span class="email email_success">
+                          {{ 'email-sucess' | translate }}
+                        </span>
+                      </span>
+
+                      <img
+                        src="/assets/Images/btn-close-green.svg"
+                        class="close-bouton-green"
+                        (click)="closeFunction()"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </form>
+              <div class="row d-flex justify-content-center">
+                <div class="col-xl-8 col-md-10 col-lg-10 col-sm-8 pt-5">
+                  <label class="label_input">
+                    {{ 'Profil.address' | translate }}</label
+                  >
+                  <input
+                    type="text"
+                    name="address"
+                    formControlName="address"
+                    class="type-input"
+                    [(ngModel)]="user.address"
+                  />
+                </div>
+              </div>
+
+              <div class="row d-flex justify-content-center">
+                <div class="col-xl-4 col-md-5 col-lg-5 col-sm-8 pt-3">
+                  <label class="label_input">{{
+                    'Profil.zipcode' | translate
+                  }}</label>
+                  <input
+                    type="text"
+                    name="zipCode"
+                    formControlName="zipCode"
+                    class="type-input"
+                    [(ngModel)]="user.zipCode"
+                  />
+                </div>
+                <div class="col-xl-4 col-md-5 col-lg-5 col-sm-8 pt-3">
+                  <label class="label_input">
+                    {{ 'Profil.city' | translate }}</label
+                  >
+                  <input
+                    type="text"
+                    name="city"
+                    formControlName="city"
+                    class="type-input"
+                    [(ngModel)]="user.city"
+                  />
+                </div>
+              </div>
+
+              <div class="row d-flex justify-content-center">
+                <div
+                  class="col-xl-4 col-md-5 col-lg-5 col-sm-8 pt-3 d-flex justify-content-center flex-column"
+                >
+                  <label class="label_input">
+                    {{ 'Profil.country' | translate }}</label
+                  >
+                  <div class="dropdown" id="dropdown-ul">
+                    <button
+                      class="btn btntoggle dropdown-toggle btn-dropdown"
+                      type="button"
+                      id="dropdownMenuButton"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                      placeholder="toto@exemple.com"
+                    >
+                      <span
+                        class="text-align-left dark_grey ps-2"
+                        id="new-tag"
+                        data-placeholder="Select Country"
+                        contenteditable="true"
+                        >{{ selectedCountryValue | translate }}</span
+                      >
+
+                      <i class="chevron fa fa-fw"></i>
+                    </button>
+                    <ul
+                      class="dropdown-menu overflow mb-3"
+                      aria-labelledby="dropdownMenuButton"
+                    >
+                      <li
+                        [id]="c.code"
+                        class="li-select"
+                        *ngFor="
+                          let c of countriesListObj;
+                          trackBy: trackByCountrie
+                        "
+                        (click)="selectedCountry(c.name, c.code)"
+                      >
+                        <ng-container
+                          *ngIf="
+                            c.code !== selectedCountryValue &&
+                            c.code !== user?.country
+                          "
+                        >
+                          <span class="dark_grey">{{ c.name }}</span>
+                        </ng-container>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div
+                  class="col-xl-4 col-md-5 col-lg-5 col-sm-8 pt-3 profile-input"
+                  style="display: grid !important"
+                >
+                  <label class="label_input"
+                    >{{ 'phone' | translate
+                    }}{{ 'optional' | translate }}</label
+                  >
+                  <!-- <input
+                    type="tel"
+                    name="phone"
+                    formControlName="phone"
+                    class="type-input"
+                    [(ngModel)]="user.phone"
+                  /> -->
+                  <ngx-intl-tel-input
+                    [cssClass]="'phone'"
+                    [enableAutoCountrySelect]="true"
+                    [enablePlaceholder]="false"
+                    [searchCountryFlag]="true"
+                    [searchCountryField]="[
+                      SearchCountryField.Iso2,
+                      SearchCountryField.Name
+                    ]"
+                    [selectFirstCountry]="false"
+                    [selectedCountryISO]="CountryISO.UnitedStates"
+                    [phoneValidation]="false"
+                    [separateDialCode]="separateDialCode"
+                    [numberFormat]="PhoneNumberFormat.National"
+                    name="phone"
+                    formControlName="phone"
+                    [(ngModel)]="user.phone"
+                  >
+                  </ngx-intl-tel-input>
+                </div>
+              </div>
+
+              <div class="row d-flex justify-content-center">
+                <div
+                  class="col-xl-8 col-lg-10 col-md-10 col-sm-9 d-flex justify-content-center"
+                >
+                  <hr class="horizontal-line" />
+                </div>
+              </div>
+              <!-- button submit -->
+              <div class="row d-flex justify-content-center mb-5 mt-4">
+                <div class="col-md-7 col-lg-5 col-xl-4 col-sm-7">
+                  <button
+                    type="submit"
+                    class="btn-green btn-save"
+                    [disabled]="(!formProfile.dirty && !isDirty) || !valideDate"
+                    (click)="updateProfile()"
+                  >
+                    <span *ngIf="!this.showSpinner">{{
+                      'Profil.save' | translate
+                    }}</span>
+                    <div
+                      *ngIf="this.showSpinner"
+                      class="spinner-border text-light"
+                      role="status"
+                    >
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!--//picturemodal-->
+
+        <ng-template #pictureModal>
+          <!-- <div class="modal-header"></div>-->
+          <div class="modal-header modal-customm">
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              (click)="closeModal(pictureModal); imageChangedEvent = ''"
+            ></button>
+          </div>
+          <div
+            class="modal-body modal-customm d-flex flex-column justify-content-center align-items-center modal-customm"
+          >
+            <form
+              [formGroup]="formUploadPic"
+              id="formUploadPic"
+              class="mx-lg-4 mx-md-4"
+            >
+              <div class="row d-flex justify-content-center">
+                <div class="col-10 d-flex justify-content-center">
+                  <h5>
+                    <label class="bold-title-modal">
+                      {{ 'Profil.upload_new_image' | translate }}
+                    </label>
+                  </h5>
+                </div>
+              </div>
+
+              <div
+                class="image-spec-wrapper d-flex align-items-center justify-content-start gap-1"
+              >
+                <img
+                  src="assets/Images/exclam.svg"
+                  alt="info icon"
+                  class="info-icon-image"
+                />
+                <div
+                  class="image-spec-text d-flex flex-column align-items-start"
+                >
+                  <span>
+                    {{ 'Profil.content_upload_help_image_Format' | translate }}
+                  </span>
+                  <span>
+                    {{ 'Profil.content_upload_help_image_taille' | translate }}
+                  </span>
+                </div>
+              </div>
+              <div class="row mt-2 mx-lg-1 mx-sm-1">
+                <div class="col-12 d-flex justify-content-center">
+                  <div class="cropArea">
+                    <image-cropper
+                      [imageChangedEvent]="imageChangedEvent"
+                      [maintainAspectRatio]="true"
+                      [aspectRatio]="4 / 4"
+                      format="png"
+                      (imageCropped)="imageCropped($event)"
+                      [roundCropper]="true"
+                      [cropperMinWidth]="90"
+                      [resizeToWidth]="300"
+                      [imageBase64]="
+                        user.userPicture.changingThisBreaksApplicationSecurity
+                      "
+                      [imageURL]="user.userPicture"
+                    >
+                    </image-cropper>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-2 d-flex justify-content-center">
+                <div
+                  class="col-12 d-flex justify-content-center div_modal_pic_name"
+                >
+                  <label class="pic_name">{{ picName }}</label>
+                </div>
+              </div>
+              <div class="row d-flex justify-content-start mt-2">
+                <div
+                  class="col-4 error"
+                  *ngIf="
+                    this.formUploadPic.get('file')?.errors?.required &&
+                    this.formUploadPic.get('file')?.touched
+                  "
+                >
+                  <span>{{ 'Profil.field_required' | translate }}</span>
+                </div>
+              </div>
+              <input
+                type="file"
+                name="file"
+                formControlName="file"
+                (change)="fileChangeEvent($event)"
+                accept="image/*"
+                [hidden]="true"
+                id="selectAvatar"
+              />
+
+              <label
+                class="btn-choose-pic btn-primary-action d-flex justify-content-center gap-2 align-items-center my-2"
+                for="selectAvatar"
+              >
+                <img src="assets/Images/upload-icon.svg" />
+                <span>{{ 'Profil.choose_file' | translate }}</span>
+              </label>
+
+              <button
+                type="submit"
+                class="btn-green d-flex justify-content-center gap-2 align-items-center"
+                (click)="uploadPic()"
+                [disabled]="!this.srcFile"
+              >
+                <img src="assets/Images/save-icon.svg" alt="" />
+                <span> {{ 'save_picture' | translate }}</span>
+              </button>
+            </form>
+          </div>
+          <!-- <div class="modal-footer"></div>-->
+        </ng-template>
+        <!--//endpicture modal-->
+      </div>
+      <!--div spinner -->
+      <!-- <div class="spinner-wrapper">
+                <app-loading-logo *ngIf="showSpinner" class="spinner"></app-loading-logo>
+            </div> -->
+      <!-- End div spinner -->
+    </div>
+  </div>
+</div>
+
+<ng-template #lostpwdModal>
+  <div class="modal-content-auth">
+    <div class="modal-header modal-customm">
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        (click)="closeModal(lostpwdModal)"
+      ></button>
+    </div>
+    <div class="modal-body modal-customm">
+      <img class="satt-modal-header-img" src="assets/Images/lostpwd.svg" />
+      <h3 class="textpwd margin-pw">{{ 'forgot_password' | translate }}</h3>
+      <div class="row justify-content-center">
+        <p>{{ 'passwordLost' | translate }}</p>
+      </div>
+      <form [formGroup]="formL">
+        <div class="row mt-4 px-1 justify-content-center">
+          <input
+            type="text"
+            formControlName="email"
+            name="email"
+            class="input_lpwd"
+            placeholder="   {{ 'Entrez votre mail' | translate }} "
+            ngModel
+            [ngClass]="{ error: this.isSub && formF.email?.errors }"
+          />
+        </div>
+
+        <!-- <span class="error_input ms-4" *ngIf="this.isSub && formF.email.errors?.email">{{ "field_mustbe_email" | translate }}</span> -->
+        <span
+          class="error_input ms-4"
+          *ngIf="this.isSub && formF.email.errors?.required"
+          >{{ 'field_required' | translate }}</span
+        >
+        <span class="error_input ms-4" *ngIf="this.errorMessagePwd">
+          {{ errorMessagePwd | translate }}
+        </span>
+        <div class="row mt-3 mb-3 px-1 justify-content-center">
+          <button
+            type="submit"
+            class="btn-reset-passwd"
+            (click)="resetPassword()"
+          >
+            {{ 'pwdreinitialiser' | translate }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>

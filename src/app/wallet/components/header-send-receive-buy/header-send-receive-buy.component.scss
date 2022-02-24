@@ -1,0 +1,72 @@
+:host {
+  overflow: hidden;
+}
+
+.div-header {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: 150px;
+  z-index: 1;
+  overflow: hidden !important;
+}
+
+.div-text {
+  width: 100%;
+  max-width: 727px;
+  position: relative;
+}
+
+label {
+  color: white;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 22px;
+  max-width: 216px;
+  text-align: center;
+}
+
+.span_btn_back {
+  cursor: pointer;
+}
+
+span {
+  color: white;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  text-align: center;
+  position: absolute;
+  right: 15px;
+  margin-bottom: 0.5rem;
+}
+
+:host-context(.request-component) {
+  .div-header {
+    background: #00cc9e;
+  }
+}
+
+:host-context(.send-component) {
+  .div-header {
+    background: #4048ff;
+  }
+}
+
+:host-context(.buy-component) {
+  .div-header {
+    background: #ffa318;
+  }
+}
+
+:host-context(.error) {
+  .div-header {
+    background: linear-gradient(0deg, #f52079 10.59%, #4048ff 190.32%);
+  }
+}
+
+@media (max-width: 768px) {
+  .div-text {
+    padding-bottom: 1.4rem;
+  }
+}

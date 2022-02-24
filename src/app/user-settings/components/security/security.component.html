@@ -1,0 +1,1139 @@
+<div
+  class="container-fluid page-content"
+  xmlns="http://www.w3.org/1999/html"
+  xmlns="http://www.w3.org/1999/html"
+>
+  <div class="row show-mobile mb-2">
+    <div class="col-md-12 col-lg-12 col-xs-12">
+      <button type="button" class="btn-back" [routerLink]="['/home/settings/']">
+        <
+      </button>
+    </div>
+  </div>
+  <div class="div_block">
+    <!------- Collapse retrieve data ----------->
+    <div
+      class="collapsed panel-heading row"
+      data-toggle="collapse"
+      href="#collapse1"
+      aria-expanded="false"
+      aria-controls="collapse1"
+    >
+      <!-- <div class="d-flex justify-content-between cursor_pntr">
+                    <div>
+                        <h1 class="data cursor_pntr">
+                            {{'Profil.retreive_data_portfolio' | translate}}
+                        </h1>
+                    </div>
+                    <div class="px-3 pt-2 cursor_pntr">
+                        <i class="chevron fa fa-fw"></i>
+                    </div>
+                </div> -->
+
+      <div class="d-flex justify-content-between cursor_pntr">
+        <div class="d-flex align-self-center">
+          <h1 class="data cursor_pntr">
+            {{ 'Profil.retreive_data_portfolio' | translate }}
+          </h1>
+        </div>
+        <div class="px-3"><i class="chevron fa fa-fw"></i></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="collapse" id="collapse1">
+        <div class="row d-flex align-items-center collapse">
+          <div class="row">
+            <div class="col-12 d-flex justify-content-start mt-2">
+              <p class="dark-grey-text">
+                {{ 'Profil.JSON-file' | translate }}
+              </p>
+            </div>
+          </div>
+          <div class="row">
+            <div
+              class="col-xl-11 col-lg-11 col-md-12 col-sm-12 div-buttons-export"
+            >
+              <button
+                class="btn-export mb-1"
+                (click)="
+                  this.exportType = eExportType.btc;
+                  openModalAndCheckBTC(exportDataModal, checkUserLegalKYCModal)
+                "
+              >
+                <span *ngIf="!this.showSpinnerBTC">{{
+                  'security.download-key-BTC' | translate
+                }}</span>
+                <div
+                  *ngIf="this.showSpinnerBTC"
+                  class="spinner-border"
+                  role="status"
+                >
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </button>
+
+              <button
+                class="btn-export"
+                (click)="
+                  this.exportType = eExportType.eth;
+                  openModalAndCheckETH(exportDataModal, checkUserLegalKYCModal)
+                "
+              >
+                <span *ngIf="!this.showSpinnerETH">{{
+                  'security.download-key-ETH' | translate
+                }}</span>
+                <div
+                  *ngIf="this.showSpinnerETH"
+                  class="spinner-border"
+                  role="status"
+                >
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!------------End Collapse retrieve data -->
+    <div class="col-12 p-0">
+      <hr />
+    </div>
+
+    <!------- Collapse update password ----------->
+    <div
+      class="collapsed panel-heading row"
+      data-toggle="collapse"
+      href="#collapse3"
+      aria-expanded="false"
+      aria-controls="collapse3"
+    >
+      <div class="d-flex justify-content-between cursor_pntr">
+        <div class="d-flex align-self-center">
+          <h1 class="data cursor_pntr">
+            {{ 'Profil.update_pwd_connexion' | translate }}
+          </h1>
+        </div>
+        <div class="px-3"><i class="chevron fa fa-fw"></i></div>
+      </div>
+    </div>
+    <div class="row collapse" id="collapse3">
+      <div class="row">
+        <form [formGroup]="formUpdatePassword" id="formUpdatePassword">
+          <div class="d-flex justify-content-start mt-2">
+            <p class="d-flex flex-column">
+              <span class="dark-grey-text">{{
+                'security.you_can_change_pwd' | translate
+              }}</span>
+              <span class="orange-text pt-2">
+                {{ 'security.alert_change_pwd' | translate }}</span
+              >
+            </p>
+          </div>
+
+          <!-- Input , label and error msg Old password-->
+          <div class="row mt-2">
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+              <label class="label_input">{{
+                'Profil.current_password' | translate
+              }}</label>
+            </div>
+          </div>
+
+          <!--  [ngClass]="{errorMsg: !this.formUpdatePassword.get('old_password')?.valid &&
+                  this.formUpdatePassword.get('old_password')?.touched && this.formUpdatePassword.get('old_password')?.errors?.required}" -->
+          <div class="row">
+            <div class="col-sm-10 col-md-10 col-lg-7 col-xl-6 col-xxl-4">
+              <div class="div_input_add position-relative">
+                <input
+                  autocomplete="on"
+                  type="password"
+                  (focusin)="removeMessage()"
+                  name="old_password"
+                  id="old_password"
+                  formControlName="old_password"
+                  class="input_oeil"
+                  #old_password_field
+                />
+                <span
+                  (click)="
+                    old_password_field.type =
+                      old_password_field.type == 'password'
+                        ? 'text'
+                        : 'password'
+                  "
+                  class="fa fa-fw cross_input_network align-self-center"
+                  aria-hidden="true"
+                  [ngClass]="
+                    old_password_field.type == 'password'
+                      ? ' fa-eye-slash '
+                      : ' fa-eye'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- End Input , label and error msg Old password-->
+          <!-- Input , label and error msg new password-->
+          <div class="row pt-4">
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+              <label
+                class="label_input"
+                [ngClass]="{
+                  labelError:
+                    this.formUpdatePassword.get('password')?.invalid &&
+                    !this.formUpdatePassword.get('password')?.errors?.required
+                }"
+              >
+                {{ 'Profil.new_password' | translate }}</label
+              >
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-10 col-md-10 col-lg-7 col-xl-6 col-xxl-4">
+              <div
+                class="div_input_add position-relative"
+                [ngClass]="{
+                  errorMsg:
+                    this.formUpdatePassword.get('password')?.invalid &&
+                    !this.formUpdatePassword.get('password')?.errors?.required,
+                  success: this.formUpdatePassword.get('password')?.valid
+                }"
+              >
+                <input
+                  autocomplete="on"
+                  type="password"
+                  name="password"
+                  formControlName="password"
+                  id="newPassword"
+                  class="input_oeil"
+                  #password
+                  [ngClass]="{
+                    errorMsg2:
+                      this.formUpdatePassword.get('password')?.invalid &&
+                      !this.formUpdatePassword.get('password')?.errors?.required
+                  }"
+                />
+                <span
+                  (click)="
+                    password.type =
+                      password.type == 'password' ? 'text' : 'password'
+                  "
+                  class="fa fa-fw cross_input_network align-self-center"
+                  aria-hidden="true"
+                  [ngClass]="
+                    password.type == 'password' ? ' fa-eye-slash ' : ' fa-eye'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+          <div class="row pt-1">
+            <div
+              class="row"
+              *ngIf="
+                this.formUpdatePassword.get('password')?.invalid &&
+                !this.formUpdatePassword.get('password')?.errors?.required
+              "
+            >
+              <div class="row">
+                <span class="error_input"
+                  >{{ 'Profil.password_minlength_eight_chars' | translate }}
+                </span>
+              </div>
+              <div class="row">
+                <span class="error_input"
+                  >-{{ 'Profil.password_uppercase' | translate }}</span
+                >
+              </div>
+              <div class="row">
+                <span class="error_input"
+                  >-{{ 'Profil.password_lowercase' | translate }}</span
+                >
+              </div>
+              <div class="row">
+                <span class="error_input"
+                  >-{{ 'Profil.password_number' | translate }}</span
+                >
+              </div>
+              <div class="row">
+                <span class="error_input"
+                  >-{{ 'Profil.password_special_character' | translate }}</span
+                >
+              </div>
+            </div>
+          </div>
+          <!-- End Input , label and error msg new password-->
+          <!-- Input , label and error msg confirmation password-->
+          <div class="row mt-3">
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+              <label
+                class="label_input"
+                [ngClass]="{
+                  labelError: this.formUpdatePassword.errors?.mustMatch
+                }"
+              >
+                {{ 'Profil.confirm_new_password' | translate }}</label
+              >
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-10 col-md-10 col-lg-7 col-xl-6 col-xxl-4">
+              <div
+                class="div_input_add position-relative"
+                [ngClass]="{
+                  errorMsg: this.formUpdatePassword.errors?.mustMatch,
+                  success:
+                    !this.formUpdatePassword.errors?.mustMatch &&
+                    this.formUpdatePassword.get('confirmPassword')?.valid
+                }"
+              >
+                <input
+                  autocomplete="on"
+                  type="password"
+                  #confirmPassword
+                  name="confirmPassword"
+                  id="confirmPassword"
+                  formControlName="confirmPassword"
+                  class="input_oeil"
+                  [ngClass]="{
+                    errorMsg2: this.formUpdatePassword.errors?.mustMatch
+                  }"
+                />
+                <span
+                  (click)="
+                    confirmPassword.type =
+                      confirmPassword.type == 'password' ? 'text' : 'password'
+                  "
+                  class="fa fa-fw cross_input_network align-self-center"
+                  aria-hidden="true"
+                  [ngClass]="
+                    confirmPassword.type == 'password'
+                      ? ' fa-eye-slash '
+                      : ' fa-eye'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row pt-1">
+            <span
+              class="error_input"
+              *ngIf="
+                this.formUpdatePassword.errors?.mustMatch &&
+                this.formUpdatePassword.dirty
+              "
+            >
+              {{ 'Profil.password_must_match_error' | translate }}
+            </span>
+          </div>
+          <!-- End Input , label and error msg confirmation password-->
+          <!-- error msg: wrong old password-->
+          <div class="row pt-1">
+            <div class="col-sm-10 col-md-10 col-lg-6 col-xl-5 col-xxl-4 d-flex">
+              <label class="error_input">
+                {{ passwordWrong | translate }}
+              </label>
+            </div>
+          </div>
+          <!-- end error msg: wrong old password-->
+        </form>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-10 col-md-10 col-lg-6 col-xl-5 col-xxl-4 mt-3">
+          <button
+            type="submit"
+            class="btn-green"
+            (click)="updatePassword()"
+            [disabled]="formUpdatePassword.invalid"
+          >
+            <span *ngIf="!this.showSpinner">{{
+              'Profil.save' | translate
+            }}</span>
+            <div
+              *ngIf="this.showSpinner"
+              class="spinner-border text-light"
+              role="status"
+            >
+              <span class="sr-only">Loading...</span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-------End Collapse update password ----------->
+    <div class="col-12 p-0">
+      <hr />
+    </div>
+    <!------- Collapse linkAccounts ----------->
+    <div
+      class="collapsed panel-heading row"
+      data-toggle="collapse"
+      href="#linkAccounts"
+      aria-expanded="false"
+      aria-controls="linkAccounts"
+    >
+      <div class="d-flex justify-content-between cursor_pntr">
+        <div class="d-flex align-self-center">
+          <h1 class="data cursor_pntr">
+            {{ 'Use_another_authentification ' | translate }}
+          </h1>
+        </div>
+        <div class="px-3"><i class="chevron fa fa-fw"></i></div>
+      </div>
+    </div>
+
+    <div class="row collapse" id="linkAccounts">
+      <div class="row">
+        <p class="d-flex flex-column">
+          <span class="title">{{ 'Liez_vos_réseaux' | translate }}</span>
+          <span class="dark-grey-text">
+            {{ 'Liez_votre_compte' | translate }} :</span
+          >
+        </p>
+
+        <div class="row">
+          <app-networks></app-networks>
+        </div>
+      </div>
+    </div>
+
+    <!-------End Collapse linkAccounts ----------->
+    <div class="col-12 p-0">
+      <hr />
+    </div>
+    <!------- Collapse activate 2 step ----------->
+    <div
+      class="collapsed panel-heading two-way-auth-wrapper row"
+      data-toggle="collapse"
+      href="#collapse2fa"
+      aria-expanded="false"
+      aria-controls="collapse2fa"
+    >
+      <div class="d-flex justify-content-between cursor_pntr">
+        <div class="d-flex align-self-center two-way-auth">
+          <h1 class="data cursor_pntr">
+            {{ 'security.2step_auth' | translate }}
+          </h1>
+          <!-- <span class="coming-soon">
+                            <span class="coming-soon-text"> Coming soon! </span>
+            </span> -->
+        </div>
+        <div class="px-3"><i class="chevron fa fa-fw"></i></div>
+      </div>
+    </div>
+    <div class="row collapse" id="collapse2fa">
+      <div class="d-flex flex-row justify-content-start">
+        <span class="pe-3 black-text d-flex align-self-center">
+          {{ 'security.activate-auth-2Steps' | translate }}</span
+        >
+        <!-- you have to add at ui-switch (click)="toggle()"  [disabled]="true"  -->
+        <ui-switch
+          *ngIf="!is2FAactivated"
+          class="d-flex align-self-center"
+          [checked]="is2FAactivated"
+          id="toggle"
+          (change)="onToggle2FAChange($event)"
+        ></ui-switch>
+      </div>
+
+      <div class="row mt-2">
+        <div class="col-lg-10 col-xl-10 col-md-11 col-sm-12">
+          <p class="dark-grey-text">{{ 'Profil.sec-1' | translate }}</p>
+        </div>
+      </div>
+      <div class="row" *ngIf="showme">
+        <div>
+          <p class="active2steps">
+            <img style="margin-right: 10px" src="./assets/Images/tik.svg" />{{
+              'Profil.validateblock' | translate
+            }}
+          </p>
+          <!-- <button class=" btn btn_step2 ">{{"Profil.Configure" | translate}}</button> -->
+        </div>
+      </div>
+      <div class="" *ngIf="show || desactivate">
+        <form [formGroup]="formAuth">
+          <!--  *ngIf="show"-->
+          <div class="row">
+            <div class="col-12">
+              <span class="black-text"
+                >{{ 'Profil.Configure' | translate }}
+              </span>
+            </div>
+          </div>
+          <div class="row mt-3 mb-2">
+            <div class="col-lg-10 col-xl-10 col-md-10 col-sm-12">
+              <p class="dark-grey-text mb-0">
+                {{ 'Profil.defwork' | translate }}
+              </p>
+              <a class="span-link" target="_blank">
+                {{ 'Profil.downloadauth' | translate }}</a
+              >
+            </div>
+            <div class="col-lg-10 col-xl-10 col-md-10 col-sm-12 mt-2 mb-2">
+              <a
+                href="https://apps.apple.com/us/app/google-authenticator/id388497605"
+                target="_blank"
+              >
+                <img
+                  class="me-lg-3 mac-app"
+                  src="/assets/Images/app-store-dl.png"
+                  alt="app store logo"
+                />
+              </a>
+              <a
+                href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=fr&gl=US"
+                target="_blank"
+              >
+                <img
+                  class="iconDownload"
+                  src="/assets/Images/google--app.png"
+                  alt="google store logo"
+                />
+              </a>
+            </div>
+          </div>
+          <div
+            class="
+              gray_block
+              mt-2
+              col-lg-10 col-xl-10 col-md-12 col-sm-12
+              d-flex
+              justify-content-center
+              flex-column
+            "
+            *ngIf="showQrCode"
+          >
+            <!-- <div class="row pt-1">
+                            <span class="black-text"> {{'Profil.step' |translate}}1</span>
+                        </div> -->
+            <div
+              class="
+                row
+                d-flex
+                flex-xl-row flex-lg-row flex-md-column flex-sm-column
+                mt-2
+              "
+            >
+              <div
+                class="col-xl-9 col-lg-9 col-md-12 col-sm-12 d-flex flex-column"
+              >
+                <div
+                  class="
+                    col-xl-10 col-lg-9 col-md-12 col-sm-12
+                    d-flex
+                    flex-column
+                  "
+                >
+                  <span class="black-text"
+                    >{{ 'Profil.step' | translate }}1
+                  </span>
+                </div>
+                <div class="col-xl-7 col-lg-10 col-md-12 col-sm-12 mt-2">
+                  <p class="text-step">{{ 'Profil.scancode' | translate }}</p>
+                </div>
+                <span class="subtitle">{{ 'key' | translate }}</span>
+                <div class="col-xl-7 col-lg-10 col-md-12 col-sm-12">
+                  <div
+                    class="div_secret_key d-flex flex-row align-items-center"
+                  >
+                    <span class="qr-code ms-1">{{ secret }}</span>
+                    <label
+                      class="
+                        copy-code
+                        px-2
+                        d-flex
+                        align-items-center
+                        justify-content-center
+                      "
+                      (click)="copyCode(secret)"
+                      type="button"
+                      ngbPopover="Copied"
+                      popoverTitle=""
+                      [openDelay]="100"
+                      [closeDelay]="100"
+                    >
+                      <img src="/assets/Images/copy-white.svg" class="" />
+                    </label>
+                  </div>
+                  <!-- <div class="d-flex align-self-center padding-right">
+                                            <span class="qr-code">{{secret}}</span>
+                                        </div>
+                                        <div class=" d-flex align-self-center">
+                                            <button class="btn-copy-code" (click)="copyCode(secret)"><img  src="/assets/Images/copy.svg" class="pe-2">{{'Profil.copier' |translate}}</button>
+                                        </div> -->
+                </div>
+                <span></span>
+              </div>
+              <div
+                class="
+                  col-xl-2 col-lg-3 col-md-12 col-sm-12
+                  d-flex
+                  justify-conten-end
+                  align-self-center
+                  make-center
+                  margin-top
+                "
+              >
+                <img
+                  width="120 px"
+                  height="120 px"
+                  class="margin-top"
+                  [src]="qrCode"
+                />
+              </div>
+            </div>
+
+            <!---------------------- block steps----->
+          </div>
+          <div
+            class="
+              gray_block
+              mt-2
+              col-lg-10 col-xl-10 col-md-12 col-sm-12
+              d-flex
+              justify-content-center
+              flex-column
+            "
+            *ngIf="show || desactivate"
+          >
+            <form [formGroup]="formCode">
+              <div
+                class="
+                  col-xl-10 col-lg-9 col-md-12 col-sm-12
+                  d-flex
+                  flex-column
+                "
+              >
+                <span class="black-text">
+                  {{ 'Profil.step' | translate }}2</span
+                >
+              </div>
+              <div class="col-xl-7 col-lg-10 col-md-12 col-sm-12 mt-2">
+                <span class="text-step">
+                  {{ 'Profil.6chiffres' | translate }}</span
+                >
+              </div>
+
+              <div
+                class="
+                  col-xl-7 col-lg-10 col-md-12 col-sm-12
+                  d-flex
+                  flex-row flex-direction-column-mobile
+                  mt-2
+                "
+              >
+                <div class="align-self-center make-center padding-right">
+                  <!-- <code-input class="codeinput" type="number" [codeLength]="6" name="code" ngDefaultControl formControlName="code" #codeInput (codeCompleted)="onCodeCompleted($event)">
+                                            </code-input> -->
+                  <app-code-input-auth
+                    (codeCompleted)="listenForCodeChange($event)"
+                    [ngClass]="{
+                      'success-code': this.errorMessage == 'code correct',
+                      'danger-code': this.errorMessage == 'code incorrect'
+                    }"
+                  ></app-code-input-auth>
+                  <span
+                    class="error_input code-status"
+                    *ngIf="this.errorMessage"
+                    [ngClass]="{
+                      'success-code': this.errorMessage == 'code correct',
+                      'danger-code': this.errorMessage == 'code incorrect'
+                    }"
+                  >
+                    {{ errorMessage | translate }}
+                  </span>
+                </div>
+
+                <div class="d-flex align-self-center margin-top div-width-100">
+                  <button
+                    type="submit"
+                    class="btn-blue"
+                    [disabled]="formCode.controls.valid.value == false"
+                    (click)="confirmUpdate(true)"
+                    *ngIf="!is2FAactivated"
+                  >
+                    <span *ngIf="!this.showSpinner">{{
+                      'Profil.campaign_password.confirm' | translate
+                    }}</span>
+                    <div
+                      *ngIf="this.showSpinner"
+                      class="spinner-border text-light"
+                      role="status"
+                    >
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  </button>
+                  <button
+                    type="submit"
+                    class="btn-blue"
+                    [disabled]="formCode.controls.valid.value == false"
+                    (click)="confirmUpdate(false)"
+                    *ngIf="is2FAactivated"
+                  >
+                    <span *ngIf="!this.showSpinner">{{
+                      'Deactivate' | translate
+                    }}</span>
+                    <div
+                      *ngIf="this.showSpinner"
+                      class="spinner-border text-light"
+                      role="status"
+                    >
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            <!---------------------- block steps----->
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-------End Collapse activate 2 step ----------->
+    <div class="col-12 p-0">
+      <hr />
+    </div>
+    <!------- Collapse delete account --------->
+    <div
+      class="collapsed panel-heading row"
+      data-toggle="collapse"
+      href="#collapse4"
+      aria-expanded="false"
+      aria-controls="collapse4"
+    >
+      <div class="d-flex justify-content-between cursor_pntr">
+        <div class="d-flex align-self-center">
+          <h1 class="data cursor_pntr">
+            {{ 'security.delete_account' | translate }}
+          </h1>
+        </div>
+        <div class="px-3 pt-2">
+          <i class="chevron fa fa-fw"></i>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="collapse" id="collapse4">
+        <div class="row d-flex align-items-center collapse">
+          <div class="col-12 mt-3">
+            <div class="orangeAlert d-flex p-2">
+              <img
+                src="/assets/Images/exclam-attente.svg"
+                class="ps-2 pe-4 icon-warning"
+              />{{ 'security.alert_text' | translate }}
+            </div>
+          </div>
+
+          <div class="col-12 d-flex justify-content-start mt-3">
+            <p class="dark-grey-text d-flex flex-column">
+              <span>{{ 'security.text1' | translate }}</span>
+              <span> {{ 'security.text2' | translate }}</span>
+            </p>
+          </div>
+          <form [formGroup]="deleteForm">
+            <div class="col-12 d-flex justify-content-start mt-27">
+              <div class="dropdown">
+                <button
+                  class="btn btntoggle dropdown-toggle fltr"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <span class="span-ellipsis pt-1">
+                    <span class="text-align-left ellipsis ps-2">{{
+                      selectedReasonName | translate
+                    }}</span>
+                  </span>
+                  <i class="chevron2 fa fa-fw"></i>
+                </button>
+
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <li
+                    class="li-select"
+                    *ngFor="let reason of reasonList; trackBy: trackById"
+                    #reason
+                    (click)="selectedReason(reason.name)"
+                  >
+                    <ng-container *ngIf="reason.name !== selectedReasonName">
+                      <span class="dark-grey-text">{{
+                        reason.name | translate
+                      }}</span>
+                    </ng-container>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="col-12 d-flex justify-content-start mt-4">
+              <div class="col-12 input-checkbox">
+                <input
+                  type="checkbox"
+                  value="confirm"
+                  id="confirm"
+                  tabindex="0"
+                  aria-checked="false"
+                  aria-invalid="false"
+                  formControlName="agreeBox"
+                  name="agreeBox"
+                  (change)="onCheckboxChange($event, 'agreeBox')"
+                />
+                <label class="span_interests ms-2" for="confirm">{{
+                  'security.confirm_delete_account' | translate
+                }}</label>
+              </div>
+            </div>
+            <div
+              class="col-12 d-flex justify-content-start mt-3 mb-4 make-center"
+            >
+              <button
+                type="submit"
+                class="pink_btn"
+                [disabled]="deleteForm.invalid"
+                (click)="openModal(pwdModal)"
+              >
+                <span *ngIf="!this.showSpinner">{{
+                  'security.delete_account' | translate
+                }}</span>
+                <div
+                  *ngIf="this.showSpinner"
+                  class="spinner-border text-light"
+                  role="status"
+                >
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!------------End Collapse rdelete account -->
+  </div>
+  <!-------------------- pwd-block -------------------------------->
+
+  <!-- exportdata modal -->
+  <ng-template #exportDataModal>
+    <div class="modal-header modal-custom">
+      <button
+        type="button"
+        class="btn-close pull-right close"
+        (click)="closeModal(exportDataModal)"
+        aria-label="Close"
+      ></button>
+    </div>
+    <div class="modal-body pt-0 d-flex align-items-center">
+      <div
+        class="
+          col-sm-12
+          error
+          d-flex
+          justify-content-center
+          body-content
+          padding-desktop
+        "
+      >
+        <form [formGroup]="formExportData">
+          <div class="text-center">
+            <img
+              src="assets/Images/moonboy-exportjson.svg"
+              class="moonboy-mobile"
+            />
+          </div>
+          <div class="row d-flex justify-content-center mt-2">
+            <h3 class="d-flex justify-content-center textpwd">
+              {{ 'Profil.export_account' | translate }}
+            </h3>
+          </div>
+          <div class="row d-flex justify-content-center mt-2">
+            <span class="text-center dark-grey-text mb-0">{{
+              'Profil.export_info_security' | translate
+            }}</span>
+          </div>
+          <div
+            class="col-10 custom-label transaction-password mt-3"
+            style="margin: 0 auto"
+          >
+            <label
+              [ngClass]="{
+                labelError:
+                  this.formExportData.get('password')?.errors?.checkPassword
+              }"
+              class="label_input"
+              >{{ 'transaction-password' | translate }}:</label
+            >
+          </div>
+          <div class="row d-flex justify-content-center">
+            <div class="col-10">
+              <div
+                class="div_input_add position-relative"
+                [ngClass]="{
+                  errorMsg:
+                    this.formExportData.get('password')?.errors?.checkPassword
+                }"
+              >
+                <img
+                  src="/assets/Images/input_password_logo.svg"
+                  width="46px"
+                  alt=""
+                />
+                <input
+                  autocomplete="on"
+                  type="password"
+                  name="password"
+                  formControlName="password"
+                  class="input_oeil"
+                  #password_field
+                  [ngClass]="{
+                    errorMsg2:
+                      this.formExportData.get('password')?.errors?.checkPassword
+                  }"
+                />
+                <span
+                  (click)="
+                    password_field.type =
+                      password_field.type == 'password' ? 'text' : 'password'
+                  "
+                  class="fa fa-fw cross_input_network align-self-center"
+                  aria-hidden="true"
+                  [ngClass]="
+                    password_field.type == 'password'
+                      ? ' fa-eye-slash '
+                      : ' fa-eye'
+                  "
+                ></span>
+              </div>
+            </div>
+            <div class="col-12 d-flex justify-content-start pt-2">
+              <!-- <span class="error-msg" *ngIf=" (this.formExportData.get('password')?.touched && this.formExportData.get('password')?.errors?.required)"> {{ 'Profil.field_required' | translate }}</span>-->
+              <span
+                class="error-msg"
+                *ngIf="
+                  this.formExportData.get('password')?.errors?.checkPassword
+                "
+                >{{ 'Profil.pass_wrong' | translate }}</span
+              >
+            </div>
+            <div class="mt-4 d-flex justify-content-center mb-5">
+              <button
+                type="submit"
+                class="btn-blue cursor_pntr max-width"
+                [disabled]="this.formExportData.invalid"
+                (click)="
+                  confirmExport(this.formExportData.get('password')?.value)
+                "
+              >
+                {{ 'confirm_' | translate }}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </ng-template>
+  <!-- end exportdata modal -->
+</div>
+<!-- modal alert to add KYC-->
+<ng-template #checkUserLegalKYCModal>
+  <div class="modal-header modal-custom">
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="modal"
+      (click)="closeModal(checkUserLegalKYCModal)"
+    ></button>
+  </div>
+  <div class="modal-body modal-custom mb-3 kyc-modal-body">
+    <div class="text-center">
+      <img src="assets/Images/KYCModal-img.svg" class="moonboy-mobile" />
+    </div>
+    <h3 *ngIf="kycPendingReject">
+      {{ 'Profil.userLegal_notice_title2' | translate }}
+    </h3>
+    <h3 *ngIf="!kycPendingReject">
+      {{ 'Profil.userLegal_notice_title' | translate }}
+    </h3>
+    <span *ngIf="!kycPendingReject" class="dark-grey-text kyctext">
+      {{ 'Profil.userLegal_notice_msg' | translate }}
+      {{ 'Profil.userLegal_notice_btn' | translate }}
+    </span>
+    <!-- <a
+      class="btn-link"
+      routerLink="/home/settings/Legal_KYC"
+      (click)="this.modalService.dismissAll()"
+    >
+      {{ 'Profil.userLegal_notice_btn' | translate }}
+    </a> -->
+    <div
+      class="
+        d-flex
+        align-self-center
+        justify-content-center
+        margin-top
+        div-width-100
+      "
+    >
+      <button
+        type="submit"
+        class="btn-blue btn-blue-kyc cursor_pntr max-width"
+        routerLink="/home/settings/Legal_KYC"
+        (click)="this.modalService.dismissAll()"
+      >
+        KYC
+      </button>
+    </div>
+  </div>
+</ng-template>
+<!--div spinner -->
+<div class="spinner-wrapper">
+  <app-loading-logo *ngIf="showSpinner" class="spinner"></app-loading-logo>
+</div>
+<!-- End div spinner -->
+
+<ng-template #pwdModal>
+  <div class="modal-content-auth">
+    <div class="modal-header modal-customm">
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        (click)="closeModal(pwdModal)"
+      ></button>
+    </div>
+    <div class="modal-body modal-customm">
+      <img class="satt-modal-header-img" src="./assets/Images/sadMoonboy.svg" />
+      <h3 class="textpwd margin-pw p-3">
+        {{ 'security.delete_account' | translate }}
+      </h3>
+      <div class="row d-flex justify-content-center confirmDelete">
+        <p class="dark-grey-text text-center">
+          {{ 'confirmDelete' | translate }}
+        </p>
+      </div>
+      <form [formGroup]="formL" class="col-10" style="margin: 0 auto">
+        <div class="col-12 d-flex justify-content-start mt-2">
+          <label class="label_input" [ngClass]="{ labelError: errorMsg !== '' }"
+            >{{ 'info_password_title' | translate }}
+          </label>
+        </div>
+        <div class="col-12">
+          <div
+            class="div_input_add position-relative"
+            [ngClass]="{ errorMsg: errorMsg !== '' }"
+          >
+            <input
+              autocomplete="on"
+              type="password"
+              #password_field_
+              formControlName="password"
+              (focusin)="removeMessage()"
+              name="password"
+              class="input_lpwd"
+              ngModel
+              [ngClass]="{ errorMsg2: errorMsg !== '' }"
+            />
+            <span
+              (click)="
+                password_field_.type =
+                  password_field_.type == 'password' ? 'text' : 'password'
+              "
+              class="fa fa-fw cross_input_network align-self-center"
+              [ngClass]="
+                password_field_.type == 'password'
+                  ? ' fa-eye-slash '
+                  : ' fa-eye'
+              "
+            ></span>
+          </div>
+        </div>
+
+        <div class="col-12 d-flex justify-content-start mt-3">
+          <label
+            class="label_input"
+            [ngClass]="{ labelError: this.formL.errors?.mustMatch }"
+            >{{ 'confirm_pass_word' | translate }}</label
+          >
+        </div>
+
+        <div class="col-12">
+          <div
+            class="div_input_add position-relative"
+            [ngClass]="{
+              errorMsg: this.formL.errors?.mustMatch,
+              success:
+                !this.formL.errors?.mustMatch &&
+                this.formL.valid &&
+                errorMsg == ''
+            }"
+          >
+            <input
+              autocomplete="on"
+              type="password"
+              #confirm_password_field
+              formControlName="confirmPassword"
+              (focusin)="removeMessage()"
+              name="confirmPassword"
+              class="input_lpwd"
+              ngModel
+              [ngClass]="{ errorMsg2: this.formL.errors?.mustMatch }"
+            />
+            <span
+              (click)="
+                confirm_password_field.type =
+                  confirm_password_field.type == 'password'
+                    ? 'text'
+                    : 'password'
+              "
+              class="fa fa-fw cross_input_network align-self-center"
+              [ngClass]="
+                confirm_password_field.type == 'password'
+                  ? ' fa-eye-slash '
+                  : ' fa-eye'
+              "
+            ></span>
+          </div>
+        </div>
+        <span
+          class="error_input ms-4"
+          *ngIf="this.formL.errors?.mustMatch && this.formL.dirty"
+          >{{ 'Profil.password_must_match_error' | translate }}</span
+        >
+
+        <span
+          class="error_input ms-4"
+          *ngIf="this.isSub && formF.confirmPassword.errors?.required"
+          >{{ 'field_required' | translate }}</span
+        >
+        <span class="error_input ms-4" *ngIf="errorMsg">{{
+          errorMsg | translate
+        }}</span>
+
+        <div class="row row-btn mb-3 px-1 d-flex justify-content-center">
+          <button
+            type="submit"
+            class="btn-reset-passwd mt-2 me-2"
+            [disabled]="this.formL.invalid"
+            (click)="deleteAccount()"
+          >
+            {{ 'security.delete_account_btn' | translate }}
+          </button>
+          <button
+            type="submit"
+            class="btn-reset-cnl mt-2"
+            (click)="closeModal(pwdModal)"
+          >
+            {{ 'Cancel' | translate }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>

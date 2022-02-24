@@ -1,0 +1,348 @@
+<app-header-social-registartion> </app-header-social-registartion>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xl-5 col-lg-5 col-md-5">
+      <app-left-component></app-left-component>
+    </div>
+    <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 padding-top margin-bottom">
+      <div class="form-container col-xl-10 col-lg-10 col-md-12 col-sm-12">
+        <div class="row d-flex justify-content-center monetize-wrapper">
+          <div class="col-xl-7 col-lg-10 col-md-11 col-sm-12">
+            <app-monetize-steps></app-monetize-steps>
+          </div>
+        </div>
+
+        <div class="row d-flex justify-content-center">
+          <div class="col-xl-7 col-lg-10 col-md-11 col-sm-8 make-center mt-2">
+            <span class="title_page">
+              {{ 'complete_profile_title' | translate }}</span
+            >
+          </div>
+        </div>
+        <div class="row d-flex justify-content-center mt-3">
+          <div
+            class="
+              col-xl-7 col-lg-10 col-md-11 col-sm-8
+              make-center
+              d-flex
+              justify-content-start
+            "
+          >
+            <p class="drak-gray_text">
+              {{ 'complete_profile_text' | translate }}
+            </p>
+          </div>
+        </div>
+        <div class="row d-flex justify-content-center mt-5">
+          <div
+            class="col-xl-7 col-lg-10 col-md-11 col-sm-8 padding-x"
+            *ngIf="!show"
+          >
+            <form [formGroup]="completeProfileForm">
+              <div class="row email-input d-flex justify-content-between">
+                <div class="col-lg-5 col-md-5 firstName">
+                  <div class="row">
+                    <label for="first_name" class="gray-text-span">
+                      {{ 'Profil.first_name' | translate }}
+                    </label>
+                  </div>
+
+                  <div class="">
+                    <input
+                      id="first_name"
+                      type="text"
+                      class="type-input"
+                      formControlName="firstName"
+                      [ngClass]="{
+                        error:
+                          this.getControls.firstName.touched &&
+                          this.getControls.firstName.errors,
+                        success: this.getControls.firstName.valid
+                      }"
+                      [(ngModel)]="this.firstName"
+                    />
+
+                    <span
+                      *ngIf="
+                        (this.getControls.firstName.dirty ||
+                          this.getControls.firstName.touched) &&
+                        this.getControls.firstName.errors
+                      "
+                      class="fa fa-times field-icon-firstName close-error-icon"
+                      (click)="
+                        this.getControls.firstName.setValue('');
+                        this.getControls.firstName.updateValueAndValidity()
+                      "
+                    ></span>
+
+                    <span
+                      *ngIf="this.getControls.firstName.valid"
+                      class="fa fa-check field-icon-firstName success-icon"
+                    ></span>
+
+                    <div class="error-message-name input-error">
+                      <span
+                        *ngIf="
+                          this.completeProfileForm.get('firstName')?.errors
+                            ?.required && this.getControls.firstName.touched
+                        "
+                        >{{ 'Profil.field_required' | translate }}</span
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 lastName">
+                  <div class="row">
+                    <label for="last_name" class="gray-text-span">
+                      {{ 'Profil.last_name' | translate }}
+                    </label>
+                  </div>
+
+                  <div class="">
+                    <input
+                      type="text"
+                      class="type-input"
+                      formControlName="lastName"
+                      [ngClass]="{
+                        error:
+                          this.getControls.lastName.touched &&
+                          this.getControls.lastName.errors,
+                        success: this.getControls.lastName.valid
+                      }"
+                      [(ngModel)]="this.lastName"
+                    />
+                    <span
+                      *ngIf="
+                        (this.getControls.lastName.dirty ||
+                          this.getControls.lastName.touched) &&
+                        this.getControls.lastName.errors
+                      "
+                      class="fa fa-times field-icon-lastName close-error-icon"
+                      (click)="
+                        this.getControls.lastName.setValue('');
+                        this.getControls.lastName.updateValueAndValidity()
+                      "
+                    ></span>
+                    <span
+                      *ngIf="this.getControls.lastName.valid"
+                      class="fa fa-check field-icon-lastName success-icon"
+                    ></span>
+                    <div class="error-message-name input-error">
+                      <span
+                        *ngIf="
+                          this.completeProfileForm.get('lastName')?.errors
+                            ?.required && this.getControls.lastName.touched
+                        "
+                        >{{ 'Profil.field_required' | translate }}</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row div-email">
+                <div class="row">
+                  <label for="email" class="gray-text-span">{{
+                    'ur_mail' | translate
+                  }}</label>
+                </div>
+
+                <div class="email-input">
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    #emailValue
+                    formControlName="email"
+                    class="type-input"
+                    [ngClass]="{
+                      error:
+                        this.getControls.email.touched &&
+                        this.getControls.email.errors,
+                      success: this.getControls.email.valid
+                    }"
+                    [(ngModel)]="this.email"
+                  />
+                  <span
+                    *ngIf="
+                      (this.getControls.email.dirty ||
+                        this.getControls.email.touched) &&
+                      this.getControls.email.errors
+                    "
+                    class="fa fa-times field-icon close-error-icon"
+                    (click)="
+                      this.getControls.email.setValue('');
+                      this.getControls.email.updateValueAndValidity()
+                    "
+                  ></span>
+                  <span
+                    *ngIf="this.getControls.email.valid"
+                    class="fa fa-check field-icon success-icon"
+                  ></span>
+                </div>
+              </div>
+              <div class="error-message input-error">
+                <span
+                  *ngIf="
+                    this.completeProfileForm.get('email')?.errors?.required &&
+                    this.getControls.email.touched
+                  "
+                  >{{ 'Profil.field_required' | translate }}</span
+                >
+              </div>
+              <div class="error-message input-error">
+                <span
+                  *ngIf="
+                    this.completeProfileForm.get('email')?.errors?.pattern &&
+                    !this.completeProfileForm.get('email')?.errors?.required
+                  "
+                  >{{ 'field_mustbe_email' | translate }}</span
+                >
+              </div>
+              <div
+                class="row"
+                *ngIf="
+                  duplicateEmail &&
+                  !this.completeProfileForm.get('email')?.errors?.required &&
+                  !this.completeProfileForm.get('email')?.errors?.pattern
+                "
+              >
+                <span class="blue-msg">
+                  {{ 'mail_already_linked' | translate }}
+                </span>
+                <span class="blue-msg cursor-pointer" (click)="goToLogin()">
+                  {{ 'login_here' | translate }}
+                </span>
+              </div>
+            </form>
+
+            <div class="continueRow display-flex">
+              <button
+                class="btnContinue"
+                (click)="updateProfile()"
+                [disabled]="completeProfileForm.invalid"
+              >
+                {{ 'validate' | translate }}
+                <!-- <img
+                  class="continue_img active"
+                  src="/assets/Images/continue_arrow.svg"
+                  alt=""
+                />
+                <img
+                  class="continue_img disabled"
+                  src="/assets/Images/continue_arrow_grey.svg"
+                  alt=""
+                /> -->
+              </button>
+            </div>
+          </div>
+
+          <div
+            class="col-xl-8 col-lg-10 col-md-11 col-sm-8 left-side-content"
+            *ngIf="show"
+          >
+            <h3 class="title_welcome">
+              {{ 'finalize_profile_title' | translate }}
+            </h3>
+            <div class="row link_paragraph">
+              <p>
+                {{ 'mail_sent' | translate }}
+                <span class="blue_email">
+                  {{ this.completeProfileForm.get('email')?.value }}
+                </span>
+                {{ 'finalize_account_text' | translate }}
+              </p>
+            </div>
+
+            <div class="continueRow">
+              <a class="btnResend">
+                {{ 'Resend_link' | translate }}
+              </a>
+            </div>
+            <div class="row link_paragraph">
+              <p>
+                {{ 'mail_not_recieved' | translate }}
+                {{ 'verify_spam' | translate }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-footer-social-registartion></app-footer-social-registartion>
+  <ng-template #confirmMailModal>
+    <div class="modal-header modal-custom">
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        (click)="closeModal(confirmMailModal)"
+      ></button>
+    </div>
+    <div
+      class="
+        modal-body modal-custom
+        d-flex
+        flex-column
+        justify-content-center
+        align-items-center
+      "
+    >
+      <img class="satt-modal-header-img" src="/assets/Images/mail-open.svg" />
+      <div class="d-flex flex-column justify-content-center align-items-center">
+        <h3 class="textpwd">{{ 'info_after_signup_title' | translate }}</h3>
+
+        <span class="darck-green"
+          >{{ 'info_after_signup_text1' | translate }}
+        </span>
+
+        <span class="text-email"
+          >{{ this.completeProfileForm.get('email')?.value }} .
+        </span>
+
+        <!--    <span class="darck-green">{{
+        "info_after_signup_text3" | translate
+        }}</span>
+-->
+        <span class="darck-green mt-2">
+          {{ 'recieve_nothing' | translate }}
+        </span>
+      </div>
+      <div
+        class="
+          col-xl-6 col-lg-6 col-md-8 col-sm-8
+          d-flex
+          flex-column
+          justify-content-center
+          align-items-center
+          mt-4
+        "
+      >
+        <button
+          class="white-btn"
+          promise-btn="signupLoading"
+          (click)="sendConfirmationMail()"
+          type="button"
+        >
+          {{ 'info_after_signup_btn' | translate }}
+        </button>
+      </div>
+      <div
+        class="
+          col-xl-6 col-lg-6 col-md-8 col-sm-8
+          d-flex
+          flex-column
+          justify-content-center
+          align-items-center
+          mt-3
+          mb-3
+        "
+      >
+        <button type="button" class="green-btn" (click)="validatedEmail()">
+          {{ 'i_have_validatet_mail' | translate }}
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</div>

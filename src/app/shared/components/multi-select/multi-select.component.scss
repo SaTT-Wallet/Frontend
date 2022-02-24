@@ -1,0 +1,19 @@
+:host {
+  .title {
+    margin: 0px;
+  }
+}
+
+.options-wrapper {
+  display: flex;
+  :host-context(.display-flex-column) {
+    flex-direction: column;
+    gap: 0.5em;
+  }
+}
+
+:host-context(.gap-oracles) {
+  .options-wrapper {
+    gap: 0.25em;
+  }
+}

@@ -1,0 +1,64 @@
+:host {
+  width: 100%
+}
+
+.bg-grey {
+  background-color: #f6f6ff;
+}
+a:link {
+  text-decoration: underline;
+}
+a:hover {
+  text-decoration: none;
+}
+.transactionHash-wrapper {
+  margin: 1em auto;
+  border-radius: 1.2rem;
+  padding: 1em;
+  max-width: 500px;
+}
+.copy-to-clipboard-btn {
+  cursor: pointer;
+  margin: 1em auto;
+  padding: 0.5em;
+  border: none;
+  background-color: transparent;
+  color: #4048ff;
+}
+.span-wallet {
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 56%;
+  color: #4048ff;
+}
+
+.span-wallet2 {
+  /*display: inline-flex;
+  width: 100px;*/
+  overflow: hidden;
+  display: inline-flex;
+  width: 52%;
+  justify-content: flex-end;
+  color: #4048ff;
+}
+
+.trx-hash-text {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #4048ff;
+}
+
+.trx-hash-title {
+  color: #75758f;
+  text-align: center;
+}
+
+.text-color-white {
+  color: white;
+}
+
+.text-bold {
+  font-weight: bold;
+}

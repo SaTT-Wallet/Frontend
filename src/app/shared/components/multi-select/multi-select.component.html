@@ -1,0 +1,15 @@
+<label class="title">
+  <ng-content></ng-content>
+</label>
+<div class="reset-btn-wrapper">
+  <ng-container
+    *ngTemplateOutlet="resetBtnTpl; context: resetBtnTplContext"
+  ></ng-container>
+</div>
+<div class="options-wrapper">
+  <div *ngFor="let option of options; let i = index" #checkboxesWrapper>
+    <ng-container
+      *ngTemplateOutlet="optionTpl; context: getOptionTplContext(option, i)"
+    ></ng-container>
+  </div>
+</div>

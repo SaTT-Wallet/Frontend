@@ -1,0 +1,264 @@
+<div class="campaign-sponsored-posts" [ngClass]="{ active: true }">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <div class="block-wrapper links-list-wrapper">
+          <div class="flex_container header justify-content-center">
+            <div class="input-group mb-3 search_container">
+              <form class="width-100">
+                <input
+                  autocomplete="off"
+                  type="search"
+                  class="form-control searchInput height-45"
+                  placeholder="{{
+                    'campaign_details.creators_search_placeholder' | translate
+                  }}"
+                  (change)="changesearch($event)"
+                />
+              </form>
+            </div>
+
+            <button class="btn-search" (click)="search()">
+              {{ 'campaign_details.search' | translate }}
+            </button>
+
+            <button class="btn-filter">
+              <span class="icon-filter"></span>
+            </button>
+            <!-- test -->
+          </div>
+          <div class="links-list-table">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="table-header">
+                    {{ 'campaign_details.name' | translate }}
+                  </th>
+                  <th class="table-header">
+                    {{ 'campaign_details.rank' | translate }}
+                  </th>
+                  <th class="table-header">
+                    {{ 'campaign_details.social_network' | translate }}
+                  </th>
+                  <th class="table-header">
+                    {{ 'campaign_details.country' | translate }}
+                  </th>
+                  <th class="table-header">
+                    {{ 'campaign_details.to_pay' | translate }}
+                  </th>
+                  <th class="table-header"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let _prom of proms">
+                  <th class="padding-1">
+                    <div class="media-icon-link-wrapper">
+                      <img
+                        class="s-media-icon creators_img"
+                        [src]="+'/public/pic/' + _prom.meta?._id"
+                        alt=""
+                      />
+                      <a class="s-media-link N_Font" href="{{ _prom._link }}">{{
+                        _prom.meta.name
+                      }}</a>
+                    </div>
+                  </th>
+
+                  <td>
+                    <div
+                      *ngIf="_prom.isAccepted"
+                      class="flex_container rang_container"
+                    >
+                      <div>58%</div>
+                      <img
+                        src="/assets/Images/Rang.svg"
+                        alt=""
+                        class="rang_img"
+                      />
+                    </div>
+                  </td>
+
+                  <td>
+                    <div *ngIf="_prom.isAccepted">
+                      <img
+                        src="/assets/Images/Small_icon_Facebook.svg"
+                        alt=""
+                        class="socialMediaIcons"
+                      />
+                      <img
+                        src="/assets/Images/Small_Icon_youtube.svg"
+                        alt=""
+                        class="socialMediaIcons"
+                      />
+                      <img
+                        src="/assets/Images/Small_Icon_twitter.svg"
+                        alt=""
+                        class="socialMediaIcons"
+                      />
+                      <img
+                        src="/assets/Images/Small_Icon_insta.svg"
+                        alt=""
+                        class="socialMediaIcons"
+                      />
+                    </div>
+                  </td>
+
+                  <td>
+                    <div
+                      *ngIf="_prom.isAccepted"
+                      class="flex_container top_margin_amounts"
+                    >
+                      <div>8,420.78</div>
+                      <img src="/assets/Images/TotalG.svg" alt="" />
+                    </div>
+                  </td>
+
+                  <td>
+                    <div
+                      *ngIf="_prom.isAccepted"
+                      class="flex_container top_margin_amounts"
+                    >
+                      <div>8,420.78</div>
+                      <img src="/assets/Images/TotalG.svg" alt="" />
+                    </div>
+                  </td>
+
+                  <td>
+                    <div *ngIf="!_prom.isAccepted" class="flex_container">
+                      <button
+                        class="reject_button"
+                        (click)="getSelectedLink(_prom, 'reject')"
+                        data-bs-toggle="modal"
+                        data-bs-target="#BlockChain_Pass"
+                      >
+                        <img src="/assets/Images/supp.svg" alt="" />
+                      </button>
+                      <button
+                        class="reject_button"
+                        (click)="getSelectedLink(_prom, 'accept')"
+                        data-bs-toggle="modal"
+                        data-bs-target="#BlockChain_Pass"
+                      >
+                        <img src="/assets/Images/accept_Link.svg" alt="" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 
+  <button type="button" class="btn btn-primary" >
+    Launch demo modal
+  </button>
+   -->
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="BlockChain_Pass"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content modal_width">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="input-group mb-3 grid_container">
+          <div class="text text-center" *ngIf="displayRejectReason">
+            <div class="auto_margin auth_font">
+              {{ 'campaign_details.reject_media' | translate }}
+            </div>
+            <br />
+            <div class="auto_margin auth_font">
+              {{ 'campaign_details.reject_media_message' | translate }}
+            </div>
+            <br />
+            <div class="input-group">
+              <span class="input-group-text">{{
+                'campaign_details.reason' | translate
+              }}</span>
+              <textarea
+                class="form-control"
+                aria-label="With textarea"
+                (change)="handelRejectedReason($event)"
+              ></textarea>
+            </div>
+            <span *ngIf="emptyInputError" class="errorBEP20BEP20">{{
+              'campaign_details.add_reason' | translate
+            }}</span>
+          </div>
+
+          <div class="text-center" *ngIf="!displayRejectReason">
+            <img
+              src="/assets/Images/Password_modal_logo.svg"
+              alt=""
+              class="auto_margin icon_size"
+            />
+            <div class="auto_margin auth_font">
+              {{ 'campaign_password.title' | translate }}
+            </div>
+            <br />
+
+            <div class="flex_container">
+              <input
+                type="password"
+                class="form-control input_size"
+                placeholder="password"
+                aria-label="password"
+                aria-describedby="basic-addon1"
+                (change)="saveBlockchainPassword($event)"
+              />
+            </div>
+            <br />
+            <div class="error_container">
+              <span>{{ errorMsg }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div *ngIf="!displayRejectReason">
+          <div class="text text-center">
+            {{ 'campaign_password.description2' | translate }}
+          </div>
+          <button
+            type="button"
+            class="btn btn-primary validate_Btn_position"
+            (click)="handelValidation()"
+          >
+            {{ 'valid' | translate }}
+          </button>
+        </div>
+        <div *ngIf="displayRejectReason">
+          <button
+            type="button"
+            class="btn btn-primary validate_Btn_position"
+            (click)="confirmRejectMsg()"
+          >
+            confirm
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            {{ 'campaign_details.close_btn_text' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

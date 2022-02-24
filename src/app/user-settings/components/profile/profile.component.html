@@ -1,0 +1,191 @@
+<div id="doughnut-chart" class="container-fluid page-content wallet-page">
+  <!--<div class="row mb-3">
+        <div class="col-md-12 col-lg-12 col-xs-12">
+            <span class="title_page">{{ 'Profil.account' | translate }} </span>
+        </div>
+    </div>-->
+
+  <div class="row">
+    <div class="col-lg-3 col-md-4 col-sm-12 card-profile">
+      <div class="row d-flex justify-content-center">
+        <circle-progress class="prog" [percent]="this.percentProf">
+          ></circle-progress
+        >
+        <img
+          [src]="user?.userPicture"
+          (error)="onImgError($event)"
+          class="pic-profile"
+        />
+        <span class="cercle"> {{ this.percentProf2 }}</span>
+      </div>
+      <div class="row info">
+        <h3 class="titles">{{ 'Profil.my-profile' | translate }}</h3>
+        <span class="describe"> {{ 'Profil.info' | translate }} </span>
+      </div>
+      <div class="row btn_row d-flex justify-content-center">
+        <button class="btn_edit" (click)="goToEdit()">
+          <span *ngIf="!this.showSpinnerProfile">{{
+            'Profil.edit_butt' | translate
+          }}</span>
+          <div
+            *ngIf="this.showSpinnerProfile"
+            class="spinner-border text-light"
+            role="status"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+        </button>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-12 card-profile">
+      <div class="row d-flex justify-content-center">
+        <circle-progress
+          class="prog"
+          [percent]="this.percentNet"
+          [imageSrc]="'/assets/Images/social_link.svg'"
+        ></circle-progress>
+        <span class="cercle">{{ this.percentNet2 }}</span>
+      </div>
+      <div class="row info">
+        <h3 class="titles">{{ 'Mes_Réseaux_sociaux' | translate }}</h3>
+        <span class="describe"> {{ 'Profil.social' | translate }} </span>
+      </div>
+      <div class="row btn_row d-flex justify-content-center">
+        <button class="btn_edit social-button" (click)="goToNetworks()">
+          <span *ngIf="!this.showSpinnerSocial">{{
+            'Profil.edit_networks' | translate
+          }}</span>
+          <div
+            *ngIf="this.showSpinnerSocial"
+            class="spinner-border text-light"
+            role="status"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+        </button>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-12 card-profile">
+      <div class="row d-flex justify-content-center">
+        <circle-progress
+          class="prog"
+          [percent]="this.percentInterests"
+          [imageSrc]="'/assets/Images/icone2.svg'"
+        ></circle-progress>
+        <span class="cercle"> {{ percentInterests }}% </span>
+      </div>
+      <div class="row info">
+        <h3 class="titles">{{ 'Profil.interests' | translate }}</h3>
+        <span class="describe"> {{ 'Profil.int' | translate }} </span>
+      </div>
+      <div class="row btn_row d-flex justify-content-center">
+        <button class="btn_edit" (click)="goTointerests()">
+          <span *ngIf="!this.showSpinnerInterest">{{
+            'Profil.edit_img' | translate
+          }}</span>
+          <div
+            *ngIf="this.showSpinnerInterest"
+            class="spinner-border text-light"
+            role="status"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+        </button>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-12 card-profile">
+      <div class="row d-flex justify-content-center">
+        <circle-progress
+          class="prog"
+          [percent]="this.percentKyc"
+          [imageSrc]="'/assets/Images/kyyc.svg'"
+        ></circle-progress>
+        <span class="cercle">{{ this.percentKyc2 }}</span>
+      </div>
+      <div class="row info">
+        <h3 class="titles">KYC</h3>
+        <span class="describe"> {{ 'Profil.verif' | translate }} </span>
+      </div>
+      <div class="row btn_row d-flex justify-content-center">
+        <button class="btn_edit" (click)="goToLegalKYC()">
+          <span *ngIf="!this.showSpinnerKYC">{{
+            'Profil.edit_kyc' | translate
+          }}</span>
+          <div
+            *ngIf="this.showSpinnerKYC"
+            class="spinner-border text-light"
+            role="status"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+        </button>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-12 card-profile">
+      <div class="row d-flex justify-content-center">
+        <circle-progress
+          class="prog"
+          [percent]="25"
+          [imageSrc]="'/assets/Images/icone .svg'"
+        ></circle-progress>
+        <span class="cercle">25% </span>
+      </div>
+      <div class="row info">
+        <h3 class="titles">{{ 'Profil.informations_securite' | translate }}</h3>
+        <span class="describe"> {{ 'Profil.pass' | translate }} </span>
+      </div>
+      <div class="row btn_row d-flex justify-content-center">
+        <button class="btn_edit" (click)="goTosecurity()">
+          <span *ngIf="!this.showSpinnerSecurity">{{
+            'Profil.edit_img' | translate
+          }}</span>
+          <div
+            *ngIf="this.showSpinnerSecurity"
+            class="spinner-border text-light"
+            role="status"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+        </button>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-12 card-profile">
+      <div class="row d-flex justify-content-center">
+        <img src="/assets/Images/proo-activate.svg" width="110" height="126" />
+        <!-- <circle-progress class="prog" [percent]="0" [imageSrc]="'/assets/Images/proo-activate.svg'"></circle-progress> -->
+        <!-- [percent]="25"-->
+        <!-- <div class="cercle col-md-2"> 25% </div> -->
+      </div>
+
+      <div class="row info">
+        <h3 class="titles">{{ 'Profil.pro' | translate }}</h3>
+        <span class="describe">{{ 'Profil.pro_sub' | translate }} </span>
+      </div>
+      <div class="row btn_row d-flex justify-content-center">
+        <button
+          class="btn_edit cursor-alias"
+          disabled
+          (click)="goToProAccount()"
+        >
+          <span *ngIf="!this.showSpinnerAccount">{{
+            'Profil.edit_img' | translate
+          }}</span>
+          <div
+            *ngIf="this.showSpinnerAccount"
+            class="spinner-border text-light"
+            role="status"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="d-sm-block d-md-none">
+    <div class="row mt-2 m-5 d-flex justify-content-center">
+      <button class="logout" (click)="signOut()">Log out</button>
+    </div>
+  </div>
+
+  <div class="space"></div>
+</div>

@@ -1,0 +1,28 @@
+:host {
+  position: absolute;
+  z-index: 2;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: fit-content;
+}
+
+img {
+  max-width: 100px;
+}
+
+:host(.fullscreen) {
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  background: white;
+  transform: none;
+}
+
+:host(.fullscreen img) {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

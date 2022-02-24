@@ -1,0 +1,156 @@
+<div class="row div_left">
+  <div
+    class="left-background-simple-blue position-relative"
+    *ngIf="
+      this.router.url.startsWith('/social-registration/monetize-facebook') ||
+      this.router.url.startsWith('/social-registration/monetize-telegram') ||
+      this.router.url.startsWith('/social-registration/monetize-google') ||
+      this.router.url.startsWith('/social-registration/monetize-twitter') ||
+      this.router.url.startsWith('/social-registration/monetize-linkedin') ||
+      this.router.url.startsWith('/social-registration/activation-mail')
+    "
+  >
+    <div
+      class="d-flex justify-content-center flex-column align-items-center"
+      *ngIf="
+        this.router.url.startsWith('/social-registration/monetize-facebook')
+      "
+    >
+      <img
+        class="picture-groupe"
+        src="../../../assets/Images/continue_fb.png"
+      />
+    </div>
+    <!-- <div class=" d-flex justify-content-center flex-column align-items-center " *ngIf="this.router.url.startsWith('/social-registration/monetize-telegram')">
+            <img class="picture-groupe " src="../../../assets/Images/Group-teleg2.svg">
+            <p class="white-text px-2 mt-3">{{'activate-oracle-telegram' | translate}}</p>
+        </div> -->
+    <div
+      class="d-flex justify-content-center flex-column align-items-center"
+      *ngIf="this.router.url.startsWith('/social-registration/monetize-google')"
+    >
+      <img
+        class="picture-groupe"
+        src="../../../assets/Images/continue_YT.png"
+      />
+    </div>
+
+    <div
+      class="d-flex justify-content-center flex-column align-items-center"
+      *ngIf="
+        this.router.url.startsWith('/social-registration/monetize-linkedin')
+      "
+    >
+      <img
+        class="picture-groupe"
+        src="../../../assets/Images/linkedin-left.png"
+      />
+    </div>
+
+    <div
+      class="d-flex justify-content-center flex-column align-items-center"
+      *ngIf="
+        this.router.url.startsWith('/social-registration/monetize-twitter')
+      "
+    >
+      <img
+        class="picture-groupe-twitter"
+        src="../../../assets/Images/groupe-twitter.svg"
+      />
+    </div>
+
+    <div
+      class="d-flex justify-content-center flex-column align-items-center"
+      *ngIf="this.router.url.startsWith('/social-registration/activation-mail')"
+    >
+      <img
+        class="picture-groupe"
+        src="../../../assets/Images/confirm-mail2.svg"
+      />
+      <!-- <p class="white-text px-2 mt-3">{{ 'confirm_mail' | translate }}</p> -->
+    </div>
+  </div>
+
+  <div
+    class="left-background-pink position-relative"
+    *ngIf="
+      this.router.url.startsWith('/social-registration/downaldJSON') ||
+      this.router.url.startsWith('/social-registration/transactionPassword') ||
+      this.router.url.startsWith('/social-registration/password_wallet') ||
+      this.router.url.startsWith('/social-registration/pass-phrase')
+    "
+  >
+    <div
+      class="d-flex justify-content-center flex-column align-items-center"
+      *ngIf="router.url === '/social-registration/transactionPassword'"
+    >
+      <img class="picture-groupe" src="../../../assets/Images/lost_key.png" />
+    </div>
+
+    <div
+      class="d-flex justify-content-center flex-column align-items-center"
+      *ngIf="this.router.url.startsWith('/social-registration/downaldJSON')"
+    >
+      <img
+        src="../../../assets/Images/security_ILLU.png"
+        class="picture-groupe"
+      />
+      <!-- <p class="white-text px-2 mt-3">
+        {{ 'password_wallet_texte_download' | translate }}
+      </p> -->
+    </div>
+    <div
+      class="d-flex justify-content-center flex-column align-items-center"
+      *ngIf="this.router.url.startsWith('/social-registration/password_wallet')"
+    >
+      <img
+        src="../../../assets/Images/security_ILLU.png"
+        class="picture-groupe"
+      />
+    </div>
+    <div
+      class="d-flex justify-content-center flex-column align-items-center"
+      *ngIf="this.router.url.startsWith('/social-registration/pass-phrase')"
+    >
+      <img class="picture-groupe" src="../../../assets/Images/lost_key.png" />
+    </div>
+  </div>
+  <div
+    class="left-background-green position-relative"
+    *ngIf="this.router.url.startsWith('/social-registration/activePass')"
+  >
+    <div class="d-flex justify-content-center flex-column align-items-center">
+      <img class="picture-groupe" src="../../../assets/Images/doneRS.svg" />
+    </div>
+  </div>
+  <div
+    class="left-background-social position-relative"
+    *ngIf="this.router.url.startsWith('/social-registration/socialConfig')"
+  >
+    <app-moon-boy-social-medias
+      [percentNet2]="percentNet2"
+    ></app-moon-boy-social-medias>
+  </div>
+
+  <div
+    class="left-background-blue position-relative"
+    *ngIf="this.router.url.startsWith('/social-registration/completeProfile')"
+  >
+    <div class="d-flex justify-content-center flex-column align-items-center">
+      <img
+        src="../../../assets/Images/updateProf.svg"
+        class="icon_pc picture-groupe"
+        alt=""
+      />
+      <img
+        src="{{ pic }}"
+        (error)="onImgError($event)"
+        alt=""
+        class="user_img"
+      />
+      <!-- <p class="white-text px-3 margin-top">
+        {{ 'complete_profile_paragraph' | translate }}
+      </p> -->
+    </div>
+  </div>
+</div>

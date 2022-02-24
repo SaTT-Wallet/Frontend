@@ -1,0 +1,282 @@
+<div class="bg-container">
+  <!--
+  <img src="assets/Images/header-welcom-page.svg" class="header" alt="" />
+-->
+  <svg
+    style="width: 100%; height: 100%"
+    width="1440"
+    height="840"
+    viewBox="0 0 1440 840"
+    preserveAspectRatio="none"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M525.441 819.374C188.229 845.387 30.6936 702.976 -5.92285 628.52V0.820801H1440V711.93C1138.55 699.206 946.956 786.858 525.441 819.374Z"
+      fill="#1F2337"
+    />
+    <path
+      d="M559.569 829.584C226.091 876.293 37.8028 744.38 1.37109 668.791V16.5908H1440V738.514C1140.07 725.597 1072.69 757.712 559.569 829.584Z"
+      fill="url(#paint0_linear_1073_22087)"
+      fill-opacity="0.5"
+    />
+    <defs>
+      <linearGradient
+        id="paint0_linear_1073_22087"
+        x1="524.509"
+        y1="831.98"
+        x2="638.68"
+        y2="-12.1883"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#4048FF" />
+        <stop offset="1" stop-color="#293056" stop-opacity="0" />
+      </linearGradient>
+    </defs>
+  </svg>
+  <div class="bg-content d-flex align-items-center flex-column">
+    <div class="bg-title text-center">FARM YOUR SOCIAL NETWORKS</div>
+    <div class="bg-subtitle text-center">Earn Cryptos with a Post</div>
+    <div class="bg-moon-boy text-center">
+      <img src="assets/Images/welcome-page-bg-img.svg" #moonBoyImg alt="" />
+    </div>
+    <div
+      class="bg-button"
+      *ngIf="moonBoyImg.offsetHeight > 50 && !isConnected"
+      routerLink="auth/login"
+    >
+      Start
+    </div>
+    <div
+      class="bg-button"
+      *ngIf="moonBoyImg.offsetHeight > 50 && isConnected"
+      routerLink="/ad-pools"
+    >
+      Start
+    </div>
+  </div>
+</div>
+<div class="container mt-5 d-flex justify-content-center">
+  <div class="row info-container margin-top">
+    <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
+      <div class="info-box d-flex justify-content-between align-items-center">
+        <span class="info-name">Market Cap</span>
+        <span class="info-value">$ {{ marketCap }}</span>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
+      <div class="info-box d-flex justify-content-between align-items-center">
+        <span class="info-name">SaTT Price</span>
+        <div class="d-flex justify-content-center align-items-center">
+          <span class="d-md-none mr-4">
+            <img
+              *ngIf="percentChange >= 0"
+              src="assets/Images/price-up.svg"
+              alt="price-up" />
+            <img
+              *ngIf="percentChange < 0"
+              src="assets/Images/price-down.svg"
+              alt="price-down"
+          /></span>
+          <span class="info-value"
+            >$ {{ sattPrice }}
+            <span class="satt-percent d-none d-md-block">
+              ({{ percentChange }}%)
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
+      <div class="info-box d-flex justify-content-between align-items-center">
+        <span class="info-name">AdPools</span>
+        <span class="info-value">{{ nbPools }}</span>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
+      <div class="info-box d-flex justify-content-between align-items-center">
+        <span class="info-name">Reach</span>
+        <span class="info-value">{{ reach }}</span>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
+      <div class="info-box d-flex justify-content-between align-items-center">
+        <span class="info-name">Posts</span>
+        <span class="info-value">{{ posts }}</span>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
+      <div class="info-box d-flex justify-content-between align-items-center">
+        <span class="info-name">Views</span>
+        <span class="info-value">{{ views }}</span>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
+      <div class="info-box d-flex justify-content-between align-items-center">
+        <span class="info-name">TVL</span>
+        <span class="info-value">{{ tvl | number }}</span>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
+      <div class="info-box d-flex justify-content-between align-items-center">
+        <span class="info-name">Harvested</span>
+        <span class="info-value">$ {{ harvested | number }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="row d-flex align-items-center justify-content-center mt-lg-5 mt-md-0"
+>
+  <span class="adpool-title">Join our AdPools</span>
+</div>
+<div class="row d-flex align-items-center justify-content-center mt-2">
+  <div class="container mt-lg-5 mt-md-0 d-flex justify-content-center">
+    <div class="row adpools-container">
+      <div class="style-grid mt-4">
+        <app-list-items
+          [infiniteScrollContainer]="'.center-content'"
+          [fromRoot]="true"
+        >
+          <ng-template appItemsList>
+            <app-campaigns-list-item
+              *ngFor="let campaign of campaignsList; trackBy: trackById"
+              [campaign]="campaign"
+            ></app-campaigns-list-item>
+            <ng-container *ngIf="isLoading">
+              <app-campaigns-list-item-placeholder-ui
+                *ngFor="let card of [1, 2, 3]"
+              ></app-campaigns-list-item-placeholder-ui>
+            </ng-container>
+          </ng-template>
+        </app-list-items>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row d-flex align-items-center justify-content-center mt-4 mb-5">
+  <div class="load-more-btn" *ngIf="!isLoading && !noData" (click)="loadMore()">
+    Load More
+  </div>
+</div>
+
+<div
+  class="row welcome-page-footer d-flex flex-column align-items-center justify-content-center mt-4"
+>
+  <div class="welcome-page-footer-title">Follow us</div>
+  <div class="d-flex justify-content-center align-items-center">
+    <img
+      class="social-footer"
+      src="assets/Images/socials/facebook-white.svg"
+      (click)="openInNewTab('https://www.facebook.com/SaTT.Token/')"
+      alt="facebook"
+    />
+    <img
+      class="social-footer"
+      src="assets/Images/socials/instagram-white.svg"
+      (click)="openInNewTab('https://www.instagram.com/satt.token/')"
+      alt="instagram"
+    />
+    <img
+      class="social-footer"
+      src="assets/Images/socials/twitch-white.svg"
+      (click)="openInNewTab('https://www.twitch.tv/satt_token')"
+      alt="twitch"
+    />
+    <img
+      class="social-footer"
+      src="assets/Images/socials/twitter-white.svg"
+      (click)="openInNewTab('https://twitter.com/SaTT_Token')"
+      alt="twitter"
+    />
+    <img
+      class="social-footer"
+      src="assets/Images/socials/youtube-white.svg"
+      (click)="
+        openInNewTab('https://www.youtube.com/channel/UCNSq8P6ZmrhF0Ft3fouqOTw')
+      "
+      alt="youtube"
+    />
+  </div>
+
+  <div
+    class="d-flex justify-content-center align-items-center copyrights flex-column"
+  >
+    <div>Copyright © 2022 Atayen, Inc.</div>
+    <div>
+      All right reserved,&nbsp;
+      <span style="text-decoration: underline" routerLink="/cgu" class="point"
+        >CONDITIONS</span
+      >&nbsp; and &nbsp;
+      <span
+        style="text-decoration: underline"
+        routerLink="/privacy-policy"
+        class="point"
+        >PRIVACY POLICY</span
+      >
+    </div>
+  </div>
+</div>
+
+<!--
+<div class="bg"></div>
+-->
+
+<!--<div class="row d-flex justify-content-center lanche_title_div">
+  <span class="lanche_title">Farm Posts</span>
+                    </div>
+                    <div class="row d-flex justify-content-center new_user white-background-mobile">
+                        <div class="col-lg-7 col-md-10 col-sm-12 d-flex justify-content-center welcome">
+                            <div class="row d-flex justify-content-center lanche_text_div">
+                                <span class="lanche_text">
+        {{ 'welcome_text_farmPosts1' | translate }}</span
+      >
+    </div>
+    <div class="row d-flex justify-content-center">
+      <img src="/assets/Images/farm_post.png" class="satt_lanche" />
+    </div>
+    <div class="row d-flex justify-content-center lanche_text_div">
+      <span class="lanche_text">
+        {{ 'welcome_text_farmPosts2' | translate }}</span
+      >
+    </div>
+  </div>
+  <div class="row btn_row p-0">
+    <div
+      class="
+        d-flex
+        align-items-center
+        justify-content-center
+        col-xl-6 col-lg-8 col-md-12 col-sm-12
+        p-0
+      "
+    >
+      <button class="btnStart" (click)="goToFarmPosts()">
+        <span *ngIf="!this.showSpinnerJoin">{{ 'Join' | translate }}</span>
+                                <div *ngIf="this.showSpinnerJoin" class="spinner-border text-light" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                </button>
+                            </div>
+                            <div class="
+        col-xl-6 col-lg-8 col-md-12 col-sm-12
+        d-flex
+        flex-column
+        justify-content-center
+        align-items-center
+        p-0
+        show-desktop
+      ">
+                                <button class="btnInfo" (click)="redirectqueryparam()">
+        <span *ngIf="!this.showSpinnerInfo">{{ 'more_info' | translate }}</span>
+        <div
+          *ngIf="this.showSpinnerInfo"
+          class="spinner-border text-light"
+          role="status"
+        >
+          <span class="sr-only">Loading...</span>
+        </div>
+      </button>
+                            </div>
+                        </div>
+                    </div>-->

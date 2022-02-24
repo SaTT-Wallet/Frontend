@@ -1,0 +1,15 @@
+:host {
+  display: contents;
+}
+
+:host-context(.grid) {
+  .items {
+    display: grid;
+  }
+}
+
+:host-context(.list) {
+  .items {
+    display: flex;
+  }
+}

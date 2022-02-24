@@ -1,0 +1,38 @@
+.label-type {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 130%;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #75758f;
+}
+.horizontal-line {
+  border: 1px solid #d6d6e8;
+  height: 0px;
+  width: 100% !important;
+}
+.btn-white {
+  background: #ffffff;
+  box-shadow: 0px 2px 6px rgba(50, 55, 84, 0.4);
+  border-radius: 30px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.01em;
+  color: #4048ff;
+  border:none;
+  width:227px;
+  height:40px;
+}
+@media (max-width: 767.98px) {
+  .label-type {
+    font-size: 12px !important;
+  }
+}

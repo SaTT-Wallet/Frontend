@@ -1,0 +1,181 @@
+<!-- One option   -->
+<div class="bloc-filtre" *ngIf="!multiOptions && !multiOptionsCond">
+  <div
+    class="option-filre"
+    *ngFor="let option of options; let index = index; trackBy: trackByValue"
+    [ngClass]="{ active: option.value === selectedOption }"
+  >
+    <input
+      type="radio"
+      class="hide-check"
+      name="radio"
+      id="{{ option.value + inputCheckBoxId }}"
+      [value]="option.value"
+      (change)="changeSelectedOptions($event, option)"
+    />
+    <label for="{{ option.value + inputCheckBoxId }}" class="cursor-pointer">
+      {{ option.text | translate }}</label
+    >
+  </div>
+</div>
+
+<!-- Multi options  -->
+<div
+  class="bloc-filtre"
+  *ngIf="multiOptions && !filterRemaining && !filterParticipation"
+>
+  <div
+    class="option-filre-oracle"
+    *ngFor="let option of options; let index = index; trackBy: trackByValue"
+    [ngClass]="{ active: selectedOptions[option.value] }"
+  >
+    <input
+      type="checkbox"
+      class="hide-check"
+      name="index"
+      id="{{ option.value }}"
+      [value]="option.value"
+      #checkboxes
+      (change)="changeSelectedOptions($event, option)"
+    />
+    <label for="{{ option.value }}" class="cursor-pointer"
+      ><img
+        src="/assets/Images/white-icon-{{ option.value }}.svg"
+        width="23px"
+        height="19px"
+    /></label>
+    <!-- <label for="{{option.value}}"  *ngIf="option.value==='all'" class="cursor-pointer">  {{ option.text | translate}}</label> -->
+  </div>
+</div>
+
+<!-- <div class="bloc-filtre" *ngIf="multiOptions && !filterRemaining">
+    <div class="option-filre-oracle" *ngFor="let option of options; let index = index" [ngClass]="
+    { activefb: option.value=='facebook' &&selectedOptions[option.value],
+     activeis: option.value=='instagram' &&selectedOptions[option.value], 
+     activetw: option.value=='twitter' &&selectedOptions[option.value] ,
+     activeyt: option.value=='youtube' &&selectedOptions[option.value] 
+   }
+  ">
+        <input type="checkbox" class="hide-check" name="index" id="{{ option.value }}" [value]="option.value" #checkboxes (change)="changeSelectedOptions($event, option)" />
+        <label for="{{ option.value }}" class="cursor-pointer"><img
+        
+        src="/assets/Images/white-icon-{{ option.value }}.svg"
+        width="23px"
+        height="19px"
+    /></label>
+        
+</div>
+</div> -->
+
+<!-- Multi options filterRemaining -->
+<div
+  class="bloc-filtre d-flex flex-column gap-0 budget"
+  *ngIf="multiOptions && filterRemaining"
+>
+  <div class="numbers-line mb-1">
+    <div class="number-rang zero-rang">0</div>
+    <div class="number-rang">5k</div>
+    <div class="number-rang">10k</div>
+    <div class="number-rang">50k</div>
+    <div class="number-rang">200k</div>
+    <div class="number-rang budget-top">1M</div>
+  </div>
+  <div class="gray-line-vertical">
+    <div class="vert-line"></div>
+    <div class="vert-line"></div>
+    <div class="vert-line"></div>
+    <div class="vert-line"></div>
+    <div class="vert-line"></div>
+  </div>
+  <div class="gray-line-horiz">
+    <label
+      class="div-input-check"
+      for="{{ option.value }}"
+      *ngFor="let option of options; let index = index; trackBy: trackByValue"
+      [ngClass]="{ activesh: selectedOptions[option.value] }"
+    >
+      <input
+        type="checkbox"
+        class="hide-check"
+        name="index"
+        id="{{ option.value }}"
+        [value]="option.value"
+        (change)="changeSelectedOptions($event, option)"
+      />
+    </label>
+  </div>
+  <!--
+<div class="container"> 
+<div class="row">
+  <div class="coolContainer ">
+   <h6>0</h6>
+  <h6>1M</h6>
+ </div>
+</div>
+</div>
+--></div>
+
+<!-- Multi options Condition -->
+<div
+  class="bloc-filtre"
+  *ngIf="multiOptionsCond && !multiOptions && !filterRemaining"
+>
+  <button
+    class="btn-all"
+    (click)="resetFilter()"
+    [ngClass]="{ active: setAll }"
+  >
+    {{ 'All' | translate }}
+  </button>
+
+  <div
+    class="option-filre"
+    *ngFor="let option of options; let index = index; trackBy: trackByValue"
+    [ngClass]="{ active: selectedOptionsCondtion[option.value] }"
+  >
+    <input
+      type="radio"
+      class="hide-check"
+      name="radio"
+      id="{{ option.value + inputCheckBoxId }}"
+      [value]="option.value"
+      #checkboxes
+      (change)="changeSelectedOptions($event, option)"
+    />
+    <label for="{{ option.value + inputCheckBoxId }}" class="cursor-pointer">
+      {{ option.text | translate }}</label
+    >
+  </div>
+</div>
+
+<!-- Multi options  -->
+<div
+  class="bloc-filtre"
+  *ngIf="multiOptions && !filterRemaining && filterParticipation"
+>
+  <label class="gray-text d-flex">{{ 'link-status' | translate }}</label>
+  <div
+    class="option-filre-oracle"
+    *ngFor="let option of options; let index = index; trackBy: trackByValue"
+    [ngClass]="{ active: selectedOptions[option.value] }"
+  >
+    <input
+      type="checkbox"
+      class="hide-check"
+      name="index"
+      id="{{ option.value }}"
+      [value]="option.value"
+      #checkboxes
+      (change)="changeSelectedOptions($event, option)"
+    />
+    <label for="{{ option.value }}" class="cursor-pointer">
+      <img
+        *ngIf="option.value !== 'all'"
+        src="/assets/Images/{{ option.text }}.svg"
+        width="23px"
+        height="19px"
+      />
+      <span *ngIf="option.value === 'all'">{{ option.value }}</span>
+    </label>
+  </div>
+</div>

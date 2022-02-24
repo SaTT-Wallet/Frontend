@@ -1,0 +1,227 @@
+:host {
+    min-height: 100vh;
+    max-width: 100vw;
+    min-width: 300px;
+    width: 50%;
+    height: calc(100vh - 82px) !important;
+}
+
+.div_left {
+    height: 100% !important;
+    min-height: 100vh !important;
+}
+
+.pourcentage {
+    display: none !important;
+}
+
+.picture-groupe {
+    max-width: 100%;
+    width: 100%;
+    /* width: 49vh; */
+    /* position: absolute;
+    top: 31vh; */
+    /* width: 30vh; */
+    /* width: 320px; */
+}
+
+.config-done {
+    width: 31vh;
+    max-width: unset;
+}
+
+.picture-groupe-twitter {
+    max-width: calc(100% - 80px);
+    width: calc(100% - 80px);
+}
+
+.white-text {
+    font-weight: 700;
+    font-style: normal;
+    font-size: 20px;
+    line-height: 28px;
+    text-align: Center;
+    color: white;
+    /* position: relative;
+    top: 68vh; */
+}
+
+.white-text.margin-top {
+    margin-top: 50vh !important;
+}
+
+.padding-top {
+    padding-top: 100px;
+}
+
+.cercle {
+    position: relative;
+    top: 103px;
+    left: 4px;
+    color: white;
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+
+.left-background-simple-blue {
+    background-image: url('assets/Images/backgrounds/bgdblue-simple.svg');
+    background-size: cover;
+    background-position: 100%;
+    display: flex;
+    flex-direction: column;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    min-height: 100vh;
+    max-width: 100vw;
+    min-width: 300px;
+    justify-content: center;
+    align-items: center;
+}
+
+.left-background-blue {
+    background-image: url('assets/Images/backgrounds/bgBlue.svg');
+    background-size: cover;
+    background-position: 100%;
+    display: flex;
+    flex-direction: column;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    min-height: 100vh;
+    max-width: 100vw;
+    min-width: 300px;
+    justify-content: center;
+    align-items: center;
+}
+
+.left-background-pink {
+    background-image: url('/assets/Images/backgrounds/bgdPinkBlue.svg');
+    background-size: cover;
+    background-position: 100%;
+    display: flex;
+    flex-direction: column;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    min-height: 100vh;
+    max-width: 100vw;
+    min-width: 300px;
+    justify-content: center;
+    align-items: center;
+}
+
+.left-background-green {
+    background-image: url('assets/Images/backgrounds/bgGreen.svg');
+    background-size: cover;
+    background-position: 100%;
+    display: flex;
+    flex-direction: column;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    min-height: 100vh;
+    max-width: 100vw;
+    min-width: 300px;
+    justify-content: center;
+    align-items: center;
+}
+
+.left-background-social {
+    background-image: url('assets/Images/backgrounds/bgdblue-simple.svg');
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    min-height: 100vh;
+    max-width: 100vw;
+    min-width: 300px;
+    justify-content: center;
+    align-items: center;
+}
+
+.left-background-mail {
+    background-image: url('assets/Images/backgrounds/confirm-mail-bg.svg');
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    min-height: 100vh;
+    max-width: 100vw;
+    min-width: 300px;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .picture-groupe-twitter {
+        max-width: calc(100% - 30px);
+        width: calc(100% - 30px);
+    }
+    .cercle {
+        top: 95px !important;
+    }
+}
+
+@media (max-width: 1200px) {
+    .user_img {
+        top: 49.5% !important;
+    }
+    .cercle {
+        top: 95px !important;
+    }
+}
+
+@media (max-width: 1024.98px) and (min-height: 885px) {
+     :host {
+        width: 65% !important;
+    }
+    .cercle {
+        top: 94px !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+     :host {
+        display: none;
+    }
+    .cercle {
+        display: none;
+    }
+}
+
+.icon_pc {
+    position: absolute;
+    width: 22vw;
+    top: 49%;
+    left: 46%;
+    transform: translate(-50%, -50%);
+}
+
+.user_img {
+    position: absolute;
+    position: absolute;
+    width: 12.8vw;
+    border-radius: 50%;
+    top: 50.2%;
+    left: 51%;
+    transform: translate(-50%, -50%);
+}
+
+.margin-top {
+    margin-top: 51% !important;
+}
+
+.moonboy-left {
+    position: relative;
+}
+
+.pourcentage {
+    color: #ffffff;
+    position: absolute;
+    top: 6.8vh;
+    left: 51.4%;
+    transform: translate(-50%);
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.8rem;
+    display: block;
+}

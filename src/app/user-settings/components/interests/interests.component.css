@@ -1,0 +1,687 @@
+/* ------------------------------- css template page  -------*/
+
+*:focus {
+  outline: none;
+  -webkit-box-shadow: none !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+.page-content .title-block {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 33px;
+  letter-spacing: 0.75px;
+  color: #47526a;
+  padding: 4px 15px;
+  background: rgba(214, 214, 232, 0.5);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 30px;
+  margin-bottom: 15px;
+}
+
+.div_block {
+  background: #ffffff;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 30px;
+  height: 100%;
+}
+
+:host {
+  width: 100%;
+}
+
+.nav-link {
+  cursor: pointer;
+  color: #75758f;
+  height: 100%;
+}
+
+.nav-link.active {
+  cursor: pointer;
+  color: #4048ff;
+  background: none;
+  border: none;
+  border-bottom: solid 5px #4048ff;
+}
+
+.nav-item {
+  cursor: pointer;
+  color: #495057;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  letter-spacing: 0.02em;
+  border-bottom: 5px solid #dadbf0;
+}
+
+.nav-item-active {
+  cursor: pointer;
+  color: #495057;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+.nav-tabs {
+  border-bottom: 5px solid #dadbf0;
+  text-align: center;
+}
+
+.nav-profil {
+  background: #ffffff;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 30px;
+}
+
+.text-Pro {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 125.9%;
+  text-align: center;
+  letter-spacing: 0.03em;
+  color: #ffa318 !important;
+}
+
+.title_page {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 22px;
+  line-height: 33px;
+  color: #47526a;
+}
+
+/*---------------------------------css template page ----------------------*/
+
+/*---------------------------------css page------------*/
+
+.label_input {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 125.9%;
+  letter-spacing: 0.03em;
+  color: #75758f;
+}
+
+.btn-white {
+  background: #ffffff;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 22px;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.03em;
+  border-radius: 30px;
+  color: #4048ff;
+  border: none;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  height: 50px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.btn-green {
+  font-style: normal;
+  font-weight: 900;
+  font-size: 20px;
+  line-height: 24px;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.03em;
+  background: #00cc9e;
+  color: #f6f6ff;
+  border-radius: 30px;
+  border: none;
+  width: 100%;
+  height: 50px;
+  cursor: pointer;
+}
+
+.btn-green:disabled {
+  background: #d6d6e8;
+  color: #adadc8;
+  cursor: alias;
+}
+
+.btn-green:focus {
+  background: #00cc9e;
+  border: 6px solid rgba(52, 234, 185, 0.3);
+  border-radius: 30px;
+}
+
+.type-input {
+  width: 100%;
+  height: 48px;
+  padding: 6px 15px;
+  line-height: 1.57142857;
+  border: 1px solid #d6d6e8;
+  font-size: 16px;
+  background-color: white;
+  color: #adadc8;
+  border-radius: 30px;
+  content: "\f002";
+}
+
+.error {
+  text-align: center;
+  color: #f52079;
+  position: absolute;
+  font-size: 13px;
+  line-height: 13px;
+}
+
+.btn-add {
+  background: #ffffff;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 22px;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.03em;
+  border-radius: 30px;
+  color: #4048ff;
+  border: none;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  height: 45px;
+  width: 160px;
+  cursor: pointer;
+}
+
+.btn-add:hover {
+  border: 2px solid #0009d3;
+  box-shadow: none;
+}
+
+.btn-add:focus {
+  border: 2px solid #d6d6e8;
+  box-shadow: none;
+}
+
+@media (max-width: 575px) {
+  .padding-small-version {
+    padding: 0rem 2rem 0rem 2rem !important;
+  }
+  .width-icon {
+    width: 9vw !important;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .show_pic {
+    display: block !important;
+  }
+  .show_text {
+    display: none !important;
+  }
+
+  .nav-link {
+    padding: 0 !important;
+  }
+  .show-mobile {
+    display: block !important;
+  }
+}
+
+.show-mobile {
+  display: none;
+}
+
+.btn-back {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #4048ff;
+  background-color: white;
+  border-radius: 50%;
+  border: none;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  text-align: center;
+  font-size: 25px;
+}
+
+.btn-back:hover {
+  border: 2px solid #0009d3;
+  box-shadow: none;
+}
+
+.btn-back:focus {
+  border: 2px solid #d6d6e8;
+  box-shadow: none;
+}
+
+@media (min-width: 768px) {
+  .show_pic {
+    display: none !important;
+  }
+  .show_text {
+    display: block !important;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .nav-item,
+  .nav-item-active {
+    font-size: 15px !important;
+  }
+  .padding-x {
+    padding-right: 0.25rem !important;
+    padding-left: 0.25rem !important;
+  }
+}
+
+.width-icon {
+  width: 50px;
+}
+
+.padding-x {
+  padding-right: 3rem;
+  padding-left: 3rem;
+}
+
+/*-------------------------------end css page------------------*/
+
+/*---css show tags--------*/
+
+.interests-tag {
+  letter-spacing: 0.05rem;
+  border-radius: 16px;
+  margin: 0.3rem 0.2rem;
+  padding: 2px 7px 2px 18px;
+  background: #f6f6ff;
+  display: flex;
+  align-items: center;
+  width: max-content;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 130%;
+  letter-spacing: 0.03em;
+  color: #16274b;
+}
+
+.div_interests-tag {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: left;
+}
+
+.cross_tags {
+  padding: 10px;
+  cursor: pointer;
+  color: #adadc8;
+}
+
+/*-----end css show tags------ */
+
+/*------- input tag ---------------------------------*/
+
+::ng-deep .ng2-tag-input__text-input {
+  display: inline;
+  vertical-align: middle;
+  border-radius: 30px;
+  border: 1px solid;
+  padding: 0 0.5rem;
+  height: 38px;
+  margin-left: 7%;
+  font-size: 1em;
+  font-family: Poppins, "Helvetica Neue", sans-serif;
+}
+
+::ng-deep .ng2-tag-input {
+  width: 100%;
+  height: max-content;
+  padding: 6px 5px !important;
+  line-height: 1.57142857;
+  border: 1px solid #d6d6e8 !important;
+  font-size: 15px;
+  color: #162746;
+  font-family: "Poppins";
+  border-radius: 30px;
+}
+
+::ng-deep tag {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  letter-spacing: 0.05rem;
+  border-radius: 16px;
+  transition: 0.3s;
+  margin: 0.2rem 0.2rem !important;
+  padding: 0.08rem 0.45rem !important;
+  height: 32px;
+  background: #f6f6ff;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  overflow: hidden;
+  outline: 0;
+  cursor: pointer;
+  position: relative;
+  font-family: Poppins !important;
+  font-style: normal;
+  font-weight: bold !important;
+  font-size: 15px !important;
+  line-height: 32px !important;
+  align-items: center;
+  color: #47526a !important;
+}
+
+::ng-deep .ng2-tag-input.ng2-tag-input--focused {
+  border: 1px solid #d6d6e9 !important;
+}
+
+::ng-deep .delete-icon {
+  vertical-align: bottom;
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+  width: 15px !important;
+  height: 32px;
+  font-weight: bold !important;
+  color: #47526a !important;
+}
+
+/*--------end input tag----------------------------- */
+
+/*----------------*/
+
+.span_interests {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 130%;
+  letter-spacing: 0.03em;
+  color: #162746;
+}
+
+/*---CSS green checkbox----*/
+
+input[type="checkbox"][type="checkbox"]:checked + label::before {
+  content: "\002714";
+  color: #ffffff;
+  background-color: #00cc9e;
+  border: 3px solid #00cc9e;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+input[type="checkbox"] {
+  cursor: pointer;
+  opacity: 0;
+  position: absolute;
+  display: none;
+}
+
+input[type="checkbox"] + label {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin: 0px;
+}
+
+input[type="checkbox"] + label::before {
+  content: "";
+  width: 1em;
+  height: 1em;
+  border-radius: 0.15em;
+  margin-right: 0.5em;
+  border: 3px solid #d6d6e8;
+  display: none;
+}
+
+/*---END CSS green checkbox----*/
+
+a {
+  text-decoration: none;
+}
+
+.bold-title {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 26px;
+  line-height: 28px;
+  text-align: center;
+  letter-spacing: 1px;
+  color: #2D3044;
+}
+
+/*-------------------------css select interests-------------------------------------*/
+
+.select-interests {
+  width: 100%;
+  /* height: 48px; */
+  padding: 6px 15px;
+  line-height: 1.57142857;
+  border: 1px solid #d6d6e8;
+  font-size: 16px;
+  background-color: white;
+  color: #adadc8;
+  border-radius: 30px;
+  overflow-y: auto;
+}
+
+::ng-deep .ng-dropdown-panel .scroll-host {
+  display: block;
+  overflow: hidden;
+  overflow-y: auto;
+  position: relative;
+  width: 100%;
+  border-radius: 5px;
+  background-color: white;
+  border: 1px solid #d6d6e8;
+}
+
+::ng-deep .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+  box-sizing: border-box;
+  cursor: pointer;
+  display: block;
+  padding-left: 1rem !important;
+}
+
+::ng-deep
+  .ng-select.ng-select-multiple
+  .ng-select-container
+  .ng-value-container
+  .ng-value {
+  white-space: nowrap;
+  padding-right: 7px;
+  font-family: "Poppins";
+  color: #adadc8;
+}
+
+::ng-deep
+  .ng-select
+  .ng-select-container
+  .ng-value-container
+  .ng-input
+  > input {
+  font-family: "Poppins";
+  color: #adadc8;
+}
+
+::ng-deep .ng-dropdown-panel {
+  z-index: 1;
+}
+
+::ng-deep .ng-dropdown-panel .ng-dropdown-panel-items .ng-option:hover {
+  background-color: #cecedb;
+}
+
+/******* spinner *******/
+.spinner-wrapper {
+  position: relative;
+}
+
+/*** New Interest Block****/
+.interest-block {
+  max-width: 120px;
+  text-align: center;
+}
+
+.interest-block img {
+  margin-bottom: 15px;
+}
+.interest-block span {
+  color: #4048FF;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 120%;
+}
+.interest {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  justify-items: center;
+  gap: 30px;
+  padding-left: 5vw;
+  padding-right: 5vw;
+}
+
+@media (max-width: 768px) {
+  .interest {
+    grid-template-columns: repeat(auto-fill, minmax(25vw, 1fr)) !important;
+    padding-left: 0vw !important;
+    padding-right: 0vw;
+  }
+}
+
+.interest-block img {
+  border-radius: 87px;
+  background: #757AEE;
+  filter: grayscale(87%);
+  width: 120px;
+  height: 120px;
+}
+.interest-block img:hover {
+  filter: none;
+}
+img.checked {
+  background: #4048FF !important;
+  box-shadow: inset 0px 3px 3px rgb(0 0 0 / 35%);
+  filter: none !important;
+}
+a.enabled {
+  background: url(assets/Images/interest/bouton-clic.png) 50% 50%;
+  width: 85px;
+  height: 88px;
+  vertical-align: top;
+  background-repeat: no-repeat;
+}
+a.enabled:hover {
+  background-image: url(assets/Images/interest/bouton-clic-hover.png);
+
+}
+a.disabled {
+  background-image: url(assets/Images/interest/bouton-disab.png);
+  width: 83px;
+  height: 83px;
+  background-repeat: no-repeat;
+}
+
+.interest-card{
+  background: #ffffff;
+  box-shadow: 0px 4px 20px rgb(0 0 0 / 20%);
+  border-radius: 30px;
+  padding: 0 0 0 11px;
+  width: auto;
+  height: auto;
+  position: relative;
+}
+.nav-link {
+
+  border-bottom: 3px solid #dadbf0;
+}
+
+.nav-link.active {
+
+  border-bottom: solid 3px #00cc9e;
+}
+
+.btn_edit {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 27px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.01em;
+  color: #F6F6FF;
+  justify-content: center;
+  border: none;
+  height: 46px;
+  background: #4048FF;
+  border-radius: 30px;
+  cursor: pointer;
+  padding: 2rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.btn_edit span {
+  padding: 6px 25px;
+}
+.btn_edit:hover {
+  background: linear-gradient(85.14deg, #f52079 -1.05%, #4048ff 103.39%);
+}
+
+.btn_edit:focus {
+  background: linear-gradient(85.14deg, #f52079 -1.05%, #4048ff 103.39%);
+  outline: 3px solid rgba(64, 72, 255, 0.3) !important;
+}
+
+.btn_edit:disabled {
+  background: #D6D6E8;
+}
+
+.grey-title{
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 30px;
+  text-align: center;
+  letter-spacing: 0.02em;
+  color: #75758f;
+}
+.interest-card .col {
+  padding-left: 2px;
+  padding-right: 2px;
+
+}
+
+@media (max-width: 750px){
+  .btn_edit {
+
+    width: 100%;
+    border-radius: 30px;
+    
+  }
+  .interest-card col {
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+}
+/*** End Interest Block****/
+.interestsPercent{
+  color:#00cc9e;
+}

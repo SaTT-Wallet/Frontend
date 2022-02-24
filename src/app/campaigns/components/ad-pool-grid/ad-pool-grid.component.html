@@ -1,0 +1,491 @@
+<div
+  class="d-lg-none mr-n4 ml-n4"
+  style="border-bottom: 1px solid #d6d6e8; height: 1px; width: 100vw"
+></div>
+<!--
+MOBILE VERSION
+-->
+<div class="d-lg-none mr-n4 ml-n3">
+  <div
+    class="d-lg-none"
+    style="
+      padding: 10px;
+      width: 100%;
+      border-bottom: 1px solid #d6d6e8;
+      align-items: center;
+    "
+    *ngFor="
+      let campaign of campaigns;
+      trackBy: trackByCampaignId;
+      let i = index
+    "
+    [ngStyle]="{ background: campaign.isOwnedByUser ? '#F6F6FF' : 'white' }"
+    class="row"
+  >
+    <div>
+      <div class="row">
+        <div class="col-3 d-flex align-items-center justify-content-center">
+          <img
+            [src]="
+              !!campaign.logo
+                ? campaign.logo
+                : 'assets/Images/wlcm-moon-boy.png'
+            "
+            class="avatar"
+            alt=""
+          />
+        </div>
+        <div class="col-9 row justify-content-start align-items-center">
+          <div class="col-10">
+            <div class="d-block">
+              <div
+                class="campaign-title upper-case"
+                *ngIf="campaign.type === 'draft'"
+              >
+                <span style="color: #adadc8">{{
+                  !!campaign.title && campaign.title !== ''
+                    ? campaign.title
+                    : 'untitled'
+                }}</span>
+                <span style="color: #75758f" class="ml-2">DRAFT</span>
+              </div>
+              <div
+                *ngIf="campaign.type !== 'draft'"
+                class="campaign-title upper-case"
+              >
+                {{ campaign.title }}
+              </div>
+              <div
+                class="budget"
+                *ngIf="campaign.type !== 'draft'"
+                style="text-align: start !important"
+              >
+                {{ parseFund(campaign.budget, campaign) }}
+                <span
+                  ><img
+                    *ngIf="campaign.type !== 'draft'"
+                    style="width: 20px !important; height: 20px !important"
+                    class="cryptoIcon"
+                    src="/assets/Images/icons-crypto/black/{{
+                      getCurrencyName(campaign)
+                    }}.svg"
+                /></span>
+              </div>
+            </div>
+          </div>
+          <div class="col-2 d-flex justify-content-start align-items-center">
+            <span
+              *ngIf="details.hidden"
+              class="fa fa-chevron-down"
+              style="font-size: 10px"
+              (click)="details.hidden = false"
+            ></span>
+            <span
+              *ngIf="!details.hidden"
+              class="fa fa-chevron-up"
+              style="font-size: 10px"
+              (click)="details.hidden = true"
+            ></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" [hidden]="true" #details>
+        <div class="col-3"></div>
+        <div class="col-9">
+          <div class="d-flex justify-content-start">
+            <img
+              class="social-media-icon mr-1"
+              *ngIf="haveYoutube(campaign) && campaign.type !== 'draft'"
+              src="/assets/Images/campagne/youtube_gain.svg"
+            />
+            <img
+              class="social-media-icon mr-1"
+              *ngIf="haveFacebook(campaign) && campaign.type !== 'draft'"
+              src="/assets/Images/campagne/facebook_gain.svg"
+            />
+            <img
+              class="social-media-icon mr-1"
+              *ngIf="haveInstagram(campaign) && campaign.type !== 'draft'"
+              src="/assets/Images/campagne/insta_gain.svg"
+            />
+            <img
+              class="social-media-icon mr-1"
+              *ngIf="haveTwitter(campaign) && campaign.type !== 'draft'"
+              src="/assets/Images/campagne/twitter_gain.svg"
+            />
+            <img
+              class="social-media-icon mr-1"
+              *ngIf="haveLinkedIn(campaign) && campaign.type !== 'draft'"
+              src="/assets/Images/linkedin.svg"
+            />
+          </div>
+
+          <div class="d-flex justify-content-start mt-2">
+            <div *ngIf="campaign.type !== 'draft'">
+              <h2
+                class="gray-text"
+                *ngIf="localId === 'en'"
+                style="padding-left: 0 !important"
+              >
+                <!-- h:mm:ss a -->
+                <img src="assets/Images/calender.svg" width="16px" />
+                {{
+                  campaign.endDate | date: 'MM/dd/yyyy ':undefined:localId || ''
+                }}
+              </h2>
+              <h2
+                class="gray-text"
+                *ngIf="localId === 'fr'"
+                style="padding-left: 0 !important"
+              >
+                <img src="assets/Images/calender.svg" width="16px" />
+                {{
+                  campaign.endDate | date: 'dd/MM/yyyy':undefined:localId || ''
+                }}
+              </h2>
+            </div>
+          </div>
+          <div class="d-flex justify-content-start mt-1">
+            <div *ngIf="campaign.type !== 'draft'">
+              <span
+                ><img src="assets/Images/performance-gray.png" width="16px"
+              /></span>
+              <span class="upper-case gray-text ml-1"
+                >{{ campaign.remuneration }} earning</span
+              >
+            </div>
+          </div>
+          <div class="row justify-content-start mt-1">
+            <div class="col-12" *ngIf="campaign.isFinished">
+              <button
+                *ngIf="campaign.isFinished"
+                class="btn button-finished"
+                (click)="goToDetailsPage(campaign.id)"
+              >
+                FINISHED
+              </button>
+            </div>
+            <div
+              class="col-12"
+              *ngIf="campaign.type !== 'draft' && !campaign.isOwnedByUser"
+            >
+              <button
+                class="btn button-apply w-100"
+                (click)="goToDetailsPage(campaign.id)"
+              >
+                APPLY
+              </button>
+            </div>
+            <div
+              class="col-12"
+              *ngIf="campaign.type !== 'draft' && campaign.isOwnedByUser"
+            >
+              <button
+                class="btn button-manage w-100"
+                (click)="goToDetailsPage(campaign.id)"
+              >
+                MANAGE
+              </button>
+            </div>
+            <div class="row" *ngIf="campaign.type === 'draft'">
+              <div class="col-6">
+                <button
+                  class="btn button-delete w-100"
+                  (click)="deleteCampaign(campaign.id)"
+                >
+                  <img
+                    src="assets/Images/trash.png"
+                    class="delete"
+                    style="cursor: pointer"
+                  />
+
+                  DELETE
+                </button>
+              </div>
+              <div class="col-6">
+                <button
+                  *ngIf="campaign.type === 'draft'"
+                  class="btn button-edit w-100"
+                  (click)="goToEditPage(campaign.id)"
+                >
+                  EDIT
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--
+DESKTOP VERSION
+-->
+<div class="main-row row d-flex justify-content-center p-0 d-none d-lg-flex">
+  <div class="white-block-desktop">
+    <div class="row header">
+      <div class="col-md-3 d-flex justify-content-center align-items-center">
+        <div class="w-75 column-title">
+          ADPOOL
+          <span
+            *ngIf="sortAdPoolUp"
+            class="fa fa-chevron-down"
+            (click)="sortAdPoolName()"
+          ></span>
+
+          <span
+            class="fa fa-chevron-up"
+            *ngIf="!sortAdPoolUp"
+            (click)="sortAdPoolName()"
+          ></span>
+        </div>
+      </div>
+      <div
+        class="
+          col-md-2
+          d-flex
+          align-items-center
+          justify-content-start
+          column-title
+        "
+      >
+        MEDIAS
+        <span
+          class="fa fa-chevron-down"
+          (click)="sortMedia()"
+          *ngIf="sortMediaUp"
+        ></span>
+        <span
+          class="fa fa-chevron-up"
+          (click)="sortMedia()"
+          *ngIf="!sortMediaUp"
+        ></span>
+      </div>
+      <div class="col-md-1 d-flex align-items-center column-title">
+        END ON
+        <span
+          class="fa fa-chevron-down"
+          (click)="sortDateEndOn()"
+          *ngIf="sortEndOnUp"
+        ></span>
+        <span
+          class="fa fa-chevron-up"
+          (click)="sortDateEndOn()"
+          *ngIf="!sortEndOnUp"
+        ></span>
+      </div>
+      <div
+        class="
+          col-md-2
+          d-flex
+          align-items-center
+          justify-content-center
+          column-title
+        "
+      >
+        TYPE OF POOLS
+        <span
+          (click)="sortRemuneration()"
+          class="fa fa-chevron-down"
+          *ngIf="sortRemunerationUp"
+        ></span>
+        <span
+          (click)="sortRemuneration()"
+          class="fa fa-chevron-up"
+          *ngIf="!sortRemunerationUp"
+        ></span>
+      </div>
+      <div
+        class="
+          col-md-1
+          d-flex
+          align-items-center
+          justify-content-center
+          column-title
+        "
+      >
+        FUNDS
+        <span
+          class="fa fa-chevron-down"
+          (click)="sortFunds()"
+          *ngIf="sortFundsUp"
+        ></span>
+        <span
+          class="fa fa-chevron-up"
+          (click)="sortFunds()"
+          *ngIf="!sortFundsUp"
+        ></span>
+      </div>
+      <div
+        class="
+          col-md-1
+          d-flex
+          align-items-center
+          justify-content-center
+          column-title
+        "
+      >
+        TOKEN <span class="fa fa-chevron-down"></span>
+      </div>
+      <div class="col-md-1 d-flex align-items-center column-title"></div>
+    </div>
+
+    <div
+      style="border-bottom: 1px solid #d6d6e8"
+      *ngFor="
+        let campaign of campaigns;
+        trackBy: trackByCampaignId;
+        let i = index
+      "
+      [ngStyle]="{ background: campaign.isOwnedByUser ? '#F6F6FF' : 'auto' }"
+      class="row"
+    >
+      <div class="col-md-3 d-flex align-items-center justify-content-center">
+        <div class="w-75 d-flex align-items-center">
+          <img
+            [src]="
+              !!campaign.logo
+                ? campaign.logo
+                : 'assets/Images/wlcm-moon-boy.png'
+            "
+            class="avatar"
+            alt=""
+          />
+          <div class="campaign-title first-lettre-upper-case ml-2 inline-block">
+            <span>
+              {{ campaign.title }}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        class="
+          col-md-2
+          d-flex
+          justify-content-start
+          align-items-center
+          flex-wrap
+        "
+      >
+        <span *ngIf="campaign.type === 'draft'" class="campaign-status"
+          >DRAFT</span
+        >
+        <img
+          class="social-media-icon"
+          *ngIf="haveYoutube(campaign) && campaign.type !== 'draft'"
+          src="/assets/Images/campagne/youtube_gain.svg"
+        />
+        <img
+          class="social-media-icon"
+          *ngIf="haveFacebook(campaign) && campaign.type !== 'draft'"
+          src="/assets/Images/campagne/facebook_gain.svg"
+        />
+        <img
+          class="social-media-icon"
+          *ngIf="haveInstagram(campaign) && campaign.type !== 'draft'"
+          src="/assets/Images/campagne/insta_gain.svg"
+        />
+        <img
+          class="social-media-icon"
+          *ngIf="haveTwitter(campaign) && campaign.type !== 'draft'"
+          src="/assets/Images/campagne/twitter_gain.svg"
+        />
+        <img
+          class="social-media-icon"
+          *ngIf="haveLinkedIn(campaign) && campaign.type !== 'draft'"
+          src="/assets/Images/linkedin.svg"
+          style="height: 36px"
+        />
+      </div>
+      <div class="col-md-1 d-flex justify-content-start align-items-center">
+        <div class="div-date" *ngIf="campaign.type !== 'draft'">
+          <h2 class="under_gains date" *ngIf="localId === 'en'">
+            <!-- h:mm:ss a -->
+            <!-- <img src="assets/Images/calender.svg" width="16px" /> -->
+            {{ campaign.endDate | date: 'MM/dd/yyyy ':undefined:localId || '' }}
+          </h2>
+          <h2 class="under_gains date" *ngIf="localId === 'fr'">
+            <img src="assets/Images/calender.svg" width="16px" />
+            {{ campaign.endDate | date: 'dd/MM/yyyy':undefined:localId || '' }}
+          </h2>
+        </div>
+      </div>
+      <div class="col-md-2" *ngIf="campaign.type === 'draft'"></div>
+      <div
+        class="col-md-2 d-flex justify-content-center align-items-center"
+        *ngIf="campaign.type !== 'draft'"
+      >
+        <div
+          *ngIf="campaign.remuneration === 'performance'"
+          class="renumeration d-flex justify-content-center align-items-center"
+        >
+          <img src="assets/Images/perfermance.png" />
+        </div>
+        <div
+          class="renumeration d-flex justify-content-center align-items-center"
+          *ngIf="campaign.remuneration === 'publication'"
+        >
+          <img src="assets/Images/publication.png" />
+        </div>
+      </div>
+      <div class="col-md-1 d-flex justify-content-center align-items-center">
+        <span class="budget" *ngIf="campaign.type !== 'draft'">
+          {{ parseFund(campaign.budget, campaign) }}
+        </span>
+      </div>
+      <div class="col-md-1 d-flex justify-content-center align-items-center">
+        <img
+          *ngIf="campaign.type !== 'draft'"
+          class="cryptoIcon"
+          src="/assets/Images/icons-crypto/black/{{
+            getCurrencyName(campaign)
+          }}.svg"
+        />
+        <div
+          *ngIf="campaign.type === 'draft' && campaign.isOwnedByUser"
+          class="renumeration d-flex justify-content-center align-items-center"
+        >
+          <img
+            src="assets/Images/trash.png"
+            style="cursor: pointer"
+            (click)="deleteCampaign(campaign.id)"
+          />
+        </div>
+      </div>
+      <div class="col-md-2 d-flex align-self-center justify-content-center">
+        <div *ngIf="!campaign.isFinished">
+          <button
+            *ngIf="campaign.type !== 'draft' && !campaign.isOwnedByUser"
+            class="btn button-apply"
+            (click)="goToDetailsPage(campaign.id)"
+          >
+            APPLY
+          </button>
+          <button
+            *ngIf="campaign.type !== 'draft' && campaign.isOwnedByUser"
+            class="btn button-manage"
+            (click)="goToDetailsPage(campaign.id)"
+          >
+            MANAGE
+          </button>
+          <button
+            *ngIf="campaign.type === 'draft'"
+            class="btn button-edit"
+            (click)="goToEditPage(campaign.id)"
+          >
+            EDIT
+          </button>
+        </div>
+
+        <button
+          *ngIf="campaign.isFinished"
+          class="btn button-finished"
+          (click)="goToDetailsPage(campaign.id)"
+        >
+          FINISHED
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

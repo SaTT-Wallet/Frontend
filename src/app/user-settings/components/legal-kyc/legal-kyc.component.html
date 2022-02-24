@@ -1,0 +1,325 @@
+<div class="container-fluid page-content position-relative">
+  <div class="row show-mobile mb-2">
+    <div class="col-md-12 col-lg-12 col-xs-12">
+      <button type="button" class="btn-back" [routerLink]="['/home/settings/']">
+        <
+      </button>
+    </div>
+  </div>
+
+  <div class="tab-content" id="myTabContent">
+    <div class="col-md-12 p-0">
+      <div class="div_blocks d-flex flex-column pb-5">
+        <div class="col-md-12 d-flex justify-content-center mt-4">
+          <div class="blueAlert">
+            <p class="p-2">
+              <img src="assets/Images/exclam.svg" width="30px" class="pe-2" />
+              {{ 'Profil.info_legal' | translate }}
+            </p>
+          </div>
+        </div>
+        <!-- start block identity--->
+        <div class="col-12 text-center">
+          <form [formGroup]="formUploadProofID">
+            <div class="row mt-3">
+              <h4 class="title">{{ 'Profil.identite' | translate }}</h4>
+            </div>
+            <div class="row mt-2 d-flex justify-content-center height-70">
+              <div
+                class="
+                  col-xl-9 col-lg-9 col-md-9 col-sm-11
+                  d-flex
+                  justify-content-center
+                "
+              >
+                <span class="notice-upload text-start">
+                  {{ 'Profil.notice_identite1' | translate }}
+                  <span class="fw-bold">
+                    {{ 'Profil.notice_identity_passport' | translate }}</span
+                  ></span
+                >
+              </div>
+              <!--                            <span class="notice-upload"> {{'notice_identity_passport'|translate}} {{'notice_identite3'|translate}}</span>-->
+            </div>
+            <!------------drug and dop kyc-->
+            <div
+              class="row drop-boxx edit_imgx d-flex justify-content-center mt-3"
+              type="file"
+              name="files"
+              accept="image/jpeg,application/pdf"
+              (change)="fileChangeEventIdentity($event)"
+              *ngIf="
+                !dataLegalIdentity || dataLegalIdentity.validate == 'reject'
+              "
+            >
+              <input
+                type="file"
+                name="files"
+                class="input-upload-file"
+                accept="image/jpeg,application/pdf"
+              />
+              <div
+                class="row apercu_imgx d-flex justify-content-center"
+                *ngIf="!srcFileIdentity || isNotConformIdentity == 'true'"
+              >
+                <img
+                  src="assets/Images/ident.svg"
+                  class="width-70"
+                  style="margin-bottom: 14.64px !important"
+                />
+                <h5 class="boxText">{{ 'Profil.info-upload2' | translate }}</h5>
+                <span
+                  class="SousBox"
+                  [innerHTML]="'Profil.notice_upload' | translate"
+                ></span>
+              </div>
+              <!------------show uploaded kyc-->
+              <div class="row apercu_imgx d-flex justify-content-center">
+                <img
+                  class="img-responsive"
+                  src="{{ pdf }}"
+                  (click)="telecharger(dataLegalIdentity.id)"
+                  *ngIf="ispdfIdentity == 'true'"
+                />
+                <img
+                  class="img-responsive"
+                  src="{{ urlPic }}"
+                  alt=""
+                  *ngIf="ispdfIdentity == 'false'"
+                />
+              </div>
+              <!------------end show uploaded kyc-->
+            </div>
+            <!------------drug and dop kyc-->
+            <!------------Show validated kyc-->
+            <div
+              class="row drop-boxx edit_imgx d-flex justify-content-center mt-3"
+              *ngIf="
+                dataLegalIdentity && dataLegalIdentity.validate != 'reject'
+              "
+            >
+              <img
+                class="img-responsive"
+                *ngIf="dataLegalIdentity.contentType == 'application/pdf'"
+                src="/assets/Images/img_satt/pdf-xs.png"
+              />
+              <img
+                class="img-responsive"
+                *ngIf="dataLegalIdentity.contentType !== 'application/pdf'"
+                [src]="imgsrcId"
+              />
+            </div>
+            <!------------end Show validated kyc-->
+            <div
+              class="row mt-2 d-flex justify-content-center p-2"
+              *ngIf="isNotConformIdentity == 'true'"
+            >
+              <label class="danger_kyc p-2" id="danger"
+                ><img src="assets/Images/false.svg" class="pb-1 pe-2" />{{
+                  'Profil.invalid_picture' | translate
+                }}
+              </label>
+            </div>
+            <div
+              class="row mt-3 d-flex justify-content-center p-2"
+              *ngIf="dataLegalIdentity"
+            >
+              <label class="waiting_kyc" *ngIf="!dataLegalIdentity.validate">
+                <img
+                  src="assets/Images/exclam-attente.svg"
+                  class="pb-1 pe-2"
+                />{{ 'Profil.legal_attente' | translate }}
+              </label>
+              <label
+                class="danger_kyc"
+                *ngIf="dataLegalIdentity.validate == 'reject'"
+              >
+                <img src="assets/Images/false.svg" class="pb-1 pe-2" />{{
+                  'Profil.legal_reject' | translate
+                }}
+              </label>
+              <label
+                class="success_kyc"
+                *ngIf="dataLegalIdentity.validate == true"
+                ><img src="assets/Images/true.svg" class="pe-2" />{{
+                  'Profil.legal_validate' | translate
+                }}
+              </label>
+            </div>
+
+            <div
+              class="row d-flex justify-content-center mt-3"
+              *ngIf="
+                !dataLegalIdentity || dataLegalIdentity.validate == 'reject'
+              "
+            >
+              <div class="col-xl-4 col-lg-6 col-md-8 col-sm-7">
+                <button
+                  class="btn_kyc"
+                  id="KYC"
+                  (click)="saveKyc('proofId')"
+                  [disabled]="true"
+                >
+                  {{ 'Profil.soumettre' | translate }}
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <!-- vertical line --->
+        <span class="col-md-12 d-flex justify-content-center mt-3 mb-3">
+          <hr class="vertical_line" />
+        </span>
+        <!-- start block proof domicile--->
+        <div class="col-12 text-center">
+          <form [formGroup]="formUploadProofDomicile">
+            <div class="row mt-2">
+              <h4 class="title">{{ 'Profil.justif_domicile' | translate }}</h4>
+            </div>
+            <div class="row mt-2 d-flex justify-content-center height-70">
+              <div
+                class="
+                  col-xl-9 col-lg-9 col-md-9 col-sm-11
+                  d-flex
+                  justify-content-center
+                "
+              >
+                <span class="notice-upload text-start">{{
+                  'Profil.notice_justif1' | translate
+                }}</span>
+              </div>
+              <!--                        <span class="notice-upload">{{'notice_justif2'|translate}}</span>-->
+            </div>
+            <div
+              class="row drop-boxx edit_imgx d-flex justify-content-center mt-3"
+              type="file"
+              name="files"
+              accept="image/jpeg,application/pdf"
+              *ngIf="
+                !dataLegalDomicile || dataLegalDomicile.validate == 'reject'
+              "
+            >
+              <input
+                type="file"
+                name="file"
+                class="input-upload-file"
+                accept="image/jpeg,application/pdf"
+                (change)="fileChangeEventProof($event)"
+              />
+              <div
+                class="row apercu_imgx d-flex justify-content-center"
+                *ngIf="!srcFileProof || isNotConformProof == 'true'"
+              >
+                <img
+                  src="assets/Images/justif.svg"
+                  class="width-60"
+                  style="margin-bottom: 14.64px"
+                />
+                <h5 class="boxText">{{ 'Profil.info-upload1' | translate }}</h5>
+                <span
+                  class="SousBox"
+                  [innerHTML]="'Profil.notice_upload' | translate"
+                ></span>
+              </div>
+              <div class="row apercu_imgx d-flex justify-content-center">
+                <img
+                  class="img-responsive p"
+                  src="{{ pdf }}"
+                  (click)="telecharger(dataLegalDomicile._id)"
+                  *ngIf="ispdfProof == 'true'"
+                />
+                <img
+                  class="img-responsive p"
+                  src="{{ urlPicProof }}"
+                  alt=""
+                  *ngIf="ispdfProof == 'false'"
+                />
+              </div>
+            </div>
+
+            <div
+              class="row drop-boxx edit_imgx d-flex justify-content-center mt-3"
+              *ngIf="
+                dataLegalDomicile && dataLegalDomicile.validate != 'reject'
+              "
+            >
+              <img
+                class="img-responsive p"
+                *ngIf="dataLegalDomicile.contentType == 'application/pdf'"
+                src="/assets/Images/img_satt/pdf-xs.png"
+              />
+              <img
+                class="img-responsive p"
+                *ngIf="dataLegalDomicile.contentType !== 'application/pdf'"
+                [src]="imgsrcDomicile"
+              />
+            </div>
+
+            <div
+              class="row mt-2 d-flex justify-content-center p-2"
+              *ngIf="isNotConformProof == 'true'"
+            >
+              <label class="danger_kyc p-1" id="dangerr"
+                ><img src="assets/Images/false.svg" class="pb-1 pe-2" />{{
+                  'Profil.invalid_picture' | translate
+                }}</label
+              >
+            </div>
+            <div
+              class="row mt-3 d-flex justify-content-center p-2"
+              *ngIf="dataLegalDomicile"
+            >
+              <label
+                class="waiting_kyc p-1"
+                *ngIf="!dataLegalDomicile.validate"
+              >
+                <img
+                  src="assets/Images/exclam-attente.svg"
+                  class="pb-1 pe-2"
+                />{{ 'Profil.legal_attente' | translate }}
+              </label>
+              <label
+                class="danger_kyc p-1"
+                *ngIf="dataLegalDomicile.validate == 'reject'"
+              >
+                <img src="assets/Images/false.svg" class="pb-1 pe-2" />{{
+                  'Profil.legal_reject' | translate
+                }}
+              </label>
+              <label
+                class="success_kyc p-1"
+                *ngIf="dataLegalDomicile.validate == true"
+                ><img src="assets/Images/true.svg" class="pe-2" />{{
+                  'Profil.legal_validate' | translate
+                }}
+              </label>
+            </div>
+
+            <div
+              class="row d-flex justify-content-center mt-3"
+              *ngIf="
+                !dataLegalDomicile || dataLegalDomicile.validate == 'reject'
+              "
+            >
+              <div class="col-xl-4 col-lg-6 col-md-8 col-sm-7">
+                <button
+                  class="btn_kyc"
+                  id="KYCC"
+                  (click)="saveKyc('proofDomicile')"
+                  [disabled]="true"
+                >
+                  {{ 'Profil.soumettre' | translate }}
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!--div spinner -->
+    <div class="spinner-wrapper">
+      <app-loading-logo *ngIf="showSpinner" class="spinner"></app-loading-logo>
+    </div>
+    <!-- End div spinner -->
+  </div>
+</div>

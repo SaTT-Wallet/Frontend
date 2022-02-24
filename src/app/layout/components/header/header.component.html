@@ -1,0 +1,846 @@
+<!--***********************************************************************************-->
+<!--                                                                                   -->
+<!--                                header new design                                  -->
+<!--                                                                                   -->
+<!--***********************************************************************************-->
+<!--  [ngClass]="{ 'navbar-dark-blue': !menuCampaign }"-->
+<nav
+  id="navbar-id"
+  class="navbar navbar-expand-lg"
+  *ngIf="router.url !== '/password_wallet'"
+  [ngClass]="{
+    navWallet: this.sidebarService.toggleWalletMobile.value,
+    'navbar-trans': menuCampaign,
+    'navbar-success':
+      successPart && !this.sidebarService.toggleWalletMobile.value,
+    'navbar-fail': errorPart && !this.sidebarService.toggleWalletMobile.value
+  }"
+  [ngStyle]="{
+    background: isWelcomePage ? '#1f2337' : defaultHeaderBackground
+  }"
+>
+  <div class="container-fluid height-fluid">
+    <a class="navbar-brand d-none d-lg-block" [routerLink]="['welcome']">
+      <img
+        class="atayan_logo"
+        src="assets/Images/logo-versions/logo_blanc.svg"
+        (click)="checkMenuAdpool()"
+      />
+    </a>
+
+    <a class="navbar-toggler d-lg-none menu-mobile">
+      <i class="navbar-brand">
+        <img
+          (click)="toggleMoreMobile()"
+          src="assets/Images/satt_logo_responsive.svg"
+          width="42"
+          height="42"
+          class="ms-1 width-logo-mobile"
+          (click)="navigateToWelcomePage()"
+        />
+      </i>
+
+      <!-- <i
+        class="fa fa-bars d-flex align-items-center me-3 color-white"
+        *ngIf="!this.sidebarService.toggleSidebarMobile.value"
+        (click)="toggleSidebarMobile()"
+      ></i>
+      <i
+        class="fa fa-times d-flex align-items-center me-3 color-white"
+        *ngIf="this.sidebarService.toggleSidebarMobile.value"
+        aria-hidden="true"
+        (click)="toggleSidebarMobile()"
+      ></i> -->
+    </a>
+    <button
+      *ngIf="isConnected"
+      class="d-md-none navbar-toggler three-points btn-toggle-pic-mobile"
+      type="button"
+      data-toggle="dropdown"
+      aria-expanded="false"
+      aria-label="Toggle navi"
+    >
+      <a
+        [routerLink]="['settings/profile']"
+        class="nav-link dropdown-toggle notifLink position_icon_profil_mobile"
+        data-toggle="dropdown"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <app-user-picture
+          (click)="toggleMoreMobile()"
+          [isHeaderPic]="true"
+        ></app-user-picture>
+      </a>
+    </button>
+    <div *ngIf="isConnected" class="d-md-none div-copy-wallet-mobile">
+      <a
+        (click)="toggleWallet()"
+        class="d-flex justify-content-center p-2 gap-4 btnDRP dropdown-toggle dropdown-toggle-content"
+        id="drp"
+        data-flip="false"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <img
+          class=""
+          width="26px"
+          src="assets/Images/newImages/new-icon-copy-wallet.svg"
+        />
+      </a>
+    </div>
+    <button
+      *ngIf="isConnected"
+      class="d-lg-none d-md-none navbar-toggler three-points"
+      type="button"
+    >
+      <a
+        (click)="closeShowMore()"
+        class="nav-link dropdown-toggle notifLink a_notif position_icon_notif_mobile"
+        data-toggle="dropdown"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <img
+          class="photo_notif_mobile"
+          *ngIf="!newNotification"
+          src="/assets/Images/notifOff.svg"
+          [routerLink]="['notification']"
+        />
+        <img
+          class="anim-gif-mobile photo_notif_mobile"
+          *ngIf="newNotification"
+          src="/assets/Images/anim_bell.gif"
+          [routerLink]="['notification']"
+        />
+      </a>
+      <!-- <ul
+        *ngIf="showNotifications"
+        class="dropdown-menu notif_drop_main notifier"
+        id="dropdown-menu-notif"
+        aria-labelledby="navbarDropdown"
+      >
+        <li class="dropdown-header">
+          <span class="title_notif"
+            >{{ 'Header.notifications' | translate }}
+          </span>
+        </li>
+        <div class="notif_drop clear-fix" tabindex="1">
+          <li
+            *ngFor="let notification of dataNotification | slice: 0:5"
+            class="li-dropdown"
+          >
+            <div
+              class="col-12 d-flex flex-row align-items-center p-2"
+              (click)="redirect(notification)"
+              [ngClass]="{ grey: notification.isSeen === false }"
+            >
+              <div class="icon-notif-margin">
+                <span class="notif_icon"
+                  ><img src="{{ notification.img }}" alt="avtar"
+                /></span>
+              </div>
+              <div class="d-block notifBody">
+                <div class="">
+                  <span
+                    class="text_notif"
+                    [translate]="notification._label"
+                    [translateParams]="notification._params"
+                  >
+                  </span>
+                </div>
+                <div class="col-12 d-flex justify-content-between">
+                  <span class="label_time_notif">
+                    {{ notification.created }}</span
+                  >
+                  <span
+                    class="label_time_notif"
+                    (click)="redirect(notification)"
+                    >{{ 'Details' | translate }} >
+                  </span>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="text-center">
+            <div class="see">
+              <button class="btn-blue" [routerLink]="['notification']">
+                {{ 'Voir toutes' | translate }}
+              </button>
+    </div>
+    </li>
+    <a class="
+              col-12
+              d-flex
+              justify-content-center
+              label_time_notif
+              last_notif
+              mt-1
+            " *ngIf="
+              dataNotification.length !== 0 && dataNotification.length < 11
+            ">{{ 'Header.No_further_notifications' | translate }}</a
+          >
+          <a
+            class="dropdown-menu-footer d-flex justify-content-center"
+            *ngIf="dataNotification.length === 0"
+          >
+            {{ 'Header.No_notifications' | translate }}
+          </a>
+    </div>
+    </ul> -->
+    </button>
+    <button
+      type="button"
+      *ngIf="!isConnected"
+      class="d-md-none d-xl-none d-lg-none d-sm-block button-connect"
+    >
+      <a class="" [routerLink]="['/auth/login']">Connect</a>
+    </button>
+    <!-- end mdddd-->
+    <!--start desktop  collapse navbar-collapse-->
+    <div class="desktop-menu" id="navbarSupportedContent">
+      <ul class="d-flex ul-left-side gap-2">
+        <li
+          class="li-menu"
+          [ngClass]="{ 'is-visited': menuWallet }"
+          id="introo"
+        >
+          <a
+            *ngIf="isConnected"
+            class="wallet"
+            [routerLink]="['/home']"
+            (click)="checkMenuWallet()"
+            ><span>{{ 'Sidebar.Wallet' | translate }}</span></a
+          >
+          <a
+            *ngIf="!isConnected"
+            class="wallet"
+            [routerLink]="['/auth/login']"
+            >{{ 'Sidebar.Wallet' | translate }}</a
+          >
+        </li>
+        <li
+          class="li-menu"
+          [ngClass]="{ 'is-visited': menuAdpool }"
+          id="intro2"
+        >
+          <a
+            class="adpools"
+            [routerLink]="['/home/ad-pools']"
+            (click)="checkMenuAdpool()"
+          >
+            <span>{{ 'Ad_Pools' | translate }}</span>
+          </a>
+        </li>
+
+        <li
+          class="li-menu"
+          [ngClass]="{ 'is-visited': menuFarmPost }"
+          id="intro3"
+        >
+          <a
+            *ngIf="isConnected"
+            class="farmPost"
+            [routerLink]="['/home/farm-posts']"
+            (click)="checkMenuFarmPost()"
+            >{{ 'faq_farmming' | translate }}</a
+          >
+          <a
+            *ngIf="!isConnected"
+            class="farmPost"
+            [routerLink]="['/auth/login']"
+            ><span>{{ 'faq_farmming' | translate }}</span></a
+          >
+        </li>
+        <li
+          class="li-menu"
+          [ngClass]="{ 'is-visited': menuBuyToken }"
+          id="intro6"
+        >
+          <a
+            *ngIf="isConnected"
+            class="farmPost"
+            [routerLink]="['/wallet/buy-token']"
+            (click)="checkMenuBuyToken()"
+            >{{ 'menu_buyToken' | translate }}</a
+          >
+          <a
+            *ngIf="!isConnected"
+            class="farmPost"
+            [routerLink]="['/auth/login']"
+            ><span>{{ 'menu_buyToken' | translate }}</span></a
+          >
+        </li>
+        <li
+          class="li-menu"
+          [ngClass]="{ 'is-visited': menuTokenInfo }"
+          id="intro7"
+        >
+          <a style="cursor: pointer" (click)="checkMenuTokenInfo()"
+            >Token Info</a
+          >
+        </li>
+        <li
+          class="li-menu"
+          *ngIf="isConnected"
+          [ngClass]="{ 'is-visited': menuHistory }"
+          id="intro8"
+        >
+          <a
+            class="history"
+            [routerLink]="['notification']"
+            (click)="checkMenuHistory()"
+            ><span>{{ 'Sidebar.history_transaction' | translate }}</span></a
+          >
+        </li>
+        <li class="li-menu" [ngClass]="{ 'is-visited': menuHelp }" id="intro5">
+          <a class="help" [routerLink]="['FAQ']" (click)="checkMenuHelp()"
+            ><span>{{ 'Sidebar.Aide' | translate }}</span>
+          </a>
+        </li>
+      </ul>
+      <ul class="right_nav_side navbar-nav right-menu" *ngIf="isConnected">
+        <!------------------------------------------------------------------------->
+        <li class="li-menu-profil">
+          <div class="dropdown2" id="myDropdown" id="intro4">
+            <a
+              class="btn dropdown-toggle dropdown-toggle-content"
+              id="dropdownMenuButton2"
+              data-flip="false"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <app-user-picture [isHeaderPic]="true"></app-user-picture>
+              <span
+                class="span-userName ps-2 pe-2"
+                *ngIf="user?.firstName && user?.lastName"
+                >{{ user?.getFullName() | titlecase }}</span
+              >
+              <i class="chevron fa fa-fw"></i>
+            </a>
+            <ul
+              class="dropdown-menu dropdown-menu2"
+              id="dropdown-menu-profil"
+              aria-labelledby="dropdownMenuButton2"
+            >
+              <li class="profil_icon">
+                <a
+                  class="dropdown-item-profil profil-item"
+                  [routerLink]="['settings']"
+                  ><span class="icon-prfl icondrop"></span
+                  >{{ 'Header.Profil' | translate }}
+                </a>
+              </li>
+              <li class="legal_icon">
+                <a
+                  class="dropdown-item-profil profil-item"
+                  [routerLink]="['settings/Legal_KYC']"
+                  ><span class="icon-legal icondrop"></span
+                  >{{ 'Header.legal' | translate }}
+                </a>
+              </li>
+              <li class="security_icon">
+                <a
+                  class="dropdown-item-profil profil-item"
+                  [routerLink]="['settings/security']"
+                  ><span class="icon-lock-new icondrop icondropLock"></span>
+                  {{ 'Header.informations_securite' | translate }}
+                </a>
+              </li>
+              <li class="deconnect_icon">
+                <a class="dropdown-item-profil profil-item" (click)="signOut()"
+                  ><span class="icon-power-1 icondrop"></span
+                  >{{ 'Header.logout' | translate }}</a
+                >
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="dropdown">
+          <button
+            class="notifLink ps-0 pe-0 notif-md-link"
+            type="button"
+            data-toggle="dropdown"
+            aria-expanded="false"
+            id="dropdownMenuButton4"
+            aria-label="Toggle navigation"
+          >
+            <a
+              class="dropdown-toggle"
+              data-toggle="dropdown"
+              role="button"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <app-user-picture [isHeaderPic]="true"></app-user-picture>
+            </a>
+
+            <ul
+              class="dropdown-menu dropdown-tablette-profile"
+              id="dropdown-menu-profil"
+              aria-labelledby="dropdownMenuButton4"
+            >
+              <li class="profil_icon">
+                <a
+                  class="dropdown-item-profil profil-item"
+                  [routerLink]="['settings']"
+                  ><span class="icon-prfl icondrop"></span
+                  >{{ 'Header.Profil' | translate }}
+                </a>
+              </li>
+              <li class="legal_icon">
+                <a
+                  class="dropdown-item-profil profil-item"
+                  [routerLink]="['settings/Legal_KYC']"
+                  ><span class="icon-legal icondrop"></span
+                  >{{ 'Header.legal' | translate }}
+                </a>
+              </li>
+              <li class="security_icon">
+                <a
+                  class="dropdown-item-profil profil-item"
+                  [routerLink]="['settings/security']"
+                  ><span class="icon-lock-new icondrop icondropLock"></span>
+                  {{ 'Header.informations_securite' | translate }}
+                </a>
+              </li>
+              <li class="deconnect_icon">
+                <a class="dropdown-item-profil profil-item" (click)="signOut()"
+                  ><span class="icon-power-1 icondrop"></span
+                  >{{ 'Header.logout' | translate }}</a
+                >
+              </li>
+            </ul>
+          </button>
+        </li>
+        <li class="ms-2">
+          <!--d-lg-block d-xl-block d-md-block d-sm-none-->
+
+          <a
+            class="d-flex justify-content-center p-2 gap-4 btnDRP dropdown-toggle dropdown-toggle-content dropdown-toggle-content-wallet"
+            id="drp"
+            data-flip="false"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <img
+              class=""
+              width="26px"
+              src="assets/Images/newImages/new-icon-copy-wallet.svg"
+            />
+          </a>
+
+          <ul
+            class="dropdown-menu menudrp mt-2 me-3"
+            (click)="$event.stopPropagation()"
+            aria-labelledby="drp"
+          >
+            <div class="p-4">
+              <h4 class="Bep d-flex justify-content-center mb-4">
+                Wallet BEP20 / ERC20
+              </h4>
+              <!-- <span
+                class="adress d-flex justify-content-center mb-4"
+                id="erc"
+                >{{ erc20 }}</span
+              > -->
+              <div class="d-flex justify-content-center">
+                <!-- <span class="span-wallet flex-start">{{ erc20 }}</span>
+                <span class="span-wallet2 flex-end">{{ erc20 }}</span> -->
+                <span class="span-text-wallet"
+                  >{{ erc20.slice(0, 2) }}...{{ erc20.slice(-5) }}</span
+                >
+                <span class="pr-1"
+                  ><img
+                    class="img-copied"
+                    (click)="copyErc(erc20)"
+                    ngbPopover="Copied"
+                    popoverTitle=""
+                    [openDelay]="100"
+                    [closeDelay]="100"
+                    src="../../../../assets/Images/copiedIcon.png"
+                /></span>
+              </div>
+              <div class="d-flex justify-content-center gap mt-1">
+                <div>
+                  <img
+                    class="logo"
+                    (click)="goToEther(erc20)"
+                    src="../../../../assets/Images/ethscan.png"
+                  />
+                </div>
+                <div>
+                  <img
+                    class="logo"
+                    (click)="goToBscan(erc20)"
+                    src="../../../../assets/Images/binanceLogo.png"
+                  />
+                </div>
+              </div>
+              <div class="d-flex justify-content-center mt-4">
+                <img [src]="url1" alt="" id="qr_img" />
+              </div>
+              <hr class="line" />
+              <h4 class="Bep d-flex justify-content-center mb-4">Wallet BTC</h4>
+              <!-- <span
+                class="adress d-flex justify-content-center mb-4"
+                id="btc"
+                >{{ btcCode }}</span
+              > -->
+              <div class="d-flex justify-content-center" *ngIf="btcCode">
+                <!-- <span class="span-wallet flex-start">{{ btcCode }}</span>
+                <span class="span-wallet2 flex-end">{{ btcCode }}</span> -->
+                <span class="span-text-wallet"
+                  >{{ btcCode.slice(0, 2) }}...{{ btcCode.slice(-5) }}</span
+                >
+                <span class="pr-1"
+                  ><img
+                    class="img-copied"
+                    (click)="copyBtc(btcCode)"
+                    ngbPopover="Copied"
+                    popoverTitle=""
+                    [openDelay]="100"
+                    [closeDelay]="100"
+                    src="../../../../assets/Images/copiedIcon.png"
+                /></span>
+              </div>
+              <div class="d-flex justify-content-center mt-2">
+                <div class="">
+                  <img
+                    class="logo"
+                    (click)="goToBtc()"
+                    src="../../../../assets/Images/bitcoinLogo.png"
+                  />
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-center mt-4">
+                <img [src]="url2" alt="" id="qr_imgg" />
+              </div>
+            </div>
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a
+            (click)="closeBalanceSection()"
+            class="nav-link dropdown-toggle notifLink"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <img
+              class="padding-notifOff"
+              *ngIf="!newNotification"
+              src="/assets/Images/notifOff.svg"
+              [routerLink]="['notification']"
+            />
+            <img
+              class="anim-gif"
+              *ngIf="newNotification"
+              [routerLink]="['notification']"
+              src="/assets/Images/anim_bell.gif"
+            />
+          </a>
+          <!-- <ul
+            class="dropdown-menu notif_drop_main notifier"
+            id="dropdown-menu-notif"
+            aria-labelledby="navbarDropdown"
+          >
+            <li class="dropdown-header">
+              <span class="title_notif"
+                >{{ 'Header.notifications' | translate }}
+              </span>
+            </li>
+            <div class="notif_drop clear-fix" tabindex="1">
+              <li
+                *ngFor="let notification of dataNotification"
+                class="li-dropdown"
+              >
+                <div
+                  class="col-12 d-flex flex-row p-2 flex-start"
+                  (click)="redirect(notification)"
+                  [ngClass]="{ grey: notification.isSeen === false }"
+                >
+                  <div class="icon-notif-margin">
+                    <span class="notif_icon"
+                      ><img src="{{ notification.img }}" alt="avtar"
+                    /></span>
+                  </div>
+                  <div class="d-block notifBody">
+                    <div class="notif-text-padding">
+                      <span
+                        class="text_notif mb-2"
+                        *ngIf="
+                          notification.type !== 'transfer_event' &&
+                          notification.type !== 'apply_campaign' &&
+                          notification.type !== 'cmp_candidate_accept_link'
+                        "
+                        [translate]="notification._label"
+                        [translateParams]="notification._params"
+                      >
+                      </span>
+                      <p
+                        class="label_avatar_notif"
+                        *ngIf="
+                          notification.type === 'transfer_event' ||
+                          notification.type === 'apply_campaign' ||
+                          notification.type === 'cmp_candidate_accept_link'
+                        "
+                      >
+                        <span
+                          [translate]="notification._label"
+                          [translateParams]="notification._params"
+                        ></span>
+                        <span
+                          *ngIf="notification.type === 'apply_campaign'"
+                          class="link-hash"
+                          [translate]="'apply_campaign_hash'"
+                          [translateParams]="notification._params"
+                        ></span>
+                        <span
+                          *ngIf="
+                            notification.type === 'cmp_candidate_accept_link'
+                          "
+                          class="link-hash"
+                          [translate]="'cmp_candidate_accept_link_hash'"
+                          [translateParams]="notification._params"
+                        ></span>
+
+                        <span
+                          *ngIf="notification.type === 'transfer_event'"
+                          [routerLink]="['/home/TransactionsHistory']"
+                          class="link-hash"
+                          [translate]="'transfer_event_link'"
+                          [translateParams]="notification._params"
+                        ></span>
+                      </p>
+                    </div>
+                    <div
+                      class="col-12 d-flex justify-content-between pl-2 mt-2"
+                    >
+                      <span class="label_time_notif">
+                        {{ notification.created }}</span
+                      >
+                      <span
+                        class="label_time_notif"
+                        (click)="redirect(notification)"
+                      >
+                        {{ 'Details' | translate }} >
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <div
+                style="
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  height: 50px;
+                "
+                class="align-content-center"
+              >
+                <a
+                  style="align-self: center"
+                  class="
+                    col-12
+                    d-flex
+                    justify-content-center
+                    label_time_notif
+                    mt-1
+                    no-more-notif
+                  "
+                  *ngIf="notifListSize < dataNotification.length"
+                  >{{ 'Header.No_further_notifications' | translate }}</a
+                >
+                <a
+                  style="align-self: center"
+                  class="
+                    dropdown-menu-footer
+                    d-flex
+                    justify-content-center
+                    no-more-notif
+                  "
+                  *ngIf="dataNotification.length === 0"
+                >
+                  {{ 'Header.No_notifications' | translate }}
+                </a>
+              </div>
+
+              <li
+                class="text-center see-all-mb"
+                *ngIf="dataNotification.length !== 0"
+              >
+                <div class="see-all-container align-content-center">
+                  <div class="see-all-hr"></div>
+                  <div class="see-all-text-cantainer pr-2 pl-2">
+                    <div class="see-all-flex align-content-center">
+                      <p class="see-all" [routerLink]="['notification']">
+                        {{ 'Voirtoutes' | translate }}
+                      </p>
+                      <i class="fa fa-chevron-down chevron-down-icn"></i>
+                    </div>
+                  </div>
+                  <div class="see-all-hr"></div>
+                </div>
+              </li>
+            </div>
+          </ul> -->
+        </li>
+      </ul>
+
+      <ul class="right_nav_side navbar-nav" *ngIf="!isConnected">
+        <button type="button" class="button-connect">
+          <a class="" [routerLink]="['/auth/login']">Connect</a>
+        </button>
+        <!--
+        <li class="li-menu sign-in ">
+          <a class="adpools " [routerLink]="[ '/auth/login'] ">{{
+            'sign_in' | translate
+          }}</a>
+        </li>
+        <li class="li-menu sign-up ">
+          <a class="adpools " [routerLink]="[ '/auth/registration'] "
+            >{{ 'sign_up' | translate }}
+          </a>
+        </li> -->
+      </ul>
+    </div>
+    <!--end desktop-->
+  </div>
+</nav>
+
+<!-- profile walllet mobile -->
+<!-- <div
+  *ngIf="showMore"
+  class="sidebarMore d-lg-none d-xl-none d-md-none d-sm-none"
+>
+  <div class="row user_info">
+    <div class="row d-flex justify-content-center">
+      <span class="userNamee" *ngIf="user?.firstName && user?.lastName">{{
+        user?.getFullName()
+      }}</span>
+    </div>
+    <div class="row d-flex">
+      <span
+        class="nav_i"
+        [routerLink]="['settings']"
+        (click)="toggleMoreMobile()"
+        >{{ 'Header.Profil' | translate }}</span
+      >
+      <span
+        class="nav_i"
+        [routerLink]="['settings/Legal_KYC']"
+        (click)="toggleMoreMobile()"
+        >{{ 'Header.legal' | translate }}
+      </span>
+      <span
+        class="nav_i"
+        [routerLink]="['settings/security']"
+        (click)="toggleMoreMobile()"
+        >{{ 'Header.informations_securite' | translate }}
+      </span>
+      <span
+        class="nav_i logout_mobile"
+        (click)="signOut()"
+        (click)="toggleMoreMobile()"
+      >
+        <i class="fa fa-power-off logMeOut"></i
+        >{{ 'Header.logout' | translate }}</span
+      >
+    </div>
+  </div>
+</div> -->
+
+<div
+  *ngIf="this.sidebarService.toggleWalletMobile.value"
+  class="sidebarMoreMobile row d-lg-none d-xl-none d-md-none"
+>
+  <div class="p-4 mobile mb-5">
+    <h4 class="Bep d-flex justify-content-center mb-4">Your ID Wallet</h4>
+
+    <div class="button-mobile d-flex justify-content-center gap mt-3">
+      <div class="logoMobile">
+        <img
+          class=""
+          (click)="goToEther(erc20)"
+          src="../../../../assets/Images/ethscan.png"
+        />
+      </div>
+
+      <div class="logoMobile">
+        <img
+          class=""
+          (click)="goToBscan(erc20)"
+          src="../../../../assets/Images/binanceLogo.png"
+        />
+      </div>
+    </div>
+    <div class="d-flex justify-content-center mt-3 pl-3">
+      <span class="span-text-wallet"
+        >{{ erc20.slice(0, 2) }}...{{ erc20.slice(-7) }}</span
+      >
+      <!-- <span class="span-wallet flex-start">{{ erc20 }}</span>
+            <span class="span-wallet2 flex-end">{{ erc20 }}</span> -->
+      <span class="pr-1"
+        ><img
+          class="img-copied"
+          (click)="copyErc(erc20)"
+          ngbPopover="Copied"
+          popoverTitle=""
+          [openDelay]="100"
+          [closeDelay]="100"
+          src="../../../../assets/Images/copiedIcon.png"
+      /></span>
+    </div>
+
+    <div class="toggle d-flex justify-content-center mt-2">
+      <img [src]="urlM1" alt=" " id="qrr_img1 " />
+    </div>
+
+    <hr class="line px-5" />
+    <!-- <h4 class="Bep d-flex justify-content-center mb-4">Wallet BTC</h4> -->
+
+    <div class="d-flex justify-content-center mt-2">
+      <div class="logoMobile">
+        <img
+          class=""
+          (click)="goToBtc()"
+          src="../../../../assets/Images/bitcoinLogo.png"
+        />
+      </div>
+    </div>
+    <div class="d-flex justify-content-center pl-2" *ngIf="btcCode">
+      <span class="span-text-wallet"
+        >{{ btcCode.slice(0, 2) }}...{{ btcCode.slice(-7) }}</span
+      >
+
+      <!-- <span class="span-wallet flex-start">{{ btcCode }}</span>
+            <span class="span-wallet2 flex-end">{{ btcCode }}</span> -->
+      <span class="pr-1"
+        ><img
+          class="img-copied"
+          (click)="copyBtc(btcCode)"
+          ngbPopover="Copied"
+          popoverTitle=""
+          [openDelay]="100"
+          [closeDelay]="100"
+          src="../../../../assets/Images/copiedIcon.png"
+      /></span>
+    </div>
+
+    <div
+      class="d-flex justify-content-center mt-2"
+      style="margin-bottom: 5rem !important"
+    >
+      <img [src]="urlM2" alt=" " id="qrr_imgg1 " />
+    </div>
+  </div>
+</div>

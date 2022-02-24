@@ -1,0 +1,37 @@
+<div
+  class="puzzleMask"
+  (mouseup)="touchEnd($event)"
+  (mousemove)="touchMove($event)"
+  (touchmove)="touchMove($event)"
+  (touchend)="touchEnd($event)"
+></div>
+<div class="slideWhole" style="position: relative; margin-top: 156px">
+  <div class="puzzleBox">
+    <div class="puzzleBase">
+      <img width="310" height="155" src="{{ originalImage }}" />
+    </div>
+    <div class="refreshIcon" (click)="reset()"></div>
+
+    <div class="puzzleBefore">
+      <img width="310" height="155" src="{{ puzzle }}" />
+    </div>
+  </div>
+  <div class="sliderContainer">
+    <div class="sliderMask">
+      <div
+        class="slider"
+        (touchstart)="touchStart($event)"
+        (touchmove)="touchMove($event)"
+        (touchend)="touchEnd($event)"
+        (mousedown)="touchStart($event)"
+        (mouseup)="touchEnd($event)"
+        (mousemove)="touchMove($event)"
+      >
+        <span class="sliderIcon"></span>
+      </div>
+    </div>
+    <span class="sliderText ms-3">
+      {{ 'puzzle-verification-slide' | translate }}
+    </span>
+  </div>
+</div>

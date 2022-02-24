@@ -1,0 +1,102 @@
+<app-header-social-registartion> </app-header-social-registartion>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xl-5 col-lg-5 col-md-5">
+      <app-left-component></app-left-component>
+    </div>
+    <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 padding-top margin-bottom">
+      <div class="row d-flex justify-content-center">
+        <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8">
+          <app-monetize-steps></app-monetize-steps>
+        </div>
+      </div>
+      <div class="row d-flex justify-content-center">
+        <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8 make-center mt-2">
+          <span class="title_page">{{
+            'monetize-your-telegram-account' | translate
+          }}</span>
+        </div>
+      </div>
+      <div class="row d-flex justify-content-center mt-3">
+        <div class="col-sm-8 show-mobile text-center">
+          <!-- <img class="height-pic" width="150px" src="/assets/Images/Group-telegram.svg"> -->
+          <img
+            class="height-pic"
+            width="150px"
+            src="/assets/Images/Group-teleg2.svg"
+          />
+        </div>
+      </div>
+      <div class="row d-flex justify-content-center mt-2">
+        <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8 make-center">
+          <p class="drak-gray_text">
+            {{ 'activate-oracle-telegram-text1' | translate }}
+          </p>
+          <p class="drak-gray_text">
+            {{ 'activate-oracle-text-telegram' | translate }}
+          </p>
+        </div>
+      </div>
+
+      <div
+        class="row d-flex justify-content-center margin-top-btn"
+        *ngIf="!user?.idOnSn3"
+      >
+        <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8 display-flex">
+          <div class="telegram_log" (click)="convertToScript()">
+            <a [routerLink]="" class="" (click)="convertToScript()">
+              <div class="d-flex justify-content-center">
+                <div
+                  #script
+                  class="d-flex justify-content-center"
+                  style="cursor: pointer; opacity: 0"
+                >
+                  <ng-content></ng-content>
+                </div>
+              </div>
+            </a>
+            <span class="tgm"> {{ 'continuer_avec_tgm' | translate }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="row d-flex justify-content-center margin-top-btn"
+        *ngIf="user?.idOnSn3"
+      >
+        <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8 display-flex">
+          <div class="position-relative disabled" (click)="logout()">
+            <img src="/assets/Images/share_image.svg" class="" width="30px" />
+            <span class="d-flex align-self-center ms-3">
+              {{ 'Log_out_of' | translate }} Telegram
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row d-flex justify-content-center mt-2">
+        <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8 make-center">
+          <span *ngIf="errorMessage" class="error-message">{{
+            errorMessage | translate
+          }}</span>
+          <span class="successLink" *ngIf="successMessage">{{
+            successMessage | translate
+          }}</span>
+        </div>
+      </div>
+      <div class="row d-flex justify-content-center">
+        <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8 top-10 make-center">
+          <a class="skip-page" (click)="skipPage()" *ngIf="!user?.idOnSn3"
+            >{{ 'skip-activate-oracle-telegram' | translate }}></a
+          >
+          <a class="skip-page" (click)="skipPage()" *ngIf="user?.idOnSn3"
+            >Skip ></a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer-social-registartion></app-footer-social-registartion>

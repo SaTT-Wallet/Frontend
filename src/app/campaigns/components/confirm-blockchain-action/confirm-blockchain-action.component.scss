@@ -1,0 +1,82 @@
+:host {
+  --cs-red: #f52079;
+  display: block;
+
+  .confirm-form {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .title {
+    text-align: center;
+  }
+
+  .confirmation-info {
+    margin: 2em auto;
+  }
+
+  .key-image {
+    margin: 0 auto 1em;
+    max-width: 50px;
+    width: 100%;
+    display: block;
+  }
+
+  .input_oeil {
+    width: 100%;
+    height: 45px;
+    padding: 6px 15px;
+    line-height: 1.57142857;
+    border: none;
+    font-size: 14px;
+    color: #162746;
+    border-radius: 30px;
+    outline: none !important;
+    content: '\f002';
+  }
+
+  .div_input_add {
+    background-color: white;
+    border: 1px solid #d6d6e8;
+    display: flex;
+    padding: 0;
+    border-radius: 30px;
+    max-width: 660px;
+    margin: 0 auto;
+  }
+
+  .confirm-button-wrapper {
+    margin: 2em auto 0em;
+    text-align: center;
+
+    .change_btn {
+      border-radius: 30px;
+      border: none;
+      background: #00cc9e;
+      height: 50px;
+      max-width: 250px;
+      width: 60%;
+      color: cornsilk;
+    }
+
+    .btn-text {
+      font-weight: 600;
+      font-size: 18px;
+      line-height: 27px;
+    }
+  }
+
+  .errors {
+    margin: 0.5em 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .error-message {
+    color: var(--cs-red);
+  }
+
+  .error-input {
+    border: 1px solid var(--cs-red);
+  }
+}

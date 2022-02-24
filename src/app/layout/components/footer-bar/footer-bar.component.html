@@ -1,0 +1,102 @@
+<div class="div-menu">
+  <div
+    class="div-home"
+    [routerLink]="['/notification']"
+    (click)="toggleMobile()"
+  >
+    <div class="div-pic">
+      <img src="assets/Images/blue-icons/home-icon-blue.svg" />
+    </div>
+
+    <span class="span-text">Home</span>
+  </div>
+
+  <div class="div-adPool" [routerLink]="['/ad-pools']" (click)="toggleMobile()">
+    <div class="div-pic">
+      <img src="assets/Images/blue-icons/adpool-icon-blue.svg" />
+    </div>
+
+    <span class="span-text">AdPool</span>
+  </div>
+
+  <div
+    class="div-wallet"
+    (click)="(this.sidebarService.toggleFooterMobile.value)"
+  >
+    <div
+      class="half-circle"
+      *ngIf="this.sidebarService.toggleFooterMobile.value"
+      [ngClass]="{
+        'half-circle-block': this.sidebarService.toggleFooterMobile.value
+      }"
+    >
+      <div class="d-flex justify-content-center">
+        <button
+          type="button"
+          class="half-circle-button"
+ 
+          (click)="toggleMobile(); clickBuy()"
+        >
+          <span class="icon-ins"></span>
+        </button>
+      </div>
+      <div class="d-flex justify-content-between">
+        <div class="">
+          <button
+            [routerLink]="['/wallet/send']"
+            type="button"
+            class="half-circle-button"
+            (click)="toggleMobile(); clickSend()"
+          >
+            <span class="icon-arrow-1"></span>
+          </button>
+        </div>
+        <div class="">
+          <button
+            [routerLink]="['/wallet/receive']"
+            type="button"
+            class="half-circle-button"
+            (click)="toggleMobile(); clickRecieve()"
+          >
+            <span class="icon-arrow1"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="pic-wallet-curvy"></div>
+    <div
+      class="div-pic-wallet"
+      [routerLink]="['/wallet']"
+      (click)="toggle()"
+      [ngClass]="{ 'blue-bg': showHalf }"
+    >
+      <span
+        class="icon-ic1 span-icon ms-1"
+        *ngIf="!this.sidebarService.toggleFooterMobile.value"
+      ></span>
+      <i
+        class="fas fa-check checked-icon"
+        *ngIf="this.sidebarService.toggleFooterMobile.value"
+      ></i>
+      <!-- <img src="assets/Images/blue-icons/wallet-icon-blue.svg" /> -->
+    </div>
+
+    <span class="span-text">{{ 'Sidebar.Wallet' | translate }}</span>
+  </div>
+
+  <div class="div-farm" [routerLink]="['/farm-posts']" (click)="toggleMobile()">
+    <div class="div-pic">
+      <img src="assets/Images/blue-icons/farmpost-icon-blue.svg" />
+    </div>
+
+    <span class="span-text">PostFarm</span>
+  </div>
+
+  <div class="div-help" [routerLink]="['/FAQ']" (click)="toggleMobile()">
+    <div class="div-pic">
+      <img src="assets/Images/blue-icons/help-icon-blue.svg" />
+    </div>
+
+    <span class="span-text">{{ 'Sidebar.Aide' | translate }}</span>
+  </div>
+</div>

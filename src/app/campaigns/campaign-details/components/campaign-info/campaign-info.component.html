@@ -1,0 +1,1365 @@
+<!-- <h3 class="info-section-title">Infos</h3> -->
+<div>
+  <div class="container">
+    <div class="row d-flex tabs" *ngIf="!campaign.isDraft">
+      <!-- <div class="botton_mobile row ml-2">
+        <button
+          type="button"
+          class="botton_mobile btn-apply"
+          (click)="goParticipate(campaign.id)"
+          *ngIf="!campaign.isOwnedByUser && campaign.isActive"
+        >
+          <span class="padding-16" *ngIf="!this.showSpinner">{{
+            'Apply Now' | translate
+          }}</span>
+          <div
+            *ngIf="this.showSpinner"
+            class="spinner-border text-light"
+            role="status"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+        </button>
+        <button
+          type="button"
+          class="botton_mobile btn-pending"
+          *ngIf="!campaign.isOwnedByUser && campaign.inProgress"
+        >
+          <span class="padding-16"> {{ 'Monetize.pending' | translate }}</span>
+        </button>
+
+   
+      </div> -->
+      <div
+        class="col-3 col-md-3 col-lg-3 nav-item d-flex justify-content-center"
+        *ngIf="this.campaign.isOwnedByUser"
+        [ngClass]="{ 'nav-item-active': this.activeTab === 'stat' }"
+      >
+        <label
+          class="nav-link show-desktop"
+          id="gains_tab"
+          aria-controls="gains"
+          aria-selected="true"
+          [ngClass]="{ active: this.activeTab === 'stat' }"
+          (click)="onChangeTab('stat')"
+          >{{ 'campaign_details.editor_stats' | translate }}</label
+        >
+        <div
+          class="nav-link show-mobile"
+          id="info-tab"
+          aria-controls="info"
+          aria-selected="false"
+          (click)="onChangeTab('stat')"
+        >
+          <div
+            class="gray-background d-flex justify-content-center align-items-center"
+            [ngClass]="{ active: this.activeTab === 'stat' }"
+          >
+            <img src="/assets/Images/custom_icons/white-icon-stat.svg" />
+          </div>
+        </div>
+      </div>
+      <div
+        class="col-3 col-md-3 col-lg-3 nav-item d-flex justify-content-center"
+        [ngClass]="{ 'nav-item-active': this.activeTab === 'gains' }"
+      >
+        <label
+          class="nav-link show-desktop"
+          id="gains_tab"
+          aria-controls="gains"
+          aria-selected="true"
+          [ngClass]="{ active: this.activeTab === 'gains' }"
+          (click)="onChangeTab('gains')"
+        >
+          {{ titleTab | translate }}</label
+        >
+        <div
+          class="nav-link show-mobile"
+          id="info-tab"
+          aria-controls="info"
+          aria-selected="false"
+          (click)="onChangeTab('gains')"
+        >
+          <div
+            class="gray-background d-flex justify-content-center align-items-center"
+            [ngClass]="{ active: this.activeTab === 'gains' }"
+          >
+            <img
+              width="30px"
+              src="/assets/Images/icons-crypto/white/{{ currencyName }}.svg"
+              *ngIf="titleTab === 'Gains'"
+            />
+            <img
+              width="30px"
+              src="/assets/Images/icons-crypto/white/{{ currencyName }}.svg"
+              *ngIf="titleTab !== 'Gains'"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="col-3 col-md-3 col-lg-3 nav-item d-flex justify-content-center"
+        [ngClass]="{ 'nav-item-active': this.activeTab === 'info' }"
+      >
+        <label
+          class="nav-link show-desktop"
+          id="info-tab"
+          aria-controls="info"
+          aria-selected="false"
+          (click)="onChangeTab('info')"
+          [ngClass]="{ active: this.activeTab === 'info' }"
+          >Infos</label
+        >
+        <div
+          class="nav-link show-mobile"
+          id="info-tab"
+          aria-controls="info"
+          aria-selected="false"
+          (click)="onChangeTab('info')"
+        >
+          <div
+            class="gray-background d-flex justify-content-center align-items-center"
+            (click)="onChangeTab('info')"
+            [ngClass]="{ active: this.activeTab === 'info' }"
+          >
+            <img src="/assets/Images/custom_icons/white-icon-info.svg" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="navigationTab === 'info'">
+      <div class="col-xl">
+        <div class="campaign-remained-budget">
+          <!---------------------------------------------------------------------------------------------------------------------------------->
+          <div class="grey-zone">
+            <div class="col-md-12 earning_budget_desktop p-0">
+              <!-- Gains-->
+              <!-- <div class="borderr col-md-6 col-12 p-0">
+                <h5
+                  *ngIf="!this.isOwnedByUser"
+                  class="campaign-remained-budget-title labels"
+                >
+                  {{ 'Your_earnings' | translate }}
+                </h5>
+
+                <h5
+                  *ngIf="this.isOwnedByUser"
+                  class="campaign-remained-budget-title labels"
+                >
+                  {{ 'Your_earnings_owner' | translate }}
+                </h5>
+                <span
+                  class="remained-budget-in-satt gains-in-satt ms-1"
+                  *ngIf="this.isOwnedByUser"
+                >
+                  {{ totalInvested.toString() || '0' | number }}
+                  <img
+                    src="/assets/Images/icons-crypto/blue/{{
+                      currencyName
+                    }}.svg"
+                    class="satt_blue"
+                    *ngIf="this.isOwnedByUser"
+                  />
+                </span>
+                <label class="label" *ngIf="this.isOwnedByUser">
+                  ≃ $ {{ (totalInvestedInUsD | async) || '0' | number }}
+                </label>
+                <span class="remained-budget-in-satt gains-in-satt ms-1" *ngIf="!this.isOwnedByUser">
+                  {{ gainsEarned.toString() || '0' | number }}
+                  <img
+                    src="/assets/Images/icons-crypto/blue/{{
+                      currencyName
+                    }}.svg"
+                    class="satt_blue"
+                    *ngIf="!this.isOwnedByUser"
+                  />
+                </span>
+                <label class="label" *ngIf="!this.isOwnedByUser">
+                  ≃ $ {{ (gainsEarnedInUsD | async) || '0' | number }}
+                </label>
+            </div> -->
+              <!-- remained-budget -->
+              <div class="row" *ngIf="!campaign.isDraft">
+                <div class="">
+                  <div class="">
+                    <h5
+                      class="campaign-remained-budget-title d-flex text-center"
+                    >
+                      {{ 'remaining_fund' | translate }}
+                    </h5>
+                  </div>
+                  <div class="d-flex justify-content-center">
+                    <span class="remained-budget-in-satt d-flex text-center">
+                      {{
+                        (campaign.budget
+                          | fromWeiTo: currencyName:3
+                          | number) || '--.--'
+                      }}
+                      <img
+                        src="/assets/Images/icons-crypto/black/{{
+                          currencyName
+                        }}.svg"
+                        class="satt_blue"
+                      />
+                      <button
+                        style="border: none; background: none; margin: 0"
+                        (click)="getUrlSmartContart()"
+                        [disabled]="noTransactionHash"
+                      >
+                        <a
+                          (click)="
+                            this.noTransactionHash === false
+                              ? getUrlSmartContart()
+                              : null
+                          "
+                          class="smart-contrat"
+                          target="_blank"
+                        >
+                          <span class="badge d-none d-md-flex"
+                            >{{ campaign.currency.type?.toUpperCase() }}
+                            SmartContract
+                            <img
+                              class="pl-1"
+                              src="/assets/Images/link2.svg"
+                              alt=""
+                            />
+                          </span>
+                        </a>
+                      </button>
+                    </span>
+                  </div>
+                  <div class="text-center">
+                    <div
+                      class="d-flex justify-content-lg-start justify-content-md-center justify-content-sm-center"
+                    >
+                      <span class="label label-text col-12 d-flex text-center">
+                        ${{ (budgetInUSD | async) || '0' | number }}
+                      </span>
+                    </div>
+                    <button
+                      style="border: none; background: none; margin: 0"
+                      (click)="getUrlSmartContart()"
+                      [disabled]="noTransactionHash"
+                    >
+                      <a
+                        (click)="
+                          this.noTransactionHash === false
+                            ? getUrlSmartContart()
+                            : null
+                        "
+                        class="smart-contrat"
+                        target="_blank"
+                      >
+                        <span class="badge d-sm-block d-md-none"
+                          >{{ campaign.currency.type?.toUpperCase() }}
+                          SmartContract
+                          <img
+                            class="pl-1"
+                            src="/assets/Images/link2.svg"
+                            alt=""
+                          />
+                        </span>
+                      </a>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-------------------------------------- Prices heeeeeeeeeeeeeeeeeey-----------------------------------------------------------------------------------yes-->
+        <!-- ---------------------- bountiiiiiiiiiiiiiiiiies---------------------- -->
+        <div *ngIf="campaign.bounties.length" class="mission-top">
+          <div
+            class="d-flex flex-column"
+            *ngFor="
+              let bounty of campaign.bounties;
+              let i = index;
+              trackBy: trackByBountie
+            "
+          >
+            <div
+              class="div-header-misssion d-flex justify-content-between flex-xl-row flex-lg-row flex-md-row flex-sm-column flex-column"
+            >
+              <div class="d-flex align-items-center gap-3">
+                <img
+                  src="/assets/Images/{{ bounty?.oracle + '.svg' }}"
+                  width="32px"
+                  alt=""
+                />
+                <span
+                  class="dark-gray font-size-22 font-weight-bold text-capitalize"
+                  >{{
+                    'Missions-name-network'
+                      | translate: { oracle: bounty.oracle }
+                  }}
+                </span>
+              </div>
+              <div
+                class="d-flex justify-content-center align-items-center"
+                *ngIf="
+                  !campaign.isOwnedByUser &&
+                  bounty.oracle === 'youtube' &&
+                  channelGoogle?.length === 0
+                "
+              >
+                <div class="">
+                  <div
+                    class="mb-0 btn-connect-google position-relative"
+                    (click)="linkAccount()"
+                  >
+                    <img
+                      src="./assets/Images/youtube-white.png"
+                      class="icon-google"
+                      width="30px"
+                    />
+                    <span class="d-flex align-self-center ms-3">
+                      {{ 'add-youTube-channel' | translate }}</span
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="d-flex justify-content-center"
+                *ngIf="
+                  !campaign.isOwnedByUser &&
+                  bounty.oracle === 'facebook' &&
+                  channelFacebook?.length === 0
+                "
+              >
+                <div class="">
+                  <div
+                    class="btn-connect-fb position-relative"
+                    (click)="linkAccount()"
+                  >
+                    <img
+                      src="/assets/Images/campagne/facebook.svg"
+                      class="icon-facebook"
+                      width="38px"
+                    />
+
+                    <span class="d-flex align-self-center white-text-span ms-3">
+                      {{ 'add-facebook-account' | translate }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="d-flex justify-content-center align-items-center"
+                *ngIf="
+                  !campaign.isOwnedByUser &&
+                  bounty.oracle === 'instagram' &&
+                  channelFacebook?.length === 0
+                "
+              >
+                <div class="">
+                  <div
+                    class="btn-connect-instagram position-relative"
+                    (click)="linkAccount()"
+                  >
+                    <img
+                      src="/assets/Images/campagne/facebook.svg"
+                      class="icon-facebook"
+                      width="38px"
+                    />
+
+                    <span class="d-flex align-self-center white-text-span ms-3">
+                      {{ 'add-instagram-account' | translate }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="d-flex justify-content-center gap-2 align-items-center"
+                *ngIf="
+                  !campaign.isOwnedByUser &&
+                  bounty.oracle === 'linkedin' &&
+                  channelLinkedin?.length === 0
+                "
+              >
+                <div class="">
+                  <div
+                    class="mb-0 btn-connect-linkedin position-relative login_img"
+                    (click)="linkAccount()"
+                  >
+                    <img
+                      src="./assets/Images/Linkedin.png"
+                      class="icon-linkedin"
+                      width="35px"
+                    />
+
+                    <span class="d-flex align-self-center gray-text-span ms-3">
+                      {{ 'add-linkedin-account' | translate }}</span
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="d-flex justify-content-center gap-2 align-items-center"
+                *ngIf="
+                  !campaign.isOwnedByUser &&
+                  bounty.oracle === 'twitter' &&
+                  channelTwitter?.length === 0
+                "
+                (click)="linkAccount()"
+              >
+                <div class="">
+                  <div class="btn-connect-twitter position-relative login_img">
+                    <img
+                      src="assets/Images/Shape_twitter.svg"
+                      class="icon-twitter"
+                      width="38px"
+                    />
+
+                    <span
+                      class="d-flex align-self-center white-text-span ms-3"
+                      >{{ 'add-twitter-account' | translate }}</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="div-missions mt-3">
+              <div
+                class="d-flex align-items-center gap-3 gray-background-mission mb-2 p-2"
+                *ngFor="
+                  let m of campaignMissions(bounty.oracle);
+                  let index = index
+                "
+              >
+                <span class="font-weight-bold dark-gray font-size-16"
+                  >{{ i + 1 }}.</span
+                >
+                <span class="font-size-16 dark-gray font-weight-400">{{
+                  m.mission
+                }}</span>
+              </div>
+            </div>
+            <!-- ---------------------- containnnner---------------------- -->
+            <div class="row py-3 mb-2 mt-2 text-dark">
+              <span class="font-weight-600 font-size-20 dark-gray"
+                >{{ 'Earnings-Grid' | translate }} :</span
+              >
+
+              <table class="table mt-3">
+                <tbody>
+                  <div
+                    class="justify-content-center"
+                    *ngFor="
+                      let category of bounty.categories;
+                      trackBy: trackByCategories
+                    "
+                  >
+                    <div *ngIf="bounty" class="py-0">
+                      <tr>
+                        <td
+                          class="font-weight-bold font-size-16 dark-gray py-3 w-100"
+                          colspan="2"
+                        >
+                          {{ 'from' | translate }}
+                          {{ category?.minFollowers | transfomNumber }}
+                          {{ 'to' | translate }}
+                          {{ category?.maxFollowers | transfomNumber }}
+                          <span *ngIf="bounty.oracle !== 'youtube'">{{
+                            'followers' | translate
+                          }}</span>
+                          <span *ngIf="bounty.oracle === 'youtube'">{{
+                            'subscribers' | translate
+                          }}</span>
+
+                          <!-- <span class="follower-type" *ngIf="category?.maxFollowers<=90">(Micro-Influenceur) </span>
+                            <span class="follower-type" *ngIf="category?.minFollowers>1000&&category?.maxFollowers>1000">(Med-Influenceur) </span>
+                            <span class="follower-type" *ngIf="category?.maxFollowers>=100&&category?.maxFollowers<=1000">(Nano-Influenceur)  </span>
+                         -->
+                        </td>
+
+                        <td class="font-weight-bold font-size-16 py-3">
+                          <div class="ratios-columnWei ratios-columnWei-bounty">
+                            <span
+                              *ngIf="
+                                (category?.reward | fromWeiTo: currencyName) ===
+                                '0'
+                              "
+                              >{{ category?.reward | number }}</span
+                            >
+                            <span
+                              *ngIf="
+                                (category?.reward | fromWeiTo: currencyName) !==
+                                '0'
+                              "
+                              >{{
+                                category?.reward
+                                  | fromWeiTo: currencyName
+                                  | number
+                              }}</span
+                            >
+                            <div class="ratios-column">
+                              <img
+                                src="/assets/Images/icons-crypto/black/{{
+                                  currencyName
+                                }}.svg"
+                                width="22px"
+                                alt=""
+                              />
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </div>
+                  </div>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ---------------------- ratioooooooooooooooooooo---------------------- -->
+
+        <div class="mt-3" *ngIf="campaign.ratios.length">
+          <div
+            class="d-flex flex-column border-mission"
+            *ngFor="
+              let ratio of campaign.ratios;
+              trackBy: trackByBountie;
+              let i = index
+            "
+          >
+            <div
+              class="div-header-misssion d-flex justify-content-between flex-xl-row flex-lg-row flex-md-row flex-sm-column flex-column"
+            >
+              <div class="d-flex align-items-center gap-3">
+                <img
+                  src="/assets/Images/{{ ratio?.oracle + '.svg' }}"
+                  width="32px"
+                  alt=""
+                />
+                <span
+                  class="dark-gray font-size-22 font-weight-bold text-capitalize"
+                  >{{
+                    'Missions-name-network'
+                      | translate: { oracle: ratio.oracle }
+                  }}
+                </span>
+              </div>
+              <div
+                class="d-flex justify-content-center align-items-center"
+                *ngIf="
+                  !campaign.isOwnedByUser &&
+                  ratio.oracle === 'youtube' &&
+                  channelGoogle?.length === 0
+                "
+              >
+                <div class="">
+                  <div
+                    class="mb-0 btn-connect-google position-relative"
+                    (click)="linkAccount()"
+                  >
+                    <img
+                      src="./assets/Images/youtube-white.png"
+                      class="icon-google"
+                      width="30px"
+                    />
+                    <span class="d-flex align-self-center ms-3">
+                      {{ 'add-youTube-channel' | translate }}</span
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="d-flex justify-content-center"
+                *ngIf="
+                  !campaign.isOwnedByUser &&
+                  ratio.oracle === 'facebook' &&
+                  channelFacebook?.length === 0
+                "
+              >
+                <div class="">
+                  <div
+                    class="btn-connect-fb position-relative"
+                    (click)="linkAccount()"
+                  >
+                    <img
+                      src="/assets/Images/campagne/facebook.svg"
+                      class="icon-facebook"
+                      width="38px"
+                    />
+
+                    <span class="d-flex align-self-center white-text-span ms-3">
+                      {{ 'add-facebook-account' | translate }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="d-flex justify-content-center align-items-center"
+                *ngIf="
+                  !campaign.isOwnedByUser &&
+                  ratio.oracle === 'instagram' &&
+                  channelFacebook?.length === 0
+                "
+              >
+                <div class="">
+                  <div
+                    class="btn-connect-instagram position-relative"
+                    (click)="linkAccount()"
+                  >
+                    <img
+                      src="/assets/Images/campagne/facebook.svg"
+                      class="icon-facebook"
+                      width="38px"
+                    />
+
+                    <span class="d-flex align-self-center white-text-span ms-3">
+                      {{ 'add-instagram-account' | translate }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="d-flex justify-content-center gap-2 align-items-center"
+                *ngIf="
+                  !campaign.isOwnedByUser &&
+                  ratio.oracle === 'linkedin' &&
+                  channelLinkedin?.length === 0
+                "
+              >
+                <div class="">
+                  <div
+                    class="mb-0 btn-connect-linkedin position-relative login_img"
+                    (click)="linkAccount()"
+                  >
+                    <img
+                      src="./assets/Images/Linkedin.png"
+                      class="icon-linkedin"
+                      width="35px"
+                    />
+
+                    <span class="d-flex align-self-center gray-text-span ms-3">
+                      {{ 'add-linkedin-account' | translate }}</span
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="d-flex justify-content-center gap-2 align-items-center"
+                *ngIf="
+                  !campaign.isOwnedByUser &&
+                  ratio.oracle === 'twitter' &&
+                  channelTwitter?.length === 0
+                "
+                (click)="linkAccount()"
+              >
+                <div class="">
+                  <div class="btn-connect-twitter position-relative login_img">
+                    <img
+                      src="assets/Images/Shape_twitter.svg"
+                      class="icon-twitter"
+                      width="38px"
+                    />
+
+                    <span
+                      class="d-flex align-self-center white-text-span ms-3"
+                      >{{ 'add-twitter-account' | translate }}</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="div-missions mt-3">
+              <div
+                class="d-flex align-items-center gap-2 gray-background-mission mb-2 p-2"
+                *ngFor="
+                  let m of campaignMissions(ratio.oracle);
+                  let index = index
+                "
+              >
+                <span class="font-weight-bold dark-gray font-size-16"
+                  >{{ i + 1 }}.</span
+                >
+                <span class="font-size-16 dark-gray font-weight-400">{{
+                  m.mission
+                }}</span>
+              </div>
+            </div>
+            <!-- ---------------------- containnnner---------------------- -->
+            <div class="row py-3 mb-2 mt-2 text-dark">
+              <span class="font-weight-600 font-size-20 dark-gray"
+                >{{ 'Earnings-Grid' | translate }} :</span
+              >
+              <div class="div-grid-ratios mt-2">
+                <div
+                  class="d-flex gap-3 align-items-center col div-view font-weight-bold dark-gray font-size-16"
+                >
+                  <div class="d-flex align-items-center gap-1">
+                    <span>{{ 'campaign.Prix/Vue' | translate }}</span>
+                    <img
+                      class="social-little-icon"
+                      src="/assets/Images/view_icon.svg"
+                    /><span class="icon-sattt"></span>
+                  </div>
+                  <div>
+                    {{ ratio?.view | fromWeiTo: currencyName | number }}
+                  </div>
+                </div>
+                <div
+                  class="d-flex gap-3 align-items-center col div-like font-weight-bold dark-gray font-size-16"
+                >
+                  <div class="d-flex align-items-start gap-1">
+                    <span>{{ 'campaign.Prix/Like' | translate }}</span>
+                    <img
+                      class="social-little-icon"
+                      src="/assets/Images/like_icon.svg"
+                    /><span class="icon-sattt"></span>
+                  </div>
+                  <div>
+                    {{ ratio?.like | fromWeiTo: currencyName | number }}
+                  </div>
+                </div>
+                <div
+                  class="d-flex gap-3 align-items-center col div-share font-weight-bold dark-gray font-size-16"
+                >
+                  <div class="d-flex align-items-center gap-1">
+                    <span>{{ 'campaign.Prix/Partage' | translate }}</span>
+                    <img
+                      class="social-little-icon"
+                      src="/assets/Images/share_icon.svg"
+                    /><span class="icon-sattt"></span>
+                  </div>
+                  <div>
+                    {{ ratio?.share | fromWeiTo: currencyName | number }}
+                  </div>
+                </div>
+                <div
+                  class="d-flex gap-3 col align-items-center div-reach-max justify-content-end font-weight-bold dark-gray font-size-16"
+                >
+                  <div class="d-flex align-items-center gap-1">
+                    <span>{{ 'campaign.reach' | translate }}</span>
+                  </div>
+
+                  <div>{{ ratio?.reachLimit || 0 }}%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!---------------------end radioooooos-------------------------------------------->
+        <div class="col-12 p-0 m-0">
+          <div class="campaign-oracles-prices position-relative">
+            <!----------------------------------------------------------------------------------------------------------------->
+
+            <!-- <div class="campaign-summary">
+              <h6 class="labels">{{ 'summary' | translate }}</h6>
+              <p class="text-custom-font resume-text pt-3">
+                {{ campaign.summary }}
+              </p>
+              <p *ngIf="!campaign.summary">
+                {{ 'campaign_details.no_summary_msg' | translate }}
+              </p>
+            </div> -->
+            <!----------------------------------------------------------------------------------------------------------------->
+
+            <div class="campaign-kits">
+              <!-- 
+                            <div class="d-flex">
+                            <h6 *ngIf="campaignLen || linksLen" class="labels pt-2">
+                                {{ "campaign_details.campaign_kit" | translate }}
+                            </h6>
+
+                            <button class="btn-add"> {{ 'campaign_details.downloadallKit' | translate }} </button>
+                        </div> -->
+
+              <!-- <div class="container">
+                            <div class="row">
+                                <div class="col-8">
+                                    <h6 *ngIf="campaignLen || linksLen" class="labels pt-2">
+                                        {{ "campaign_details.campaign_kit" | translate }}
+                                    </h6>
+        
+                                </div>
+                                <div class="col-4">
+                                    <button class="btn-add"> {{ 'campaign_details.downloadallKit' | translate }} </button>
+                                </div>
+                              </div>
+                                </div> -->
+
+              <div class="row">
+                <div class="row">
+                  <div class="col">
+                    <h6
+                      *ngIf="campaignLen || linksLen"
+                      class="camp-kits titre pt-3"
+                    >
+                      {{ 'campaign_details.campaign_kit' | translate }}
+                    </h6>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <h6 class="camp-kits-desc pt-3">
+                      {{
+                        'campaign_details.campaign_kit_description' | translate
+                      }}
+                    </h6>
+                  </div>
+                  <!-- <div
+                    *ngIf="campaignLen || linksLen"
+                    class="col col-lg-5 download-all"
+                  >
+                    <button
+                      class="btn-add"
+                      id="btn-download-kit"
+                      (click)="downloadFile()"
+                    >
+                      {{ 'campaign_details.downloadallKit' | translate }}
+                    </button>
+                  </div> -->
+                </div>
+              </div>
+
+              <owl-carousel-o
+                class="d-flex justify-content-center align-items-center pt-3"
+                id="img"
+                [options]="customOptions"
+              >
+                <ng-container
+                  *ngFor="let elem of kits; index as i; trackBy: trackByKitLink"
+                >
+                  <ng-template
+                    carouselSlide
+                    id="{{ i }}"
+                    *ngIf="!elem.link"
+                    [width]="260"
+                    class="d-flex justify-content-center align-items-center"
+                    style="margin-right: 2rem"
+                  >
+                    <div
+                      style="
+                        width: 237px;
+                        position: relative;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        height: 239px;
+                      "
+                    >
+                      <span>
+                        <img
+                          *ngIf="zoomIn"
+                          src="/assets/Images/zoom-in-eye.svg"
+                          alt=""
+                          class="img-eye cursor-pointer"
+                          data-toggle="modal"
+                          data-target="#exampleModal"
+                          (click)="
+                            elem.selectedFile
+                              ? openModalZoomIn(elem.selectedFile, i)
+                              : openModalZoomIn(elem.url, i)
+                          "
+                        />
+
+                        <img
+                          src="/assets/Images/download-kit-2.svg"
+                          alt=""
+                          id="btn"
+                          class="img-download cursor-pointer"
+                          (click)="downloadOneFile(i)"
+                        />
+                      </span>
+                      <img
+                        [src]="elem.url || elem.selectedFile"
+                        id="imagekit{{ i }}"
+                        *ngIf="elem.type !== 'application/pdf'"
+                        style="
+                          width: 100%;
+                          height: 225px;
+                          object-fit: cover;
+                          border-radius: 30px;
+                        "
+                        alt="your image"
+                      />
+                      <img
+                        class="img-responsive"
+                        src="{{ pdf }}"
+                        *ngIf="elem.type === 'application/pdf'"
+                        alt="your image"
+                      />
+                    </div>
+                  </ng-template>
+                </ng-container>
+              </owl-carousel-o>
+
+              <div class="kit-campaign-thumnails">
+                <div
+                  class="useful-links"
+                  *ngFor="let kit of kits; trackBy: trackByKitLink"
+                >
+                  <img *ngIf="kit.thumbnail" [src]="kit.thumbnail" alt="" />
+                </div>
+              </div>
+
+              <!--------------------------------------------------------------------------------------------------------------------------->
+            </div>
+            <div class="campaign-description">
+              <h6 class="labels titre">About campaign</h6>
+
+              <div
+                #descWrapper
+                class="description-wrapper"
+                [ngClass]="{
+                  'show-more': showMore,
+                  'show-less': displayShowMoreLessButton && !showMore
+                }"
+              >
+                <div
+                  *ngIf="displayShowMoreLessButton"
+                  [ngClass]="{ 'text-shadow': !showMore }"
+                ></div>
+                <p
+                  class="campaign_description"
+                  [innerHTML]="sanitizedDescription"
+                ></p>
+              </div>
+              <p *ngIf="!campaign.description">
+                {{ 'campaign_details.no_description_msg' | translate }}
+              </p>
+
+              <button
+                class="btn-edit btn-default btn-primary btn-show-more mb-2"
+                type="button"
+                *ngIf="displayShowMoreLessButton"
+                (click)="this.showMore = !this.showMore"
+              >
+                <span *ngIf="!showMore">{{ 'read_more' | translate }}</span>
+                <span *ngIf="showMore">{{ 'see_less' | translate }}</span>
+              </button>
+            </div>
+            <div class="text-wrap bd-highlight campaign-useful-links w-100">
+              <h6 *ngIf="linksLen" class="make-center-mobile titre mt-3">
+                {{ 'campaign_details.useful_links_text' | translate }}
+              </h6>
+              <div
+                class="pt-3"
+                *ngFor="let kit of kits; trackBy: trackByKitLink"
+                [class.useful-links]="kit.link"
+              >
+                <button
+                  ngbPopover="Copied"
+                  popoverTitle=""
+                  [openDelay]="100"
+                  [closeDelay]="100"
+                  type="button"
+                  class="flex-item tag-item fake-link"
+                  *ngIf="kit.link"
+                  (click)="copyText(kit.link)"
+                >
+                  {{ kit.link }}
+
+                  <span class="icon-link ml-2"> </span>
+                </button>
+
+                <!-- <a
+              href="{{ kit.link }}"
+              *ngIf="kit.link"
+              class="useful-link-item "
+              target="_blank"
+              #userinput
+              >{{ kit.name }}<span class="icon-link ml-2" (click)="copyInputMessage(userinput.href)"></span
+            ></a> -->
+              </div>
+              <!----------------------------------------------->
+            </div>
+
+            <!-- contries -->
+            <!-- <div
+              class="campaign-targeted-countries"
+              *ngIf="campaign.targetedCountries"
+            >
+              <h6 class="labels">
+                {{ 'campaign_details.counrties' | translate }}:
+              </h6>
+              <div
+                class="flex-row-wrapper campaign-coutries pt-3"
+                *ngIf="campaign.targetedCountries[0] !== 'All countries'"
+              >
+                <div
+                  class="flex-item tag-item"
+                  *ngFor="
+                    let countrie of campaign.targetedCountries;
+                    trackBy: trackByCountrie
+                  "
+                >
+                  {{ countrie }}
+                </div>
+              </div>
+
+              <div
+                class="flex-row-wrapper campaign-coutries pt-3"
+                *ngIf="campaign.targetedCountries[0] === 'All countries'"
+              >
+                <div class="ps-2">All</div>
+              </div>
+
+              <div
+                class="flex-row-wrapper campaign-coutries pt-3"
+                *ngIf="!campaign.targetedCountries"
+              >
+                <p>
+                  {{ 'campaign_details.no_data_message' | translate }}
+                </p>
+              </div>
+            </div> -->
+            <!-- duration -->
+
+            <!-- <div class="campaign-duration">
+              <h6 class="labels">
+                {{ 'campaign_details.campaign_duration_text' | translate }}
+              </h6>
+
+              <div class="date-wrapper pt-3">
+                <p class="date-text">
+                  {{ 'from' | translate }}
+
+                  <span class="text-nowrap text-date" *ngIf="localId === 'en'">
+                    {{
+                      campaign.startDate
+                        | date: 'MM/dd/yyyy h:mm:ss a':undefined:localId || ''
+                    }}
+                  </span>
+                  <span class="text-nowrap text-date" *ngIf="localId === 'fr'">
+                    {{
+                      campaign.startDate
+                        | date: 'dd/MM/yyyy h:mm:ss a':undefined:localId || ''
+                    }}
+                  </span>
+                </p>
+                <p class="date-text">
+                  {{ 'to' | translate }}
+                  <span
+                    class="text-nowrap text-date-to"
+                    *ngIf="localId === 'en'"
+                  >
+                    {{
+                      campaign.endDate
+                        | date: 'MM/dd/yyyy h:mm:ss a':undefined:localId || ''
+                    }}
+                  </span>
+                  <span
+                    class="text-nowrap text-date-to"
+                    *ngIf="localId === 'fr'"
+                  >
+                    {{
+                      campaign.endDate
+                        | date: 'dd/MM/yyyy h:mm:ss a':undefined:localId || ''
+                    }}
+                  </span>
+                </p>
+              </div>
+            </div> -->
+            <!-- <div class="date-wrapper">
+        <p class="date-wrapper">
+          {{ "campaign_details.number_days" | translate }}:<span
+            class="text-nowrap"
+            >{{ day }}</span
+          >
+        </p>
+      </div> -->
+
+            <!-- Tags -->
+            <!-- <div class="campaign-tags">
+              <h6 class="labels">Tags:</h6>
+              <div class="flex-row-wrapper tags-wrapper pt-3">
+                <span
+                  class="flex-item tag-item"
+                  *ngFor="
+                    let tag of campaign.tags | keyvalue;
+                    trackBy: trackByTag
+                  "
+                  >#{{ tag.value }}</span
+                >
+                <p *ngIf="!campaign.tags">
+                  {{ 'campaign_details.no_data_message' | translate }}
+                </p>
+              </div>
+            </div> -->
+
+            <!-- kits -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-container *ngIf="navigationTab === 'gains'">
+      <div *ngIf="showSpinner" class="spinner-wrapper">
+        <app-loading-logo *ngIf="showSpinner"></app-loading-logo>
+      </div>
+      <app-campaign-detail-gains
+        [campaign]="campaign"
+        [isOwnedByUser]="this.isOwnedByUser"
+        [totalInvested]="totalInvested"
+        [totalInvestedInUsD]="totalInvestedInUsD"
+        [gains]="gainsEarned"
+        [gainsUSD]="gainsEarnedInUsD"
+      >
+      </app-campaign-detail-gains>
+    </ng-container>
+    <ng-container *ngIf="navigationTab === 'stat'">
+      <app-stat-details-campaign
+        [hash]="campaign.hash"
+      ></app-stat-details-campaign>
+    </ng-container>
+
+    <ng-template #increaseBudget>
+      <div class="modal-header modal-custom">
+        <button
+          type="button"
+          class="btn-close pull-right close"
+          (click)="closeModal(increaseBudget)"
+          data-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body modal-custom">
+        <div class="increase-budget-modal-content">
+          <div><img src="/assets/Images/alert.svg" alt="" /></div>
+          <h2 class="red-title">
+            {{ 'fund_form.title_' | translate }} {{ campaign.title }}
+          </h2>
+          <p class="modal-message">
+            {{ 'fund_form.description' | translate | capitalizePhrase }}
+          </p>
+          <div class="row">
+            <form
+              class="form col-md-8 col-md-offset-2"
+              autocomplete="off"
+              [formGroup]="budgetform"
+              (ngSubmit)="onSubmit()"
+            >
+              <div
+                class="form-group"
+                ng-class="{
+                  'has-error': fundForm.cost.$invalid && fundForm.$submitted
+                }"
+              >
+                <label class="col-md-12 control-label text-center">{{
+                  'fund_form.budget' | translate
+                }}</label>
+                <div class="input-group">
+                  <input
+                    type="text"
+                    class="form-control inc-bdgt"
+                    required
+                    pattern="[0-9]+(\.[0-9]{0,100})?%?"
+                    name="cost"
+                    formControlName="cost"
+                    [ngClass]="{
+                      errors: budgetform.get('cost')?.errors
+                    }"
+                  />
+                </div>
+              </div>
+              <div
+                class="error error-message"
+                *ngIf="budgetform.get('cost')?.errors"
+              >
+                <span
+                  *ngIf="budgetform.get('cost')?.errors?.notEnoughBalance"
+                  >{{
+                    'not_enough_balance' | translate | capitalizePhrase
+                  }}</span
+                >
+                <span *ngIf="budgetform.get('cost')?.errors?.required">{{
+                  'campaign.field_required' | translate | capitalizePhrase
+                }}</span>
+              </div>
+              <button
+                type="submit"
+                class="btn btn-primary increase-budget mb-2"
+              >
+                {{ 'campaign_details.increase_fund' | translate }}
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template #passwordModal>
+      <div class="modal-header modal-custom">
+        <h5 class="modal-title" id="exampleModalLabel">
+          {{ 'confirm_your_wallet_password' | translate }}
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="this.modalService.dismissAll(passwordModal)"
+        ></button>
+      </div>
+      <div class="modal-body modal-custom">
+        <div class="form-group wallet-password-form">
+          <p class="" id="basic-addon1">
+            {{
+              'campaign_password.description2' | translate | capitalizePhrase
+            }}
+          </p>
+          <ng-container *ngIf="!validationAttempt">
+            <div class="div_input_add position-relative">
+              <img
+                src="/assets/Images/input_password_logo.svg"
+                width="46px"
+                alt=""
+              />
+              <input
+                type="password"
+                class="input_oeil"
+                placeholder="{{ 'your_wallet_password' | translate }}"
+                id="password"
+                aria-label="password"
+                name="password"
+                aria-describedby="basic-addon1"
+                [(ngModel)]="walletPassword"
+              />
+            </div>
+            <div class="error_container error-message">
+              <span>{{ errorMessage | translate | capitalizePhrase }}</span>
+            </div>
+
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="campaignFund()"
+            >
+              validate
+            </button>
+          </ng-container>
+          <div
+            class="spinner-border text-primary"
+            role="status"
+            *ngIf="validationAttempt"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+  <div
+    class="modal fade"
+    id="exampleModal"
+    data-backdrop="false"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body center-cropped">
+          <img
+            id="ccloese"
+            src="/assets/Images/new-close-kit.svg"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          />
+          <!-- <img id="ccloese"  class="btn-close close" data-dismiss="modal" aria-label="Close" /> -->
+          <img
+            src="/assets/Images/new-downloaded.svg"
+            alt=""
+            id="btn"
+            class="img-kit-download cursor-pointer"
+            (click)="downloadOneFile(idkit)"
+          />
+          <img
+            id="img-reader"
+            [src]="urlImage"
+            class="justify-content-center kit-cmp"
+            alt="your image"
+          />
+          <object
+            style="width: 100%; height: 100%; object-fit: cover"
+            type="application/pdf"
+            frameBorder="0"
+            scrolling="auto"
+            height="100%"
+            width="100%"
+            id="pdf-reader"
+          ></object>
+
+          <!-- <embed 
+                    style="width: 100%; height: 100%; object-fit: cover;"
+                    type="application/pdf"
+                    frameBorder="0"
+                    scrolling="auto"
+                    height="100%"
+                    width="100%"
+                     id="pdf-reader"  />  -->
+          <!-- <iframe id="pdf-reader" 
+                     style="width: 100%; height: 100%; object-fit: cover;"
+                     type="application/pdf"
+                     frameBorder="0"
+                     scrolling="auto"
+                     height="100%"
+                     width="100%"
+                     >
+                    </iframe> -->
+
+          <!-- </object> -->
+
+          <div class="row d-flex description-kit">
+            <img class="info-kit" src="/assets/Images/info-kit.svg" />
+
+            <div class="col kit-zoomin flex-column">
+              {{ 'Dimension' | translate }}
+              <div class="kit-zoomin-description" id="largeur"></div>
+            </div>
+            <div class="col kit-zoomin flex-column">
+              {{ 'Size' | translate }}
+              <div class="kit-zoomin-description" id="size"></div>
+            </div>
+            <div class="col kit-zoomin flex-column">
+              {{ 'Type' | translate }}
+              <div class="kit-zoomin-description">{{ typeKit }}</div>
+            </div>
+            <div class="col kit-zoomin flex-column">
+              {{ 'Date added' | translate }}
+              <div class="kit-zoomin-description">{{ dateKit | date }}</div>
+            </div>
+
+            <!-- <div class="w-100"></div> -->
+            <!-- <div class="col kit-zoomin-description" id="largeur"></div> -->
+            <!-- <div class="col kit-zoomin-description"  id="size"></div>
+                        <div class="col kit-zoomin-description">{{typeKit}}</div>
+                        <div class="col kit-zoomin-description">{{dateKit | date}}</div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      *ngIf="!this.showSpinner && this.showmoonboy"
+      class="showMobile div-footer-mobile d-none d-xl-none d-lg-none d-md-none d-sm-block d-xs-block p-0"
+    >
+      <div class="div-pic-text">
+        <div class="">
+          <p class="text-moonboy d-flex flex-column">
+            <span>{{ 'you-need-help' | translate }}</span>
+            <span>{{ 'Read-our-FAQ-about' | translate }}</span
+            ><a class="router-text" [routerLink]="['/FAQ']">
+              {{ 'How-to-Tokens' | translate: { action: 'apply in ' } }} ></a
+            >
+          </p>
+        </div>
+        <img
+          src="assets/Images/moonboy/moonboy-help.svg"
+          class="picture-moonboy"
+        />
+      </div>
+    </div>
+  </div>
+</div>

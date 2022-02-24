@@ -1,0 +1,125 @@
+<app-header-social-registartion> </app-header-social-registartion>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xl-5 col-lg-5 col-md-5">
+      <app-left-component></app-left-component>
+    </div>
+    <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 padding-top margin-bottom">
+      <div class="row d-flex justify-content-center">
+        <div
+          class="col-xl-8 col-lg-10 col-md-11 col-sm-8 d-flex justify-content-start"
+        >
+          <app-monetize-steps></app-monetize-steps>
+        </div>
+      </div>
+      <div class="row d-flex justify-content-center">
+        <div
+          class="col-xl-8 col-lg-10 col-md-11 col-sm-8 make-center mt-2 padding-top-top"
+        >
+          <span class="title_page">{{
+            'Monetize-your-Youtube-Channel' | translate
+          }}</span>
+        </div>
+      </div>
+      <div class="row d-flex justify-content-center mt-2">
+        <div class="col-sm-8 show-mobile text-center">
+          <img
+            class="height-pic"
+            width="150px"
+            src="/assets/Images/continue_YT.png"
+          />
+        </div>
+      </div>
+      <div class="row d-flex justify-content-center mt-3">
+        <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8 make-center">
+          <p class="drak-gray_text">
+            {{ 'activate-oracle-google-text1' | translate }}
+            <strong>Youtube</strong>
+            {{ 'activate-oracle-google-text2' | translate }}
+            <strong> {{ 'activate-oracle-google-text3' | translate }}</strong>
+          </p>
+          <p class="drak-gray_text mb-0">
+            {{ 'activate-oracle-linkedin-text2' | translate }}
+          </p>
+        </div>
+      </div>
+      <div
+        class="row d-flex justify-content-center margin-top-btn"
+        *ngIf="channelGoogle?.length === 0"
+      >
+        <div
+          class="col-xl-8 col-lg-10 col-md-11 col-sm-8 d-flex justify-content-center"
+        >
+          <div
+            class="mb-0 div-connect-google position-relative login_img"
+            (click)="linkAccount()"
+          >
+            <img
+              src="./assets/Images/youtube-white.png"
+              class="icon-google"
+              width="35px"
+            />
+            <span class="d-flex align-self-center white-text-span ms-3">
+              {{ 'add-youTube-channel' | translate }}</span
+            >
+          </div>
+        </div>
+      </div>
+      <div
+        class="row d-flex justify-content-center margin-top-btn"
+        *ngIf="channelGoogle?.length !== 0"
+      >
+        <div
+          class="col-xl-8 col-lg-10 col-md-11 col-sm-8 d-flex justify-content-center"
+        >
+          <div
+            class="mb-0 div-connect-google position-relative login_img disabled"
+            (click)="deleteLink()"
+          >
+            <img
+              src="./assets/Images/icon-youtube-dark-gray.svg"
+              class="icon-google"
+              width="30px"
+            />
+            <span class="d-flex align-self-center ms-3">
+              {{ 'add-youTube-channel' | translate }}</span
+            >
+          </div>
+        </div>
+      </div>
+      <div class="row d-flex justify-content-center mt-2">
+        <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8 make-center">
+          <span *ngIf="errorMessage" class="error-message">{{
+            errorMessage | translate
+          }}</span>
+          <span class="successLink" *ngIf="successMessage">{{
+            successMessage | translate
+          }}</span>
+        </div>
+      </div>
+      <div class="row d-flex justify-content-center">
+        <div
+          class="col-xl-8 col-lg-10 col-md-11 col-sm-8 top-10 make-center text-center"
+        >
+          <a
+            class="skip-page skip-page2"
+            [routerLink]="['/social-registration/socialConfig']"
+            *ngIf="channelGoogle?.length === 0"
+            >{{ 'skip-network' | translate: { network: 'Youtube' } }}</a
+          >
+        </div>
+      </div>
+
+      <div class="row d-flex justify-content-center">
+        <div
+          class="col-xl-8 col-lg-10 col-md-11 col-sm-8 top-10 make-center text-center div-mobile-version"
+        >
+          <a class="skip-page" (click)="skipAll()">{{
+            'link-social-networks-later' | translate
+          }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer-social-registartion></app-footer-social-registartion>

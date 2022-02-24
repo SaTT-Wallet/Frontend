@@ -1,0 +1,634 @@
+/* ------------------------------- css template page  -------*/
+
+.card-profile {
+    background: #ffffff;
+    box-shadow: 0px 4px 20px rgb(0 0 0 / 20%);
+    border-radius: 20px;
+    padding: 30px;
+    margin: 1%;
+    /* min-width: 30.8%!important; */
+    min-width: 31.3% !important;
+}
+
+.pic-profile {
+    height: 110px;
+    width: 132px;
+    position: absolute;
+    border-radius: 50%;
+    display: flex;
+    align-self: center;
+}
+.logout {
+    background: #F52079;
+    border-radius: 30px;
+    height: 41px;
+    width: 128px;
+    border: none;
+    color: white;
+    font-weight: 600; 
+    margin-bottom: 10px;
+}
+.space{
+    padding-bottom: 100px !important;
+}
+
+.describe::first-letter {
+    text-transform: uppercase;
+}
+
+.titles {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 28px;
+    line-height: 34px;
+    text-align: center;
+    letter-spacing: 0.02em;
+    color: #1f2337;
+    padding-top: 15px;
+}
+
+.describe {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 130%;
+    text-align: center;
+    letter-spacing: 0.03em;
+    color: #1f2337;
+    padding: 15px;
+}
+
+*:focus {
+    outline: none;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+.page-content .title-block {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 33px;
+    letter-spacing: 0.75px;
+    color: #47526a;
+    padding: 4px 15px;
+    background: rgba(214, 214, 232, 0.5);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 30px;
+    margin-bottom: 15px;
+}
+
+.div_block {
+    background: #ffffff;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+    border-radius: 30px;
+    height: 100%;
+}
+
+.title_ann {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 33px;
+    color: #47526a;
+}
+
+:host {
+    width: 100%;
+    /* padding-bottom: 10vh; */
+}
+
+.nav-link {
+    cursor: pointer;
+    color: #adadc8;
+    height: 100%;
+}
+
+.nav-link.active {
+    cursor: pointer;
+    height: 100%;
+    color: #4048ff;
+    background: none;
+    border: none;
+    border-bottom: solid 2px #4048ff;
+}
+
+.nav-item {
+    cursor: pointer;
+    color: #495057;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    letter-spacing: 0.02em;
+    border-bottom: 2px solid #adadc8;
+}
+
+.nav-item-active {
+    cursor: pointer;
+    color: #495057;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    letter-spacing: 0.02em;
+}
+
+.nav-tabs {
+    border-bottom: 2px solid #adadc8;
+    text-align: center;
+}
+
+.nav-profil {
+    background: #ffffff;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+    border-radius: 30px;
+}
+
+.title_page {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 33px;
+    color: #47526a;
+}
+
+
+/* ------------------------------ end css template page  -------*/
+
+
+/* ------------------------------- css profile page  -------*/
+
+@media (min-width: 1399.99px) {
+    .text-label {
+        font-size: 0.8vw;
+    }
+}
+
+@media (max-width: 575.99px) {
+    .ms-10 {
+        margin-left: 10px;
+    }
+}
+
+@media (min-width: 575.98px) and (max-width: 767px) {
+    .ms-12 {
+        margin-left: -10%;
+    }
+}
+
+@media (max-width: 425px) {
+    .pic-edit,
+    .icon-link {
+        width: 14vw !important;
+    }
+    .text-toggle {
+        font-size: 4vw;
+    }
+    .title_ {
+        font-size: 5vw !important;
+    }
+    .btn_update_company {
+        width: 40vw;
+    }
+     ::ng-deep .switch.switch-medium {
+        min-width: 45px !important;
+        top: -1px !important;
+        position: relative;
+    }
+}
+
+@media (min-width: 425.99px) and (max-width: 767.98px) {
+    .ms-detailsProfil {
+        margin-left: 18% !important;
+    }
+}
+
+@media (max-width: 1200px) {
+    .title_ {
+        font-size: 18px !important;
+    }
+    .make-center {
+        justify-content: center;
+    }
+}
+
+
+/*-----------CSS ui-switch -------*/
+
+::ng-deep .switch.checked {
+    background: #00cc9e;
+}
+
+::ng-deep .switch.checked small {
+    right: 3px;
+    left: auto;
+}
+
+::ng-deep .switch.switch-medium small {
+    width: 27px;
+    height: 21px;
+}
+
+::ng-deep .switch small {
+    border-radius: 100%;
+    position: absolute;
+    top: 2px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+::ng-deep .switch.switch-medium {
+    min-width: 53px;
+    top: -3px;
+    position: relative;
+}
+
+
+/*--------end CSS ui-switch--------*/
+
+.text-label {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 0.8rem;
+    line-height: 16px;
+    letter-spacing: 0.03em;
+    color: #162746;
+}
+
+.title_section {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 22px;
+    letter-spacing: 1px;
+    color: #1f2337;
+}
+
+.prog {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+.cercle {
+    width: 40px;
+    height: 40px;
+    background: #00cc9e;
+    border-radius: 50px;
+    margin-left: 201px;
+    margin-top: -80px;
+    font-size: 14px;
+    line-height: 40px;
+    display: flex;
+    justify-content: center;
+    letter-spacing: 0.03em;
+    color: #f6f6ff;
+}
+
+
+/*-------css block profile -----*/
+
+.pic-profil {
+    width: 125px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+@media (min-width: 765px) and (max-width: 992px) {
+    .cercle {
+        margin-left: 164px;
+        margin-top: -127px;
+    }
+    .btn_edit {
+        font-size: 17px !important;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .text-label {
+        font-size: 1vw;
+    }
+}
+
+
+/*-------end css block profile -----*/
+
+
+/*-------css block biography -----*/
+
+.interestes-tag {
+    letter-spacing: 0.05rem;
+    border-radius: 16px;
+    margin: 0.2rem 0.2rem;
+    padding: 4px;
+    /*padding: .08rem .45rem ;*/
+    /*height: 32px;*/
+    background: #f6f6ff;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 32px;
+    align-items: center;
+    color: #47526a;
+    width: max-content;
+}
+
+.div_interestes-tag {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: left;
+}
+
+
+/*-------end css block biography -----*/
+
+
+/*-------css block company-------*/
+
+.label_input {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 125.9%;
+    letter-spacing: 0.03em;
+    color: #6c768c;
+}
+
+.text-toggle {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 125.9%;
+    letter-spacing: 0.03em;
+    color: #6c768c;
+}
+
+.btn_edit {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 27px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.01em;
+    color: #f6f6ff;
+    justify-content: center;
+    border: none;
+    width: 80%;
+    height: 46px;
+    background: #4048ff;
+    /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
+    border-radius: 30px;
+    cursor: pointer;
+    /* position: absolute;
+    bottom: 0; */
+    padding: 2rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* border : 2px solid transparent */
+}
+
+.btn_edit:hover {
+    background: linear-gradient(85.14deg, #f52079 -1.05%, #4048ff 103.39%);
+}
+
+.btn_edit:focus {
+    background: linear-gradient(85.14deg, #f52079 -1.05%, #4048ff 103.39%);
+    outline: 3px solid rgba(64, 72, 255, 0.3) !important;
+}
+
+.info {
+    height: 150px;
+}
+
+.btn-green {
+    font-style: normal;
+    font-weight: 900;
+    font-size: 20px;
+    line-height: 24px;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.03em;
+    background: #00cc9e;
+    border-radius: 30px;
+    color: #f6f6ff;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+    height: 50px;
+}
+
+.btn-green:hover {
+    background: #009775;
+}
+
+.btn-green:disabled {
+    background: #d6d6e8;
+    color: #adadc8;
+    cursor: alias;
+}
+
+.error {
+    text-align: center;
+    color: red;
+    position: absolute;
+    font-size: 13px;
+    line-height: 13px;
+}
+
+.type-input {
+    width: 100%;
+    height: 48px;
+    padding: 6px 15px;
+    line-height: 1.57142857;
+    border: 1px solid #d6d6e8;
+    font-size: 15px;
+    background-color: white;
+    color: #162746;
+    border-radius: 30px;
+    content: '\f002';
+}
+
+input:valid {
+    font-weight: bold;
+}
+
+@media (min-width: 767.98px) {
+    .margin-left {
+        margin-left: 90px;
+    }
+    /* .card-profile{max-width: 95%;}  */
+}
+
+@media (max-width: 918px) {
+    .card-profile {
+        width: 97% !important;
+    }
+    /* .card-profile{max-width: 95%;}  */
+}
+
+@media (max-width: 767.98px) {
+    .flex-direction {
+        flex-direction: column;
+    }
+    .make-sm-center {
+        justify-content: center;
+    }
+    /* .profilestyle{
+        display: flow-root;
+        font-size: 16px;
+        } */
+    .card-profile {
+        max-width: 97% !important;
+    }
+}
+
+@media (max-width: 1256px) {
+    .card-profile {
+        min-width: 44.8% !important;
+        margin: 2%;
+    }
+}
+
+
+/*-------end css block company-------*/
+
+
+/* ------------------------------ end css profile page  -------*/
+
+
+/*
+/*------------ old section auth google,fb,telegram-------------
+.btn-bind-telegram {
+    background-color: #54a9eb;
+    border-radius: 5px;
+    height: 65px;
+    vertical-align: super;
+    padding: 6px 15px;
+    width: 100%;
+}
+.btn-bind-fb {
+    background-color: #3B5998;
+    min-height: 65px;
+    color: #fff;
+    font-size: 15px;
+    border-radius: 5px;
+    font-weight: 400;
+    width: 100%;
+}
+.btn-bind-gplus {
+    background-color: #DC4E41;
+    min-height: 65px;
+    color: #fff !important;
+    font-size: 15px;
+    border-radius: 5px;
+    font-weight: 400;
+    width: 100%;
+}
+ */
+
+.acceptedform {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: 0.03em;
+    color: #4048ff;
+}
+
+
+/* .btn_edit {
+    background: #ffffff;
+    color: #4048ff;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border: none;
+} */
+
+
+/* .btn_edit:hover:enabled {
+    border: 2px solid #0009d3;
+    box-shadow: none;
+} */
+
+
+/* .btn_edit:focus {
+    border: 2px solid #d6d6e8;
+    box-shadow: none;
+} */
+
+.pic-edit:hover,
+.pic-edit:focus,
+.pic-edit:active {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+    background: #ffffff;
+    border: 3px solid rgba(64, 72, 255, 0.2) !important;
+    border-radius: 30px;
+}
+
+.modifbut {
+    background-image: url('/assets/Images/modif_but.svg');
+    width: 53px;
+    height: 53px;
+    background-repeat: no-repeat;
+    background-color: white;
+    background-size: 36px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.modifbut:hover {
+    background-image: url('/assets/Images/modifhover.svg');
+}
+
+.modifbut:focus {
+    background-image: url('/assets/Images/modiffocus.svg');
+}
+
+
+/* Chrome, Safari, Edge, Opera */
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+/* Firefox */
+
+input[type='number'] {
+    -moz-appearance: textfield;
+}
+
+.background-white {
+    background-color: white !important;
+}
+
+.btn_edit:disabled {
+    background: #d6d6e8;
+}
+
+.cursor-alias {
+    cursor: alias;
+}
+
+@media (max-width: 425px) {
+    .social-button {
+        font-size: 13px;
+    }
+}

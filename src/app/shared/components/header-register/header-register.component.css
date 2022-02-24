@@ -1,0 +1,251 @@
+*,
+*:focus {
+    outline: none;
+}
+
+:host {
+    background: transparent;
+    width: 100%;
+    display: block;
+}
+
+.header-set-lang {
+    position: relative;
+    top: 0;
+    right: 0px;
+    padding: 20px;
+}
+
+.header-set-lang .dropdown {
+    width: fit-content;
+    margin-left: auto;
+}
+
+.btntoggle {
+    background: #ffffff;
+    box-sizing: border-box;
+    border: 1px solid black;
+    border-radius: 30px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 10px;
+    padding: 19px 26px;
+    color: black;
+    cursor: pointer;
+    min-width: 84px;
+}
+
+.btntoggle:focus,
+.btntoggle:active,
+.btntoggle.active {
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: none !important;
+}
+
+.dropdown-menu {
+    margin-top: 4px;
+    text-align: center;
+    min-width: 4rem;
+    width: 84px;
+    background: #ffffff;
+    box-shadow: 0px 4px 20px rgb(0 0 0 / 20%);
+    border-radius: 20px;
+    padding: 3px;
+}
+
+li {
+    border-radius: 20px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+    color: #47526a;
+    cursor: pointer;
+    padding: 10px;
+}
+
+li:hover {
+    background: #f6f6ff;
+    cursor: pointer;
+}
+
+.btn_create {
+    background-color: #ffffff;
+    color: #4048ff;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 17px;
+    margin-right: 15px;
+    width: 253px;
+    border-color: #4048ff;
+    padding: 19px;
+}
+
+a {
+    padding: 0px;
+    text-decoration: none;
+}
+
+.lang-select a {
+    color: #47526a;
+}
+
+.logo_satt_show {
+    width: 187.35px;
+    height: 60px;
+    position: relative !important;
+    /* top: 1px !important; */
+    top: -6px !important;
+    right: 1px !important;
+    cursor: pointer;
+}
+
+.logo_satt_show {
+    display: block;
+}
+
+.logo_satt_showMob {
+    display: none;
+}
+
+.lang-fr {
+    margin-left: -5%;
+}
+
+.lang-en {
+    margin-left: -9%;
+}
+
+.header-set-lang {
+    position: relative;
+    top: 0;
+    right: 0px;
+    padding: 20px;
+}
+
+.header-set-lang .dropdown {
+    width: fit-content;
+    margin-left: auto;
+}
+
+.btn_signOut_english {
+    width: 125px !important;
+}
+
+@media (max-width: 767.98px) {
+    .btntoggle {
+        margin-top: 10px;
+        min-width: 0px;
+        min-width: 65px;
+        background-color: transparent;
+        border-color: #FFFFFF;
+        color:#FFFFFF;
+    }
+    .btn_create {
+        display: none;
+    }
+    .icon_pc {
+        display: none;
+    }
+    .logo_satt {
+        width: 162.35px !important;
+    }
+    .dropdown-menu {
+        width: 60px !important;
+    }
+    .logo_satt_show {
+        display: none !important;
+    }
+    .logo_satt_showMob {
+        width: 188px;
+        height: 60px;
+        display: block !important;
+    }
+}
+
+@media (max-width: 921.99px) {
+    .logout_icon {
+        top: 0px !important;
+    }
+    .btn_create {
+        font-size: 16px !important;
+        margin-right: 8px !important;
+        width: auto !important;
+        border-color: #4048ff !important;
+        padding: 15px !important;
+    }
+    .btntoggle {
+        padding: 13px 15px !important;
+    }
+    .dropdown-menu {
+        margin-left: 3px;
+        min-width: 3rem;
+        width: 60px !important;
+        padding: 0px !important;
+    }
+    .btn_signOut {
+        line-height: 10px;
+        height: 42px !important;
+    }
+}
+
+.btn_signOut {
+    background-color: #ffffff;
+    color: #4048ff;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    margin-right: 15px;
+    /* width: 174px; */
+    border-color: #4048ff;
+    padding: 12px;
+    border-radius: 30px;
+    z-index: 1 !important;
+    width: 200px;
+    height: 50px;
+    border: 1px solid;
+    right: 100px;
+    position: absolute;
+    /* background: url('/assets/Images/logout_icon.svg') ,#FFFFFF; */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: -5px;
+}
+
+.btn_signOut_eng {
+    width: 170px;
+}
+
+.logout_span {
+    margin-left: 20px;
+}
+
+.logout_icon {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    left: 7px;
+    top: 4px;
+    z-index: -1;
+}
+
+.btn_signOut_mobile {
+    background-color: #ffffff;
+    color: #4048ff;
+    border-color: #4048ff;
+    border-radius: 100%;
+    margin-top: 10px !important;
+    text-align: center;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    right: 96px;
+}
+
+.logout_mobile_icon {
+    width: 65px;
+    height: 60px;
+    position: absolute;
+    right: 78px;
+}

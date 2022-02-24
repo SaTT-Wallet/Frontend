@@ -1,0 +1,127 @@
+:host {
+  position: fixed;
+  z-index: 99;
+  bottom: 0;
+  display: flex;
+  left: 0;
+  width: 100%;
+  padding: 0.3em;
+  justify-content: space-evenly;
+  background-color: white;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+  font-style: normal;
+  font-size: 16px;
+  line-height: 125.9%;
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+
+.btn-default {
+  border: none;
+  border: none;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  max-width: 250px;
+
+  align-items: center;
+  width: 100%;
+  font-weight: 600;
+  box-shadow: 0px 2px 2px rgb(0 0 0 / 15%);
+}
+
+.btn-text {
+  padding: 0.2em;
+}
+
+.vertical-separator {
+  background-color: #adadc8;
+  width: 2px;
+}
+
+.send-button {
+  color: #4048ff;
+}
+
+.send-button:not(:disabled):hover {
+  background: linear-gradient(84.45deg, #F52079 -28.09%, #4048FF 78.5%);
+  /* border-radius: 30px; */
+}
+
+.send-button:focus {
+  background: linear-gradient(85.14deg, #F52079 -1.05%, #4048FF 103.39%);
+  /* border: 2px solid rgba(64, 72, 255, 0.3); */
+  /* border-radius: 30px; */
+}
+
+.send-button:disabled {
+  color: #adadc8;
+  background: #d6d6e8;
+  border: 0px;
+}
+
+.receive-button {
+  color: #00cc9e;
+}
+
+.receive-button:not(:disabled):hover {
+  background: #009775;
+  box-shadow: 0px 2px 2px rgb(0 0 0 / 15%);
+}
+
+.receive-button:focus {
+  background: #009775;
+  border: 3px solid rgba(0, 204, 158, 0.5);
+  border-radius: 30px;
+}
+
+.receive-button:disabled {
+  color: #adadc8;
+  background: #d6d6e8;
+  border: 0px;
+}
+
+.arrow-icons {
+  font-size: 20px;
+}
+
+@media (min-width: 426px) {
+  :host {
+    position: static;
+    background-color: transparent;
+    box-shadow: none;
+    gap: .5em;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+
+  .vertical-separator {
+    display: none;
+  }
+
+  .send-button,
+  .receive-button {
+    color: white;
+  }
+
+  .send-button {
+    background-color: #4048ff;
+  }
+  .receive-button {
+    background-color: #00cc9e;
+  }
+
+  .btn-default {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    max-width: 250px;
+    border-radius: 30px;
+    height: 52px;
+    padding: .8em;
+    gap: .3em;
+  }
+}
+

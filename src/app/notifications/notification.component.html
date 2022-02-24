@@ -1,0 +1,193 @@
+<div class="container-fluid page-content">
+  <!-- <div class="row mb-4">
+        <div class="col-md-12 col-xs-12 col-lg-12">
+            <div class="">
+                <span class="title-Notif ms-2  "> Notifications </span>
+            </div>
+        </div>
+    </div> -->
+  <!------------------------------------------------------------------------------------------------>
+  <div class="div_filter">
+    <div class="d-flex justify-content-end" style="z-index: 1">
+      <div class="form-group">
+        <div class="search-filter-wrapper">
+          <input
+            type="search"
+            class="input_search mb-2"
+            [(ngModel)]="term"
+            (focus)="onFocus()"
+            (focusout)="focusOutFunction()"
+          />
+          <!-- <button class="filtre_button"> </button>-->
+          <!-- <div id="dropdown-menu" class="dropdown-menu p-4">
+                        <form [formGroup]="form">
+                            <div class="col-md-12 d-flex justify-content-end "><i class="fa fa-chevron-up arrow"></i></div>
+                            <div class="row ">
+                                <div class="col-md-7 ">
+                                    <h1 class="tiltle_dropdown-menu ">{{'notification_type' |translate}}</h1>
+                                </div>
+                            </div>
+                            <div class="row ">
+                                <div class="col-md-12">
+                                    <select class="select" formControlName="type_notification" (click)="$event.stopPropagation()">
+                                        <option class="options" *ngFor="let t of arrayTypeNotification" [value]="t.type">
+                                             {{t.type_notif|translate}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <h1 class="tiltle_dropdown-menu  pt-3">{{ 'select_contact' | translate}}</h1>
+                            <div class="row ">
+                                <div class="col-md-12">
+                                    <select class="select" formControlName="contact" (click)="$event.stopPropagation()">
+                                        <option class="options" *ngIf="arrayContact?.length == 0 "> {{ 'no_contact'| translate}} </option>
+                                        <option class="options" *ngFor="let c of arrayContact" [value]="c">{{c}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <h1 class="tiltle_dropdown-menu pt-4">{{ 'select_date' | translate}}</h1>
+                            <div class="row ">
+                                <div class="col-md-5">
+                                    <label class="placeholder_select_date"> {{ 'start_date' | translate}}</label>
+                                    <input type="date" class="input_date" formControlName="date_debut" (click)="$event.stopPropagation()">
+                                </div>
+                                <div class="col-md-1 justify-content-center pt-4"> <img src="/assets/Images/-.png" style="margin-top: 20px; margin-left: 18px;" /></div>
+                                <div class="col-md-5">
+                                    <label class="placeholder_select_date"> {{ 'end_date' | translate}}</label>
+                                    <input type="date" class="input_date" formControlName="date_fin" (click)="$event.stopPropagation()">
+                                </div>
+                            </div>
+                            <div class="row justify-content-md-center pt-4">
+                                <div class="col-md-7 ">
+                                    <button class="btn_filter_dropdown-menu" (click)="filtrer()">
+                                {{'campaign_list.bouton_filtre' |translate}}</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div> -->
+          <!--===================================dropdown menu end ========================================================-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!------------------------------------------------------------------------------------------------>
+  <div
+    class="search-results mt-5"
+    infiniteScroll
+    [infiniteScrollDistance]="2"
+    [infiniteScrollThrottle]="50"
+    (scrolled)="onScroll()"
+  >
+    <div
+      class="row card_notif"
+      [ngClass]="{
+        notif_creation_down: isfocused,
+        notif_creation_up: !isfocused
+      }"
+      *ngFor="let notification of dataNotification | filter: term"
+    >
+      <div class="col-md-12" id="{{ notification.id }}">
+        <div class="col-md-6 p-1 notif_creation_date">
+          <span>{{ notification.created }}</span>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="col-md-6 linehis">
+          <div class="line_history"></div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="div_notification">
+          <div
+            class="div_notif d-flex flex-row align-items-center p-3"
+            *ngFor="let i of notification.value"
+            (click)="redirect(i)"
+          >
+            <div class="p-2" id="{{ i._id }}  ">
+              <img src="{{ i.img }}" alt="avtar" class="pic_avatar_notif" />
+            </div>
+            <div class="col-md-11 col-lg-11 col-9 col-sm-9">
+              <p
+                class="label_avatar_notif p-o m-v"
+                *ngIf="
+                  i.type !== 'transfer_event' &&
+                  i.type !== 'apply_campaign' &&
+                  i.type !== 'cmp_candidate_accept_link'
+                "
+                [translate]="i._label"
+                [translateParams]="i._params"
+              ></p>
+              <p
+                class="label_avatar_notif p-0 m-0"
+                *ngIf="
+                  i.type === 'transfer_event' ||
+                  i.type === 'apply_campaign' ||
+                  i.type === 'cmp_candidate_accept_link'
+                "
+              >
+                <span
+                  [translate]="i._label"
+                  [translateParams]="i._params"
+                ></span>
+                <span
+                  *ngIf="i.type === 'cmp_candidate_accept_link'"
+                  class="link"
+                  [translate]="'cmp_candidate_accept_link_hash'"
+                  [translateParams]="i._params"
+                ></span>
+                <span
+                  *ngIf="i.type === 'apply_campaign'"
+                  class="link"
+                  [translate]="'apply_campaign_hash'"
+                  [translateParams]="i._params"
+                ></span>
+
+                <span
+                  *ngIf="i.type === 'transfer_event'"
+                  class="link"
+                  [translate]="'transfer_event_link'"
+                  [translateParams]="i._params"
+                ></span>
+              </p>
+              <!-- <p class="label_avatar_notif p-0 m-0" *ngIf="i.type === 'apply_campaign'">
+                            <span  [translate]="i._label" [translateParams]="i._params" ></span> 
+                            <span  class="link" [translate]="'apply_campaign_hash'" [translateParams]="i._params" ></span>
+                           </p> -->
+              <p class="label_time_notif p-0 m-0">{{ i.createdFormated }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!------------------------------------------------------------------------------------------------>
+  <!--div spinner -->
+  <div class="spinner-wrapper">
+    <app-loading-logo *ngIf="showSpinner" class="spinner"></app-loading-logo>
+  </div>
+  <!-- End div spinner -->
+
+  <div *ngIf="nodata == 'true' || dataNotification == ''" class="row pb-5">
+    <div
+      class="
+        d-flex
+        justify-content-center
+        text-center
+        align-items-center
+        flex-column
+      "
+    >
+      <img class="not-found" src="/assets/Images/not-found.svg " />
+
+      <p class="result-found">
+        {{ 'No result found' | translate }}
+      </p>
+    </div>
+    <!-- <div class="col-md-12 d-flex justify-content-center">
+      <div class="text-muted h6 alert alert-secondary p-2 mt-4">
+        {{ 'campaign_list.no_campaign' | translate }}
+      </div>
+    </div> -->
+  </div>
+  <!--  <div class="loading "  *ngIf="isloading"></div> -->
+</div>

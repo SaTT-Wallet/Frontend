@@ -1,0 +1,26 @@
+<div class="toggle-container">
+  <div
+    class="left-toggle-button"
+    [ngClass]="{ toggled: left }"
+    (click)="toggleLeft()"
+  >
+    <span
+      class="toggle-button-content"
+      [ngStyle]="{ color: !left ? ' rgba(64, 72, 255, 0.7)' : 'white' }"
+    >
+      ERC 20
+    </span>
+  </div>
+  <div
+    class="right-toggle-button"
+    [ngClass]="{ toggled: right }"
+    (click)="toggleRight()"
+  >
+    <span
+      class="toggle-button-content"
+      [ngStyle]="{ color: !right ? 'rgba(64, 72, 255, 0.7)' : 'white' }"
+    >
+      BEP 20
+    </span>
+  </div>
+</div>

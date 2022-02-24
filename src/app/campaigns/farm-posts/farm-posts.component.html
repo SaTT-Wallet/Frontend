@@ -1,0 +1,582 @@
+<div class="d-flex justify-content-between align-items-center div-header">
+  <h1 class="title title-case">Post Farming</h1>
+  <input
+    [(ngModel)]="searchData"
+    class="input-sarch"
+    type="text"
+    name="search"
+    autocomplete="on"
+    autocomplete="off"
+  />
+</div>
+<div class="d-flex div-desktop-filter div-mobile-filter align-items-center">
+  <div
+    class="d-flex div-filter-search"
+    [ngClass]="{ 'div-filter-search-mobile': showFilter }"
+  >
+    <app-header-campaign
+      class="hide-mobile-filter"
+      [fromFarming]="true"
+      [ngClass]="{ 'show-filter': showFilter }"
+      [isOwner]="false"
+    >
+    </app-header-campaign>
+    <div class="d-flex align-items-center justify-content-end div-search">
+      <div
+        class="d-lg-none div-header-filter"
+        [ngClass]="{ 'hide-content': !showFilter }"
+      >
+        <label class="result-found">{{
+          'campaign_list.filter' | translate
+        }}</label>
+        <span class="span-close" (click)="close('filter')">X</span>
+      </div>
+    </div>
+    <div class="d-lg-none" [ngClass]="{ 'div-sort': showSort }">
+      <div class="d-lg-none" [ngClass]="{ 'hide-content': !showSort }">
+        <label class="result-found ms-2">{{ 'sort-by' | translate }}</label>
+        <span class="span-close" (click)="close('sort')">X</span>
+      </div>
+      <div class="" [ngClass]="{ 'hide-content': !showSort }">
+        <div
+          class="d-flex sort-item"
+          (click)="this.sortItem = '1'"
+          [ngClass]="{ 'sort-item-active': sortItem === '1' }"
+        >
+          <div class="div-sort-div-span d-flex flex-column">
+            <span>{{ 'social-media' | translate }}</span>
+            <span>
+              <small *ngIf="sortDownMedia">{{
+                'From-A-to-Z' | translate
+              }}</small>
+              <small *ngIf="!sortDownMedia">{{
+                'From-Z-to-A' | translate
+              }}</small>
+            </span>
+          </div>
+          <div class="div-sort-div-btn" *ngIf="sortItem === '1'">
+            <img
+              *ngIf="!sortDownMedia"
+              (click)="sortMedia('up')"
+              src="/assets/Images/newImages/sort-up-white.svg"
+            />
+            <img
+              *ngIf="sortDownMedia"
+              (click)="sortMedia('down')"
+              src="/assets/Images/newImages/sort-down-white.svg"
+            />
+          </div>
+          <div class="div-sort-div-btn" *ngIf="sortItem !== '1'">
+            <img
+              (click)="sortMedia('down')"
+              src="/assets/Images/newImages/sort-down-gray.svg"
+            />
+          </div>
+        </div>
+
+        <div
+          class="d-flex sort-item"
+          (click)="this.sortItem = '2'"
+          [ngClass]="{ 'sort-item-active': sortItem === '2' }"
+        >
+          <div class="div-sort-div-span">
+            <span>{{ 'date-of-publication' | translate }}</span>
+            <span>
+              <small *ngIf="sortDownDate">{{
+                'From-to+recent' | translate
+              }}</small>
+              <small *ngIf="!sortDownDate">{{
+                'From+to-recent' | translate
+              }}</small>
+            </span>
+          </div>
+          <div class="div-sort-div-btn" *ngIf="sortItem === '2'">
+            <img
+              *ngIf="!sortDownDate"
+              (click)="sortDate('up')"
+              src="/assets/Images/newImages/sort-up-white.svg"
+            />
+            <img
+              *ngIf="sortDownDate"
+              (click)="sortDate('down')"
+              src="/assets/Images/newImages/sort-down-white.svg"
+            />
+          </div>
+          <div class="div-sort-div-btn" *ngIf="sortItem !== '2'">
+            <img
+              (click)="sortDate('down')"
+              src="/assets/Images/newImages/sort-down-gray.svg"
+            />
+          </div>
+        </div>
+        <div
+          class="d-flex sort-item"
+          (click)="this.sortItem = '3'"
+          [ngClass]="{ 'sort-item-active': sortItem === '3' }"
+        >
+          <div class="div-sort-div-span">
+            <span>{{ 'number-of-view' | translate }}</span>
+            <span>
+              <small *ngIf="sortDownViews">{{
+                'From-to+recent' | translate
+              }}</small>
+              <small *ngIf="!sortDownViews">{{
+                'From+to-recent' | translate
+              }}</small>
+            </span>
+          </div>
+          <div class="div-sort-div-btn" *ngIf="sortItem === '3'">
+            <img
+              *ngIf="!sortDownViews"
+              (click)="sortViews('up')"
+              src="/assets/Images/newImages/sort-up-white.svg"
+            />
+            <img
+              *ngIf="sortDownViews"
+              (click)="sortViews('down')"
+              src="/assets/Images/newImages/sort-down-white.svg"
+            />
+          </div>
+          <div class="div-sort-div-btn" *ngIf="sortItem !== '3'">
+            <img
+              (click)="sortViews('down')"
+              src="/assets/Images/newImages/sort-down-gray.svg"
+            />
+          </div>
+        </div>
+        <div
+          class="d-flex sort-item"
+          (click)="this.sortItem = '4'"
+          [ngClass]="{ 'sort-item-active': sortItem === '4' }"
+        >
+          <div class="div-sort-div-span">
+            <span>{{ 'number-of-likes' | translate }}</span>
+            <span>
+              <small *ngIf="sortDownLikes">{{
+                'From-to+recent' | translate
+              }}</small>
+              <small *ngIf="!sortDownLikes">{{
+                'From+to-recent' | translate
+              }}</small></span
+            >
+          </div>
+          <div class="div-sort-div-btn" *ngIf="sortItem === '4'">
+            <img
+              *ngIf="!sortDownLikes"
+              (click)="sortLikes('up')"
+              src="/assets/Images/newImages/sort-up-white.svg"
+            />
+            <img
+              *ngIf="sortDownLikes"
+              (click)="sortLikes('down')"
+              src="/assets/Images/newImages/sort-down-white.svg"
+            />
+          </div>
+          <div class="div-sort-div-btn" *ngIf="sortItem !== '4'">
+            <img
+              (click)="sortLikes('down')"
+              src="/assets/Images/newImages/sort-down-gray.svg"
+            />
+          </div>
+        </div>
+
+        <div
+          class="d-flex sort-item"
+          (click)="this.sortItem = '5'"
+          [ngClass]="{ 'sort-item-active': sortItem === '5' }"
+        >
+          <div class="div-sort-div-span">
+            <span>{{ 'number-of-shares' | translate }}</span>
+            <span>
+              <small *ngIf="sortDownShares">{{
+                'From-to+recent' | translate
+              }}</small>
+              <small *ngIf="!sortDownShares">{{
+                'From+to-recent' | translate
+              }}</small></span
+            >
+          </div>
+          <div class="div-sort-div-btn" *ngIf="sortItem === '5'">
+            <img
+              *ngIf="!sortDownShares"
+              (click)="sortShares('up')"
+              src="/assets/Images/newImages/sort-up-white.svg"
+            />
+            <img
+              *ngIf="sortDownShares"
+              (click)="sortShares('down')"
+              src="/assets/Images/newImages/sort-down-white.svg"
+            />
+          </div>
+          <div class="div-sort-div-btn" *ngIf="sortItem !== '5'">
+            <img
+              (click)="sortShares('down')"
+              src="/assets/Images/newImages/sort-down-gray.svg"
+            />
+          </div>
+        </div>
+        <div
+          class="d-flex sort-item"
+          (click)="this.sortItem = '6'"
+          [ngClass]="{ 'sort-item-active': sortItem === '6' }"
+        >
+          <div class="div-sort-div-span">
+            <span>{{ 'campaign_details.earnings' | translate }}</span>
+            <span>
+              <small *ngIf="sortDownEarnings">{{
+                'From-to+recent' | translate
+              }}</small>
+              <small *ngIf="!sortDownEarnings">{{
+                'From+to-recent' | translate
+              }}</small></span
+            >
+          </div>
+          <div class="div-sort-div-btn" *ngIf="sortItem === '6'">
+            <img
+              *ngIf="!sortDownEarnings"
+              (click)="sortEarnings('up')"
+              src="/assets/Images/newImages/sort-up-white.svg"
+            />
+            <img
+              *ngIf="sortDownEarnings"
+              (click)="sortEarnings('down')"
+              src="/assets/Images/newImages/sort-down-white.svg"
+            />
+          </div>
+          <div class="div-sort-div-btn" *ngIf="sortItem !== '6'">
+            <img
+              (click)="sortEarnings('down')"
+              src="/assets/Images/newImages/sort-down-gray.svg"
+            />
+          </div>
+        </div>
+        <div
+          class="d-flex sort-item"
+          (click)="this.sortItem = '7'"
+          [ngClass]="{ 'sort-item-active': sortItem === '7' }"
+        >
+          <div class="div-sort-div-span">
+            <span>{{ 'Rest-to-Harvest' | translate }}</span>
+            <span>
+              <small *ngIf="sortDownRestToClaim">{{
+                'From-to+recent' | translate
+              }}</small>
+              <small *ngIf="!sortDownRestToClaim">{{
+                'From+to-recent' | translate
+              }}</small></span
+            >
+          </div>
+          <div class="div-sort-div-btn" *ngIf="sortItem === '7'">
+            <img
+              *ngIf="!sortDownRestToClaim"
+              (click)="sortRestToClaim('up')"
+              src="/assets/Images/newImages/sort-up-white.svg"
+            />
+            <img
+              *ngIf="sortDownRestToClaim"
+              (click)="sortRestToClaim('down')"
+              src="/assets/Images/newImages/sort-down-white.svg"
+            />
+          </div>
+          <div class="div-sort-div-btn" *ngIf="sortItem !== '7'">
+            <img
+              (click)="sortRestToClaim('down')"
+              src="/assets/Images/newImages/sort-down-gray.svg"
+            />
+          </div>
+        </div>
+        <div
+          class="d-flex sort-item"
+          (click)="this.sortItem = '8'"
+          [ngClass]="{ 'sort-item-active': sortItem === '8' }"
+        >
+          <div class="div-sort-div-span">
+            <span>{{ 'number-of-subscribers' | translate }}</span>
+            <span>
+              <small *ngIf="sortDownAbosNumber">{{
+                'From-to+recent' | translate
+              }}</small>
+              <small *ngIf="!sortDownAbosNumber">{{
+                'From+to-recent' | translate
+              }}</small>
+            </span>
+          </div>
+          <div class="div-sort-div-btn" *ngIf="sortItem === '8'">
+            <img
+              *ngIf="!sortDownAbosNumber"
+              (click)="sortAbosNumber('up')"
+              src="/assets/Images/newImages/sort-up-white.svg"
+            />
+            <img
+              *ngIf="sortDownAbosNumber"
+              (click)="sortAbosNumber('down')"
+              src="/assets/Images/newImages/sort-down-white.svg"
+            />
+          </div>
+          <div class="div-sort-div-btn" *ngIf="sortItem !== '8'">
+            <img
+              (click)="sortAbosNumber('down')"
+              src="/assets/Images/newImages/sort-down-gray.svg"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-between">
+    <!--btn filter & sort version mobile -->
+    <div class="d-flex gap-2">
+      <button
+        (click)="this.toggleFilter()"
+        class="btn-flt"
+        [ngClass]="{ toggled: this.showFilter }"
+      >
+        <span class="icon-new-filter"></span>
+      </button>
+      <button
+        (click)="this.toggleSort()"
+        [ngClass]="{ toggled: this.showSort }"
+        class="btn-sort"
+        type="button"
+      >
+        {{ 'sort-by' | translate }}
+      </button>
+    </div>
+
+    <app-toggle-style-host
+      [displayItems]="isStyleGrid ? 'grid' : 'list'"
+      (isFormatGrid)="listenForStyleHost($event)"
+    ></app-toggle-style-host>
+  </div>
+</div>
+<div *ngIf="showSpinner" class="spinner-wrapper">
+  <app-loading-logo></app-loading-logo>
+</div>
+<div class="row d-flex make-center">
+  <img
+    class="not-found"
+    *ngIf="this.listLinks.length === 0 && postsNumber !== 0"
+    src="/assets/Images/not-found.svg "
+  />
+
+  <p
+    class="result-found mt-3"
+    *ngIf="this.listLinks.length === 0 && postsNumber !== 0"
+  >
+    {{ 'No result found' | translate }}
+  </p>
+</div>
+<div
+  class=""
+  [ngClass]="{
+    'div-content': isStyleGrid,
+    'display-column':
+      !isStyleGrid && this.listLinks.length !== 0 && postsNumber !== 0
+  }"
+>
+  <div
+    class="d-flex hide-mobile-tablette head-table"
+    *ngIf="!isStyleGrid && this.listLinks.length !== 0"
+  >
+    <div class="d-flex justify-content-start div-media">
+      <span class="gray-text">
+        {{ 'campaign_details.media' | translate }}
+      </span>
+      <span class="chevron-toggler">
+        <i
+          *ngIf="sortDownMedia"
+          (click)="sortMedia('down')"
+          class="chevron fa fa-fw"
+        ></i>
+        <i
+          *ngIf="!sortDownMedia"
+          (click)="sortMedia('up')"
+          class="chevron2 fa fa-fw"
+        ></i>
+      </span>
+    </div>
+
+    <div class="div-send-date justify-content-between">
+      <div class="d-flex px-3 gap-3">
+        <div class="d-flex gap-2">
+          <div
+            class="d-flex justify-content-start align-items-center div-send-by"
+          >
+            <span class="gray-text"> AdPool </span>
+            <span class="chevron-toggler">
+              <i
+                *ngIf="sortDownSendBy"
+                (click)="sortSendTitle('down')"
+                class="chevron fa fa-fw"
+              ></i>
+              <i
+                *ngIf="!sortDownSendBy"
+                (click)="sortSendTitle('up')"
+                class="chevron2 fa fa-fw"
+              ></i>
+            </span>
+          </div>
+          <div class="d-flex div-date justify-content-start align-items-center">
+            <span class="gray-text">{{ 'date' | translate }} </span>
+            <span class="chevron-toggler">
+              <i
+                *ngIf="sortDownDate"
+                (click)="sortDate('down')"
+                class="chevron fa fa-fw"
+              ></i>
+              <i
+                *ngIf="!sortDownDate"
+                (click)="sortDate('up')"
+                class="chevron2 fa fa-fw"
+              ></i>
+            </span>
+          </div>
+        </div>
+        <div class="d-flex div-ratio">
+          <div class="social-ratios">
+            <img src="/assets/Images/view-icon-gray.svg " width="19px" />
+            <span class="chevron-toggler">
+              <i
+                *ngIf="sortDownViews"
+                (click)="sortViews('down')"
+                class="chevron fa fa-fw"
+              ></i>
+              <i
+                *ngIf="!sortDownViews"
+                (click)="sortViews('up')"
+                class="chevron2 fa fa-fw"
+              ></i>
+            </span>
+          </div>
+          <div class="social-ratios">
+            <img src="/assets/Images/like-icon-gray.svg " width="17px" />
+            <span class="chevron-toggler">
+              <i
+                *ngIf="sortDownLikes"
+                (click)="sortLikes('down')"
+                class="chevron fa fa-fw"
+              ></i>
+              <i
+                *ngIf="!sortDownLikes"
+                (click)="sortLikes('up')"
+                class="chevron2 fa fa-fw"
+              ></i>
+            </span>
+          </div>
+          <div class="social-ratios">
+            <img src="/assets/Images/share-icon-gray.svg " width="17px" />
+            <span class="chevron-toggler">
+              <i
+                *ngIf="sortDownShares"
+                (click)="sortShares('down')"
+                class="chevron fa fa-fw"
+              ></i>
+              <i
+                *ngIf="!sortDownShares"
+                (click)="sortShares('up')"
+                class="chevron2 fa fa-fw"
+              ></i>
+            </span>
+          </div>
+          <div class="social-ratios">
+            <img
+              width="18px"
+              src="/assets/Images/icon-remun-publication-gray.svg"
+            />
+            <span class="chevron-toggler">
+              <i
+                *ngIf="sortDownAbosNumber"
+                (click)="sortAbosNumber('down')"
+                class="chevron fa fa-fw"
+              ></i>
+              <i
+                *ngIf="!sortDownAbosNumber"
+                (click)="sortAbosNumber('up')"
+                class="chevron2 fa fa-fw"
+              ></i>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex div-earnings-harvest justify-content-end">
+        <div class="div-earnings d-flex align-items-center">
+          <span class="d-flex gray-text">{{
+            'campaign_details.earnings' | translate
+          }}</span>
+          <span class="chevron-toggler">
+            <i
+              *ngIf="sortDownEarnings"
+              (click)="sortEarnings('down')"
+              class="chevron fa fa-fw"
+            ></i>
+            <i
+              *ngIf="!sortDownEarnings"
+              (click)="sortEarnings('up')"
+              class="chevron2 fa fa-fw"
+            ></i>
+          </span>
+        </div>
+
+        <div class="div-rest d-flex justify-content-end align-items-center">
+          <span class="d-flex gray-text">{{
+            'Rest-to-Harvest' | translate
+          }}</span>
+          <span class="chevron-toggler">
+            <i
+              *ngIf="sortDownRestToClaim"
+              (click)="sortRestToClaim('down')"
+              class="chevron fa fa-fw"
+            ></i>
+            <i
+              *ngIf="!sortDownRestToClaim"
+              (click)="sortRestToClaim('up')"
+              class="chevron2 fa fa-fw"
+            ></i>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-container
+    class="mt-2"
+    *ngIf="
+      this.listLinks.length === 0 &&
+      postsNumber == 0 &&
+      !showWelcome &&
+      showSpinner
+    "
+  >
+    <app-campaigns-list-item-placeholder-ui
+      *ngFor="let card of [1, 2, 3]"
+    ></app-campaigns-list-item-placeholder-ui>
+  </ng-container>
+
+  <app-list-items
+    [infiniteScrollContainer]="'.center-content'"
+    [fromRoot]="true"
+    (onEndPageScroll)="onScroll()"
+  >
+    <!-- <app-loading-logo *ngIf="showBigSpinner" [fullScreen]="true"></app-loading-logo> -->
+    <ng-template appItemsList>
+      <app-farm-post-card
+        [id]="prom.hash"
+        *ngFor="
+          let prom of listLinks | filter: searchData;
+          trackBy: trackByLinkId;
+          let i = index
+        "
+        [prom]="prom"
+        [isOwner]="false"
+        [formatGrid]="this.isStyleGrid"
+        [ngClass]="{
+          link: this.promHash === prom?.hash,
+          'display-row width-bloc-row': !isStyleGrid,
+          'fit-center': isStyleGrid
+        }"
+      ></app-farm-post-card>
+    </ng-template>
+  </app-list-items>
+</div>
+
+<!-- <app-farm-welcome *ngIf="showWelcome && postsNumber ==0"> </app-farm-welcome> -->

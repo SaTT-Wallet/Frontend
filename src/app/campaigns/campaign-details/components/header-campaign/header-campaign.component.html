@@ -1,0 +1,66 @@
+<form [formGroup]="filterGainsForm">
+  <!-- <div class="d-flex justify-content-between align-items-center px-2">
+    <button
+      (click)="this.toggleFilter()"
+      class="btn-flt"
+      [ngClass]="{ toggled: this.showFilter }"
+      id="btn-flt"
+    >
+      <span class="icon-new-filter"></span>
+    </button>
+  </div> -->
+  <div class="filter-wrapper d-flex gap-3">
+    <div class="form-control-wrapper d-flex align-items-center gap-2">
+      <h6 class="form-control-title title-case">Only pending applies</h6>
+      <img
+        src="assets/Images/Toggleon.svg"
+        class="cursor-pointer picture-toggle"
+        *ngIf="toggled"
+        (click)="reset()"
+      />
+      <img
+        src="assets/Images/Toggleoff.svg"
+        class="cursor-pointer picture-toggle"
+        *ngIf="!toggled"
+        (click)="getPendingLinks()"
+      />
+    </div>
+
+    <div class="form-control-wrapper d-flex align-items-center gap-2">
+      <h6 class="form-control-title title-case">Select social media(s)</h6>
+      <app-multi-select
+        formControlName="oracles"
+        [options]="oraclesOptions"
+        [multiOptions]="true"
+        class="select-group gap-oracles px-1"
+      >
+        <ng-template
+          appOption
+          let-onSelectedOptionChange="onSelectedOptionChange"
+          let-option
+          let-value="value"
+          let-index="index"
+          let-selected="selected"
+        >
+          <input
+            id="{{ index + value }}"
+            type="checkbox"
+            name="status"
+            [value]="value"
+            [hidden]="true"
+            #checkbox
+            (change)="onSelectedOptionChange($event)"
+          />
+          <label
+            class="label-filter-option social-media-option"
+            for="{{ index + value }}"
+            [ngStyle]="{ background: selected ? option.bgColor : '#FFFFFF' }"
+          >
+            <img [src]="option.iconUrl" *ngIf="!selected" />
+            <img [src]="option.selectedIconUrl" *ngIf="selected" />
+          </label>
+        </ng-template>
+      </app-multi-select>
+    </div>
+  </div>
+</form>

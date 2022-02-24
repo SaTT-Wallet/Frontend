@@ -1,0 +1,117 @@
+<div class="container mb-5">
+  <div class="row">
+    <span class="statistics mb-5 mt-5">{{
+      'campaign_details.stats' | translate
+    }}</span>
+    <div class="col-md-4">
+      <div class="row">
+        <div class="col-md-12 col-12 mb-2">
+          <canvas
+            baseChart
+            #doughnutChart
+            id="doughnutChart"
+            [data]="doughnutChartData"
+            [labels]="doughnutChartLabels"
+            [colors]="lineChartColors"
+            [options]="SocialchartOptions"
+            [legend]="doughnutChartOptions"
+            [chartType]="doughnutChartType"
+          >
+          </canvas>
+        </div>
+      </div>
+      <div class="row col-md-8 offset-md-4 col-8 offset-4 mb-3 mt-5">
+        <span *ngIf="Instagram > 0"
+          ><img
+            src="/assets/Images/Insta-campaign.svg"
+            class="me-2"
+          />Instagram: {{ Instagram }}%</span
+        >
+        <span *ngIf="Facebook > 0"
+          ><img
+            src="/assets/Images/Fb-campaign.svg"
+            class="ms-2 me-3"
+          />Facebook: {{ Facebook }}%</span
+        >
+        <span *ngIf="Youtube > 0"
+          ><img
+            src="/assets/Images/Youtube-campaign.svg"
+            class="me-2"
+          />Youtube: {{ Youtube }}%</span
+        >
+        <span *ngIf="Twitter > 0"
+          ><img
+            src="/assets/Images/Twitter-campaign.svg"
+            class="me-2"
+          />Twitter: {{ Twitter }}%</span
+        >
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div>
+        <div class="row">
+          <div class="col-md-12 col-12 mb-2">
+            <canvas
+              baseChart
+              [data]="statsChartData"
+              [labels]="statsChartLabels"
+              [colors]="statsChartColors"
+              [options]="chartOptions"
+              [legend]="doughnutChartOptions"
+              [chartType]="doughnutChartType"
+            >
+            </canvas>
+          </div>
+        </div>
+      </div>
+      <div class="row col-md-8 offset-md-4 col-8 offset-4 mb-3 mt-5">
+        <span *ngIf="View > 0"
+          ><img src="/assets/Images/view.svg" class="me-2" />{{
+            'view' | translate
+          }}
+          {{ View }}%</span
+        >
+        <span *ngIf="Like > 0"
+          ><img src="/assets/Images/thumbs-up.svg" class="me-2" />{{
+            'like' | translate
+          }}
+          {{ Like }}%</span
+        >
+        <span *ngIf="Share > 0"
+          ><img src="/assets/Images/Subtract.svg" class="me-2" />{{
+            'share' | translate
+          }}
+          {{ Share }}%</span
+        >
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="row">
+        <div class="col-md-12 col-12 mb-2">
+          <canvas
+            baseChart
+            [data]="paymentChartData"
+            [labels]="PaymentChartLabels"
+            [colors]="paymentChartColors"
+            [options]="chartOptions"
+            [legend]="doughnutChartOptions"
+            [chartType]="doughnutChartType"
+          >
+          </canvas>
+        </div>
+      </div>
+      <div class="row col-md-8 offset-md-4 col-8 offset-4 mb-3 mt-5">
+        <span class="facebook"
+          >{{ 'stats.total_unpaid' | translate | capitalizePhrase }}:
+          {{ remunerationStats.toPay || '0' | fromWeiTo: 'SATT'
+          }}<img class="Icons ms-2" src="/assets/Images/TotalG.svg" alt=""
+        /></span>
+        <span class="share-stat"
+          >{{ 'stats.spent' | translate | capitalizePhrase }}:
+          {{ remunerationStats.spent || '0' | fromWeiTo: 'SATT'
+          }}<img class="Icons ms-2" src="/assets/Images/TotalG.svg" alt=""
+        /></span>
+      </div>
+    </div>
+  </div>
+</div>

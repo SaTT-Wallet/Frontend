@@ -1,0 +1,35 @@
+<app-header
+  [ngClass]="{
+    fromWallet: router.url.includes('wallet')
+  }"
+  *ngIf="router.url !== 'password_wallet'"
+  [ngStyle]="{ display: router.url.includes('help') ? 'none' : 'block' }"
+></app-header>
+
+<div
+  class="container-main"
+  *ngIf="router.url !== 'password_wallet'"
+  appScrollTrack
+>
+  <app-sidebar></app-sidebar>
+  <div
+    class="center-content"
+    id="center-content"
+    (scroll)="onScroll($event)"
+    (window:resize)="onResize($event)"
+  >
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<app-footer-bar
+  [ngClass]="{
+    fromWallet: router.url.includes('wallet')
+  }"
+  *ngIf="
+    router.url !== 'password_wallet' &&
+    !router.url.includes('welcome') &&
+    !router.url.includes('help') &&
+    !router.url.includes('/campaign/')
+  "
+></app-footer-bar>

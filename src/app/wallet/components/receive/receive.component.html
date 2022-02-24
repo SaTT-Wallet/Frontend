@@ -1,0 +1,234 @@
+<div class="row flex-column">
+  <div>
+    <app-header-send-receive-buy
+      [title]="this.title"
+      class="request-component"
+      (clickedBack)="linstingBack($event)"
+    ></app-header-send-receive-buy>
+  </div>
+  <div class="row white-bloc justify-content-center">
+    <!--------------------AmountBloc----------------------------------->
+    <div
+      class="div-content d-flex flex-column align-items-center"
+      *ngIf="showAmountBloc"
+    >
+      <form [formGroup]="receiveform">
+        <div class="height-drop">
+          <app-dropdown-crypto-network
+            (selectedCrypto)="linstingCrypto($event)"
+            [cryptoFromComponent]="this.cryptoToDropdown"
+          ></app-dropdown-crypto-network>
+        </div>
+        <div class="w-100 d-flex justify-content-center align-items-center">
+          <input
+            [ngClass]="{
+              'text-error':
+                amount === '' && this.receiveform.get('Amount')?.dirty
+            }"
+            type="number"
+            id="amount1"
+            (focus)="goToSection('amountreceive')"
+            #inputAmount
+            pattern="(\d{1,2}([\.,])?)*([\d{1,2}]?)*"
+            formControlName="Amount"
+            (keydown)="restrictZero($event)"
+            input
+            class="amountreceive input-amount"
+            placeholder="0"
+            [(ngModel)]="amount"
+            (input)="convertcurrency('amountreceive')"
+          />
+        </div>
+        <div class="text-center">
+          <p class="hard-gray-text">
+            1 {{ this.selectedCryptoDetails.symbol || 'SATT' }} =
+            {{ this.selectedCryptoDetails.price || '' }} USD
+          </p>
+        </div>
+
+        <div class="">
+          <div class="w-100 d-flex justify-content-center align-items-center">
+            <span class="amount-default-receive-usd">$</span>
+            <input
+              type="number"
+              class="usdreceive input-number2-receive"
+              pattern="(\d{1,2}([\.,])?)*([\d{1,2}]?)*"
+              class="input-amount-usd"
+              (focus)="goToSection('usdreceive')"
+              placeholder="0"
+              (keydown)="restrictZero($event)"
+              input
+              #inputAmountUsd
+              formControlName="AmountUsd"
+              [(ngModel)]="amountUsd"
+              (input)="convertcurrency('usdreceive')"
+            />
+          </div>
+        </div>
+        <div class="d-flex justify-content-center">
+          <div
+            class="mt-3 div-input-icon-email p-1"
+            [ngClass]="{
+              'border-error':
+                (this.receiveform.get('contact')?.errors?.required &&
+                  this.receiveform.get('contact')?.dirty) ||
+                (this.receiveform.get('contact')?.errors?.pattern &&
+                  !this.receiveform.get('contact')?.errors?.required)
+            }"
+          >
+            <img src="assets/Images/envelop-icon.svg" />
+
+            <input
+              type="email"
+              formControlName="contact"
+              class="email input-email ms-2"
+              [(ngModel)]="contactEmail"
+              email="true"
+              (focus)="goToSection('email')"
+              type="email"
+              id="receive_contact"
+              placeholder="Enter email address"
+            />
+          </div>
+        </div>
+        <div class="text-center">
+          <span
+            class="error_msg"
+            *ngIf="
+              (this.receiveform.get('contact')?.errors?.required &&
+                this.receiveform.get('contact')?.dirty) ||
+              (this.receiveform.get('Amount')?.errors?.required &&
+                this.receiveform.get('Amount')?.dirty)
+            "
+            >{{ 'Wallet.field_required' | translate }}</span
+          >
+        </div>
+        <div
+          class="text-center"
+          *ngIf="
+            this.receiveform.get('contact')?.errors?.pattern &&
+            !this.receiveform.get('contact')?.errors?.required
+          "
+        >
+          <span class="error_msg">{{ 'field_mustbe_email' | translate }}</span>
+        </div>
+        <div class="mt-3 text-center">
+          <button
+            type="submit"
+            (click)="showNextBloc()"
+            class="green-btn"
+            [disabled]="
+              this.receiveform.get('contact')?.errors?.required ||
+              this.receiveform.controls.contact.errors?.pattern ||
+              this.receiveform.controls.contact.errors?.invalid ||
+              this.receiveform.get('Amount')?.errors?.required ||
+              this.receiveform.value.Amount === 0 ||
+              this.receiveform.value.Amount === '0.00000000'
+            "
+          >
+            {{ 'confirm_' | translate }}
+          </button>
+        </div>
+      </form>
+    </div>
+    <!--------------------messageBloc----------------------------------->
+    <div
+      class="div-content d-flex flex-column align-items-center"
+      *ngIf="showMsgBloc"
+    >
+      <form [formGroup]="receiveform">
+        <div class="text-center">
+          <img src="assets/Images/moonboy/moonboy-receive.svg" />
+        </div>
+        <div class="d-flex flex-column text-center">
+          <label class="requestion-text"
+            >{{ 'You-are-Requesting' | translate }}:</label
+          >
+          <h3 class="black mt-2">
+            ${{ this.receiveform.value.AmountUsd || 0 }}
+          </h3>
+          <h3 class="hard-gray">
+            ≈ {{ this.receiveform.value.Amount || 0 }}
+            {{ this.selectedCryptoDetails.symbol }}
+          </h3>
+        </div>
+        <div class="">
+          <div class="row ps-2">
+            <label class="italic-text m-0">{{
+              'Facultative' | translate
+            }}</label>
+          </div>
+          <div class="">
+            <div class="div_input h-100 position-relative">
+              <textarea
+                formControlName="message"
+                class="message textplace"
+                placeholder="Send a message to your contact"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="mt-2 text-center">
+          <button
+            type="submit"
+            *ngIf="!loadingButton"
+            (click)="receiveMoney()"
+            class="green-btn"
+          >
+            <span class="icon-arrow1 me-2"></span> {{ 'Request' | translate }}
+          </button>
+          <button *ngIf="loadingButton" disabled class="green-btn">
+            <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+    <!--------------------successfullyBloc-------------------------------->
+
+    <div
+      class="div-content d-flex flex-column align-items-center"
+      *ngIf="showSuccessBloc"
+    >
+      <div class="d-flex justify-content-center flex-column align-items-center">
+        <img src="assets/Images/moonboy/moonboy-success.svg" width="133px" />
+        <span class="green-text mt-2">{{
+          'receive.receive_successfully' | translate
+        }}</span>
+      </div>
+      <div class="mt-5 d-flex text-center flex-column gap-3">
+        <button type="submit" class="green-btn" (click)="makeNewRequest()">
+          {{ 'make-a-new-request' | translate }}
+        </button>
+        <button type="submit" class="white-btn" [routerLink]="['/wallet']">
+          {{ 'send.return_to_portfolio' | translate }}
+        </button>
+      </div>
+    </div>
+    <div
+      class="showMobile div-footer-mobile d-none d-xl-none d-lg-none d-md-none d-sm-block d-xs-block p-0"
+    >
+      <div class="div-pic-text">
+        <div class="">
+          <p class="text-moonboy d-flex flex-column">
+            <span>{{ 'you-need-help' | translate }}</span>
+            <span>{{ 'Read-our-FAQ-about' | translate }}</span
+            ><a class="router-text" [routerLink]="['/FAQ']">
+              {{ 'How-to-Tokens' | translate: { action: 'Receive' } }} ></a
+            >
+          </p>
+        </div>
+        <img
+          src="assets/Images/moonboy/moonboy-help.svg"
+          class="picture-moonboy"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="d-block d-xl-block d-lg-block d-md-block d-sm-none d-xs-none div-footer"
+>
+  <app-footer-send-receive-buy
+    [pageName]="'Receive'"
+  ></app-footer-send-receive-buy>
+</div>

@@ -1,0 +1,207 @@
+<div class="container justify-content-center position-relative">
+  <!-------------------------------------------------------------general stat--------------------------------->
+
+  <div class="row flex-row direction-column gray-bloc-mobile">
+    <div
+      class="
+        col
+        d-flex
+        justify-content-between
+        flex-column
+        direction-column
+        position-relative
+      "
+    >
+      <span class="middle-grey-text">
+        {{ 'Participating_Creators' | translate }}</span
+      >
+      <span class="dark-text pt-2">{{ totalParticipants }}</span>
+    </div>
+
+    <div
+      class="
+        col
+        d-flex
+        justify-content-between
+        flex-column
+        border-mobile
+        direction-column
+        position-relative
+      "
+    >
+      <span class="middle-grey-text">
+        {{ 'Media_Published' | translate }}
+      </span>
+      <span class="dark-text pt-2">{{ publishedMedia }}</span>
+    </div>
+
+    <div
+      class="
+        col
+        d-flex
+        justify-content-between
+        flex-column
+        direction-column
+        position-relative
+      "
+    >
+      <span class="middle-grey-text">{{ 'Reach_total' | translate }}</span>
+      <span class="dark-text pt-2">{{ reachTotal }}</span>
+    </div>
+  </div>
+
+  <span class="row d-flex justify-content-center mt-3 mb-3">
+    <hr class="horizontal_line" />
+  </span>
+  <div class="row d-flex justify-content-center flex-row mt-3">
+    <div
+      class="
+        col
+        pt-2
+        gray-bloc
+        d-flex
+        justify-content-between
+        align-items-center
+        flex-row
+        direction-column-reverse
+        width-row
+      "
+    >
+      <div
+        class="
+          ps-2
+          d-flex
+          justify-content-start
+          align-items-start
+          flex-column
+          padding-left-0
+        "
+      >
+        <span class="middle-grey-text hide-mobile">{{
+          'campaign.vues' | translate
+        }}</span>
+        <span class="dark-text"> {{ totalVues }}</span>
+      </div>
+      <div class="d-flex justify-content-center align-items-center">
+        <img
+          class="stat-icon"
+          width="31px"
+          src="/assets/Images/monetize/eye.svg"
+        />
+      </div>
+    </div>
+
+    <div
+      class="
+        col
+        pt-2
+        gray-bloc
+        d-flex
+        justify-content-between
+        align-items-center
+        flex-row
+        direction-column-reverse
+        width-row
+        mx-1
+      "
+    >
+      <div
+        class="
+          ps-2
+          d-flex
+          justify-content-start
+          align-items-start
+          flex-column
+          padding-left-0
+        "
+      >
+        <span class="middle-grey-text hide-mobile">
+          {{ 'campaign.likes' | translate }}</span
+        >
+        <span class="dark-text">{{ totalLikes }}</span>
+      </div>
+      <div class="d-flex justify-content-center align-items-center">
+        <img
+          class="stat-icon"
+          width="25px"
+          src="/assets/Images/monetize/blue-like.svg"
+        />
+      </div>
+    </div>
+
+    <div
+      class="
+        col
+        pt-2
+        gray-bloc
+        d-flex
+        justify-content-between
+        align-items-center
+        direction-column-reverse
+        flex-row
+        width-row
+      "
+    >
+      <div
+        class="
+          ps-2
+          d-flex
+          justify-content-start
+          align-items-start
+          flex-column
+          padding-left-0
+        "
+      >
+        <span class="middle-grey-text hide-mobile">{{
+          'campaign.shares' | translate
+        }}</span>
+        <span class="dark-text">{{ totalShares }}</span>
+      </div>
+      <div class="d-flex justify-content-center align-items-center">
+        <img
+          class="stat-icon"
+          width="25px"
+          src="/assets/Images/monetize/green-partage.svg"
+        />
+      </div>
+    </div>
+  </div>
+  <!------------------------------------------------------stat by oracle---------------------------------------------------------->
+  <!-- <div class="row d-flex justify-content-center flex-column " *ngFor="let stat of arrayStatics ">
+        <h5 class=""> {{stat.socialMedia}}</h5>
+        <div class="row d-flex justify-content-center flex-row ">
+
+            <div class="col  pt-2 gray-bloc d-flex justify-content-between align-items-center flex-row">
+                <div class="ps-3  d-flex justify-content-center align-items-center flex-column">
+                    <span class="dark-text"> Vues</span>
+                    <span class="dark-text"> {{stat.views}}</span>
+                </div>
+                <div class="d-flex justify-content-center align-items-center">
+                    <img class="" width="35px" src="/assets/Images/monetize/eye.svg">
+                </div>
+
+            </div>
+            <div class="col  pt-2 gray-bloc d-flex justify-content-between align-items-center flex-row ms-2">
+                <div class="ps-3  d-flex justify-content-center align-items-center flex-column">
+                    <span class="dark-text"> likes</span>
+                    <span class="dark-text">{{stat.likes}}</span>
+                </div>
+                <div class="d-flex justify-content-center align-items-center">
+                    <img class="" width="35px" src="/assets/Images/monetize/eye.svg">
+                </div>
+
+            </div>
+            <div class="col  pt-2 gray-bloc d-flex justify-content-between align-items-center flex-row ms-2">
+                <div class=" ps-3 d-flex justify-content-center align-items-center flex-column">
+                    <span class="dark-text"> Partages</span>
+                    <span class="dark-text">{{stat.shares}}</span>
+                </div>
+                <div class="d-flex justify-content-center align-items-center">
+                    <img class="" width="35px" src="/assets/Images/monetize/eye.svg">
+                </div>
+
+            </div>
+
+        </div>
+    </div> -->
+</div>

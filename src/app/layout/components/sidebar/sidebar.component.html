@@ -1,0 +1,286 @@
+<nav
+  class="fixed-top nav-sidebar"
+  style="min-height: 100vh"
+  *ngIf="this.sidebarService.toggleSidebarMobile.value"
+>
+  <!--hidden overflow-->
+  <div
+    class="sidebar"
+    [ngClass]="
+      this.sidebarService.toggleSidebarMobile.value
+        ? 'd-sm-block d-md-block '
+        : 'd-none '
+    "
+  >
+    <!-- Start estimated value -->
+
+    <!-- <div class="mt-2 showDesktop" [ngClass]="
+        { 'div_red' :this.sidebarService.toggleSidebar.value,
+          'div_red_tablette':  !this.sidebarService.toggleSidebar.value}" (click)="goToCampaign()">
+            <span class="btn-red pt-2" *ngIf="this.sidebarService.toggleSidebar.value"> {{'Sidebar.participate_full text' | translate}}</span>
+            <span class="btn-red_tablette pt-3 px-2" *ngIf="!this.sidebarService.toggleSidebar.value"> 
+                {{'Sidebar.participate_to' | translate}}    <label class="background-youtube px-1"> {{'Sidebar.youtube' |translate}}</label>
+            </span>
+        </div> -->
+    <!-- <div class=" div_red_mobile mt-2 ms-2 me-2  showMobile" (click)="goToCampaign()">
+            <img src="/assets/Images/Rectangle-rouge_mobile_png.png" class="ms-3 mt-1" height="83px" width="83px">
+            <span class="btn-red pt-2"> {{'Sidebar.participate_full text' | translate}}</span>
+        </div> -->
+
+    <!-- End estimated value -->
+    <!--=========================== Start sidebar menu =========================-->
+    <ul
+      class="ul-sidept-2"
+      [ngStyle]="{
+        'margin-top': this.sidebarService.DropDown ? '7.7em' : '0.5em'
+      }"
+    >
+      <!------------------------------------------------------------------------------------------------>
+      <li class="li-wallet pt-sm-protfeuille" id="introo">
+        <a
+          class="sidebar-menu-item"
+          [ngClass]="{
+            folded: this.sidebarService.toggleSidebar.value,
+            unfolded: !this.sidebarService.toggleSidebar.value,
+            'current-page': this.active === '1'
+          }"
+          (click)="toggleSidebarMobile(); this.active = '1'"
+          *ngIf="isConnected"
+          [routerLink]="['/home']"
+          [queryParams]="{ page: 'wallet' }"
+        >
+          <span class="icon-ic1 icoSidebar"></span>
+          <span class="style2 ps-3">{{ 'Sidebar.Wallet' | translate }}</span>
+        </a>
+        <!--if not connected-->
+        <a
+          class="sidebar-menu-item"
+          [ngClass]="{
+            folded: this.sidebarService.toggleSidebar.value,
+            unfolded: !this.sidebarService.toggleSidebar.value,
+            'current-page': this.active === '1'
+          }"
+          (click)="toggleSidebarMobile(); this.active = '1'"
+          *ngIf="!isConnected"
+          [routerLink]="['/auth/login']"
+        >
+          <span class="icon-ic1 icoSidebar"></span>
+          <span class="style2 ps-3">{{ 'Sidebar.Wallet' | translate }}</span>
+        </a>
+      </li>
+      <!--------------------------------------------------------------------------------[queryParams]="{space:'influencer'}"---------------->
+      <li class="li-wallet cursor-pointer" id="intro2">
+        <a
+          class="sidebar-menu-item"
+          [ngClass]="{
+            folded: this.sidebarService.toggleSidebar.value,
+            unfolded: !this.sidebarService.toggleSidebar.value,
+            'current-page': this.active === '2'
+          }"
+          (click)="toggleSidebarMobile(); this.active = '2'"
+          [routerLink]="['/home/ad-pools']"
+        >
+          <span class="icon-ic2 icoSidebar"></span>
+          <span class="style2 ps-3">Ad Pools </span>
+        </a>
+      </li>
+      <!-------------------------------------------------------------------------------[queryParams]="{space:'advertiser'}"----------------->
+      <li class="li-wallet" id="intro3">
+        <a
+          class="sidebar-menu-item"
+          [ngClass]="{
+            folded: this.sidebarService.toggleSidebar.value,
+            unfolded: !this.sidebarService.toggleSidebar.value,
+            'current-page': this.active === '3'
+          }"
+          (click)="toggleSidebarMobile(); this.active = '3'"
+          *ngIf="isConnected"
+          [routerLink]="['/home/farm-posts']"
+        >
+          <span class="icon-ic3 icoSidebar"></span>
+          <span class="style2 ps-3">Post Farming </span>
+        </a>
+        <!--if not connected-->
+        <a
+          class="sidebar-menu-item"
+          [ngClass]="{
+            folded: this.sidebarService.toggleSidebar.value,
+            unfolded: !this.sidebarService.toggleSidebar.value,
+            'current-page': this.active === '3'
+          }"
+          (click)="toggleSidebarMobile(); this.active = '3'"
+          *ngIf="!isConnected"
+          [routerLink]="['/auth/login']"
+        >
+          <span class="icon-ic3 icoSidebar"></span>
+          <span class="style2 ps-3">Post Farming </span>
+        </a>
+      </li>
+      <!------------------------------------------------------------------------------------------------>
+      <li class="li-wallet" *ngIf="isConnected">
+        <a
+          class="aidestyle sidebar-menu-item"
+          [ngClass]="{
+            folded: this.sidebarService.toggleSidebar.value,
+            unfolded: !this.sidebarService.toggleSidebar.value,
+            'current-page': this.active === '4'
+          }"
+          (click)="toggleSidebarMobile(); this.active = '4'"
+          [routerLink]="['TransactionsHistory']"
+        >
+          <span class="icon-ic4 icoSidebar"></span>
+          <span class="style2 ps-3">{{
+            'Sidebar.history_transaction' | translate
+          }}</span>
+        </a>
+      </li>
+      <!------------------------------------------------------------------------------------------------>
+      <li
+        class=""
+        [ngClass]="{ 'li-helpmobile': isConnected, 'li-wallet': !isConnected }"
+      >
+        <a
+          class="aidestyle sidebar-menu-item"
+          [ngClass]="{
+            folded: this.sidebarService.toggleSidebar.value,
+            unfolded: !this.sidebarService.toggleSidebar.value,
+            'current-page': this.active === '5'
+          }"
+          (click)="toggleSidebarMobile(); this.active = '5'"
+          [routerLink]="['FAQ']"
+        >
+          <span class="icon-ic5 icoSidebar"></span>
+          <span class="style2 ps-3">{{ 'Sidebar.Aide' | translate }} </span>
+        </a>
+      </li>
+
+      <li class="li-wallet" *ngIf="!isConnected">
+        <a
+          class="aidestyle sidebar-menu-item"
+          [ngClass]="{
+            folded: this.sidebarService.toggleSidebar.value,
+            unfolded: !this.sidebarService.toggleSidebar.value,
+            'current-page': this.active === '6'
+          }"
+          (click)="toggleSidebarMobile(); this.active = '6'"
+          [routerLink]="['/auth/login']"
+        >
+          <span class="style2 ps-3">SignIn</span>
+        </a>
+      </li>
+
+      <li class="li-wallet" *ngIf="!isConnected">
+        <a
+          class="aidestyle sidebar-menu-item"
+          [ngClass]="{
+            folded: this.sidebarService.toggleSidebar.value,
+            unfolded: !this.sidebarService.toggleSidebar.value,
+            'current-page': this.active === '7'
+          }"
+          (click)="toggleSidebarMobile(); this.active = '7'"
+          [routerLink]="['/auth/registration']"
+        >
+          <span class="style2 ps-3">SignUp</span>
+        </a>
+      </li>
+    </ul>
+    <!--===========================gas indicator =========================-->
+
+    <div class="footersidee showMobile" *ngIf="isConnected">
+      <hr class="style1 mx-2" />
+      <div class="ms-5">
+        <div class="d-flex d-sm-flex d-sm-block">
+          <div class="pt-3 me-3"><span class="icon-ic7 icc me-2"></span></div>
+          <div class="d-sm-flex d-lg-block d-md-block">
+            <span class="gazSide">
+              ETH: ${{ eRC20Gaz }}<img src="/assets/Images/green.svg" alt="Gaz"
+            /></span>
+
+            <br class="d-none d-sm-block" />
+            <span class="gazSide mt-1">
+              BNB:${{ bEPGaz
+              }}<img class="ms-1" src="/assets/Images/red.svg" alt="arrow"
+            /></span>
+          </div>
+        </div>
+      </div>
+      <hr class="style1 mx-2" />
+    </div>
+    <!--=========================== end sidebar menu =========================-->
+    <!--====================footer start =================================-->
+    <div
+      class="footerside d-none d-sm-none d-md-block d-lg-block"
+      *ngIf="this.sidebarService.toggleSidebar.value && isConnected"
+    >
+      <div
+        class="footersidee showDesktop"
+        *ngIf="this.sidebarService.toggleSidebar.value"
+      >
+        <hr class="style1 mx-2" />
+        <div class="ms-5">
+          <div class="d-flex d-sm-flex d-sm-block">
+            <div class="pt-3 me-3"><span class="icon-ic7 icc me-2"></span></div>
+            <div class="d-sm-flex d-lg-block d-md-block">
+              <span class="gazSide">
+                ETH: ${{ eRC20Gaz
+                }}<img src="/assets/Images/green.svg" alt="Gaz"
+              /></span>
+
+              <br class="d-none d-sm-block" />
+              <span class="gazSide mt-1">
+                BNB:${{ bEPGaz
+                }}<img class="ms-1" src="/assets/Images/red.svg" alt="arrow"
+              /></span>
+            </div>
+          </div>
+        </div>
+        <hr class="style1 mx-2" />
+      </div>
+
+      <div class="icons-style">
+        <button
+          class="btn-social px-3"
+          onclick=" window.open('https://www.facebook.com/SaTT.Token/?hc_location=ufi', '_blank')"
+        >
+          <span class="icon-Facebookico iconn"></span>
+        </button>
+        <button
+          class="btn-social px-3"
+          onclick=" window.open('https://t.me/satttoken', '_blank')"
+        >
+          <span class="icon-telegramico iconn"></span>
+        </button>
+        <button
+          class="btn-social px-3"
+          onclick=" window.open('https://twitter.com/SaTT_Token', '_blank')"
+        >
+          <span class="icon-Twitterico iconn"></span>
+        </button>
+        <button
+          class="btn-social px-3"
+          onclick=" window.open('https://bitcointalk.org/index.php?topic=3407522', '_blank')"
+        >
+          <span class="icon-Bitcoinico iconn"></span>
+        </button>
+      </div>
+
+      <div class="div_copyright d-flex flex-column">
+        <span class="copyright-footer">Copyright © 2022 Atayen, Inc. </span>
+
+        <span class="copyright-footer"
+          >{{ 'Sidebar.copyright' | translate }} ,
+          <div>
+            <a class="cond" [routerLink]="['/cgu']" target="_blank"
+              >CONDITIONS</a
+            >
+            and
+            <a class="cond" [routerLink]="['/privacy-policy']" target="_blank"
+              >PRIVACY POLICY</a
+            >
+          </div>
+        </span>
+      </div>
+    </div>
+    <!--====================footer end =================================-->
+  </div>
+</nav>

@@ -1,0 +1,863 @@
+/* ------------------------------- css template page  -------*/
+
+*:focus {
+    outline: none;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    --webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+.m-width {
+    width: 100%;
+}
+
+.page-content .title-block {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 33px;
+    letter-spacing: 0.75px;
+    color: #47526a;
+    padding: 4px 15px;
+    background: rgba(214, 214, 232, 0.5);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 30px;
+    margin-bottom: 15px;
+}
+
+.div_block {
+    background: #ffffff;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+    border-radius: 30px;
+    height: 100%;
+}
+
+:host {
+    width: 100%;
+}
+
+.nav-link {
+    color: #d6d6e8;
+    height: 100%;
+    width: 99%;
+    border-bottom: 3px solid #dadbf0;
+}
+
+.nav-link.active {
+    height: 100%;
+    color: #00cc9e;
+    background: none;
+    border: none;
+    border-bottom: solid 3px #00cc9e;
+}
+
+
+/* .nav-item {
+    color: #D6D6E8;
+
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    letter-spacing: 0.02em;
+    border-bottom: 3px solid #DADBF0;
+}
+
+.nav-item-active {
+    color: #D6D6E8;
+
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    letter-spacing: 0.02em;
+}
+
+.nav-tabs {
+    border-bottom: 2px solid #D6D6E8;
+    text-align: center;
+} */
+
+.text-Pro {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 125.9%;
+    text-align: center;
+    letter-spacing: 0.03em;
+    color: #ffa318 !important;
+}
+
+.title_page {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 22px;
+    line-height: 33px;
+    color: #47526a;
+}
+
+
+/* ------------------------------ end css template page  -------*/
+
+
+/*----------------------------end css edit networks-------------------------------*/
+
+.label_input {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 125.9%;
+    letter-spacing: 0.03em;
+    color: #75758f;
+}
+
+.btn-add-network {
+    background: #ffffff;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 22px;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.03em;
+    border-radius: 30px;
+    color: #4048ff;
+    border: none;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    height: 45px;
+    /* width: 219px; */
+    width: 100%;
+    cursor: pointer;
+}
+
+.btn-green {
+    font-style: normal;
+    font-weight: 900;
+    font-size: 20px;
+    line-height: 24px;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.03em;
+    background: #00cc9e;
+    color: #f6f6ff;
+    border-radius: 30px;
+    border: none;
+    width: 100%;
+    height: 50px;
+    cursor: pointer;
+}
+
+.btn-green:hover {
+    background: #009775;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-green:focus {
+    background: #00cc9e;
+    border: 6px solid rgba(52, 234, 185, 0.3);
+    border-radius: 30px;
+}
+
+.btn-green:disabled {
+    background: #d6d6e8;
+    color: #adadc8;
+    cursor: alias;
+}
+
+.btn-cancel {
+    font-style: normal;
+    font-weight: 900;
+    font-size: 20px;
+    line-height: 24px;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.03em;
+    color: #4048ff;
+    background: #ffffff;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
+    border-radius: 22.1827px;
+    border: none;
+    width: 100%;
+    height: 50px;
+    cursor: pointer;
+}
+
+.btn-white:hover {
+    border: 2px solid #0009d3;
+    box-shadow: none;
+}
+
+.btn-white:focus {
+    border: 2px solid #d6d6e8;
+    box-shadow: none;
+}
+
+.input-network:valid {
+    background-color: white !important;
+}
+
+
+/*--------css input networks with icon---------------*/
+
+.success-icon {
+    color: #00cc9e !important;
+}
+
+.close-error-icon {
+    color: #f52079 !important;
+}
+
+.field-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 6px;
+    z-index: 2;
+    width: fit-content;
+    color: grey;
+    cursor: pointer;
+    border: 2px solid !important;
+    border-radius: 100% !important;
+    padding: 0px 4px;
+}
+
+.div_input {
+    border: 1px solid #d6d6e8;
+    display: flex;
+    padding: 0;
+    border-radius: 30px;
+}
+
+.div_input_add {
+    border: 1px solid #d6d6e8;
+    display: flex;
+    padding: 0;
+    border-radius: 30px;
+}
+
+.cursor-alias {
+    cursor: alias !important;
+}
+
+.input-network {
+    width: 100%;
+    height: 47px;
+    padding: 6px 15px;
+    line-height: 1.57142857;
+    border: none;
+    font-size: 14px;
+    color: #47526a;
+    content: '\f002';
+    border-left: 1px solid #d6d6e8;
+}
+
+.cross_input_network {
+    padding: 10px;
+    cursor: pointer;
+    color: #75758f;
+}
+
+.pic_input {
+    /* cursor: pointer; */
+    color: #75758f;
+    padding: 2px;
+}
+
+
+/*--------end css input networks with icon-----------*/
+
+
+/*-------------------New css show added networks--------------------------------*/
+
+.input-type {
+    width: 100%;
+    height: 48px;
+    padding: 6px 15px;
+    line-height: 1.57142857;
+    border: 1px solid #d6d6e8;
+    font-size: 15px;
+    background-color: white;
+    color: #47526a;
+    border-radius: 30px;
+    content: '\f002';
+}
+
+.cross_delete_network {
+    cursor: pointer;
+    color: #f52079;
+}
+
+@media (max-width: 575.98px) {
+    .padding-small-version {
+        padding: 0rem 3rem 0rem 3rem !important;
+    }
+    .btn-add-network {
+        width: 70% !important;
+    }
+    .input-network {
+        border: none !important;
+    }
+    .hide-mobile {
+        display: none !important;
+    }
+    .telegram_log,
+    .div-connect {
+        width: 250px !important;
+        min-width: 245px !important;
+        font-size: 16px !important;
+    }
+    .margin-left {
+        margin-left: -14px !important;
+    }
+    .gray-text-span,
+    .white-text-span,
+    .tgm2 {
+        font-size: 14px !important;
+    }
+}
+
+.margin-left {
+    margin-left: 2%;
+}
+
+@media (max-width: 767.98px) {
+    .nav-link.active {
+        padding: 0rem 1.8rem 1rem 1.8rem !important;
+    }
+    .nav-link {
+        padding: 0 !important;
+    }
+    .show-mobile {
+        display: block !important;
+    }
+}
+
+.show-mobile {
+    display: none;
+}
+
+.btn-back {
+    width: 40px;
+    height: 41px;
+    color: #4048ff;
+    background-color: white;
+    border-radius: 50%;
+    border: none;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    text-align: center;
+    font-size: 25px;
+}
+
+.btn-back:hover {
+    border: 2px solid #0009d3;
+    box-shadow: none;
+}
+
+.btn-back:focus {
+    border: 2px solid #d6d6e8;
+    box-shadow: none;
+}
+
+@media (max-width: 991.98px) {
+    .padding-x {
+        padding-right: 0.25rem !important;
+        padding-left: 0.25rem !important;
+    }
+}
+
+@media (max-width: 425px) {
+    .title_page {
+        font-size: 16px !important;
+    }
+    .margin-left-4 {
+        margin-left: 0.7rem !important;
+    }
+    .margin-left-3 {
+        margin-left: 0.5rem !important;
+    }
+    .div-connect-with-google,
+    .div-connect-with-fb,
+    .div-connect-with-telegram {
+        justify-content: flex-start !important;
+    }
+    .div-connect-with-google img {
+        margin-left: 0.7rem !important;
+    }
+}
+
+.padding-x {
+    padding-right: 3rem;
+    padding-left: 3rem;
+}
+
+
+/*------*/
+
+.bold-title {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 28px;
+    text-align: center;
+    letter-spacing: 1px;
+    color: #1f2337;
+}
+
+
+/*-----*/
+
+
+/*-------------------end New css show added networks--------------------------------*/
+
+
+/*-----------css dropdowen------ */
+
+.dropdown-toggle::after {
+    outline: none !important;
+    display: none;
+}
+
+button:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.dropdown-menu {
+    width: 100%;
+    border: none;
+    background: none;
+    position: relative !important;
+    transform: none !important;
+    top: 0px !important;
+    left: 16px !important;
+}
+
+.dropdown {
+    outline: none !important;
+    background: #ffffff;
+    border-radius: 30px;
+    width: 100%;
+    border: 1px solid #d6d6e8;
+    padding: 0;
+}
+
+.li-select {
+    /* padding-left: 5px; */
+    cursor: pointer;
+}
+
+.chevron:before {
+    font-family: 'FontAwesome';
+    font-style: normal;
+    font-size: 1.2rem;
+    content: '\f107';
+    display: inline-block;
+    line-height: 22px;
+    color: #47526a;
+    position: absolute;
+    right: 12px;
+    top: 12px;
+}
+
+.bnt-dropdown {
+    position: relative;
+    height: 48px;
+    padding-left: 6px;
+    width: 100%;
+    text-align: initial;
+}
+
+
+/*-----------end css dropdowen------ */
+
+.errorLink {
+    color: #f52079;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+}
+
+.successLink {
+    color: #00cc9e;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+}
+
+.green-text {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 30px;
+    text-align: center;
+    letter-spacing: 0.02em;
+    color: #00cc9e;
+}
+
+.dark_grey {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 31px;
+    letter-spacing: 0.03em;
+    color: #323754;
+}
+
+.label-Profile-completed-at {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 30px;
+    text-align: center;
+    letter-spacing: 0.02em;
+    color: #75758f;
+}
+
+a {
+    text-decoration: none;
+}
+
+.horizontal-line {
+    border: 1px solid #d6d6e8;
+    height: 0px;
+    width: 100%;
+}
+
+.span-type-netwok {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 125.9%;
+    letter-spacing: 0.03em;
+    color: #75758f;
+}
+
+.margin-right-19 {
+    margin-right: 19px;
+}
+
+.margin-right-31 {
+    margin-right: 31px;
+}
+
+.margin-right-6 {
+    margin-right: 6px;
+}
+
+.div-connect-with-google {
+    display: flex;
+    justify-content: center;
+    background: #ffffff;
+    border: 1.6px solid #d6d6e8;
+    border-radius: 49.0347px;
+    padding: 0;
+    border-radius: 30px;
+    height: 54px;
+    cursor: pointer;
+}
+
+
+/* .div-connect-with-telegram {
+    display: flex;
+    justify-content: center;
+    background: #54A9EB;
+    border: none;
+    border-radius: 49.0347px;
+    padding: 0;
+    border-radius: 30px;
+    height: 54px;
+    cursor: pointer; 
+} */
+
+.goog_icon {
+    margin-right: 20px;
+    margin-top: 3px;
+}
+
+.div-deconnect-social {
+    background: #eeeeee;
+}
+
+.div-connect {
+    border-radius: 20px;
+    align-items: flex-start;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 130%;
+    letter-spacing: -0.02em;
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 18px;
+    background-position-x: 15px;
+    background-position-y: 5px;
+    position: relative;
+    padding: 0.5em;
+    width: 100%;
+    height: 40px;
+    /* min-width: 250px; */
+    width: 250px;
+    filter: drop-shadow(0px 3px 4px rgba(0, 0, 0, 0.21));
+    padding-left: 15px;
+    background: #eeeeee;
+}
+
+.div-connect:hover {
+    filter: drop-shadow(0px 1px 11px#CDDEFD) !important;
+}
+
+.div-connect .white-text-span {
+    /* padding-left: 20px; */
+    margin-left: 0px;
+}
+
+.div-connect .white-text {
+    padding-left: 20px;
+    margin-left: 0px;
+    color: #757575;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 130%;
+    /* or 18px */
+    letter-spacing: -0.01em;
+}
+
+.tgmImg {
+    width: 19px;
+}
+
+.div-bloc {
+    min-width: max-content;
+}
+
+
+/* 
+    border-radius: 20px;
+    align-items: center;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 26px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0.5vh;
+    background-position-x: 15px;
+    background-position-y: 5px;
+    position: relative;
+    width: 327px;
+    height: 54px;
+}
+*/
+
+.div-connect-telegram {
+    background-color: #54a9eb;
+    color: #ffffff;
+}
+
+.div-connect-google {
+    /* border: 1.63449px solid #d6d6e8; */
+    color: #757575;
+    background-color: #ffffff;
+}
+
+.div-connect-fb {
+    background: #1877f2;
+    /* border: 1.63449px solid #4048ff; */
+    color: #ffffff;
+    padding-left: 22px;
+}
+
+.div-connect-with-fb {
+    display: flex;
+    justify-content: center;
+    background: #1967ff;
+    border: none;
+    border-radius: 49.0347px;
+    padding: 0;
+    border-radius: 30px;
+    height: 54px;
+    cursor: pointer;
+}
+
+.disabled {
+    background: #d6d6e8 !important;
+    color: #adadc8 !important;
+    cursor: alias !important;
+}
+
+.gray-text-span {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 140%;
+    letter-spacing: -0.01em;
+    color: #757575;
+}
+
+.grey_text_fr {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 130%;
+    letter-spacing: -0.01em;
+    color: #757575;
+    width: 215px;
+}
+
+.white-text-span {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 130%;
+    letter-spacing: -0.01em;
+    color: #ffffff;
+    margin-left: 0.4rem;
+}
+
+.margin-left-4 {
+    margin-left: 1.5rem;
+}
+
+.margin-left-3 {
+    margin-left: 1rem;
+}
+
+.modal-content {
+    max-height: 600px;
+}
+
+@media only screen and (width: 640px) and (height: 360px) {
+     ::ng-deep .modal-dialog {
+        height: 144vh !important;
+    }
+}
+
+::ng-deep #telegram-login-TestnetAtayenBot {
+    width: 100% !important;
+    opacity: 0 !important;
+    z-index: 0 !important;
+}
+
+::ng-deep body.body_widget_login {
+    width: 100% !important;
+}
+
+::ng-deep .tgme_widget_login.large button.tgme_widget_login_button {
+    width: 100% !important;
+}
+
+.width-col {
+    min-width: 200px;
+}
+
+
+/* ::ng-deep iframe body {
+    width: 100%;
+}
+
+::ng-deep iframe .tgme_widget_login.large button.tgme_widget_login_button {
+    width: 100%;
+    height: 53px !important;
+    padding: 0 !important;
+    border-radius: 30px !important;
+} */
+
+
+/* ::ng-deep iframe {
+    width: 100% !important;
+    opacity: 0 !important;
+    z-index: 3 !important;
+    height: 40px !important;
+    border: none;
+}
+*/
+
+::ng-deep #telegram-login-v2_satt_token_bot {
+    height: 40px !important;
+    width: 100% !important;
+    opacity: 0 !important;
+    z-index: 3 !important;
+}
+
+.tgm {
+    position: absolute;
+    left: 54px;
+}
+
+.tgm_img {
+    position: absolute;
+    left: 26px;
+    /* top: 7px; */
+}
+
+.tgm_img_fr {
+    position: absolute;
+    left: 6px;
+    /* top: 7px; */
+}
+
+.tgm_fr {
+    position: absolute;
+    left: 41px;
+}
+
+
+/******* spinner *******/
+
+.spinner-wrapper {
+    position: relative;
+}
+
+.telegram_log {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 130%;
+    color: #ffffff;
+    cursor: pointer;
+    background: url('/assets/Images/share_image.svg') no-repeat, #54a9eb;
+    background-size: 7%;
+    border-radius: 20px;
+    align-items: flex-start;
+    height: 52px;
+    display: flex;
+    justify-content: flex-start;
+    background-position-x: 13px;
+    background-position-y: 12px;
+    position: relative;
+    /* width: 100%; */
+    height: 40px;
+    /* min-width: 250px; */
+    width: 250px;
+    margin-bottom: 18px;
+    padding: 0.5em;
+    align-items: center;
+    filter: drop-shadow(0px 3px 4px rgba(0, 0, 0, 0.21));
+}
+
+.telegram_log:hover {
+    filter: drop-shadow(0px 1px 11px#CDDEFD) !important;
+}
+
+.tgm2 {
+    position: absolute;
+    left: 55px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    /* top: 15px; */
+}
+
+img.facebook_icon {
+    padding-top: 5px;
+    margin-right: 20px;
+}

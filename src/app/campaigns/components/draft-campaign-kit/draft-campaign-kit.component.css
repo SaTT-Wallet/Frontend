@@ -1,0 +1,351 @@
+.title-section {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 28px;
+    text-align: center;
+    letter-spacing: 1px;
+    color: #1f2337;
+}
+
+input[type='file'] {
+    display: none;
+}
+
+.eye-uploaded-pic:hover {
+    width: 51px;
+    filter: brightness(60%);
+}
+
+.download-uploaded-pic:hover {
+    width: 51px;
+    filter: brightness(60%);
+}
+
+.eye-uploaded-pic {
+    position: absolute;
+    left: 30%;
+    width: 40px !important;
+    height: 40px;
+    top: 42%;
+}
+
+.download-uploaded-pic {
+    right: 20%;
+    position: absolute;
+    top: 42%;
+    width: 40px !important;
+    height: 40px;
+}
+
+.img-choose-upload {
+    position: relative;
+    width: 100px;
+    margin-top: 65px;
+}
+
+.img-responsive {
+    width: auto !important;
+}
+
+.background-choose-img {
+    background-color: #d6d6e8;
+    border-radius: 30px;
+    height: 205px;
+    width: 205px;
+}
+
+.background-upload-img {
+    background-color: #323754;
+    border-radius: 30px;
+    height: 205px;
+    width: 205px;
+    /* margin-right: 9px;
+    width: 24%; */
+}
+
+.div-uploaded-pic {
+    /* height: 205px;
+    width: 205px; */
+    border-radius: 30px;
+    height: 205px;
+    width: 205px;
+    position: relative;
+}
+
+.uploaded-pic {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    margin-left: 6%;
+    border-radius: 30px;
+}
+
+.label-upload {
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    font-style: normal;
+    line-height: 18px;
+    max-width: 123px;
+}
+
+.img-choose {
+    position: relative;
+    width: 61px;
+    margin-top: 97px;
+}
+
+button.close {
+    padding: 14px !important;
+}
+
+.modal-body {
+    width: 100% !important;
+    max-width: 679px !important;
+    height: 488px !important;
+    padding: 30px;
+}
+
+.modal-content {
+    position: absolute;
+    border-radius: 13px !important;
+    background-color: #e6e6e682;
+    width: 679px;
+    height: 488px;
+}
+
+.close {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+.kit_elem {
+    display: flex;
+    justify-content: space-between;
+}
+
+.kit-cmp {
+    height: 100%;
+    max-width: 100%;
+    left: 50%;
+    position: relative;
+    transform: translateX(-50%);
+}
+
+.kit_elem:hover {
+    background-color: #f6f6ff;
+    border-radius: 30px;
+}
+
+.elem-name {
+    width: 100%;
+    white-space: break-spaces;
+    word-break: break-word;
+}
+
+.choose-pic-mobile {
+    display: none;
+    height: 250px;
+}
+
+a .hover-img {
+    position: relative;
+}
+
+a .hover-img span {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+    z-index: 9999;
+}
+
+a:hover .hover-img span {
+    top: 114px;
+    left: 90px;
+}
+
+.label-type {
+    font-style: normal;
+    font-family: 'Poppins';
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 125.9%;
+    letter-spacing: 0.03em;
+    color: #75758f;
+}
+
+.img-kit {
+    position: absolute;
+    top: 15px;
+    right: 4px;
+    width: 25px !important;
+}
+
+.input-type {
+    width: 89%;
+    height: 48px;
+    padding: 6px 22px;
+    line-height: 1.57142857;
+    border: 1px solid #d6d6e8;
+    font-size: 16px;
+    background-color: white;
+    color: #323754;
+    font-style: normal;
+    font-weight: normal;
+    border-radius: 30px;
+}
+
+@media (max-width: 575.98px) {
+    .background-upload-img,
+    .background-choose-img {
+        width: 90px;
+    }
+    .input-type,
+    .btn-white {
+        width: 100% !important;
+    }
+}
+
+.div-kit-elements {
+    max-width: max-content;
+}
+
+.btn-white {
+    background: #ffffff;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.03em;
+    border-radius: 30px;
+    color: #4048ff;
+    border: none;
+    box-shadow: 0px 2px 6px rgba(50, 55, 84, 0.4);
+    height: 48px;
+    width: 151px;
+    cursor: pointer;
+}
+
+.btn-white:hover {
+    background: #f6f6ff;
+    box-shadow: 0px 2px 6px rgba(50, 55, 84, 0.4);
+    color: #0009d3;
+}
+
+.flex-item {
+    background-color: #f6f6ff;
+    border-radius: 30px;
+    overflow-wrap: anywhere;
+    padding: 0.7em 1.5em;
+    border: none;
+}
+
+.fake-link {
+    cursor: pointer;
+    color: blue;
+}
+
+.tag-item {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    /* width: 233px; */
+    width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    /* width: max-content; */
+    /* display: flex; */
+    background-color: #f6f6ff;
+    border-radius: 15px;
+    overflow-wrap: 'anywhere';
+    /* padding: 0.01em 1.5em; */
+    border: none;
+}
+
+.addlink {
+    display: flex;
+}
+
+.drop-box {
+    border: 3px dashed #75758f;
+    box-sizing: border-box;
+    border-radius: 30px;
+    width: 100%;
+    height: 200px;
+    /* height: 150px; */
+    text-align: center;
+    padding: 12px 1px;
+    /* margin: 0% 13%; */
+    color: #8c8c8c;
+    font-size: 18px;
+    clear: both;
+}
+
+.fileInput2 {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    top: 0px;
+    left: 0px;
+    z-index: 1;
+}
+
+.danger_pic {
+    vertical-align: middle;
+    background: rgba(245, 32, 121, 0.2);
+    border-radius: 30px;
+    color: #f52079;
+    border: none;
+    height: 40px;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.success_pic {
+    background: rgba(0, 204, 158, 0.2);
+    border-radius: 30px;
+    color: #00cc9e;
+    border: none;
+    height: 40px;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.error {
+    text-align: center;
+    color: #f52079;
+    position: absolute;
+    font-size: 13px;
+    line-height: 13px;
+}
+
+.cursor-pointer {
+    cursor: pointer !important;
+}
+
+.small-label {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 125.9%;
+    letter-spacing: 0.03em;
+    color: #47526a;
+}
+
+.small-labels {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 125.9%;
+    letter-spacing: 0.03em;
+    color: #47526a;
+}
+
+::ng-deep .owl-theme .owl-nav {
+    display: none;
+}

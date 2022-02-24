@@ -1,0 +1,62 @@
+.title-section {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 22px;
+  line-height: 28px;
+  text-align: center;
+  letter-spacing: 1px;
+  color: #1f2337;
+}
+.icons-img {
+  margin-right: 0.5em;
+}
+.input-mission {
+  border: 1px solid #d6d6e8;
+  box-sizing: border-box;
+  border-radius: 5px;
+  outline: none;
+  height: 48px;
+  width: 100%;
+  padding: 1em;
+  padding-left: 2em;
+  margin-bottom: 0.7em;
+}
+input[type='text'].input-mission {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  line-height: 130%;
+  letter-spacing: 0.03em;
+  color: #75758f;
+  flex: none;
+  flex-grow: 0;
+}
+.btn-cancel {
+  position: absolute;
+  right: 0.5em;
+  top: 0.7em;
+  align-items: center;
+  vertical-align: c;
+  border: none;
+  background: white;
+  color: #75758f;
+}
+.input-wrapper {
+  width: 100%;
+}
+
+.btn-white {
+  margin-bottom: 1em;
+}
+.btn-white:disabled {
+  background: #f6f6ff;
+  color: #adadc8;
+  border: 1px solid #d6d6e8;
+  cursor: auto;
+}
+.indecator {
+  left: 14px;
+  top: 12px;
+  color: #75758f;
+}

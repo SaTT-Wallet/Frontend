@@ -1,0 +1,459 @@
+<div
+  class="bloc-send vh-100 shadow py-3 bg-white"
+  id="convertir"
+  *ngIf="convertblock"
+>
+  <div class="col">
+    <div class="d-flex justify-content-center mt-3">
+      <span
+        class="
+          d-flex
+          justify-content-center
+          text-capitalize
+          font-weight-bold
+          h2
+        "
+        >{{ 'send.convert_token' | translate }}
+      </span>
+      <button type="button" class="btn-back" routerLink="/wallet">
+        <
+        <span class="span_btn_back">
+          {{ 'send.back_to_wallet' | translate }}
+        </span>
+      </button>
+    </div>
+  </div>
+  <div class="col d-flex w-100 justify-content-center mt-n2">
+    <hr />
+  </div>
+  <div class="d-flex mb-3 justify-content-center">
+    <div class="col-sm mb-n3 h-100 d-inline-block" style="max-width: 727px">
+      <div class="col col ml-2">
+        <form [formGroup]="convertform" (ngSubmit)="convert()">
+          <!--------------------->
+          <div class="mb-3 d-lg-block">
+            <div class="ps-2">
+              <label for="send_currency" class="form-label justify_h">{{
+                'convert.from' | translate
+              }}</label>
+            </div>
+
+            <div class="d-flex justify-content-center">
+              <div class="dropdown2">
+                <button
+                  class="
+                    w-100
+                    h-100
+                    pl-1
+                    btn
+                    btntoggle
+                    dropdown-toggle
+                    d-flex
+                    justify-content-center
+                    align-items-center
+                  "
+                  type="button"
+                  id="dropdownMenuButton5"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  style="pointer-events: none"
+                >
+                  <!-- <span
+                    class="
+                      span span-ellipsis-send span-convert
+                      justify-content-start
+                    "
+                    [ngClass]="{ 'span-convert': showConvertir }"
+                    *ngIf="showSelectedValue"
+                  >
+                    <div class="crypto-logo">
+                      <img
+                        class="crypto-image"
+                        src="../../../assets/Images/symbol_crypto/{{
+                          cryptoPicNameconvert
+                        }}.svg"
+                      />
+                      <span
+                        class="text-align-left black-text2-send ps-2 mt-2"
+                        >{{ cryptoSymbolconvert }}</span
+                      >
+                    </div>
+                    <div class="crypto-balance">
+                      <span class="selected_balance-send ellipsis pe-1"
+                        >{{ cryptoQuantity }} {{ cryptoSymbolconvert }}</span
+                      >
+                    </div>
+                  </span> -->
+                  <span
+                    class="span span-ellipsis-send"
+                    [ngClass]="{ 'span-convert': showConvertir }"
+                    *ngIf="!showSelectedValue"
+                  >
+                    <div class="crypto-logo">
+                      <img
+                        class="crypto-image"
+                        src="../../../assets/Images/symbol_crypto/{{
+                          cryptoPicNameconvert
+                        }}.svg"
+                      />
+                      <span class="text-align-left black-text2-send ps-2">{{
+                        cryptoSymbol | translate
+                      }}</span>
+                    </div>
+                    <div class="crypto-balance">
+                      <span
+                        *ngIf="converttype == 'erc20'"
+                        class="selected_balance-send ellipsis pe-2"
+                        >{{ cryptoQuantity }} {{ cryptoSymbolconvert }}</span
+                      >
+                      <span
+                        *ngIf="converttype == 'bep20'"
+                        class="selected_balance-send ellipsis pe-1"
+                        >{{ quantityBEP20 }} {{ cryptoSymbol }}</span
+                      >
+                    </div>
+                  </span>
+                </button>
+                <ul
+                  class="dropdown-menu"
+                  aria-labelledby="dropdownMenuButton"
+                  id="send_currency"
+                ></ul>
+              </div>
+            </div>
+          </div>
+          <!--------------------->
+          <span class="d-flex justify-content-center"
+            ><img src="../../../assets/Images/convert2.svg"
+          /></span>
+          <div class="mb-3">
+            <div class="ps-2">
+              <label for="send_currency" class="form-label justify_h">{{
+                'convert.to' | translate
+              }}</label>
+            </div>
+
+            <div class="d-flex justify-content-center">
+              <div class="dropdown2">
+                <button
+                  class="
+                    w-100
+                    h-100
+                    pl-1
+                    btn
+                    btntoggle
+                    dropdown-toggle dropdown-toggle
+                    d-flex
+                    justify-content-center
+                    align-items-center
+                  "
+                  type="button"
+                  id="dropdownMenuButton4"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  style="pointer-events: none"
+                >
+                  <!-- <span
+                    class="span span-ellipsis-send"
+                    [ngClass]="{ 'span-convert': showConvertir }"
+                    *ngIf="showSelectedValue"
+                  >
+                    <div class="crypto-logo">
+                      <img
+                        class="crypto-image"
+                        src="../../../assets/Images/symbol_crypto/{{
+                          cryptoPicName
+                        }}.svg"
+                      />
+                      <span
+                        class="text-align-left black-text2-send ps-2 mt-2"
+                        >{{ cryptoSymbol | translate }}</span
+                      >
+                    </div>
+                    <div class="crypto-balance">
+                      <span class="selected_balance-send ellipsis pe-1"
+                        >{{ cryptoQuantity }} {{ cryptoSymbol }}</span
+                      >
+                    </div>
+                  </span> -->
+                  <span
+                    class="span span-ellipsis-send"
+                    [ngClass]="{ 'span-convert': showConvertir }"
+                    *ngIf="!showSelectedValue"
+                  >
+                    <div class="crypto-logo">
+                      <img
+                        class="crypto-image"
+                        src="../../../assets/Images/symbol_crypto/{{
+                          cryptoPicName
+                        }}.svg"
+                      />
+                      <span class="text-align-left black-text2-send ps-2">{{
+                        cryptoSymbol | translate
+                      }}</span>
+                    </div>
+                    <div class="crypto-balance">
+                      <span
+                        *ngIf="converttype == 'erc20'"
+                        class="selected_balance-send ellipsis pe-2"
+                        >{{ quantityBEP20 }}
+                        {{ cryptoSymbol | translate }}</span
+                      >
+                      <span
+                        *ngIf="converttype == 'bep20'"
+                        class="selected_balance-send ellipsis pe-2"
+                        >{{ quantitysatt }} {{ cryptoSymbol | translate }}</span
+                      >
+                    </div>
+                    <!-- <span
+                  *ngIf="checkType == 'bep20'"
+                  class="selected_balance-send ellipsis pe-1"
+                  >{{ "send.balance" | translate }}{{ quantityBEP20 }}
+                  {{cryptoSymbol |translate}}</span
+                > -->
+                  </span>
+                </button>
+
+                <ul
+                  class="dropdown-menu"
+                  aria-labelledby="dropdownMenuButton"
+                  id="send_currency"
+                >
+                  <li
+                    class="li-select"
+                    *ngFor="let crypto of newtab; trackBy: trackByCrypto"
+                    (click)="
+                      selectValueconvert(
+                        crypto.name,
+                        crypto.undername2,
+                        crypto.symbol
+                      )
+                    "
+                  >
+                    <ng-container
+                      *ngIf="
+                        crypto.name !== selectedValue &&
+                        crypto.symbol !== cryptoSymbol
+                      "
+                    >
+                      <img
+                        src="../../../assets/Images/symbol_crypto/{{
+                          crypto.undername2
+                        }}.svg"
+                        class="width_icon_crypto"
+                      />
+                      <span class="black-text-send ps-2">{{
+                        crypto.symbol
+                      }}</span>
+                      <span class="select_balance"
+                        >{{ crypto.quantity }} {{ crypto.symbol }}</span
+                      >
+                    </ng-container>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="ps-2">
+              <label class="form-label justify_h">{{
+                'Wallet.Amount' | translate
+              }}</label>
+            </div>
+            <div class="pt-1 position-relative">
+              <div class="input-wrapper position-relative wrapper-mob">
+                <div
+                  class="
+                    d-flex
+                    justify-content-center
+                    align-items-center
+                    w-100
+                    ms-2
+                    overflow-hidden
+                  "
+                >
+                  <span #hidedAmountValue id="hide"></span>
+                  <input
+                    type="number"
+                    formControlName="Amount"
+                    pattern="(\d{1,2}([\.,])?)*([\d{1,2}]?)*"
+                    class="input-number-convert"
+                    placeholder="0"
+                    #inputAmountConvert
+                    [(ngModel)]="amount"
+                    (input)="convertcurrency('amountconvert')"
+                  />
+                  <!-- <span class="amount-default-convert">{{ amountdefault }}</span> -->
+                </div>
+                <div class="btn-max mx-1 my-2">
+                  <img
+                    class="pic_max_amount"
+                    src="../../../assets/Images/bouton-maximum.svg"
+                    (click)="maxconvert()"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <span class="error" *ngIf="balanceNotEnough">{{
+              'send.no_balance' | translate
+            }}</span>
+            <span class="error" *ngIf="noCryptoSelected">{{
+              'send.must_select_devise' | translate
+            }}</span>
+            <span
+              class="error"
+              *ngIf="isValidconvert('Amount') && isSubmitting == true"
+              >{{ 'field_required' | translate }}</span
+            >
+          </div>
+          <!--------------------->
+          <div class="mb-3">
+            <div class="ps-2">
+              <label class="form-label justify_h">{{
+                'Wallet.Secure_key' | translate
+              }}</label>
+            </div>
+            <div class="pt-1 position-relative">
+              <div
+                class="input-wrapper position-relative"
+                [ngClass]="{ div_inputConvert: showConvertir }"
+              >
+                <img
+                  class="pic_max"
+                  src="../../../assets/Images/Kep-password.svg"
+                />
+                <input
+                  class="input-amount"
+                  type="password"
+                  formControlName="password"
+                  autocomplete="new-password"
+                />
+              </div>
+            </div>
+
+            <!----------->
+            <div>
+              <span class="wrong_password" *ngIf="wrongpassword">{{
+                'Wallet.Wrong Password' | translate
+              }}</span>
+            </div>
+            <!----------->
+            <div>
+              <span class="wrong_password" *ngIf="notEnoughtBalance">{{
+                'Wallet.Not_enought_balance' | translate
+              }}</span>
+            </div>
+            <div class="col text-center mt-4">
+              <span class="gaz"
+                >{{ 'Wallet.GAS_TAKEN_FOR_THE_TRANSACTION' | translate }}
+                {{ gazsendether }} {{ gazcurrency }}(&#8776; $
+                {{ gazsend }})</span
+              >
+              <span class="gaz wrong_password" *ngIf="gazproblem">{{
+                'send.no_gaz' | translate
+              }}</span>
+            </div>
+          </div>
+          <!--------------------->
+          <div class="row mb-3">
+            <div class="row">
+              <button
+                type="submit"
+                *ngIf="showButtonSend"
+                [disabled]="convertform.invalid"
+                class="send_buttonn"
+              >
+                <!-- <img class="me-2 mb-1" src="../../../assets/Images/envoiarrow.svg" /> -->
+                <span class="icon-trans"></span>
+                {{ 'convertir' | translate }}
+              </button>
+              <button *ngIf="loadingButton" disabled class="send_buttonn">
+                <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="bloc-convert-success container-fluid page-content participate-page"
+  [ngClass]="{ showConvertSuccess: showConvertSuccess }"
+>
+  <div class="row envoyer_lien success_page">
+    <div class="success-link">
+      <img
+        src="../../../assets/Images/success_info.svg"
+        class="img-style mt-5"
+      />
+      <h3 class="success-title mt-2">
+        {{ 'send.send_successfully' | translate }}
+      </h3>
+      <label class="text mb-3"
+        >{{ 'send.envoisatt' | translate }} {{ amount }} {{ currency }}
+      </label>
+      <!-- <div class="row Tab py-3 justify-content-center">
+            <div class="transacHash">{{ "transacHash" | translate }}</div>
+            <div class="ellipsishash d-flex justify-content-center">
+                <span class="trHash">{{ hashtransaction }}</span>
+                <button (click)="copyhash()" class="wallet-btn d-flex">
+                   <img  class="copyhach" src="../../../assets/Images/copy-clipboard.svg" />
+                </button>
+            </div>
+        </div> -->
+
+      <app-copy-transaction-hash
+        [transactionHash]="hashtransaction"
+        class="transaction-width"
+      >
+      </app-copy-transaction-hash>
+
+      <button
+        type="submit"
+        routerLink="/home/TransactionsHistory"
+        class="btn-info me-2 mt-5 mb-2"
+      >
+        {{ 'send.see_history_transac' | translate }}
+      </button>
+      <button
+        type="submit"
+        routerLink="/wallet"
+        class="btn-info me-2 mt-2 mb-2"
+      >
+        {{ 'send.return_to_portfolio' | translate }}
+      </button>
+      <button
+        type="submit"
+        (click)="otherConvert()"
+        class="btn-info me-2 mt-2 mb-4"
+      >
+        {{ 'send.other_send' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<div
+  class="bloc-convert-failed container-fluid page-content participate-page"
+  [ngClass]="{ showConvertfailed: showConvertfailed }"
+>
+  <div class="row envoyer_lien error_page">
+    <div class="success-link">
+      <img src="../../../assets/Images/error-info.svg" class="img-style mt-5" />
+      <h3 class="error-title mt-2">{{ 'send.sendfailed' | translate }}!</h3>
+      <p class="error-text">{{ 'send.gazfailed' | translate }}</p>
+      <button
+        class="btn-info me-2 mt-5 mb-4"
+        type="submit"
+        (click)="otherConvert()"
+      >
+        {{ 'send.other_send' | translate }}
+      </button>
+    </div>
+  </div>
+</div>

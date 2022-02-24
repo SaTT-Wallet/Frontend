@@ -1,0 +1,485 @@
+<div class="container-fluid page-content">
+  <div class="white-block-desktop">
+    <div
+      class="
+        row
+        d-flex
+        justify-content-center
+        align-items-center
+        my-4
+        title-container
+        show-desktop
+      "
+    >
+      <div class="col-12 d-flex justify-content-center align-items-center">
+        <span class="title-page">
+          {{ 'addToken.add-new-token' | translate }}</span
+        >
+        <button type="button" class="btn-back" routerLink="/home">
+          <
+          <span class="span_btn_back">
+            {{ 'send.back_to_wallet' | translate }}
+          </span>
+        </button>
+      </div>
+      <div class="d-flex col-sm w-100 justify-content-center">
+        <hr />
+      </div>
+    </div>
+    <div class="col-12 d-flex flex-row padding-mobile">
+      <div
+        class="col nav-item"
+        [ngClass]="{ 'nav-item-active': this.activeInfo }"
+      >
+        <label
+          class="nav-link"
+          id="Search"
+          aria-controls="Search"
+          aria-selected="false"
+          (click)="onChangeTab('search')"
+          [ngClass]="{ active: this.activeInfo }"
+        >
+          <span class="">{{ 'Monetize.search' | translate }} </span>
+        </label>
+      </div>
+      <div
+        class="col nav-item"
+        [ngClass]="{ 'nav-item-active': !this.activeInfo }"
+      >
+        <label
+          class="nav-link"
+          id="Custom-Token"
+          aria-controls="Custom-Token"
+          aria-selected="true"
+          (click)="onChangeTab('token')"
+          [ngClass]="{ active: !this.activeInfo }"
+        >
+          <span class="">{{ 'addToken.Custom Token' | translate }} </span>
+        </label>
+      </div>
+    </div>
+
+    <div class="white-block mt-3" *ngIf="navigationTab === 'token'">
+      <form [formGroup]="formToken">
+        <div class="row d-flex justify-content-center px-3">
+          <div
+            class="row d-flex justify-content-center align-items-center mt-2"
+          >
+            <div
+              class="
+                col-xl-8 col-lg-9 col-md-10 col-sm-12
+                d-flex
+                justify-content-center
+                flex-row
+                div-blockchaintype
+              "
+            >
+              <button
+                class="blockchaintype"
+                [disabled]="disabled"
+                id="erc20"
+                value="erc20"
+                (click)="onBlockchainChange($event)"
+                [ngClass]="{ activeType: selectedBlockchain === 'erc20' }"
+              >
+                ERC 20
+              </button>
+              <button
+                class="blockchaintype"
+                [disabled]="disabled"
+                id="bep20"
+                value="bep20"
+                (click)="onBlockchainChange($event)"
+                [ngClass]="{ activeType: selectedBlockchain === 'bep20' }"
+              >
+                BEP 20
+              </button>
+            </div>
+          </div>
+
+          <div
+            class="
+              row
+              d-flex
+              justify-content-center
+              align-items-center
+              flex-column
+              mt-3
+            "
+          >
+            <div
+              class="
+                col-xl-8 col-lg-9 col-md-11 col-sm-12
+                d-flex
+                justify-content-center
+                flex-column
+              "
+            >
+              <label class="label-type"
+                >{{ 'addToken.token-address' | translate }}
+              </label>
+              <input
+                type="text"
+                (focus)="clearInput()"
+                formControlName="tokenAdress"
+                [readOnly]="disabled"
+                class="input-type"
+                [ngClass]="{ 'border-red': errorMsg !== '' }"
+              />
+              <div
+                *ngIf="
+                  formToken.controls.tokenAdress.dirty &&
+                  !this.formToken.get('tokenAdress')?.errors?.required &&
+                  isLoading
+                "
+                class="spinner-border loading-spinner"
+                role="status"
+              >
+                <span class="sr-only">Loading...</span>
+              </div>
+              <div class="icon-input">
+                <img *ngIf="errorMsg !== ''" src="assets/Images/false.svg" />
+                <img *ngIf="successMsg !== ''" src="assets/Images/true.svg" />
+              </div>
+              <div class="error_msg ms-2 mt-2">
+                <span
+                  class="error_msg"
+                  *ngIf="
+                    !this.formToken.get('tokenAdress')?.errors?.required &&
+                    isSubmited &&
+                    this.formToken.get('tokenAdress')?.errors?.pattern
+                  "
+                  >{{ 'Wallet.Invalid address' | translate }}</span
+                >
+                <span class="error_msg" *ngIf="errorMsg !== ''">
+                  {{ errorMsg | translate }}</span
+                >
+                <span class="success_msg" *ngIf="successMsg !== ''">{{
+                  successMsg | translate
+                }}</span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="
+              row
+              d-flex
+              justify-content-center
+              align-items-center
+              flex-column
+              mt-2
+            "
+          >
+            <div
+              class="
+                col-xl-8 col-lg-9 col-md-11 col-sm-12
+                d-flex
+                justify-content-center
+                flex-column
+              "
+            >
+              <label class="label-type"
+                >{{ 'addToken.token-symbol' | translate }}
+              </label>
+              <input
+                [readOnly]="disabled"
+                type="text"
+                formControlName="symbol"
+                class="input-type"
+              />
+            </div>
+          </div>
+
+          <div
+            class="
+              row
+              d-flex
+              justify-content-center
+              align-items-center
+              flex-column
+              mt-2
+            "
+          >
+            <div
+              class="
+                col-xl-8 col-lg-9 col-md-11 col-sm-12
+                d-flex
+                justify-content-center
+                flex-column
+              "
+            >
+              <label class="label-type"
+                >{{ 'addToken.decimals' | translate }}
+              </label>
+              <input
+                type="number"
+                formControlName="decimal"
+                [readOnly]="disabled"
+                class="input-type"
+              />
+            </div>
+          </div>
+
+          <div
+            class="
+              d-flex
+              justify-content-center
+              align-items-center
+              show-desktop
+              mt-4
+              mb-4
+            "
+          >
+            <div
+              class="
+                col-12
+                d-flex
+                justify-content-center
+                align-items-center
+                div-blockchaintype
+                flex-row
+              "
+            >
+              <button type="button" class="cancel-btn" (click)="cancel()">
+                {{ 'AllCampains.Cancel' | translate }}
+              </button>
+              <button
+                type="button"
+                class="add-btn"
+                [disabled]="!showAddBtn"
+                (click)="addToken()"
+              >
+                <span *ngIf="!isLodingBtn">
+                  + {{ 'addToken' | translate }}</span
+                >
+                <div
+                  *ngIf="isLodingBtn"
+                  class="spinner-border loading-btn"
+                  role="status"
+                >
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="white-block" *ngIf="navigationTab === 'search'">
+      <input
+        id="key"
+        type="search"
+        class="key d-flex search-input-wrapper"
+        placeholder="{{ 'add-token-plh' | translate }}"
+        [(ngModel)]="term"
+      />
+
+      <div
+        #tableCry
+        id="table-cry"
+        class="
+          table-cry
+          align-items-center
+          d-flex
+          flex-column
+          justify-content-center
+          mt-2
+        "
+        [ngStyle]="{ height: resized ? tableCryHeight + 'px' : '393px' }"
+      >
+        <div
+          class="
+            table-crypto
+            col-xl-11 col-lg-9 col-md-11 col-sm-12
+            d-flex
+            flex-column
+          "
+        >
+          <label
+            class="label-type mt-3"
+            *ngIf="(listToken | filter: term).length !== 0"
+            >Token List</label
+          >
+
+          <!-- <div class="list-group"  *ngFor="let notification of array | filter:term " >
+
+  <label  class="list-group-item list-group-item-action d-flex rounded-top-right-20">
+
+
+    <img class="Icons mt-2 me-2" src="/assets/Images/symbol_crypto/{{
+      notification.symbole
+    }}.svg" alt="" />
+    <div class="align-items-center d-flex justify-content-between w-100">
+    <div class="d-flex flex-column">
+
+      <div>
+    {{notification.name}} 
+  </div>
+  <div class="typesearch">
+    {{notification.type}}   </div>
+
+  </div>
+
+     <input  type="radio" [value]="notification.symbole" name="search" (change)="getStats($event)"id="flexRadioDefault2" >
+
+    
+
+
+    </div>
+
+
+  </label>
+
+
+                </div> -->
+          <div
+            class="list-group"
+            *ngFor="let token of listToken | filter: term; trackBy: trackById"
+          >
+            <div *ngIf="token.tokenAddress">
+              <label
+                id="list-group-search"
+                class="
+                  list-group-item list-group-item-action
+                  d-flex
+                  rounded-top-right-20
+                "
+                [ngStyle]="{
+                  background: alreadyAdded(token) ? '#ececec' : 'auto'
+                }"
+              >
+                <img class="Icons mt-2 me-2" src="{{ token.logo }}" alt="" />
+                <div
+                  class="
+                    align-items-center
+                    d-flex
+                    justify-content-between
+                    w-100
+                  "
+                >
+                  <div class="d-flex flex-column">
+                    <div>
+                      {{ token.name }}
+                    </div>
+                    <div class="typesearch">
+                      {{ token.network }}
+                    </div>
+                  </div>
+
+                  <div class="alreadyadded" *ngIf="alreadyAdded(token)">
+                    Already Added
+                  </div>
+
+                  <input
+                    type="radio"
+                    [value]="listToken.indexOf(token)"
+                    name="search"
+                    (change)="getStats($event)"
+                    id="flexRadioDefault2"
+                    [disabled]="alreadyAdded(token)"
+                  />
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div *ngIf="(listToken | filter: term).length === 0">
+            <div
+              class="
+                row
+                d-flex
+                justify-content-center
+                align-items-center
+                flex-column
+                mt-5
+              "
+            >
+              <div
+                class="
+                  col-xl-11 col-lg-9 col-md-11 col-sm-12
+                  d-flex
+                  justify-content-center
+                  flex-column
+                "
+              >
+                <label class="label-type-search"
+                  >{{ 'addToken.search' | translate }}
+                </label>
+                <a class="label-search" (click)="onChangeTab('token')"
+                  >add a personalized token</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="
+          row
+          d-flex
+          justify-content-center
+          align-items-center
+          show-desktop
+          mt-4
+          mb-4
+          hide-mobile
+        "
+      >
+        <div
+          class="
+            col-12
+            d-flex
+            justify-content-center
+            align-items-center
+            div-blockchaintype
+            flex-row
+          "
+        >
+          <span class="error_msg" *ngIf="errorMsg !== ''">
+            {{ errorMsg | translate }}</span
+          >
+        </div>
+      </div>
+
+      <div
+        class="
+          d-flex
+          justify-content-center
+          align-items-center
+          show-desktop
+          mgt-mobile
+          mt-4
+          mb-4
+        "
+      >
+        <div
+          class="
+            col-12
+            d-flex
+            justify-content-center
+            align-items-center
+            div-blockchaintype
+            flex-row
+          "
+        >
+          <button
+            type="button"
+            class="add-btn"
+            [disabled]="!showAddBtnsearch"
+            (click)="addCustumToken()"
+          >
+            <span *ngIf="!isLodingBtn"> + {{ 'addToken' | translate }}</span>
+            <div
+              *ngIf="isLodingBtn"
+              class="spinner-border loading-btn"
+              role="status"
+            >
+              <span class="sr-only">Loading...</span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

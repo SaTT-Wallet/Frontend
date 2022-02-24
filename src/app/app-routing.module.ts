@@ -1,10 +1,80 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
+import { AuthGuardService } from '@core/services/auth-guard.service';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { ServerErrorComponent } from './components/server-error/server-error.component';
+import { MaintenanceComponent } from './maintenance/maintenance.component';
+import { SlideControlComponent } from './slide-control/slide-control.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { CguComponent } from './cgu/cgu.component';
+import { AuthService } from './core/services/Auth/auth.service';
+import { AideCampagneComponent } from '@faq/aide-campagne.component';
+import { HelpComponent } from '@app/components/help/help.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: 'auth',
+    loadChildren: () =>
+      import('./auth/authentication.module').then(
+        (m) => m.AuthenticationModule
+      ),
+    canActivate: [AuthService]
+  },
+  {
+    path: 'cgu',
+    component: CguComponent,
+    loadChildren: () => import('./cgu/cgu.module').then((m) => m.CguModule)
+  },
+  {
+    path: 'privacy-policy',
+    component: PrivacyPolicyComponent,
+    loadChildren: () =>
+      import('./privacy-policy/privacy-policy.module').then(
+        (m) => m.PrivacyPolicyModule
+      )
+  },
+  { path: 'maintenance', component: MaintenanceComponent },
+  {
+    path: 'error',
+    component: ServerErrorComponent
+  },
+  {
+    path: '',
+    loadChildren: () =>
+      import('./layout/layout.module').then((m) => m.LayoutModule)
+    //canActivateChild:
+  },
+  {
+    path: 'social-registration',
+    loadChildren: () =>
+      import('./social-accounts/social-registration.module').then(
+        (m) => m.SocialRegistrationModule
+      )
+  },
+  { path: 'home', redirectTo: '', pathMatch: 'prefix' },
+  {
+    path: '404',
+    component: PageNotFoundComponent,
+    canActivate: [AuthGuardService]
+  },
+  { path: '**', redirectTo: '/404' }
+  // {
+  //   path: "resetpassword",
+  //   component: ResetPasswordComponent,
+  //   canActivate: [IsConnectedService],0x0751e599b09b372e9090ba687199bdcf87168fed
+  // },
+  // { path: 'contact2', component: ContactPageComponent},
+];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes, {
+      anchorScrolling: 'enabled',
+      scrollPositionRestoration: 'enabled',
+      enableTracing: false, // set it true only in dev mode
+      initialNavigation: 'enabled'
+    })
+  ],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -1,0 +1,55 @@
+.picture-moonboy {
+  // position: absolute;
+  // bottom: 0;
+  // right: 0;
+  // max-height: 380px;
+  max-width: 546px;
+  // width: 80%;
+  width: 44vw;
+  max-height: 342px;
+  height: 28vw;
+}
+
+.text-moonboy {
+  font-style: normal;
+  font-weight: 400;
+  // font-size: 16px;
+  color: #323754;
+  // max-width: 216px;
+  text-align: center;
+  // height: 95px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  // margin-top: 7%;
+  // margin-left: 13%;
+  // top: 2.5vw;
+  // left: 4.3vw;
+  position: absolute;
+  font-size: 88%;
+  line-height: 18px;
+  width: 50%;
+  height: 38%;
+  left: 20px;
+}
+
+.div-pic-text {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.router-text {
+  color: #4048ff !important;
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
+
+@media (max-width: 767px) {
+  .div-pic-text {
+    display: none !important;
+  }
+}

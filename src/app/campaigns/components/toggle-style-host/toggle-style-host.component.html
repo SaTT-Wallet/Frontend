@@ -1,0 +1,12 @@
+<img
+  src="assets/Images/showGrid.svg"
+  class="pic-show-format-list"
+  *ngIf="displayItems === 'grid'"
+  (click)="showFormatList()"
+/>
+<img
+  src="assets/Images/showList.svg"
+  class="pic-show-format-list"
+  *ngIf="displayItems === 'list'"
+  (click)="showFormatGrid()"
+/>

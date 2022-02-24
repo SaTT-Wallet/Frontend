@@ -1,0 +1,11 @@
+<div style="display: block" class="chart">
+  <canvas
+    baseChart
+    [datasets]="labelMFL"
+    [labels]="lineChartLabels"
+    [options]="lineChartOptions"
+    [chartType]="barChartType"
+    (chartHover)="chartHovered($event)"
+    (chartClick)="chartClicked($event)"
+  ></canvas>
+</div>
