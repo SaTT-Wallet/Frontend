@@ -425,6 +425,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
             }
           }
           if (this.draftData.id && this.form.valid) {
+            this.validFormMissionFromRemuToEdit.emit(true);
             this.sendErrorToMission = false;
             this.service.autoSaveFormOnValueChanges({
               formData: values,
@@ -437,25 +438,33 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       .subscribe();
   }
   selectRemunerateType(type: ERemunerationType) {
-    this.selectRemunerateValue = type;
-    this.f.remuneration.setValue(type);
-    this.ratios.clear();
-    this.bounties.clear();
-    if (this.isSelectedYoutube) {
-      this.toggleOracle('youtube', true);
-    }
-    if (this.isSelectedFacebook) {
-      this.toggleOracle('facebook', true);
-    }
+    if (
+      this.isSelectedLinkedin ||
+      this.isSelectedYoutube ||
+      this.isSelectedTwitter ||
+      this.isSelectedFacebook ||
+      this.isSelectedInstagram
+    ) {
+      this.selectRemunerateValue = type;
+      this.f.remuneration.setValue(type);
+      this.ratios.clear();
+      this.bounties.clear();
+      if (this.isSelectedYoutube) {
+        this.toggleOracle('youtube', true);
+      }
+      if (this.isSelectedFacebook) {
+        this.toggleOracle('facebook', true);
+      }
 
-    if (this.isSelectedInstagram) {
-      this.toggleOracle('instagram', true);
-    }
-    if (this.isSelectedTwitter) {
-      this.toggleOracle('twitter', true);
-    }
-    if (this.isSelectedLinkedin) {
-      this.toggleOracle('linkedin', true);
+      if (this.isSelectedInstagram) {
+        this.toggleOracle('instagram', true);
+      }
+      if (this.isSelectedTwitter) {
+        this.toggleOracle('twitter', true);
+      }
+      if (this.isSelectedLinkedin) {
+        this.toggleOracle('linkedin', true);
+      }
     }
   }
   // ngAfterViewInit() {
@@ -1071,7 +1080,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   }
   linstingCrypto(event: any) {
     if (event.symbol !== this.form.get('currency')?.value) {
-      this.resetForm();
       this.form.get('initialBudget')?.reset();
       this.form.get('initialBudgetInUSD')?.reset();
     }

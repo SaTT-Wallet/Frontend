@@ -121,9 +121,6 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
   ngOnInit(): void {
     this.imageLoaded();
     this.imageLoadedMobile();
-    //this.getCampaignLogo();
-    //this.getCampaignCover();
-    //this.getCampaignCoverMObile();
     this.saveForm();
     this.emitFormStatus();
   }
@@ -133,51 +130,7 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
       this.formUploadPic.get(controlName)?.touched
     );
   }
-  getCampaignLogo() {
-    this.CampaignService.getCampaignLogo(this.id)
-      .pipe(takeUntil(this.isDestroyed$))
-      .subscribe((campaign: any) => {
-        let objectURL = URL.createObjectURL(campaign);
-        this.draftData.logo = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-        if (this.draftData.logo) {
-          this.srcLogo = this.draftData.logo;
-          this.form.get('logo')?.setValue(this.srcLogo, { emitEvent: false });
-        }
-      });
-  }
-  getCampaignCover() {
-    this.CampaignService.getCampaignCover(this.id, 'desktop')
-      .pipe(takeUntil(this.isDestroyed$))
-      .subscribe((campaign: any) => {
-        let objectURL = URL.createObjectURL(campaign);
-        this.draftData = {
-          ...this.draftData,
-          cover: objectURL
-        } as Campaign;
-        this.showImage = true;
-        this.form
-          .get('cover')
-          ?.setValue(this.draftData.cover, { emitEvent: false });
-        // this.form
-        //   .get('coverMobile')
-        //   ?.setValue(this.draftData.coverMobile, { emitEvent: false });
-      });
-  }
-  getCampaignCoverMObile() {
-    this.CampaignService.getCampaignCover(this.id, 'mobile')
-      .pipe(takeUntil(this.isDestroyed$))
-      .subscribe((campaign: any) => {
-        let objectURL = URL.createObjectURL(campaign);
-        this.draftData = {
-          ...this.draftData,
-          cover: objectURL
-        } as Campaign;
-        this.showImageMobile = true;
-        this.form
-          .get('coverMobile')
-          ?.setValue(this.draftData.coverMobile, { emitEvent: false });
-      });
-  }
+
   ngOnChanges(changes: SimpleChanges) {
     if (changes.draftData && changes.draftData.currentValue.id) {
       //  this.populateForm(this.draftData);
@@ -217,6 +170,7 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
       if (this.form.valid) {
         this.validFormPicture.emit(true);
       } else {
+        this.notValidPicture = false;
         this.validFormPicture.emit(false);
       }
     }
@@ -231,6 +185,12 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
               formData: values,
               id: this.id
             });
+          }
+          if (this.form.valid) {
+            this.validFormPicture.emit(true);
+          } else {
+            this.notValidPicture = false;
+            this.validFormPicture.emit(false);
           }
         }),
         takeUntil(this.isDestroyed$)
@@ -266,13 +226,18 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
       event.target.files[0].type === 'image/jpg'
     ) {
       let fileUploaded = event.target.files[0];
-
       this.openModal(this.pictureModal);
       this.imageLogoChangedEvent = event;
       this.logoName = this.imageLogoChangedEvent.target.files[0].name;
-
       this.readAsBase64(fileUploaded).then((data) => {
-        this.formUploadPic.get('file')?.setValue(data);
+        if (data.result.length < 2000000) {
+          this.coverUploadSizeError = false;
+          this.formUploadPic.get('file')?.setValue(data);
+        } else {
+          this.closeModal(this.pictureModal);
+          this.coverUploadSizeError = true;
+          this.isConform = false;
+        }
       });
 
       this.isNewPicLogo = true;
@@ -293,7 +258,13 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
       );
       this.isImageCroppedSubject.next(true);
       this.readAsBase64(this.srcFile).then((data) => {
-        this.form.get('cover')?.setValue(data.result);
+        if (data.result.length < 2000000) {
+          this.coverUploadSizeError = false;
+          this.form.get('cover')?.setValue(data.result);
+        } else {
+          this.coverUploadSizeError = true;
+          this.inputCover.nativeElement.value = '';
+        }
       });
       return this.srcFile;
     } else {
@@ -307,7 +278,15 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
       );
       this.isImageCroppedSubject.next(true);
       this.readAsBase64(this.srcFileMobile).then((data) => {
-        this.form.get('coverMobile')?.setValue(data.result);
+        if (data.result.length < 2000000) {
+          this.isConform = true;
+          this.coverUploadSizeError = false;
+          this.form.get('coverMobile')?.setValue(data.result);
+        } else {
+          this.isConform = false;
+          this.coverUploadSizeError = true;
+          this.inputCover.nativeElement.value = '';
+        }
       });
       return this.srcFileMobile;
     }
@@ -318,11 +297,9 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
     // console.log('this.inputCover.nativeElement', this.inputCover.nativeElement);
     if (type === 'desktop') {
       this.isCropped = false;
-      this.isConform = false;
       this.imageChangedEvent = null;
       this.picName = null;
       this.showImage = false;
-      this.imageChangedEvent = event;
       let fileUploaded = event.target.files[0];
       let imgExtensions: Array<string> = [
         'image/png',
@@ -333,28 +310,36 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
         this.coverUploadExtError = true;
         this.inputCover.nativeElement.value = '';
       } else if (fileUploaded.size > 2000000) {
+        this.coverUploadExtError = false;
         this.coverUploadSizeError = true;
         this.inputCover.nativeElement.value = '';
       } else if (this.coverUploadWidthError) {
+        this.coverUploadExtError = false;
         this.inputCover.nativeElement.value = '';
       } else {
         this.coverUploadExtError = false;
-        this.coverUploadSizeError = false;
-        this.showImage = true;
         this.picName = fileUploaded.name;
-        this.isConform = true;
+        this.showImage = true;
         this.readAsBase64(fileUploaded).then((data) => {
-          this.form.get('cover')?.setValue(data);
-          this.form.get('coverSrc')?.setValue(data.result);
+          if (data.result.length < 2000000) {
+            this.imageChangedEvent = event;
+            this.isConform = true;
+            this.coverUploadSizeError = false;
+            this.form.get('cover')?.setValue(data);
+            this.form.get('coverSrc')?.setValue(data.result);
+          } else {
+            this.imageChangedEvent = null;
+            this.isConform = false;
+            this.coverUploadSizeError = true;
+            this.inputCover.nativeElement.value = '';
+          }
         });
       }
     } else {
       this.isCropped = false;
-      this.isConform = false;
       this.imageChangedEventMobile = null;
       this.picNameMobile = null;
       this.showImageMobile = false;
-      this.imageChangedEventMobile = event;
       let fileUploaded = event.target.files[0];
       let imgExtensions: Array<string> = [
         'image/png',
@@ -362,22 +347,33 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
         'image/jpg'
       ];
       if (!imgExtensions.includes(fileUploaded.type)) {
+        this.coverUploadExtError = false;
         this.coverUploadExtError = true;
         this.coverInputMobile.nativeElement.value = '';
       } else if (fileUploaded.size > 2000000) {
+        this.coverUploadExtError = false;
         this.coverUploadSizeError = true;
         this.coverInputMobile.nativeElement.value = '';
       } else if (this.coverUploadWidthError) {
+        this.coverUploadExtError = false;
         this.coverInputMobile.nativeElement.value = '';
       } else {
-        this.coverUploadExtError = false;
-        this.coverUploadSizeError = false;
-        this.showImageMobile = true;
         this.picNameMobile = fileUploaded.name;
-        this.isConform = true;
+        this.coverUploadExtError = false;
         this.readAsBase64(fileUploaded).then((data) => {
-          this.form.get('coverMobile')?.setValue(data);
-          this.form.get('coverSrcMobile')?.setValue(data.result);
+          if (data.result.length < 2000000) {
+            // this.isConform = true;
+            this.imageChangedEventMobile = event;
+            this.showImageMobile = true;
+            this.coverUploadSizeError = false;
+            this.form.get('coverMobile')?.setValue(data);
+            this.form.get('coverSrcMobile')?.setValue(data.result);
+          } else {
+            this.imageChangedEvent = null;
+            this.isConform = false;
+            this.coverUploadSizeError = true;
+            this.coverInputMobile.nativeElement.value = '';
+          }
         });
       }
     }
@@ -409,7 +405,12 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
   }
   logoCropped(event: ImageCroppedEvent) {
     this.srcLogo = event.base64;
-    this.form.get('logo')?.setValue(this.srcLogo);
+    if (this.srcLogo.length < 2000000) {
+      this.form.get('logo')?.setValue(this.srcLogo);
+    } else {
+      this.coverUploadSizeError = true;
+      this.isConform = false;
+    }
   }
   onCrop(e: ImgCropperEvent) {
     this.crop = e.dataURL;
