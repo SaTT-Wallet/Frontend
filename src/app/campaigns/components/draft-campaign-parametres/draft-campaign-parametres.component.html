@@ -183,27 +183,26 @@
             formControlName="targetedCountries"
             [settings]="dropdownSettings"
             [data]="dropdownList"
-            (onSelect)="onItemSelect($event)"
             [(ngModel)]="selectedAttributes"
-            (onSelectAll)="onSelectAll($event)"
             class="input_country country_input"
           >
           </ng-multiselect-dropdown>
-
-          <div class="error">
-            <span
-              *ngIf="
-                this.form.get('targetedCountries')?.errors?.required &&
-                notValidParam === true
-              "
-              >{{ 'Profil.field_required' | translate }}</span
-            >
-            <!-- <span *ngIf="
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="error mt-2">
+        <span
+          *ngIf="
+            this.form.get('targetedCountries')?.errors?.required &&
+            notValidParam === true
+          "
+          >{{ 'Profil.field_required' | translate }}</span
+        >
+        <!-- <span *ngIf="
               this.form.get('targetedCountries')?.errors?.required && this.form.get('targetedCountries')?.touched  || 
               this.form.get('targetedCountries')?.errors?.required && this.getControls.tags.dirty">{{
                         "Profil.field_required" | translate }}</span> -->
-          </div>
-        </div>
       </div>
     </div>
     <!----------Ctargories-->
@@ -239,15 +238,16 @@
 
           <input type="checkbox" hidden id="{{ tag.name }}" #tagLabel />
         </ng-container>
-
-        <div class="error">
-          <span
-            *ngIf="
-              this.form.get('tags')?.errors?.required && notValidParam === true
-            "
-            >{{ 'Profil.field_required' | translate }}</span
-          >
-        </div>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center mb-2 mt-2">
+      <div class="error">
+        <span
+          *ngIf="
+            this.form.get('tags')?.errors?.required && notValidParam === true
+          "
+          >{{ 'Profil.field_required' | translate }}</span
+        >
       </div>
     </div>
   </form>

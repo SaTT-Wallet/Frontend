@@ -24,13 +24,26 @@
               Choose missions for {{ mission.get('oracle')?.value }} (you can
               modify our suggestions)
             </label>
+            <!-- <ui-switch
+              *ngIf="!isIncludeOracle(mission.get('oracle')?.value)"
+              class="d-flex align-self-center"
+              id="toggle"
+              [checked]="false"
+              #uiSwitch1
+              (change)="
+                onToggle($event, missionIndex, mission.get('oracle')?.value)
+              "
+            >
+            </ui-switch> -->
             <ui-switch
               class="d-flex align-self-center"
               id="toggle"
+              [checked]="isIncludeOracle(mission.get('oracle')?.value)"
               #uiSwitch
               (change)="
                 onToggle($event, missionIndex, mission.get('oracle')?.value)
               "
+              [disabled]="notValidMissionData"
             >
             </ui-switch>
           </div>
@@ -84,4 +97,27 @@
       </ng-container>
     </ng-container>
   </form>
+
+  <div class="row d-flex justify-content-center">
+    <div
+      class="col-xl-8 col-lg-10 col-md-12 col-sm-8 d-flex justify-content-start mb-2"
+    >
+      <div class="error text-center">
+        <span
+          *ngIf="
+            notValidMissionData === true &&
+            this.campaignMissionsOracl.length === 0
+          "
+          >{{ 'Profil.field_required' | translate }}</span
+        >
+        <span
+          *ngIf="
+            notValidMissionData === true &&
+            this.campaignMissionsOracl.length !== 0
+          "
+          >You have to add Earnings</span
+        >
+      </div>
+    </div>
+  </div>
 </div>

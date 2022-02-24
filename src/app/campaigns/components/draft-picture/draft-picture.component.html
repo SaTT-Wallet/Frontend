@@ -5,7 +5,7 @@
     >
       <label class="title-section">{{ 'pictures' | translate }}</label>
     </div>
-    <!--------------------------bloc import logo----->
+    <!--------------------------bloc import logo yrththyuk----->
     <div class="row d-flex justify-content-center pt-3">
       <div
         class="col-xl-10 col-md-12 col-lg-10 col-sm-12 justify-content-xl-start justify-content-lg-start justify-content-md-center justify-content-sm-center justify-content-center d-flex align-items-center gap-3 flex-xl-row flex-lg-row flex-md-row flex-sm-row flex-column"
@@ -55,13 +55,9 @@
         class="col-xl-10 col-md-12 col-lg-10 col-sm-12 d-flex justify-content-start mt-3"
       >
         <div class="error">
-          <span
-            *ngIf="
-              this.formUploadPic.get('file')?.errors?.required &&
-              notValidPicture === true
-            "
-            >{{ 'Profil.field_required' | translate }}</span
-          >
+          <span *ngIf="!srcLogo && notValidPicture === true">{{
+            'Profil.field_required' | translate
+          }}</span>
         </div>
       </div>
     </div>
@@ -153,6 +149,21 @@
               (change)="fileChangeEvent($event, 'mobile')"
             />
           </label>
+        </div>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center pt-3">
+      <div
+        class="col-xl-10 col-md-12 col-lg-10 col-sm-12 d-flex justify-content-start"
+      >
+        <div class="error">
+          <span
+            *ngIf="
+              this.form.get('coverMobile')?.errors?.required &&
+              notValidPicture === true
+            "
+            >{{ 'Profil.field_required' | translate }}</span
+          >
         </div>
       </div>
     </div>

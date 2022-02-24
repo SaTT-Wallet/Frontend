@@ -15,25 +15,36 @@
     outline: none !important;
     display: none;
 }
-.btn-earning{
+
+.btn-earning {
     /* display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center; */
     padding: 14px 24px;
-    background: #FFFFFF;
-    border: 1px solid #D6D6E8;
+    background: #ffffff;
+    border: 1px solid #d6d6e8;
     box-sizing: border-box;
-    border-radius: 30px; 
-    width: 100%
+    border-radius: 30px;
+    width: 100%;
 }
 
+
+/* 
 .btn-earning:focus {
     background: #F6F6FF;
 border: 1px solid #D6D6E8;
 box-sizing: border-box;
 box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
 border-radius: 30px;
+} */
+
+.gray-backGround {
+    background: #f6f6ff;
+    border: 1px solid #d6d6e8;
+    box-sizing: border-box;
+    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 30px;
 }
 
 button:focus {
@@ -328,9 +339,6 @@ input.input-number2::-webkit-input-placeholder {
     display: grid;
 } */
 
-
-
-
 .btn-add-category {
     background: #ffffff;
     font-style: normal;
@@ -591,9 +599,11 @@ input.input-number2::-webkit-input-placeholder {
     overflow: hidden;
     white-space: nowrap;
 }
+
 .width {
-    width:100%
+    width: 100%;
 }
+
 .error2 {
     text-align: center;
     color: #f52079;
@@ -645,29 +655,30 @@ input.input-number2::-webkit-input-placeholder {
 .font-weight-normal {
     font-weight: normal;
 }
-.follow-min-wrapper{
+
+.follow-min-wrapper {
     flex-direction: column;
 }
 
 @media (max-width: 767.98px) {
-    .oracle-wrapper{
+    .oracle-wrapper {
         align-items: center;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
     }
-    .price-row{
+    .price-row {
         display: none;
         justify-content: space-between;
     }
-    .follow-min-wrapper{
+    .follow-min-wrapper {
         flex-direction: row;
     }
-    .formGroupCategory{
+    .formGroupCategory {
         flex-direction: column;
     }
-    .follow-min-wrapper{
-    padding: 1em 0em
+    .follow-min-wrapper {
+        padding: 1em 0em;
     }
     .input-amount {
         font-size: 36px;
@@ -788,7 +799,6 @@ input.input-number2::-webkit-input-placeholder {
         width: 100%;
         gap: 12em;
     } */
-
 }
 
 .show-mobile {
@@ -812,9 +822,9 @@ a {
 } */
 
 .short-horizontal-line {
-    border: 1px solid #D6D6E8;
+    border: 1px solid #d6d6e8;
     height: 0px;
-    width: 100 % !important;
+    width: 100% !important;
 }
 
 @media (max-width: 500px) {
@@ -1002,9 +1012,6 @@ input[type='number'] {
     align-items: center;
     justify-content: left !important;
 }
-
-
-
 
 .pic-selected-crypto {
     position: absolute;

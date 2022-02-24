@@ -1,18 +1,17 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
-  AbstractControl,
-  FormArray,
-  FormControl,
-  FormGroup,
-  ValidatorFn,
-  Validators
-} from '@angular/forms';
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  SimpleChanges
+} from '@angular/core';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DraftCampaignService } from '@app/campaigns/services/draft-campaign.service';
 import { arrayLength } from '@app/helpers/form-validators';
 import { Campaign } from '@app/models/campaign.model';
-import { FacebookLoginProvider } from 'angularx-social-login';
 import { Subject } from 'rxjs';
-import { debounceTime, ignoreElements, takeUntil, tap } from 'rxjs/operators';
+import { debounceTime, takeUntil, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-missions',
@@ -24,11 +23,8 @@ import { debounceTime, ignoreElements, takeUntil, tap } from 'rxjs/operators';
 })
 export class MissionsComponent implements OnInit {
   @Output() validFormMission = new EventEmitter();
-  @Output() selectedYoutube = new EventEmitter();
-  @Output() selectedTwitter = new EventEmitter();
-  @Output() selectedFacebook = new EventEmitter();
-  @Output() selectedInstagram = new EventEmitter();
-  @Output() selectedLinkedin = new EventEmitter();
+  @Output() selectedOracle = new EventEmitter();
+  @Input() notValidMissionData: any;
   isFacebookSelected = false;
   isYoutubeSelected = false;
   isInstagramSelected = false;
@@ -38,6 +34,7 @@ export class MissionsComponent implements OnInit {
   @Input() id = '';
   disableBtn!: boolean;
   @Input() draftData!: Campaign;
+  campaignMissionsOracl: string[] = [];
   form: FormGroup = new FormGroup({
     missions: new FormArray([
       new FormGroup({
@@ -66,7 +63,7 @@ export class MissionsComponent implements OnInit {
   missionsExamples = [
     {
       oracle: 'facebook',
-      subMission: [
+      sub_missions: [
         'Make a post to introduce @product',
         'Make a story about @product',
         'Take a picture of you and the @product'
@@ -74,7 +71,7 @@ export class MissionsComponent implements OnInit {
     },
     {
       oracle: 'twitter',
-      subMission: [
+      sub_missions: [
         'Make a tweet of 100 caract. min about @product',
         'Use the tags #@product #@brand #tag3',
         'Mention @brand and @product'
@@ -82,7 +79,7 @@ export class MissionsComponent implements OnInit {
     },
     {
       oracle: 'youtube',
-      subMission: [
+      sub_missions: [
         'Make a video of at least 2min',
         'Make a tutorial on the @product',
         'Quote the @brand and the @product---'
@@ -90,7 +87,7 @@ export class MissionsComponent implements OnInit {
     },
     {
       oracle: 'linkedin',
-      subMission: [
+      sub_missions: [
         'Mention @brand and @product',
         'Add tags #tag01 #tag02 #tag03',
         'Unbox the @product'
@@ -98,7 +95,7 @@ export class MissionsComponent implements OnInit {
     },
     {
       oracle: 'instagram',
-      subMission: [
+      sub_missions: [
         'Post a photo of the product “xxx”',
         'Add tags #tag01 #tag02 #tag03',
         'Indicate as a paid partnership with our brand'
@@ -120,14 +117,124 @@ export class MissionsComponent implements OnInit {
   }
   ngOnInit(): void {
     this.saveForm();
-    // this.setPreSelectedMissions();
-    //  this.prePopulateInputs(this.missionsExamples);
+    // this.form?.valueChanges
+    //   .pipe(
+    //     debounceTime(500),
+    //     tap((values: any) => {
+    //       if (this.form.valid) {
+    //         this.validFormMission.emit(true);
+    //       } else {
+    //         this.validFormMission.emit(false);
+    //       }
+    //     }),
+    //     takeUntil(this.isDestroyed$)
+    //   )
+    //   .subscribe();
+    //  this.prePopulateInputs(this.draftData.missions);
   }
   get f() {
     return this.form.controls;
   }
   get missions() {
     return this.form.get('missions') as FormArray;
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.draftData && changes.draftData.currentValue) {
+      this.form?.patchValue(this.draftData, { emitEvent: false });
+      // this.form?.patchValue(
+      //   {
+      //     missions: this.draftData.missions
+      //   },
+      //   { emitEvent: false }
+      // );
+      if (this.draftData.missions?.length > 0) {
+        //this.prePopulateInputs(this.draftData.missions);
+        this.checkRequired();
+      }
+      if (
+        this.form.valid &&
+        this.draftData.id &&
+        this.campaignMissionsOracl.length > 0
+      ) {
+        this.validFormMission.emit(true);
+      } else {
+        this.validFormMission.emit(false);
+      }
+    }
+    if (changes.notValidMissionData) {
+      if (!this.notValidMissionData && this.form.valid && this.draftData.id) {
+        this.service.autoSaveFormOnValueChanges({
+          formData: this.form.value,
+          id: this.id
+        });
+      }
+    }
+  }
+  checkRequired() {
+    let newArray: any[] = [];
+    if (this.draftData.missions) {
+      this.draftData.missions.forEach((element: any) => {
+        if (element.sub_missions.length > 0) {
+          newArray.push(element);
+          this.selectedOracle.emit(element.oracle);
+
+          this.campaignMissionsOracl.push(element.oracle);
+        } else {
+          // let tt = this.missionsExamples.find(
+          //   (elem: any) => elem.oracle === element.oracle
+          // );
+          newArray.push({ oracle: element.oracle, sub_missions: [] });
+        }
+      });
+
+      const controls = newArray.map((mission) => {
+        const group = new FormGroup({
+          oracle: new FormControl(mission.oracle),
+          sub_missions: new FormArray(
+            mission.sub_missions.map((sub_mission: any) => {
+              return new FormGroup(
+                {
+                  mission: new FormControl(
+                    sub_mission.mission ? sub_mission.mission : sub_mission
+                  )
+                },
+                Validators.required
+              );
+            }),
+            [arrayLength()]
+          )
+        });
+        return group;
+      });
+
+      this.form.setControl('missions', new FormArray(controls));
+    }
+  }
+  isIncludeOracle(oracle: string) {
+    return this.campaignMissionsOracl.includes(oracle);
+  }
+  prePopulateInputs(missions: any[]) {
+    if (missions) {
+      const controls = missions.map((mission) => {
+        const group = new FormGroup({
+          oracle: new FormControl(mission.oracle),
+          sub_missions: new FormArray(
+            mission.sub_missions.map((sub_mission: string) => {
+              return new FormGroup(
+                {
+                  mission: new FormControl(sub_mission)
+                },
+                Validators.required
+              );
+            }),
+            [arrayLength()]
+          )
+        });
+        return group;
+      });
+
+      this.form.setControl('missions', new FormArray(controls));
+    }
   }
   removeValue(missionIndex: number, index: number) {
     const subMissions = this.missions
@@ -157,13 +264,11 @@ export class MissionsComponent implements OnInit {
       .pipe(
         debounceTime(500),
         tap((values: any) => {
-          if (this.form.valid) {
-            this.validFormMission.emit(true);
-          } else {
-            this.validFormMission.emit(false);
-          }
-
-          if (this.draftData.id && this.form.valid) {
+          if (
+            this.draftData.id &&
+            this.form.valid &&
+            !this.notValidMissionData
+          ) {
             this.service.autoSaveFormOnValueChanges({
               formData: values,
               id: this.id
@@ -175,31 +280,13 @@ export class MissionsComponent implements OnInit {
       .subscribe();
   }
 
-  prePopulateInputs(missions: any[]) {
-    const controls = missions.map((mission) => {
-      const group = new FormGroup({
-        oracle: new FormControl(mission.oracle),
-        sub_missions: new FormArray(
-          mission.subMission.map((sub_mission: string) => {
-            return new FormGroup(
-              {
-                mission: new FormControl(sub_mission)
-              },
-              Validators.required
-            );
-          }),
-          [arrayLength()]
-        )
-      });
-      return group;
-    });
-
-    this.form.setControl('missions', new FormArray(controls));
-  }
   onToggle(event: boolean, index: number, oracle: string) {
-    const subMissions = this.missions
-      .at(index)
-      .get('sub_missions') as FormArray;
+    this.selectedOracle.emit({ oracle, event });
+    this.campaignMissionsOracl.push(oracle);
+    this.campaignMissionsOracl = [...new Set(this.campaignMissionsOracl)];
+    // const subMissions = this.missions
+    //   .at(index)
+    //   .get('sub_missions') as FormArray;
     // if (!event) {
     //   var i = subMissions.length;
     //   while (i--) {
@@ -216,7 +303,7 @@ export class MissionsComponent implements OnInit {
   }
   prePopulateOneInputs(index: number, oracle: string) {
     let miss = this.missionsExamples.find((elem) => elem.oracle === oracle);
-    miss?.subMission.forEach((sub_mission: string) => {
+    miss?.sub_missions.forEach((sub_mission: string) => {
       (this.missions.at(index).get('sub_missions') as FormArray).push(
         new FormGroup({
           mission: new FormControl(sub_mission)
@@ -226,125 +313,76 @@ export class MissionsComponent implements OnInit {
     this.missions.at(index).get('sub_missions')?.setValidators([arrayLength()]);
     this.missions.at(index).updateValueAndValidity();
   }
-  // setPreSelectedMissions() {
-  //   let array = [];
-  //   if (this.draftData.missions !== []) {
-  //     array = this.draftData.missions;
-  //     console.log(array, 'array');
-  //   }
+  // populateForm(data: Campaign) {
+  //   this.form.patchValue(
+  //     {
+  //      missions: data.missions
+  //     },
+  //     { emitEvent: false, onlySelf: true }
+  //   );
   // }
-  ngOnChanges() {
-    this.form?.valueChanges
-      .pipe(
-        debounceTime(500),
-        tap((values: any) => {
-          this.setPreSelectedMissions();
-          if (this.form.valid) {
-            this.validFormMission.emit(true);
-          } else {
-            this.validFormMission.emit(false);
-          }
-        }),
-        takeUntil(this.isDestroyed$)
-      )
-      .subscribe();
-  }
-  setPreSelectedMissions() {
-    let array = [];
 
-    array = this.form.get('missions')?.value;
+  // setPreSelectedMissions(data: any) {
+  //   let array = data;
+  //   let emitedArray: string[] = [];
 
-    // this.isFacebookSelected = array.find(
-    //   (elem: any) => elem.oracle === 'facebook'
-    // )
-    //   ? true
-    //   : false;
-    // this.selectedFacebook.emit(this.isFacebookSelected);
-    // if (this.isFacebookSelected === true) {
-    //   this.selectedFacebook.emit(true);
-    //   console.log(this.isFacebookSelected, 'fb selected');
-    // }
-    array.forEach((element: any) => {
-      if (element.oracle === 'youtube') {
-        if (element.sub_missions.length > 0) {
-          this.isYoutubeSelected = true;
-          this.selectedYoutube.emit(this.isYoutubeSelected);
-        } else {
-          this.isYoutubeSelected = false;
-          this.selectedYoutube.emit(this.isYoutubeSelected);
-        }
-      } else if (element.oracle === 'twitter') {
-        if (element.sub_missions.length > 0) {
-          this.isTwitterSelected = true;
-          this.selectedTwitter.emit(this.isTwitterSelected);
-        } else {
-          this.isTwitterSelected = false;
-          this.selectedTwitter.emit(this.isTwitterSelected);
-        }
-      } else if (element.oracle === 'facebook') {
-        if (element.sub_missions.length > 0) {
-          this.isFacebookSelected = true;
-          this.selectedFacebook.emit(this.isFacebookSelected);
-        } else {
-          this.isFacebookSelected = false;
-          this.selectedFacebook.emit(this.isFacebookSelected);
-        }
-      } else if (element.oracle === 'instagram') {
-        if (element.sub_missions.length > 0) {
-          this.isInstagramSelected = true;
-          this.selectedInstagram.emit(this.isInstagramSelected);
-        } else {
-          this.isInstagramSelected = false;
-          this.selectedInstagram.emit(this.isInstagramSelected);
-        }
-      } else if (element.oracle === 'linkedin') {
-        if (element.sub_missions.length > 0) {
-          this.isLinkedinSelected = true;
-          this.selectedLinkedin.emit(this.isLinkedinSelected);
-        } else {
-          this.isLinkedinSelected = false;
-          this.selectedLinkedin.emit(this.isLinkedinSelected);
-        }
-      }
-    });
-  }
+  //   array.forEach((element: any) => {
+  //     if (element.oracle === 'youtube') {
+  //       if (element.sub_missions.length > 0) {
+  //         emitedArray.push(element.oracle);
+  //         this.isYoutubeSelected = true;
+  //         this.selectedYoutube.emit(this.isYoutubeSelected);
+  //       } else {
+  //         emitedArray.filter((ele) => ele !== element.oracle);
+  //         this.isYoutubeSelected = false;
+  //         this.selectedYoutube.emit(this.isYoutubeSelected);
+  //       }
+  //     }
+  //     if (element.oracle === 'twitter') {
+  //       if (element.sub_missions.length > 0) {
+  //         emitedArray.push(element.oracle);
+  //         this.isTwitterSelected = true;
+  //         this.selectedTwitter.emit(this.isTwitterSelected);
+  //       } else {
+  //         this.isTwitterSelected = false;
+  //         emitedArray.filter((ele) => ele !== element.oracle);
+  //         this.selectedTwitter.emit(this.isTwitterSelected);
+  //       }
+  //     }
+  //     if (element.oracle === 'facebook') {
+  //       if (element.sub_missions.length > 0) {
+  //         emitedArray.push(element.oracle);
+  //         this.isFacebookSelected = true;
+  //         this.selectedOracle.emit(emitedArray);
+  //       } else {
+  //         emitedArray.filter((ele) => ele !== element.oracle);
+  //         this.isFacebookSelected = false;
+  //         this.selectedOracle.emit(emitedArray);
+  //       }
+  //     }
+  //     if (element.oracle === 'instagram') {
+  //       if (element.sub_missions.length > 0) {
+  //         emitedArray.push(element.oracle);
+  //         this.isInstagramSelected = true;
+  //         this.selectedOracle.emit(emitedArray);
 
-  // this.isYoutubeSelected = array.find((elem: any) => {
-  //   elem.oracle === 'youtube' && elem.sub_missions.length > 0;
-  // })
-  //   ? true
-  //   : false;
-  // this.selectedYoutube.emit(this.isYoutubeSelected);
-  // console.log(this.isYoutubeSelected, 'his.isYoutubeSelected form mis');
-  // if (this.isYoutubeSelected === true) {
-
-  //   console.log(this.isYoutubeSelected, 'youu selected');
-  // }
-  // this.isInstagramSelected = array.find(
-  //   (elem: any) =>
-  //     elem.oracle === 'instagram' && elem.sub_missions.sub_missions.length > 0
-  // )
-  //   ? true
-  //   : false;
-  // if (this.isInstagramSelected === true) {
-  //   //this.selectedInstagram.emit(true);
-  // }
-  // this.isTwitterSelected = array.find(
-  //   (elem: any) =>
-  //     elem.oracle === 'twitter' && elem.sub_missions.sub_missions.length > 0
-  // )
-  //   ? true
-  //   : false;
-  // if (this.isTwitterSelected === true) {
-  //   //  this.selectedTwitter.emit(true);
-  // }
-  // this.isLinkedinSelected = array.find(
-  //   (elem: any) =>
-  //     elem.oracle === 'linkedin' && elem.sub_missions.sub_missions.length > 0
-  // )
-  //   ? true
-  //   : false;
-  // if (this.isLinkedinSelected === true) {
-  //   // this.selectedLinkedin.emit(true);
+  //       } else {
+  //         emitedArray.filter((ele) => ele !== element.oracle);
+  //         this.isInstagramSelected = false;
+  //         this.selectedOracle.emit(emitedArray);
+  //       }
+  //     }
+  //     if (element.oracle === 'linkedin') {
+  //       if (element.sub_missions.length > 0) {
+  //         emitedArray.push(element.oracle);
+  //         this.isLinkedinSelected = true;
+  //         this.selectedLinkedin.emit(this.isLinkedinSelected);
+  //       } else {
+  //         emitedArray.filter((ele) => ele !== element.oracle);
+  //         this.isLinkedinSelected = false;
+  //         this.selectedLinkedin.emit(this.isLinkedinSelected);
+  //       }
+  //     }
+  //   });
   // }
 }

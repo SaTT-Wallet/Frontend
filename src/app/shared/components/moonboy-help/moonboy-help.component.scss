@@ -1,0 +1,43 @@
+:host {
+  display: block;
+  max-width: 100%;
+}
+
+.picture-moonboy {
+  max-width: 100%;
+}
+
+.text-popup {
+  background: #ffffff;
+  box-shadow: 6px 7px 16px 9px rgb(214 214 232 / 30%);
+  border-radius: 80px;
+  width: fit-content;
+  padding: 0.51em 2.5em;
+  position: relative;
+  margin-left: -7px;
+  margin-bottom: -40px;
+}
+
+p {
+  margin: 0;
+  font-size: 2vmin;
+}
+
+span,
+a {
+  white-space: nowrap;
+}
+
+.img-wrapper {
+}
+
+.dialog-point {
+  width: 0;
+  height: 0;
+  border-left: 19px solid transparent;
+  border-right: 0px solid transparent;
+  border-top: 19px solid white;
+  position: absolute;
+  bottom: -15px;
+  right: 48px;
+}

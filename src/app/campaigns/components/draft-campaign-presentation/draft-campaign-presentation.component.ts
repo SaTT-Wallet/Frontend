@@ -7,25 +7,17 @@ import {
   SimpleChanges,
   Renderer2,
   RendererFactory2,
-  ViewChild,
-  ElementRef,
-  TemplateRef,
   PLATFORM_ID,
   Inject
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Editor } from 'ngx-editor';
 import { Subject } from 'rxjs';
-import { debounceTime, take, takeUntil, tap } from 'rxjs/operators';
+import { debounceTime, takeUntil, tap } from 'rxjs/operators';
 import { DraftCampaignService } from '@campaigns/services/draft-campaign.service';
 import { Campaign } from '@app/models/campaign.model';
-import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { TranslateService } from '@ngx-translate/core';
-import { DomSanitizer } from '@angular/platform-browser';
-import { ImgCropperEvent } from '@alyle/ui/image-cropper';
-import { ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { isPlatformBrowser } from '@angular/common';
+import { ImageTransform } from 'ngx-image-cropper';
 
 @Component({
   selector: 'app-draft-campaign-presentation',
@@ -73,23 +65,15 @@ export class DraftCampaignPresentationComponent implements OnInit {
     //this.getCampaignCover();
     this.saveForm();
     this.emitFormStatus();
-    this.form?.valueChanges
-      .pipe(
-        debounceTime(500),
-        tap((values: any) => {
-          if (this.form.valid) {
-            this.validFormPresentation.emit(true);
-          } else {
-            this.validFormPresentation.emit(false);
-          }
-        }),
-        takeUntil(this.isDestroyed$)
-      )
-      .subscribe();
   }
   ngOnChanges(changes: SimpleChanges) {
     if (changes.draftData && changes.draftData.currentValue.id) {
       this.populateForm(this.draftData);
+      if (this.form.valid) {
+        this.validFormPresentation.emit(true);
+      } else {
+        this.validFormPresentation.emit(false);
+      }
     }
   }
   saveForm() {
@@ -97,11 +81,14 @@ export class DraftCampaignPresentationComponent implements OnInit {
       .pipe(
         debounceTime(500),
         tap((values: any) => {
-          if (this.draftData.id) {
+          if (this.draftData.id && this.form.valid) {
+            this.validFormPresentation.emit(true);
             this.service.autoSaveFormOnValueChanges({
               formData: values,
               id: this.id
             });
+          } else {
+            this.validFormPresentation.emit(false);
           }
         }),
         takeUntil(this.isDestroyed$)

@@ -32,7 +32,7 @@ export class CompressImageService {
         //console.log("quality",qualityRatio);
         //console.log("withHeightRatio",withHeightRatio);
         // Fires immediately after the browser loads the object
-        img.onload = () => {
+        img.onload = () => { 
           const elem = document.createElement('canvas')
           // resize width, height
           elem.width = img.width * withHeightRatio
@@ -42,7 +42,7 @@ export class CompressImageService {
           ctx.drawImage(img, 0, 0, elem.width, elem.height)
           ctx.canvas.toBlob(
             // callback, called when blob created
-            blob => {
+            blob => { 
               observer.next(new File(
                 [blob as Blob],
                 file.name,
@@ -53,7 +53,7 @@ export class CompressImageService {
               ))
             },
             imageType,
-            qualityRatio, // reduce image quantity
+            qualityRatio, // reduce image quantity 
           )
         }
       }

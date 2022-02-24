@@ -48,13 +48,10 @@ import {
   customValidateMaxMin
 } from '@helpers/form-validators';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
-
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
-import { Big } from 'big.js';
 import { CampaignsService } from '@app/campaigns/facade/campaigns.facade';
 import { CampaignsStoreService } from '@app/campaigns/services/campaigns-store.service';
-
 enum ERemunerationType {
   Publication = 'publication',
   Performance = 'performance'
@@ -87,8 +84,10 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   @Input()
   draftData!: Campaign;
   @Input() notValidBudgetRemun: any;
+  @Input() notValidMissionFromEdit: any;
   @Output() validFormBudgetRemun = new EventEmitter();
-
+  @Output() validFormMissionFromRemuToEdit = new EventEmitter();
+  sendErrorToMission: any;
   form = new FormGroup({
     ratios: new FormArray([], [Validators.required])
   });
@@ -103,11 +102,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   initialBudgetInUSDInputWidth$ = new Observable<string>();
   eRemunerationType = ERemunerationType; // A variable reference to access enum from template
   selectRemunerateValue = ERemunerationType.Performance;
-  // isFacebookSelected = false;
-  // isYoutubeSelected = false;
-  // isInstagramSelected = false;
-  // isTwitterSelected = false;
-  // isLinkedinSelected = false;
   isReachLimitActivated = false;
   cryptoSymbol = 'SATT';
   selectedBlockchain = 'erc20';
@@ -164,7 +158,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     }
   ];
   difference: any;
-
   constructor(
     private service: DraftCampaignService,
     private convertFromWeiTo: ConvertFromWei,
@@ -178,31 +171,12 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string
   ) {
-    this.showRetrySaveButtonOnError = this.service.saveStatus.pipe(
-      filter((status) => status === 'error')
-    );
-  }
-  ngOnDestroy(): void {
-    this.isDestroyed$.next('');
-    this.isDestroyed$.unsubscribe();
-  }
-
-  ngOnInit(): void {
-    this.cdref.markForCheck();
-    this.parentFunction();
-    this.getUserCrypto();
-    // this.campaign$ = this.campaignsStoreService.updateOneById;
-    // this.campaign$.pipe().subscribe((campaign) => {
-    //   this.campaign = campaign;
-    //   console.log(campaign, 'campaign from remi');
-    // });
-
     this.form = new FormGroup(
       {
-        initialBudget: new FormControl('0', {
+        initialBudget: new FormControl('', {
           validators: Validators.compose([Validators.required])
         }),
-        initialBudgetInUSD: new FormControl('0', {
+        initialBudgetInUSD: new FormControl('', {
           validators: Validators.compose([Validators.required])
         }),
         currency: new FormControl(null, {
@@ -226,47 +200,39 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         ]
       }
     );
+    this.showRetrySaveButtonOnError = this.service.saveStatus.pipe(
+      filter((status) => status === 'error')
+    );
+  }
+  ngOnDestroy(): void {
+    this.isDestroyed$.next('');
+    this.isDestroyed$.unsubscribe();
+  }
+
+  ngOnInit(): void {
+    this.cdref.markForCheck();
+    this.parentFunction();
+    this.getUserCrypto();
+    // this.campaign$ = this.campaignsStoreService.updateOneById;
+    // this.campaign$.pipe().subscribe((campaign) => {
+    //   this.campaign = campaign;
+    //   console.log(campaign, 'campaign from remi');
+    // });
 
     this.saveForm();
     this.cryptoSymbol = 'SATT';
     this.showSelectedValue = false;
     this.selectedBlockchain = 'erc20';
     this.f.currency?.setValue('SATT');
-    this.amountUsd = '0.00';
   }
 
   ngAfterContentChecked() {
-    this.cdref.detectChanges();
-    this.cdref.markForCheck();
+    //  this.amountUsd = '0.00';
+    // this.cdref.detectChanges();
+    // this.cdref.markForCheck();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (
-      this.isSelectedYoutube &&
-      changes.isSelectedYoutube.currentValue === true
-    )
-      this.toggleOracle('youtube');
-    else if (
-      this.isSelectedTwitter &&
-      changes.isSelectedTwitter.currentValue === true
-    )
-      this.toggleOracle('twitter');
-    else if (
-      this.isSelectedFacebook &&
-      changes.isSelectedFacebook.currentValue === true
-    )
-      this.toggleOracle('facebook');
-    else if (
-      this.isSelectedInstagram &&
-      changes.isSelectedInstagram.currentValue === true
-    )
-      this.toggleOracle('instagram');
-    else if (
-      this.isSelectedLinkedin &&
-      changes.isSelectedLinkedin.currentValue === true
-    )
-      this.toggleOracle('linkedin');
-
     if (changes.draftData && changes.draftData.currentValue) {
       this.form?.patchValue(this.draftData, { emitEvent: false });
       this.form?.patchValue(
@@ -282,10 +248,11 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         },
         { emitEvent: false }
       );
-
-      this.selectRemunerateValue = this.draftData
-        .remuneration as ERemunerationType;
-
+      this.amountUsd = this.form.get('initialBudgetInUSD')?.value;
+      this.amount = this.form.get('initialBudget')?.value;
+      this.cdref.detectChanges();
+      this.cdref.markForCheck();
+      this.selectRemunerateValue = this.form.get('remuneration')?.value;
       this.cryptoSymbol = this.draftData.currency.name;
       this.selectedBlockchain = this.draftData.currency.type;
       if (this.f.currency) {
@@ -313,17 +280,113 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         //this.form.get("bounties")?.setValidators(Validators.required);
         //this.bounties.updateValueAndValidity();
       }
-
+      if (this.notValidMissionFromEdit === true) {
+        this.sendErrorToMission = true;
+      } else {
+        this.sendErrorToMission = false;
+      }
       this.setPreSelectedOracles();
+      this.cdref.detectChanges();
       // this.setPreSelectedMissions();
       //this.form.updateValueAndValidity();
     }
   }
+  listenForOracleMissionChange(event: any) {
+    if (event.oracle === 'youtube') {
+      this.isSelectedYoutube = !this.isSelectedYoutube;
+      this.toggleOracle('youtube', event.event);
+    }
+    if (event.oracle === 'facebook') {
+      this.isSelectedFacebook = !this.isSelectedFacebook;
+      this.toggleOracle('facebook', event.event);
+    }
 
+    if (event.oracle === 'instagram') {
+      this.isSelectedInstagram = !this.isSelectedInstagram;
+      this.toggleOracle('instagram', event.event);
+    }
+    if (event.oracle === 'twitter') {
+      this.isSelectedTwitter = !this.isSelectedTwitter;
+      this.toggleOracle('twitter', event.event);
+    }
+    if (event.oracle === 'linkedin') {
+      this.isSelectedLinkedin = !this.isSelectedLinkedin;
+      this.toggleOracle('linkedin', event.event);
+    }
+  }
+  toggleOracle(oracle: string, checked?: boolean) {
+    let group = new FormGroup({});
+    if (this.f.remuneration.value === this.eRemunerationType.Performance) {
+      if (
+        !this.ratios.value.map((res: any) => res.oracle).includes(oracle) &&
+        checked
+      ) {
+        group = new FormGroup(
+          {
+            oracle: new FormControl(oracle),
+            view: new FormControl(null, [Validators.required]),
+            like: new FormControl(null, [Validators.required]),
+            share: new FormControl(null, [Validators.required])
+          },
+          customValidateRatios()
+        );
+        this.ratios.push(group);
+        this.ratios.updateValueAndValidity();
+        if (this.isReachLimitActivated) {
+          group.setControl(
+            'reachLimit',
+            new FormControl(null, [Validators.required])
+          );
+          group.get('reachLimit')?.setValidators([
+            Validators.required,
+            Validators.min(1)
+            //  Validators.max(100),
+          ]);
+        }
+      } else {
+        if (
+          this.ratios.value.findIndex(
+            (ratio: any) => ratio.oracle === oracle
+          ) >= 0
+        ) {
+          this.ratios.removeAt(
+            this.ratios.value.findIndex((ratio: any) => ratio.oracle === oracle)
+          );
+          this.ratios.updateValueAndValidity();
+        }
+      }
+    } else if (
+      this.f.remuneration.value === this.eRemunerationType.Publication
+    ) {
+      if (
+        !this.bounties.value.map((res: any) => res.oracle).includes(oracle) &&
+        checked
+      ) {
+        this.bounties.push(this.addNewBounty(oracle));
+      } else {
+        if (
+          this.bounties.value.findIndex(
+            (bounty: any) => bounty.oracle === oracle
+          ) >= 0
+        ) {
+          this.bounties.removeAt(
+            this.bounties.value.findIndex(
+              (bounty: any) => bounty.oracle === oracle
+            )
+          );
+        }
+      }
+    }
+  }
+
+  listenForMissionValidation(value: boolean) {
+    this.sendErrorToMission = value;
+    this.validFormMissionFromRemuToEdit.emit(value);
+  }
   saveForm() {
     this.form.valueChanges
       .pipe(
-        tap((_) => {
+        tap(() => {
           // this.notValidBudgetRemun=false
           if (!this.service.isSavingStarted) {
             this.service.setSaveFormStatus('saving');
@@ -338,7 +401,35 @@ export class RemunerationComponent implements OnInit, OnDestroy {
             this.validFormBudgetRemun.emit(false);
           }
 
+          var arrayControl = this.form.get('ratios') as FormArray;
+          const lengthRatios = arrayControl.length;
+          var arrayControlBounties = this.form.get('bounties') as FormArray;
+          const lengthBounties = arrayControlBounties.length;
+
+          if (
+            this.form.get('remuneration')?.value ===
+            this.eRemunerationType.Performance
+          ) {
+            if (lengthRatios > 0 && this.form.controls.ratios.invalid) {
+              this.sendErrorToMission = true;
+            } else {
+              this.sendErrorToMission = false;
+            }
+          }
+
+          if (
+            this.form.get('remuneration')?.value ===
+            this.eRemunerationType.Publication
+          ) {
+            if (lengthBounties > 0 && this.form.controls.bounties.invalid) {
+              this.sendErrorToMission = true;
+            } else {
+              this.sendErrorToMission = false;
+            }
+          }
           if (this.draftData.id && this.form.valid) {
+            this.validFormMissionFromRemuToEdit.emit(true);
+            this.sendErrorToMission = false;
             this.service.autoSaveFormOnValueChanges({
               formData: values,
               id: this.id
@@ -349,91 +440,120 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       )
       .subscribe();
   }
+  selectRemunerateType(type: ERemunerationType) {
+    if (
+      this.isSelectedLinkedin ||
+      this.isSelectedYoutube ||
+      this.isSelectedTwitter ||
+      this.isSelectedFacebook ||
+      this.isSelectedInstagram
+    ) {
+      this.selectRemunerateValue = type;
+      this.f.remuneration.setValue(type);
+      this.ratios.clear();
+      this.bounties.clear();
+      if (this.isSelectedYoutube) {
+        this.toggleOracle('youtube', true);
+      }
+      if (this.isSelectedFacebook) {
+        this.toggleOracle('facebook', true);
+      }
 
-  ngAfterViewInit() {
-    let el = this.initialBudgetElement?.nativeElement;
-    let el2 = this.initialBudgetInUSDElement?.nativeElement;
-    // el.style.width = 25 + "px";
-    // el2.style.width = 40 + "px";
-    // let initialBudgetElementChanges$ = fromEvent(el, "keydown");
-    // let initialBudgetInUSDElementChanges$ = fromEvent(el2, "keydown");
-    // this.initialBudgetInputWidth$ = initialBudgetElementChanges$.pipe(
-    //   map((event: any) => event.keyCode),
-    //   filter((keyCode) => {
-    //     return this.isValidKeyCode(keyCode);
-    //   }),
-    //   map((keyCode) => (el.value.length + 1) * 12 + "px")
-    // );
-    // this.initialBudgetInUSDInputWidth$ = initialBudgetInUSDElementChanges$.pipe(
-    //   map((event: any) => event.keyCode),
-    //   filter((keyCode) => {
-    //     return this.isValidKeyCode(keyCode);
-    //   }),
-    //   map((keyCode) => (el2.value.length + 1) * 12 + "px")
-    // );
-    this.f.initialBudget.valueChanges
-      .pipe(
-        takeUntil(this.isDestroyed$),
-        startWith('0'),
-        filter((value) => value),
-        distinctUntilChanged(),
-        withLatestFrom(this.walletFacade.getCryptoList().pipe(startWith({}))),
-        map(([value = 0, balances]) => {
-          let selectedCurrency = (balances as any)?.listOfCrypto?.find(
-            (crypto: any) => crypto.symbol === this.f.currency.value
-          );
-          return [this.replaceNonAlphanumeric(value), selectedCurrency];
-        })
-      )
-      .subscribe(
-        ([value, selectedCurrency]) => {
-          this.form.patchValue(
-            {
-              initialBudgetInUSD: new Big(value || 0)
-                .times(selectedCurrency?.price || 0)
-                .toFixed(2)
-                .toString()
-            },
-            { emitEvent: false }
-          );
-          // el.style.width = (el.value.length + 1) * 12 + "px";
-          // el2.style.width = (el2.value.length + 1) * 12 + "px";
-        },
-        (err) => {}
-      );
-    this.f.initialBudgetInUSD.valueChanges
-      .pipe(
-        takeUntil(this.isDestroyed$),
-        startWith('0'),
-        filter((value) => value),
-        distinctUntilChanged(),
-        withLatestFrom(this.walletFacade.getCryptoList().pipe(startWith({}))),
-        map(([value = 0, balances]) => {
-          let selectedCurrency = (balances as any)?.listOfCrypto?.find(
-            (crypto: any) => crypto.symbol === this.f.currency.value
-          );
-          return [this.replaceNonAlphanumeric(value), selectedCurrency];
-        })
-      )
-      .subscribe(
-        ([value, selectedCurrency]) => {
-          if (selectedCurrency?.price) {
-            this.form.patchValue(
-              {
-                initialBudget: new Big(value || 0)
-                  .div(selectedCurrency?.price || 1)
-                  .toFixed(2)
-                  .toString()
-              },
-              { emitEvent: false }
-            );
-          }
-          // el.style.width = (el.value.length + 1) * 12 + "px";
-          // el2.style.width = (el2.value.length + 1) * 12 + "px";
-        },
-        (err) => {}
-      );
+      if (this.isSelectedInstagram) {
+        this.toggleOracle('instagram', true);
+      }
+      if (this.isSelectedTwitter) {
+        this.toggleOracle('twitter', true);
+      }
+      if (this.isSelectedLinkedin) {
+        this.toggleOracle('linkedin', true);
+      }
+    }
   }
+  // ngAfterViewInit() {
+  //   let el = this.initialBudgetElement?.nativeElement;
+  //   let el2 = this.initialBudgetInUSDElement?.nativeElement;
+  //   // el.style.width = 25 + "px";
+  //   // el2.style.width = 40 + "px";
+  //   // let initialBudgetElementChanges$ = fromEvent(el, "keydown");
+  //   // let initialBudgetInUSDElementChanges$ = fromEvent(el2, "keydown");
+  //   // this.initialBudgetInputWidth$ = initialBudgetElementChanges$.pipe(
+  //   //   map((event: any) => event.keyCode),
+  //   //   filter((keyCode) => {
+  //   //     return this.isValidKeyCode(keyCode);
+  //   //   }),
+  //   //   map((keyCode) => (el.value.length + 1) * 12 + "px")
+  //   // );
+  //   // this.initialBudgetInUSDInputWidth$ = initialBudgetInUSDElementChanges$.pipe(
+  //   //   map((event: any) => event.keyCode),
+  //   //   filter((keyCode) => {
+  //   //     return this.isValidKeyCode(keyCode);
+  //   //   }),
+  //   //   map((keyCode) => (el2.value.length + 1) * 12 + "px")
+  //   // );
+  //   this.f.initialBudget.valueChanges
+  //     .pipe(
+  //       takeUntil(this.isDestroyed$),
+  //       startWith('0'),
+  //       filter((value) => value),
+  //       distinctUntilChanged(),
+  //       withLatestFrom(this.walletFacade.getCryptoList().pipe(startWith({}))),
+  //       map(([value = 0, balances]) => {
+  //         let selectedCurrency = (balances as any)?.listOfCrypto?.find(
+  //           (crypto: any) => crypto.symbol === this.f.currency.value
+  //         );
+  //         return [this.replaceNonAlphanumeric(value), selectedCurrency];
+  //       })
+  //     )
+  //     .subscribe(
+  //       ([value, selectedCurrency]) => {
+  //         this.form.patchValue(
+  //           {
+  //             initialBudgetInUSD: new Big(value || 0)
+  //               .times(selectedCurrency?.price || 0)
+  //               .toFixed(2)
+  //               .toString()
+  //           },
+  //           { emitEvent: false }
+  //         );
+  //         // el.style.width = (el.value.length + 1) * 12 + "px";
+  //         // el2.style.width = (el2.value.length + 1) * 12 + "px";
+  //       },
+  //       (err) => {}
+  //     );
+  //   this.f.initialBudgetInUSD.valueChanges
+  //     .pipe(
+  //       takeUntil(this.isDestroyed$),
+  //       startWith('0'),
+  //       filter((value) => value),
+  //       distinctUntilChanged(),
+  //       withLatestFrom(this.walletFacade.getCryptoList().pipe(startWith({}))),
+  //       map(([value = 0, balances]) => {
+  //         let selectedCurrency = (balances as any)?.listOfCrypto?.find(
+  //           (crypto: any) => crypto.symbol === this.f.currency.value
+  //         );
+  //         return [this.replaceNonAlphanumeric(value), selectedCurrency];
+  //       })
+  //     )
+  //     .subscribe(
+  //       ([value, selectedCurrency]) => {
+  //         if (selectedCurrency?.price) {
+  //           this.form.patchValue(
+  //             {
+  //               initialBudget: new Big(value || 0)
+  //                 .div(selectedCurrency?.price || 1)
+  //                 .toFixed(2)
+  //                 .toString()
+  //             },
+  //             { emitEvent: false }
+  //           );
+  //         }
+  //         // el.style.width = (el.value.length + 1) * 12 + "px";
+  //         // el2.style.width = (el2.value.length + 1) * 12 + "px";
+  //       },
+  //       (err) => {}
+  //     );
+  // }
 
   isValidKeyCode(code: number): boolean {
     return (
@@ -473,6 +593,13 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   }
 
   populateRatiosFormArray(ratios: any[]): FormArray {
+    ratios = ratios.filter(
+      (ratio: any) =>
+        this.draftData.missions
+          .filter((res: any) => res.sub_missions.length > 0)
+          .map((res: any) => res.oracle)
+          .indexOf(ratio.oracle) >= 0
+    );
     const controls = ratios.map((ratio) => {
       const group = new FormGroup(
         {
@@ -512,11 +639,17 @@ export class RemunerationComponent implements OnInit, OnDestroy {
 
       return group;
     });
-
     return new FormArray(controls);
   }
 
   populateBountiesFormArray(bounties: any[]) {
+    bounties = bounties.filter(
+      (bounty: any) =>
+        this.draftData.missions
+          .filter((res: any) => res.sub_missions.length > 0)
+          .map((res: any) => res.oracle)
+          .indexOf(bounty.oracle) >= 0
+    );
     const controls = bounties.map((bounty) => {
       const group = new FormGroup({
         oracle: new FormControl(bounty.oracle),
@@ -559,49 +692,11 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       .subscribe((data: any) => {
         this.dataList = data;
         Object.preventExtensions(this.dataList);
-        //  this.cryptoList = [...this.dataList.filter((data:any) => data.symbol.includes("SATT")).reverse(),...this.dataList.filter((data:any) => !data.symbol.includes("SATT")).reverse() ]
-
-        // this.dataList?.sort(
-        //   (a: any, b: any) =>
-        //     parseFloat(b.total_balance) - parseFloat(a.total_balance)
-        // );
-        // for (const key in ListTokens) {
-        //   this.dataList.forEach((data: any) => {
-        //     if (key === data.symbol) {
-        //       this.cryptoList.push(data);
-        //     }
-        //   });
-        // }
-
         this.cryptoQuantity = (
           this.dataList.find(
             (crypto: any) => crypto.symbol === this.draftData.currency.name
           ) as any
         )?.quantity;
-
-        //  this.dataList = data.listOfCrypto;
-        // if (data.listOfCrypto.total_balance === "0") {
-        //   this.dataList.total_balance = "0.00";
-        // }
-        this.dataList?.forEach((crypto: any) => {
-          // crypto.type =
-          //   crypto.network ?? ListTokens[crypto.symbol].type.toUpperCase();
-          //  crypto.type = ListTokens[crypto.symbol]?.type;
-          // crypto.undername2 = crypto.undername2 ?? crypto.symbol;
-          // crypto.undername = crypto.undername ?? 'indispo';
-          // crypto.typetab = crypto.type;
-          // crypto.price = this.filterAmount(crypto.price + '');
-          // crypto.variation = crypto.variation.toFixed(2) ?? "0";
-          // crypto.quantity = this.filterAmount(crypto.quantity + "");
-          // if (crypto.quantity.toString().startsWith('-')) {
-          //   crypto.quantity = '0';
-          // }
-          // crypto.quantity = new Big(crypto.quantity)
-          //   .round(10, Big.roundDown)
-          //   .toFixed();
-          //crypto.quantity = new Big(crypto.quantity)
-          // crypto.total_balance = crypto.total_balance.toFixed(2);
-        });
         this.dataList = [
           ...this.dataList.filter((data: any) => data.symbol === 'SATT'),
           ...this.dataList.filter((data: any) => data.symbol === 'USDT'),
@@ -663,7 +758,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     this.f.initialBudget?.reset();
     this.f.initialBudgetInUSD.reset();
     let el = this.initialBudgetElement?.nativeElement;
-    var width = parseInt(el.style.width);
+    // var width = parseInt(el.style.width);
     el.style.width = (el.value.length + 1) * 12 + 'px';
     this.defaultAmount = this.f.currency.value;
   }
@@ -687,88 +782,28 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     }
   }
 
-  onBlockchainChange(event: any) {
-    this.selectedValue = '';
-    if (event.target.value === 'erc20') {
-      this.cryptoSymbol = 'SATT';
-      this.showSelectedValue = false;
-      this.selectedBlockchain = 'erc20';
-      this.f.currency?.setValue('SATT');
-      this.cryptoQuantity = this.dataList.find(
-        (crypto: any) => crypto.symbol === 'SATT'
-      ).quantity;
-    } else {
-      this.cryptoSymbol = 'SATTBEP20';
-      this.showSelectedValue = false;
-      this.selectedBlockchain = 'bep20';
-      this.f.currency?.setValue('SATTBEP20');
-      this.cryptoQuantity = this.dataList.find(
-        (crypto: any) => crypto.symbol === 'SATTBEP20'
-      ).quantity;
-    }
-
-    this.defaultAmount = this.f.currency.value;
-    this.f.initialBudget?.setValue('0.00');
-    this.f.initialBudgetInUSD?.setValue('0.00');
-    //this.editwidthInput();
-  }
-
-  selectCurrency(name: string, quantity: string, symbol: string) {
-    this.selectedValue = name;
-    this.selectedCrypto = symbol;
-    this.f.currency?.setValue(name);
-    this.f.initialBudget.setValue('0.00');
-    this.f.initialBudgetInUSD.setValue('0.00');
-    this.f.currency.setValue(symbol);
-
-    this.defaultAmount = this.f.currency.value;
-
-    this.showSelectedValue = 'true';
-    this.cryptoSymbol = symbol;
-    this.cryptoQuantity = quantity;
-  }
   setPreSelectedOracles() {
     let array = [];
-    if (this.draftData.missions !== []) {
-      array = this.draftData.missions;
-      this.isSelectedFacebook = array.find(
-        (elem: any) => elem.oracle === 'facebook'
-      )
-        ? true
-        : false;
-      this.isSelectedYoutube = array.find(
-        (elem: any) => elem.oracle === 'youtube'
-      )
-        ? true
-        : false;
-      this.isSelectedInstagram = array.find(
-        (elem: any) => elem.oracle === 'instagram'
-      )
-        ? true
-        : false;
-      this.isSelectedTwitter = array.find(
-        (elem: any) => elem.oracle === 'twitter'
-      )
-        ? true
-        : false;
-      this.isSelectedLinkedin = array.find(
-        (elem: any) => elem.oracle === 'linkedin'
-      )
-        ? true
-        : false;
+    if (this.f.remuneration?.value === this.eRemunerationType.Performance) {
+      array = this.draftData.ratios;
+    } else {
+      array = this.draftData.bounties;
     }
-  }
-
-  selectRemunerateType(type: ERemunerationType) {
-    this.selectRemunerateValue = type;
-    this.f.remuneration.setValue(type);
-    this.ratios.clear();
-    this.bounties.clear();
-    this.isSelectedFacebook = false;
-    this.isSelectedInstagram = false;
-    this.isSelectedTwitter = false;
-    this.isSelectedYoutube = false;
-    this.isSelectedLinkedin = false;
+    this.isSelectedFacebook = array.find((elem) => elem.oracle === 'facebook')
+      ? true
+      : false;
+    this.isSelectedYoutube = array.find((elem) => elem.oracle === 'youtube')
+      ? true
+      : false;
+    this.isSelectedInstagram = array.find((elem) => elem.oracle === 'instagram')
+      ? true
+      : false;
+    this.isSelectedTwitter = array.find((elem) => elem.oracle === 'twitter')
+      ? true
+      : false;
+    this.isSelectedLinkedin = array.find((elem) => elem.oracle === 'linkedin')
+      ? true
+      : false;
   }
 
   handleAmountEntries(form: AbstractControl, control: string) {
@@ -804,78 +839,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       ?.setValue(Math.abs(Number(form.get(control)?.value)).toFixed(), {
         emitEvent: false
       });
-  }
-
-  toggleOracle(oracle: string) {
-    if (
-      this.isSelectedYoutube ||
-      this.isSelectedFacebook ||
-      this.isSelectedInstagram ||
-      this.isSelectedTwitter ||
-      this.isSelectedLinkedin
-    ) {
-      let group = new FormGroup({});
-      if (this.f.remuneration.value === this.eRemunerationType.Performance) {
-        group = new FormGroup(
-          {
-            oracle: new FormControl(oracle),
-            view: new FormControl(null, [Validators.required]),
-            like: new FormControl(null, [Validators.required]),
-            share: new FormControl(null, [Validators.required])
-          },
-          customValidateRatios()
-        );
-        this.ratios.push(group);
-        this.ratios.updateValueAndValidity();
-
-        if (this.isReachLimitActivated) {
-          group.setControl(
-            'reachLimit',
-            new FormControl(null, [Validators.required])
-          );
-          group.get('reachLimit')?.setValidators([
-            Validators.required,
-            Validators.min(1)
-            //  Validators.max(100),
-          ]);
-        }
-      } else {
-        this.bounties.push(this.addNewBounty(oracle));
-      }
-
-      this.isSelectedTwitter =
-        oracle === 'twitter' ? true : this.isSelectedTwitter;
-      this.isSelectedFacebook =
-        oracle === 'facebook' ? true : this.isSelectedFacebook;
-      this.isSelectedYoutube =
-        oracle === 'youtube' ? true : this.isSelectedYoutube;
-      this.isSelectedInstagram =
-        oracle === 'instagram' ? true : this.isSelectedInstagram;
-      this.isSelectedLinkedin =
-        oracle === 'linkedin' ? true : this.isSelectedLinkedin;
-    } else {
-      if (this.f.remuneration.value === this.eRemunerationType.Performance) {
-        this.ratios.removeAt(
-          this.ratios.value.findIndex((ratio: any) => ratio.oracle === oracle)
-        );
-      } else {
-        this.bounties.removeAt(
-          this.bounties.value.findIndex(
-            (bounty: any) => bounty.oracle === oracle
-          )
-        );
-      }
-      this.isSelectedTwitter =
-        oracle === 'twitter' ? false : this.isSelectedTwitter;
-      this.isSelectedFacebook =
-        oracle === 'facebook' ? false : this.isSelectedFacebook;
-      this.isSelectedYoutube =
-        oracle === 'youtube' ? false : this.isSelectedYoutube;
-      this.isSelectedInstagram =
-        oracle === 'instagram' ? false : this.isSelectedInstagram;
-      this.isSelectedLinkedin =
-        oracle === 'linkedin' ? false : this.isSelectedLinkedin;
-    }
   }
 
   addNewBounty(oracle?: string): FormGroup {
@@ -1005,7 +968,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       } else {
         currency = this.form.get('currency')?.value;
       }
-
       if (
         event === 'amount' &&
         sendamount !== undefined &&
@@ -1037,10 +999,70 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       } else if (event === 'usd' && (sendusd === undefined || isNaN(sendusd))) {
         this.amount = '';
       }
-
       this.editwidthInput();
     }
   }
+  //convert currency to usd
+  // convertcurrency(event: any): void {
+  //   let currency = '';
+  //   let currencyreceive = '';
+  //   var getamountreceive: any = this.receiveform.get('Amount')?.value;
+  //   let getusdreceive: any = this.receiveform.get('AmountUsd')?.value;
+  //   let receiveamount = getamountreceive?.toString();
+  //   let receiveusd = getusdreceive?.toString();
+  //   if (event === 'usdreceive' && Number(receiveusd) > this.maxNumber) {
+  //     receiveusd = receiveusd.slice(0, 9);
+  //     this.receiveform.get('AmountUsd')?.setValue(receiveusd);
+  //   } else {
+  //     this.selectedCryptoSend = currency;
+  //     if (this.selectedCryptoSend) {
+  //       currencyreceive = this.selectedCryptoSend;
+  //     } else {
+  //       currencyreceive = this.amountdefault;
+  //     }
+  //     this.dataList?.forEach((crypto: any) => {
+  //       if (
+  //         event === 'amountreceive' &&
+  //         receiveamount !== undefined &&
+  //         !isNaN(receiveamount)
+  //       ) {
+  //         if (crypto.symbol === currencyreceive) {
+  //           this.amountUsd = crypto.price * receiveamount;
+  //           this.amountUsd = this.showNumbersRule.transform(this.amountUsd);
+  //           if (isNaN(this.amountUsd)) {
+  //             this.amountUsd = '';
+  //             this.amount = '';
+  //           }
+  //         }
+  //       } else if (
+  //         event === 'amountreceive' &&
+  //         (receiveamount === undefined || isNaN(receiveamount))
+  //       ) {
+  //         this.amountUsd = '';
+  //       }
+  //       if (event === 'usdreceive' && receiveusd !== '' && !isNaN(receiveusd)) {
+  //         if (crypto.symbol === currencyreceive) {
+  //           this.amount = receiveusd / crypto.price;
+  //           this.amount = this.showNumbersRule.transform(this.amount);
+  //           if (
+  //             receiveamount === '0.00000000' ||
+  //             receiveusd === '' ||
+  //             isNaN(this.amount)
+  //           ) {
+  //             this.amountUsd = '';
+  //             this.amount = '';
+  //           }
+  //         }
+  //       } else if (
+  //         event === 'usdreceive' &&
+  //         (receiveusd === '' || isNaN(receiveusd))
+  //       ) {
+  //         this.amount = '';
+  //       }
+  //     });
+  //     this.editwidthInput();
+  //   }
+  // }
   editwidthInput() {
     let elementinputusd = this.inputAmountUsd?.nativeElement;
     //  elementinputusd.style.width = 40 + 'px';
@@ -1052,22 +1074,25 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     if (elementinputusd)
       elementinputusd.style.width = elementinputusd.value.length + 1.2 + 'ch';
   }
-  resetForm(network?: string) {
+  resetForm() {
     this.form.reset();
     this.network = '';
-    this.token = null;
+    this.token = '';
     // this.amountUsd = null;
-    this.amount = null;
+    this.amount = '';
   }
   linstingCrypto(event: any) {
-    this.resetForm();
+    if (event.symbol !== this.form.get('currency')?.value) {
+      this.form.get('initialBudget')?.reset();
+      this.form.get('initialBudgetInUSD')?.reset();
+    }
     this.selectedCryptoDetails = event;
     this.form.get('currency')?.setValue(this.selectedCryptoDetails.symbol);
-    this.form.get('initialBudget')?.reset();
-    this.form.get('initialBudgetInUSD')?.reset();
+
     this.amountdefault = this.form.get('currency')?.value;
     this.selectedCryptoSend = event.symbol;
     this.symbol = event.symbol;
+    this.cryptoSymbol = event.symbol;
     this.networks = event.network;
     this.decimals = event.decimal;
     this.token = event.AddedToken;
@@ -1124,7 +1149,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       this.dataList?.forEach((crypto: any) => {
         if (crypto.symbol === currency) {
           let quantity = this.showNumbersRule.transform(crypto.quantity);
-          let totalBal = this.showNumbersRule.transform(crypto.total_balance);
+          // let totalBal = this.showNumbersRule.transform(crypto.total_balance);
           this.form.get('initialBudget')?.setValue(quantity),
             this.form.get('initialBudgetInUSD')?.setValue(crypto.total_balance);
 
@@ -1155,61 +1180,4 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       });
     }
   }
-
-  // setPreSelectedMissions() {
-  //   let array = [];
-  //   if (this.draftData.missions !== []) {
-  //     array = this.draftData.missions;
-  //     console.log(array, 'array');
-  //     this.isFacebookSelected = array.find(
-  //       (elem: any) => elem.oracle === 'facebook'
-  //     )
-  //       ? true
-  //       : false;
-  //     this.selectedFacebook.emit(this.isFacebookSelected);
-  //     // if (this.isFacebookSelected === true) {
-  //     //   this.selectedFacebook.emit(true);
-  //     //   console.log(this.isFacebookSelected, 'fb selected');
-  //     // }
-
-  //     this.isYoutubeSelected = array.find(
-  //       (elem: any) =>
-  //         elem.oracle === 'youtube' && elem.oracle.subMission.length > 0
-  //     )
-  //       ? true
-  //       : false;
-
-  //     if (this.isYoutubeSelected === true) {
-  //       this.selectedYoutube.emit(true);
-  //       console.log(this.isYoutubeSelected, 'youu selected');
-  //     }
-  //     this.isInstagramSelected = array.find(
-  //       (elem: any) =>
-  //         elem.oracle === 'instagram' && elem.oracle.subMission.length > 0
-  //     )
-  //       ? true
-  //       : false;
-  //     if (this.isInstagramSelected === true) {
-  //       this.selectedInstagram.emit(true);
-  //     }
-  //     this.isTwitterSelected = array.find(
-  //       (elem: any) =>
-  //         elem.oracle === 'twitter' && elem.oracle.subMission.length > 0
-  //     )
-  //       ? true
-  //       : false;
-  //     if (this.isTwitterSelected === true) {
-  //       this.selectedTwitter.emit(true);
-  //     }
-  //     this.isLinkedinSelected = array.find(
-  //       (elem: any) =>
-  //         elem.oracle === 'linkedin' && elem.oracle.subMission.length > 0
-  //     )
-  //       ? true
-  //       : false;
-  //     if (this.isLinkedinSelected === true) {
-  //       this.selectedLinkedin.emit(true);
-  //     }
-  //   }
-  // }
 }

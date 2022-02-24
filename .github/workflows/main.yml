@@ -1,0 +1,59 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [master]
+jobs:
+  build:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - uses: actions/checkout@v2.3.4
+
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+            
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install Dependencies
+        run: npm ci
+          
+      - name: Clean Distribution Directory
+        run: npm run ci:clean
+        
+      - name: install Angular
+        run:  npm install -g @angular/cli 
+
+      - name: Build Application
+        run:  ng build --prod
+      
+      - name: List Files in Distribution Directory
+        run: ls -R ./dist
+      
+      - run: sudo apt-get install rsync
+
+      - name: Deploy to Server
+        uses: Pendect/action-rsyncer@v1.1.0
+        env:
+          DEPLOY_KEY: ${{secrets.PROD_KEY}}
+        
+        with:
+          flags: '-avc --delete'
+          src: 'dist/'
+          dest: 'admin@"${{secrets.PROD_SERVER}}":/home/admin/web'
+
+      - name: Display status from deploy
+        run: echo "${{ steps.deploy.outputs.status }}"
