@@ -1,51 +1,25 @@
 <div class="col-12 px-3 padding-small-version">
-  <form [formGroup]="form">
-    <div
-      class="col-md-12 col-lg-12 col-xs-12 d-flex justify-content-center pt-4"
-    >
-      <label class="title-section">{{ 'pictures' | translate }}</label>
-    </div>
-    <!--------------------------bloc import logo----->
-    <div class="row d-flex justify-content-center pt-3">
-      <div
-        class="col-xl-10 col-md-12 col-lg-10 col-sm-12 justify-content-xl-start justify-content-lg-start justify-content-md-center justify-content-sm-center justify-content-center d-flex align-items-center gap-3 flex-xl-row flex-lg-row flex-md-row flex-sm-row flex-column"
-      >
-        <div
-          class="upload-logo-bg d-flex align-self-center justify-content-center align-items-center"
-        >
-          <!-------------------------------------------if no logo -->
-          <img
-            *ngIf="!srcLogo"
-            src="/assets/Images/upload-pic-hard-gray.svg"
-            width="47px"
-            height="47px"
-          />
-          <!---------------------------------------if logo ----------------------->
-          <img
-            *ngIf="srcLogo"
-            [src]="srcLogo"
-            class="upload-logo-bg"
-            width="130px"
-            height="130px"
-          />
+    <form [formGroup]="form">
+        <div class="col-md-12 col-lg-12 col-xs-12 d-flex justify-content-center pt-4">
+            <label class="title-section">{{ 'pictures' | translate }}</label>
         </div>
+        <!--------------------------bloc import logo yrththyuk----->
+        <div class="row d-flex justify-content-center pt-3">
+            <div class="col-xl-10 col-md-12 col-lg-10 col-sm-12 justify-content-xl-start justify-content-lg-start justify-content-md-center justify-content-sm-center justify-content-center d-flex align-items-center gap-3 flex-xl-row flex-lg-row flex-md-row flex-sm-row flex-column">
+                <div class="upload-logo-bg d-flex align-self-center justify-content-center align-items-center">
+                    <!-------------------------------------------if no logo -->
+                    <img *ngIf="!srcLogo" src="/assets/Images/upload-pic-hard-gray.svg" width="47px" height="47px" />
+                    <!---------------------------------------if logo ----------------------->
+                    <img *ngIf="srcLogo" [src]="srcLogo" class="upload-logo-bg" width="130px" height="130px" />
+                </div>
 
-        <div
-          class="d-flex flex-xl-coloumn flex-lg-coloumn flex-md-coloumn flex-sm-coloumn flex-column-reverse"
-        >
-          <div class="btn-white position-relative gap-2">
-            <img src="assets/Images/blue-icons/download-blue.svg" />
-            <span>Import a brand logo</span>
-            <input
-              type="file"
-              name="file"
-              class="input_logo"
-              accept="image/*"
-              (change)="importLogo($event)"
-            />
-          </div>
-          <label class="small-label-type mt-2"
-            >Size : 180x180 px . Use : JPG, PNG, GIF</label
+                <div class="d-flex flex-xl-coloumn flex-lg-coloumn flex-md-coloumn flex-sm-coloumn flex-column-reverse">
+                    <div class="btn-white position-relative gap-2">
+                        <img src="assets/Images/blue-icons/download-blue.svg" />
+                        <span>Import a brand logo</span>
+                        <input type="file" name="file" class="input_logo" accept="image/*" (change)="importLogo($event)" />
+                    </div>
+                    <label class="small-label-type mt-2">Size : 180x180 px . Use : JPG, PNG, GIF</label
           >
         </div>
       </div>
@@ -136,13 +110,13 @@
           <label class="btn-edit me-2" (click)="zoomIn('mobile')">
             <img class="" src="/assets/Images/search-plus.svg" />
           </label>
-          <label class="btn-edit me-2" (click)="zoomOut('mobile')">
+                    <label class="btn-edit me-2" (click)="zoomOut('mobile')">
             <img class="" src="/assets/Images/search-minus.svg" />
           </label>
-          <label class="btn-edit me-2" (click)="rotateLeft('mobile')">
+                    <label class="btn-edit me-2" (click)="rotateLeft('mobile')">
             <img class="" src="/assets/Images/rotation.svg" />
           </label>
-          <label class="btn-edit">
+                    <label class="btn-edit">
             <img class="" src="/assets/Images/blue-vector-edit.svg" />
             <input
               type="file"
@@ -153,87 +127,49 @@
               (change)="fileChangeEvent($event, 'mobile')"
             />
           </label>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <!-----------------bloc import cover----->
+        <!-----------------bloc import cover----->
 
-    <div class="row d-flex justify-content-center mt-3">
-      <div
-        class="col-xl-10 col-md-12 col-lg-10 col-sm-12 d-flex align-items-xl-start align-items-lg-start align-items-md-center align-items-sm-center align-items-center justify-content-center flex-column"
-      >
-        <div
-          class="d-flex justify-content-center position-relative div-drag-file"
-        >
-          <input
-            type="file"
-            class="fileInput2"
-            #coverInput
-            (change)="fileChangeEvent($event, 'desktop')"
-            *ngIf="showImage === false"
-          />
-          <div
-            class="row d-flex justify-content-center align-items-center flex-column gap-3"
-            *ngIf="showImage === false"
-          >
-            <img
-              class=""
-              src="/assets/Images/upload-pic-gray.svg"
-              width="47px"
-              height="47px"
-            />
-            <span class="label-type mb-3">
+        <div class="row d-flex justify-content-center mt-3">
+            <div class="col-xl-10 col-md-12 col-lg-10 col-sm-12 d-flex align-items-xl-start align-items-lg-start align-items-md-center align-items-sm-center align-items-center justify-content-center flex-column">
+                <div class="d-flex justify-content-center position-relative div-drag-file">
+                    <input type="file" class="fileInput2" #coverInput (change)="fileChangeEvent($event, 'desktop')" *ngIf="showImage === false" />
+                    <div class="row d-flex justify-content-center align-items-center flex-column gap-3" *ngIf="showImage === false">
+                        <img class="" src="/assets/Images/upload-pic-gray.svg" width="47px" height="47px" />
+                        <span class="label-type mb-3">
               {{ 'create_campaign_form.import_cover_image' | translate }}
             </span>
-            <span class="small-label-type d-flex flex-column">
+                        <span class="small-label-type d-flex flex-column">
               <span>size :1920x800px</span>
-              <span>Formats : JPG, PNG, GIF</span>
-              <span>
+                        <span>Formats : JPG, PNG, GIF</span>
+                        <span>
                 {{ 'create_campaign_form.max_weight' | translate }} : 50mo</span
               >
             </span>
-          </div>
+                    </div>
 
-          <image-cropper
-            [aspectRatio]="4 / 3"
-            [imageBase64]="draftData.coverSrc"
-            [resizeToWidth]="1024"
-            [transform]="transform"
-            *ngIf="showImage === true"
-            [imageChangedEvent]="imageChangedEvent"
-            [maintainAspectRatio]="true"
-            [imageURL]="draftData.coverSrc"
-            [canvasRotation]="canvasRotation"
-            format="png"
-            class="img-cropper"
-            (imageCropped)="imageCropped($event, 'desktop')"
-            (imageLoaded)="imageLoaded()"
-          >
-          </image-cropper>
-          <!-- <img [src]="draftData.cover" class="mt-1 pic-cover" *ngIf="isCropped"> -->
-        </div>
-        <div
-          class="d-flex flex-row justify-content-center mt-2"
-          *ngIf="showImage === true"
-        >
-          <span class="small-label-type"
-            >size :1920x800px . Use:JPG, PNG, GIF
+                    <image-cropper [aspectRatio]="4 / 3" [imageBase64]="draftData.coverSrc" [resizeToWidth]="1024" [transform]="transform" *ngIf="showImage === true" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [imageURL]="draftData.coverSrc" [canvasRotation]="canvasRotation"
+                        format="png" class="img-cropper" (imageCropped)="imageCropped($event, 'desktop')" (imageLoaded)="imageLoaded()">
+                    </image-cropper>
+                    <!-- <img [src]="draftData.cover" class="mt-1 pic-cover" *ngIf="isCropped"> -->
+                </div>
+                <div class="d-flex flex-row justify-content-center mt-2" *ngIf="showImage === true">
+                    <span class="small-label-type">size :1920x800px . Use:JPG, PNG, GIF
           </span>
-        </div>
-        <div
-          class="d-flex flex-row justify-content-center"
-          *ngIf="showImage === true"
-        >
-          <label class="btn-edit me-2" (click)="zoomIn('desktop')">
+                </div>
+                <div class="d-flex flex-row justify-content-center" *ngIf="showImage === true">
+                    <label class="btn-edit me-2" (click)="zoomIn('desktop')">
             <img class="" src="/assets/Images/search-plus.svg" />
           </label>
-          <label class="btn-edit me-2" (click)="zoomOut('desktop')">
+                    <label class="btn-edit me-2" (click)="zoomOut('desktop')">
             <img class="" src="/assets/Images/search-minus.svg" />
           </label>
-          <label class="btn-edit me-2" (click)="rotateLeft('desktop')">
+                    <label class="btn-edit me-2" (click)="rotateLeft('desktop')">
             <img class="" src="/assets/Images/rotation.svg" />
           </label>
-          <label class="btn-edit">
+                    <label class="btn-edit">
             <img class="" src="/assets/Images/blue-vector-edit.svg" />
             <input
               type="file"
@@ -244,21 +180,17 @@
               (change)="fileChangeEvent($event, 'desktop')"
             />
           </label>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <div class="row d-flex justify-content-center pt-3">
-      <div
-        class="col-xl-10 col-md-12 col-lg-10 col-sm-12 d-flex justify-content-start"
-      >
-        <div class="error">
-          <span
-            *ngIf="
+        <div class="row d-flex justify-content-center pt-3">
+            <div class="col-xl-10 col-md-12 col-lg-10 col-sm-12 d-flex justify-content-start">
+                <div class="error">
+                    <span *ngIf="
               this.form.get('cover')?.errors?.required &&
               notValidPicture === true
-            "
-            >{{ 'Profil.field_required' | translate }}</span
+            ">{{ 'Profil.field_required' | translate }}</span
           >
         </div>
       </div>
@@ -320,60 +252,41 @@
             <span>{{
               'Profil.content_upload_help_image_Format' | translate
             }}</span>
-          </div>
+                </div>
+            </div>
         </div>
-      </div>
 
-      <div class="row mt-2 d-flex justify-content-center">
-        <div class="col-12 d-flex justify-content-center div_modal_pic_name">
-          <label class="pic_name">{{ picName }}</label>
+        <div class="row mt-2 d-flex justify-content-center">
+            <div class="col-12 d-flex justify-content-center div_modal_pic_name">
+                <label class="pic_name">{{ picName }}</label>
+            </div>
         </div>
-      </div>
 
-      <div class="row d-flex justify-content-start mt-2">
-        <div
-          class="col-4 error"
-          *ngIf="
+        <div class="row d-flex justify-content-start mt-2">
+            <div class="col-4 error" *ngIf="
             this.formUploadPic.get('file')?.errors?.required &&
             this.formUploadPic.get('file')?.touched
-          "
-        >
-          <span>{{ 'Profil.field_required' | translate }}</span>
+          ">
+                <span>{{ 'Profil.field_required' | translate }}</span>
+            </div>
         </div>
-      </div>
 
-      <div class="row mt-2 mx-lg-1 mx-sm-1">
-        <div class="col-12 d-flex justify-content-start">
-          <div class="cropArea">
-            <image-cropper
-              [imageChangedEvent]="imageLogoChangedEvent"
-              [maintainAspectRatio]="true"
-              [aspectRatio]="4 / 4"
-              format="png"
-              (imageCropped)="logoCropped($event)"
-              [roundCropper]="true"
-              [resizeToWidth]="400"
-              [cropperStaticWidth]="150"
-              [cropperStaticHeight]="150"
-            >
-            </image-cropper>
-          </div>
+        <div class="row mt-2 mx-lg-1 mx-sm-1">
+            <div class="col-12 d-flex justify-content-start">
+                <div class="cropArea">
+                    <image-cropper [imageChangedEvent]="imageLogoChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="4 / 4" format="png" (imageCropped)="logoCropped($event)" [roundCropper]="true" [resizeToWidth]="400" [cropperStaticWidth]="150" [cropperStaticHeight]="150">
+                    </image-cropper>
+                </div>
+            </div>
         </div>
-      </div>
 
-      <div class="row d-flex justify-content-center mt-2">
-        <div
-          class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 p-2 d-flex justify-content-center"
-        >
-          <button
-            type="submit"
-            class="btn-green"
-            (click)="closeModal(pictureModal)"
-          >
+        <div class="row d-flex justify-content-center mt-2">
+            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 p-2 d-flex justify-content-center">
+                <button type="submit" class="btn-green" (click)="closeModal(pictureModal)">
             {{ 'Profil.save' | translate }}
           </button>
+            </div>
         </div>
-      </div>
     </form>
-  </div>
+</div>
 </ng-template>
