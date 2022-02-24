@@ -217,10 +217,10 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     // });
 
     this.saveForm();
-    this.cryptoSymbol = 'SATT';
+    // this.cryptoSymbol = 'SATT';
     this.showSelectedValue = false;
-    this.selectedBlockchain = 'erc20';
-    this.f.currency?.setValue('SATT');
+    // this.selectedBlockchain = 'erc20';
+    // this.f.currency?.setValue('SATT');
   }
 
   ngAfterContentChecked() {

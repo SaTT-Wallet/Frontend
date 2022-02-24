@@ -55,7 +55,9 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
   imageChangedEventMobile: any = '';
   isImageCroppedSubject = new Subject<boolean>();
   isDestroyed$ = new Subject();
-  isConform!: boolean;
+  isConformLogo!: boolean;
+  isConformCover!: boolean;
+  isConformCoverMobile!: boolean;
   picName: any;
   picNameMobile: any;
   showImage: boolean = false;
@@ -64,8 +66,14 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
   campaignCoverImage: any;
   srcLogo: any;
   base64: any;
-  coverUploadSizeError: boolean = false;
-  coverUploadExtError: boolean = false;
+  sizeErrorLogo: boolean = false;
+  extensionErrorLogo: boolean = false;
+
+  sizeErrorCover: boolean = false;
+  extensionErrorCover: boolean = false;
+
+  sizeErrorCoverMobile: boolean = false;
+  extensionErrorCoverMobile: boolean = false;
   isNewPicLogo: boolean = false;
   cropper = {
     x1: 100,
@@ -231,18 +239,18 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
       this.logoName = this.imageLogoChangedEvent.target.files[0].name;
       this.readAsBase64(fileUploaded).then((data) => {
         if (data.result.length < 2000000) {
-          this.coverUploadSizeError = false;
+          this.sizeErrorLogo = false;
           this.formUploadPic.get('file')?.setValue(data);
         } else {
           this.closeModal(this.pictureModal);
-          this.coverUploadSizeError = true;
-          this.isConform = false;
+          this.sizeErrorLogo = true;
+          this.isConformLogo = false;
         }
       });
 
       this.isNewPicLogo = true;
     } else {
-      this.isConform = false;
+      this.isConformLogo = false;
       this.imageLogoChangedEvent = null;
     }
   }
@@ -259,10 +267,11 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
       this.isImageCroppedSubject.next(true);
       this.readAsBase64(this.srcFile).then((data) => {
         if (data.result.length < 2000000) {
-          this.coverUploadSizeError = false;
+          this.sizeErrorCover = false;
           this.form.get('cover')?.setValue(data.result);
         } else {
-          this.coverUploadSizeError = true;
+          this.isConformCover = false;
+          this.sizeErrorCover = true;
           this.inputCover.nativeElement.value = '';
         }
       });
@@ -279,12 +288,11 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
       this.isImageCroppedSubject.next(true);
       this.readAsBase64(this.srcFileMobile).then((data) => {
         if (data.result.length < 2000000) {
-          this.isConform = true;
-          this.coverUploadSizeError = false;
+          this.sizeErrorCoverMobile = false;
           this.form.get('coverMobile')?.setValue(data.result);
         } else {
-          this.isConform = false;
-          this.coverUploadSizeError = true;
+          this.isConformCoverMobile = false;
+          this.sizeErrorCoverMobile = true;
           this.inputCover.nativeElement.value = '';
         }
       });
@@ -307,30 +315,31 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
         'image/jpg'
       ];
       if (!imgExtensions.includes(fileUploaded.type)) {
-        this.coverUploadExtError = true;
+        this.extensionErrorCover = true;
         this.inputCover.nativeElement.value = '';
       } else if (fileUploaded.size > 2000000) {
-        this.coverUploadExtError = false;
-        this.coverUploadSizeError = true;
+        this.isConformCover = false;
+        this.extensionErrorCover = false;
+        this.sizeErrorCover = true;
         this.inputCover.nativeElement.value = '';
       } else if (this.coverUploadWidthError) {
-        this.coverUploadExtError = false;
+        this.extensionErrorCover = false;
         this.inputCover.nativeElement.value = '';
       } else {
-        this.coverUploadExtError = false;
+        this.extensionErrorCover = false;
         this.picName = fileUploaded.name;
         this.showImage = true;
         this.readAsBase64(fileUploaded).then((data) => {
           if (data.result.length < 2000000) {
             this.imageChangedEvent = event;
-            this.isConform = true;
-            this.coverUploadSizeError = false;
+            this.isConformCover = true;
+            this.sizeErrorCover = false;
             this.form.get('cover')?.setValue(data);
             this.form.get('coverSrc')?.setValue(data.result);
           } else {
+            this.isConformCover = false;
             this.imageChangedEvent = null;
-            this.isConform = false;
-            this.coverUploadSizeError = true;
+            this.sizeErrorCover = true;
             this.inputCover.nativeElement.value = '';
           }
         });
@@ -347,31 +356,31 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
         'image/jpg'
       ];
       if (!imgExtensions.includes(fileUploaded.type)) {
-        this.coverUploadExtError = false;
-        this.coverUploadExtError = true;
+        this.extensionErrorCoverMobile = true;
         this.coverInputMobile.nativeElement.value = '';
       } else if (fileUploaded.size > 2000000) {
-        this.coverUploadExtError = false;
-        this.coverUploadSizeError = true;
+        this.isConformCoverMobile = false;
+        this.extensionErrorCoverMobile = false;
+        this.sizeErrorCoverMobile = true;
         this.coverInputMobile.nativeElement.value = '';
       } else if (this.coverUploadWidthError) {
-        this.coverUploadExtError = false;
+        this.extensionErrorCoverMobile = false;
         this.coverInputMobile.nativeElement.value = '';
       } else {
         this.picNameMobile = fileUploaded.name;
-        this.coverUploadExtError = false;
+        this.extensionErrorCoverMobile = false;
         this.readAsBase64(fileUploaded).then((data) => {
           if (data.result.length < 2000000) {
-            // this.isConform = true;
             this.imageChangedEventMobile = event;
+            this.isConformCoverMobile = true;
             this.showImageMobile = true;
-            this.coverUploadSizeError = false;
+            this.sizeErrorCoverMobile = false;
             this.form.get('coverMobile')?.setValue(data);
             this.form.get('coverSrcMobile')?.setValue(data.result);
           } else {
             this.imageChangedEvent = null;
-            this.isConform = false;
-            this.coverUploadSizeError = true;
+            this.isConformCoverMobile = false;
+            this.sizeErrorCoverMobile = true;
             this.coverInputMobile.nativeElement.value = '';
           }
         });
@@ -408,8 +417,8 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
     if (this.srcLogo.length < 2000000) {
       this.form.get('logo')?.setValue(this.srcLogo);
     } else {
-      this.coverUploadSizeError = true;
-      this.isConform = false;
+      this.extensionErrorLogo = true;
+      this.isConformLogo = false;
     }
   }
   onCrop(e: ImgCropperEvent) {

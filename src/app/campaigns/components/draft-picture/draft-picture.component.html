@@ -61,6 +61,36 @@
         </div>
       </div>
     </div>
+    <!-- -------------errrroor -->
+    <div class="row d-flex justify-content-center pt-3 mb-1">
+      <div class="col-xl-10 col-md-12 col-lg-10 col-sm-12">
+        <label class="error" *ngIf="extensionErrorLogo">
+          {{ 'create_campaign_form.error_extension_cover' | translate }}
+        </label>
+        <label class="error" *ngIf="sizeErrorLogo">
+          {{ 'create_campaign_form.error_max_size_cover' | translate }}
+        </label>
+      </div>
+    </div>
+    <!------------end Show validated couverture-->
+    <div class="row mt-3 d-flex justify-content-center p-2">
+      <label
+        class="col-xl-10 col-md-12 col-lg-10 col-sm-12 danger_pic d-flex align-items-center"
+        *ngIf="isConformLogo === false"
+      >
+        <img src="assets/Images/false.svg" class="pb-1 pe-2" />{{
+          'campaign.invalid_picture' | translate
+        }}
+      </label>
+      <label
+        class="col-xl-10 col-md-12 col-lg-10 col-sm-12 success_pic d-flex align-items-center"
+        *ngIf="isConformLogo === true"
+      >
+        <img src="assets/Images/true.svg" class="pe-2" />{{
+          'campaign.valid_picture' | translate
+        }}
+      </label>
+    </div>
     <!---------------------bloc import coverssss--------->
     <!--bloc import cover mobile----->
     <div class="row d-flex justify-content-center mt-3">
@@ -166,6 +196,36 @@
           >
         </div>
       </div>
+    </div>
+    <!-- -------------errrroor -->
+    <div class="row d-flex justify-content-center pt-3 mb-1">
+      <div class="col-xl-10 col-md-12 col-lg-10 col-sm-12">
+        <label class="error" *ngIf="extensionErrorCoverMobile">
+          {{ 'create_campaign_form.error_extension_cover' | translate }}
+        </label>
+        <label class="error" *ngIf="sizeErrorCoverMobile">
+          {{ 'create_campaign_form.error_max_size_cover' | translate }}
+        </label>
+      </div>
+    </div>
+    <!------------end Show validated couverture-->
+    <div class="row mt-3 d-flex justify-content-center p-2">
+      <label
+        class="col-xl-10 col-md-12 col-lg-10 col-sm-12 danger_pic d-flex align-items-center"
+        *ngIf="isConformCoverMobile === false"
+      >
+        <img src="assets/Images/false.svg" class="pb-1 pe-2" />{{
+          'campaign.invalid_picture' | translate
+        }}
+      </label>
+      <label
+        class="col-xl-10 col-md-12 col-lg-10 col-sm-12 success_pic d-flex align-items-center"
+        *ngIf="isConformCoverMobile === true"
+      >
+        <img src="assets/Images/true.svg" class="pe-2" />{{
+          'campaign.valid_picture' | translate
+        }}
+      </label>
     </div>
     <!-----------------bloc import cover----->
 
@@ -277,10 +337,10 @@
     <!-- -------------errrroor -->
     <div class="row d-flex justify-content-center pt-3 mb-1">
       <div class="col-xl-10 col-md-12 col-lg-10 col-sm-12">
-        <label class="error" *ngIf="coverUploadExtError">
+        <label class="error" *ngIf="extensionErrorCover && imageCover">
           {{ 'create_campaign_form.error_extension_cover' | translate }}
         </label>
-        <label class="error" *ngIf="coverUploadSizeError">
+        <label class="error" *ngIf="sizeErrorCover && imageCover">
           {{ 'create_campaign_form.error_max_size_cover' | translate }}
         </label>
       </div>
@@ -289,7 +349,7 @@
     <div class="row mt-3 d-flex justify-content-center p-2">
       <label
         class="col-xl-10 col-md-12 col-lg-10 col-sm-12 danger_pic d-flex align-items-center"
-        *ngIf="isConform === false"
+        *ngIf="isConformCover === false"
       >
         <img src="assets/Images/false.svg" class="pb-1 pe-2" />{{
           'campaign.invalid_picture' | translate
@@ -297,7 +357,7 @@
       </label>
       <label
         class="col-xl-10 col-md-12 col-lg-10 col-sm-12 success_pic d-flex align-items-center"
-        *ngIf="isConform === true"
+        *ngIf="isConformCover === true"
       >
         <img src="assets/Images/true.svg" class="pe-2" />{{
           'campaign.valid_picture' | translate
