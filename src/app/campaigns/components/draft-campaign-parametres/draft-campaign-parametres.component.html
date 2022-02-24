@@ -183,9 +183,7 @@
             formControlName="targetedCountries"
             [settings]="dropdownSettings"
             [data]="dropdownList"
-            (onSelect)="onItemSelect($event)"
             [(ngModel)]="selectedAttributes"
-            (onSelectAll)="onSelectAll($event)"
             class="input_country country_input"
           >
           </ng-multiselect-dropdown>

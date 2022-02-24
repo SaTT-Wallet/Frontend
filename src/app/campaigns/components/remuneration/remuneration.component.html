@@ -40,7 +40,9 @@
       >
         <!-- <p class="hard-gray-text mb-0">Balance :{{ totalAmount }} USD</p> -->
         <p class="hard-gray-text mb-0">
-          Balance :${{ this.selectedCryptoDetails?.total_balance?.toFixed(2) }}
+          Balance :${{
+            this.selectedCryptoDetails?.total_balance | showNumbersRule
+          }}
         </p>
 
         <span class="router-text" (click)="onClickAmount()">{{
