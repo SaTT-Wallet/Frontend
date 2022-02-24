@@ -229,6 +229,9 @@ p {
   overflow-x: hidden !important;
   height: 100%;
   min-height: 100%;
+  display: block;
+  /* overflow: hidden; */
+  position: relative;
 }
 
 .btn-blue {
@@ -678,15 +681,25 @@ button:focus {
   height: max-content;
 }
 .div-footer {
-  width: 300px;
+  max-width: 500px;
   position: absolute;
-  bottom: 0;
+  bottom: -20px;
   right: 0;
+  /* overflow: hidden; */
+  width: 80vw;
+  margin-right: -49px;
+  margin-left: auto;
 }
 
 @media (min-height: 840px) {
   .div-footer-mobile {
     margin-top: 9vh !important;
+  }
+}
+
+@media (max-width: 1400px) {
+  .div-footer {
+    position: relative;
   }
 }
 
