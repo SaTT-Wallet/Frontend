@@ -102,10 +102,21 @@
     <div
       class="col-xl-10 col-md-12 col-lg-10 col-sm-12 d-flex justify-content-start mb-2"
     >
-      <div class="error">
-        <span *ngIf="notValidMissionData === true">{{
-          'Profil.field_required' | translate
-        }}</span>
+      <div class="error text-center">
+        <span
+          *ngIf="
+            notValidMissionData === true &&
+            this.campaignMissionsOracl.length === 0
+          "
+          >{{ 'Profil.field_required' | translate }}</span
+        >
+        <span
+          *ngIf="
+            notValidMissionData === true &&
+            this.campaignMissionsOracl.length !== 0
+          "
+          >You have to add Earnings</span
+        >
       </div>
     </div>
   </div>

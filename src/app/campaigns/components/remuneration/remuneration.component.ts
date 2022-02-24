@@ -1089,6 +1089,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     this.amountdefault = this.form.get('currency')?.value;
     this.selectedCryptoSend = event.symbol;
     this.symbol = event.symbol;
+    this.cryptoSymbol = event.symbol;
     this.networks = event.network;
     this.decimals = event.decimal;
     this.token = event.AddedToken;
