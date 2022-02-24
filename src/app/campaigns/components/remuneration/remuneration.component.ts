@@ -688,6 +688,9 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe((data: any) => {
         this.dataList = data;
+        this.cryptoToDropdown = this.dataList.filter(
+          (crypto) => crypto.symbol === this.draftData.currency.name
+        );
         Object.preventExtensions(this.dataList);
         this.cryptoQuantity = (
           this.dataList.find(
@@ -701,9 +704,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
           ...this.dataList.filter((data: any) => data.symbol === 'SATTBEP20'),
           ...this.dataList.filter((data: any) => data.symbol === 'BUSD')
         ];
-        this.cryptoToDropdown = this.dataList.filter(
-          (crypto) => crypto.symbol === this.draftData.currency.name
-        );
       });
   }
 
