@@ -5,17 +5,12 @@ import {
   OnDestroy,
   ElementRef,
   ViewChild,
-  ChangeDetectionStrategy,
-  EventEmitter,
-  Output,
   TemplateRef,
   HostListener,
-  AfterContentChecked,
   Inject
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Editor } from 'ngx-editor';
-import { arrayCountries } from '@config/atn.config';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -23,18 +18,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of, Subject } from 'rxjs';
-import { ConvertFromWei } from '@shared/pipes/wei-to-sa-tt.pipe';
 import { DraftCampaignStoreService } from '@core/services/draft-campaign-store.service';
 import { Campaign } from '@app/models/campaign.model';
-import {
-  concatMap,
-  filter,
-  map,
-  mergeMap,
-  switchMap,
-  take,
-  takeUntil
-} from 'rxjs/operators';
+import { map, mergeMap, switchMap, takeUntil } from 'rxjs/operators';
 import { WalletStoreService } from '@core/services/wallet-store.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DraftCampaignService } from '@campaigns/services/draft-campaign.service';
@@ -65,7 +51,7 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
   scrolling = false;
   inTop = true;
   @Input() cryptoSatt: any;
-  @Input() validationFormMission: any;
+  @Input() validFormMissionFromRemuToEdit: any;
   @Input() validFormPresentation: any;
   @Input() validFormPicture: any;
   @Input() validFormParam: any;
@@ -190,18 +176,17 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
     if (this.validFormPicture === false) {
       this.sendErrorToPicture = true;
     }
-    if (this.validationFormMission === false) {
+    if (this.validFormMissionFromRemuToEdit === false) {
       this.sendErrorToMissionRemu = true;
     }
   }
   saveAndLaunchCampaign() {
     this.checkValidation();
-
     if (
       this.validFormParam &&
       this.validFormPresentation &&
       this.validFormBudgetRemun &&
-      this.validationFormMission &&
+      this.validFormMissionFromRemuToEdit &&
       this.validFormPicture
     ) {
       this.alertRequired = false;
@@ -307,7 +292,7 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
     this.validFormBudgetRemun = event;
   }
   listenForMissionChange(event: any) {
-    this.validationFormMission = event;
+    this.validFormMissionFromRemuToEdit = event;
   }
   listenForPictureChange(event: any) {
     this.validFormPicture = event;
@@ -400,7 +385,7 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
   }
   @HostListener('window:resize', ['$event'])
   onResizeWindow(event: any) {
-    if (window.innerWidth < 768) {
+    if (event.target.innerWidth < 768) {
       if (!this.showModal) {
         this.showModal = true;
         this.openModal(this.useDesktopModal);

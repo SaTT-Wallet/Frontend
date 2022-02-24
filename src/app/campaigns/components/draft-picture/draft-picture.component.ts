@@ -126,19 +126,6 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
     //this.getCampaignCoverMObile();
     this.saveForm();
     this.emitFormStatus();
-    this.form?.valueChanges
-      .pipe(
-        debounceTime(500),
-        tap((values: any) => {
-          if (this.form.valid) {
-            this.validFormPicture.emit(true);
-          } else {
-            this.validFormPicture.emit(false);
-          }
-        }),
-        takeUntil(this.isDestroyed$)
-      )
-      .subscribe();
   }
   isValidFile(controlName: any) {
     return (
@@ -194,6 +181,7 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.draftData && changes.draftData.currentValue.id) {
       //  this.populateForm(this.draftData);
+
       if (this.draftData.cover === '' || this.draftData.cover === undefined) {
         this.showImage = false;
       } else {
@@ -225,6 +213,11 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
         this.form
           .get('coverSrcMobile')
           ?.setValue(this.draftData.coverSrcMobile, { emitEvent: false });
+      }
+      if (this.form.valid) {
+        this.validFormPicture.emit(true);
+      } else {
+        this.validFormPicture.emit(false);
       }
     }
   }
@@ -393,7 +386,7 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
     /*upload file*/
     const myReader: FileReader = new FileReader();
     const fileValue = new Promise((resolve, reject) => {
-      myReader.onloadend = (e) => {
+      myReader.onloadend = () => {
         let img = new Image();
         img.onload = function () {
           resolve({

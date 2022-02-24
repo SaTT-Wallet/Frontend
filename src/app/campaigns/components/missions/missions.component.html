@@ -1,13 +1,17 @@
 <div class="col-12 px-3 padding-small-version">
-    <div class="col-md-12 col-lg-12 col-xs-12 d-flex justify-content-center pt-4">
-        <label class="title-section">Missions</label>
-    </div>
-    <form [formGroup]="form" class="d-flex flex-column justify-content-center">
-        <ng-container formArrayName="missions">
-            <ng-container *ngFor="let mission of missions.controls; index as missionIndex">
-                <ng-container [formGroupName]="missionIndex">
-                    <div class="col-xl-8 col-md-12 col-lg-10 col-sm-8 d-flex justify-content-between align-self-center p-0">
-                        <label class="label-type d-flex align-items-center">
+  <div class="col-md-12 col-lg-12 col-xs-12 d-flex justify-content-center pt-4">
+    <label class="title-section">Missions</label>
+  </div>
+  <form [formGroup]="form" class="d-flex flex-column justify-content-center">
+    <ng-container formArrayName="missions">
+      <ng-container
+        *ngFor="let mission of missions.controls; index as missionIndex"
+      >
+        <ng-container [formGroupName]="missionIndex">
+          <div
+            class="col-xl-8 col-md-12 col-lg-10 col-sm-8 d-flex justify-content-between align-self-center p-0"
+          >
+            <label class="label-type d-flex align-items-center">
               <img
                 src="{{
                   '/assets/Images/missions/' +
@@ -20,7 +24,7 @@
               Choose missions for {{ mission.get('oracle')?.value }} (you can
               modify our suggestions)
             </label>
-                        <!-- <ui-switch
+            <!-- <ui-switch
               *ngIf="!isIncludeOracle(mission.get('oracle')?.value)"
               class="d-flex align-self-center"
               id="toggle"
@@ -31,48 +35,78 @@
               "
             >
             </ui-switch> -->
-                        <ui-switch class="d-flex align-self-center" id="toggle" [checked]="isIncludeOracle(mission.get('oracle')?.value)" #uiSwitch (change)="
+            <ui-switch
+              class="d-flex align-self-center"
+              id="toggle"
+              [checked]="isIncludeOracle(mission.get('oracle')?.value)"
+              #uiSwitch
+              (change)="
                 onToggle($event, missionIndex, mission.get('oracle')?.value)
-              " [disabled]="notValidMissionData">
-                        </ui-switch>
-                    </div>
-                    <ng-container *ngIf="uiSwitch.checked">
-                        <div class="col-xl-8 col-md-12 col-lg-10 col-sm-8 d-flex justify-content-between flex-column align-self-center p-0">
-                            <ng-container formArrayName="sub_missions">
-                                <div *ngFor="
+              "
+              [disabled]="notValidMissionData"
+            >
+            </ui-switch>
+          </div>
+          <ng-container *ngIf="uiSwitch.checked">
+            <div
+              class="col-xl-8 col-md-12 col-lg-10 col-sm-8 d-flex justify-content-between flex-column align-self-center p-0"
+            >
+              <ng-container formArrayName="sub_missions">
+                <div
+                  *ngFor="
                     let subMission of getSubMissions(missionIndex).controls;
                     let i = index
-                  " class="position-relative input-wrapper">
-                                    <ng-container [formGroupName]="i">
-                                        <input formControlName="mission" type="text" class="input-mission" />
-                                        <span class="position-absolute indecator">
+                  "
+                  class="position-relative input-wrapper"
+                >
+                  <ng-container [formGroupName]="i">
+                    <input
+                      formControlName="mission"
+                      type="text"
+                      class="input-mission"
+                    />
+                    <span class="position-absolute indecator">
                       {{ i + 1 }}.
                     </span>
-                                        <button (click)="removeValue(missionIndex, i)" class="btn-cancel">
+                    <button
+                      (click)="removeValue(missionIndex, i)"
+                      class="btn-cancel"
+                    >
                       <img
                         *ngIf="i > 0"
                         src="/assets/Images/missions/delete.svg"
                       />
                     </button>
-                                    </ng-container>
-                                </div>
-                            </ng-container>
+                  </ng-container>
+                </div>
+              </ng-container>
 
-                            <div class="p-2">
-                                <button [disabled]="this.getSubMissions(missionIndex).invalid" type="submit" class="btn-white" (click)="addSubMissions(missionIndex)">
+              <div class="p-2">
+                <button
+                  [disabled]="this.getSubMissions(missionIndex).invalid"
+                  type="submit"
+                  class="btn-white"
+                  (click)="addSubMissions(missionIndex)"
+                >
                   Add a new mission
                 </button>
-                            </div>
-                        </div>
-                    </ng-container>
-                </ng-container>
-            </ng-container>
+              </div>
+            </div>
+          </ng-container>
         </ng-container>
-    </form>
-    <div class="text-center error">
-        <!-- <span *ngIf="notValidMissionData === true">{{
-      'Profil.field_required' | translate
-    }}</span> -->
-        <span *ngIf="notValidMissionData === true">you have to add eranings</span>
+      </ng-container>
+    </ng-container>
+  </form>
+
+  <div class="row d-flex justify-content-center">
+    <div
+      class="col-xl-10 col-md-12 col-lg-10 col-sm-12 d-flex justify-content-start mb-2"
+    >
+      <div class="error">
+        <span *ngIf="notValidMissionData === true">{{
+          'Profil.field_required' | translate
+        }}</span>
+      </div>
     </div>
+  </div>
 </div>
