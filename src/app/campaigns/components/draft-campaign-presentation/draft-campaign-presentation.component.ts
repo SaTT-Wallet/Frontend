@@ -82,10 +82,13 @@ export class DraftCampaignPresentationComponent implements OnInit {
         debounceTime(500),
         tap((values: any) => {
           if (this.draftData.id && this.form.valid) {
+            this.validFormPresentation.emit(true);
             this.service.autoSaveFormOnValueChanges({
               formData: values,
               id: this.id
             });
+          } else {
+            this.validFormPresentation.emit(false);
           }
         }),
         takeUntil(this.isDestroyed$)

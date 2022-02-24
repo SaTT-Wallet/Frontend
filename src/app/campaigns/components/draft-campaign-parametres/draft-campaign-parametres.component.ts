@@ -2,7 +2,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   EventEmitter,
   Inject,
   Input,
@@ -10,7 +9,6 @@ import {
   Output,
   PLATFORM_ID,
   SimpleChanges,
-  TemplateRef,
   ViewChild
 } from '@angular/core';
 import {
@@ -25,18 +23,9 @@ import { DraftCampaignService } from '@campaigns/services/draft-campaign.service
 import { Campaign } from '@app/models/campaign.model';
 import { TranslateService } from '@ngx-translate/core';
 import { arrayCountries } from '@app/config/atn.config';
-import {
-  DOCUMENT,
-  formatDate,
-  isPlatformBrowser,
-  getLocaleId
-} from '@angular/common';
-import {
-  IDropdownSettings,
-  MultiSelectComponent
-} from 'ng-multiselect-dropdown';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { Subject } from 'rxjs';
-import { HasElementRef } from '@angular/material/core/common-behaviors/color';
 
 @Component({
   selector: 'app-draft-campaign-parametres',
@@ -145,13 +134,17 @@ export class DraftCampaignParametresComponent implements OnInit {
   }
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.countries?.toggleSelectAll();
-      var elements = this.document.getElementsByClassName('selected-item');
-      var allCountriesElement: HTMLElement;
-      allCountriesElement = elements[0] as HTMLElement;
+      if (this.draftData.targetedCountries.length === 0) {
+        this.countries?.toggleSelectAll();
+      }
+      // var elements = this.document.getElementsByClassName('selected-item');
+      // var allCountriesElement: HTMLElement;
+      // allCountriesElement = elements[0] as HTMLElement;
       // allCountriesElement.innerHTML = 'fefzefzefzef';
-      // let elem = this.document.getElementsByClassName('dropdown-btn')[0]  as HTMLElement
-      // console.log(elem)
+      // let elem = this.document.getElementsByClassName(
+      //   'dropdown-btn'
+      // )[0] as HTMLElement;
+      // console.log('elem', elem);
       //  elem.removeChild(elem.lastChild);
     }, 1000);
   }
@@ -182,23 +175,8 @@ export class DraftCampaignParametresComponent implements OnInit {
     this.saveForm();
     this.emitFormStatus();
     this.checkCountriesTags(this.form.value);
-
-    this.form.valueChanges
-      .pipe(
-        debounceTime(500),
-        tap((values: any) => {
-          if (this.form.valid) {
-            this.validFormParam.emit(true);
-          } else {
-            this.validFormParam.emit(false);
-          }
-        }),
-        takeUntil(this.isDestroyed)
-      )
-      .subscribe();
   }
-  onItemSelect(item: any) {}
-  onSelectAll(items: any) {}
+
   ngOnChanges(changes: SimpleChanges) {
     this.InterestList.forEach((tag: any) => {
       if (this.draftData.tags.indexOf(tag.name) >= 0) {
@@ -214,6 +192,11 @@ export class DraftCampaignParametresComponent implements OnInit {
     }
 
     if (changes.draftData && changes.draftData.currentValue.id) {
+      if (this.form.valid) {
+        this.validFormParam.emit(true);
+      } else {
+        this.validFormParam.emit(false);
+      }
       this.populateForm(this.draftData);
       if (
         this.draftData.startDate === '' ||
@@ -249,6 +232,11 @@ export class DraftCampaignParametresComponent implements OnInit {
               formData: values,
               id: this.id
             });
+          }
+          if (this.form.valid) {
+            this.validFormParam.emit(true);
+          } else {
+            this.validFormParam.emit(false);
           }
         }),
         takeUntil(this.isDestroyed)

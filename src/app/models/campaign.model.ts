@@ -1,6 +1,5 @@
 import { ListTokens } from '@config/atn.config';
 import { getDateObjectFrom } from '@helpers/utils/common';
-import { compare } from '@helpers/utils/math';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 export class Campaign {
   id: string;
