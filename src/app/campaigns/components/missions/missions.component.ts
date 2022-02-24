@@ -4,25 +4,14 @@ import {
   Input,
   OnInit,
   Output,
-  SimpleChange,
   SimpleChanges
 } from '@angular/core';
-import {
-  AbstractControl,
-  FormArray,
-  FormControl,
-  FormGroup,
-  ValidatorFn,
-  Validators
-} from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DraftCampaignService } from '@app/campaigns/services/draft-campaign.service';
 import { arrayLength } from '@app/helpers/form-validators';
 import { Campaign } from '@app/models/campaign.model';
-import { FacebookLoginProvider } from 'angularx-social-login';
-import { element } from 'protractor';
 import { Subject } from 'rxjs';
-import { debounceTime, ignoreElements, takeUntil, tap } from 'rxjs/operators';
-import { runInThisContext } from 'vm';
+import { debounceTime, takeUntil, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-missions',
@@ -162,10 +151,15 @@ export class MissionsComponent implements OnInit {
         //this.prePopulateInputs(this.draftData.missions);
         this.checkRequired();
       }
-      // this.form.setControl(
-      //   'missions',
-      //   this.prePopulateInputs(this.draftData.ratios)
-      // );
+      if (
+        this.form.valid &&
+        this.draftData.id &&
+        this.campaignMissionsOracl.length > 0
+      ) {
+        this.validFormMission.emit(true);
+      } else {
+        this.validFormMission.emit(false);
+      }
     }
     if (changes.notValidMissionData) {
       if (!this.notValidMissionData && this.form.valid && this.draftData.id) {
@@ -186,20 +180,13 @@ export class MissionsComponent implements OnInit {
 
           this.campaignMissionsOracl.push(element.oracle);
         } else {
-          let tt = this.missionsExamples.find(
-            (elem: any) => elem.oracle === element.oracle
-          );
+          // let tt = this.missionsExamples.find(
+          //   (elem: any) => elem.oracle === element.oracle
+          // );
           newArray.push({ oracle: element.oracle, sub_missions: [] });
         }
       });
-      // this.form.controls.missions.patchValue(newArray);
 
-      // newArray.forEach((el: any) => {
-      //   (this.form.controls.missions as FormArray).push({
-      //     oracle: new FormControl(el.oracle),
-      //     sub_missions: el.sub_missions
-      //   });
-      // });
       const controls = newArray.map((mission) => {
         const group = new FormGroup({
           oracle: new FormControl(mission.oracle),
@@ -297,9 +284,9 @@ export class MissionsComponent implements OnInit {
     this.selectedOracle.emit({ oracle, event });
     this.campaignMissionsOracl.push(oracle);
     this.campaignMissionsOracl = [...new Set(this.campaignMissionsOracl)];
-    const subMissions = this.missions
-      .at(index)
-      .get('sub_missions') as FormArray;
+    // const subMissions = this.missions
+    //   .at(index)
+    //   .get('sub_missions') as FormArray;
     // if (!event) {
     //   var i = subMissions.length;
     //   while (i--) {

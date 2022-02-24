@@ -20,19 +20,16 @@ import {
   FormGroup,
   Validators
 } from '@angular/forms';
-import { forkJoin, fromEvent, Observable, Subject } from 'rxjs';
+import { forkJoin, Observable, Subject } from 'rxjs';
 import {
   debounceTime,
-  distinctUntilChanged,
   filter,
   map,
-  startWith,
   switchMap,
   takeUntil,
-  tap,
-  withLatestFrom
+  tap
 } from 'rxjs/operators';
-import { GazConsumedByCampaign, ListTokens } from '@app/config/atn.config';
+import { GazConsumedByCampaign } from '@app/config/atn.config';
 import { checkIfEnoughBalance } from '@helpers/form-validators';
 import { Campaign } from '@app/models/campaign.model';
 import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
@@ -48,14 +45,10 @@ import {
   customValidateMaxMin
 } from '@helpers/form-validators';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
-
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
-import { Big } from 'big.js';
 import { CampaignsService } from '@app/campaigns/facade/campaigns.facade';
 import { CampaignsStoreService } from '@app/campaigns/services/campaigns-store.service';
-import { element } from 'protractor';
-
 enum ERemunerationType {
   Publication = 'publication',
   Performance = 'performance'
@@ -106,11 +99,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   initialBudgetInUSDInputWidth$ = new Observable<string>();
   eRemunerationType = ERemunerationType; // A variable reference to access enum from template
   selectRemunerateValue = ERemunerationType.Performance;
-  // isFacebookSelected = false;
-  // isYoutubeSelected = false;
-  // isInstagramSelected = false;
-  // isTwitterSelected = false;
-  // isLinkedinSelected = false;
   isReachLimitActivated = false;
   cryptoSymbol = 'SATT';
   selectedBlockchain = 'erc20';
@@ -182,10 +170,10 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   ) {
     this.form = new FormGroup(
       {
-        initialBudget: new FormControl('0', {
+        initialBudget: new FormControl('', {
           validators: Validators.compose([Validators.required])
         }),
-        initialBudgetInUSD: new FormControl('0', {
+        initialBudgetInUSD: new FormControl('', {
           validators: Validators.compose([Validators.required])
         }),
         currency: new FormControl(null, {
@@ -289,7 +277,11 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         //this.form.get("bounties")?.setValidators(Validators.required);
         //this.bounties.updateValueAndValidity();
       }
-
+      if (this.notValidMissionFromEdit === true) {
+        this.sendErrorToMission = true;
+      } else {
+        this.sendErrorToMission = false;
+      }
       this.setPreSelectedOracles();
       this.cdref.detectChanges();
       // this.setPreSelectedMissions();
@@ -391,7 +383,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   saveForm() {
     this.form.valueChanges
       .pipe(
-        tap((_) => {
+        tap(() => {
           // this.notValidBudgetRemun=false
           if (!this.service.isSavingStarted) {
             this.service.setSaveFormStatus('saving');
@@ -400,11 +392,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         }),
         debounceTime(500),
         tap((values: any) => {
-          if (this.notValidMissionFromEdit === false) {
-            this.sendErrorToMission = true;
-          } else {
-            this.sendErrorToMission = false;
-          }
           if (this.form.valid) {
             this.validFormBudgetRemun.emit(true);
           } else {
@@ -693,49 +680,11 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       .subscribe((data: any) => {
         this.dataList = data;
         Object.preventExtensions(this.dataList);
-        //  this.cryptoList = [...this.dataList.filter((data:any) => data.symbol.includes("SATT")).reverse(),...this.dataList.filter((data:any) => !data.symbol.includes("SATT")).reverse() ]
-
-        // this.dataList?.sort(
-        //   (a: any, b: any) =>
-        //     parseFloat(b.total_balance) - parseFloat(a.total_balance)
-        // );
-        // for (const key in ListTokens) {
-        //   this.dataList.forEach((data: any) => {
-        //     if (key === data.symbol) {
-        //       this.cryptoList.push(data);
-        //     }
-        //   });
-        // }
-
         this.cryptoQuantity = (
           this.dataList.find(
             (crypto: any) => crypto.symbol === this.draftData.currency.name
           ) as any
         )?.quantity;
-
-        //  this.dataList = data.listOfCrypto;
-        // if (data.listOfCrypto.total_balance === "0") {
-        //   this.dataList.total_balance = "0.00";
-        // }
-        this.dataList?.forEach((crypto: any) => {
-          // crypto.type =
-          //   crypto.network ?? ListTokens[crypto.symbol].type.toUpperCase();
-          //  crypto.type = ListTokens[crypto.symbol]?.type;
-          // crypto.undername2 = crypto.undername2 ?? crypto.symbol;
-          // crypto.undername = crypto.undername ?? 'indispo';
-          // crypto.typetab = crypto.type;
-          // crypto.price = this.filterAmount(crypto.price + '');
-          // crypto.variation = crypto.variation.toFixed(2) ?? "0";
-          // crypto.quantity = this.filterAmount(crypto.quantity + "");
-          // if (crypto.quantity.toString().startsWith('-')) {
-          //   crypto.quantity = '0';
-          // }
-          // crypto.quantity = new Big(crypto.quantity)
-          //   .round(10, Big.roundDown)
-          //   .toFixed();
-          //crypto.quantity = new Big(crypto.quantity)
-          // crypto.total_balance = crypto.total_balance.toFixed(2);
-        });
         this.dataList = [
           ...this.dataList.filter((data: any) => data.symbol === 'SATT'),
           ...this.dataList.filter((data: any) => data.symbol === 'USDT'),
@@ -797,7 +746,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     this.f.initialBudget?.reset();
     this.f.initialBudgetInUSD.reset();
     let el = this.initialBudgetElement?.nativeElement;
-    var width = parseInt(el.style.width);
+    // var width = parseInt(el.style.width);
     el.style.width = (el.value.length + 1) * 12 + 'px';
     this.defaultAmount = this.f.currency.value;
   }
@@ -1113,7 +1062,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     if (elementinputusd)
       elementinputusd.style.width = elementinputusd.value.length + 1.2 + 'ch';
   }
-  resetForm(network?: string) {
+  resetForm() {
     this.form.reset();
     this.network = '';
     this.token = '';
@@ -1188,7 +1137,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       this.dataList?.forEach((crypto: any) => {
         if (crypto.symbol === currency) {
           let quantity = this.showNumbersRule.transform(crypto.quantity);
-          let totalBal = this.showNumbersRule.transform(crypto.total_balance);
+          // let totalBal = this.showNumbersRule.transform(crypto.total_balance);
           this.form.get('initialBudget')?.setValue(quantity),
             this.form.get('initialBudgetInUSD')?.setValue(crypto.total_balance);
 
