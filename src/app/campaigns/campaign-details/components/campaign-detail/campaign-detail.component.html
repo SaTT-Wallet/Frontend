@@ -16,12 +16,12 @@
       alt="{{ campaign.title }}"
       *ngIf="campaign && campaign.cover"
     />
-    <app-edit-cover-btn
+    <!-- <app-edit-cover-btn
       *ngIf="campaign.isOwnedByUser"
       class="btn-edit"
       (imageImported)="imageImported($event, 'cover')"
       [imageBase64]="campaign.cover"
-    ></app-edit-cover-btn>
+    ></app-edit-cover-btn> -->
   </div>
   <div
     class="div-top-bar align-content-center justify-content-between"
