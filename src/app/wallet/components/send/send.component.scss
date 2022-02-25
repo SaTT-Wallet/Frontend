@@ -642,6 +642,12 @@ input:-webkit-autofill:active {
   right: 0;
 }
 
+@media (max-width: 740px) {
+  .div-footer {
+    bottom: 75px;
+  }
+}
+
 .span-transacHash {
   font-style: normal;
   font-size: 16px;
