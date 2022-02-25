@@ -15,7 +15,6 @@ export function app(): express.Express {
   const template = fs.readFileSync(join(distFolder, 'index.html')).toString();
   const win = domino.createWindow(template);
   win.Object = Object;
-
   win.Math = Math;
   global['window'] = win;
   global['HTMLElement'] = win.HTMLElement;
@@ -26,7 +25,7 @@ export function app(): express.Express {
   global['KeyboardEvent'] = win.KeyboardEvent;
   global['FocusEvent'] = win.FocusEvent;
   global['PointerEvent'] = win.PointerEvent;
-  global['Object'] = win.object;
+  global['Object'] = Object;
   global['DOMTokenList'] = win.DOMTokenList;
   global['Node'] = win.Node;
   global['Text'] = win.Text;
