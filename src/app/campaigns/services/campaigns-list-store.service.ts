@@ -127,7 +127,7 @@ export class CampaignsListStoreService {
             if (!!res) {
               return [
                 res.count,
-                res.campaigns.map((c: any) => new Campaign(c))
+                !!res.campaigns? res.campaigns.map((c: any) => new Campaign(c)): []
               ];
             }
             return [];
