@@ -25,7 +25,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
     HelpComponent
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    BrowserModule.withServerTransition({ appId: 'satt-token-atayen' }),
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,

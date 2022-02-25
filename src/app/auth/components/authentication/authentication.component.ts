@@ -11,7 +11,6 @@ import {
   Inject,
   PLATFORM_ID
 } from '@angular/core';
-
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { CookieService } from 'ngx-cookie-service';

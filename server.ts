@@ -10,14 +10,12 @@ const domino = require('domino');
 import { existsSync } from 'fs';
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
-  const server = express();
-  const distFolder = join(process.cwd(), 'dist/wallet-satt-angular/browser');
-  const indexHtml = existsSync(join(distFolder, 'index.original.html'))
-    ? 'index.original.html'
-    : 'index';
+  const server = express.default();
+  const distFolder = join(process.cwd(), 'dist/satt-token-atayen/browser');
   const template = fs.readFileSync(join(distFolder, 'index.html')).toString();
   const win = domino.createWindow(template);
   win.Object = Object;
+
   win.Math = Math;
   global['window'] = win;
   global['HTMLElement'] = win.HTMLElement;
@@ -34,6 +32,10 @@ export function app(): express.Express {
   global['Text'] = win.Text;
   global['navigator'] = win.navigator;
   global['IDBIndex'] = win.IDBIndex;
+  const indexHtml = existsSync(join(distFolder, 'index.original.html'))
+    ? 'index.original.html'
+    : 'index';
+
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
   server.engine(
     'html',

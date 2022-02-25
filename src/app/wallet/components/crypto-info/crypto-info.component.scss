@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: row;
 }
-
 .bg-header {
   background: #4048ff;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
@@ -12,12 +11,10 @@
   height: 24vh;
   z-index: 2;
 }
-
 .bg-header-info {
   width: 73.5%;
   align-self: end;
 }
-
 .back-button {
   font-family: Poppins;
   font-style: normal;
@@ -28,7 +25,6 @@
   letter-spacing: 0.03em;
   color: #ffffff;
 }
-
 .crypto-logo-text {
   font-family: Poppins;
   font-style: normal;
@@ -39,12 +35,10 @@
   align-items: center;
   color: #ffffff;
 }
-
 .crypto-logo-img {
   width: 80px;
   border-radius: 50px;
 }
-
 .send-button {
   padding: 0.25em 2.5rem;
   margin-right: 1rem;
@@ -62,7 +56,6 @@
   border-radius: 30px;
   cursor: pointer;
 }
-
 .buy-button {
   padding: 0.25em 2.5rem;
   margin-right: 1rem;
@@ -80,7 +73,6 @@
   border-radius: 30px;
   cursor: pointer;
 }
-
 .spinner {
   height: 90px;
 }
@@ -101,13 +93,11 @@
   border-radius: 30px;
   cursor: pointer;
 }
-
 .crypto-details-container {
   margin-top: 20vh;
   width: 100%;
   z-index: 1;
 }
-
 @media (max-width: 1439px) {
   .bg-header-info {
     width: 90%;
@@ -131,14 +121,12 @@
     width: 60px;
   }
 }
-
 .chart-header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 }
-
 .innerSpan {
   color: black;
   padding: 0.25rem 0.5rem;
@@ -149,7 +137,6 @@
   font-weight: 500;
   font-size: 12px;
 }
-
 .parentSpan {
   position: absolute;
   font-family: 'Lucida Grande', 'Lucida Sans Unicode', Arial, Helvetica,
@@ -165,12 +152,10 @@
   text-overflow: clip;
   opacity: 1;
 }
-
 .chart {
   width: 100%;
   margin-left: -0.5rem;
 }
-
 .yAxisValue {
   color: #00cc9e;
 }
@@ -216,19 +201,16 @@
   color: #75758f;
   text-transform: uppercase;
 }
-
 .title-border {
   background: #ffffff;
   box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);
   padding-bottom: 16px;
 }
-
 .title-border-md {
   background: #ffffff;
   box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);
   padding-bottom: 16px;
 }
-
 .text-value {
   font-family: Poppins;
   font-style: normal;
@@ -241,7 +223,6 @@
   color: #212529;
   margin-top: 0.75rem;
 }
-
 .percent-change {
   font-family: Poppins;
   font-style: normal;
@@ -253,7 +234,6 @@
   letter-spacing: 0.03em;
   margin-top: 0.75rem;
 }
-
 .crypto-text-details ul li {
   font-family: Poppins;
   font-style: normal;
@@ -307,7 +287,6 @@
     padding-top: 4rem;
   }
 }
-
 @media (max-width: 1118px) {
   .gray-title {
     font-size: 12px;
@@ -319,7 +298,6 @@
     font-size: 14px;
   }
 }
-
 @media (max-width: 470px) {
   .chart-header {
     display: flex;
@@ -332,13 +310,11 @@
     font-size: 9px;
   }
 }
-
 @media (min-width: 471px) {
   .chart-header {
     padding-left: 1rem;
   }
 }
-
 @media (max-width: 325px) {
   .filter-box {
     width: 46px;
@@ -404,7 +380,6 @@
     width: 50px;
   }
 }
-
 @media (max-width: 767.9px) {
   .bg-header-info {
     flex-direction: column;
@@ -413,13 +388,11 @@
     align-self: center !important;
   }
 }
-
 @media (min-height: 695px) and (max-height: 737px) {
   .bg-header {
     height: 30vh;
   }
 }
-
 @media (max-height: 695px) {
   .bg-header {
     height: 36vh;

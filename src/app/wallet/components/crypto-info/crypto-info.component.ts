@@ -10,8 +10,8 @@ import * as Highcharts from 'highcharts';
 import { doc } from 'prettier';
 import line = doc.builders.line;
 import { TokenInfoService } from '@core/services/token-info/token-info.service';
-import { forkJoin, mergeMap } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators';
 import { DatePipe, DOCUMENT } from '@angular/common';
 
 @Component({

@@ -25,7 +25,7 @@ module.exports = function (config) {
       suppressAll: true // removes the duplicated traces
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/wallet-satt-angular'),
+      dir: require('path').join(__dirname, './coverage/satt-token-atayen'),
       subdir: '.',
       reporters: [
         { type: 'html' },

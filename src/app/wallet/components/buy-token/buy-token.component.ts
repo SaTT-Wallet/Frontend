@@ -7,7 +7,7 @@ import { TokenStorageService } from '@app/core/services/tokenStorage/token-stora
 import { dataList, pattContact } from '@config/atn.config';
 import { cryptoList, ListTokens } from '@config/atn.config';
 import { Observable, Subject, zip } from 'rxjs';
-import { filter, map, takeUntil, tap } from 'rxjs/operators';
+import { concatMap, filter, mapTo, tap, map, takeUntil,  } from 'rxjs/operators';
 import * as _ from 'lodash';
 
 enum EBlockchainNetwork {
@@ -71,7 +71,9 @@ export class BuyTokenComponent implements OnInit {
   cryptoList$ = this.walletFacade.cryptoList$;
   ethPrice: any;
   cryptoPrice = 0;
-  private isDestroyed = new Subject();
+  private isDestroyed = new Subject<any>();
+
+  isDestroyedObs = this.isDestroyed.asObservable();
 
   position: any;
 
@@ -177,7 +179,7 @@ export class BuyTokenComponent implements OnInit {
     this.convertform
       .get('Amount')
       ?.valueChanges.pipe(takeUntil(this.isDestroyed))
-      .subscribe((data) => {
+      .subscribe((data: any) => {
         this.amount = data;
         this.convertCrypto();
       });

@@ -23,7 +23,8 @@ import { CampaignHttpApiService } from '@app/core/services/campaign/campaign.ser
 import { Campaign } from '@app/models/campaign.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper';
-import { debounceTime, Subject, takeUntil, tap } from 'rxjs';
+import { Subject } from 'rxjs';
+import {debounceTime, takeUntil, tap} from "rxjs/operators";
 
 @Component({
   selector: 'app-draft-picture',

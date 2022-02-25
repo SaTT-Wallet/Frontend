@@ -18,9 +18,18 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of, Subject } from 'rxjs';
+import { ConvertFromWei } from '@shared/pipes/wei-to-sa-tt.pipe';
 import { DraftCampaignStoreService } from '@core/services/draft-campaign-store.service';
 import { Campaign } from '@app/models/campaign.model';
-import { map, mergeMap, switchMap, takeUntil } from 'rxjs/operators';
+import {
+  concatMap,
+  filter,
+  map,
+  mergeMap,
+  switchMap,
+  take,
+  takeUntil
+} from 'rxjs/operators';
 import { WalletStoreService } from '@core/services/wallet-store.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DraftCampaignService } from '@campaigns/services/draft-campaign.service';

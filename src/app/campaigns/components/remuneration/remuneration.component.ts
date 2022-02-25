@@ -20,16 +20,19 @@ import {
   FormGroup,
   Validators
 } from '@angular/forms';
-import { forkJoin, Observable, Subject } from 'rxjs';
+import { forkJoin, fromEvent, Observable, Subject } from 'rxjs';
 import {
   debounceTime,
+  distinctUntilChanged,
   filter,
   map,
+  startWith,
   switchMap,
   takeUntil,
-  tap
+  tap,
+  withLatestFrom
 } from 'rxjs/operators';
-import { GazConsumedByCampaign } from '@app/config/atn.config';
+import { GazConsumedByCampaign, ListTokens } from '@app/config/atn.config';
 import { checkIfEnoughBalance } from '@helpers/form-validators';
 import { Campaign } from '@app/models/campaign.model';
 import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
