@@ -6,15 +6,20 @@
     *ngIf="!showInfoSpinner"
   >
     <img
-      class="campaign-img"
+      class="campaign-img desktopClass"
       src="/assets/Images/img_placeholder.svg"
       *ngIf="!campaign || !campaign.cover"
     />
     <img
-      class="campaign-img"
+      class="campaign-img desktopClass"
       [src]="campaign.cover"
       alt="{{ campaign.title }}"
       *ngIf="campaign && campaign.cover"
+    />
+    <img
+      class="campaign-img mobileClass"
+      [src]="campaign.coverSrcMobile"
+      alt="{{ campaign.title }}"
     />
     <!-- <app-edit-cover-btn
       *ngIf="campaign.isOwnedByUser"
