@@ -80,9 +80,22 @@
     <div
       class="col-xl-6 col-md-6 col-lg-6 col-sm-8 d-flex justify-content-center pt-3-mobile"
     >
-      <button type="button" class="btn-blue" (click)="saveAndLaunchCampaign()">
+      <button
+        type="button"
+        class="btn-blue"
+        (click)="saveAndLaunchCampaign()"
+        [hidden]="campaignData.isActive && campaignData.isOwnedByUser"
+      >
         <img src="/assets/Images/Rectangle-lancer_compagne.svg" class="me-4" />
         {{ 'start my campaign now!' | translate | capitalizePhrase }}
+      </button>
+      <button
+        type="button"
+        class="btn-blue"
+        [routerLink]="['/ad-pools']"
+        [hidden]="!campaignData.isActive && campaignData.isOwnedByUser"
+      >
+        Save changes
       </button>
     </div>
   </div>

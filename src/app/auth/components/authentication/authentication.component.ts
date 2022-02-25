@@ -58,7 +58,7 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
   @HostBinding('style.background') backgroundColor =
     'linear-gradient(180deg, #001C59 20.34%, #F52079 99.19%)';
   query = '(max-width: 767.98px)';
-  mediaQueryList = window.matchMedia(this.query);
+  mediaQueryList?: MediaQueryList;
   @ViewChild('countdown') counter!: CountdownComponent;
   @ViewChild('countdowncode') countercode!: CountdownComponent;
 
@@ -153,6 +153,9 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
     @Inject(PLATFORM_ID) private platformId: string,
     private tokenStorageService: TokenStorageService
   ) {
+    if (isPlatformBrowser(this.platformId)) {
+      this.mediaQueryList = window.matchMedia(this.query);
+    }
     translate.addLangs(['en', 'fr']);
     if (this.tokenStorageService.getLocale()) {
       // @ts-ignore
@@ -211,14 +214,14 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
       { validators: MatchPasswordValidator() }
     );
   }
-  /*****************cookies******************** 
+  /*****************cookies********************
 getCookie(key: string){
   return this.cookieService.get(key);
 }
 /****************************************** */
 
   ngOnInit() {
-    if (this.mediaQueryList.matches) {
+    if (this.mediaQueryList?.matches) {
       this.backgroundImage = '';
       this.backgroundColor =
         'linear-gradient(180deg, #001C59 20.34%, #F52079 99.19%)';
@@ -246,7 +249,7 @@ getCookie(key: string){
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
     if (isPlatformBrowser(this.platformId) && event) {
-      if (this.mediaQueryList.matches) {
+      if (this.mediaQueryList?.matches) {
         this.backgroundColor =
           'linear-gradient(180deg, #001C59 20.34%, #F52079 99.19%)';
       } else {
