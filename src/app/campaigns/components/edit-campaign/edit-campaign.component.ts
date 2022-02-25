@@ -160,7 +160,7 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
           this.campaignListStoreService.getAllCampaigns(true, {});
 
           this.router
-            .navigateByUrl('/RefreshComponent', { skipLocationChange: true })
+            .navigateByUrl('', { skipLocationChange: true })
             .then(() => {
               this.router.navigate(['home/ad-pools']);
             });
