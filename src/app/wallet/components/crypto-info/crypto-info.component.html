@@ -47,27 +47,54 @@
         < Back
       </div>
       <div class="buttons-container d-flex justify-content-end mt-5">
-        <div
+        <button
+          [disabled]="disableBtn"
           class="send-button"
           (click)="goTosend(crypto.symbol, crypto.network)"
         >
-          <img src="assets/Images/crypto-info/Send.png" class="mr-2" />Send
-        </div>
-        <div
+          <img
+            src="assets/Images/sendShape.png"
+            class="mr-2"
+            *ngIf="disableBtn"
+          />
+          <img
+            src="assets/Images/crypto-info/Send.png"
+            class="mr-2"
+            *ngIf="!disableBtn"
+          />Send
+        </button>
+        <button
+          [disabled]="disableBtn"
           class="buy-button"
           (click)="goToBuy(crypto.symbol, crypto.network)"
         >
-          <img src="assets/Images/crypto-info/Buy.svg" class="mr-2" />Buy
-        </div>
-        <div
+          <img
+            src="assets/Images/buyShape.png"
+            class="mr-2"
+            *ngIf="disableBtn"
+          />
+          <img
+            src="assets/Images/crypto-info/Buy.svg"
+            class="mr-2"
+            *ngIf="!disableBtn"
+          />Buy
+        </button>
+        <button
+          [disabled]="disableBtn"
           class="request-button"
           (click)="goTorecieve(crypto.symbol, crypto.network)"
         >
           <img
+            src="assets/Images/recieveshape.png"
+            class="mr-2"
+            *ngIf="disableBtn"
+          />
+          <img
+            *ngIf="!disableBtn"
             src="assets/Images/crypto-info/Request.svg"
             class="mr-2"
           />Request
-        </div>
+        </button>
       </div>
     </div>
   </div>
