@@ -5,11 +5,10 @@ import { ShowNumbersRule } from '@shared/pipes/showNumbersRule';
 import 'assets/js/trading-view.js';
 import { CryptoInfoService } from '@core/services/crypto-info.service';
 import { Chart } from 'angular-highcharts';
-declare var tradingView: any;
+//declare var tradingView: any;
 import * as Highcharts from 'highcharts';
-import { doc } from 'prettier';
-import line = doc.builders.line;
-import { TokenInfoService } from '@core/services/token-info/token-info.service';
+// import { doc } from 'prettier';
+//import line = doc.builders.line;
 import { forkJoin } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { DatePipe, DOCUMENT } from '@angular/common';
@@ -32,6 +31,7 @@ export class CryptoInfoComponent implements OnInit, AfterViewInit {
   cryptoBinanceContract: any;
   cryptoPrice: any;
   loading = true;
+  disableBtn: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -125,7 +125,10 @@ export class CryptoInfoComponent implements OnInit, AfterViewInit {
         (element: any) => element.symbol === this.cryptoSymbol
       )[0];
       if (!this.crypto) {
+        this.disableBtn = true;
         return;
+      } else {
+        this.disableBtn = false;
       }
     });
   }
@@ -157,9 +160,9 @@ export class CryptoInfoComponent implements OnInit, AfterViewInit {
               zIndex: 5,
               id: 'first'
             });
-            let tick = document.getElementsByClassName(
-              'highcharts-plot-lines-5'
-            )[0];
+            // let tick = document.getElementsByClassName(
+            //   'highcharts-plot-lines-5'
+            // )[0];
 
             let span = document.createElement('span');
             let innerSpan = document.createElement('span');
