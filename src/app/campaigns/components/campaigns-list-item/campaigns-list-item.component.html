@@ -69,8 +69,15 @@
     />-->
 
     <img
+      *ngIf="!!campaign.cover"
+      class="img-campaign ng-isolate-scope desktopClass"
+      alt=""
+      loading="lazy"
+      [src]="campaign.cover"
+    />
+    <img
       *ngIf="!!campaign.coverSrcMobile"
-      class="img-campaign ng-isolate-scope"
+      class="img-campaign ng-isolate-scope mobileClass"
       alt=""
       loading="lazy"
       [src]="campaign.coverSrcMobile"
