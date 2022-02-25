@@ -85,9 +85,9 @@ const etherscan = env.etherscanaddr;
 })
 export class HeaderComponent implements OnInit {
   query = '(max-width: 991.98px)';
-  mediaQueryList = window.matchMedia(this.query);
+  mediaQueryList?: MediaQueryList;
   query2 = '(width =   767.9px)';
-  mediaQueryList2 = window.matchMedia(this.query2);
+  mediaQueryList2?: MediaQueryList;
   elementType: 'url' | 'canvas' | 'img' = 'url';
   clicked: boolean = true;
   @ViewChild('myprofile') myprofile?: ElementRef;
@@ -191,6 +191,10 @@ export class HeaderComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: string
   ) {
     if (isPlatformBrowser(this.platformId)) {
+      this.mediaQueryList = window.matchMedia(this.query);
+      this.mediaQueryList2 = window.matchMedia(this.query2);
+
+
       let vh = window.innerHeight * 0.01;
       window.addEventListener('resize', () => {
         let vh = window.innerHeight * 0.01;
@@ -567,7 +571,7 @@ export class HeaderComponent implements OnInit {
               `
             <div class="d-flex justify-content-center align-items-center gap-3">
               <img class='notify-icon' src='./assets/Images/notifIcons/lienRefuse.svg'/>
-              <p class="m-0">${msg}</p>  
+              <p class="m-0">${msg}</p>
             </div>`,
               '',
               { enableHtml: true }
@@ -577,7 +581,7 @@ export class HeaderComponent implements OnInit {
               `
             <div class="d-flex justify-content-center align-items-center gap-3">
               <img class='notify-icon' src='./assets/Images/notifIcons/lienAccepte.svg'/>
-              <p class="m-0">${msg}</p>  
+              <p class="m-0">${msg}</p>
             </div>`,
               '',
               { enableHtml: true }
@@ -587,7 +591,7 @@ export class HeaderComponent implements OnInit {
               `
             <div class="d-flex justify-content-center align-items-center gap-3">
               <img class='notify-icon' src='./assets/Images/notifIcons/ajoutLien.svg'/>
-              <p class="m-0">${msg}</p>  
+              <p class="m-0">${msg}</p>
             </div>`,
               '',
               { enableHtml: true }
@@ -1161,7 +1165,7 @@ export class HeaderComponent implements OnInit {
         this.getNotifications();
       }
 
-      if (this.mediaQueryList.matches) {
+      if (this.mediaQueryList?.matches) {
         this.notifItemSize = 150;
         this.getNotifications();
       } else {

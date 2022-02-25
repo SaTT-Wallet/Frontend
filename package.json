@@ -7,10 +7,28 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e",
+    "ci:clean": "rimraf ./dist",
+    "ci:test": "ng test --watch=false --browsers=ChromeHeadlessCustom --code-coverage",
+    "ci:build": "ng build --prod",
+    "docs": "npx compodoc -p tsconfig.doc.json",
+    "playground": "angular-playground",
+    "prepare": "husky install",
     "dev:ssr": "ng run satt-token-atayen:serve-ssr",
     "serve:ssr": "node dist/satt-token-atayen/server/main.js",
-    "build:ssr": "ng build && ng run satt-token-atayen:server",
+    "build:ssr": "ng build --configuration development && ng run satt-token-atayen:server",
+    "build:ssr:prod": "ng build && ng run satt-token-atayen:server",
     "prerender": "ng run satt-token-atayen:prerender"
+  },
+  "lint-staged": {
+    "src/**/*.{js,ts,scss,md,html,json}": "prettier --write",
+    "*.{js,ts}": "eslint --cache --fix"
+  },
+  "lint-changed-base-branch": "develop",
+  "lint-changed": {
+    "src/**/*.{js,ts,scss,md,html,json}": "prettier --write",
+    "*.{js,ts}": "eslint --cache --fix"
   },
   "private": true,
   "dependencies": {
@@ -181,6 +199,32 @@
     "@types/lodash": "^4.14.178",
     "@types/prettier": "^2.4.4",
     "prettier": "^2.5.1",
-    "ts-loader": "^9.2.6"
+    "ts-loader": "^9.2.6",
+    "@angular-eslint/builder": "12.1.0",
+    "@angular-eslint/eslint-plugin": "12.1.0",
+    "@angular-eslint/eslint-plugin-template": "12.1.0",
+    "@angular-eslint/schematics": "12.1.0",
+    "@angular-eslint/template-parser": "12.1.0",
+    "@angular/localize": "^13.2.2",
+    "@compodoc/compodoc": "^1.1.18",
+    "@ngrx/schematics": "^12.1.0",
+    "@typescript-eslint/eslint-plugin": "5.11.0",
+    "@typescript-eslint/parser": "5.11.0",
+    "angular-playground": "^9.0.0",
+    "eslint": "^8.9.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "latest",
+    "eslint-plugin-jsdoc": "latest",
+    "eslint-plugin-ngrx": "^2.0.4",
+    "eslint-plugin-prefer-arrow": "latest",
+    "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^7.0.4",
+    "jasmine-spec-reporter": "~7.0.0",
+    "lato-font": "^3.0.0",
+    "lint-staged": "^12.3.4",
+    "ngx-spec": "^2.1.5",
+    "prettier-eslint": "^13.0.0",
+    "protractor": "~7.0.0",
+    "ts-node": "~10.5.0"
   }
 }
