@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   ChangeDetectorRef,
   Component,
@@ -193,7 +194,6 @@ export class HeaderComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       this.mediaQueryList = window.matchMedia(this.query);
       this.mediaQueryList2 = window.matchMedia(this.query2);
-
 
       let vh = window.innerHeight * 0.01;
       window.addEventListener('resize', () => {

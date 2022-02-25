@@ -30,6 +30,11 @@
     "src/**/*.{js,ts,scss,md,html,json}": "prettier --write",
     "*.{js,ts}": "eslint --cache --fix"
   },
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
+  },
   "private": true,
   "dependencies": {
     "-": "0.0.1",
