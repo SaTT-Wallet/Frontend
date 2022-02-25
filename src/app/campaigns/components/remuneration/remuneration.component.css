@@ -63,12 +63,6 @@ button:focus {
     color: #1f2337;
 }
 
-@media (max-width: 768px) {
-    .btn-earning{
-        height: 70px;
-    }
-}
-
 .title-section-budget {
     font-family: 'Poppins';
     font-style: normal;
@@ -230,12 +224,10 @@ input.input-number2::-webkit-input-placeholder {
 }
 
 .row_oracle {
-    display: flex;
+    /* display: flex; */
     gap: 1em;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
     align-items: baseline;
-    /* justify-content: center; */
-    /* align-items: center; */
 }
 
 .displayInput {
@@ -269,8 +261,8 @@ input.input-number2::-webkit-input-placeholder {
     border: 1px solid #d6d6e8;
     border-radius: 30px;
     align-items: center;
-    /* min-width: 140px;
-    max-width: 140px; */
+    min-width: 165px;
+    max-width: 165px;
     height: 48px;
     padding: 6px 15px;
     font-size: 16px;
@@ -278,7 +270,7 @@ input.input-number2::-webkit-input-placeholder {
     font-style: normal;
     font-weight: normal;
     display: flex;
-    text-align: end;
+    text-align: start;
 }
 
 .div_input_fixed_reward {
@@ -296,24 +288,44 @@ input.input-number2::-webkit-input-placeholder {
     width: 27px;
 }
 
+.div-delete-reword {
+    height: 52px;
+    display: flex;
+    align-items: flex-end;
+}
 
+.height-first-item {
+    height: 97px;
+}
+
+.height-span-followers {
+    height: 36px;
+}
+
+.width-desktop-title-followres {
+    min-width: 165px;
+    max-width: 165px;
+}
+
+.
 /*----*/
 
 .oracle-inputs {
-    display: flex;
-    gap: 1em;
-    flex-wrap: wrap;
-    align-items: center;
+    /* display: flex; */
+    gap: 0.5em;
+    /* flex-wrap: wrap; */
+    /* align-items: center; */
+    align-items: flex-start;
 }
 
-.oracle-wrapper {
-    display: flex;
-    /* gap: 1em; */
+
+/* .oracle-wrapper {
+
     justify-content: center;
     align-items: flex-start;
-    /* margin: 1em auto; */
+
     flex-direction: column;
-}
+} */
 
 .div_oracle_title {
     border: none;
@@ -321,6 +333,7 @@ input.input-number2::-webkit-input-placeholder {
     border-radius: 30px;
     align-items: center;
     cursor: pointer;
+    height: 48px;
 }
 
 .styleForInputMedia {
@@ -329,12 +342,13 @@ input.input-number2::-webkit-input-placeholder {
     width: 100%;
     height: 100%;
     border-right: 1px solid #d6d6e8;
-    text-align: end;
+    text-align: start;
     color: #323754;
     border-radius: 30px 0 0 30px;
 }
 
-/* .width-div-network {
+
+/* .div-network-name {
     min-width: 154px;
     display: grid;
 } */
@@ -660,12 +674,24 @@ input.input-number2::-webkit-input-placeholder {
     flex-direction: column;
 }
 
+.follow-wrapper-title {
+    display: none;
+}
+
 @media (max-width: 767.98px) {
-    .oracle-wrapper {
+    /* .div-network-name {
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+    } */
+    /* .oracle-wrapper {
         align-items: center;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+    } */
+    .height-span-followers {
+        height: 48px;
     }
     .price-row {
         display: none;
@@ -673,6 +699,10 @@ input.input-number2::-webkit-input-placeholder {
     }
     .follow-min-wrapper {
         flex-direction: row;
+        justify-content: space-between;
+    }
+    .follow-wrapper-title {
+        display: flex;
     }
     .formGroupCategory {
         flex-direction: column;
@@ -731,9 +761,9 @@ input.input-number2::-webkit-input-placeholder {
     .label-type {
         font-size: 12px !important;
     }
-    .bold-font-weight {
+    /* .bold-font-weight {
         font-size: 11px !important;
-    }
+    } */
     .make-center-mobile {
         justify-content: center !important;
     }
@@ -1002,6 +1032,7 @@ input[type='number'] {
 }
 
 .dark_blue {
+    /* display: flex; */
     font-style: normal;
     font-weight: normal;
     font-size: 15px;

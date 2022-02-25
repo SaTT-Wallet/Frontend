@@ -1,4 +1,13 @@
 /***************************************************************************************************/
+:host {
+  width: 100%;
+  min-width: 379px;
+  height: 100%;
+  min-height: 100%;
+  display: block;
+  overflow: hidden;
+  position: relative;
+}
 
 *:focus {
   outline: none;
@@ -220,17 +229,6 @@ p {
   letter-spacing: 0.03em;
   color: #1f2337;
   text-align: left;
-}
-
-:host {
-  width: 100%;
-  min-width: 379px;
-
-  height: 100%;
-  min-height: 100%;
-  display: block;
-  /* overflow: hidden; */
-  position: relative;
 }
 
 .btn-blue {
@@ -681,7 +679,7 @@ button:focus {
 .div-footer {
   max-width: 500px;
   position: absolute;
-  bottom: -20px;
+  bottom: -96px;
   right: 0;
   /* overflow: hidden; */
   width: 80vw;
@@ -698,6 +696,9 @@ button:focus {
 @media (max-width: 1400px) {
   .div-footer {
     position: relative;
+  }
+  :host {
+    overflow: auto;
   }
 }
 
