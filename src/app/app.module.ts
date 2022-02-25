@@ -46,6 +46,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
       autoPause: true // Pauses recording actions and state changes when the extension window is not open
     })
   ],
+  providers: [{ provide: 'isBrowser', useValue: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
