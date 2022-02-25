@@ -220,10 +220,10 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     // });
 
     this.saveForm();
-    this.cryptoSymbol = 'SATT';
+    // this.cryptoSymbol = 'SATT';
     this.showSelectedValue = false;
-    this.selectedBlockchain = 'erc20';
-    this.f.currency?.setValue('SATT');
+    // this.selectedBlockchain = 'erc20';
+    // this.f.currency?.setValue('SATT');
   }
 
   ngAfterContentChecked() {
@@ -691,6 +691,9 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe((data: any) => {
         this.dataList = data;
+        this.cryptoToDropdown = this.dataList.filter(
+          (crypto) => crypto.symbol === this.draftData.currency.name
+        );
         Object.preventExtensions(this.dataList);
         this.cryptoQuantity = (
           this.dataList.find(
