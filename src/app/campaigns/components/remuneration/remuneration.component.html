@@ -90,7 +90,9 @@
       <div class="row">
         <!--dropdown renumerate -->
 
-        <div class="row d-flex justify-content-center pt-3 mb-2">
+        <div
+          class="row d-flex justify-content-center pt-3 mb-2 div-row-network"
+        >
           <div
             class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 p-0 d-flex justify-content-center flex-row"
           >
@@ -100,7 +102,7 @@
                   'gray-backGround':
                     selectRemunerateValue === eRemunerationType.Performance
                 }"
-                class="btn-earning"
+                class="btn-earning btn-earning-performance"
                 (click)="selectRemunerateType(eRemunerationType.Performance)"
               >
                 {{ 'Performance AdPool' | translate }}
@@ -112,7 +114,7 @@
                   'gray-backGround':
                     selectRemunerateValue === eRemunerationType.Publication
                 }"
-                class="btn-earning"
+                class="btn-earning btn-earning-publication"
                 (click)="selectRemunerateType(eRemunerationType.Publication)"
               >
                 {{ 'Publication AdPool' | translate }}
@@ -325,46 +327,6 @@
     <!--------------------------------------bloc ranumerate Publication------------------------------------------------>
 
     <ng-container formArrayName="bounties" *ngIf="selectRemunerateValue === eRemunerationType.Publication">
-        <!-- <div class="show-desktop row d-flex justify-content-center">
-            <div
-              class="col-xl-10 col-md-12 col-lg-10 col-sm-12 row_oracle d-flex flex-xl-row flex-lg-row flex-md-row flex-sm-column flex-column mt-3 mb-1"
-            >
-              <div
-                class="d-flex p-0 col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12 follow-min-wrapper"
-              >
-                <span class="bold-font-weight dark_blue mb-3">
-                  {{ 'Transactions.Réseau' | translate }}
-                </span>
-              </div>
-              <div
-                class="width-desktop-title-followres p-0 col-xl-3 col-lg-3 col-md-3 col-12 d-flex follow-min-wrapper"
-              >
-                <span
-                  class="p-0 bold-font-weight height-span-followers dark_blue d-flex justify-content-center col-6 col-xl-12 col-lg-12 col-md-10 mb-lg-3 mb-xl-3"
-                >
-                  {{ 'create_campaign_form.followers min' | translate }}
-                </span>
-              </div>
-              <div
-                class="width-desktop-title-followres p-0 col-xl-3 col-lg-3 col-md-3 col-12 d-flex follow-min-wrapper"
-              >
-                <span
-                  class="p-0 bold-font-weight height-span-followers dark_blue d-flex justify-content-center col-6 col-xl-12 col-lg-12 col-md-10 mb-lg-3 mb-xl-3"
-                >
-                  {{ 'create_campaign_form.followers max' | translate }}
-                </span>
-              </div>
-              <div
-                class="width-desktop-title-followres p-0 col-xl-3 col-lg-3 col-md-3 col-12 d-flex follow-min-wrapper"
-              >
-                <span
-                  class="p-0 bold-font-weight height-span-followers dark_blue d-flex justify-content-center col-6 col-xl-12 col-lg-12 col-md-10 mb-lg-3 mb-xl-3"
-                >
-                  {{ 'create_campaign_form.Fixed_reward' | translate }}
-                </span>
-              </div>
-            </div>
-          </div> -->
         <div class="row d-flex justify-content-center">
             <div class="col-xl-10 col-md-12 col-lg-10 col-sm-12 row_oracle d-flex flex-xl-row flex-lg-row flex-md-row flex-sm-column flex-column mt-3 mb-1" *ngFor="
                 let bounty of bounties.controls;
@@ -411,7 +373,7 @@
                         <div
                           class="row d-flex justify-content-lg-between justify-content-md-between formGroupCategory"
                         >
-                          <!-- followers min *ngIf="bountyIndex ===0 && categoryIndex===0"-->
+                          <!-- followers min -->
                           <div
                             class="col-xl-3 col-lg-3 col-md-3 col-12 d-flex follow-min-wrapper"
                           >
