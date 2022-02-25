@@ -1,10 +1,4 @@
-import {
-  AsyncPipe,
-  LocationStrategy,
-  HashLocationStrategy,
-  registerLocaleData,
-  CommonModule
-} from '@angular/common';
+import { AsyncPipe, registerLocaleData, CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire/compat';
@@ -13,11 +7,7 @@ import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { AngularFireMessagingModule } from '@angular/fire/compat/messaging';
 import { SharedModule } from '@app/shared/shared.module';
 import { environment } from '@environments/environment';
-import {
-  TranslateModule,
-  TranslateLoader,
-  TranslateService
-} from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import {
   FacebookLoginProvider,
@@ -38,14 +28,10 @@ import { TokenStorageService } from './services/tokenStorage/token-storage-servi
 import localeFr from '@angular/common/locales/fr';
 import { EffectsModule } from '@ngrx/effects';
 import { AccountEffects } from './store/account-store/effects/account.effects';
-import { ActionReducerMap, combineReducers, StoreModule } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import * as fromAccountReducers from './store/account-store/reducers/account.reducer';
 import { ProfilePicEffects } from '@user-settings/store/effects/profile-pic.effects';
 import * as fromProfilePic from '@user-settings/store/reducers/profile-pic.reducer';
-import {
-  coreFeatureKey,
-  reducers
-} from '@core/store/account-store/reducers/core.reducer';
 import { profilePicFeatureKey } from '@user-settings/store/reducers/profile-pic.reducer';
 import { accountFeatureKey } from './store/account-store/reducers/account.reducer';
 registerLocaleData(localeFr);
@@ -80,13 +66,7 @@ import { SocialAccountsEffects } from './store/social-accounts/effects/social-ac
       backgroundStrokeWidth: 0
     }),
     ToastrModule.forRoot(),
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: httpTranslateLoader,
-        deps: [HttpClient]
-      }
-    }),
+    TranslateModule,
     /*  StoreModule.forFeature(
       fromAccountReducers.accountFeatureKey,
       fromAccountReducers.reducer
@@ -163,5 +143,5 @@ export class CoreModule {}
 
 // AOT compilation support
 export function httpTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+  return new TranslateHttpLoader(http, './src/assets/i18n/', '.json');
 }

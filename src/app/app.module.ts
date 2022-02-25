@@ -6,16 +6,17 @@ import { FacebookModule } from 'ngx-facebook';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { MaintenanceComponent } from './maintenance/maintenance.component';
 import { ServerErrorComponent } from './components/server-error/server-error.component';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, TransferState } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CoreModule, httpTranslateLoader } from './core/core.module';
+import { CoreModule } from './core/core.module';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '@environments/environment';
-import { getCurrencySymbol } from '@angular/common';
 import { HelpComponent } from './components/help/help.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TransferHttpCacheModule } from '@nguniversal/common';
+import { translateBrowserLoaderFactory } from '@core/loaders/translate-browser.loader';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,11 +30,12 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
+    TransferHttpCacheModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-        useFactory: httpTranslateLoader,
-        deps: [HttpClient]
+        useFactory: translateBrowserLoaderFactory,
+        deps: [HttpClient, TransferState]
       }
     }),
     FacebookModule.forRoot(),
