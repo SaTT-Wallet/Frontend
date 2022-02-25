@@ -103,15 +103,17 @@ export class CampaignsListItemComponent implements OnInit {
           this.modalService.dismissAll();
           this.showSpinner = false;
           this.campaignListStoreService.getAllCampaigns(true, {});
-
+          //     this.router
+          //     .navigateByUrl('home/ad-pools');
+          //   return this.translate.get('campaign_details.deleted');
+          // }),
           this.router
-            .navigateByUrl('/RefreshComponent', { skipLocationChange: true })
+            .navigateByUrl('', { skipLocationChange: true })
             .then(() => {
               this.router.navigate(['home/ad-pools']);
             });
           return this.translate.get('campaign_details.deleted');
-        }),
-        takeUntil(this.isDestroyed)
+        })
       )
       .subscribe((data1: any) => {
         this.toastr.success(data1);
@@ -161,7 +163,7 @@ export class CampaignsListItemComponent implements OnInit {
     return currencyName;
   }
   ngOnDestroy(): void {
-    this.isDestroyed.next('');
-    this.isDestroyed.unsubscribe();
+    // this.isDestroyed.next('');
+    // this.isDestroyed.unsubscribe();
   }
 }
