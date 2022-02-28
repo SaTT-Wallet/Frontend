@@ -64,31 +64,37 @@ export class ActivationMailComponent implements OnInit {
     this.authService
       .confirmCode(email, code, type)
       .pipe(takeUntil(this.isDestroyed))
-      .subscribe((data: any) => {
-        //console.log(data.token);
-        this.codeData = data;
+      .subscribe(
+        (data: any) => {
+          //console.log(data.token);
+          //this.codeData = data;
+          if (data.message === 'code_is_matched' && data.code === 200) {
+            // console.log(data, '===>data');
+            // this.accountFacadeService.dispatchUpdatedAccount();
+            this.tokenStorageService.saveToken(data.token);
+            this.tokenStorageService.saveExpire(data.expires_in);
+            this.tokenStorageService.setItem('access_token', data.token);
+            this.tokenStorageService.setIdUser(data.idUser);
 
-        if (data.message === 'code incorrect') {
-          this.errorMessagecode = 'code incorrect';
-          // this.formCode.reset();
-          //  this.codeInput.reset();
-          this.codesms = false;
-          // setTimeout(() => {
-          //   this.errorMessagecode = "";
-          // }, 2000);
-        } else if (data.message === 'code match') {
-          // console.log(data, '===>data');
-          // this.accountFacadeService.dispatchUpdatedAccount();
-          this.tokenStorageService.saveToken(data.token);
-          this.tokenStorageService.saveExpire(data.expires_in);
-          this.tokenStorageService.setItem('access_token', data.token);
-          this.tokenStorageService.setIdUser(data.idUser);
-
-          this.codesms = true;
-          this.errorMessagecode = 'code correct';
+            this.codesms = true;
+            this.errorMessagecode = 'code correct';
+          }
+          //console.log(this.errorMessagecode);
+        },
+        (err) => {
+          if (err.error === 'user not found') {
+            this.errorMessagecode = 'user not fond';
+          } else if (err.error.message === 'code incorrect') {
+            this.errorMessagecode = 'code incorrect';
+            // this.formCode.reset();
+            //  this.codeInput.reset();
+            this.codesms = false;
+            // setTimeout(() => {
+            //   this.errorMessagecode = "";
+            // }, 2000);
+          }
         }
-        //console.log(this.errorMessagecode);
-      });
+      );
   }
 
   confirmCode() {
