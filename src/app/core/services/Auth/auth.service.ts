@@ -60,22 +60,16 @@ export class AuthService {
     );
   }
 
-  register(
-    email: any,
-    password: any,
-    password_confirmation: any,
-    noredirect: any,
-    newsLetter: any
-    //*** */
-  ): Observable<any> {
+  register(email: any, password: any, newsLetter: any): Observable<any> {
     return this.http.post(
-      sattUrl + 'auth/signup/mail=',
+      sattUrl + '/auth/signup/mail',
       {
         username: email,
         password: password,
-        newsLetter: newsLetter
+        newsLetter: newsLetter,
+        lang: this.tokenStorageService.getLocalLang()
       },
-      { headers: this.tokenStorageService.getHeader() }
+      {}
     );
   }
 
