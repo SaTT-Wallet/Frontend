@@ -765,11 +765,7 @@ export class ParticiperComponent implements OnInit {
             (data: any) => {},
             (err) => {
               this.spinner = false;
-              if (err.error.text === '{result:true}') {
-                this.linked = true;
-                this.getdatavideo();
-                this.loadingButton = false;
-                this.spinner = false;
+      
 
                 if (err.error.text === '{result:true}') {
                   this.linked = true;
@@ -809,7 +805,7 @@ export class ParticiperComponent implements OnInit {
                   this.success = '';
                   this.loadingButton = false;
                 }
-              }
+             
             }
           );
       } else {
