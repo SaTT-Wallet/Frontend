@@ -25,6 +25,7 @@ export class MissionsComponent implements OnInit {
   @Output() validFormMission = new EventEmitter();
   @Output() selectedOracle = new EventEmitter();
   @Input() notValidMissionData: any;
+  @Input() closeOracle: string = '';
   isFacebookSelected = false;
   isYoutubeSelected = false;
   isInstagramSelected = false;
@@ -117,20 +118,6 @@ export class MissionsComponent implements OnInit {
   }
   ngOnInit(): void {
     this.saveForm();
-    // this.form?.valueChanges
-    //   .pipe(
-    //     debounceTime(500),
-    //     tap((values: any) => {
-    //       if (this.form.valid) {
-    //         this.validFormMission.emit(true);
-    //       } else {
-    //         this.validFormMission.emit(false);
-    //       }
-    //     }),
-    //     takeUntil(this.isDestroyed$)
-    //   )
-    //   .subscribe();
-    //  this.prePopulateInputs(this.draftData.missions);
   }
   get f() {
     return this.form.controls;
@@ -168,6 +155,24 @@ export class MissionsComponent implements OnInit {
           id: this.id
         });
       }
+    }
+    if (changes.closeOracle) {
+      if (this.closeOracle === 'facebook') {
+        (this.missions.at(0).get('sub_missions') as FormArray).clear();
+      } else if (this.closeOracle === 'twitter') {
+        (this.missions.at(1).get('sub_missions') as FormArray).clear();
+      } else if (this.closeOracle === 'youtube') {
+        (this.missions.at(3).get('sub_missions') as FormArray).clear();
+      } else if (this.closeOracle === 'linkedin') {
+        (this.missions.at(2).get('sub_missions') as FormArray).clear();
+      } else if (this.closeOracle === 'instagram') {
+        (this.missions.at(4).get('sub_missions') as FormArray).clear();
+      }
+      this.campaignMissionsOracl = this.campaignMissionsOracl.filter(
+        (oracle) => {
+          return oracle !== this.closeOracle;
+        }
+      );
     }
   }
   checkRequired() {
@@ -284,6 +289,7 @@ export class MissionsComponent implements OnInit {
     this.selectedOracle.emit({ oracle, event });
     this.campaignMissionsOracl.push(oracle);
     this.campaignMissionsOracl = [...new Set(this.campaignMissionsOracl)];
+    console.log('this.campaignMissionsOracl', this.campaignMissionsOracl);
     // const subMissions = this.missions
     //   .at(index)
     //   .get('sub_missions') as FormArray;

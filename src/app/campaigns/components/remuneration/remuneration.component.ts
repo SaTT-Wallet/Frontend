@@ -20,19 +20,16 @@ import {
   FormGroup,
   Validators
 } from '@angular/forms';
-import { forkJoin, fromEvent, Observable, Subject } from 'rxjs';
+import { forkJoin, Observable, Subject } from 'rxjs';
 import {
   debounceTime,
-  distinctUntilChanged,
   filter,
   map,
-  startWith,
   switchMap,
   takeUntil,
-  tap,
-  withLatestFrom
+  tap
 } from 'rxjs/operators';
-import { GazConsumedByCampaign, ListTokens } from '@app/config/atn.config';
+import { GazConsumedByCampaign } from '@app/config/atn.config';
 import { checkIfEnoughBalance } from '@helpers/form-validators';
 import { Campaign } from '@app/models/campaign.model';
 import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
@@ -87,6 +84,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   @Input() notValidMissionFromEdit: any;
   @Output() validFormBudgetRemun = new EventEmitter();
   @Output() validFormMissionFromRemuToEdit = new EventEmitter();
+  closedOracle: string = '';
   sendErrorToMission: any;
   form = new FormGroup({
     ratios: new FormArray([], [Validators.required])
@@ -877,10 +875,14 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     categoryIndex: number,
     oracle: string
   ) {
+    console.log('oracle211->', oracle);
+
     const categories = this.bounties.controls[bountyIndex].get(
       'categories'
     ) as FormArray;
     if (categories.controls.length === 1) {
+      console.log('oracle22', oracle);
+      this.closedOracle = oracle;
       this.bounties.removeAt(bountyIndex);
       this.isSelectedTwitter =
         oracle === 'twitter' ? false : this.isSelectedTwitter;
