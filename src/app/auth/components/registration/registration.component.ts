@@ -30,6 +30,7 @@ import { Subject, Subscription } from 'rxjs';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { EventEmitter } from 'stream';
 import { ClickElseWhereDirective } from '@app/shared/directives/click-else-where.directive';
+import { AuthFacadeService } from '@app/core/facades/auth-facade/auth-facade.service';
 
 declare const zxcvbn: Function;
 
@@ -79,6 +80,7 @@ export class RegistrationComponent implements OnInit {
   english: boolean = true;
   constructor(
     private walletFacade: WalletFacadeService,
+    private authFacadeService: AuthFacadeService,
     private renderer: Renderer2,
     public modalService: NgbModal,
     private authService: AuthService,
@@ -345,22 +347,17 @@ export class RegistrationComponent implements OnInit {
     if (this.authForm.valid) {
       const email = this.authForm.get('email')?.value;
       const password = this.authForm.get('password')?.value;
-      const password_confirmation = this.authForm.get('password')?.value;
       const newsLetter = this.authForm.get('newsLetterBox')?.value;
-
-      const noredirect = 'true';
-      this.authService
-        .register(
-          email,
-          password,
-          password_confirmation,
-          noredirect,
-          newsLetter
-        )
+      this.authFacadeService
+        .register(email, password, newsLetter)
         .pipe(takeUntil(this.onDestroy$))
         .subscribe(
-          (data) => {
-            if (!data.message) {
+          (response) => {
+            if (
+              response.data &&
+              response.code === 200 &&
+              response.message === 'success'
+            ) {
               var result =
                 this.document.getElementById('dropdown-menu')?.className;
               let newClass = result + ' show';
@@ -369,20 +366,22 @@ export class RegistrationComponent implements OnInit {
                 ?.setAttribute('class', newClass);
               this.exist = true;
               this.tokenStorageService.setEnabled('0');
+              this.tokenStorageService.saveToken(response.data.access_token);
+              this.tokenStorageService.saveExpire(response.data.expires);
               // this.modalService.open(this.confirmModal);
               this.showSpinner = false;
               this.router.navigate(['/social-registration/activation-mail'], {
                 queryParams: { email: this.authForm.get('email')?.value }
               });
-            } else if (data.message === 'account_already_used') {
-              this.errorMessage = 'connect_with_form';
-              setTimeout(() => (this.errorMessage = ''), 6000);
-              this.showSpinner = false;
             }
           },
           (err) => {
-            if (err.error.message === 'connect_with_form') {
+            if (
+              err.error.error.message === 'account_already_used' &&
+              err.error.code === 401
+            ) {
               this.errorMessage = 'connect_with_form';
+              setTimeout(() => (this.errorMessage = ''), 6000);
               this.showSpinner = false;
             } else {
               this.errorMessage = 'server_error';
