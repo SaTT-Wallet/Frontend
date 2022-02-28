@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   API_URL: 'https://api-preprod2.satt-token.com:3015/', //'http://localhost:3014',
+  //https://api-preprod.satt-token.com:3014
   addresses: {
     smartContracts: {
       campaignERC20: '0xa5F46d6F4F3b318EeFF1B37e39491e52233c5975',
