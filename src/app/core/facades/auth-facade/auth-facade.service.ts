@@ -2,8 +2,7 @@ import { Injectable, Injector } from '@angular/core';
 import { AuthService } from '@core/services/Auth/auth.service';
 import { AuthStoreService } from '@core/services/Auth/auth-store.service';
 import { Observable } from 'rxjs';
-import ts from 'typescript/lib/tsserverlibrary';
-import convertTypeAcquisition = ts.server.convertTypeAcquisition;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -68,8 +67,8 @@ export class AuthFacadeService {
     return this.authService.verifyAccount();
   }
 
-  updatePassword(oldpass: any, newpass: any, id: any) {
-    return this.authService.updatePassword(oldpass, newpass, id);
+  updatePassword(oldpass: any, newpass: any) {
+    return this.authService.updatePassword(oldpass, newpass);
   }
 
   sendConfirmationMail(email: string) {
