@@ -30,6 +30,7 @@ import { Subject, Subscription } from 'rxjs';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { EventEmitter } from 'stream';
 import { ClickElseWhereDirective } from '@app/shared/directives/click-else-where.directive';
+import { AuthFacadeService } from '@app/core/facades/auth-facade/auth-facade.service';
 
 declare const zxcvbn: Function;
 
@@ -79,6 +80,7 @@ export class RegistrationComponent implements OnInit {
   english: boolean = true;
   constructor(
     private walletFacade: WalletFacadeService,
+    private authFacadeService: AuthFacadeService,
     private renderer: Renderer2,
     public modalService: NgbModal,
     private authService: AuthService,
@@ -345,18 +347,9 @@ export class RegistrationComponent implements OnInit {
     if (this.authForm.valid) {
       const email = this.authForm.get('email')?.value;
       const password = this.authForm.get('password')?.value;
-      const password_confirmation = this.authForm.get('password')?.value;
       const newsLetter = this.authForm.get('newsLetterBox')?.value;
-
-      const noredirect = 'true';
-      this.authService
-        .register(
-          email,
-          password,
-          password_confirmation,
-          noredirect,
-          newsLetter
-        )
+      this.authFacadeService
+        .register(email, password, newsLetter)
         .pipe(takeUntil(this.onDestroy$))
         .subscribe(
           (data) => {
@@ -381,7 +374,10 @@ export class RegistrationComponent implements OnInit {
             }
           },
           (err) => {
-            if (err.error.message === 'connect_with_form') {
+            if (
+              err.error.message === 'connect_with_form' ||
+              err.error.message === 'account_already_used'
+            ) {
               this.errorMessage = 'connect_with_form';
               this.showSpinner = false;
             } else {
