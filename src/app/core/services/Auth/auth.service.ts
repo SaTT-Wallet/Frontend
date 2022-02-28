@@ -49,17 +49,12 @@ export class AuthService {
       headers: this.tokenStorageService.getHeader()
     });
   }
-  login(
-    username: string,
-    password: string,
-    noredirect: string
-  ): Observable<IresponseAuth> {
+  login(username: string, password: string): Observable<IresponseAuth> {
     return this.http.post<IresponseAuth>(
-      sattUrl + '/auth/email',
+      sattUrl + '/auth/signin/email',
       {
         username: username,
-        password: password,
-        noredirect: noredirect
+        password: password
       },
       { headers: this.tokenStorageService.getHeader() }
     );
@@ -74,9 +69,7 @@ export class AuthService {
     //*** */
   ): Observable<any> {
     return this.http.post(
-      sattUrl +
-        '/v2/auth/signup?lang=' +
-        this.tokenStorageService.getLocalLang(),
+      sattUrl + 'auth/signup/mail=',
       {
         username: email,
         password: password,
@@ -140,7 +133,7 @@ export class AuthService {
       'Cache-Control': 'no-store',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.get('https://api.satt-token.com:3014/captcha', {
+    return this.http.get(sattUrl + 'auth/captcha', {
       headers: httpHeaders
     });
   }
@@ -151,13 +144,9 @@ export class AuthService {
       'Cache-Control': 'no-store',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.post(
-      'https://api.satt-token.com:3014/verifyCaptcha',
-      send,
-      {
-        headers: httpHeaders
-      }
-    );
+    return this.http.post(sattUrl + 'auth/verifyCaptcha', send, {
+      headers: httpHeaders
+    });
   }
 
   canActivate() {
