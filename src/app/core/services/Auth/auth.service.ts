@@ -110,10 +110,7 @@ export class AuthService {
   }
 
   sendConfirmationMail(email: string) {
-    return this.http.post(
-      sattUrl + '/v2/resend-confirmation-token/' + email,
-      email
-    );
+    return this.http.post(sattUrl + '/auth/resend/confirmationToken/', email);
   }
   onBoarding() {
     let httpHeaders = new HttpHeaders({
