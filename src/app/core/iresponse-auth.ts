@@ -1,8 +1,11 @@
 export interface IresponseAuth {
-  access_token: string;
-  expires_in: number;
-  scope: string;
-  token_type: string;
+  data: {
+    access_token: string;
+    expires_in: number;
+    token_type: string;
+    scope: string;
+  };
   message: string;
   blockedDate: number;
+  code: number;
 }
