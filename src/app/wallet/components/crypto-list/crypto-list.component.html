@@ -300,14 +300,14 @@
                         details.hidden="true"
                       >
                         <img
-                          *ngIf="details.hidden && crypto.undername == 'SATT'"
+                          *ngIf="details.hidden && crypto.undername === 'SATT'"
                           src="./../../../assets/Images/Rectangle-down.svg"
                           style="font-size: 13px; cursor: pointer"
                           (click)="details.hidden = false"
                         />
 
                         <img
-                          *ngIf="!details.hidden && crypto.undername == 'SATT'"
+                          *ngIf="!details.hidden && crypto.undername === 'SATT'"
                           src="./../../../assets/Images/new-rectongle.svg"
                           style="font-size: 13px; cursor: pointer"
                           (click)="details.hidden = true"
@@ -1138,7 +1138,10 @@
           >
             <div class="d-flex justify-content-center">
               <div>
-                <div id="keyContainer" class="d-flex justify-content-center">
+                <div
+                  id="keyContainer"
+                  class="d-flex justify-content-center center-wallet"
+                >
                   <input
                     id="key"
                     style="text-overflow: ellipsis"
@@ -1322,10 +1325,10 @@
                           >
                             $ {{ transformPrice(crypto) }}
                           </span>
-                          <div class="" *ngIf="crypto.undername == 'SATT'">
+                          <div class="" *ngIf="crypto.undername === 'SATT'">
                             <div
                               class="variation-box noselect"
-                              *ngIf="crypto.arrowColor == 'green'"
+                              *ngIf="crypto.arrowColor === 'green'"
                             >
                               <span class="price-varition-up">
                                 {{ crypto.arrow }} {{ crypto.variation }}%
@@ -1333,7 +1336,7 @@
                             </div>
                             <div
                               class="variation-box-red noselect"
-                              *ngIf="crypto.arrowColor == 'red'"
+                              *ngIf="crypto.arrowColor === 'red'"
                             >
                               <span class="price-varition-down">
                                 {{ crypto.arrow }} {{ crypto.variation }}%
@@ -1343,7 +1346,7 @@
                           <span *ngIf="crypto.undername !== 'SATT'">
                             <div
                               class="variation-box noselect"
-                              *ngIf="crypto.arrowColor == 'green'"
+                              *ngIf="crypto.arrowColor === 'green'"
                             >
                               <span
                                 class="price-varition noselect"
@@ -1354,7 +1357,7 @@
                             </div>
                             <div
                               class="variation-box-red noselect"
-                              *ngIf="crypto.arrowColor == 'red'"
+                              *ngIf="crypto.arrowColor === 'red'"
                             >
                               <span
                                 class="price-varition-down noselect"
