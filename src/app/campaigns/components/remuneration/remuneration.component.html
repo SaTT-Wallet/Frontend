@@ -71,6 +71,7 @@
       [notValidMissionData]="sendErrorToMission"
       (selectedOracle)="listenForOracleMissionChange($event)"
       (validFormMission)="listenForMissionValidation($event)"
+      [closeOracle]="closedOracle"
     ></app-missions>
   </div>
   <div class="row w-100 justify-content-center">
