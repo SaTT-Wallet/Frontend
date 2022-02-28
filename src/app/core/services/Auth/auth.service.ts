@@ -133,7 +133,7 @@ export class AuthService {
       'Cache-Control': 'no-store',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.get(sattUrl + 'auth/captcha', {
+    return this.http.get('https://api.satt-token.com:3014/captcha', {
       headers: httpHeaders
     });
   }
@@ -144,9 +144,13 @@ export class AuthService {
       'Cache-Control': 'no-store',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.post(sattUrl + 'auth/verifyCaptcha', send, {
-      headers: httpHeaders
-    });
+    return this.http.post(
+      'https://api.satt-token.com:3014/verifyCaptcha',
+      send,
+      {
+        headers: httpHeaders
+      }
+    );
   }
 
   canActivate() {
