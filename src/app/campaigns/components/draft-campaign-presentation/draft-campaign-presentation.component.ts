@@ -11,7 +11,7 @@ import {
   Inject
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Editor } from 'ngx-editor';
+import { Editor, Toolbar } from 'ngx-editor';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil, tap } from 'rxjs/operators';
 import { DraftCampaignService } from '@campaigns/services/draft-campaign.service';
@@ -39,6 +39,17 @@ export class DraftCampaignPresentationComponent implements OnInit {
   containWithinAspectRatio = false;
   form = new FormGroup({});
   editor = new Editor();
+  toolbar: Toolbar = [
+    ['bold', 'italic'],
+        ['underline', 'strike'],
+    ['code', 'blockquote'],
+    ['ordered_list', 'bullet_list'],
+    [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }],
+    ['text_color', 'background_color'],
+    ['align_left', 'align_center', 'align_right', 'align_justify'],
+    ['link', 'image'],
+
+  ];
   draftId: string = '';
   private isDestroyed$ = new Subject();
 
