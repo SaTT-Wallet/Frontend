@@ -3,29 +3,15 @@ import {
   Inject,
   OnDestroy,
   OnInit,
-  Output,
-  PLATFORM_ID,
-  ViewChild
+  PLATFORM_ID
 } from '@angular/core';
-import {
-  NgbModal,
-  NgbModalRef,
-  ModalDismissReasons
-} from '@ng-bootstrap/ng-bootstrap';
-import {
-  FormControl,
-  FormGroup,
-  Validators,
-  FormBuilder
-} from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { ProfileService } from '@core/services/profile/profile.service';
 import { User } from '@app/models/User';
-import { FilesService } from '@core/services/files/files.Service';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-declare var $: any;
+
 // import * as $ from 'jquery';
 
 import { AuthService } from '../../../core/services/Auth/auth.service';
@@ -35,11 +21,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { pattPassword } from '@config/atn.config';
 
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
-import { CodeInputComponent } from 'angular-code-input';
 import { AuthStoreService } from '@core/services/Auth/auth-store.service';
 import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-facade.service';
-import { filter, map, mergeMap, takeUntil, tap } from 'rxjs/operators';
-import { Observable, of, Subject } from 'rxjs';
+import { filter, mergeMap, takeUntil, tap } from 'rxjs/operators';
+import { of, Subject } from 'rxjs';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 enum ExportType {
@@ -358,7 +343,6 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
     let oldpass = this.formUpdatePassword.get('old_password')?.value;
     let newpass = this.formUpdatePassword.get('password')?.value;
-    let id = this.user.idUser;
 
     if (this.formUpdatePassword.valid) {
       if (oldpass === newpass) {
@@ -366,10 +350,10 @@ export class SecurityComponent implements OnInit, OnDestroy {
           this.passwordWrong = 'profile.newPass';
         }, 3000);
       } else {
-        this.AuthService.updatePassword(oldpass, newpass, id)
+        this.AuthService.updatePassword(oldpass, newpass)
           .pipe(takeUntil(this.onDestroy$))
           .subscribe(
-            (data: any) => {
+            () => {
               this.showSpinner = false;
 
               //    if (data.error == "wrong password") {
@@ -597,7 +581,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
     let update = {
       is2FA: TWO_FA
     };
-    let code = this.formCode.get('is2FA')?.setValue(TWO_FA);
+    this.formCode.get('is2FA')?.setValue(TWO_FA);
     this.profileSettingsFacade
       .updateProfile(update)
       .pipe(
