@@ -29,7 +29,7 @@ export class AuthService {
   }
   confirmCode(email: any, code: any, type: any): Observable<IresponseCode> {
     return this.http.post<IresponseCode>(
-      sattUrl + '/confirmCode',
+      sattUrl + '/auth/confirmCode',
       { email: email, code: code, type: type },
       {}
     );
@@ -84,13 +84,12 @@ export class AuthService {
     });
   }
 
-  updatePassword(oldpass: any, newpass: any, id: any) {
+  updatePassword(oldpass: any, newpass: any) {
     return this.http.post(
-      sattUrl + '/auth/passchange',
+      sattUrl + '/auth/changePassword',
       {
         oldpass: oldpass,
-        newpass: newpass,
-        id: id
+        newpass: newpass
       },
       { headers: this.tokenStorageService.getHeader() }
     );
@@ -98,8 +97,11 @@ export class AuthService {
 
   sendConfirmationMail(email: string) {
     return this.http.post(
-      sattUrl + '/v2/resend-confirmation-token/' + email,
-      email
+      sattUrl + '/auth/resend/confirmationToken/',
+      {
+        email: email
+      },
+      {}
     );
   }
   onBoarding() {

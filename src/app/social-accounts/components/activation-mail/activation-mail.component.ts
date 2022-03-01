@@ -1,12 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '@app/models/User';
 import { AuthService } from '@app/core/services/Auth/auth.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { TranslateService } from '@ngx-translate/core';
-import { update } from 'lodash';
-import { ProfileService } from '@core/services/profile/profile.service';
 import { ProfileSettingsFacadeService } from '@app/core/facades/profile-settings-facade.service';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { Subject } from 'rxjs';
@@ -21,6 +19,7 @@ export class ActivationMailComponent implements OnInit {
   formCode: FormGroup;
   formL: FormGroup;
   errorMessagecode = '';
+  successMsg = '';
   user!: User;
   codesms: boolean = false;
   email: any;
@@ -57,6 +56,7 @@ export class ActivationMailComponent implements OnInit {
   }
 
   verifyCode() {
+    this.successMsg = '';
     let code = this.formCode.get('code')?.value;
     //console.log(code);
     let email = this.email.toLowerCase();
@@ -64,31 +64,46 @@ export class ActivationMailComponent implements OnInit {
     this.authService
       .confirmCode(email, code, type)
       .pipe(takeUntil(this.isDestroyed))
-      .subscribe((data: any) => {
-        //console.log(data.token);
-        this.codeData = data;
+      .subscribe(
+        (data: any) => {
+          //console.log(data.token);
+          //this.codeData = data;
+          if (data.message === 'code is matched' && data.code === 200) {
+            // console.log(data, '===>data');
+            // this.accountFacadeService.dispatchUpdatedAccount();
+            this.tokenStorageService.saveToken(data.token);
+            this.tokenStorageService.saveExpire(data.expires_in);
+            this.tokenStorageService.setItem('access_token', data.token);
+            this.tokenStorageService.setIdUser(data.idUser);
 
-        if (data.message === 'code incorrect') {
-          this.errorMessagecode = 'code incorrect';
-          // this.formCode.reset();
-          //  this.codeInput.reset();
-          this.codesms = false;
-          // setTimeout(() => {
-          //   this.errorMessagecode = "";
-          // }, 2000);
-        } else if (data.message === 'code match') {
-          // console.log(data, '===>data');
-          // this.accountFacadeService.dispatchUpdatedAccount();
-          this.tokenStorageService.saveToken(data.token);
-          this.tokenStorageService.saveExpire(data.expires_in);
-          this.tokenStorageService.setItem('access_token', data.token);
-          this.tokenStorageService.setIdUser(data.idUser);
-
-          this.codesms = true;
-          this.errorMessagecode = 'code correct';
+            this.codesms = true;
+            this.errorMessagecode = 'code correct';
+          }
+          //console.log(this.errorMessagecode);
+        },
+        (err) => {
+          if (err.error.error === 'user not found' && err.error.code === 404) {
+            this.errorMessagecode = 'user not found';
+          } else if (
+            err.error.error === 'wrong code' &&
+            err.error.code === 401
+          ) {
+            this.errorMessagecode = 'code incorrect';
+            // this.formCode.reset();
+            //  this.codeInput.reset();
+            this.codesms = false;
+            // setTimeout(() => {
+            //   this.errorMessagecode = "";
+            // }, 2000);
+          } else if (
+            err.error.error === 'code expired' &&
+            err.error.code === 401
+          ) {
+            this.errorMessagecode = 'code expired';
+            this.codesms = false;
+          }
         }
-        //console.log(this.errorMessagecode);
-      });
+      );
   }
 
   confirmCode() {
@@ -103,7 +118,7 @@ export class ActivationMailComponent implements OnInit {
     this.profileSettingsFacade
       .updateProfile(data_profile)
       .pipe(takeUntil(this.isDestroyed))
-      .subscribe((data: any) => {
+      .subscribe(() => {
         this.accountFacadeService.dispatchUpdatedAccount();
         // route to next page
       });
@@ -145,9 +160,20 @@ export class ActivationMailComponent implements OnInit {
     this.authService
       .sendConfirmationMail(this.email)
       .pipe(takeUntil(this.isDestroyed))
-      .subscribe((response) => {
-        //  console.log(response, "response");
-      });
+      .subscribe(
+        (response: any) => {
+          if (response.message === 'Email sent' && response.code === 200) {
+            this.successMsg = 'Email sent';
+            this.errorMessagecode = '';
+          }
+        },
+        (err) => {
+          this.successMsg = '';
+          if (err.error.error === 'user not found' && err.error.code === 404) {
+            this.errorMessagecode = 'user not found';
+          }
+        }
+      );
   }
   ngOnDestroy(): void {
     this.isDestroyed.next('');
