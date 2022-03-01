@@ -688,7 +688,10 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     this.walletFacade.cryptoList$
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe((data: any) => {
+        data = JSON.parse(JSON.stringify(data));
+
         this.dataList = data;
+
         this.cryptoToDropdown = this.dataList.filter(
           (crypto) => crypto.symbol === this.draftData.currency.name
         );
@@ -1154,10 +1157,11 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       this.dataList?.forEach((crypto: any) => {
         if (crypto.symbol === currency) {
           let quantity = this.showNumbersRule.transform(crypto.quantity);
-          // let totalBal = this.showNumbersRule.transform(crypto.total_balance);
+          //  let totalBal = this.showNumbersRule.transform(crypto.total_balance);
+          crypto.total_balance = parseFloat(crypto.total_balance + '');
+          crypto.total_balance = crypto?.total_balance?.toFixed(2);
           this.form.get('initialBudget')?.setValue(quantity),
             this.form.get('initialBudgetInUSD')?.setValue(crypto.total_balance);
-
           this.gazproblem = false;
           if (currency === 'ETH' || currency === 'BNB') {
             this.difference = crypto.total_balance - this.gazsend;

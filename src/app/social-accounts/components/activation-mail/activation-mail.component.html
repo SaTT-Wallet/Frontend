@@ -7,24 +7,14 @@
     <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 padding-top margin-bottom">
       <div class="row d-flex justify-content-center">
         <div
-          class="
-            col-xl-8 col-lg-10 col-md-11 col-sm-8
-            d-flex
-            justify-content-start
-          "
+          class="col-xl-8 col-lg-10 col-md-11 col-sm-8 d-flex justify-content-start"
         >
           <app-monetize-steps></app-monetize-steps>
         </div>
       </div>
       <div class="row d-flex justify-content-center">
         <div
-          class="
-            col-xl-8 col-lg-10 col-md-11 col-sm-8
-            mt-5
-            d-flex
-            flex-column
-            make-center
-          "
+          class="col-xl-8 col-lg-10 col-md-11 col-sm-8 mt-5 d-flex flex-column make-center"
         >
           <span class="title_page">{{ 'confirm-title' | translate }}</span>
         </div>
@@ -41,25 +31,21 @@
 
           <span>
             <div
-              class="
-                col-xl-12 col-md-12 col-lg-12
-                pt-3
-                d-flex
-                flex-column
-                align-items-center
-              "
+              class="col-xl-12 col-md-12 col-lg-12 pt-3 d-flex flex-column align-items-center"
             >
               <!-- <h3 class="pt-2">
                 <span class="text_page">{{ 'auth_code' | translate }}</span>
-              </h3> -->
+                    </h3> -->
               <div class="confirm-code">
                 <div>
                   <form [formGroup]="formCode">
                     <span
                       class="code d-flex justify-content-center mb-2"
                       [ngClass]="{
-                        success: this.errorMessagecode == 'code correct',
-                        error: this.errorMessagecode == 'code incorrect',
+                        success: this.errorMessagecode === 'code correct',
+                        error:
+                          this.errorMessagecode === 'code incorrect' ||
+                          this.errorMessagecode === 'code expired',
                         code: !this.errorMessagecode
                       }"
                       >Authentification code</span
@@ -67,17 +53,27 @@
                     <app-code-input-auth
                       (codeCompleted)="onCodeCompleted($event)"
                       [ngClass]="{
-                        'success-code': this.errorMessagecode == 'code correct',
-                        'danger-code': this.errorMessagecode == 'code incorrect'
+                        'success-code':
+                          this.errorMessagecode === 'code correct',
+                        'danger-code':
+                          this.errorMessagecode === 'code incorrect' ||
+                          this.errorMessagecode === 'code expired'
                       }"
                     ></app-code-input-auth>
 
                     <span
                       class="error_input code-status"
-                      *ngIf="this.errorMessagecode"
+                      *ngIf="
+                        this.errorMessagecode === 'code correct' ||
+                        this.errorMessagecode === 'code incorrect' ||
+                        this.errorMessagecode === 'code expired'
+                      "
                       [ngClass]="{
-                        'success-code': this.errorMessagecode == 'code correct',
-                        'danger-code': this.errorMessagecode == 'code incorrect'
+                        'success-code':
+                          this.errorMessagecode === 'code correct',
+                        'danger-code':
+                          this.errorMessagecode === 'code incorrect' ||
+                          this.errorMessagecode === 'code expired'
                       }"
                     >
                       {{ errorMessagecode | translate }}
@@ -116,6 +112,20 @@
           <div class="col-xl-6 col-lg-8 col-md-9 col-sm-6 drak-gray_text">
             <p>{{ 'confirm-mail-text3' | translate }}</p>
           </div>
+        </div>
+        <div
+          class="col-xl-8 col-lg-10 col-md-11 col-sm-8"
+          *ngIf="
+            this.errorMessagecode === 'user not found' ||
+            this.successMsg === 'Email sent'
+          "
+        >
+          <p class="error" *ngIf="this.errorMessagecode === 'user not found'">
+            User not found
+          </p>
+          <p class="success-code" *ngIf="this.successMsg === 'Email sent'">
+            Email sent
+          </p>
         </div>
         <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8">
           <button type="submit" class="btn-white" (click)="resendCode()">
