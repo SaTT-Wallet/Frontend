@@ -1,17 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import {
-  catchError,
-  concatMap,
-  delay,
-  filter,
-  map,
-  mergeMap,
-  switchMap,
-  take,
-  tap
-} from 'rxjs/operators';
+import { catchError, filter, mergeMap, take, tap } from 'rxjs/operators';
 import { TokenStorageService } from './tokenStorage/token-storage-service.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AccountFacadeService } from '../facades/account-facade/account-facade.service';
@@ -82,7 +72,7 @@ export class AuthGuardService implements CanActivate {
           }
         }
       }),
-      catchError((error) => {
+      catchError(() => {
         this.tokenStorageService.signOut();
         this.accountFacadeService.dispatchLogoutAccount();
         this.router.navigate(['auth/login']);
