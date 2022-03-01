@@ -1407,6 +1407,15 @@ export class HeaderComponent implements OnInit {
       let element4 = this.document.getElementById('intro4');
       //@ts-ignore
       element4?.style.removeProperty('width');
+      let element6 = this.document.getElementById('intro6');
+      //@ts-ignore
+      element6?.style.removeProperty('width');
+      let element7 = this.document.getElementById('intro7');
+      //@ts-ignore
+      element7?.style.removeProperty('width');
+      let element8 = this.document.getElementById('intro8');
+      //@ts-ignore
+      element8?.style.removeProperty('width');
       setTimeout(() => {
         this.resized = true;
       }, 6000);

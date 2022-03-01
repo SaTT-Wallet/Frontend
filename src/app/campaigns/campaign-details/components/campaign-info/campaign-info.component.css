@@ -889,32 +889,32 @@
   /* .social-media-icon {
     width: 0% !important;
   } */
-  .max_img {
-    width: 20px;
-  }
-  .social-media-icon img {
-    margin: 0em 0.5em;
-    width: 23px;
-  }
-  .social-media-iconn img {
-    margin: 0em 0.5em;
-    width: 26px;
-    /* width: 23px; */
-  }
-  .icon-sattt {
-    display: flex;
-    align-items: center;
-  }
-  .nav-item {
-    /* width: 48%; */
-    width: 30%;
-  }
-  .satt_blue {
-    width: 30.92px !important;
-    height: 30.81px !important
-  }
-  .grey-zone {
-    /* background: #f6f6ff;
+    .max_img {
+        width: 20px;
+    }
+    .social-media-icon img {
+        margin: 0em 0.5em;
+        width: 23px;
+    }
+    .social-media-iconn img {
+        margin: 0em 0.5em;
+        width: 26px;
+        /* width: 23px; */
+    }
+    .icon-sattt {
+        display: flex;
+        align-items: center;
+    }
+    .nav-item {
+        /* width: 48%; */
+        width: 30%;
+    }
+    .satt_blue {
+        width: 30.92px !important;
+        height: 30.81px !important
+    }
+    .grey-zone {
+        /* background: #f6f6ff;
         border-radius: 30px; */
     margin: 1em auto;
     padding: 1em;
@@ -956,32 +956,32 @@
 }
 
 @media (max-width: 991.98px) {
-  .showhime {
-    display: none;
-  }
-  .tarifs-mobile {
-    display: block !important;
-    text-align: center;
-  }
-  .price-mobile {
-    color: white;
-  }
-  .tool {
-    display: none;
-  }
-  .satt_blue {
-    width: 30.92px !important;
-    height: 30.81px !important;
-  }
-  .margin-btn {
-    margin: 0.25rem !important;
-  }
-  .campaign-remained-budget {
-    flex-direction: column;
-  }
-  .remained-budget-in-satt {
-    font-size: 24px;
-  }
+    .showhime {
+        display: none;
+    }
+    .tarifs-mobile {
+        display: block !important;
+        text-align: center;
+    }
+    .price-mobile {
+        color: white;
+    }
+    .tool {
+        display: none;
+    }
+    .satt_blue {
+        width: 30.92px !important;
+       height: 30.81px !important
+    }
+    .margin-btn {
+        margin: 0.25rem !important;
+    }
+    .campaign-remained-budget {
+        flex-direction: column;
+    }
+    .remained-budget-in-satt {
+        font-size: 24px;
+    }
 }
 
 @media (max-width: 1240px) and (min-width: 768px) {

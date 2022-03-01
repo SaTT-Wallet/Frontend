@@ -70,11 +70,11 @@ export class ActivationMailComponent implements OnInit {
           //this.codeData = data;
           if (data.message === 'code is matched' && data.code === 200) {
             // console.log(data, '===>data');
-            // this.accountFacadeService.dispatchUpdatedAccount();
-            this.tokenStorageService.saveToken(data.token);
-            this.tokenStorageService.saveExpire(data.expires_in);
-            this.tokenStorageService.setItem('access_token', data.token);
-            this.tokenStorageService.setIdUser(data.idUser);
+            //this.accountFacadeService.dispatchUpdatedAccount();
+            // this.tokenStorageService.saveToken(data.token);
+            // this.tokenStorageService.saveExpire(data.expires_in);
+            // this.tokenStorageService.setItem('access_token', data.token);
+            // this.tokenStorageService.setIdUser(data.idUser);
 
             this.codesms = true;
             this.errorMessagecode = 'code correct';
@@ -107,10 +107,6 @@ export class ActivationMailComponent implements OnInit {
   }
 
   confirmCode() {
-    this.tokenStorageService.setSecureWallet('visited-completeProfile', 'true');
-    this.router.navigateByUrl('/social-registration/monetize-facebook');
-    this.tokenStorageService.setEnabled('1');
-
     let data_profile = {
       new: true
     };
@@ -118,8 +114,20 @@ export class ActivationMailComponent implements OnInit {
     this.profileSettingsFacade
       .updateProfile(data_profile)
       .pipe(takeUntil(this.isDestroyed))
-      .subscribe(() => {
-        this.accountFacadeService.dispatchUpdatedAccount();
+      .subscribe((response: any) => {
+        if (response.message === 'profile updated') {
+          this.accountFacadeService.dispatchUpdatedAccount();
+          this.tokenStorageService.setEnabled('1');
+
+          this.tokenStorageService.setSecureWallet(
+            'visited-completeProfile',
+            'true'
+          );
+          setTimeout(() => {
+            this.router.navigateByUrl('/social-registration/monetize-facebook');
+          }, 1000);
+        }
+
         // route to next page
       });
     // if (this.codeData.message == "code incorrect") {
