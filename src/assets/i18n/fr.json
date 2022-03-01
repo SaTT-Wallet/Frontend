@@ -545,7 +545,7 @@
   "create_campaign_form.alert_expire": "La campagne débutera 1 heure après la validation de la campagne.",
   "create_campaign_form.generate_preview": "Générer un aperçu",
   "create_campaign_form.create_new_campaign": "Finaliser ma Pool",
-
+  "campaign_details.campaign_about": "À propos de la campagne",
   "create_campaign_form.alert_required": "Attention! Veuillez remplir les champs nécessaires",
   "create_campaign_form.summary_maxlength": "Le résumé doit contenir un maximum de 250 caractères",
   "create_campaign_kit_desc": "<div>Le kit de campagne permet de partager des fichiers EXCLUSIVEMENT avec les éditeurs sélectionnés.</div><div style='font-weight: 500;'>Nous vous conseillons de leur fournir tout document (audio, vidéo, textes) qui leur permettra de réaliser leurs missions dans les meilleures conditions possibles.<br/>8Mo par fichier maximum. 5 Fichiers maximum.</div>",
@@ -2980,5 +2980,6 @@
   "Sometimes-bigger-is-better": "Parfois, plus c'est gros, mieux c'est!",
   "To-maximize-user-experience": "Pour optimiser l'expérience utilisateur, veuillez utiliser un ordinateur de bureau ou une tablette.",
   "pictures": "Images",
-  "Retry-again": "Réessayez"
+  "Retry-again": "Réessayez",
+  "Apply Now": "Appliquer maintenant"
 }
