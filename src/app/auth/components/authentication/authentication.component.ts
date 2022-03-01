@@ -426,9 +426,8 @@ getCookie(key: string){
     this.showSpinner = true;
     this.scale = true;
     if (this.authForm.valid && this.cookie.get('satt_cookies') === 'pass') {
-      const noredirect = 'true';
       this.authService
-        .login(this.f.email?.value, this.f.password?.value, noredirect)
+        .login(this.f.email?.value, this.f.password?.value)
         .pipe(
           takeUntil(this.onDestroy$),
           catchError(() => {
@@ -437,14 +436,14 @@ getCookie(key: string){
             return of(null);
           }),
           mergeMap((data: IresponseAuth | null) => {
-            if (data?.access_token !== undefined) {
+            if (data?.data.access_token !== undefined) {
               this.tokenStorageService.setItem(
                 'access_token',
-                data.access_token
+                data.data.access_token
               );
-              this.tokenStorageService.saveExpire(data.expires_in);
+              this.tokenStorageService.saveExpire(data.data.expires_in);
               // this.tokenStorageService.saveToken(data.access_token);
-              this.expiresToken = data.expires_in;
+              this.expiresToken = data.data.expires_in;
               this.accountFacadeService.dispatchUpdatedAccount();
               return this.account$.pipe(
                 filter((response) => response !== null),
@@ -504,7 +503,7 @@ getCookie(key: string){
                 this.confirmCodeShow = true;
                 this.loginshow = false;
               } else {
-                this.tokenStorageService.saveToken(data.access_token);
+                this.tokenStorageService.saveToken(data.data.access_token);
                 if (response.enabled === 0) {
                   // this.errorMessage_validation="account_not_verified";
                   // tokenStorageService.clear();any
