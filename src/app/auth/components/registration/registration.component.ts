@@ -325,14 +325,14 @@ export class RegistrationComponent implements OnInit {
         }
       });
 
-    this.walletFacade
-      .getUserWallet()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((response) => {
-        if (!response.error) {
-          this.router.navigate(['']);
-        }
-      });
+    // this.walletFacade
+    //   .getUserWallet()
+    //   .pipe(takeUntil(this.onDestroy$))
+    //   .subscribe((response) => {
+    //     if (!response.error) {
+    //       this.router.navigate(['']);
+    //     }
+    //   });
   }
 
   register() {

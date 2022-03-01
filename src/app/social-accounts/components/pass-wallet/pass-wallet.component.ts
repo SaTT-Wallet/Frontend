@@ -184,7 +184,7 @@ export class PassWalletComponent implements OnInit, OnDestroy {
     this.walletFacade.createPasswordWallet(password).subscribe(
       (response) => {
         if (response.message === 'success' && response.code === 200) {
-          this.tokenStorageService.saveIdWallet(response.address);
+          this.tokenStorageService.saveIdWallet(response.data.address);
           this.tokenStorageService.setSecureWallet('visited-pwd', 'true');
           this.router.navigate(['social-registration/pass-phrase']);
           this.showBigSpinner = false;
@@ -193,7 +193,6 @@ export class PassWalletComponent implements OnInit, OnDestroy {
         }
       },
       (err) => {
-        console.log(err);
         if (err.error.error === 'same password' && err.error.code === 401) {
           this.showBigSpinner = false;
           this.showSpinner = false;
