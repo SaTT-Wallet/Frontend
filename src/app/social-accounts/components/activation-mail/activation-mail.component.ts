@@ -1,12 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '@app/models/User';
 import { AuthService } from '@app/core/services/Auth/auth.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { TranslateService } from '@ngx-translate/core';
-import { update } from 'lodash';
-import { ProfileService } from '@core/services/profile/profile.service';
 import { ProfileSettingsFacadeService } from '@app/core/facades/profile-settings-facade.service';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { Subject } from 'rxjs';
@@ -21,6 +19,7 @@ export class ActivationMailComponent implements OnInit {
   formCode: FormGroup;
   formL: FormGroup;
   errorMessagecode = '';
+  successMsg = '';
   user!: User;
   codesms: boolean = false;
   email: any;
@@ -120,7 +119,7 @@ export class ActivationMailComponent implements OnInit {
     this.profileSettingsFacade
       .updateProfile(data_profile)
       .pipe(takeUntil(this.isDestroyed))
-      .subscribe((data: any) => {
+      .subscribe(() => {
         this.accountFacadeService.dispatchUpdatedAccount();
         // route to next page
       });
@@ -162,9 +161,21 @@ export class ActivationMailComponent implements OnInit {
     this.authService
       .sendConfirmationMail(this.email)
       .pipe(takeUntil(this.isDestroyed))
-      .subscribe((response) => {
-        //  console.log(response, "response");
-      });
+      .subscribe(
+        (response: any) => {
+          if (response.message === 'Email sent' && response.code === 200) {
+            this.successMsg = 'Email sent';
+            this.errorMessagecode = '';
+          }
+          //  console.log(response, "response");
+        },
+        (err) => {
+          this.successMsg = '';
+          if (err.error.error === 'user not found' && err.error.code === 404) {
+            this.errorMessagecode = 'user not found';
+          }
+        }
+      );
   }
   ngOnDestroy(): void {
     this.isDestroyed.next('');
