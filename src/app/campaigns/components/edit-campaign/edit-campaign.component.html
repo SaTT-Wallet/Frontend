@@ -70,7 +70,7 @@
   </div>
   <div class="row d-flex justify-content-center mt-4">
     <div
-      class="col-xl-6 col-md-6 col-lg-6 col-sm-8 d-flex justify-content-center"
+      class="col-xl-10 col-md-10 col-lg-10 col-sm-10 d-flex justify-content-center mb-3"
     >
       <button type="button" class="btn-white" (click)="goToView()">
         {{ 'create_campaign_form.generate_preview' | translate }}
@@ -78,7 +78,7 @@
     </div>
 
     <div
-      class="col-xl-6 col-md-6 col-lg-6 col-sm-8 d-flex justify-content-center pt-3-mobile"
+      class="col-xl-10 col-md-10 col-lg-10 col-sm-10 d-flex justify-content-center pt-3-mobile"
     >
       <button
         type="button"
@@ -86,8 +86,8 @@
         (click)="saveAndLaunchCampaign()"
         [hidden]="campaignData.isActive && campaignData.isOwnedByUser"
       >
-        <img src="/assets/Images/Rectangle-lancer_compagne.svg" class="me-4" />
-        {{ 'start my campaign now!' | translate | capitalizePhrase }}
+        <!-- <img src="/assets/Images/Rectangle-lancer_compagne.svg" class="me-4" /> -->
+        {{ 'create_campaign_form.create_new_campaign' | translate }}
       </button>
       <button
         type="button"

@@ -102,8 +102,11 @@ export class AuthService {
 
   sendConfirmationMail(email: string) {
     return this.http.post(
-      sattUrl + '/v2/resend-confirmation-token/' + email,
-      email
+      sattUrl + '/auth/resend/confirmationToken/',
+      {
+        email: email
+      },
+      {}
     );
   }
   onBoarding() {
