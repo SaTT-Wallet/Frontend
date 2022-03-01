@@ -1537,6 +1537,8 @@
   "create_campaign_form.reachmax": "Allows you to set up manually the maximum reach that a post can obtain. Find more info in the FAQ.",
   "create_campaign_form.alert_expire": "“Post farmers” will have access to the Ad Pool approximately 1 hour after validation.",
   "create_campaign_form.generate_preview": "Generate a preview",
+  "create_campaign_form.create_new_campaign": "Finalize my Pool",
+
   "create_campaign_form.alert_required": "Warning! Please fill in the necessary fields",
   "create_campaign_form.summary_maxlength": "Summary must contain a maximum of 250 characters",
   "create_campaign_kit_desc": "<div>The campaign kit allows you to share files exclusively with the selected editors.</div><div style='font-weight: 500;'>We advise you to provide them with any document (audio, video, texts) that will allow them to carry out their missions in the best possible conditions.<br/> 8Mo per file maximum. 5 files maximum.</div>",
