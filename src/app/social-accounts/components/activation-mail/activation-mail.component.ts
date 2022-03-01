@@ -66,6 +66,7 @@ export class ActivationMailComponent implements OnInit {
       .pipe(takeUntil(this.isDestroyed))
       .subscribe(
         (data: any) => {
+          console.log(data);
           //console.log(data.token);
           //this.codeData = data;
           if (data.message === 'code_is_matched' && data.code === 200) {
@@ -82,9 +83,13 @@ export class ActivationMailComponent implements OnInit {
           //console.log(this.errorMessagecode);
         },
         (err) => {
-          if (err.error === 'user not found') {
+          console.log(err);
+          if (err.error.error === 'user not found') {
             this.errorMessagecode = 'user not fond';
-          } else if (err.error.message === 'code incorrect') {
+          } else if (
+            err.error.error === 'wrong code' &&
+            err.error.code === 401
+          ) {
             this.errorMessagecode = 'code incorrect';
             // this.formCode.reset();
             //  this.codeInput.reset();
@@ -92,6 +97,12 @@ export class ActivationMailComponent implements OnInit {
             // setTimeout(() => {
             //   this.errorMessagecode = "";
             // }, 2000);
+          } else if (
+            err.error.error === 'code expired' &&
+            err.error.code === 401
+          ) {
+            this.errorMessagecode = 'code expired';
+            this.codesms = false;
           }
         }
       );
