@@ -27,7 +27,7 @@ export class AccountEffects {
         if (account === null || action.type === loadUpdatedAccount.type) {
           return this.authService.verifyAccount().pipe(
             map((data: any) =>
-              loadAccountSuccess({ data: new User(data.data) })
+              loadAccountSuccess({ data: new User(data) })
             ),
             catchError((error) => of(loadAccountFailure(error)))
           );

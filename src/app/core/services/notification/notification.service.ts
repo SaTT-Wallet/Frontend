@@ -84,11 +84,12 @@ export class NotificationService {
       })
     };
     return this.http.post(
-      sattUrl + '/auth/save/firebaseAccessToken',
+      sattUrl + '/profile/save-fcm-accessToken',
       data,
       this.httpOptions
     );
   }
+
 
   requestPermission() {
     if (!!this.angularFireMessaging) {
