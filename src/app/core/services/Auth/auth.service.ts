@@ -65,24 +65,16 @@ export class AuthService {
     );
   }
 
-  register(
-    email: any,
-    password: any,
-    password_confirmation: any,
-    noredirect: any,
-    newsLetter: any
-    //*** */
-  ): Observable<any> {
+  register(email: any, password: any, newsLetter: any): Observable<any> {
     return this.http.post(
-      sattUrl +
-        '/v2/auth/signup?lang=' +
-        this.tokenStorageService.getLocalLang(),
+      sattUrl + '/auth/signup/mail',
       {
         username: email,
         password: password,
-        newsLetter: newsLetter
+        newsLetter: newsLetter,
+        lang: this.tokenStorageService.getLocalLang()
       },
-      { headers: this.tokenStorageService.getHeader() }
+      {}
     );
   }
 
@@ -97,13 +89,12 @@ export class AuthService {
     });
   }
 
-  updatePassword(oldpass: any, newpass: any, id: any) {
+  updatePassword(oldpass: any, newpass: any) {
     return this.http.post(
-      sattUrl + '/auth/passchange',
+      sattUrl + '/auth/changePassword',
       {
         oldpass: oldpass,
-        newpass: newpass,
-        id: id
+        newpass: newpass
       },
       { headers: this.tokenStorageService.getHeader() }
     );
@@ -111,8 +102,11 @@ export class AuthService {
 
   sendConfirmationMail(email: string) {
     return this.http.post(
-      sattUrl + '/v2/resend-confirmation-token/' + email,
-      email
+      sattUrl + '/auth/resend/confirmationToken/',
+      {
+        email: email
+      },
+      {}
     );
   }
   onBoarding() {
