@@ -29,7 +29,7 @@ export class AuthService {
   }
   confirmCode(email: any, code: any, type: any): Observable<IresponseCode> {
     return this.http.post<IresponseCode>(
-      sattUrl + '/confirmCode',
+      sattUrl + '/auth/confirmCode',
       { email: email, code: code, type: type },
       {}
     );
