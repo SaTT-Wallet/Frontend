@@ -56,8 +56,8 @@ export class AuthFacadeService {
     return this.authService.verifyAccount();
   }
 
-  updatePassword(oldpass: any, newpass: any, id: any) {
-    return this.authService.updatePassword(oldpass, newpass, id);
+  updatePassword(oldpass: any, newpass: any) {
+    return this.authService.updatePassword(oldpass, newpass);
   }
 
   sendConfirmationMail(email: string) {
