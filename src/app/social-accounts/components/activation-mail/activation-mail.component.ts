@@ -56,6 +56,7 @@ export class ActivationMailComponent implements OnInit {
   }
 
   verifyCode() {
+    this.successMsg = '';
     let code = this.formCode.get('code')?.value;
     //console.log(code);
     let email = this.email.toLowerCase();
@@ -63,31 +64,46 @@ export class ActivationMailComponent implements OnInit {
     this.authService
       .confirmCode(email, code, type)
       .pipe(takeUntil(this.isDestroyed))
-      .subscribe((data: any) => {
-        //console.log(data.token);
-        this.codeData = data;
+      .subscribe(
+        (data: any) => {
+          //console.log(data.token);
+          //this.codeData = data;
+          if (data.message === 'code is matched' && data.code === 200) {
+            // console.log(data, '===>data');
+            // this.accountFacadeService.dispatchUpdatedAccount();
+            this.tokenStorageService.saveToken(data.token);
+            this.tokenStorageService.saveExpire(data.expires_in);
+            this.tokenStorageService.setItem('access_token', data.token);
+            this.tokenStorageService.setIdUser(data.idUser);
 
-        if (data.message === 'code incorrect') {
-          this.errorMessagecode = 'code incorrect';
-          // this.formCode.reset();
-          //  this.codeInput.reset();
-          this.codesms = false;
-          // setTimeout(() => {
-          //   this.errorMessagecode = "";
-          // }, 2000);
-        } else if (data.message === 'code match') {
-          // console.log(data, '===>data');
-          // this.accountFacadeService.dispatchUpdatedAccount();
-          this.tokenStorageService.saveToken(data.token);
-          this.tokenStorageService.saveExpire(data.expires_in);
-          this.tokenStorageService.setItem('access_token', data.token);
-          this.tokenStorageService.setIdUser(data.idUser);
-
-          this.codesms = true;
-          this.errorMessagecode = 'code correct';
+            this.codesms = true;
+            this.errorMessagecode = 'code correct';
+          }
+          //console.log(this.errorMessagecode);
+        },
+        (err) => {
+          if (err.error.error === 'user not found' && err.error.code === 404) {
+            this.errorMessagecode = 'user not found';
+          } else if (
+            err.error.error === 'wrong code' &&
+            err.error.code === 401
+          ) {
+            this.errorMessagecode = 'code incorrect';
+            // this.formCode.reset();
+            //  this.codeInput.reset();
+            this.codesms = false;
+            // setTimeout(() => {
+            //   this.errorMessagecode = "";
+            // }, 2000);
+          } else if (
+            err.error.error === 'code expired' &&
+            err.error.code === 401
+          ) {
+            this.errorMessagecode = 'code expired';
+            this.codesms = false;
+          }
         }
-        //console.log(this.errorMessagecode);
-      });
+      );
   }
 
   confirmCode() {
@@ -150,7 +166,6 @@ export class ActivationMailComponent implements OnInit {
             this.successMsg = 'Email sent';
             this.errorMessagecode = '';
           }
-          //  console.log(response, "response");
         },
         (err) => {
           this.successMsg = '';
