@@ -1,7 +1,6 @@
 import {
   Component,
   OnInit,
-  Input,
   Renderer2,
   ViewChild,
   ElementRef,
@@ -10,7 +9,7 @@ import {
   TemplateRef,
   PLATFORM_ID
 } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -18,18 +17,17 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { sattUrl, pattEmail, pattPassword } from '@app/config/atn.config';
-import { FacebookService, InitParams } from 'ngx-facebook';
+
 import { CookieService } from 'ngx-cookie-service';
 import { debounceTime, map, takeUntil } from 'rxjs/operators';
 import { AuthService } from '@app/core/services/Auth/auth.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { environment } from '@environments/environment';
-import { ContactMessageService } from '@core/services/contactmessage/contact-message.service';
+
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { Subject, Subscription } from 'rxjs';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { EventEmitter } from 'stream';
-import { ClickElseWhereDirective } from '@app/shared/directives/click-else-where.directive';
+
 import { AuthFacadeService } from '@app/core/facades/auth-facade/auth-facade.service';
 
 declare const zxcvbn: Function;
