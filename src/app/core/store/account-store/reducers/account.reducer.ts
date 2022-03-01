@@ -1,6 +1,5 @@
 import { User } from '@app/models/User';
-import { Action, createReducer, on } from '@ngrx/store';
-import { stat } from 'fs';
+import { createReducer, on } from '@ngrx/store';
 import * as AccountActionsUnion from '../actions/account.actions';
 export const accountFeatureKey = 'account';
 
