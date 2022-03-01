@@ -1032,6 +1032,8 @@
   "campaign_details.campaign_duration_text": "Campaign duration",
   "campaign_details.campaign_ends_in": "Campaign ends in",
   "campaign_details.campaign_kit": "Adpool Kit",
+  "campaign_details.campaign_about": "About campaign",
+
   "campaign_details.campaign_description": "About Campaign",
   "campaign_details.campaign_kit_description": "To help you accomplish these missions, you can download this campaign kit which includes photos, videos and other materials.  ",
   "campaign_details.candidat": "Candidates ({{nbr}} pending)",
