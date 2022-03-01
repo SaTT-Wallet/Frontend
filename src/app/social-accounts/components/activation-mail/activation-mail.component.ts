@@ -56,6 +56,7 @@ export class ActivationMailComponent implements OnInit {
   }
 
   verifyCode() {
+    this.successMsg = '';
     let code = this.formCode.get('code')?.value;
     //console.log(code);
     let email = this.email.toLowerCase();
@@ -65,10 +66,9 @@ export class ActivationMailComponent implements OnInit {
       .pipe(takeUntil(this.isDestroyed))
       .subscribe(
         (data: any) => {
-          console.log(data);
           //console.log(data.token);
           //this.codeData = data;
-          if (data.message === 'code_is_matched' && data.code === 200) {
+          if (data.message === 'code is matched' && data.code === 200) {
             // console.log(data, '===>data');
             // this.accountFacadeService.dispatchUpdatedAccount();
             this.tokenStorageService.saveToken(data.token);
@@ -82,9 +82,8 @@ export class ActivationMailComponent implements OnInit {
           //console.log(this.errorMessagecode);
         },
         (err) => {
-          console.log(err);
-          if (err.error.error === 'user not found') {
-            this.errorMessagecode = 'user not fond';
+          if (err.error.error === 'user not found' && err.error.code === 404) {
+            this.errorMessagecode = 'user not found';
           } else if (
             err.error.error === 'wrong code' &&
             err.error.code === 401
@@ -167,7 +166,6 @@ export class ActivationMailComponent implements OnInit {
             this.successMsg = 'Email sent';
             this.errorMessagecode = '';
           }
-          //  console.log(response, "response");
         },
         (err) => {
           this.successMsg = '';
