@@ -365,11 +365,10 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         //   this.loadingButton = false;
         // }, 5000);
         this.ownaddress = true;
-         this.loadingButton = false
-         setTimeout(() => {
+        this.loadingButton = false;
+        setTimeout(() => {
           this.ownaddress = false;
         }, 5000);
-
       } else {
         // if (this.selectedCryptoSend) {
         //   currency = this.selectedCryptoSend;
