@@ -80,7 +80,7 @@ export class AuthService {
       'Cache-Control': 'no-store',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.get<IresponseAccount>(sattUrl + '/auth/account', {
+    return this.http.get<IresponseAccount>(sattUrl + '/profile/account', {
       headers: httpHeaders
     });
   }
