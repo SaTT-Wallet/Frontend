@@ -691,7 +691,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         data = JSON.parse(JSON.stringify(data));
 
         this.dataList = data;
-        
+
         this.cryptoToDropdown = this.dataList.filter(
           (crypto) => crypto.symbol === this.draftData.currency.name
         );
@@ -709,7 +709,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
           ...this.dataList.filter((data: any) => data.symbol === 'BUSD')
         ];
       });
-  
   }
 
   parentFunction() {
@@ -1167,7 +1166,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
           if (currency === 'ETH' || currency === 'BNB') {
             this.difference = crypto.total_balance - this.gazsend;
             this.newquantity = this.difference / crypto.price;
-            let newqua = this.showNumbersRule.transform(this.newquantity); 
+            let newqua = this.showNumbersRule.transform(this.newquantity);
             let quantit = this.showNumbersRule.transform(crypto.quantity);
 
             if (this.difference < 0) {
