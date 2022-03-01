@@ -426,7 +426,6 @@ getCookie(key: string){
     this.showSpinner = true;
     this.scale = true;
     if (this.authForm.valid && this.cookie.get('satt_cookies') === 'pass') {
-      const noredirect = 'true';
       this.authService
         .login(this.f.email?.value, this.f.password?.value)
         .pipe(

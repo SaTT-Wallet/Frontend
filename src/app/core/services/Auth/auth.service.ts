@@ -7,6 +7,7 @@ import { TokenStorageService } from '../tokenStorage/token-storage-service.servi
 import { IresponseAccount } from '@app/core/iresponse-account';
 import { IresponseAuth } from '@app/core/iresponse-auth';
 import { IresponseCode } from '@app/core/iresponse-code-qr';
+import { AnyRecord } from 'dns';
 
 @Injectable({
   providedIn: 'root'
@@ -49,9 +50,9 @@ export class AuthService {
       headers: this.tokenStorageService.getHeader()
     });
   }
-  login(username: string, password: string): Observable<IresponseAuth> {
-    return this.http.post<IresponseAuth>(
-      sattUrl + '/auth/signin/email',
+  login(username: string, password: string): Observable<any> {
+    return this.http.post(
+      sattUrl + '/auth/signin/mail',
       {
         username: username,
         password: password
