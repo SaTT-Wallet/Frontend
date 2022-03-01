@@ -562,7 +562,7 @@
     /* identical to box height, or 21px */
     letter-spacing: 0.03em;
     color: #75758f;
-    margin-left: 0px !important;
+    margin-left: -4px !important;
     padding-top: 0px !important;
     justify-content: center;
 }
@@ -899,7 +899,8 @@
         width: 30%;
     }
     .satt_blue {
-        width: 18px;
+        width: 30.92px !important;
+        height: 30.81px !important
     }
     .grey-zone {
         /* background: #f6f6ff;
@@ -958,8 +959,8 @@
         display: none;
     }
     .satt_blue {
-        width: 21px !important;
-        height: 34px;
+        width: 30.92px !important;
+       height: 30.81px !important
     }
     .margin-btn {
         margin: 0.25rem !important;
@@ -1010,8 +1011,8 @@
         justify-content: center;
     }
     .satt_blue {
-        width: 36px;
-        height: 36px;
+        width: 30.92px !important;
+        height: 30.81px !important
     }
     .remained-budget-in-satt {
         font-size: 40px;
