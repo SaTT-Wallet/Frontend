@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -10,10 +10,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { interestsList } from '../../../config/atn.config';
 import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-facade.service';
-import { forEach } from 'lodash';
 
 import { filter, map, mergeMap, takeUntil } from 'rxjs/operators';
-import { from, of, Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 @Component({
   selector: 'app-interests',
   templateUrl: './interests.component.html',
@@ -64,9 +63,10 @@ export class InterestsComponent implements OnInit {
       .getInterests()
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((response: any) => {
-        this.interestsPercent = ((response.interests.length * 100) / 6).toFixed(
-          0
-        );
+        this.interestsPercent = (
+          (response?.interests.length * 100) /
+          6
+        ).toFixed(0);
         this.showSpinner = false;
         if (response !== null) {
           this.showSpinner = false;
@@ -202,6 +202,7 @@ export class InterestsComponent implements OnInit {
             if (res) {
               this.showSpinner = false;
               this.formInterests.reset();
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
               let msg: string = '';
               return this.translate.get('update_profile');
 
@@ -209,6 +210,7 @@ export class InterestsComponent implements OnInit {
             }
           } else if (type === '2') {
             if (res.message === 'interests updated') {
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
               let msg: string = '';
               return this.translate.get('update_profile');
             }
