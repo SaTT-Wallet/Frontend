@@ -425,7 +425,6 @@ export class InfoComponent implements OnInit, OnDestroy {
     }
   }
   getDetails() {
-    let countProfil = 0;
     this.showSpinner = true;
     this.account$
       .pipe(
@@ -434,6 +433,7 @@ export class InfoComponent implements OnInit, OnDestroy {
       )
       .pipe(
         mergeMap((response: any) => {
+          let countProfil = 0;
           if (response !== null && response !== undefined) {
             this.picUserUpdated = response.photoUpdated;
             this.pic = response.picLink;
