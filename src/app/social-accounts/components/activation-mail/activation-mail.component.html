@@ -1,130 +1,115 @@
 <app-header-social-registartion> </app-header-social-registartion>
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-xl-5 col-lg-5 col-md-5">
-      <app-left-component></app-left-component>
-    </div>
-    <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 padding-top margin-bottom">
-      <div class="row d-flex justify-content-center">
-        <div
-          class="
-            col-xl-8 col-lg-10 col-md-11 col-sm-8
-            d-flex
-            justify-content-start
-          "
-        >
-          <app-monetize-steps></app-monetize-steps>
+    <div class="row">
+        <div class="col-xl-5 col-lg-5 col-md-5">
+            <app-left-component></app-left-component>
         </div>
-      </div>
-      <div class="row d-flex justify-content-center">
-        <div
-          class="
-            col-xl-8 col-lg-10 col-md-11 col-sm-8
-            mt-5
-            d-flex
-            flex-column
-            make-center
-          "
-        >
-          <span class="title_page">{{ 'confirm-title' | translate }}</span>
-        </div>
-      </div>
+        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 padding-top margin-bottom">
+            <div class="row d-flex justify-content-center">
+                <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8 d-flex justify-content-start">
+                    <app-monetize-steps></app-monetize-steps>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8 mt-5 d-flex flex-column make-center">
+                    <span class="title_page">{{ 'confirm-title' | translate }}</span>
+                </div>
+            </div>
 
-      <div class="row d-flex justify-content-center mt-3">
-        <div
-          class="col-xl-8 col-lg-10 col-md-11 col-sm-8 drak_text make-center"
-        >
-          <p class="pb-0">
-            {{ 'confirm-mail-text' | translate }}
-          </p>
-          <!-- <p class="pb-0">{{ 'confirm-mail-text2' | translate }}</p> -->
+            <div class="row d-flex justify-content-center mt-3">
+                <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8 drak_text make-center">
+                    <p class="pb-0">
+                        {{ 'confirm-mail-text' | translate }}
+                    </p>
+                    <!-- <p class="pb-0">{{ 'confirm-mail-text2' | translate }}</p> -->
 
-          <span>
+                    <span>
             <div
-              class="
-                col-xl-12 col-md-12 col-lg-12
-                pt-3
-                d-flex
-                flex-column
-                align-items-center
-              "
+              class="col-xl-12 col-md-12 col-lg-12 pt-3 d-flex flex-column align-items-center"
             >
               <!-- <h3 class="pt-2">
                 <span class="text_page">{{ 'auth_code' | translate }}</span>
-              </h3> -->
-              <div class="confirm-code">
-                <div>
-                  <form [formGroup]="formCode">
-                    <span
-                      class="code d-flex justify-content-center mb-2"
-                      [ngClass]="{
-                        success: this.errorMessagecode == 'code correct',
-                        error: this.errorMessagecode == 'code incorrect',
+                    </h3> -->
+                    <div class="confirm-code">
+                        <div>
+                            <form [formGroup]="formCode">
+                                <span class="code d-flex justify-content-center mb-2" [ngClass]="{
+                        success: this.errorMessagecode === 'code correct',
+                        error: this.errorMessagecode === 'code incorrect',
                         code: !this.errorMessagecode
-                      }"
-                      >Authentification code</span
+                      }">Authentification code</span
                     >
                     <app-code-input-auth
                       (codeCompleted)="onCodeCompleted($event)"
                       [ngClass]="{
-                        'success-code': this.errorMessagecode == 'code correct',
-                        'danger-code': this.errorMessagecode == 'code incorrect'
+                        'success-code':
+                          this.errorMessagecode === 'code correct',
+                        'danger-code':
+                          this.errorMessagecode === 'code incorrect'
                       }"
                     ></app-code-input-auth>
 
                     <span
                       class="error_input code-status"
-                      *ngIf="this.errorMessagecode"
+                      *ngIf="
+                        this.errorMessagecode === 'code correct' ||
+                        this.errorMessagecode === 'code incorrect'
+                      "
                       [ngClass]="{
-                        'success-code': this.errorMessagecode == 'code correct',
-                        'danger-code': this.errorMessagecode == 'code incorrect'
+                        'success-code':
+                          this.errorMessagecode === 'code correct',
+                        'danger-code':
+                          this.errorMessagecode === 'code incorrect'
                       }"
                     >
                       {{ errorMessagecode | translate }}
                     </span>
-                    <span
-                      class="text-code d-flex justify-content-center mt-2"
-                      *ngIf="!this.errorMessagecode"
-                    >
+                                <span class="text-code d-flex justify-content-center mt-2" *ngIf="!this.errorMessagecode">
                       {{
                         'this code will only be valid for 5 min ' | translate
                       }}
                     </span>
-                  </form>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-              </div>
+                </span>
             </div>
-          </span>
         </div>
-      </div>
 
-      <div class="row mb-3 text-center margin-top-btn">
-        <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8">
-          <button
-            type="submit"
-            class="btn-green"
-            [disabled]="!this.codesms"
-            (click)="confirmCode()"
-          >
+        <div class="row mb-3 text-center margin-top-btn">
+            <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8">
+                <button type="submit" class="btn-green" [disabled]="!this.codesms" (click)="confirmCode()">
             {{ 'confirm_email' | translate }}
           </button>
+            </div>
         </div>
-      </div>
 
-      <div class="row mb-3 margin-top-btn text-center">
-        <div class="row d-flex justify-content-center mt-5 space">
-          <div class="col-xl-6 col-lg-8 col-md-9 col-sm-6 drak-gray_text">
-            <p>{{ 'confirm-mail-text3' | translate }}</p>
-          </div>
-        </div>
-        <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8">
-          <button type="submit" class="btn-white" (click)="resendCode()">
+        <div class="row mb-3 margin-top-btn text-center">
+            <div class="row d-flex justify-content-center mt-5 space">
+                <div class="col-xl-6 col-lg-8 col-md-9 col-sm-6 drak-gray_text">
+                    <p>{{ 'confirm-mail-text3' | translate }}</p>
+                </div>
+            </div>
+            <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8" *ngIf="
+            this.errorMessagecode === 'user not found' ||
+            this.successMsg === 'Email sent'
+          ">
+                <p class="error" *ngIf="this.errorMessagecode === 'user not found'">
+                    User not found
+                </p>
+                <p class="success-code" *ngIf="this.successMsg === 'Email sent'">
+                    Email sent
+                </p>
+            </div>
+            <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8">
+                <button type="submit" class="btn-white" (click)="resendCode()">
             {{ 'send_code' | translate }}
           </button>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
 </div>
 
 <app-footer-social-registartion></app-footer-social-registartion>
