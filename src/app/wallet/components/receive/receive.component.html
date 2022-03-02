@@ -103,6 +103,12 @@
             >{{ 'Wallet.field_required' | translate }}</span
           >
         </div>
+        <div class="text-center">
+          <span class="error_msg" *ngIf="sameEmail">
+            {{ 'you are using the same email' }}
+          </span>
+        </div>
+
         <div
           class="text-center"
           *ngIf="
