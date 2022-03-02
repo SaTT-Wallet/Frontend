@@ -52,7 +52,7 @@ export class RegistrationComponent implements OnInit {
   languageSelected: string = 'en';
   showSpinner: boolean = false;
   authFacebook: string = sattUrl + '/auth/signup/facebook';
-  authGoogle: string = sattUrl + '/auth/signup_google';
+  authGoogle: string = sattUrl + '/auth/signup/google';
   authTelegram: string = sattUrl + '/auth/signup/telegram';
   loginNet: string = '';
   cookiesClicked!: boolean;
@@ -325,14 +325,14 @@ export class RegistrationComponent implements OnInit {
         }
       });
 
-    this.walletFacade
-      .getUserWallet()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((response) => {
-        if (!response.error) {
-          this.router.navigate(['']);
-        }
-      });
+    // this.walletFacade
+    //   .getUserWallet()
+    //   .pipe(takeUntil(this.onDestroy$))
+    //   .subscribe((response) => {
+    //     if (!response.error) {
+    //       this.router.navigate(['']);
+    //     }
+    //   });
   }
 
   register() {
