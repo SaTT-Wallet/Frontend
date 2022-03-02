@@ -15,7 +15,7 @@
   border-top-right-radius: 30px;
   // border-radius: 30px;
   // padding: 1em;
-  border: 1px solid #d6d6e8;
+  // border: 1px solid #d6d6e8;
   // overflow: auto;
   // overflow-x: hidden;
   margin-left: 0;
@@ -271,6 +271,7 @@ h3 {
   overflow-x: hidden !important;
   height: 100%;
   min-height: 100%;
+  position: relative;
 }
 
 .btn-blue {
@@ -477,9 +478,14 @@ input:-webkit-autofill:active {
 }
 
 .div-footer {
-  position: absolute;
-  bottom: 0;
+  position: fixed;
+  max-width: 500px;
+  bottom: -96px;
   right: 0;
+  /* overflow: hidden; */
+  width: 80vw;
+  margin-right: -49px;
+  margin-left: auto;
 }
 
 .height-drop {
@@ -498,9 +504,9 @@ input:-webkit-autofill:active {
 }
 
 .text-moonboy {
-  font-size: 15px;
+  font-size: 10px;
   top: 15%;
-  margin-left: 7%;
+  margin-left: 10%;
   text-align: center;
   line-height: 17px;
   //   font-size: 10px;
@@ -508,7 +514,6 @@ input:-webkit-autofill:active {
   //   margin-left: 8vw;
   position: absolute;
 }
-
 .div-pic-text {
   // width: 100%;
   margin: 10px;
@@ -532,4 +537,9 @@ input:-webkit-autofill:active {
 .router-text {
   color: #4048ff !important;
   cursor: pointer;
+}
+@media (max-width: 1400px) {
+  :host {
+    overflow: auto;
+  }
 }
