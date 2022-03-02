@@ -30,7 +30,14 @@ import { Editor } from 'ngx-editor';
 import { WalletStoreService } from '@core/services/wallet-store.service';
 import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
 import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
-import { filter, map, mergeMap, switchMap, takeUntil, tap } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  mergeMap,
+  switchMap,
+  takeUntil,
+  tap
+} from 'rxjs/operators';
 import { from, Observable, Subject } from 'rxjs';
 import { ConvertFromWei } from '@shared/pipes/wei-to-sa-tt.pipe';
 import { Campaign } from '@app/models/campaign.model';
