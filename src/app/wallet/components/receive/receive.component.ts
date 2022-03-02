@@ -13,7 +13,7 @@ import { pattEmail, ListTokens } from '@config/atn.config';
 import { SidebarService } from '@core/services/sidebar/sidebar.service';
 import { TranslateService } from '@ngx-translate/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { ContactMessageService } from '@core/services/contactmessage/contact-message.service';
 import { Router } from '@angular/router';
@@ -23,7 +23,7 @@ import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Big } from 'big.js';
-declare var $: any;
+
 @Component({
   selector: 'app-receive',
   templateUrl: './receive.component.html',
@@ -44,6 +44,8 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
   etherInWei = new Big(1000000000000000000);
   routeEventSubscription$ = new Subject();
   loadingButton!: boolean;
+  errMsg: string = '';
+  sameEmail: boolean = false;
 
   amountUsd: any;
   amount: any;
@@ -332,11 +334,13 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
 
       if (!this.isEmailAddress(to)) {
         this.emailNotCorrect = true;
+
         setTimeout(() => {
           this.emailNotCorrect = false;
         }, 5000);
         return;
       }
+
       this.ContactMessageService.reveiveMoney(Receive)
         .pipe(takeUntil(this.isDestroyed))
         .subscribe((data) => {
@@ -355,10 +359,19 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   showNextBloc() {
+    const from = this.currentUser.email;
     this.contactEmail = this.receiveform.get('contact')?.value;
-    this.showAmountBloc = false;
-    this.showMsgBloc = true;
-    this.showSuccessBloc = false;
+    if (from === this.contactEmail) {
+      this.sameEmail = true;
+      setTimeout(() => {
+        this.sameEmail = false;
+      }, 5000);
+    } else if (from !== this.contactEmail) {
+      this.sameEmail = false;
+      this.showAmountBloc = false;
+      this.showMsgBloc = true;
+      this.showSuccessBloc = false;
+    }
   }
   makeNewRequest() {
     this.showMsgBloc = false;
