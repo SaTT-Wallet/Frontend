@@ -25,7 +25,7 @@ export class WalletService {
     });
     return this.http
       .get<IResponseWallet>(
-        sattUrl + '/v2/mywallet/' + this.tokenStorageService.getToken(),
+        sattUrl + '/wallet/mywallet/' + this.tokenStorageService.getToken(),
         {
           headers: headers
         }
