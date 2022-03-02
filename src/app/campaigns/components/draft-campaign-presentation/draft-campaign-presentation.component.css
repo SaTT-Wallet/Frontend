@@ -182,6 +182,7 @@
     line-height: 130%;
     letter-spacing: 0.03em;
     color: #75758f;
+    text-transform: none;
 }
 
 * :focus {
