@@ -709,7 +709,7 @@ export class NotificationComponent implements OnInit {
           }
         });
       } else {
-        this.router.navigate(['home/TransactionsHistory']);
+        // this.router.navigate(['home/TransactionsHistory']);
       }
     }
 
