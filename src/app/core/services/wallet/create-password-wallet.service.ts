@@ -35,7 +35,9 @@ export class CreatePasswordWalletService {
       'Cache-Control': 'no-store',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.get(sattUrl + '/getMnemo', { headers: httpHeaders });
+    return this.http.get(sattUrl + '/wallet/getMnemo', {
+      headers: httpHeaders
+    });
   }
 
   checkPassPhraseOrdered(mnemo: any): Observable<any> {
