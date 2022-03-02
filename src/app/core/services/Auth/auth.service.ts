@@ -118,16 +118,20 @@ export class AuthService {
     return this.http.get(sattUrl + '/onBoarding', { headers: httpHeaders });
   }
 
-  checkPass(pass: any) {
-    let httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-store',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.post(sattUrl + '/check/pass', pass, {
-      headers: httpHeaders
-    });
-  }
+  // checkPass(pass: string) {
+  //   let httpHeaders = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //     'Cache-Control': 'no-store',
+  //     Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+  //   });
+  //   return this.http.post(
+  //     sattUrl + '/wallet/create',
+  //     { pass: pass },
+  //     {
+  //       headers: httpHeaders
+  //     }
+  //   );
+  // }
   imagespuzzle() {
     let httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
