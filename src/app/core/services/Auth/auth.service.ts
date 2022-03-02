@@ -7,7 +7,6 @@ import { TokenStorageService } from '../tokenStorage/token-storage-service.servi
 import { IresponseAccount } from '@app/core/iresponse-account';
 import { IresponseAuth } from '@app/core/iresponse-auth';
 import { IresponseCode } from '@app/core/iresponse-code-qr';
-import { AnyRecord } from 'dns';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +29,7 @@ export class AuthService {
   }
   confirmCode(email: any, code: any, type: any): Observable<IresponseCode> {
     return this.http.post<IresponseCode>(
-      sattUrl + '/auth/confirmCode',
+      sattUrl + '/confirmCode',
       { email: email, code: code, type: type },
       {}
     );
@@ -50,12 +49,17 @@ export class AuthService {
       headers: this.tokenStorageService.getHeader()
     });
   }
-  login(username: string, password: string): Observable<any> {
-    return this.http.post(
-      sattUrl + '/auth/signin/mail',
+  login(
+    username: string,
+    password: string,
+    noredirect: string
+  ): Observable<IresponseAuth> {
+    return this.http.post<IresponseAuth>(
+      sattUrl + '/auth/email',
       {
         username: username,
-        password: password
+        password: password,
+        noredirect: noredirect
       },
       { headers: this.tokenStorageService.getHeader() }
     );
@@ -80,7 +84,7 @@ export class AuthService {
       'Cache-Control': 'no-store',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.get<IresponseAccount>(sattUrl + '/profile/account', {
+    return this.http.get<IresponseAccount>(sattUrl + '/auth/account', {
       headers: httpHeaders
     });
   }

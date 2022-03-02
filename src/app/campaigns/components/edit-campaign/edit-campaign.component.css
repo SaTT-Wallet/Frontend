@@ -410,6 +410,10 @@
     max-width: 1000px;
 }
 
+::ng-deep .modal-open .modal {
+    z-index: 999999 !important;
+}
+
 .modal-header.modal-customm .btn-close {
     border: none !important;
     position: absolute;

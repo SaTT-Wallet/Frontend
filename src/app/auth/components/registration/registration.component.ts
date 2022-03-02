@@ -53,7 +53,7 @@ export class RegistrationComponent implements OnInit {
   showSpinner: boolean = false;
   authFacebook: string = sattUrl + '/auth/signup/facebook';
   authGoogle: string = sattUrl + '/auth/signup_google';
-  authTelegram: string = sattUrl + '/auth/signup_telegram';
+  authTelegram: string = sattUrl + '/auth/signup/telegram';
   loginNet: string = '';
   cookiesClicked!: boolean;
   cookieValue: string = this.cookie.get('satt_cookies');
@@ -449,7 +449,7 @@ export class RegistrationComponent implements OnInit {
       script.setAttribute('data-telegram-login', environment.telegramBot);
       script.setAttribute('data-size', 'large');
       //script.setAttribute("data-onauth","onTelegramAuth(user)");
-      script.setAttribute('data-auth-url', sattUrl + '/auth/signup_telegram');
+      script.setAttribute('data-auth-url', sattUrl + '/auth/signup/telegram');
       script.setAttribute('data-request-access', 'write');
       script.setAttribute('data-userpic', 'false');
       script.setAttribute('data-radius', '15');

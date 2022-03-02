@@ -40,8 +40,12 @@ export class AuthFacadeService {
   confirmResetPassword(data: any) {
     return this.authService.confirmResetPassword(data);
   }
-  login(username: string, password: string): Observable<any> {
-    return this.authService.login(username, password);
+  login(
+    username: string,
+    password: string,
+    noredirect: string
+  ): Observable<any> {
+    return this.authService.login(username, password, noredirect);
   }
 
   register(email: any, password: any, newsLetter: any): Observable<any> {

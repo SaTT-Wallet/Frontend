@@ -196,6 +196,11 @@
             'Wallet.Wrong Password' | translate
           }}</span>
         </div>
+        <div class="text-start pt-2">
+          <span class="error_msg" *ngIf="ownaddress">{{
+            'Wallet.ownaddress' | translate
+          }}</span>
+        </div>
         <div class="pt-2 text-start">
           <span class="error_msg" *ngIf="gazproblem">{{
             'send.no_gaz' | translate

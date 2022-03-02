@@ -358,11 +358,16 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
 
       let address = this.tokenStorageService.getIdWallet();
       if (to === address) {
+        // this.ownaddress = true;
+        // this.loadingButton = false;
+        // setTimeout(() => {
+        //   this.ownaddress = false;
+        //   this.loadingButton = false;
+        // }, 5000);
         this.ownaddress = true;
         this.loadingButton = false;
         setTimeout(() => {
           this.ownaddress = false;
-          this.loadingButton = false;
         }, 5000);
       } else {
         // if (this.selectedCryptoSend) {
@@ -416,7 +421,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             (data: any) => {
               this.showSpinner = false;
               this.loadingButton = false;
-
               if (data.transactionHash) {
                 this.currency = currency;
 
