@@ -102,6 +102,7 @@ export class ProfileService {
       headers: header
     });
   }
+
   updateprofile(body: any) {
     let httpHeaders = new HttpHeaders({
       'Cache-Control': 'no-store',
@@ -109,7 +110,7 @@ export class ProfileService {
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
 
-    return this.http.put(sattUrl + '/profile/UpdateProfile', body, {
+    return this.http.put(sattUrl + '/profile/info/update', body, {
       headers: httpHeaders
     });
   }
