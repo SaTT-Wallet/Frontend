@@ -41,12 +41,14 @@
   top: 10px;
   right: 10px;
 }
+
 .logo-badge {
   width: 75.9px;
   position: absolute;
   top: 2px;
   left: 2px;
 }
+
 .logo {
   border: 1px solid #ffffff;
   background: white;
@@ -58,6 +60,7 @@
   object-fit: cover;
   border: 1px solid #d6d6e8;
 }
+
 .cryptoIcon {
   background: #ffffff;
   box-sizing: border-box;
@@ -68,6 +71,7 @@
   padding: 4px 3px 3px 4px;
   border: 1px solid #d6d6e8;
 }
+
 .cryptoIconSatt {
   background: #ffffff;
   box-sizing: border-box;
@@ -86,6 +90,7 @@
   height: 39px;
   border: 1px solid #d6d6e8;
 }
+
 .campaign-funds-details {
   font-family: Poppins;
   font-style: normal;
@@ -93,12 +98,9 @@
   font-size: 20px;
   line-height: 25px;
   /* or 125% */
-
   text-align: center;
   letter-spacing: 0.02em;
-
   /* dark blue */
-
   color: #1f2337;
 }
 
@@ -134,13 +136,18 @@
   background-position: center center;
   overflow: hidden;
   position: relative;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 16/9;
   width: 100%;
+}
+
+.height-defaut-img {
+  height: 200px;
 }
 
 .img-block .img-campaign {
   width: 100%;
 }
+
 .text-delete {
   max-width: 52%;
 }
@@ -290,6 +297,7 @@
   right: 0px;
   border: none;
 }
+
 .buttom_camp:hover {
   background: linear-gradient(84.45deg, #f52079 -28.09%, #4048ff 78.5%);
 }
@@ -447,19 +455,15 @@
 
 .text-draft {
   /* H4 */
-
   font-family: Poppins;
   font-style: normal;
   font-weight: bold;
   font-size: 16px;
   line-height: 130%;
   /* or 21px */
-
   text-align: center;
   letter-spacing: 0.03em;
-
   /* grey */
-
   color: #adadc8;
 }
 
@@ -488,12 +492,9 @@
   font-size: 22px;
   line-height: 28px;
   /* or 127% */
-
   text-align: center;
   letter-spacing: 1px;
-
   /* hard grey */
-
   color: #75758f !important;
 }
 
@@ -522,12 +523,11 @@
   font-size: 18px;
   line-height: 28px;
   /* or 54% */
-
   letter-spacing: 1px;
-
   color: #4080ff;
   text-transform: uppercase;
 }
+
 .logo-draft-details-dimentions {
   font-family: Poppins;
   font-style: normal;
@@ -535,8 +535,6 @@
   font-size: 12px;
   line-height: 125.9%;
   /* or 15px */
-
   letter-spacing: 0.03em;
-
   color: #4080ff;
 }
