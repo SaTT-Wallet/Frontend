@@ -123,8 +123,8 @@ export class WalletStoreService {
 
   getWallet() {
     return this.walletService.getWallet().pipe(
-      tap((res: any) => {
-        this._wallet.next(res.data);
+      tap((res) => {
+        this._wallet.next(res);
         // console.log(res);
       })
     );

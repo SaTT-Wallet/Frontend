@@ -1184,3 +1184,14 @@ input[type='number'] {
         min-width: 164px;
     } */
 }
+
+.white-text {
+    color: white !important;
+    font-size: 11px;
+}
+
+.percent-text {
+    position: absolute;
+    left: 37%;
+    top: 2px;
+}

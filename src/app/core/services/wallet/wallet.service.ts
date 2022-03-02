@@ -24,9 +24,12 @@ export class WalletService {
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
     return this.http
-      .get<IResponseWallet>(sattUrl + '/wallet/mywallet', {
-        headers: headers
-      })
+      .get<IResponseWallet>(
+        sattUrl + '/v2/mywallet/' + this.tokenStorageService.getToken(),
+        {
+          headers: headers
+        }
+      )
       .pipe(share());
   }
 
