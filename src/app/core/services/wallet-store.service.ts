@@ -116,14 +116,14 @@ export class WalletStoreService {
   }
 
   loadWallet() {
-    this.walletService.getWallet().subscribe((res) => {
+    this.walletService.getWallet().subscribe((res: any) => {
       this._wallet.next(res);
     });
   }
 
   getWallet() {
     return this.walletService.getWallet().pipe(
-      tap((res) => {
+      tap((res: any) => {
         this._wallet.next(res);
         // console.log(res);
       })
