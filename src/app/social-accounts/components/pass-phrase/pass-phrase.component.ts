@@ -1,10 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  ViewChild,
-  OnInit,
-  OnDestroy
-} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
@@ -17,24 +11,12 @@ import arrayShuffle from 'array-shuffle';
 //   moveItemInArray,
 //   transferArrayItem
 // } from '@angular/cdk/drag-drop';
-import { ToastrService } from 'ngx-toastr';
-import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
+
 import { CreatePasswordWalletService } from '@app/core/services/wallet/create-password-wallet.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
-import {
-  CdkDrag,
-  CdkDragStart,
-  CdkDropList,
-  CdkDropListGroup,
-  CdkDragMove,
-  CdkDragEnter,
-  moveItemInArray
-} from '@angular/cdk/drag-drop';
-import { ViewportRuler } from '@angular/cdk/overlay';
+
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { AuthService } from '@app/core/services/Auth/auth.service';
 import { ProfileSettingsFacadeService } from '@app/core/facades/profile-settings-facade.service';
-import { AuthStoreService } from '@app/core/services/Auth/auth-store.service';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { filter, mergeMap, takeUntil } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
@@ -115,8 +97,8 @@ export class PassPhraseComponent implements OnInit, OnDestroy {
         takeUntil(this.isDestroyed)
       )
       .subscribe((response: any) => {
-        if (response !== null && response !== undefined) {
-          this.passPhrase = response['mnemo'].split(' ');
+        if (response.code === 200 && response.message === 'success') {
+          this.passPhrase = response.data['mnemo'].split(' ');
         }
       });
   }
@@ -204,7 +186,7 @@ export class PassPhraseComponent implements OnInit, OnDestroy {
     this.profileSettingsFacade
       .updateProfile(data_profile)
       .pipe(takeUntil(this.isDestroyed))
-      .subscribe((data: any) => {
+      .subscribe(() => {
         this.accountFacadeService.dispatchUpdatedAccount();
         // route to next page
       });
@@ -223,17 +205,17 @@ export class PassPhraseComponent implements OnInit, OnDestroy {
     this.profileSettingsFacade
       .updateProfile(data_profile)
       .pipe(takeUntil(this.isDestroyed))
-      .subscribe((data: any) => {
+      .subscribe(() => {
         this.accountFacadeService.dispatchUpdatedAccount();
 
         // route to next page
       });
   }
 
-  trackByPassPhraseId(index: number, tag: any): number {
+  trackByPassPhraseId(index: number): number {
     return index;
   }
-  trackByPassPhraseShuffledId(index: number, pass: any): number {
+  trackByPassPhraseShuffledId(index: number): number {
     return index;
   }
 }

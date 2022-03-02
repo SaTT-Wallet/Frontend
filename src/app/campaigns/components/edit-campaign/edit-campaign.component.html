@@ -58,7 +58,7 @@
   </div>
 
   <!------------------------- bloc kit----------------------->
-  <div class="div-block mt-3 pb-3">
+  <div class="div-block">
     <app-draft-campaign-kit
       [id]="draftId"
       [draftData]="campaignData"
@@ -68,7 +68,18 @@
   <div class="row w-100 justify-content-center">
     <hr class="horizontal-line" />
   </div>
-  <div class="row d-flex justify-content-center mt-4">
+  <!-- ------------------- -->
+  <div class="row d-flex justify-content-center pb-2">
+    <label
+      class="col-xl-10 col-md-12 col-lg-10 col-sm-8 danger_pic d-flex align-items-center"
+      *ngIf="alertRequired"
+    >
+      <img src="assets/Images/false.svg" class="pb-1 pe-2" />{{
+        'create_campaign_form.alert_required' | translate
+      }}
+    </label>
+  </div>
+  <div class="row d-flex justify-content-center mt-2 pb-4">
     <div
       class="col-xl-10 col-md-10 col-lg-10 col-sm-10 d-flex justify-content-center mb-3"
     >
@@ -98,16 +109,6 @@
         Save changes
       </button>
     </div>
-  </div>
-  <div class="row mt-3 d-flex justify-content-center p-2">
-    <label
-      class="col-xl-8 col-md-12 col-lg-10 col-sm-8 danger_pic d-flex align-items-center"
-      *ngIf="alertRequired"
-    >
-      <img src="assets/Images/false.svg" class="pb-1 pe-2" />{{
-        'create_campaign_form.alert_required' | translate
-      }}
-    </label>
   </div>
 </div>
 

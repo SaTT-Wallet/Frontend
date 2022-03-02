@@ -4,13 +4,12 @@ import { AuthService } from '@app/core/services/Auth/auth.service';
 import { User } from '@app/models/User';
 import { Actions, createEffect, ofType, concatLatestFrom } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import {
   loadAccount,
   loadAccountSuccess,
   loadAccountFailure,
-  loadUpdatedAccount,
-  loadAccountLogout
+  loadUpdatedAccount
 } from '../actions/account.actions';
 @Injectable()
 export class AccountEffects {
@@ -27,7 +26,7 @@ export class AccountEffects {
         if (account === null || action.type === loadUpdatedAccount.type) {
           return this.authService.verifyAccount().pipe(
             map((data: any) =>
-              loadAccountSuccess({ data: new User(data) })
+              loadAccountSuccess({ data: new User(data.data) })
             ),
             catchError((error) => of(loadAccountFailure(error)))
           );
