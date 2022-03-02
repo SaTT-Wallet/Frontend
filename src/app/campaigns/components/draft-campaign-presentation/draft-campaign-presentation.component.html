@@ -1,18 +1,14 @@
 <div class="col-12 px-3 padding-small-version">
-  <form [formGroup]="form">
-    <div
-      class="col-md-12 col-lg-12 col-xs-12 d-flex justify-content-center pt-4"
-    >
-      <label class="title-section">{{
+    <form [formGroup]="form">
+        <div class="col-md-12 col-lg-12 col-xs-12 d-flex justify-content-center pt-4">
+            <label class="title-section">{{
         'campaign_details.presentation' | translate
       }}</label>
-    </div>
+        </div>
 
-    <div class="row d-flex justify-content-center pt-3 mb-1">
-      <div class="col-xl-10 col-md-12 col-lg-10 col-sm-12">
-        <label
-          class="label-type d-flex justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-start justify-content-center"
-          >{{ 'campaign_name' | translate }}</label
+        <div class="row d-flex justify-content-center pt-3 mb-1">
+            <div class="col-xl-10 col-md-12 col-lg-10 col-sm-12">
+                <label class="label-type d-flex justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-start justify-content-center">{{ 'campaign_name' | translate }}</label
         >
         <input type="text" name="" formControlName="title" class="input-type" />
         <div class="error">
@@ -32,40 +28,29 @@
           class="label-type d-flex justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-start justify-content-center"
           >{{ 'create_campaign_form.your_brand' | translate }}
         </label>
-        <input type="text" name="" formControlName="brand" class="input-type" />
-      </div>
-      <div class="col-xl-5 col-md-6 col-lg-5 col-sm-6 col-12 pt-3-mobile">
-        <label
-          class="label-type d-flex justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-start justify-content-center"
-          >{{ 'create_campaign_form.reference' | translate }}
+                <input type="text" name="" formControlName="brand" class="input-type" />
+            </div>
+            <div class="col-xl-5 col-md-6 col-lg-5 col-sm-6 col-12 pt-3-mobile">
+                <label class="label-type d-flex justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-start justify-content-center">{{ 'create_campaign_form.reference' | translate }}
           <span class="label-type">{{ 'optional' | translate }}</span>
         </label>
-        <input
-          type="text"
-          name=""
-          formControlName="reference"
-          class="input-type"
-        />
-      </div>
-    </div>
+                <input type="text" name="" formControlName="reference" class="input-type" />
+            </div>
+        </div>
 
-    <div class="row d-flex justify-content-center pt-3 mb-1">
-      <div class="col-xl-10 col-md-12 col-lg-10 col-sm-12">
-        <label
-          class="label-type align-items-center d-flex justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-start justify-content-center"
-          >{{ 'create_campaign_form.summary' | translate }}
+        <div class="row d-flex justify-content-center pt-3 mb-1">
+            <div class="col-xl-10 col-md-12 col-lg-10 col-sm-12">
+                <label class="label-type align-items-center d-flex justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-start justify-content-center">{{ 'create_campaign_form.summary' | translate }}
           <span class="label-type-italic">{{
-            'create_campaign_form.250_characters' | translate
+            'create_campaign_form.150_characters' | translate
           }}</span>
         </label>
-        <textarea formControlName="summary" class="type-textarea"></textarea>
-        <div class="error">
-          <span
-            *ngIf="
+                <textarea formControlName="summary" class="type-textarea"></textarea>
+                <div class="error">
+                    <span *ngIf="
               this.form.get('summary')?.errors?.required &&
               notValidPresentation === true
-            "
-            >{{ 'Profil.field_required' | translate }}</span
+            ">{{ 'Profil.field_required' | translate }}</span
           >
           <span
             *ngIf="
