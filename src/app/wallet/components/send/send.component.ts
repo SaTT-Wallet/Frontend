@@ -763,7 +763,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.showSuccessBloc = false;
   }
   sendAgain() {
-    this.amount = '';
+    this.sendform.get('contact')?.setValue(''), (this.amount = '');
     this.amountUsd = '';
     this.sendform.reset();
     this.showPwdBloc = false;
