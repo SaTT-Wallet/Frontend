@@ -1,23 +1,15 @@
 import {
   Component,
-  ElementRef,
-  EventEmitter,
   Inject,
-  OnDestroy,
   OnInit,
-  Output,
   PLATFORM_ID,
-  Renderer2,
-  SimpleChanges,
-  ViewChild
+  Renderer2
 } from '@angular/core';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { arrayCountries, socialMedia } from '@config/atn.config';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
-import { ContactMessageService } from '@core/services/contactmessage/contact-message.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DOCUMENT, isPlatformBrowser, ViewportScroller } from '@angular/common';
@@ -25,25 +17,12 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Campaign } from '@app/models/campaign.model';
 import { compare } from '@helpers/utils/math';
 import { CampaignsStoreService } from '@campaigns/services/campaigns-store.service';
-import { Location } from '@angular/common';
 import { ParticipationListStoreService } from '@campaigns/services/participation-list-store.service';
 import { Page } from '@app/models/page.model';
-import {
-  concatAll,
-  concatMap,
-  filter,
-  map,
-  mergeMap,
-  scan,
-  switchMap,
-  takeUntil,
-  takeWhile,
-  tap,
-  toArray
-} from 'rxjs/operators';
+import { filter, map, mergeMap, switchMap, takeUntil } from 'rxjs/operators';
 import { Participation } from '@app/models/participation.model';
 import _ from 'lodash';
-import { combineLatest, forkJoin, from, of, Subject } from 'rxjs';
+import { from, of, Subject } from 'rxjs';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { CampaignsService } from '@app/campaigns/facade/campaigns.facade';
 import { ToastrService } from 'ngx-toastr';
@@ -441,7 +420,7 @@ export class CampaignDetailComponent implements OnInit {
     return this.tokenStorageService.getLocale() || 'en';
   }
   goParticipate(id: any) {
-    if ('isConnected') {
+    if (this.tokenStorageService.getIsAuth()) {
       this.router.navigate(['home/part', id]);
     } else {
       this.router.navigate(['auth/login']);
@@ -449,9 +428,9 @@ export class CampaignDetailComponent implements OnInit {
   }
 
   getCampaign() {
-    let nbProms = 0;
-    let rejectedProms = 0;
-    let index: any;
+    // let nbProms = 0;
+    // let rejectedProms = 0;
+    // let index: any;
     this.isLoading = true;
     this.campaign$
       .pipe(takeUntil(this.isDestroyed))
@@ -481,7 +460,7 @@ export class CampaignDetailComponent implements OnInit {
         }
         if (campaign.hash) this.activeCampaign = true;
         if (this.campaignProms) {
-          this.campaignProms.forEach((prom: any, _index: any) => {
+          this.campaignProms.forEach((prom: any) => {
             prom.view_count = 0;
             prom.like_count = 0;
             prom.share_count = 0;
