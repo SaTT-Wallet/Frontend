@@ -343,14 +343,14 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
     let oldpass = this.formUpdatePassword.get('old_password')?.value;
     let newpass = this.formUpdatePassword.get('password')?.value;
-
+    let id = this.user.idUser;
     if (this.formUpdatePassword.valid) {
       if (oldpass === newpass) {
         setTimeout(() => {
           this.passwordWrong = 'profile.newPass';
         }, 3000);
       } else {
-        this.AuthService.updatePassword(oldpass, newpass)
+        this.AuthService.updatePassword(oldpass, newpass, id)
           .pipe(takeUntil(this.onDestroy$))
           .subscribe(
             () => {
@@ -578,9 +578,14 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
   confirmUpdate(TWO_FA: any) {
     this.showSpinner = true;
+    let trueCode = this.formCode.controls.valid.value;
     let update = {
       is2FA: TWO_FA
     };
+    if (!trueCode) {
+      return;
+    }
+
     this.formCode.get('is2FA')?.setValue(TWO_FA);
     this.profileSettingsFacade
       .updateProfile(update)

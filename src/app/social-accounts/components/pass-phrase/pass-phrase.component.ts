@@ -97,8 +97,8 @@ export class PassPhraseComponent implements OnInit, OnDestroy {
         takeUntil(this.isDestroyed)
       )
       .subscribe((response: any) => {
-        if (response.code === 200 && response.message === 'success') {
-          this.passPhrase = response.data['mnemo'].split(' ');
+        if (response !== null && response !== undefined) {
+          this.passPhrase = response['mnemo'].split(' ');
         }
       });
   }
@@ -212,10 +212,10 @@ export class PassPhraseComponent implements OnInit, OnDestroy {
       });
   }
 
-  trackByPassPhraseId(index: number, tag: any): number {
+  trackByPassPhraseId(index: number): number {
     return index;
   }
-  trackByPassPhraseShuffledId(index: number, pass: any): number {
+  trackByPassPhraseShuffledId(index: number): number {
     return index;
   }
 }
