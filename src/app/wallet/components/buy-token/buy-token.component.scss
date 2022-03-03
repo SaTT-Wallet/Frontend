@@ -693,7 +693,8 @@ button:focus {
     position: relative;
   }
   :host {
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden !important;
   }
 }
 
