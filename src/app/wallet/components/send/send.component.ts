@@ -1,53 +1,40 @@
 import {
   Component,
   OnInit,
-  Output,
-  EventEmitter,
   ViewChild,
   ElementRef,
-  AfterViewInit,
   AfterViewChecked,
   OnDestroy,
   Inject,
   PLATFORM_ID
 } from '@angular/core';
-import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
+
 import { Big } from 'big.js';
 import {
   GazConsumedByCampaign,
   pattContact,
-  pattEmail,
-  ListTokens,
-  dataList,
-  cryptoList
+  ListTokens
 } from '@config/atn.config';
-import { ProfileService } from '@core/services/profile/profile.service';
+
 import { SidebarService } from '@core/services/sidebar/sidebar.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+
 import { TranslateService } from '@ngx-translate/core';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FilesService } from '@core/services/files/files.Service';
 import { filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
-import {
-  forkJoin,
-  fromEvent,
-  Observable,
-  pipe,
-  Subject,
-  Subscription
-} from 'rxjs';
+import { forkJoin, Subject } from 'rxjs';
 import { Router } from '@angular/router';
-import { NgxSpinnerService } from 'ngx-spinner';
+
 import { WalletStoreService } from '@core/services/wallet-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { bscan, etherscan } from '@app/config/atn.config';
 import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
-import { DecimalPipe, DOCUMENT, isPlatformBrowser } from '@angular/common';
-declare var $: any;
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+
 @Component({
   selector: 'app-send',
   templateUrl: './send.component.html',
@@ -153,6 +140,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   //get list of crypto for user
   getusercrypto() {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     let address = this.tokenStorageService.getIdWallet();
     this.showWalletSpinner = true;
     this.parentFunction()
@@ -162,7 +150,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             tap((data: any) => {
               this.totalAmount = parseFloat(data?.Total_balance?.Total_balance);
             }),
-            switchMap((data) => {
+            switchMap(() => {
               return this.cryptoList$.pipe(filter((data) => data.length !== 0));
             })
           );
@@ -328,7 +316,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   closeModal(content: any) {
     this.modalService.dismissAll(content);
   }
-  resetForm(network?: string) {
+  resetForm() {
     this.sendform.reset();
     this.network = '';
     this.token = null;
@@ -358,11 +346,16 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
 
       let address = this.tokenStorageService.getIdWallet();
       if (to === address) {
+        // this.ownaddress = true;
+        // this.loadingButton = false;
+        // setTimeout(() => {
+        //   this.ownaddress = false;
+        //   this.loadingButton = false;
+        // }, 5000);
         this.ownaddress = true;
         this.loadingButton = false;
         setTimeout(() => {
           this.ownaddress = false;
-          this.loadingButton = false;
         }, 5000);
       } else {
         // if (this.selectedCryptoSend) {
@@ -416,7 +409,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             (data: any) => {
               this.showSpinner = false;
               this.loadingButton = false;
-
               if (data.transactionHash) {
                 this.currency = currency;
 
@@ -474,7 +466,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
                 this.sendform.reset();
               }
             },
-            (error) => {
+            () => {
               this.showSpinner = false;
               this.loadingButton = false;
             }
@@ -759,7 +751,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.showSuccessBloc = false;
   }
   sendAgain() {
-    this.amount = '';
+    this.sendform.get('contact')?.setValue(''), (this.amount = '');
     this.amountUsd = '';
     this.sendform.reset();
     this.showPwdBloc = false;

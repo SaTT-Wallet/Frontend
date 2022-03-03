@@ -2,9 +2,7 @@ import {
   Component,
   OnInit,
   ChangeDetectorRef,
-  HostListener,
   ElementRef,
-  Input,
   PLATFORM_ID,
   Inject
 } from '@angular/core';
@@ -14,13 +12,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import _ from 'lodash';
 import { walletUrl, ListTokens } from '@config/atn.config';
-import { formatDate, isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 import { bscan, etherscan } from '@app/config/atn.config';
 //import 'moment/locale/fr'
 
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
-import { Ng2SearchPipeModule } from 'ng2-search-filter';
-import { ItemsList } from '@ng-select/ng-select/lib/items-list';
 import { Big } from 'big.js';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -206,7 +202,7 @@ export class NotificationComponent implements OnInit {
               ?.setValue(null);
           }
         },
-        (error) => {}
+        () => {}
       );
   }
   getAllNotifications() {
@@ -230,7 +226,7 @@ export class NotificationComponent implements OnInit {
               .value();
           }
         },
-        (error) => {}
+        () => {}
       );
   }
   onScroll() {
@@ -709,7 +705,7 @@ export class NotificationComponent implements OnInit {
           }
         });
       } else {
-        this.router.navigate(['home/TransactionsHistory']);
+        // this.router.navigate(['home/TransactionsHistory']);
       }
     }
 

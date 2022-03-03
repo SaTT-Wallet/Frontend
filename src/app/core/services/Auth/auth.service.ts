@@ -29,7 +29,7 @@ export class AuthService {
   }
   confirmCode(email: any, code: any, type: any): Observable<IresponseCode> {
     return this.http.post<IresponseCode>(
-      sattUrl + '/confirmCode',
+      sattUrl + '/auth/confirmCode',
       { email: email, code: code, type: type },
       {}
     );
@@ -84,14 +84,14 @@ export class AuthService {
       'Cache-Control': 'no-store',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.get<IresponseAccount>(sattUrl + '/auth/account', {
+    return this.http.get<IresponseAccount>(sattUrl + '/profile/account', {
       headers: httpHeaders
     });
   }
 
   updatePassword(oldpass: any, newpass: any) {
     return this.http.post(
-      sattUrl + '/auth/changePassword',
+      sattUrl + '/auth/passchange',
       {
         oldpass: oldpass,
         newpass: newpass
@@ -102,8 +102,11 @@ export class AuthService {
 
   sendConfirmationMail(email: string) {
     return this.http.post(
-      sattUrl + '/v2/resend-confirmation-token/' + email,
-      email
+      sattUrl + '/auth/resend/confirmationToken/',
+      {
+        email: email
+      },
+      {}
     );
   }
   onBoarding() {
@@ -115,16 +118,20 @@ export class AuthService {
     return this.http.get(sattUrl + '/onBoarding', { headers: httpHeaders });
   }
 
-  checkPass(pass: any) {
-    let httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-store',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.post(sattUrl + '/check/pass', pass, {
-      headers: httpHeaders
-    });
-  }
+  // checkPass(pass: string) {
+  //   let httpHeaders = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //     'Cache-Control': 'no-store',
+  //     Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+  //   });
+  //   return this.http.post(
+  //     sattUrl + '/wallet/create',
+  //     { pass: pass },
+  //     {
+  //       headers: httpHeaders
+  //     }
+  //   );
+  // }
   imagespuzzle() {
     let httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',

@@ -21,7 +21,7 @@ export class ProfileService {
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
     return this.http.get<IGetSocialNetworksResponse>(
-      sattUrl + '/socialAccounts',
+      sattUrl + 'profile/socialAccounts',
       { headers: httpHeaders }
     );
   }
@@ -102,6 +102,7 @@ export class ProfileService {
       headers: header
     });
   }
+
   updateprofile(body: any) {
     let httpHeaders = new HttpHeaders({
       'Cache-Control': 'no-store',

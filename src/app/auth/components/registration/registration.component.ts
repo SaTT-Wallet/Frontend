@@ -325,14 +325,14 @@ export class RegistrationComponent implements OnInit {
         }
       });
 
-    this.walletFacade
-      .getUserWallet()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((response) => {
-        if (!response.error) {
-          this.router.navigate(['']);
-        }
-      });
+    // this.walletFacade
+    //   .getUserWallet()
+    //   .pipe(takeUntil(this.onDestroy$))
+    //   .subscribe((response) => {
+    //     if (!response.error) {
+    //       this.router.navigate(['']);
+    //     }
+    //   });
   }
 
   register() {
@@ -361,7 +361,7 @@ export class RegistrationComponent implements OnInit {
               this.exist = true;
               this.tokenStorageService.setEnabled('0');
               this.tokenStorageService.saveToken(response.data.access_token);
-              this.tokenStorageService.saveExpire(response.data.expires);
+              this.tokenStorageService.saveExpire(response.data.expires_in);
               // this.modalService.open(this.confirmModal);
               this.showSpinner = false;
               this.router.navigate(['/social-registration/activation-mail'], {
@@ -449,7 +449,7 @@ export class RegistrationComponent implements OnInit {
       script.setAttribute('data-telegram-login', environment.telegramBot);
       script.setAttribute('data-size', 'large');
       //script.setAttribute("data-onauth","onTelegramAuth(user)");
-      script.setAttribute('data-auth-url', sattUrl + '/auth/signup_telegram');
+      script.setAttribute('data-auth-url', sattUrl + '/auth/signup/telegram');
       script.setAttribute('data-request-access', 'write');
       script.setAttribute('data-userpic', 'false');
       script.setAttribute('data-radius', '15');

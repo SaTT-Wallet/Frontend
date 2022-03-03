@@ -507,7 +507,7 @@
   "create_campaign_form.website": "Site web:",
   "create_campaign_form.your_brand": "MARQUE",
   "create_campaign_form.reference": "REFERENCE",
-  "create_campaign_form.250_characters": "(250 octets.)",
+  "create_campaign_form.150_characters": "(150 octets.)",
   "create_campaign_form.give_description": "DONNEZ UNE DESCRIPTION DE L'ADPOOL",
   "create_campaign_form.import_cover_image": "Sélectionnez un fichier ou faites glisser une image de couverture",
   "create_campaign_form.import_cover_image_mobile": "Ajouter une couverture mobile",
@@ -544,6 +544,8 @@
   "create_campaign_form.reachmax": "Vous permettent de configurer manuellement la portée maximale qu'un message peut obtenir. trouver plus d'informations dans la FAQ.",
   "create_campaign_form.alert_expire": "La campagne débutera 1 heure après la validation de la campagne.",
   "create_campaign_form.generate_preview": "Générer un aperçu",
+  "create_campaign_form.create_new_campaign": "Finaliser ma Pool",
+
   "create_campaign_form.alert_required": "Attention! Veuillez remplir les champs nécessaires",
   "create_campaign_form.summary_maxlength": "Le résumé doit contenir un maximum de 250 caractères",
   "create_campaign_kit_desc": "<div>Le kit de campagne permet de partager des fichiers EXCLUSIVEMENT avec les éditeurs sélectionnés.</div><div style='font-weight: 500;'>Nous vous conseillons de leur fournir tout document (audio, vidéo, textes) qui leur permettra de réaliser leurs missions dans les meilleures conditions possibles.<br/>8Mo par fichier maximum. 5 Fichiers maximum.</div>",
@@ -2978,5 +2980,6 @@
   "Sometimes-bigger-is-better": "Parfois, plus c'est gros, mieux c'est!",
   "To-maximize-user-experience": "Pour optimiser l'expérience utilisateur, veuillez utiliser un ordinateur de bureau ou une tablette.",
   "pictures": "Images",
-  "Retry-again": "Réessayez"
+  "Retry-again": "Réessayez",
+  "Apply Now": "Appliquer maintenant"
 }

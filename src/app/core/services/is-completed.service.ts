@@ -1,18 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { AuthService } from './Auth/auth.service';
-import { ProfileService } from '@core/services/profile/profile.service';
+
 import { Observable, of } from 'rxjs';
-import {
-  catchError,
-  filter,
-  map,
-  mergeMap,
-  switchMap,
-  take,
-  tap
-} from 'rxjs/operators';
-import { AuthStoreService } from './Auth/auth-store.service';
+import { catchError, filter, map, take } from 'rxjs/operators';
 import { TokenStorageService } from './tokenStorage/token-storage-service.service';
 import { AccountFacadeService } from '../facades/account-facade/account-facade.service';
 @Injectable({
@@ -83,7 +73,7 @@ export class IsCompletedService implements CanActivate {
           return false;
         }
       }),
-      catchError((error) => {
+      catchError(() => {
         this.tokenStorageService.signOut();
         this.router.navigate(['auth/login']);
         return of(false);
