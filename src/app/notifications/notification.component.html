@@ -108,7 +108,7 @@
             </div>
             <div class="col-md-11 col-lg-11 col-9 col-sm-9">
               <p
-                class="label_avatar_notif p-o m-v"
+                class="label_avatar_notif p-0 m-0"
                 *ngIf="
                   i.type !== 'transfer_event' &&
                   i.type !== 'apply_campaign' &&
@@ -141,7 +141,6 @@
                   [translate]="'apply_campaign_hash'"
                   [translateParams]="i._params"
                 ></span>
-
                 <span
                   *ngIf="i.type === 'transfer_event'"
                   class="link"
@@ -167,15 +166,9 @@
   </div>
   <!-- End div spinner -->
 
-  <div *ngIf="nodata == 'true' || dataNotification == ''" class="row pb-5">
+  <div *ngIf="nodata === 'true' || dataNotification === ''" class="row pb-5">
     <div
-      class="
-        d-flex
-        justify-content-center
-        text-center
-        align-items-center
-        flex-column
-      "
+      class="d-flex justify-content-center text-center align-items-center flex-column"
     >
       <img class="not-found" src="/assets/Images/not-found.svg " />
 
