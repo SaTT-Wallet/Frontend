@@ -48,16 +48,29 @@ export class AuthFacadeService {
     return this.authService.login(username, password, noredirect);
   }
 
-  register(email: any, password: any, newsLetter: any): Observable<any> {
-    return this.authService.register(email, password, newsLetter);
+
+  register(
+    email: any,
+    password: any,
+    password_confirmation: any,
+    noredirect: any,
+    newsLetter: any
+  ): Observable<any> {
+    return this.authService.register(
+      email,
+      password,
+      password_confirmation,
+      noredirect,
+      newsLetter
+    );
   }
 
   verifyAccount() {
     return this.authService.verifyAccount();
   }
 
-  updatePassword(oldpass: any, newpass: any) {
-    return this.authService.updatePassword(oldpass, newpass);
+  updatePassword(oldpass: any, newpass: any, id: any) {
+    return this.authService.updatePassword(oldpass, newpass, id);
   }
 
   sendConfirmationMail(email: string) {
@@ -67,9 +80,9 @@ export class AuthFacadeService {
     return this.authService.onBoarding();
   }
 
-  // checkPass(pass: any) {
-  //   return this.authService.checkPass(pass);
-  // }
+  checkPass(pass: any) {
+    return this.authService.checkPass(pass);
+  }
   getImagePuzzle() {
     return this.authService.imagespuzzle();
   }

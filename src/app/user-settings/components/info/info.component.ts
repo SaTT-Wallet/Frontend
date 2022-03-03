@@ -1,54 +1,38 @@
 import {
   Component,
   Inject,
-  Input,
   OnDestroy,
   OnInit,
   PLATFORM_ID
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { ProfileService } from '@core/services/profile/profile.service';
 
 import { arrayCountries, pattEmail } from '@config/atn.config';
 import {
   FormControl,
   FormGroup,
   Validators,
-  FormsModule,
-  ReactiveFormsModule,
   FormGroupDirective,
   NgForm
 } from '@angular/forms';
-import {
-  NgbModal,
-  NgbModalRef,
-  ModalDismissReasons
-} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ImageCroppedEvent } from 'ngx-image-cropper';
-import { FilesService } from '@core/services/files/files.Service';
+
 import { User } from '@app/models/User';
 
 import { TranslateService } from '@ngx-translate/core';
-import { HttpClient } from '@angular/common/http';
-import { ImageCropperModule } from 'ngx-image-cropper';
+
 import { ToastrService } from 'ngx-toastr';
-import moment from 'moment';
-import { identity } from 'lodash';
+
 import { DomSanitizer } from '@angular/platform-browser';
-import { CodeInputModule } from 'angular-code-input';
+
 import { AuthService } from '@app/core/services/Auth/auth.service';
 import Swal from 'sweetalert2';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import {
-  DateAdapter,
-  ErrorStateMatcher,
-  MAT_DATE_FORMATS,
-  MAT_DATE_LOCALE
-} from '@angular/material/core';
+import { ErrorStateMatcher, MAT_DATE_FORMATS } from '@angular/material/core';
 
-import { AuthStoreService } from '@core/services/Auth/auth-store.service';
 import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-facade.service';
 import {
   SearchCountryField,
@@ -634,7 +618,7 @@ export class InfoComponent implements OnInit, OnDestroy {
     this.profileSettingsFacade
       .updateProfile(update)
       .pipe(takeUntil(this.onDestoy$))
-      .subscribe((response: any) => {
+      .subscribe(() => {
         this.accountFacadeService.dispatchUpdatedAccount();
         this.profileSettingsFacade.loadUserProfilePic();
       });
@@ -709,7 +693,7 @@ export class InfoComponent implements OnInit, OnDestroy {
           .pipe(
             mergeMap((response: any) => {
               this.isDirty = false;
-              let msg: string = '';
+              // let msg: string = '';
               this.showSpinner = false;
               if (response.message === 'email already exists') {
                 this.duplicateEmail = true;
