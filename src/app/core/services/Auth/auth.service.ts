@@ -65,7 +65,14 @@ export class AuthService {
     );
   }
 
-  register(email: any, password: any, newsLetter: any): Observable<any> {
+  register(
+    email: any,
+    password: any,
+    password_confirmation: any,
+    noredirect: any,
+    newsLetter: any
+    //*** */
+  ): Observable<any> {
     return this.http.post(
       sattUrl +
         '/v2/auth/signup?lang=' +
@@ -105,10 +112,7 @@ export class AuthService {
   sendConfirmationMail(email: string) {
     return this.http.post(
       sattUrl + '/v2/resend-confirmation-token/' + email,
-      {
-        email: email
-      },
-      {}
+      email
     );
   }
   onBoarding() {

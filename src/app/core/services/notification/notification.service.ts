@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { sattUrl } from '@config/atn.config';
 import { BehaviorSubject, of } from 'rxjs';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { __values } from 'tslib';
 import { AngularFireMessaging } from '@angular/fire/compat/messaging';
 import { catchError, filter, mergeMap, mergeMapTo } from 'rxjs/operators';
@@ -90,7 +91,6 @@ export class NotificationService {
     );
   }
 
-
   requestPermission() {
     if (!!this.angularFireMessaging) {
       this.angularFireMessaging.requestToken
@@ -108,7 +108,7 @@ export class NotificationService {
           })
         )
         .pipe(filter((res) => res !== null))
-        .subscribe((response: any) => {});
+        .subscribe(() => {});
     }
   }
 

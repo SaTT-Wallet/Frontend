@@ -878,13 +878,10 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     categoryIndex: number,
     oracle: string
   ) {
-    console.log('oracle211->', oracle);
-
     const categories = this.bounties.controls[bountyIndex].get(
       'categories'
     ) as FormArray;
     if (categories.controls.length === 1) {
-      console.log('oracle22', oracle);
       this.closedOracle = oracle;
       this.bounties.removeAt(bountyIndex);
       this.isSelectedTwitter =
