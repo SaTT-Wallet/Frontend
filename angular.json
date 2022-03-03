@@ -161,7 +161,7 @@
         "server": {
           "builder": "@angular-devkit/build-angular:server",
           "options": {
-            "outputPath": "dist/satt-token-atayen/server",
+            "outputPath": "dist/satt-token-atayen/serverttt",
             "main": "server.ts",
             "tsConfig": "tsconfig.server.json",
             "inlineStyleLanguage": "scss"
