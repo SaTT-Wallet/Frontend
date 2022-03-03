@@ -2,7 +2,6 @@ import {
   Component,
   Input,
   OnInit,
-  SimpleChanges,
   OnChanges,
   Output,
   EventEmitter,
@@ -28,16 +27,9 @@ import { CampaignHttpApiService } from '@core/services/campaign/campaign.service
 import { arrayCountries, ListTokens } from '@config/atn.config';
 import { Editor } from 'ngx-editor';
 import { WalletStoreService } from '@core/services/wallet-store.service';
-import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
-import {
-  filter,
-  map,
-  mergeMap,
-  switchMap,
-  takeUntil,
-  tap
-} from 'rxjs/operators';
+import { filter, map, mergeMap, switchMap, takeUntil } from 'rxjs/operators';
 import { from, Observable, Subject } from 'rxjs';
 import { ConvertFromWei } from '@shared/pipes/wei-to-sa-tt.pipe';
 import { Campaign } from '@app/models/campaign.model';
@@ -47,8 +39,7 @@ import { CampaignsStoreService } from '@campaigns/services/campaigns-store.servi
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { environment } from '@environments/environment';
-import { data } from 'jquery';
-import { isPlatformBrowser, isPlatformServer } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { DOCUMENT } from '@angular/common';
 import { WindowRefService } from '@app/core/windowRefService';
@@ -481,7 +472,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
     this.budgetform.reset();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges() {
     this.currencyName = this.campaign.currency.name;
     if (this.currencyName === 'SATTBEP20') {
       this.currencyName = 'SATT';
@@ -730,7 +721,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
             this.errorMessage = 'server_error';
           }
         },
-        (err) => {
+        () => {
           this.validationAttempt = false;
           this.walletPassword = '';
           this.errorMessage = 'server_error';
@@ -909,14 +900,13 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
       )
       .subscribe(
         ({
-          params,
           data
         }: {
           params: Params;
           data: IGetSocialNetworksResponse | null;
         }) => {
           if (data !== null) {
-            let count = 0;
+            // let count = 0;
             this.channelGoogle = data.google;
             this.channelTwitter = data.twitter;
             this.channelFacebook = data.facebook;

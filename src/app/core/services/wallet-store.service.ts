@@ -117,7 +117,7 @@ export class WalletStoreService {
 
   loadWallet() {
     this.walletService.getWallet().subscribe((res: any) => {
-      this._wallet.next(res.data);
+      this._wallet.next(res);
     });
   }
 

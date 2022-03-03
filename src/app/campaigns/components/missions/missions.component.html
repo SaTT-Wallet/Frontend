@@ -33,7 +33,10 @@
             </ui-switch> -->
                         <ui-switch class="d-flex align-self-center" id="toggle" [checked]="isIncludeOracle(mission.get('oracle')?.value)" #uiSwitch (change)="
                 onToggle($event, missionIndex, mission.get('oracle')?.value)
-              " [disabled]="notValidMissionData">
+              " [disabled]="
+                notValidMissionData &&
+                !isIncludeOracle(mission.get('oracle')?.value)
+              ">
                         </ui-switch>
                     </div>
                     <ng-container *ngIf="uiSwitch.checked">
