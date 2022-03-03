@@ -29,7 +29,7 @@ export class AuthService {
   }
   confirmCode(email: any, code: any, type: any): Observable<IresponseCode> {
     return this.http.post<IresponseCode>(
-      sattUrl + '/confirmCode',
+      sattUrl + '/auth/confirmCode',
       { email: email, code: code, type: type },
       {}
     );
@@ -65,24 +65,16 @@ export class AuthService {
     );
   }
 
-  register(
-    email: any,
-    password: any,
-    password_confirmation: any,
-    noredirect: any,
-    newsLetter: any
-    //*** */
-  ): Observable<any> {
+  register(email: any, password: any, newsLetter: any): Observable<any> {
     return this.http.post(
-      sattUrl +
-        '/v2/auth/signup?lang=' +
-        this.tokenStorageService.getLocalLang(),
+      sattUrl + '/auth/signup/mail',
       {
         username: email,
         password: password,
-        newsLetter: newsLetter
+        newsLetter: newsLetter,
+        lang: this.tokenStorageService.getLocalLang()
       },
-      { headers: this.tokenStorageService.getHeader() }
+      {}
     );
   }
 
@@ -92,18 +84,17 @@ export class AuthService {
       'Cache-Control': 'no-store',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.get<IresponseAccount>(sattUrl + '/auth/account', {
+    return this.http.get<IresponseAccount>(sattUrl + '/profile/account', {
       headers: httpHeaders
     });
   }
 
-  updatePassword(oldpass: any, newpass: any, id: any) {
+  updatePassword(oldpass: any, newpass: any) {
     return this.http.post(
-      sattUrl + '/auth/passchange',
+      sattUrl + '/auth/changePassword',
       {
         oldpass: oldpass,
-        newpass: newpass,
-        id: id
+        newpass: newpass
       },
       { headers: this.tokenStorageService.getHeader() }
     );
@@ -111,8 +102,11 @@ export class AuthService {
 
   sendConfirmationMail(email: string) {
     return this.http.post(
-      sattUrl + '/v2/resend-confirmation-token/' + email,
-      email
+      sattUrl + '/auth/resend/confirmationToken/',
+      {
+        email: email
+      },
+      {}
     );
   }
   onBoarding() {
@@ -124,16 +118,20 @@ export class AuthService {
     return this.http.get(sattUrl + '/onBoarding', { headers: httpHeaders });
   }
 
-  checkPass(pass: any) {
-    let httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-store',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.post(sattUrl + '/check/pass', pass, {
-      headers: httpHeaders
-    });
-  }
+  // checkPass(pass: string) {
+  //   let httpHeaders = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //     'Cache-Control': 'no-store',
+  //     Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+  //   });
+  //   return this.http.post(
+  //     sattUrl + '/wallet/create',
+  //     { pass: pass },
+  //     {
+  //       headers: httpHeaders
+  //     }
+  //   );
+  // }
   imagespuzzle() {
     let httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',

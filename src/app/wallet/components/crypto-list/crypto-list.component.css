@@ -1425,7 +1425,7 @@ table>th {
     }
 }
 
-@media (min-width:769px ) and ( max-width:960px){
+@media (min-width: 769px) and (max-width: 960px) {
     .center-wallet {
         margin: left -95px !important
     }
@@ -4270,6 +4270,8 @@ color: white}
     border-radius: 30px;
 }
 
+
+/* 
 #key::placeholder {
     font-family: 'Poppins';
     font-style: normal;
@@ -4278,12 +4280,56 @@ color: white}
     line-height: 120%;
     font-style: normal;
     color: #75758f;
-}
+} */
 
 .search-input-wrapper {
     justify-content: flex-end;
     gap: 0.5em;
     align-items: flex-start;
+}
+
+
+/* WebKit, Edge */
+
+::-webkit-input-placeholder {
+    color: #75758f;
+}
+
+
+/* Firefox 4-18 */
+
+:-moz-placeholder {
+    color: #75758f;
+    opacity: 1;
+}
+
+
+/* Firefox 19+ */
+
+::-moz-placeholder {
+    color: #75758f;
+    opacity: 1;
+}
+
+
+/* IE 10-11 */
+
+:-ms-input-placeholder {
+    color: #75758f;
+}
+
+
+/* Edge */
+
+::-ms-input-placeholder {
+    color: #75758f;
+}
+
+
+/* MODERN BROWSER */
+
+::placeholder {
+    color: #75758f;
 }
 
 .zero-balance {

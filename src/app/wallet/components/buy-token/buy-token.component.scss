@@ -645,7 +645,6 @@ button:focus {
 
 .picture-moonboy {
   max-width: 377px;
-  // width: 93vw;
   max-height: 300px;
   height: 97vw;
   width: 100%;
@@ -653,20 +652,16 @@ button:focus {
 }
 
 .text-moonboy {
-  font-size: 15px;
+  font-size: 2vmin;
   top: 15%;
   margin-left: 7%;
   text-align: center;
   line-height: 17px;
-  //   font-size: 10px;
-  //   top: 16%;
-  //   margin-left: 8vw;
   position: absolute;
 }
 
 .div-pic-text {
   margin: 10px;
-  // width: 100%;
   position: relative;
   justify-content: flex-end;
   display: flex;

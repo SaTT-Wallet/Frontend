@@ -361,7 +361,7 @@
                     (click)="linkAccount()"
                   >
                     <img
-                      src="/assets/Images/campagne/facebook.svg"
+                      src="/assets/Images/campagne/instagram-white-icon.svg"
                       class="icon-facebook"
                       width="38px"
                     />
@@ -448,7 +448,7 @@
               <table class="table mt-3">
                 <tbody>
                   <div
-                    class="justify-content-center"
+                    class="justify-content-center table-div"
                     *ngFor="
                       let category of bounty.categories;
                       trackBy: trackByCategories
@@ -609,7 +609,7 @@
                     (click)="linkAccount()"
                   >
                     <img
-                      src="/assets/Images/campagne/facebook.svg"
+                      src="/assets/Images/campagne/instagram-white-icon.svg"
                       class="icon-facebook"
                       width="38px"
                     />
@@ -906,7 +906,9 @@
               <!--------------------------------------------------------------------------------------------------------------------------->
             </div>
             <div class="campaign-description">
-              <h6 class="labels titre">About campaign</h6>
+              <h6 class="titre">
+                {{ 'campaign_details.campaign_about' | translate }}
+              </h6>
 
               <div
                 #descWrapper

@@ -90,6 +90,7 @@ export class NotificationService {
     );
   }
 
+
   requestPermission() {
     if (!!this.angularFireMessaging) {
       this.angularFireMessaging.requestToken

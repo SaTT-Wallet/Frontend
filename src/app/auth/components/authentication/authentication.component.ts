@@ -100,7 +100,7 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
   socialUser: SocialUser | undefined;
   isLoggedin: boolean = false;
   authresetpwd: string = sattUrl + '/resetpssword';
-  authFacebook: string = sattUrl + '/auth/fb';
+  authFacebook: string = sattUrl + '/auth/signin/facebook';
   authGoogle: string = sattUrl + '/auth/google';
   authTelegram: string = sattUrl + '/auth/telegram';
   cookiesClicked!: boolean;
@@ -436,7 +436,7 @@ getCookie(key: string){
             this.showSpinner = false;
             return of(null);
           }),
-          mergeMap((data: IresponseAuth | null) => {
+          mergeMap((data: any) => {
             if (data?.access_token !== undefined) {
               this.tokenStorageService.setItem(
                 'access_token',
@@ -494,7 +494,7 @@ getCookie(key: string){
             return of(null);
           }),
           mergeMap(
-            ({ data, response }: { data: IresponseAuth; response: User }) => {
+            ({ data, response }: { data: any; response: User }) => {
               this.tokenStorageService.setHeader();
               this.tokenStorageService.saveUserId(response.idUser);
               this.tokenStorageService.saveIdSn(response.idSn);
