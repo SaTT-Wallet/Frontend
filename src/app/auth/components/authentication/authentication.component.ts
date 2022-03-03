@@ -100,7 +100,7 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
   socialUser: SocialUser | undefined;
   isLoggedin: boolean = false;
   authresetpwd: string = sattUrl + '/resetpssword';
-  authFacebook: string = sattUrl + '/auth/signin/facebook';
+  authFacebook: string = sattUrl + '/auth/fb';
   authGoogle: string = sattUrl + '/auth/google';
   authTelegram: string = sattUrl + '/auth/telegram';
   cookiesClicked!: boolean;
