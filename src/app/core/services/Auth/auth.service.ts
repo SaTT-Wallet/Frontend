@@ -91,7 +91,7 @@ export class AuthService {
 
   updatePassword(oldpass: any, newpass: any) {
     return this.http.post(
-      sattUrl + '/auth/changePassword',
+      sattUrl + '/auth/passchange',
       {
         oldpass: oldpass,
         newpass: newpass
