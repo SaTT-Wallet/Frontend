@@ -708,7 +708,11 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
   linstingCrypto(event: any) {
-    this.resetForm();
+    // this.resetForm();
+    this.sendform.controls.currency.reset();
+    this.sendform.controls.Amount.reset();
+    this.sendform.controls.AmountUsd.reset();
+    this.sendform.controls.password.reset();
     this.selectedCryptoDetails = event;
     this.sendform.get('currency')?.setValue(this.selectedCryptoDetails.symbol);
     this.sendform.get('Amount')?.reset();
