@@ -493,50 +493,37 @@ getCookie(key: string){
             }
             return of(null);
           }),
-          mergeMap(
-            ({ data, response }: { data: any; response: User }) => {
-              this.tokenStorageService.setHeader();
-              this.tokenStorageService.saveUserId(response.idUser);
-              this.tokenStorageService.saveIdSn(response.idSn);
-              this.idUser = Number(response.idUser);
-              if (response.is2FA === true) {
-                this.tokenStorageService.setItem('valid2FA', 'false');
-                this.confirmCodeShow = true;
-                this.loginshow = false;
+          mergeMap(({ data, response }: { data: any; response: User }) => {
+            this.tokenStorageService.setHeader();
+            this.tokenStorageService.saveUserId(response.idUser);
+            this.tokenStorageService.saveIdSn(response.idSn);
+            this.idUser = Number(response.idUser);
+            if (response.is2FA === true) {
+              this.tokenStorageService.setItem('valid2FA', 'false');
+              this.confirmCodeShow = true;
+              this.loginshow = false;
+            } else {
+              this.tokenStorageService.saveToken(data.access_token);
+              if (response.enabled === 0) {
+                // this.errorMessage_validation="account_not_verified";
+                // tokenStorageService.clear();any
+                this.tokenStorageService.setItem('enabled', '0');
+                this.router.navigate(['/social-registration/activation-mail'], {
+                  queryParams: {
+                    email: this.authForm.get('email')?.value
+                  }
+                });
               } else {
-                this.tokenStorageService.saveToken(data.access_token);
-                if (response.enabled === 0) {
-                  // this.errorMessage_validation="account_not_verified";
-                  // tokenStorageService.clear();any
-                  this.tokenStorageService.setItem('enabled', '0');
-                  this.router.navigate(
-                    ['/social-registration/activation-mail'],
-                    {
-                      queryParams: {
-                        email: this.authForm.get('email')?.value
-                      }
-                    }
-                  );
-                } else {
-                  if (response.idSn !== 0) {
-                    if (
-                      !response.completed ||
-                      (response.completed && !response.enabled)
-                    ) {
-                      this.router.navigate([
-                        'social-registration/completeProfile'
-                      ]);
-                      this.showBigSpinner = true;
-                      // this.spinner.hide();
-                    } else {
-                      return this.walletFacade.getUserWallet().pipe(
-                        map((myWallet: IResponseWallet) => ({
-                          myWallet,
-                          response
-                        })),
-                        takeUntil(this.onDestroy$)
-                      );
-                    }
+                if (response.idSn !== 0) {
+                  if (
+                    !response.completed ||
+                    (response.completed && !response.enabled)
+                  ) {
+                    this.router.navigate([
+                      'social-registration/completeProfile'
+                    ]);
+                    this.showBigSpinner = true;
+                    // this.spinner.hide();
                   } else {
                     return this.walletFacade.getUserWallet().pipe(
                       map((myWallet: IResponseWallet) => ({
@@ -546,11 +533,19 @@ getCookie(key: string){
                       takeUntil(this.onDestroy$)
                     );
                   }
+                } else {
+                  return this.walletFacade.getUserWallet().pipe(
+                    map((myWallet: IResponseWallet) => ({
+                      myWallet,
+                      response
+                    })),
+                    takeUntil(this.onDestroy$)
+                  );
                 }
               }
-              return of(null);
             }
-          )
+            return of(null);
+          })
         )
         .pipe(
           filter((res: any) => {
