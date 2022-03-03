@@ -12,10 +12,7 @@ import { existsSync } from 'fs';
 export function app(): express.Express {
   const server = express.default();
   const distFolder = join(process.cwd(), 'dist/satt-token-atayen/browser');
-  const template = fs.readFileSync(join(__dirname, join(distFolder, 'browser/index.html'))).toString();
-
-
-
+  const template = fs.readFileSync(join(distFolder, 'index.html')).toString();
   const win = domino.createWindow(template);
   win.Object = Object;
   win.Math = Math;
