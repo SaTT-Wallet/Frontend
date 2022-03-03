@@ -56,8 +56,8 @@ export class AuthFacadeService {
     return this.authService.verifyAccount();
   }
 
-  updatePassword(oldpass: any, newpass: any) {
-    return this.authService.updatePassword(oldpass, newpass);
+  updatePassword(oldpass: any, newpass: any, id: any) {
+    return this.authService.updatePassword(oldpass, newpass, id);
   }
 
   sendConfirmationMail(email: string) {
@@ -67,9 +67,9 @@ export class AuthFacadeService {
     return this.authService.onBoarding();
   }
 
-  // checkPass(pass: any) {
-  //   return this.authService.checkPass(pass);
-  // }
+  checkPass(pass: any) {
+    return this.authService.checkPass(pass);
+  }
   getImagePuzzle() {
     return this.authService.imagespuzzle();
   }
