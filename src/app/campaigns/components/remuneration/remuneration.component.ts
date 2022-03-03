@@ -408,7 +408,10 @@ export class RemunerationComponent implements OnInit, OnDestroy {
             this.form.get('remuneration')?.value ===
             this.eRemunerationType.Performance
           ) {
-            if (lengthRatios > 0 && this.form.controls.ratios.invalid) {
+            if (
+              (lengthRatios > 0 && this.form.controls.ratios.invalid) ||
+              (lengthRatios > 0 && this.form.invalid)
+            ) {
               this.sendErrorToMission = true;
             } else {
               this.sendErrorToMission = false;
@@ -419,12 +422,16 @@ export class RemunerationComponent implements OnInit, OnDestroy {
             this.form.get('remuneration')?.value ===
             this.eRemunerationType.Publication
           ) {
-            if (lengthBounties > 0 && this.form.controls.bounties.invalid) {
+            if (
+              (lengthBounties > 0 && this.form.controls.bounties.invalid) ||
+              (lengthBounties > 0 && this.form.invalid)
+            ) {
               this.sendErrorToMission = true;
             } else {
               this.sendErrorToMission = false;
             }
           }
+
           if (this.draftData.id && this.form.valid) {
             this.validFormMissionFromRemuToEdit.emit(true);
             this.sendErrorToMission = false;

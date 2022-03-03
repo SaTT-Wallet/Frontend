@@ -578,9 +578,14 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
   confirmUpdate(TWO_FA: any) {
     this.showSpinner = true;
+    let trueCode = this.formCode.controls.valid.value;
     let update = {
       is2FA: TWO_FA
     };
+    if (!trueCode) {
+      return;
+    }
+
     this.formCode.get('is2FA')?.setValue(TWO_FA);
     this.profileSettingsFacade
       .updateProfile(update)
