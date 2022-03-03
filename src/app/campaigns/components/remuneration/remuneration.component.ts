@@ -385,7 +385,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     this.form.valueChanges
       .pipe(
         tap(() => {
-          // this.notValidBudgetRemun=false
+          // this.notValidBudgetRemun = false;
           if (!this.service.isSavingStarted) {
             this.service.setSaveFormStatus('saving');
             this.service.isSavingStarted = true;
@@ -394,6 +394,9 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         debounceTime(500),
         tap((values: any) => {
           if (this.form.valid) {
+            this.cryptoToDropdown = this.dataList.filter(
+              (crypto) => crypto.symbol === this.draftData.currency.name
+            );
             this.validFormBudgetRemun.emit(true);
           } else {
             this.validFormBudgetRemun.emit(false);
@@ -431,7 +434,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
               this.sendErrorToMission = false;
             }
           }
-
           if (this.draftData.id && this.form.valid) {
             this.validFormMissionFromRemuToEdit.emit(true);
             this.sendErrorToMission = false;
@@ -698,7 +700,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         data = JSON.parse(JSON.stringify(data));
 
         this.dataList = data;
-
         this.cryptoToDropdown = this.dataList.filter(
           (crypto) => crypto.symbol === this.draftData.currency.name
         );
