@@ -1,43 +1,55 @@
 :host {
-  display: block;
-  max-width: 100%;
+    display: block;
+    max-width: 100%;
 }
 
 .picture-moonboy {
-  max-width: 100%;
+    max-width: 100%;
 }
 
 .text-popup {
-  background: #ffffff;
-  box-shadow: 6px 7px 16px 9px rgb(214 214 232 / 30%);
-  border-radius: 80px;
-  width: fit-content;
-  padding: 1em 3em;
-  position: relative;
-  margin-left: -7px;
-  margin-bottom: -40px;
+    background: #ffffff;
+    box-shadow: 6px 7px 16px 9px rgb(214 214 232 / 30%);
+    border-radius: 80px;
+    width: fit-content;
+    padding: 1em 3em;
+    position: relative;
+    margin-left: -5vw;
+    // margin-left: -7px;
+    margin-bottom: -40px;
+}
+
+:host-context(.buy-component) {
+    .text-popup {
+        margin-left: -37px;
+        margin-bottom: -40px;
+    }
 }
 
 p {
-  margin: 0;
-  font-size: 2vmin;
+    margin: 0;
+    font-size: 2vmin;
 }
 
 span,
 a {
-  white-space: nowrap;
-}
-
-.img-wrapper {
+    white-space: nowrap;
 }
 
 .dialog-point {
-  width: 0;
-  height: 0;
-  border-left: 19px solid transparent;
-  border-right: 0px solid transparent;
-  border-top: 19px solid white;
-  position: absolute;
-  bottom: -15px;
-  right: 48px;
+    width: 0;
+    height: 0;
+    border-left: 19px solid transparent;
+    border-right: 0px solid transparent;
+    border-top: 19px solid white;
+    position: absolute;
+    bottom: -15px;
+    right: 48px;
+}
+
+@media (max-width:500px) {
+    .text-popup {
+        margin-left: -42px !important;
+        margin-bottom: -7vw !important;
+    }
 }
