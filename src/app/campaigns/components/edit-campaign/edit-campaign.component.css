@@ -237,17 +237,22 @@
 .btn-launch-campaign {
     width: 500px;
 }
-
+@media(min-width: 768px) and (max-width:1024px) and (orientation: portrait) {
+      .div-footer-bar {
+        display: flex !important;
+    }
+}
 @media (max-width: 767.98px) {
+  .div-footer-bar {
+    display: flex !important;
+}
     .btn-blue {
         display: none;
     }
     .btn-white {
         display: none;
     }
-    .div-footer-bar {
-        display: flex;
-    }
+
     .modal-content {
         display: block !important;
     }

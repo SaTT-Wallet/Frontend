@@ -21,7 +21,7 @@ export class CreatePasswordWalletService {
     });
 
     return this.http.post(
-      `${sattUrl}/wallet/create`,
+      `${sattUrl}/v2/newallet2`,
       {
         token: token,
         pass: pass
@@ -35,7 +35,7 @@ export class CreatePasswordWalletService {
       'Cache-Control': 'no-store',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.get(sattUrl + '/wallet/getMnemo', {
+    return this.http.get(sattUrl + '/getMnemo', {
       headers: httpHeaders
     });
   }

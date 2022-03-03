@@ -21,6 +21,7 @@ import { pattPassword } from '@app/config/atn.config';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-facade.service';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
+import { AuthFacadeService } from '@app/core/facades/auth-facade/auth-facade.service';
 //import { Console } from 'node:console';
 declare const zxcvbn: any;
 @Component({
@@ -55,7 +56,8 @@ export class PassWalletComponent implements OnInit, OnDestroy {
     private sanitizer: DomSanitizer,
     private spinner: NgxSpinnerService,
     private tokenStorageService: TokenStorageService,
-    private walletFacade: WalletFacadeService
+    private walletFacade: WalletFacadeService,
+    private authFacadeService: AuthFacadeService
   ) {
     this.form = new FormGroup(
       {
@@ -181,90 +183,52 @@ export class PassWalletComponent implements OnInit, OnDestroy {
   onSubmit() {
     let password = this.f.password.value;
     this.showSpinner = true;
-    this.walletFacade.createPasswordWallet(password).subscribe(
-      (response) => {
-        if (response.message === 'success' && response.code === 200) {
-          this.tokenStorageService.saveIdWallet(response.data.address);
+    this.authFacadeService
+      .checkPass({ password })
+      .pipe(
+        mergeMap((data: any) => {
+          this.spinner.show();
+          this.showBigSpinner = true;
+          if (data.message) {
+            return this.walletFacade.createPasswordWallet(
+              this.f.password.value
+            );
+          } else if (data.error === 'same password') {
+            /*console.log("error same password")*/
+            /*this.toastr.error("error same password");*/
+            this.showBigSpinner = false;
+            this.showSpinner = false;
+            this.spinner.hide();
+            this.erreuur = true;
+            setTimeout(() => {
+              this.erreuur = false;
+            }, 3000);
+          } else {
+            this.router.navigate(['auth/login']);
+            this.showBigSpinner = false;
+            this.showSpinner = false;
+            this.spinner.hide();
+          }
+          return of(null);
+        })
+      )
+      .pipe(
+        filter((res) => res !== null),
+        takeUntil(this.onDestoy$)
+      )
+      .subscribe(
+        (data: any) => {
+          this.tokenStorageService.saveIdWallet(data.address);
           this.tokenStorageService.setSecureWallet('visited-pwd', 'true');
           this.router.navigate(['social-registration/pass-phrase']);
           this.showBigSpinner = false;
           this.spinner.hide();
           this.showSpinner = false;
+        },
+        () => {
+          this.showSpinner = true;
         }
-      },
-      (err) => {
-        if (err.error.error === 'same password' && err.error.code === 401) {
-          this.showBigSpinner = false;
-          this.showSpinner = false;
-          this.spinner.hide();
-          this.erreuur = true;
-          setTimeout(() => {
-            this.erreuur = false;
-          }, 3000);
-        }
-        //  else if (
-        //   err.error.error === 'Wallet already exist' &&
-        //   err.error.code === 401
-        // ) {
-        //   this.router.navigate(['auth/login']);
-        //   this.showBigSpinner = false;
-        //   this.showSpinner = false;
-        //   this.spinner.hide();
-        // }
-        else {
-          //  this.router.navigate(['auth/login']);
-          this.showBigSpinner = false;
-          this.showSpinner = false;
-          this.spinner.hide();
-        }
-      }
-    );
-    // this.authService
-    //   .checkPass({ password })
-    //   .pipe(
-    //     mergeMap((data: any) => {
-    //       this.spinner.show();
-    //       this.showBigSpinner = true;
-    //       if (data.message) {
-    //         return this.walletFacade.createPasswordWallet(
-    //           this.f.password.value
-    //         );
-    //       } else if (data.error === 'same password') {
-    //         /*console.log("error same password")*/
-    //         /*this.toastr.error("error same password");*/
-    //         this.showBigSpinner = false;
-    //         this.showSpinner = false;
-    //         this.spinner.hide();
-    //         this.erreuur = true;
-    //         setTimeout(() => {
-    //           this.erreuur = false;
-    //         }, 3000);
-    //       } else {
-    //         this.router.navigate(['auth/login']);
-    //         this.showBigSpinner = false;
-    //         this.showSpinner = false;
-    //         this.spinner.hide();
-    //       }
-    //       return of(null);
-    //     })
-    //   )
-    //   .pipe(
-    //     filter((res) => res !== null),
-    //     takeUntil(this.onDestoy$)
-    //   )
-    //   .subscribe(
-    //     (data: any) => {
-    //       this.tokenStorageService.saveIdWallet(data.address);
-    //       this.tokenStorageService.setSecureWallet('visited-pwd', 'true');
-    //       this.router.navigate(['social-registration/pass-phrase']);
-    //       this.showBigSpinner = false;
-    //       this.spinner.hide();
-    //       this.showSpinner = false;
-    //     },
-    //     () => {
-    //       this.showSpinner = true;
-    //     }
-    //   );
+      );
   }
 
   // getSecure(){

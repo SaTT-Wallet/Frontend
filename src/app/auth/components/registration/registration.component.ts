@@ -51,9 +51,9 @@ export class RegistrationComponent implements OnInit {
   authForm: FormGroup;
   languageSelected: string = 'en';
   showSpinner: boolean = false;
-  authFacebook: string = sattUrl + '/auth/signup/facebook';
-  authGoogle: string = sattUrl + '/auth/signup/google';
-  authTelegram: string = sattUrl + '/auth/signup/telegram';
+  authFacebook: string = sattUrl + '/auth/signup_fb';
+  authGoogle: string = sattUrl + '/auth/signup_google';
+  authTelegram: string = sattUrl + '/auth/signup_telegram';
   loginNet: string = '';
   cookiesClicked!: boolean;
   cookieValue: string = this.cookie.get('satt_cookies');
@@ -341,17 +341,22 @@ export class RegistrationComponent implements OnInit {
     if (this.authForm.valid) {
       const email = this.authForm.get('email')?.value;
       const password = this.authForm.get('password')?.value;
+      const password_confirmation = this.authForm.get('password')?.value;
       const newsLetter = this.authForm.get('newsLetterBox')?.value;
-      this.authFacadeService
-        .register(email, password, newsLetter)
+
+      const noredirect = 'true';
+      this.authService
+        .register(
+          email,
+          password,
+          password_confirmation,
+          noredirect,
+          newsLetter
+        )
         .pipe(takeUntil(this.onDestroy$))
         .subscribe(
-          (response) => {
-            if (
-              response.data &&
-              response.code === 200 &&
-              response.message === 'success'
-            ) {
+          (data) => {
+            if (!data.message) {
               var result =
                 this.document.getElementById('dropdown-menu')?.className;
               let newClass = result + ' show';
@@ -360,22 +365,20 @@ export class RegistrationComponent implements OnInit {
                 ?.setAttribute('class', newClass);
               this.exist = true;
               this.tokenStorageService.setEnabled('0');
-              this.tokenStorageService.saveToken(response.data.access_token);
-              this.tokenStorageService.saveExpire(response.data.expires_in);
               // this.modalService.open(this.confirmModal);
               this.showSpinner = false;
               this.router.navigate(['/social-registration/activation-mail'], {
                 queryParams: { email: this.authForm.get('email')?.value }
               });
+            } else if (data.message === 'account_already_used') {
+              this.errorMessage = 'connect_with_form';
+              setTimeout(() => (this.errorMessage = ''), 6000);
+              this.showSpinner = false;
             }
           },
           (err) => {
-            if (
-              err.error.error.message === 'account_already_used' &&
-              err.error.code === 401
-            ) {
+            if (err.error.message === 'connect_with_form') {
               this.errorMessage = 'connect_with_form';
-              setTimeout(() => (this.errorMessage = ''), 6000);
               this.showSpinner = false;
             } else {
               this.errorMessage = 'server_error';
@@ -449,7 +452,7 @@ export class RegistrationComponent implements OnInit {
       script.setAttribute('data-telegram-login', environment.telegramBot);
       script.setAttribute('data-size', 'large');
       //script.setAttribute("data-onauth","onTelegramAuth(user)");
-      script.setAttribute('data-auth-url', sattUrl + '/auth/signup/telegram');
+      script.setAttribute('data-auth-url', sattUrl + '/auth/signup_telegram');
       script.setAttribute('data-request-access', 'write');
       script.setAttribute('data-userpic', 'false');
       script.setAttribute('data-radius', '15');

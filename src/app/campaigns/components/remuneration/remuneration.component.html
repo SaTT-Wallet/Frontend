@@ -296,9 +296,12 @@
                           formControlName="reachLimit"
                           (input)="getAbsoluteNumber(ratio, 'reachLimit')"
                         />
-                        <span
-                          class="label-type normal-font-weight font-weight-normal me-2 ps-1"
-                          >%</span
+                        <span class="me-2 ps-2 d-flex position-relative">
+                          <span class="white-text">
+                            {{ cryptoSymbol | translate }}
+                          </span>
+                                    <span class="label-type normal-font-weight font-weight-normal percent-text">%</span
+                          ></span
                         >
                       </div>
                     </div>

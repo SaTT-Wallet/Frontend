@@ -1072,9 +1072,9 @@ input[type='number'] {
     width: 100%;
     box-sizing: border-box;
     color: #00041b;
-    height: 50px;
+    /* height: 50px; */
+    /* padding-bottom: 0px; */
     line-height: 40px;
-    padding-bottom: 0px;
     font-weight: 700;
     font-size: 48px;
     text-align: center;
@@ -1183,4 +1183,15 @@ input[type='number'] {
     /* .gray-backGround {
         min-width: 164px;
     } */
+}
+
+.white-text {
+    color: white !important;
+    font-size: 11px;
+}
+
+.percent-text {
+    position: absolute;
+    left: 35%;
+    top: 2px;
 }

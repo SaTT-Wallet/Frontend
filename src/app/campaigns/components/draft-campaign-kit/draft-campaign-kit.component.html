@@ -1,7 +1,9 @@
 <div class="col-12 px-3 padding-small-version">
-    <form [formGroup]="form">
-        <div class="col-md-12 col-lg-12 col-xs-12 d-flex justify-content-center pt-4">
-            <label class="title-section">
+  <form [formGroup]="form">
+    <div
+      class="col-md-12 col-lg-12 col-xs-12 d-flex justify-content-center pt-4"
+    >
+      <label class="title-section">
         {{ 'campaign.kit de campagne' | translate }}</label
       >
     </div>
@@ -10,24 +12,29 @@
         <label class="label-type">{{
           'campaign_details.add_files' | translate
         }}</label>
-        </div>
-</div>
-<div class="row d-flex justify-content-center pt-3 mb-1">
-    <div class="col-xl-10 col-md-12 col-lg-10 col-sm-12">
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center pt-3 mb-1">
+      <div class="col-xl-10 col-md-12 col-lg-10 col-sm-12">
         <p class="small-label mb-0">{{ 'campaign.ajout_desc' | translate }}</p>
         <p class="small-labels">
-            {{ 'campaign.ajout_description' | translate }}
+          {{ 'campaign.ajout_description' | translate }}
         </p>
+      </div>
     </div>
-</div>
-<div class="row justify-content-center pt-3 mb-1">
-    <div class="d-flex col-xl-10 col-md-12 col-lg-10 col-sm-12">
-        <div class="col-3 p-0" [ngClass]="
+    <div class="row justify-content-center pt-3 mb-1">
+      <div class="d-flex col-xl-10 col-md-12 col-lg-10 col-sm-12">
+        <div
+          class="col-3 p-0"
+          [ngClass]="
             countImages() === 5
               ? 'background-choose-img'
               : 'background-upload-img'
-          ">
-            <label class="cursor-pointer w-100 h-100 flex-column gap-4 d-flex align-self-center justify-content-center align-items-center justify-content-center">
+          "
+        >
+          <label
+            class="cursor-pointer w-100 h-100 flex-column gap-4 d-flex align-self-center justify-content-center align-items-center justify-content-center"
+          >
             <input
               *ngIf="countImages() < 5"
               type="file"
@@ -53,16 +60,40 @@
           </label>
         </div>
         <div class="col-9 p-0">
-            <owl-carousel-o [options]="customOptions">
-                <ng-container *ngFor="let elem of kits; index as i; trackBy: trackByKits">
-                    <ng-template carouselSlide id="{{ i }}" *ngIf="!elem.link" [width]="213">
-                        <div class="div-uploaded-pic d-flex justify-content-center align-items-center">
-                            <img src="/assets/Images/delete-kit-new.svg" alt="" class="img-kit cursor-pointer" (click)="deleteKitElement(i)" />
+          <owl-carousel-o [options]="customOptions">
+            <ng-container
+              *ngFor="let elem of kits; index as i; trackBy: trackByKits"
+            >
+              <ng-template
+                carouselSlide
+                id="{{ i }}"
+                *ngIf="!elem.link"
+                [width]="213"
+              >
+                <div
+                  class="div-uploaded-pic d-flex justify-content-center align-items-center"
+                >
+                  <img
+                    src="/assets/Images/delete-kit-new.svg"
+                    alt=""
+                    class="img-kit cursor-pointer"
+                    (click)="deleteKitElement(i)"
+                  />
 
-                            <img class="uploaded-pic" [src]="elem.url || elem.selectedFile" *ngIf="elem.contentType !== 'application/pdf'" id="imagekit{{ i }}" alt="your image" />
-                            <img class="img-responsive" src="{{ pdf }}" *ngIf="elem.contentType === 'application/pdf'" />
+                  <img
+                    class="uploaded-pic"
+                    [src]="elem.url || elem.selectedFile"
+                    *ngIf="elem.contentType !== 'application/pdf'"
+                    id="imagekit{{ i }}"
+                    alt="your image"
+                  />
+                  <img
+                    class="img-responsive"
+                    src="{{ pdf }}"
+                    *ngIf="elem.contentType === 'application/pdf'"
+                  />
 
-                            <span>
+                  <span>
                     <img
                       *ngIf="zoomIn"
                       src="/assets/Images/zoom-in-eye.svg"
@@ -92,15 +123,16 @@
                       (click)="downloadMyFile(i, id)"
                     />
                   </span>
-                        </div>
-                    </ng-template>
-                </ng-container>
-            </owl-carousel-o>
+                </div>
+              </ng-template>
+            </ng-container>
+          </owl-carousel-o>
         </div>
+      </div>
     </div>
-</div>
-<div class="col-md-12 mt-3 mb-3">
-    <label class="success" *ngIf="isConformKit === true"><img src="assets/Images/successImage.svg" class="p-1" />{{
+    <div class="col-md-12 mt-3 mb-3">
+      <label class="success" *ngIf="isConformKit === true"
+        ><img src="assets/Images/successImage.svg" class="p-1" />{{
           'campaign.valid_picture' | translate
         }}</label
       >
@@ -116,16 +148,25 @@
         <label class="label-type">{{
           'campaign_details.add_new_links' | translate
         }}</label>
-</div>
-<div class="d-flex gap-2 col-xl-10 col-md-12 col-lg-10 col-sm-12 flex-xl-row flex-lg-row flex-md-row flex-sm-row flex-column">
-    <input type="text" name="filterName" formControlName="url" #url class="input-type" placeholder="https://" />
-    <button type="button" class="btn-white" (click)="addLinkToKits()">
+      </div>
+      <div
+        class="d-flex gap-2 col-xl-10 col-md-12 col-lg-10 col-sm-12 flex-xl-row flex-lg-row flex-md-row flex-sm-row flex-column"
+      >
+        <input
+          type="text"
+          name="filterName"
+          formControlName="url"
+          #url
+          class="input-type"
+          placeholder="https://"
+        />
+        <button type="button" class="btn-white" (click)="addLinkToKits()">
           + {{ 'kit_campaign.add' | translate }}
         </button>
-</div>
-</div>
-<div class="row d-flex justify-content-center pt-1 mb-1">
-    <div class="col-xl-10 col-md-12 col-lg-10 col-sm-12">
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center pt-1 mb-1">
+      <div class="col-xl-10 col-md-12 col-lg-10 col-sm-12">
         <span class="error" *ngIf="this.form.get('url')?.errors?.pattern">
           {{ 'field_mustbe_url' | translate }}</span
         >
