@@ -452,7 +452,7 @@ export class RegistrationComponent implements OnInit {
       script.setAttribute('data-telegram-login', environment.telegramBot);
       script.setAttribute('data-size', 'large');
       //script.setAttribute("data-onauth","onTelegramAuth(user)");
-      script.setAttribute('data-auth-url', sattUrl + '/auth/signup/telegram');
+      script.setAttribute('data-auth-url', sattUrl + '/auth/signup_telegram');
       script.setAttribute('data-request-access', 'write');
       script.setAttribute('data-userpic', 'false');
       script.setAttribute('data-radius', '15');
