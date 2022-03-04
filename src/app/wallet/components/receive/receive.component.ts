@@ -23,6 +23,7 @@ import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Big } from 'big.js';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-receive',
@@ -72,7 +73,8 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
     private showNumbersRule: ShowNumbersRule,
     private tokenStorageService: TokenStorageService,
     @Inject(DOCUMENT) private document: Document,
-    @Inject(PLATFORM_ID) private platformId: string
+    @Inject(PLATFORM_ID) private platformId: string,
+    private _location: Location
   ) {
     this.receiveform = new FormGroup({
       contact: new FormControl(null, {
@@ -142,7 +144,8 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.showAmountBloc = true;
         this.cryptoToDropdown = this.selectedCryptoDetails;
       } else if (this.showAmountBloc === true) {
-        this.router.navigate(['/wallet']);
+        // this.router.navigate(['/wallet']);
+        this._location.back();
       }
     }
   }
