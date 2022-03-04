@@ -34,7 +34,7 @@ import { AccountFacadeService } from '@app/core/facades/account-facade/account-f
 import { bscan, etherscan } from '@app/config/atn.config';
 import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-send',
   templateUrl: './send.component.html',
@@ -120,7 +120,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     private clipboard: Clipboard,
     private showNumbersRule: ShowNumbersRule,
     @Inject(DOCUMENT) private document: Document,
-    @Inject(PLATFORM_ID) private platformId: string
+    @Inject(PLATFORM_ID) private platformId: string,
+    private _location: Location
   ) {
     //, Validators.max(this.maxNumber)
     this.sendform = new FormGroup({
@@ -703,7 +704,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.cryptoToDropdown = this.selectedCryptoDetails;
         this.contactWallet = this.sendform.get('contact')?.value;
       } else if (this.showAmountBloc === true) {
-        this.router.navigate(['/wallet']);
+        // this.router.navigate(['/wallet']);
+        this._location.back();
       }
     }
   }

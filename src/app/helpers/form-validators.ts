@@ -77,9 +77,9 @@ export function customValidateInsufficientBudget(): ValidatorFn {
     if (ratios.length) {
       ratios.forEach((elem: any) => {
         sum =
-          parseInt(elem.value.view) +
-          parseInt(elem.value.like) +
-          parseInt(elem.value.share);
+          Number(elem.value.view) +
+          Number(elem.value.like) +
+          Number(elem.value.share);
         if (!isNaN(sum)) {
           totale += sum;
         }
@@ -120,9 +120,9 @@ export function customValidateBounties(): ValidatorFn {
     let maxFollowers: any;
     let minFollowers: any;
     let reward: any;
-    maxFollowers = parseInt(control.get('maxFollowers')?.value);
-    minFollowers = parseInt(control.get('minFollowers')?.value);
-    reward = parseInt(control.get('reward')?.value);
+    maxFollowers = Number(control.get('maxFollowers')?.value);
+    minFollowers = Number(control.get('minFollowers')?.value);
+    reward = Number(control.get('reward')?.value);
 
     if (
       !isNaN(minFollowers) &&
@@ -149,11 +149,11 @@ export function customValidateRatios(): ValidatorFn {
     let like: any;
     let share: any;
     let somme = 0;
-    view = parseInt(control.get('view')?.value);
-    like = parseInt(control.get('like')?.value);
-    share = parseInt(control.get('share')?.value);
+    view = Number(control.get('view')?.value);
+    like = Number(control.get('like')?.value);
+    share = Number(control.get('share')?.value);
     somme = view + like + share;
-    if (!isNaN(like) && !isNaN(view) && !isNaN(share) && somme === 0) {
+    if (!isNaN(like) && !isNaN(view) && !isNaN(share) && somme <= 0) {
       return {
         invalidRatioSomme: true
       };
@@ -191,7 +191,7 @@ export function atLastOneChecked(): ValidatorFn {
     let checked = 0;
     let minRequired = 1;
 
-    Object.values(checkBoxes).forEach((element: any, index) => {
+    Object.values(checkBoxes).forEach((element: any) => {
       if (element !== null) {
         checked++;
       }

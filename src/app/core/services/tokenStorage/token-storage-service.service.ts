@@ -18,6 +18,7 @@ const enable = 'enabled';
 const network = 'network';
 const secure = 'secure';
 const hideRedBloc = 'hideRedBloc';
+const userIdPost = 'userIdPost';
 @Injectable({
   providedIn: 'root'
 })
@@ -167,6 +168,12 @@ export class TokenStorageService {
   }
   public getIdPost() {
     return this.localStorage.getItem('idPost');
+  }
+  public getIdUserPost() {
+    return this.localStorage.getItem(userIdPost);
+  }
+  public setIdUserPost(id: any) {
+    return this.localStorage.setItem(userIdPost, id);
   }
   public setIdUser(id: any) {
     return this.localStorage.setItem(userId, id);

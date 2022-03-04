@@ -281,7 +281,7 @@
                 class="d-flex p-0 col-xl-10 col-md-10 col-lg-10 col-sm-12 col-12"
               >
                 <div
-                  class="d-flex col-12 p-0"
+                  class="d-flex flex-column col-12 p-0"
                   *ngIf="
                     selectRemunerateValue === eRemunerationType.Performance
                   "
@@ -410,7 +410,7 @@
                     </div>
                   </div>
                   <div
-                    class="error mb-2 d-flex justify-content-center initialBudgetError"
+                    class="row error mb-2 mt-2 justify-content-center initialBudgetError"
                   >
                     <span *ngIf="ratio.errors?.invalidRatioSomme">{{
                       'campaign.must_fill_field' | translate
