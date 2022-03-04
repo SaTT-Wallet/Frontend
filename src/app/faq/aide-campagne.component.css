@@ -31,6 +31,10 @@ p {
     color: #1f2337;
 }
 
+::ng-deep .modal-open .modal {
+    z-index: 999999 !important;
+}
+
 
 /* .Message-Area {
     resize: none;
