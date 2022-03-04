@@ -65,7 +65,10 @@
     -ms-border-radius: 33px;
     -o-border-radius: 33px;
 }
-
+.card-hilighted{
+  border :3px solid #00cc9e !important;
+  -webkit-border-radius: 0px;
+}
 .fit-center {
     max-width: 327px;
 }
