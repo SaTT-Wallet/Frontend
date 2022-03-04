@@ -105,7 +105,10 @@ export class ActivationMailComponent implements OnInit {
             'visited-completeProfile',
             'true'
           );
-          this.router.navigateByUrl('/social-registration/monetize-facebook');
+          setTimeout(() => {
+            this.router.navigateByUrl('/social-registration/monetize-facebook');
+            this.errorMessagecode = '';
+          }, 2000);
         }
 
         // route to next page

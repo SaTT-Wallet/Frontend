@@ -99,6 +99,9 @@ export class TokenStorageService {
   public getUserSn() {
     this.localStorage.getItem(idSn);
   }
+  public setUserSn(id: string) {
+    this.localStorage.setItem(idSn, id);
+  }
 
   public getIsAuth() {
     return this.localStorage.getItem(isAuth);
