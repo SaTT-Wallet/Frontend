@@ -137,7 +137,7 @@
     <span class="span-text blue-text">AdPool list</span>
   </div>
   <!------end div adpoooool -->
-  <!------------ div center -->
+  <!------------ div center *ngIf="campaignData.isOwnedByUser"-->
   <div class="div-center text-center">
     <!------ div Finalize -->
     <div
@@ -147,6 +147,19 @@
     >
       <img src="assets/Images/pencil-square-pink.svg" />
     </div>
+    <div
+      (click)="goToView()"
+      *ngIf="campaignData.isActive && campaignData.isOwnedByUser"
+      class="div-pic-center"
+    >
+      <img src="assets/Images/pencil-square-pink.svg" />
+    </div>
+    <span
+      class="span-text pink-text"
+      (click)="goToView()"
+      *ngIf="campaignData.isActive && campaignData.isOwnedByUser"
+      >Save</span
+    >
     <span
       class="span-text pink-text"
       (click)="saveAndLaunchCampaign()"
@@ -163,16 +176,27 @@
     <!------ div delete-->
     <div
       class="div-pic"
-      *ngIf="!campaignData.isActive"
+      *ngIf="!campaignData.isActive && campaignData.isOwnedByUser"
       (click)="deleteCampaign(draftId)"
     >
       <img src="assets/Images/blue-icons/corbeille-blue.svg" />
+    </div>
+    <div
+      class="div-pic"
+      *ngIf="campaignData.isActive && campaignData.isOwnedByUser"
+    >
+      <img src="assets/Images/corbeille_gray.svg" />
     </div>
 
     <span
       class="span-text blue-text"
       (click)="deleteCampaign(draftId)"
-      *ngIf="!campaignData.isActive"
+      *ngIf="!campaignData.isActive && campaignData.isOwnedByUser"
+      >Delete</span
+    >
+    <span
+      class="span-text blue-text disabled-text"
+      *ngIf="campaignData.isActive && campaignData.isOwnedByUser"
       >Delete</span
     >
     <!------end div delete-->
