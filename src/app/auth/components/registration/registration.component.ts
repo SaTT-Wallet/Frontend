@@ -25,6 +25,7 @@ import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { Subject, Subscription } from 'rxjs';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { AuthFacadeService } from '@app/core/facades/auth-facade/auth-facade.service';
+import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 
 declare const zxcvbn: Function;
 
@@ -85,7 +86,8 @@ export class RegistrationComponent implements OnInit {
     private cookie: CookieService,
     @Inject(DOCUMENT) private document: Document,
     private tokenStorageService: TokenStorageService,
-    @Inject(PLATFORM_ID) private platformId: string
+    @Inject(PLATFORM_ID) private platformId: string,
+    private accountFacadeService: AccountFacadeService
   ) {
     translate.addLangs(['en', 'fr']);
     if (this.tokenStorageService.getLocalLang()) {
@@ -364,7 +366,11 @@ export class RegistrationComponent implements OnInit {
                 .getElementById('dropdown-menu')
                 ?.setAttribute('class', newClass);
               this.exist = true;
+              this.tokenStorageService.saveToken(data.access_token);
+              this.tokenStorageService.saveExpire(data.expires_in);
+              this.tokenStorageService.setUserSn('0');
               this.tokenStorageService.setEnabled('0');
+              this.accountFacadeService.dispatchUpdatedAccount();
               // this.modalService.open(this.confirmModal);
               this.showSpinner = false;
               this.router.navigate(['/social-registration/activation-mail'], {
