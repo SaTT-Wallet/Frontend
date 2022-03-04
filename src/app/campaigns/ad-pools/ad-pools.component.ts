@@ -12,9 +12,8 @@ import { Page } from '@app/models/page.model';
 import { User } from '@app/models/User';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { DraftCampaignStoreService } from '@core/services/draft-campaign-store.service';
-import { CampaignsDashboardService } from '@campaigns/services/campaigns-dashboard.service';
 import _ from 'lodash';
-import { forkJoin, Observable, of, Subject, Subscription } from 'rxjs';
+import { forkJoin, of, Subject, Subscription } from 'rxjs';
 import {
   debounceTime,
   filter,
@@ -23,11 +22,9 @@ import {
   takeUntil,
   tap
 } from 'rxjs/operators';
-import { ProfileService } from '@core/services/profile/profile.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AuthStoreService } from '@core/services/Auth/auth-store.service';
 import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-facade.service';
-import { data } from 'jquery';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { AuthService } from '@core/services/Auth/auth.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -81,10 +78,9 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
     private draftStore: DraftCampaignStoreService,
     private router: Router,
     private sanitizer: DomSanitizer,
-    private ProfileService: ProfileService,
     private profileSettingsFacade: ProfileSettingsFacadeService,
     private authStoreService: AuthStoreService,
-    private tokenStorageService: TokenStorageService,
+    public tokenStorageService: TokenStorageService,
     private authService: AuthService,
     public translate: TranslateService,
     public modalService: NgbModal
@@ -226,7 +222,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
             //   (campaign: Campaign) => campaign.isDraft === false
             // );
           },
-          (error) => {
+          () => {
             this.isLoading = false;
           }
         );
@@ -267,7 +263,6 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
         .getAccount()
         .pipe(takeUntil(this.onDestoy$))
         .subscribe((response: any) => {
-          let getFillMyProfil = this.tokenStorageService.getFillMyProfil();
           if (
             response.onBoarding === false &&
             this.router.url === '/ad-pools'
@@ -347,7 +342,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
               }),
               takeUntil(this.onDestoy$)
             )
-            .subscribe((data) => {
+            .subscribe(() => {
               this.showModal = !this.showModal;
               this.getDetails();
             });
@@ -461,7 +456,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
       this.profileSettingsFacade
         .updateProfile(data_profile)
         .pipe(takeUntil(this.onDestoy$))
-        .subscribe((response: any) => {});
+        .subscribe();
       this.tokenStorageService.setShowPopUp('false');
     }
 
@@ -472,7 +467,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
       this.profileSettingsFacade
         .updateProfile(data_profile)
         .pipe(takeUntil(this.onDestoy$))
-        .subscribe((response: any) => {});
+        .subscribe();
       this.tokenStorageService.setShowPopUp('true');
     }
   }

@@ -24,7 +24,7 @@ import { Campaign } from '@app/models/campaign.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper';
 import { Subject } from 'rxjs';
-import {debounceTime, takeUntil, tap} from "rxjs/operators";
+import { debounceTime, takeUntil, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-draft-picture',
@@ -143,7 +143,6 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.draftData && changes.draftData.currentValue.id) {
       //  this.populateForm(this.draftData);
-
       if (this.draftData.cover === '' || this.draftData.cover === undefined) {
         this.showImage = false;
       } else {
@@ -176,6 +175,27 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
           .get('coverSrcMobile')
           ?.setValue(this.draftData.coverSrcMobile, { emitEvent: false });
       }
+      if (this.draftData.isActive) {
+        if (
+          !this.draftData.coverSrc &&
+          (this.draftData.cover || this.draftData.coverMobile)
+        ) {
+          this.draftData.coverSrc = this.draftData.cover
+            ? this.draftData.cover
+            : this.draftData.coverMobile;
+          this.showImage = true;
+        }
+        if (
+          !this.draftData.coverMobile &&
+          (this.draftData.cover || this.draftData.coverMobile)
+        ) {
+          this.draftData.coverMobile = this.draftData.coverMobile
+            ? this.draftData.coverMobile
+            : this.draftData.cover;
+          this.showImageMobile = true;
+        }
+      }
+
       if (this.form.valid) {
         this.validFormPicture.emit(true);
       } else {
