@@ -73,6 +73,7 @@ export function customValidateInsufficientBudget(): ValidatorFn {
     let bounties = (control.get('bounties') as FormArray).controls;
     let initialBudget = control.get('initialBudget')?.value;
     let sum = 0;
+    //let sumReward = 0;
     let totale = 0;
     if (ratios.length) {
       ratios.forEach((elem: any) => {
