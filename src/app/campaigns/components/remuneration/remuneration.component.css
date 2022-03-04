@@ -449,9 +449,11 @@ input.input-number2::-webkit-input-placeholder {
     line-height: 13px;
 }
 
+
+/* 
 .initialBudgetError {
     padding: 0.5em 9em;
-}
+} */
 
 
 /* .BudgetError {
