@@ -7,7 +7,9 @@ import { TokenStorageService } from '@app/core/services/tokenStorage/token-stora
 import { dataList, pattContact } from '@config/atn.config';
 import { cryptoList, ListTokens } from '@config/atn.config';
 import { Observable, Subject, zip } from 'rxjs';
-import { concatMap, filter, mapTo, tap, map, takeUntil,  } from 'rxjs/operators';
+import { filter, tap, map, takeUntil } from 'rxjs/operators';
+import { Location } from '@angular/common';
+
 import * as _ from 'lodash';
 
 enum EBlockchainNetwork {
@@ -102,7 +104,8 @@ export class BuyTokenComponent implements OnInit {
     private route: ActivatedRoute,
     @Inject(DOCUMENT) private document: Document,
     private tokenStorageService: TokenStorageService,
-    @Inject(PLATFORM_ID) private platformId: string
+    @Inject(PLATFORM_ID) private platformId: string,
+    private _location: Location
   ) {
     this.convertform = new FormGroup({
       Amount: new FormControl(
@@ -541,7 +544,8 @@ export class BuyTokenComponent implements OnInit {
   }
   linstingBack(event: any) {
     if (event === true) {
-      this.router.navigate(['/wallet']);
+      this._location.back();
+      // this.router.navigate(['/wallet']);
     }
   }
   trackByCryptoMoneyValue(index: number, crypto: any): string {
