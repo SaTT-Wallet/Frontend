@@ -87,7 +87,7 @@ a {
 }
 
 .price-varition-up {
-    color: #00CC9E;
+    color: #00cc9e;
     font-style: normal;
     text-align: right;
     /* font-size: 1vw!important; */
@@ -491,10 +491,9 @@ a {
 }
 
 .IconsName {
-    font-size: 11px;
     font-family: 'Poppins';
     font-style: normal;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 12px;
     line-height: 130%;
     letter-spacing: 0.03em;
@@ -557,7 +556,8 @@ a {
 }
 
 .IconsMobile {
-    width: 38px;
+    width: 39px;
+    height: 39px;
 }
 
 .balanceCrypto {
@@ -655,7 +655,7 @@ tr:not(:last-child) {
 table {
     height: 100%;
     /* width: 100%; */
-    width: 100%%;
+    width: 100%;
     text-align: justify;
 }
 
@@ -1427,7 +1427,7 @@ table>th {
 
 @media (min-width: 769px) and (max-width: 960px) {
     .center-wallet {
-        margin: left -95px !important
+        margin: left -95px !important;
     }
 }
 
@@ -3665,7 +3665,6 @@ color: white}
         width: 93%;
         margin-left: -5%;
     }
-    #key {}
     .modal-content {
         position: absolute;
         left: 50%;
@@ -3747,9 +3746,6 @@ color: white}
 }
 
 @media (min-width: 426px) and (max-width: 766px) {
-    #key {
-        /*min-width: 150%;*/
-    }
     .dropdown {
         outline: none !important;
         background: #ffffff;
@@ -4257,8 +4253,9 @@ color: white}
     color: #323754;
 }
 
-#key {
-    background-image: url('/assets/Images/search5.svg');
+
+/* #key {
+    background-image: url('/assets/Images/serch-hard-gray.svg');
     background-position: 13px;
     background-repeat: no-repeat;
     width: 69%;
@@ -4268,7 +4265,7 @@ color: white}
     height: 48px;
     border: 1px solid #d6d6e8;
     border-radius: 30px;
-}
+} */
 
 
 /* 
@@ -4372,7 +4369,7 @@ color: white}
 }
 
 #key {
-    background-image: url('/assets/Images/search5.svg');
+    background-image: url('/assets/Images/serch-hard-gray.svg');
     background-position: 13px;
     background-repeat: no-repeat;
     width: 82%;
@@ -4388,7 +4385,7 @@ color: white}
 }
 
 .cryptoRowContainerMobile {
-    padding-left: 0.5rem;
+    padding-left: 1rem;
     padding-right: 1rem;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
@@ -4746,10 +4743,6 @@ hr {
 }
 
 @media (max-width: 767.98px) {
-    /* #key {
-       
-        min-width:175%;
-    } */
     .white-block-desktop {
         height: 100%;
         overflow-x: hidden;
@@ -4833,9 +4826,6 @@ hr {
 @media (max-width: 320px) {
     .price-varition {
         font-size: 7px !important;
-    }
-    #key {
-        /* margin-left: -7%!important; */
     }
     /* #cryptoListMobile {
         margin-right: 60px;

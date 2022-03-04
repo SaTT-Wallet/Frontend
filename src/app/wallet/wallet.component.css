@@ -24,11 +24,12 @@ input:-webkit-autofill:active {
 .welcome-body {
     max-width: 600px;
 }
+
 @media (max-width: 767.98px) {
     .modal-customm {
-      z-index: 99999  !important;
+        z-index: 99999 !important;
     }
-  }
+}
 
 .white-bloc {
     width: 95%;
@@ -916,7 +917,7 @@ textarea::placeholder {
     .walletTotal {
         font-style: normal;
         font-weight: bold;
-        font-size: 27px;
+        font-size: 26px;
         line-height: 110%;
         color: #ffffff;
         align-items: center;
@@ -1236,7 +1237,7 @@ table>th {
         border-bottom-left-radius: 32px; */
         left: -1.3% !important;
     }
-    .canvdaily{
+    .canvdaily {
         width: 121.7% !important;
     }
 }
@@ -1252,7 +1253,7 @@ table>th {
         border-bottom-left-radius: 32px; */
         left: -1.1% !important;
     }
-    .canvdaily{
+    .canvdaily {
         width: 121.6% !important;
     }
 }
@@ -1268,7 +1269,7 @@ table>th {
         border-bottom-left-radius: 32px; */
         left: -0.89% !important;
     }
-    .canvdaily{
+    .canvdaily {
         width: 121.4% !important;
     }
 }
@@ -1284,7 +1285,7 @@ table>th {
         border-bottom-left-radius: 32px; */
         left: -0.7% !important;
     }
-    .canvdaily{
+    .canvdaily {
         width: 121.1% !important;
     }
 }
@@ -1301,7 +1302,7 @@ table>th {
         border-bottom-left-radius: 32px; */
         left: -2.1% !important;
     }
-    .canvdaily{
+    .canvdaily {
         width: 122% !important;
     }
 }
@@ -1317,7 +1318,8 @@ table>th {
         border-bottom-right-radius: 16px;
         border-bottom-left-radius: 32px; */
         left: -1.79% !important;
-    } .canvdaily{
+    }
+    .canvdaily {
         width: 123.1% !important;
     }
 }
@@ -1334,7 +1336,7 @@ table>th {
         border-bottom-left-radius: 32px; */
         left: -1.3% !important;
     }
-    .canvdaily{
+    .canvdaily {
         width: 122% !important;
     }
     .walletEstim {
