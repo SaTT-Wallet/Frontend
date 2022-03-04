@@ -97,6 +97,12 @@
   color: #00041b !important;
   opacity: 1 !important;
 }
+@supports (-moz-appearance: none) {
+  .input-email::placeholder {
+    color: #adadc8 !important;
+    opacity: 1 !important;
+  }
+}
 
 .hard-gray-text {
   font-style: normal;
