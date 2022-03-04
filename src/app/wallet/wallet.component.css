@@ -24,6 +24,11 @@ input:-webkit-autofill:active {
 .welcome-body {
     max-width: 600px;
 }
+@media (max-width: 767.98px) {
+    .modal-customm {
+      z-index: 99999  !important;
+    }
+  }
 
 .white-bloc {
     width: 95%;
