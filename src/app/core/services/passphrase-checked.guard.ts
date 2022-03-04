@@ -30,7 +30,7 @@ export class PassphraseCheckedGuard implements CanActivate {
       switchMap(() =>
         this.authStoreService.account$.pipe(
           map((account: any) => {
-            if (!account.error && account.passphrase === undefined) {
+            if (!account.error && account.visitPassphrase === undefined) {
               return this.router.parseUrl('/social-registration/pass-phrase');
             } else {
               return true;
