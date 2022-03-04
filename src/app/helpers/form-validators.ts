@@ -73,7 +73,9 @@ export function customValidateInsufficientBudget(): ValidatorFn {
     let bounties = (control.get('bounties') as FormArray).controls;
     let initialBudget = control.get('initialBudget')?.value;
     let sum = 0;
+    let sumReward = 0;
     let totale = 0;
+    let totaleBounties = 0;
     if (ratios.length) {
       ratios.forEach((elem: any) => {
         sum =
@@ -87,24 +89,21 @@ export function customValidateInsufficientBudget(): ValidatorFn {
     }
 
     if (bounties.length) {
-      let resultVal;
-
       bounties.forEach((elem: any) => {
         elem.value.categories.forEach((val: any) => {
-          if (+val.reward > initialBudget) {
-            resultVal = false;
+          sumReward += Number(val.reward);
+          if (!isNaN(sumReward)) {
+            totaleBounties += sumReward;
           }
         });
       });
-      if (resultVal === false) {
-        return {
-          InsufficientBudget: true
-        };
-      }
     }
 
     if (initialBudget > 0) {
-      if (totale && totale > initialBudget) {
+      if (
+        (totale && totale > initialBudget) ||
+        (totaleBounties && totaleBounties > initialBudget)
+      ) {
         return {
           InsufficientBudget: true
         };

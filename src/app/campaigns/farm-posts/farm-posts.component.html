@@ -572,7 +572,8 @@
         [ngClass]="{
           link: this.promHash === prom?.hash,
           'display-row width-bloc-row': !isStyleGrid,
-          'fit-center': isStyleGrid
+          'fit-center': isStyleGrid,
+          'card-hilighted': !isStyleGrid && this.promHash === prom?.hash
         }"
       ></app-farm-post-card>
     </ng-template>

@@ -51,8 +51,9 @@ input:-webkit-autofill:active {
 
 .show_button {
     background: #f6f6ff;
-    border-radius: 30px;
-    height: 25px;
+    border-radius: 50px;
+    height: 35px;
+    width: 35px;
     border: none;
     color: #4048ff;
     font-size: 13px;
@@ -66,7 +67,8 @@ input:-webkit-autofill:active {
 .hide_button {
     background: transparent;
     border-radius: 30px;
-    height: 25px;
+    height: 35px;
+    width: 35px;
     border: none;
     color: #f6f6ff;
     font-size: 13px;
@@ -129,8 +131,8 @@ input:-webkit-autofill:active {
     z-index: 1;
     position: absolute;
     right: 0;
-    top: 250px;
-    margin-right: 37px;
+    top: 220px;
+    margin-right: 60px;
 }
 
 .crypto-felx {
