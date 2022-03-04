@@ -143,7 +143,6 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.draftData && changes.draftData.currentValue.id) {
       //  this.populateForm(this.draftData);
-      console.log('this.draftData', this.draftData);
       if (this.draftData.cover === '' || this.draftData.cover === undefined) {
         this.showImage = false;
       } else {
@@ -166,10 +165,6 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
         this.draftData.coverMobile === '' ||
         this.draftData.coverMobile === undefined
       ) {
-        console.log(
-          '  this.draftData.coverMobile =',
-          this.draftData.coverMobile
-        );
         this.showImageMobile = false;
       } else {
         this.showImageMobile = true;
@@ -181,17 +176,26 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
           ?.setValue(this.draftData.coverSrcMobile, { emitEvent: false });
       }
       if (this.draftData.isActive) {
-        if (!this.draftData.coverSrc) {
-          this.draftData.coverSrc = this.draftData.cover;
+        if (
+          !this.draftData.coverSrc &&
+          (this.draftData.cover || this.draftData.coverMobile)
+        ) {
+          this.draftData.coverSrc = this.draftData.cover
+            ? this.draftData.cover
+            : this.draftData.coverMobile;
+          this.showImage = true;
         }
-        if (!this.draftData.coverMobile) {
-          this.draftData.coverSrcMobile = this.draftData.coverSrc
-            ? this.draftData.coverSrc
+        if (
+          !this.draftData.coverMobile &&
+          (this.draftData.cover || this.draftData.coverMobile)
+        ) {
+          this.draftData.coverMobile = this.draftData.coverMobile
+            ? this.draftData.coverMobile
             : this.draftData.cover;
-          this.draftData.coverMobile = this.draftData.cover;
           this.showImageMobile = true;
         }
       }
+
       if (this.form.valid) {
         this.validFormPicture.emit(true);
       } else {
