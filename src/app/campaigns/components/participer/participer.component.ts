@@ -1,37 +1,24 @@
 import {
   Component,
   ElementRef,
-  Input,
-  OnChanges,
   OnInit,
   ViewChild,
-  SimpleChanges,
   Inject,
   Renderer2,
   PLATFORM_ID
 } from '@angular/core';
 import {
   AbstractControl,
-  FormBuilder,
   FormControl,
   FormGroup,
   ValidatorFn,
   Validators
 } from '@angular/forms';
 
-import { forkJoin, Observable, of, Subject } from 'rxjs';
-import {
-  catchError,
-  map,
-  mergeMap,
-  switchMap,
-  takeUntil
-} from 'rxjs/operators';
-import { element } from 'protractor';
-import { FacebookService, InitParams } from 'ngx-facebook';
+import { forkJoin, Subject } from 'rxjs';
+import { mergeMap, takeUntil } from 'rxjs/operators';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
-import Swal from 'sweetalert2';
-import { Router, ActivatedRoute, UrlSegment } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import {
   pattMedia,
   pattLinks,
@@ -40,9 +27,7 @@ import {
 } from '@config/atn.config';
 import { CampaignsStoreService } from '@campaigns/services/campaigns-store.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
-import { __await } from 'tslib';
 import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
-import { Url } from 'url';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 
@@ -318,11 +303,11 @@ export class ParticiperComponent implements OnInit {
         }
         if (this.application) {
           this.tokenStorageService.setIdPost(myApplication.idPost);
-          this.tokenStorageService.setIdUser(myApplication.idUser);
+          this.tokenStorageService.setIdUserPost(myApplication.idUser);
           this.tokenStorageService.setTypeSN(myApplication.typeSN);
         } else {
           myApplication.idPost = this.tokenStorageService.getIdPost();
-          myApplication.idUser = this.tokenStorageService.getIdUser();
+          myApplication.idUser = this.tokenStorageService.getIdUserPost();
           myApplication.typeSN = this.tokenStorageService.getTypeSN();
 
           this.application = myApplication;
@@ -332,7 +317,7 @@ export class ParticiperComponent implements OnInit {
           this.CampaignService.verifyLink(this.application)
             .pipe(takeUntil(this.isDestroyedSubject))
             .subscribe(
-              (data: any) => {},
+              () => {},
               (err) => {
                 this.spinner = false;
                 if (err.error.text === '{result:true}') {
@@ -433,11 +418,11 @@ export class ParticiperComponent implements OnInit {
 
         if (this.application) {
           this.tokenStorageService.setIdPost(myApplication.idPost);
-          this.tokenStorageService.setIdUser(myApplication.idUser);
+          this.tokenStorageService.setIdUserPost(myApplication.idUser);
           this.tokenStorageService.setTypeSN(myApplication.typeSN);
         } else {
           myApplication.idPost = this.tokenStorageService.getIdPost();
-          myApplication.idUser = this.tokenStorageService.getIdUser();
+          myApplication.idUser = this.tokenStorageService.getIdUserPost();
           myApplication.typeSN = this.tokenStorageService.getTypeSN();
 
           this.application = myApplication;
@@ -447,7 +432,7 @@ export class ParticiperComponent implements OnInit {
           this.CampaignService.verifyLink(this.application)
             .pipe(takeUntil(this.isDestroyedSubject))
             .subscribe(
-              (data) => {},
+              () => {},
               (err) => {
                 if (err.error.text === '{result:true}') {
                   this.linked = true;
@@ -533,11 +518,11 @@ export class ParticiperComponent implements OnInit {
 
         if (this.application) {
           this.tokenStorageService.setIdPost(myApplication.idPost);
-          this.tokenStorageService.setIdUser(myApplication.idUser);
+          this.tokenStorageService.setIdUserPost(myApplication.idUser);
           this.tokenStorageService.setTypeSN(myApplication.typeSN);
         } else {
           myApplication.idPost = this.tokenStorageService.getIdPost();
-          myApplication.idUser = this.tokenStorageService.getIdUser();
+          myApplication.idUser = this.tokenStorageService.getIdUserPost();
           myApplication.typeSN = this.tokenStorageService.getTypeSN();
 
           this.application = myApplication;
@@ -546,7 +531,7 @@ export class ParticiperComponent implements OnInit {
           this.CampaignService.verifyLink(this.application)
             .pipe(takeUntil(this.isDestroyedSubject))
             .subscribe(
-              (data) => {},
+              () => {},
               (err) => {
                 this.spinner = false;
                 if (err.error.text === '{result:true}') {
@@ -631,7 +616,7 @@ export class ParticiperComponent implements OnInit {
             var embed = this.renderer.createElement('embed');
             this.CampaignService.linkedinSharedid(this.idlinkedin)
               .pipe(takeUntil(this.isDestroyedSubject))
-              .subscribe((linkedin: any) => {
+              .subscribe(() => {
                 embed.setAttribute(
                   'src',
                   'https://www.linkedin.com/embed/feed/update/' + this.sharedid
@@ -656,11 +641,11 @@ export class ParticiperComponent implements OnInit {
 
         if (this.application) {
           this.tokenStorageService.setIdPost(myApplication.idPost);
-          this.tokenStorageService.setIdUser(myApplication.idUser);
+          this.tokenStorageService.setIdUserPost(myApplication.idUser);
           this.tokenStorageService.setTypeSN(myApplication.typeSN);
         } else {
           myApplication.idPost = this.tokenStorageService.getIdPost();
-          myApplication.idUser = this.tokenStorageService.getIdUser();
+          myApplication.idUser = this.tokenStorageService.getIdUserPost();
           myApplication.typeSN = this.tokenStorageService.getTypeSN();
           this.application = myApplication;
         }
@@ -669,7 +654,7 @@ export class ParticiperComponent implements OnInit {
           this.CampaignService.verifyLink(this.application)
             .pipe(takeUntil(this.isDestroyedSubject))
             .subscribe(
-              (data) => {},
+              () => {},
               (err) => {
                 if (err.error.text === '{result:true}') {
                   this.linked = true;
@@ -748,11 +733,11 @@ export class ParticiperComponent implements OnInit {
 
       if (this.application) {
         this.tokenStorageService.setIdPost(myApplication.idPost);
-        this.tokenStorageService.setIdUser(myApplication.idUser);
+        this.tokenStorageService.setIdUserPost(myApplication.idUser);
         this.tokenStorageService.setTypeSN(myApplication.typeSN);
       } else {
         myApplication.idPost = this.tokenStorageService.getIdPost();
-        myApplication.idUser = this.tokenStorageService.getIdUser();
+        myApplication.idUser = this.tokenStorageService.getIdUserPost();
         myApplication.typeSN = this.tokenStorageService.getTypeSN();
 
         this.application = myApplication;
@@ -762,50 +747,46 @@ export class ParticiperComponent implements OnInit {
         this.CampaignService.verifyLink(this.application)
           .pipe(takeUntil(this.isDestroyedSubject))
           .subscribe(
-            (data: any) => {},
+            () => {},
             (err) => {
               this.spinner = false;
-      
 
-                if (err.error.text === '{result:true}') {
-                  this.linked = true;
-                  this.getdatavideo();
-                  this.loadingButton = false;
-                  this.spinner = false;
-                } else if (err.error.text === '{result:false}') {
-                  this.error = 'Not_your_link';
-                  this.oracleType = 'youtube';
-                  this.success = '';
-                  this.loadingButton = false;
-                  this.router.navigate([], {
-                    queryParams: {
-                      errorMessage: 'error'
-                    }
-                  });
-                } else if (err.error.text === '{error:"account not linked"}') {
-                  this.connectValue = 'google';
-                  this.errorResponse = 'google';
-                  this.error = '';
-                  this.success = '';
-                  this.loadingButton = false;
-                } else if (
-                  err.error.text === '{error:"account desactivated"}'
-                ) {
-                  this.error = 'account_deactivated_error';
-                } else if (err.error.text === '{error:"lien_invalid"}') {
-                  this.connectValue = 'google';
-                  this.errorResponse = 'google';
-                  this.error = '';
-                  this.success = '';
-                  this.loadingButton = false;
-                  this.oracleType = 'youtube';
-                } else {
-                  this.error = 'Default';
-                  this.errorDescription = 'Default paragraphe';
-                  this.success = '';
-                  this.loadingButton = false;
-                }
-             
+              if (err.error.text === '{result:true}') {
+                this.linked = true;
+                this.getdatavideo();
+                this.loadingButton = false;
+                this.spinner = false;
+              } else if (err.error.text === '{result:false}') {
+                this.error = 'Not_your_link';
+                this.oracleType = 'youtube';
+                this.success = '';
+                this.loadingButton = false;
+                this.router.navigate([], {
+                  queryParams: {
+                    errorMessage: 'error'
+                  }
+                });
+              } else if (err.error.text === '{error:"account not linked"}') {
+                this.connectValue = 'google';
+                this.errorResponse = 'google';
+                this.error = '';
+                this.success = '';
+                this.loadingButton = false;
+              } else if (err.error.text === '{error:"account desactivated"}') {
+                this.error = 'account_deactivated_error';
+              } else if (err.error.text === '{error:"lien_invalid"}') {
+                this.connectValue = 'google';
+                this.errorResponse = 'google';
+                this.error = '';
+                this.success = '';
+                this.loadingButton = false;
+                this.oracleType = 'youtube';
+              } else {
+                this.error = 'Default';
+                this.errorDescription = 'Default paragraphe';
+                this.success = '';
+                this.loadingButton = false;
+              }
             }
           );
       } else {
@@ -868,11 +849,11 @@ export class ParticiperComponent implements OnInit {
     if (!application) {
       application = {};
       application.idPost = this.tokenStorageService.getIdPost();
-      application.idUser = this.tokenStorageService.getIdUser();
+      application.idUser = this.tokenStorageService.getIdUserPost();
       application.typeSN = this.tokenStorageService.getTypeSN();
 
       this.tokenStorageService.removeItem('idPost');
-      this.tokenStorageService.removeItem('idUser');
+      this.tokenStorageService.removeItem('userIdPost');
       this.tokenStorageService.removeItem('typeSN');
     }
 
@@ -957,7 +938,7 @@ export class ParticiperComponent implements OnInit {
             }
           }
         },
-        (err) => {
+        () => {
           this.loadingButton = false;
           this.showButtonSend = true;
         }
@@ -1048,13 +1029,13 @@ export class ParticiperComponent implements OnInit {
         let myApplication = this.application;
 
         this.tokenStorageService.setIdPost(myApplication.idPost);
-        this.tokenStorageService.setIdUser(myApplication.idUser);
+        this.tokenStorageService.setIdUserPost(myApplication.idUser);
         this.tokenStorageService.setTypeSN(myApplication.typeSN);
       } else {
         let myApplication: any = {};
 
         myApplication.idPost = this.tokenStorageService.getIdPost();
-        myApplication.idUser = this.tokenStorageService.getIdUser();
+        myApplication.idUser = this.tokenStorageService.getIdUserPost();
         myApplication.typeSN = this.tokenStorageService.getTypeSN();
 
         this.application = myApplication;
@@ -1063,7 +1044,7 @@ export class ParticiperComponent implements OnInit {
       this.CampaignService.verifyLink(this.application)
         .pipe(takeUntil(this.isDestroyedSubject))
         .subscribe(
-          (data: any) => {},
+          () => {},
           (err) => {
             this.spinner = false;
 
