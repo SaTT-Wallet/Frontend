@@ -9,6 +9,7 @@
 .div-content {
   max-width: 727px;
   background-color: #ffffff;
+  margin: 0 auto;
 }
 
 .balance {
@@ -479,7 +480,7 @@ input:-webkit-autofill:active {
 .div-footer {
   position: fixed;
   max-width: 500px;
-  bottom: -96px;
+  bottom: -4em;
   right: 0;
   /* overflow: hidden; */
   width: 80vw;
