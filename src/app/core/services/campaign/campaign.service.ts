@@ -49,6 +49,8 @@ export class CampaignHttpApiService {
     private tokenStorageService: TokenStorageService,
     private authStoreService: AuthStoreService
   ) {}
+
+
   getMycampaigns() {
     let idWallet = this.tokenStorageService.getIdWallet();
     let header = new HttpHeaders({
@@ -97,7 +99,7 @@ export class CampaignHttpApiService {
 	@params:
     owner : wallet address of user
 	{headers}
-	@Output JSON object 
+	@Output JSON object
 	*/
   getTotalSpent() {
     return this.http.get(

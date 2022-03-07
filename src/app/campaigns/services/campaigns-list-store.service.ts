@@ -1,32 +1,17 @@
-import { HttpParams, HttpParamsOptions } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { HttpParams } from '@angular/common/http';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Router } from '@angular/router';
 import { Campaign } from '@app/models/campaign.model';
 import { Page } from '@app/models/page.model';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
-import {
-  BehaviorSubject,
-  Observable,
-  of,
-  concat,
-  interval,
-  range,
-  Subject,
-  merge
-} from 'rxjs';
-import {
-  map,
-  share,
-  take,
-  tap,
-  repeat,
-  mapTo,
-  takeUntil
-} from 'rxjs/operators';
+import { BehaviorSubject, Observable, of, Subject, merge } from 'rxjs';
+import { map, share, mapTo, takeUntil } from 'rxjs/operators';
+import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
+import { isPlatformBrowser } from '@angular/common';
 
-interface CampaignsListStore {
+/*interface CampaignsListStore {
   pages: Page<Campaign>[];
-}
+}*/
 
 @Injectable({
   providedIn: 'root'
@@ -64,8 +49,16 @@ export class CampaignsListStoreService {
 
   constructor(
     private campaignsService: CampaignHttpApiService,
-    private router: Router
+    private router: Router,
+    private localStorageService: TokenStorageService,
+    @Inject(PLATFORM_ID) private platformId: string
   ) {
+    if (isPlatformBrowser(this.platformId)) {
+      this.loadCampaigns();
+    }
+  }
+
+  loadCampaigns() {
     merge(
       this.onFilterChanges$.pipe(mapTo(true)),
       this.onPageScroll$.pipe(mapTo(false)) // false means load next page
@@ -127,7 +120,15 @@ export class CampaignsListStoreService {
             if (!!res) {
               return [
                 res.count,
-                !!res.campaigns? res.campaigns.map((c: any) => new Campaign(c)): []
+                !!res.campaigns
+                  ? res.campaigns.map((c: any) => {
+                      let campaign = new Campaign(c);
+                      campaign.ownedByUser =
+                        Number(campaign.ownerId) ===
+                        Number(this.localStorageService.getUserId());
+                      return campaign;
+                    })
+                  : []
               ];
             }
             return [];
@@ -164,7 +165,6 @@ export class CampaignsListStoreService {
         remuneration: options.remuneration || ''
       }
     });
-
     return queryParams;
   }
 
