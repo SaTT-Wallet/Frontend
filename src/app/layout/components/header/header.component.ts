@@ -200,6 +200,9 @@ export class HeaderComponent implements OnInit {
         let vh = window.innerHeight * 0.01;
         this.document.documentElement.style.setProperty('--vh', `${vh}px`);
       });
+      this.NotificationService.newNotification.subscribe((value) => {
+        this.newNotification = value;
+      });
     }
 
     translate.addLangs(['en', 'fr']);
@@ -249,9 +252,6 @@ export class HeaderComponent implements OnInit {
           this.successPart = false;
         }
       }
-    });
-    this.NotificationService.newNotification.subscribe((value) => {
-      this.newNotification = value;
     });
   }
 

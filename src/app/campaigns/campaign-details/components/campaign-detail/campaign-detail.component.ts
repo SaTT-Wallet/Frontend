@@ -200,7 +200,9 @@ export class CampaignDetailComponent implements OnInit {
     this.getCryptoData();
     this.getCampaign();
     this.gettingAllproms();
-    this.getKits();
+    if (isPlatformBrowser(this.platformId)) {
+      this.getKits();
+    }
     // this.getCampaignList();
   }
   openstat() {
