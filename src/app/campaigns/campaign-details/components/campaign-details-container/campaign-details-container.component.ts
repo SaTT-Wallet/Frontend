@@ -66,7 +66,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
       });
       this.meta.addTag({
         name: 'og:description',
-        content: campaign.description
+        content: campaign.summary
       });
       this.meta.addTag({
         name: 'og:type',
