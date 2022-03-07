@@ -7,7 +7,7 @@
       (clickedBack)="linstingBack($event)"
     ></app-header-send-receive-buy>
   </div>
-  <div class="row white-bloc justify-content-center">
+  <div class="row white-bloc justify-content-center flex-column">
     <!--------------------AmountBloc----------------------------------->
     <div
       class="div-content d-flex flex-column align-items-center"
@@ -349,12 +349,12 @@
         />
       </div>
     </div> -->
+    <div class="div-footer">
+      <app-moonboy-help [pageName]="'Send'"></app-moonboy-help>
+    </div>
   </div>
 </div>
 
-<div class="div-footer">
-  <app-moonboy-help [pageName]="'Send'"></app-moonboy-help>
-</div>
 <!-- <app-footer-send-receive-buy
     [pageName]="'Send'"
   ></app-footer-send-receive-buy> -->

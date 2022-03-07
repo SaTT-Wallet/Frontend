@@ -300,7 +300,7 @@ input.input-number2::-webkit-input-placeholder {
 }
 
 .height-first-item {
-    height: 97px;
+    height: 93px;
 }
 
 .height-span-followers {
@@ -449,9 +449,11 @@ input.input-number2::-webkit-input-placeholder {
     line-height: 13px;
 }
 
+
+/* 
 .initialBudgetError {
     padding: 0.5em 9em;
-}
+} */
 
 
 /* .BudgetError {
@@ -641,13 +643,18 @@ input.input-number2::-webkit-input-placeholder {
 
 .btn-delete {
     border: none;
-    height: 50px;
-    min-width: 50px;
+    height: 32px;
+    min-width: 32px;
     /* align-self: flex-end; */
-    background-color: #f6f6ff;
+    /* background-color: #f6f6ff; */
     /* display: flex;
     justify-content: center;
     align-items: center; */
+    background: #FFFFFF;
+/* button_shadow */
+
+box-shadow: 0px 2px 6px rgba(50, 55, 84, 0.4);
+border-radius: 30px;
 }
 
 .btn-round {
@@ -683,7 +690,17 @@ input.input-number2::-webkit-input-placeholder {
     display: none;
 }
 
+
 @media (max-width: 767.98px) {
+
+.div-delete-reword {
+    height: 52px;
+    display: flex;
+    align-items: flex-center;
+    position: absolute;
+    top: -4em;
+    right: 0;
+}
     /* .div-network-name {
         display: flex;
         flex-direction: row-reverse;
@@ -698,6 +715,8 @@ input.input-number2::-webkit-input-placeholder {
     .height-span-followers {
         height: 48px;
     }
+
+
     .price-row {
         display: none;
         justify-content: space-between;
@@ -711,6 +730,7 @@ input.input-number2::-webkit-input-placeholder {
     }
     .formGroupCategory {
         flex-direction: column;
+        position: relative;
     }
     .follow-min-wrapper {
         padding: 1em 0em;

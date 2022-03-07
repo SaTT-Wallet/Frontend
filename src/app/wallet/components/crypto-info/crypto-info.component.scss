@@ -392,6 +392,9 @@
   }
 }
 @media (max-width: 767.9px) {
+  ::ng-deep.container-main {
+    padding-bottom: 50px;
+  }
   .bg-header-info {
     flex-direction: column;
   }

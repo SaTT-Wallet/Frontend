@@ -58,17 +58,16 @@ export class InterestsComponent implements OnInit {
   getUserInterests() {
     this.interestsTagList = [];
     this.interestsTagListSet = [];
-    this.showSpinner = true;
+    // this.showSpinner = true;
     this.profileSettingsFacade
       .getInterests()
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((response: any) => {
-        this.interestsPercent = (
-          (response?.interests.length * 100) /
-          6
-        ).toFixed(0);
-        this.showSpinner = false;
         if (response !== null) {
+          this.interestsPercent = (
+            (response?.interests.length * 100) /
+            6
+          ).toFixed(0);
           this.showSpinner = false;
           this.interestsTagList = response.interests;
           this.formInterests

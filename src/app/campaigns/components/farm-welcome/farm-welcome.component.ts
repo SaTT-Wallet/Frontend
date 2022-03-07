@@ -13,8 +13,7 @@ import _ from 'lodash';
 import { CampaignsListStoreService } from '@campaigns/services/campaigns-list-store.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
-import { CampaignsFacade } from '@campaigns/models/campaigns-facade.interface';
-import { CampaignsService } from '@campaigns/facade/campaigns.facade';
+
 import { Subject } from 'rxjs';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 
@@ -58,8 +57,10 @@ export class FarmWelcomeComponent implements OnInit {
     if (window.innerWidth <= 768 && isPlatformBrowser(this.platformId)) {
       this.smDevice = true;
     }
-    this.loadCampaigns();
-    this.loadStatistics();
+    if (isPlatformBrowser(this.platformId)) {
+      this.loadCampaigns();
+      this.loadStatistics();
+    }
     if (this.tokenStorageService.getToken()) {
       this.isConnected = true;
     } else {
@@ -67,7 +68,7 @@ export class FarmWelcomeComponent implements OnInit {
     }
   }
   @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
+  onResize() {
     if (window.innerWidth <= 768 && isPlatformBrowser(this.platformId)) {
       this.smDevice = true;
     } else {
@@ -129,7 +130,7 @@ export class FarmWelcomeComponent implements OnInit {
           //   (campaign: Campaign) => campaign.isDraft === false
           // );
         },
-        (error) => {
+        () => {
           this.isLoading = false;
         }
       );
