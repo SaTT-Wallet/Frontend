@@ -177,15 +177,19 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
     if (this.validFormParam === false) {
       this.sendErrorToParam = true;
     }
+
     if (this.validFormPresentation === false) {
       this.sendErrorToPresentation = true;
     }
+
     if (this.validFormBudgetRemun === false) {
       this.sendErrorToBudgetRemun = true;
     }
+
     if (this.validFormPicture === false) {
       this.sendErrorToPicture = true;
     }
+
     if (this.validFormMissionFromRemuToEdit === false) {
       this.sendErrorToMissionRemu = true;
     }
