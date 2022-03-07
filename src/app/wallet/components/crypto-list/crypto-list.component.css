@@ -1,6 +1,6 @@
 :host {
     width: 100%;
-    -min-width: 379px;
+    min-width: 379px;
     overflow-y: hidden !important;
     height: 100%;
     min-height: 100%;
