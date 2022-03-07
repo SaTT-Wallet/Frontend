@@ -101,6 +101,7 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
   imageCoverMobile!: File;
   coverUploadWidthError: boolean = false;
   coverUploadWidthErrorMsg: string = '';
+  scaleMob: number = 1;
   constructor(
     private modalService: NgbModal,
     private service: DraftCampaignService,
@@ -519,23 +520,33 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
   }
   zoomOut(type: string) {
     if (type === 'mobile') {
+      this.scaleMob -= 0.1;
+      this.transformMobile = {
+        ...this.transformMobile,
+        scale: this.scaleMob
+      };
     } else {
+      this.scale -= 0.1;
+      this.transform = {
+        ...this.transform,
+        scale: this.scale
+      };
     }
-    this.scale -= 0.1;
-    this.transform = {
-      ...this.transform,
-      scale: this.scale
-    };
   }
   zoomIn(type: string) {
     if (type === 'mobile') {
+      this.scaleMob += 0.1;
+      this.transformMobile = {
+        ...this.transformMobile,
+        scale: this.scaleMob
+      };
     } else {
+      this.scale += 0.1;
+      this.transform = {
+        ...this.transform,
+        scale: this.scale
+      };
     }
-    this.scale += 0.1;
-    this.transform = {
-      ...this.transform,
-      scale: this.scale
-    };
   }
   openModal(content: any) {
     this.modalService.open(content);
