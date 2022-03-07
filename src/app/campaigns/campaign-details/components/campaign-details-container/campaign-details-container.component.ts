@@ -1,12 +1,13 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Campaign } from '@app/models/campaign.model';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { CampaignsStoreService } from '@campaigns/services/campaigns-store.service';
 import { Observable, Subject } from 'rxjs';
-import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 import { Meta } from '@angular/platform-browser';
 import { environment } from '@environments/environment';
+import {sattUrl} from "@config/atn.config";
 
 @Component({
   selector: 'app-campaign-details-container',
@@ -62,11 +63,11 @@ export class CampaignDetailsContainerComponent implements OnInit {
       });
       this.meta.addTag({
         name: 'og:image',
-        content: 'https://satt-token.com/assets/img/index/wallet.png'
+        content: `${sattUrl}/coverByCampaign/${campaign.id}`
       });
       this.meta.addTag({
         name: 'og:description',
-        content: campaign.description
+        content: campaign.summary
       });
       this.meta.addTag({
         name: 'og:type',
@@ -84,10 +85,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
   }
 
   imageImported(image: any) {
-    this.campaignsStoreService.updateOneById(
-      { cover: image },
-      this.campaignsStoreService.campaign.id
-    );
+    this.campaignsStoreService.updateOneById({ cover: image });
   }
 
   ngOnDestroy(): void {

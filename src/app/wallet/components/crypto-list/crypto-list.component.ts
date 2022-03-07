@@ -5,8 +5,6 @@ import {
   EventEmitter,
   ViewChild,
   ElementRef,
-  AfterViewInit,
-  AfterViewChecked,
   OnDestroy,
   TemplateRef,
   Inject,
@@ -14,60 +12,23 @@ import {
   ChangeDetectorRef
 } from '@angular/core';
 import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
-import { Big } from 'big.js';
-import {
-  GazConsumedByCampaign,
-  pattContact,
-  pattEmail,
-  ListTokens,
-  dataList,
-  cryptoList
-} from '@config/atn.config';
-import { ProfileService } from '@core/services/profile/profile.service';
+
 import { SidebarService } from '@core/services/sidebar/sidebar.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { FilesService } from '@core/services/files/files.Service';
-import {
-  filter,
-  map,
-  switchMap,
-  take,
-  takeUntil,
-  takeWhile,
-  tap
-} from 'rxjs/operators';
-import {
-  forkJoin,
-  fromEvent,
-  Observable,
-  pipe,
-  Subject,
-  Subscription
-} from 'rxjs';
-import { ContactMessageService } from '@core/services/contactmessage/contact-message.service';
-import {
-  ActivatedRoute,
-  NavigationStart,
-  Params,
-  Router
-} from '@angular/router';
+
+import { filter, map, take, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import {
-  DecimalPipe,
-  DOCUMENT,
-  isPlatformBrowser,
-  Location
-} from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { WalletStoreService } from '@core/services/wallet-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
-import { AuthStoreService } from '@core/services/Auth/auth-store.service';
-import { WalletService } from '@app/core/services/wallet/wallet.service';
-import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
+
 import { ShowNumbersRule } from '@shared/pipes/showNumbersRule';
 declare var $: any;
 @Component({
@@ -164,7 +125,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
       .subscribe((res) => {
         this.showWalletSpinner = res;
       });
-    this.copyaddresse();
+    // this.copyaddresse();
   }
   ngAfterContentInit() {
     this.cdref.detectChanges();
@@ -527,7 +488,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     const token: any = { tokenAdress };
     this.Fetchservice.deletetoken(token)
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe((data: any) => {
+      .subscribe(() => {
         this.loadingButton = true;
 
         // window.location.reload();

@@ -8,7 +8,7 @@
     <div class="d-flex align-items-start flex-column cryptoListContainer">
       <!-- </div> -->
       <!------------------------------------------------------------------------------------------------------------------------------------->
-      <div class="row d-flex crypto-data-table w-100">
+      <div class="row d-flex crypto-data-table">
         <app-loading-logo *ngIf="showWalletSpinner"></app-loading-logo>
         <div
           *ngIf="cryptoList | filterByname: search as res"
@@ -49,7 +49,7 @@
                   <div
                     class="col-2 d-flex align-items-center justify-content-start"
                   >
-                    <div class="d-flex align-items-center w-100">
+                    <div class="d-flex align-items-center w-100 width-img">
                       <img
                         class="Icons"
                         *ngIf="!crypto.picUrl"

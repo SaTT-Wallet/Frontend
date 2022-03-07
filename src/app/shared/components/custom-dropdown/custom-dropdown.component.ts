@@ -6,9 +6,9 @@ import {
   OnInit,
   QueryList,
   ViewChild,
-  ViewChildren,
-} from "@angular/core";
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
+  ViewChildren
+} from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 /**
  * Custom dropdown filter form control Component.
@@ -19,28 +19,27 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
  * activate multi option selection by setting multiOptions to true.
  */
 @Component({
-  selector: "app-custom-dropdown",
-  templateUrl: "./custom-dropdown.component.html",
-  styleUrls: ["./custom-dropdown.component.css"],
+  selector: 'app-custom-dropdown',
+  templateUrl: './custom-dropdown.component.html',
+  styleUrls: ['./custom-dropdown.component.css'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => CustomDropdownComponent),
-      multi: true,
-    },
-  ],
+      multi: true
+    }
+  ]
 })
-export class CustomDropdownComponent
-  implements OnInit, ControlValueAccessor {
-  @ViewChild("checkboxLabel") checkboxLabel?: ElementRef;
-  @ViewChildren("checkboxes") checkboxes?: QueryList<ElementRef>;
+export class CustomDropdownComponent implements OnInit, ControlValueAccessor {
+  @ViewChild('checkboxLabel') checkboxLabel?: ElementRef;
+  @ViewChildren('checkboxes') checkboxes?: QueryList<ElementRef>;
 
-  @Input() options: any= "";
-  @Input() inputCheckBoxId: string = "";
+  @Input() options: any = '';
+  @Input() inputCheckBoxId: string = '';
   @Input() isDropdownOpen: boolean = false;
   @Input() multiOptions: boolean = false; // by default only one option is allowed
 
-  selectedOption: any = "";
+  selectedOption: any = '';
   selectedOptions: { [key: string]: boolean | null } = {};
 
   onChange!: (_: any) => {};
@@ -126,7 +125,7 @@ export class CustomDropdownComponent
   getOptionText(value: string): string {
     return (
       this.options.filter((object: any) => object.value === value)[0]?.text ||
-      ""
+      ''
     );
   }
 }

@@ -32,7 +32,7 @@ a {
     height: 65px;
     width: 100%;
     box-shadow: 0px -4px 15px 0px #00000040;
-    z-index: 9999;
+    z-index: 999;
   }
 }
 
@@ -46,7 +46,7 @@ a {
     height: 65px;
     width: 100%;
     box-shadow: 0px -4px 15px 0px #00000040;
-    z-index: 9999;
+    z-index: 999;
   }
 }
 
@@ -67,7 +67,7 @@ a {
   border-bottom: 0;
   display: none;
   z-index: -6;
-  bottom: 57px;
+  bottom: 63px;
   position: absolute;
   padding: 5px 10px 10px 11px;
 }
@@ -79,8 +79,8 @@ a {
 .half-circle-button {
   // width: 40px;
   // height: 40px;
-  width: 36px;
-  height: 36px;
+  width: 39px;
+  height: 38px;
   color: #4048ff;
   background-color: white;
   border-radius: 50%;
@@ -117,8 +117,8 @@ a {
 }
 
 .pic-wallet-curvy {
-  height: 33px;
-  width: 55px;
+  height: 35px;
+  width: 58px;
   background-color: white;
   -webkit-clip-path: polygon(50% 57%, -22% 119%, 99% 100%);
   clip-path: polygon(50% 57%, -22% 119%, 99% 100%);
@@ -132,8 +132,8 @@ a {
   justify-content: center;
   background: #4048ff;
   border-radius: 30px;
-  width: 43px;
-  height: 44px;
+  width: 53.94px;
+  height: 53.94px;
   margin-top: 6px;
   z-index: 1;
   span {

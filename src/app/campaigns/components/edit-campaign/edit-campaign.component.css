@@ -241,18 +241,22 @@
       .div-footer-bar {
         display: flex !important;
     }
+    .btn-white,
+    .btn-blue {
+        display: none;
+    }
 }
+
 @media (max-width: 767.98px) {
-  .div-footer-bar {
-    display: flex !important;
-}
+    .div-footer-bar {
+        display: flex !important;
+    }
     .btn-blue {
         display: none;
     }
     .btn-white {
         display: none;
     }
-
     .modal-content {
         display: block !important;
     }

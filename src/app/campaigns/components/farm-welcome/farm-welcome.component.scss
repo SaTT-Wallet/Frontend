@@ -366,6 +366,9 @@
   .info-value {
     font-size: 17px;
   }
+  .margin-top-farm {
+    margin-top: 18rem !important;
+  }
 
   @media not all and (min-resolution: 0.001dpcm) {
     @supports (-webkit-appearance: none) {
@@ -418,6 +421,12 @@
     margin-top: -7rem;
   }
 }
+@media (min-width: 426px) and (max-width: 548px) {
+  .margin-top-farm {
+    margin-top: 13rem !important;
+  }
+}
+
 @media (max-width: 425px) {
   .adpools-container {
     width: 100%;

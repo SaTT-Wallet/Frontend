@@ -59,13 +59,16 @@
 .link {
     border-style: solid;
     border-color: #00cc9e;
-    border-radius: 30px;
-    -webkit-border-radius: 30px;
-    -moz-border-radius: 30px;
-    -ms-border-radius: 30px;
-    -o-border-radius: 30px;
+    border-radius: 33px;
+    -webkit-border-radius: 33px;
+    -moz-border-radius: 33px;
+    -ms-border-radius: 33px;
+    -o-border-radius: 33px;
 }
-
+.card-hilighted{
+  border :3px solid #00cc9e !important;
+  -webkit-border-radius: 0px;
+}
 .fit-center {
     max-width: 327px;
 }
@@ -183,7 +186,7 @@
 } */
 
 
-/* 
+/*
 .div-rest {
     display: flex;
 } */
@@ -413,7 +416,7 @@
         background-repeat: no-repeat;
         width: 44px;
         height: 44px;
-        /* width: 48px; 
+        /* width: 48px;
      height: 48px; */
         min-width: 48px;
         border: none;

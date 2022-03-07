@@ -57,15 +57,13 @@ export class PassPhraseComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.isDestroyed.next('');
     this.isDestroyed.unsubscribe();
-    if (
-      this.tokenStorageService.getSecureWallet('visited-passPhrase') === 'false'
-    ) {
+    if (!this.tokenStorageService.getSecureWallet('visited-passPhrase')) {
       this.router.navigate(['social-registration/pass-phrase']);
     }
   }
 
   ngOnInit(): void {
-    this.tokenStorageService.setSecureWallet('visited-passPhrase', 'false');
+    //    this.tokenStorageService.setSecureWallet('visited-passPhrase', 'false');
     this.visitPassPhrase();
     this.getPassPhrase();
     this.passPhraseOrdered = [];
@@ -179,7 +177,7 @@ export class PassPhraseComponent implements OnInit, OnDestroy {
   confirm() {
     this.tokenStorageService.setSecureWallet('visited-passPhrase', 'true');
     let data_profile = {
-      passphrase: true,
+      visitPassphrase: true,
       new: true
     };
 

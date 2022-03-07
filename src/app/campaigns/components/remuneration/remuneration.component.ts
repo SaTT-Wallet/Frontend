@@ -385,7 +385,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     this.form.valueChanges
       .pipe(
         tap(() => {
-          // this.notValidBudgetRemun=false
+          // this.notValidBudgetRemun = false;
           if (!this.service.isSavingStarted) {
             this.service.setSaveFormStatus('saving');
             this.service.isSavingStarted = true;
@@ -394,6 +394,9 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         debounceTime(500),
         tap((values: any) => {
           if (this.form.valid) {
+            this.cryptoToDropdown = this.dataList.filter(
+              (crypto) => crypto.symbol === this.draftData.currency.name
+            );
             this.validFormBudgetRemun.emit(true);
           } else {
             this.validFormBudgetRemun.emit(false);
@@ -408,7 +411,10 @@ export class RemunerationComponent implements OnInit, OnDestroy {
             this.form.get('remuneration')?.value ===
             this.eRemunerationType.Performance
           ) {
-            if (lengthRatios > 0 && this.form.controls.ratios.invalid) {
+            if (
+              (lengthRatios > 0 && this.form.controls.ratios.invalid) ||
+              (lengthRatios > 0 && this.form.invalid)
+            ) {
               this.sendErrorToMission = true;
             } else {
               this.sendErrorToMission = false;
@@ -419,7 +425,10 @@ export class RemunerationComponent implements OnInit, OnDestroy {
             this.form.get('remuneration')?.value ===
             this.eRemunerationType.Publication
           ) {
-            if (lengthBounties > 0 && this.form.controls.bounties.invalid) {
+            if (
+              (lengthBounties > 0 && this.form.controls.bounties.invalid) ||
+              (lengthBounties > 0 && this.form.invalid)
+            ) {
               this.sendErrorToMission = true;
             } else {
               this.sendErrorToMission = false;
@@ -691,7 +700,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         data = JSON.parse(JSON.stringify(data));
 
         this.dataList = data;
-
         this.cryptoToDropdown = this.dataList.filter(
           (crypto) => crypto.symbol === this.draftData.currency.name
         );

@@ -18,9 +18,13 @@
   z-index: -1 !important;
   opacity: 0 !important;
 }
+
 @media (max-width: 1400px) {
   :host {
-    overflow: auto;
+    overflow-y: auto !important;
+  }
+  .div-footer {
+    position: relative !important;
   }
 }
 @media (min-width: 768px) {
@@ -37,13 +41,19 @@
     overflow: auto;
     overflow-x: hidden;
     margin-left: 0;
-    height: calc(100vh - 63px);
+    // height: 100%;
+    // min-height:calc(100vh - 63px) ;
+    // min-height: 100vh;
+  }
+  .kyc-modal-body {
+    padding: 0em 6em !important;
   }
 }
 
 .div-content {
   max-width: 727px;
   background-color: #ffffff;
+  margin: 0 auto;
 }
 
 .input-amount {
@@ -204,12 +214,6 @@
   max-width: 93%;
 }
 
-@media (min-width: 768px) {
-  .kyc-modal-body {
-    padding: 0em 6em !important;
-  }
-}
-
 .btn-blue:disabled {
   color: #adadc8;
   background: #f6f6ff;
@@ -347,7 +351,7 @@ p {
 
 :host {
   width: 100%;
-  min-width: 379px;
+  min-width: 300px;
   overflow: hidden;
   // overflow-y: auto !important;
   // overflow-x: auto !important;
@@ -524,8 +528,11 @@ input:-webkit-autofill:active {
 }
 
 @media (max-width: 767.98px) {
+  // .div-footer {
+  //     margin-top: 8vh;
+  // }
   :host {
-    overflow: auto !important;
+    overflow-y: auto !important;
   }
   .div-footer {
     position: relative !important;
@@ -612,9 +619,6 @@ input:-webkit-autofill:active {
   .gary-amout {
     font-size: 24px;
   }
-  // .div-footer {
-  //   display: none !important;
-  // }
   .showMobile {
     display: block !important;
   }
@@ -624,7 +628,7 @@ input:-webkit-autofill:active {
     // position: fixed;
     width: 100%;
     margin-left: 0;
-    z-index: 3;
+    z-index: 100;
     // padding: 1em;
     // height: 100vh;
     padding: 0;
@@ -637,11 +641,6 @@ input:-webkit-autofill:active {
     // border: 1px solid #d6d6e8;
     // margin-bottom: 42px;
   }
-  //   .white-bloc {
-  //   padding: 0;
-  //   padding-top: 1em;
-  //   height: calc(100vh - 141px);
-  // }
 }
 
 .showMobile {
@@ -649,21 +648,16 @@ input:-webkit-autofill:active {
 }
 
 .div-footer {
+  // position: absolute;
   position: fixed;
   max-width: 500px;
-  bottom: -96px;
+  bottom: -4em;
   right: 0;
   /* overflow: hidden; */
   width: 80vw;
   margin-right: -49px;
   margin-left: auto;
 }
-
-// @media (max-width: 740px) {
-//   .div-footer {
-//     bottom: 75px;
-//   }
-// }
 
 .span-transacHash {
   font-style: normal;
@@ -762,17 +756,6 @@ input[type='password'] {
   justify-content: flex-end;
   display: flex;
   margin: 10px;
-}
-
-.div-footer-mobile {
-  margin-top: 3vh;
-  height: max-content;
-}
-
-@media (min-height: 840px) {
-  .div-footer-mobile {
-    margin-top: 9vh !important;
-  }
 }
 
 @media (max-width: 425px) {

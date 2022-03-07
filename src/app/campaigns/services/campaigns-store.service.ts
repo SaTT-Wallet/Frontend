@@ -1,34 +1,12 @@
 import { Injectable } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import {
-  BehaviorSubject,
-  from,
-  of,
-  throwError,
-  Observable,
-  merge,
-  interval,
-  Subject
-} from 'rxjs';
-import {
-  catchError,
-  concatMap,
-  filter,
-  map,
-  mergeMap,
-  retry,
-  share,
-  shareReplay,
-  switchMap,
-  takeUntil,
-  tap,
-  toArray
-} from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 import { Campaign } from '@app/models/campaign.model';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { IcreatorStatistics } from '../../models/icreator-statistics';
-import { getDateObjectFrom } from '@helpers/utils/common';
+
 import { FormatDataService } from '@campaigns/services/format-data.service';
 
 @Injectable({
@@ -111,12 +89,11 @@ export class CampaignsStoreService {
       numberOfPendingLinks: 0,
       numberOfValidatedLinks: 0
     });
-
     this.creatorStats$ = this.creatorStatsSubject.asObservable();
     this.getCreatorStats();
   }
 
-  set campaign(c: Campaign) {
+  setCampaign(c: Campaign) {
     this.campaignBehaviorSubject.next(c);
   }
 
@@ -129,17 +106,26 @@ export class CampaignsStoreService {
       .getOneById(id)
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((c) => {
-        this.campaign = new Campaign(c);
+        let campaign = new Campaign(c);
+        campaign.ownedByUser =
+          Number(campaign.ownerId) ===
+          Number(this.localStorageService.getUserId());
+        this.setCampaign(campaign);
       });
   }
 
-  updateOneById(values: any, id: string) {
+  updateOneById(values: any) {
     let data = this.formatData.manipulateDataBeforeSend(values);
     this.campaignService
       .updateOneById(data, this.campaign.id)
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((res) => {
-        this.campaign = new Campaign(res.updatedCampaign);
+        let campaign = new Campaign(res.updatedCampaign);
+        campaign.ownedByUser =
+          Number(campaign.ownerId) ===
+          Number(this.localStorageService.getUserId());
+        this.setCampaign(campaign);
+
         this.emitLogoCampaignUpdated.next(true);
       });
   }
@@ -246,7 +232,7 @@ export class CampaignsStoreService {
   removeDraftCampaign(id: string) {
     let campaignsList = this.campaignsListByWalletIdSubject.getValue();
     let obs = this.campaignService.deleteDraft(id);
-    obs.pipe(takeUntil(this.isDestroyed)).subscribe((data) => {
+    obs.pipe(takeUntil(this.isDestroyed)).subscribe(() => {
       campaignsList = campaignsList.filter((campaign) => campaign._id !== id);
       this.setCampaignsByUserWalletId(campaignsList);
     });

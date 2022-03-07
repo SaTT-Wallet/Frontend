@@ -6,7 +6,7 @@
       (clickedBack)="linstingBack($event)"
     ></app-header-send-receive-buy>
   </div>
-  <div class="row white-bloc justify-content-center">
+  <div class="row white-bloc justify-content-center flex-column">
     <!--------------------AmountBloc----------------------------------->
     <div
       class="div-content d-flex flex-column align-items-center"
@@ -42,7 +42,7 @@
         <div class="text-center balance">
           <p class="hard-gray-text">
             1 {{ this.selectedCryptoDetails.symbol || 'SATT' }} =
-            {{ this.selectedCryptoDetails.price || '' }} USD
+            {{ this.selectedCryptoDetails.price || this.sattPrices }} USD
           </p>
         </div>
 
@@ -210,7 +210,7 @@
         </button>
       </div>
     </div>
-    <div
+    <!-- <div
       class="showMobile div-footer-mobile d-none d-xl-none d-lg-none d-md-none d-sm-block d-xs-block p-0"
     >
       <div class="div-pic-text">
@@ -228,9 +228,9 @@
           class="picture-moonboy"
         />
       </div>
+    </div> -->
+    <div class="div-footer">
+      <app-moonboy-help [pageName]="'Receive'"></app-moonboy-help>
     </div>
   </div>
-</div>
-<div class="div-footer">
-  <app-moonboy-help [pageName]="'Receive'"></app-moonboy-help>
 </div>

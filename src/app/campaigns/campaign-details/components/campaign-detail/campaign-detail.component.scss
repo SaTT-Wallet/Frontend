@@ -9,6 +9,9 @@
   max-height: 100%;
   object-fit: cover;
 }
+*:focus {
+  outline: none;
+}
 
 .btn-apply {
   justify-content: center;
