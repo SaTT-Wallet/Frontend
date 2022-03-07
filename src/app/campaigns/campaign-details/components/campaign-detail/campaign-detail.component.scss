@@ -276,7 +276,11 @@
   transform: matrix(1, 0, 0, 1, 0, 0);
   margin-top: 0.5em;
 }
-
+@media (min-width: 768px) and (max-width: 1024px) {
+  .div-footer-bar {
+    display: flex !important;
+  }
+}
 @media (min-width: 768px) {
   .desktopClass {
     display: block;
@@ -549,7 +553,7 @@
     display: block;
   }
   .div-footer-bar {
-    display: flex;
+    display: flex !important;
   }
   .spinner-crypto .overlay {
     top: 60% !important;
