@@ -200,7 +200,9 @@ export class CampaignDetailComponent implements OnInit {
     this.getCryptoData();
     this.getCampaign();
     this.gettingAllproms();
-    this.getKits();
+    if (isPlatformBrowser(this.platformId)) {
+      this.getKits();
+    }
     // this.getCampaignList();
   }
   openstat() {
@@ -365,15 +367,9 @@ export class CampaignDetailComponent implements OnInit {
 
   imageImported(image: any, type: any) {
     if (type === 'logo') {
-      this.campaignsStoreService.updateOneById(
-        { logo: image },
-        this.campaignsStoreService.campaign.id
-      );
+      this.campaignsStoreService.updateOneById({ logo: image });
     } else {
-      this.campaignsStoreService.updateOneById(
-        { cover: image },
-        this.campaignsStoreService.campaign.id
-      );
+      this.campaignsStoreService.updateOneById({ cover: image });
     }
   }
 
