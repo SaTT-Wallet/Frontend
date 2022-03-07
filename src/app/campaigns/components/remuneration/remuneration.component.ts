@@ -393,11 +393,12 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         }),
         debounceTime(500),
         tap((values: any) => {
-          if (this.form.valid) {
+          if (this.form) {
             this.cryptoToDropdown = this.dataList.filter(
               (crypto) => crypto.symbol === this.draftData.currency.name
             );
             this.validFormBudgetRemun.emit(true);
+            console.log("frfrf",this.validFormBudgetRemun.emit)
           } else {
             this.validFormBudgetRemun.emit(false);
           }
@@ -1166,7 +1167,9 @@ export class RemunerationComponent implements OnInit, OnDestroy {
           crypto.total_balance = parseFloat(crypto.total_balance + '');
           crypto.total_balance = crypto?.total_balance?.toFixed(2);
           this.form.get('initialBudget')?.setValue(quantity),
+
             this.form.get('initialBudgetInUSD')?.setValue(crypto.total_balance);
+
           this.gazproblem = false;
           if (currency === 'ETH' || currency === 'BNB') {
             this.difference = crypto.total_balance - this.gazsend;
