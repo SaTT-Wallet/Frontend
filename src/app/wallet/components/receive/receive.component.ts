@@ -95,7 +95,6 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnInit(): void {
-    
     this.getProfileDetails();
     this.getusercrypto();
   }
@@ -122,10 +121,8 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
             crypto.typetab = 'BTC';
           }
           if (crypto.symbol === 'SATT') {
-            this.sattPrices = crypto.price   
-        
-          
-        }
+            this.sattPrices = crypto.price;
+          }
         });
       });
   }
