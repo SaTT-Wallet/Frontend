@@ -7,6 +7,7 @@ import { Observable, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 import { Meta } from '@angular/platform-browser';
 import { environment } from '@environments/environment';
+import {sattUrl} from "@config/atn.config";
 
 @Component({
   selector: 'app-campaign-details-container',
@@ -62,7 +63,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
       });
       this.meta.addTag({
         name: 'og:image',
-        content: 'https://satt-token.com/assets/img/index/wallet.png'
+        content: `${sattUrl}/coverByCampaign/${campaign.id}`
       });
       this.meta.addTag({
         name: 'og:description',
