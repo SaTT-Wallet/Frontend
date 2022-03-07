@@ -34,6 +34,7 @@ export function app(): express.Express {
   global['Text'] = win.Text;
   global['navigator'] = win.navigator;
   global['IDBIndex'] = win.IDBIndex;
+  global['Blob'] = Blob
   const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
 
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
