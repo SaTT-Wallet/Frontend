@@ -1,6 +1,7 @@
 import { ListTokens } from '@config/atn.config';
 import { getDateObjectFrom } from '@helpers/utils/common';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
+
 export class Campaign {
   id: string;
   hash: string | null;
@@ -38,6 +39,7 @@ export class Campaign {
   type: string;
   tokenStorageService!: TokenStorageService;
   missions: [];
+  isOwnedByUser = false;
   constructor(data?: any) {
     this.id = data?._id || '';
     this.hash = data?.hash || null;
@@ -110,8 +112,12 @@ export class Campaign {
     return this.type === 'inProgress';
   }
 
-  get isOwnedByUser(): boolean {
+  /*get isOwnedByUser(): boolean {
     return Number(this.ownerId) === Number(localStorage.getItem('userId'));
+  }*/
+
+  set ownedByUser(isOwnedByUser: boolean) {
+    this.isOwnedByUser = isOwnedByUser;
   }
 
   convertCountriesCode(countries: any[]) {

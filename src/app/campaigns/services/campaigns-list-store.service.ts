@@ -1,32 +1,16 @@
-import { HttpParams, HttpParamsOptions } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Campaign } from '@app/models/campaign.model';
 import { Page } from '@app/models/page.model';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
-import {
-  BehaviorSubject,
-  Observable,
-  of,
-  concat,
-  interval,
-  range,
-  Subject,
-  merge
-} from 'rxjs';
-import {
-  map,
-  share,
-  take,
-  tap,
-  repeat,
-  mapTo,
-  takeUntil
-} from 'rxjs/operators';
+import { BehaviorSubject, Observable, of, Subject, merge } from 'rxjs';
+import { map, share, mapTo, takeUntil } from 'rxjs/operators';
+import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 
-interface CampaignsListStore {
+/*interface CampaignsListStore {
   pages: Page<Campaign>[];
-}
+}*/
 
 @Injectable({
   providedIn: 'root'
@@ -64,7 +48,8 @@ export class CampaignsListStoreService {
 
   constructor(
     private campaignsService: CampaignHttpApiService,
-    private router: Router
+    private router: Router,
+    private localStorageService: TokenStorageService
   ) {
     merge(
       this.onFilterChanges$.pipe(mapTo(true)),
@@ -127,7 +112,15 @@ export class CampaignsListStoreService {
             if (!!res) {
               return [
                 res.count,
-                !!res.campaigns? res.campaigns.map((c: any) => new Campaign(c)): []
+                !!res.campaigns
+                  ? res.campaigns.map((c: any) => {
+                      let campaign = new Campaign(c);
+                      campaign.ownedByUser =
+                        Number(campaign.ownerId) ===
+                        Number(this.localStorageService.getUserId());
+                      return campaign;
+                    })
+                  : []
               ];
             }
             return [];
@@ -164,7 +157,6 @@ export class CampaignsListStoreService {
         remuneration: options.remuneration || ''
       }
     });
-
     return queryParams;
   }
 

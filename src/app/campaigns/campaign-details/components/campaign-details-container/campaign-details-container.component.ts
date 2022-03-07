@@ -1,10 +1,10 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Campaign } from '@app/models/campaign.model';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { CampaignsStoreService } from '@campaigns/services/campaigns-store.service';
 import { Observable, Subject } from 'rxjs';
-import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 import { Meta } from '@angular/platform-browser';
 import { environment } from '@environments/environment';
 
@@ -84,10 +84,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
   }
 
   imageImported(image: any) {
-    this.campaignsStoreService.updateOneById(
-      { cover: image },
-      this.campaignsStoreService.campaign.id
-    );
+    this.campaignsStoreService.updateOneById({ cover: image });
   }
 
   ngOnDestroy(): void {

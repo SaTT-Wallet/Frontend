@@ -365,15 +365,9 @@ export class CampaignDetailComponent implements OnInit {
 
   imageImported(image: any, type: any) {
     if (type === 'logo') {
-      this.campaignsStoreService.updateOneById(
-        { logo: image },
-        this.campaignsStoreService.campaign.id
-      );
+      this.campaignsStoreService.updateOneById({ logo: image });
     } else {
-      this.campaignsStoreService.updateOneById(
-        { cover: image },
-        this.campaignsStoreService.campaign.id
-      );
+      this.campaignsStoreService.updateOneById({ cover: image });
     }
   }
 

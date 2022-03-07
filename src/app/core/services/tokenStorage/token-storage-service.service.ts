@@ -91,7 +91,7 @@ export class TokenStorageService {
     this.localStorage.setItem('newUSer', 'false');
   }
   public getUserId() {
-    this.localStorage.getItem(userId);
+    return this.localStorage.getItem(userId);
   }
   public saveIdSn(id: string) {
     this.localStorage.setItem(idSn, id);
