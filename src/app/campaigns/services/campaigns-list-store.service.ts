@@ -1,5 +1,5 @@
 import { HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { Campaign } from '@app/models/campaign.model';
 import { Page } from '@app/models/page.model';
@@ -7,6 +7,7 @@ import { CampaignHttpApiService } from '@core/services/campaign/campaign.service
 import { BehaviorSubject, Observable, of, Subject, merge } from 'rxjs';
 import { map, share, mapTo, takeUntil } from 'rxjs/operators';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
+import { isPlatformBrowser } from '@angular/common';
 
 /*interface CampaignsListStore {
   pages: Page<Campaign>[];
@@ -49,8 +50,15 @@ export class CampaignsListStoreService {
   constructor(
     private campaignsService: CampaignHttpApiService,
     private router: Router,
-    private localStorageService: TokenStorageService
+    private localStorageService: TokenStorageService,
+    @Inject(PLATFORM_ID) private platformId: string
   ) {
+    if (isPlatformBrowser(this.platformId)) {
+      this.loadCampaigns();
+    }
+  }
+
+  loadCampaigns() {
     merge(
       this.onFilterChanges$.pipe(mapTo(true)),
       this.onPageScroll$.pipe(mapTo(false)) // false means load next page
