@@ -237,9 +237,8 @@
 .btn-launch-campaign {
     width: 500px;
 }
-
-@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
-    .div-footer-bar {
+@media(min-width: 768px) and (max-width:1024px){
+      .div-footer-bar {
         display: flex !important;
     }
     .btn-white,
