@@ -398,7 +398,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
               (crypto) => crypto.symbol === this.draftData.currency.name
             );
             this.validFormBudgetRemun.emit(true);
-            console.log("frfrf",this.validFormBudgetRemun.emit)
           } else {
             this.validFormBudgetRemun.emit(false);
           }
@@ -435,7 +434,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
               this.sendErrorToMission = false;
             }
           }
-          if (this.draftData.id && this.form.valid) {
+          if (this.draftData.id ) {
             this.validFormMissionFromRemuToEdit.emit(true);
             this.sendErrorToMission = false;
             this.service.autoSaveFormOnValueChanges({
