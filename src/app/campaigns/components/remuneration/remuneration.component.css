@@ -664,6 +664,7 @@ border-radius: 30px;
 .delete-cross {
     color: #adadc8;
     /* box-shadow: 0px 4px 4px 0px #00000026; */
+   
 }
 
 .social-media-action,
@@ -690,6 +691,24 @@ border-radius: 30px;
     display: none;
 }
 
+@media not all and (min-resolution:.001dpcm)
+{ @supports (-webkit-appearance:none) {
+    .btn-delete {
+    height: 40px;
+   
+   
+
+       
+    }
+    .delete-cross{
+        position: relative;
+        top: 0px;
+        left: -8px !important;
+  
+    }
+
+}}
+
 
 @media (max-width: 767.98px) {
 
@@ -698,9 +717,14 @@ border-radius: 30px;
     display: flex;
     align-items: flex-center;
     position: absolute;
-    top: -4em;
+    top: -5em;
     right: 0;
 }
+.margin-bottom {
+    margin-bottom: 40px !important ;
+}
+
+
     /* .div-network-name {
         display: flex;
         flex-direction: row-reverse;
