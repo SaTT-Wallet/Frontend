@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Campaign } from '@app/models/campaign.model';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
@@ -8,6 +8,7 @@ import { takeUntil, tap } from 'rxjs/operators';
 import { Meta } from '@angular/platform-browser';
 import { environment } from '@environments/environment';
 import { sattUrl } from '@config/atn.config';
+import { isPlatformServer } from '@angular/common';
 
 @Component({
   selector: 'app-campaign-details-container',
@@ -27,7 +28,8 @@ export class CampaignDetailsContainerComponent implements OnInit {
     private campaignsStoreService: CampaignsStoreService,
     private route: ActivatedRoute,
     private meta: Meta,
-    private campaignService: CampaignHttpApiService
+    private campaignService: CampaignHttpApiService,
+    @Inject(PLATFORM_ID) private platformId: string
   ) {}
 
   ngOnInit(): void {
@@ -50,34 +52,36 @@ export class CampaignDetailsContainerComponent implements OnInit {
       )
       .subscribe();
     this.campaign$ = this.campaignsStoreService.campaign$;
-    this.meta.addTag({
-      name: 'og:title',
-      content: ''
-    });
-    this.meta.addTag({
-      name: 'og:image',
-      content: ``
-    });
-    this.meta.addTag({
-      name: 'og:description',
-      content: ''
-    });
-    this.meta.addTag({
-      name: 'og:type',
-      content: 'website'
-    });
-    this.meta.addTag({
-      name: 'og:url',
-      content: ``
-    });
-    this.meta.addTag({
-      name: 'twitter:card',
-      content: 'https://satt-token.com/assets/img/index/wallet.png'
-    });
-    this.meta.addTag({
-      name: 'twitter:image',
-      content: 'https://satt-token.com/assets/img/index/wallet.png'
-    });
+    if (isPlatformServer(this.platformId)) {
+      this.meta.addTag({
+        name: 'og:title',
+        content: ''
+      });
+      this.meta.addTag({
+        name: 'og:image',
+        content: ``
+      });
+      this.meta.addTag({
+        name: 'og:description',
+        content: ''
+      });
+      this.meta.addTag({
+        name: 'og:type',
+        content: 'website'
+      });
+      this.meta.addTag({
+        name: 'og:url',
+        content: ``
+      });
+      this.meta.addTag({
+        name: 'twitter:card',
+        content: 'https://satt-token.com/assets/img/index/wallet.png'
+      });
+      this.meta.addTag({
+        name: 'twitter:image',
+        content: 'https://satt-token.com/assets/img/index/wallet.png'
+      });
+    }
 
     this.campaign$.pipe(takeUntil(this.isDestroyed)).subscribe((campaign) => {
       this.campaign = campaign;
