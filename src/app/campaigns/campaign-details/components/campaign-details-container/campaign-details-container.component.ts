@@ -58,7 +58,27 @@ export class CampaignDetailsContainerComponent implements OnInit {
         content: ''
       });
       this.meta.addTag({
+        name: 'og:image:secure_url',
+        content: ``
+      });
+      this.meta.addTag({
         name: 'og:image',
+        content: ``
+      });
+      this.meta.addTag({
+        name: 'og:image:type',
+        content: `website`
+      });
+      this.meta.addTag({
+        name: 'og:image:alt',
+        content: `campaign cover`
+      });
+      this.meta.addTag({
+        name: 'og:image:width',
+        content: ``
+      });
+      this.meta.addTag({
+        name: 'og:image:height',
         content: ``
       });
       this.meta.addTag({
@@ -96,12 +116,42 @@ export class CampaignDetailsContainerComponent implements OnInit {
         },
         `name='og:title'`
       );
+
       this.meta.updateTag(
         {
           name: 'og:image',
           content: `${sattUrl}/coverByCampaign/${campaign.id}`
         },
         `name='og:image'`
+      );
+
+      this.meta.updateTag(
+        {
+          name: 'og:image:secure_url',
+          content: `${sattUrl}/coverByCampaign/${campaign.id}`
+        },
+        `name='og:image:secure_url'`
+      );
+      this.meta.updateTag(
+        {
+          name: 'og:image:type',
+          content: `image/png`
+        },
+        `name='og:image:type'`
+      );
+      this.meta.updateTag(
+        {
+          name: 'og:image:width',
+          content: `200`
+        },
+        `name='og:image:width'`
+      );
+      this.meta.updateTag(
+        {
+          name: 'og:image:height',
+          content: `200`
+        },
+        `name='og:image:height'`
       );
       this.meta.updateTag(
         {
