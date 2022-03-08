@@ -36,7 +36,7 @@ a {
   }
 }
 
-@media (max-width: 767.98px) {
+@media (max-width: 1024px) {
   :host {
     background: white;
     // flex-direction: row;
@@ -79,8 +79,8 @@ a {
 .half-circle-button {
   // width: 40px;
   // height: 40px;
-  width: 39px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   color: #4048ff;
   background-color: white;
   border-radius: 50%;
@@ -93,6 +93,7 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: -5px;
 }
 
 .icon-ins:hover,
