@@ -278,6 +278,8 @@
             [imageBase64]="draftData.coverSrc"
             [transform]="transform"
             *ngIf="showImage === true"
+            [cropperStaticWidth]="1920"
+              [cropperStaticHeight]="800"
             [imageChangedEvent]="imageChangedEvent"
             [maintainAspectRatio]="true"
             [imageURL]="draftData.coverSrc"
