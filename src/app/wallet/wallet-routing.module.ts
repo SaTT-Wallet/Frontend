@@ -16,8 +16,10 @@ import { CryptoInfoComponent } from '@wallet/components/crypto-info/crypto-info.
 const routes: Routes = [
   {
     path: '',
-    component: WalletComponent,
+    component: WalletComponent
+/*
     canActivate: [AuthGuardService, PassphraseCheckedGuard]
+*/
   },
   {
     path: 'add-token',
