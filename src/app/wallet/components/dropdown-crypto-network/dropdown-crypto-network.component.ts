@@ -46,6 +46,7 @@ export class DropdownCryptoNetworkComponent
   routerSub: any;
   isCryptoRouter: boolean = true;
   cryptoToDropdown: any;
+  addedTokenNopic: boolean = false;
   constructor(
     private walletFacade: WalletFacadeService,
     private route: ActivatedRoute,
@@ -68,6 +69,9 @@ export class DropdownCryptoNetworkComponent
           this.cryptoPicName = p.id;
           this.cryptoSymbol = p.id;
           this.selectedNetworkValue = p.network;
+          if (p.pic === 'false') {
+            this.addedTokenNopic = true;
+          }
         } else {
           this.isCryptoRouter = false;
           // this.cryptoPicName = 'SATT';
@@ -205,7 +209,13 @@ export class DropdownCryptoNetworkComponent
     }
     this.cryptoName = name;
     if (AddedToken) {
-      this.cryptoPicName = crypto.picUrl;
+      if (crypto.picUrl === false) {
+        this.addedTokenNopic = true;
+        this.cryptoPicName = crypto.undername2;
+      } else {
+        this.cryptoPicName = crypto.picUrl;
+        this.addedTokenNopic = false;
+      }
     } else {
       this.cryptoPicName = picName;
     }

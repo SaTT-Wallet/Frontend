@@ -8,7 +8,7 @@
     <div class="d-flex align-items-start flex-column cryptoListContainer">
       <!-- </div> -->
       <!------------------------------------------------------------------------------------------------------------------------------------->
-      <div class="row d-flex crypto-data-table w-100">
+      <div class="row d-flex crypto-data-table">
         <app-loading-logo *ngIf="showWalletSpinner"></app-loading-logo>
         <div
           *ngIf="cryptoList | filterByname: search as res"
@@ -49,7 +49,7 @@
                   <div
                     class="col-2 d-flex align-items-center justify-content-start"
                   >
-                    <div class="d-flex align-items-center w-100">
+                    <div class="d-flex align-items-center w-100 width-img">
                       <img
                         class="Icons"
                         *ngIf="!crypto.picUrl"
@@ -162,7 +162,15 @@
                       <div
                         class="col-2 d-flex justify-content-end align-items-center"
                       >
-                        <a (click)="goTosend(crypto.symbol, crypto.network)">
+                        <a
+                          (click)="
+                            goTosend(
+                              crypto.symbol,
+                              crypto.network,
+                              crypto.picUrl
+                            )
+                          "
+                        >
                           <img
                             src="/assets/Images/Shape-receive.svg"
                             class="send-receive"
@@ -812,7 +820,8 @@
                               (click)="
                                 goTosend(
                                   crypto.symbol,
-                                  crypto.cryptoBEP20.network
+                                  crypto.cryptoBEP20.network,
+                                  crypto.picUrl
                                 )
                               "
                             >
@@ -1140,7 +1149,7 @@
               <div>
                 <div
                   id="keyContainer"
-                  class="d-flex justify-content-center center"
+                  class="d-flex justify-content-center center-wallet"
                 >
                   <input
                     id="key"
@@ -1350,7 +1359,7 @@
                             >
                               <span
                                 class="price-varition noselect"
-                                [ngStyle]="{ color: '#00CC9E' }"
+                                [ngStyle]="{ color: crypto.arrowColor }"
                               >
                                 {{ crypto.arrow }} {{ crypto.variation }}%
                               </span>

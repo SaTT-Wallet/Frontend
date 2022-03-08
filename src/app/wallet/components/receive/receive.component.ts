@@ -62,6 +62,7 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
   contactEmail: string = '';
   maxNumber: number = 999999999;
   private isDestroyed = new Subject();
+  sattPrices: any;
 
   constructor(
     private accountFacadeService: AccountFacadeService,
@@ -118,6 +119,9 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
           crypto.contrat = crypto.AddedToken || '';
           if (crypto.symbol === 'BTC') {
             crypto.typetab = 'BTC';
+          }
+          if (crypto.symbol === 'SATT') {
+            this.sattPrices = crypto.price;
           }
         });
       });

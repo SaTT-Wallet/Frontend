@@ -27,8 +27,11 @@
             </div>
             <div class="d-flex pt-4 justify-content-center">
               <span class="interestsPercent bold-title">
-                {{ this.interestsPercent }}%
-              </span>
+                {{
+                  this.interestsPercent === undefined
+                    ? 0
+                    : this.interestsPercent
+                }}%              </span>
             </div>
             <div
               class="

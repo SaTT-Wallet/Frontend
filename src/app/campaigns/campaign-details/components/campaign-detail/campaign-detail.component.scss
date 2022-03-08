@@ -9,6 +9,9 @@
   max-height: 100%;
   object-fit: cover;
 }
+*:focus {
+  outline: none;
+}
 
 .btn-apply {
   justify-content: center;
@@ -61,13 +64,14 @@
   overflow: hidden;
   position: fixed;
   width: 100vw;
-  max-height: 576px;
+  // max-height: 576px;
 }
 
 .campaign-img {
   width: 100%;
-  min-height: 200px;
-  object-fit: cover;
+  // min-height: 200px;
+  // object-fit: cover;
+  height: 800px;
 }
 
 .date-wrapper {
@@ -276,7 +280,11 @@
   transform: matrix(1, 0, 0, 1, 0, 0);
   margin-top: 0.5em;
 }
-
+@media (min-width: 768px) and (max-width: 1024px) {
+  .div-footer-bar {
+    display: flex !important;
+  }
+}
 @media (min-width: 768px) {
   .desktopClass {
     display: block;
@@ -549,7 +557,7 @@
     display: block;
   }
   .div-footer-bar {
-    display: flex;
+    display: flex !important;
   }
   .spinner-crypto .overlay {
     top: 60% !important;

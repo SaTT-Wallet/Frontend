@@ -7,18 +7,23 @@
 }
 
 .avatarimage {
-  width: 35px;
-  height: 35px;
+  width: 40px;
+  height: 40px;
   border-radius: 50px;
   border: #fff solid 0.3px;
 }
-
-@media (max-width: 1111px) {
+@media (max-width: 1024px) {
   .avatarimage {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
   }
 }
+// @media (max-width: 1111px) {
+//   .avatarimage {
+//     width: 40px;
+//     height: 40px;
+//   }
+// }
 
 // @media (max-width: 767px) {
 //     .avatarimage {

@@ -41,7 +41,9 @@
     overflow: auto;
     overflow-x: hidden;
     margin-left: 0;
-    // height: calc(100vh - 63px);
+    // height: 100%;
+    // min-height:calc(100vh - 63px) ;
+    // min-height: 100vh;
   }
   .kyc-modal-body {
     padding: 0em 6em !important;
@@ -51,6 +53,7 @@
 .div-content {
   max-width: 727px;
   background-color: #ffffff;
+  margin: 10px auto;
 }
 
 .input-amount {
@@ -648,7 +651,7 @@ input:-webkit-autofill:active {
   // position: absolute;
   position: fixed;
   max-width: 500px;
-  bottom: -96px;
+  bottom: -4em;
   right: 0;
   /* overflow: hidden; */
   width: 80vw;
