@@ -43,10 +43,7 @@
               (change)="
                 onToggle($event, missionIndex, mission.get('oracle')?.value)
               "
-              [disabled]="
-                notValidMissionData &&
-                !isIncludeOracle(mission.get('oracle')?.value)
-              "
+           
             >
             </ui-switch>
           </div>
@@ -116,7 +113,7 @@
         <span
           *ngIf="
             notValidMissionData === true &&
-            this.campaignMissionsOracl.length !== 0
+            this.campaignMissionsOracl.length === 0
           "
           >You have to add Earnings and Budget</span
         >

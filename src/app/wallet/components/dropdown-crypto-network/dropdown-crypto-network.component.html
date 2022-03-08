@@ -21,8 +21,13 @@
           />
           <img
             class="crypto-image"
+            src="assets/Images/symbol_crypto/{{ cryptoPicName }}.svg"
+            *ngIf="this.addedTokenNopic"
+          />
+          <img
+            class="crypto-image"
             src="{{ cryptoPicName }}"
-            *ngIf="this.token"
+            *ngIf="this.token && !this.addedTokenNopic"
           />
         </span>
       </button>
