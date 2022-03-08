@@ -27,25 +27,25 @@ export class SuccessTransferComponent implements OnInit, OnDestroy {
     this.cryptoAmount = this.tokenStorageService.getCryptoCryptoAmount();
     this.crypto = this.tokenStorageService.getCrypto();
     this.payementId = this.tokenStorageService.getPayementId();
-    this.route.queryParams
-      .pipe(
-        filter((data) => data !== null),
-        takeUntil(this.onDestroy$),
-        map((params) => params.isApproved),
-        mergeMap((params: any) => {
-          if (params === 'true') {
-            return this.walletFacade.savePayementId(this.payementId);
-          }
-          return of(null);
-        })
-      )
-      .pipe(
-        filter((data) => data !== null),
-        takeUntil(this.onDestroy$)
-      )
-      .subscribe(() => {
-        this.tokenStorageService.removeItem('payementId');
-      });
+    // this.route.queryParams
+    //   .pipe(
+    //     filter((data) => data !== null),
+    //     takeUntil(this.onDestroy$),
+    //     map((params) => params.isApproved),
+    //     mergeMap((params: any) => {
+    //       if (params === 'true') {
+    //         return this.walletFacade.savePayementId(this.payementId);
+    //       }
+    //       return of(null);
+    //     })
+    //   )
+    //   .pipe(
+    //     filter((data) => data !== null),
+    //     takeUntil(this.onDestroy$)
+    //   )
+    //   .subscribe(() => {
+    //     this.tokenStorageService.removeItem('payementId');
+    //   });
   }
   linstingBack(event: any) {
     if (event === true) {
