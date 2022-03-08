@@ -1466,14 +1466,30 @@ bottom: 77.54% ; */
     rgba(31, 35, 55, 0) 93.77%
   );
 }
+.three-points,
+.div-copy-wallet-mobile,
+.btn-toggle-pic-mobile {
+  display: none;
+}
 
-@media (max-width: 767.98px) {
+@media (max-width: 1023.98px) {
+  .three-points,
+  .div-copy-wallet-mobile,
+  .btn-toggle-pic-mobile {
+    display: block;
+  }
+  .div-copy-wallet-mobile {
+    position: absolute;
+    right: 73px;
+    top: 8px;
+  }
+
   ul.dropdown-menu.notif_drop_main.show {
     width: 284px !important;
   }
   .desktop-menu,
   .right-menu {
-    display: none;
+    display: none !important;
   }
   .image-tablette {
     display: none !important;
@@ -1681,7 +1697,7 @@ bottom: 77.54% ; */
 .li-menu .history {
     width: 100%;
     padding: 0em 2em;
-    
+
 }
 
 .li-menu .help {
@@ -1707,6 +1723,8 @@ bottom: 77.54% ; */
   font-size: 18px;
   text-align: center;
   border-radius: 30px;
+  position: absolute;
+  right: 1em;
   /* padding: 0.5em 1em; */
 }
 
