@@ -764,11 +764,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.showSuccessBloc = false;
     this.showAmountBloc = true;
     this.amount = '';
-      setTimeout(() => {
-        
-    this.sendform.get('contact')?.setValue('');
-        }, 1000);
-
+    setTimeout(() => {
+      this.sendform.get('contact')?.setValue('');
+    }, 1000);
   }
   ngOnDestroy(): void {
     if (!!this.routeEventSubscription$) {
