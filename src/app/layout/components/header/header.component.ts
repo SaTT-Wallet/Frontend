@@ -453,25 +453,19 @@ export class HeaderComponent implements OnInit {
   }
 
   signOut() {
-    this.tokenStorageService
-      .logout()
-      .pipe(takeUntil(this.isDestroyed))
-      .subscribe((data: any) => {
-        if (data.message === 'success') {
-          this.campaignFacade.clearLinksListStore();
-          this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
-          this.ParticipationListStoreService.clearDataFarming();
-          this.walletFacade.dispatchLogout(); //clear totalBalance and cryptoList
-          this.accountFacadeService.dispatchLogoutAccount(); //clear account user
-          this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
-          this.ParticipationListStoreService.nextPage.pageNumber = 0;
-          this.tokenStorageService.signOut();
-          this.campaignsListStore.clearStore();
-          this.profileSettingsFacade.clearProfilePicStore();
-          this.authStoreService.clearStore();
-          this.router.navigate(['/auth/login']);
-        }
-      });
+    this.campaignFacade.clearLinksListStore();
+    this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
+    this.ParticipationListStoreService.clearDataFarming();
+    this.walletFacade.dispatchLogout(); //clear totalBalance and cryptoList
+    this.accountFacadeService.dispatchLogoutAccount(); //clear account user
+    this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
+    this.ParticipationListStoreService.nextPage.pageNumber = 0;
+    this.tokenStorageService.signOut();
+    this.campaignsListStore.clearStore();
+    this.profileSettingsFacade.clearProfilePicStore();
+    this.authStoreService.clearStore();
+    this.isConnected = false;
+    this.router.navigate(['/welcome']);
   }
 
   seeNotification() {
@@ -1431,6 +1425,7 @@ export class HeaderComponent implements OnInit {
   }
   ngOnDestroy(): void {
     this.isDestroyed.next('');
+    this.isDestroyed.complete();
     this.isDestroyed.unsubscribe();
   }
 }
