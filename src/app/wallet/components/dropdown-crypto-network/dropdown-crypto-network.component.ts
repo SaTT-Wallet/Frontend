@@ -69,6 +69,9 @@ export class DropdownCryptoNetworkComponent
           this.cryptoPicName = p.id;
           this.cryptoSymbol = p.id;
           this.selectedNetworkValue = p.network;
+          if (p.pic === 'false') {
+            this.addedTokenNopic = true;
+          }
         } else {
           this.isCryptoRouter = false;
           // this.cryptoPicName = 'SATT';

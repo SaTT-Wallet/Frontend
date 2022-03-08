@@ -162,7 +162,15 @@
                       <div
                         class="col-2 d-flex justify-content-end align-items-center"
                       >
-                        <a (click)="goTosend(crypto.symbol, crypto.network)">
+                        <a
+                          (click)="
+                            goTosend(
+                              crypto.symbol,
+                              crypto.network,
+                              crypto.picUrl
+                            )
+                          "
+                        >
                           <img
                             src="/assets/Images/Shape-receive.svg"
                             class="send-receive"
@@ -812,7 +820,8 @@
                               (click)="
                                 goTosend(
                                   crypto.symbol,
-                                  crypto.cryptoBEP20.network
+                                  crypto.cryptoBEP20.network,
+                                  crypto.picUrl
                                 )
                               "
                             >

@@ -308,12 +308,12 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   //     this.cryptoList = this.cryptoStorage;
   //   }
   // }
-  goTosend(id: any, network: any) {
+  goTosend(id: any, network: any, pic: any) {
     if (id === 'SATT' && network === 'BEP20') {
       id = 'SATTBEP20';
     }
     this.router.navigate(['/wallet/send'], {
-      queryParams: { id: id, network: network },
+      queryParams: { id: id, network: network, pic: pic },
       relativeTo: this.activatedRoute
     });
   }
@@ -562,7 +562,8 @@ export class CryptoListComponent implements OnInit, OnDestroy {
       this.sidebarService.sendClickedEvent
         .pipe(take(1), takeUntil(this.onDestroy$))
         .subscribe((data: string) => {
-          if (data === 'send') this.goTosend(crypto.symbol, crypto.network);
+          if (data === 'send')
+            this.goTosend(crypto.symbol, crypto.network, crypto.picUrl);
         });
       this.sidebarService.recieveClickedEvent
         .pipe(take(1), takeUntil(this.onDestroy$))
