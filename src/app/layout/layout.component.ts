@@ -1,29 +1,21 @@
 import {
   Component,
-  EventEmitter,
   HostListener,
   Inject,
   OnInit,
-  Output,
   PLATFORM_ID,
   TemplateRef,
   ViewChild
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { SidebarService } from '@core/services/sidebar/sidebar.service';
 import { DraftCampaignStoreService } from '@core/services/draft-campaign-store.service';
-import { CampaignsStoreService } from '@campaigns/services/campaigns-store.service';
-import { WalletStoreService } from '@core/services/wallet-store.service';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-facade.service';
-import { off } from 'process';
-import { truncate } from 'fs';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-facade/socialAcounts-facade.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { WindowRefService } from '@app/core/windowRefService';
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
@@ -45,8 +37,7 @@ export class LayoutComponent implements OnInit {
     private tokenStorageService: TokenStorageService,
     private socialAccountFacadeService: SocialAccountFacadeService,
     @Inject(DOCUMENT) private document: any,
-    @Inject(PLATFORM_ID) private platformId: string,
-    private Window: WindowRefService
+    @Inject(PLATFORM_ID) private platformId: string
   ) {}
   ngOnInit(): void {
     if (window.innerWidth <= 768 && isPlatformBrowser(this.platformId)) {
@@ -60,11 +51,13 @@ export class LayoutComponent implements OnInit {
       this.router.navigate(['social-registration/pass-phrase']);
     }
     if (this.tokenStorageService.getToken()) {
-      this.walletFacade.initWallet(); // initialize total balance// initialize crypto list and gaz
-      this.draftCampaignStore.init(); // initialize draft campaign list data
-      this.profileSettingsFacade.loadUserProfilePic(); // initialize user profile picture
-      this.accountFacadeService.initAccount();
-      this.socialAccountFacadeService.initSocialAccount();
+      if (isPlatformBrowser(this.platformId)) {
+        this.walletFacade.initWallet(); // initialize total balance// initialize crypto list and gaz
+        this.draftCampaignStore.init(); // initialize draft campaign list data
+        this.profileSettingsFacade.loadUserProfilePic(); // initialize user profile picture
+        this.accountFacadeService.initAccount();
+        this.socialAccountFacadeService.initSocialAccount();
+      }
     }
   }
   //change chart wallet position on the window re-size
@@ -72,7 +65,6 @@ export class LayoutComponent implements OnInit {
   onResize(event: any) {
     if (isPlatformBrowser(this.platformId)) {
       let topBar = this.document.getElementById('campaign-top-bar');
-      let header = this.document.getElementById('navbar-id');
       let btnApply = this.document.getElementById('btn-apply');
       if (window.innerWidth < 768) {
         this.smDevice = true;
