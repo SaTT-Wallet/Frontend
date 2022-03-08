@@ -253,7 +253,7 @@ export class WalletFacadeService {
     this.walletStoreService.setCryptoAmount(amount);
   }
 
-  savePayementId(payementId: string) {
-    return this.walletService.setPayementId(payementId);
-  }
+  // savePayementId(payementId: string) {
+  //   return this.walletService.setPayementId(payementId);
+  // }
 }
