@@ -162,7 +162,15 @@
                       <div
                         class="col-2 d-flex justify-content-end align-items-center"
                       >
-                        <a (click)="goTosend(crypto.symbol, crypto.network)">
+                        <a
+                          (click)="
+                            goTosend(
+                              crypto.symbol,
+                              crypto.network,
+                              crypto.picUrl
+                            )
+                          "
+                        >
                           <img
                             src="/assets/Images/Shape-receive.svg"
                             class="send-receive"
@@ -812,7 +820,8 @@
                               (click)="
                                 goTosend(
                                   crypto.symbol,
-                                  crypto.cryptoBEP20.network
+                                  crypto.cryptoBEP20.network,
+                                  crypto.picUrl
                                 )
                               "
                             >
@@ -1133,7 +1142,6 @@
           class="mobtable d-flex flex-column justify-content-center align-items-center"
         >
           <div
-            style="width: 100%"
             class="d-flex flex-column justify-content-center align-items-center"
           >
             <div class="d-flex justify-content-center">
@@ -1145,7 +1153,7 @@
                   <input
                     id="key"
                     style="text-overflow: ellipsis"
-                    class="key d-flex search-input-wrapper mt-3"
+                    class="key d-flex search-input-wrapper mt-3 col-sm-10 col-md-8 col-lg-8"
                     type="text"
                     name="search"
                     autocomplete="off"

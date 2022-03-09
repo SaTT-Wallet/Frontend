@@ -1,89 +1,120 @@
 :host {
-  width: 100%;
-  min-width: 320px;
-  position: relative;
-  display: block;
-  //   margin-bottom: 80px;
-  overflow-x: hidden !important;
-  min-height: 80vh;
-  // .img-container {
-  //   margin-top: 1em;
-  //   border-radius: 20px 20px 0 0;
-  //   overflow: hidden;
-  //   // aspect-ratio: 16/9;
-  //   // max-width: 1024px;
-  //   max-width: 1570px;
-  //   max-height: 576px;
-  //   position: relative;
-  //   box-shadow: 0px 4px 20px rgb(0 0 0 / 20%);
-  //   .campaign-img {
-  //     width: 100%;
-  //     min-height: 200px;
-  //     object-fit: cover;
-  //   }
-  // }
-  .content {
-    // max-width: 1570px;
-    width: 100vw;
-    margin: 0 auto;
-  }
-  .spinner-container {
-    top: 50%;
-    left: 50%;
-  }
-  .btn-edit {
+    width: 100%;
+    min-width: 320px;
+    position: relative;
     display: block;
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 1em;
-  }
+    //   margin-bottom: 80px;
+    overflow-x: hidden !important;
+    min-height: 80vh;
+    // .img-container {
+    //   margin-top: 1em;
+    //   border-radius: 20px 20px 0 0;
+    //   overflow: hidden;
+    //   // aspect-ratio: 16/9;
+    //   // max-width: 1024px;
+    //   max-width: 1570px;
+    //   max-height: 576px;
+    //   position: relative;
+    //   box-shadow: 0px 4px 20px rgb(0 0 0 / 20%);
+    //   .campaign-img {
+    //     width: 100%;
+    //     min-height: 200px;
+    //     object-fit: cover;
+    //   }
+    // }
+    .content {
+        // max-width: 1570px;
+        width: 100vw;
+        margin: 0 auto;
+    }
+    .spinner-container {
+        top: 50%;
+        left: 50%;
+    }
+    .btn-edit {
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 1em;
+    }
 }
 
 @media (min-width: 768px) {
-  .img-container {
-    margin: 1em auto 0;
-  }
-  // :host {
-  //   padding: 0 1em;
-  // }
-  .showMobile {
-    display: none !important;
-  }
+    .img-container {
+        margin: 1em auto 0;
+    }
+    // :host {
+    //   padding: 0 1em;
+    // }
+    .showMobile {
+        display: none !important;
+    }
 }
 
 @media (max-width: 767.9px) {
-  .showMobile {
-    display: block !important;
-  }
-  .text-moonboy {
-    font-size: 15px;
-    margin-top: 10%;
-    margin-left: 7%;
-    text-align: center;
-    line-height: 17px;
-    position: absolute;
-  }
-  .picture-moonboy {
-    max-width: 377px;
-    width: 100%;
-    max-height: 300px;
-    // height: 97vw;
-    height: 200vw;
-    margin-left: 15px;
-  }
-  .div-pic-text {
-    position: relative;
-    justify-content: flex-end;
-    display: flex;
-  }
-  .div-footer-mobile {
-    margin-top: -7vh !important;
-  }
+    .showMobile {
+        display: block !important;
+    }
+    .text-moonboy {
+        font-size: 15px;
+        margin-top: 10%;
+        margin-left: 7%;
+        text-align: center;
+        line-height: 17px;
+        position: absolute;
+    }
+    .picture-moonboy {
+        max-width: 377px;
+        width: 100%;
+        max-height: 300px;
+        // height: 97vw;
+        height: 200vw;
+        margin-left: 15px;
+    }
+    .div-pic-text {
+        position: relative;
+        justify-content: flex-end;
+        display: flex;
+    }
+    .div-footer,
+    .div-footer-mobile {
+        margin-top: -5vh !important;
+    }
 }
 
 @media (min-height: 840px) {
-  .div-footer-mobile {
-    margin-top: -11vh !important;
-  }
+    .div-footer,
+    .div-footer-mobile {
+        margin-top: -11vh !important;
+    }
+}
+
+.div-footer {
+    // // position: absolute;
+    // position: fixed;
+    // max-width: 500px;
+    // bottom: -96px;
+    // right: 0;
+    // /* overflow: hidden; */
+    // width: 80vw;
+    // margin-right: -49px;
+    // margin-left: auto;
+    position: absolute;
+    // bottom: 1px;
+    right: 0;
+    max-width: 500px;
+    width: 80vw;
+    z-index: 99;
+    margin-left: auto;
+    margin-top: 1vh !important;
+}
+
+@media (max-width: 1400px) {
+     :host {
+        overflow-y: auto !important;
+    }
+    .div-footer {
+        position: relative !important;
+    }
 }

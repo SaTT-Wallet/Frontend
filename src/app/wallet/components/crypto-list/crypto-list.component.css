@@ -59,7 +59,7 @@
 
  @media not all and (min-resolution:.001dpcm) { @media {
 
-   
+
 }}
 
 .txt {
@@ -1179,7 +1179,7 @@ table>th {
 }
 
 
-/* 
+/*
 .modal-body.modal-custom {
     padding: 0px !important;
 } */
@@ -1454,7 +1454,7 @@ table>th {
 
 @media (min-width: 769px) and (max-width: 960px) {
     .center-wallet {
-        margin: left -95px !important;
+        margin-left:  -95px !important;
     }
 }
 
@@ -1540,14 +1540,14 @@ table>th {
 
 /* .btn-ERC:hover{
   background:#F6F6FF;
-} 
+}
 
  .btn-ERC:focus{
   background:#F6F6FF;
 }
  .btn-ERC:active {
   background:#F6F6FF;
-} 
+}
 .btn-BNB:hover{
   background:#F6F6FF;
 } */
@@ -2060,7 +2060,7 @@ input.input-number2-send::-webkit-input-placeholder {
 }
 
 
-/* ::placeholder 
+/* ::placeholder
     font-style: normal;
     font-weight: bold;
     line-height: 22px;
@@ -3041,7 +3041,7 @@ color: white}
         position: relative;
     }
 
-    
+
     .icon-ic5 {
         color: blue;
         margin-top: -5px;
@@ -3724,7 +3724,6 @@ color: white}
 
 .cryptoContainer {
     width: 100%;
-    margin-right: -3rem;
 }
 
 .cryptoListContainer {
@@ -4284,7 +4283,7 @@ color: white}
 }
 
 
-/* 
+/*
 @media only screen and (max-width: 430px) and (max-height: 400px) {
     input:focus {
         position: fixed;
@@ -4367,7 +4366,7 @@ color: white}
 } */
 
 
-/* 
+/*
 #key::placeholder {
     font-family: 'Poppins';
     font-style: normal;
@@ -4484,10 +4483,12 @@ color: white}
 }
 
 #key {
-    background-image: url('/assets/Images/serch-hard-gray.svg');
+   align-self: center;
+   margin: 2em auto;
+     background-image: url('/assets/Images/serch-hard-gray.svg');
     background-position: 13px;
     background-repeat: no-repeat;
-    width: 82%;
+    /* width: 80%; */
     margin-bottom: 1rem;
     padding-left: 45px;
     font-style: normal;
@@ -4495,7 +4496,7 @@ color: white}
     height: 48px;
     border: 1px solid #d6d6e8;
     border-radius: 30px;
-    margin-left: 5rem;
+    /* margin-left: 2%; */
     text-overflow: ellipsis;
 }
 
@@ -4523,11 +4524,18 @@ color: white}
     }
 }
 
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
     #key {
-        margin-left: 0rem;
+        margin-left: 0rem !important;
+        width: 80%;
     }
 }
+@media (max-width: 1024px) {
+  #key {
+      margin-left: 0rem !important;
+
+  }
+} */
 
 .select-interests {
     width: 99%;

@@ -6,7 +6,6 @@ import { Directive, HostListener, Inject, PLATFORM_ID } from '@angular/core';
 })
 export class BlockCopyPasteDirective {
   constructor(@Inject(PLATFORM_ID) private platformId: string) {}
-
   @HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
     if (isPlatformBrowser(this.platformId)) e.preventDefault();
   }

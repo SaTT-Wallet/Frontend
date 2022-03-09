@@ -64,13 +64,14 @@
   overflow: hidden;
   position: fixed;
   width: 100vw;
-  max-height: 576px;
+  // max-height: 576px;
 }
 
 .campaign-img {
   width: 100%;
-  min-height: 200px;
-  object-fit: cover;
+  // min-height: 200px;
+  // object-fit: cover;
+  height: 800px;
 }
 
 .date-wrapper {

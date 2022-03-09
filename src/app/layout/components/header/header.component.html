@@ -4,22 +4,32 @@
 <!--                                                                                   -->
 <!--***********************************************************************************-->
 <!--  [ngClass]="{ 'navbar-dark-blue': !menuCampaign }"-->
-<nav id="navbar-id" class="navbar navbar-expand-lg" *ngIf="router.url !== '/password_wallet'" [ngClass]="{
+<nav
+  id="navbar-id"
+  class="navbar navbar-expand-lg"
+  *ngIf="router.url !== '/password_wallet'"
+  [ngClass]="{
     navWallet: this.sidebarService.toggleWalletMobile.value,
     'navbar-trans': menuCampaign,
     'navbar-success':
       successPart && !this.sidebarService.toggleWalletMobile.value,
     'navbar-fail': errorPart && !this.sidebarService.toggleWalletMobile.value
-  }" [ngStyle]="{
+  }"
+  [ngStyle]="{
     background: isWelcomePage ? '#1f2337' : defaultHeaderBackground
-  }">
-    <div class="container-fluid height-fluid">
-        <a class="navbar-brand d-none d-lg-block" [routerLink]="['welcome']">
-            <img class="atayan_logo" src="assets/Images/logo-versions/logo_blanc.svg" (click)="checkMenuAdpool()" />
-        </a>
+  }"
+>
+  <div class="container-fluid height-fluid">
+    <a class="navbar-brand d-none d-lg-block" [routerLink]="['welcome']">
+      <img
+        class="atayan_logo"
+        src="assets/Images/logo-versions/logo_blanc.svg"
+        (click)="checkMenuAdpool()"
+      />
+    </a>
 
-        <a class="navbar-toggler d-lg-none menu-mobile">
-            <i class="navbar-brand">
+    <a class="navbar-toggler d-lg-none menu-mobile">
+      <i class="navbar-brand">
         <img
           (click)="toggleMoreMobile()"
           src="assets/Images/satt_logo_responsive.svg"
@@ -30,7 +40,7 @@
         />
       </i>
 
-            <!-- <i
+      <!-- <i
         class="fa fa-bars d-flex align-items-center me-3 color-white"
         *ngIf="!this.sidebarService.toggleSidebarMobile.value"
         (click)="toggleSidebarMobile()"
@@ -41,8 +51,15 @@
         aria-hidden="true"
         (click)="toggleSidebarMobile()"
       ></i> -->
-        </a>
-        <button *ngIf="isConnected" class="d-md-none navbar-toggler three-points btn-toggle-pic-mobile" type="button" data-toggle="dropdown" aria-expanded="false" aria-label="Toggle navi">
+    </a>
+    <button
+      *ngIf="isConnected"
+      class="navbar-toggler three-points btn-toggle-pic-mobile"
+      type="button"
+      data-toggle="dropdown"
+      aria-expanded="false"
+      aria-label="Toggle navi"
+    >
       <a
         [routerLink]="['settings/profile']"
         class="nav-link dropdown-toggle notifLink position_icon_profil_mobile"
@@ -57,12 +74,28 @@
         ></app-user-picture>
       </a>
     </button>
-        <div *ngIf="isConnected" class="d-md-none div-copy-wallet-mobile">
-            <a (click)="toggleWallet()" class="d-flex justify-content-center p-2 gap-4 btnDRP dropdown-toggle dropdown-toggle-content" id="drp" data-flip="false" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img class="" width="26px" src="assets/Images/newImages/new-icon-copy-wallet.svg" />
-            </a>
-        </div>
-        <button *ngIf="isConnected" class="d-lg-none d-md-none navbar-toggler three-points" type="button">
+    <div *ngIf="isConnected" class="div-copy-wallet-mobile">
+      <a
+        (click)="toggleWallet()"
+        class="d-flex justify-content-center p-2 gap-4 btnDRP dropdown-toggle dropdown-toggle-content"
+        id="drp"
+        data-flip="false"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <img
+          class=""
+          width="26px"
+          src="assets/Images/newImages/new-icon-copy-wallet.svg"
+        />
+      </a>
+    </div>
+    <button
+      *ngIf="isConnected"
+      class="navbar-toggler three-points"
+      type="button"
+    >
       <a
         (click)="closeShowMore()"
         class="nav-link dropdown-toggle notifLink a_notif position_icon_notif_mobile"
@@ -159,15 +192,28 @@
     </div>
     </ul> -->
     </button>
-    <button type="button" *ngIf="!isConnected" class="d-md-none d-xl-none d-lg-none d-sm-block button-connect">
+    <button
+      type="button"
+      *ngIf="!isConnected"
+      class="d-md-block d-xl-none d-lg-none d-sm-block button-connect"
+    >
       <a class="" [routerLink]="['/auth/login']">Connect</a>
     </button>
     <!-- end mdddd-->
     <!--start desktop  collapse navbar-collapse-->
     <div class="desktop-menu" id="navbarSupportedContent">
-        <ul class="d-flex ul-left-side">
-            <li class="li-menu" [ngClass]="{ 'is-visited': menuWallet }" id="introo">
-                <a *ngIf="isConnected" class="wallet" [routerLink]="['/home']" (click)="checkMenuWallet()"><span>{{ 'Sidebar.Wallet' | translate }}</span></a
+      <ul class="d-flex ul-left-side">
+        <li
+          class="li-menu"
+          [ngClass]="{ 'is-visited': menuWallet }"
+          id="introo"
+        >
+          <a
+            *ngIf="isConnected"
+            class="wallet"
+            [routerLink]="['/home']"
+            (click)="checkMenuWallet()"
+            ><span>{{ 'Sidebar.Wallet' | translate }}</span></a
           >
           <a
             *ngIf="!isConnected"
@@ -188,10 +234,19 @@
           >
             <span>{{ 'Ad_Pools' | translate }}</span>
           </a>
-            </li>
+        </li>
 
-            <li class="li-menu" [ngClass]="{ 'is-visited': menuFarmPost }" id="intro3">
-                <a *ngIf="isConnected" class="farmPost" [routerLink]="['/home/farm-posts']" (click)="checkMenuFarmPost()">{{ 'faq_farmming' | translate }}</a
+        <li
+          class="li-menu"
+          [ngClass]="{ 'is-visited': menuFarmPost }"
+          id="intro3"
+        >
+          <a
+            *ngIf="isConnected"
+            class="farmPost"
+            [routerLink]="['/home/farm-posts']"
+            (click)="checkMenuFarmPost()"
+            >{{ 'faq_farmming' | translate }}</a
           >
           <a
             *ngIf="!isConnected"
@@ -245,15 +300,25 @@
           <a class="help" [routerLink]="['FAQ']" (click)="checkMenuHelp()"
             ><span>{{ 'Sidebar.Aide' | translate }}</span>
           </a>
-            </li>
-        </ul>
-        <ul class="right_nav_side navbar-nav right-menu" *ngIf="isConnected">
-            <!------------------------------------------------------------------------->
-            <li class="li-menu-profil">
-                <div class="dropdown2" id="myDropdown" id="intro4">
-                    <a class="btn dropdown-toggle dropdown-toggle-content" id="dropdownMenuButton2" data-flip="false" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <app-user-picture [isHeaderPic]="true"></app-user-picture>
-                        <span class="span-userName ps-2 pe-2" *ngIf="user?.firstName && user?.lastName">{{ user?.getFullName() | titlecase }}</span
+        </li>
+      </ul>
+      <ul class="right_nav_side navbar-nav right-menu" *ngIf="isConnected">
+        <!------------------------------------------------------------------------->
+        <li class="li-menu-profil">
+          <div class="dropdown2" id="myDropdown" id="intro4">
+            <a
+              class="btn dropdown-toggle dropdown-toggle-content"
+              id="dropdownMenuButton2"
+              data-flip="false"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <app-user-picture [isHeaderPic]="true"></app-user-picture>
+              <span
+                class="span-userName ps-2 pe-2"
+                *ngIf="user?.firstName && user?.lastName"
+                >{{ user?.getFullName() | titlecase }}</span
               >
               <i class="chevron fa fa-fw"></i>
             </a>
@@ -282,11 +347,13 @@
                 <a
                   class="dropdown-item-profil profil-item"
                   [routerLink]="['settings/security']"
-                  ><span class="icon-lock-new icondrop icondropLock"></span> {{ 'Header.informations_securite' | translate }}
-                    </a>
-            </li>
-            <li class="deconnect_icon">
-                <a class="dropdown-item-profil profil-item" (click)="signOut()"><span class="icon-power-1 icondrop"></span
+                  ><span class="icon-lock-new icondrop icondropLock"></span>
+                  {{ 'Header.informations_securite' | translate }}
+                </a>
+              </li>
+              <li class="deconnect_icon">
+                <a class="dropdown-item-profil profil-item" (click)="signOut()"
+                  ><span class="icon-power-1 icondrop"></span
                   >{{ 'Header.logout' | translate }}</a
                 >
               </li>
@@ -312,24 +379,38 @@
               <app-user-picture [isHeaderPic]="true"></app-user-picture>
             </a>
 
-                <ul class="dropdown-menu dropdown-tablette-profile" id="dropdown-menu-profil" aria-labelledby="dropdownMenuButton4">
-                    <li class="profil_icon">
-                        <a class="dropdown-item-profil profil-item" [routerLink]="['settings']"><span class="icon-prfl icondrop"></span
+            <ul
+              class="dropdown-menu dropdown-tablette-profile"
+              id="dropdown-menu-profil"
+              aria-labelledby="dropdownMenuButton4"
+            >
+              <li class="profil_icon">
+                <a
+                  class="dropdown-item-profil profil-item"
+                  [routerLink]="['settings']"
+                  ><span class="icon-prfl icondrop"></span
                   >{{ 'Header.Profil' | translate }}
                 </a>
-                    </li>
-                    <li class="legal_icon">
-                        <a class="dropdown-item-profil profil-item" [routerLink]="['settings/Legal_KYC']"><span class="icon-legal icondrop"></span
+              </li>
+              <li class="legal_icon">
+                <a
+                  class="dropdown-item-profil profil-item"
+                  [routerLink]="['settings/Legal_KYC']"
+                  ><span class="icon-legal icondrop"></span
                   >{{ 'Header.legal' | translate }}
                 </a>
-                    </li>
-                    <li class="security_icon">
-                        <a class="dropdown-item-profil profil-item" [routerLink]="['settings/security']"><span class="icon-lock-new icondrop icondropLock"></span>
+              </li>
+              <li class="security_icon">
+                <a
+                  class="dropdown-item-profil profil-item"
+                  [routerLink]="['settings/security']"
+                  ><span class="icon-lock-new icondrop icondropLock"></span>
                   {{ 'Header.informations_securite' | translate }}
                 </a>
-                    </li>
-                    <li class="deconnect_icon">
-                        <a class="dropdown-item-profil profil-item" (click)="signOut()"><span class="icon-power-1 icondrop"></span
+              </li>
+              <li class="deconnect_icon">
+                <a class="dropdown-item-profil profil-item" (click)="signOut()"
+                  ><span class="icon-power-1 icondrop"></span
                   >{{ 'Header.logout' | translate }}</a
                 >
               </li>
@@ -354,20 +435,25 @@
             />
           </a>
 
-                        <ul class="dropdown-menu menudrp mt-2 me-3" (click)="$event.stopPropagation()" aria-labelledby="drp">
-                            <div class="p-4">
-                                <h4 class="Bep d-flex justify-content-center mb-4">
-                                    Wallet BEP20 / ERC20
-                                </h4>
-                                <!-- <span
+          <ul
+            class="dropdown-menu menudrp mt-2 me-3"
+            (click)="$event.stopPropagation()"
+            aria-labelledby="drp"
+          >
+            <div class="p-4">
+              <h4 class="Bep d-flex justify-content-center mb-4">
+                Wallet BEP20 / ERC20
+              </h4>
+              <!-- <span
                 class="adress d-flex justify-content-center mb-4"
                 id="erc"
                 >{{ erc20 }}</span
               > -->
-                                <div class="d-flex justify-content-center">
-                                    <!-- <span class="span-wallet flex-start">{{ erc20 }}</span>
+              <div class="d-flex justify-content-center">
+                <!-- <span class="span-wallet flex-start">{{ erc20 }}</span>
                 <span class="span-wallet2 flex-end">{{ erc20 }}</span> -->
-                                    <span class="span-text-wallet">{{ erc20.slice(0, 2) }}...{{ erc20.slice(-5) }}</span
+                <span class="span-text-wallet"
+                  >{{ erc20.slice(0, 2) }}...{{ erc20.slice(-5) }}</span
                 >
                 <span class="pr-1"
                   ><img
@@ -379,29 +465,38 @@
                     [closeDelay]="100"
                     src="../../../../assets/Images/copiedIcon.png"
                 /></span>
-                                </div>
-                                <div class="d-flex justify-content-center gap mt-1">
-                                    <div>
-                                        <img class="logo" (click)="goToEther(erc20)" src="../../../../assets/Images/ethscan.png" />
-                                    </div>
-                                    <div>
-                                        <img class="logo" (click)="goToBscan(erc20)" src="../../../../assets/Images/binanceLogo.png" />
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-content-center mt-4">
-                                    <img [src]="url1" alt="" id="qr_img" />
-                                </div>
-                                <hr class="line" />
-                                <h4 class="Bep d-flex justify-content-center mb-4">Wallet BTC</h4>
-                                <!-- <span
+              </div>
+              <div class="d-flex justify-content-center gap mt-1">
+                <div>
+                  <img
+                    class="logo"
+                    (click)="goToEther(erc20)"
+                    src="../../../../assets/Images/ethscan.png"
+                  />
+                </div>
+                <div>
+                  <img
+                    class="logo"
+                    (click)="goToBscan(erc20)"
+                    src="../../../../assets/Images/binanceLogo.png"
+                  />
+                </div>
+              </div>
+              <div class="d-flex justify-content-center mt-4">
+                <img [src]="url1" alt="" id="qr_img" />
+              </div>
+              <hr class="line" />
+              <h4 class="Bep d-flex justify-content-center mb-4">Wallet BTC</h4>
+              <!-- <span
                 class="adress d-flex justify-content-center mb-4"
                 id="btc"
                 >{{ btcCode }}</span
               > -->
-                                <div class="d-flex justify-content-center" *ngIf="btcCode">
-                                    <!-- <span class="span-wallet flex-start">{{ btcCode }}</span>
+              <div class="d-flex justify-content-center" *ngIf="btcCode">
+                <!-- <span class="span-wallet flex-start">{{ btcCode }}</span>
                 <span class="span-wallet2 flex-end">{{ btcCode }}</span> -->
-                                    <span class="span-text-wallet">{{ btcCode.slice(0, 2) }}...{{ btcCode.slice(-5) }}</span
+                <span class="span-text-wallet"
+                  >{{ btcCode.slice(0, 2) }}...{{ btcCode.slice(-5) }}</span
                 >
                 <span class="pr-1"
                   ><img
@@ -413,26 +508,47 @@
                     [closeDelay]="100"
                     src="../../../../assets/Images/copiedIcon.png"
                 /></span>
-                                </div>
-                                <div class="d-flex justify-content-center mt-2">
-                                    <div class="">
-                                        <img class="logo" (click)="goToBtc()" src="../../../../assets/Images/bitcoinLogo.png" />
-                                    </div>
-                                </div>
+              </div>
+              <div class="d-flex justify-content-center mt-2">
+                <div class="">
+                  <img
+                    class="logo"
+                    (click)="goToBtc()"
+                    src="../../../../assets/Images/bitcoinLogo.png"
+                  />
+                </div>
+              </div>
 
-                                <div class="d-flex justify-content-center mt-4">
-                                    <img [src]="url2" alt="" id="qr_imgg" />
-                                </div>
-                            </div>
-                        </ul>
-                    </li>
+              <div class="d-flex justify-content-center mt-4">
+                <img [src]="url2" alt="" id="qr_imgg" />
+              </div>
+            </div>
+          </ul>
+        </li>
 
-                    <li class="nav-item dropdown">
-                        <a (click)="closeBalanceSection()" class="nav-link dropdown-toggle notifLink" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            <img class="padding-notifOff" *ngIf="!newNotification" src="/assets/Images/notifOff.svg" [routerLink]="['notification']" />
-                            <img class="anim-gif" *ngIf="newNotification" [routerLink]="['notification']" src="/assets/Images/anim_bell.gif" />
-                        </a>
-                        <!-- <ul
+        <li class="nav-item dropdown">
+          <a
+            (click)="closeBalanceSection()"
+            class="nav-link dropdown-toggle notifLink"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <img
+              class="padding-notifOff"
+              *ngIf="!newNotification"
+              src="/assets/Images/notifOff.svg"
+              [routerLink]="['notification']"
+            />
+            <img
+              class="anim-gif"
+              *ngIf="newNotification"
+              [routerLink]="['notification']"
+              src="/assets/Images/anim_bell.gif"
+            />
+          </a>
+          <!-- <ul
             class="dropdown-menu notif_drop_main notifier"
             id="dropdown-menu-notif"
             aria-labelledby="navbarDropdown"
@@ -577,14 +693,14 @@
               </li>
             </div>
           </ul> -->
-                    </li>
-                </ul>
+        </li>
+      </ul>
 
-                <ul class="right_nav_side navbar-nav" *ngIf="!isConnected">
-                    <button type="button" class="button-connect">
+      <ul class="right_nav_side navbar-nav" *ngIf="!isConnected">
+        <button type="button" class="button-connect d-none d-md-block">
           <a class="" [routerLink]="['/auth/login']">Connect</a>
         </button>
-                    <!--
+        <!--
         <li class="li-menu sign-in ">
           <a class="adpools " [routerLink]="[ '/auth/login'] ">{{
             'sign_in' | translate
@@ -595,10 +711,10 @@
             >{{ 'sign_up' | translate }}
           </a>
         </li> -->
-                </ul>
-                </div>
-                <!--end desktop-->
+      </ul>
     </div>
+    <!--end desktop-->
+  </div>
 </nav>
 
 <!-- profile walllet mobile -->
@@ -643,25 +759,38 @@
   </div>
 </div> -->
 
-<div *ngIf="this.sidebarService.toggleWalletMobile.value" class="sidebarMoreMobile row d-lg-none d-xl-none d-md-none">
-    <div class="p-4 mobile mb-5">
-        <h4 class="Bep d-flex justify-content-center mb-4">Your ID Wallet</h4>
+<div
+  *ngIf="this.sidebarService.toggleWalletMobile.value"
+  class="sidebarMoreMobile row "
+>
+  <div class="p-4 mobile mb-5">
+    <h4 class="Bep d-flex justify-content-center mb-4">Your ID Wallet</h4>
 
-        <div class="button-mobile d-flex justify-content-center gap mt-3">
-            <div class="logoMobile">
-                <img class="" (click)="goToEther(erc20)" src="../../../../assets/Images/ethscan.png" />
-            </div>
+    <div class="button-mobile d-flex justify-content-center gap mt-3">
+      <div class="logoMobile">
+        <img
+          class=""
+          (click)="goToEther(erc20)"
+          src="../../../../assets/Images/ethscan.png"
+        />
+      </div>
 
-            <div class="logoMobile">
-                <img class="" (click)="goToBscan(erc20)" src="../../../../assets/Images/binanceLogo.png" />
-            </div>
-        </div>
-        <div class="d-flex justify-content-center mt-3 pl-3">
-            <span class="span-text-wallet">{{ erc20.slice(0, 2) }}...{{ erc20.slice(-7) }}</span
+      <div class="logoMobile">
+        <img
+          class=""
+          (click)="goToBscan(erc20)"
+          src="../../../../assets/Images/binanceLogo.png"
+        />
+      </div>
+    </div>
+    <div class="d-flex justify-content-center mt-3 pl-3">
+      <span class="span-text-wallet"
+        >{{ erc20.slice(0, 2) }}...{{ erc20.slice(-7) }}</span
       >
       <!-- <span class="span-wallet flex-start">{{ erc20 }}</span>
             <span class="span-wallet2 flex-end">{{ erc20 }}</span> -->
-            <span class="pr-1"><img
+      <span class="pr-1"
+        ><img
           class="img-copied"
           (click)="copyErc(erc20)"
           ngbPopover="Copied"
@@ -670,27 +799,33 @@
           [closeDelay]="100"
           src="../../../../assets/Images/copiedIcon.png"
       /></span>
-        </div>
+    </div>
 
-        <div class="toggle d-flex justify-content-center mt-2">
-            <img [src]="urlM1" alt=" " id="qrr_img1 " />
-        </div>
+    <div class="toggle d-flex justify-content-center mt-2">
+      <img [src]="urlM1" alt=" " id="qrr_img1 " />
+    </div>
 
-        <hr class="line px-5" />
-        <!-- <h4 class="Bep d-flex justify-content-center mb-4">Wallet BTC</h4> -->
+    <hr class="line px-5" />
+    <!-- <h4 class="Bep d-flex justify-content-center mb-4">Wallet BTC</h4> -->
 
-        <div class="d-flex justify-content-center mt-2">
-            <div class="logoMobile">
-                <img class="" (click)="goToBtc()" src="../../../../assets/Images/bitcoinLogo.png" />
-            </div>
-        </div>
-        <div class="d-flex justify-content-center pl-2" *ngIf="btcCode">
-            <span class="span-text-wallet">{{ btcCode.slice(0, 2) }}...{{ btcCode.slice(-7) }}</span
+    <div class="d-flex justify-content-center mt-2">
+      <div class="logoMobile">
+        <img
+          class=""
+          (click)="goToBtc()"
+          src="../../../../assets/Images/bitcoinLogo.png"
+        />
+      </div>
+    </div>
+    <div class="d-flex justify-content-center pl-2" *ngIf="btcCode">
+      <span class="span-text-wallet"
+        >{{ btcCode.slice(0, 2) }}...{{ btcCode.slice(-7) }}</span
       >
 
       <!-- <span class="span-wallet flex-start">{{ btcCode }}</span>
             <span class="span-wallet2 flex-end">{{ btcCode }}</span> -->
-            <span class="pr-1"><img
+      <span class="pr-1"
+        ><img
           class="img-copied"
           (click)="copyBtc(btcCode)"
           ngbPopover="Copied"
@@ -699,10 +834,13 @@
           [closeDelay]="100"
           src="../../../../assets/Images/copiedIcon.png"
       /></span>
-        </div>
-
-        <div class="d-flex justify-content-center mt-2" style="margin-bottom: 5rem !important">
-            <img [src]="urlM2" alt=" " id="qrr_imgg1 " />
-        </div>
     </div>
+
+    <div
+      class="d-flex justify-content-center mt-2"
+      style="margin-bottom: 5rem !important"
+    >
+      <img [src]="urlM2" alt=" " id="qrr_imgg1 " />
+    </div>
+  </div>
 </div>

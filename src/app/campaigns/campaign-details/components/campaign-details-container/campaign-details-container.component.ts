@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Campaign } from '@app/models/campaign.model';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
@@ -7,7 +7,8 @@ import { Observable, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 import { Meta } from '@angular/platform-browser';
 import { environment } from '@environments/environment';
-import {sattUrl} from "@config/atn.config";
+import { sattUrl } from '@config/atn.config';
+import { isPlatformServer } from '@angular/common';
 
 @Component({
   selector: 'app-campaign-details-container',
@@ -27,7 +28,8 @@ export class CampaignDetailsContainerComponent implements OnInit {
     private campaignsStoreService: CampaignsStoreService,
     private route: ActivatedRoute,
     private meta: Meta,
-    private campaignService: CampaignHttpApiService
+    private campaignService: CampaignHttpApiService,
+    @Inject(PLATFORM_ID) private platformId: string
   ) {}
 
   ngOnInit(): void {
@@ -50,24 +52,38 @@ export class CampaignDetailsContainerComponent implements OnInit {
       )
       .subscribe();
     this.campaign$ = this.campaignsStoreService.campaign$;
-
-    this.campaign$.pipe(takeUntil(this.isDestroyed)).subscribe((campaign) => {
-      this.campaign = campaign;
-      setTimeout(() => {
-        this.showmoonboy = campaign.id === this.campaignId;
-      }, 1000);
-
+    if (isPlatformServer(this.platformId)) {
       this.meta.addTag({
         name: 'og:title',
-        content: campaign.title
+        content: ''
+      });
+      this.meta.addTag({
+        name: 'og:image:secure_url',
+        content: ``
       });
       this.meta.addTag({
         name: 'og:image',
-        content: `${sattUrl}/coverByCampaign/${campaign.id}`
+        content: ``
+      });
+      this.meta.addTag({
+        name: 'og:image:type',
+        content: `website`
+      });
+      this.meta.addTag({
+        name: 'og:image:alt',
+        content: `campaign cover`
+      });
+      this.meta.addTag({
+        name: 'og:image:width',
+        content: ``
+      });
+      this.meta.addTag({
+        name: 'og:image:height',
+        content: ``
       });
       this.meta.addTag({
         name: 'og:description',
-        content: campaign.summary
+        content: ''
       });
       this.meta.addTag({
         name: 'og:type',
@@ -75,12 +91,96 @@ export class CampaignDetailsContainerComponent implements OnInit {
       });
       this.meta.addTag({
         name: 'og:url',
-        content: `${environment.domainName}/home/campaign/${campaign.id}`
+        content: ``
       });
       this.meta.addTag({
         name: 'twitter:card',
         content: 'https://satt-token.com/assets/img/index/wallet.png'
       });
+      this.meta.addTag({
+        name: 'twitter:image',
+        content: 'https://satt-token.com/assets/img/index/wallet.png'
+      });
+    }
+
+    this.campaign$.pipe(takeUntil(this.isDestroyed)).subscribe((campaign) => {
+      this.campaign = campaign;
+      setTimeout(() => {
+        this.showmoonboy = campaign.id === this.campaignId;
+      }, 1000);
+
+      this.meta.updateTag(
+        {
+          name: 'og:title',
+          content: campaign.title
+        },
+        `name='og:title'`
+      );
+
+      this.meta.updateTag(
+        {
+          name: 'og:image',
+          content: `${sattUrl}/coverByCampaign/${campaign.id}`
+        },
+        `name='og:image'`
+      );
+
+      this.meta.updateTag(
+        {
+          name: 'og:image:secure_url',
+          content: `${sattUrl}/coverByCampaign/${campaign.id}`
+        },
+        `name='og:image:secure_url'`
+      );
+      this.meta.updateTag(
+        {
+          name: 'og:image:type',
+          content: `image/png`
+        },
+        `name='og:image:type'`
+      );
+      this.meta.updateTag(
+        {
+          name: 'og:image:width',
+          content: `200`
+        },
+        `name='og:image:width'`
+      );
+      this.meta.updateTag(
+        {
+          name: 'og:image:height',
+          content: `200`
+        },
+        `name='og:image:height'`
+      );
+      this.meta.updateTag(
+        {
+          name: 'og:description',
+          content: campaign.summary
+        },
+        `name='og:description'`
+      );
+      this.meta.updateTag(
+        {
+          name: 'og:url',
+          content: `${environment.domainName}/home/campaign/${campaign.id}`
+        },
+        `name='og:url'`
+      );
+      this.meta.updateTag(
+        {
+          name: 'twitter:card',
+          content: 'https://satt-token.com/assets/img/index/wallet.png'
+        },
+        `name='twitter:card'`
+      );
+      this.meta.updateTag(
+        {
+          name: 'twitter:image',
+          content: `${sattUrl}/coverByCampaign/${campaign.id}`
+        },
+        `name='twitter:image'`
+      );
     });
   }
 
