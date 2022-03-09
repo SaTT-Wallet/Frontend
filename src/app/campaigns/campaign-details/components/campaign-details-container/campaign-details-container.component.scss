@@ -37,6 +37,42 @@
     top: 0;
     right: 0;
     margin: 1em;
+    min-height: 80vh;
+  }
+  //   margin-bottom: 80px;
+  // overflow-x: hidden !important;
+
+  // .img-container {
+  //   margin-top: 1em;
+  //   border-radius: 20px 20px 0 0;
+  //   overflow: hidden;
+  //   // aspect-ratio: 16/9;
+  //   // max-width: 1024px;
+  //   max-width: 1570px;
+  //   max-height: 576px;
+  //   position: relative;
+  //   box-shadow: 0px 4px 20px rgb(0 0 0 / 20%);
+  //   .campaign-img {
+  //     width: 100%;
+  //     min-height: 200px;
+  //     object-fit: cover;
+  //   }
+  // }
+  .content {
+    // max-width: 1570px;
+    width: 100vw;
+    margin: 0 auto;
+  }
+  .spinner-container {
+    top: 50%;
+    left: 50%;
+  }
+  .btn-edit {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 1em;
   }
 }
 

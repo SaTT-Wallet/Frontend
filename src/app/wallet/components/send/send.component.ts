@@ -137,9 +137,12 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnInit(): void {
-     this.sendform.get('currency')?.setValue("SATT");
+    this.sendform.get('currency')?.setValue('SATT');
 
-    this.initiateState();
+    this.parentFunction().pipe(takeUntil(this.isDestroyed)).subscribe();
+    this.getusercrypto();
+    this.getProfileDetails();
+    this.amountdefault = this.sendform.get('currency')?.value;
   }
 
   //get list of crypto for user
@@ -204,8 +207,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           }
           if (crypto.symbol === 'BTC') {
             crypto.typetab = 'BTC';
-          } 
-           if (crypto.symbol === 'SATT') {
+          }
+          if (crypto.symbol === 'SATT') {
             this.sattBalance = crypto.total_balance;
           }
         });
@@ -586,15 +589,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     );
   }
 
-  initiateState() {
-    this.parentFunction()
-    .pipe(takeUntil(this.isDestroyed))
-    .subscribe();
-    this.getusercrypto();
-    this.getProfileDetails();
-    this.amountdefault = this.sendform.get('currency')?.value;
-  }
-
   /*------------------------ */
   convertcurrency(event: any): void {
     // if (event === 'amount') {
@@ -628,50 +622,52 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         currency = this.sendform.get('currency')?.value;
       }
       this.dataList?.forEach((crypto: any) => {
-
-      if (!!this.totalAmount && !!this.dataList) {
-
-        if (
-          event === 'amount' &&
-          sendamount !== undefined &&
-          !isNaN(sendamount) &&
-          crypto.symbol === currency
-        ) {
-          this.amountUsd = crypto.price  * sendamount;
-          this.amountUsd = this.showNumbersRule.transform(this.amountUsd);
-          if (isNaN(this.amountUsd)) {
-            this.amountUsd = '';
-            this.amount = '';
-          }
-        } else if (
-          event === 'amount' &&
-          (sendamount === undefined || isNaN(sendamount))
-        ) {
-          this.amountUsd = '';
-        }
-        if (event === 'usd' && sendusd !== undefined && !isNaN(sendusd) && crypto.symbol === currency) {
-          this.amount = sendusd / crypto.price;
-          this.amount = this.showNumbersRule.transform(this.amount);
+        if (!!this.totalAmount && !!this.dataList) {
           if (
-            sendamount === '0.00000000' ||
-            sendusd === '' ||
-            isNaN(this.amount)
+            event === 'amount' &&
+            sendamount !== undefined &&
+            !isNaN(sendamount) &&
+            crypto.symbol === currency
+          ) {
+            this.amountUsd = crypto.price * sendamount;
+            this.amountUsd = this.showNumbersRule.transform(this.amountUsd);
+            if (isNaN(this.amountUsd)) {
+              this.amountUsd = '';
+              this.amount = '';
+            }
+          } else if (
+            event === 'amount' &&
+            (sendamount === undefined || isNaN(sendamount))
           ) {
             this.amountUsd = '';
+          }
+          if (
+            event === 'usd' &&
+            sendusd !== undefined &&
+            !isNaN(sendusd) &&
+            crypto.symbol === currency
+          ) {
+            this.amount = sendusd / crypto.price;
+            this.amount = this.showNumbersRule.transform(this.amount);
+            if (
+              sendamount === '0.00000000' ||
+              sendusd === '' ||
+              isNaN(this.amount)
+            ) {
+              this.amountUsd = '';
+              this.amount = '';
+            }
+          } else if (
+            event === 'usd' &&
+            (sendusd === undefined || isNaN(sendusd))
+          ) {
             this.amount = '';
           }
-        } else if (
-          event === 'usd' &&
-          (sendusd === undefined || isNaN(sendusd))
-        ) {
-          this.amount = '';
-        }
 
-        this.editwidthInput();
-      }
-    });
+          this.editwidthInput();
+        }
+      });
     }
-    
   }
 
   replaceNonAlphanumeric(value: any) {

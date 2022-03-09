@@ -696,11 +696,11 @@ export class ParticiperComponent implements OnInit {
         }
       }
     } else if (
-      media.indexOf('https://www.youtube.com/watch') !== -1 ||
+      media.indexOf('youtube.com/watch') !== -1 ||
       media.indexOf('https://youtu.be/') !== -1 ||
       media.indexOf('https://www.youtube.com/embed/') !== -1
     ) {
-      if (media.indexOf('https://www.youtube.com/watch') !== -1) {
+      if (media.indexOf('youtube.com/watch') !== -1) {
         this.validUrl = true;
         var parts = media.split('=');
         var videos = parts[1].split('&');
