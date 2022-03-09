@@ -69,9 +69,9 @@
 
 .campaign-img {
   width: 100%;
-  // min-height: 200px;
+  max-height: 500px;
   // object-fit: cover;
-  height: 800px;
+  // height: 800px;
 }
 
 .date-wrapper {
@@ -141,7 +141,6 @@
 
 .scroll-outer {
   height: 100%;
-  margin-bottom: 277px;
 }
 
 .hr-separator {
@@ -937,4 +936,43 @@ a {
 }
 #back-top-pic-disabled {
   margin-top: 0.5em;
+}
+
+@media (min-width: 768px) {
+  .img-container {
+    margin: 1em auto 0;
+  }
+  // :host {
+  //   padding: 0 1em;
+  // }
+  .showMobile {
+    display: none !important;
+  }
+}
+
+.div-footer {
+  // // position: absolute;
+  // position: fixed;
+  // max-width: 500px;
+  // bottom: -96px;
+  // right: 0;
+  // /* overflow: hidden; */
+  // width: 80vw;
+  // margin-right: -49px;
+  // margin-left: auto;
+
+  max-width: 500px;
+  width: 80vw;
+  z-index: 99;
+  margin-left: auto;
+  // margin-top: 1vh !important;
+}
+
+@media (max-width: 1400px) {
+  :host {
+    overflow-y: auto !important;
+  }
+  .div-footer {
+    position: relative !important;
+  }
 }
