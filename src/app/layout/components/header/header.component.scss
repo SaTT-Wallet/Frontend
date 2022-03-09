@@ -502,7 +502,7 @@ ul.dropdown-menu.notif_drop_main.show {
 }
 
 @media (max-height: 850px) {
-  .sidebarMoreMobile{
+  .sidebarMoreMobile {
     display: none;
   }
   ul.dropdown-menu.notif_drop_main.show {
@@ -520,7 +520,6 @@ ul.dropdown-menu.notif_drop_main.show {
 }
 
 @media (max-width: 1111px) and (min-width: 768px) {
-  
   /* .right-menu {
         display: none;
     } */
@@ -1470,12 +1469,14 @@ bottom: 77.54% ; */
     rgba(31, 35, 55, 0) 93.77%
   );
 }
-.three-points,
-.div-copy-wallet-mobile,
-.btn-toggle-pic-mobile {
-  display: none;
-}
 
+@media (min-width: 1024px) {
+  .three-points,
+  .div-copy-wallet-mobile,
+  .btn-toggle-pic-mobile {
+    display: none !important;
+  }
+}
 @media (max-width: 1023.98px) {
   .three-points,
   .div-copy-wallet-mobile,
