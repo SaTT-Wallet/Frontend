@@ -61,10 +61,13 @@ export class CampaignDetailsContainerComponent implements OnInit {
         name: 'og:image:secure_url',
         content: ``
       });
-      this.meta.addTag({
-        name: 'og:image',
-        content: ``
-      });
+      const imgMetaTag = this.meta.getTag(`name='og:image'`);
+      if (!imgMetaTag) {
+        this.meta.addTag({
+          name: 'og:image',
+          content: ``
+        });
+      }
       this.meta.addTag({
         name: 'og:image:type',
         content: `website`

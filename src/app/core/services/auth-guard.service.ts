@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, mergeMap, take, tap } from 'rxjs/operators';
@@ -17,7 +17,8 @@ export class AuthGuardService implements CanActivate {
     private router: Router,
     private walletFacade: WalletFacadeService,
     private tokenStorageService: TokenStorageService,
-    private accountFacadeService: AccountFacadeService
+    private accountFacadeService: AccountFacadeService,
+    @Inject(PLATFORM_ID) private platformId: string
   ) {}
 
   canActivate() {
