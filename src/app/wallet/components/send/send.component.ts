@@ -139,8 +139,13 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   ngOnInit(): void {
      this.sendform.get('currency')?.setValue("SATT");
 
-    this.initiateState();
-  }
+     this.parentFunction()
+     .pipe(takeUntil(this.isDestroyed))
+     .subscribe();
+     this.getusercrypto();
+     this.getProfileDetails();
+     this.amountdefault = this.sendform.get('currency')?.value;
+      }
 
   //get list of crypto for user
   getusercrypto() {
@@ -586,14 +591,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     );
   }
 
-  initiateState() {
-    this.parentFunction()
-    .pipe(takeUntil(this.isDestroyed))
-    .subscribe();
-    this.getusercrypto();
-    this.getProfileDetails();
-    this.amountdefault = this.sendform.get('currency')?.value;
-  }
+
 
   /*------------------------ */
   convertcurrency(event: any): void {
