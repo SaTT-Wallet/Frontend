@@ -1453,9 +1453,9 @@ table>th {
 }
 
 @media (min-width: 769px) and (max-width: 960px) {
-    .center-wallet {
+    /* .center-wallet {
         margin-left:  -95px !important;
-    }
+    } */
 }
 
 .blue {
