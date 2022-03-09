@@ -8,6 +8,8 @@
   display: block;
   overflow: hidden;
   position: relative;
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
 }
 
 *:focus {
@@ -19,7 +21,6 @@
 }
 
 .white-bloc {
-  height: 100%;
   width: 100%;
   padding: 120px 1em 1em;
   // margin-top: 80px;
@@ -33,7 +34,6 @@
   margin-left: 0;
   // height: calc(100vh - 63px);
 }
-
 .div-content {
   max-width: 727px;
 }
@@ -690,6 +690,11 @@ button:focus {
   }
   :host {
     overflow-y: auto;
+    -ms-overflow-style: none; /* for Internet Explorer, Edge */
+    scrollbar-width: none; /* for Firefox */
+  }
+  :host::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
   }
 }
 
