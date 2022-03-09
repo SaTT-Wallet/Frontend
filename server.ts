@@ -61,11 +61,15 @@ export function app(): express.Express {
   );
 
   // All regular routes use the Universal engine
-  server.get('*', (req, res) => {
+  server.get('/campaign/**', (req, res) => {
     res.render(indexHtml, {
       req,
       providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }]
     });
+  });
+
+  server.get('*', (req, res) => {
+    res.sendFile(join(distFolder, 'index.html'));
   });
 
   return server;
