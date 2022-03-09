@@ -39,12 +39,16 @@
           class="div-use-max mt-3 text-center d-flex justify-content-center align-items-center flex-xl-row flex-lg-row flex-md-row flex-sm-column flex-xs-column gap-2"
         >
           <!-- <p class="hard-gray-text mb-0">Balance :{{ totalAmount }} USD</p> -->
-          <p class="hard-gray-text mb-0">
+          <p *ngIf="this.selectedCryptoDetails" class="hard-gray-text mb-0">
             Balance :${{
               this.selectedCryptoDetails?.total_balance?.toFixed(2)
             }}
           </p>
-
+          <p *ngIf="!this.selectedCryptoDetails" class="hard-gray-text mb-0">
+            Balance :${{
+              this.sattBalance
+            }}
+          </p>
           <span class="router-text" (click)="onClickAmount()">{{
             'useMax' | translate
           }}</span>

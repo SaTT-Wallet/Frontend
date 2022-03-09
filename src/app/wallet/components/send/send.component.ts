@@ -107,6 +107,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   cryptoToDropdown: any;
   contactWallet: string = '';
   maxNumber: number = 999999999;
+  sattBalance: any;
   constructor(
     private accountFacadeService: AccountFacadeService,
     public sidebarService: SidebarService,
@@ -136,8 +137,15 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnInit(): void {
-    this.initiateState();
-  }
+     this.sendform.get('currency')?.setValue("SATT");
+
+     this.parentFunction()
+     .pipe(takeUntil(this.isDestroyed))
+     .subscribe();
+     this.getusercrypto();
+     this.getProfileDetails();
+     this.amountdefault = this.sendform.get('currency')?.value;
+      }
 
   //get list of crypto for user
   getusercrypto() {
@@ -201,6 +209,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           }
           if (crypto.symbol === 'BTC') {
             crypto.typetab = 'BTC';
+          } 
+           if (crypto.symbol === 'SATT') {
+            this.sattBalance = crypto.total_balance;
           }
         });
         this.showWalletSpinner = false;
@@ -580,12 +591,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     );
   }
 
-  initiateState() {
-    this.parentFunction().pipe(takeUntil(this.isDestroyed)).subscribe();
-    this.getusercrypto();
-    this.getProfileDetails();
-    this.amountdefault = this.sendform.get('currency')?.value;
-  }
+
 
   /*------------------------ */
   convertcurrency(event: any): void {
@@ -619,13 +625,17 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       } else {
         currency = this.sendform.get('currency')?.value;
       }
+      this.dataList?.forEach((crypto: any) => {
+
       if (!!this.totalAmount && !!this.dataList) {
+
         if (
           event === 'amount' &&
           sendamount !== undefined &&
-          !isNaN(sendamount)
+          !isNaN(sendamount) &&
+          crypto.symbol === currency
         ) {
-          this.amountUsd = this.selectedCryptoDetails.price * sendamount;
+          this.amountUsd = crypto.price  * sendamount;
           this.amountUsd = this.showNumbersRule.transform(this.amountUsd);
           if (isNaN(this.amountUsd)) {
             this.amountUsd = '';
@@ -637,8 +647,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         ) {
           this.amountUsd = '';
         }
-        if (event === 'usd' && sendusd !== undefined && !isNaN(sendusd)) {
-          this.amount = sendusd / this.selectedCryptoDetails.price;
+        if (event === 'usd' && sendusd !== undefined && !isNaN(sendusd) && crypto.symbol === currency) {
+          this.amount = sendusd / crypto.price;
           this.amount = this.showNumbersRule.transform(this.amount);
           if (
             sendamount === '0.00000000' ||
@@ -657,7 +667,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
 
         this.editwidthInput();
       }
+    });
     }
+    
   }
 
   replaceNonAlphanumeric(value: any) {
@@ -757,13 +769,16 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.showSuccessBloc = false;
   }
   sendAgain() {
-    this.sendform.get('contact')?.setValue(''), (this.amount = '');
     this.amountUsd = '';
     this.sendform.reset();
     this.showPwdBloc = false;
     this.showErrorBloc = false;
     this.showSuccessBloc = false;
     this.showAmountBloc = true;
+    this.amount = '';
+    setTimeout(() => {
+      this.sendform.get('contact')?.setValue('');
+    }, 1000);
   }
   ngOnDestroy(): void {
     if (!!this.routeEventSubscription$) {
