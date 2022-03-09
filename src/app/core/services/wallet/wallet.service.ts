@@ -82,7 +82,7 @@ export class WalletService {
     /*
      @Url :API (link) /balance/stats'
      @description: fetch user chart stats
-	 @parameters : header access token 
+	 @parameters : header access token
      @response : object of arrays => different balance stats (daily, weekly, monthly)
      */
     return this.http.get(sattUrl + '/balance/stats', { headers: headers });
@@ -134,14 +134,14 @@ export class WalletService {
     return this.http.get(sattUrl + '/prices');
   }
 
-  setPayementId(payementId: string) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.get(`${sattUrl}/events/${payementId}`, {
-      headers: header
-    });
-  }
+  // setPayementId(payementId: string) {
+  //   let header = new HttpHeaders({
+  //     'Cache-Control': 'no-store',
+  //     'Content-Type': 'application/json',
+  //     Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+  //   });
+  //   return this.http.get(`${sattUrl}/events/${payementId}`, {
+  //     headers: header
+  //   });
+  // }
 }

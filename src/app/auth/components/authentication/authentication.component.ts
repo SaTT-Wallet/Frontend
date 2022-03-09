@@ -234,7 +234,6 @@ getCookie(key: string){
     if (this.cookieValue === 'pass') {
       this.cookiesClicked = false;
     }
-
     this.skipLoginWhenRedirected();
     //this.getParmsFromUrl();
     this.convertToScript();
@@ -365,6 +364,7 @@ getCookie(key: string){
           (data?.enabled === undefined && data?.idSn !== 0)
         ) {
           this.router.navigate(['social-registration/completeProfile']);
+          this.onDestroy$.next('');
         } else {
           setTimeout(() => this.router.navigate(['wallet']), 2000);
         }
@@ -386,14 +386,10 @@ getCookie(key: string){
       //window.location.href = sattUrl + "/snlogin/" + social;
       if (social === 'facebook') {
         this.loginNet = 'facebook';
-        if (isPlatformBrowser(this.platformId)) {
-          window.location.href = this.authFacebook;
-        }
+        window.location.href = this.authFacebook;
       } else if (social === 'google') {
         this.loginNet = 'google';
-        if (isPlatformBrowser(this.platformId)) {
-          window.location.href = this.authGoogle;
-        }
+        window.location.href = this.authGoogle;
       }
     }
   }
