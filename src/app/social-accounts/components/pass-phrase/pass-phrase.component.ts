@@ -64,7 +64,7 @@ export class PassPhraseComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     //    this.tokenStorageService.setSecureWallet('visited-passPhrase', 'false');
-    this.visitPassPhrase();
+    //  this.visitPassPhrase();
     this.getPassPhrase();
     this.passPhraseOrdered = [];
   }
@@ -186,10 +186,9 @@ export class PassPhraseComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.isDestroyed))
       .subscribe(() => {
         this.accountFacadeService.dispatchUpdatedAccount();
+        this.router.navigate(['social-registration/downaldJSON']);
         // route to next page
       });
-
-    this.router.navigate(['social-registration/downaldJSON']);
   }
   reset() {
     this.passPhraseOrdered = [];

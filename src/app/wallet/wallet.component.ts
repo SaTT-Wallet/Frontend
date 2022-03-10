@@ -6,51 +6,40 @@ import {
   Input,
   Output,
   EventEmitter,
-  OnChanges,
   TemplateRef,
-  HostListener,
   OnDestroy,
   Inject
 } from '@angular/core';
 ('@angular/core');
-import { ContactMessageService } from '@core/services/contactmessage/contact-message.service';
 import { ChartDataSets, ChartType } from 'chart.js';
 // @ts-ignore
 import { Big } from 'big.js';
-import { Clipboard } from '@angular/cdk/clipboard';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ProfileService } from '@core/services/profile/profile.service';
-import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
 import {
   pattContact,
   pattEmail,
   id_campaign_to_participate
 } from '@config/atn.config';
-import { ToastrService } from 'ngx-toastr';
 import { SidebarService } from '@core/services/sidebar/sidebar.service';
-import { FilesService } from '@core/services/files/files.Service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Color, Label } from 'ng2-charts';
-import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '@app/models/User';
 import { AuthService } from '@core/services/Auth/auth.service';
 import introJs from 'intro.js';
 import { DomSanitizer } from '@angular/platform-browser';
-import { BreakpointObserver } from '@angular/cdk/layout';
+
 import { MediaMatcher } from '@angular/cdk/layout';
-import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
-import { WalletStoreService } from '@core/services/wallet-store.service';
+
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AuthStoreService } from '@core/services/Auth/auth-store.service';
 import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-facade.service';
-import { filter, takeUntil, mergeMap, tap, switchMap } from 'rxjs/operators';
-import { DOCUMENT, ViewportScroller } from '@angular/common';
+import { filter, takeUntil, mergeMap, tap } from 'rxjs/operators';
+import { DOCUMENT } from '@angular/common';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { forkJoin, of, Subject } from 'rxjs';
-declare var $: any;
-declare var background_1: any;
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -461,7 +450,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     public sidebarService: SidebarService,
     public modalService: NgbModal,
     public translate: TranslateService,
-    private Router: Router,
+    private router: Router,
     private authService: AuthService,
     private sanitizer: DomSanitizer,
     public mediaMatcher: MediaMatcher,
@@ -533,10 +522,10 @@ export class WalletComponent implements OnInit, OnDestroy {
 
     let xweekly: any = this.lineChartDataSemaine[0]?.data;
     let yweekly: any = this.lineChartDataSemaine[0]?.data;
-    let rweekly: any = this.lineChartLabelsSemaine;
-    let currentWeek;
+    // let rweekly: any = this.lineChartLabelsSemaine;
+    // let currentWeek;
     let j = 6;
-    let z = 6;
+    // let z = 6;
 
     for (let i = 0; i <= 6; i++) {
       this.balancecharts = parseInt(data?.daily[i]?.Balance);
@@ -573,10 +562,10 @@ export class WalletComponent implements OnInit, OnDestroy {
       let datedefaut = aDate.toLocaleDateString('en-US');
 
       aDateMonth.setMonth(aDateMonth.getMonth() - i);
-      let datedefautmonth = aDateMonth.toLocaleDateString('en-US');
+      // let datedefautmonth = aDateMonth.toLocaleDateString('en-US');
 
       aDateWeek.setDate(aDateWeek.getDate() - i * 7);
-      let datedefautweek = aDateWeek.toLocaleDateString('en-US');
+      // let datedefautweek = aDateWeek.toLocaleDateString('en-US');
 
       // if (!data.weekly[i]?.convertDate) {
       //   if (!this.dateconvertsweekly) {
@@ -597,7 +586,7 @@ export class WalletComponent implements OnInit, OnDestroy {
       } else {
         r[j] = this.dateconverts;
       }
-      z--;
+      // z--;
       j--;
     }
     const monthDataSize = data?.monthly?.length;
@@ -660,6 +649,15 @@ export class WalletComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit(): void {
+    this.verifyOnBoarding();
+    // let data_profile = {
+    //   onBoarding: false
+    // };
+
+    // this.profileSettingsFacade.updateProfile(data_profile).subscribe(() => {
+    //   this.accountFacadeService.dispatchUpdatedAccount();
+    // });
+    this.walletFacade.getTotalBalance();
 
     this.walletFacade.getTotalBalance();
     if (!this.walletFacade.totalBalance$) {
@@ -678,7 +676,6 @@ export class WalletComponent implements OnInit, OnDestroy {
     this.getSecure();
     this.getDetails();
     this.totalbalancewallet();
-    this.verifyAccount();
 
     var c = <HTMLCanvasElement>this.document.getElementById('myCanvas');
     var ctx = c?.getContext('2d');
@@ -688,15 +685,18 @@ export class WalletComponent implements OnInit, OnDestroy {
     //ctx.fillStyle = my_gradient;
     ctx?.fillRect(20, 20, 150, 100);
   }
-  verifyAccount() {
+  verifyOnBoarding() {
     let address = this.tokenStorageService.getIdWallet();
     if (address) {
-      this.authService
-        .verifyAccount()
+      this.authStoreService
+        .getAccount()
         .pipe(takeUntil(this.onDestoy$))
         .subscribe((response: any) => {
-          let getFillMyProfil = this.tokenStorageService.getFillMyProfil();
-          if (response.onBoarding === false && this.Router.url === '/wallet') {
+          // let getFillMyProfil = this.tokenStorageService.getFillMyProfil();
+          if (
+            (response.onBoarding === false || response.onBoarding === '') &&
+            this.router.url === '/wallet'
+          ) {
             this.startSteps();
           }
         });
@@ -764,7 +764,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   /*------------------------------------------------------------------------------------*/
   goToProfile(modal: any) {
     this.closeModal(modal);
-    this.Router.navigate(['home/settings/edit']);
+    this.router.navigate(['home/settings/edit']);
   }
 
   openModal(content: any) {
@@ -795,7 +795,7 @@ export class WalletComponent implements OnInit, OnDestroy {
         this.button = resArray[5];
         this.introJS
           .setOptions({
-            tooltipClass: 'customTooltip ',
+            tooltipClass: 'customTooltip',
             nextLabel: '',
             prevLabel: '',
             doneLabel: '',
@@ -844,11 +844,12 @@ export class WalletComponent implements OnInit, OnDestroy {
                       ...this.authStoreService.account,
                       onBoarding: true
                     });
+                    this.accountFacadeService.dispatchUpdatedAccount();
                   }
                 }),
                 takeUntil(this.onDestoy$)
               )
-              .subscribe((data) => {
+              .subscribe(() => {
                 this.showModal = !this.showModal;
                 this.getDetails();
               });
@@ -899,17 +900,16 @@ export class WalletComponent implements OnInit, OnDestroy {
             let calcul = (count * 100) / 10;
             this.percentProfil = calcul.toFixed(0);
 
-            let getFillMyProfil = this.tokenStorageService.getFillMyProfil();
+            //  let getFillMyProfil = this.tokenStorageService.getFillMyProfil();
             let showAgain = this.tokenStorageService.getShowPopUp();
             if (
               this.percentProfil < 60 &&
-              getFillMyProfil === 'true' &&
               showAgain === 'true' &&
               (this.showModal === true || this.user.onBoarding === true)
             ) {
               setTimeout(() => {
                 this.openModal(this.welcomeModal);
-                this.tokenStorageService.setFillMyProfil('false');
+                // this.tokenStorageService.setFillMyProfil('false');
               }, 3000);
               return this.profileSettingsFacade.profilePic$;
             }
@@ -952,7 +952,7 @@ export class WalletComponent implements OnInit, OnDestroy {
       this.profileSettingsFacade
         .updateProfile(data_profile)
         .pipe(takeUntil(this.onDestoy$))
-        .subscribe((response: any) => {});
+        .subscribe(() => {});
       this.tokenStorageService.setShowPopUp('false');
     }
 
@@ -963,13 +963,13 @@ export class WalletComponent implements OnInit, OnDestroy {
       this.profileSettingsFacade
         .updateProfile(data_profile)
         .pipe(takeUntil(this.onDestoy$))
-        .subscribe((response: any) => {});
+        .subscribe(() => {});
       this.tokenStorageService.setShowPopUp('true');
     }
   }
   goToCampaign() {
     this.closeRedBloc();
-    this.Router.navigate(['home/campaign', id_campaign_to_participate]);
+    this.router.navigate(['home/campaign', id_campaign_to_participate]);
     this.sidebarService.toggleSidebarMobile.next(false);
   }
   closeRedBloc() {
