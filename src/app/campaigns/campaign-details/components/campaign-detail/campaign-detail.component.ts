@@ -115,6 +115,7 @@ export class CampaignDetailComponent implements OnInit {
   isLoading = true;
   histEarning = false;
   private history: string[] = [];
+  showmoonboy = true;
 
   constructor(
     public router: Router,
@@ -165,6 +166,15 @@ export class CampaignDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.CampaignService.isLoading.subscribe((res) => {
+      if (res === false) {
+        setTimeout(() => {
+          this.showmoonboy = true;
+        }, 4000);
+      } else {
+        this.showmoonboy = false;
+      }
+    });
     this.campaignsHttpService.scrolling.subscribe(() => {
       this.scrolling = true;
     });

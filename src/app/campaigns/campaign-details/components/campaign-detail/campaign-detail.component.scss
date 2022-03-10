@@ -69,10 +69,8 @@
 
 .campaign-img {
   width: 100%;
-  // min-height: 200px;
   // object-fit: cover;
-  // height: 800px;
-height: fit-content;
+  height: fit-content;
 }
 
 .date-wrapper {
@@ -142,7 +140,6 @@ height: fit-content;
 
 .scroll-outer {
   height: 100%;
-  margin-bottom: 277px;
 }
 
 .hr-separator {
@@ -228,15 +225,14 @@ height: fit-content;
 
 .campaing-detail-content {
   background: #ffffff;
-  /* margin: 2em 0.5em; */
-  /* padding: 1em 0em; */
-  /* margin-top: 509px; */
-  margin-top: 28%;
+  /*margin: 2em 0.5em;
+  *//*padding: 1em 0em;
+  *//*margin-top: 509px;
+  */margin-top: 28%;
   width: 100%;
-  /* margin-left: -15px; */
-  border-radius: 0px 0px 20px 20px;
-  /* box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2); */
-  z-index: 1;
+  /*margin-left: -15px;
+  /*box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+  */z-index: 1;
   position: relative;
 }
 
@@ -329,9 +325,9 @@ height: fit-content;
         border-top-left-radius: 30px;
         border-top-right-radius: 30px;
     } */
-  .campaing-detail-content {
-    padding: 0.5em 0em;
-  }
+  // .campaing-detail-content {
+  //   padding: 0.5em 0em;
+  // }
   .campaign-details-section {
     padding: 0em;
     flex-direction: column;
@@ -400,9 +396,9 @@ height: fit-content;
     border-top-right-radius: 30px;
 } */
 
-.campaing-detail-content {
-  padding: 0.5em 0em;
-}
+// .campaing-detail-content {
+//   padding: 0.5em 0em;
+// }
 
 .campaign-details-section {
   padding: 0em;
@@ -938,4 +934,43 @@ a {
 }
 #back-top-pic-disabled {
   margin-top: 0.5em;
+}
+
+@media (min-width: 768px) {
+  .img-container {
+    margin: 0em 0 0em 0;
+  }
+  // :host {
+  //   padding: 0 1em;
+  // }
+  .showMobile {
+    display: none !important;
+  }
+}
+
+.div-footer {
+  // // position: absolute;
+  // position: fixed;
+  // max-width: 500px;
+  // bottom: -96px;
+  // right: 0;
+  // /* overflow: hidden; */
+  // width: 80vw;
+  // margin-right: -49px;
+  // margin-left: auto;
+
+  max-width: 500px;
+  width: 80vw;
+  z-index: 99;
+  margin-left: auto;
+  // margin-top: 1vh !important;
+}
+
+@media (max-width: 1400px) {
+  :host {
+    overflow-y: auto !important;
+  }
+  .div-footer {
+    position: relative !important;
+  }
 }
