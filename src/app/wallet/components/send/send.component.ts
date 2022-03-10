@@ -210,7 +210,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           }
           if (crypto.symbol === 'SATT') {
             this.sattBalance = crypto.total_balance;
-            this.symbol = crypto.symbol
+            this.symbol = crypto.symbol;
           }
         });
         this.showWalletSpinner = false;
@@ -766,7 +766,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     setTimeout(() => {
       this.sendform.get('contact')?.setValue('');
     }, 100);
-    
+
     this.amountUsd = '';
     this.sendform.reset();
     this.showPwdBloc = false;
@@ -774,7 +774,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.showSuccessBloc = false;
     this.showAmountBloc = true;
     this.amount = '';
-  
   }
   ngOnDestroy(): void {
     if (!!this.routeEventSubscription$) {

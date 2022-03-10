@@ -126,7 +126,7 @@ a {
 }
 
 .price-varition-down {
-    color: red;
+    color: #F52079;
     font-style: normal;
     text-align: right;
     /* font-size: 1vw!important; */
@@ -526,9 +526,9 @@ a {
     font-style: normal;
     font-weight: 600;
     font-size: 12px;
-    line-height: 130%;
-    letter-spacing: 0.03em;
-    color: #75758f;
+    letter-spacing: 0.05em;
+    color:  #75758F;;
+    line-height: 18px;
 }
 
 .variation-mobilee {
@@ -587,8 +587,8 @@ a {
 }
 
 .IconsMobile {
-    width: 39px;
-    height: 39px;
+    width: 48px;
+    height: 48px;
 }
 
 .balanceCrypto {
@@ -4491,9 +4491,12 @@ color: white}
     /* width: 80%; */
     margin-bottom: 1rem;
     padding-left: 45px;
-    font-style: normal;
-    font-size: 20px;
-    height: 48px;
+    font-weight: 400 ;
+    line-height: 120%;
+    font-size: 16px;
+    letter-spacing: 0.03em;
+    color: #75758F;
+    height: 46px;
     border: 1px solid #d6d6e8;
     border-radius: 30px;
     /* margin-left: 2%; */

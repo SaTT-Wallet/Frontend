@@ -45,9 +45,7 @@
             }}
           </p>
           <p *ngIf="!this.selectedCryptoDetails" class="hard-gray-text mb-0">
-            Balance :${{
-              this.sattBalance
-            }}
+            Balance :${{ this.sattBalance }}
           </p>
           <span class="router-text" (click)="onClickAmount()">{{
             'useMax' | translate
@@ -153,14 +151,12 @@
           <h3 class="black mt-2">${{ amountUsd || 0 }}</h3>
           <h3 *ngIf="this.selectedCryptoDetails" class="gary-amout hard-gray">
             ≈ {{ amount || 0 }}
-            {{ this.selectedCryptoDetails.symbol | translate}}
+            {{ this.selectedCryptoDetails.symbol | translate }}
           </h3>
           <h3 *ngIf="!this.selectedCryptoDetails" class="gary-amout hard-gray">
             ≈ {{ amount || 0 }}
-            {{   this.symbol  }}
+            {{ this.symbol }}
           </h3>
-
-        
         </div>
         <div class="">
           <div class="row ps-2 mb-2 text-center" *ngIf="!coinType">
