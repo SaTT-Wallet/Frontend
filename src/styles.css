@@ -7,23 +7,24 @@
 /* ------- mm -----------*/
 
 ::ng-deep iframe {
-    opacity: 0.001!important;
+    opacity: 0.001 !important;
     z-index: -1 !important;
-  }
-  
-  ::ng-deep #fc_frame,
-  #fc_frame.fc-widget-normal {
+}
+
+::ng-deep #fc_frame,
+#fc_frame.fc-widget-normal {
     z-index: -1 !important;
     opacity: 0 !important;
-  }
-  
+}
+
 *:focus {
     /*
     outline: none;
     */
 }
-a{
-   text-decoration: none;
+
+a {
+    text-decoration: none;
 }
 
 .phone {
@@ -33,14 +34,14 @@ a{
 }
 
 @media (max-width: 767.98px) {
-
-  .iti__country-list{
-    max-height: 9em;
-}
+    .iti__country-list {
+        max-height: 9em;
+    }
     .phone {
         width: 249px;
     }
 }
+
 body,
 html {
     height: 100%;
@@ -84,9 +85,9 @@ body {
         position: fixed !important;
         top: 0% !important;
         bottom: 0% !important;
-        transform: translate(0px,0px) !important;
-        left:0% !important ;
-        right:0% !important ;
+        transform: translate(0px, 0px) !important;
+        left: 0% !important;
+        right: 0% !important;
         border-radius: 0px !important;
         max-width: 100% !important;
     }
@@ -164,6 +165,7 @@ body {
     } */
     .introjs-helperLayer {
         width: fit-content;
+        min-width: 85px;
         border-radius: 30px !important;
         box-shadow: rgb(33 33 33 / 10%) 0px 0px 1px 2px, rgb(33 33 33 / 50%) 0px 0px 0px 5000px !important;
     }
@@ -351,7 +353,6 @@ body {
 
 .page-content {
     padding: 20px 15px;
-   
     margin-bottom: 100px;
     max-width: 1600px;
 }
@@ -1117,7 +1118,7 @@ body {
     top: 50%;
     transform: translate(-50%, -50%);
     background-color: #ffffff;
-    border-radius: 30px ;
+    border-radius: 30px;
     border: none;
     max-width: fit-content;
     width: 100%;
@@ -1474,7 +1475,7 @@ app-header-register {
 }
 
 .cookiesBlock {
-    left:0;
+    left: 0;
     right: 0;
     z-index: 99999999999;
     margin-top: -144px;
