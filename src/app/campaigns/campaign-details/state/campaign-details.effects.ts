@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
-import { catchError, concatMap, map, mapTo } from 'rxjs/operators';
-import { EMPTY, of } from 'rxjs';
+import { catchError, concatMap, map } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 import * as CampaignDetailsActions from './campaign-details.actions';
 import { CampaignHttpApiService } from '@app/core/services/campaign/campaign.service';
 import { Campaign } from '@app/models/campaign.model';
+import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 
 @Injectable()
 export class CampaignsEffects {
@@ -16,7 +17,13 @@ export class CampaignsEffects {
       /** An EMPTY observable only emits completion. Replace with your own observable API request */
       concatMap((action: any) =>
         this.campaignHttpApiService.getOneById(action.id).pipe(
-          map((data) => new Campaign(data)),
+          map((data) => {
+            const campaign = new Campaign(data);
+            campaign.ownedByUser =
+              Number(campaign.ownerId) ===
+              Number(this.localStorageService.getIdUser());
+            return campaign;
+          }),
           map((campaign: Campaign) =>
             CampaignDetailsActions.campaignDetailsLoadSuccess({ campaign })
           ),
@@ -46,6 +53,7 @@ export class CampaignsEffects {
 
   constructor(
     private actions$: Actions,
-    private campaignHttpApiService: CampaignHttpApiService
+    private campaignHttpApiService: CampaignHttpApiService,
+    private localStorageService: TokenStorageService
   ) {}
 }
