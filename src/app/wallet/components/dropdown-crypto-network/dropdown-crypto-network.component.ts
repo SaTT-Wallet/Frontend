@@ -47,6 +47,7 @@ export class DropdownCryptoNetworkComponent
   isCryptoRouter: boolean = true;
   cryptoToDropdown: any;
   addedTokenNopic: boolean = false;
+  private firstEmit = false;
   constructor(
     private walletFacade: WalletFacadeService,
     private route: ActivatedRoute,
@@ -65,6 +66,7 @@ export class DropdownCryptoNetworkComponent
       .pipe(takeUntil(this.onDestoy$))
       .subscribe((p: any) => {
         if (p.id) {
+          this.firstEmit = true;
           this.isCryptoRouter = true;
           this.cryptoPicName = p.id;
           this.cryptoSymbol = p.id;
@@ -83,6 +85,7 @@ export class DropdownCryptoNetworkComponent
     this.defaultcurr = ListTokens['SATT'].name;
     this.defaultcurrbep = ListTokens['SATTBEP20'].name;
     this.defaultcurrbtc = ListTokens['BTC'].name;
+
   }
   //get list of crypto for user
   getusercrypto() {
@@ -96,6 +99,13 @@ export class DropdownCryptoNetworkComponent
         this.dataList = data;
         /*----emit default cryto to receive compoent */
         this.dataList?.forEach((crypto: any) => {
+          if(!this.draftData && !this.firstEmit){
+              if(crypto.symbol === 'SATT'){
+                this.selectedCrypto.emit(crypto);
+                this.firstEmit = true
+              }
+          }
+
           if (crypto && crypto.symbol === this.draftData?.currency.name) {
             this.cryptoFromComponent = [crypto];
             this.cryptoSymbol = this.cryptoFromComponent[0].symbol;
@@ -109,7 +119,6 @@ export class DropdownCryptoNetworkComponent
           }
           /**------ */
           crypto.price = this.filterAmount(crypto.price + '');
-
           crypto.quantity = this.filterAmount(crypto.quantity + '');
           crypto.type =
             crypto.network ?? ListTokens[crypto.symbol].type.toUpperCase();
@@ -203,6 +212,7 @@ export class DropdownCryptoNetworkComponent
     AddedToken: string,
     crypto: any
   ) {
+    this.firstEmit = true;
     if (this.isCryptoRouter) {
       this.isCryptoRouter = false;
       this.router.navigate([], { queryParams: [] });
@@ -227,6 +237,7 @@ export class DropdownCryptoNetworkComponent
   }
 
   selectNetworkValue(network: string) {
+    this.firstEmit = true ;
     if (this.isCryptoRouter) {
       this.isCryptoRouter = false;
       this.router.navigate([], { queryParams: [] });
