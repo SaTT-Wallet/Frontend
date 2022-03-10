@@ -47,6 +47,7 @@ export class DropdownCryptoNetworkComponent
   isCryptoRouter: boolean = true;
   cryptoToDropdown: any;
   addedTokenNopic: boolean = false;
+  private firstEmit = false;
   constructor(
     private walletFacade: WalletFacadeService,
     private route: ActivatedRoute,
@@ -83,9 +84,11 @@ export class DropdownCryptoNetworkComponent
     this.defaultcurr = ListTokens['SATT'].name;
     this.defaultcurrbep = ListTokens['SATTBEP20'].name;
     this.defaultcurrbtc = ListTokens['BTC'].name;
+
   }
   //get list of crypto for user
   getusercrypto() {
+    debugger
     this.cryptoList$
       .pipe(
         filter((data) => data.length !== 0),
@@ -96,6 +99,13 @@ export class DropdownCryptoNetworkComponent
         this.dataList = data;
         /*----emit default cryto to receive compoent */
         this.dataList?.forEach((crypto: any) => {
+          if(!this.draftData && !this.firstEmit){
+              if(crypto.symbol === 'SATT'){
+                this.selectedCrypto.emit(crypto);
+                this.firstEmit = true
+              }
+          }
+
           if (crypto && crypto.symbol === this.draftData?.currency.name) {
             this.cryptoFromComponent = [crypto];
             this.cryptoSymbol = this.cryptoFromComponent[0].symbol;
@@ -203,6 +213,7 @@ export class DropdownCryptoNetworkComponent
     AddedToken: string,
     crypto: any
   ) {
+    this.firstEmit = true;
     if (this.isCryptoRouter) {
       this.isCryptoRouter = false;
       this.router.navigate([], { queryParams: [] });
