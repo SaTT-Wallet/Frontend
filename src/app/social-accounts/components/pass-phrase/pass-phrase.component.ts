@@ -198,7 +198,7 @@ export class PassPhraseComponent implements OnInit, OnDestroy {
   }
   visitPassPhrase() {
     let data_profile = {
-      visitPassphrase: true
+      visitPassphrase: false
     };
     this.profileSettingsFacade
       .updateProfile(data_profile)

@@ -1,5 +1,3 @@
-import { sattUrl } from '@config/atn.config';
-import { AnyMxRecord } from 'dns';
 export class User {
   public idUser!: string;
   public idSn: any;
