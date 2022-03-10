@@ -128,7 +128,7 @@
   "Header.No_further_notifications": "No further notifications",
   "Header.gaz-est": "Estimated transactions",
   "Wallet.my_portfolio": "My Wallet",
-  "Wallet.Your_total_portfolio_is_estimated_at": "Current balance",
+  "Wallet.Your_total_portfolio_is_estimated_at": "Current Balance",
   "Wallet.Receive": "Receive",
   "Wallet.send": "Send",
   "Wallet.Invalid address": "The wallet address you entered does not exist.",

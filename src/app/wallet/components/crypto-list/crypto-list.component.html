@@ -151,7 +151,7 @@
                     <div class="cryptopri indicatorPriceChange">
                       <span
                         class="indicatorfont ms-1"
-                        [ngStyle]="{ color: crypto.arrowColor }"
+                        [ngStyle]="{ color: '#F52079' }"
                       >
                         {{ crypto.arrow }}{{ crypto.variation }}%
                       </span>
@@ -506,7 +506,7 @@
                         <div class="cryptopri indicatorPriceChange">
                           <span
                             class="indicatorfont ms-1"
-                            [ngStyle]="{ color: crypto.arrowColor }"
+                            [ngStyle]="{ color: '#F52079' }"
                           >
                             {{ crypto.arrow }} {{ crypto.variation }}%
                           </span>
@@ -804,7 +804,7 @@
                         <div class="cryptopri indicatorPriceChange">
                           <span
                             class="indicatorfont ms-1"
-                            [ngStyle]="{ color: crypto.arrowColor }"
+                            [ngStyle]="{ color: '#F52079' }"
                           >
                             {{ crypto.arrow }} {{ crypto.variation }}%
                           </span>
@@ -1346,6 +1346,7 @@
                             <div
                               class="variation-box-red noselect"
                               *ngIf="crypto.arrowColor === 'red'"
+                              [ngStyle]="{ color: '#F52079' }"
                             >
                               <span class="price-varition-down">
                                 {{ crypto.arrow }} {{ crypto.variation }}%
@@ -1359,7 +1360,7 @@
                             >
                               <span
                                 class="price-varition noselect"
-                                [ngStyle]="{ color: crypto.arrowColor }"
+                                [ngStyle]="{ color: '#00CC9E' }"
                               >
                                 {{ crypto.arrow }} {{ crypto.variation }}%
                               </span>
@@ -1367,10 +1368,11 @@
                             <div
                               class="variation-box-red noselect"
                               *ngIf="crypto.arrowColor === 'red'"
+                              [ngStyle]="{ color: '#F52079' }"
                             >
                               <span
                                 class="price-varition-down noselect"
-                                [ngStyle]="{ color: crypto.arrowColor }"
+                                [ngStyle]="{ color: '#F52079' }"
                               >
                                 {{ crypto.arrow }} {{ crypto.variation }}%
                               </span>

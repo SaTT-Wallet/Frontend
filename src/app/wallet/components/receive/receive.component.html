@@ -122,7 +122,7 @@
           <button
             type="submit"
             (click)="showNextBloc()"
-            class="green-btn"
+            class="green-btn mb-2"
             [disabled]="
               this.receiveform.get('contact')?.errors?.required ||
               this.receiveform.controls.contact.errors?.pattern ||
@@ -205,7 +205,7 @@
         <button type="submit" class="green-btn" (click)="makeNewRequest()">
           {{ 'make-a-new-request' | translate }}
         </button>
-        <button type="submit" class="white-btn" [routerLink]="['/wallet']">
+        <button type="submit" class="white-btn mb-3" [routerLink]="['/wallet']">
           {{ 'send.return_to_portfolio' | translate }}
         </button>
       </div>

@@ -210,7 +210,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           }
           if (crypto.symbol === 'SATT') {
             this.sattBalance = crypto.total_balance;
-            this.symbol = crypto.symbol
+            this.symbol = crypto.symbol;
           }
         });
         this.showWalletSpinner = false;
@@ -356,19 +356,14 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       currency = this.sendform.get('currency')?.value;
 
       let address = this.tokenStorageService.getIdWallet();
-      if (to === address) {
-        // this.ownaddress = true;
-        // this.loadingButton = false;
-        // setTimeout(() => {
-        //   this.ownaddress = false;
-        //   this.loadingButton = false;
-        // }, 5000);
-        this.ownaddress = true;
-        this.loadingButton = false;
-        setTimeout(() => {
-          this.ownaddress = false;
-        }, 5000);
-      } else {
+      // if (to === address) {
+    
+      //   this.ownaddress = true;
+      //   this.loadingButton = false;
+      //   setTimeout(() => {
+      //     this.ownaddress = false;
+      //   }, 5000);
+      // } else {
         // if (this.selectedCryptoSend) {
         //   currency = this.selectedCryptoSend;
         // } else {
@@ -482,7 +477,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               this.loadingButton = false;
             }
           );
-      }
+      // }
     }
   }
   onClickAmount(): void {
@@ -771,7 +766,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     setTimeout(() => {
       this.sendform.get('contact')?.setValue('');
     }, 100);
-    
+
     this.amountUsd = '';
     this.sendform.reset();
     this.showPwdBloc = false;
@@ -779,7 +774,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.showSuccessBloc = false;
     this.showAmountBloc = true;
     this.amount = '';
-  
   }
   ngOnDestroy(): void {
     if (!!this.routeEventSubscription$) {
