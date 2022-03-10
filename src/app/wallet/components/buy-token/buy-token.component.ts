@@ -545,6 +545,8 @@ export class BuyTokenComponent implements OnInit {
   linstingBack(event: any) {
     if (event === true) {
       // this._location.back();
+
+      
       this.router.navigate(['/wallet']);
     }
   }
