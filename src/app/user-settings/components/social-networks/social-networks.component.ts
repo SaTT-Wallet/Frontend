@@ -57,7 +57,7 @@ export class SocialNetworksComponent implements OnInit {
   percentSocial: any;
   private isDestroyed = new Subject();
   userId = this.tokenStorageService.getIdUser();
-
+  showSpinner: boolean = true;
   private socialAccount$ = this.socialAccountFacadeService.socialAccount$;
   constructor(
     private profile: ProfileService,
@@ -95,6 +95,7 @@ export class SocialNetworksComponent implements OnInit {
   }
 
   getSocialNetwork(): void {
+    this.showSpinner = true;
     this.socialAccount$
       .pipe(
         filter((res) => res !== null),
@@ -158,6 +159,7 @@ export class SocialNetworksComponent implements OnInit {
             }
             let stat = (count * 100) / 4;
             this.percentSocial = stat.toFixed(0);
+            this.showSpinner = false;
           }
         }
       );
