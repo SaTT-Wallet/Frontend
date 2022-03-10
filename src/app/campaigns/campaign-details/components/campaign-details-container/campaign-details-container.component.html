@@ -1,10 +1,10 @@
 <ng-container *ngIf="campaign?.id === campaignId; else loading">
-    <div class="content">
-        <router-outlet></router-outlet>
-    </div>
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
 </ng-container>
 <ng-template #loading>
-    <app-loading-logo> </app-loading-logo>
+  <app-loading-logo> </app-loading-logo>
 </ng-template>
 <!-- <div
   *ngIf="this.showmoonboy"
@@ -15,9 +15,7 @@
     [pageName]="'apply in '"
   ></app-footer-send-receive-buy>
 </div> -->
-<div *ngIf="this.showmoonboy" class="div-footer">
-    <app-moonboy-help [pageName]="'apply in'"></app-moonboy-help>
-</div>
+
 <!-- <div
 *ngIf="this.showmoonboy === true"
 class="div-pic-text"
