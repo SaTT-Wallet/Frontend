@@ -678,21 +678,40 @@ button:focus {
   display: flex;
 }
 
+// .div-footer {
+//   position: fixed;
+//   max-width: 500px;
+//   bottom: -130px;
+//   right: 0;
+//   /* overflow: hidden; */
+//   width: 80vw;
+//   margin-right: -49px;
+//   margin-left: auto;
+// }
 .div-footer {
-  position: fixed;
-  max-width: 500px;
-  bottom: -130px;
+  position: absolute;
+  bottom: 0;
   right: 0;
-  /* overflow: hidden; */
-  width: 80vw;
-  margin-right: -49px;
-  margin-left: auto;
+}
+.div-footer-mobile {
+  margin-top: 3vh;
+  height: max-content;
+}
+@media (min-height: 840px) {
+  .div-footer-mobile {
+    margin-top: 9vh !important;
+  }
+}
+@media (max-width: 767.98px) {
+  .div-footer {
+    display: none !important;
+  }
 }
 
 @media (max-width: 1400px) {
-  .div-footer {
-    position: relative;
-  }
+  // .div-footer {
+  //   position: relative;
+  // }
   :host {
     overflow-y: auto;
     -ms-overflow-style: none;
