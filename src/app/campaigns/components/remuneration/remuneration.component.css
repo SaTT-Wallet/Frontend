@@ -52,10 +52,11 @@ border-radius: 30px;
     font-weight: 600;
 }
 
-button:focus {
+
+/* button:focus {
     outline: none;
     box-shadow: none;
-}
+} */
 
 .title-section {
     font-family: 'Poppins';
@@ -650,11 +651,10 @@ input.input-number2::-webkit-input-placeholder {
     /* display: flex;
     justify-content: center;
     align-items: center; */
-    background: #FFFFFF;
-/* button_shadow */
-
-box-shadow: 0px 2px 6px rgba(50, 55, 84, 0.4);
-border-radius: 30px;
+    background: #ffffff;
+    /* button_shadow */
+    box-shadow: 0px 2px 6px rgba(50, 55, 84, 0.4);
+    border-radius: 30px;
 }
 
 .btn-round {
@@ -664,7 +664,6 @@ border-radius: 30px;
 .delete-cross {
     color: #adadc8;
     /* box-shadow: 0px 4px 4px 0px #00000026; */
-   
 }
 
 .social-media-action,
@@ -691,40 +690,31 @@ border-radius: 30px;
     display: none;
 }
 
-@media not all and (min-resolution:.001dpcm)
-{ @supports (-webkit-appearance:none) {
-    .btn-delete {
-    height: 40px;
-   
-   
-
-       
+@media not all and (min-resolution: 0.001dpcm) {
+    @supports (-webkit-appearance: none) {
+        .btn-delete {
+            height: 40px;
+        }
+        .delete-cross {
+            position: relative;
+            top: 0px;
+            left: -8px !important;
+        }
     }
-    .delete-cross{
-        position: relative;
-        top: 0px;
-        left: -8px !important;
-  
-    }
-
-}}
-
+}
 
 @media (max-width: 767.98px) {
-
-.div-delete-reword {
-    height: 52px;
-    display: flex;
-    align-items: flex-center;
-    position: absolute;
-    top: -5em;
-    right: 0;
-}
-.margin-bottom {
-    margin-bottom: 40px !important ;
-}
-
-
+    .div-delete-reword {
+        height: 52px;
+        display: flex;
+        align-items: flex-center;
+        position: absolute;
+        top: -5em;
+        right: 0;
+    }
+    .margin-bottom {
+        margin-bottom: 40px !important;
+    }
     /* .div-network-name {
         display: flex;
         flex-direction: row-reverse;
@@ -739,8 +729,6 @@ border-radius: 30px;
     .height-span-followers {
         height: 48px;
     }
-
-
     .price-row {
         display: none;
         justify-content: space-between;
