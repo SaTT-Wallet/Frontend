@@ -128,7 +128,6 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   linstingCrypto(event: any) {
-    debugger
     this.selectedCryptoDetails = event;
     this.receiveform
       .get('currency')
@@ -315,7 +314,6 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
   //receive crypto
 
   receiveMoney() {
-    debugger
     if (this.receiveform.valid) {
       this.loadingButton = true;
       const wallet = this.tokenStorageService.getIdWallet();

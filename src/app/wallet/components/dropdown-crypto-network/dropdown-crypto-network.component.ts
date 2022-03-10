@@ -66,6 +66,7 @@ export class DropdownCryptoNetworkComponent
       .pipe(takeUntil(this.onDestoy$))
       .subscribe((p: any) => {
         if (p.id) {
+          this.firstEmit = true;
           this.isCryptoRouter = true;
           this.cryptoPicName = p.id;
           this.cryptoSymbol = p.id;
@@ -88,7 +89,6 @@ export class DropdownCryptoNetworkComponent
   }
   //get list of crypto for user
   getusercrypto() {
-    debugger
     this.cryptoList$
       .pipe(
         filter((data) => data.length !== 0),
@@ -119,7 +119,6 @@ export class DropdownCryptoNetworkComponent
           }
           /**------ */
           crypto.price = this.filterAmount(crypto.price + '');
-
           crypto.quantity = this.filterAmount(crypto.quantity + '');
           crypto.type =
             crypto.network ?? ListTokens[crypto.symbol].type.toUpperCase();
@@ -238,6 +237,7 @@ export class DropdownCryptoNetworkComponent
   }
 
   selectNetworkValue(network: string) {
+    this.firstEmit = true ;
     if (this.isCryptoRouter) {
       this.isCryptoRouter = false;
       this.router.navigate([], { queryParams: [] });
