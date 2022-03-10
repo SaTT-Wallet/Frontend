@@ -247,13 +247,13 @@ export class ParticiperComponent implements OnInit {
     this.showButtonSend = false;
     let myApplication: any = {};
 
-    const media = this.sendform.get('url')?.value;
+    const media = this.sendform.get('url')?.value || '';
     if (
-      media.indexOf('https://www.facebook.com/') !== -1 &&
-      media.indexOf('posts') !== -1
+      media?.indexOf('https://www.facebook.com/') !== -1 &&
+      media?.indexOf('posts') !== -1
     ) {
       this.validUrl = true;
-      let parts = media.split('/');
+      let parts = media?.split('/');
       if (parts[3] !== '' && parts[5] !== '') {
         myApplication.idUser = parts[3].replace(pattLinks, '');
         this.userfaceook = myApplication.idUser;
