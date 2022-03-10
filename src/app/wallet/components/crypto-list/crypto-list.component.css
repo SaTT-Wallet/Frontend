@@ -4491,16 +4491,20 @@ color: white}
     /* width: 80%; */
     margin-bottom: 1rem;
     padding-left: 45px;
-    font-weight: 400 ;
-    line-height: 120%;
-    font-size: 16px;
-    letter-spacing: 0.03em;
-    color: #75758F;
+ 
     height: 46px;
     border: 1px solid #d6d6e8;
     border-radius: 30px;
     /* margin-left: 2%; */
     text-overflow: ellipsis;
+}
+
+#key::placeholder {
+       font-weight: 400 ;
+    line-height: 120%;
+    font-size: 16px;
+    letter-spacing: 0.03em;
+    color: #75758F;
 }
 
 .cryptoRowContainerMobile {
@@ -4656,6 +4660,9 @@ hr {
     width: 33px;
     position: relative;
 }
+
+
+
 
 .search-input-wrapper {
     width: 75%;
@@ -4899,6 +4906,12 @@ hr {
     }
     .span_btn_back {
         display: none;
+    }
+    .search-input-wrapper {
+        width: 90%;
+        justify-content: flex-end;
+        gap: 0.5em;
+        align-items: flex-start;
     }
     /* .white-block-desktop {
         margin-top: 62px;
