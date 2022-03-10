@@ -356,19 +356,14 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       currency = this.sendform.get('currency')?.value;
 
       let address = this.tokenStorageService.getIdWallet();
-      if (to === address) {
-        // this.ownaddress = true;
-        // this.loadingButton = false;
-        // setTimeout(() => {
-        //   this.ownaddress = false;
-        //   this.loadingButton = false;
-        // }, 5000);
-        this.ownaddress = true;
-        this.loadingButton = false;
-        setTimeout(() => {
-          this.ownaddress = false;
-        }, 5000);
-      } else {
+      // if (to === address) {
+    
+      //   this.ownaddress = true;
+      //   this.loadingButton = false;
+      //   setTimeout(() => {
+      //     this.ownaddress = false;
+      //   }, 5000);
+      // } else {
         // if (this.selectedCryptoSend) {
         //   currency = this.selectedCryptoSend;
         // } else {
@@ -482,7 +477,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               this.loadingButton = false;
             }
           );
-      }
+      // }
     }
   }
   onClickAmount(): void {
