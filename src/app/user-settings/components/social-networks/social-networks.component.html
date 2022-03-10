@@ -1,4 +1,4 @@
-<div class="container-fluid page-content">
+<div class="container-fluid page-content" *ngIf="!showSpinner">
   <div class="show-mobile">
     <div class="col-md-12 col-lg-12 col-xs-12 mb-3 px-0">
       <button type="button" class="btn-back" [routerLink]="['/home/settings/']">
@@ -878,13 +878,7 @@
           </p>
         </div>
         <div
-          class="
-            d-flex
-            flex-column
-            justify-content-center
-            align-items-center
-            mt-2
-          "
+          class="d-flex flex-column justify-content-center align-items-center mt-2"
         >
           <div class="d-flex align-items-center">
             <button
