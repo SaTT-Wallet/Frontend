@@ -6,7 +6,7 @@
 
 .center-content {
     width: 100%;
-    height: calc(100vh - 63px); 
+    height: calc(100vh - 63px);
     /* height: calc(100vh - 82px); */
     overflow-y: auto;
     overflow-x: hidden;
@@ -24,7 +24,13 @@
     overflow-x: hidden !important;
     scrollbar-width: none !important;
     ms-overflow-style: none !important;
-} 
+}
+}
+@media (max-width: 280px) {
+  .center-content{
+    transform: scaleX(0.9);
+    margin-left: -1rem;
+  }
 }
 .sidenav {
     height: 100%;

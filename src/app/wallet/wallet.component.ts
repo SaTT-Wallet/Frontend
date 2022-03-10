@@ -52,6 +52,7 @@ import { forkJoin, of, Subject } from 'rxjs';
 declare var $: any;
 declare var background_1: any;
 
+
 @Component({
   selector: 'app-wallet',
   templateUrl: './wallet.component.html',
@@ -659,8 +660,8 @@ export class WalletComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit(): void {
-    this.walletFacade.getTotalBalance();
 
+    this.walletFacade.getTotalBalance();
     if (!this.walletFacade.totalBalance$) {
       this.walletFacade.getTotalBalance();
     }
