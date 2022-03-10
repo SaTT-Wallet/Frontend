@@ -8,8 +8,10 @@
   display: block;
   overflow: hidden;
   position: relative;
-  -ms-overflow-style: none; /* for Internet Explorer, Edge */
-  scrollbar-width: none; /* for Firefox */
+  -ms-overflow-style: none;
+  /* for Internet Explorer, Edge */
+  scrollbar-width: none;
+  /* for Firefox */
 }
 
 *:focus {
@@ -22,8 +24,8 @@
 
 .white-bloc {
   width: 100%;
-  padding: 120px 1em 1em;
-  // margin-top: 80px;
+  // padding: 120px 1em 1em;
+  padding-top: 120px;
   background: white;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
@@ -34,8 +36,10 @@
   margin-left: 0;
   // height: calc(100vh - 63px);
 }
+
 .div-content {
   max-width: 727px;
+  margin: 10px auto;
 }
 
 @media (min-width: 767.98px) {
@@ -146,6 +150,7 @@
   margin: 0 auto;
   justify-content: space-between;
 }
+
 .buy-swap-btn:focus {
   box-shadow: 0px 2px 6px rgb(0 0 0 / 25%);
 }
@@ -690,11 +695,14 @@ button:focus {
   }
   :host {
     overflow-y: auto;
-    -ms-overflow-style: none; /* for Internet Explorer, Edge */
-    scrollbar-width: none; /* for Firefox */
+    -ms-overflow-style: none;
+    /* for Internet Explorer, Edge */
+    scrollbar-width: none;
+    /* for Firefox */
   }
   :host::-webkit-scrollbar {
-    display: none; /* for Chrome, Safari, and Opera */
+    display: none;
+    /* for Chrome, Safari, and Opera */
   }
 }
 

@@ -9,7 +9,8 @@
 .div-content {
   max-width: 727px;
   background-color: #ffffff;
-  margin: 0 auto;
+  // margin: 0 auto;
+  margin: 10px auto;
 }
 
 .balance {
@@ -98,6 +99,7 @@
   color: #00041b !important;
   opacity: 1 !important;
 }
+
 @supports (-moz-appearance: none) {
   .input-email::placeholder {
     color: #adadc8 !important;
@@ -395,6 +397,7 @@ input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px white inset !important;
   height: 100%;
 }
+
 @media (max-width: 1400px) {
   :host {
     overflow-y: auto !important;
