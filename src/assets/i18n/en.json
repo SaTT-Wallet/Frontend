@@ -3280,6 +3280,7 @@
   "channel_required": "Youtube channel is required",
   "page_required": "Page is required",
   "account_linked_other_account": "Account already linked !",
+  "page-already-exists": "Page already exists",
   "deconnect_successfully": "Deconnection successfully",
   "trans.du": "From",
   "trans.au": "To",

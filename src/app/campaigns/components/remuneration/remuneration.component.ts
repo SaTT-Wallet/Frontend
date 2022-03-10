@@ -393,7 +393,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         }),
         debounceTime(500),
         tap((values: any) => {
-          if (this.form) {
+          if (this.form.valid) {
             this.cryptoToDropdown = this.dataList.filter(
               (crypto) => crypto.symbol === this.draftData.currency.name
             );
@@ -434,7 +434,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
               this.sendErrorToMission = false;
             }
           }
-          if (this.draftData.id ) {
+          if (this.draftData.id) {
             this.validFormMissionFromRemuToEdit.emit(true);
             this.sendErrorToMission = false;
             this.service.autoSaveFormOnValueChanges({
@@ -475,6 +475,11 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       if (this.isSelectedLinkedin) {
         this.toggleOracle('linkedin', true);
       }
+    } else {
+      this.selectRemunerateValue = type;
+      this.f.remuneration.setValue(type);
+      // this.ratios.clear();
+      // this.bounties.clear();
     }
   }
   // ngAfterViewInit() {
@@ -1166,7 +1171,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
           crypto.total_balance = parseFloat(crypto.total_balance + '');
           crypto.total_balance = crypto?.total_balance?.toFixed(2);
           this.form.get('initialBudget')?.setValue(quantity),
-
             this.form.get('initialBudgetInUSD')?.setValue(crypto.total_balance);
 
           this.gazproblem = false;

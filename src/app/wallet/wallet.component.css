@@ -1780,6 +1780,26 @@ table>th {
     }
 }
 
+@media (max-width: 280px)  {
+
+  .showMobile{
+    position: relative;
+    z-index: 30;
+  }
+
+  .walletTotal{
+    font-size: 19px;
+  }
+  .walletEstim{
+    margin-left: -2rem
+  }
+  .scroll-page{
+    margin-top: 9rem;
+  }
+
+
+}
+
 .showMobile {
     display: block;
 }
