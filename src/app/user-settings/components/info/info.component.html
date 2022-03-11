@@ -202,13 +202,19 @@
                     class="type-input"
                     [(ngModel)]="user.birthday"
                   /> -->
-                  <input
-                    class="form-field"
-                    type="date"
-                    formControlName="birthday"
-                    [(ngModel)]="user.birthday"
-                    (change)="checkDate()"
-                  />
+                  <span class="position-relative">
+                    <input
+                      class="form-field"
+                      type="date"
+                      formControlName="birthday"
+                      [(ngModel)]="user.birthday"
+                      (change)="checkDate()"
+                    />
+                    <img
+                      src="/assets/Images/calendar.svg"
+                      class="calendar-mobile position-absolute"
+                    />
+                  </span>
 
                   <!--<mat-form-field class="form-field" appearance="fill">
                     <input
@@ -514,7 +520,7 @@
                           formControlName="code"
                           class="email_change"
                           ngModel
-                          
+
                         /> -->
 
                           <!-- <code-input class="codeinput"
