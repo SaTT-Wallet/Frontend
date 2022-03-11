@@ -41,7 +41,7 @@
         </div>
         <div class="text-center balance">
           <p class="hard-gray-text">
-            1 {{ this.selectedCryptoDetails.symbol || 'SATT' }} =
+            1 {{ this.selectedCryptoDetails.symbol | translate }} =
             {{ this.selectedCryptoDetails.price || this.sattPrices }} USD
           </p>
         </div>
@@ -122,7 +122,7 @@
           <button
             type="submit"
             (click)="showNextBloc()"
-            class="green-btn"
+            class="green-btn mb-2"
             [disabled]="
               this.receiveform.get('contact')?.errors?.required ||
               this.receiveform.controls.contact.errors?.pattern ||
@@ -155,7 +155,7 @@
           </h3>
           <h3 class="hard-gray">
             ≈ {{ this.receiveform.value.Amount || 0 }}
-            {{ this.selectedCryptoDetails.symbol }}
+            {{ this.selectedCryptoDetails.symbol |translate }}
           </h3>
         </div>
         <div class="">
@@ -205,7 +205,7 @@
         <button type="submit" class="green-btn" (click)="makeNewRequest()">
           {{ 'make-a-new-request' | translate }}
         </button>
-        <button type="submit" class="white-btn" [routerLink]="['/wallet']">
+        <button type="submit" class="white-btn mb-3" [routerLink]="['/wallet']">
           {{ 'send.return_to_portfolio' | translate }}
         </button>
       </div>

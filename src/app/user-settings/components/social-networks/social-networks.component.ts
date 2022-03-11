@@ -4,14 +4,7 @@ import { sattUrl } from '@app/config/atn.config';
 
 import { ProfileService } from '@core/services/profile/profile.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {
-  filter,
-  map,
-  mergeMap,
-  switchMap,
-  takeUntil,
-  tap
-} from 'rxjs/operators';
+import { filter, map, mergeMap, takeUntil } from 'rxjs/operators';
 import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-facade/socialAcounts-facade.service';
 import { Subject } from 'rxjs';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
@@ -64,7 +57,7 @@ export class SocialNetworksComponent implements OnInit {
   percentSocial: any;
   private isDestroyed = new Subject();
   userId = this.tokenStorageService.getIdUser();
-
+  showSpinner: boolean = true;
   private socialAccount$ = this.socialAccountFacadeService.socialAccount$;
   constructor(
     private profile: ProfileService,
@@ -102,6 +95,7 @@ export class SocialNetworksComponent implements OnInit {
   }
 
   getSocialNetwork(): void {
+    this.showSpinner = true;
     this.socialAccount$
       .pipe(
         filter((res) => res !== null),
@@ -165,6 +159,7 @@ export class SocialNetworksComponent implements OnInit {
             }
             let stat = (count * 100) / 4;
             this.percentSocial = stat.toFixed(0);
+            this.showSpinner = false;
           }
         }
       );
@@ -208,6 +203,14 @@ export class SocialNetworksComponent implements OnInit {
         this.errorMessage = 'Your facebook page ';
         setTimeout(() => {
           this.errorMessage = 'account_linked_other_account';
+          this.router.navigate(['/home/settings/social-networks']);
+        }, 6000);
+      } else if (p.message === 'page already exists') {
+        //page%20already%20exists
+        this.errorMessage = 'page-already-exists';
+        setTimeout(() => {
+          // this.ngOnInit();
+          this.errorMessage = '';
           this.router.navigate(['/home/settings/social-networks']);
         }, 6000);
       }
@@ -386,7 +389,7 @@ export class SocialNetworksComponent implements OnInit {
         takeUntil(this.isDestroyed)
       )
 
-      .subscribe((data: any) => {
+      .subscribe(() => {
         this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
       });
   }
@@ -413,7 +416,7 @@ export class SocialNetworksComponent implements OnInit {
         }),
         takeUntil(this.isDestroyed)
       )
-      .subscribe((data: any) => {
+      .subscribe(() => {
         this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
       });
   }
@@ -440,7 +443,7 @@ export class SocialNetworksComponent implements OnInit {
         }),
         takeUntil(this.isDestroyed)
       )
-      .subscribe((data: any) => {
+      .subscribe(() => {
         this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
       });
   }
@@ -468,7 +471,7 @@ export class SocialNetworksComponent implements OnInit {
         takeUntil(this.isDestroyed)
       )
 
-      .subscribe((data: any) => {
+      .subscribe(() => {
         this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
       });
   }

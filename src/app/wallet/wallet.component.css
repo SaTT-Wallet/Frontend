@@ -916,14 +916,16 @@ textarea::placeholder {
     }
     .walletTotal {
         font-style: normal;
-        font-weight: bold;
-        font-size: 26px;
-        line-height: 110%;
+        font-weight: 700;
+        font-size: 36px;
+        line-height: 50px;
         color: #ffffff;
         align-items: center;
         text-align: center;
         position: relative;
-        top: 23px;
+        top: 10px;
+        font-family: 'Poppins';
+        letter-spacing: 1px;
     }
     .indicatorfont {
         font-size: 14px;
@@ -1776,6 +1778,26 @@ table>th {
         display: block !important;
         margin-top: 219px;
     }
+}
+
+@media (max-width: 280px)  {
+
+  .showMobile{
+    position: relative;
+    z-index: 30;
+  }
+
+  .walletTotal{
+    font-size: 19px;
+  }
+  .walletEstim{
+    margin-left: -2rem
+  }
+  .scroll-page{
+    margin-top: 9rem;
+  }
+
+
 }
 
 .showMobile {

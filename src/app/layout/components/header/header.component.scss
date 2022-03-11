@@ -57,8 +57,24 @@
     margin-left: -31px !important;
     margin-top: -24px; */
   height: 48px;
-  margin-left: -16px !important;
-  margin-top: -8px !important;
+  margin-left: -8px;
+  margin-top: -8px t;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .anim-gif-mobile {
+    height: 48px;
+    margin-left: -8px !important;
+    margin-top: -8px !important;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .anim-gif-mobile {
+    height: 48px;
+    margin-left: -16px !important;
+    margin-top: -8px !important;
+  }
 }
 
 .flex-start {
@@ -198,6 +214,9 @@
 
 .gazIndicator_tablet {
   padding: 3px 8px !important;
+}
+
+@media (max-width: 767.98px) {
 }
 
 a.click-to-top span {
@@ -502,8 +521,8 @@ ul.dropdown-menu.notif_drop_main.show {
 }
 
 @media (max-height: 850px) {
-  .sidebarMoreMobile{
-    display: none!important;
+  .sidebarMoreMobile {
+    display: none !important;
   }
   ul.dropdown-menu.notif_drop_main.show {
     /*
@@ -894,6 +913,10 @@ a {
 .gazLink {
   border-radius: 30px;
   background-color: #323754;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  -ms-border-radius: 30px;
+  -o-border-radius: 30px;
 }
 
 .notifLink {

@@ -23,7 +23,7 @@ import { pattPassword } from '@config/atn.config';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { AuthStoreService } from '@core/services/Auth/auth-store.service';
 import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-facade.service';
-import { filter, mergeMap, takeUntil, tap } from 'rxjs/operators';
+import { filter, mergeMap, takeUntil } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
@@ -589,15 +589,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
     this.formCode.get('is2FA')?.setValue(TWO_FA);
     this.profileSettingsFacade
       .updateProfile(update)
-      .pipe(
-        tap((res: any) => {
-          //   this.accountFacadeService.dispatchUserAccount();
-          this.authStoreService.setAccount({
-            ...res.updatedProfile
-          });
-        }),
-        takeUntil(this.onDestroy$)
-      )
+      .pipe(takeUntil(this.onDestroy$))
       .subscribe((data: any) => {
         if (data.success === 'updated' && isPlatformBrowser(this.platformId)) {
           this.accountFacadeService.dispatchUpdatedAccount();

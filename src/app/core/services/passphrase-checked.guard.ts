@@ -1,13 +1,8 @@
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  RouterStateSnapshot,
-  UrlTree
-} from '@angular/router';
+import { CanActivate, Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
+import { AccountFacadeService } from '../facades/account-facade/account-facade.service';
 import { AuthStoreService } from './Auth/auth-store.service';
 
 @Injectable({
@@ -16,28 +11,27 @@ import { AuthStoreService } from './Auth/auth-store.service';
 export class PassphraseCheckedGuard implements CanActivate {
   constructor(
     private authStoreService: AuthStoreService,
-    private router: Router
+    private router: Router,
+    private accountFacadeService: AccountFacadeService
   ) {}
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ):
+  canActivate():
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.authStoreService.getAccount().pipe(
-      switchMap(() =>
-        this.authStoreService.account$.pipe(
-          map((account: any) => {
-            if (!account.error && account.visitPassphrase === undefined) {
-              return this.router.parseUrl('/social-registration/pass-phrase');
-            } else {
-              return true;
-            }
-          })
-        )
-      )
+    return this.accountFacadeService.account$.pipe(
+      filter((res) => res !== null),
+      map((account: any) => {
+        if (
+          account.visitPassphrase === undefined ||
+          account.visitPassphrase === false ||
+          account.visitPassphrase === ''
+        ) {
+          return this.router.parseUrl('/social-registration/pass-phrase');
+        } else {
+          return true;
+        }
+      })
     );
   }
 }

@@ -2726,6 +2726,7 @@
   "channel_required": "Chaine youtube est obligatoire",
   "page_required": "Page est obligatoire",
   "account_linked_other_account": "Comptes déjà liés à un autre compte",
+  "page-already-exists": "Page existe déjà",
   "deconnect_successfully": "Déconnexion réussie ",
   "trans.du": "Du",
   "detail_gains_reject": "Rejeté ",
