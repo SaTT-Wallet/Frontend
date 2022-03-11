@@ -121,50 +121,50 @@ export class BuyTokenComponent implements OnInit {
 
   ngOnInit(): void {
     this.routerSub = this.route.queryParams
-      .pipe(takeUntil(this.isDestroyed))
-      .subscribe((p: any) => {
-        if (p.id) {
-          this.isCryptoRouter = true;
-          this.requestedCrypto = p.id;
-          /*  if (p.id === 'SATT') {
-          if (p.network === 'SATTERC20') {
-            this.requestedCrypto = 'SATT-ERC20';
-          } else if (p.network === 'SATTBEP20') {
-            this.requestedCrypto = 'SATT-SC';
-          } else {
-            this.requestedCrypto = 'SATT-SC';
-          }
-        } else {
-          this.requestedCrypto = p.id;
-        }*/
+    .pipe(takeUntil(this.isDestroyed))
+    .subscribe((p: any) => {
+     
 
-          if (p.id === 'SATT-SC') {
-            this.fiatLogo = 'SATTBEP20.svg';
-          } else if (p.id === 'SATT-ERC20') {
-            this.fiatLogo = 'SATT2.svg';
-          } else {
-            this.fiatLogo = p.id + '.svg';
-          }
-        } else if (p.amount) {
-          if (p.crypto === 'SATT-SC') {
-            this.fiatLogo = 'SATTBEP20.svg';
-          } else if (p.crypto === 'SATT-ERC20') {
-            this.fiatLogo = 'SATT2.svg';
-          } else {
-            this.fiatLogo = p.crypto + '.svg';
-          }
-          this.isCryptoRouter = true;
-          this.amount = p.amount;
-          this.selectedCurrencyValue = p.currency;
-          this.fiatCurrency = p.currency;
-          // this.fiatLogo = p.crypto + '.svg';
-          this.requestedCrypto = p.crypto;
-          this.cryptoAmount = p.cryptoAmount;
-          this.quoteId = p.quote_id;
-          this.selectedtLogo = p.symbol;
-          this.wallet_id = p.wallet;
+    
+
+      if (p.id) {
+        this.selectedCurrencyType = p.currency;
+        this.isCryptoRouter = true;
+        this.requestedCrypto = p.id;
+       
+
+        if (p.id === 'SATT-SC') {
+          this.fiatLogo = 'SATTBEP20.svg';
+        } else if (p.id === 'SATT-ERC20') {
+          this.fiatLogo = 'SATT2.svg';
+        } else {
+          this.fiatLogo = p.id + '.svg';
         }
-      });
+      } else if (p.amount) {
+        if (p.crypto === 'SATT-SC') {
+          this.fiatLogo = 'SATTBEP20.svg';
+        } else if (p.crypto === 'SATT-ERC20') {
+          this.fiatLogo = 'SATT2.svg';
+        }
+      
+        
+        else {
+          this.fiatLogo = p.crypto + '.svg';
+        }
+        this.isCryptoRouter = true;
+        this.amount = p.amount;
+        this.selectedCurrencyValue = p.currency;
+        this.fiatCurrency = p.currency;
+        // this.fiatLogo = p.crypto + '.svg';
+        this.requestedCrypto = p.crypto;
+
+       
+        this.cryptoAmount = p.cryptoAmount;
+        this.quoteId = p.quote_id;
+        this.selectedtLogo = p.symbol;
+        this.wallet_id = p.wallet;
+      }
+    });
     if (this.tokenStorageService.getToken()) {
       this.isConnected = true;
     } else {
@@ -191,6 +191,38 @@ export class BuyTokenComponent implements OnInit {
     this.listenToPressKeyOnCurrencySelect();
     this.toggleCurrencyType(ECurrencyType.FIAT);
     this.toggleNetwork(EBlockchainNetwork.BEP20);
+
+    this.routerSub = this.route.queryParams
+    .pipe(takeUntil(this.isDestroyed))
+    .subscribe((p: any) => {
+      if (p.amount) {
+        if (p.crypto === 'SATT-SC') {
+          this.fiatLogo = 'SATTBEP20.svg';
+        } else if (p.crypto === 'SATT-ERC20') {
+          this.fiatLogo = 'SATT2.svg';
+        }
+      
+        
+        else {
+          this.fiatLogo = p.crypto + '.svg';
+        }
+        this.isCryptoRouter = true;
+        this.amount = p.amount;
+        this.selectedCurrencyValue = p.currency;
+        this.fiatCurrency = p.currency;
+        // this.fiatLogo = p.crypto + '.svg';
+        this.requestedCrypto = p.crypto;
+
+       
+        this.cryptoAmount = p.cryptoAmount;
+        this.quoteId = p.quote_id;
+        this.selectedtLogo = p.symbol;
+        this.wallet_id = p.wallet;
+      }
+
+     });
+
+
   }
 
   toggleNetwork(network: EBlockchainNetwork) {

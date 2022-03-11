@@ -294,19 +294,22 @@ export class DropdownCryptoNetworkComponent
     if (changes.cryptoFromComponent) {
       if (this.cryptoFromComponent) {
         this.isCryptoRouter = false;
-        this.cryptoSymbol = this.cryptoFromComponent[0].symbol;
-        this.selectedNetworkValue = this.cryptoFromComponent[0].network;
-        if (this.cryptoFromComponent[0].AddedToken) {
+        this.cryptoSymbol = this.cryptoFromComponent.symbol;
+        this.selectedNetworkValue = this.cryptoFromComponent.network;
+        if (this.cryptoFromComponent.AddedToken) {
+
           this.isAddedToken = true;
-          this.token = this.cryptoFromComponent[0].AddedToken;
-          this.cryptoPicName = this.cryptoFromComponent[0].picUrl;
+          this.token = this.cryptoFromComponent.AddedToken;
+          this.cryptoPicName = this.cryptoFromComponent.picUrl;
         } else {
+
           this.token = '';
           this.isAddedToken = false;
-          this.cryptoPicName = this.cryptoFromComponent[0].undername2;
+          this.cryptoPicName = this.cryptoFromComponent.undername2;
         }
-        this.cryptoSymbol = this.cryptoFromComponent[0].symbol;
-        this.selectedNetworkValue = this.cryptoFromComponent[0].network;
+
+        this.cryptoSymbol = this.cryptoFromComponent.symbol;
+        this.selectedNetworkValue = this.cryptoFromComponent.network;
         this.cdref.detectChanges();
       }
     }

@@ -617,3 +617,15 @@ img.not-found {
         padding-right: 20px;
     }
 }
+
+.green-link {
+    border-style: solid;
+    border-color: #00cc9e;
+    border-radius: 33px;
+    -webkit-border-radius: 33px;
+    -moz-border-radius: 33px;
+    -ms-border-radius: 33px;
+    -o-border-radius: 33px;
+    padding: 0;
+    height: max-content;
+}
