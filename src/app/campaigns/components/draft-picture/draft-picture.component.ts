@@ -263,6 +263,8 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
         if (data.result.length < 2000000) {
           this.sizeErrorLogo = false;
           this.formUploadPic.get('file')?.setValue(data);
+          this.isConformLogo = true;
+
         } else {
           this.closeModal(this.pictureModal);
           this.sizeErrorLogo = true;
