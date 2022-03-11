@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { sattUrl } from '@config/atn.config';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { TokenStorageService } from '../tokenStorage/token-storage-service.service';
 import { IresponseAccount } from '@app/core/iresponse-account';
@@ -12,11 +12,17 @@ import { IresponseCode } from '@app/core/iresponse-code-qr';
   providedIn: 'root'
 })
 export class AuthService {
+  private isAuthenticatedSubject = new BehaviorSubject(false);
+  readonly isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
   constructor(
     private http: HttpClient,
     private router: Router,
     private tokenStorageService: TokenStorageService
   ) {}
+
+  setIsAuthenticated(isAuth: boolean) {
+    this.isAuthenticatedSubject.next(isAuth);
+  }
 
   resetPassword(email: any): Observable<any> {
     return this.http.post(

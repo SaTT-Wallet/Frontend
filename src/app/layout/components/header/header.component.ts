@@ -77,6 +77,7 @@ import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-fac
 import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-facade/socialAcounts-facade.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Big } from 'big.js';
+import { AuthService } from '@app/core/services/Auth/auth.service';
 const bscan = env.bscanaddr;
 const etherscan = env.etherscanaddr;
 @Component({
@@ -187,6 +188,7 @@ export class HeaderComponent implements OnInit {
     private socialAccountFacadeService: SocialAccountFacadeService,
     private activatedRoute: ActivatedRoute,
     private authStoreService: AuthStoreService,
+    private authService: AuthService,
 
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string
@@ -335,6 +337,10 @@ export class HeaderComponent implements OnInit {
     this.generateCodeERCDes();
     this.generateCodeFunction();
     this.generateCodeERC();
+
+    this.authService.isAuthenticated$.subscribe((isAuth: boolean) => {
+      this.isConnected = isAuth;
+    });
   }
   // ngOnChanges() {
   //   if (
@@ -464,7 +470,8 @@ export class HeaderComponent implements OnInit {
     this.campaignsListStore.clearStore();
     this.profileSettingsFacade.clearProfilePicStore();
     this.authStoreService.clearStore();
-    this.isConnected = false;
+    this.authService.setIsAuthenticated(false);
+
     this.router.navigate(['/welcome']);
   }
 
