@@ -116,6 +116,7 @@ export class CampaignDetailComponent implements OnInit {
   histEarning = false;
   private history: string[] = [];
   showmoonboy = true;
+  private isErnings = false;
 
   constructor(
     public router: Router,
@@ -153,6 +154,14 @@ export class CampaignDetailComponent implements OnInit {
         .pipe(takeUntil(this.isDestroyed))
         .subscribe((event) => {
           if (event instanceof NavigationEnd) {
+            if(event.url.includes('earnings')){
+              this.isErnings = true;
+              this.showmoonboy = false;
+            } else {
+              if(!event.url.includes('earnings')){
+                this.showmoonboy = true;
+              }
+            }
             this.history.push(event.urlAfterRedirects);
             if (
               this.history[this.history.length - 1] ===
@@ -166,13 +175,17 @@ export class CampaignDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.CampaignService.isLoading.subscribe((res) => {
       if (res === false) {
         setTimeout(() => {
           this.showmoonboy = false;
         }, 1000);
       } else {
-        this.showmoonboy = true;
+
+        if(!this.router.url.includes('earnings')) {
+          this.showmoonboy = true;
+        }
       }
     });
     this.campaignsHttpService.scrolling.subscribe(() => {
@@ -448,8 +461,10 @@ export class CampaignDetailComponent implements OnInit {
         //data logo image
         this.campaign = campaign;
         this.isLoading = false;
-        this.showmoonboy = true;
-
+        if(!this.isErnings){
+          debugger
+          this.showmoonboy = true;
+        }
         this.campaignBrand = campaign.brand;
 
         this.campaignProms = campaign.proms;
