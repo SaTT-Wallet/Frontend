@@ -7,6 +7,7 @@ import {
 import Big from 'big.js';
 import { WalletStoreService } from '@core/services/wallet-store.service';
 import moment from 'moment';
+import {ListTokens} from "@config/atn.config";
 
 export function checkIfEnoughBalance(service: WalletStoreService): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
@@ -182,6 +183,15 @@ export function customValidateMaxMin(): ValidatorFn {
     }
     return null;
   };
+}
+export function transformFromWei(value: string, symbol: string, digits: number = 3): string {
+  if (!value || value === "0") return '0';
+
+  let decimals = ListTokens[symbol].decimals.toString();
+  if(value==="SATTBEP20"){
+    value="SATT"
+  }
+  return new Big(value).div(decimals).round(digits).toString();
 }
 /**---------------------------------------------------------------------- */
 export function atLastOneChecked(): ValidatorFn {
