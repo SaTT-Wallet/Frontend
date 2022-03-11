@@ -24,17 +24,19 @@
 
 .white-bloc {
   width: 100%;
-  // padding: 120px 1em 1em;
+  //padding: 120px 1em 1em;
   padding-top: 120px;
   background: white;
-  border-top-left-radius: 30px;
-  border-top-right-radius: 30px;
-  // border-radius: 30px;
-  // padding: 1em;
+  //  border-radius: 30px !important ;
+  border-collapse: collapse;
+  //border-top-left-radius: 30px !important;
+  //border-top-right-radius: 30px !important;
+  //border-radius: 30px;
+  //padding: 1em;
   overflow: auto;
   overflow-x: hidden;
   margin-left: 0;
-  // height: calc(100vh - 63px);
+  //height: calc(100vh - 63px);
 }
 
 .div-content {
@@ -376,15 +378,24 @@ input:-webkit-autofill:active {
   }
   .white-bloc {
     margin-top: 65px;
-    // position: fixed;
+    //position: fixed;
     width: 100%;
     margin-left: 0;
     z-index: 100;
-    // padding: 1em;
-    // height: 100vh;
+    //border-top-left-radius: 30px !important;
+    //border-top-right-radius: 30px !important;
+    border-radius: 30px !important;
+    overflow: hidden !important;
+    //padding: 1em;
+    //height: 100vh;
     padding-top: 1em;
-    // height: calc(100vh - 141px);
-    // margin-bottom: 42px;
+    position: relative;
+    //height: calc(100vh - 141px);
+    //margin-bottom: 42px;
+    -webkit-border-radius: 30px !important;
+    -moz-border-radius: 30px !important;
+    -ms-border-radius: 30px !important;
+    -o-border-radius: 30px !important;
   }
   .input-amount-usd {
     font-size: 24px;

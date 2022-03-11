@@ -41,6 +41,7 @@ import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { ESocialMediaType } from '@app/core/enums';
 import { DOCUMENT } from '@angular/common';
 import { CampaignsStoreService } from '@app/campaigns/services/campaigns-store.service';
+import {TokenStorageService} from "@core/services/tokenStorage/token-storage-service.service";
 
 enum FormStatus {
   Saving = 'saving',
@@ -120,7 +121,8 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
     private walletFacade: WalletFacadeService,
     @Inject(DOCUMENT) private document: Document,
     private campaignsHttpService: CampaignHttpApiService,
-    private campaignsStore: CampaignsStoreService
+    private campaignsStore: CampaignsStoreService,
+    private localeStorageService: TokenStorageService
   ) {
     this.passForm = new FormGroup(
       {
@@ -348,7 +350,13 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
     this.campaignService
       .getOneById(this.draftId)
       .pipe(
-        map((c) => new Campaign(c)),
+        map((c) => {
+          const campaign = new Campaign(c)
+          campaign.ownedByUser =
+            Number(campaign.ownerId) ===
+            Number(this.localeStorageService.getIdUser());
+          return campaign;
+        }),
         takeUntil(this.isDestroyed$)
       )
       .subscribe((c: Campaign) => (this.campaignData = c));

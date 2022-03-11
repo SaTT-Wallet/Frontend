@@ -41,7 +41,7 @@
         </div>
         <div class="text-center balance">
           <p class="hard-gray-text">
-            1 {{ this.selectedCryptoDetails.symbol || 'SATT' }} =
+            1 {{ this.selectedCryptoDetails.symbol | translate }} =
             {{ this.selectedCryptoDetails.price || this.sattPrices }} USD
           </p>
         </div>
@@ -155,7 +155,7 @@
           </h3>
           <h3 class="hard-gray">
             ≈ {{ this.receiveform.value.Amount || 0 }}
-            {{ this.selectedCryptoDetails.symbol }}
+            {{ this.selectedCryptoDetails.symbol |translate }}
           </h3>
         </div>
         <div class="">

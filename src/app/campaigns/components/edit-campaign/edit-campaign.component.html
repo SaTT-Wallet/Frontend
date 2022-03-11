@@ -104,7 +104,7 @@
         type="button"
         class="btn-blue"
         [routerLink]="['/ad-pools']"
-        [hidden]="!campaignData.isActive && campaignData.isOwnedByUser"
+        *ngIf=" campaignData.isOwnedByUser && campaignData.type === 'apply'"
       >
         Save changes
       </button>

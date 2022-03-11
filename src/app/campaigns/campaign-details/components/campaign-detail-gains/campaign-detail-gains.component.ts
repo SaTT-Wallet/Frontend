@@ -8,40 +8,18 @@ import {
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DomSanitizer } from '@angular/platform-browser';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import {
-  catchError,
-  filter,
-  map,
-  shareReplay,
-  switchMap,
-  tap,
-  toArray,
-  concatMap,
-  mapTo,
-  retry,
-  takeUntil,
-  delay
-} from 'rxjs/operators';
-import { from, Observable, of, Subject, Subscription } from 'rxjs';
-import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
+import { catchError, map, takeUntil, delay } from 'rxjs/operators';
+import { Observable, of, Subject, Subscription } from 'rxjs';
 // import { ConvertFromWei } from ""
 import { BlockchainActionsService } from '@core/services/blockchain-actions.service';
-import { ListTokens, youtubeThumbnail } from '@config/atn.config';
+import { ListTokens } from '@config/atn.config';
 import { TranslateService } from '@ngx-translate/core';
 
-import Swal from 'sweetalert2';
-import { ToastrService } from 'ngx-toastr';
 import { Campaign } from '@app/models/campaign.model';
 import { compare } from '@helpers/utils/math';
 import { EButtonActions } from '@app/core/enums';
-import { ItemsList } from '@ng-select/ng-select/lib/items-list';
-import {
-  atLastOneChecked,
-  requiredDescription
-} from '@app/helpers/form-validators';
+
 import { ConvertFromWei } from '@app/shared/pipes/wei-to-sa-tt.pipe';
 import { ConvertToWeiPipe } from '@app/shared/pipes/convert-to-wei.pipe';
 import { ParticipationListStoreService } from '@campaigns/services/participation-list-store.service';
@@ -49,7 +27,7 @@ import { Participation } from '@app/models/participation.model';
 import { Page } from '@app/models/page.model';
 import _ from 'lodash';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
-import * as moment from 'moment';
+
 import { ViewportScroller } from '@angular/common';
 import { Big } from 'big.js';
 @Component({
@@ -93,7 +71,6 @@ export class CampaignDetailGainsComponent implements OnInit {
   influencerProms: any = new Observable<any>();
   etherInWei: any;
   isGainsDisabled = new Observable<boolean>();
-  promsList: any[] = [];
   currencyName = '';
   linkHash: any;
   link: boolean = false;
@@ -116,12 +93,9 @@ export class CampaignDetailGainsComponent implements OnInit {
     public CampaignService: CampaignHttpApiService,
     private fromWeiTo: ConvertFromWei,
     private tokenStorageService: TokenStorageService,
-    private _sanitizer: DomSanitizer,
     private ref: ChangeDetectorRef,
     public translate: TranslateService,
-    private Fetchservice: CryptofetchServiceService,
     private router: Router,
-    private toastr: ToastrService,
     private blockchainActions: BlockchainActionsService,
     public modalService: NgbModal,
     private activatedRoute: ActivatedRoute,
@@ -147,7 +121,6 @@ export class CampaignDetailGainsComponent implements OnInit {
     }
     this.etherInWei = ListTokens[this.currencyName].decimals;
     this.getCampaignList();
-    //this.gettingInfluencerProms();
   }
   calcGains() {
     this.CampaignService.getAllPromsStats(this.campaign.id, this.isOwnedByUser)
@@ -211,8 +184,8 @@ export class CampaignDetailGainsComponent implements OnInit {
     this.linkHash = this.activatedRoute.snapshot.queryParamMap.get('linkHash');
     if (this.linkHash) {
       let itemFound = false;
-      this.promsList.map((item) => {
-        itemFound = this.linkHash === item.id_prom;
+      this.campaignLinks.map((item) => {
+        itemFound = this.linkHash === item.hash;
         if (itemFound) {
           this.scroller.scrollToAnchor(this.linkHash);
         }
@@ -252,156 +225,6 @@ export class CampaignDetailGainsComponent implements OnInit {
     );
   }
 
-  gettingInfluencerProms(): void {
-    if (this.isOwnedByUser === false) {
-      this.influencerProms = this.activatedRoute.params.pipe(
-        tap((params) => {}),
-        map((params) => params.id),
-        switchMap((id) =>
-          this.CampaignService.getAllPromsStats(
-            id ?? this.campaign.id,
-            this.isOwnedByUser
-          ).pipe(
-            retry(3),
-            map((data: any) => data.allProms),
-            switchMap((array: any) => from(array)),
-            filter(
-              (prom: any) =>
-                prom.appliedDate &&
-                prom.status !== 'rejected' &&
-                prom.influencer.toLowerCase() ===
-                  this.influencerWallet.toLowerCase()
-            ),
-            concatMap((prom: any) => {
-              if (this.campaign.ratios.length) {
-                return this.CampaignService.verifyGains(prom.id).pipe(
-                  map((res: any) => {
-                    if (prom.status === true) {
-                      prom.disable = res.disabled;
-                    }
-
-                    return prom;
-                  }),
-                  catchError((err) => {
-                    return of(prom);
-                  })
-                );
-              }
-              return of(prom);
-            }),
-            // concatMap((prom: any) => {
-            //   return this.CampaignService.getBestInfluencerPic(
-            //     prom.meta._id
-            //   ).pipe(
-            //     map((res: any) => {
-            //       let objectURL = URL.createObjectURL(res);
-            //       prom.pic = prom?.meta?.picLink
-            //         ? prom?.meta?.picLink
-            //         : this._sanitizer.bypassSecurityTrustUrl(objectURL);
-
-            //       return prom;
-            //     }),
-            //     catchError((err) => {
-            //       console.log(err);
-            //       return of(prom);
-            //     })
-            //   );
-            // }),
-            //  concatMap((prom:any)=>{
-            //          prom.camp=this.campaign.id
-            // this.influencerProms.forEach((element:any) => {
-            //   element.campaign =this.campaign;
-
-            // });
-
-            // return prom
-            //  }),
-            toArray(),
-            map((array: any) => {
-              if (this.campaign.ratios.length) {
-                return this.sortingPromsArray(array);
-              } else {
-                return this.sortingPromsArrayPublication(array);
-              }
-            }),
-            tap((array: any) => {
-              // this.publications = array?.length || "0";
-              this.checkingGains(array);
-              //  this.getSocialLinks(array);
-              // this.getLink();
-              this.getStatEarnings(array);
-              // this.showSpinner = false;
-            }),
-            shareReplay(1)
-          )
-        )
-      );
-    } else {
-      this.campaignService.isLoading.next(true);
-      this.influencerProms = this.activatedRoute.params.pipe(
-        tap((params) => {
-          this.showSpinner = true;
-        }),
-        map((params) => params.id),
-        switchMap((id) =>
-          this.CampaignService.getAllPromsStats(
-            id ?? this.campaign.id,
-            this.isOwnedByUser
-          ).pipe(
-            map((data: any) => data.allProms),
-            switchMap((array: any) => from(array)),
-            filter(
-              (prom: any) => prom.status !== 'rejected' && prom.appliedDate
-            ),
-            concatMap((prom: any) => {
-              if (prom.typeSN === '2') {
-                return this.CampaignService.videoDescription(prom.idPost).pipe(
-                  map((res: any) => {
-                    prom.title = res.title;
-                    return prom;
-                  }),
-                  catchError((err) => {
-                    return of(prom);
-                  })
-                );
-              }
-              return of(prom);
-            }),
-            concatMap((prom: any) => {
-              return this.CampaignService.getBestInfluencerPic(
-                prom?.meta?._id
-              ).pipe(
-                map((res: any) => {
-                  let objectURL = URL.createObjectURL(res);
-
-                  prom.pic = prom?.meta?.picLink
-                    ? prom?.meta?.picLink
-                    : this._sanitizer.bypassSecurityTrustUrl(objectURL);
-
-                  return prom;
-                }),
-                catchError((err) => {
-                  return of(prom);
-                })
-              );
-            }),
-            toArray(),
-            // map((array) => this.getSocialLinks(array)),
-            tap((array: any) => {
-              this.promsList = array;
-              this.getLink();
-              this.publications = array?.length || '0';
-              //   this.checkingGains(array);
-              this.getStatEarnings(array);
-              this.showSpinner = false;
-              this.campaignService.isLoading.next(false);
-            })
-          )
-        ),
-        shareReplay(1)
-      );
-    }
-  }
   getAge(birthday: any) {
     let timeDiff = Math.abs(Date.now() - new Date(birthday).getTime());
     let age: number = Math.floor(timeDiff / (1000 * 3600 * 24) / 365.25);
@@ -442,7 +265,7 @@ export class CampaignDetailGainsComponent implements OnInit {
 
   checkingGains(array: any): void {
     if (array?.length) {
-      array.forEach((item: any, index: any) => {
+      array.forEach((item: any) => {
         if (
           item.totalToEarn &&
           item.payedAmount &&
@@ -513,7 +336,7 @@ export class CampaignDetailGainsComponent implements OnInit {
           map((crypto: any) =>
             (crypto[this.currencyName].price * this.sumearning).toFixed(2)
           ),
-          catchError((err) => {
+          catchError(() => {
             return of(null);
           })
         );
@@ -525,7 +348,7 @@ export class CampaignDetailGainsComponent implements OnInit {
           map((crypto: any) =>
             (crypto[this.currencyName].price * gainsTotalSatt).toFixed(2)
           ),
-          catchError((err) => {
+          catchError(() => {
             return of(null);
           })
         );
