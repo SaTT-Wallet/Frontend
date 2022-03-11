@@ -39,11 +39,11 @@ export class MonetizeTwitterAccountComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getSocialNetwork();
-    this.socialAccountsFacade.pageVisited(ESocialMediaNames.twitter);
     this.getUrlMsg();
   }
 
   skipPage() {
+    this.socialAccountsFacade.pageVisited(ESocialMediaNames.twitter);
     this.router.navigate(['social-registration/monetize-linkedin']);
   }
   skipAll() {

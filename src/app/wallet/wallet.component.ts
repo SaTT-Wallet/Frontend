@@ -41,7 +41,6 @@ import { AccountFacadeService } from '@app/core/facades/account-facade/account-f
 import { forkJoin, of, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-wallet',
   templateUrl: './wallet.component.html',
@@ -908,8 +907,10 @@ export class WalletComponent implements OnInit, OnDestroy {
               (this.showModal === true || this.user.onBoarding === true)
             ) {
               setTimeout(() => {
-                this.openModal(this.welcomeModal);
-                // this.tokenStorageService.setFillMyProfil('false');
+                if (this.tokenStorageService.getFillMyProfil() !== 'false') {
+                  this.openModal(this.welcomeModal);
+                }
+                this.tokenStorageService.setFillMyProfil('false');
               }, 3000);
               return this.profileSettingsFacade.profilePic$;
             }

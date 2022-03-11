@@ -1,25 +1,20 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
-import { ProfileService } from '@core/services/profile/profile.service';
 import { AuthService } from '../../../core/services/Auth/auth.service';
-import { arrayCountries } from '@config/atn.config';
+
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { FilesService } from '@core/services/files/files.Service';
 import { User } from '@app/models/User';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
-import { HttpClient } from '@angular/common/http';
-import Chart from 'chart.js';
-import { AuthStoreService } from '@core/services/Auth/auth-store.service';
 import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-facade.service';
 import { CampaignsStoreService } from '@app/campaigns/services/campaigns-store.service';
 import { CampaignsListStoreService } from '@app/campaigns/services/campaigns-list-store.service';
 import { ParticipationListStoreService } from '@campaigns/services/participation-list-store.service';
 import { filter, takeUntil } from 'rxjs/operators';
-import { pipe, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-facade/socialAcounts-facade.service';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
@@ -75,7 +70,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private campaignsListStore: CampaignsListStoreService,
     private tokenStorageService: TokenStorageService,
     private socialAccountFacadeService: SocialAccountFacadeService,
-    private walletFacade: WalletFacadeService
+    private walletFacade: WalletFacadeService,
+    private authService: AuthService
   ) {
     this.formProfile = new FormGroup({
       firstName: new FormControl(null, Validators.required),
@@ -122,6 +118,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     //     }
     // });
   }
+
+  //TODO: add signout function to facade service
   signOut() {
     this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
     this.ParticipationListStoreService.clearDataFarming();
@@ -131,7 +129,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.accountFacadeService.dispatchLogoutAccount(); //clear account user
     this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
     //window.location.assign("https://satt.atayen.us/#/")
-    this.router.navigate(['/auth/login']);
+    this.authService.setIsAuthenticated(false);
+    this.router.navigate(['/welcome']);
   }
 
   openModal(content: any) {
@@ -209,7 +208,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
           if (this.user.birthday && this.user.birthday !== '') {
             count++;
           }
-          let count2 = 0;
+          //let count2 = 0;
           this.percentProf = (count * 100) / 10;
 
           this.percentProf2 = this.percentProf.toFixed(0) + '%';
