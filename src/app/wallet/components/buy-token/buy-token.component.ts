@@ -120,35 +120,6 @@ export class BuyTokenComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  
-    if (this.tokenStorageService.getToken()) {
-      this.isConnected = true;
-    } else {
-      this.isConnected = false;
-    }
-    this.cryptoMoneyList = this.cryptoMoneyList.sort((a, b) => {
-      if (a.value > b.value) {
-        return 1;
-      }
-      if (b.value > a.value) {
-        return -1;
-      }
-      return 0;
-    });
-    this.convertform
-      .get('Amount')
-      ?.valueChanges.pipe(takeUntil(this.isDestroyed))
-      .subscribe((data: any) => {
-        this.amount = data;
-        this.convertCrypto();
-      });
-    this.convertCryptoUnitToUSD();
-    this.convertCrypto();
-    this.listenToPressKeyOnCurrencySelect();
-    this.toggleCurrencyType(ECurrencyType.FIAT);
-    this.toggleNetwork(EBlockchainNetwork.BEP20);
-
-
     this.routerSub = this.route.queryParams
     .pipe(takeUntil(this.isDestroyed))
     .subscribe((p: any) => {
@@ -194,6 +165,62 @@ export class BuyTokenComponent implements OnInit {
         this.wallet_id = p.wallet;
       }
     });
+    if (this.tokenStorageService.getToken()) {
+      this.isConnected = true;
+    } else {
+      this.isConnected = false;
+    }
+    this.cryptoMoneyList = this.cryptoMoneyList.sort((a, b) => {
+      if (a.value > b.value) {
+        return 1;
+      }
+      if (b.value > a.value) {
+        return -1;
+      }
+      return 0;
+    });
+    this.convertform
+      .get('Amount')
+      ?.valueChanges.pipe(takeUntil(this.isDestroyed))
+      .subscribe((data: any) => {
+        this.amount = data;
+        this.convertCrypto();
+      });
+    this.convertCryptoUnitToUSD();
+    this.convertCrypto();
+    this.listenToPressKeyOnCurrencySelect();
+    this.toggleCurrencyType(ECurrencyType.FIAT);
+    this.toggleNetwork(EBlockchainNetwork.BEP20);
+
+    this.routerSub = this.route.queryParams
+    .pipe(takeUntil(this.isDestroyed))
+    .subscribe((p: any) => {
+      if (p.amount) {
+        if (p.crypto === 'SATT-SC') {
+          this.fiatLogo = 'SATTBEP20.svg';
+        } else if (p.crypto === 'SATT-ERC20') {
+          this.fiatLogo = 'SATT2.svg';
+        }
+      
+        
+        else {
+          this.fiatLogo = p.crypto + '.svg';
+        }
+        this.isCryptoRouter = true;
+        this.amount = p.amount;
+        this.selectedCurrencyValue = p.currency;
+        this.fiatCurrency = p.currency;
+        // this.fiatLogo = p.crypto + '.svg';
+        this.requestedCrypto = p.crypto;
+
+       
+        this.cryptoAmount = p.cryptoAmount;
+        this.quoteId = p.quote_id;
+        this.selectedtLogo = p.symbol;
+        this.wallet_id = p.wallet;
+      }
+
+     });
 
 
   }

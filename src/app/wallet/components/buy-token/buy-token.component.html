@@ -30,7 +30,7 @@
                       class="crypto-image"
                     />
                     <span class="dropdown-text">
-                      {{ selectedCurrencyType.toUpperCase() }}
+                      {{ !!selectedCurrencyType ? selectedCurrencyType.toUpperCase(): '' }}
                     </span>
                   </div>
                   <i
@@ -334,7 +334,8 @@
                     <img
                       class="crypto-image"
                       src="../../../assets/Images/symbol_crypto/{{
-                        selectedCryptoLogo
+                        selectedCryptoLogo || 'faedi'
+                        
                       }}"
                     />
                     <span class="dropdown-text2">
