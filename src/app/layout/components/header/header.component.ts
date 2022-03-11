@@ -253,6 +253,9 @@ export class HeaderComponent implements OnInit {
         } else {
           this.successPart = false;
         }
+        if (this.router.url.includes('welcome')) {
+          this.checkMenuAdpool();
+        }
       }
     });
   }
@@ -269,7 +272,10 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.fixMenuItemsWidth();
-    if (this.router.url.includes('ad-pools')) {
+    if (
+      this.router.url.includes('ad-pools') ||
+      this.router.url.includes('welcome')
+    ) {
       this.menuAdpool = true;
     }
     if (this.router.url.includes('wallet')) {
@@ -1355,15 +1361,18 @@ export class HeaderComponent implements OnInit {
     this.menuTokenInfo = false;
   }
   checkMenuWallet() {
-    this.menuWallet = true;
-    this.menuAdpool = false;
-    this.menuFarmPost = false;
-    this.menuHistory = false;
-    this.menuHelp = false;
-    this.menuBuyToken = false;
-    this.menuTokenInfo = false;
-
-    this.walletService.dismissPage.next(true);
+    if (this.isConnected) {
+      this.menuWallet = true;
+      this.menuAdpool = false;
+      this.menuFarmPost = false;
+      this.menuHistory = false;
+      this.menuHelp = false;
+      this.menuBuyToken = false;
+      this.menuTokenInfo = false;
+      this.walletService.dismissPage.next(true);
+    } else {
+      this.checkMenuAdpool();
+    }
   }
   fixMenuItemsWidth() {
     setTimeout(() => {

@@ -1,5 +1,5 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, OnChanges, OnInit, PLATFORM_ID } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
@@ -51,7 +51,7 @@ type CryptoListItem = {
   templateUrl: './buy-token.component.html',
   styleUrls: ['./buy-token.component.scss']
 })
-export class BuyTokenComponent implements OnInit {
+export class BuyTokenComponent implements OnInit , OnChanges{
   liClicked!: boolean;
   amount = 50;
   currency: any;
@@ -120,51 +120,63 @@ export class BuyTokenComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // this.toggleCurrencyType(ECurrencyType.FIAT);
+    // this.toggleNetwork(EBlockchainNetwork.BEP20);
     this.routerSub = this.route.queryParams
-    .pipe(takeUntil(this.isDestroyed))
-    .subscribe((p: any) => {
+      .pipe(takeUntil(this.isDestroyed))
+      .subscribe((p: any) => {
+        if (p.id) {
+          // this.toggleCurrencyType(ECurrencyType.FIAT);
+          // this.toggleNetwork(p.network);
+          this.selectedCurrencyType = p.currency;
+          this.isCryptoRouter = true;
+          this.requestedCrypto = p.id;
+          this.toggleCurrencyType(ECurrencyType.FIAT);
+          this.toggleNetwork(p.network);
+          if (p.id === 'SATT-SC') {
+            this.fiatLogo = 'SATTBEP20.svg';
+          } else if (p.id === 'SATT-ERC20') {
+            this.fiatLogo = 'SATT2.svg';
+          } else {
+            this.fiatLogo = p.id + '.svg';
+            this.requestedCrypto = p.id;
+            console.log('this.requestedCrypto', this.requestedCrypto);
      
+          }
+        } else if (p.amount) {
+          this.toggleCurrencyType(p.fiatCurrency);
+          this.toggleNetwork(p.network);
+          // this.selectedCurrencyType = p.currency;
+          if (p.crypto === 'SATT-SC') {
+            this.fiatLogo = 'SATTBEP20.svg';
+          } else if (p.crypto === 'SATT-ERC20') {
+            this.fiatLogo = 'SATT2.svg';
+          } else {
+            this.fiatLogo = p.id + '.svg';
+          }
+          this.isCryptoRouter = true;
+          this.amount = p.amount;
+          this.selectedCurrencyValue = p.currency;
+          this.fiatCurrency = p.currency;
+          // this.fiatLogo = p.crypto + '.svg';
+          this.requestedCrypto = p.crypto;
+          this.cryptoAmount = p.cryptoAmount;
+          this.quoteId = p.quote_id;
+          this.selectedtLogo = p.symbol;
+          this.wallet_id = p.wallet;
+          this.selectedTargetCurrency = p.currency;
 
-    
-
-      if (p.id) {
-        this.selectedCurrencyType = p.currency;
-        this.isCryptoRouter = true;
-        this.requestedCrypto = p.id;
-       
-
-        if (p.id === 'SATT-SC') {
-          this.fiatLogo = 'SATTBEP20.svg';
-        } else if (p.id === 'SATT-ERC20') {
-          this.fiatLogo = 'SATT2.svg';
+          console.log('this.requestedCrypto222', this.requestedCrypto);
         } else {
-          this.fiatLogo = p.id + '.svg';
+          this.toggleCurrencyType(ECurrencyType.FIAT);
+          this.toggleNetwork(EBlockchainNetwork.BEP20);
         }
-      } else if (p.amount) {
-        if (p.crypto === 'SATT-SC') {
-          this.fiatLogo = 'SATTBEP20.svg';
-        } else if (p.crypto === 'SATT-ERC20') {
-          this.fiatLogo = 'SATT2.svg';
-        }
-      
-        
-        else {
-          this.fiatLogo = p.crypto + '.svg';
-        }
-        this.isCryptoRouter = true;
-        this.amount = p.amount;
-        this.selectedCurrencyValue = p.currency;
-        this.fiatCurrency = p.currency;
-        // this.fiatLogo = p.crypto + '.svg';
-        this.requestedCrypto = p.crypto;
+      });
 
-       
-        this.cryptoAmount = p.cryptoAmount;
-        this.quoteId = p.quote_id;
-        this.selectedtLogo = p.symbol;
-        this.wallet_id = p.wallet;
-      }
-    });
+    this.convertCryptoUnitToUSD();
+    this.convertCrypto();
+    this.listenToPressKeyOnCurrencySelect();
+
     if (this.tokenStorageService.getToken()) {
       this.isConnected = true;
     } else {
@@ -179,6 +191,8 @@ export class BuyTokenComponent implements OnInit {
       }
       return 0;
     });
+  }
+  ngOnChanges(): void {
     this.convertform
       .get('Amount')
       ?.valueChanges.pipe(takeUntil(this.isDestroyed))
@@ -186,44 +200,9 @@ export class BuyTokenComponent implements OnInit {
         this.amount = data;
         this.convertCrypto();
       });
-    this.convertCryptoUnitToUSD();
-    this.convertCrypto();
-    this.listenToPressKeyOnCurrencySelect();
-    this.toggleCurrencyType(ECurrencyType.FIAT);
-    this.toggleNetwork(EBlockchainNetwork.BEP20);
-
-    this.routerSub = this.route.queryParams
-    .pipe(takeUntil(this.isDestroyed))
-    .subscribe((p: any) => {
-      if (p.amount) {
-        if (p.crypto === 'SATT-SC') {
-          this.fiatLogo = 'SATTBEP20.svg';
-        } else if (p.crypto === 'SATT-ERC20') {
-          this.fiatLogo = 'SATT2.svg';
-        }
-      
-        
-        else {
-          this.fiatLogo = p.crypto + '.svg';
-        }
-        this.isCryptoRouter = true;
-        this.amount = p.amount;
-        this.selectedCurrencyValue = p.currency;
-        this.fiatCurrency = p.currency;
-        // this.fiatLogo = p.crypto + '.svg';
-        this.requestedCrypto = p.crypto;
-
-       
-        this.cryptoAmount = p.cryptoAmount;
-        this.quoteId = p.quote_id;
-        this.selectedtLogo = p.symbol;
-        this.wallet_id = p.wallet;
-      }
-
-     });
+}
 
 
-  }
 
   toggleNetwork(network: EBlockchainNetwork) {
     this.selectedBlockchainNetwork = network;
@@ -389,17 +368,10 @@ export class BuyTokenComponent implements OnInit {
   }
 
   onSelectCurrency(crypto: { value: string; symbol: string } | Crypto) {
-    if (this.selectedCurrencyType === ECurrencyType.FIAT) {
-      this.selectedTargetCurrency = (
-        crypto as { value: string; symbol: string }
-      ).value;
-    } else {
-      this.targetCurrency = crypto;
-      this.switchTokensWhenIdentical();
+    if (this.isCryptoRouter) {
+      this.isCryptoRouter = false;
+      this.router.navigate([], { queryParams: [] });
     }
-
-    this.convertCryptoUnitToUSD();
-    this.convertCrypto();
   }
 
   switchTokensWhenIdentical() {
@@ -562,6 +534,8 @@ export class BuyTokenComponent implements OnInit {
     ) {
       this.router.navigate(['/wallet/summary'], {
         queryParams: {
+          fiatCurrency: this.selectedCurrencyType,
+          network: this.selectedBlockchainNetwork,
           amount: this.amount,
           currency: this.selectedTargetCurrency,
           crypto: this.requestedCrypto,
