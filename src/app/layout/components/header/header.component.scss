@@ -521,9 +521,7 @@ ul.dropdown-menu.notif_drop_main.show {
 }
 
 @media (max-height: 850px) {
-  .sidebarMoreMobile {
-    display: none !important;
-  }
+ 
   ul.dropdown-menu.notif_drop_main.show {
     /*
         width: 300px;
