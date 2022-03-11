@@ -81,12 +81,14 @@ export class DraftCampaignService implements OnDestroy {
       }),
       map((values: any) => {
         //console.log(values.formData);
+        let campaignData = JSON.parse(JSON.stringify(values.formData))
         const formData = this.formatData.manipulateDataBeforeSend({
-          ...values.formData
+          ...campaignData
         });
         return { formData, id: values.id };
       }),
       switchMap((values: any) => {
+        console.log(values)
         return this.service.updateOneById(values.formData, values.id).pipe(
           tap((res) => {
             this.campaignsStore.initCampaignStore(values.id);
