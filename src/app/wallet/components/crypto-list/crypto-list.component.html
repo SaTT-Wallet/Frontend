@@ -1145,25 +1145,21 @@
             style="width: 100%"
             class="d-flex flex-column justify-content-center align-items-center"
           >
-            <div class="d-flex justify-content-center">
-              <div>
-                <div
-                  id="keyContainer"
-                  class="d-flex justify-content-center center-wallet"
-                >
-                  <input
-                    id="key"
-                    style="text-overflow: ellipsis"
-                    class="key d-flex search-input-wrapper mt-3 col-sm-12 col-md-12 col-lg-8"
-                    type="text"
-                    name="search"
-                    autocomplete="off"
-                    placeholder="Search a token or add your own"
-                    [(ngModel)]="search"
-                    (ngModelChange)="onTextChange($event)"
-                  />
-                </div>
-              </div>
+            <div
+              id="keyContainer"
+              class="d-flex justify-content-center col-sm-12 col-md-12 col-lg-8"
+            >
+              <input
+                id="key"
+                style="text-overflow: ellipsis"
+                class="key d-flex search-input-wrapper mt-3"
+                type="text"
+                name="search"
+                autocomplete="off"
+                placeholder="Search a token or add your own"
+                [(ngModel)]="search"
+                (ngModelChange)="onTextChange($event)"
+              />
             </div>
 
             <!-------------------------------------------------------------------------------------------------------------------------->
