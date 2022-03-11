@@ -411,6 +411,8 @@ span.text-align-left[contenteditable]:empty:focus::before {
 
 input[type='date']::-webkit-inner-spin-button {
     opacity: 0;
+    display: none;
+    -webkit-appearance: none;
 }
 
 input[type='date']::-webkit-calendar-picker-indicator {
@@ -842,8 +844,23 @@ input[type='file'] {
         height: 144vh !important;
     }
 }
+.calendar-mobile{
+  display: none;
+}
 
 @media (max-width: 767.98px) {
+  input[type='date']::-webkit-calendar-picker-indicator {
+    display: none !important;
+  }
+  .calendar-mobile{
+    display: block;
+    top: 0;
+    right: 1em;
+    opacity: 0.5;
+  }
+  input[type='date'] {
+    -webkit-appearance: none !important;
+  }
     .type-input {
         margin-bottom: 20.47px;
     }
