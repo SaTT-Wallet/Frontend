@@ -21,6 +21,7 @@ export class ConvertFromWei implements PipeTransform {
    * @returns {string} the converted value in SaTT format.
    */
   transform(value: string, symbol: string, digits: number = 3): string {
+    console.log(value, symbol)
     if (!value || value === "0") return '0';
 
     let decimals = ListTokens[symbol].decimals.toString();

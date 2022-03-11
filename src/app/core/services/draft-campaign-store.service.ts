@@ -18,6 +18,7 @@ import { ConvertToWeiPipe } from '@shared/pipes/convert-to-wei.pipe';
 import { CampaignsStoreService } from '@campaigns/services/campaigns-store.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FormatDataService } from '@campaigns/services/format-data.service';
+import {TokenStorageService} from "@core/services/tokenStorage/token-storage-service.service";
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +31,8 @@ export class DraftCampaignStoreService {
     private campaignService: CampaignHttpApiService,
     private campaignsStore: CampaignsStoreService,
     private sanitizer: DomSanitizer,
-    private formatData: FormatDataService
+    private formatData: FormatDataService,
+    private localeStorageService: TokenStorageService
   ) {
     let emptyDraft = new Campaign();
     this.draftSubject = new BehaviorSubject<Campaign>(emptyDraft);
@@ -65,7 +67,13 @@ export class DraftCampaignStoreService {
     this.campaignService
       .getOneById(id)
       .pipe(
-        map((data) => new Campaign(data)),
+        map((data) => {
+          const campaign = new Campaign(data)
+          campaign.ownedByUser =
+            Number(campaign.ownerId) ===
+            Number(this.localeStorageService.getIdUser());
+          return campaign;
+        } ),
         //tap(console.log),
         //TODO: create a custom operator to reduce redundance.
         //tap((c) => console.log("sdfsqdfqsfqsf", c)),
