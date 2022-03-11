@@ -39,7 +39,8 @@ export class ConvertSummaryComponent implements OnInit {
   simplex_url: any = environment.simplexUrl;
   payementId = '';
   private isDestroyed = new Subject();
-
+  selectedCurrencyType: any;
+  selectedBlockchainNetwork: any;
   constructor(
     private activatedRoute: ActivatedRoute,
     public walletFacade: WalletFacadeService,
@@ -70,6 +71,10 @@ export class ConvertSummaryComponent implements OnInit {
     this.crypto = this.activatedRoute.snapshot.queryParamMap.get('crypto');
     this.symbol = this.activatedRoute.snapshot.queryParamMap.get('symbol');
     this.wallet_id = this.activatedRoute.snapshot.queryParamMap.get('wallet');
+    this.selectedCurrencyType =
+      this.activatedRoute.snapshot.queryParamMap.get('fiatCurrency');
+    this.selectedBlockchainNetwork =
+      this.activatedRoute.snapshot.queryParamMap.get('network');
     this.cryptoAmount =
       this.activatedRoute.snapshot.queryParamMap.get('cryptoAmount');
     this.quote_id = this.tokenStorageService.getQuoteId();
@@ -82,11 +87,13 @@ export class ConvertSummaryComponent implements OnInit {
   onSubmit() {
     // console.log('clikced!');
   }
-  linstingBack(event: any) {
+linstingBack(event: any) {
     if (event === true) {
       // this.router.navigate(['/wallet/buy-token']);
       this.router.navigate(['/wallet/buy-token'], {
         queryParams: {
+          fiatCurrency: this.selectedCurrencyType,
+          network: this.selectedBlockchainNetwork,
           amount: this.amount,
           currency: this.currency,
           crypto: this.crypto,
