@@ -273,7 +273,7 @@ export class HeaderComponent implements OnInit {
     if (this.router.url.includes('wallet')) {
       this.menuWallet = true;
     }
-    if (this.router.url.includes('TransactionsHistory')) {
+    if (this.router.url.includes('notification')) {
       this.menuHistory = true;
     }
     if (this.router.url.includes('FAQ')) {
@@ -752,7 +752,7 @@ export class HeaderComponent implements OnInit {
             }
           });
         } else {
-          this.router.navigate(['home/TransactionsHistory']);
+          this.router.navigate(['home/notification']);
         }
       }
       if (notif?.type === 'send_demande_satt_event') {

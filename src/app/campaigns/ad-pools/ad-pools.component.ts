@@ -264,7 +264,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.onDestoy$))
         .subscribe((response: any) => {
           if (
-            response.onBoarding === false &&
+            (response.onBoarding === false || response.onBoarding === '') &&
             this.router.url === '/ad-pools'
           ) {
             this.startSteps();
@@ -338,6 +338,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
                     ...this.authStoreService.account,
                     onBoarding: true
                   });
+                  this.accountFacadeService.dispatchUpdatedAccount();
                 }
               }),
               takeUntil(this.onDestoy$)
@@ -352,8 +353,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
 
   private getDetails() {
     let count = 0;
-    this.authStoreService
-      .getAccount()
+    this.account$
       .pipe(
         mergeMap((response: any) => {
           if (response !== null && response !== undefined) {
