@@ -32,10 +32,10 @@ export class MonetizeLinkedinAccountComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getSocialNetwork();
     this.getUrlMsg();
-    this.socialAccountsFacade.pageVisited(ESocialMediaNames.linkedIn);
   }
 
   skipPage() {
+    this.socialAccountsFacade.pageVisited(ESocialMediaNames.linkedIn);
     this.router.navigate(['social-registration/monetize-linkedin']);
   }
   skipAll() {

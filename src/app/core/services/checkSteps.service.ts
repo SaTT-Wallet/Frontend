@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  Router,
+  UrlTree
+} from '@angular/router';
 import { AuthService } from '@core/services/Auth/auth.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 
@@ -9,9 +14,10 @@ import { TokenStorageService } from '@core/services/tokenStorage/token-storage-s
 export class checkStepsService implements CanActivate {
   constructor(
     private tokenStorageService: TokenStorageService,
-    private auth: AuthService
+    private auth: AuthService,
+    private router: Router
   ) {}
-  canActivate(route: ActivatedRouteSnapshot): boolean {
+  canActivate(route: ActivatedRouteSnapshot): boolean | UrlTree {
     let url: any;
     url = route.url[0].path;
 
@@ -24,11 +30,12 @@ export class checkStepsService implements CanActivate {
     } else if (url === 'monetize-facebook') {
       if (
         this.tokenStorageService.getSecureWallet('visited-completeProfile') ===
-        'true'
+          'true' &&
+        this.tokenStorageService.getSecureWallet('visited-facebook') === null
       ) {
         return true;
       } else {
-        return false;
+        return this.router.parseUrl('/social-registration/monetize-twitter');
       }
     } else if (url === 'monetize-linkedin') {
       if (
@@ -40,11 +47,11 @@ export class checkStepsService implements CanActivate {
       }
     } else if (url === 'monetize-twitter') {
       if (
-        this.tokenStorageService.getSecureWallet('visited-facebook') === 'true'
+        this.tokenStorageService.getSecureWallet('visited-twitter') === 'true'
       ) {
-        return true;
+        return this.router.parseUrl('/social-registration/monetize-linkedin');
       } else {
-        return false;
+        return true;
       }
       // else if (url === "monetize-telegram") {
       //   if (this.tokenStorageService.getSecureWallet("visited-facebook") === "true" && this.tokenStorageService.getItem("idSn")!=="5") {
