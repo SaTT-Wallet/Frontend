@@ -80,9 +80,9 @@ export class TokenStorageService {
     this.localStorage.setItem('userEmail', userEmail);
   }
 
-  public saveUrlCampaign(url: any) {
+  public saveUrlCampaign(urlLink: any) {
     this.localStorage.removeItem(url);
-    this.localStorage.setItem(url, url);
+    this.localStorage.setItem(url, urlLink);
   }
   public getUrlCampaign() {
     return this.localStorage.getItem(url);
