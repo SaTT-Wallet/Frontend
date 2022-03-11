@@ -552,7 +552,8 @@
     (deleted)="update($event)"
     [ngClass]="{
       'display-row width-bloc-row': !isStyleGrid,
-      'width-bloc-grid': isStyleGrid
+      'width-bloc-grid': isStyleGrid,
+      'green-link': this.linkHash === prom.hash
     }"
   ></app-farm-post-card>
 
