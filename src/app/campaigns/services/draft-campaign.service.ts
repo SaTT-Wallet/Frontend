@@ -5,9 +5,7 @@ import {
   exhaustMap,
   map,
   retry,
-  share,
   switchMap,
-  take,
   takeUntil,
   tap
 } from 'rxjs/operators';
@@ -74,33 +72,31 @@ export class DraftCampaignService implements OnDestroy {
 
   private saveForm() {
     return this.editFormChangesSubject.pipe(
-      tap((_) => {
+      tap(() => {
         if (!this.isSaveFormStarted) {
           this.isSaveFormStarted = true;
         }
       }),
       map((values: any) => {
         //console.log(values.formData);
-        let campaignData = JSON.parse(JSON.stringify(values.formData))
+        let campaignData = JSON.parse(JSON.stringify(values.formData));
         const formData = this.formatData.manipulateDataBeforeSend({
           ...campaignData
         });
         return { formData, id: values.id };
       }),
       switchMap((values: any) => {
-        console.log(values)
         return this.service.updateOneById(values.formData, values.id).pipe(
-          tap((res) => {
+          tap(() => {
             this.campaignsStore.initCampaignStore(values.id);
           })
         );
       }),
       retry(3),
-      catchError((error) => {
+      catchError(() => {
         return of(null);
       }),
       exhaustMap((response) => {
-        // console.log(response)
         if (response.success === 'updated') {
           this.draftStore.setStore(new Campaign(response.updatedCampaign));
           this.campaignsStore.updateDraftCampaign(
@@ -111,14 +107,14 @@ export class DraftCampaignService implements OnDestroy {
 
         return of(null);
       }),
-      catchError((error) => {
+      catchError(() => {
         return of(null);
       }),
       switchMap((response) => {
         // console.log(response)
         if (response.success === 'updated') {
           return timer(4000).pipe(
-            switchMap((timer) => this.emitSaveFormStatus(FormStatus.Saved))
+            switchMap(() => this.emitSaveFormStatus(FormStatus.Saved))
           );
         }
 
@@ -130,7 +126,7 @@ export class DraftCampaignService implements OnDestroy {
 
   private saveKitForm() {
     return this.editkitFormChangesSubject.pipe(
-      tap((_) => {
+      tap(() => {
         if (!this.isSaveFormStarted) {
           this.isSaveFormStarted = true;
         }
@@ -138,13 +134,13 @@ export class DraftCampaignService implements OnDestroy {
       switchMap((values: any) => {
         return this.service.modifytKit(values.kits, values.id);
       }),
-      catchError((error) => {
+      catchError(() => {
         return of(null);
       }),
       switchMap((response) => {
         if (response) {
           return timer(4000).pipe(
-            switchMap((timer) => this.emitSaveFormStatus(FormStatus.Saved))
+            switchMap(() => this.emitSaveFormStatus(FormStatus.Saved))
           );
         }
 
@@ -155,6 +151,6 @@ export class DraftCampaignService implements OnDestroy {
   }
 
   private emitSaveFormStatus(status: any) {
-    return of(status).pipe(tap((_) => this.setSaveFormStatus(status)));
+    return of(status).pipe(tap(() => this.setSaveFormStatus(status)));
   }
 }

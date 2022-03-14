@@ -234,7 +234,9 @@
                 {{
                   (this.rateExchangePerRequestedCrypto$ | async)?.toFixed(8) +
                     ' ' +
-                    this.requestedCrypto
+                    (this.requestedCrypto === 'SATTBEP20'
+                      ? 'SATT'
+                      : this.requestedCrypto)
                 }}
               </ng-container>
               <ng-container

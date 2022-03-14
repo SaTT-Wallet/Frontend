@@ -264,7 +264,6 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
           this.sizeErrorLogo = false;
           this.formUploadPic.get('file')?.setValue(data);
           this.isConformLogo = true;
-
         } else {
           this.closeModal(this.pictureModal);
           this.sizeErrorLogo = true;
@@ -290,10 +289,12 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
       );
       this.isImageCroppedSubject.next(true);
       this.readAsBase64(this.srcFile).then((data) => {
-        if (data.result.length < 2000000) {
+        if (data.result.length < 5000000) {
+
           this.sizeErrorCover = false;
           this.form.get('cover')?.setValue(data.result);
         } else {
+
           this.isConformCover = false;
           this.sizeErrorCover = true;
           this.inputCover.nativeElement.value = '';
@@ -333,7 +334,6 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
       this.picName = null;
       this.showImage = false;
       let fileUploaded = event.target.files[0];
-      console.log("fileupload",fileUploaded.size )
       let imgExtensions: Array<string> = [
         'image/png',
         'image/jpeg',
@@ -343,31 +343,30 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
         this.extensionErrorCover = true;
         this.inputCover.nativeElement.value = '';
       } else if (fileUploaded.size > 2000000) {
-        console.log("1111111111111")
         this.isConformCover = false;
         this.extensionErrorCover = false;
         this.sizeErrorCover = true;
         this.inputCover.nativeElement.value = '';
-        
-
-
-
 
       } else if (this.coverUploadWidthError) {
+
         this.extensionErrorCover = false;
         this.inputCover.nativeElement.value = '';
       } else {
+
         this.extensionErrorCover = false;
         this.picName = fileUploaded.name;
         this.showImage = true;
         this.readAsBase64(fileUploaded).then((data) => {
           if (data.result.length < 2000000) {
+
             this.imageChangedEvent = event;
             this.isConformCover = true;
             this.sizeErrorCover = false;
             this.form.get('cover')?.setValue(data);
             this.form.get('coverSrc')?.setValue(data.result);
           } else {
+
             this.isConformCover = false;
             this.imageChangedEvent = null;
             this.sizeErrorCover = true;
@@ -376,6 +375,7 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
         });
       }
     } else {
+
       this.isCropped = false;
       this.imageChangedEventMobile = null;
       this.picNameMobile = null;
@@ -390,19 +390,21 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
         this.extensionErrorCoverMobile = true;
         this.coverInputMobile.nativeElement.value = '';
       } else if (fileUploaded.size > 2000000) {
-        console.log("2222222222222")
         this.isConformCoverMobile = false;
         this.extensionErrorCoverMobile = false;
         this.sizeErrorCoverMobile = true;
         this.coverInputMobile.nativeElement.value = '';
       } else if (this.coverUploadWidthError) {
+
         this.extensionErrorCoverMobile = false;
         this.coverInputMobile.nativeElement.value = '';
       } else {
+
         this.picNameMobile = fileUploaded.name;
         this.extensionErrorCoverMobile = false;
         this.readAsBase64(fileUploaded).then((data) => {
           if (data.result.length < 2000000) {
+
             this.imageChangedEventMobile = event;
             this.isConformCoverMobile = true;
             this.showImageMobile = true;
@@ -410,6 +412,7 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
             this.form.get('coverMobile')?.setValue(data);
             this.form.get('coverSrcMobile')?.setValue(data.result);
           } else {
+
             this.imageChangedEvent = null;
             this.isConformCoverMobile = false;
             this.sizeErrorCoverMobile = true;
