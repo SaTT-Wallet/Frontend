@@ -956,6 +956,11 @@
 }
 
 @media (max-width: 991.98px) {
+  .container {
+    max-width: 100% !important;
+    padding-bottom: 5em;
+  }
+
     .showhime {
         display: none;
     }
