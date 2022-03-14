@@ -327,10 +327,9 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   private listenToPressKeyOnCurrencySelect() {
     if (isPlatformBrowser(this.platformId)) {
       setTimeout(() => {
-        // @ts-ignore
-        this.document
-          .getElementById('dropdown-ul')
-          .addEventListener('keypress', (e: KeyboardEvent) => {
+        let dropdown = this.document.getElementById('dropdown-ul');
+        if (dropdown) {
+          dropdown.addEventListener('keypress', (e: KeyboardEvent) => {
             //You have yout key code here
             let currencyList = this.cryptoMoneyList.filter((currency) => {
               if (currency?.value[0] === e.key.toUpperCase()) {
@@ -352,6 +351,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
               parent.scrollTop = topPos;
             }
           });
+        }
       }, 2000);
     }
   }
