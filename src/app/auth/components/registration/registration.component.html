@@ -4,12 +4,7 @@
   <div class="row position-relative">
     <!------------------------------------------------------------ left bloc--------------------------------------------------------->
     <div
-      class="
-        col-xl-5 col-lg-5 col-md-5
-        Password_lost_background
-        position-relative
-        show-pc-version
-      "
+      class="col-xl-5 col-lg-5 col-md-5 Password_lost_background position-relative show-pc-version"
     >
       <div class="d-flex justify-content-center align-items-center">
         <img src="/assets/Images/signup_ILLU.png" class="icon_pc" alt="" />
@@ -50,7 +45,7 @@
                 class="sn-icon-googleEnglish"
                 [ngClass]="{
                   'sn-icon-googleFrensh':
-                    this.english && this.languageSelected == 'en'
+                    this.english && this.languageSelected === 'en'
                 }"
               >
                 <img
@@ -58,7 +53,8 @@
                   src="/assets/Images/google_image.svg"
                   alt=""
                   [ngClass]="{
-                    'google-icon': this.english && this.languageSelected == 'en'
+                    'google-icon':
+                      this.english && this.languageSelected === 'en'
                   }"
                 />
               </a>
@@ -143,7 +139,7 @@
                </p>
                <p *ngIf="this.getControls.password.touched && getControls.email.errors?.required">
                  {{'field_required' | tra           <div class=" d-flex flex-row">  nslate}}
-               </p> 
+               </p>
                [ngClass]="{errorMsg: this.formUpdatePassword.get('password')?.invalid && !this.formUpdatePassword.get('password')?.errors?.required ,
                                         success:  this.formUpdatePassword.get('password')?.valid}"
              </div> -->
@@ -167,7 +163,7 @@
                     this.authForm.get('password')?.errors,
                   success:
                     this.authForm.get('password')?.valid ||
-                    this.passwordStrengthMsg == 'password_strong'
+                    this.passwordStrengthMsg === 'password_strong'
                 }"
                 style="padding: 0px 50px 0px 10px"
               />
@@ -179,7 +175,7 @@
                   "
                   class="far fa-fw toggle-password"
                   [ngClass]="
-                    password_field.type == 'password'
+                    password_field.type === 'password'
                       ? ' far fa-eye-slash '
                       : ' far fa-eye'
                   "
@@ -189,12 +185,7 @@
                     this.getControls.password.touched &&
                     this.getControls.password.errors
                   "
-                  class="
-                    fa fa-times
-                    field-icon-pass
-                    pass_error
-                    close-error-icon
-                  "
+                  class="fa fa-times field-icon-pass pass_error close-error-icon"
                   (click)="this.getControls.password.setValue('')"
                 ></span>
                 <span
@@ -229,13 +220,7 @@
                 >
                   <span
                     *ngIf="successUpper"
-                    class="
-                      mr-3
-                      fa fa-check
-                      field-icon-pass
-                      pass_sucess
-                      success-icon
-                    "
+                    class="mr-3 fa fa-check field-icon-pass pass_sucess success-icon"
                   ></span>
                   <span
                     *ngIf="!successUpper"
@@ -255,13 +240,7 @@
                 >
                   <span
                     *ngIf="successLower"
-                    class="
-                      mr-3
-                      fa fa-check
-                      field-icon-pass
-                      pass_sucess
-                      success-icon
-                    "
+                    class="mr-3 fa fa-check field-icon-pass pass_sucess success-icon"
                   ></span>
                   <span
                     *ngIf="!successLower"
@@ -281,13 +260,7 @@
                 >
                   <span
                     *ngIf="successNumber"
-                    class="
-                      mr-3
-                      fa fa-check
-                      field-icon-pass
-                      pass_sucess
-                      success-icon
-                    "
+                    class="mr-3 fa fa-check field-icon-pass pass_sucess success-icon"
                   ></span>
                   <span
                     *ngIf="!successNumber"
@@ -307,13 +280,7 @@
                 >
                   <span
                     *ngIf="successSpecial"
-                    class="
-                      mr-3
-                      fa fa-check
-                      field-icon-pass
-                      pass_sucess
-                      success-icon
-                    "
+                    class="mr-3 fa fa-check field-icon-pass pass_sucess success-icon"
                   ></span>
                   <span
                     *ngIf="!successSpecial"
@@ -332,13 +299,7 @@
                 >
                   <span
                     *ngIf="successLength"
-                    class="
-                      mr-3
-                      fa fa-check
-                      field-icon-pass
-                      pass_sucess
-                      success-icon
-                    "
+                    class="mr-3 fa fa-check field-icon-pass pass_sucess success-icon"
                   ></span>
                   <span
                     *ngIf="!successLength"
@@ -501,23 +462,11 @@
     ></button>
   </div>
   <div
-    class="
-      modal-body modal-custom
-      d-flex
-      flex-column
-      justify-content-center
-      align-items-center
-    "
+    class="modal-body modal-custom d-flex flex-column justify-content-center align-items-center"
   >
     <img class="satt-modal-header-img" src="/assets/Images/mail-open.svg" />
     <div
-      class="
-        d-flex
-        flex-column
-        justify-content-center
-        align-items-center
-        txtModal
-      "
+      class="d-flex flex-column justify-content-center align-items-center txtModal"
     >
       <h3 class="textpwd">{{ 'info_after_signup_title' | translate }}</h3>
 
@@ -536,14 +485,7 @@
       <span class="darck-green"> {{ 'recieve_nothing' | translate }} </span>
     </div>
     <div
-      class="
-        col-xl-6 col-lg-8 col-md-12 col-sm-12
-        d-flex
-        flex-column
-        justify-content-center
-        align-items-center
-        mt-4
-      "
+      class="col-xl-6 col-lg-8 col-md-12 col-sm-12 d-flex flex-column justify-content-center align-items-center mt-4"
     >
       <button
         class="white-btn"
@@ -555,13 +497,7 @@
       </button>
     </div>
     <div
-      class="
-        col-xl-6 col-lg-8 col-md-12 col-sm-12
-        d-flex
-        flex-column
-        justify-content-center
-        align-items-center
-      "
+      class="col-xl-6 col-lg-8 col-md-12 col-sm-12 d-flex flex-column justify-content-center align-items-center"
     >
       <button
         type="button"
@@ -576,37 +512,28 @@
 </ng-template>
 <div
   class="cookiesBlock d-flex"
-  *ngIf="cookiesClicked == true && !cookieExists"
+  *ngIf="cookiesClicked === true && !cookieExists"
   [ngClass]="{ cookiesBlockAlert: this.isClicked }"
 >
   <div class="row">
     <div
-      class="
-        col-xl-2 col-lg-2 col-md-2 col-sm-2
-        d-flex
-        justify-content-center
-        imageCOOK
-        mt-2
-      "
+      class="col-xl-2 col-lg-2 col-md-2 col-sm-2 d-flex justify-content-center imageCOOK mt-2"
     >
       <img
         class="cookiesPIC ms-3"
-        src="/assets/Images/cookies.svg"
+        src="/assets/Images/cookies.png"
         alt="cookies"
       />
     </div>
     <div
-      class="
-        col-xl-8 col-lg-8 col-md-7 col-sm-7
-        d-flex
-        justify-content-center
-        texteCOOK
-        mt-4
-      "
+      class="col-xl-8 col-lg-8 col-md-7 col-sm-7 d-flex justify-content-center texteCOOK mt-4"
     >
       <div class="d-block">
-        <p>{{ 'cookiesText' | translate }}</p>
-        <!--<span class="boldcook">{{'parametrs' |translate}} ></span>-->
+        <h4 class="titleCookie titleCookieWeb">
+          {{ 'titleCookie' | translate }}
+        </h4>
+        <p [innerHTML]="'cookiesText' | translate"></p>
+        <!-- <span class="boldcook">{{'parametrs' |translate}} ></span> -->
       </div>
     </div>
     <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 btnCOOK mt-4">

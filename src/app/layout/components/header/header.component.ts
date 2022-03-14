@@ -271,6 +271,9 @@ export class HeaderComponent implements OnInit {
   // }
 
   ngOnInit(): void {
+    this.authService.isAuthenticated$.subscribe((isAuth: boolean) => {
+      this.isConnected = isAuth;
+    });
     this.fixMenuItemsWidth();
     if (
       this.router.url.includes('ad-pools') ||
@@ -295,15 +298,12 @@ export class HeaderComponent implements OnInit {
     } else {
       this.menuCampaign = false;
     }
-
-    if (
-      this.tokenStorageService.getToken() &&
-      isPlatformBrowser(this.platformId)
-    ) {
-      this.isConnected = true;
+    if (isPlatformBrowser(this.platformId)) {
       this.oldHeight = window.innerHeight;
       this.newHeight = this.oldHeight;
-
+    }
+    if (this.tokenStorageService.getToken()) {
+      this.isConnected = true;
       this.getProfileDetails();
       this.getNotifications();
       this.parentFunction();
@@ -343,10 +343,6 @@ export class HeaderComponent implements OnInit {
     this.generateCodeERCDes();
     this.generateCodeFunction();
     this.generateCodeERC();
-
-    this.authService.isAuthenticated$.subscribe((isAuth: boolean) => {
-      this.isConnected = isAuth;
-    });
   }
   // ngOnChanges() {
   //   if (
@@ -465,6 +461,7 @@ export class HeaderComponent implements OnInit {
   }
 
   signOut() {
+    this.isConnected = false;
     this.campaignFacade.clearLinksListStore();
     this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
     this.ParticipationListStoreService.clearDataFarming();

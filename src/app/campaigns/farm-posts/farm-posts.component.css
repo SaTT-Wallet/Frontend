@@ -279,7 +279,7 @@
 
 @media (min-width: 768px) and (max-width: 993px) {
     .div-filter-search-mobile {
-        bottom: -4px !important;
+        bottom: 60px !important;
     }
     .div-sort {
         bottom: -2px !important;
