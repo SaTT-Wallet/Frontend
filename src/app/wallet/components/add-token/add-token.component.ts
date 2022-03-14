@@ -1,10 +1,8 @@
 import {
   Component,
-  ElementRef,
   Inject,
   OnInit,
   PLATFORM_ID,
-  SimpleChanges,
   ViewChild
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -15,7 +13,6 @@ import { ListTokens } from '@app/config/atn.config';
 import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
 import { WalletStoreService } from '@core/services/wallet-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
-import { element } from 'protractor';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
@@ -83,10 +80,12 @@ export class AddTokenComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       setTimeout(() => {
         let end = window.innerHeight - 65 - 56 - 20;
-        let startYOffsetTableCry = this.tableCry.nativeElement.offsetTop;
-        if (window.innerWidth <= 415) {
-          this.tableCryHeight = end - startYOffsetTableCry;
-          this.resized = true;
+        if (this.tableCry) {
+          let startYOffsetTableCry = this.tableCry.nativeElement.offsetTop;
+          if (window.innerWidth <= 415) {
+            this.tableCryHeight = end - startYOffsetTableCry;
+            this.resized = true;
+          }
         }
       }, 3000);
     }
@@ -110,11 +109,6 @@ export class AddTokenComponent implements OnInit {
           this.checkToken();
         }
       });
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (this.term === '') {
-    }
   }
 
   onChangeTab(tab: 'search' | 'token') {
@@ -322,7 +316,6 @@ export class AddTokenComponent implements OnInit {
       .getlistTokens()
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((data: any) => {
-        const propertyNames = Object.keys(data);
         this.listToken2 = data;
         for (let key in this.listToken2) {
           if (data.hasOwnProperty(key)) {
