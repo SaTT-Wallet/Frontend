@@ -1,6 +1,6 @@
-import { Injectable, Pipe, PipeTransform } from "@angular/core";
-import Big from "big.js";
-import { ListTokens } from "@config/atn.config";
+import { Injectable, Pipe, PipeTransform } from '@angular/core';
+import Big from 'big.js';
+import { ListTokens } from '@config/atn.config';
 
 /**
  * @name ConvertFromWei
@@ -8,10 +8,10 @@ import { ListTokens } from "@config/atn.config";
  *       Wei to your chosen currency using Big.js library.
  */
 @Pipe({
-  name: "fromWeiTo",
+  name: 'fromWeiTo'
 })
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root'
 })
 export class ConvertFromWei implements PipeTransform {
   /**
@@ -21,13 +21,12 @@ export class ConvertFromWei implements PipeTransform {
    * @returns {string} the converted value in SaTT format.
    */
   transform(value: string, symbol: string, digits: number = 3): string {
-    console.log(value, symbol)
-    if (!value || value === "0") return '0';
+    if (!value || value === '0') return '0';
 
     let decimals = ListTokens[symbol].decimals.toString();
-    if(value==="SATTBEP20"){
-      value="SATT"
+    if (value === 'SATTBEP20') {
+      value = 'SATT';
     }
- return new Big(value).div(decimals).round(digits).toString();
+    return new Big(value).div(decimals).round(digits).toString();
   }
 }
