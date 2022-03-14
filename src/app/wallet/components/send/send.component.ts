@@ -137,7 +137,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnInit(): void {
-    this.sendform.get('currency')?.setValue('SATT');
+     this.sendform.get('currency')?.setValue('SATT');
 
     this.parentFunction().pipe(takeUntil(this.isDestroyed)).subscribe();
     this.getusercrypto();
@@ -364,11 +364,11 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       //     this.ownaddress = false;
       //   }, 5000);
       // } else {
-        // if (this.selectedCryptoSend) {
-        //   currency = this.selectedCryptoSend;
-        // } else {
-        //   currency = this.sendform.get('currency')?.value;
-        // }
+        if (this.selectedCryptoSend) {
+          currency = this.selectedCryptoSend;
+        } else {
+          currency = this.sendform.get('currency')?.value;
+        }
         this.network = this.networks
           ? this.networks.toLowerCase()
           : ListTokens[currency].type;
@@ -386,11 +386,11 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           .times(decimal)
           .toFixed(30)
           .split('.')[0];
-        symbole = this.symbol ? this.symbol : ListTokens[currency].symbole;
+        // symbole = this.symbol ? this.symbol : ListTokens[currency].symbole;
+        symbole = this.sendform.get('currency')?.value
         let network = this.networks
           ? this.networks.toLowerCase()
           : ListTokens[currency].type;
-
         const send: any = {
           token,
           access_token,
