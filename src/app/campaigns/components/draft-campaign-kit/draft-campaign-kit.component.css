@@ -198,13 +198,23 @@ a:hover .hover-img span {
 }
 
 @media (max-width: 575.98px) {
-    .background-upload-img,
+    /* .background-upload-img,
     .background-choose-img {
         width: 90px;
+    } */
+    .width-90 {
+        width: 90px !important;
+        min-width: 90px !important;
     }
     .input-type,
     .btn-white {
         width: 100% !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .make-center-mobile {
+        justify-content: center;
     }
 }
 

@@ -23,14 +23,17 @@
       </div>
     </div>
     <div class="row justify-content-center pt-3 mb-1">
-      <div class="d-flex col-xl-10 col-md-12 col-lg-10 col-sm-12">
+      <div
+        class="d-flex col-xl-10 col-md-12 col-lg-10 col-sm-12"
+        [ngClass]="{ 'make-center-mobile': countImages() === 0 }"
+      >
         <div
-          class="col-3 p-0"
-          [ngClass]="
-            countImages() === 5
-              ? 'background-choose-img'
-              : 'background-upload-img'
-          "
+          class="p-0"
+          [ngClass]="{
+            'background-choose-img': countImages() === 5,
+            'background-upload-img': countImages() !== 5,
+            'width-90': countImages() !== 0
+          }"
         >
           <label
             class="px-1 cursor-pointer w-100 h-100 flex-column gap-4 d-flex align-self-center justify-content-center align-items-center justify-content-center"
@@ -59,7 +62,7 @@
             >
           </label>
         </div>
-        <div class="col-9 p-0">
+        <div class="p-0" *ngIf="countImages() !== 0">
           <owl-carousel-o [options]="customOptions">
             <ng-container
               *ngFor="let elem of kits; index as i; trackBy: trackByKits"
