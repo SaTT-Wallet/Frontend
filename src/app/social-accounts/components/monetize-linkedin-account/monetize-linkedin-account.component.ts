@@ -36,7 +36,7 @@ export class MonetizeLinkedinAccountComponent implements OnInit, OnDestroy {
 
   skipPage() {
     this.socialAccountsFacade.pageVisited(ESocialMediaNames.linkedIn);
-    this.router.navigate(['social-registration/monetize-linkedin']);
+    this.router.navigate(['social-registration/monetize-google']);
   }
   skipAll() {
     this.socialAccountsFacade.pageVisited(ESocialMediaNames.facebook);
