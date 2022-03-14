@@ -165,7 +165,7 @@
                   class="fa fa-fw cross_input_network align-self-center"
                   aria-hidden="true"
                   [ngClass]="
-                    old_password_field.type == 'password'
+                    old_password_field.type === 'password'
                       ? ' fa-eye-slash '
                       : ' fa-eye'
                   "
@@ -223,7 +223,9 @@
                   class="fa fa-fw cross_input_network align-self-center"
                   aria-hidden="true"
                   [ngClass]="
-                    password.type == 'password' ? ' fa-eye-slash ' : ' fa-eye'
+                    password.type === 'password'
+                      ? ' fa-ey===e-slash '
+                      : ' fa-eye'
                   "
                 ></span>
               </div>
@@ -304,12 +306,12 @@
                 <span
                   (click)="
                     confirmPassword.type =
-                      confirmPassword.type == 'password' ? 'text' : 'password'
+                      confirmPassword.type === 'password' ? 'text' : 'password'
                   "
                   class="fa fa-fw cross_input_network align-self-center"
                   aria-hidden="true"
                   [ngClass]="
-                    confirmPassword.type == 'password'
+                    confirmPassword.type === 'password'
                       ? ' fa-eye-slash '
                       : ' fa-eye'
                   "
@@ -438,6 +440,8 @@
           [checked]="is2FAactivated"
           id="toggle"
           (change)="onToggle2FAChange($event)"
+          size="small"
+          switchColor="#00cc9e"
         ></ui-switch>
       </div>
 
@@ -499,36 +503,20 @@
             </div>
           </div>
           <div
-            class="
-              gray_block
-              mt-2
-              col-lg-10 col-xl-10 col-md-12 col-sm-12
-              d-flex
-              justify-content-center
-              flex-column
-            "
+            class="gray_block mt-2 col-lg-10 col-xl-10 col-md-12 col-sm-12 d-flex justify-content-center flex-column"
             *ngIf="showQrCode"
           >
             <!-- <div class="row pt-1">
                             <span class="black-text"> {{'Profil.step' |translate}}1</span>
                         </div> -->
             <div
-              class="
-                row
-                d-flex
-                flex-xl-row flex-lg-row flex-md-column flex-sm-column
-                mt-2
-              "
+              class="row d-flex flex-xl-row flex-lg-row flex-md-column flex-sm-column mt-2"
             >
               <div
                 class="col-xl-9 col-lg-9 col-md-12 col-sm-12 d-flex flex-column"
               >
                 <div
-                  class="
-                    col-xl-10 col-lg-9 col-md-12 col-sm-12
-                    d-flex
-                    flex-column
-                  "
+                  class="col-xl-10 col-lg-9 col-md-12 col-sm-12 d-flex flex-column"
                 >
                   <span class="black-text"
                     >{{ 'Profil.step' | translate }}1
@@ -544,13 +532,7 @@
                   >
                     <span class="qr-code ms-1">{{ secret }}</span>
                     <label
-                      class="
-                        copy-code
-                        px-2
-                        d-flex
-                        align-items-center
-                        justify-content-center
-                      "
+                      class="copy-code px-2 d-flex align-items-center justify-content-center"
                       (click)="copyCode(secret)"
                       type="button"
                       ngbPopover="Copied"
@@ -571,14 +553,7 @@
                 <span></span>
               </div>
               <div
-                class="
-                  col-xl-2 col-lg-3 col-md-12 col-sm-12
-                  d-flex
-                  justify-conten-end
-                  align-self-center
-                  make-center
-                  margin-top
-                "
+                class="col-xl-2 col-lg-3 col-md-12 col-sm-12 d-flex justify-conten-end align-self-center make-center margin-top"
               >
                 <img
                   width="120 px"
@@ -592,23 +567,12 @@
             <!---------------------- block steps----->
           </div>
           <div
-            class="
-              gray_block
-              mt-2
-              col-lg-10 col-xl-10 col-md-12 col-sm-12
-              d-flex
-              justify-content-center
-              flex-column
-            "
+            class="gray_block mt-2 col-lg-10 col-xl-10 col-md-12 col-sm-12 d-flex justify-content-center flex-column"
             *ngIf="show || desactivate"
           >
             <form [formGroup]="formCode">
               <div
-                class="
-                  col-xl-10 col-lg-9 col-md-12 col-sm-12
-                  d-flex
-                  flex-column
-                "
+                class="col-xl-10 col-lg-9 col-md-12 col-sm-12 d-flex flex-column"
               >
                 <span class="black-text">
                   {{ 'Profil.step' | translate }}2</span
@@ -621,12 +585,7 @@
               </div>
 
               <div
-                class="
-                  col-xl-7 col-lg-10 col-md-12 col-sm-12
-                  d-flex
-                  flex-row flex-direction-column-mobile
-                  mt-2
-                "
+                class="col-xl-7 col-lg-10 col-md-12 col-sm-12 d-flex flex-row flex-direction-column-mobile mt-2"
               >
                 <div class="align-self-center make-center padding-right">
                   <!-- <code-input class="codeinput" type="number" [codeLength]="6" name="code" ngDefaultControl formControlName="code" #codeInput (codeCompleted)="onCodeCompleted($event)">
@@ -634,16 +593,16 @@
                   <app-code-input-auth
                     (codeCompleted)="listenForCodeChange($event)"
                     [ngClass]="{
-                      'success-code': this.errorMessage == 'code correct',
-                      'danger-code': this.errorMessage == 'code incorrect'
+                      'success-code': this.errorMessage === 'code correct',
+                      'danger-code': this.errorMessage === 'code incorrect'
                     }"
                   ></app-code-input-auth>
                   <span
                     class="error_input code-status"
                     *ngIf="this.errorMessage"
                     [ngClass]="{
-                      'success-code': this.errorMessage == 'code correct',
-                      'danger-code': this.errorMessage == 'code incorrect'
+                      'success-code': this.errorMessage === 'code correct',
+                      'danger-code': this.errorMessage === 'code incorrect'
                     }"
                   >
                     {{ errorMessage | translate }}
@@ -654,7 +613,7 @@
                   <button
                     type="submit"
                     class="btn-blue"
-                    [disabled]="formCode.controls.valid.value == false"
+                    [disabled]="formCode.controls.valid.value === false"
                     (click)="confirmUpdate(true)"
                     *ngIf="!is2FAactivated"
                   >
@@ -672,7 +631,7 @@
                   <button
                     type="submit"
                     class="btn-blue"
-                    [disabled]="formCode.controls.valid.value == false"
+                    [disabled]="formCode.controls.valid.value === false"
                     (click)="confirmUpdate(false)"
                     *ngIf="is2FAactivated"
                   >
@@ -832,14 +791,7 @@
     </div>
     <div class="modal-body pt-0 d-flex align-items-center">
       <div
-        class="
-          col-sm-12
-          error
-          d-flex
-          justify-content-center
-          body-content
-          padding-desktop
-        "
+        class="col-sm-12 error d-flex justify-content-center body-content padding-desktop"
       >
         <form [formGroup]="formExportData">
           <div class="text-center">
@@ -905,7 +857,7 @@
                   class="fa fa-fw cross_input_network align-self-center"
                   aria-hidden="true"
                   [ngClass]="
-                    password_field.type == 'password'
+                    password_field.type === 'password'
                       ? ' fa-eye-slash '
                       : ' fa-eye'
                   "
@@ -973,13 +925,7 @@
       {{ 'Profil.userLegal_notice_btn' | translate }}
     </a> -->
     <div
-      class="
-        d-flex
-        align-self-center
-        justify-content-center
-        margin-top
-        div-width-100
-      "
+      class="d-flex align-self-center justify-content-center margin-top div-width-100"
     >
       <button
         type="submit"
@@ -1043,11 +989,11 @@
             <span
               (click)="
                 password_field_.type =
-                  password_field_.type == 'password' ? 'text' : 'password'
+                  password_field_.type === 'password' ? 'text' : 'password'
               "
               class="fa fa-fw cross_input_network align-self-center"
               [ngClass]="
-                password_field_.type == 'password'
+                password_field_.type === 'password'
                   ? ' fa-eye-slash '
                   : ' fa-eye'
               "
@@ -1071,7 +1017,7 @@
               success:
                 !this.formL.errors?.mustMatch &&
                 this.formL.valid &&
-                errorMsg == ''
+                errorMsg === ''
             }"
           >
             <input
@@ -1094,7 +1040,7 @@
               "
               class="fa fa-fw cross_input_network align-self-center"
               [ngClass]="
-                confirm_password_field.type == 'password'
+                confirm_password_field.type === 'password'
                   ? ' fa-eye-slash '
                   : ' fa-eye'
               "

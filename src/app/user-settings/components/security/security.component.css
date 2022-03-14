@@ -12,7 +12,7 @@
     height: 100vh;
     margin: 0px auto;
     max-width: 1000px;
-    
+
 }
 .modal-body{
     overflow-y: auto !important;
@@ -137,7 +137,7 @@ input[type='password'] {
 .btn-reset-passwd:focus {
     background: #009775;
     border: 3px solid rgba(0, 204, 158, 0.5);
-    
+
 }
 
 
@@ -809,7 +809,7 @@ border: 3px solid rgba(64, 72, 255, 0.3);
     }
     .iconDownload {
         width: 50% !important;
-    } 
+    }
     .pink_btn {
         padding: 4.27px 75.17px;
     }
@@ -820,7 +820,7 @@ border: 3px solid rgba(64, 72, 255, 0.3);
 }
 }
 @media (max-width: 767.98px) {
-    .btn-blue-kyc{ 
+    .btn-blue-kyc{
         margin-top: 0 !important;
     }
     .kyctext{
@@ -830,7 +830,7 @@ border: 3px solid rgba(64, 72, 255, 0.3);
     }
     .kyc-modal-body{
         display: flex;
-        flex-direction: column; 
+        flex-direction: column;
     }
     .moonboy-mobile {
         width: 120px;
@@ -858,7 +858,7 @@ border: 3px solid rgba(64, 72, 255, 0.3);
     .textpwd{
         font-size: 16px !important;
     }
-    
+
     .dark-grey-text,.label_input{
         font-size: 14px !important;
     }
@@ -1246,7 +1246,7 @@ input[type='number'] {
 
 /*-----------CSS ui-switch -------*/
 
-::ng-deep .switch.checked {
+/* ::ng-deep .switch.checked {
     background: #00cc9e;
 }
 
@@ -1276,7 +1276,7 @@ input[type='number'] {
     height: 24px;
     top: 1px;
     position: relative;
-}
+} */
 
 
 /*--------end CSS ui-switch--------*/
@@ -1373,11 +1373,11 @@ input[type='number'] {
     font-style: normal;
     font-weight: bold;
     font-size: 22px;
-    line-height: 28px;   
+    line-height: 28px;
     text-align: center;
     letter-spacing: 1px;
     color: #1F2337;
-     
+
 }
 .row-btn{
     margin-top: 3em;
