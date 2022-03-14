@@ -512,7 +512,7 @@
 </ng-template>
 <div
   class="cookiesBlock d-flex"
-  *ngIf="cookiesClicked == true && !cookieExists"
+  *ngIf="cookiesClicked === true && !cookieExists"
   [ngClass]="{ cookiesBlockAlert: this.isClicked }"
 >
   <div class="row">
@@ -521,7 +521,7 @@
     >
       <img
         class="cookiesPIC ms-3"
-        src="/assets/Images/cookies.svg"
+        src="/assets/Images/cookies.png"
         alt="cookies"
       />
     </div>
@@ -529,7 +529,10 @@
       class="col-xl-8 col-lg-8 col-md-7 col-sm-7 d-flex justify-content-center texteCOOK mt-4"
     >
       <div class="d-block">
-        <p>{{ 'cookiesText' | translate }}</p>
+        <h4 class="titleCookie titleCookieWeb">
+          {{ 'titleCookie' | translate }}
+        </h4>
+        <p [innerHTML]="'cookiesText' | translate"></p>
         <!--<span class="boldcook">{{'parametrs' |translate}} ></span>-->
       </div>
     </div>
