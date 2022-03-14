@@ -302,14 +302,11 @@ getCookie(key: string){
                 this.router.navigate(['/auth/login']);
               }, 6000);
             }
-          } else if (p.message === 'Register First') {
+          } else if (
+            p.message === 'Register First' ||
+            p.message === 'account_invalide'
+          ) {
             this.errorMessage = 'Register_First';
-            setTimeout(() => {
-              this.errorMessage = '';
-              this.router.navigate(['/auth/login']);
-            }, 6000);
-          } else if (p.message === 'account_invalide') {
-            this.errorMessage = 'account_invalide';
             setTimeout(() => {
               this.errorMessage = '';
               this.router.navigate(['/auth/login']);
@@ -735,7 +732,7 @@ getCookie(key: string){
       script.setAttribute('data-userpic', 'false');
       script.setAttribute('data-radius', '15');
       // Callback function in global scope
-      element?.parentElement.replaceChild(script, element);
+      if (element) element?.parentElement?.replaceChild(script, element);
     }
   }
 
