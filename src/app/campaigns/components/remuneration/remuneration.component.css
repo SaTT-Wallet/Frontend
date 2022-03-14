@@ -33,7 +33,7 @@
 }
 
 
-/* 
+/*
 .btn-earning:focus {
     background: #F6F6FF;
 border: 1px solid #D6D6E8;
@@ -270,7 +270,7 @@ input.input-number2::-webkit-input-placeholder {
     min-width: 165px;
     max-width: 165px;
     height: 48px;
-    padding: 6px 15px;
+    /* padding: 6px 15px; */
     font-size: 16px;
     background-color: white;
     font-style: normal;
@@ -451,7 +451,7 @@ input.input-number2::-webkit-input-placeholder {
 }
 
 
-/* 
+/*
 .initialBudgetError {
     padding: 0.5em 9em;
 } */
@@ -541,7 +541,7 @@ input.input-number2::-webkit-input-placeholder {
 }
 
 
-/* 
+/*
 .span-ellipsis {
     display: flex;
     min-width: 45vw;
@@ -596,7 +596,7 @@ input.input-number2::-webkit-input-placeholder {
 }
 
 
-/* 
+/*
 .select_balance {
     font-style: normal;
     font-weight: normal;
