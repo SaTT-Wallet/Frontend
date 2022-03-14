@@ -1,5 +1,11 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { Component, Inject, OnChanges, OnInit, PLATFORM_ID } from '@angular/core';
+import {
+  Component,
+  Inject,
+  OnChanges,
+  OnInit,
+  PLATFORM_ID
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
@@ -51,7 +57,7 @@ type CryptoListItem = {
   templateUrl: './buy-token.component.html',
   styleUrls: ['./buy-token.component.scss']
 })
-export class BuyTokenComponent implements OnInit , OnChanges{
+export class BuyTokenComponent implements OnInit, OnChanges {
   liClicked!: boolean;
   amount = 50;
   currency: any;
@@ -140,8 +146,6 @@ export class BuyTokenComponent implements OnInit , OnChanges{
           } else {
             this.fiatLogo = p.id + '.svg';
             this.requestedCrypto = p.id;
-            console.log('this.requestedCrypto', this.requestedCrypto);
-     
           }
         } else if (p.amount) {
           this.toggleCurrencyType(p.fiatCurrency);
@@ -165,8 +169,6 @@ export class BuyTokenComponent implements OnInit , OnChanges{
           this.selectedtLogo = p.symbol;
           this.wallet_id = p.wallet;
           this.selectedTargetCurrency = p.currency;
-
-          console.log('this.requestedCrypto222', this.requestedCrypto);
         } else {
           this.toggleCurrencyType(ECurrencyType.FIAT);
           this.toggleNetwork(EBlockchainNetwork.BEP20);
@@ -200,9 +202,7 @@ export class BuyTokenComponent implements OnInit , OnChanges{
         this.amount = data;
         this.convertCrypto();
       });
-}
-
-
+  }
 
   toggleNetwork(network: EBlockchainNetwork) {
     this.selectedBlockchainNetwork = network;
@@ -327,10 +327,9 @@ export class BuyTokenComponent implements OnInit , OnChanges{
   private listenToPressKeyOnCurrencySelect() {
     if (isPlatformBrowser(this.platformId)) {
       setTimeout(() => {
-        // @ts-ignore
-        this.document
-          .getElementById('dropdown-ul')
-          .addEventListener('keypress', (e: KeyboardEvent) => {
+        let dropdown = this.document.getElementById('dropdown-ul');
+        if (dropdown)
+          dropdown.addEventListener('keypress', (e: KeyboardEvent) => {
             //You have yout key code here
             let currencyList = this.cryptoMoneyList.filter((currency) => {
               if (currency?.value[0] === e.key.toUpperCase()) {
@@ -372,8 +371,18 @@ export class BuyTokenComponent implements OnInit , OnChanges{
       this.isCryptoRouter = false;
       this.router.navigate([], { queryParams: [] });
     }
-  }
+    if (this.selectedCurrencyType === ECurrencyType.FIAT) {
+      this.selectedTargetCurrency = (
+        crypto as { value: string; symbol: string }
+      ).value;
+    } else {
+      this.targetCurrency = crypto;
+      this.switchTokensWhenIdentical();
+    }
 
+    this.convertCryptoUnitToUSD();
+    this.convertCrypto();
+  }
   switchTokensWhenIdentical() {
     if (this.requestedCrypto === this.selectedTargetCurrency) {
       this.targetCurrencyList = this.cryptoList.filter(
