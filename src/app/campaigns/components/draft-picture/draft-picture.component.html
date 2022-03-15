@@ -279,7 +279,7 @@
             [transform]="transform"
             *ngIf="showImage === true"
             [cropperStaticWidth]="1920"
-              [cropperStaticHeight]="800"
+            [cropperStaticHeight]="800"
             [imageChangedEvent]="imageChangedEvent"
             [maintainAspectRatio]="true"
             [imageURL]="draftData.coverSrc"
@@ -349,7 +349,7 @@
         <label class="error" *ngIf="extensionErrorCover && imageCover">
           {{ 'create_campaign_form.error_extension_cover' | translate }}
         </label>
-        <label class="error" *ngIf="sizeErrorCover">
+        <label class="error" *ngIf="sizeErrorCover && imageCover">
           {{ 'create_campaign_form.error_max_size_cover' | translate }}
         </label>
       </div>

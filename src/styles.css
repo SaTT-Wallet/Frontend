@@ -63,7 +63,7 @@ body {
     width: 100% !important;
 }
 
-@media (max-width: 767.98px) {
+@media (max-width: 1023.98px) {
     .introjs-tooltiptext,
     .introjs-tooltipbuttons .customTooltip .introjs-tooltipbuttons,
     .introjs-overlay,
@@ -73,6 +73,9 @@ body {
         visibility: hidden !important;
         right: 44px !important;
     }
+}
+
+@media (max-width: 767.98px) {
     /*---CSS MODAL---*/
     .modal-body.modal-custom h3,
     .modal-body.modal-custom p,

@@ -232,7 +232,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.draftData && changes.draftData.currentValue) {
-/*
+      /*
       this.form?.patchValue(this.draftData, { emitEvent: false });
 */
       this.form?.patchValue(
@@ -657,18 +657,15 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   }
 
   populateBountiesFormArray(bounties: any[]) {
-    bounties = bounties.filter(
-      (bounty: any) => {
-        console.log('draftData', this.draftData)
-        return this.draftData.missions
+    bounties = bounties.filter((bounty: any) => {
+      return (
+        this.draftData.missions
           .filter((res: any) => res.sub_missions.length > 0)
           .map((res: any) => res.oracle)
           .indexOf(bounty.oracle) >= 0
-      }
-
-    );
+      );
+    });
     const controls = bounties.map((bounty) => {
-      console.log('bounty :', bounty);
       const group = new FormGroup({
         oracle: new FormControl(bounty.oracle),
         categories: new FormArray(
@@ -700,9 +697,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
 
       return group;
     });
-
-    console.log({controls})
-
     return new FormArray(controls);
   }
 
@@ -832,16 +826,11 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   }
 
   handleAmountEntries(form: AbstractControl, control: string) {
-
-    console.log({control})
-
     form
       .get(control)
       ?.setValue(this.replaceNonAlphanumeric(form.get(control)?.value), {
         emitEvent: false
       });
-
-    console.log({form})
   }
 
   allowOnlyNumbers(form: AbstractControl, control: string) {

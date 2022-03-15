@@ -206,7 +206,7 @@ export class SocialNetworksComponent implements OnInit {
           this.router.navigate(['/home/settings/social-networks']);
         }, 6000);
       } else if (p.message === 'page already exists') {
-        this.errorMessage = 'page-already-exists';
+        this.errorMessage = 'page already exists';
         setTimeout(() => {
           // this.ngOnInit();
           this.errorMessage = '';

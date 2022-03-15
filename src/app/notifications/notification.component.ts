@@ -43,7 +43,7 @@ export class NotificationComponent implements OnInit {
   typeNotifValue: any;
   contactValue: any;
   isloading: boolean = false;
-  nodata: any;
+  nodata: boolean = true;
   isfocused: boolean = false;
   isClickedOutside: boolean = true;
   showSpinner!: boolean;

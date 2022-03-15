@@ -4,7 +4,8 @@
       [title]="'Buy'"
       class="buy-component"
       (clickedBack)="linstingBack($event)"
-    ></app-header-send-receive-buy>
+    >
+    </app-header-send-receive-buy>
     <div class="row white-bloc justify-content-center">
       <!--------------------AmountBloc----------------------------------->
       <div class="div-content d-flex flex-column align-items-center mt-3">
@@ -234,7 +235,9 @@
                 {{
                   (this.rateExchangePerRequestedCrypto$ | async)?.toFixed(8) +
                     ' ' +
-                    this.requestedCrypto
+                    (this.requestedCrypto === 'SATTBEP20'
+                      ? 'SATT'
+                      : this.requestedCrypto)
                 }}
               </ng-container>
               <ng-container

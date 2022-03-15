@@ -7,7 +7,7 @@ import {
   TemplateRef,
   ViewChild
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { DraftCampaignStoreService } from '@core/services/draft-campaign-store.service';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
@@ -38,7 +38,16 @@ export class LayoutComponent implements OnInit {
     private socialAccountFacadeService: SocialAccountFacadeService,
     @Inject(DOCUMENT) private document: any,
     @Inject(PLATFORM_ID) private platformId: string
-  ) {}
+  ) {
+    this.router.events.pipe().subscribe((event: any) => {
+      if (event instanceof NavigationEnd) {
+        let outlet = this.document.getElementsByClassName('outlet');
+        if (outlet.length > 0) {
+          outlet[0].scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    });
+  }
   ngOnInit(): void {
     if (window.innerWidth <= 768 && isPlatformBrowser(this.platformId)) {
       this.smDevice = true;
@@ -176,7 +185,7 @@ export class LayoutComponent implements OnInit {
             }
             header.style.backgroundColor = '#2F3347';
           }
-          topBar.style.display = 'none';
+          if (topBar) topBar.style.display = 'none';
         } else {
           if (
             event.target.clientWidth > 1024 &&
@@ -184,7 +193,7 @@ export class LayoutComponent implements OnInit {
           ) {
             //cover.style.position = 'relative';
             //  main.style.marginTop = '-35px';
-            topBar.style.display = 'flex';
+            if (topBar) topBar.style.display = 'flex';
             if (btnApply) btnApply.style.display = 'none';
             header.style.backgroundColor = '#2F3347';
           } else if (
@@ -192,17 +201,17 @@ export class LayoutComponent implements OnInit {
             event.target.scrollTop > 477
           ) {
             this.scrolled = true;
-            cover.style.position = 'relative';
-            main.style.marginTop = '-16vw';
-            topBar.style.display = 'flex';
+            if (cover) cover.style.position = 'relative';
+            if (main) main.style.marginTop = '-16vw';
+            if (topBar) topBar.style.display = 'flex';
             if (btnApply) btnApply.style.display = 'none';
             header.style.backgroundColor = '#2F3347';
           } else {
             this.scrolled = false;
-            topBar.style.display = 'none';
+            if (topBar) topBar.style.display = 'none';
             if (btnApply) btnApply.style.display = 'flex';
-            cover.style.position = 'fixed';
-            main.style.marginTop = '28%';
+            if (cover) cover.style.position = 'fixed';
+            if (main) main.style.marginTop = '28%';
             header.style.backgroundColor = 'transparent';
           }
         }

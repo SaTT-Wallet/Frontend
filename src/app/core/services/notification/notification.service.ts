@@ -85,7 +85,7 @@ export class NotificationService {
       })
     };
     return this.http.post(
-      sattUrl + '/profile/save-fcm-accessToken',
+      sattUrl + 'auth/save/firebaseAccessToken',
       data,
       this.httpOptions
     );
