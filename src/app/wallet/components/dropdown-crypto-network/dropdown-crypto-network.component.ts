@@ -37,7 +37,7 @@ export class DropdownCryptoNetworkComponent
   networkList: Array<{ network: string }>;
   cryptoDetails: any;
   private onDestoy$ = new Subject();
-  cryptoFromComponent: any;
+  @Input() cryptoFromComponent: any;
   @Input()
   cryptoFromDraft: any;
   isAddedToken: boolean = false;
