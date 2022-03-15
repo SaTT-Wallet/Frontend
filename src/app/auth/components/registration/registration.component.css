@@ -407,7 +407,7 @@ meter[value='4'] {
 
 /*.social-media-login a {
   transition: all 0.2s ease-in-out;
-  border-radius: 50%; 
+  border-radius: 50%;
 }
 */
 
@@ -936,6 +936,9 @@ a {
 } */
 
 @media (max-width: 768px) {
+  .titleCookieMobile {
+    display: block;
+}
     .google-icon {
         /* margin-left: 0px; */
     }
@@ -1400,4 +1403,131 @@ a {
 
 .text-link {
     color: #4048ff;
+}
+.modalCook {
+  border-radius: 30px;
+  margin-top: -500px;
+  z-index: 999999999;
+  background: #1f2337;
+  box-shadow: 0px -10px 10px rgba(0, 0, 0, 0.15);
+}
+
+.boldcook {
+  font-weight: 800;
+}
+
+.btnCOOkiesB {
+  background: #ffffff;
+  color: blue;
+  border: 1px solid #4048ff;
+  border-radius: 30px;
+  height: 40px;
+  font-size: 14px;
+}
+
+.btnCOOkies {
+  border: 1px solid #ffffff;
+  border-radius: 30px;
+  color: white;
+  background: transparent;
+  height: 40px;
+}
+
+.texteCOOK {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 118% !important;
+  letter-spacing: 0.03em !important;
+  color: #ffffff;
+}
+
+.cookiesBlock {
+  z-index: 99999999999;
+  margin-top: -144px;
+  bottom: 0;
+  position: fixed;
+  background: #1f2337;
+  box-shadow: 0px -10px 10px rgba(0, 0, 0, 0.15);
+}
+
+.cookieTitle {
+  color: white;
+}
+
+.titleCookie {
+  font-weight: bold;
+  font-size: 22px;
+  line-height: 28px;
+  letter-spacing: 1px;
+  color: white;
+}
+
+.titleCookieweb {
+  text-align: left;
+}
+
+.titleCookieMobile {
+  text-align: center;
+  padding-top: 45px;
+  display: none;
+}
+.cookiesBlockAlert {
+  z-index: 99999999999;
+  margin-top: -144px;
+  bottom: 0;
+  position: fixed;
+  background: #1f23379c;
+  box-shadow: 0px -10px 10px rgb(0 0 0 / 46%);
+  transform: scale(1.01);
+}
+
+.btn_row_cookies {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+@media (max-width: 1150px) {
+  .texteCOOK {
+      font-weight: 400;
+      font-size: 11px;
+      line-height: 100%;
+      letter-spacing: 0.02em;
+  }
+}
+
+@media (max-width: 575px) {
+  .texteCOOK {
+      width: 80%;
+      text-align: justify;
+      font-size: 14px;
+      margin-left: 10%;
+  }
+  .btnCOOkiesB {
+      width: 70%;
+      margin-left: 0%;
+  }
+  .btnCOOkies {
+      width: 70%;
+      margin-left: 0%;
+  }
+  .cookiesBlock {
+      height: 100% !important;
+      background: #1f2337;
+      opacity: 0.99;
+  }
+  .imageCOOK {
+      width: 150px !important;
+      height: 150px;
+      margin-top: 3% !important;
+      /* margin-left: 25%; */
+  }
+  .titleCookieWeb {
+      display: none;
+  }
+  .titleCookieMobile {
+      display: block;
+  }
 }
