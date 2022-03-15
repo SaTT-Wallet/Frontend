@@ -126,7 +126,11 @@
                       >{{ selectedCurrencyLogo }}</span
                     >
                     <span class="dropdown-text2">
-                      {{ selectedTargetCurrency }}
+                      {{
+                        selectedTargetCurrency === 'SATTBEP20'
+                          ? 'SATT'
+                          : selectedTargetCurrency
+                      }}
                     </span>
                   </div>
                   <i
@@ -230,7 +234,13 @@
               <ng-container
                 *ngIf="this.selectedCurrencyType !== eCurrencyType.FIAT"
               >
-                {{ '1 ' + selectedTargetCurrency }} =
+                {{
+                  '1 ' +
+                    (selectedTargetCurrency === 'SATTBEP20'
+                      ? 'SATT'
+                      : selectedTargetCurrency)
+                }}
+                =
                 {{
                   (this.rateExchangePerRequestedCrypto$ | async)?.toFixed(8) +
                     ' ' +
@@ -242,7 +252,13 @@
               <ng-container
                 *ngIf="this.selectedCurrencyType === eCurrencyType.FIAT"
               >
-                {{ '1 ' + this.requestedCrypto }} =
+                {{
+                  '1 ' +
+                    (this.requestedCrypto === 'SATTBEP20'
+                      ? 'SATT'
+                      : this.requestedCrypto)
+                }}
+                =
                 {{ this.cryptoPrice?.toFixed(8) + ' USD' }}
               </ng-container>
             </p>
