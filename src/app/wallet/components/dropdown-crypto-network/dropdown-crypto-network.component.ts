@@ -292,7 +292,7 @@ export class DropdownCryptoNetworkComponent
   //   }
   // }
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.selectCryp) {
+    if (changes.cryptoFromDraft) {
       if (this.cryptoFromDraft) {
         this.dataList.forEach((crypto: any) => {
           if (crypto.symbol === this.cryptoFromDraft) {
