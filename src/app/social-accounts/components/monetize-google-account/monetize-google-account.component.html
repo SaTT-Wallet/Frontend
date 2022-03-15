@@ -103,7 +103,7 @@
         >
           <a
             class="skip-page skip-page2"
-            [routerLink]="['/social-registration/socialConfig']"
+            (click)="skipPage()"
             *ngIf="channelGoogle?.length === 0"
             >{{ 'skip-network' | translate: { network: 'Youtube' } }}</a
           >
