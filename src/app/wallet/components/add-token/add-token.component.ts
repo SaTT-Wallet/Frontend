@@ -233,18 +233,32 @@ export class AddTokenComponent implements OnInit {
       .subscribe((response: any) => {
         if (response !== undefined) {
           this.formToken.reset('', { onlySelf: true, emitEvent: false });
-          this.formToken.get('network')?.setValue('bep20', { onlySelf: true });
           this.disabled = false;
           this.isLodingBtn = false;
           this.isSubmited = false;
           this.showAddBtn = false;
           if (!response.error) {
+            this.formToken.reset('', { onlySelf: true, emitEvent: false });
             this.errorMsg = '';
             this.successMsg = 'addToken.token-added-successfully';
             this.router.navigate(['/home']);
           } else if (response.error === 'token already added') {
             this.errorMsg = 'addToken.token-already-added';
             this.successMsg = '';
+            this.successMsg = '';
+
+            this.disabled = false;
+        
+            this.formToken.enable({ onlySelf: true, emitEvent: false });
+        
+            this.formToken.reset({ onlySelf: true, emitEvent: false });
+        
+            this.formToken
+        
+              .get('network')
+        
+              ?.setValue(this.selectedBlockchain, { onlySelf: true });
+
           } else {
             this.errorMsg = 'error-message';
             this.successMsg = '';
