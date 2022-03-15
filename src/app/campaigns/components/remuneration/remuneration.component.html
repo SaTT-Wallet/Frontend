@@ -495,6 +495,30 @@
                         >
                           <!-- followers min -->
                           <div
+                            class="col-12 show-mobile align-items-center justify-content-between"
+                          >
+                            <span class="text-uppercase text-uppercase">
+                              {{ 'Category' | translate }}
+                              {{ categoryIndex + 1 }}
+                            </span>
+                            <button
+                              class="btn-delete btn-round"
+                              (click)="
+                                removeRemunerationCategory(
+                                  bountyIndex,
+                                  categoryIndex,
+                                  bounty.get('oracle')?.value
+                                )
+                              "
+                            >
+                              <span class="delete-cross"
+                                ><img
+                                  height="20px"
+                                  src="../../../../assets/Images/deleteIconn.svg"
+                              /></span>
+                            </button>
+                          </div>
+                          <div
                             class="col-xl-3 col-lg-3 col-md-3 col-12 d-flex follow-min-wrapper"
                           >
                             <span
@@ -584,7 +608,7 @@
                             >
                               <input
                                 type="text"
-                                class="styleForInputMedia ms-3"
+                                class="styleForInputMedia"
                                 aria-describedby="basic-addon2"
                                 formControlName="reward"
                                 (input)="
@@ -598,9 +622,11 @@
                             </div>
                           </div>
                           <div
-                            class="col-2 div-delete-reword"
+                            class="col-2 div-delete-reword show-desktop"
                             [ngClass]="{
                               'height-first-item':
+                                bountyIndex === 0 && categoryIndex === 0,
+                              'make-item-category-end':
                                 bountyIndex === 0 && categoryIndex === 0
                             }"
                           >
@@ -616,12 +642,13 @@
                             >
                               <span class="delete-cross"
                                 ><img
+                                  height="20px"
                                   src="../../../../assets/Images/deleteIconn.svg"
                               /></span>
                             </button>
                           </div>
                         </div>
-
+                        <!-- <div class="col-xl-10 col-md-10 col-lg-10 col-sm-12 justify-content-center" *ngIf=" categoryIndex !== 1 && bountyIndex !== bounties.controls.length - 1 "> <hr class="short-horizontal-line" /> </div> -->
                         <div
                           *ngIf="
                             category.errors?.minBountiesGrater ||
@@ -651,7 +678,6 @@
                         {{ 'campaign.invalidCategoryMaxMin' | translate }}</span
                       >
                     </div>
-
                     <!--separator line-->
                   </ng-container>
                 </div>
