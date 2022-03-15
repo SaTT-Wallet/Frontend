@@ -18,7 +18,7 @@
       <div class="height-drop">
         <app-dropdown-crypto-network
           (selectedCrypto)="linstingCrypto($event)"
-          [selectCryp]="this.draftData.currency.name"
+          [cryptoFromDraft]="this.draftData.currency.name"
         ></app-dropdown-crypto-network>
       </div>
       <div class="">

@@ -37,9 +37,9 @@ export class DropdownCryptoNetworkComponent
   networkList: Array<{ network: string }>;
   cryptoDetails: any;
   private onDestoy$ = new Subject();
-  @Input() cryptoFromComponent: any;
+  cryptoFromComponent: any;
   @Input()
-  selectCryp: any;
+  cryptoFromDraft: any;
   isAddedToken: boolean = false;
   routerSub: any;
   isCryptoRouter: boolean = true;
@@ -96,14 +96,18 @@ export class DropdownCryptoNetworkComponent
         this.dataList = data;
         /*----emit default cryto to receive compoent */
         this.dataList?.forEach((crypto: any) => {
-          if (!this.selectCryp && !this.firstEmit) {
+          if (!this.cryptoFromDraft && !this.firstEmit) {
             if (crypto.symbol === 'SATT') {
               this.selectedCrypto.emit(crypto);
               this.firstEmit = true;
             }
           }
 
-          if (crypto && this.selectCryp && crypto.symbol === this.selectCryp) {
+          if (
+            crypto &&
+            this.cryptoFromDraft &&
+            crypto.symbol === this.cryptoFromDraft
+          ) {
             this.cryptoFromComponent = [crypto];
             this.cryptoSymbol = this.cryptoFromComponent[0].symbol;
             this.selectedNetworkValue = this.cryptoFromComponent[0].network;
@@ -289,9 +293,9 @@ export class DropdownCryptoNetworkComponent
   // }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.selectCryp) {
-      if (this.selectCryp) {
+      if (this.cryptoFromDraft) {
         this.dataList.forEach((crypto: any) => {
-          if (crypto.symbol === this.selectCryp) {
+          if (crypto.symbol === this.cryptoFromDraft) {
             this.cryptoFromComponent = [crypto];
           }
         });
