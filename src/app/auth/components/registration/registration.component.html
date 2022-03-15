@@ -511,19 +511,18 @@
   </div>
 </ng-template>
 <div
-  class="cookiesBlock d-flex"
+  class="cookiesBlock d-flex justify-content-center"
   *ngIf="cookiesClicked === true && !cookieExists"
   [ngClass]="{ cookiesBlockAlert: this.isClicked }"
 >
-  <div class="row">
+  <div class="row" style="width: 100%">
+    <h4 class="titleCookie titleCookieMobile">
+      {{ 'titleCookie' | translate }}
+    </h4>
     <div
       class="col-xl-2 col-lg-2 col-md-2 col-sm-2 d-flex justify-content-center imageCOOK mt-2"
     >
-      <img
-        class="cookiesPIC ms-3"
-        src="/assets/Images/cookies.png"
-        alt="cookies"
-      />
+      <img class="cookiesPIC" src="/assets/Images/cookies.png" alt="cookies" />
     </div>
     <div
       class="col-xl-8 col-lg-8 col-md-7 col-sm-7 d-flex justify-content-center texteCOOK mt-4"
@@ -533,7 +532,7 @@
           {{ 'titleCookie' | translate }}
         </h4>
         <p [innerHTML]="'cookiesText' | translate"></p>
-        <!--<span class="boldcook">{{'parametrs' |translate}} ></span>-->
+        <!-- <span class="boldcook">{{'parametrs' |translate}} ></span> -->
       </div>
     </div>
     <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 btnCOOK mt-4">

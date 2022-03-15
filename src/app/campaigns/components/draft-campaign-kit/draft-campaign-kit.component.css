@@ -60,6 +60,7 @@ input[type='file'] {
     border-radius: 30px;
     height: 205px;
     width: 205px;
+    min-width: 199px;
     /* margin-right: 9px;
     width: 24%; */
 }
@@ -70,6 +71,7 @@ input[type='file'] {
     border-radius: 30px;
     height: 205px;
     width: 205px;
+    min-width: 199px;
     position: relative;
 }
 

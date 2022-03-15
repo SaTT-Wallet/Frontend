@@ -333,6 +333,7 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
       this.picName = null;
       this.showImage = false;
       let fileUploaded = event.target.files[0];
+      console.log("fileupload",fileUploaded.size )
       let imgExtensions: Array<string> = [
         'image/png',
         'image/jpeg',
@@ -342,10 +343,16 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
         this.extensionErrorCover = true;
         this.inputCover.nativeElement.value = '';
       } else if (fileUploaded.size > 2000000) {
+        console.log("1111111111111")
         this.isConformCover = false;
         this.extensionErrorCover = false;
         this.sizeErrorCover = true;
         this.inputCover.nativeElement.value = '';
+        
+
+
+
+
       } else if (this.coverUploadWidthError) {
         this.extensionErrorCover = false;
         this.inputCover.nativeElement.value = '';
@@ -383,6 +390,7 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
         this.extensionErrorCoverMobile = true;
         this.coverInputMobile.nativeElement.value = '';
       } else if (fileUploaded.size > 2000000) {
+        console.log("2222222222222")
         this.isConformCoverMobile = false;
         this.extensionErrorCoverMobile = false;
         this.sizeErrorCoverMobile = true;
