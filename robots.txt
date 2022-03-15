@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /ad-pools
+Allow: /FAQ
+Allow: /welcome
+Allow: /wallet/buy-token
+Disallow: /farm-posts
+Disallow: /notification
+Disallow: /settings/*
+Disallow: /wallet/send
+Disallow: /wallet/receive
+Disallow: /wallet/add-token
+
