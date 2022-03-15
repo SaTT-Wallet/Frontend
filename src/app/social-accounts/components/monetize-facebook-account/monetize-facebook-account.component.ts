@@ -40,12 +40,20 @@ export class MonetizeFacebookAccountComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // this.local_Storage.setSecureWallet('visited-facebook', 'true');
-    this.socialAccountsFacade.pageVisited(ESocialMediaNames.facebook);
+
     this.getUrlMsg();
     this.getSocialNetwork();
     this.userId = this.tokenStorageService.getIdUser();
+    this.route.queryParams.subscribe((params: any) => {
+      if (params.message === 'account_linked_with_success') {
+        if (params.sn && params.sn === 'fb') {
+          this.socialAccountsFacade.pageVisited(ESocialMediaNames.linkedIn);
+        }
+      }
+    });
   }
   skipPage() {
+    this.socialAccountsFacade.pageVisited(ESocialMediaNames.facebook);
     this.router.navigate(['social-registration/monetize-twitter']);
   }
   skipAll() {

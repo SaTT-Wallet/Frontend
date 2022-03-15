@@ -47,11 +47,11 @@ export class checkStepsService implements CanActivate {
       }
     } else if (url === 'monetize-twitter') {
       if (
-        this.tokenStorageService.getSecureWallet('visited-twitter') === 'true'
+        this.tokenStorageService.getSecureWallet('visited-twitter') === null
       ) {
-        return this.router.parseUrl('/social-registration/monetize-linkedin');
-      } else {
         return true;
+      } else {
+        return this.router.parseUrl('/social-registration/monetize-linkedin');
       }
       // else if (url === "monetize-telegram") {
       //   if (this.tokenStorageService.getSecureWallet("visited-facebook") === "true" && this.tokenStorageService.getItem("idSn")!=="5") {
