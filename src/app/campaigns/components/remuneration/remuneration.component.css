@@ -294,10 +294,14 @@ input.input-number2::-webkit-input-placeholder {
     width: 27px;
 }
 
+.make-item-category-end {
+    align-items: flex-end !important;
+}
+
 .div-delete-reword {
     height: 52px;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
 }
 
 .height-first-item {
@@ -853,9 +857,6 @@ input.input-number2::-webkit-input-placeholder {
     .justify-content {
         justify-content: flex-start !important;
     }
-    .show-mobile {
-        display: block !important;
-    }
     .show-desktop {
         display: none !important;
     }
@@ -866,6 +867,16 @@ input.input-number2::-webkit-input-placeholder {
         width: 100%;
         gap: 12em;
     } */
+    .show-mobile {
+        display: flex !important;
+    }
+}
+
+.text-uppercase {
+    font-size: 12px;
+    font-weight: 600;
+    color: #1f2337;
+    font-style: normal;
 }
 
 .show-mobile {
@@ -873,7 +884,7 @@ input.input-number2::-webkit-input-placeholder {
 }
 
 .show-desktop {
-    display: block;
+    display: flex;
 }
 
 a {
