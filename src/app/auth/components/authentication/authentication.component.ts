@@ -130,7 +130,7 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
   idUser!: number;
   forgotpassword: boolean = true;
   recoverpassword: boolean = false;
-  loggedrs: boolean = false;
+  loggedrs!: boolean;
   private onDestroy$ = new Subject();
   private account$ = this.accountFacadeService.account$;
   blockDate: any;
@@ -414,6 +414,7 @@ getCookie(key: string){
    * Authenticate user
    */
   login() {
+    this.loggedrs = false;
     this.isSubmitting = true;
     this.showSpinner = true;
     this.scale = true;
