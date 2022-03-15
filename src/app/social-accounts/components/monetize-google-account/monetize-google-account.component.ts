@@ -39,7 +39,13 @@ export class MonetizeGoogleAccountComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getSocialNetwork();
     this.getUrlMsg();
-    this.socialAccountsFacade.pageVisited(ESocialMediaNames.youtube);
+    this.route.queryParams.subscribe((params: any) => {
+      if (params.message === 'account_linked_with_success') {
+        if (params.sn && params.sn === 'google') {
+          this.socialAccountsFacade.pageVisited(ESocialMediaNames.youtube);
+        }
+      }
+    });
   }
   getSocialNetwork() {
     this.socialAccount$
@@ -73,6 +79,7 @@ export class MonetizeGoogleAccountComponent implements OnInit, OnDestroy {
       });
   }
   skipPage() {
+    this.socialAccountsFacade.pageVisited(ESocialMediaNames.youtube);
     this.router.navigate(['social-registration/socialConfig']);
   }
   skipAll() {
