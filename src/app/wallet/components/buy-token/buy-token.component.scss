@@ -386,11 +386,11 @@ input:-webkit-autofill:active {
     //border-top-right-radius: 30px !important;
     border-radius: 30px !important;
     overflow: hidden !important;
-    //padding: 1em;
-    //height: 100vh;
+    // //padding: 1em;
+    height: 100vh !important;
     padding-top: 1em;
     position: relative;
-    //height: calc(100vh - 141px);
+    // height: calc(100vh - 100px) !important;
     //margin-bottom: 42px;
     -webkit-border-radius: 30px !important;
     -moz-border-radius: 30px !important;
