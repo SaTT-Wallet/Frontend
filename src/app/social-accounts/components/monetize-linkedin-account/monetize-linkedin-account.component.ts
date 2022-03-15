@@ -32,6 +32,13 @@ export class MonetizeLinkedinAccountComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getSocialNetwork();
     this.getUrlMsg();
+    this.route.queryParams.subscribe((params: any) => {
+      if (params.message === 'account_linked_with_success') {
+        if (params.sn && params.sn === 'linkd') {
+          this.socialAccountsFacade.pageVisited(ESocialMediaNames.linkedIn);
+        }
+      }
+    });
   }
 
   skipPage() {

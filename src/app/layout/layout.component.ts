@@ -7,7 +7,7 @@ import {
   TemplateRef,
   ViewChild
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { DraftCampaignStoreService } from '@core/services/draft-campaign-store.service';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
@@ -38,7 +38,16 @@ export class LayoutComponent implements OnInit {
     private socialAccountFacadeService: SocialAccountFacadeService,
     @Inject(DOCUMENT) private document: any,
     @Inject(PLATFORM_ID) private platformId: string
-  ) {}
+  ) {
+    this.router.events.pipe().subscribe((event: any) => {
+      if (event instanceof NavigationEnd) {
+        let outlet = this.document.getElementsByClassName('outlet');
+        if (outlet.length > 0) {
+          outlet[0].scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    });
+  }
   ngOnInit(): void {
     if (window.innerWidth <= 768 && isPlatformBrowser(this.platformId)) {
       this.smDevice = true;
