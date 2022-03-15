@@ -907,7 +907,10 @@ export class WalletComponent implements OnInit, OnDestroy {
               (this.showModal === true || this.user.onBoarding === true)
             ) {
               setTimeout(() => {
-                if (this.tokenStorageService.getFillMyProfil() !== 'false') {
+                if (
+                  this.tokenStorageService.getFillMyProfil() !== 'false' &&
+                  this.tokenStorageService.getToken()
+                ) {
                   this.openModal(this.welcomeModal);
                 }
                 this.tokenStorageService.setFillMyProfil('false');
