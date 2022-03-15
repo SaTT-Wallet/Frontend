@@ -93,12 +93,15 @@ export class DraftCampaignPresentationComponent implements OnInit {
         tap((values: any) => {
           if (this.draftData.id && this.form.valid) {
             this.validFormPresentation.emit(true);
+          } else {
+            this.validFormPresentation.emit(false);
+          }
+          if (this.draftData.id) {
+            this.validFormPresentation.emit(true);
             this.service.autoSaveFormOnValueChanges({
               formData: values,
               id: this.id
             });
-          } else {
-            this.validFormPresentation.emit(false);
           }
         }),
         takeUntil(this.isDestroyed$)
