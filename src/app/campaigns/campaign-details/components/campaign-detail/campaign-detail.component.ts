@@ -462,7 +462,6 @@ export class CampaignDetailComponent implements OnInit {
         this.campaign = campaign;
         this.isLoading = false;
         if(!this.isErnings){
-          debugger
           this.showmoonboy = true;
         }
         this.campaignBrand = campaign.brand;
