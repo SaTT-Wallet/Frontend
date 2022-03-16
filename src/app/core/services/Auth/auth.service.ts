@@ -145,7 +145,7 @@ export class AuthService {
       'Cache-Control': 'no-store',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.get('https://api.satt-token.com:3014/captcha', {
+    return this.http.get(sattUrl + '/auth/captcha', {
       headers: httpHeaders
     });
   }
