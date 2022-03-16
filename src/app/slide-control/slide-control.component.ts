@@ -11,10 +11,9 @@ import {
   Inject
 } from '@angular/core';
 import { ControlService, ControlInput, Result, VertifyQuery } from './control';
-import { HttpErrorResponse } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '@app/core/services/Auth/auth.service';
-import { filter, map, mergeMap, takeUntil, tap } from 'rxjs/operators';
+import { filter, map, mergeMap, takeUntil } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 
@@ -95,10 +94,10 @@ export class SlideControlComponent implements OnInit, OnDestroy {
     this.authService
       .imagespuzzle()
       .pipe(takeUntil(this.isDestroyed))
-      .subscribe((data: any) => {
-        this.originalImage = data.captcha.originalImage;
-        this.puzzle = data.captcha.puzzle;
-        this.id = data.captcha._id;
+      .subscribe((response: any) => {
+        this.originalImage = response.data.originalImage;
+        this.puzzle = response.data.puzzle;
+        this.id = response.data._id;
       });
   }
   resetWindow() {
@@ -114,7 +113,7 @@ export class SlideControlComponent implements OnInit, OnDestroy {
   }
 
   touchMove(e: any) {
-    var shiftKeyPressed = e.shiftKey;
+    // var shiftKeyPressed = e.shiftKey;
     // console.log(this.isMouseDown);
     if (!this.isMouseDown) {
       return false;
@@ -172,7 +171,7 @@ export class SlideControlComponent implements OnInit, OnDestroy {
             return of(true);
           } else {
             this.onValueChanged.emit(false);
-            let msg: string = '';
+            // let msg: string = '';
             return this.translate.get('puzzle-verification-fail');
             // .subscribe((message: any) => {
             //   msg = message;
@@ -221,7 +220,7 @@ export class SlideControlComponent implements OnInit, OnDestroy {
           } else {
           }
         },
-        (error: HttpErrorResponse) => {}
+        () => {}
       );
   }
   ngOnDestroy() {
