@@ -147,6 +147,7 @@ export class HeaderComponent implements OnInit {
   sucess: any = false;
 
   @ViewChild('qrbtnERCM', { static: false }) qrbtnERCM?: ElementRef;
+  @ViewChild('header', { static: false }) header?: ElementRef;
 
   allnotification: BehaviorSubject<Array<any>> = new BehaviorSubject([null]);
   message: any;
@@ -255,6 +256,15 @@ export class HeaderComponent implements OnInit {
         }
         if (this.router.url.includes('welcome')) {
           this.checkMenuAdpool();
+        }
+        if (this.router.url.includes('buy-token')) {
+          this.isWelcomePage = false;
+          this.menuBuyToken = true;
+        }
+        if (!this.isWelcomePage) {
+          //@ts-ignore
+          this.header?.nativeElement.style.background =
+            'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)';
         }
       }
     });
