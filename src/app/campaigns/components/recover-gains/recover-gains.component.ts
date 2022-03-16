@@ -11,7 +11,6 @@ import {
   map,
   mapTo,
   mergeMap,
-  share,
   switchMap,
   takeUntil,
   tap
@@ -22,12 +21,8 @@ import {
   BlockchainActionsService,
   ITransactionStatus
 } from '@core/services/blockchain-actions.service';
-import { CampaignsStoreService } from '@campaigns/services/campaigns-store.service';
-import { Location } from '@angular/common';
-import {
-  GazConsumedByCampaign,
-  id_campaign_to_participate
-} from '@app/config/atn.config';
+
+import { GazConsumedByCampaign } from '@app/config/atn.config';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 interface IEarningsInSaTT {
   likesInSaTT?: string;
@@ -120,7 +115,7 @@ export class RecoverGainsComponent implements OnInit {
     takeUntil(this.isDestroyedSubject),
     switchMap((prom) =>
       this.campaignsService.videoDescription(prom.postId).pipe(
-        catchError((error) => {
+        catchError(() => {
           return of({});
         })
       )
@@ -132,11 +127,11 @@ export class RecoverGainsComponent implements OnInit {
       return this.campaignsService.getOneById(params['id']);
     }),
     map((data: any) => {
-      this.currencyName = data.token.name;
+      this.currencyName = data.data.token.name;
       if (this.currencyName === 'SATTBEP20') {
         this.currencyName = 'SATT';
       }
-      return new Campaign(data);
+      return new Campaign(data.data);
     })
   );
 
