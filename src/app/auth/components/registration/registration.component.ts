@@ -343,18 +343,12 @@ export class RegistrationComponent implements OnInit {
     if (this.authForm.valid) {
       const email = this.authForm.get('email')?.value;
       const password = this.authForm.get('password')?.value;
-      const password_confirmation = this.authForm.get('password')?.value;
+      // const password_confirmation = this.authForm.get('password')?.value;
       const newsLetter = this.authForm.get('newsLetterBox')?.value;
 
-      const noredirect = 'true';
+      // const noredirect = 'true';
       this.authService
-        .register(
-          email,
-          password,
-          password_confirmation,
-          noredirect,
-          newsLetter
-        )
+        .register(email, password, newsLetter)
         .pipe(takeUntil(this.onDestroy$))
         .subscribe(
           (data) => {
