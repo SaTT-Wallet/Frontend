@@ -126,6 +126,9 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    if(this.tokenStorageService.getToken()) {
+      this.isConnected = true
+    }
     // this.toggleCurrencyType(ECurrencyType.FIAT);
     // this.toggleNetwork(EBlockchainNetwork.BEP20);
     this.routerSub = this.route.queryParams
@@ -533,6 +536,10 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   }
 
   onSumbit() {
+    if(!this.isConnected){
+      this.router.navigateByUrl('/auth/login')
+      return
+    }
     this.wallet_id = this.convertform.get('walletId')?.value;
     if (
       this.convertform.valid &&
