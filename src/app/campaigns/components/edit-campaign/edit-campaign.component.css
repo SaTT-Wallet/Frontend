@@ -237,8 +237,9 @@
 .btn-launch-campaign {
     width: 500px;
 }
-@media(min-width: 768px) and (max-width:1024px){
-      .div-footer-bar {
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .div-footer-bar {
         display: flex !important;
     }
     .btn-white,
@@ -623,3 +624,47 @@
 #back-top-pic-disabled {
     margin-top: 0.5em;
 }
+
+
+/*---CSS green checkbox----*/
+
+input[type='checkbox'][type='checkbox']:checked+label::before {
+    content: '\002714';
+    color: #ffffff;
+    background-color: #00cc9e;
+    border: 3px solid #00cc9e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+input[type='checkbox'] {
+    cursor: pointer;
+    opacity: 0;
+    left: 20px;
+    z-index: 1;
+}
+
+input[type='checkbox']+label {
+    display: flex;
+    /* align-items: center; */
+    margin: 0px;
+}
+
+input[type='checkbox']+label::before {
+    content: '';
+    max-height: 1em;
+    width: 1em;
+    height: 1em;
+    max-width: 1em;
+    border-radius: 5px;
+    /* margin-right: 0.5em; */
+    border: 3px solid #d6d6e8;
+    /* padding: 0px; */
+    /* margin: 10px 15px 4px 0px; */
+    display: grid;
+    position: absolute;
+}
+
+
+/*---END CSS green checkbox----*/

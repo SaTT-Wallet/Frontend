@@ -39,7 +39,7 @@ export class User {
   public userSatt: any;
   public photoUpdated: any;
   public passphrase: any;
-
+  public muteCampaignReminders!: boolean;
   constructor(data: any) {
     this.idUser = data._id;
     this.idSn = data.idSn;
@@ -81,6 +81,7 @@ export class User {
     this.userSatt = data.userSatt || '';
     this.photoUpdated = data.photoUpdated;
     this.passphrase = data.passphrase;
+    this.muteCampaignReminders = data.muteCampaignReminders || false;
   }
 
   public getAge() {
