@@ -5,7 +5,6 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { TokenStorageService } from '../tokenStorage/token-storage-service.service';
 import { IresponseAccount } from '@app/core/iresponse-account';
-import { IresponseAuth } from '@app/core/iresponse-auth';
 import { IresponseCode } from '@app/core/iresponse-code-qr';
 
 @Injectable({
@@ -137,7 +136,7 @@ export class AuthService {
       'Cache-Control': 'no-store',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.get('https://api.satt-token.com:3014/captcha', {
+    return this.http.get(sattUrl + '/auth/captcha', {
       headers: httpHeaders
     });
   }

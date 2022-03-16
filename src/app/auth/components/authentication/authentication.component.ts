@@ -99,7 +99,7 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
   socialUser: SocialUser | undefined;
   isLoggedin: boolean = false;
   authresetpwd: string = sattUrl + '/resetpssword';
-  authFacebook: string = sattUrl + '/auth/fb';
+  authFacebook: string = sattUrl + '/auth/signin/facebook';
   authGoogle: string = sattUrl + '/auth/google';
   authTelegram: string = sattUrl + '/auth/telegram';
   cookiesClicked!: boolean;
@@ -449,7 +449,6 @@ getCookie(key: string){
             return of(null);
           }),
           mergeMap((data: any) => {
-            console.log(data);
             if (data?.data.access_token !== undefined) {
               this.tokenStorageService.setItem(
                 'access_token',
