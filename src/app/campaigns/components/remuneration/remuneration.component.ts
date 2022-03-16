@@ -242,6 +242,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       this.selectRemunerateValue = this.form.get('remuneration')?.value;
       this.cryptoSymbol = this.draftData.currency.name;
       this.selectedBlockchain = this.draftData.currency.type;
+      this.cryptoToDropdown = this.draftData.currency.name;
       if (this.f.currency) {
         this.defaultAmount = this.f.currency.value;
       } else {
@@ -383,9 +384,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         debounceTime(500),
         tap((values: any) => {
           if (this.form.valid) {
-            this.cryptoToDropdown = this.dataList.filter(
-              (crypto) => crypto.symbol === this.draftData.currency.name
-            );
             this.validFormBudgetRemun.emit(true);
           } else {
             this.validFormBudgetRemun.emit(false);
@@ -771,11 +769,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe((data: any) => {
         data = JSON.parse(JSON.stringify(data));
-
         this.dataList = data;
-        this.cryptoToDropdown = this.dataList.filter(
-          (crypto) => crypto.symbol === this.draftData.currency.name
-        );
         Object.preventExtensions(this.dataList);
         this.cryptoQuantity = (
           this.dataList.find(
