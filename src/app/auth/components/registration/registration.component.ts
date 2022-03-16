@@ -26,6 +26,7 @@ import { Subject, Subscription } from 'rxjs';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { AuthFacadeService } from '@app/core/facades/auth-facade/auth-facade.service';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
+import { WhiteSpaceValidator } from '@app/helpers/form-validators';
 
 declare const zxcvbn: Function;
 
@@ -73,6 +74,7 @@ export class RegistrationComponent implements OnInit {
   @ViewChild('script') script!: ElementRef;
   public isChecked: boolean = false;
   english: boolean = true;
+  modifEmail: any;
   constructor(
     private walletFacade: WalletFacadeService,
     private authFacadeService: AuthFacadeService,
@@ -121,6 +123,7 @@ export class RegistrationComponent implements OnInit {
       ]),
       password: new FormControl('', {
         validators: [
+          WhiteSpaceValidator.noWhiteSpace,
           Validators.required,
           Validators.minLength(8),
           Validators.pattern(pattPassword)
@@ -133,6 +136,21 @@ export class RegistrationComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.authForm
+      .get('email')
+      ?.valueChanges.pipe(
+        debounceTime(200),
+        map((email) => {
+          email = email?.trim();
+          return email;
+        }),
+        takeUntil(this.onDestroy$)
+      )
+      .subscribe((email) => {
+        this.modifEmail = email;
+        this._changeDetectorRef.detectChanges();
+      });
+
     this.skipLoginWhenRedirected();
     this.convertToScript();
     if (!this.cookieExists) {
