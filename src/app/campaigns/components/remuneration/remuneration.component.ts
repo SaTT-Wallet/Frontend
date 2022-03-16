@@ -47,8 +47,6 @@ import {
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { DOCUMENT } from '@angular/common';
 import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
-import { CampaignsService } from '@app/campaigns/facade/campaigns.facade';
-import { CampaignsStoreService } from '@app/campaigns/services/campaigns-store.service';
 enum ERemunerationType {
   Publication = 'publication',
   Performance = 'performance'
@@ -164,8 +162,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     private cdref: ChangeDetectorRef,
     private walletFacade: WalletFacadeService,
     private showNumbersRule: ShowNumbersRule,
-    private CampaignsService: CampaignsService,
-    private campaignsStoreService: CampaignsStoreService,
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string
   ) {
@@ -223,18 +219,9 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     // this.selectedBlockchain = 'erc20';
     // this.f.currency?.setValue('SATT');
   }
-
-  ngAfterContentChecked() {
-    //  this.amountUsd = '0.00';
-    // this.cdref.detectChanges();
-    // this.cdref.markForCheck();
-  }
-
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.draftData && changes.draftData.currentValue) {
-      /*
       this.form?.patchValue(this.draftData, { emitEvent: false });
-*/
       this.form?.patchValue(
         {
           initialBudget: this.convertFromWeiTo.transform(
@@ -434,7 +421,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
               this.sendErrorToMission = false;
             }
           }
-          if (this.draftData.id) {
+          if (this.draftData.id && !this.draftData.isActive) {
             this.validFormMissionFromRemuToEdit.emit(true);
             this.sendErrorToMission = false;
             this.service.autoSaveFormOnValueChanges({
@@ -605,97 +592,176 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   }
 
   populateRatiosFormArray(ratios: any[]): FormArray {
-    ratios = ratios.filter(
-      (ratio: any) =>
-        this.draftData.missions
-          .filter((res: any) => res.sub_missions.length > 0)
-          .map((res: any) => res.oracle)
-          .indexOf(ratio.oracle) >= 0
-    );
-    const controls = ratios.map((ratio) => {
-      const group = new FormGroup(
-        {
-          oracle: new FormControl(ratio.oracle),
-          view: new FormControl(
-            this.convertFromWeiTo.transform(
-              ratio.view,
-              this.draftData.currency.name
-            ),
-            [Validators.required]
-          ),
-          like: new FormControl(
-            this.convertFromWeiTo.transform(
-              ratio.like,
-              this.draftData.currency.name
-            ),
-            [Validators.required]
-          ),
-          share: new FormControl(
-            this.convertFromWeiTo.transform(
-              ratio.share,
-              this.draftData.currency.name
-            ),
-            [Validators.required]
-          )
-        },
-        customValidateRatios()
+    if (this.draftData.missions !== []) {
+      ratios = ratios.filter(
+        (ratio: any) =>
+          this.draftData.missions
+            .filter((res: any) => res.sub_missions.length > 0)
+            .map((res: any) => res.oracle)
+            .indexOf(ratio.oracle) >= 0
       );
-
-      if (ratio.reachLimit) {
-        this.isReachLimitActivated = true;
-        group.addControl(
-          'reachLimit',
-          new FormControl(ratio.reachLimit, Validators.required)
+      const controls = ratios.map((ratio) => {
+        const group = new FormGroup(
+          {
+            oracle: new FormControl(ratio.oracle),
+            view: new FormControl(
+              this.convertFromWeiTo.transform(
+                ratio.view,
+                this.draftData.currency.name
+              ),
+              [Validators.required]
+            ),
+            like: new FormControl(
+              this.convertFromWeiTo.transform(
+                ratio.like,
+                this.draftData.currency.name
+              ),
+              [Validators.required]
+            ),
+            share: new FormControl(
+              this.convertFromWeiTo.transform(
+                ratio.share,
+                this.draftData.currency.name
+              ),
+              [Validators.required]
+            )
+          },
+          customValidateRatios()
         );
-      }
 
-      return group;
-    });
-    return new FormArray(controls);
+        if (ratio.reachLimit) {
+          this.isReachLimitActivated = true;
+          group.addControl(
+            'reachLimit',
+            new FormControl(ratio.reachLimit, Validators.required)
+          );
+        }
+
+        return group;
+      });
+      return new FormArray(controls);
+    } else {
+      const controls = ratios.map((ratio) => {
+        const group = new FormGroup(
+          {
+            oracle: new FormControl(ratio.oracle),
+            view: new FormControl(
+              this.convertFromWeiTo.transform(
+                ratio.view,
+                this.draftData.currency.name
+              ),
+              [Validators.required]
+            ),
+            like: new FormControl(
+              this.convertFromWeiTo.transform(
+                ratio.like,
+                this.draftData.currency.name
+              ),
+              [Validators.required]
+            ),
+            share: new FormControl(
+              this.convertFromWeiTo.transform(
+                ratio.share,
+                this.draftData.currency.name
+              ),
+              [Validators.required]
+            )
+          },
+          customValidateRatios()
+        );
+
+        if (ratio.reachLimit) {
+          this.isReachLimitActivated = true;
+          group.addControl(
+            'reachLimit',
+            new FormControl(ratio.reachLimit, Validators.required)
+          );
+        }
+
+        return group;
+      });
+      return new FormArray(controls);
+    }
   }
 
   populateBountiesFormArray(bounties: any[]) {
-    bounties = bounties.filter((bounty: any) => {
-      return (
-        this.draftData.missions
-          .filter((res: any) => res.sub_missions.length > 0)
-          .map((res: any) => res.oracle)
-          .indexOf(bounty.oracle) >= 0
-      );
-    });
-    const controls = bounties.map((bounty) => {
-      const group = new FormGroup({
-        oracle: new FormControl(bounty.oracle),
-        categories: new FormArray(
-          bounty.categories.map((category: any) => {
-            return new FormGroup(
-              {
-                minFollowers: new FormControl(
-                  category.minFollowers,
-                  Validators.required
-                ),
-                maxFollowers: new FormControl(
-                  category.maxFollowers,
-                  Validators.required
-                ),
-                reward: new FormControl(
-                  this.convertFromWeiTo.transform(
-                    category.reward,
-                    this.draftData.currency.name
-                  ),
-                  Validators.required
-                )
-              },
-              customValidateBounties()
-            );
-          }),
-          customValidateMaxMin()
-        )
+    if (this.draftData.missions !== []) {
+      bounties = bounties.filter((bounty: any) => {
+        return (
+          this.draftData.missions
+            .filter((res: any) => res.sub_missions.length > 0)
+            .map((res: any) => res.oracle)
+            .indexOf(bounty.oracle) >= 0
+        );
       });
+      const controls = bounties.map((bounty) => {
+        const group = new FormGroup({
+          oracle: new FormControl(bounty.oracle),
+          categories: new FormArray(
+            bounty.categories.map((category: any) => {
+              return new FormGroup(
+                {
+                  minFollowers: new FormControl(
+                    category.minFollowers,
+                    Validators.required
+                  ),
+                  maxFollowers: new FormControl(
+                    category.maxFollowers,
+                    Validators.required
+                  ),
+                  reward: new FormControl(
+                    this.convertFromWeiTo.transform(
+                      category.reward,
+                      this.draftData.currency.name
+                    ),
+                    Validators.required
+                  )
+                },
+                customValidateBounties()
+              );
+            }),
+            customValidateMaxMin()
+          )
+        });
 
-      return group;
-    });
-    return new FormArray(controls);
+        return group;
+      });
+      return new FormArray(controls);
+    } else {
+      const controls = bounties.map((bounty) => {
+        const group = new FormGroup({
+          oracle: new FormControl(bounty.oracle),
+          categories: new FormArray(
+            bounty.categories.map((category: any) => {
+              return new FormGroup(
+                {
+                  minFollowers: new FormControl(
+                    category.minFollowers,
+                    Validators.required
+                  ),
+                  maxFollowers: new FormControl(
+                    category.maxFollowers,
+                    Validators.required
+                  ),
+                  reward: new FormControl(
+                    this.convertFromWeiTo.transform(
+                      category.reward,
+                      this.draftData.currency.name
+                    ),
+                    Validators.required
+                  )
+                },
+                customValidateBounties()
+              );
+            }),
+            customValidateMaxMin()
+          )
+        });
+
+        return group;
+      });
+      return new FormArray(controls);
+    }
   }
 
   getUserCrypto() {

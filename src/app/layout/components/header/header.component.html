@@ -6,8 +6,9 @@
 <!--  [ngClass]="{ 'navbar-dark-blue': !menuCampaign }"-->
 <nav
   id="navbar-id"
-  class="navbar navbar-expand-lg"
+  class="navbar navbar-expand-lg navBAR"
   *ngIf="router.url !== '/password_wallet'"
+  #header
   [ngClass]="{
     navWallet: this.sidebarService.toggleWalletMobile.value,
     'navbar-trans': menuCampaign,
@@ -261,18 +262,12 @@
           id="intro6"
         >
           <a
-            *ngIf="isConnected"
             class="farmPost"
             [routerLink]="['/wallet/buy-token']"
             (click)="checkMenuBuyToken()"
             >{{ 'menu_buyToken' | translate }}</a
           >
-          <a
-            *ngIf="!isConnected"
-            class="farmPost"
-            [routerLink]="['/auth/login']"
-            ><span>{{ 'menu_buyToken' | translate }}</span></a
-          >
+          
         </li>
         <li
           class="li-menu"
