@@ -17,8 +17,8 @@ export class CampaignsEffects {
       /** An EMPTY observable only emits completion. Replace with your own observable API request */
       concatMap((action: any) =>
         this.campaignHttpApiService.getOneById(action.id).pipe(
-          map((data) => {
-            const campaign = new Campaign(data);
+          map((data: any) => {
+            const campaign = new Campaign(data.data);
             campaign.ownedByUser =
               Number(campaign.ownerId) ===
               Number(this.localStorageService.getIdUser());

@@ -154,11 +154,11 @@ export class CampaignDetailComponent implements OnInit {
         .pipe(takeUntil(this.isDestroyed))
         .subscribe((event) => {
           if (event instanceof NavigationEnd) {
-            if(event.url.includes('earnings')){
+            if (event.url.includes('earnings')) {
               this.isErnings = true;
               this.showmoonboy = false;
             } else {
-              if(!event.url.includes('earnings')){
+              if (!event.url.includes('earnings')) {
                 this.showmoonboy = true;
               }
             }
@@ -175,15 +175,13 @@ export class CampaignDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.CampaignService.isLoading.subscribe((res) => {
       if (res === false) {
         setTimeout(() => {
           this.showmoonboy = false;
         }, 1000);
       } else {
-
-        if(!this.router.url.includes('earnings')) {
+        if (!this.router.url.includes('earnings')) {
           this.showmoonboy = true;
         }
       }
@@ -461,8 +459,7 @@ export class CampaignDetailComponent implements OnInit {
         //data logo image
         this.campaign = campaign;
         this.isLoading = false;
-        if(!this.isErnings){
-          debugger
+        if (!this.isErnings) {
           this.showmoonboy = true;
         }
         this.campaignBrand = campaign.brand;
