@@ -50,6 +50,23 @@ export class TwitterComponent implements OnInit {
         name: 'twitter:card',
         content: 'summary_large_image'
       });
+
+      this.meta.addTag({
+        name: 'twitter:domain',
+        content: 'dev.satt.atayen.us'
+      });
+      this.meta.addTag({
+        name: 'twitter:url',
+        content: 'https://dev.satt.atayen.us/'
+      });
+      this.meta.addTag({
+        name: 'twitter:title',
+        content: 'test twitter'
+      });
+      this.meta.addTag({
+        name: 'twitter:description',
+        content: 'test twitter desc'
+      });
       this.meta.addTag({
         name: 'twitter:image',
         content: 'https://satt-token.com/assets/img/index/wallet.png'
