@@ -148,19 +148,21 @@ export class FarmWelcomeComponent implements OnInit {
       .getWelcomePageStats()
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((res: any) => {
-        this.marketCap = res.result.marketCap.toFixed(2);
-        this.nbPools = res.result.nbPools;
-        this.posts = res.result.posts;
-        this.reach = res.result.reach;
-        this.sattPrice = res.result.sattPrice.toFixed(5);
-        this.views = res.result.views;
-        this.harvested = res.result.harvested;
-        this.tvl = !!res.result.tvl ? res.result.tvl : 0;
-        this.percentChange = !!res.result.percentChange
-          ? res.result.percentChange >= 0
-            ? '+' + res.result.percentChange.toFixed(2)
-            : res.result.percentChange.toFixed(2)
-          : 0;
+        if (res.message === 'success' && res.code === 200) {
+          this.marketCap = res.data.marketCap.toFixed(2);
+          this.nbPools = res.data.nbPools;
+          this.posts = res.data.posts;
+          this.reach = res.data.reach;
+          this.sattPrice = res.data.sattPrice.toFixed(5);
+          this.views = res.data.views;
+          this.harvested = res.data.harvested;
+          this.tvl = !!res.data.tvl ? res.data.tvl : 0;
+          this.percentChange = !!res.data.percentChange
+            ? res.data.percentChange >= 0
+              ? '+' + res.data.percentChange.toFixed(2)
+              : res.data.percentChange.toFixed(2)
+            : 0;
+        }
       });
   }
 
