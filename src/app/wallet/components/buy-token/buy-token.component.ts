@@ -103,6 +103,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   requestedCryptoPriceInUSD$ = new Observable<number>();
   purshaseCryptoPriceInUSD$ = new Observable<number>();
   rateExchangePerRequestedCrypto$ = new Observable<number>();
+  varprice: any;
 
   constructor(
     private walletFacade: WalletFacadeService,
@@ -505,16 +506,31 @@ export class BuyTokenComponent implements OnInit, OnChanges {
           takeUntil(this.isDestroyed)
         )
         .subscribe((data: any) => {
+          debugger
           this.cryptoAmount = data.digital_money?.amount || 0;
 
           this.quoteId = data.quote_id;
         });
-      this.rateExchangePerRequestedCrypto$ = this.cryptoList$.pipe(
+        this.walletFacade.getListTokensPrices().pipe(
+          map(
+            (cryptoListObject: any) => {
+               debugger
+                return cryptoListObject[this.requestedCrypto]?.price || 0
+               
+            }
+          )
+        ).subscribe((data) => {
+          this.varprice = data
+          console.log(this.varprice)
+
+        })
+      this.rateExchangePerRequestedCrypto$ = this.walletFacade.getListTokensPrices().pipe(
         map(
-          (cryptoList: CryptoListItem[]) =>
-            cryptoList.find(
-              (crypto: CryptoListItem) => crypto.symbol === this.requestedCrypto
-            )?.price || 0
+          (cryptoListObject: any) => {
+             debugger
+              return cryptoListObject[this.requestedCrypto]?.price || 0
+             
+          }
         )
       );
 
