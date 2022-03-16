@@ -101,7 +101,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
         content: 'summary_large_image'
       });
       this.meta.addTag({
-        name: 'twitter:image',
+        property: 'twitter:image',
         content: 'https://satt-token.com/assets/img/index/wallet.png'
       });
     }
@@ -179,7 +179,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
       );
       this.meta.updateTag(
         {
-          name: 'twitter:image',
+          property: 'twitter:image',
           content: `${sattUrl}/coverByCampaign/${campaign.id}`
         },
         `name='twitter:image'`
