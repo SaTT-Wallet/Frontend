@@ -1022,7 +1022,7 @@ export class CampaignHttpApiService {
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
 
-    return this.http.get(`${sattUrl}/campaignsStatistics`, {
+    return this.http.get(sattUrl + '/campaign/statistics', {
       headers: header
     });
   }
