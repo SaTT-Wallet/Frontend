@@ -116,12 +116,12 @@ export class CampaignsListStoreService {
       obs
         .pipe(
           map((res: any) => {
-            this.count = res.count;
+            this.count = res.data.count;
             if (res.code === 200 && res.message === 'success') {
               return [
-                res.count,
-                !!res.data.data
-                  ? res.data.data.map((c: any) => {
+                res.data.count,
+                !!res.data.campaigns
+                  ? res.data.campaigns.map((c: any) => {
                       let campaign = new Campaign(c);
                       campaign.ownedByUser =
                         Number(campaign.ownerId) ===
