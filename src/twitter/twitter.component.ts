@@ -52,23 +52,23 @@ export class TwitterComponent implements OnInit {
       });
 
       this.meta.addTag({
-        name: 'twitter:domain',
+        property: 'twitter:domain',
         content: 'dev.satt.atayen.us'
       });
       this.meta.addTag({
-        name: 'twitter:url',
+        property: 'twitter:url',
         content: 'https://dev.satt.atayen.us/'
       });
       this.meta.addTag({
-        name: 'twitter:title',
+        property: 'twitter:title',
         content: 'test twitter'
       });
       this.meta.addTag({
-        name: 'twitter:description',
+        property: 'twitter:description',
         content: 'test twitter desc'
       });
       this.meta.addTag({
-        name: 'twitter:image',
+        property: 'twitter:image',
         content: 'https://satt-token.com/assets/img/index/wallet.png'
       });
     }
