@@ -35,6 +35,7 @@ export class TokenStorageService {
   url: any;
   signOut(): void {
     this.localStorage.clear();
+    this.logout().subscribe();
   }
   setHeader() {
     this.headers = new HttpHeaders({
