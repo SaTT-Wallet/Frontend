@@ -98,7 +98,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
       });
       this.meta.addTag({
         name: 'twitter:card',
-        content: 'https://satt-token.com/assets/img/index/wallet.png'
+        content: 'summary_large_image'
       });
       this.meta.addTag({
         name: 'twitter:image',
