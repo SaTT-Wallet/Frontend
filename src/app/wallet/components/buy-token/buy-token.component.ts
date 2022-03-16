@@ -196,6 +196,10 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       }
       return 0;
     });
+
+  
+
+
   }
   ngOnChanges(): void {
     this.convertform
@@ -205,8 +209,22 @@ export class BuyTokenComponent implements OnInit, OnChanges {
         this.amount = data;
         this.convertCrypto();
       });
-  }
 
+      // this.getPrices()
+  }
+//   getPrices(){
+//   this.walletFacade.getListTokensPrices().pipe(
+//     map(
+//       (cryptoListObject: any) => {
+//           return cryptoListObject[this.requestedCrypto]?.price || 0
+//       }
+//     )
+//   ).subscribe((data) => {
+//     console.log(data)
+//     this.cryptoPrice = data 
+//   })
+  
+// }
   toggleNetwork(network: EBlockchainNetwork) {
     this.selectedBlockchainNetwork = network;
     if (this.selectedCurrencyType === ECurrencyType.FIAT) {
@@ -499,6 +517,18 @@ export class BuyTokenComponent implements OnInit, OnChanges {
             )?.price || 0
         )
       );
+
+      this.walletFacade.getListTokensPrices().pipe(
+        map(
+          (cryptoListObject: any) => {
+              return cryptoListObject[this.requestedCrypto]?.price || 0
+          }
+        )
+      ).subscribe((data) => {
+        console.log(data)
+        this.cryptoPrice = data 
+      })
+
     } else {
       this.errMsg = '';
       this.requestedCryptoPriceInUSD$ = this.cryptoList$.pipe(
@@ -519,7 +549,8 @@ export class BuyTokenComponent implements OnInit, OnChanges {
             )?.price || 0
         )
       );
-
+  
+      
       this.rateExchangePerRequestedCrypto$ = zip(
         this.purshaseCryptoPriceInUSD$,
         this.requestedCryptoPriceInUSD$
