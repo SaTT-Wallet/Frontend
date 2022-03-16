@@ -374,31 +374,7 @@ export class ParticiperComponent implements OnInit {
       this.validUrl = true;
       this.twitter = true;
       let parts = media.split('/');
-      if (!!this.idstatus && isPlatformBrowser(this.platformId)) {
-        setTimeout(() => {
-          var element = this.document.getElementById('twitter-widget-1');
-
-          if (!!element) {
-            element.outerHTML = element.outerHTML.replace('iframe', 'embed');
-          }
-
-          var newelement = this.document.getElementById('twitter-widget-2');
-          if (!!newelement) {
-            newelement.outerHTML = newelement.outerHTML.replace(
-              'iframe',
-              'embed'
-            );
-          }
-          var newsecondelement =
-            this.document.getElementById('twitter-widget-3');
-          if (!!newsecondelement) {
-            newsecondelement.outerHTML = newsecondelement.outerHTML.replace(
-              'iframe',
-              'embed'
-            );
-          }
-        }, 2000);
-      }
+   
       if (parts[3] && parts[3] !== '' && parts[5] && parts[5] !== '') {
         parts[5] = parts[5].split('?')[0];
         myApplication.idUser = parts[3].replace(pattLinks, '');
@@ -416,6 +392,39 @@ export class ParticiperComponent implements OnInit {
           // element.outerHTML = element.outerHTML.replace('iframe', 'embed');
         }, 3000);
 
+        if (!!this.idstatus && isPlatformBrowser(this.platformId)) {
+        
+          setTimeout(() => {
+  
+           var firstelement = this.document.getElementById('twitter-widget-0');
+           if (!!firstelement) {
+           firstelement.outerHTML = firstelement.outerHTML.replace('iframe', 'embed');
+           }
+
+            var element = this.document.getElementById('twitter-widget-1');
+
+            if (!!element) {
+              element.outerHTML = element.outerHTML.replace('iframe', 'embed');
+            }
+  
+            var newelement = this.document.getElementById('twitter-widget-2');
+            if (!!newelement) {
+              newelement.outerHTML = newelement.outerHTML.replace(
+                'iframe',
+                'embed'
+              );
+            }
+            var newsecondelement =
+              this.document.getElementById('twitter-widget-3');
+            if (!!newsecondelement) {
+              newsecondelement.outerHTML = newsecondelement.outerHTML.replace(
+                'iframe',
+                'embed'
+              );
+            }
+          
+          }, 2000);
+        }
         if (this.application) {
           this.tokenStorageService.setIdPost(myApplication.idPost);
           this.tokenStorageService.setIdUserPost(myApplication.idUser);
