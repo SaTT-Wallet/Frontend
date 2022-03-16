@@ -117,11 +117,11 @@ export class CampaignsListStoreService {
         .pipe(
           map((res: any) => {
             this.count = res.count;
-            if (!!res) {
+            if (res.code === 200 && res.message === 'success') {
               return [
                 res.count,
-                !!res.campaigns
-                  ? res.campaigns.map((c: any) => {
+                !!res.data.data
+                  ? res.data.data.map((c: any) => {
                       let campaign = new Campaign(c);
                       campaign.ownedByUser =
                         Number(campaign.ownerId) ===
