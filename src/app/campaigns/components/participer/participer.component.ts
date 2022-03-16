@@ -400,7 +400,7 @@ export class ParticiperComponent implements OnInit {
            if (!!firstelement) {
            firstelement.outerHTML = firstelement.outerHTML.replace('iframe', 'embed');
            }
-
+console.log("firstelemnt",firstelement)
             var element = this.document.getElementById('twitter-widget-1');
 
             if (!!element) {
@@ -423,7 +423,7 @@ export class ParticiperComponent implements OnInit {
               );
             }
           
-          }, 2000);
+          }, 3000);
         }
         if (this.application) {
           this.tokenStorageService.setIdPost(myApplication.idPost);
