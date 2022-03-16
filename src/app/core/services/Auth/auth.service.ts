@@ -55,17 +55,12 @@ export class AuthService {
       headers: this.tokenStorageService.getHeader()
     });
   }
-  login(
-    username: string,
-    password: string,
-    noredirect: string
-  ): Observable<IresponseAuth> {
+  login(username: string, password: string): Observable<IresponseAuth> {
     return this.http.post<IresponseAuth>(
       sattUrl + '/auth/email',
       {
         username: username,
-        password: password,
-        noredirect: noredirect
+        password: password
       },
       { headers: this.tokenStorageService.getHeader() }
     );
