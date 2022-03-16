@@ -1,24 +1,14 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import {
-  catchError,
-  concatMap,
-  map,
-  mergeMap,
-  retry,
-  switchMap,
-  tap
-} from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, concatMap, map, retry, tap } from 'rxjs/operators';
 import { CampaignHttpApiService } from '../services/campaign/campaign.service';
-import { arrayCountries, ListTokens } from '@config/atn.config';
+import { arrayCountries } from '@config/atn.config';
 import { Campaign } from '../../models/campaign.model';
 
-import { CryptofetchServiceService } from '../services/wallet/cryptofetch-service.service';
-import { ConvertToWeiPipe } from '@shared/pipes/convert-to-wei.pipe';
 import { CampaignsStoreService } from '@campaigns/services/campaigns-store.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FormatDataService } from '@campaigns/services/format-data.service';
-import {TokenStorageService} from "@core/services/tokenStorage/token-storage-service.service";
+import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 
 @Injectable({
   providedIn: 'root'
@@ -67,13 +57,13 @@ export class DraftCampaignStoreService {
     this.campaignService
       .getOneById(id)
       .pipe(
-        map((data) => {
-          const campaign = new Campaign(data)
+        map((data: any) => {
+          const campaign = new Campaign(data.data);
           campaign.ownedByUser =
             Number(campaign.ownerId) ===
             Number(this.localeStorageService.getIdUser());
           return campaign;
-        } ),
+        }),
         //tap(console.log),
         //TODO: create a custom operator to reduce redundance.
         //tap((c) => console.log("sdfsqdfqsfqsf", c)),
@@ -175,7 +165,7 @@ export class DraftCampaignStoreService {
       .pipe(
         //tap(console.log),
         map((response: any) => response.updatedCampaign),
-        catchError((err) => {
+        catchError(() => {
           //TODO: handle errors with error handling service instead of logging them to console.
           // console.log(err);
           return of(this.draftSubject.getValue());
@@ -185,13 +175,13 @@ export class DraftCampaignStoreService {
             .getCampaignCover(campaign?.meta?._id || campaign._id, '')
             .pipe(
               retry(1),
-              tap((cover) => {}),
+              tap(() => {}),
               map((data: any) => {
                 let objectURL = URL.createObjectURL(data);
                 campaign.img = objectURL;
                 return campaign;
               }),
-              catchError((err) => {
+              catchError(() => {
                 return of(campaign);
               })
             );
@@ -204,7 +194,7 @@ export class DraftCampaignStoreService {
             campaign.targetedCountries = arrayCountries;
           } else {
             campaign.targetedCountries = campaign.targetedCountries.map(
-              (code: string, index: number) =>
+              (code: string) =>
                 arrayCountries.filter((elem: any) => elem.code === code)[0]
             );
           }

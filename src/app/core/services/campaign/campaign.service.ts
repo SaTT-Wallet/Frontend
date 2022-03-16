@@ -179,7 +179,7 @@ export class CampaignHttpApiService {
   }
 
   getOneById(id: string) {
-    return this.http.get(`${sattUrl}/v2/campaign/id/${id}`, {
+    return this.http.get(sattUrl + '/campaign/details/' + id, {
       headers: this.tokenStorageService.getHeader()
     });
   }

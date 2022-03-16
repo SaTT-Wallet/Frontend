@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter, map, takeUntil } from 'rxjs/operators';
 import { Campaign } from '@app/models/campaign.model';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
@@ -104,7 +104,10 @@ export class CampaignsStoreService {
   initCampaignStore(id: string) {
     this.campaignService
       .getOneById(id)
-      .pipe(takeUntil(this.isDestroyed))
+      .pipe(
+        takeUntil(this.isDestroyed),
+        map((res: any) => res.data)
+      )
       .subscribe((c) => {
         let campaign = new Campaign(c);
         campaign.ownedByUser =
