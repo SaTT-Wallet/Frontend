@@ -4,12 +4,10 @@ import { AuthGuardService } from '@core/services/auth-guard.service';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { ServerErrorComponent } from './components/server-error/server-error.component';
 import { MaintenanceComponent } from './maintenance/maintenance.component';
-import { SlideControlComponent } from './slide-control/slide-control.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { CguComponent } from './cgu/cgu.component';
 import { AuthService } from './core/services/Auth/auth.service';
-import { AideCampagneComponent } from '@faq/aide-campagne.component';
-import { HelpComponent } from '@app/components/help/help.component';
+import { TwitterComponent } from '../twitter/twitter.component';
 
 const routes: Routes = [
   {
@@ -24,6 +22,10 @@ const routes: Routes = [
     path: 'cgu',
     component: CguComponent,
     loadChildren: () => import('./cgu/cgu.module').then((m) => m.CguModule)
+  },
+  {
+    path: 'twitter',
+    component: TwitterComponent
   },
   {
     path: 'privacy-policy',
