@@ -114,6 +114,7 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
+              "aot": true,
               "outputHashing": "all"
             },
             "development": {
