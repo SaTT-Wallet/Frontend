@@ -44,20 +44,8 @@ export class AuthFacadeService {
     return this.authService.login(username, password);
   }
 
-  register(
-    email: any,
-    password: any,
-    password_confirmation: any,
-    noredirect: any,
-    newsLetter: any
-  ): Observable<any> {
-    return this.authService.register(
-      email,
-      password,
-      password_confirmation,
-      noredirect,
-      newsLetter
-    );
+  register(email: any, password: any, newsLetter: any): Observable<any> {
+    return this.authService.register(email, password, newsLetter);
   }
 
   verifyAccount() {
