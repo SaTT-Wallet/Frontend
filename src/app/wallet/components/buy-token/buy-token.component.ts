@@ -470,7 +470,8 @@ export class BuyTokenComponent implements OnInit, OnChanges {
           this.requestedCrypto,
           this.amount,
           this.selectedTargetCurrency,
-          this.selectedTargetCurrency
+          this.selectedTargetCurrency,
+          this.selectedBlockchainNetwork
         )
         .pipe(
           tap((data: any) => {
