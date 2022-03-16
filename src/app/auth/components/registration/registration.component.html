@@ -88,6 +88,7 @@
                 #emailValue
                 formControlName="email"
                 class="input_login"
+                [(ngModel)]="this.modifEmail"
                 [ngClass]="{
                   error:
                     this.getControls.email.touched &&
@@ -112,7 +113,16 @@
                 class="fa fa-check field-icon success-icon"
               ></span>
             </div>
-
+            <div class="error-message input-error">
+              <span
+                *ngIf="
+                  this.authForm.get('email')?.errors?.noWhiteSpace &&
+                  this.getControls.email.touched
+                "
+              >
+                Your email contains whites space!</span
+              >
+            </div>
             <div class="error-message input-error">
               <span
                 *ngIf="
