@@ -224,8 +224,20 @@ export class WalletFacadeService {
     digitalCurrency: any,
     amount: any,
     fiatCurrency: any,
-    requestedAmount: any
+    requestedAmount: any,
+    selectedNetwork: any
   ) {
+    if (digitalCurrency === 'SATT') {
+      if (selectedNetwork === 'BEP20') {
+        digitalCurrency = 'SATT-SC';
+      } else {
+        digitalCurrency = 'SATT-ERC20';
+      }
+    }
+
+    if (digitalCurrency === 'SATTBEP20') {
+      digitalCurrency = 'SATT (BEP20)';
+    }
     return this.cryptofetchServiceService.convertCrypto(
       digitalCurrency,
       amount,
