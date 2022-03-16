@@ -271,6 +271,7 @@ export class MissionsComponent implements OnInit {
         tap((values: any) => {
           if (
             this.draftData.id &&
+            !this.draftData.isActive &&
             !this.notValidMissionData
           ) {
             this.service.autoSaveFormOnValueChanges({
