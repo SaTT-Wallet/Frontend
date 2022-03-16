@@ -41,7 +41,9 @@ import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { ESocialMediaType } from '@app/core/enums';
 import { DOCUMENT } from '@angular/common';
 import { CampaignsStoreService } from '@app/campaigns/services/campaigns-store.service';
-import {TokenStorageService} from "@core/services/tokenStorage/token-storage-service.service";
+import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
+import { ProfileSettingsFacadeService } from '@app/core/facades/profile-settings-facade.service';
+import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 
 enum FormStatus {
   Saving = 'saving',
@@ -102,19 +104,16 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
   campaignData$ = new Observable<Campaign>();
   showModal: boolean = false;
   checked: boolean = false;
+  private account$ = this.accountFacadeService.account$;
+  muteReminderMobile: boolean = false;
   constructor(
     private _formBuilder: FormBuilder,
-    private CampaignService: CampaignHttpApiService,
-    private sanitizer: DomSanitizer,
     public translate: TranslateService,
     private toastr: ToastrService,
     private router: Router,
-    private fileService: FilesService,
     public modalService: NgbModal,
-    private fetchservice: CryptofetchServiceService,
     private route: ActivatedRoute,
     private draftStore: DraftCampaignStoreService,
-    private walletStore: WalletStoreService,
     private _snackBar: MatSnackBar,
     private campaignService: CampaignHttpApiService,
     private campaignListStoreService: CampaignsListStoreService,
@@ -122,7 +121,9 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
     @Inject(DOCUMENT) private document: Document,
     private campaignsHttpService: CampaignHttpApiService,
     private campaignsStore: CampaignsStoreService,
-    private localeStorageService: TokenStorageService
+    private localeStorageService: TokenStorageService,
+    private profileSettingsFacade: ProfileSettingsFacadeService,
+    private accountFacadeService: AccountFacadeService
   ) {
     this.passForm = new FormGroup(
       {
@@ -351,7 +352,7 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
       .getOneById(this.draftId)
       .pipe(
         map((c) => {
-          const campaign = new Campaign(c)
+          const campaign = new Campaign(c);
           campaign.ownedByUser =
             Number(campaign.ownerId) ===
             Number(this.localeStorageService.getIdUser());
@@ -393,8 +394,17 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
   }
   ngAfterViewInit() {
     if (window.innerWidth < 768) {
-      this.showModal = true;
-      this.openModal(this.useDesktopModal);
+      this.account$
+        .pipe(
+          filter((res) => res !== null),
+          takeUntil(this.isDestroyed$)
+        )
+        .subscribe((response) => {
+          if (response && !response.muteCampaignReminders) {
+            this.showModal = true;
+            this.openModal(this.useDesktopModal);
+          }
+        });
     }
   }
   openModal(content: any) {
@@ -407,13 +417,41 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
   }
   @HostListener('window:resize', ['$event'])
   onResizeWindow(event: any) {
-    if (event.target.innerWidth < 768) {
-      if (!this.showModal) {
-        this.showModal = true;
-        this.openModal(this.useDesktopModal);
-      }
+    this.account$
+      .pipe(
+        filter((res) => res !== null),
+        takeUntil(this.isDestroyed$)
+      )
+      .subscribe((response) => {
+        if (event.target.innerWidth < 768) {
+          if (response && !response.muteCampaignReminders && !this.showModal) {
+            this.showModal = true;
+            this.openModal(this.useDesktopModal);
+          }
+        } else {
+          this.showModal = false;
+          this.modalService.dismissAll(this.useDesktopModal);
+        }
+      });
+  }
+  onCheckboxChange(event: any) {
+    this.muteReminderMobile = event.target.checked;
+  }
+  muteFutureReminders() {
+    if (this.muteReminderMobile) {
+      let reminder = {
+        muteCampaignReminders: true
+      };
+      this.profileSettingsFacade
+        .updateProfile(reminder)
+        .subscribe((response: any) => {
+          if (response.success) {
+            this.showModal = false;
+            this.accountFacadeService.dispatchUpdatedAccount();
+            this.modalService.dismissAll(this.useDesktopModal);
+          }
+        });
     } else {
-      this.showModal = false;
       this.modalService.dismissAll(this.useDesktopModal);
     }
   }
