@@ -419,25 +419,44 @@ getCookie(key: string){
     this.loggedrs = false;
     this.scale = true;
     if (this.authForm.valid && this.cookie.get('satt_cookies') === 'pass') {
-      const noredirect = 'true';
+      // const noredirect = 'true';
       this.authService
-        .login(this.f.email?.value, this.f.password?.value, noredirect)
+        .login(this.f.email?.value, this.f.password?.value)
         .pipe(
           takeUntil(this.onDestroy$),
-          catchError(() => {
-            this.errorMessage = 'login_error';
+          catchError((error: any) => {
+            if (error.error.error.message === 'user not found') {
+              this.errorMessage = 'Email incorrect';
+            } else if (error.error.error.message === 'invalid_credentials') {
+              this.errorMessage = 'Password incorrect';
+            } else if (error.error.error.message === 'account_locked') {
+              if (
+                this.blocktime &&
+                this.blocktime !== error.error.error.blockedDate.blockedDate
+              )
+                this.counter.restart();
+              this.blocktime = error.error.error.blockedDate + 1800;
+              this.timeLeftToUnLock =
+                this.blocktime - Math.floor(Date.now() / 1000);
+              this.f.password.reset();
+              this.blockedForgetPassword = true;
+            } else this.errorMessage = 'login_error';
+            this.authForm.get('password')?.setValue('');
+            this.f.password.reset();
+            this.f.email.clearValidators();
+            this.f.email.updateValueAndValidity();
             this.showSpinner = false;
             return of(null);
           }),
           mergeMap((data: any) => {
-            if (data?.access_token !== undefined) {
+            console.log(data);
+            if (data?.data.access_token !== undefined) {
               this.tokenStorageService.setItem(
                 'access_token',
-                data.access_token
+                data.data.access_token
               );
-              this.tokenStorageService.saveExpire(data.expires_in);
-              // this.tokenStorageService.saveToken(data.access_token);
-              this.expiresToken = data.expires_in;
+              this.tokenStorageService.saveExpire(data.data.expires_in);
+              this.expiresToken = data.data.expires_in;
               this.accountFacadeService.dispatchUpdatedAccount();
               return this.account$.pipe(
                 filter((response) => response !== null),
@@ -446,32 +465,6 @@ getCookie(key: string){
                 }),
                 take(1)
               );
-            } else if (data?.message === 'invalid_grant') {
-              this.errorMessage = 'invalid_credentials';
-              this.authForm.get('password')?.setValue('');
-              this.f.password.reset();
-              this.f.email.clearValidators();
-              this.f.email.updateValueAndValidity();
-              this.f.password.clearValidators();
-              this.f.password.updateValueAndValidity();
-            } else if (data?.message === 'account_invalide') {
-              this.errorMessage = 'account_invalide';
-              this.f.password.reset();
-            } else if (data?.message === 'access_denied') {
-              this.errorMessage = 'account_invalide';
-              this.f.password.reset();
-            } else if (data?.message === 'account_locked') {
-              this.errorMessage = 'account_locked';
-              if (this.blocktime && this.blocktime !== data?.blockedDate)
-                this.counter.restart();
-              this.blocktime = data?.blockedDate + 1800;
-              this.timeLeftToUnLock =
-                this.blocktime - Math.floor(Date.now() / 1000);
-              this.f.password.reset();
-              this.blockedForgetPassword = true;
-            } else if (data?.message === 'email_already_used') {
-              this.errorMessage = 'connect_with_gfplus';
-              this.f.password.reset();
             }
             return of(null);
           })
@@ -480,10 +473,11 @@ getCookie(key: string){
           filter(({ data, response }: any) => {
             return response !== null && data !== null;
           }),
-          catchError((error: any) => {
-            if (error.error.text === 'Invalid Access Token') {
-              this.tokenStorageService.signOut();
-            }
+          catchError(() => {
+            // console.log(error);
+            // if (error.error.text === 'Invalid Access Token') {
+            //   this.tokenStorageService.signOut();
+            // }
             return of(null);
           }),
           mergeMap(({ data, response }: { data: any; response: User }) => {
@@ -496,7 +490,7 @@ getCookie(key: string){
               this.confirmCodeShow = true;
               this.loginshow = false;
             } else {
-              this.tokenStorageService.saveToken(data.access_token);
+              this.tokenStorageService.saveToken(data.data.access_token);
               if (response.enabled === 0) {
                 // this.errorMessage_validation="account_not_verified";
                 // tokenStorageService.clear();any
