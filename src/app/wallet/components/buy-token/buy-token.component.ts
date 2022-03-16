@@ -514,7 +514,16 @@ export class BuyTokenComponent implements OnInit, OnChanges {
             )?.price || 0
         )
       );
+      this.walletFacade.getListTokensPrices().pipe(
+        map(
+          (cryptoListObject: any) => {
+              return cryptoListObject[this.requestedCrypto]?.price || 0
+          }
+  )
 
+      ).subscribe((data) => {
+        this.cryptoPrice = data 
+      })
       this.rateExchangePerRequestedCrypto$ = zip(
         this.purshaseCryptoPriceInUSD$,
         this.requestedCryptoPriceInUSD$

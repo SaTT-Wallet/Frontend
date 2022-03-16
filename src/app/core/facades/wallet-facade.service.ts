@@ -264,7 +264,13 @@ export class WalletFacadeService {
   loadCryptoAmount(amount: any) {
     this.walletStoreService.setCryptoAmount(amount);
   }
+  getListTokensPrices(){
 
+
+    return this.walletService.listTokens();
+
+
+  }
   // savePayementId(payementId: string) {
   //   return this.walletService.setPayementId(payementId);
   // }
