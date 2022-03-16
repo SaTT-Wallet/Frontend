@@ -7,13 +7,11 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  SimpleChange,
   SimpleChanges
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ListTokens } from '@app/config/atn.config';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
-import { Campaign } from '@app/models/campaign.model';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
@@ -40,8 +38,7 @@ export class DropdownCryptoNetworkComponent
   cryptoDetails: any;
   private onDestoy$ = new Subject();
   @Input() cryptoFromComponent: any;
-  @Input()
-  draftData!: any;
+  @Input() cryptoFromDraft: any;
   isAddedToken: boolean = false;
   routerSub: any;
   isCryptoRouter: boolean = true;
@@ -85,7 +82,6 @@ export class DropdownCryptoNetworkComponent
     this.defaultcurr = ListTokens['SATT'].name;
     this.defaultcurrbep = ListTokens['SATTBEP20'].name;
     this.defaultcurrbtc = ListTokens['BTC'].name;
-
   }
   //get list of crypto for user
   getusercrypto() {
@@ -99,14 +95,18 @@ export class DropdownCryptoNetworkComponent
         this.dataList = data;
         /*----emit default cryto to receive compoent */
         this.dataList?.forEach((crypto: any) => {
-          if(!this.draftData && !this.firstEmit){
-              if(crypto.symbol === 'SATT'){
-                this.selectedCrypto.emit(crypto);
-                this.firstEmit = true
-              }
+          if (!this.cryptoFromDraft && !this.firstEmit) {
+            if (crypto.symbol === 'SATT') {
+              this.selectedCrypto.emit(crypto);
+              this.firstEmit = true;
+            }
           }
 
-          if (crypto && crypto.symbol === this.draftData?.currency.name) {
+          if (
+            crypto &&
+            this.cryptoFromDraft &&
+            crypto.symbol === this.cryptoFromDraft
+          ) {
             this.cryptoFromComponent = [crypto];
             this.cryptoSymbol = this.cryptoFromComponent[0].symbol;
             this.selectedNetworkValue = this.cryptoFromComponent[0].network;
@@ -237,7 +237,7 @@ export class DropdownCryptoNetworkComponent
   }
 
   selectNetworkValue(network: string) {
-    this.firstEmit = true ;
+    this.firstEmit = true;
     if (this.isCryptoRouter) {
       this.isCryptoRouter = false;
       this.router.navigate([], { queryParams: [] });
@@ -271,46 +271,54 @@ export class DropdownCryptoNetworkComponent
     this.onDestoy$.next('');
     this.onDestoy$.complete();
   }
+
   // ngOnChanges(changes: SimpleChanges): void {
-  //   console.log(changes);
-  //   console.log(changes.cryptoFromComponent.currentValue);
-  //   if (this.cryptoFromComponent) {
-  //     this.cdref.detectChanges();
-  //     this.isCryptoRouter = false;
-  //     if (this.cryptoFromComponent.AddedToken) {
-  //       this.isAddedToken = true;
-  //       this.token = this.cryptoFromComponent.AddedToken;
-  //       this.cryptoPicName = this.cryptoFromComponent.picUrl;
-  //     } else {
-  //       this.token = '';
-  //       this.isAddedToken = false;
-  //       this.cryptoPicName = this.cryptoFromComponent.undername2;
+  //   if (changes.cryptoFromComponent) {
+  //     if (this.cryptoFromComponent) {
+  //       this.isCryptoRouter = false;
+  //       this.cryptoSymbol = this.cryptoFromComponent.symbol;
+  //       this.selectedNetworkValue = this.cryptoFromComponent.network;
+  //       if (this.cryptoFromComponent.AddedToken) {
+  //         this.isAddedToken = true;
+  //         this.token = this.cryptoFromComponent.AddedToken;
+  //         this.cryptoPicName = this.cryptoFromComponent.picUrl;
+  //       } else {
+  //         this.token = '';
+  //         this.isAddedToken = false;
+  //         this.cryptoPicName = this.cryptoFromComponent.undername2;
+  //       }
+
+  //       this.cryptoSymbol = this.cryptoFromComponent.symbol;
+  //       this.selectedNetworkValue = this.cryptoFromComponent.network;
+  //       this.cdref.detectChanges();
   //     }
-  //     this.cryptoSymbol = this.cryptoFromComponent.symbol;
-  //     this.selectedNetworkValue = this.cryptoFromComponent.network;
   //   }
   // }
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.cryptoFromComponent) {
-      if (this.cryptoFromComponent) {
-        this.isCryptoRouter = false;
-        this.cryptoSymbol = this.cryptoFromComponent.symbol;
-        this.selectedNetworkValue = this.cryptoFromComponent.network;
-        if (this.cryptoFromComponent.AddedToken) {
-
-          this.isAddedToken = true;
-          this.token = this.cryptoFromComponent.AddedToken;
-          this.cryptoPicName = this.cryptoFromComponent.picUrl;
-        } else {
-
-          this.token = '';
-          this.isAddedToken = false;
-          this.cryptoPicName = this.cryptoFromComponent.undername2;
+    if (changes.cryptoFromDraft) {
+      if (this.cryptoFromDraft) {
+        this.dataList.forEach((crypto: any) => {
+          if (crypto.symbol === this.cryptoFromDraft) {
+            this.cryptoFromComponent = [crypto];
+          }
+        });
+        if (this.cryptoFromComponent) {
+          this.isCryptoRouter = false;
+          this.cryptoSymbol = this.cryptoFromComponent[0].symbol;
+          this.selectedNetworkValue = this.cryptoFromComponent[0].network;
+          if (this.cryptoFromComponent[0].AddedToken) {
+            this.isAddedToken = true;
+            this.token = this.cryptoFromComponent[0].AddedToken;
+            this.cryptoPicName = this.cryptoFromComponent[0].picUrl;
+          } else {
+            this.token = '';
+            this.isAddedToken = false;
+            this.cryptoPicName = this.cryptoFromComponent[0].undername2;
+          }
+          this.cryptoSymbol = this.cryptoFromComponent[0].symbol;
+          this.selectedNetworkValue = this.cryptoFromComponent[0].network;
+          this.cdref.detectChanges();
         }
-
-        this.cryptoSymbol = this.cryptoFromComponent.symbol;
-        this.selectedNetworkValue = this.cryptoFromComponent.network;
-        this.cdref.detectChanges();
       }
     }
   }
