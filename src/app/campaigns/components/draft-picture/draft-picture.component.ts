@@ -1,5 +1,6 @@
 import { ImgCropperEvent } from '@alyle/ui/image-cropper';
 import { isPlatformBrowser } from '@angular/common';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
   Component,
   ElementRef,
@@ -19,6 +20,7 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DraftCampaignService } from '@app/campaigns/services/draft-campaign.service';
+import { sattUrl } from '@app/config/atn.config';
 import { CampaignHttpApiService } from '@app/core/services/campaign/campaign.service';
 import { Campaign } from '@app/models/campaign.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -108,7 +110,8 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
     private CampaignService: CampaignHttpApiService,
     private sanitizer: DomSanitizer,
     rendererFactory: RendererFactory2,
-    @Inject(PLATFORM_ID) private platformId: string
+    @Inject(PLATFORM_ID) private platformId: string,
+    private http: HttpClient
   ) {
     this.form = new FormGroup({
       cover: new FormControl('', Validators.required),
@@ -328,6 +331,23 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
   fileChangeEvent(event: any, type: string): void {
     // console.log('eveeent', event.target.files[0]);
     // console.log('this.inputCover.nativeElement', this.inputCover.nativeElement);
+    const selectedFile = event.target.files[0];
+    let fileName = selectedFile.name;
+            const formData = new FormData();
+            formData.append("file", selectedFile);
+            formData.append("filename", fileName)
+            var headers = new HttpHeaders();
+      headers.append('Accept', 'application/json');
+      headers.append('Authorization' , 'Bearer '+ localStorage.getItem('access_token'));
+      headers.append('Content-Type', 'multipart/form-data');
+    this.http.post(`${sattUrl}/campaign/${this.draftData.id}/cover`, formData, {
+      reportProgress: true,
+      observe: 'events',
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('access_token')
+      }
+    }).subscribe()
+
     if (type === 'desktop') {
       this.isCropped = false;
       this.imageChangedEvent = null;

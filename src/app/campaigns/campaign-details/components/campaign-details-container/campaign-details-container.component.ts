@@ -115,7 +115,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
       this.meta.updateTag(
         {
           property: 'og:image',
-          content: `${sattUrl}/coverByCampaign/${campaign.id}?width=512&heigth=512`
+          content: `https://api-preprod.satt-token.com:3014/assets/changeEmail-bg.png`
 /*
           content: 'https://safeimagekit.com/picture.png'
 */
@@ -165,7 +165,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
       this.meta.updateTag(
         {
           property: 'twitter:url',
-          content: `${environment.domainName}/home/campaign/${campaign.id}`
+          content: `https://api-preprod.satt-token.com:3014/assets/changeEmail-bg.png`
         },
         `property='twitter:url'`
       );
@@ -192,7 +192,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
 /*
           content: `${sattUrl}/coverByCampaign/${campaign.id}`
 */
-          content: `${sattUrl}/coverByCampaign/${campaign.id}?width=512&heigth=512`
+          content: `https://api-preprod.satt-token.com:3014/assets/changeEmail-bg.png`
 
         },
         `name='twitter:image:src'`

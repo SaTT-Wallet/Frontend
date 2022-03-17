@@ -10,7 +10,7 @@ import { isPlatformServer } from '@angular/common';
 export class TwitterComponent implements OnInit {
   constructor(
     private meta: Meta,
-    @Inject(PLATFORM_ID) private platformId: string
+    @Inject(PLATFORM_ID) private platformId: string,
   ) {}
 
   ngOnInit(): void {
