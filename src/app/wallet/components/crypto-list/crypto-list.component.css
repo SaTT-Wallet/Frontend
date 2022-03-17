@@ -4491,7 +4491,7 @@ color: white}
     /* width: 80%; */
     margin-bottom: 1rem;
     padding-left: 45px;
- 
+
     height: 46px;
     border: 1px solid #d6d6e8;
     border-radius: 30px;
@@ -5213,4 +5213,5 @@ img.not-found {
     text-overflow: ellipsis;
     width: 100%;
     display: initial;
+    max-width: 10em;
 }
