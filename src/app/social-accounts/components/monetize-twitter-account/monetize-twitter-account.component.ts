@@ -80,10 +80,17 @@ export class MonetizeTwitterAccountComponent implements OnInit, OnDestroy {
     if (isPlatformBrowser(this.platformId))
       window.location.href =
         sattUrl +
-        '/addChannel/twitter/' +
+        '/profile/addChannel/twitter/' +
         this.userId +
         '?redirect=' +
         this.router.url;
+    // console.log(
+    //   sattUrl +
+    //   '/profile/addChannel/twitter/' +
+    //   this.userId +
+    //   '?redirect=' +
+    //   this.router.url;
+    // )
   }
   deleteLink() {
     this.socialAccountFacadeService
