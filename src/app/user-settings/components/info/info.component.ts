@@ -686,13 +686,10 @@ export class InfoComponent implements OnInit, OnDestroy {
       if (this.formProfile.valid) {
         this.tokenStorageService.setPhoneNumber(this.user.phone);
         // this.showSpinner = true;
-
         this.profileSettingsFacade
           .updateProfile(data_profile)
           .pipe(
-            //  tap((_) => console.log('taap', _)),
             mergeMap((response: any) => {
-              //console.log('ressss', response);
               this.isDirty = false;
               // let msg: string = '';
               this.showSpinner = false;
