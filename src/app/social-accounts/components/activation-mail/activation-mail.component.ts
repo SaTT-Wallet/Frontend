@@ -104,7 +104,7 @@ export class ActivationMailComponent implements OnInit {
       .updateProfile(data_profile)
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((response: any) => {
-        if (response.success === 'updated') {
+        if (response.message === 'profile updated') {
           this.accountFacadeService.dispatchUpdatedAccount();
           this.tokenStorageService.setEnabled('1');
           this.tokenStorageService.setSecureWallet(
