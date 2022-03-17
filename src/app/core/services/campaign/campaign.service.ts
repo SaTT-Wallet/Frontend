@@ -351,11 +351,11 @@ export class CampaignHttpApiService {
   getCampaignKitUrl(id: any) {
     let httpHeaders = new HttpHeaders({
       'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+      'Content-Type': 'application/json'
+      // Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
 
-    return this.http.get(sattUrl + '/campaign' + `/${id}` + '/kits', {
+    return this.http.get(sattUrl + '/campaign/' + id + '/kits', {
       headers: httpHeaders
     });
   }
