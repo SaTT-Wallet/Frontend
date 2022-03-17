@@ -370,7 +370,7 @@ export class RegistrationComponent implements OnInit {
         .pipe(takeUntil(this.onDestroy$))
         .subscribe(
           (data) => {
-            if (!data.message) {
+            if (data.code === 200 && data.message === 'success') {
               var result =
                 this.document.getElementById('dropdown-menu')?.className;
               let newClass = result + ' show';
@@ -378,8 +378,8 @@ export class RegistrationComponent implements OnInit {
                 .getElementById('dropdown-menu')
                 ?.setAttribute('class', newClass);
               this.exist = true;
-              this.tokenStorageService.saveToken(data.access_token);
-              this.tokenStorageService.saveExpire(data.expires_in);
+              this.tokenStorageService.saveToken(data.data.access_token);
+              this.tokenStorageService.saveExpire(data.data.expires_in);
               this.tokenStorageService.setUserSn('0');
               this.tokenStorageService.setEnabled('0');
               this.accountFacadeService.dispatchUpdatedAccount();
@@ -388,8 +388,11 @@ export class RegistrationComponent implements OnInit {
               this.router.navigate(['/social-registration/activation-mail'], {
                 queryParams: { email: this.authForm.get('email')?.value }
               });
-            } else if (data.message === 'account_already_used') {
-              this.errorMessage = 'connect_with_form';
+            } else if (
+              data.message === 'account_already_used' &&
+              data.code === 401
+            ) {
+              this.errorMessage = 'account_already_used';
               setTimeout(() => (this.errorMessage = ''), 6000);
               this.showSpinner = false;
             }

@@ -1,6 +1,4 @@
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -15,13 +13,7 @@ import {
   ViewChild,
   ViewChildren
 } from '@angular/core';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  ValidatorFn,
-  Validators
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Editor } from 'ngx-editor';
 import {
   debounceTime,
@@ -30,8 +22,7 @@ import {
   mergeMap,
   take,
   takeUntil,
-  tap,
-  timeoutWith
+  tap
 } from 'rxjs/operators';
 import { DraftCampaignService } from '@campaigns/services/draft-campaign.service';
 import { Campaign } from '@app/models/campaign.model';
@@ -40,15 +31,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { forkJoin, of, Subject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import {
-  pattNetwork,
-  pattMedia,
-  urlValidator,
-  sattUrl
-} from '@app/config/atn.config';
+import { urlValidator } from '@app/config/atn.config';
 import { OwlOptions } from 'ngx-owl-carousel-o';
-import { isPlatformBrowser, isPlatformServer } from '@angular/common';
-import { Clipboard } from '@angular/cdk/clipboard';
+import { isPlatformBrowser } from '@angular/common';
 import { DOCUMENT } from '@angular/common';
 import { WindowRefService } from '@app/core/windowRefService';
 import FileSaver from 'file-saver';
@@ -214,6 +199,7 @@ export class DraftCampaignKitComponent implements OnInit {
   getKits(id: string) {
     this.CampaignService.getCampaignKitUrl(id)
       .pipe(
+        map((res: any) => res.data),
         mergeMap((data: any) => {
           if (data) {
             data.forEach((kit: any) => {
@@ -452,7 +438,7 @@ export class DraftCampaignKitComponent implements OnInit {
   }
 
   handelkitTosend() {
-    let _Kits = this.kits.map((elem: any, index: any) => {
+    let _Kits = this.kits.map((elem: any) => {
       delete elem.name;
       delete elem.selectedFile;
       return elem;
@@ -464,7 +450,7 @@ export class DraftCampaignKitComponent implements OnInit {
       .get('file')
       ?.valueChanges.pipe(
         debounceTime(500),
-        tap((values: any) => {
+        tap(() => {
           this.service.autoSavekitFormOnValueChanges({
             kits: this.kits,
             id: this.id
@@ -551,7 +537,6 @@ export class DraftCampaignKitComponent implements OnInit {
   }
   deleteKitElement(id: any) {
     let kit = this.kits[id]._id;
-    let name = this.kits[id].name;
     // this.firstimage=true
     if (kit) {
       this.CampaignService.removeKit(kit)
@@ -614,7 +599,6 @@ export class DraftCampaignKitComponent implements OnInit {
   }
   zoomout(id: any) {
     if (isPlatformBrowser(this.platformId)) {
-      let kit = this.kits[id]._id;
       var myImg = this.documentRef.getElementById('imagekit' + id);
       var width = myImg?.clientWidth;
       if (
@@ -636,7 +620,8 @@ export class DraftCampaignKitComponent implements OnInit {
     let kit = this.kits[i]._id;
     this.CampaignService.getCampaignKitUrl(id)
       .pipe(
-        mergeMap((data: any) => {
+        map((res: any) => res.data),
+        mergeMap(() => {
           return this.CampaignService.getKitPic(kit);
         }),
         takeUntil(this.isDestroyed)
