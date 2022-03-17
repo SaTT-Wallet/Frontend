@@ -244,8 +244,8 @@ export class ConvertComponent implements OnInit, OnDestroy {
     this.walletFacade.wallet$
       .pipe(takeUntil(this.onDestoy$))
       .subscribe((data: any) => {
-        this.btcCode = data.btc;
-        this.erc20 = data.address;
+        this.btcCode = data.data.btc;
+        this.erc20 = data.data.address;
         this.portfeuilleList = [
           { type: 'ERC20/BEP20', code: this.erc20 },
           { type: 'BTC', code: this.btcCode }

@@ -43,22 +43,22 @@ export class AuthGuardService implements CanActivate {
           this.tokenStorageService.setPhoneNumber(account.phone);
         }
       }),
-      mergeMap((data: User) => {
-        if (data.email === '') {
+      mergeMap((account: User) => {
+        if (account.email === '') {
           this.accountFacadeService.dispatchLogoutAccount();
           this.tokenStorageService.signOut();
           this.router.navigate(['auth/login']);
           return of(false);
         }
-        //   else if (data.error === 'Invalid Access Token') {
+        //   else if (account.error === 'Invalid Access Token') {
         //   this.router.navigate(['auth/login']);
         //   return of(false);
         // }
         else if (
-          (data.completed !== true && data.idSn !== 0) ||
-          (data.completed === true &&
-            data.idSn !== 0 &&
-            (data.enabled === false || data.enabled === 0))
+          (account.completed !== true && account.idSn !== 0) ||
+          (account.completed === true &&
+            account.idSn !== 0 &&
+            (account.enabled === false || account.enabled === 0))
         ) {
           this.router.navigate(['social-registration/completeProfile']);
           return of(false);
@@ -96,12 +96,12 @@ export class AuthGuardService implements CanActivate {
           this.accountFacadeService.dispatchLogoutAccount();
           this.router.navigate(['auth/login']);
           return of(false);
-        } else if (data.address) {
-          this.tokenStorageService.saveIdWallet(data.address);
+        } else if (data.data.address) {
+          this.tokenStorageService.saveIdWallet(data.data.address);
           return of(true);
         } else if (this.dateNow > this.dateShouldExpireAt) {
           return of(true);
-        } else if (data.err === 'no_account') {
+        } else if (data.error === 'no_account') {
           this.tokenStorageService.setSecureWallet(
             'visited-completeProfile',
             'true'

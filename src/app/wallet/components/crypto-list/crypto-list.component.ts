@@ -20,17 +20,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { Clipboard } from '@angular/cdk/clipboard';
 
-import {
-  filter,
-  find,
-  map,
-  mergeMap,
-  switchMap,
-  take,
-  takeUntil,
-  tap
-} from 'rxjs/operators';
-import { from, Subject } from 'rxjs';
+import { filter, map, take, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -39,7 +30,7 @@ import { WalletStoreService } from '@core/services/wallet-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 
 import { ShowNumbersRule } from '@shared/pipes/showNumbersRule';
-import { data } from 'jquery';
+// import { data } from 'jquery';
 declare var $: any;
 @Component({
   selector: 'app-crypto-list',
@@ -298,8 +289,13 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   getTotalBalance() {
     this.totalBalance$
       .pipe(
+        // tap((params: any) => {
+        //   console.log("params",params)
+        // }),
+
         takeUntil(this.onDestroy$),
-        map((response) => response.Total_balance?.Total_balance),
+
+        map((response) => response.data?.Total_balance),
         filter((res) => res !== null && res !== undefined)
       )
       .subscribe((totalBalance: any) => {
@@ -360,8 +356,8 @@ export class CryptoListComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((data: any) => {
         if (!!data) {
-          this.btcCode = data.btc;
-          this.erc20 = data.address;
+          this.btcCode = data.data.btc;
+          this.erc20 = data.data.address;
           this.portfeuilleList = [
             { type: 'ERC20/BEP20', code: this.erc20 },
             { type: 'BTC', code: this.btcCode }
