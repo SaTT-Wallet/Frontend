@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import { CanLoad, Route, Router, UrlSegment } from '@angular/router';
+import { CanLoad, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { AuthService } from '@core/services/Auth/auth.service';
-import { ContactMessageService } from '@core/services/contactmessage/contact-message.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AuthStoreService } from '@core/services/Auth/auth-store.service';
@@ -21,10 +19,7 @@ export class CanLoadPublicModule implements CanLoad {
     private authStoreService: AuthStoreService
   ) {}
 
-  canLoad(
-    route: Route,
-    segments: UrlSegment[]
-  ): Observable<boolean> | Promise<boolean> | boolean {
+  canLoad(): Observable<boolean> | Promise<boolean> | boolean {
     if (
       this.tokenStorageService.getToken() !== null &&
       this.tokenStorageService.getToken() !== ''
@@ -77,17 +72,8 @@ export class CanLoadPublicModule implements CanLoad {
 
   handleWalletValue(wallet$: Observable<any>) {
     return wallet$.pipe(
-      switchMap((data: any) => {
-        if (!!data?.error) {
-          this.tokenStorageService.signOut();
-          this.router.navigate(['auth/login']);
-          return of(false);
-        } else if (data.data.address) {
-          this.tokenStorageService.saveIdWallet(data.data.address);
-          return of(true);
-        } else if (this.dateNow > this.dateShouldExpireAt) {
-          return of(true);
-        } else if (data.error === 'no_account') {
+      catchError((error: any) => {
+        if (error.error.error === 'Wallet not found') {
           this.tokenStorageService.setSecureWallet(
             'visited-completeProfile',
             'true'
@@ -99,6 +85,15 @@ export class CanLoadPublicModule implements CanLoad {
           this.router.navigate(['auth/login']);
           return of(false);
         }
+      }),
+      switchMap((data: any) => {
+        if (data.data.address) {
+          this.tokenStorageService.saveIdWallet(data.data.address);
+          return of(true);
+        } else if (this.dateNow > this.dateShouldExpireAt) {
+          return of(true);
+        }
+        return of(false);
       })
     );
   }

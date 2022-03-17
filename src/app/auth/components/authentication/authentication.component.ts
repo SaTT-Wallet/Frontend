@@ -573,14 +573,19 @@ getCookie(key: string){
               }
 
               // this.spinner.hide();
-            } else if (myWallet.error === 'no_account') {
+            }
+          },
+          (error: any) => {
+            if (
+              error.error.error === 'Wallet not found' &&
+              error.error.code === 404
+            ) {
               this.tokenStorageService.setSecureWallet(
                 'visited-completeProfile',
                 'true'
               );
               this.router.navigate(['social-registration/monetize-facebook']);
               this.showBigSpinner = true;
-              //this.spinner.hide();
             }
           }
         );
@@ -649,7 +654,7 @@ getCookie(key: string){
           this.backgroundImage = '';
           this.backgroundColor = '';
           // this.spinner.hide();
-        } else if (myWallet?.error === 'no_account') {
+        } else if (myWallet && myWallet.error === 'Wallet not found') {
           this.tokenStorageService.setSecureWallet(
             'visited-completeProfile',
             'true'

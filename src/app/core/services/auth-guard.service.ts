@@ -84,24 +84,8 @@ export class AuthGuardService implements CanActivate {
 
   handleWalletValue(wallet$: Observable<any>) {
     return wallet$.pipe(
-      mergeMap((data: any) => {
-        if (this.tokenStorageService.getvalid2FA() === 'false') {
-          // this.tokenStorageService.signOut()
-          this.accountFacadeService.dispatchLogoutAccount();
-          this.router.navigate(['auth/login']);
-          return of(false);
-        }
-        if (!!data?.error) {
-          this.tokenStorageService.signOut();
-          this.accountFacadeService.dispatchLogoutAccount();
-          this.router.navigate(['auth/login']);
-          return of(false);
-        } else if (data.data.address) {
-          this.tokenStorageService.saveIdWallet(data.data.address);
-          return of(true);
-        } else if (this.dateNow > this.dateShouldExpireAt) {
-          return of(true);
-        } else if (data.error === 'no_account') {
+      catchError((error: any) => {
+        if (error.error.error === 'Wallet not found') {
           this.tokenStorageService.setSecureWallet(
             'visited-completeProfile',
             'true'
@@ -114,6 +98,21 @@ export class AuthGuardService implements CanActivate {
           this.router.navigate(['auth/login']);
           return of(false);
         }
+      }),
+      mergeMap((data: any) => {
+        if (this.tokenStorageService.getvalid2FA() === 'false') {
+          // this.tokenStorageService.signOut()
+          this.accountFacadeService.dispatchLogoutAccount();
+          this.router.navigate(['auth/login']);
+          return of(false);
+        }
+        if (data.data.address) {
+          this.tokenStorageService.saveIdWallet(data.data.address);
+          return of(true);
+        } else if (this.dateNow > this.dateShouldExpireAt) {
+          return of(true);
+        }
+        return of(false);
       })
     );
   }
