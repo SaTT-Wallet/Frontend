@@ -107,99 +107,100 @@ export class CampaignDetailsContainerComponent implements OnInit {
         name: 'twitter:image:src',
         content: 'https://safeimagekit.com/picture.png'
       });
-    }
-      this.campaign$.pipe(takeUntil(this.isDestroyed)).subscribe((campaign) => {
-        this.campaign = campaign;
-        setTimeout(() => {
-          this.showmoonboy = campaign.id === this.campaignId;
-        }, 1000);
 
-        this.meta.updateTag(
-          {
-            property: 'og:image',
-            content: `${sattUrl}/coverByCampaign/${campaign.id}`
-          },
-          `property='og:image'`
-        );
+    this.campaign$.pipe(takeUntil(this.isDestroyed)).subscribe((campaign) => {
+      this.campaign = campaign;
+      setTimeout(() => {
+        this.showmoonboy = campaign.id === this.campaignId;
+      }, 1000);
 
-        this.meta.updateTag(
-          {
-            property: 'og:title',
-            content: `${campaign.title}`
-          },
-          `property='og:title'`
-        );
+      this.meta.updateTag(
+        {
+          property: 'og:image',
+          content: `${sattUrl}/coverByCampaign/${campaign.id}`
+        },
+        `property='og:image'`
+      );
 
-        this.meta.updateTag(
-          {
-            property: 'og:description',
-            content: `${campaign.summary}`
-          },
-          `property='og:description'`
-        );
+      this.meta.updateTag(
+        {
+          property: 'og:title',
+          content: `${campaign.title}`
+        },
+        `property='og:title'`
+      );
 
-        this.meta.updateTag(
-          {
-            property: 'og:url',
-            content: `${environment.domainName}/home/campaign/${campaign.id}`
-          },
-          `property='og:url'`
-        );
+      this.meta.updateTag(
+        {
+          property: 'og:description',
+          content: `${campaign.summary}`
+        },
+        `property='og:description'`
+      );
 
-        this.meta.updateTag(
-          {
-            property: 'og:site_name',
-            content: `${environment.domainName.split('//')[1]}`
-          },
-          `property='og:site_name'`
-        );
+      this.meta.updateTag(
+        {
+          property: 'og:url',
+          content: `${environment.domainName}/home/campaign/${campaign.id}`
+        },
+        `property='og:url'`
+      );
 
-        this.meta.updateTag(
-          {
-            property: 'twitter:domain',
-            content: `${environment.domainName}`
-          },
-          `property='twitter:domain'`
-        );
-        this.meta.updateTag(
-          {
-            property: 'twitter:url',
-            content: `${environment.domainName}/home/campaign/${campaign.id}`
-          },
-          `property='twitter:url'`
-        );
-        this.meta.updateTag(
-          {
-            name: 'twitter:card',
-            content: `summary_large_image`
-          },
-          `name='twitter:card'`
-        );
+      this.meta.updateTag(
+        {
+          property: 'og:site_name',
+          content: `${environment.domainName.split('//')[1]}`
+        },
+        `property='og:site_name'`
+      );
 
-        this.meta.updateTag(
-          {
-            name: 'twitter:title',
-            content: `${campaign.title}`
-          },
-          `name='twitter:title'`
-        );
+      this.meta.updateTag(
+        {
+          property: 'twitter:domain',
+          content: `${environment.domainName}`
+        },
+        `property='twitter:domain'`
+      );
+      this.meta.updateTag(
+        {
+          property: 'twitter:url',
+          content: `${environment.domainName}/home/campaign/${campaign.id}`
+        },
+        `property='twitter:url'`
+      );
+      this.meta.updateTag(
+        {
+          name: 'twitter:card',
+          content: `summary_large_image`
+        },
+        `name='twitter:card'`
+      );
 
-        this.meta.updateTag(
-          {
-            name: 'twitter:description',
-            content: `${campaign.summary}`
-          },
-          `name='twitter:description'`
-        );
+      this.meta.updateTag(
+        {
+          name: 'twitter:title',
+          content: `${campaign.title}`
+        },
+        `name='twitter:title'`
+      );
 
-        this.meta.updateTag(
-          {
-            name: 'twitter:image:src',
-            content: `${sattUrl}/coverByCampaign/${campaign.id}`
-          },
-          `name='twitter:image:src'`
-        );
-      });
+      this.meta.updateTag(
+        {
+          name: 'twitter:description',
+          content: `${campaign.summary}`
+        },
+        `name='twitter:description'`
+      );
+
+      this.meta.updateTag(
+        {
+          name: 'twitter:image:src',
+          content: `${sattUrl}/coverByCampaign/${campaign.id}`
+        },
+        `name='twitter:image:src'`
+      );
+    });
+  }
 
   }
 
