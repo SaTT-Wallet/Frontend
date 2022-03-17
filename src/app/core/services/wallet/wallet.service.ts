@@ -68,7 +68,7 @@ export class WalletService {
         headers: headers
       });
     } else {
-      return this.http.post(sattUrl + '/v2/erc20/transfer', send, {
+      return this.http.post(sattUrl + 'wallet/transferBep20', send, {
         headers: headers
       });
     }
