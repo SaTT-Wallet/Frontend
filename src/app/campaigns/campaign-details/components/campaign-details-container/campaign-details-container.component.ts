@@ -53,20 +53,13 @@ export class CampaignDetailsContainerComponent implements OnInit {
       .subscribe();
     this.campaign$ = this.campaignsStoreService.campaign$;
     if (isPlatformServer(this.platformId)) {
-      this.meta.addTag({
-        name: 'og:image:alt',
-        content: `campaign cover`
-      });
-      ////
       const imgMetaTag = this.meta.getTag(`name='og:image'`);
       if (!!imgMetaTag) {
-        this.meta.updateTag(
-          {
-            property: 'og:image',
-            content: `https://safeimagekit.com/picture.png`
-          },
-          `name='og:image'`
-        );
+        this.meta.removeTag("name='og:image'");
+        this.meta.addTag({
+          property: 'og:image',
+          content: ''
+        });
       }
       this.meta.addTag({
         property: 'og:title',
@@ -119,7 +112,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
       this.meta.updateTag(
         {
           property: 'og:image',
-          content: `${sattUrl}/coverByCampaign/${campaign.id}`
+          content: `https://safeimagekit.com/picture.png`
         },
         `property='og:image'`
       );
@@ -206,7 +199,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
     this.isDestroyed.unsubscribe();
     this.campaignsStoreService.clearDataStore();
     // location.reload();
-    this.meta.updateTag({ name: 'og:title', content: '' }, `name='og:title'`);
+/*    this.meta.updateTag({ name: 'og:title', content: '' }, `name='og:title'`);
     this.meta.updateTag({ name: 'og:image', content: '' }, `name='og:image'`);
     this.meta.updateTag(
       { name: 'og:description', content: '' },
@@ -216,6 +209,6 @@ export class CampaignDetailsContainerComponent implements OnInit {
     this.meta.updateTag(
       { name: 'twitter:card', content: '' },
       `name='twitter:card'`
-    );
+    );*/
   }
 }
