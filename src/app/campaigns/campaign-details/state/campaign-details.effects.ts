@@ -41,7 +41,7 @@ export class CampaignsEffects {
       concatMap((action: any) =>
         this.campaignHttpApiService.getCampaignKitUrl(action.campaignId).pipe(
           map((res: any) =>
-            CampaignDetailsActions.loadCampaignKitsSuccess({ kits: res })
+            CampaignDetailsActions.loadCampaignKitsSuccess({ kits: res.data })
           ),
           catchError((error: any) =>
             of(CampaignDetailsActions.loadCampaignKitsError({ error }))
