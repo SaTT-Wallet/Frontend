@@ -111,7 +111,7 @@ export class ProfileService {
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
 
-    return this.http.put(sattUrl + '/profile/UpdateProfile', body, {
+    return this.http.post(sattUrl + '/profile/UpdateProfile', body, {
       headers: httpHeaders
     });
   }
@@ -166,7 +166,7 @@ export class ProfileService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.get(sattUrl + '/profile/pic', {
+    return this.http.get(sattUrl + '/profile/picture', {
       responseType: 'blob',
       headers: headers
     });

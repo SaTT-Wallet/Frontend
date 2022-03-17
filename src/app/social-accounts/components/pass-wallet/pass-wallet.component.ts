@@ -155,7 +155,7 @@ export class PassWalletComponent implements OnInit, OnDestroy {
       .pipe(filter((res) => res !== null))
       .pipe(
         mergeMap((data: any) => {
-          if (!data.err) {
+          if (!data.error) {
             return this.profileSettingsFacade.profilePic$;
           } else return of(null);
         })
