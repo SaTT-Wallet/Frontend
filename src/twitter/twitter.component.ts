@@ -15,61 +15,56 @@ export class TwitterComponent implements OnInit {
 
   ngOnInit(): void {
     if (isPlatformServer(this.platformId)) {
-      this.meta.addTag({
-        name: 'og:title',
-        content: 'twiiter test'
-      });
       const imgMetaTag = this.meta.getTag(`name='og:image'`);
-      if (!imgMetaTag) {
-        this.meta.addTag({
-          name: 'og:image',
-          content: 'https://satt-token.com/assets/img/index/wallet.png'
-        });
+      if (!!imgMetaTag) {
+        this.meta.updateTag(
+          {
+            property: 'og:image',
+            content: `https://safeimagekit.com/picture.png`
+          },
+          `name='og:image'`
+        );
       }
       this.meta.addTag({
-        name: 'og:image:type',
-        content: `website`
+        property: 'og:title',
+        content: 'twitter test'
       });
       this.meta.addTag({
-        name: 'og:image:alt',
-        content: `campaign cover`
+        property: 'og:description',
+        content:
+          'Looking for a free and online image resizer for  twitter? Visit our website and resize image for twitter in few seconds.'
       });
       this.meta.addTag({
-        name: 'og:description',
-        content: 'twiiter'
-      });
-      this.meta.addTag({
-        name: 'og:type',
+        property: 'og:type',
         content: 'website'
       });
       this.meta.addTag({
-        name: 'og:url',
-        content: ``
+        property: 'og:url',
+        content: 'https://dev.satt.atayen.us/twitter'
       });
       this.meta.addTag({
-        name: 'twitter:card',
-        content: 'summary_large_image'
-      });
-
-      this.meta.addTag({
-        property: 'twitter:domain',
+        property: 'og:site_name',
         content: 'dev.satt.atayen.us'
       });
       this.meta.addTag({
+        property: 'twitter:domain',
+        content: 'https://dev.satt.atayen.us'
+      });
+      this.meta.addTag({
         property: 'twitter:url',
-        content: 'https://dev.satt.atayen.us/'
+        content: 'https://dev.satt.atayen.us/twitter'
       });
       this.meta.addTag({
-        property: 'twitter:title',
-        content: 'test twitter'
+        name: 'twitter:title',
+        content: 'twitter test'
       });
       this.meta.addTag({
-        property: 'twitter:description',
-        content: 'test twitter desc'
+        name: 'twitter:description',
+        content: 'twitter test desc'
       });
       this.meta.addTag({
-        property: 'twitter:image',
-        content: 'https://satt-token.com/assets/img/index/wallet.png'
+        name: 'twitter:image:src',
+        content: 'https://safeimagekit.com/picture.png'
       });
     }
   }
