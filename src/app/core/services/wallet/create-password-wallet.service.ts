@@ -21,7 +21,7 @@ export class CreatePasswordWalletService {
     });
 
     return this.http.post(
-      `${sattUrl}/v2/newallet2`,
+      sattUrl + '/wallet/create',
       {
         token: token,
         pass: pass
