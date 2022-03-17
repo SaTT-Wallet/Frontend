@@ -110,7 +110,7 @@ export class CryptofetchServiceService {
     });
     if (this.tokenStorageService.getToken()) {
       return this.http.post(
-        sattUrl + '/GetQuote',
+        sattUrl + '/wallet/getQuote',
         {
           digital_currency,
           requested_amount,
@@ -121,7 +121,7 @@ export class CryptofetchServiceService {
       );
     } else {
       return this.http.post(
-        sattUrl + '/GetQuote',
+        sattUrl + '/wallet/getQuote',
         {
           digital_currency,
           requested_amount,
