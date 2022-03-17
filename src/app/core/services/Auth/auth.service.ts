@@ -26,12 +26,14 @@ export class AuthService {
   resetPassword(email: any): Observable<any> {
     return this.http.post(
       sattUrl +
-        '/v2/auth/passlost?lang=' +
-        this.tokenStorageService.getLocalLang(),
-      { mail: email },
+        '/auth/passlost'
+      ,
+      { mail: email ,
+      lang:  this.tokenStorageService.getLocalLang()},
       { headers: this.tokenStorageService.getHeader() }
     );
   }
+  
   confirmCode(email: any, code: any, type: any): Observable<IresponseCode> {
     return this.http.post<IresponseCode>(
       sattUrl + '/auth/confirmCode',
