@@ -34,7 +34,7 @@ export class AuthService {
   }
   confirmCode(email: any, code: any, type: any): Observable<IresponseCode> {
     return this.http.post<IresponseCode>(
-      sattUrl + '/confirmCode',
+      sattUrl + '/auth/confirmCode',
       { email: email, code: code, type: type },
       {}
     );
@@ -107,7 +107,7 @@ export class AuthService {
   }
 
   sendConfirmationMail(email: string) {
-    return this.http.post(sattUrl + '/auth/resend/confirmationToken/', {
+    return this.http.post(sattUrl + '/auth/resend/confirmationToken', {
       email: email,
       lang: this.tokenStorageService.getLocalLang()
     });
