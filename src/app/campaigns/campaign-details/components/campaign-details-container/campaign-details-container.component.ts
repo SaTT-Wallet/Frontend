@@ -190,7 +190,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
       this.meta.updateTag(
         {
           name: 'twitter:image:src',
-          content: `${sattUrl}/coverByCampaign/${campaign.id}`
+          content: `https://safeimagekit.com/picture.png`
         },
         `name='twitter:image:src'`
       );
