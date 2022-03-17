@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { TokenStorageService } from '../tokenStorage/token-storage-service.service';
 import { IresponseAccount } from '@app/core/iresponse-account';
 import { IresponseCode } from '@app/core/iresponse-code-qr';
+import { IResetPasswordResponse } from '@app/core/reset-password.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -25,13 +26,12 @@ export class AuthService {
 
   resetPassword(email: any): Observable<any> {
     return this.http.post(
-      sattUrl +
-        '/v2/auth/passlost?lang=' +
-        this.tokenStorageService.getLocalLang(),
-      { mail: email },
+      sattUrl + '/auth/passlost',
+      { mail: email, lang: this.tokenStorageService.getLocalLang() },
       { headers: this.tokenStorageService.getHeader() }
     );
   }
+
   confirmCode(email: any, code: any, type: any): Observable<IresponseCode> {
     return this.http.post<IresponseCode>(
       sattUrl + '/auth/confirmCode',
@@ -39,8 +39,11 @@ export class AuthService {
       {}
     );
   }
-  resetPasswordWithCode(email: any, newpass: any) {
-    return this.http.post(
+  resetPasswordWithCode(
+    email: any,
+    newpass: any
+  ): Observable<IResetPasswordResponse> {
+    return this.http.post<IResetPasswordResponse>(
       sattUrl + '/v2/auth/passrecover',
       {
         email: email,
@@ -107,10 +110,10 @@ export class AuthService {
   }
 
   sendConfirmationMail(email: string) {
-    return this.http.post(
-      sattUrl + '/v2/resend-confirmation-token/' + email,
-      email
-    );
+    return this.http.post(sattUrl + '/auth/resend/confirmationToken', {
+      email: email,
+      lang: this.tokenStorageService.getLocalLang()
+    });
   }
   onBoarding() {
     let httpHeaders = new HttpHeaders({
@@ -120,16 +123,16 @@ export class AuthService {
     });
     return this.http.get(sattUrl + '/onBoarding', { headers: httpHeaders });
   }
-  checkPass(pass: any) {
-    let httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-store',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.post(sattUrl + '/check/pass', pass, {
-      headers: httpHeaders
-    });
-  }
+  // checkPass(pass: any) {
+  //   let httpHeaders = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //     'Cache-Control': 'no-store',
+  //     Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+  //   });
+  //   return this.http.post(sattUrl + '/check/pass', pass, {
+  //     headers: httpHeaders
+  //   });
+  // }
   imagespuzzle() {
     let httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',

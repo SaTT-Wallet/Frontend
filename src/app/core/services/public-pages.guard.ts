@@ -55,6 +55,12 @@ export class PublicPagesGuard implements CanActivate {
         ) {
           this.router.navigate(['social-registration/completeProfile']);
           return of(false);
+        } else if (data.new) {
+          if (!data.passphrase) {
+            this.router.navigate(['/social-registration/pass-phrase']);
+            return of(false);
+          }
+          return of(true);
         } else {
           if (
             !!this.walletFacade.walletValue &&
@@ -66,7 +72,7 @@ export class PublicPagesGuard implements CanActivate {
           }
         }
       }),
-      catchError((error) => {
+      catchError(() => {
         this.tokenStorageService.signOut();
         this.router.navigate(['auth/login']);
         return of(false);
@@ -86,25 +92,16 @@ export class PublicPagesGuard implements CanActivate {
           this.tokenStorageService.signOut();
           this.router.navigate(['auth/login']);
           return of(false);
-        } else if (data.address) {
-          this.tokenStorageService.saveIdWallet(data.address);
+        } else if (data.data.address) {
+          this.tokenStorageService.saveIdWallet(data.data.address);
           // if(!data.passphrase){
           //   this.router.navigate(
           //     ['/social-registration/pass-phrase'])
           // }
-          if (data.new) {
-            if (!data.passphrase) {
-              this.router.navigate(['/social-registration/pass-phrase']);
-              return of(false);
-            } else {
-              return of(true);
-            }
-          } else {
-            return of(true);
-          }
+          return of(true);
         } else if (this.dateNow > this.dateShouldExpireAt) {
           return of(true);
-        } else if (data.err === 'no_account') {
+        } else if (data.error === 'no_account') {
           this.tokenStorageService.setSecureWallet(
             'visited-completeProfile',
             'true'

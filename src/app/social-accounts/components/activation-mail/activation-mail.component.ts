@@ -104,7 +104,7 @@ export class ActivationMailComponent implements OnInit {
       .updateProfile(data_profile)
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((response: any) => {
-        if (response.success === 'updated') {
+        if (response.message === 'profile updated') {
           this.accountFacadeService.dispatchUpdatedAccount();
           this.tokenStorageService.setEnabled('1');
           this.tokenStorageService.setSecureWallet(
@@ -157,9 +157,20 @@ export class ActivationMailComponent implements OnInit {
     this.authService
       .sendConfirmationMail(this.email)
       .pipe(takeUntil(this.isDestroyed))
-      .subscribe(() => {
-        //  console.log(response, "response");
-      });
+      .subscribe(
+        (response: any) => {
+          if (response.message === 'Email sent' && response.code === 200) {
+            this.successMsg = 'Email sent';
+            this.errorMessagecode = '';
+          }
+        },
+        (err) => {
+          this.successMsg = '';
+          if (err.error.error === 'user not found' && err.error.code === 404) {
+            this.errorMessagecode = 'user not found';
+          }
+        }
+      );
   }
   ngOnDestroy(): void {
     this.isDestroyed.next('');

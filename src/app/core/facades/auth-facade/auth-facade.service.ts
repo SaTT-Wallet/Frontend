@@ -63,9 +63,6 @@ export class AuthFacadeService {
     return this.authService.onBoarding();
   }
 
-  checkPass(pass: any) {
-    return this.authService.checkPass(pass);
-  }
   getImagePuzzle() {
     return this.authService.imagespuzzle();
   }
