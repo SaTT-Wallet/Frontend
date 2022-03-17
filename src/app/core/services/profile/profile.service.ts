@@ -25,6 +25,7 @@ export class ProfileService {
       { headers: httpHeaders }
     );
   }
+  // /profile/socialAccounts
   deleteOneSocialNetworksGoogle(id: string) {
     let header = new HttpHeaders({
       'Cache-Control': 'no-store',
