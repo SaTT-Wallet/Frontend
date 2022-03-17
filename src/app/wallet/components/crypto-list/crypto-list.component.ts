@@ -20,7 +20,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { Clipboard } from '@angular/cdk/clipboard';
 
-import { filter, map, take, takeUntil } from 'rxjs/operators';
+import { filter, map, take, takeUntil, tap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 import { ActivatedRoute, Router } from '@angular/router';
@@ -291,8 +291,14 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   getTotalBalance() {
     this.totalBalance$
       .pipe(
+        // tap((params: any) => {
+        //   console.log("params",params)
+        // }),
+        
         takeUntil(this.onDestroy$),
-        map((response) => response.Total_balance?.Total_balance),
+       
+        map((response) => 
+        response.data?.Total_balance),
         filter((res) => res !== null && res !== undefined)
       )
       .subscribe((totalBalance: any) => {
