@@ -49,7 +49,7 @@ export class CryptofetchServiceService {
     });
     var idwallet = id_wallet || this.tokenStorageService.getIdWallet();
     return this.http
-      .get(sattUrl + '/v2/total_balance', { headers: headers })
+      .get(sattUrl + '/wallet/totalBalance', { headers: headers })
       .pipe(shareReplay(1));
   }
 
