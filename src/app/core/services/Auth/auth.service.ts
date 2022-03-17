@@ -34,7 +34,7 @@ export class AuthService {
   }
   confirmCode(email: any, code: any, type: any): Observable<IresponseCode> {
     return this.http.post<IresponseCode>(
-      sattUrl + '/confirmCode',
+      sattUrl + '/auth/confirmCode',
       { email: email, code: code, type: type },
       {}
     );
@@ -107,10 +107,10 @@ export class AuthService {
   }
 
   sendConfirmationMail(email: string) {
-    return this.http.post(
-      sattUrl + '/v2/resend-confirmation-token/' + email,
-      email
-    );
+    return this.http.post(sattUrl + '/auth/resend/confirmationToken', {
+      email: email,
+      lang: this.tokenStorageService.getLocalLang()
+    });
   }
   onBoarding() {
     let httpHeaders = new HttpHeaders({
@@ -120,16 +120,16 @@ export class AuthService {
     });
     return this.http.get(sattUrl + '/onBoarding', { headers: httpHeaders });
   }
-  checkPass(pass: any) {
-    let httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-store',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.post(sattUrl + '/check/pass', pass, {
-      headers: httpHeaders
-    });
-  }
+  // checkPass(pass: any) {
+  //   let httpHeaders = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //     'Cache-Control': 'no-store',
+  //     Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+  //   });
+  //   return this.http.post(sattUrl + '/check/pass', pass, {
+  //     headers: httpHeaders
+  //   });
+  // }
   imagespuzzle() {
     let httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',

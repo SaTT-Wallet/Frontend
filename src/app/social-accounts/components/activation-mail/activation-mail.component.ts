@@ -64,31 +64,37 @@ export class ActivationMailComponent implements OnInit {
     this.authService
       .confirmCode(email, code, type)
       .pipe(takeUntil(this.isDestroyed))
-      .subscribe((data: any) => {
-        this.codeData = data;
-
-        if (data.message === 'code incorrect') {
-          this.errorMessagecode = 'code incorrect';
-          // this.formCode.reset();
-          //  this.codeInput.reset();
-          this.codesms = false;
-          // setTimeout(() => {
-          //   this.errorMessagecode = "";
-          // }, 2000);
-        } else if (data.message === 'code match') {
-          // console.log(data, '===>data');
-          // this.accountFacadeService.dispatchUpdatedAccount();
-          this.tokenStorageService.saveToken(data.token);
-          this.tokenStorageService.saveExpire(data.expires_in);
-          this.tokenStorageService.setItem('access_token', data.token);
-          this.tokenStorageService.setIdUser(data.idUser);
-
-          this.codesms = true;
-          this.errorMessagecode = 'code correct';
+      .subscribe(
+        (data: any) => {
+          if (data.message === 'code is matched' && data.code === 200) {
+            this.codesms = true;
+            this.errorMessagecode = 'code correct';
+          }
+        },
+        (err) => {
+          if (err.error.error === 'user not found' && err.error.code === 404) {
+            this.errorMessagecode = 'user not found';
+          } else if (
+            err.error.error === 'wrong code' &&
+            err.error.code === 401
+          ) {
+            this.errorMessagecode = 'code incorrect';
+            // this.formCode.reset();
+            //  this.codeInput.reset();
+            this.codesms = false;
+            // setTimeout(() => {
+            //   this.errorMessagecode = "";
+            // }, 2000);
+          } else if (
+            err.error.error === 'code expired' &&
+            err.error.code === 401
+          ) {
+            this.errorMessagecode = 'code expired';
+            this.codesms = false;
+          }
         }
-      });
+      );
   }
-
   confirmCode() {
     let data_profile = {
       new: true
@@ -98,7 +104,7 @@ export class ActivationMailComponent implements OnInit {
       .updateProfile(data_profile)
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((response: any) => {
-        if (response.success === 'updated') {
+        if (response.message === 'profile updated') {
           this.accountFacadeService.dispatchUpdatedAccount();
           this.tokenStorageService.setEnabled('1');
           this.tokenStorageService.setSecureWallet(
@@ -108,7 +114,7 @@ export class ActivationMailComponent implements OnInit {
           setTimeout(() => {
             this.router.navigateByUrl('/social-registration/monetize-facebook');
             this.errorMessagecode = '';
-          }, 2000);
+          }, 1000);
         }
 
         // route to next page
@@ -151,9 +157,20 @@ export class ActivationMailComponent implements OnInit {
     this.authService
       .sendConfirmationMail(this.email)
       .pipe(takeUntil(this.isDestroyed))
-      .subscribe(() => {
-        //  console.log(response, "response");
-      });
+      .subscribe(
+        (response: any) => {
+          if (response.message === 'Email sent' && response.code === 200) {
+            this.successMsg = 'Email sent';
+            this.errorMessagecode = '';
+          }
+        },
+        (err) => {
+          this.successMsg = '';
+          if (err.error.error === 'user not found' && err.error.code === 404) {
+            this.errorMessagecode = 'user not found';
+          }
+        }
+      );
   }
   ngOnDestroy(): void {
     this.isDestroyed.next('');
