@@ -111,7 +111,7 @@ export class ProfileService {
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
 
-    return this.http.post(sattUrl + '/profile/UpdateProfile', body, {
+    return this.http.put(sattUrl + '/profile/UpdateProfile', body, {
       headers: httpHeaders
     });
   }
