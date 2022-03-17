@@ -553,19 +553,19 @@ getCookie(key: string){
             if (!myWallet) {
               return;
             }
-            if (myWallet.address) {
+            if (myWallet.data.address) {
               if (response.new) {
                 if (!response.passphrase) {
                   this.router.navigate(['/social-registration/pass-phrase']);
                 } else {
-                  this.tokenStorageService.saveIdWallet(myWallet.address);
+                  this.tokenStorageService.saveIdWallet(myWallet.data.address);
                   this.router.navigate(['']);
                   this.showBigSpinner = true;
                   this.backgroundImage = '';
                   this.backgroundColor = '';
                 }
               } else {
-                this.tokenStorageService.saveIdWallet(myWallet.address);
+                this.tokenStorageService.saveIdWallet(myWallet.data.address);
                 this.router.navigate(['']);
                 this.showBigSpinner = true;
                 this.backgroundImage = '';
@@ -573,7 +573,7 @@ getCookie(key: string){
               }
 
               // this.spinner.hide();
-            } else if (myWallet.err === 'no_account') {
+            } else if (myWallet.error === 'no_account') {
               this.tokenStorageService.setSecureWallet(
                 'visited-completeProfile',
                 'true'
@@ -642,14 +642,14 @@ getCookie(key: string){
         takeUntil(this.onDestroy$)
       )
       .subscribe((myWallet: IResponseWallet | null) => {
-        if (myWallet?.address) {
-          this.tokenStorageService.saveIdWallet(myWallet.address);
+        if (myWallet?.data.address) {
+          this.tokenStorageService.saveIdWallet(myWallet.data.address);
           this.router.navigate(['']);
           this.showBigSpinner = true;
           this.backgroundImage = '';
           this.backgroundColor = '';
           // this.spinner.hide();
-        } else if (myWallet?.err === 'no_account') {
+        } else if (myWallet?.error === 'no_account') {
           this.tokenStorageService.setSecureWallet(
             'visited-completeProfile',
             'true'
