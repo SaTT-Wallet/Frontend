@@ -54,15 +54,17 @@ export class CampaignDetailsContainerComponent implements OnInit {
     this.campaign$ = this.campaignsStoreService.campaign$;
     if (isPlatformServer(this.platformId)) {
       const imgMetaTag = this.meta.getTag(`name='og:image'`);
-      if (!!imgMetaTag) {
-        this.meta.updateTag(
+      if (imgMetaTag){
+        this.meta.removeTag(`name='og:image'`);
+      }
+
+        this.meta.addTag(
           {
             property: 'og:image',
             content: `https://safeimagekit.com/picture.png`
-          },
-          `name='og:image'`
+          }
         );
-      }
+
       this.meta.addTag({
         property: 'og:title',
         content: 'twitter test'
