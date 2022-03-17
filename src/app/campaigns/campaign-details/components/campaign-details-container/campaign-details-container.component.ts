@@ -103,6 +103,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
         name: 'twitter:image:src',
         content: 'https://safeimagekit.com/picture.png'
       });
+    }
       this.campaign$.pipe(takeUntil(this.isDestroyed)).subscribe((campaign) => {
         this.campaign = campaign;
         setTimeout(() => {
@@ -188,7 +189,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
           `name='twitter:image:src'`
         );
       });
-    }
+
   }
 
   imageImported(image: any) {
