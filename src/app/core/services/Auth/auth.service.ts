@@ -25,15 +25,12 @@ export class AuthService {
 
   resetPassword(email: any): Observable<any> {
     return this.http.post(
-      sattUrl +
-        '/auth/passlost'
-      ,
-      { mail: email ,
-      lang:  this.tokenStorageService.getLocalLang()},
+      sattUrl + '/auth/passlost',
+      { mail: email, lang: this.tokenStorageService.getLocalLang() },
       { headers: this.tokenStorageService.getHeader() }
     );
   }
-  
+
   confirmCode(email: any, code: any, type: any): Observable<IresponseCode> {
     return this.http.post<IresponseCode>(
       sattUrl + '/auth/confirmCode',
@@ -96,15 +93,14 @@ export class AuthService {
     });
   }
 
-  updatePassword(oldpass: any, newpass: any, id: any) {
+  updatePassword(oldpass: any, newpass: any) {
     return this.http.post(
-      sattUrl + '/auth/passchange',
+      sattUrl + '/auth/changePassword',
       {
         oldpass: oldpass,
-        newpass: newpass,
-        id: id
-      },
-      { headers: this.tokenStorageService.getHeader() }
+        newpass: newpass
+      }
+      // { headers: this.tokenStorageService.getHeader() }
     );
   }
 
