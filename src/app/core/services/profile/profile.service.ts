@@ -143,7 +143,7 @@ export class ProfileService {
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
 
-    return this.http.put(sattUrl + '/updateLastStep', body, {
+    return this.http.put(sattUrl + '/auth/updateLastStep', body, {
       headers: httpHeaders
     });
   }

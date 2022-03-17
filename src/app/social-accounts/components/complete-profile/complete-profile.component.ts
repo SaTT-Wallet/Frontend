@@ -7,21 +7,16 @@ import {
   TemplateRef,
   ViewChild
 } from '@angular/core';
-import { sattUrl, pattEmail, pattPassword } from '@app/config/atn.config';
+import { pattEmail } from '@app/config/atn.config';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { ProfileService } from '@core/services/profile/profile.service';
-import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '@app/core/services/Auth/auth.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { User } from '@app/models/User';
-import { DomSanitizer } from '@angular/platform-browser';
 import { ContactMessageService } from '@core/services/contactmessage/contact-message.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { AuthStoreService } from '@core/services/Auth/auth-store.service';
 import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-facade.service';
 import { forkJoin, of, Subject } from 'rxjs';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
@@ -116,6 +111,7 @@ export class CompleteProfileComponent implements OnInit, OnDestroy {
         .completeProfile(data_profile)
         .pipe(
           mergeMap((response: any) => {
+            // console.log(response);
             if (response.message === 'email already exists') {
               this.duplicateEmail = true;
             } else if (
