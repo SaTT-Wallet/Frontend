@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ProfileSettingsFacadeService } from '@app/core/facades/profile-settings-facade.service';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-activation-mail',
@@ -24,6 +24,8 @@ export class ActivationMailComponent implements OnInit {
   codesms: boolean = false;
   email: any;
   codeData: any;
+  userId: any;
+  private account$ = this.accountFacadeService.account$;
   private isDestroyed = new Subject();
 
   constructor(
@@ -45,8 +47,15 @@ export class ActivationMailComponent implements OnInit {
 
   ngOnInit(): void {
     this.email = this.getEmail();
-
     // this.resendCode()
+    this.account$
+      .pipe(
+        filter((res) => res !== null)
+        // takeUntil(this.onDestoy$)
+      )
+      .subscribe((profile) => {
+        this.userId = profile?.idUser;
+      });
   }
 
   onCodeCompleted(code: string) {
@@ -111,6 +120,8 @@ export class ActivationMailComponent implements OnInit {
             'visited-completeProfile',
             'true'
           );
+          this.tokenStorageService.setIdUser(this.userId);
+
           setTimeout(() => {
             this.router.navigateByUrl('/social-registration/monetize-facebook');
             this.errorMessagecode = '';

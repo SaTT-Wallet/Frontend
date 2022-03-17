@@ -77,13 +77,21 @@ export class MonetizeFacebookAccountComponent implements OnInit, OnDestroy {
   linkAccount() {
     if (isPlatformBrowser(this.platformId))
       // console.log(sattUrl + '/addChannel/facebook/'+this.userId+"?redirect="+this.router.url)
+
+      // console.log(
+      //   sattUrl +
+      //     '/profile/addChannel/facebook/' +
+      //     this.userId +
+      //     '?redirect=' +
+      //     this.router.url
+      // );
       window.location.href =
         sattUrl +
-        '/addChannel/facebook/' +
+        '/profile/addChannel/facebook/' +
         this.userId +
         '?redirect=' +
         this.router.url;
-    // console.log(this.userId,"userId")
+    // console.log(this.userId, 'userId');
   }
   deleteLink() {
     this.socialAccountFacadeService
