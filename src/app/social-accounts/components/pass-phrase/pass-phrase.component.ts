@@ -96,7 +96,7 @@ export class PassPhraseComponent implements OnInit, OnDestroy {
       )
       .subscribe((response: any) => {
         if (response !== null && response !== undefined) {
-          this.passPhrase = response['mnemo'].split(' ');
+          this.passPhrase = response.data['mnemo'].split(' ');
         }
       });
   }
