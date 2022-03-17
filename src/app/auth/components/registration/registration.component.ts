@@ -54,7 +54,7 @@ export class RegistrationComponent implements OnInit {
   languageSelected: string = 'en';
   showSpinner: boolean = false;
   authFacebook: string = sattUrl + '/auth/signup_fb';
-  authGoogle: string = sattUrl + '/auth/signup_google';
+  authGoogle: string = sattUrl + '/auth/signup/google';
   authTelegram: string = sattUrl + '/auth/signup/telegram';
   loginNet: string = '';
   cookiesClicked!: boolean;
