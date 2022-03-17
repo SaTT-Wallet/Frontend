@@ -40,14 +40,14 @@ export class CreatePasswordWalletService {
     });
   }
 
-  checkPassPhraseOrdered(mnemo: any): Observable<any> {
+  checkPassPhraseOrdered(mnemo: string): Observable<any> {
     let httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'Cache-Control': 'no-store',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
     return this.http.post(
-      sattUrl + '/verifyMnemo',
+      sattUrl + '/wallet/verifyMnemo',
       { mnemo },
       { headers: httpHeaders }
     );
