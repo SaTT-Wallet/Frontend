@@ -16,7 +16,7 @@ export class ProfilePicEffects {
       ofType('[ProfilePic] Load ProfilePics'),
       mergeMap((action: any) => {
         return this.profileService.getUserProfilePic().pipe(
-          map((data) => {
+          map((data: any) => {
             return {
               type: '[ProfilePic] Load ProfilePics Success',
               data: data

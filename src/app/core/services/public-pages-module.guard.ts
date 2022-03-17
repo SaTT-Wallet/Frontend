@@ -46,14 +46,16 @@ export class CanLoadPublicModule implements CanLoad {
           this.tokenStorageService.setPhoneNumber(account.phone);
         }
       }),
-      mergeMap((data: any) => {
-        if (!!data.error || !Object.keys(data).length) {
+      mergeMap((account: any) => {
+        if (!!account.error || !Object.keys(account).length) {
           this.tokenStorageService.signOut();
           this.router.navigate(['auth/login']);
           return of(false);
         } else if (
-          (data.completed !== true && data.idSn !== 0) ||
-          (data.completed === true && data.idSn !== 0 && data.enabled === false)
+          (account.completed !== true && account.idSn !== 0) ||
+          (account.completed === true &&
+            account.idSn !== 0 &&
+            account.enabled === false)
         ) {
           this.router.navigate(['social-registration/completeProfile']);
           return of(false);
@@ -65,7 +67,7 @@ export class CanLoadPublicModule implements CanLoad {
           }
         }
       }),
-      catchError((error) => {
+      catchError(() => {
         this.tokenStorageService.signOut();
         this.router.navigate(['auth/login']);
         return of(false);
@@ -80,12 +82,12 @@ export class CanLoadPublicModule implements CanLoad {
           this.tokenStorageService.signOut();
           this.router.navigate(['auth/login']);
           return of(false);
-        } else if (data.address) {
-          this.tokenStorageService.saveIdWallet(data.address);
+        } else if (data.data.address) {
+          this.tokenStorageService.saveIdWallet(data.data.address);
           return of(true);
         } else if (this.dateNow > this.dateShouldExpireAt) {
           return of(true);
-        } else if (data.err === 'no_account') {
+        } else if (data.error === 'no_account') {
           this.tokenStorageService.setSecureWallet(
             'visited-completeProfile',
             'true'

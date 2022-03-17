@@ -353,8 +353,8 @@ export class CryptoListComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((data: any) => {
         if (!!data) {
-          this.btcCode = data.btc;
-          this.erc20 = data.address;
+          this.btcCode = data.data.btc;
+          this.erc20 = data.data.address;
           this.portfeuilleList = [
             { type: 'ERC20/BEP20', code: this.erc20 },
             { type: 'BTC', code: this.btcCode }
