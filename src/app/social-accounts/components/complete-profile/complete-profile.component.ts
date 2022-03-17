@@ -7,25 +7,20 @@ import {
   TemplateRef,
   ViewChild
 } from '@angular/core';
-import { sattUrl, pattEmail, pattPassword } from '@app/config/atn.config';
+import { pattEmail } from '@app/config/atn.config';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { ProfileService } from '@core/services/profile/profile.service';
-import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '@app/core/services/Auth/auth.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { User } from '@app/models/User';
-import { DomSanitizer } from '@angular/platform-browser';
 import { ContactMessageService } from '@core/services/contactmessage/contact-message.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { AuthStoreService } from '@core/services/Auth/auth-store.service';
 import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-facade.service';
 import { forkJoin, of, Subject } from 'rxjs';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
-import { filter, map, mergeMap, takeUntil } from 'rxjs/operators';
+import { catchError, filter, map, mergeMap, takeUntil } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 @Component({
   selector: 'app-complete-profile',
@@ -115,42 +110,46 @@ export class CompleteProfileComponent implements OnInit, OnDestroy {
       this.profileSettingsFacade
         .completeProfile(data_profile)
         .pipe(
-          mergeMap((response: any) => {
-            if (response.message === 'email already exists') {
+          catchError((error: any) => {
+            if (error.error.error === 'email already exists') {
               this.duplicateEmail = true;
-            } else if (
-              response.message === 'updated successfully with same email'
-            ) {
-              this.accountFacadeService.dispatchUpdatedAccount();
-              let arrayOfObs = [];
-              arrayOfObs.push(
-                this.account$.pipe(
-                  filter((res) => res !== null),
-                  takeUntil(this.onDestoy$)
-                )
-              );
-              arrayOfObs.push(
-                this.authService.sendConfirmationMail(
-                  this.completeProfileForm.get('email')?.value
-                )
-              );
-              return forkJoin(arrayOfObs).pipe(
-                map((res) => {
-                  return { res, type: '1' };
-                })
-              );
-            } else if (response.message === 'updated successfully') {
-              this.accountFacadeService.dispatchUpdatedAccount();
-              this.duplicateEmail = false;
-              return this.authService
-                .sendConfirmationMail(
-                  this.completeProfileForm.get('email')?.value
-                )
-                .pipe(
+            }
+            return of(null);
+          }),
+          mergeMap((response: any) => {
+            if (response) {
+              if (response.message === 'updated successfully with same email') {
+                this.accountFacadeService.dispatchUpdatedAccount();
+                let arrayOfObs = [];
+                arrayOfObs.push(
+                  this.account$.pipe(
+                    filter((res) => res !== null),
+                    takeUntil(this.onDestoy$)
+                  )
+                );
+                arrayOfObs.push(
+                  this.authService.sendConfirmationMail(
+                    this.completeProfileForm.get('email')?.value
+                  )
+                );
+                return forkJoin(arrayOfObs).pipe(
                   map((res) => {
-                    return { res, type: '2' };
+                    return { res, type: '1' };
                   })
                 );
+              } else if (response.message === 'updated successfully') {
+                this.accountFacadeService.dispatchUpdatedAccount();
+                this.duplicateEmail = false;
+                return this.authService
+                  .sendConfirmationMail(
+                    this.completeProfileForm.get('email')?.value
+                  )
+                  .pipe(
+                    map((res) => {
+                      return { res, type: '2' };
+                    })
+                  );
+              }
             }
             return of(null);
           })
