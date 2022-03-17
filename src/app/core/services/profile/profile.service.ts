@@ -166,7 +166,7 @@ export class ProfileService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.get(sattUrl + '/profile/pic', {
+    return this.http.get(sattUrl + '/profile/picture', {
       responseType: 'blob',
       headers: headers
     });

@@ -463,7 +463,7 @@ export class HeaderComponent implements OnInit {
         if (!data) {
           return;
         }
-        if (!data.err) {
+        if (!data.error) {
           if (!this.tokenStorageService.getFillMyProfil()) {
             this.tokenStorageService.setFillMyProfil('true');
           }
@@ -1216,8 +1216,8 @@ export class HeaderComponent implements OnInit {
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((data: any) => {
         if (!!data) {
-          this.btcCode = data.btc;
-          this.erc20 = data.address;
+          this.btcCode = data.data.btc;
+          this.erc20 = data.data.address;
           this.portfeuilleList = [
             { type: 'ERC20/BEP20', code: this.erc20 },
             { type: 'BTC', code: this.btcCode }
