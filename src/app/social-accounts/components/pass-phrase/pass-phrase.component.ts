@@ -149,8 +149,9 @@ export class PassPhraseComponent implements OnInit, OnDestroy {
           takeUntil(this.isDestroyed)
         )
         .subscribe((response: any) => {
+          // console.log(response);
           if (response !== null && response !== undefined) {
-            if (response.message === 'success') {
+            if (response.data.verify) {
               this.disabled = false;
               this.check = 'correct';
 
