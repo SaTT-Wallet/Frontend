@@ -732,7 +732,10 @@
                         <div class="cryptopri">
                           <div class="textalignEnd qte">
                             <span class="indicatorfont">
-                              {{ crypto.cryptoBEP20.quantity | number: '.0-2' }}
+                              {{
+                                crypto?.cryptoBEP20?.quantity
+                                  | number: '.0-2' || ''
+                              }}
                             </span>
                             <!-- <span class="indicatorfont ms-1" >{{crypto.name}}</span> -->
                           </div>
