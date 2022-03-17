@@ -92,6 +92,10 @@ export class CampaignDetailsContainerComponent implements OnInit {
         content: ''
       });
       this.meta.addTag({
+        name: 'twitter:card',
+        content: 'summary_large_image'
+      });
+      this.meta.addTag({
         name: 'twitter:title',
         content: ''
       });
@@ -163,6 +167,13 @@ export class CampaignDetailsContainerComponent implements OnInit {
             content: `${environment.domainName}/home/campaign/${campaign.id}`
           },
           `property='twitter:url'`
+        );
+        this.meta.updateTag(
+          {
+            name: 'twitter:card',
+            content: `summary_large_image`
+          },
+          `name='twitter:card'`
         );
 
         this.meta.updateTag(
