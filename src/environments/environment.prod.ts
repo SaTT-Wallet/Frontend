@@ -1,5 +1,5 @@
 export const environment = {
-  // production: true,
+   production: true,
   // API_URL: 'https://api.satt-token.com:3014',
   //   addresses: {
   //   smartContracts: {
