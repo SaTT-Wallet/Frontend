@@ -290,7 +290,7 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
       );
       this.isImageCroppedSubject.next(true);
       this.readAsBase64(this.srcFile).then((data) => {
-        if (data.result.length < 5000000) {
+        if (data.result.length < 2500000) {
           this.sizeErrorCover = false;
           this.form.get('cover')?.setValue(data.result);
         } else {
