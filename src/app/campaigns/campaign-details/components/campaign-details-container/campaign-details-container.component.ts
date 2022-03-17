@@ -54,55 +54,59 @@ export class CampaignDetailsContainerComponent implements OnInit {
     this.campaign$ = this.campaignsStoreService.campaign$;
     if (isPlatformServer(this.platformId)) {
       this.meta.addTag({
-        name: 'og:title',
-        content: ''
-      });
-      this.meta.addTag({
-        name: 'og:image:secure_url',
-        content: ``
-      });
-      const imgMetaTag = this.meta.getTag(`name='og:image'`);
-      if (!imgMetaTag) {
-        this.meta.addTag({
-          name: 'og:image',
-          content: ``
-        });
-      }
-      this.meta.addTag({
-        name: 'og:image:type',
-        content: `website`
-      });
-      this.meta.addTag({
         name: 'og:image:alt',
         content: `campaign cover`
       });
+      ////
+      const imgMetaTag = this.meta.getTag(`name='og:image'`);
+      if (!!imgMetaTag) {
+        this.meta.updateTag(
+          {
+            property: 'og:image',
+            content: `https://safeimagekit.com/picture.png`
+          },
+          `name='og:image'`
+        );
+      }
       this.meta.addTag({
-        name: 'og:image:width',
-        content: ``
+        property: 'og:title',
+        content: 'twitter test'
       });
       this.meta.addTag({
-        name: 'og:image:height',
-        content: ``
-      });
-      this.meta.addTag({
-        name: 'og:description',
+        property: 'og:description',
         content: ''
       });
       this.meta.addTag({
-        name: 'og:type',
+        property: 'og:type',
         content: 'website'
       });
       this.meta.addTag({
-        name: 'og:url',
+        property: 'og:url',
         content: ``
       });
       this.meta.addTag({
-        name: 'twitter:card',
-        content: 'summary_large_image'
+        property: 'og:site_name',
+        content: 'dev.satt.atayen.us'
       });
       this.meta.addTag({
-        property: 'twitter:image',
-        content: 'https://satt-token.com/assets/img/index/wallet.png'
+        property: 'twitter:domain',
+        content: 'https://dev.satt.atayen.us'
+      });
+      this.meta.addTag({
+        property: 'twitter:url',
+        content: ''
+      });
+      this.meta.addTag({
+        name: 'twitter:title',
+        content: ''
+      });
+      this.meta.addTag({
+        name: 'twitter:description',
+        content: ''
+      });
+      this.meta.addTag({
+        name: 'twitter:image:src',
+        content: 'https://safeimagekit.com/picture.png'
       });
     }
 
@@ -114,75 +118,81 @@ export class CampaignDetailsContainerComponent implements OnInit {
 
       this.meta.updateTag(
         {
-          name: 'og:title',
-          content: campaign.title
+          property: 'og:image',
+          content: `${sattUrl}/coverByCampaign/${campaign.id}`
         },
-        `name='og:title'`
+        `property='og:image'`
       );
 
       this.meta.updateTag(
         {
-          name: 'og:image',
-          content: `${sattUrl}/coverByCampaign/${campaign.id}`
+          property: 'og:title',
+          content: `${campaign.title}`
         },
-        `name='og:image'`
+        `property='og:title'`
       );
 
       this.meta.updateTag(
         {
-          name: 'og:image:secure_url',
-          content: `${sattUrl}/coverByCampaign/${campaign.id}`
+          property: 'og:description',
+          content: `${campaign.summary}`
         },
-        `name='og:image:secure_url'`
+        `property='og:description'`
       );
+
       this.meta.updateTag(
         {
-          name: 'og:image:type',
-          content: `image/png`
-        },
-        `name='og:image:type'`
-      );
-      this.meta.updateTag(
-        {
-          name: 'og:image:width',
-          content: `200`
-        },
-        `name='og:image:width'`
-      );
-      this.meta.updateTag(
-        {
-          name: 'og:image:height',
-          content: `200`
-        },
-        `name='og:image:height'`
-      );
-      this.meta.updateTag(
-        {
-          name: 'og:description',
-          content: campaign.summary
-        },
-        `name='og:description'`
-      );
-      this.meta.updateTag(
-        {
-          name: 'og:url',
+          property: 'og:url',
           content: `${environment.domainName}/home/campaign/${campaign.id}`
         },
-        `name='og:url'`
+        `property='og:url'`
       );
+
       this.meta.updateTag(
         {
-          name: 'twitter:card',
-          content: 'summary_large_image'
+          property: 'og:site_name',
+          content: `${environment.domainName.split('//')[1]}`
         },
-        `name='twitter:card'`
+        `property='og:site_name'`
+      );
+
+      this.meta.updateTag(
+        {
+          property: 'twitter:domain',
+          content: `${environment.domainName}`
+        },
+        `property='twitter:domain'`
       );
       this.meta.updateTag(
         {
-          property: 'twitter:image',
+          property: 'twitter:url',
+          content: `${environment.domainName}/home/campaign/${campaign.id}`
+        },
+        `property='twitter:url'`
+      );
+
+      this.meta.updateTag(
+        {
+          name: 'twitter:title',
+          content: `${campaign.title}`
+        },
+        `name='twitter:title'`
+      );
+
+      this.meta.updateTag(
+        {
+          name: 'twitter:description',
+          content: `${campaign.summary}`
+        },
+        `name='twitter:description'`
+      );
+
+      this.meta.updateTag(
+        {
+          name: 'twitter:image:src',
           content: `${sattUrl}/coverByCampaign/${campaign.id}`
         },
-        `name='twitter:image'`
+        `name='twitter:image:src'`
       );
     });
   }
