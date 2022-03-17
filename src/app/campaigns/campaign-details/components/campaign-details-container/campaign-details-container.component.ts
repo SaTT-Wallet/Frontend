@@ -92,10 +92,6 @@ export class CampaignDetailsContainerComponent implements OnInit {
         content: ''
       });
       this.meta.addTag({
-        name: 'twitter:card',
-        content: 'summary_large_image'
-      });
-      this.meta.addTag({
         name: 'twitter:title',
         content: ''
       });
@@ -117,7 +113,10 @@ export class CampaignDetailsContainerComponent implements OnInit {
       this.meta.updateTag(
         {
           property: 'og:image',
+/*
           content: `${sattUrl}/coverByCampaign/${campaign.id}`
+*/
+          content: 'https://safeimagekit.com/picture.png'
         },
         `property='og:image'`
       );
@@ -168,13 +167,6 @@ export class CampaignDetailsContainerComponent implements OnInit {
         },
         `property='twitter:url'`
       );
-      this.meta.updateTag(
-        {
-          name: 'twitter:card',
-          content: `summary_large_image`
-        },
-        `name='twitter:card'`
-      );
 
       this.meta.updateTag(
         {
@@ -195,7 +187,11 @@ export class CampaignDetailsContainerComponent implements OnInit {
       this.meta.updateTag(
         {
           name: 'twitter:image:src',
+/*
           content: `${sattUrl}/coverByCampaign/${campaign.id}`
+*/
+          content: 'https://safeimagekit.com/picture.png'
+
         },
         `name='twitter:image:src'`
       );
