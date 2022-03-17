@@ -21,7 +21,7 @@ export class ProfileService {
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
     return this.http.get<IGetSocialNetworksResponse>(
-      sattUrl + '/socialAccounts',
+      sattUrl + '/profile/socialAccounts',
       { headers: httpHeaders }
     );
   }
