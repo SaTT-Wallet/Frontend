@@ -2,17 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { sattUrl } from '@config/atn.config';
 import { TokenStorageService } from '../tokenStorage/token-storage-service.service';
-import { ContactMessageService } from '../contactmessage/contact-message.service';
-import {
-  distinctUntilKeyChanged,
-  map,
-  share,
-  shareReplay,
-  switchMap,
-  tap,
-  toArray
-} from 'rxjs/operators';
-import { BehaviorSubject, from, of, Subject } from 'rxjs';
+import { shareReplay } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -49,7 +39,7 @@ export class CryptofetchServiceService {
     });
     var idwallet = id_wallet || this.tokenStorageService.getIdWallet();
     return this.http
-      .get(sattUrl + '/v2/total_balance', { headers: headers })
+      .get(sattUrl + '/wallet/totalBalance', { headers: headers })
       .pipe(shareReplay(1));
   }
 
@@ -72,7 +62,7 @@ export class CryptofetchServiceService {
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
     return this.http
-      .get(sattUrl + '/user/balance/', { headers: headers })
+      .get(sattUrl + '/wallet/userBalance', { headers: headers })
       .pipe(shareReplay(1));
   }
   convertcrypto(send: any) {

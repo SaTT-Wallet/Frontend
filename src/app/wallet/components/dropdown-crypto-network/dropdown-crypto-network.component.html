@@ -12,7 +12,7 @@
         aria-expanded="false"
       >
         <i class="chevron fa fa-fw" *ngIf="selectedNetworkValue !== 'BTC'"></i>
-        <span class="dropdown-text ps-2"
+        <span class="dropdown-text ps-3"
           >{{ cryptoSymbol | translate }}
           <img
             class="crypto-image"
@@ -54,7 +54,7 @@
             "
           >
             <span class="li-select-text">{{ crypto.symbol | translate }}</span>
-            >
+            
             <img
               *ngIf="!crypto.picUrl"
               src="assets/Images/symbol_crypto/{{ crypto.undername2 }}.svg"
@@ -82,14 +82,16 @@
         aria-expanded="false"
       >
         <i class="chevron2 fa fa-fw"></i>
-        <span class="dropdown-text ps-2"
-          >{{ selectedNetworkValue }}
+
           <img
             class="width_icon_selectednetwork"
             src="assets/Images/networks-icon/network-black-{{
               selectedNetworkValue
             }}.svg"
           />
+
+          <span class="dropdown-text ps-2"
++          >{{ selectedNetworkValue }}
         </span>
       </button>
       <ul
@@ -103,14 +105,15 @@
             *ngIf="n.network !== selectedNetworkValue"
             (click)="selectNetworkValue(n.network)"
           >
+          <img
+          src="assets/Images/networks-icon/network-black-{{
+            n.network
+          }}.svg"
+          class="width_icon_network"
+        />
             <span class="li-select-text"
               >{{ n.network }}
-              <img
-                src="assets/Images/networks-icon/network-black-{{
-                  n.network
-                }}.svg"
-                class="width_icon_network"
-              />
+ 
               <!-- <span  *ngIf="n.network==='ERC20'" class="icon-ethereum-lg mt-1 blokchIcon displayed"></span>
                         <span *ngIf="n.network==='BEP20'" class="icon-binance-lg blokchIcon2 displayed"></span>
                         <span *ngIf="n.network==='BTC'" class="icon-figma-1 mt-2 ms-3 displayed"></span> -->

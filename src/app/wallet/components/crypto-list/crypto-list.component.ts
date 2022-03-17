@@ -30,6 +30,7 @@ import { WalletStoreService } from '@core/services/wallet-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 
 import { ShowNumbersRule } from '@shared/pipes/showNumbersRule';
+// import { data } from 'jquery';
 declare var $: any;
 @Component({
   selector: 'app-crypto-list',
@@ -149,16 +150,15 @@ export class CryptoListComponent implements OnInit, OnDestroy {
 
     this.cryptoList$
       .pipe(
-        filter((data) => data.length !== 0),
+        filter((data: any) => data?.data?.length !== 0),
         takeUntil(this.onDestroy$)
       )
       .subscribe((data: any) => {
         this.walletFacade.hideWalletSpinner();
         this.showWalletSpinner = false;
-        data = JSON.parse(JSON.stringify(data));
         this.dataList = data;
-        Object.preventExtensions(this.dataList);
 
+        Object.preventExtensions(this.dataList);
         this.dataList?.forEach((crypto: any, index: any) => {
           if (crypto.symbol === 'SATTBEP20') {
             indexSattBEP20 = index;
@@ -167,20 +167,21 @@ export class CryptoListComponent implements OnInit, OnDestroy {
             indexSattERC20 = index;
           }
         });
+        if (this.dataList.length === 0) {
+          return;
+        }
         ('use strict');
-
         const sattCryptoBEP20 = this.dataList[indexSattBEP20];
-
-        this.dataList[indexSattERC20].cryptoBEP20 = sattCryptoBEP20;
+        const cloneData = JSON.parse(JSON.stringify(this.dataList));
+        cloneData[indexSattERC20].cryptoBEP20 = sattCryptoBEP20;
+        this.dataList = cloneData;
         this.dataList = this.dataList.filter(
           (element) => element.symbol !== 'SATTBEP20'
         );
 
         this.cryptoList = [
           ...this.dataList.filter((data: any) => data.symbol === 'SATT'),
-
           ...this.dataList.filter((data: any) => data.symbol === 'SATTBEP20'),
-
           ...this.dataList.filter((data: any) => data.symbol === 'WSATT'),
           ...this.dataList.filter((data: any) => data.symbol === 'BITCOIN'),
           ...this.dataList.filter((data: any) => data.symbol === 'BNB'),
@@ -201,9 +202,6 @@ export class CryptoListComponent implements OnInit, OnDestroy {
           crypto.selected = false;
         });
 
-        // if ((this.dataList.total_balance = "0")) {
-        //   this.dataList.total_balance = "0.00";
-        // }
         this.dataList?.forEach((crypto: any) => {
           crypto.price = this.filterAmount(crypto.price + '');
           crypto.variation = parseFloat(crypto.variation + '');
@@ -218,7 +216,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
           // crypto.cryptoBEP20.total_balance = parseFloat(crypto.cryptoBEP20.total_balance + '');
 
           crypto.total_balance = crypto?.total_balance?.toFixed(2);
-          // crypto.cryptoBEP20.total_balance  = crypto?.cryptoBEP20.total_balance?.toFixed(2);
+          // crypto.cryptoBEP20.total_balance  = crypto?.cryptoBEP20.total_balance?.toFixed(2);p
 
           // crypto.affectPercent = (
           //   (crypto.total_balance * 100) /
@@ -246,7 +244,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
 
           if (crypto.symbol === 'SATT') {
             crypto.cryptoBEP20.quantity = this.filterAmount(
-              crypto.cryptoBEP20.quantity + ''
+              crypto?.cryptoBEP20.quantity + ''
             );
             crypto.cryptoBEP20.total_balance = parseFloat(
               crypto.cryptoBEP20.total_balance + ''
@@ -291,8 +289,13 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   getTotalBalance() {
     this.totalBalance$
       .pipe(
+        // tap((params: any) => {
+        //   console.log("params",params)
+        // }),
+
         takeUntil(this.onDestroy$),
-        map((response) => response.Total_balance?.Total_balance),
+
+        map((response) => response.data?.Total_balance),
         filter((res) => res !== null && res !== undefined)
       )
       .subscribe((totalBalance: any) => {
@@ -353,8 +356,8 @@ export class CryptoListComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((data: any) => {
         if (!!data) {
-          this.btcCode = data.btc;
-          this.erc20 = data.address;
+          this.btcCode = data.data.btc;
+          this.erc20 = data.data.address;
           this.portfeuilleList = [
             { type: 'ERC20/BEP20', code: this.erc20 },
             { type: 'BTC', code: this.btcCode }
@@ -537,7 +540,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     return this.showNumbersRule.transform(sum + '', true);
   }
   transformPrice(crypto: any) {
-    return this.showNumbersRule.transform(crypto.price + '', true);
+    return this.showNumbersRule.transform(crypto?.price + '', true);
   }
 
   onTextChange(value: any) {

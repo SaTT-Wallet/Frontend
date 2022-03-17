@@ -6,7 +6,10 @@ import { EMPTY } from 'rxjs';
 
 @Injectable()
 export class CryptoListEffects {
-  constructor(private cryptoService: CryptofetchServiceService, private actions$: Actions) {}
+  constructor(
+    private cryptoService: CryptofetchServiceService,
+    private actions$: Actions
+  ) {}
 
   loadCryptoList$ = createEffect(() => {
     return this.actions$.pipe(
@@ -16,19 +19,17 @@ export class CryptoListEffects {
           map((res: any) => {
             return {
               type: '[CryptoList] Load CryptoLists Success',
-              data: res.listOfCrypto.map((crypto: any) => {
+              data: res.data.map((crypto: any) => {
                 if (crypto.quantity === '-') {
                   return { ...crypto, quantity: 0 };
                 }
                 return crypto;
               })
             };
-          } 
-          ),
+          }),
           catchError(() => EMPTY)
         );
       })
     );
   });
-
 }

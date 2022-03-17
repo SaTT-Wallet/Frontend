@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import * as walletActions from '../actions/wallet.actions';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
 import { WalletActions } from '../actions/wallet.actions';
 
@@ -20,7 +20,11 @@ export class WalletEffects {
       ),
       mergeMap((action: walletActions.LoadTotalBalance) =>
         this.cryptoService.getTotalBalance(action.payload.address).pipe(
+        
+        
+          
           map(
+            
             (totalBalance: any) =>
               new walletActions.LoadTotalBalanceSuccess(totalBalance)
           ),
