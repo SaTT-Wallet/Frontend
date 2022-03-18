@@ -48,14 +48,9 @@ export class DownaldJSONFileComponent implements OnInit {
       this.profileSettingsFacade
         .exportProfileData(password)
         .pipe(takeUntil(this.isDestroyed))
-        .subscribe((res: any) => {
-          if (res.error === 'Wrong password') {
-            this.formExportData
-              .get('password')
-              ?.setErrors({ checkPassword: true });
-            this.showSpinner = false;
-          } else {
-            const file = new Blob([JSON.stringify(res)], {
+        .subscribe(
+          (data) => {
+            const file = new Blob([JSON.stringify(data)], {
               type: 'application/octet-stream'
             });
 
@@ -69,8 +64,21 @@ export class DownaldJSONFileComponent implements OnInit {
             this.formExportData.reset();
             this.showSpinner = false;
             this.router.navigate(['/social-registration/activePass']);
+          },
+          (err) => {
+            if (
+              (err.error.code === 500 &&
+                err.error.error ===
+                  'Key derivation failed - possibly wrong password') ||
+              (err.error.code === 401 && err.error.error === 'Wrong password')
+            ) {
+              this.formExportData
+                .get('password')
+                ?.setErrors({ checkPassword: true });
+              this.showSpinner = false;
+            }
           }
-        });
+        );
     }
   }
   ngOnDestroy(): void {
