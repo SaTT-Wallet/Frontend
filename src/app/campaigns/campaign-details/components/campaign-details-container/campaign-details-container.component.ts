@@ -216,7 +216,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
       this.meta.updateTag(
         {
           property: 'twitter:url',
-          content: `${environment.domainName}/home/campaign/${campaign.id}`
+          content: `${environment.domainName}/campaign/${campaign.id}`
         },
         `property='twitter:url'`
       );
