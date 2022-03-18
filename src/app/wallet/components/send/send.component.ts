@@ -413,13 +413,12 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           )
           .subscribe(
             (data: any) => {
-              console.log("data",data)
               this.showSpinner = false;
               this.loadingButton = false;
-              if (data.transactionHash) {
+              if (data.data.transactionHash) {
                 this.currency = currency;
 
-                this.hashtransaction = data.transactionHash;
+                this.hashtransaction = data.data.transactionHash;
 
                 if (this.networks === 'BEP20') {
                   this.routertransHash = bscan + this.hashtransaction;
@@ -481,9 +480,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               // }
             },
             (error) => {
-              console.log(error.error.error)
               if (error.error.error === 'Key derivation failed - possibly wrong password') {
-                console.log("aaa")
                 this.wrongpassword = true;
                 setTimeout(() => {
                   this.wrongpassword = false;
