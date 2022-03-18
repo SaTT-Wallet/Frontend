@@ -165,7 +165,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
           name: 'og:image',
           content: `${sattUrl}/coverByCampaign/${campaign.id}`
         },
-        `property='og:image'`
+        `name='og:image'`
       );
 
 
