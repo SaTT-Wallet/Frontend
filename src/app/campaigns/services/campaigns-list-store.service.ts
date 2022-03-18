@@ -8,6 +8,7 @@ import { BehaviorSubject, Observable, of, Subject, merge } from 'rxjs';
 import { map, share, mapTo, takeUntil } from 'rxjs/operators';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { isPlatformBrowser } from '@angular/common';
+import { ICampaignsListResponse } from '@app/core/campaigns-list-response.interface';
 
 /*interface CampaignsListStore {
   pages: Page<Campaign>[];
@@ -90,11 +91,8 @@ export class CampaignsListStoreService {
     this.onPageScrollSubject.next('');
   }
 
-  loadNextPage(
-    filterOptions: any,
-    firstLoad: boolean
-  ): Observable<Page<Campaign>[]> {
-    return this.getAllCampaigns(firstLoad, filterOptions);
+  loadNextPage(filterOptions: any, firstLoad: boolean): void {
+    this.getAllCampaigns(firstLoad, filterOptions);
   }
 
   getAllCampaigns(firstLoad: boolean, filterOptions: any) {
@@ -113,40 +111,43 @@ export class CampaignsListStoreService {
           this.getFilterQueryString(filterOptions)
         )
         .pipe(share());
-      obs
-        .pipe(
-          map((res: any) => {
-            this.count = res.data.count;
-            if (res.code === 200 && res.message === 'success') {
-              return [
-                res.data.count,
-                !!res.data.campaigns
-                  ? res.data.campaigns.map((c: any) => {
-                      let campaign = new Campaign(c);
-                      campaign.ownedByUser =
-                        Number(campaign.ownerId) ===
-                        Number(this.localStorageService.getUserId());
-                      return campaign;
-                    })
-                  : []
-              ];
-            }
-            return [];
-          }),
-          takeUntil(this.isDestroyed)
-        )
-        .subscribe((data) => {
-          this._loadingCampaign.next(false);
-          this.nextPage.items = data[1];
-          let pages: Page<Campaign>[] = this.list;
-          if (pages.length && firstLoad) {
-            pages = [];
+      let campaignsList$ = obs.pipe(
+        map((res: ICampaignsListResponse) => {
+          this.count = res.data.count;
+          if (res.code === 200 && res.message === 'success') {
+            return {
+              count: res.data.count,
+              campaigns: !!res.data.campaigns
+                ? res.data.campaigns.map((c: any) => {
+                    let campaign = new Campaign(c);
+                    campaign.ownedByUser =
+                      Number(campaign.ownerId) ===
+                      Number(this.localStorageService.getUserId());
+                    return campaign;
+                  })
+                : ([] as Campaign[])
+            };
           }
-          pages.push({ ...this.nextPage });
-          this.setListCampaign(pages);
-        });
+          return {
+            count: 0,
+            campaigns: []
+          };
+        }),
+        takeUntil(this.isDestroyed)
+      );
 
-      return obs;
+      campaignsList$.subscribe(({ campaigns }) => {
+        this._loadingCampaign.next(false);
+        this.nextPage.items = campaigns as Campaign[];
+        let pages: Page<Campaign>[] = this.list;
+        if (pages.length && firstLoad) {
+          pages = [];
+        }
+        pages.push({ ...this.nextPage });
+        this.setListCampaign(pages);
+      });
+
+      return campaignsList$.pipe(map(({ campaigns }) => campaigns));
     } else {
       this._loadingCampaign.next(false);
       return of([] as Campaign[]);

@@ -1,14 +1,10 @@
 import { Injectable, Injector } from '@angular/core';
-import { Campaign } from '@app/models/campaign.model';
-import { Page } from '@app/models/page.model';
-import { Observable } from 'rxjs';
 import { CampaignsFacade } from '../models/campaigns-facade.interface';
 import { CampaignsListStoreService } from '../services/campaigns-list-store.service';
 import { CampaignDetailsFacade } from '../campaign-details/facade/campaign-details.facade';
 import { filter } from 'rxjs/operators';
 import { selectLinksList } from '@campaigns/store/selectors/links-list.selectors';
 import { Store } from '@ngrx/store';
-import { selectTotaleBalance } from '@app/wallet/store/selectors/wallet.selectors';
 import { clearLinksListStore } from '@campaigns/store/actions/links-list.actions';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 
@@ -59,14 +55,8 @@ export class CampaignsService implements CampaignsFacade {
     return this.store.select(selectLinksList);
   }
 
-  loadNextPage(
-    filterOptions: any,
-    firstLoad: boolean
-  ): Observable<Page<Campaign>[]> {
-    return this.campaignsListStoreService.loadNextPage(
-      filterOptions,
-      firstLoad
-    );
+  loadNextPage(filterOptions: any, firstLoad: boolean): void {
+    this.campaignsListStoreService.loadNextPage(filterOptions, firstLoad);
   }
 
   loadCampaignDetails(id: string) {
