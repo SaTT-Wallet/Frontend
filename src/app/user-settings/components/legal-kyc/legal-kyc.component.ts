@@ -285,9 +285,9 @@ export class LegalKYCComponent implements OnInit {
       .pipe(
         mergeMap((kyc: any) => {
           let arrayOfObs: any[] = [];
-          if (kyc !== null && kyc !== undefined) {
+          if (kyc !== null && kyc !== undefined && kyc.message === 'success') {
             this.showSpinner = false;
-            this.dataLegal = kyc.legal;
+            this.dataLegal = kyc.data.legal;
             this.dataLegal.forEach((item: any) => {
               switch (item.type) {
                 case 'proofId':

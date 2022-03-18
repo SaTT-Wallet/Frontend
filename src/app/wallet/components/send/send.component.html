@@ -140,7 +140,7 @@
       class="div-content d-flex flex-column align-items-center"
       *ngIf="showPwdBloc"
     >
-      <form [formGroup]="sendform" (ngSubmit)="onSubmitSendMoney($event)">
+      <form [formGroup]="sendform" (ngSubmit)="sendMoney()">
         <div class="text-center">
           <img src="assets/Images/moonboy/moonboy-send.svg" />
         </div>

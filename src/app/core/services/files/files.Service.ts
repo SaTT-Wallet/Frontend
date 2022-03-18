@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { sattUrl } from '@config/atn.config';
-import { Observable } from 'rxjs';
 import { TokenStorageService } from '../tokenStorage/token-storage-service.service';
 
 @Injectable({
@@ -18,7 +17,7 @@ export class FilesService {
     let formData = new FormData();
     formData.append('file', content);
 
-    return this.http.post(sattUrl + '/profile/pic', formData, {
+    return this.http.post(sattUrl + '/profile/picture', formData, {
       reportProgress: true,
       observe: 'events',
       headers: {
@@ -66,7 +65,7 @@ export class FilesService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.get(sattUrl + `/profile/userLegal/${fileId}`, {
+    return this.http.get(sattUrl + `/profile/legalUserUpload/${fileId}`, {
       responseType: 'blob',
       headers: headers
     });
@@ -79,18 +78,4 @@ export class FilesService {
     });
     return this.http.get(sattUrl + '/profile/userLegal', { headers: headers });
   }
-  getEstimation() {
-    const headers = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.get(
-      sattUrl + '/v2/mywallet/' + this.tokenStorageService.getToken(),
-      { headers: this.tokenStorageService.getHeader() }
-    );
-  }
-  // userNode(wallet:any){
-  //      return this.http.post(sattUrl + '/satt/wallet/userNode',{wallet: wallet}, {headers: header});
-  // }
 }

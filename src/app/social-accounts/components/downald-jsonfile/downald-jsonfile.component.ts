@@ -1,15 +1,10 @@
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  Validators,
-  ReactiveFormsModule
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { Router } from '@angular/router';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { TranslateService } from '@ngx-translate/core';
-import { ProfileService } from '@core/services/profile/profile.service';
+// import { ProfileService } from '@core/services/profile/profile.service';
 import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-facade.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -47,11 +42,11 @@ export class DownaldJSONFileComponent implements OnInit {
 
     let fileName: string = 'keystore.json';
     this.showSpinner = true;
-    let exportType: string = 'export';
+    // let exportType: string = 'export';
 
     if (this.formExportData.valid && isPlatformBrowser(this.platformId)) {
       this.profileSettingsFacade
-        .exportProfileData(password, exportType)
+        .exportProfileData(password)
         .pipe(takeUntil(this.isDestroyed))
         .subscribe((res: any) => {
           if (res.error === 'Wrong password') {

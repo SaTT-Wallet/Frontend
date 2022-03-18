@@ -54,9 +54,8 @@ export class NotificationService {
         Authorization: 'Bearer ' + this.tokenStorageService.getToken()
       })
     };
-    return this.http.put(
+    return this.http.get(
       sattUrl + '/profile/notification/issend/clicked',
-      {},
       this.httpOptions
     );
   }

@@ -63,6 +63,7 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
   maxNumber: number = 999999999;
   private isDestroyed = new Subject();
   sattPrices: any;
+  usernotfound: boolean = false;
 
   constructor(
     private accountFacadeService: AccountFacadeService,
@@ -360,8 +361,18 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
             this.showMsgBloc = false;
             this.showSuccessBloc = true;
             this.receiveform.reset();
+          }}
+          , 
+          (error) => {
+            if (error.error.error === 'user not found') {
+              this.usernotfound = true;
+              this.loadingButton = false;
+
+            }
+
           }
-        });
+
+        )
     }
   }
 

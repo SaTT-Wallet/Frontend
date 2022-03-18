@@ -272,25 +272,7 @@ export class DropdownCryptoNetworkComponent
     this.onDestoy$.next('');
     this.onDestoy$.complete();
   }
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   console.log(changes);
-  //   console.log(changes.cryptoFromComponent.currentValue);
-  //   if (this.cryptoFromComponent) {
-  //     this.cdref.detectChanges();
-  //     this.isCryptoRouter = false;
-  //     if (this.cryptoFromComponent.AddedToken) {
-  //       this.isAddedToken = true;
-  //       this.token = this.cryptoFromComponent.AddedToken;
-  //       this.cryptoPicName = this.cryptoFromComponent.picUrl;
-  //     } else {
-  //       this.token = '';
-  //       this.isAddedToken = false;
-  //       this.cryptoPicName = this.cryptoFromComponent.undername2;
-  //     }
-  //     this.cryptoSymbol = this.cryptoFromComponent.symbol;
-  //     this.selectedNetworkValue = this.cryptoFromComponent.network;
-  //   }
-  // }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.cryptoFromDraft) {
       if (this.cryptoFromDraft) {

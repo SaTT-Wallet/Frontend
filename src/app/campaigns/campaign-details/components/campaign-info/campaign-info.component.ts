@@ -847,7 +847,10 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
     let etherscan = environment.etherscan;
 
     this.CampaignService.getOneById(this.campaign.id)
-      .pipe(takeUntil(this.isDestroyed$))
+      .pipe(
+        takeUntil(this.isDestroyed$),
+        map((res: any) => res.data)
+      )
       .subscribe((data: any) => {
         if (data['transactionHash'] === undefined) {
           this.noTransactionHash = true;

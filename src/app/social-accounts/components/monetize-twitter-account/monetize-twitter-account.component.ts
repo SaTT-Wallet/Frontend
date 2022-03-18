@@ -38,6 +38,7 @@ export class MonetizeTwitterAccountComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.tokenStorageService.setSecureWallet('visited-twitter', 'true');
     this.getSocialNetwork();
     this.getUrlMsg();
     this.route.queryParams.subscribe((params: any) => {
@@ -65,7 +66,7 @@ export class MonetizeTwitterAccountComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestoy$))
       .subscribe((data: any) => {
         if (data !== null) {
-          this.channelTwitter = data.twitter;
+          this.channelTwitter = data.data.twitter;
         } else {
           this.channelTwitter = [];
         }
@@ -80,10 +81,17 @@ export class MonetizeTwitterAccountComponent implements OnInit, OnDestroy {
     if (isPlatformBrowser(this.platformId))
       window.location.href =
         sattUrl +
-        '/addChannel/twitter/' +
+        '/profile/addChannel/twitter/' +
         this.userId +
         '?redirect=' +
         this.router.url;
+    // console.log(
+    //   sattUrl +
+    //   '/profile/addChannel/twitter/' +
+    //   this.userId +
+    //   '?redirect=' +
+    //   this.router.url;
+    // )
   }
   deleteLink() {
     this.socialAccountFacadeService

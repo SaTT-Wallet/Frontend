@@ -408,7 +408,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
     this.formExportDataSubmitted = true;
     if (this.formExportData.valid) {
       this.profileSettingsFacade
-        .exportProfileData(password, this.exportType)
+        .exportProfileData(password)
         .pipe(takeUntil(this.onDestroy$))
         .subscribe((res: any) => {
           this.showSpinner = false;

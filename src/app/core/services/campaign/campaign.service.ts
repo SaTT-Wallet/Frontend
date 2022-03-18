@@ -3,8 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import {
   sattUrl,
   campaignSmartContractERC20,
-  campaignSmartContractBEP20,
-  ListTokens
+  campaignSmartContractBEP20
 } from '@config/atn.config';
 import { TokenStorageService } from '../tokenStorage/token-storage-service.service';
 import {
@@ -12,22 +11,12 @@ import {
   map,
   retry,
   share,
-  tap,
   shareReplay,
-  switchMap,
   takeLast,
-  toArray,
   mergeMap,
   takeUntil
 } from 'rxjs/operators';
-import {
-  BehaviorSubject,
-  from,
-  Observable,
-  of,
-  ReplaySubject,
-  Subject
-} from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { AuthStoreService } from '../Auth/auth-store.service';
 
 @Injectable({
@@ -49,7 +38,6 @@ export class CampaignHttpApiService {
     private tokenStorageService: TokenStorageService,
     private authStoreService: AuthStoreService
   ) {}
-
 
   getMycampaigns() {
     let idWallet = this.tokenStorageService.getIdWallet();
@@ -83,9 +71,9 @@ export class CampaignHttpApiService {
   }
 
   getPromById(id: string) {
-    return this.http.get(`${sattUrl}/prom/stats/${id}`).pipe(
+    return this.http.get(`${sattUrl}/campaign/prom/stats/${id}`).pipe(
       retry(1),
-      catchError((err) => {
+      catchError(() => {
         //TODO: handle backend api errors
         return of(null);
       }),
@@ -116,7 +104,7 @@ export class CampaignHttpApiService {
   }
   notifyLink(campaignId: any, link: any, idProm: string) {
     return this.http.post(
-      sattUrl + '/campaign/insert_link_notification',
+      sattUrl + '/campaign/linkNotification',
       { idCampaign: campaignId, link, idProm },
       { headers: this.tokenStorageService.getHeader() }
     );
@@ -137,7 +125,7 @@ export class CampaignHttpApiService {
     size = 10,
     queryParams: HttpParams = new HttpParams()
   ): Observable<any> {
-    let idWallet = this.tokenStorageService.getIdWallet();
+    //let idWallet = this.tokenStorageService.getIdWallet();
 
     let header = new HttpHeaders({
       'Cache-Control': 'no-store',
@@ -191,7 +179,7 @@ export class CampaignHttpApiService {
   }
 
   getOneById(id: string) {
-    return this.http.get(`${sattUrl}/v2/campaign/id/${id}`, {
+    return this.http.get(sattUrl + '/campaign/details/' + id, {
       headers: this.tokenStorageService.getHeader()
     });
   }
@@ -287,11 +275,6 @@ export class CampaignHttpApiService {
      */
   campaignApply(campaign: any, application: any, password: any) {
     // let token = this.tokenStorageService.getToken();
-
-    const headers = new HttpHeaders({
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
     return this.http.post(
       sattUrl + '/v2/campaign/apply',
       {
@@ -326,7 +309,7 @@ export class CampaignHttpApiService {
       })
       .pipe(
         retry(1),
-        catchError((err) => of(null))
+        catchError(() => of(null))
       );
   }
 
@@ -338,7 +321,7 @@ export class CampaignHttpApiService {
       })
       .pipe(
         retry(1),
-        catchError((err) => of(null))
+        catchError(() => of(null))
       );
   }
 
@@ -368,11 +351,11 @@ export class CampaignHttpApiService {
   getCampaignKitUrl(id: any) {
     let httpHeaders = new HttpHeaders({
       'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+      'Content-Type': 'application/json'
+      // Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
 
-    return this.http.get(sattUrl + '/campaign' + `/${id}` + '/kits', {
+    return this.http.get(sattUrl + '/campaign/' + id + '/kits', {
       headers: httpHeaders
     });
   }
@@ -422,7 +405,7 @@ export class CampaignHttpApiService {
         mergeMap((data: any) => {
           this.campaignData = data.campaign;
           if (cover) {
-            let file = { file: cover, campaign: data.campaign.id };
+            // let file = { file: cover, campaign: data.campaign.id };
             return this.addCover(cover, data.campaign._id);
           }
           return of(null);
@@ -488,7 +471,7 @@ export class CampaignHttpApiService {
         headers: this.tokenStorageService.getHeader()
       })
       .pipe(takeUntil(this.isDestroyed))
-      .subscribe((data: any) => {});
+      .subscribe(() => {});
   }
 
   checkForCover(campaign_id: any) {
@@ -568,7 +551,7 @@ export class CampaignHttpApiService {
             }
           )
           .pipe(takeUntil(this.isDestroyed))
-          .subscribe((data: any) => {});
+          .subscribe();
       } else {
         return this.http
           .post(
@@ -579,14 +562,12 @@ export class CampaignHttpApiService {
             { headers: this.tokenStorageService.getHeader() }
           )
           .pipe(takeUntil(this.isDestroyed))
-          .subscribe((data: any) => {});
+          .subscribe();
       }
     });
   }
 
   modifytKit(kits: any, campaignId: any) {
-    var link: any = [];
-    var files: any = [];
     let formData = new FormData();
 
     // console.log(kits)
@@ -656,7 +637,7 @@ export class CampaignHttpApiService {
         }
       })
       .pipe(
-        catchError((err) => {
+        catchError(() => {
           //TODO: handle errors with services.
           //console.log("error saving kits");
           return of({
@@ -693,7 +674,7 @@ export class CampaignHttpApiService {
         headers: this.tokenStorageService.getHeader()
       })
       .pipe(
-        catchError((err) => of(null)),
+        catchError(() => of(null)),
         retry(1),
         shareReplay(1)
       );
@@ -715,14 +696,19 @@ export class CampaignHttpApiService {
   }
 
   getTokenAllowanceERC20(erc20: any) {
-    return this.http.get(
+    return this.http.post(
       sattUrl +
-        '/v2/erc20/' +
-        erc20.addr +
-        '/approval/' +
-        erc20.walletaddr +
-        '/' +
-        campaignSmartContractERC20,
+        '/campaign/erc20/approval/' +
+        // '/v2/erc20/' +
+        // erc20.addr +
+        // '/approval/' +
+        // erc20.walletaddr +
+        // '/'
+        {
+          tokenAddress: erc20.addr,
+          campaignAddress: campaignSmartContractERC20
+        },
+
       { headers: this.tokenStorageService.getHeader() }
     );
   }
@@ -823,7 +809,7 @@ export class CampaignHttpApiService {
     return this.http.post(
       `${sattUrl}/v2/campaign/validate?lang=${this.tokenStorageService.getLocalLang()}`,
       {
-        idCampaign: prom.campaign._id,
+        idCampaign: prom.campaign._id || id,
         idProm: prom.hash,
         link: prom.link,
         email: prom.meta.email,
@@ -895,7 +881,6 @@ export class CampaignHttpApiService {
   //   });
   // }
   linkedinSharedid(idPost: any) {
-    let idWallet = this.tokenStorageService.getIdWallet();
     return this.http.get(`${sattUrl}/ShareByActivity/${idPost}`, {
       headers: this.tokenStorageService.getHeader()
     });
@@ -957,14 +942,14 @@ export class CampaignHttpApiService {
     let walletId = this.tokenStorageService.getIdWallet();
     if (campaignId === '') {
       return this.http
-        .get(`${sattUrl}/filterLinks/` + walletId, {
+        .get(`${sattUrl}/campaign/filterLinks/` + walletId, {
           headers: header,
           params: queryParams
         })
         .pipe(share());
     } else {
       return this.http
-        .get(`${sattUrl}/filterLinks/` + walletId, {
+        .get(`${sattUrl}/campaign/filterLinks/` + walletId, {
           headers: header,
           params: queryParamsCamp
         })
@@ -984,15 +969,15 @@ export class CampaignHttpApiService {
     size = 10,
     queryParams: HttpParams = new HttpParams()
   ): Observable<any> {
-    let idWallet = this.tokenStorageService.getIdWallet() || '';
-    let queryParams1 = queryParams
-      .set('page', '' + page)
-      .set('limit', '' + size);
-    let header1 = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
+    // let idWallet = this.tokenStorageService.getIdWallet() || '';
+    // let queryParams1 = queryParams
+    //   .set('page', '' + page)
+    //   .set('limit', '' + size);
+    // let header1 = new HttpHeaders({
+    //   'Cache-Control': 'no-store',
+    //   'Content-Type': 'application/json',
+    //   Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    // });
     const walletId = !!this.tokenStorageService.getToken()
       ? (this.tokenStorageService.getIdWallet() as string)
       : '';
@@ -1017,7 +1002,7 @@ export class CampaignHttpApiService {
     // } else {
 
     return this.http
-      .get(` ${sattUrl}/v4/campaigns`, {
+      .get(` ${sattUrl}/campaign/campaigns`, {
         headers: header2,
         params: queryParams2
       })
@@ -1042,7 +1027,7 @@ export class CampaignHttpApiService {
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
 
-    return this.http.get(`${sattUrl}/campaignsStatistics`, {
+    return this.http.get(sattUrl + '/campaign/statistics', {
       headers: header
     });
   }

@@ -37,6 +37,7 @@ export class MonetizeGoogleAccountComponent implements OnInit, OnDestroy {
     @Inject(PLATFORM_ID) private platformId: string
   ) {}
   ngOnInit(): void {
+    this.tokenStorageService.setSecureWallet('visited-google', 'true');
     this.getSocialNetwork();
     this.getUrlMsg();
     this.route.queryParams.subscribe((params: any) => {
@@ -52,7 +53,7 @@ export class MonetizeGoogleAccountComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestoy$))
       .subscribe((data: any) => {
         if (data !== null) {
-          this.channelGoogle = data.google;
+          this.channelGoogle = data.data.google;
         } else {
           this.channelGoogle = [];
         }
@@ -62,7 +63,7 @@ export class MonetizeGoogleAccountComponent implements OnInit, OnDestroy {
     if (isPlatformBrowser(this.platformId))
       window.location.href =
         sattUrl +
-        '/addChannel/google/' +
+        '/profile/addChannel/youtube/' +
         this.userId +
         '?redirect=' +
         this.router.url;

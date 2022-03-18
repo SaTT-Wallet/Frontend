@@ -89,7 +89,7 @@ export class ContactMessageService {
     });
 
     return this.http.post(
-      sattUrl + '/recieveMoney?lang=' + this.tokenStorageService.getLocalLang(),
+      sattUrl + '/profile/receiveMoney',
       contact,
       {
         headers: headers

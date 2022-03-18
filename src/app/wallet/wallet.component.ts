@@ -727,7 +727,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     this.totalBalance$
       .pipe(takeUntil(this.onDestoy$))
       .subscribe((data: any) => {
-        this.totalAmount = data?.Total_balance?.Total_balance;
+        this.totalAmount = data;
         this.variationamount = data?.variation?.toFixed(2);
         if (this.variationamount < 0) {
           this.arrowvar = '';

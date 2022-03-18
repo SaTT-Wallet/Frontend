@@ -5,8 +5,8 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { TokenStorageService } from '../tokenStorage/token-storage-service.service';
 import { IresponseAccount } from '@app/core/iresponse-account';
-import { IresponseAuth } from '@app/core/iresponse-auth';
 import { IresponseCode } from '@app/core/iresponse-code-qr';
+import { IResetPasswordResponse } from '@app/core/reset-password.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -26,22 +26,24 @@ export class AuthService {
 
   resetPassword(email: any): Observable<any> {
     return this.http.post(
-      sattUrl +
-        '/v2/auth/passlost?lang=' +
-        this.tokenStorageService.getLocalLang(),
-      { mail: email },
+      sattUrl + '/auth/passlost',
+      { mail: email, lang: this.tokenStorageService.getLocalLang() },
       { headers: this.tokenStorageService.getHeader() }
     );
   }
+
   confirmCode(email: any, code: any, type: any): Observable<IresponseCode> {
     return this.http.post<IresponseCode>(
-      sattUrl + '/confirmCode',
+      sattUrl + '/auth/confirmCode',
       { email: email, code: code, type: type },
       {}
     );
   }
-  resetPasswordWithCode(email: any, newpass: any) {
-    return this.http.post(
+  resetPasswordWithCode(
+    email: any,
+    newpass: any
+  ): Observable<IResetPasswordResponse> {
+    return this.http.post<IResetPasswordResponse>(
       sattUrl + '/v2/auth/passrecover',
       {
         email: email,
@@ -55,17 +57,12 @@ export class AuthService {
       headers: this.tokenStorageService.getHeader()
     });
   }
-  login(
-    username: string,
-    password: string,
-    noredirect: string
-  ): Observable<IresponseAuth> {
-    return this.http.post<IresponseAuth>(
-      sattUrl + '/auth/email',
+  login(username: string, password: string): Observable<any> {
+    return this.http.post(
+      sattUrl + '/auth/signin/mail',
       {
         username: username,
-        password: password,
-        noredirect: noredirect
+        password: password
       },
       { headers: this.tokenStorageService.getHeader() }
     );
@@ -74,19 +71,16 @@ export class AuthService {
   register(
     email: any,
     password: any,
-    password_confirmation: any,
-    noredirect: any,
     newsLetter: any
     //*** */
   ): Observable<any> {
     return this.http.post(
-      sattUrl +
-        '/v2/auth/signup?lang=' +
-        this.tokenStorageService.getLocalLang(),
+      sattUrl + '/auth/signup/mail',
       {
         username: email,
         password: password,
-        newsLetter: newsLetter
+        newsLetter: newsLetter,
+        lang: this.tokenStorageService.getLocalLang()
       },
       { headers: this.tokenStorageService.getHeader() }
     );
@@ -98,7 +92,7 @@ export class AuthService {
       'Cache-Control': 'no-store',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.get<IresponseAccount>(sattUrl + '/auth/account', {
+    return this.http.get<IresponseAccount>(sattUrl + '/profile/account', {
       headers: httpHeaders
     });
   }
@@ -116,10 +110,10 @@ export class AuthService {
   }
 
   sendConfirmationMail(email: string) {
-    return this.http.post(
-      sattUrl + '/v2/resend-confirmation-token/' + email,
-      email
-    );
+    return this.http.post(sattUrl + '/auth/resend/confirmationToken', {
+      email: email,
+      lang: this.tokenStorageService.getLocalLang()
+    });
   }
   onBoarding() {
     let httpHeaders = new HttpHeaders({
@@ -129,23 +123,23 @@ export class AuthService {
     });
     return this.http.get(sattUrl + '/onBoarding', { headers: httpHeaders });
   }
-  checkPass(pass: any) {
-    let httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-store',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.post(sattUrl + '/check/pass', pass, {
-      headers: httpHeaders
-    });
-  }
+  // checkPass(pass: any) {
+  //   let httpHeaders = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //     'Cache-Control': 'no-store',
+  //     Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+  //   });
+  //   return this.http.post(sattUrl + '/check/pass', pass, {
+  //     headers: httpHeaders
+  //   });
+  // }
   imagespuzzle() {
     let httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'Cache-Control': 'no-store',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.get('https://api.satt-token.com:3014/captcha', {
+    return this.http.get(sattUrl + '/auth/captcha', {
       headers: httpHeaders
     });
   }
@@ -156,13 +150,9 @@ export class AuthService {
       'Cache-Control': 'no-store',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.post(
-      'https://api.satt-token.com:3014/verifyCaptcha',
-      send,
-      {
-        headers: httpHeaders
-      }
-    );
+    return this.http.post(sattUrl + '/auth/verifyCaptcha', send, {
+      headers: httpHeaders
+    });
   }
 
   canActivate() {

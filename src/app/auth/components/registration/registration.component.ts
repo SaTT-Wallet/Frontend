@@ -26,6 +26,7 @@ import { Subject, Subscription } from 'rxjs';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { AuthFacadeService } from '@app/core/facades/auth-facade/auth-facade.service';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
+import { WhiteSpaceValidator } from '@app/helpers/form-validators';
 
 declare const zxcvbn: Function;
 
@@ -53,7 +54,7 @@ export class RegistrationComponent implements OnInit {
   languageSelected: string = 'en';
   showSpinner: boolean = false;
   authFacebook: string = sattUrl + '/auth/signup_fb';
-  authGoogle: string = sattUrl + '/auth/signup_google';
+  authGoogle: string = sattUrl + '/auth/signup/google';
   authTelegram: string = sattUrl + '/auth/signup/telegram';
   loginNet: string = '';
   cookiesClicked!: boolean;
@@ -73,6 +74,7 @@ export class RegistrationComponent implements OnInit {
   @ViewChild('script') script!: ElementRef;
   public isChecked: boolean = false;
   english: boolean = true;
+  modifEmail: any;
   constructor(
     private walletFacade: WalletFacadeService,
     private authFacadeService: AuthFacadeService,
@@ -121,6 +123,7 @@ export class RegistrationComponent implements OnInit {
       ]),
       password: new FormControl('', {
         validators: [
+          WhiteSpaceValidator.noWhiteSpace,
           Validators.required,
           Validators.minLength(8),
           Validators.pattern(pattPassword)
@@ -133,6 +136,21 @@ export class RegistrationComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.authForm
+      .get('email')
+      ?.valueChanges.pipe(
+        debounceTime(200),
+        map((email) => {
+          email = email?.trim();
+          return email;
+        }),
+        takeUntil(this.onDestroy$)
+      )
+      .subscribe((email) => {
+        this.modifEmail = email;
+        this._changeDetectorRef.detectChanges();
+      });
+
     this.skipLoginWhenRedirected();
     this.convertToScript();
     if (!this.cookieExists) {
@@ -343,22 +361,16 @@ export class RegistrationComponent implements OnInit {
     if (this.authForm.valid) {
       const email = this.authForm.get('email')?.value;
       const password = this.authForm.get('password')?.value;
-      const password_confirmation = this.authForm.get('password')?.value;
+      // const password_confirmation = this.authForm.get('password')?.value;
       const newsLetter = this.authForm.get('newsLetterBox')?.value;
 
-      const noredirect = 'true';
+      // const noredirect = 'true';
       this.authService
-        .register(
-          email,
-          password,
-          password_confirmation,
-          noredirect,
-          newsLetter
-        )
+        .register(email, password, newsLetter)
         .pipe(takeUntil(this.onDestroy$))
         .subscribe(
           (data) => {
-            if (!data.message) {
+            if (data.code === 200 && data.message === 'success') {
               var result =
                 this.document.getElementById('dropdown-menu')?.className;
               let newClass = result + ' show';
@@ -366,8 +378,8 @@ export class RegistrationComponent implements OnInit {
                 .getElementById('dropdown-menu')
                 ?.setAttribute('class', newClass);
               this.exist = true;
-              this.tokenStorageService.saveToken(data.access_token);
-              this.tokenStorageService.saveExpire(data.expires_in);
+              this.tokenStorageService.saveToken(data.data.access_token);
+              this.tokenStorageService.saveExpire(data.data.expires_in);
               this.tokenStorageService.setUserSn('0');
               this.tokenStorageService.setEnabled('0');
               this.accountFacadeService.dispatchUpdatedAccount();
@@ -376,8 +388,11 @@ export class RegistrationComponent implements OnInit {
               this.router.navigate(['/social-registration/activation-mail'], {
                 queryParams: { email: this.authForm.get('email')?.value }
               });
-            } else if (data.message === 'account_already_used') {
-              this.errorMessage = 'connect_with_form';
+            } else if (
+              data.message === 'account_already_used' &&
+              data.code === 401
+            ) {
+              this.errorMessage = 'account_already_used';
               setTimeout(() => (this.errorMessage = ''), 6000);
               this.showSpinner = false;
             }

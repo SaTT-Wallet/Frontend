@@ -21,7 +21,7 @@ export class CreatePasswordWalletService {
     });
 
     return this.http.post(
-      `${sattUrl}/v2/newallet2`,
+      sattUrl + '/wallet/create',
       {
         token: token,
         pass: pass
@@ -35,19 +35,19 @@ export class CreatePasswordWalletService {
       'Cache-Control': 'no-store',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.get(sattUrl + '/getMnemo', {
+    return this.http.get(sattUrl + '/wallet/getMnemo', {
       headers: httpHeaders
     });
   }
 
-  checkPassPhraseOrdered(mnemo: any): Observable<any> {
+  checkPassPhraseOrdered(mnemo: string): Observable<any> {
     let httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'Cache-Control': 'no-store',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
     return this.http.post(
-      sattUrl + '/verifyMnemo',
+      sattUrl + '/wallet/verifyMnemo',
       { mnemo },
       { headers: httpHeaders }
     );

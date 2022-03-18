@@ -40,29 +40,12 @@ export class AuthFacadeService {
   confirmResetPassword(data: any) {
     return this.authService.confirmResetPassword(data);
   }
-  login(
-    username: string,
-    password: string,
-    noredirect: string
-  ): Observable<any> {
-    return this.authService.login(username, password, noredirect);
+  login(username: string, password: string): Observable<any> {
+    return this.authService.login(username, password);
   }
 
-
-  register(
-    email: any,
-    password: any,
-    password_confirmation: any,
-    noredirect: any,
-    newsLetter: any
-  ): Observable<any> {
-    return this.authService.register(
-      email,
-      password,
-      password_confirmation,
-      noredirect,
-      newsLetter
-    );
+  register(email: any, password: any, newsLetter: any): Observable<any> {
+    return this.authService.register(email, password, newsLetter);
   }
 
   verifyAccount() {
@@ -80,9 +63,6 @@ export class AuthFacadeService {
     return this.authService.onBoarding();
   }
 
-  checkPass(pass: any) {
-    return this.authService.checkPass(pass);
-  }
   getImagePuzzle() {
     return this.authService.imagespuzzle();
   }

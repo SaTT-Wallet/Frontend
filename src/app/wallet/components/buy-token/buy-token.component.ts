@@ -473,8 +473,8 @@ export class BuyTokenComponent implements OnInit, OnChanges {
         )
         .pipe(
           tap((data: any) => {
-            if (data.error) {
-              this.errMsg = data.error;
+            if (data.data.error) {
+              this.errMsg = data.data.error;
             } else {
               this.errMsg = '';
             }
@@ -482,9 +482,9 @@ export class BuyTokenComponent implements OnInit, OnChanges {
           takeUntil(this.isDestroyed)
         )
         .subscribe((data: any) => {
-          this.cryptoAmount = data.digital_money?.amount || 0;
+          this.cryptoAmount = data.data.digital_money?.amount || 0;
 
-          this.quoteId = data.quote_id;
+          this.quoteId = data.data.quote_id;
         });
       this.rateExchangePerRequestedCrypto$ = this.cryptoList$.pipe(
         map(
@@ -514,7 +514,16 @@ export class BuyTokenComponent implements OnInit, OnChanges {
             )?.price || 0
         )
       );
-
+      this.walletFacade
+        .getListTokensPrices()
+        .pipe(
+          map((cryptoListObject: any) => {
+            return cryptoListObject[this.requestedCrypto]?.price || 0;
+          })
+        )
+        .subscribe((data) => {
+          this.cryptoPrice = data;
+        });
       this.rateExchangePerRequestedCrypto$ = zip(
         this.purshaseCryptoPriceInUSD$,
         this.requestedCryptoPriceInUSD$

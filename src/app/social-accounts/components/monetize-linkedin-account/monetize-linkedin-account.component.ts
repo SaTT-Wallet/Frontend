@@ -30,6 +30,7 @@ export class MonetizeLinkedinAccountComponent implements OnInit, OnDestroy {
     private tokenStorageService: TokenStorageService
   ) {}
   ngOnInit(): void {
+    this.tokenStorageService.setSecureWallet('visited-linkedin', 'true');
     this.getSocialNetwork();
     this.getUrlMsg();
     this.route.queryParams.subscribe((params: any) => {
@@ -57,7 +58,7 @@ export class MonetizeLinkedinAccountComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestoy$))
       .subscribe((data: any) => {
         if (data !== null) {
-          this.channelLinkedin = data.linkedin;
+          this.channelLinkedin = data.data.linkedin;
         } else {
           this.channelLinkedin = [];
         }
@@ -66,7 +67,7 @@ export class MonetizeLinkedinAccountComponent implements OnInit, OnDestroy {
   linkAccount() {
     window.location.href =
       sattUrl +
-      '/linkedin/link/' +
+      '/profile/addChannel/linkedin/' +
       this.userId +
       '?redirect=' +
       this.router.url;

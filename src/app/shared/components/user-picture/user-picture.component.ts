@@ -24,9 +24,7 @@ export class UserPictureComponent implements OnInit {
   constructor(
     private accountFacadeService: AccountFacadeService,
     private sanitizer: DomSanitizer,
-    private ProfileService: ProfileService,
-    private profileSettingsFacade: ProfileSettingsFacadeService,
-    private authStoreService: AuthStoreService
+    private profileSettingsFacade: ProfileSettingsFacadeService
   ) {}
 
   ngOnInit(): void {

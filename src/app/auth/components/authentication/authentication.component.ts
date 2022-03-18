@@ -36,7 +36,7 @@ import { AccountFacadeService } from '@app/core/facades/account-facade/account-f
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { IResponseWallet } from '@app/core/iresponse-wallet';
 import { IresponseAccount } from '@app/core/iresponse-account';
-import { IresponseCode, IresponseCodeQr } from '@app/core/iresponse-code-qr';
+import { IresponseCodeQr } from '@app/core/iresponse-code-qr';
 import { User } from '@app/models/User';
 
 // interface credantials {
@@ -99,8 +99,8 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
   socialUser: SocialUser | undefined;
   isLoggedin: boolean = false;
   authresetpwd: string = sattUrl + '/resetpssword';
-  authFacebook: string = sattUrl + '/auth/fb';
-  authGoogle: string = sattUrl + '/auth/google';
+  authFacebook: string = sattUrl + '/auth/signin/facebook';
+  authGoogle: string = sattUrl + '/auth/signin/google';
   authTelegram: string = sattUrl + '/auth/telegram';
   cookiesClicked!: boolean;
   validated = '';
@@ -419,25 +419,44 @@ getCookie(key: string){
     this.loggedrs = false;
     this.scale = true;
     if (this.authForm.valid && this.cookie.get('satt_cookies') === 'pass') {
-      const noredirect = 'true';
+      // const noredirect = 'true';
       this.authService
-        .login(this.f.email?.value, this.f.password?.value, noredirect)
+        .login(this.f.email?.value, this.f.password?.value)
         .pipe(
           takeUntil(this.onDestroy$),
-          catchError(() => {
-            this.errorMessage = 'login_error';
+          catchError((error: any) => {
+            if (error.error.error.message === 'user not found') {
+              this.errorMessage = 'Email incorrect';
+            } else if (error.error.error.message === 'invalid_credentials') {
+              this.errorMessage = 'Password incorrect';
+            } else if (error.error.error.message === 'account_locked') {
+              if (
+                this.blocktime &&
+                this.blocktime !== error.error.error.blockedDate.blockedDate
+              )
+                this.counter.restart();
+              this.blocktime = error.error.error.blockedDate + 1800;
+              this.timeLeftToUnLock =
+                this.blocktime - Math.floor(Date.now() / 1000);
+              this.f.password.reset();
+              this.blockedForgetPassword = true;
+              this.errorMessage = 'Account locked ';
+            } else this.errorMessage = 'login_error';
+            this.authForm.get('password')?.setValue('');
+            this.f.password.reset();
+            this.f.email.clearValidators();
+            this.f.email.updateValueAndValidity();
             this.showSpinner = false;
             return of(null);
           }),
           mergeMap((data: any) => {
-            if (data?.access_token !== undefined) {
+            if (data?.data.access_token !== undefined) {
               this.tokenStorageService.setItem(
                 'access_token',
-                data.access_token
+                data.data.access_token
               );
-              this.tokenStorageService.saveExpire(data.expires_in);
-              // this.tokenStorageService.saveToken(data.access_token);
-              this.expiresToken = data.expires_in;
+              this.tokenStorageService.saveExpire(data.data.expires_in);
+              this.expiresToken = data.data.expires_in;
               this.accountFacadeService.dispatchUpdatedAccount();
               return this.account$.pipe(
                 filter((response) => response !== null),
@@ -446,32 +465,6 @@ getCookie(key: string){
                 }),
                 take(1)
               );
-            } else if (data?.message === 'invalid_grant') {
-              this.errorMessage = 'invalid_credentials';
-              this.authForm.get('password')?.setValue('');
-              this.f.password.reset();
-              this.f.email.clearValidators();
-              this.f.email.updateValueAndValidity();
-              this.f.password.clearValidators();
-              this.f.password.updateValueAndValidity();
-            } else if (data?.message === 'account_invalide') {
-              this.errorMessage = 'account_invalide';
-              this.f.password.reset();
-            } else if (data?.message === 'access_denied') {
-              this.errorMessage = 'account_invalide';
-              this.f.password.reset();
-            } else if (data?.message === 'account_locked') {
-              this.errorMessage = 'account_locked';
-              if (this.blocktime && this.blocktime !== data?.blockedDate)
-                this.counter.restart();
-              this.blocktime = data?.blockedDate + 1800;
-              this.timeLeftToUnLock =
-                this.blocktime - Math.floor(Date.now() / 1000);
-              this.f.password.reset();
-              this.blockedForgetPassword = true;
-            } else if (data?.message === 'email_already_used') {
-              this.errorMessage = 'connect_with_gfplus';
-              this.f.password.reset();
             }
             return of(null);
           })
@@ -480,10 +473,11 @@ getCookie(key: string){
           filter(({ data, response }: any) => {
             return response !== null && data !== null;
           }),
-          catchError((error: any) => {
-            if (error.error.text === 'Invalid Access Token') {
-              this.tokenStorageService.signOut();
-            }
+          catchError(() => {
+            // console.log(error);
+            // if (error.error.text === 'Invalid Access Token') {
+            //   this.tokenStorageService.signOut();
+            // }
             return of(null);
           }),
           mergeMap(({ data, response }: { data: any; response: User }) => {
@@ -496,7 +490,7 @@ getCookie(key: string){
               this.confirmCodeShow = true;
               this.loginshow = false;
             } else {
-              this.tokenStorageService.saveToken(data.access_token);
+              this.tokenStorageService.saveToken(data.data.access_token);
               if (response.enabled === 0) {
                 // this.errorMessage_validation="account_not_verified";
                 // tokenStorageService.clear();any
@@ -560,19 +554,19 @@ getCookie(key: string){
             if (!myWallet) {
               return;
             }
-            if (myWallet.address) {
+            if (myWallet.data.address) {
               if (response.new) {
                 if (!response.passphrase) {
                   this.router.navigate(['/social-registration/pass-phrase']);
                 } else {
-                  this.tokenStorageService.saveIdWallet(myWallet.address);
+                  this.tokenStorageService.saveIdWallet(myWallet.data.address);
                   this.router.navigate(['']);
                   this.showBigSpinner = true;
                   this.backgroundImage = '';
                   this.backgroundColor = '';
                 }
               } else {
-                this.tokenStorageService.saveIdWallet(myWallet.address);
+                this.tokenStorageService.saveIdWallet(myWallet.data.address);
                 this.router.navigate(['']);
                 this.showBigSpinner = true;
                 this.backgroundImage = '';
@@ -580,14 +574,19 @@ getCookie(key: string){
               }
 
               // this.spinner.hide();
-            } else if (myWallet.err === 'no_account') {
+            }
+          },
+          (error: any) => {
+            if (
+              error.error.error === 'Wallet not found' &&
+              error.error.code === 404
+            ) {
               this.tokenStorageService.setSecureWallet(
                 'visited-completeProfile',
                 'true'
               );
               this.router.navigate(['social-registration/monetize-facebook']);
               this.showBigSpinner = true;
-              //this.spinner.hide();
             }
           }
         );
@@ -649,14 +648,14 @@ getCookie(key: string){
         takeUntil(this.onDestroy$)
       )
       .subscribe((myWallet: IResponseWallet | null) => {
-        if (myWallet?.address) {
-          this.tokenStorageService.saveIdWallet(myWallet.address);
+        if (myWallet?.data.address) {
+          this.tokenStorageService.saveIdWallet(myWallet.data.address);
           this.router.navigate(['']);
           this.showBigSpinner = true;
           this.backgroundImage = '';
           this.backgroundColor = '';
           // this.spinner.hide();
-        } else if (myWallet?.err === 'no_account') {
+        } else if (myWallet && myWallet.error === 'Wallet not found') {
           this.tokenStorageService.setSecureWallet(
             'visited-completeProfile',
             'true'
@@ -759,28 +758,36 @@ getCookie(key: string){
     this.authService
       .confirmCode(email.toLowerCase(), code, type)
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe((data: IresponseCode) => {
-        if (data.message === 'code incorrect') {
-          this.errorMessagecode = 'code incorrect';
-          this.formCode.reset();
-          //  this.codeInput.reset();
-          this.codesms = false;
-          // setTimeout(() => {
-          //     this.errorMessagecode = ''
-          // }, 2000);
-        } else if (data.message === 'code expired') {
-          this.errorMessagecode = 'code expired';
-          this.formCode.reset();
-          //  this.codeInput.reset();
-          this.codesms = false;
-          // setTimeout(() => {
-          //     this.errorMessagecode = ''
-          // }, 2000);
-        } else {
-          this.codesms = true;
-          this.errorMessagecode = 'code correct';
+      .subscribe(
+        (data: any) => {
+          if (data.message === 'code is matched' && data.code === 200) {
+            this.codesms = true;
+            this.errorMessagecode = 'code correct';
+          }
+        },
+        (err) => {
+          if (err.error.error === 'user not found' && err.error.code === 404) {
+            this.errorMessagecode = 'user not found';
+          } else if (
+            err.error.error === 'wrong code' &&
+            err.error.code === 401
+          ) {
+            this.errorMessagecode = 'code incorrect';
+            this.formCode.reset();
+            // this.codeInput.reset();
+            this.codesms = false;
+            setTimeout(() => {
+              this.errorMessagecode = '';
+            }, 2000);
+          } else if (
+            err.error.error === 'code expired' &&
+            err.error.code === 401
+          ) {
+            this.errorMessagecode = 'code expired';
+            this.codesms = false;
+          }
         }
-      });
+      );
   }
 
   changePwd() {

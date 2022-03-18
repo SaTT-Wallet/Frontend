@@ -21,10 +21,11 @@ export class ProfileService {
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
     return this.http.get<IGetSocialNetworksResponse>(
-      sattUrl + '/socialAccounts',
+      sattUrl + '/profile/socialAccounts',
       { headers: httpHeaders }
     );
   }
+  // /profile/socialAccounts
   deleteOneSocialNetworksGoogle(id: string) {
     let header = new HttpHeaders({
       'Cache-Control': 'no-store',
@@ -68,7 +69,7 @@ export class ProfileService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.delete(sattUrl + '/facebook/all/channels', {
+    return this.http.delete(sattUrl + '/RemoveFacebookchannels', {
       headers: header
     });
   }
@@ -110,7 +111,7 @@ export class ProfileService {
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
 
-    return this.http.put(sattUrl + '/profile/info/update', body, {
+    return this.http.put(sattUrl + '/profile/UpdateProfile', body, {
       headers: httpHeaders
     });
   }
@@ -142,19 +143,19 @@ export class ProfileService {
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
 
-    return this.http.put(sattUrl + '/updateLastStep', body, {
+    return this.http.put(sattUrl + '/auth/updateLastStep', body, {
       headers: httpHeaders
     });
   }
 
-  exportProfileData(password: string, exportType: string) {
+  exportProfileData(password: string) {
     let headers = new HttpHeaders({
       'Cache-Control': 'no-store',
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
     let body = { pass: password };
-    return this.http.post(sattUrl + '/v3/' + exportType, body, {
+    return this.http.post(sattUrl + '/wallet/exportETH', body, {
       headers: headers
     });
   }
@@ -165,7 +166,7 @@ export class ProfileService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.get(sattUrl + '/profile/pic', {
+    return this.http.get(sattUrl + '/profile/picture', {
       responseType: 'blob',
       headers: headers
     });
@@ -267,7 +268,7 @@ export class ProfileService {
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
     let id = this.tokenStorageService.getIdUser();
-    return this.http.get(sattUrl + '/qrCode/' + id, { headers: header });
+    return this.http.get(sattUrl + 'auth/qrCode/' + id, { headers: header });
   }
   verifyQRCode(body: any): Observable<IresponseCodeQr> {
     let header = new HttpHeaders({
