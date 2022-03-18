@@ -554,8 +554,8 @@ getCookie(key: string){
               return;
             }
             if (myWallet.data.address) {
-              if (response.new) {
-                if (!response.passphrase) {
+              if (response.data.new) {
+                if (!response.data.passphrase) {
                   this.router.navigate(['/social-registration/pass-phrase']);
                 } else {
                   this.tokenStorageService.saveIdWallet(myWallet.data.address);
@@ -621,16 +621,18 @@ getCookie(key: string){
       .pipe(
         mergeMap((response: IresponseAccount) => {
           if (response) {
-            this.tokenStorageService.saveUserId(response.idUser);
-            this.tokenStorageService.saveIdSn(response.idSn);
+            this.tokenStorageService.saveUserId(response.data.idUser);
+            this.tokenStorageService.saveIdSn(response.data.idSn);
             this.tokenStorageService.setItem('valid2FA', '');
             this.tokenStorageService.setItem('isAuthenticated', 'true');
             this.tokenStorageService.saveExpire(this.expiresToken);
             this.tokenStorageService.setHeader();
 
             if (
-              (!response.completed && response.idSn !== '0') ||
-              (response.completed && response.idSn !== '0' && !response.enabled)
+              (!response.data.completed && response.data.idSn !== '0') ||
+              (response.data.completed &&
+                response.data.idSn !== '0' &&
+                !response.data.enabled)
             ) {
               this.router.navigate(['/social-registration/completeProfile']);
               this.showBigSpinner = true;
