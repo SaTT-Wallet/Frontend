@@ -103,9 +103,9 @@ export class TwitterComponent implements OnInit {
       });
     }
     this.route.params
-  
       .subscribe((params) => {
-        this.getOneById(params['id']).subscribe((campaign: any) => {
+        console.log(params)
+        this.getOneById(params.id).subscribe((campaign: any) => {
     
 
           this.meta.updateTag(
