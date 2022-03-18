@@ -66,7 +66,7 @@ export class MonetizeLinkedinAccountComponent implements OnInit, OnDestroy {
   linkAccount() {
     window.location.href =
       sattUrl +
-      '/linkedin/link/' +
+      '/profile/addChannel/linkedin/' +
       this.userId +
       '?redirect=' +
       this.router.url;
