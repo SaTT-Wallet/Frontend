@@ -155,7 +155,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
           .pipe(takeUntil(this.destroy$))
           .subscribe((gaz: any) => {
             let price;
-            price = gaz.gasPrice;
+            price = gaz.data.gasPrice;
             this.gazsend = (
               ((price * GazConsumedByCampaign) / 1000000000) *
               this.eth
@@ -166,7 +166,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.walletFacade.bnbGaz$
           .pipe(takeUntil(this.destroy$))
           .subscribe((gaz: any) => {
-            let price = gaz.gasPrice;
+            let price = gaz.data.gasPrice;
             this.bEPGaz = (
               ((price * GazConsumedByCampaign) / 1000000000) *
               this.bnb

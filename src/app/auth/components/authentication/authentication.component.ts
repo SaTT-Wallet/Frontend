@@ -36,7 +36,7 @@ import { AccountFacadeService } from '@app/core/facades/account-facade/account-f
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { IResponseWallet } from '@app/core/iresponse-wallet';
 import { IresponseAccount } from '@app/core/iresponse-account';
-import { IresponseCode, IresponseCodeQr } from '@app/core/iresponse-code-qr';
+import { IresponseCodeQr } from '@app/core/iresponse-code-qr';
 import { User } from '@app/models/User';
 
 // interface credantials {
@@ -759,28 +759,36 @@ getCookie(key: string){
     this.authService
       .confirmCode(email.toLowerCase(), code, type)
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe((data: IresponseCode) => {
-        if (data.message === 'code incorrect') {
-          this.errorMessagecode = 'code incorrect';
-          this.formCode.reset();
-          //  this.codeInput.reset();
-          this.codesms = false;
-          // setTimeout(() => {
-          //     this.errorMessagecode = ''
-          // }, 2000);
-        } else if (data.message === 'code expired') {
-          this.errorMessagecode = 'code expired';
-          this.formCode.reset();
-          //  this.codeInput.reset();
-          this.codesms = false;
-          // setTimeout(() => {
-          //     this.errorMessagecode = ''
-          // }, 2000);
-        } else {
-          this.codesms = true;
-          this.errorMessagecode = 'code correct';
+      .subscribe(
+        (data: any) => {
+          if (data.message === 'code is matched' && data.code === 200) {
+            this.codesms = true;
+            this.errorMessagecode = 'code correct';
+          }
+        },
+        (err) => {
+          if (err.error.error === 'user not found' && err.error.code === 404) {
+            this.errorMessagecode = 'user not found';
+          } else if (
+            err.error.error === 'wrong code' &&
+            err.error.code === 401
+          ) {
+            this.errorMessagecode = 'code incorrect';
+            this.formCode.reset();
+            // this.codeInput.reset();
+            this.codesms = false;
+            setTimeout(() => {
+              this.errorMessagecode = '';
+            }, 2000);
+          } else if (
+            err.error.error === 'code expired' &&
+            err.error.code === 401
+          ) {
+            this.errorMessagecode = 'code expired';
+            this.codesms = false;
+          }
         }
-      });
+      );
   }
 
   changePwd() {
