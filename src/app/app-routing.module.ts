@@ -24,7 +24,7 @@ const routes: Routes = [
     loadChildren: () => import('./cgu/cgu.module').then((m) => m.CguModule)
   },
   {
-    path: 'twitter',
+    path: 'twitter/:id',
     component: TwitterComponent
   },
   {
