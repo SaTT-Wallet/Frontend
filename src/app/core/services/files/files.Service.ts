@@ -65,7 +65,7 @@ export class FilesService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.get(sattUrl + `/profile/userLegal/${fileId}`, {
+    return this.http.get(sattUrl + `/profile/legalUserUpload/${fileId}`, {
       responseType: 'blob',
       headers: headers
     });

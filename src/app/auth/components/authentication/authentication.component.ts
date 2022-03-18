@@ -440,6 +440,7 @@ getCookie(key: string){
                 this.blocktime - Math.floor(Date.now() / 1000);
               this.f.password.reset();
               this.blockedForgetPassword = true;
+              this.errorMessage = 'Account locked ';
             } else this.errorMessage = 'login_error';
             this.authForm.get('password')?.setValue('');
             this.f.password.reset();
