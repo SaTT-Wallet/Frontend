@@ -64,6 +64,18 @@ export class CampaignDetailsContainerComponent implements OnInit {
             content: `https://safeimagekit.com/picture.png`
           }
         );
+        this.meta.addTag(
+          {
+            property: 'og:image:width',
+            content: `200`
+          }
+        );
+        this.meta.addTag(
+          {
+            property: 'og:image:height',
+            content: `2000`
+          }
+        );
 
       this.meta.addTag({
         property: 'og:title',
@@ -84,6 +96,22 @@ export class CampaignDetailsContainerComponent implements OnInit {
       this.meta.addTag({
         property: 'og:site_name',
         content: 'dev.satt.atayen.us'
+      });
+      this.meta.addTag({
+        name: 'twitter:card',
+        content: 'summary_large_image'
+      });
+      this.meta.addTag({
+        name: 'twitter:card',
+        content: 'summary'
+      });
+      this.meta.addTag({
+        name: 'twitter:image:width',
+        content: '200'
+      });
+      this.meta.addTag({
+        name: 'twitter:image:height',
+        content: '200'
       });
       this.meta.addTag({
         property: 'twitter:domain',
@@ -115,8 +143,8 @@ export class CampaignDetailsContainerComponent implements OnInit {
       this.meta.updateTag(
         {
           property: 'og:image',
-          content: `https://api-preprod.satt-token.com:3014/assets/preview.png`
-/*
+          content: `${sattUrl}/coverByCampaign/${campaign.id}`
+          /*
           content: 'https://safeimagekit.com/picture.png'
 */
         },
@@ -192,7 +220,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
 /*
           content: `${sattUrl}/coverByCampaign/${campaign.id}`
 */
-          content: `https://api-preprod.satt-token.com:3014/assets/preview.png`
+          content: `${sattUrl}/coverByCampaign/${campaign.id}`
 
         },
         `name='twitter:image:src'`
