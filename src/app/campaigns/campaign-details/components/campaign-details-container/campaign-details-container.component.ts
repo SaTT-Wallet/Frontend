@@ -143,7 +143,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
       this.meta.updateTag(
         {
           property: 'og:image',
-          content: `${sattUrl}/coverByCampaign/${campaign.id}`
+          content: `${sattUrl}/coverByCampaign/${campaign.id}?width=200&heigth=200`
           /*
           content: 'https://safeimagekit.com/picture.png'
 */
@@ -220,7 +220,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
 /*
           content: `${sattUrl}/coverByCampaign/${campaign.id}`
 */
-          content: `${sattUrl}/coverByCampaign/${campaign.id}`
+          content: `${sattUrl}/coverByCampaign/${campaign.id}?width=200&heigth=200`
 
         },
         `name='twitter:image:src'`
