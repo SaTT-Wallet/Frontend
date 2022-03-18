@@ -148,14 +148,14 @@ export class ProfileService {
     });
   }
 
-  exportProfileData(password: string, exportType: string) {
+  exportProfileData(password: string) {
     let headers = new HttpHeaders({
       'Cache-Control': 'no-store',
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
     let body = { pass: password };
-    return this.http.post(sattUrl + '/v3/' + exportType, body, {
+    return this.http.post(sattUrl + '/wallet/exportETH', body, {
       headers: headers
     });
   }

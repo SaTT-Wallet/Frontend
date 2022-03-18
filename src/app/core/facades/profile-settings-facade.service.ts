@@ -3,7 +3,6 @@ import { FilesService } from '@core/services/files/files.Service';
 import { ProfileService } from '@core/services/profile/profile.service';
 import { TelegramLinkAccountService } from '@core/services/telegramAuth/telegram-link-account.service';
 import { ProfileSettingsStoreService } from '@core/services/profile/profile-settings-store.service';
-import { AnyNsRecord } from 'dns';
 import { Store } from '@ngrx/store';
 import {
   clearProfilePicStore,
@@ -117,8 +116,8 @@ export class ProfileSettingsFacadeService {
     return this.profileService.completeprofile(body);
   }
 
-  exportProfileData(password: string, exportType: string) {
-    return this.profileService.exportProfileData(password, exportType);
+  exportProfileData(password: string) {
+    return this.profileService.exportProfileData(password);
   }
 
   getUserProfilePic() {
