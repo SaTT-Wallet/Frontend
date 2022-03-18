@@ -170,13 +170,46 @@ export class CampaignDetailsContainerComponent implements OnInit {
         },
         `name='og:url'`
       );
+
       this.meta.updateTag(
         {
-          name: 'twitter:card',
-          content: 'summary_large_image'
+          property: 'og:site_name',
+          content: `${environment.domainName.split('//')[1]}`
         },
-        `name='twitter:card'`
+        `property='og:site_name'`
       );
+
+      this.meta.updateTag(
+        {
+          property: 'twitter:domain',
+          content: `${environment.domainName}`
+        },
+        `property='twitter:domain'`
+      );
+      this.meta.updateTag(
+        {
+          property: 'twitter:url',
+          content: `${environment.domainName}/home/campaign/${campaign.id}`
+        },
+        `property='twitter:url'`
+      );
+
+      this.meta.updateTag(
+        {
+          name: 'twitter:title',
+          content: `${campaign.title}`
+        },
+        `name='twitter:title'`
+      );
+
+      this.meta.updateTag(
+        {
+          name: 'twitter:description',
+          content: `${campaign.summary}`
+        },
+        `name='twitter:description'`
+      );
+
       this.meta.updateTag(
         {
           name: 'twitter:image',
