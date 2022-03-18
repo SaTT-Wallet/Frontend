@@ -13,7 +13,7 @@ import {
 import { ControlService, ControlInput, Result, VertifyQuery } from './control';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '@app/core/services/Auth/auth.service';
-import { filter, map, mergeMap, takeUntil } from 'rxjs/operators';
+import { catchError, filter, map, mergeMap, takeUntil } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 
@@ -160,8 +160,14 @@ export class SlideControlComponent implements OnInit, OnDestroy {
       .pipe(
         filter((res) => res !== null),
         takeUntil(this.onDestoy$),
+
         map((response: any) => response.message),
-        mergeMap((message: string) => {
+        catchError(() => {
+          this.onValueChanged.emit(false);
+          this.translate.get('puzzle-verification-fail');
+          return this.translate.get('puzzle-verification-fail');
+        }),
+        mergeMap((message) => {
           if (message === 'success') {
             this.onValueChanged.emit(true);
             query.action = this.trail;
@@ -169,14 +175,14 @@ export class SlideControlComponent implements OnInit, OnDestroy {
             this.sliderContainer.classList.add('sliderContainer_success');
             this.puzzleBox.style.display = 'none';
             return of(true);
-          } else {
-            this.onValueChanged.emit(false);
-            // let msg: string = '';
-            return this.translate.get('puzzle-verification-fail');
-            // .subscribe((message: any) => {
-            //   msg = message;
-            // });
+          } else if (message === 'Try again') {
+            this.sliderContainer.classList.add('sliderContainer_fail');
+            this.sliderText.innerHTML = message;
+            setTimeout(() => {
+              this.reset();
+            }, 1000);
           }
+          return of(true);
         })
       )
       .pipe(

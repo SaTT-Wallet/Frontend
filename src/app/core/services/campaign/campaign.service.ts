@@ -71,7 +71,7 @@ export class CampaignHttpApiService {
   }
 
   getPromById(id: string) {
-    return this.http.get(`${sattUrl}/prom/stats/${id}`).pipe(
+    return this.http.get(`${sattUrl}/campaign/prom/stats/${id}`).pipe(
       retry(1),
       catchError(() => {
         //TODO: handle backend api errors
