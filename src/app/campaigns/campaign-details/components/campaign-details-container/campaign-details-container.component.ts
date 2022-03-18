@@ -63,7 +63,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
       }
 
       this.meta.addTag({
-        property: 'og:image',
+        name: 'og:image',
         content: `https://safeimagekit.com/picture.png`
       });
       this.meta.addTag({
@@ -162,7 +162,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
 
       this.meta.updateTag(
         {
-          property: 'og:image',
+          name: 'og:image',
           content: `${sattUrl}/coverByCampaign/${campaign.id}`
         },
         `property='og:image'`
