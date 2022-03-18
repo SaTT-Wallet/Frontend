@@ -696,14 +696,19 @@ export class CampaignHttpApiService {
   }
 
   getTokenAllowanceERC20(erc20: any) {
-    return this.http.get(
+    return this.http.post(
       sattUrl +
-        '/v2/erc20/' +
-        erc20.addr +
-        '/approval/' +
-        erc20.walletaddr +
-        '/' +
-        campaignSmartContractERC20,
+        '/campaign/erc20/approval/' +
+        // '/v2/erc20/' +
+        // erc20.addr +
+        // '/approval/' +
+        // erc20.walletaddr +
+        // '/'
+        {
+          tokenAddress: erc20.addr,
+          campaignAddress: campaignSmartContractERC20
+        },
+
       { headers: this.tokenStorageService.getHeader() }
     );
   }
