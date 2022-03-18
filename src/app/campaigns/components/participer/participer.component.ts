@@ -970,7 +970,7 @@ export class ParticiperComponent implements OnInit {
       .subscribe((resArray) => {
         let priceEther;
         const gazEther = resArray[0];
-        priceEther = gazEther.gasPrice;
+        priceEther = gazEther.data.gasPrice;
         this.gazsend = (
           ((priceEther * GazConsumedByCampaign) / 1000000000) *
           this.eth
@@ -978,7 +978,7 @@ export class ParticiperComponent implements OnInit {
         this.eRC20Gaz = this.gazsend;
         ////
         const gazBnb = resArray[1];
-        let priceBnb = gazBnb.gasPrice;
+        let priceBnb = gazBnb.data.gasPrice;
         this.bEPGaz = (
           ((priceBnb * GazConsumedByCampaign) / 1000000000) *
           this.bnb
