@@ -104,7 +104,7 @@ export class CampaignHttpApiService {
   }
   notifyLink(campaignId: any, link: any, idProm: string) {
     return this.http.post(
-      sattUrl + '/campaign/insert_link_notification',
+      sattUrl + '/campaign/linkNotification',
       { idCampaign: campaignId, link, idProm },
       { headers: this.tokenStorageService.getHeader() }
     );
