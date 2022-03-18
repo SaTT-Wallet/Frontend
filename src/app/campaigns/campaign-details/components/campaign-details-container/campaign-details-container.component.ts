@@ -75,6 +75,10 @@ export class CampaignDetailsContainerComponent implements OnInit {
         content: `200`
       });
       this.meta.addTag({
+        name: 'og:image:type',
+        content: `image/png`
+      });
+      this.meta.addTag({
         property: 'og:title',
         content: 'twitter test'
       });
@@ -136,18 +140,18 @@ export class CampaignDetailsContainerComponent implements OnInit {
 
       this.meta.updateTag(
         {
-          name: 'og:title',
+          property: 'og:title',
           content: campaign.title
         },
-        `name='og:title'`
+        `property='og:title'`
       );
 
       this.meta.updateTag(
         {
-          name: 'og:image',
+          property: 'og:image',
           content: `${sattUrl}/coverByCampaign/${campaign.id}`
         },
-        `name='og:image'`
+        `property='og:image'`
       );
 
       this.meta.updateTag(
@@ -166,31 +170,31 @@ export class CampaignDetailsContainerComponent implements OnInit {
       );
       this.meta.updateTag(
         {
-          name: 'og:image:width',
+          property: 'og:image:width',
           content: `200`
         },
-        `name='og:image:width'`
+        `property='og:image:width'`
       );
       this.meta.updateTag(
         {
-          name: 'og:image:height',
+          property: 'og:image:height',
           content: `200`
         },
-        `name='og:image:height'`
+        `property='og:image:height'`
       );
       this.meta.updateTag(
         {
-          name: 'og:description',
+          property: 'og:description',
           content: campaign.summary
         },
-        `name='og:description'`
+        `property='og:description'`
       );
       this.meta.updateTag(
         {
-          name: 'og:url',
+          property: 'og:url',
           content: `${environment.domainName}/home/campaign/${campaign.id}`
         },
-        `name='og:url'`
+        `property='og:url'`
       );
       this.meta.updateTag(
         {
