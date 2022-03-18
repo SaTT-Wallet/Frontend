@@ -39,7 +39,7 @@ export class MonetizeFacebookAccountComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // this.local_Storage.setSecureWallet('visited-facebook', 'true');
+    this.tokenStorageService.setSecureWallet('visited-facebook', 'true');
 
     this.getUrlMsg();
     this.getSocialNetwork();
@@ -64,34 +64,29 @@ export class MonetizeFacebookAccountComponent implements OnInit, OnDestroy {
     this.router.navigate(['social-registration/socialConfig']);
   }
   getSocialNetwork() {
-    this.socialAccount$
-      .pipe(takeUntil(this.onDestoy$))
-      .subscribe((data: any) => {
+    this.socialAccount$.pipe(takeUntil(this.onDestoy$)).subscribe(
+      (data: any) => {
         if (data !== null) {
-          this.channelFacebook = data.facebook;
+          this.channelFacebook = data.data.facebook;
         } else {
           this.channelFacebook = [];
         }
-      });
+      },
+      (err) => {
+        if (err.error.code === 404 && err.error.message === 'No channel found')
+          this.channelFacebook = [];
+      }
+    );
   }
+
   linkAccount() {
     if (isPlatformBrowser(this.platformId))
-      // console.log(sattUrl + '/addChannel/facebook/'+this.userId+"?redirect="+this.router.url)
-
-      // console.log(
-      //   sattUrl +
-      //     '/profile/addChannel/facebook/' +
-      //     this.userId +
-      //     '?redirect=' +
-      //     this.router.url
-      // );
       window.location.href =
         sattUrl +
         '/profile/addChannel/facebook/' +
         this.userId +
         '?redirect=' +
         this.router.url;
-    // console.log(this.userId, 'userId');
   }
   deleteLink() {
     this.socialAccountFacadeService

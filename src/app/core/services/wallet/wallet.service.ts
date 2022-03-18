@@ -40,7 +40,7 @@ export class WalletService {
       delete send.access_token;
       let body = { pass: send.pass, to: send.to, val: send.amount };
 
-      return this.http.post(sattUrl + '/wallet/transferBtc', body, {
+      return this.http.post(sattUrl + '/wallet/transfertBtc', body, {
         headers: headers
       });
     } else if (
@@ -48,7 +48,7 @@ export class WalletService {
       send.network.toLowerCase() === 'erc20'
     ) {
       let body = { pass: send.pass, to: send.to, val: send.amount };
-      return this.http.post(sattUrl + '/v3/transferether', body, {
+      return this.http.post(sattUrl + '/wallet/transfertEther', body, {
         headers: headers
       });
     } else if (
@@ -56,16 +56,17 @@ export class WalletService {
       send.network.toLowerCase() === 'bep20'
     ) {
       let body = { to: send.to, val: send.amount, pass: send.pass };
-      return this.http.post(sattUrl + '/v3/transferbnb', body, {
+      return this.http.post(sattUrl + '/wallet/transfertBNB', body, {
         headers: headers
       });
     } else if (send.network.toLowerCase() === 'bep20') {
       // delete send.token;
-      return this.http.post(sattUrl + '/v2/bep20/transfer', send, {
+      return this.http.post(sattUrl + '/wallet/transferBep20', send, {
         headers: headers
       });
     } else {
-      return this.http.post(sattUrl + '/v2/erc20/transfer', send, {
+
+      return this.http.post(sattUrl + '/wallet/transferErc20', send, {
         headers: headers
       });
     }
