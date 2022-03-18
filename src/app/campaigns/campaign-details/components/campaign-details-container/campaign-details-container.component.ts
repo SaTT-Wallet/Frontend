@@ -102,10 +102,6 @@ export class CampaignDetailsContainerComponent implements OnInit {
         content: 'summary_large_image'
       });
       this.meta.addTag({
-        name: 'twitter:card',
-        content: 'summary'
-      });
-      this.meta.addTag({
         name: 'twitter:image:width',
         content: '200'
       });
