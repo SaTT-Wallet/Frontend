@@ -66,6 +66,14 @@ export class CampaignDetailsContainerComponent implements OnInit {
         property: 'og:image',
         content: `https://safeimagekit.com/picture.png`
       });
+      this.meta.addTag({
+        name: 'og:image:type',
+        content: `website`
+      });
+      this.meta.addTag({
+        name: 'og:image:alt',
+        content: `campaign cover`
+      });
 
       this.meta.addTag({
         property: 'og:image:width',
