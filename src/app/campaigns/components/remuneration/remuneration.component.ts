@@ -735,7 +735,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
           this.walletFacade.getEtherGaz().pipe(
             tap((gaz: any) => {
               let price;
-              price = gaz.gasPrice;
+              price = gaz.data.gasPrice;
               this.gazsend = (
                 ((price * GazConsumedByCampaign) / 1000000000) *
                 Eth
@@ -745,7 +745,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
           ),
           this.walletFacade.getBnbGaz().pipe(
             tap((gaz: any) => {
-              let price = gaz.gasPrice;
+              let price = gaz.data.gasPrice;
               this.bnbGaz = (
                 ((price * GazConsumedByCampaign) / 1000000000) *
                 bnb
@@ -753,7 +753,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
 
               if (this.gazsend === 'NaN') {
                 this.gazsend = '';
-                let price = gaz.gasPrice;
+                let price = gaz.data.gasPrice;
                 this.bnbGaz = (
                   ((price * GazConsumedByCampaign) / 1000000000) *
                   this.bnb
