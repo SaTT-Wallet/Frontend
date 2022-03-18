@@ -15,8 +15,8 @@ import {
   Validators
 } from '@angular/forms';
 
-import { forkJoin, Subject } from 'rxjs';
-import { mergeMap, takeUntil } from 'rxjs/operators';
+import { forkJoin, of, Subject } from 'rxjs';
+import { catchError, mergeMap, takeUntil } from 'rxjs/operators';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
@@ -374,7 +374,7 @@ export class ParticiperComponent implements OnInit {
       this.validUrl = true;
       this.twitter = true;
       let parts = media.split('/');
-     
+
       if (parts[3] && parts[3] !== '' && parts[5] && parts[5] !== '') {
         parts[5] = parts[5].split('?')[0];
         myApplication.idUser = parts[3].replace(pattLinks, '');
@@ -396,17 +396,18 @@ export class ParticiperComponent implements OnInit {
             var firstelement = this.document.getElementById('twitter-widget-0');
 
             if (!!firstelement) {
- 
-            firstelement.outerHTML = firstelement.outerHTML.replace('iframe', 'embed');
- 
+              firstelement.outerHTML = firstelement.outerHTML.replace(
+                'iframe',
+                'embed'
+              );
             }
- 
+
             var element = this.document.getElementById('twitter-widget-1');
-  
+
             if (!!element) {
               element.outerHTML = element.outerHTML.replace('iframe', 'embed');
             }
-  
+
             var newelement = this.document.getElementById('twitter-widget-2');
             if (!!newelement) {
               newelement.outerHTML = newelement.outerHTML.replace(
@@ -991,7 +992,12 @@ export class ParticiperComponent implements OnInit {
       let link = this.sendform.get('url')?.value;
       let campaign = this.campaigndata._id;
       this.CampaignService.notifyLink(campaign, link, idProm)
-        .pipe(takeUntil(this.isDestroyedSubject))
+        .pipe(
+          catchError((error) => {
+            return of(null);
+          }),
+          takeUntil(this.isDestroyedSubject)
+        )
         .subscribe();
     }
   }
