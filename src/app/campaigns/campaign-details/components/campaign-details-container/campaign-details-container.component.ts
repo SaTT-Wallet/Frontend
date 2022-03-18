@@ -67,7 +67,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
         content: `https://safeimagekit.com/picture.png`
       });
 
-    /*  this.meta.addTag({
+      this.meta.addTag({
         property: 'og:image:width',
         content: `200`
       });
@@ -75,10 +75,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
         property: 'og:image:height',
         content: `200`
       });
-      this.meta.addTag({
-        name: 'og:image:type',
-        content: `image/png`
-      });*/
+
       this.meta.addTag({
         property: 'og:title',
         content: 'twitter test'
@@ -128,7 +125,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
         content: ''
       });
       this.meta.addTag({
-        name: 'twitter:image:src',
+        name: 'twitter:image',
         content: 'https://safeimagekit.com/picture.png'
       });
     }
@@ -162,13 +159,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
         },
         `name='og:image:secure_url'`
       );*/
-      this.meta.updateTag(
-        {
-          name: 'og:image:type',
-          content: `image/png`
-        },
-        `name='og:image:type'`
-      );
+
       this.meta.updateTag(
         {
           property: 'og:image:width',
@@ -238,10 +229,10 @@ export class CampaignDetailsContainerComponent implements OnInit {
 
       this.meta.updateTag(
         {
-          name: 'twitter:image:src',
+          name: 'twitter:image',
           content: `https://satt-token.com/assets/img/share_img_200px.png`
         },
-        `name='twitter:image:src'`
+        `name='twitter'`
       );
     });
   }
