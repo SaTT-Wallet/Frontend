@@ -170,7 +170,7 @@ export class NetworksComponent implements OnInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.convertToScript();
+    // this.convertToScript();
   }
 
   //get errors from url
@@ -491,11 +491,9 @@ export class NetworksComponent implements OnInit, OnDestroy {
       script.setAttribute(
         'data-auth-url',
         sattUrl +
-          '/connect/telegram/' +
-          this.tokenStorageService.getIdUser() +
-          '/security'
+          '/profile/connect/telegram/' +
+          this.tokenStorageService.getIdUser()
       );
-
       script.setAttribute('data-request-access', 'write');
       script.setAttribute('data-userpic', 'false');
       script.setAttribute('data-radius', '15');
