@@ -537,7 +537,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   //calculate gaz for erc20 and bep20
   parentFunction() {
+
     return this.walletFacade.getCryptoPriceList().pipe(
+
       map((data: any) => {
         this.bnb = data['BNB'].price;
         this.eth = data['ETH'].price;
@@ -552,7 +554,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             tap((gaz: any) => {
               this.showSpinner = false;
               let price;
-              price = gaz.gasPrice;
+              price = gaz.data.gasPrice;
               this.gazsend = (
                 ((price * GazConsumedByCampaign) / 1000000000) *
                 Eth
@@ -562,8 +564,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           ),
           this.walletFacade.getBnbGaz().pipe(
             tap((gaz: any) => {
+
               this.showSpinner = false;
-              let price = gaz.gasPrice;
+              let price = gaz.data.gasPrice;
               this.bEPGaz = (
                 ((price * GazConsumedByCampaign) / 1000000000) *
                 bnb
@@ -572,7 +575,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               if (this.gazsend === 'NaN') {
                 this.gazsend = '';
                 // this.showSpinner=true;
-                let price = gaz.gasPrice;
+                let price = gaz.data.gasPrice;
                 this.bEPGaz = (
                   ((price * GazConsumedByCampaign) / 1000000000) *
                   this.bnb
