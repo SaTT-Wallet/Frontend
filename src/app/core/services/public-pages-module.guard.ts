@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import { CanLoad, Route, Router, UrlSegment } from '@angular/router';
+import { CanLoad, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { AuthService } from '@core/services/Auth/auth.service';
-import { ContactMessageService } from '@core/services/contactmessage/contact-message.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AuthStoreService } from '@core/services/Auth/auth-store.service';
@@ -21,10 +19,7 @@ export class CanLoadPublicModule implements CanLoad {
     private authStoreService: AuthStoreService
   ) {}
 
-  canLoad(
-    route: Route,
-    segments: UrlSegment[]
-  ): Observable<boolean> | Promise<boolean> | boolean {
+  canLoad(): Observable<boolean> | Promise<boolean> | boolean {
     if (
       this.tokenStorageService.getToken() !== null &&
       this.tokenStorageService.getToken() !== ''
@@ -46,14 +41,16 @@ export class CanLoadPublicModule implements CanLoad {
           this.tokenStorageService.setPhoneNumber(account.phone);
         }
       }),
-      mergeMap((data: any) => {
-        if (!!data.error || !Object.keys(data).length) {
+      mergeMap((account: any) => {
+        if (!!account.error || !Object.keys(account).length) {
           this.tokenStorageService.signOut();
           this.router.navigate(['auth/login']);
           return of(false);
         } else if (
-          (data.completed !== true && data.idSn !== 0) ||
-          (data.completed === true && data.idSn !== 0 && data.enabled === false)
+          (account.completed !== true && account.idSn !== 0) ||
+          (account.completed === true &&
+            account.idSn !== 0 &&
+            account.enabled === false)
         ) {
           this.router.navigate(['social-registration/completeProfile']);
           return of(false);
@@ -65,7 +62,7 @@ export class CanLoadPublicModule implements CanLoad {
           }
         }
       }),
-      catchError((error) => {
+      catchError(() => {
         this.tokenStorageService.signOut();
         this.router.navigate(['auth/login']);
         return of(false);
@@ -75,17 +72,8 @@ export class CanLoadPublicModule implements CanLoad {
 
   handleWalletValue(wallet$: Observable<any>) {
     return wallet$.pipe(
-      switchMap((data: any) => {
-        if (!!data?.error) {
-          this.tokenStorageService.signOut();
-          this.router.navigate(['auth/login']);
-          return of(false);
-        } else if (data.address) {
-          this.tokenStorageService.saveIdWallet(data.address);
-          return of(true);
-        } else if (this.dateNow > this.dateShouldExpireAt) {
-          return of(true);
-        } else if (data.err === 'no_account') {
+      catchError((error: any) => {
+        if (error.error.error === 'Wallet not found') {
           this.tokenStorageService.setSecureWallet(
             'visited-completeProfile',
             'true'
@@ -97,6 +85,15 @@ export class CanLoadPublicModule implements CanLoad {
           this.router.navigate(['auth/login']);
           return of(false);
         }
+      }),
+      switchMap((data: any) => {
+        if (data.data.address) {
+          this.tokenStorageService.saveIdWallet(data.data.address);
+          return of(true);
+        } else if (this.dateNow > this.dateShouldExpireAt) {
+          return of(true);
+        }
+        return of(false);
       })
     );
   }

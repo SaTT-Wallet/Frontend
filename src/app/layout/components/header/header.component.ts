@@ -396,7 +396,7 @@ export class HeaderComponent implements OnInit {
           this.walletFacade.getEtherGaz().pipe(
             tap((gaz: any) => {
               let price;
-              price = gaz.gasPrice;
+              price = gaz.data.gasPrice;
               this.gazsend = (
                 ((price * GazConsumedByCampaign) / 1000000000) *
                 Eth
@@ -406,7 +406,7 @@ export class HeaderComponent implements OnInit {
           ),
           this.walletFacade.getBnbGaz().pipe(
             tap((gaz: any) => {
-              let price = gaz.gasPrice;
+              let price = gaz.data.gasPrice;
               this.bepGaz = (
                 ((price * GazConsumedByCampaign) / 1000000000) *
                 bnb
@@ -415,7 +415,7 @@ export class HeaderComponent implements OnInit {
               if (this.gazsend === 'NaN') {
                 this.gazsend = '';
                 // this.showSpinner=true;
-                let price = gaz.gasPrice;
+                let price = gaz.data.gasPrice;
                 this.bepGaz = (
                   ((price * GazConsumedByCampaign) / 1000000000) *
                   this.bnb
@@ -463,7 +463,7 @@ export class HeaderComponent implements OnInit {
         if (!data) {
           return;
         }
-        if (!data.err) {
+        if (!data.error) {
           if (!this.tokenStorageService.getFillMyProfil()) {
             this.tokenStorageService.setFillMyProfil('true');
           }
@@ -1216,8 +1216,8 @@ export class HeaderComponent implements OnInit {
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((data: any) => {
         if (!!data) {
-          this.btcCode = data.btc;
-          this.erc20 = data.address;
+          this.btcCode = data.data.btc;
+          this.erc20 = data.data.address;
           this.portfeuilleList = [
             { type: 'ERC20/BEP20', code: this.erc20 },
             { type: 'BTC', code: this.btcCode }

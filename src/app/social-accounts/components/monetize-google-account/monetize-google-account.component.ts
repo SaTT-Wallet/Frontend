@@ -62,7 +62,7 @@ export class MonetizeGoogleAccountComponent implements OnInit, OnDestroy {
     if (isPlatformBrowser(this.platformId))
       window.location.href =
         sattUrl +
-        '/addChannel/google/' +
+        '/profile/addChannel/youtube/' +
         this.userId +
         '?redirect=' +
         this.router.url;

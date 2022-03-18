@@ -21,7 +21,7 @@ export class ProfileService {
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
     return this.http.get<IGetSocialNetworksResponse>(
-      sattUrl + '/socialAccounts',
+      sattUrl + '/profile/socialAccounts',
       { headers: httpHeaders }
     );
   }
@@ -69,7 +69,7 @@ export class ProfileService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.delete(sattUrl + '/facebook/all/channels', {
+    return this.http.delete(sattUrl + '/RemoveFacebookchannels', {
       headers: header
     });
   }
@@ -143,7 +143,7 @@ export class ProfileService {
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
 
-    return this.http.put(sattUrl + '/updateLastStep', body, {
+    return this.http.put(sattUrl + '/auth/updateLastStep', body, {
       headers: httpHeaders
     });
   }
@@ -166,7 +166,7 @@ export class ProfileService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.get(sattUrl + '/profile/pic', {
+    return this.http.get(sattUrl + '/profile/picture', {
       responseType: 'blob',
       headers: headers
     });

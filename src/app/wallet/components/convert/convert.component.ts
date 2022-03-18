@@ -244,8 +244,8 @@ export class ConvertComponent implements OnInit, OnDestroy {
     this.walletFacade.wallet$
       .pipe(takeUntil(this.onDestoy$))
       .subscribe((data: any) => {
-        this.btcCode = data.btc;
-        this.erc20 = data.address;
+        this.btcCode = data.data.btc;
+        this.erc20 = data.data.address;
         this.portfeuilleList = [
           { type: 'ERC20/BEP20', code: this.erc20 },
           { type: 'BTC', code: this.btcCode }
@@ -760,7 +760,7 @@ export class ConvertComponent implements OnInit, OnDestroy {
             tap((gaz: any) => {
               this.showSpinner = false;
               let price;
-              price = gaz.gasPrice;
+              price = gaz.data.gasPrice;
               this.gazsend = (
                 ((price * GazConsumedByCampaign) / 1000000000) *
                 Eth
@@ -771,7 +771,7 @@ export class ConvertComponent implements OnInit, OnDestroy {
           this.walletFacade.getBnbGaz().pipe(
             tap((gaz: any) => {
               this.showSpinner = false;
-              let price = gaz.gasPrice;
+              let price = gaz.data.gasPrice;
               this.bEPGaz = (
                 ((price * GazConsumedByCampaign) / 1000000000) *
                 bnb
@@ -780,7 +780,7 @@ export class ConvertComponent implements OnInit, OnDestroy {
               if (this.gazsend === 'NaN') {
                 this.gazsend = '';
                 // this.showSpinner=true;
-                let price = gaz.gasPrice;
+                let price = gaz.data.gasPrice;
                 this.bEPGaz = (
                   ((price * GazConsumedByCampaign) / 1000000000) *
                   this.bnb

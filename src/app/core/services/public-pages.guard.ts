@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Resolve, Router } from '@angular/router';
+import { CanActivate, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { AuthService } from '@core/services/Auth/auth.service';
-import { ContactMessageService } from '@core/services/contactmessage/contact-message.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AuthStoreService } from '@core/services/Auth/auth-store.service';
-import { catchError, mergeMap, switchMap, take, tap } from 'rxjs/operators';
+import { catchError, mergeMap, take, tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class PublicPagesGuard implements CanActivate {
@@ -45,16 +43,18 @@ export class PublicPagesGuard implements CanActivate {
         }
       }),
       mergeMap((data: any) => {
-        if (!!data.error || !Object.keys(data).length) {
-          this.tokenStorageService.signOut();
-          this.router.navigate(['auth/login']);
-          return of(false);
-        } else if (
+        if (
           (data.completed !== true && data.idSn !== 0) ||
           (data.completed === true && data.idSn !== 0 && data.enabled === false)
         ) {
           this.router.navigate(['social-registration/completeProfile']);
           return of(false);
+        } else if (data.new) {
+          if (!data.passphrase) {
+            this.router.navigate(['/social-registration/pass-phrase']);
+            return of(false);
+          }
+          return of(true);
         } else {
           if (
             !!this.walletFacade.walletValue &&
@@ -66,7 +66,7 @@ export class PublicPagesGuard implements CanActivate {
           }
         }
       }),
-      catchError((error) => {
+      catchError(() => {
         this.tokenStorageService.signOut();
         this.router.navigate(['auth/login']);
         return of(false);
@@ -86,25 +86,16 @@ export class PublicPagesGuard implements CanActivate {
           this.tokenStorageService.signOut();
           this.router.navigate(['auth/login']);
           return of(false);
-        } else if (data.address) {
-          this.tokenStorageService.saveIdWallet(data.address);
+        } else if (data.data.address) {
+          this.tokenStorageService.saveIdWallet(data.data.address);
           // if(!data.passphrase){
           //   this.router.navigate(
           //     ['/social-registration/pass-phrase'])
           // }
-          if (data.new) {
-            if (!data.passphrase) {
-              this.router.navigate(['/social-registration/pass-phrase']);
-              return of(false);
-            } else {
-              return of(true);
-            }
-          } else {
-            return of(true);
-          }
+          return of(true);
         } else if (this.dateNow > this.dateShouldExpireAt) {
           return of(true);
-        } else if (data.err === 'no_account') {
+        } else if (data.error === 'Wallet not found') {
           this.tokenStorageService.setSecureWallet(
             'visited-completeProfile',
             'true'
