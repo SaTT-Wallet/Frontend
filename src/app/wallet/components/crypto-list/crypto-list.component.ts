@@ -121,11 +121,10 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     $('[data-toggle="tooltip"]').tooltip;
     this.spinner.show('showWalletSpinner');
     this.showWalletSpinner = true;
-    this.walletFacade.walletSpinner$
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((res) => {
-        this.showWalletSpinner = res;
-      });
+    this.walletFacade.walletSpinner$.pipe(takeUntil(this.onDestroy$));
+    // .subscribe((res) => {
+    //   this.showWalletSpinner = res;
+    // });
     // this.copyaddresse();
   }
   ngAfterContentInit() {
