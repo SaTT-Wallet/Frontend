@@ -69,7 +69,7 @@ export class ProfileService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.delete(sattUrl + '/facebook/all/channels', {
+    return this.http.delete(sattUrl + '/RemoveFacebookchannels', {
       headers: header
     });
   }
