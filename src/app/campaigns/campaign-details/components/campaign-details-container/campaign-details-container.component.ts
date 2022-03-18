@@ -186,7 +186,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
       this.meta.updateTag(
         {
           property: 'og:url',
-          content: `${environment.domainName}/home/campaign/${campaign.id}`
+          content: `${environment.domainName}/campaign/${campaign.id}`
         },
         `property='og:url'`
       );
