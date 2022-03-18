@@ -180,7 +180,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
       this.meta.updateTag(
         {
           name: 'twitter:image',
-          content: `${sattUrl}/coverByCampaign/${campaign.id}`
+          content: `https://satt-token.com/assets/img/share_img_200px.png`
         },
         `name='twitter:image'`
       );
