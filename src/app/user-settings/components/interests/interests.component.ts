@@ -11,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import { interestsList } from '../../../config/atn.config';
 import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-facade.service';
 
-import { filter, map, mergeMap, takeUntil } from 'rxjs/operators';
+import { catchError, filter, map, mergeMap, takeUntil } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
 @Component({
   selector: 'app-interests',
@@ -61,69 +61,92 @@ export class InterestsComponent implements OnInit {
     // this.showSpinner = true;
     this.profileSettingsFacade
       .getInterests()
-      .pipe(takeUntil(this.isDestroyed))
-      .subscribe((response: any) => {
-        if (response !== null) {
-          this.interestsPercent = (
-            (response?.interests.length * 100) /
-            6
-          ).toFixed(0);
-          this.showSpinner = false;
-          this.interestsTagList = response.interests;
-          this.formInterests
-            .get('interestsLength')
-            ?.setValue(this.interestsTagList.length);
-          if (this.interestsTagList.length === 6) {
-            this.disabled = true;
+      .pipe(
+        catchError((error: any) => {
+          if (error.status === 404) {
+            this.interestsTagList = [];
           }
-          this.interestsTagList.forEach((itemTagList: any) => {
-            this.interestsList.forEach((itemList: any) => {
-              if (itemTagList === itemList['name']) {
-                itemList['checked'] = true;
-              }
-
-              this.interestsTagList.map((interest: any) => {
-                const indexTag: number =
-                  this.interestsTagList?.indexOf(interest);
-
-                if (interest === 'kitchen') {
-                  let item: any = interestsList.find(
-                    (itemList) => itemList.name === 'food'
-                  );
-                  item.checked = true;
-                  this.interestsTagList.splice(indexTag, 1, 'food');
+          return of(null);
+        }),
+        takeUntil(this.isDestroyed)
+      )
+      .subscribe(
+        (response: any) => {
+          if (response !== null) {
+            this.interestsPercent = ((response?.data.length * 100) / 6).toFixed(
+              0
+            );
+            this.showSpinner = false;
+            this.interestsTagList = response.data;
+            this.formInterests
+              .get('interestsLength')
+              ?.setValue(this.interestsTagList.length);
+            if (this.interestsTagList.length === 6) {
+              this.disabled = true;
+            }
+            this.interestsTagList.forEach((itemTagList: any) => {
+              this.interestsList.forEach((itemList: any) => {
+                if (itemTagList === itemList['name']) {
+                  itemList['checked'] = true;
                 }
 
-                if (interest === 'dance') {
-                  let item: any = interestsList.find(
-                    (itemList) => itemList.name === 'parties'
-                  );
-                  item.checked = true;
-                  this.interestsTagList.splice(indexTag, 1, 'parties');
-                }
+                this.interestsTagList.map((interest: any) => {
+                  const indexTag: number =
+                    this.interestsTagList?.indexOf(interest);
 
-                if (interest === 'culture') {
-                  let item: any = interestsList.find(
-                    (itemList) => itemList.name === 'reading'
-                  );
-                  item.checked = true;
-                  this.interestsTagList.splice(indexTag, 1, 'reading');
-                }
+                  if (interest === 'kitchen') {
+                    let item: any = interestsList.find(
+                      (itemList) => itemList.name === 'food'
+                    );
+                    item.checked = true;
+                    this.interestsTagList.splice(indexTag, 1, 'food');
+                  }
 
-                if (interest === 'painting' || interest === 'sewing') {
-                  let item: any = interestsList.find(
-                    (itemList) => itemList.name === 'creative-hobbies'
-                  );
-                  item.checked = true;
-                  this.interestsTagList.splice(indexTag, 1, 'creative-hobbies');
-                }
+                  if (interest === 'dance') {
+                    let item: any = interestsList.find(
+                      (itemList) => itemList.name === 'parties'
+                    );
+                    item.checked = true;
+                    this.interestsTagList.splice(indexTag, 1, 'parties');
+                  }
+
+                  if (interest === 'culture') {
+                    let item: any = interestsList.find(
+                      (itemList) => itemList.name === 'reading'
+                    );
+                    item.checked = true;
+                    this.interestsTagList.splice(indexTag, 1, 'reading');
+                  }
+
+                  if (interest === 'painting' || interest === 'sewing') {
+                    let item: any = interestsList.find(
+                      (itemList) => itemList.name === 'creative-hobbies'
+                    );
+                    item.checked = true;
+                    this.interestsTagList.splice(
+                      indexTag,
+                      1,
+                      'creative-hobbies'
+                    );
+                  }
+                });
               });
             });
-          });
-          this.interestsTagListSet = Array.from(new Set(this.interestsTagList));
-          this.selectedItemsNumber = this.interestsTagListSet.length;
+            this.interestsTagListSet = Array.from(
+              new Set(this.interestsTagList)
+            );
+            this.selectedItemsNumber = this.interestsTagListSet.length;
+          }
+        },
+        (error: any) => {
+          if (
+            error.error.error === 'No interest found' &&
+            error.error.code === 404
+          ) {
+            this.interestsTagList = [];
+          }
         }
-      });
+      );
   }
 
   selectInterest(event: any, name: any) {
@@ -174,7 +197,7 @@ export class InterestsComponent implements OnInit {
       .getInterests()
       .pipe(
         mergeMap((response: any) => {
-          if (response == null) {
+          if (response !== null) {
             return this.profileSettingsFacade
               .addInterests(this.interestsTagListSet)
               .pipe(
@@ -208,7 +231,7 @@ export class InterestsComponent implements OnInit {
               //  this.disabled = true;
             }
           } else if (type === '2') {
-            if (res.message === 'interests updated') {
+            if (res.message === 'success') {
               // eslint-disable-next-line @typescript-eslint/no-unused-vars
               let msg: string = '';
               return this.translate.get('update_profile');
