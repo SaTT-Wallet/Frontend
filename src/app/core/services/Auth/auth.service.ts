@@ -44,7 +44,7 @@ export class AuthService {
     newpass: any
   ): Observable<IResetPasswordResponse> {
     return this.http.post<IResetPasswordResponse>(
-      sattUrl + '/v2/auth/passrecover',
+      sattUrl + '/auth/passrecover',
       {
         email: email,
         newpass: newpass
