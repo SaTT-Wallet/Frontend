@@ -53,10 +53,10 @@ export class CampaignDetailsContainerComponent implements OnInit {
       .subscribe();
     this.campaign$ = this.campaignsStoreService.campaign$;
     if (isPlatformServer(this.platformId)) {
-      this.meta.addTag({
+     /* this.meta.addTag({
         name: 'og:image:secure_url',
         content: ``
-      });
+      });*/
       const imgMetaTag = this.meta.getTag(`name='og:image'`);
       if (imgMetaTag) {
         this.meta.removeTag(`name='og:image'`);
@@ -66,7 +66,8 @@ export class CampaignDetailsContainerComponent implements OnInit {
         property: 'og:image',
         content: `https://safeimagekit.com/picture.png`
       });
-      this.meta.addTag({
+
+    /*  this.meta.addTag({
         property: 'og:image:width',
         content: `200`
       });
@@ -77,7 +78,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
       this.meta.addTag({
         name: 'og:image:type',
         content: `image/png`
-      });
+      });*/
       this.meta.addTag({
         property: 'og:title',
         content: 'twitter test'
@@ -154,13 +155,13 @@ export class CampaignDetailsContainerComponent implements OnInit {
         `property='og:image'`
       );
 
-      this.meta.updateTag(
+     /* this.meta.updateTag(
         {
           name: 'og:image:secure_url',
           content: `${sattUrl}/coverByCampaign/${campaign.id}`
         },
         `name='og:image:secure_url'`
-      );
+      );*/
       this.meta.updateTag(
         {
           name: 'og:image:type',
