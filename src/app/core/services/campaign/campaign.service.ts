@@ -104,7 +104,7 @@ export class CampaignHttpApiService {
   }
   notifyLink(campaignId: any, link: any, idProm: string) {
     return this.http.post(
-      sattUrl + '/campaign/insert_link_notification',
+      sattUrl + '/campaign/linkNotification',
       { idCampaign: campaignId, link, idProm },
       { headers: this.tokenStorageService.getHeader() }
     );
@@ -696,14 +696,19 @@ export class CampaignHttpApiService {
   }
 
   getTokenAllowanceERC20(erc20: any) {
-    return this.http.get(
+    return this.http.post(
       sattUrl +
-        '/v2/erc20/' +
-        erc20.addr +
-        '/approval/' +
-        erc20.walletaddr +
-        '/' +
-        campaignSmartContractERC20,
+        '/campaign/erc20/approval/' +
+        // '/v2/erc20/' +
+        // erc20.addr +
+        // '/approval/' +
+        // erc20.walletaddr +
+        // '/'
+        {
+          tokenAddress: erc20.addr,
+          campaignAddress: campaignSmartContractERC20
+        },
+
       { headers: this.tokenStorageService.getHeader() }
     );
   }
