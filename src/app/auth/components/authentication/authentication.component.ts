@@ -554,7 +554,7 @@ getCookie(key: string){
               return;
             }
             if (myWallet.data.address) {
-              if (response.data.new) {
+              if (response.data?.new) {
                 if (!response.data.passphrase) {
                   this.router.navigate(['/social-registration/pass-phrase']);
                 } else {

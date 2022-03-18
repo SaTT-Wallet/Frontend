@@ -42,7 +42,7 @@ export interface IresponseAccount {
     youtubeLink: string;
     zipCode: string;
     message: string;
-    new: boolean;
+    new?: boolean;
   };
   error?: string;
   message?: string;
