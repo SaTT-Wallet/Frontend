@@ -216,7 +216,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
 /*
           content: `${sattUrl}/coverByCampaign/${campaign.id}`
 */
-          content: `${sattUrl}/coverByCampaign/${campaign.id}?width=200&heigth=200`
+          content: `https://satt-token.com/assets/img/share_img_200px.png`
 
         },
         `name='twitter:image'`
