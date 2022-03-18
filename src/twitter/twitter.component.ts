@@ -105,13 +105,14 @@ export class TwitterComponent implements OnInit {
     this.route.params
       .subscribe((params) => {
         console.log(params)
-        this.getOneById(params.id).subscribe((campaign: any) => {
+        console.log(params.id)
+        this.getOneById("6139d5b9995f9643c5806b89").subscribe((campaign: any) => {
     
 
           this.meta.updateTag(
             {
               property: 'og:image',
-              content: `${sattUrl}/coverByCampaign/${campaign.id}?width=200&heigth=200`
+              content: `${sattUrl}/coverByCampaign/6139d5b9995f9643c5806b89?width=200&heigth=200`
               /*
               content: 'https://safeimagekit.com/picture.png'
     */
@@ -138,7 +139,7 @@ export class TwitterComponent implements OnInit {
           this.meta.updateTag(
             {
               property: 'og:url',
-              content: `${environment.domainName}/home/campaign/${campaign.id}`
+              content: `${environment.domainName}/home/campaign/6139d5b9995f9643c5806b89`
             },
             `property='og:url'`
           );
@@ -161,7 +162,7 @@ export class TwitterComponent implements OnInit {
           this.meta.updateTag(
             {
               property: 'twitter:url',
-              content: `${environment.domainName}/home/campaign/${campaign.id}`
+              content: `${environment.domainName}/home/campaign/6139d5b9995f9643c5806b89`
             },
             `property='twitter:url'`
           );
@@ -188,7 +189,7 @@ export class TwitterComponent implements OnInit {
     /*
               content: `${sattUrl}/coverByCampaign/${campaign.id}`
     */
-              content: `${sattUrl}/coverByCampaign/${campaign.id}?width=200&heigth=200`
+              content: `${sattUrl}/coverByCampaign/6139d5b9995f9643c5806b89?width=200&heigth=200`
     
             },
             `name='twitter:image'`
