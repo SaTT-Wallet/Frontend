@@ -415,10 +415,10 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             (data: any) => {
               this.showSpinner = false;
               this.loadingButton = false;
-              if (data.transactionHash) {
+              if (data.data.transactionHash) {
                 this.currency = currency;
 
-                this.hashtransaction = data.transactionHash;
+                this.hashtransaction = data.data.transactionHash;
 
                 if (this.networks === 'BEP20') {
                   this.routertransHash = bscan + this.hashtransaction;
@@ -428,15 +428,70 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
                 this.showPwdBloc = false;
                 this.showSuccessBloc = true;
               }
-              if (data.error === 'Wrong password') {
+              // if (data.error === 'Wrong password') {
+              //   this.wrongpassword = true;
+              //   setTimeout(() => {
+              //     this.wrongpassword = false;
+              //   }, 5000);
+              // }
+              
+              // else if (
+              //   data.error ===
+              //     'Returned error: execution reverted: BEP20: transfer amount exceeds balance' ||
+              //   data.error ===
+              //     'Returned error: execution reverted: ERC20: transfer amount exceeds balance'
+              // ) {
+              //   this.nobalance = true;
+              //   setTimeout(() => {
+              //     this.nobalance = false;
+              //     this.amountUsd = '';
+              //     this.amount = '';
+              //     this.showAmountBloc = true;
+              //     this.showPwdBloc = false;
+              //   }, 3000);
+              //   this.sendform.reset();
+              // } 
+              
+              // else if (data.message === 'not_enough_budget') {
+              //   this.nobalance = true;
+              //   setTimeout(() => {
+              //     this.nobalance = false;
+              //   }, 3000);
+              // } 
+              
+              
+              // else if (
+              //   data.error ===
+              //     'Returned error: insufficient funds for gas * price + value' ||
+              //   data.error === 'Returned error: transaction underpriced'
+              // ) {
+              //   this.showSuccessBloc = false;
+              //   this.showAmountBloc = false;
+              //   this.showPwdBloc = false;
+              //   this.showErrorBloc = true;
+              //   this.amountUsd = '';
+              //   this.amount = '';
+              //   this.wrongpassword = false;
+              //   this.gazproblem = true;
+              //   // setTimeout(() => {
+              //   //   this.gazproblem = false;
+              //   // }, 5000);
+              //   this.sendform.reset();
+              // }
+            },
+            (error) => {
+              if (error.error.error === 'Key derivation failed - possibly wrong password') {
                 this.wrongpassword = true;
                 setTimeout(() => {
                   this.wrongpassword = false;
                 }, 5000);
-              } else if (
-                data.error ===
+              }
+
+                  
+              else if (
+                error.error.error ===
                   'Returned error: execution reverted: BEP20: transfer amount exceeds balance' ||
-                data.error ===
+                  error.error.error ===
                   'Returned error: execution reverted: ERC20: transfer amount exceeds balance'
               ) {
                 this.nobalance = true;
@@ -448,16 +503,19 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
                   this.showPwdBloc = false;
                 }, 3000);
                 this.sendform.reset();
-              } else if (data.message === 'not_enough_budget') {
+              } 
+
+              else if (error.error.error === 'not_enough_budget') {
                 this.nobalance = true;
                 setTimeout(() => {
                   this.nobalance = false;
                 }, 3000);
-              } else if (
-                data.error ===
-                  'Returned error: insufficient funds for gas * price + value' ||
-                data.error === 'Returned error: transaction underpriced'
-              ) {
+              } 
+              
+
+              else if (
+                error.error.error ===
+                  'insufficient funds for gas') {
                 this.showSuccessBloc = false;
                 this.showAmountBloc = false;
                 this.showPwdBloc = false;
@@ -471,8 +529,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
                 // }, 5000);
                 this.sendform.reset();
               }
-            },
-            () => {
+
+
               this.showSpinner = false;
               this.loadingButton = false;
             }
