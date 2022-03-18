@@ -53,10 +53,10 @@ export class CampaignDetailsContainerComponent implements OnInit {
       .subscribe();
     this.campaign$ = this.campaignsStoreService.campaign$;
     if (isPlatformServer(this.platformId)) {
-     /* this.meta.addTag({
+      this.meta.addTag({
         name: 'og:image:secure_url',
         content: ``
-      });*/
+      });
       const imgMetaTag = this.meta.getTag(`name='og:image'`);
       if (imgMetaTag) {
         this.meta.removeTag(`name='og:image'`);
@@ -146,19 +146,21 @@ export class CampaignDetailsContainerComponent implements OnInit {
 
       this.meta.updateTag(
         {
+          name: 'og:image:secure_url',
+          content: `${sattUrl}/coverByCampaign/${campaign.id}`
+        },
+        `name='og:image:secure_url'`
+      );
+
+      this.meta.updateTag(
+        {
           property: 'og:image',
           content: `${sattUrl}/coverByCampaign/${campaign.id}`
         },
         `property='og:image'`
       );
 
-     /* this.meta.updateTag(
-        {
-          name: 'og:image:secure_url',
-          content: `${sattUrl}/coverByCampaign/${campaign.id}`
-        },
-        `name='og:image:secure_url'`
-      );*/
+
 
       this.meta.updateTag(
         {
