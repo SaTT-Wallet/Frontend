@@ -127,7 +127,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
         content: ''
       });
       this.meta.addTag({
-        name: 'twitter:image',
+        name: 'twitter:image:src',
         content: 'https://safeimagekit.com/picture.png'
       });
     }
@@ -198,17 +198,49 @@ export class CampaignDetailsContainerComponent implements OnInit {
       );
       this.meta.updateTag(
         {
-          name: 'twitter:card',
-          content: 'summary_large_image'
+          property: 'og:site_name',
+          content: `${environment.domainName.split('//')[1]}`
         },
-        `name='twitter:card'`
+        `property='og:site_name'`
+      );
+
+      this.meta.updateTag(
+        {
+          property: 'twitter:domain',
+          content: `${environment.domainName}`
+        },
+        `property='twitter:domain'`
       );
       this.meta.updateTag(
         {
-          name: 'twitter:image',
+          property: 'twitter:url',
+          content: `${environment.domainName}/home/campaign/${campaign.id}`
+        },
+        `property='twitter:url'`
+      );
+
+      this.meta.updateTag(
+        {
+          name: 'twitter:title',
+          content: `${campaign.title}`
+        },
+        `name='twitter:title'`
+      );
+
+      this.meta.updateTag(
+        {
+          name: 'twitter:description',
+          content: `${campaign.summary}`
+        },
+        `name='twitter:description'`
+      );
+
+      this.meta.updateTag(
+        {
+          name: 'twitter:image:src',
           content: `https://satt-token.com/assets/img/share_img_200px.png`
         },
-        `name='twitter:image'`
+        `name='twitter:image:src'`
       );
     });
   }
