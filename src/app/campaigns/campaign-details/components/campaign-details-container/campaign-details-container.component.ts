@@ -130,7 +130,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
         content: ''
       });
       this.meta.addTag({
-        name: 'twitter:image:src',
+        name: 'twitter:image',
         content: 'https://safeimagekit.com/picture.png'
       });
     }
@@ -216,14 +216,14 @@ export class CampaignDetailsContainerComponent implements OnInit {
 
       this.meta.updateTag(
         {
-          name: 'twitter:image:src',
+          name: 'twitter:image',
 /*
           content: `${sattUrl}/coverByCampaign/${campaign.id}`
 */
           content: `${sattUrl}/coverByCampaign/${campaign.id}?width=200&heigth=200`
 
         },
-        `name='twitter:image:src'`
+        `name='twitter:image'`
       );
     });
 
