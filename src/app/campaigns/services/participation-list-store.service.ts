@@ -146,10 +146,14 @@ export class ParticipationListStoreService {
         .pipe(
           map((links: any) => {
             this.count = links.count;
-            links.Links.forEach((element: any) => {
+            links.data.Links.forEach((element: any) => {
+              
+
               element.appliedDate = this.createDateFromUnixTimestamp(
                 element.appliedDate
+                
               );
+             
               if (element.status !== true) element.totalToEarn = '0';
               if (
                 element.totalToEarn &&
@@ -190,7 +194,8 @@ export class ParticipationListStoreService {
             return links;
           }),
           map((res: any) => {
-            return [res.count, res.Links.map((c: any) => new Participation(c))];
+
+            return [res.data.count, res.data.Links.map((c: any) => new Participation(c))];
           }),
           takeUntil(this.isDestroyed)
         )

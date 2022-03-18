@@ -44,13 +44,11 @@ export class CryptofetchServiceService {
   }
 
   getEtherGaz() {
-    return this.http.get(sattUrl + '/gasprice', {
-      headers: this.tokenStorageService.getHeader()
-    });
+    return this.http.get(sattUrl + '/wallet/Erc20GasPrice');
   }
 
   getBnbGaz() {
-    return this.http.get(sattUrl + '/bnb/gasprice', {
+    return this.http.get(sattUrl + '/wallet/Bep20GasPrice', {
       headers: this.tokenStorageService.getHeader()
     });
   }
@@ -100,7 +98,7 @@ export class CryptofetchServiceService {
     });
     if (this.tokenStorageService.getToken()) {
       return this.http.post(
-        sattUrl + '/GetQuote',
+        sattUrl + '/wallet/getQuote',
         {
           digital_currency,
           requested_amount,
@@ -111,7 +109,7 @@ export class CryptofetchServiceService {
       );
     } else {
       return this.http.post(
-        sattUrl + '/GetQuote',
+        sattUrl + '/wallet/getQuote',
         {
           digital_currency,
           requested_amount,

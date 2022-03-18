@@ -40,7 +40,7 @@ export class WalletService {
       delete send.access_token;
       let body = { pass: send.pass, to: send.to, val: send.amount };
 
-      return this.http.post(sattUrl + '/v3/transferbtc', body, {
+      return this.http.post(sattUrl + '/wallet/transferBtc', body, {
         headers: headers
       });
     } else if (
