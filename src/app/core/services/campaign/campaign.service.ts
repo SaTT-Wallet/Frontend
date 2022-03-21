@@ -226,7 +226,7 @@ export class CampaignHttpApiService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.get(sattUrl + `/profile/pic?id=${id}`, {
+    return this.http.get(sattUrl + `/profile/picture?id=${id}`, {
       responseType: 'blob',
       headers: headers
     });
@@ -884,27 +884,6 @@ export class CampaignHttpApiService {
       headers: this.tokenStorageService.getHeader()
     });
   }
-  getAllPromsStats(campaignId: string, isOwnedByUser: boolean) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
-    if (!isOwnedByUser) {
-      let walletId = this.tokenStorageService.getIdWallet();
-      return this.http.get(
-        `${sattUrl}/campaign/${campaignId}/proms/all?influencer=` + walletId,
-        {
-          headers: header
-        }
-      );
-    } else {
-      return this.http.get(`${sattUrl}/campaign/${campaignId}/proms/all`, {
-        headers: header
-      });
-    }
-  }
 
   public inProgressCampaign(id: any) {
     this.tokenStorageService.removeProgressCampaign();
@@ -919,7 +898,36 @@ export class CampaignHttpApiService {
       headers: this.tokenStorageService.getHeader()
     });
   }
-
+  getAllPromsStats(campaignId: string, isOwnedByUser: boolean) {
+    let header = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+    // return this.http.get(sattUrl + '/campaign/campaignPrompAll/' + campaignId, {
+    //   headers: header
+    // });
+    //GET  /campaign/APaacgillmmnoppr / console.log(isOwnedByUser);
+    if (!isOwnedByUser) {
+      return this.http.get(
+        sattUrl +
+          '/campaign/campaignPrompAll/' +
+          campaignId +
+          '?influencer=' +
+          this.tokenStorageService.getIdWallet(),
+        {
+          headers: header
+        }
+      );
+    } else {
+      return this.http.get(
+        sattUrl + '/campaign/campaignPrompAll/' + campaignId,
+        {
+          headers: header
+        }
+      );
+    }
+  }
   userParticipations(
     page = 1,
     size = 10,
