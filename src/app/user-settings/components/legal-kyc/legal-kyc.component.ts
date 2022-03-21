@@ -340,7 +340,7 @@ export class LegalKYCComponent implements OnInit {
   }
   telecharger(id: any) {
     if (isPlatformBrowser(this.platformId))
-      window.open(sattUrl + '/profile/userLegal/' + id, '_blank');
+      window.open(sattUrl + '/profile/UserLegal/' + id, '_blank');
   }
   ngOnDestroy(): void {
     this.isDestroyed.next('');
