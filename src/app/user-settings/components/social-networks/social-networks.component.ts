@@ -99,7 +99,7 @@ export class SocialNetworksComponent implements OnInit {
     this.socialAccount$
       .pipe(
         filter((res) => res !== null),
-        mergeMap((data: IGetSocialNetworksResponse | null) => {
+        mergeMap((data) => {
           return this.route.queryParams.pipe(
             map((params) => {
               return { params, data };
@@ -108,61 +108,53 @@ export class SocialNetworksComponent implements OnInit {
         }),
         takeUntil(this.isDestroyed)
       )
-      .subscribe(
-        ({
-          params,
-          data
-        }: {
-          params: Params;
-          data: IGetSocialNetworksResponse | null;
-        }) => {
-          if (data !== null) {
-            let count = 0;
-            this.allChannels = data;
-            this.channelGoogle = data.google;
-            this.channelTwitter = data.twitter;
-            this.channelFacebook = data.facebook;
-            this.channelLinkedin = data.linkedin;
+      .subscribe(({ params, data }: { params: Params; data: any }) => {
+        if (data !== null) {
+          let count = 0;
+          this.allChannels = data.data;
+          this.channelGoogle = data.data.google;
+          this.channelTwitter = data.data.twitter;
+          this.channelFacebook = data.data.facebook;
+          this.channelLinkedin = data.data.linkedin;
 
-            this.setUrlMsg(params, data);
+          this.setUrlMsg(params, data);
 
-            if (this.channelGoogle?.length !== 0) {
-              count++;
-            } else {
-              this.channelGoogle?.forEach((ch: any) => {
-                this.deactivateGoogle = !!data.google[ch].deactivate;
-              });
-            }
-
-            if (this.channelTwitter?.length !== 0) {
-              count++;
-            } else {
-              this.channelTwitter?.forEach((ch: any) => {
-                this.deactivateTwitter = !!data.twitter[ch].deactivate;
-              });
-            }
-
-            if (this.channelFacebook?.length !== 0) {
-              count++;
-            } else {
-              this.channelFacebook?.forEach((ch: any) => {
-                this.deactivateFacebook = !!data.facebook[ch].deactivate;
-              });
-            }
-
-            if (this.channelLinkedin?.length !== 0) {
-              count++;
-            } else {
-              this.channelLinkedin?.forEach((ch: any) => {
-                this.deactivateLinkedin = !!data.linkedin[ch].deactivate;
-              });
-            }
-            let stat = (count * 100) / 4;
-            this.percentSocial = stat.toFixed(0);
-            this.showSpinner = false;
+          if (this.channelGoogle?.length !== 0) {
+            count++;
+          } else {
+            this.channelGoogle?.forEach((ch: any) => {
+              this.deactivateGoogle = !!data.google[ch].deactivate;
+            });
           }
+
+          if (this.channelTwitter?.length !== 0) {
+            count++;
+          } else {
+            this.channelTwitter?.forEach((ch: any) => {
+              this.deactivateTwitter = !!data.twitter[ch].deactivate;
+            });
+          }
+
+          if (this.channelFacebook?.length !== 0) {
+            count++;
+          } else {
+            this.channelFacebook?.forEach((ch: any) => {
+              this.deactivateFacebook = !!data.facebook[ch].deactivate;
+            });
+          }
+
+          if (this.channelLinkedin?.length !== 0) {
+            count++;
+          } else {
+            this.channelLinkedin?.forEach((ch: any) => {
+              this.deactivateLinkedin = !!data.linkedin[ch].deactivate;
+            });
+          }
+          let stat = (count * 100) / 4;
+          this.percentSocial = stat.toFixed(0);
+          this.showSpinner = false;
         }
-      );
+      });
   }
   //get errors from url
   setUrlMsg(p: Params, data: IGetSocialNetworksResponse): void {
