@@ -248,7 +248,7 @@ export class ProfileService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.put(sattUrl + '/deconnection/' + social, null, {
+    return this.http.put(sattUrl + '/auth/disconnect/' + social, null, {
       headers: header
     });
   }
