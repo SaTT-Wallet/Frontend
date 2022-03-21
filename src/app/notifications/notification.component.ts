@@ -22,6 +22,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
+import { INotificationsResponse } from '@app/core/notifications-response.interface';
 
 @Component({
   selector: 'app-history',
@@ -111,9 +112,9 @@ export class NotificationComponent implements OnInit {
       .pipe(takeUntil(this.isDestroyed))
       .subscribe(
         (response: any) => {
-          if (response !== null && response !== undefined) {
+          if (response.code === 200 && response.message === 'success') {
             this.showSpinner = false;
-            this.dataNotificationFilter = response.notifications;
+            this.dataNotificationFilter = response.data.notifications;
             //--------------------------------filter with date and type
             if (
               this.typeNotifValue &&
@@ -200,6 +201,9 @@ export class NotificationComponent implements OnInit {
             this.typeNotifValue = this.form
               .get('type_notification')
               ?.setValue(null);
+          } else {
+            this.nodata = true;
+            this.dataNotification = [];
           }
         },
         () => {}
@@ -210,11 +214,11 @@ export class NotificationComponent implements OnInit {
     this.NotificationService.getAllNotifications()
       .pipe(takeUntil(this.isDestroyed))
       .subscribe(
-        (response: any) => {
+        (response: INotificationsResponse) => {
           if (response !== null && response !== undefined) {
             this.showSpinner = false;
             this.isloading = false;
-            this.dataNotification = response.notifications;
+            this.dataNotification = response.data.notifications;
 
             this.dataNotification.forEach((item: any) => {
               this.siwtchFunction(item);
@@ -224,6 +228,8 @@ export class NotificationComponent implements OnInit {
               .groupBy('created')
               .map((value: any, key: any) => ({ created: key, value }))
               .value();
+          } else {
+            this.dataNotification = [];
           }
         },
         () => {}
@@ -636,23 +642,23 @@ export class NotificationComponent implements OnInit {
             item._label = 'campaign_notification.editor_video_accepted';
             item.img = './assets/Images/notifIcons/lienAccepte.svg';
             break;
-  
+
           case 'cmp_video_rejected':
             item._params = { name: item._label['cmp_name'], cmpUrl: walletUrl + "campaign/" + item.attachedEls['id'] };
             item._label = 'campaign_notification.editor_video_rejected';
             item.img = './assets/Images/notifIcons/lienRefuse.svg';
             break;
-          
+
         case 'order_event':
            item._label = this.tr(item._label[0], '') + ' - ' + item._label[1];
            item.img = receive_satt_pic;
             break;
-         
+
          case 'mailing_target_event':
             item._label = this.tr(item._label[0], '') + ' - ' + item._label[1];
              item.img = receive_satt_pic;
             break;
-       
+
           case 'split_event':
           item._label = this.tr(item._label[0], '') + ' - ' + item._label[1] + ' - ' + item._label[2] + ' - ' + this.tr(item.status, '');
            item.img = receive_satt_pic;

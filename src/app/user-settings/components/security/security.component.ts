@@ -447,7 +447,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
           if (data !== null && data !== undefined) {
             // *ngIf="dataLegalDomicile.validate && dataLegalIdentity.validate == 'validate'"
             this.showSpinner = false;
-            this.dataLegal = data.legal;
+            this.dataLegal = data.data.legal;
             this.dataLegal.forEach((item: any) => {
               switch (item.type) {
                 case 'proofId':
