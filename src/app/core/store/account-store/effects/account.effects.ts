@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
+import { IresponseAccount } from '@app/core/iresponse-account';
 import { AuthService } from '@app/core/services/Auth/auth.service';
 import { User } from '@app/models/User';
 import { Actions, createEffect, ofType, concatLatestFrom } from '@ngrx/effects';
@@ -25,7 +26,7 @@ export class AccountEffects {
       mergeMap(([action, account]) => {
         if (account === null || action.type === loadUpdatedAccount.type) {
           return this.authService.verifyAccount().pipe(
-            map((data: any) =>
+            map((data: IresponseAccount) =>
               loadAccountSuccess({ data: new User(data.data) })
             ),
             catchError((error) => of(loadAccountFailure(error)))
