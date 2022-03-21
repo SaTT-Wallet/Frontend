@@ -213,6 +213,7 @@ export class NetworksComponent implements OnInit, OnDestroy {
         this.tokenStorageService.getIdUser() +
         '?redirect=' +
         this.router.url;
+
       if (social === 'facebook') {
         window.location.href = authFacebook;
       } else if (social === 'google') {
