@@ -72,7 +72,7 @@ export class NotificationService {
       })
     };
     return this.http.post(
-      sattUrl + '/notification/seen/' + id,
+      sattUrl + '/profile/notification/seen/' + id,
       {},
       this.httpOptions
     );
