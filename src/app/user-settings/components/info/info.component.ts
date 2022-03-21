@@ -286,8 +286,8 @@ export class InfoComponent implements OnInit, OnDestroy {
       // this.isDirty = false
       // this.showSpinner = false;
       let data_Email = {
-        email: this.formEmail.get('email')?.value,
-        pass: this.formEmail.get('password')?.value
+        pass: this.formEmail.get('password')?.value,
+        email: this.formEmail.get('email')?.value
       };
       this.profileSettingsFacade
         .updateEmail(data_Email)
