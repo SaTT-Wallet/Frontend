@@ -40,6 +40,7 @@ import { DOCUMENT } from '@angular/common';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { forkJoin, of, Subject } from 'rxjs';
 import { Router } from '@angular/router';
+import { ProfileService } from '@app/core/services/profile/profile.service';
 
 @Component({
   selector: 'app-wallet',
@@ -454,6 +455,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     private sanitizer: DomSanitizer,
     public mediaMatcher: MediaMatcher,
     private walletFacade: WalletFacadeService,
+    private profileService: ProfileService,
     @Inject(DOCUMENT) private document: any
   ) {
     matcher: MediaQueryList;
@@ -693,7 +695,8 @@ export class WalletComponent implements OnInit, OnDestroy {
         .subscribe((response: any) => {
           // let getFillMyProfil = this.tokenStorageService.getFillMyProfil();
           if (
-            (response.onBoarding === false || response.onBoarding === '') &&
+            (response.data.onBoarding === false ||
+              response.data.onBoarding === '') &&
             this.router.url === '/wallet'
           ) {
             this.startSteps();
@@ -838,6 +841,7 @@ export class WalletComponent implements OnInit, OnDestroy {
               .onBoarding()
               .pipe(
                 tap((res: any) => {
+                  console.log(res);
                   if (!!res.success) {
                     this.authStoreService.setAccount({
                       ...this.authStoreService.account,
