@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject, throwError } from 'rxjs';
 import {
   catchError,
   concatMap,
@@ -26,6 +26,7 @@ import {TokenStorageService} from "@core/services/tokenStorage/token-storage-ser
 export class DraftCampaignStoreService {
   private draftSubject: BehaviorSubject<Campaign>;
   private isLoaded = false;
+  isLoadingCampaign = new Subject();
 
   constructor(
     private campaignService: CampaignHttpApiService,
@@ -72,6 +73,7 @@ export class DraftCampaignStoreService {
           campaign.ownedByUser =
             Number(campaign.ownerId) ===
             Number(this.localeStorageService.getIdUser());
+          this.isLoadingCampaign.next(campaign.ownedByUser);
           return campaign;
         } ),
         //tap(console.log),

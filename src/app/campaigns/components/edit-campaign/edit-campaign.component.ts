@@ -141,6 +141,12 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.draftStore.isLoadingCampaign.subscribe((res: any) => {
+      if(res === false){
+        this.router.navigateByUrl('/ad-pools');
+        this.isLoading = true;
+      }
+    });
     this.campaignsHttpService.scrolling.subscribe(() => {
       this.scrolling = true;
     });
@@ -364,9 +370,11 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
       )
       .subscribe((c: Campaign) => {
         if(!c.isOwnedByUser){
-          this.router.navigateByUrl('/');
+          this.router.navigateByUrl('/ad-pools');
         }
-        this.isLoading = false;
+        if(c.isOwnedByUser){
+          this.isLoading = false;
+        }
         this.campaignData = c;
       });
   }

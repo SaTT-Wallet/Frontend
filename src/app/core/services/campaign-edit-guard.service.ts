@@ -33,7 +33,6 @@ export class CampaignEditGuardService implements CanActivate {
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot) {
-    // debugger;
     if (this.tokenStorageService.getIsAuth() !== 'true') {
       this.tokenStorageService.signOut();
       this.accountFacadeService.dispatchLogoutAccount();
@@ -134,7 +133,8 @@ export class CampaignEditGuardService implements CanActivate {
   }
 
   handleIfCampaignOwner(route: ActivatedRouteSnapshot) {
-    return this.campaignService.getOneById(route.params['id']).pipe(
+    return of(true)
+  /*  return this.campaignService.getOneById(route.params['id']).pipe(
       mergeMap((c) => {
         let campaign = new Campaign(c);
         let isOwner =
@@ -150,7 +150,7 @@ export class CampaignEditGuardService implements CanActivate {
         }
         return of(isOwner);
       })
-    );
+    );*/
   }
 }
 /*    canActivate(
