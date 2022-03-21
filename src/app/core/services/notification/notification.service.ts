@@ -33,7 +33,10 @@ export class NotificationService {
         Authorization: 'Bearer ' + this.tokenStorageService.getToken()
       })
     };
-    return this.http.get<any>(sattUrl + '/notifications', this.httpOptions);
+    return this.http.get<any>(
+      sattUrl + '/profile/notifications',
+      this.httpOptions
+    );
   }
   notifIsSendRes() {
     this.httpOptions = {

@@ -111,9 +111,9 @@ export class NotificationComponent implements OnInit {
       .pipe(takeUntil(this.isDestroyed))
       .subscribe(
         (response: any) => {
-          if (response !== null && response !== undefined) {
+          if (response.code === 200 && response.message === 'success') {
             this.showSpinner = false;
-            this.dataNotificationFilter = response.notifications;
+            this.dataNotificationFilter = response.data.notifications;
             //--------------------------------filter with date and type
             if (
               this.typeNotifValue &&
@@ -200,6 +200,9 @@ export class NotificationComponent implements OnInit {
             this.typeNotifValue = this.form
               .get('type_notification')
               ?.setValue(null);
+          } else {
+            this.nodata = true;
+            this.dataNotification = [];
           }
         },
         () => {}
@@ -211,10 +214,10 @@ export class NotificationComponent implements OnInit {
       .pipe(takeUntil(this.isDestroyed))
       .subscribe(
         (response: any) => {
-          if (response !== null && response !== undefined) {
+          if (response.code === 200 && response.message === 'success') {
             this.showSpinner = false;
             this.isloading = false;
-            this.dataNotification = response.notifications;
+            this.dataNotification = response.data.notifications;
 
             this.dataNotification.forEach((item: any) => {
               this.siwtchFunction(item);
@@ -224,6 +227,8 @@ export class NotificationComponent implements OnInit {
               .groupBy('created')
               .map((value: any, key: any) => ({ created: key, value }))
               .value();
+          } else {
+            this.dataNotification = [];
           }
         },
         () => {}
