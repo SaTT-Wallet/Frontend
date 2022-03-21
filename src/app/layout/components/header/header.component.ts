@@ -636,23 +636,18 @@ export class HeaderComponent implements OnInit {
   getNotifications() {
     this.NotificationService.getAllNotifications()
       .pipe(takeUntil(this.isDestroyed))
-      .subscribe((data: any) => {
-        this.isSend = data.isSend;
+      .subscribe((response: any) => {
+        if (response.code === 200 && response.message === 'success') {
+          this.isSend = response.data.isSend;
 
-        // this.ngOnInit();
-        if (this.isSend !== 0) {
-          this.NotificationService.newNotification.next(true);
-        } else {
-          this.NotificationService.newNotification.next(false);
-        }
+          // this.ngOnInit();
+          if (this.isSend !== 0) {
+            this.NotificationService.newNotification.next(true);
+          } else {
+            this.NotificationService.newNotification.next(false);
+          }
 
-        if (
-          data !== null &&
-          data !== undefined &&
-          !data.error &&
-          isPlatformBrowser(this.platformId)
-        ) {
-          this.dataNotification = data.notifications;
+          this.dataNotification = response.data.notifications;
           this.notifListSize = Math.round(
             window.innerHeight / this.notifItemSize
           );
