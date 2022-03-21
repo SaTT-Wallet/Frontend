@@ -123,11 +123,14 @@ export class CampaignDetailGainsComponent implements OnInit {
     this.getCampaignList();
   }
   calcGains() {
-    this.CampaignService.getAllPromsStats(this.campaign.id, this.isOwnedByUser)
+    this.CampaignService.getAllPromsStats(
+      this.campaign.id,
+      this.campaign.isOwnedByUser
+    )
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((proms: any) => {
-        this.checkingGains(proms.allProms);
-        this.getStatEarnings(proms.allProms);
+        this.checkingGains(proms.data.allProms);
+        this.getStatEarnings(proms.data.allProms);
       });
   }
   ngOnDestroy(): void {
