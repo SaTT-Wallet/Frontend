@@ -4,9 +4,9 @@ import { sattUrl } from '@app/config/atn.config';
 
 import { ProfileService } from '@core/services/profile/profile.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { filter, map, mergeMap, takeUntil } from 'rxjs/operators';
+import { catchError, filter, map, mergeMap, takeUntil } from 'rxjs/operators';
 import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-facade/socialAcounts-facade.service';
-import { Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 import { isPlatformBrowser } from '@angular/common';
 
@@ -98,6 +98,12 @@ export class SocialNetworksComponent implements OnInit {
     this.showSpinner = true;
     this.socialAccount$
       .pipe(
+        catchError((error: any) => {
+          if (error.error.error === 'Not found' && error.error.code === 404) {
+            this.channelLinkedin = [];
+          }
+          return of(null);
+        }),
         filter((res) => res !== null),
         mergeMap((data) => {
           return this.route.queryParams.pipe(
@@ -223,7 +229,7 @@ export class SocialNetworksComponent implements OnInit {
     if (isPlatformBrowser(this.platformId))
       window.location.href =
         sattUrl +
-        '/linkedin/link/' +
+        '/profile/addChannel/linkedin/' +
         this.userId +
         '?redirect=' +
         this.router.url;
@@ -417,6 +423,7 @@ export class SocialNetworksComponent implements OnInit {
       .getSocialNetworks()
       .pipe(
         mergeMap((data: any) => {
+          console.log(data);
           this.deactivateLinkedin = !data.linkedin[i].deactivate;
           this.channelLinkedin = this.channelLinkedin.map(
             (chanel: any, index: number) => {

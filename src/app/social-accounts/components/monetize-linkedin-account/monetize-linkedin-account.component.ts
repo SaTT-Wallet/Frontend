@@ -3,9 +3,9 @@ import { sattUrl } from '@app/config/atn.config';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SocialAccountsFacade } from '@app/social-accounts/facade/social-accounts.facade';
 import { ESocialMediaNames } from '@app/core/enums';
-import { Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-facade/socialAcounts-facade.service';
-import { takeUntil } from 'rxjs/operators';
+import { catchError, takeUntil } from 'rxjs/operators';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 
 @Component({
@@ -55,7 +55,15 @@ export class MonetizeLinkedinAccountComponent implements OnInit, OnDestroy {
   }
   getSocialNetwork() {
     this.socialAccount$
-      .pipe(takeUntil(this.onDestoy$))
+      .pipe(
+        catchError((error: any) => {
+          if (error.error.error === 'Not found' && error.error.code === 404) {
+            this.channelLinkedin = [];
+          }
+          return of(null);
+        }),
+        takeUntil(this.onDestoy$)
+      )
       .subscribe((data: any) => {
         if (data !== null) {
           this.channelLinkedin = data.data.linkedin;
