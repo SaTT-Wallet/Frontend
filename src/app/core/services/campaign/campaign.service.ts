@@ -494,7 +494,7 @@ export class CampaignHttpApiService {
   verifyLink(linkApplication: any) {
     return this.http.get(
       sattUrl +
-        '/link/verify/' +
+        '/profile/link/verify/' +
         linkApplication.typeSN +
         '/' +
         linkApplication.idUser +
