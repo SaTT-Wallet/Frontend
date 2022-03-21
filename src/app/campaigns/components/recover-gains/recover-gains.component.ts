@@ -64,6 +64,7 @@ export class RecoverGainsComponent implements OnInit {
             this.currencyName = 'SATT';
           }
         }),
+        map((response: any) => response.data),
         map((data: any) => data[this.currencyName]),
         tap((sattCrypto) => {
           prom.totalToEarnInUSD = take(
@@ -231,6 +232,7 @@ export class RecoverGainsComponent implements OnInit {
     this.walletFacade
       .getCryptoPriceList()
       .pipe(
+        map((response: any) => response.data),
         mergeMap((data: any) => {
           this.bnb = data['BNB'].price;
           this.eth = data['ETH'].price;

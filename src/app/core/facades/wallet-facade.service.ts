@@ -174,7 +174,7 @@ export class WalletFacadeService {
   }
 
   getCryptoPriceList() {
-    return this.cryptofetchServiceService.fetchCryptoData();
+    return this.cryptofetchServiceService.getCryptoPriceList();
   }
 
   getTransactionsHistory() {

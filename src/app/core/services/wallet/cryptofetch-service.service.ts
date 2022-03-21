@@ -18,8 +18,10 @@ export class CryptofetchServiceService {
   walletaddress: any;
   coinToConvertType = 'SATT';
 
-  fetchCryptoData() {
-    return this.http.get('https://3xchange.io/prices').pipe(shareReplay(1));
+  getCryptoPriceList() {
+    return this.http
+      .get(sattUrl + '/wallet/cryptoDetails')
+      .pipe(shareReplay(1));
   }
 
   transactionHistory() {
