@@ -4,8 +4,5 @@ import { Observable } from 'rxjs';
 
 export interface CampaignsFacade {
   campaignsPage$?: Observable<Page<Campaign>[]>;
-  loadNextPage(
-    filterOptions: any,
-    firstLoad: boolean
-  ): Observable<Page<Campaign>[]>;
+  loadNextPage(filterOptions: any, firstLoad: boolean): void;
 }

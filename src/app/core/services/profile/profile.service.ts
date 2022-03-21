@@ -212,7 +212,7 @@ export class ProfileService {
     });
 
     return this.http.post(
-      sattUrl + '/user/interests',
+      sattUrl + '/profile/AddUserIntersts',
       { interests: body },
       { headers: httpHeaders }
     );
@@ -224,7 +224,9 @@ export class ProfileService {
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
 
-    return this.http.get(sattUrl + '/user/interests', { headers: httpHeaders });
+    return this.http.get(sattUrl + '/profile/UserIntersts', {
+      headers: httpHeaders
+    });
   }
   updateInterests(body: any) {
     let httpHeaders = new HttpHeaders({
@@ -234,7 +236,7 @@ export class ProfileService {
     });
 
     return this.http.put(
-      sattUrl + '/user/interests',
+      sattUrl + '/profile/UpdateUserIntersts',
       { interests: body },
       { headers: httpHeaders }
     );
@@ -246,7 +248,7 @@ export class ProfileService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.put(sattUrl + '/deconnection/' + social, null, {
+    return this.http.put(sattUrl + '/auth/disconnect/' + social, null, {
       headers: header
     });
   }
