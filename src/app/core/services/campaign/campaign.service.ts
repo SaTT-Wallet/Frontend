@@ -347,7 +347,7 @@ export class CampaignHttpApiService {
   }
   deleteDraft(id: any) {
     return this.http
-      .delete(sattUrl + '/v2/campaign/deleteDraft' + `/${id}`, {
+      .delete(sattUrl + '/campaign/deleteDraft' + `/${id}`, {
         headers: this.tokenStorageService.getHeader()
       })
       .pipe(shareReplay(1));
