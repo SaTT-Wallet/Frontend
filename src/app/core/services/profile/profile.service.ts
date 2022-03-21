@@ -59,7 +59,7 @@ export class ProfileService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.delete(sattUrl + '/google/all/channels', {
+    return this.http.delete(sattUrl + '/profile/RemoveGoogleChannels', {
       headers: header
     });
   }
@@ -259,7 +259,7 @@ export class ProfileService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.post(sattUrl + '/account/purged', obj, {
+    return this.http.post(sattUrl + '/auth/purge', obj, {
       headers: header
     });
   }
