@@ -45,7 +45,7 @@ import { of, Subject } from 'rxjs';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
-
+declare var $: any;
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
     control: FormControl | null,

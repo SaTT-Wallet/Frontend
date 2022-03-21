@@ -25,7 +25,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil, tap } from 'rxjs/operators';
-
+declare var $: any;
 @Component({
   selector: 'app-draft-picture',
   templateUrl: './draft-picture.component.html',
@@ -264,7 +264,6 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
           this.sizeErrorLogo = false;
           this.formUploadPic.get('file')?.setValue(data);
           this.isConformLogo = true;
-
         } else {
           this.closeModal(this.pictureModal);
           this.sizeErrorLogo = true;
@@ -333,7 +332,7 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
       this.picName = null;
       this.showImage = false;
       let fileUploaded = event.target.files[0];
-      console.log("fileupload",fileUploaded.size )
+      console.log('fileupload', fileUploaded.size);
       let imgExtensions: Array<string> = [
         'image/png',
         'image/jpeg',
@@ -343,16 +342,10 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
         this.extensionErrorCover = true;
         this.inputCover.nativeElement.value = '';
       } else if (fileUploaded.size > 2000000) {
-        console.log("1111111111111")
         this.isConformCover = false;
         this.extensionErrorCover = false;
         this.sizeErrorCover = true;
         this.inputCover.nativeElement.value = '';
-        
-
-
-
-
       } else if (this.coverUploadWidthError) {
         this.extensionErrorCover = false;
         this.inputCover.nativeElement.value = '';
@@ -390,7 +383,7 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
         this.extensionErrorCoverMobile = true;
         this.coverInputMobile.nativeElement.value = '';
       } else if (fileUploaded.size > 2000000) {
-        console.log("2222222222222")
+        console.log('2222222222222');
         this.isConformCoverMobile = false;
         this.extensionErrorCoverMobile = false;
         this.sizeErrorCoverMobile = true;
