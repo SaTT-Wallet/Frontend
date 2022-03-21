@@ -102,6 +102,7 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
   campaignData$ = new Observable<Campaign>();
   showModal: boolean = false;
   checked: boolean = false;
+  isLoading = true;
   constructor(
     private _formBuilder: FormBuilder,
     private CampaignService: CampaignHttpApiService,
@@ -362,8 +363,15 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
         }),
         takeUntil(this.isDestroyed$)
       )
-      .subscribe((c: Campaign) => (this.campaignData = c));
-  }
+      .subscribe((c: Campaign) => {
+        if(!c.isOwnedByUser){
+          this.router.navigateByUrl('/ad-pools');
+        }
+        if(c.isOwnedByUser){
+          this.isLoading = false;
+        }
+        this.campaignData = c;
+      });  }
 
   private deleteCampaignIfNotFilled() {
     return this.draftStore.draft$.pipe(
