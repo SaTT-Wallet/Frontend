@@ -11,7 +11,6 @@ import { FarmWelcomeComponent } from './components/farm-welcome/farm-welcome.com
 import { TransactionMessageStatusComponent } from '@app/campaigns/components/transaction-message-status/transaction-message-status.component';
 import { CanLoadPublicModule } from '@core/services/public-pages-module.guard';
 import { WelcomePageGuardService } from '@core/services/welcome-page-guard.service';
-import { CampaignEditGuardService } from '@core/services/campaign-edit-guard.service';
 
 const routes: Routes = [
   {
