@@ -106,6 +106,8 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
   checked: boolean = false;
   private account$ = this.accountFacadeService.account$;
   muteReminderMobile: boolean = false;
+  isLoading = true;
+
   constructor(
     private _formBuilder: FormBuilder,
     public translate: TranslateService,
@@ -360,7 +362,14 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
         }),
         takeUntil(this.isDestroyed$)
       )
-      .subscribe((c: Campaign) => (this.campaignData = c));
+      .subscribe((c: Campaign) => {
+        debugger
+        if(!c.isOwnedByUser){
+          this.router.navigateByUrl('/');
+        }
+        this.isLoading = false;
+        this.campaignData = c;
+      });
   }
 
   private deleteCampaignIfNotFilled() {
