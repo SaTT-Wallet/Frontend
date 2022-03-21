@@ -63,7 +63,6 @@ export class NetworksComponent implements OnInit, OnDestroy {
   urlToAdd: any;
   nameUrl: any;
   typeUrl: any;
-
   urlToDelete: any;
   percentNetwork: any;
   errorMessage = '';
@@ -203,14 +202,14 @@ export class NetworksComponent implements OnInit, OnDestroy {
     if (isPlatformBrowser(this.platformId)) {
       let authFacebook: string =
         sattUrl +
-        '/connect/facebook/' +
-        this.tokenStorageService.getIdUser() +
+        '/profile/connect/facebook/' +
+        this.user.idUser +
         '?redirect=' +
         this.router.url;
       let linkGoogle: string =
         sattUrl +
         '/profile/connect/google/' +
-        this.tokenStorageService.getIdUser() +
+        this.user.idUser +
         '?redirect=' +
         this.router.url;
 
@@ -254,11 +253,13 @@ export class NetworksComponent implements OnInit, OnDestroy {
     this.showSpinner = true;
     this.account$
       .pipe(
-        filter((res) => res !== null),
+        filter((res: User | null) => {
+          return res !== null;
+        }),
         takeUntil(this.onDestoy$)
       )
-      .subscribe((response: any) => {
-        if (response !== null && response !== undefined) {
+      .subscribe((response: User | null) => {
+        if (response !== null) {
           this.showSpinner = false;
           this.user = response;
           this.fbLink = this.user?.fbLink;
