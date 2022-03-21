@@ -108,8 +108,8 @@ export class ProfileSettingsFacadeService {
   updateEmail(body: any) {
     return this.profileService.updateEmail(body);
   }
-  confirmChangeEmail(body: any) {
-    return this.profileService.confirmChangeEmail(body);
+  confirmChangeEmail(code: any) {
+    return this.profileService.confirmChangeEmail(code);
   }
 
   completeProfile(body: any) {
