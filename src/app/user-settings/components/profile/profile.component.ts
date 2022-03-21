@@ -323,7 +323,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       .subscribe((response: any) => {
         if (response !== null && response !== undefined) {
           this.showSpinner = false;
-          this.dataLegal = response.legal;
+          this.dataLegal = response.data.legal;
           this.dataLegal.forEach((item: any) => {
             switch (item.type) {
               case 'proofId':
@@ -351,19 +351,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
             error.error.error === 'No interest found' &&
             error.error.code === 404
           ) {
-            return of(null);
+            this.percentInterests = 0;
           }
           return of(null);
         }),
         takeUntil(this.onDestoy$)
       )
       .subscribe((response: any) => {
-        console.log(response);
-        if (response?.interests?.length === 0 || response == null) {
+        if (response?.data?.length === 0 || response == null) {
           this.percentInterests = 0;
         } else {
           this.percentInterests = Math.floor(
-            (response?.interests?.length * 100) / 6
+            (response?.data?.length * 100) / 6
           );
         }
       });
