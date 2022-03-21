@@ -1,14 +1,12 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { ActivatedRoute, CanActivate, Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
 import {
-  catchError,
-  filter,
-  map,
-  mergeMap,
-  take,
-  tap
-} from 'rxjs/operators';
+  ActivatedRoute,
+  ActivatedRouteSnapshot,
+  CanActivate,
+  Router
+} from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { catchError, filter, mergeMap, take, tap } from 'rxjs/operators';
 import { TokenStorageService } from './tokenStorage/token-storage-service.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AccountFacadeService } from '../facades/account-facade/account-facade.service';
@@ -30,23 +28,24 @@ export class CampaignEditGuardService implements CanActivate {
     private accountFacadeService: AccountFacadeService,
     @Inject(PLATFORM_ID) private platformId: string,
     private campaignService: CampaignHttpApiService,
-    private route: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private localStorageService: TokenStorageService
   ) {}
 
-  canActivate() {
+  canActivate(route: ActivatedRouteSnapshot) {
+    // debugger;
     if (this.tokenStorageService.getIsAuth() !== 'true') {
       this.tokenStorageService.signOut();
       this.accountFacadeService.dispatchLogoutAccount();
-      this.router.navigate(['auth/login']);
+      this.router.navigate(['/auth/login']);
       return of(false);
     } else {
       this.accountFacadeService.dispatchUserAccount();
-      return this.handleAccountValue();
+      return this.handleAccountValue(route);
     }
   }
 
-  handleAccountValue() {
+  handleAccountValue(route: ActivatedRouteSnapshot) {
     return this.accountFacadeService.account$.pipe(
       filter((res) => res !== null),
       take(1),
@@ -60,7 +59,7 @@ export class CampaignEditGuardService implements CanActivate {
         if (account.email === '') {
           this.accountFacadeService.dispatchLogoutAccount();
           this.tokenStorageService.signOut();
-          this.router.navigate(['auth/login']);
+          this.router.navigate(['/auth/login']);
           return of(false);
         }
         //   else if (account.error === 'Invalid Access Token') {
@@ -80,25 +79,44 @@ export class CampaignEditGuardService implements CanActivate {
             !!this.walletFacade.walletValue &&
             !this.walletFacade.walletValue?.error
           ) {
-            return this.handleWalletValue(this.walletFacade.wallet$);
+            return this.handleWalletValue(this.walletFacade.wallet$, route);
           } else {
-            return this.handleWalletValue(this.walletFacade.getUserWallet());
+            return this.handleWalletValue(
+              this.walletFacade.getUserWallet(),
+              route
+            );
           }
         }
       }),
       catchError(() => {
         this.tokenStorageService.signOut();
         this.accountFacadeService.dispatchLogoutAccount();
-        this.router.navigate(['auth/login']);
+        this.router.navigate(['/auth/login']);
         return of(false);
       })
     );
   }
 
-  handleWalletValue(wallet$: Observable<any>) {
+  handleWalletValue(wallet$: Observable<any>, route: ActivatedRouteSnapshot) {
     return wallet$.pipe(
-      catchError((error: any) => {
-        if (error.error.error === 'Wallet not found') {
+      mergeMap((data: any) => {
+        if (this.tokenStorageService.getvalid2FA() === 'false') {
+          this.tokenStorageService.signOut();
+          this.accountFacadeService.dispatchLogoutAccount();
+          this.router.navigate(['/auth/login']);
+          return of(false);
+        }
+        if (!!data?.error) {
+          this.tokenStorageService.signOut();
+          this.accountFacadeService.dispatchLogoutAccount();
+          this.router.navigate(['/auth/login']);
+          return of(false);
+        } else if (data.address) {
+          this.tokenStorageService.saveIdWallet(data.address);
+          return this.handleIfCampaignOwner(route);
+        } else if (this.dateNow > this.dateShouldExpireAt) {
+          return this.handleIfCampaignOwner(route);
+        } else if (data.err === 'no_account') {
           this.tokenStorageService.setSecureWallet(
             'visited-completeProfile',
             'true'
@@ -108,43 +126,29 @@ export class CampaignEditGuardService implements CanActivate {
         } else {
           this.tokenStorageService.signOut();
           this.accountFacadeService.dispatchLogoutAccount();
-          this.router.navigate(['auth/login']);
+          this.router.navigate(['/auth/login']);
           return of(false);
         }
-      }),
-      mergeMap((data: any) => {
-        if (this.tokenStorageService.getvalid2FA() === 'false') {
-          // this.tokenStorageService.signOut()
-          this.accountFacadeService.dispatchLogoutAccount();
-          this.router.navigate(['auth/login']);
-          return of(false);
-        }
-        if (data.data.address) {
-          this.tokenStorageService.saveIdWallet(data.data.address);
-          return this.handleIfCampaignOwner();
-        } else if (this.dateNow > this.dateShouldExpireAt) {
-          return of(true);
-        }
-        return of(false);
       })
     );
   }
 
-  handleIfCampaignOwner() {
-    return this.route.params.pipe(
-      mergeMap((params: any) => {
-        return this.campaignService
-          .getOneById(params['id'])
-          .pipe(map((res: any) => res.data))
-          .pipe(
-            mergeMap((c) => {
-              let campaign = new Campaign(c);
-              return of(
-                Number(campaign.ownerId) ===
-                  Number(this.localStorageService.getUserId())
-              );
-            })
-          );
+  handleIfCampaignOwner(route: ActivatedRouteSnapshot) {
+    return this.campaignService.getOneById(route.params['id']).pipe(
+      mergeMap((c) => {
+        let campaign = new Campaign(c);
+        let isOwner =
+          Number(campaign.ownerId) ===
+          Number(this.localStorageService.getUserId());
+        if (this.router.url === '/') {
+          if (isOwner) {
+            return of(true);
+          } else {
+            this.router.navigateByUrl('/');
+            return of(false);
+          }
+        }
+        return of(isOwner);
       })
     );
   }
