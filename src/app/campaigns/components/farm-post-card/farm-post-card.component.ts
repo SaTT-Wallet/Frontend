@@ -12,7 +12,7 @@ import { EButtonActions } from '@app/core/enums';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Participation } from '@app/models/participation.model';
 import { NotificationService } from '@core/services/notification/notification.service';
-import { filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { ParticipationListStoreService } from '@campaigns/services/participation-list-store.service';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -91,7 +91,7 @@ export class FarmPostCardComponent implements OnInit {
             msg.label?.promHash === this.prom.hash
           );
         }),
-        switchMap((msg) => this.campaignService.getPromById(this.prom.hash)),
+        switchMap(() => this.campaignService.getPromById(this.prom.hash)),
         map((data: any) => data.prom),
         map((prom: any) => {
           return {
@@ -112,12 +112,14 @@ export class FarmPostCardComponent implements OnInit {
     let sum = new Big(this.prom.sum).div(etherInWei).toFixed(0);
     let payedAmount = new Big(this.prom.payedAmount).div(etherInWei).toFixed(0);
     this.sumInUSD = this.walletFacade.getCryptoPriceList().pipe(
+      map((response: any) => response.data),
       //tap((_) => console.log('value sumInUSD => ', _)),
       map((crypto: any) =>
         (crypto[currencyName].price * Number(sum)).toFixed(2)
       )
     );
     this.payedAmoundInUSD = this.walletFacade.getCryptoPriceList().pipe(
+      map((response: any) => response.data),
       //tap((_) => console.log('value payedAmoundInUSD=> ', _)),
       map((crypto: any) =>
         (crypto[currencyName].price * Number(payedAmount)).toFixed(2)

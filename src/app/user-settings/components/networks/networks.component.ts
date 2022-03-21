@@ -1,5 +1,4 @@
 import {
-  ChangeDetectorRef,
   Component,
   ElementRef,
   Inject,
@@ -8,7 +7,7 @@ import {
   PLATFORM_ID,
   ViewChild
 } from '@angular/core';
-import { ProfileService } from '@core/services/profile/profile.service';
+
 import {
   FormBuilder,
   FormControl,
@@ -16,7 +15,7 @@ import {
   Validators
 } from '@angular/forms';
 import { User } from '@app/models/User';
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -32,7 +31,6 @@ import {
 } from '@config/atn.config';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment as env } from '@environments/environment';
-import { AuthStoreService } from '@core/services/Auth/auth-store.service';
 import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-facade.service';
 import { filter, mergeMap, takeUntil } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
@@ -65,7 +63,6 @@ export class NetworksComponent implements OnInit, OnDestroy {
   urlToAdd: any;
   nameUrl: any;
   typeUrl: any;
-
   urlToDelete: any;
   percentNetwork: any;
   errorMessage = '';
@@ -205,16 +202,17 @@ export class NetworksComponent implements OnInit, OnDestroy {
     if (isPlatformBrowser(this.platformId)) {
       let authFacebook: string =
         sattUrl +
-        '/connect/facebook/' +
-        this.tokenStorageService.getIdUser() +
+        '/profile/connect/facebook/' +
+        this.user.idUser +
         '?redirect=' +
         this.router.url;
       let linkGoogle: string =
         sattUrl +
-        '/connect/google/' +
-        this.tokenStorageService.getIdUser() +
+        '/profile/connect/google/' +
+        this.user.idUser +
         '?redirect=' +
         this.router.url;
+
       if (social === 'facebook') {
         window.location.href = authFacebook;
       } else if (social === 'google') {
@@ -227,7 +225,7 @@ export class NetworksComponent implements OnInit, OnDestroy {
     this.profileSettingsFacade
       .logoutRS(social)
       .pipe(takeUntil(this.onDestoy$))
-      .subscribe((data: any) => {
+      .subscribe(() => {
         this.successMessage = 'deconnect_successfully';
         this.accountFacadeService.dispatchUpdatedAccount();
         setTimeout(() => {
@@ -255,11 +253,13 @@ export class NetworksComponent implements OnInit, OnDestroy {
     this.showSpinner = true;
     this.account$
       .pipe(
-        filter((res) => res !== null),
+        filter((res: User | null) => {
+          return res !== null;
+        }),
         takeUntil(this.onDestoy$)
       )
-      .subscribe((response: any) => {
-        if (response !== null && response !== undefined) {
+      .subscribe((response: User | null) => {
+        if (response !== null) {
           this.showSpinner = false;
           this.user = response;
           this.fbLink = this.user?.fbLink;
@@ -359,7 +359,7 @@ export class NetworksComponent implements OnInit, OnDestroy {
   }
 
   //verify if link and its type match
-  matchLinkType(url: any, type: any, modal?: any) {
+  matchLinkType(url: any, type: any) {
     switch (type) {
       case 'fbLink':
         if (url.indexOf('facebook') !== -1) {

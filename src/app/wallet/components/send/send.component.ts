@@ -286,8 +286,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         .getListUserLegal()
         .pipe(
           map((data: any) =>
-            Object.keys(data.legal).map((key) => ({
-              value: data.legal[key]
+            Object.keys(data.data.legal).map((key) => ({
+              value: data.data.legal[key]
             }))
           ),
           takeUntil(this.isDestroyed)
@@ -355,186 +355,173 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       const pass = this.sendform.get('password')?.value;
       currency = this.sendform.get('currency')?.value;
 
-      let address = this.tokenStorageService.getIdWallet();
       // if (to === address) {
-    
+
       //   this.ownaddress = true;
       //   this.loadingButton = false;
       //   setTimeout(() => {
       //     this.ownaddress = false;
       //   }, 5000);
       // } else {
-        if (this.selectedCryptoSend) {
-          currency = this.selectedCryptoSend;
-        } else {
-          currency = this.sendform.get('currency')?.value;
-        }
-        this.network = this.networks
-          ? this.networks.toLowerCase()
-          : ListTokens[currency].type;
-        if (this.network === 'bep20' && currency === 'SATT') {
-          currency = 'SATTBEP20';
-        }
+      if (this.selectedCryptoSend) {
+        currency = this.selectedCryptoSend;
+      } else {
+        currency = this.sendform.get('currency')?.value;
+      }
+      this.network = this.networks
+        ? this.networks.toLowerCase()
+        : ListTokens[currency].type;
+      if (this.network === 'bep20' && currency === 'SATT') {
+        currency = 'SATTBEP20';
+      }
 
-        token = this.token ? this.token : ListTokens[currency].contract;
+      token = this.token ? this.token : ListTokens[currency].contract;
 
-        decimal = this.decimals
-          ? new Big('10').pow(this.decimals)
-          : ListTokens[currency].decimals;
+      decimal = this.decimals
+        ? new Big('10').pow(this.decimals)
+        : ListTokens[currency].decimals;
 
-        amount = new Big(amountdecimal)
-          .times(decimal)
-          .toFixed(30)
-          .split('.')[0];
-        // symbole = this.symbol ? this.symbol : ListTokens[currency].symbole;
-        symbole = this.sendform.get('currency')?.value
-        let network = this.networks
-          ? this.networks.toLowerCase()
-          : ListTokens[currency].type;
-        const send: any = {
-          token,
-          access_token,
-          to,
-          amount,
-          pass,
-          symbole,
-          network,
-          decimal: this.decimals
-        };
-        this.sendform.get('password')?.reset();
-        this.walletFacade
-          .sendAmount(send)
-          .pipe(
-            tap(() => {
-              // after sending amount we update total balance and crypto list state
-              this.walletStoreService.init();
-            }),
-            takeUntil(this.isDestroyed)
-          )
-          .subscribe(
-            (data: any) => {
-              this.showSpinner = false;
-              this.loadingButton = false;
-              if (data.data.transactionHash) {
-                this.currency = currency;
+      amount = new Big(amountdecimal).times(decimal).toFixed(30).split('.')[0];
+      // symbole = this.symbol ? this.symbol : ListTokens[currency].symbole;
+      symbole = this.sendform.get('currency')?.value;
+      let network = this.networks
+        ? this.networks.toLowerCase()
+        : ListTokens[currency].type;
+      const send: any = {
+        token,
+        access_token,
+        to,
+        amount,
+        pass,
+        symbole,
+        network,
+        decimal: this.decimals
+      };
+      this.sendform.get('password')?.reset();
+      this.walletFacade
+        .sendAmount(send)
+        .pipe(
+          tap(() => {
+            // after sending amount we update total balance and crypto list state
+            this.walletStoreService.init();
+          }),
+          takeUntil(this.isDestroyed)
+        )
+        .subscribe(
+          (data: any) => {
+            this.showSpinner = false;
+            this.loadingButton = false;
+            if (data.data.transactionHash) {
+              this.currency = currency;
 
-                this.hashtransaction = data.data.transactionHash;
+              this.hashtransaction = data.data.transactionHash;
 
-                if (this.networks === 'BEP20') {
-                  this.routertransHash = bscan + this.hashtransaction;
-                } else {
-                  this.routertransHash = etherscan + this.hashtransaction;
-                }
-                this.showPwdBloc = false;
-                this.showSuccessBloc = true;
+              if (this.networks === 'BEP20') {
+                this.routertransHash = bscan + this.hashtransaction;
+              } else {
+                this.routertransHash = etherscan + this.hashtransaction;
               }
-              // if (data.error === 'Wrong password') {
-              //   this.wrongpassword = true;
-              //   setTimeout(() => {
-              //     this.wrongpassword = false;
-              //   }, 5000);
-              // }
-              
-              // else if (
-              //   data.error ===
-              //     'Returned error: execution reverted: BEP20: transfer amount exceeds balance' ||
-              //   data.error ===
-              //     'Returned error: execution reverted: ERC20: transfer amount exceeds balance'
-              // ) {
-              //   this.nobalance = true;
-              //   setTimeout(() => {
-              //     this.nobalance = false;
-              //     this.amountUsd = '';
-              //     this.amount = '';
-              //     this.showAmountBloc = true;
-              //     this.showPwdBloc = false;
-              //   }, 3000);
-              //   this.sendform.reset();
-              // } 
-              
-              // else if (data.message === 'not_enough_budget') {
-              //   this.nobalance = true;
-              //   setTimeout(() => {
-              //     this.nobalance = false;
-              //   }, 3000);
-              // } 
-              
-              
-              // else if (
-              //   data.error ===
-              //     'Returned error: insufficient funds for gas * price + value' ||
-              //   data.error === 'Returned error: transaction underpriced'
-              // ) {
-              //   this.showSuccessBloc = false;
-              //   this.showAmountBloc = false;
-              //   this.showPwdBloc = false;
-              //   this.showErrorBloc = true;
-              //   this.amountUsd = '';
-              //   this.amount = '';
-              //   this.wrongpassword = false;
-              //   this.gazproblem = true;
-              //   // setTimeout(() => {
-              //   //   this.gazproblem = false;
-              //   // }, 5000);
-              //   this.sendform.reset();
-              // }
-            },
-            (error) => {
-              if (error.error.error === 'Key derivation failed - possibly wrong password') {
-                this.wrongpassword = true;
-                setTimeout(() => {
-                  this.wrongpassword = false;
-                }, 5000);
-              }
+              this.showPwdBloc = false;
+              this.showSuccessBloc = true;
+            }
+            // if (data.error === 'Wrong password') {
+            //   this.wrongpassword = true;
+            //   setTimeout(() => {
+            //     this.wrongpassword = false;
+            //   }, 5000);
+            // }
 
-                  
-              else if (
-                error.error.error ===
-                  'Returned error: execution reverted: BEP20: transfer amount exceeds balance' ||
-                  error.error.error ===
-                  'Returned error: execution reverted: ERC20: transfer amount exceeds balance'
-              ) {
-                this.nobalance = true;
-                setTimeout(() => {
-                  this.nobalance = false;
-                  this.amountUsd = '';
-                  this.amount = '';
-                  this.showAmountBloc = true;
-                  this.showPwdBloc = false;
-                }, 3000);
-                this.sendform.reset();
-              } 
+            // else if (
+            //   data.error ===
+            //     'Returned error: execution reverted: BEP20: transfer amount exceeds balance' ||
+            //   data.error ===
+            //     'Returned error: execution reverted: ERC20: transfer amount exceeds balance'
+            // ) {
+            //   this.nobalance = true;
+            //   setTimeout(() => {
+            //     this.nobalance = false;
+            //     this.amountUsd = '';
+            //     this.amount = '';
+            //     this.showAmountBloc = true;
+            //     this.showPwdBloc = false;
+            //   }, 3000);
+            //   this.sendform.reset();
+            // }
 
-              else if (error.error.error === 'not_enough_budget') {
-                this.nobalance = true;
-                setTimeout(() => {
-                  this.nobalance = false;
-                }, 3000);
-              } 
-              
+            // else if (data.message === 'not_enough_budget') {
+            //   this.nobalance = true;
+            //   setTimeout(() => {
+            //     this.nobalance = false;
+            //   }, 3000);
+            // }
 
-              else if (
-                error.error.error ===
-                  'insufficient funds for gas') {
-                this.showSuccessBloc = false;
-                this.showAmountBloc = false;
-                this.showPwdBloc = false;
-                this.showErrorBloc = true;
+            // else if (
+            //   data.error ===
+            //     'Returned error: insufficient funds for gas * price + value' ||
+            //   data.error === 'Returned error: transaction underpriced'
+            // ) {
+            //   this.showSuccessBloc = false;
+            //   this.showAmountBloc = false;
+            //   this.showPwdBloc = false;
+            //   this.showErrorBloc = true;
+            //   this.amountUsd = '';
+            //   this.amount = '';
+            //   this.wrongpassword = false;
+            //   this.gazproblem = true;
+            //   // setTimeout(() => {
+            //   //   this.gazproblem = false;
+            //   // }, 5000);
+            //   this.sendform.reset();
+            // }
+          },
+          (error) => {
+            if (
+              error.error.error ===
+              'Key derivation failed - possibly wrong password'
+            ) {
+              this.wrongpassword = true;
+              setTimeout(() => {
+                this.wrongpassword = false;
+              }, 5000);
+            } else if (
+              error.error.error ===
+                'Returned error: execution reverted: BEP20: transfer amount exceeds balance' ||
+              error.error.error ===
+                'Returned error: execution reverted: ERC20: transfer amount exceeds balance'
+            ) {
+              this.nobalance = true;
+              setTimeout(() => {
+                this.nobalance = false;
                 this.amountUsd = '';
                 this.amount = '';
-                this.wrongpassword = false;
-                this.gazproblem = true;
-                // setTimeout(() => {
-                //   this.gazproblem = false;
-                // }, 5000);
-                this.sendform.reset();
-              }
-
-
-              this.showSpinner = false;
-              this.loadingButton = false;
+                this.showAmountBloc = true;
+                this.showPwdBloc = false;
+              }, 3000);
+              this.sendform.reset();
+            } else if (error.error.error === 'not_enough_budget') {
+              this.nobalance = true;
+              setTimeout(() => {
+                this.nobalance = false;
+              }, 3000);
+            } else if (error.error.error === 'insufficient funds for gas') {
+              this.showSuccessBloc = false;
+              this.showAmountBloc = false;
+              this.showPwdBloc = false;
+              this.showErrorBloc = true;
+              this.amountUsd = '';
+              this.amount = '';
+              this.wrongpassword = false;
+              this.gazproblem = true;
+              // setTimeout(() => {
+              //   this.gazproblem = false;
+              // }, 5000);
+              this.sendform.reset();
             }
-          );
+
+            this.showSpinner = false;
+            this.loadingButton = false;
+          }
+        );
       // }
     }
   }
@@ -595,9 +582,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   //calculate gaz for erc20 and bep20
   parentFunction() {
-
     return this.walletFacade.getCryptoPriceList().pipe(
-
+      map((response: any) => response.data),
       map((data: any) => {
         this.bnb = data['BNB'].price;
         this.eth = data['ETH'].price;
@@ -622,7 +608,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           ),
           this.walletFacade.getBnbGaz().pipe(
             tap((gaz: any) => {
-
               this.showSpinner = false;
               let price = gaz.data.gasPrice;
               this.bEPGaz = (

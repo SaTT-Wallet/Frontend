@@ -33,7 +33,7 @@ export class FilesService {
     file.append('file', content);
     file.append('type', type);
     file.append('typeProof', this.typeProof);
-    return this.http.post(sattUrl + '/profile/userLegal', file, {
+    return this.http.post(sattUrl + '/profile/add/Legalprofile', file, {
       reportProgress: true,
       observe: 'events',
       headers: {
@@ -49,7 +49,7 @@ export class FilesService {
     file.append('file', content);
     file.append('type', type);
     file.append('typeProof', this.typeProof);
-    return this.http.post(sattUrl + '/profile/userLegal', file, {
+    return this.http.post(sattUrl + '/profile/add/Legalprofile', file, {
       reportProgress: true,
       observe: 'events',
       headers: {
@@ -76,6 +76,6 @@ export class FilesService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.get(sattUrl + '/profile/userLegal', { headers: headers });
+    return this.http.get(sattUrl + '/profile/UserLegal', { headers: headers });
   }
 }

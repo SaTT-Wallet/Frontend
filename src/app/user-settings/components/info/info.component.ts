@@ -45,7 +45,7 @@ import { of, Subject } from 'rxjs';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
-
+declare var $: any;
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
     control: FormControl | null,
@@ -286,8 +286,8 @@ export class InfoComponent implements OnInit, OnDestroy {
       // this.isDirty = false
       // this.showSpinner = false;
       let data_Email = {
-        email: this.formEmail.get('email')?.value,
-        pass: this.formEmail.get('password')?.value
+        pass: this.formEmail.get('password')?.value,
+        email: this.formEmail.get('email')?.value
       };
       this.profileSettingsFacade
         .updateEmail(data_Email)

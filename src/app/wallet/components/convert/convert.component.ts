@@ -1,58 +1,27 @@
 import {
   Component,
   OnInit,
-  Output,
-  EventEmitter,
   ViewChild,
   ElementRef,
-  AfterViewInit,
-  AfterViewChecked,
   OnDestroy,
   Inject
 } from '@angular/core';
 import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
-import {
-  GazConsumedByCampaign,
-  pattContact,
-  pattEmail,
-  ListTokens,
-  dataList,
-  cryptoList
-} from '@config/atn.config';
-import { ProfileService } from '@core/services/profile/profile.service';
+import { GazConsumedByCampaign, ListTokens } from '@config/atn.config';
 import { SidebarService } from '@core/services/sidebar/sidebar.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
-import { Clipboard } from '@angular/cdk/clipboard';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { FilesService } from '@core/services/files/files.Service';
 import { filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
-import {
-  forkJoin,
-  fromEvent,
-  Observable,
-  pipe,
-  Subject,
-  Subscription
-} from 'rxjs';
-import { ContactMessageService } from '@core/services/contactmessage/contact-message.service';
-import {
-  ActivatedRoute,
-  NavigationStart,
-  Params,
-  Router
-} from '@angular/router';
+import { forkJoin, Subject } from 'rxjs';
+
 import { NgxSpinnerService } from 'ngx-spinner';
-import { DOCUMENT, Location } from '@angular/common';
-import { WalletStoreService } from '@core/services/wallet-store.service';
+import { DOCUMENT } from '@angular/common';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
-import { AuthStoreService } from '@core/services/Auth/auth-store.service';
-import { WalletService } from '@app/core/services/wallet/wallet.service';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { Big } from 'big.js';
-declare var $: any;
+
 @Component({
   selector: 'app-convert',
   templateUrl: './convert.component.html',
@@ -394,7 +363,6 @@ export class ConvertComponent implements OnInit, OnDestroy {
       let splitted: any = this.convertform.get('Amount')?.value;
       this.resetchecker();
       const token = this.tokenStorageService.getToken();
-      const to = this.convertform.get('contact')?.value;
       const amountdecimal = splitted.toString();
       let amount = splitted.toString();
 
@@ -465,7 +433,7 @@ export class ConvertComponent implements OnInit, OnDestroy {
             }
           },
 
-          (error) => {
+          () => {
             this.showSpinner = false;
             this.showButtonSend = true;
             this.loadingButton = false;
@@ -634,7 +602,6 @@ export class ConvertComponent implements OnInit, OnDestroy {
 
   //get list of crypto for user
   getusercrypto() {
-    let address = this.tokenStorageService.getIdWallet();
     this.showWalletSpinner = true;
     this.parentFunction()
       .pipe(
@@ -643,7 +610,7 @@ export class ConvertComponent implements OnInit, OnDestroy {
             tap((data: any) => {
               this.totalAmount = parseFloat(data?.Total_balance?.Total_balance);
             }),
-            switchMap((data) => {
+            switchMap(() => {
               return this.cryptoList$.pipe(filter((data) => data.length !== 0));
             })
           );
@@ -746,6 +713,7 @@ export class ConvertComponent implements OnInit, OnDestroy {
   //calculate gaz for erc20 and bep20
   parentFunction() {
     return this.walletFacade.getCryptoPriceList().pipe(
+      map((response: any) => response.data),
       map((data: any) => {
         this.bnb = data['BNB'].price;
         this.eth = data['ETH'].price;
