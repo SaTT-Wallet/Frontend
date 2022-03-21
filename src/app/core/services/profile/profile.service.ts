@@ -121,7 +121,7 @@ export class ProfileService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.put(sattUrl + '/changeEmail', body, {
+    return this.http.post(sattUrl + '/profile/changeEmail', body, {
       headers: httpHeaders
     });
   }
