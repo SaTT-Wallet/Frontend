@@ -103,7 +103,7 @@ export class DraftCampaignStoreService {
     let values = this.formatData.manipulateDataBeforeSend(object);
 
     let obs = this.campaignService
-      .saveDraft(values)
+      .createNewDraftCampaign(values)
       .pipe(map((data: any) => new Campaign(data)));
     obs
       .pipe

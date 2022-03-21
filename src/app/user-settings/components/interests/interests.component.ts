@@ -11,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import { interestsList } from '../../../config/atn.config';
 import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-facade.service';
 
-import { filter, map, mergeMap, takeUntil } from 'rxjs/operators';
+import { catchError, filter, map, mergeMap, takeUntil } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
 @Component({
   selector: 'app-interests',
@@ -61,15 +61,25 @@ export class InterestsComponent implements OnInit {
     // this.showSpinner = true;
     this.profileSettingsFacade
       .getInterests()
-      .pipe(takeUntil(this.isDestroyed))
+      .pipe(
+        catchError((error: any) => {
+          if (
+            error.error.error === 'No interest found' &&
+            error.error.code === 404
+          ) {
+            this.interestsTagList = [];
+          }
+          return of(null);
+        }),
+        takeUntil(this.isDestroyed)
+      )
       .subscribe((response: any) => {
         if (response !== null) {
-          this.interestsPercent = (
-            (response?.interests.length * 100) /
-            6
-          ).toFixed(0);
+          this.interestsPercent = ((response?.data.length * 100) / 6).toFixed(
+            0
+          );
           this.showSpinner = false;
-          this.interestsTagList = response.interests;
+          this.interestsTagList = response.data;
           this.formInterests
             .get('interestsLength')
             ?.setValue(this.interestsTagList.length);
@@ -173,8 +183,17 @@ export class InterestsComponent implements OnInit {
     this.profileSettingsFacade
       .getInterests()
       .pipe(
+        catchError((error: any) => {
+          if (
+            error.error.error === 'No interest found' &&
+            error.error.code === 404
+          ) {
+            this.interestsTagList = [];
+          }
+          return of(null);
+        }),
         mergeMap((response: any) => {
-          if (response == null) {
+          if (response === null) {
             return this.profileSettingsFacade
               .addInterests(this.interestsTagListSet)
               .pipe(
@@ -187,11 +206,10 @@ export class InterestsComponent implements OnInit {
               .updateInterests(this.interestsTagListSet)
               .pipe(
                 map((res: any) => {
-                  return { res, type: '2' };
+                  return { res, type: '1' };
                 })
               );
           }
-          return of(null);
         })
       )
       .pipe(filter((res) => res !== null))
@@ -208,7 +226,7 @@ export class InterestsComponent implements OnInit {
               //  this.disabled = true;
             }
           } else if (type === '2') {
-            if (res.message === 'interests updated') {
+            if (res.message === 'success') {
               // eslint-disable-next-line @typescript-eslint/no-unused-vars
               let msg: string = '';
               return this.translate.get('update_profile');
