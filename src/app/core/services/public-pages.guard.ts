@@ -5,6 +5,7 @@ import { TokenStorageService } from '@core/services/tokenStorage/token-storage-s
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AuthStoreService } from '@core/services/Auth/auth-store.service';
 import { catchError, mergeMap, take, tap } from 'rxjs/operators';
+import { IresponseAccount } from '../iresponse-account';
 
 @Injectable({ providedIn: 'root' })
 export class PublicPagesGuard implements CanActivate {
@@ -33,24 +34,28 @@ export class PublicPagesGuard implements CanActivate {
     }
   }
 
-  handleAccountValue(account$: Observable<any>) {
+  handleAccountValue(account$: Observable<IresponseAccount>) {
     return account$.pipe(
       take(1),
-      tap((account: any) => {
+      tap((account: IresponseAccount) => {
         const phonenumber = this.tokenStorageService.getPhoneNumber();
         if (!phonenumber) {
-          this.tokenStorageService.setPhoneNumber(account.phone);
+          this.tokenStorageService.setPhoneNumber(
+            account.data.phone.phoneNumber
+          );
         }
       }),
-      mergeMap((data: any) => {
+      mergeMap((data: IresponseAccount) => {
         if (
-          (data.completed !== true && data.idSn !== 0) ||
-          (data.completed === true && data.idSn !== 0 && data.enabled === false)
+          (data.data.completed !== true && data.data.idSn !== '0') ||
+          (data.data.completed === true &&
+            data.data.idSn !== '0' &&
+            data.data.enabled === 0)
         ) {
           this.router.navigate(['social-registration/completeProfile']);
           return of(false);
-        } else if (data.new) {
-          if (!data.passphrase) {
+        } else if (data.data.new) {
+          if (!data.data.passphrase) {
             this.router.navigate(['/social-registration/pass-phrase']);
             return of(false);
           }
