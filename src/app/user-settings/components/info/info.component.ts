@@ -346,12 +346,9 @@ export class InfoComponent implements OnInit, OnDestroy {
   }
   confirmcode() {
     let msg: string = '';
-
-    let code = {
-      code: this.formCode.get('code')?.value
-    };
+    let codeNumber = Number(this.formCode.get('code')?.value);
     this.profileSettingsFacade
-      .confirmChangeEmail(code)
+      .confirmChangeEmail(codeNumber)
       .pipe(takeUntil(this.onDestoy$))
       .subscribe((res: any) => {
         if (res === 'code expired') {
