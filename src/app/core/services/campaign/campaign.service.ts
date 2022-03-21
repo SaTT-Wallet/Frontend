@@ -941,14 +941,14 @@ export class CampaignHttpApiService {
     let walletId = this.tokenStorageService.getIdWallet();
     if (campaignId === '') {
       return this.http
-        .get(`${sattUrl}/campaign/filterLinks/` + walletId, {
+        .get(sattUrl + '/campaign/filterLinks/' + walletId, {
           headers: header,
           params: queryParams
         })
         .pipe(share());
     } else {
       return this.http
-        .get(`${sattUrl}/campaign/filterLinks/` + walletId, {
+        .get(sattUrl + '/campaign/filterLinks/' + walletId, {
           headers: header,
           params: queryParamsCamp
         })

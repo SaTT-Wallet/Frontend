@@ -1,30 +1,22 @@
-import { HttpParams, HttpParamsOptions } from '@angular/common/http';
-import { Injectable, Injector } from '@angular/core';
+import { HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Participation } from '@app/models/participation.model';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { BehaviorSubject, Observable, of, Subject, merge } from 'rxjs';
 import {
   map,
-  share,
-  tap,
-  repeat,
   mapTo,
   filter,
   switchMap,
-  withLatestFrom,
   debounceTime,
   takeUntil
 } from 'rxjs/operators';
 import { DomSanitizer } from '@angular/platform-browser';
-import { compare, take } from '@helpers/utils/math';
+import { compare } from '@helpers/utils/math';
 import { youtubeThumbnail } from '@app/config/atn.config';
 import { Page } from '@app/models/page.model';
-import * as fromListLinksActions from '@campaigns/store/actions/links-list.actions';
 import { Store } from '@ngrx/store';
-import { LinksListState } from '@campaigns/store/reducers/links-list.reducer';
 import { CampaignsService } from '@campaigns/facade/campaigns.facade';
-import copy from 'fast-copy';
-import { cloneDeep } from 'lodash';
 import { Big } from 'big.js';
 
 @Injectable({
@@ -144,58 +136,68 @@ export class ParticipationListStoreService {
       );
       obs
         .pipe(
-          map((links: any) => {
-            this.count = links.count;
-            links.data.Links.forEach((element: any) => {
-              
+          map((response: any) => {
+            if (response.message === 'success') {
+              this.count = response.data.count;
+              response.data.Links.forEach((element: any) => {
+                element.appliedDate = this.createDateFromUnixTimestamp(
+                  element.appliedDate
+                );
 
-              element.appliedDate = this.createDateFromUnixTimestamp(
-                element.appliedDate
-                
-              );
-             
-              if (element.status !== true) element.totalToEarn = '0';
-              if (
-                element.totalToEarn &&
-                compare(element.totalToEarn).gte(element.campaign.remaining)
-              ) {
-                element.totalToEarn = element.campaign.remaining;
-              }
-              if (element.totalToEarn && element.payedAmount) {
+                if (element.status !== true) element.totalToEarn = '0';
                 if (
-                  new Big(element.totalToEarn).gte(new Big(element.payedAmount))
+                  element.totalToEarn &&
+                  compare(element.totalToEarn).gte(element.campaign.remaining)
                 ) {
-                  element.totalToEarn = new Big(element.totalToEarn)
-                    .minus(new Big(element.payedAmount))
-                    .toFixed();
+                  element.totalToEarn = element.campaign.remaining;
                 }
+                if (element.totalToEarn && element.payedAmount) {
+                  if (
+                    new Big(element.totalToEarn).gte(
+                      new Big(element.payedAmount)
+                    )
+                  ) {
+                    element.totalToEarn = new Big(element.totalToEarn)
+                      .minus(new Big(element.payedAmount))
+                      .toFixed();
+                  }
 
-                element.sum =
-                  element?.totalToEarn && element?.payedAmount
-                    ? new Big(element?.totalToEarn)
-                        .plus(element?.payedAmount)
-                        .toFixed()
-                    : element?.totalToEarn;
-                if (element.isPayed === true && element?.payedAmount !== '0') {
-                  element.sum = element?.payedAmount;
+                  element.sum =
+                    element?.totalToEarn && element?.payedAmount
+                      ? new Big(element?.totalToEarn)
+                          .plus(element?.payedAmount)
+                          .toFixed()
+                      : element?.totalToEarn;
+                  if (
+                    element.isPayed === true &&
+                    element?.payedAmount !== '0'
+                  ) {
+                    element.sum = element?.payedAmount;
+                  }
+                } else if (element.totalToEarn && !element.payedAmount) {
+                  element.sum = element?.totalToEarn;
                 }
-              } else if (element.totalToEarn && !element.payedAmount) {
-                element.sum = element?.totalToEarn;
-              }
-              //................................................................................................
-              element.safeURL = this.generatePostThumbnail(element);
-              element.link = this.generatePostLink(element);
+                //................................................................................................
+                element.safeURL = this.generatePostThumbnail(element);
+                element.link = this.generatePostLink(element);
 
-              //  if(!element.totalToEarn && element.status ==='true'){
-              //   element.totalToEarn=0;
-              //  }
-              // element.campaign.description=this.sanitizer.bypassSecurityTrustHtml(element.campaign.description)
-            });
-            return links;
+                //  if(!element.totalToEarn && element.status ==='true'){
+                //   element.totalToEarn=0;
+                //  }
+                // element.campaign.description=this.sanitizer.bypassSecurityTrustHtml(element.campaign.description)
+              });
+              return response;
+            }
           }),
           map((res: any) => {
-
-            return [res.data.count, res.data.Links.map((c: any) => new Participation(c))];
+            if (res.message === 'success') {
+              return [
+                res.data.count,
+                res.data.Links.map((c: any) => new Participation(c))
+              ];
+            } else {
+              return [];
+            }
           }),
           takeUntil(this.isDestroyed)
         )
