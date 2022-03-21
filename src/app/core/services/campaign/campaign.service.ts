@@ -281,7 +281,7 @@ export class CampaignHttpApiService {
   campaignApply(campaign: any, application: any, password: any) {
     // let token = this.tokenStorageService.getToken();
     return this.http.post(
-      sattUrl + '/v2/campaign/apply',
+      sattUrl + '/campaign/apply',
       {
         idCampaign: campaign.meta.hash,
         typeSN: application.typeSN,
