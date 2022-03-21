@@ -23,7 +23,7 @@ import { pattPassword } from '@config/atn.config';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { AuthStoreService } from '@core/services/Auth/auth-store.service';
 import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-facade.service';
-import { filter, mergeMap, takeUntil } from 'rxjs/operators';
+import { catchError, filter, mergeMap, takeUntil } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
@@ -249,7 +249,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
   deleteAccount() {
     let obj = {
       reason: this.formL.get('reason')?.value,
-      pass: this.formL.get('password')?.value
+      password: this.formL.get('password')?.value
     };
 
     if (!this.formL.valid) {
@@ -268,15 +268,17 @@ export class SecurityComponent implements OnInit, OnDestroy {
     if (this.formL.valid && this.deleteForm.valid) {
       this.profileSettingsFacade
         .deleteAccount(obj)
-        .pipe(takeUntil(this.onDestroy$))
-        .subscribe((data: any) => {
-          if (data['error']) {
-            this.errorMsg = 'wrong_pass';
-            // setTimeout(() => {
-            //   this.errorMsg = ''
-            // }, 5000);
-            // this.formL.reset();
-          } else if (data['message'] === 'account deleted') {
+        .pipe(
+          catchError((error: any) => {
+            if (error.error.error === 'wrong password') {
+              this.errorMsg = 'wrong_pass';
+            }
+            return of(null);
+          }),
+          takeUntil(this.onDestroy$)
+        )
+        .subscribe((response: any) => {
+          if (response && response.message === 'account deleted') {
             this.tokenStorageService.signOut();
             if (isPlatformBrowser(this.platformId)) window.location.reload();
           }
