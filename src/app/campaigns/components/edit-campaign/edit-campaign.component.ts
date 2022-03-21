@@ -363,7 +363,6 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
         takeUntil(this.isDestroyed$)
       )
       .subscribe((c: Campaign) => {
-        debugger
         if(!c.isOwnedByUser){
           this.router.navigateByUrl('/');
         }
