@@ -18,7 +18,11 @@ import {
 } from 'rxjs/operators';
 import { Observable, of, Subject } from 'rxjs';
 import { AuthStoreService } from '../Auth/auth-store.service';
-import { ICampaignsListResponse } from '@app/core/campaigns-list-response.interface';
+import {
+  ICampaignResponse,
+  ICampaignsListResponse
+} from '@app/core/campaigns-list-response.interface';
+import { IApiResponse } from '@app/core/types/rest-api-responses';
 
 @Injectable({
   providedIn: 'root'
@@ -383,7 +387,9 @@ export class CampaignHttpApiService {
     });
   }
 
-  saveDraft(draftCampaign: any) {
+  createNewDraftCampaign(
+    draftCampaign: any
+  ): Observable<IApiResponse<ICampaignResponse>> {
     const token = this.tokenStorageService.getToken();
 
     const header = new HttpHeaders({
@@ -392,7 +398,11 @@ export class CampaignHttpApiService {
       Authorization: 'Bearer ' + token
     });
     return this.http
-      .post(`${sattUrl}/v2/campaign/save`, draftCampaign, { headers: header })
+      .post<IApiResponse<ICampaignResponse>>(
+        `${sattUrl}/campaign/save`,
+        draftCampaign,
+        { headers: header }
+      )
       .pipe(shareReplay(1));
   }
 
