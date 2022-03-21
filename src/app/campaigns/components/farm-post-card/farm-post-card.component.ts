@@ -206,7 +206,7 @@ export class FarmPostCardComponent implements OnInit {
         .rejectLinks(
           this.prom,
           filterdArray,
-          this.prom.campaign.id,
+          this.prom.campaign._id,
           this.prom.campaign.title
         )
         .pipe(takeUntil(this.isDestroyed))

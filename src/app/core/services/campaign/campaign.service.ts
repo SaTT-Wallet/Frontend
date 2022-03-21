@@ -831,7 +831,12 @@ export class CampaignHttpApiService {
     );
   }
 
-  rejectLinks(prom: any, reason: any, campaignid: any, titleCampaign: string) {
+  rejectLinks(
+    prom: any,
+    reason: any,
+    campaignid: string,
+    titleCampaign: string
+  ) {
     return this.http.put(
       sattUrl + '/campaign/reject/' + prom.hash,
 
