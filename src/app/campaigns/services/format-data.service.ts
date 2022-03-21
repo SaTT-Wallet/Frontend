@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ConvertToWeiPipe } from '@shared/pipes/convert-to-wei.pipe';
-import { arrayCountries, ListTokens } from '@config/atn.config';
+import { ListTokens } from '@config/atn.config';
 import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
 import { Big } from 'big.js';
-import { Campaign } from '@app/models/campaign.model';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +21,10 @@ export class FormatDataService {
   ) {
     this.walletFacade
       .getCryptoPriceList()
-      .pipe(takeUntil(this.isDestroyed))
+      .pipe(
+        map((response: any) => response.data),
+        takeUntil(this.isDestroyed)
+      )
       .subscribe((data: any) => {
         this.coinsPrices = data;
       });

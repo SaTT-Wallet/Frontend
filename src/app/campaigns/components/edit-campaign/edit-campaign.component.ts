@@ -41,7 +41,7 @@ import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { ESocialMediaType } from '@app/core/enums';
 import { DOCUMENT } from '@angular/common';
 import { CampaignsStoreService } from '@app/campaigns/services/campaigns-store.service';
-import {TokenStorageService} from "@core/services/tokenStorage/token-storage-service.service";
+import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 
 enum FormStatus {
   Saving = 'saving',
@@ -144,7 +144,10 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
 
     this.walletFacade
       .getCryptoPriceList()
-      .pipe(takeUntil(this.isDestroyed$))
+      .pipe(
+        map((response: any) => response.data),
+        takeUntil(this.isDestroyed$)
+      )
       .subscribe((data: any) => {
         this.cryptodata = data;
       });
@@ -351,7 +354,7 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
       .getOneById(this.draftId)
       .pipe(
         map((c) => {
-          const campaign = new Campaign(c)
+          const campaign = new Campaign(c);
           campaign.ownedByUser =
             Number(campaign.ownerId) ===
             Number(this.localeStorageService.getIdUser());

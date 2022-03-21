@@ -16,7 +16,7 @@ import {
 } from '@angular/forms';
 
 import { forkJoin, of, Subject } from 'rxjs';
-import { catchError, mergeMap, takeUntil } from 'rxjs/operators';
+import { catchError, map, mergeMap, takeUntil } from 'rxjs/operators';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
@@ -958,6 +958,7 @@ export class ParticiperComponent implements OnInit {
     this.walletFacade
       .getCryptoPriceList()
       .pipe(
+        map((response: any) => response.data),
         mergeMap((data: any) => {
           this.bnb = data['BNB'].price;
           this.eth = data['ETH'].price;
@@ -993,7 +994,7 @@ export class ParticiperComponent implements OnInit {
       let campaign = this.campaigndata._id;
       this.CampaignService.notifyLink(campaign, link, idProm)
         .pipe(
-          catchError((error) => {
+          catchError(() => {
             return of(null);
           }),
           takeUntil(this.isDestroyedSubject)

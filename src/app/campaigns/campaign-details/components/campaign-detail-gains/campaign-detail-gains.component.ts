@@ -333,6 +333,7 @@ export class CampaignDetailGainsComponent implements OnInit {
               .plus(this.gains)
               .toFixed();
         this.sumearningUSD = this.walletFacade.getCryptoPriceList().pipe(
+          map((response: any) => response.data),
           map((crypto: any) =>
             (crypto[this.currencyName].price * this.sumearning).toFixed(2)
           ),
@@ -345,6 +346,7 @@ export class CampaignDetailGainsComponent implements OnInit {
           this.currencyName
         );
         this.gainsTotalInUsD = this.walletFacade.getCryptoPriceList().pipe(
+          map((response: any) => response.data),
           map((crypto: any) =>
             (crypto[this.currencyName].price * gainsTotalSatt).toFixed(2)
           ),

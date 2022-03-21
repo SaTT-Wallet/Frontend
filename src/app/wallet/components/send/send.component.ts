@@ -355,7 +355,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       const pass = this.sendform.get('password')?.value;
       currency = this.sendform.get('currency')?.value;
 
-      let address = this.tokenStorageService.getIdWallet();
       // if (to === address) {
 
       //   this.ownaddress = true;
@@ -584,6 +583,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   //calculate gaz for erc20 and bep20
   parentFunction() {
     return this.walletFacade.getCryptoPriceList().pipe(
+      map((response: any) => response.data),
       map((data: any) => {
         this.bnb = data['BNB'].price;
         this.eth = data['ETH'].price;

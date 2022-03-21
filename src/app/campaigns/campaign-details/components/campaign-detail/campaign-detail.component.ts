@@ -333,7 +333,10 @@ export class CampaignDetailComponent implements OnInit {
   getCryptoData() {
     this.walletFacade
       .getCryptoPriceList()
-      .pipe(takeUntil(this.isDestroyed))
+      .pipe(
+        map((response: any) => response.data),
+        takeUntil(this.isDestroyed)
+      )
       .subscribe((Cryptodata: any) => {
         this.allcryptoprice = Cryptodata;
       });
