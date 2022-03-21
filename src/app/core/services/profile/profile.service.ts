@@ -236,7 +236,7 @@ export class ProfileService {
     });
 
     return this.http.put(
-      sattUrl + 'profile/UpdateUserinterests',
+      sattUrl + '/profile/UpdateUserIntersts',
       { interests: body },
       { headers: httpHeaders }
     );

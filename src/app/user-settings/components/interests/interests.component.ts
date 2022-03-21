@@ -63,90 +63,77 @@ export class InterestsComponent implements OnInit {
       .getInterests()
       .pipe(
         catchError((error: any) => {
-          if (error.status === 404) {
-            this.interestsTagList = [];
-          }
-          return of(null);
-        }),
-        takeUntil(this.isDestroyed)
-      )
-      .subscribe(
-        (response: any) => {
-          if (response !== null) {
-            this.interestsPercent = ((response?.data.length * 100) / 6).toFixed(
-              0
-            );
-            this.showSpinner = false;
-            this.interestsTagList = response.data;
-            this.formInterests
-              .get('interestsLength')
-              ?.setValue(this.interestsTagList.length);
-            if (this.interestsTagList.length === 6) {
-              this.disabled = true;
-            }
-            this.interestsTagList.forEach((itemTagList: any) => {
-              this.interestsList.forEach((itemList: any) => {
-                if (itemTagList === itemList['name']) {
-                  itemList['checked'] = true;
-                }
-
-                this.interestsTagList.map((interest: any) => {
-                  const indexTag: number =
-                    this.interestsTagList?.indexOf(interest);
-
-                  if (interest === 'kitchen') {
-                    let item: any = interestsList.find(
-                      (itemList) => itemList.name === 'food'
-                    );
-                    item.checked = true;
-                    this.interestsTagList.splice(indexTag, 1, 'food');
-                  }
-
-                  if (interest === 'dance') {
-                    let item: any = interestsList.find(
-                      (itemList) => itemList.name === 'parties'
-                    );
-                    item.checked = true;
-                    this.interestsTagList.splice(indexTag, 1, 'parties');
-                  }
-
-                  if (interest === 'culture') {
-                    let item: any = interestsList.find(
-                      (itemList) => itemList.name === 'reading'
-                    );
-                    item.checked = true;
-                    this.interestsTagList.splice(indexTag, 1, 'reading');
-                  }
-
-                  if (interest === 'painting' || interest === 'sewing') {
-                    let item: any = interestsList.find(
-                      (itemList) => itemList.name === 'creative-hobbies'
-                    );
-                    item.checked = true;
-                    this.interestsTagList.splice(
-                      indexTag,
-                      1,
-                      'creative-hobbies'
-                    );
-                  }
-                });
-              });
-            });
-            this.interestsTagListSet = Array.from(
-              new Set(this.interestsTagList)
-            );
-            this.selectedItemsNumber = this.interestsTagListSet.length;
-          }
-        },
-        (error: any) => {
           if (
             error.error.error === 'No interest found' &&
             error.error.code === 404
           ) {
             this.interestsTagList = [];
           }
+          return of(null);
+        }),
+        takeUntil(this.isDestroyed)
+      )
+      .subscribe((response: any) => {
+        if (response !== null) {
+          this.interestsPercent = ((response?.data.length * 100) / 6).toFixed(
+            0
+          );
+          this.showSpinner = false;
+          this.interestsTagList = response.data;
+          this.formInterests
+            .get('interestsLength')
+            ?.setValue(this.interestsTagList.length);
+          if (this.interestsTagList.length === 6) {
+            this.disabled = true;
+          }
+          this.interestsTagList.forEach((itemTagList: any) => {
+            this.interestsList.forEach((itemList: any) => {
+              if (itemTagList === itemList['name']) {
+                itemList['checked'] = true;
+              }
+
+              this.interestsTagList.map((interest: any) => {
+                const indexTag: number =
+                  this.interestsTagList?.indexOf(interest);
+
+                if (interest === 'kitchen') {
+                  let item: any = interestsList.find(
+                    (itemList) => itemList.name === 'food'
+                  );
+                  item.checked = true;
+                  this.interestsTagList.splice(indexTag, 1, 'food');
+                }
+
+                if (interest === 'dance') {
+                  let item: any = interestsList.find(
+                    (itemList) => itemList.name === 'parties'
+                  );
+                  item.checked = true;
+                  this.interestsTagList.splice(indexTag, 1, 'parties');
+                }
+
+                if (interest === 'culture') {
+                  let item: any = interestsList.find(
+                    (itemList) => itemList.name === 'reading'
+                  );
+                  item.checked = true;
+                  this.interestsTagList.splice(indexTag, 1, 'reading');
+                }
+
+                if (interest === 'painting' || interest === 'sewing') {
+                  let item: any = interestsList.find(
+                    (itemList) => itemList.name === 'creative-hobbies'
+                  );
+                  item.checked = true;
+                  this.interestsTagList.splice(indexTag, 1, 'creative-hobbies');
+                }
+              });
+            });
+          });
+          this.interestsTagListSet = Array.from(new Set(this.interestsTagList));
+          this.selectedItemsNumber = this.interestsTagListSet.length;
         }
-      );
+      });
   }
 
   selectInterest(event: any, name: any) {
@@ -196,8 +183,17 @@ export class InterestsComponent implements OnInit {
     this.profileSettingsFacade
       .getInterests()
       .pipe(
+        catchError((error: any) => {
+          if (
+            error.error.error === 'No interest found' &&
+            error.error.code === 404
+          ) {
+            this.interestsTagList = [];
+          }
+          return of(null);
+        }),
         mergeMap((response: any) => {
-          if (response !== null) {
+          if (response === null) {
             return this.profileSettingsFacade
               .addInterests(this.interestsTagListSet)
               .pipe(
@@ -210,11 +206,10 @@ export class InterestsComponent implements OnInit {
               .updateInterests(this.interestsTagListSet)
               .pipe(
                 map((res: any) => {
-                  return { res, type: '2' };
+                  return { res, type: '1' };
                 })
               );
           }
-          return of(null);
         })
       )
       .pipe(filter((res) => res !== null))
