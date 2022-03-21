@@ -233,20 +233,22 @@ export class FarmPostCardComponent implements OnInit {
       if (this.prom.userPic !== '') {
         this.prom.userPic = this.prom.userPic;
       } else {
-        this.campaignService
-          .getBestInfluencerPic(this.prom.meta._id)
-          .pipe(takeUntil(this.isDestroyed))
-          .subscribe((res: any) => {
-            let objectURL: any;
-            if (res.err !== 'No file exists') {
-              objectURL = URL.createObjectURL(res);
-              this.prom.userPic =
-                this._sanitizer.bypassSecurityTrustUrl(objectURL);
-              this.changeDetectorRef.detectChanges();
-            } else {
-              this.prom.userPic = '';
-            }
-          });
+        if (!this.router.url.includes('farm-posts')) {
+          this.campaignService
+            .getBestInfluencerPic(this.prom.meta._id)
+            .pipe(takeUntil(this.isDestroyed))
+            .subscribe((res: any) => {
+              let objectURL: any;
+              if (res.err !== 'No file exists') {
+                objectURL = URL.createObjectURL(res);
+                this.prom.userPic =
+                  this._sanitizer.bypassSecurityTrustUrl(objectURL);
+                this.changeDetectorRef.detectChanges();
+              } else {
+                this.prom.userPic = '';
+              }
+            });
+        }
       }
     }
   }
