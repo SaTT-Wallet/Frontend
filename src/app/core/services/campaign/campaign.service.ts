@@ -913,7 +913,7 @@ export class CampaignHttpApiService {
         sattUrl +
           '/campaign/campaignPrompAll/' +
           campaignId +
-          '/?influencer=' +
+          '?influencer=' +
           this.tokenStorageService.getIdWallet(),
         {
           headers: header
