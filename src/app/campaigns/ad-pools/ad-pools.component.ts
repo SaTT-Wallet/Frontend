@@ -31,6 +31,7 @@ import { TranslateService } from '@ngx-translate/core';
 import introJs from 'intro.js';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
+import { ProfileService } from '@app/core/services/profile/profile.service';
 @Component({
   selector: 'app-ad-pools',
   templateUrl: './ad-pools.component.html',
@@ -82,6 +83,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
     private authStoreService: AuthStoreService,
     public tokenStorageService: TokenStorageService,
     private authService: AuthService,
+    private profileService: ProfileService,
     public translate: TranslateService,
     public modalService: NgbModal
   ) {}
@@ -264,7 +266,8 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.onDestoy$))
         .subscribe((response: any) => {
           if (
-            (response.onBoarding === false || response.onBoarding === '') &&
+            (response.data.onBoarding === false ||
+              response.data.onBoarding === '') &&
             this.router.url === '/ad-pools'
           ) {
             this.startSteps();

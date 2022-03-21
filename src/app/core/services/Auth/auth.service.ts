@@ -121,7 +121,9 @@ export class AuthService {
       'Cache-Control': 'no-store',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.get(sattUrl + '/onBoarding', { headers: httpHeaders });
+    return this.http.get(sattUrl + '/profile/onBoarding', {
+      headers: httpHeaders
+    });
   }
   // checkPass(pass: any) {
   //   let httpHeaders = new HttpHeaders({
