@@ -1,5 +1,4 @@
-import { Action, createReducer, on } from '@ngrx/store';
-import { initialAccountState } from '../../account-store/reducers/account.reducer';
+import { createReducer, on } from '@ngrx/store';
 import * as SocialAccountActionsUnion from '../actions/social-accounts.actions';
 
 export const socialAccountsFeatureKey = 'socialAccounts';
@@ -27,7 +26,7 @@ export const reducer = createReducer(
     SocialAccountActionsUnion.loadSocialAccountssSuccess,
     (state, payload): socialAccountState => ({
       ...state,
-      accounts: { ...payload.data },
+      accounts: { ...payload.data.data },
       loading: true,
       error: ''
     })
@@ -43,7 +42,7 @@ export const reducer = createReducer(
   ),
   on(
     SocialAccountActionsUnion.loadSocialAccountssLogout,
-    (state, error): socialAccountState => {
+    (): socialAccountState => {
       return socialAccountinitialState;
     }
   )
