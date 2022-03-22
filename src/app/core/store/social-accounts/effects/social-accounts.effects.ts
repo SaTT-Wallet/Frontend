@@ -33,7 +33,7 @@ export class SocialAccountsEffects {
                 return loadSocialAccountssFailure(data);
               }
             }),
-            catchError((error) => of(loadSocialAccountssFailure(error)))
+            catchError((error: any) => of(loadSocialAccountssFailure(error)))
           );
         }
         return of(

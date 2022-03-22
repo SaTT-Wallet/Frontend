@@ -818,14 +818,15 @@ export class CampaignHttpApiService {
     });
 
     return this.http.post(
-      `${sattUrl}/v2/campaign/validate?lang=${this.tokenStorageService.getLocalLang()}`,
+      sattUrl + '/campaign/validate',
       {
         idCampaign: prom.campaign._id || id,
         idProm: prom.hash,
         link: prom.link,
         email: prom.meta.email,
         idUser: prom.meta._id,
-        pass: Password
+        pass: Password,
+        lang: this.tokenStorageService.getLocalLang()
       },
       { headers: header }
     );
