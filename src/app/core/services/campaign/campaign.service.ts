@@ -183,10 +183,13 @@ export class CampaignHttpApiService {
     );
   }
 
-  getOneById(id: string) {
-    return this.http.get(sattUrl + '/campaign/details/' + id, {
-      headers: this.tokenStorageService.getHeader()
-    });
+  getOneById(id: string): Observable<IApiResponse<ICampaignResponse>> {
+    return this.http.get<IApiResponse<ICampaignResponse>>(
+      sattUrl + '/campaign/details/' + id,
+      {
+        headers: this.tokenStorageService.getHeader()
+      }
+    );
   }
 
   /**

@@ -27,7 +27,7 @@ export class CryptofetchServiceService {
   transactionHistory() {
     return this.http.get(
       sattUrl +
-        '/v2/transaction_history/' +
+        '/wallet/transaction_history/' +
         this.tokenStorageService.getIdWallet(),
       { headers: this.tokenStorageService.getHeader() }
     );
@@ -72,7 +72,9 @@ export class CryptofetchServiceService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.post(sattUrl + '/SaTT/bridge', send, { headers: headers });
+    return this.http.post(sattUrl + '/wallet/bridge', send, {
+      headers: headers
+    });
   }
   deletetoken(token: any) {
     const headers = new HttpHeaders({
