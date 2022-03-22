@@ -18,14 +18,16 @@ export class CryptofetchServiceService {
   walletaddress: any;
   coinToConvertType = 'SATT';
 
-  fetchCryptoData() {
-    return this.http.get('https://3xchange.io/prices').pipe(shareReplay(1));
+  getCryptoPriceList() {
+    return this.http
+      .get(sattUrl + '/wallet/cryptoDetails')
+      .pipe(shareReplay(1));
   }
 
   transactionHistory() {
     return this.http.get(
       sattUrl +
-        '/v2/transaction_history/' +
+        '/wallet/transaction_history/' +
         this.tokenStorageService.getIdWallet(),
       { headers: this.tokenStorageService.getHeader() }
     );
@@ -37,6 +39,7 @@ export class CryptofetchServiceService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     var idwallet = id_wallet || this.tokenStorageService.getIdWallet();
     return this.http
       .get(sattUrl + '/wallet/totalBalance', { headers: headers })
@@ -69,7 +72,9 @@ export class CryptofetchServiceService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.post(sattUrl + '/SaTT/bridge', send, { headers: headers });
+    return this.http.post(sattUrl + '/wallet/bridge', send, {
+      headers: headers
+    });
   }
   deletetoken(token: any) {
     const headers = new HttpHeaders({
@@ -121,7 +126,7 @@ export class CryptofetchServiceService {
     }
   }
 
-  getPayementId(currency: any, quote_id: any, wallet_id: any) {
+  getPayementId(currency: any, quote_id: any, idWallet: any) {
     const headers = new HttpHeaders({
       'Cache-Control': 'no-store',
       'Content-Type': 'application/json',
@@ -133,14 +138,14 @@ export class CryptofetchServiceService {
     });
     if (this.tokenStorageService.getToken()) {
       return this.http.post(
-        sattUrl + '/PaymentRequest/' + wallet_id,
-        { currency, quote_id },
+        sattUrl + '/wallet/payementRequest',
+        { currency, quote_id, idWallet },
         { headers: headers }
       );
     } else {
       return this.http.post(
-        sattUrl + '/PaymentRequest/' + wallet_id,
-        { currency, quote_id },
+        sattUrl + '/wallet/payementRequest',
+        { currency, quote_id, idWallet },
         { headers: headers2 }
       );
     }

@@ -10,20 +10,12 @@ import {
   Inject,
   PLATFORM_ID
 } from '@angular/core';
-import introJs from 'intro.js';
-import { fromEvent, Subject } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
-import { AuthService } from '@app/core/services/Auth/auth.service';
+import { Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
-import { ContactMessageService } from '@core/services/contactmessage/contact-message.service';
 import { SidebarService } from '@core/services/sidebar/sidebar.service';
-import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  GazConsumedByCampaign,
-  id_campaign_to_participate
-} from '@app/config/atn.config';
-import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
+import { GazConsumedByCampaign } from '@app/config/atn.config';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { isPlatformBrowser } from '@angular/common';
 
@@ -92,7 +84,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
             this.router.navigate(['/home']);
           }
         },
-        (err) => {},
+        () => {},
         () => {}
       );
 
@@ -146,7 +138,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
   parentFunction() {
     this.walletFacade
       .getCryptoPriceList()
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        map((response: any) => response.data),
+        takeUntil(this.destroy$)
+      )
       .subscribe((data: any) => {
         this.bnb = data['BNB'].price;
         this.eth = data['ETH'].price;

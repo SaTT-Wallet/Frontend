@@ -57,7 +57,10 @@
                 class="btn-export mb-1"
                 (click)="
                   this.exportType = eExportType.btc;
-                  openModalAndCheckBTC(exportDataModal, checkUserLegalKYCModal)
+                  openModalAndCheckBTC(
+                    exportDataModalBTC,
+                    checkUserLegalKYCModal
+                  )
                 "
               >
                 <span *ngIf="!this.showSpinnerBTC">{{
@@ -879,6 +882,121 @@
                 [disabled]="this.formExportData.invalid"
                 (click)="
                   confirmExport(this.formExportData.get('password')?.value)
+                "
+              >
+                {{ 'confirm_' | translate }}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #exportDataModalBTC>
+    <div class="modal-header modal-custom">
+      <button
+        type="button"
+        class="btn-close pull-right close"
+        (click)="closeModal(exportDataModalBTC)"
+        aria-label="Close"
+      ></button>
+    </div>
+    <div class="modal-body pt-0 d-flex align-items-center">
+      <div
+        class="col-sm-12 error d-flex justify-content-center body-content padding-desktop"
+      >
+        <form [formGroup]="formExportDataBTC">
+          <div class="text-center">
+            <img
+              src="assets/Images/moonboy-exportjson.svg"
+              class="moonboy-mobile"
+            />
+          </div>
+          <div class="row d-flex justify-content-center mt-2">
+            <h3 class="d-flex justify-content-center textpwd">
+              {{ 'Profil.export_account' | translate }}
+            </h3>
+          </div>
+          <div class="row d-flex justify-content-center mt-2">
+            <span class="text-center dark-grey-text mb-0">{{
+              'Profil.export_info_security' | translate
+            }}</span>
+          </div>
+          <div
+            class="col-10 custom-label transaction-password mt-3"
+            style="margin: 0 auto"
+          >
+            <label
+              [ngClass]="{
+                labelError:
+                  this.formExportDataBTC.get('password')?.errors?.checkPassword
+              }"
+              class="label_input"
+              >{{ 'transaction-password' | translate }}:</label
+            >
+          </div>
+          <div class="row d-flex justify-content-center">
+            <div class="col-10">
+              <div
+                class="div_input_add position-relative"
+                [ngClass]="{
+                  errorMsg:
+                    this.formExportDataBTC.get('password')?.errors
+                      ?.checkPassword
+                }"
+              >
+                <img
+                  src="/assets/Images/input_password_logo.svg"
+                  width="46px"
+                  alt=""
+                />
+                <input
+                  autocomplete="on"
+                  type="password"
+                  name="password"
+                  formControlName="password"
+                  class="input_oeil"
+                  #password_field
+                  [ngClass]="{
+                    errorMsg2:
+                      this.formExportDataBTC.get('password')?.errors
+                        ?.checkPassword
+                  }"
+                />
+                <span
+                  (click)="
+                    password_field.type =
+                      password_field.type == 'password' ? 'text' : 'password'
+                  "
+                  class="fa fa-fw cross_input_network align-self-center"
+                  aria-hidden="true"
+                  [ngClass]="
+                    password_field.type === 'password'
+                      ? ' fa-eye-slash '
+                      : ' fa-eye'
+                  "
+                ></span>
+              </div>
+            </div>
+            <div class="col-12 d-flex justify-content-start pt-2">
+              <!-- <span class="error-msg" *ngIf=" (this.formExportData.get('password')?.touched && this.formExportData.get('password')?.errors?.required)"> {{ 'Profil.field_required' | translate }}</span>-->
+              <span
+                class="error-msg"
+                *ngIf="
+                  this.formExportDataBTC.get('password')?.errors?.checkPassword
+                "
+                >{{ 'Profil.pass_wrong' | translate }}</span
+              >
+            </div>
+            <div class="mt-4 d-flex justify-content-center mb-5">
+              <button
+                type="submit"
+                class="btn-blue cursor_pntr max-width"
+                [disabled]="this.formExportDataBTC.invalid"
+                (click)="
+                  confirmExportBTC(
+                    this.formExportDataBTC.get('password')?.value
+                  )
                 "
               >
                 {{ 'confirm_' | translate }}

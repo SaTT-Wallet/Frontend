@@ -355,7 +355,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       const pass = this.sendform.get('password')?.value;
       currency = this.sendform.get('currency')?.value;
 
-      let address = this.tokenStorageService.getIdWallet();
       // if (to === address) {
 
       //   this.ownaddress = true;
@@ -584,6 +583,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   //calculate gaz for erc20 and bep20
   parentFunction() {
     return this.walletFacade.getCryptoPriceList().pipe(
+      map((response: any) => response.data),
       map((data: any) => {
         this.bnb = data['BNB'].price;
         this.eth = data['ETH'].price;
@@ -646,7 +646,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     //       this.replaceNonAlphanumeric(this.sendform.get('AmountUsd')?.value)
     //     );
     // }
-
     let currency = '';
     var getamount: any = this.sendform.get('Amount')?.value;
     let getusd: any = this.sendform.get('AmountUsd')?.value;
@@ -664,7 +663,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         currency = this.sendform.get('currency')?.value;
       }
       this.dataList?.forEach((crypto: any) => {
-        if (!!this.totalAmount && !!this.dataList) {
           if (
             event === 'amount' &&
             sendamount !== undefined &&
@@ -707,7 +705,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           }
 
           this.editwidthInput();
-        }
+      
       });
     }
   }

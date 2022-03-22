@@ -145,8 +145,8 @@
 }
 
 .img-block .img-campaign {
-  height: 100%;
-}
+  width: -webkit-fill-available;
+  height: 100%;}
 
 .text-delete {
   max-width: 52%;

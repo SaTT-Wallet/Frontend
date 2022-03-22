@@ -584,4 +584,6 @@ export class BuyTokenComponent implements OnInit, OnChanges {
     this.isDestroyed.next('');
     this.isDestroyed.unsubscribe();
   }
+
+
 }

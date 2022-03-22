@@ -183,10 +183,13 @@ export class CampaignHttpApiService {
     );
   }
 
-  getOneById(id: string) {
-    return this.http.get(sattUrl + '/campaign/details/' + id, {
-      headers: this.tokenStorageService.getHeader()
-    });
+  getOneById(id: string): Observable<IApiResponse<ICampaignResponse>> {
+    return this.http.get<IApiResponse<ICampaignResponse>>(
+      sattUrl + '/campaign/details/' + id,
+      {
+        headers: this.tokenStorageService.getHeader()
+      }
+    );
   }
 
   /**
@@ -226,7 +229,7 @@ export class CampaignHttpApiService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.get(sattUrl + `/profile/pic?id=${id}`, {
+    return this.http.get(sattUrl + `/profile/picture?id=${id}`, {
       responseType: 'blob',
       headers: headers
     });
@@ -347,7 +350,7 @@ export class CampaignHttpApiService {
   }
   deleteDraft(id: any) {
     return this.http
-      .delete(sattUrl + '/v2/campaign/deleteDraft' + `/${id}`, {
+      .delete(sattUrl + '/campaign/deleteDraft' + `/${id}`, {
         headers: this.tokenStorageService.getHeader()
       })
       .pipe(shareReplay(1));
@@ -831,19 +834,23 @@ export class CampaignHttpApiService {
     );
   }
 
-  rejectLinks(prom: any, reason: any, campaign: any) {
+  rejectLinks(
+    prom: any,
+    reason: any,
+    campaignid: string,
+    titleCampaign: string
+  ) {
     return this.http.put(
-      sattUrl +
-        `/rejectlink/` +
-        prom.hash +
-        `?lang=${this.tokenStorageService.getLocalLang()}`,
+      sattUrl + '/campaign/reject/' + prom.hash,
+
       {
-        idCampaign: campaign.id,
+        idCampaign: campaignid,
         reason: reason,
-        title: campaign.title,
+        title: titleCampaign,
         email: prom.meta.email,
         idUser: prom.meta._id,
-        link: prom.link
+        link: prom.link,
+        lang: this.tokenStorageService.getLocalLang()
       },
       { headers: this.tokenStorageService.getHeader() }
     );
@@ -884,27 +891,6 @@ export class CampaignHttpApiService {
       headers: this.tokenStorageService.getHeader()
     });
   }
-  getAllPromsStats(campaignId: string, isOwnedByUser: boolean) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
-    if (!isOwnedByUser) {
-      let walletId = this.tokenStorageService.getIdWallet();
-      return this.http.get(
-        `${sattUrl}/campaign/${campaignId}/proms/all?influencer=` + walletId,
-        {
-          headers: header
-        }
-      );
-    } else {
-      return this.http.get(`${sattUrl}/campaign/${campaignId}/proms/all`, {
-        headers: header
-      });
-    }
-  }
 
   public inProgressCampaign(id: any) {
     this.tokenStorageService.removeProgressCampaign();
@@ -919,7 +905,36 @@ export class CampaignHttpApiService {
       headers: this.tokenStorageService.getHeader()
     });
   }
-
+  getAllPromsStats(campaignId: string, isOwnedByUser: boolean) {
+    let header = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+    // return this.http.get(sattUrl + '/campaign/campaignPrompAll/' + campaignId, {
+    //   headers: header
+    // });
+    //GET  /campaign/APaacgillmmnoppr / console.log(isOwnedByUser);
+    if (!isOwnedByUser) {
+      return this.http.get(
+        sattUrl +
+          '/campaign/campaignPrompAll/' +
+          campaignId +
+          '?influencer=' +
+          this.tokenStorageService.getIdWallet(),
+        {
+          headers: header
+        }
+      );
+    } else {
+      return this.http.get(
+        sattUrl + '/campaign/campaignPrompAll/' + campaignId,
+        {
+          headers: header
+        }
+      );
+    }
+  }
   userParticipations(
     page = 1,
     size = 10,
@@ -1014,7 +1029,7 @@ export class CampaignHttpApiService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.get(`${sattUrl}/statLinkCampaign/` + hash, {
+    return this.http.get(sattUrl + '/campaign/statLinkCampaign/' + hash, {
       headers: header
     });
   }

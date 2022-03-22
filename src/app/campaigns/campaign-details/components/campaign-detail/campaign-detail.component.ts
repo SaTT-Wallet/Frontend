@@ -92,7 +92,6 @@ export class CampaignDetailComponent implements OnInit {
   applyPassword: boolean = false;
   exactDate = new Date().getTime() / 1000;
   idWallet = this.tokenStorageService.getIdWallet();
-  testV: any;
   selectedProm: any;
   displayRejectReason: boolean = false; //delete this later
   rejectReason: any = ''; //delete this later
@@ -277,22 +276,25 @@ export class CampaignDetailComponent implements OnInit {
     }
   }
   gettingAllproms(): void {
-    this.CampaignService.getAllPromsStats(this.campaignId, this.isOwnedByUser)
+    this.CampaignService.getAllPromsStats(
+      this.campaignId,
+      this.campaign.isOwnedByUser
+    )
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((data: any) => {
-        this.testV = data.allProms;
-
-        this.allProms = data.allProms?.filter(
-          (item: any) => item.appliedDate && item.isAccepted !== 'rejected'
-        );
-
-        if (!this.isOwnedByUser) {
-          this.allProms = data.allProms?.filter(
-            (item: any) =>
-              item.isAccepted !== 'rejected' &&
-              item.influencer.toLowerCase() === this.idWallet?.toLowerCase()
-          );
+        if (data.message === 'success') {
+          this.allProms = data.data.allProms;
+          // this.allProms = data.allProms?.filter(
+          //   (item: any) => item.appliedDate && item.isAccepted !== 'rejected'
+          // );
         }
+        // if (!this.campaign.isOwnedByUser) {
+        //   this.allProms = data.data.allProms?.filter(
+        //     (item: any) =>
+        //       item.isAccepted !== 'rejected' &&
+        //       item.id_wallet.toLowerCase() === this.idWallet?.toLowerCase()
+        //   );
+        // }
       });
   }
 
@@ -333,7 +335,10 @@ export class CampaignDetailComponent implements OnInit {
   getCryptoData() {
     this.walletFacade
       .getCryptoPriceList()
-      .pipe(takeUntil(this.isDestroyed))
+      .pipe(
+        map((response: any) => response.data),
+        takeUntil(this.isDestroyed)
+      )
       .subscribe((Cryptodata: any) => {
         this.allcryptoprice = Cryptodata;
       });
