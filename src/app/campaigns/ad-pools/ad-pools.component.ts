@@ -168,6 +168,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
       .addNewDraft(new Campaign())
       .pipe(takeUntil(this.onDestoy$))
       .subscribe((draft: Campaign) => {
+        console.log(draft);
         this.idcamp = draft.id || '';
         this.router.navigate(['home/campaign', this.idcamp, 'edit']);
       });

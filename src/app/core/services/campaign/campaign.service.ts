@@ -724,19 +724,28 @@ export class CampaignHttpApiService {
     );
   }
 
+  // getTokenAllowanceBEP20(bep20: any) {
+  //   return this.http.get(
+  //     sattUrl +
+  //       '/v2/bep20/' +
+  //       bep20.addr +
+  //       '/approval/' +
+  //       bep20.walletaddr +
+  //       '/' +
+  //       campaignSmartContractBEP20,
+  //     { headers: this.tokenStorageService.getHeader() }
+  //   );
+  // }
   getTokenAllowanceBEP20(bep20: any) {
-    return this.http.get(
-      sattUrl +
-        '/v2/bep20/' +
-        bep20.addr +
-        '/approval/' +
-        bep20.walletaddr +
-        '/' +
-        campaignSmartContractBEP20,
+    return this.http.post(
+      sattUrl + '/campaign/bep20/approval/',
+      {
+        tokenAddress: bep20.walletaddr,
+        campaignAddress: bep20.addr
+      },
       { headers: this.tokenStorageService.getHeader() }
     );
   }
-
   tokenApproveERC20(erc20: any, password: any) {
     let amount = '100000000000000000000000000000';
     return this.http.post(

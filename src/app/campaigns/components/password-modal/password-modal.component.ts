@@ -10,16 +10,22 @@ import {
   ListTokens,
   GazConsumedByCampaign
 } from '@config/atn.config';
-import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
-import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Campaign } from '@app/models/campaign.model';
-import { concatMap, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import {
+  catchError,
+  concatMap,
+  map,
+  switchMap,
+  takeUntil,
+  tap
+} from 'rxjs/operators';
 import { forkJoin, of, Subject } from 'rxjs';
 import { CampaignsStoreService } from '@campaigns/services/campaigns-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 enum EOraclesID {
   'facebook' = 1,
@@ -65,12 +71,9 @@ export class PasswordModalComponent implements OnInit {
     private campaignService: CampaignHttpApiService,
     public router: Router,
     private tokenStorageService: TokenStorageService,
-    private _fetchPrice: CryptofetchServiceService,
-    private toastr: ToastrService,
     public translate: TranslateService,
     private campaignsStore: CampaignsStoreService,
     private route: ActivatedRoute,
-    private Fetchservice: CryptofetchServiceService,
     private walletFacade: WalletFacadeService
   ) {
     this.route.queryParams
@@ -120,7 +123,7 @@ export class PasswordModalComponent implements OnInit {
     if (this.campaign) {
       _campaign.dataUrl =
         'https://ropsten.etherscan.io/token/0x2bef0d7531f0aae08adc26a0442ba8d0516590d0'; //this.campaign.shortLink;
-      _campaign.token = this.tokenStorageService.getToken();
+      _campaign.tokenAddress = this.tokenStorageService.getToken();
       _campaign.pass = this.passwordForm.get('password')?.value;
       _campaign.ERC20token = ListTokens[this.campaign.currency.name].contract;
       _campaign.amount = this.campaign?.initialBudget;
@@ -177,7 +180,7 @@ export class PasswordModalComponent implements OnInit {
     }
   }
 
-  erc20Fee(campaign: any) {
+  erc20Fee() {
     let token = this.fillInformations('ERC20token');
     let data = this.campaign;
     if (token !== ListTokens['SATT'].contract) {
@@ -276,6 +279,7 @@ export class PasswordModalComponent implements OnInit {
         .getTokenAllowanceBEP20(TokenOBjBEP20)
         .pipe(
           switchMap((response: any) => {
+            //console.log(response);
             this.passwordForm.reset();
             if (
               new Big(response.allowance.amount).gt(
@@ -297,11 +301,17 @@ export class PasswordModalComponent implements OnInit {
             return this.campaignService
               .tokenApproveBEP20(TokenOBjBEP20, campaign_info.pass)
               .pipe(
-                tap((response: any) => {
-                  if (response['error'] === 'Wrong password') {
+                catchError((error: HttpErrorResponse) => {
+                  if (error.error.error === 'Wrong password') {
                     this.errorMessage = 'wrong_password';
                   }
+                  return of(false);
                 }),
+                // tap((response: any) => {
+                //   if (response['error'] === 'Wrong password') {
+                //     this.errorMessage = 'wrong_password';
+                //   }
+                // }),
                 concatMap(() => {
                   if (this.campaign.remuneration === 'performance') {
                     return this.launchCampaignWithPerPerformanceReward(
@@ -319,22 +329,44 @@ export class PasswordModalComponent implements OnInit {
               );
           })
         )
-        .pipe(takeUntil(this.isDestroyed))
-        .subscribe((data) => {
-          if (
-            data.error ===
-            'Returned error: insufficient funds for gas * price + value'
-          ) {
-            if (cryptoNetwork[token] === 'BEP20') {
-              this.errorMessage =
-                'You dont have enough BNB gaz (BNB : $ ' + this.bepGaz + ')';
-              this.loadingButton = false;
-            } else {
-              this.errorMessage =
-                'Yout dont have enough ETH gaz (ETH :$ ' + this.erc20Gaz + ')';
-              this.loadingButton = false;
+        .pipe(
+          catchError((error: HttpErrorResponse) => {
+            if (
+              error.error.error ===
+              'Returned error: insufficient funds for gas * price + value'
+            ) {
+              if (cryptoNetwork[token] === 'BEP20') {
+                this.errorMessage =
+                  'You dont have enough BNB gaz (BNB : $ ' + this.bepGaz + ')';
+                this.loadingButton = false;
+              } else {
+                this.errorMessage =
+                  'Yout dont have enough ETH gaz (ETH :$ ' +
+                  this.erc20Gaz +
+                  ')';
+                this.loadingButton = false;
+              }
             }
-          }
+            return of(false);
+          }),
+          takeUntil(this.isDestroyed)
+        )
+        .subscribe((data) => {
+          //  if (
+          //     data.error ===
+          //     'Returned error: insufficient funds for gas * price + value'
+          //   ) {
+          //     if (cryptoNetwork[token] === 'BEP20') {
+          //       this.errorMessage =
+          //         'You dont have enough BNB gaz (BNB : $ ' + this.bepGaz + ')';
+          //       this.loadingButton = false;
+          //     } else {
+          //       this.errorMessage =
+          //         'Yout dont have enough ETH gaz (ETH :$ ' +
+          //         this.erc20Gaz +
+          //         ')';
+          //       this.loadingButton = false;
+          //     }
           if (data.transactionHash) {
             this.launchCampaignWithPerPerformanceReward(
               campaign_info,
