@@ -7,6 +7,7 @@ import { WalletService } from '@core/services/wallet/wallet.service';
 import { Store } from '@ngrx/store';
 import { LoadTotalBalance } from '@app/wallet/store/actions/wallet.actions';
 import { loadCryptoLists } from '@app/wallet/store/actions/crypto-list.actions';
+import { IResponseWallet } from '../iresponse-wallet';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,9 @@ export class WalletStoreService {
   readonly totalAmount$ = this._totalAmount.asObservable();
   private _walletSpinner = new BehaviorSubject<boolean>(true);
   readonly walletSpinner$ = this._walletSpinner.asObservable();
-  private _wallet: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  private _wallet: BehaviorSubject<IResponseWallet> = new BehaviorSubject<any>(
+    null
+  );
   readonly wallet$ = this._wallet.asObservable();
   private _etherGaz: BehaviorSubject<any> = new BehaviorSubject({});
   readonly etherGaz$ = this._etherGaz.asObservable();
@@ -116,7 +119,7 @@ export class WalletStoreService {
   }
 
   loadWallet() {
-    this.walletService.getWallet().subscribe((res: any) => {
+    this.walletService.getWallet().subscribe((res: IResponseWallet) => {
       this._wallet.next(res);
     });
   }

@@ -13,8 +13,8 @@ import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-fac
 import { CampaignsStoreService } from '@app/campaigns/services/campaigns-store.service';
 import { CampaignsListStoreService } from '@app/campaigns/services/campaigns-list-store.service';
 import { ParticipationListStoreService } from '@campaigns/services/participation-list-store.service';
-import { filter, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { catchError, filter, takeUntil } from 'rxjs/operators';
+import { of, Subject } from 'rxjs';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-facade/socialAcounts-facade.service';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
@@ -323,7 +323,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       .subscribe((response: any) => {
         if (response !== null && response !== undefined) {
           this.showSpinner = false;
-          this.dataLegal = response.legal;
+          this.dataLegal = response.data.legal;
           this.dataLegal.forEach((item: any) => {
             switch (item.type) {
               case 'proofId':
@@ -345,13 +345,24 @@ export class ProfileComponent implements OnInit, OnDestroy {
   getUserInterests() {
     this.profileSettingsFacade
       .getInterests()
-      .pipe(takeUntil(this.onDestoy$))
+      .pipe(
+        catchError((error: any) => {
+          if (
+            error.error.error === 'No interest found' &&
+            error.error.code === 404
+          ) {
+            this.percentInterests = 0;
+          }
+          return of(null);
+        }),
+        takeUntil(this.onDestoy$)
+      )
       .subscribe((response: any) => {
-        if (response?.interests?.length === 0 || response == null) {
+        if (response?.data?.length === 0 || response == null) {
           this.percentInterests = 0;
         } else {
           this.percentInterests = Math.floor(
-            (response?.interests?.length * 100) / 6
+            (response?.data?.length * 100) / 6
           );
         }
       });

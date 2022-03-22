@@ -59,7 +59,7 @@ export class ProfileService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.delete(sattUrl + '/google/all/channels', {
+    return this.http.delete(sattUrl + '/profile/RemoveGoogleChannels', {
       headers: header
     });
   }
@@ -121,19 +121,25 @@ export class ProfileService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.put(sattUrl + '/changeEmail', body, {
+    return this.http.post(sattUrl + '/profile/changeEmail', body, {
       headers: httpHeaders
     });
   }
-  confirmChangeEmail(body: any) {
+  confirmChangeEmail(code: any) {
     let httpHeaders = new HttpHeaders({
       'Cache-Control': 'no-store',
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.put(sattUrl + '/confirmChangeEmail', body, {
-      headers: httpHeaders
-    });
+    return this.http.post(
+      sattUrl + '/profile/confirmChangeEmail',
+      {
+        code: code
+      },
+      {
+        headers: httpHeaders
+      }
+    );
   }
 
   completeprofile(body: any) {
@@ -148,14 +154,14 @@ export class ProfileService {
     });
   }
 
-  exportProfileData(password: string, exportType: string) {
+  exportProfileData(password: string) {
     let headers = new HttpHeaders({
       'Cache-Control': 'no-store',
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
     let body = { pass: password };
-    return this.http.post(sattUrl + '/v3/' + exportType, body, {
+    return this.http.post(sattUrl + '/wallet/exportETH', body, {
       headers: headers
     });
   }
@@ -212,7 +218,7 @@ export class ProfileService {
     });
 
     return this.http.post(
-      sattUrl + '/user/interests',
+      sattUrl + '/profile/AddUserIntersts',
       { interests: body },
       { headers: httpHeaders }
     );
@@ -224,7 +230,9 @@ export class ProfileService {
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
 
-    return this.http.get(sattUrl + '/user/interests', { headers: httpHeaders });
+    return this.http.get(sattUrl + '/profile/UserIntersts', {
+      headers: httpHeaders
+    });
   }
   updateInterests(body: any) {
     let httpHeaders = new HttpHeaders({
@@ -234,7 +242,7 @@ export class ProfileService {
     });
 
     return this.http.put(
-      sattUrl + '/user/interests',
+      sattUrl + '/profile/UpdateUserIntersts',
       { interests: body },
       { headers: httpHeaders }
     );
@@ -246,7 +254,7 @@ export class ProfileService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.put(sattUrl + '/deconnection/' + social, null, {
+    return this.http.put(sattUrl + '/auth/disconnect/' + social, null, {
       headers: header
     });
   }
@@ -257,7 +265,7 @@ export class ProfileService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.post(sattUrl + '/account/purged', obj, {
+    return this.http.post(sattUrl + '/auth/purge', obj, {
       headers: header
     });
   }

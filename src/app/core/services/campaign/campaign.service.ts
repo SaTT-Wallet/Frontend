@@ -18,6 +18,11 @@ import {
 } from 'rxjs/operators';
 import { Observable, of, Subject } from 'rxjs';
 import { AuthStoreService } from '../Auth/auth-store.service';
+import {
+  ICampaignResponse,
+  ICampaignsListResponse
+} from '@app/core/campaigns-list-response.interface';
+import { IApiResponse } from '@app/core/types/rest-api-responses';
 
 @Injectable({
   providedIn: 'root'
@@ -221,7 +226,7 @@ export class CampaignHttpApiService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.get(sattUrl + `/profile/pic?id=${id}`, {
+    return this.http.get(sattUrl + `/profile/picture?id=${id}`, {
       responseType: 'blob',
       headers: headers
     });
@@ -342,7 +347,7 @@ export class CampaignHttpApiService {
   }
   deleteDraft(id: any) {
     return this.http
-      .delete(sattUrl + '/v2/campaign/deleteDraft' + `/${id}`, {
+      .delete(sattUrl + '/campaign/deleteDraft' + `/${id}`, {
         headers: this.tokenStorageService.getHeader()
       })
       .pipe(shareReplay(1));
@@ -382,7 +387,9 @@ export class CampaignHttpApiService {
     });
   }
 
-  saveDraft(draftCampaign: any) {
+  createNewDraftCampaign(
+    draftCampaign: any
+  ): Observable<IApiResponse<ICampaignResponse>> {
     const token = this.tokenStorageService.getToken();
 
     const header = new HttpHeaders({
@@ -391,7 +398,11 @@ export class CampaignHttpApiService {
       Authorization: 'Bearer ' + token
     });
     return this.http
-      .post(`${sattUrl}/v2/campaign/save`, draftCampaign, { headers: header })
+      .post<IApiResponse<ICampaignResponse>>(
+        `${sattUrl}/campaign/save`,
+        draftCampaign,
+        { headers: header }
+      )
       .pipe(shareReplay(1));
   }
 
@@ -820,34 +831,26 @@ export class CampaignHttpApiService {
     );
   }
 
-  rejectLinks(prom: any, reason: any, campaign: any) {
+  rejectLinks(
+    prom: any,
+    reason: any,
+    campaignid: string,
+    titleCampaign: string
+  ) {
     return this.http.put(
-      sattUrl +
-        `/rejectlink/` +
-        prom.hash +
-        `?lang=${this.tokenStorageService.getLocalLang()}`,
+      sattUrl + '/campaign/reject/' + prom.hash,
+
       {
-        idCampaign: campaign.id,
+        idCampaign: campaignid,
         reason: reason,
-        title: campaign.title,
+        title: titleCampaign,
         email: prom.meta.email,
         idUser: prom.meta._id,
-        link: prom.link
+        link: prom.link,
+        lang: this.tokenStorageService.getLocalLang()
       },
       { headers: this.tokenStorageService.getHeader() }
     );
-  }
-
-  /**
-   * @name getCreatorlinks
-   * @desc Gets the list of rejected and pending links.
-   * @return {Observable<any>}
-   */
-  getCreatorlinks(): Observable<any> {
-    let idWallet = this.tokenStorageService.getIdWallet();
-    return this.http.get(`${sattUrl}/campaign/totalEarned/${idWallet}`, {
-      headers: this.tokenStorageService.getHeader()
-    });
   }
 
   getCampaignStatics(campaignId: string) {
@@ -885,27 +888,6 @@ export class CampaignHttpApiService {
       headers: this.tokenStorageService.getHeader()
     });
   }
-  getAllPromsStats(campaignId: string, isOwnedByUser: boolean) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
-    if (!isOwnedByUser) {
-      let walletId = this.tokenStorageService.getIdWallet();
-      return this.http.get(
-        `${sattUrl}/campaign/${campaignId}/proms/all?influencer=` + walletId,
-        {
-          headers: header
-        }
-      );
-    } else {
-      return this.http.get(`${sattUrl}/campaign/${campaignId}/proms/all`, {
-        headers: header
-      });
-    }
-  }
 
   public inProgressCampaign(id: any) {
     this.tokenStorageService.removeProgressCampaign();
@@ -920,7 +902,36 @@ export class CampaignHttpApiService {
       headers: this.tokenStorageService.getHeader()
     });
   }
-
+  getAllPromsStats(campaignId: string, isOwnedByUser: boolean) {
+    let header = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+    // return this.http.get(sattUrl + '/campaign/campaignPrompAll/' + campaignId, {
+    //   headers: header
+    // });
+    //GET  /campaign/APaacgillmmnoppr / console.log(isOwnedByUser);
+    if (!isOwnedByUser) {
+      return this.http.get(
+        sattUrl +
+          '/campaign/campaignPrompAll/' +
+          campaignId +
+          '?influencer=' +
+          this.tokenStorageService.getIdWallet(),
+        {
+          headers: header
+        }
+      );
+    } else {
+      return this.http.get(
+        sattUrl + '/campaign/campaignPrompAll/' + campaignId,
+        {
+          headers: header
+        }
+      );
+    }
+  }
   userParticipations(
     page = 1,
     size = 10,
@@ -942,14 +953,14 @@ export class CampaignHttpApiService {
     let walletId = this.tokenStorageService.getIdWallet();
     if (campaignId === '') {
       return this.http
-        .get(`${sattUrl}/campaign/filterLinks/` + walletId, {
+        .get(sattUrl + '/campaign/filterLinks/' + walletId, {
           headers: header,
           params: queryParams
         })
         .pipe(share());
     } else {
       return this.http
-        .get(`${sattUrl}/campaign/filterLinks/` + walletId, {
+        .get(sattUrl + '/campaign/filterLinks/' + walletId, {
           headers: header,
           params: queryParamsCamp
         })
@@ -968,7 +979,7 @@ export class CampaignHttpApiService {
     page = 1,
     size = 10,
     queryParams: HttpParams = new HttpParams()
-  ): Observable<any> {
+  ): Observable<ICampaignsListResponse> {
     // let idWallet = this.tokenStorageService.getIdWallet() || '';
     // let queryParams1 = queryParams
     //   .set('page', '' + page)
@@ -1002,7 +1013,7 @@ export class CampaignHttpApiService {
     // } else {
 
     return this.http
-      .get(` ${sattUrl}/campaign/campaigns`, {
+      .get<ICampaignsListResponse>(` ${sattUrl}/campaign/campaigns`, {
         headers: header2,
         params: queryParams2
       })

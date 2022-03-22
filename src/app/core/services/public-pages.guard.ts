@@ -5,6 +5,9 @@ import { TokenStorageService } from '@core/services/tokenStorage/token-storage-s
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AuthStoreService } from '@core/services/Auth/auth-store.service';
 import { catchError, mergeMap, take, tap } from 'rxjs/operators';
+import { IResponseWallet } from '../iresponse-wallet';
+import { User } from '@app/models/User';
+import { AccountFacadeService } from '../facades/account-facade/account-facade.service';
 
 @Injectable({ providedIn: 'root' })
 export class PublicPagesGuard implements CanActivate {
@@ -15,7 +18,8 @@ export class PublicPagesGuard implements CanActivate {
     private tokenStorageService: TokenStorageService,
     private router: Router,
     private walletFacade: WalletFacadeService,
-    private authStoreService: AuthStoreService
+    private authStoreService: AuthStoreService,
+    private accountFacadeService: AccountFacadeService
   ) {}
 
   canActivate(): Observable<boolean> {
@@ -24,33 +28,35 @@ export class PublicPagesGuard implements CanActivate {
       this.tokenStorageService.getToken() !== ''
     ) {
       if (!!this.authStoreService.account) {
-        return this.handleAccountValue(this.authStoreService.account$);
+        return this.handleAccountValue(this.accountFacadeService.account$);
       } else {
-        return this.handleAccountValue(this.authStoreService.getAccount());
+        return this.handleAccountValue(this.accountFacadeService.account$);
       }
     } else {
       return of(true);
     }
   }
 
-  handleAccountValue(account$: Observable<any>) {
+  handleAccountValue(account$: Observable<User | null>) {
     return account$.pipe(
       take(1),
-      tap((account: any) => {
+      tap((account: User | null) => {
         const phonenumber = this.tokenStorageService.getPhoneNumber();
         if (!phonenumber) {
-          this.tokenStorageService.setPhoneNumber(account.phone);
+          this.tokenStorageService.setPhoneNumber(account?.phone as string);
         }
       }),
-      mergeMap((data: any) => {
+      mergeMap((data: User | null) => {
         if (
-          (data.completed !== true && data.idSn !== 0) ||
-          (data.completed === true && data.idSn !== 0 && data.enabled === false)
+          (data?.completed !== true && data?.idSn !== '0') ||
+          (data?.completed === true &&
+            data?.idSn !== '0' &&
+            data?.enabled === 0)
         ) {
           this.router.navigate(['social-registration/completeProfile']);
           return of(false);
-        } else if (data.new) {
-          if (!data.passphrase) {
+        } else if (data?.new) {
+          if (!data?.passphrase) {
             this.router.navigate(['/social-registration/pass-phrase']);
             return of(false);
           }
@@ -74,9 +80,9 @@ export class PublicPagesGuard implements CanActivate {
     );
   }
 
-  handleWalletValue(wallet$: Observable<any>) {
+  handleWalletValue(wallet$: Observable<IResponseWallet>) {
     return wallet$.pipe(
-      mergeMap((data: any) => {
+      mergeMap((data: IResponseWallet) => {
         if (this.tokenStorageService.getvalid2FA() === 'false') {
           this.tokenStorageService.signOut();
           this.router.navigate(['auth/login']);

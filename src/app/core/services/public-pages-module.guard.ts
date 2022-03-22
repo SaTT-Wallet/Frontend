@@ -4,7 +4,19 @@ import { Observable, of } from 'rxjs';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AuthStoreService } from '@core/services/Auth/auth-store.service';
-import { catchError, mergeMap, switchMap, tap } from 'rxjs/operators';
+import {
+  catchError,
+  filter,
+  map,
+  mergeMap,
+  switchMap,
+  take,
+  tap
+} from 'rxjs/operators';
+import { AccountFacadeService } from '../facades/account-facade/account-facade.service';
+import { User } from '@app/models/User';
+import { IResponseWallet } from '../iresponse-wallet';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class CanLoadPublicModule implements CanLoad {
@@ -16,7 +28,8 @@ export class CanLoadPublicModule implements CanLoad {
     private tokenStorageService: TokenStorageService,
     private router: Router,
     private walletFacade: WalletFacadeService,
-    private authStoreService: AuthStoreService
+    private authStoreService: AuthStoreService,
+    private accountFacadeService: AccountFacadeService
   ) {}
 
   canLoad(): Observable<boolean> | Promise<boolean> | boolean {
@@ -24,25 +37,27 @@ export class CanLoadPublicModule implements CanLoad {
       this.tokenStorageService.getToken() !== null &&
       this.tokenStorageService.getToken() !== ''
     ) {
-      if (!!this.authStoreService.account) {
-        return this.handleAccountValue(this.authStoreService.account$);
-      } else {
-        return this.handleAccountValue(this.authStoreService.getAccount());
-      }
+      this.accountFacadeService.dispatchUserAccount();
+      return this.handleAccountValue();
     } else {
       return of(true);
     }
   }
-  handleAccountValue(account$: Observable<any>) {
-    return account$.pipe(
-      tap((account: any) => {
+  handleAccountValue() {
+    return this.accountFacadeService.account$.pipe(
+      filter((res: User | null) => {
+        return res !== null;
+      }),
+      map((acc) => acc as User),
+      take(1),
+      tap((account: User) => {
         const phonenumber = this.tokenStorageService.getPhoneNumber();
         if (!phonenumber) {
           this.tokenStorageService.setPhoneNumber(account.phone);
         }
       }),
-      mergeMap((account: any) => {
-        if (!!account.error || !Object.keys(account).length) {
+      mergeMap((account: User) => {
+        if (!Object.keys(account).length) {
           this.tokenStorageService.signOut();
           this.router.navigate(['auth/login']);
           return of(false);
@@ -70,9 +85,9 @@ export class CanLoadPublicModule implements CanLoad {
     );
   }
 
-  handleWalletValue(wallet$: Observable<any>) {
+  handleWalletValue(wallet$: Observable<IResponseWallet>) {
     return wallet$.pipe(
-      catchError((error: any) => {
+      catchError((error: HttpErrorResponse) => {
         if (error.error.error === 'Wallet not found') {
           this.tokenStorageService.setSecureWallet(
             'visited-completeProfile',
@@ -86,9 +101,11 @@ export class CanLoadPublicModule implements CanLoad {
           return of(false);
         }
       }),
-      switchMap((data: any) => {
-        if (data.data.address) {
-          this.tokenStorageService.saveIdWallet(data.data.address);
+      switchMap((data: IResponseWallet | boolean) => {
+        if ((data as IResponseWallet).data.address) {
+          this.tokenStorageService.saveIdWallet(
+            (data as IResponseWallet).data.address
+          );
           return of(true);
         } else if (this.dateNow > this.dateShouldExpireAt) {
           return of(true);

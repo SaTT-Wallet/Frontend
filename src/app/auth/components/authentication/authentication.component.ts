@@ -101,7 +101,7 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
   authresetpwd: string = sattUrl + '/resetpssword';
   authFacebook: string = sattUrl + '/auth/signin/facebook';
   authGoogle: string = sattUrl + '/auth/signin/google';
-  authTelegram: string = sattUrl + '/auth/telegram';
+  authTelegram: string = sattUrl + '/auth/signin/telegram';
   cookiesClicked!: boolean;
   validated = '';
   // codeFromUrl: any;
@@ -555,8 +555,8 @@ getCookie(key: string){
               return;
             }
             if (myWallet.data.address) {
-              if (response.new) {
-                if (!response.passphrase) {
+              if (response.data?.new) {
+                if (!response.data.passphrase) {
                   this.router.navigate(['/social-registration/pass-phrase']);
                 } else {
                   this.tokenStorageService.saveIdWallet(myWallet.data.address);
@@ -622,16 +622,18 @@ getCookie(key: string){
       .pipe(
         mergeMap((response: IresponseAccount) => {
           if (response) {
-            this.tokenStorageService.saveUserId(response.idUser);
-            this.tokenStorageService.saveIdSn(response.idSn);
+            this.tokenStorageService.saveUserId(response.data.idUser);
+            this.tokenStorageService.saveIdSn(response.data.idSn);
             this.tokenStorageService.setItem('valid2FA', '');
             this.tokenStorageService.setItem('isAuthenticated', 'true');
             this.tokenStorageService.saveExpire(this.expiresToken);
             this.tokenStorageService.setHeader();
 
             if (
-              (!response.completed && response.idSn !== '0') ||
-              (response.completed && response.idSn !== '0' && !response.enabled)
+              (!response.data.completed && response.data.idSn !== '0') ||
+              (response.data.completed &&
+                response.data.idSn !== '0' &&
+                !response.data.enabled)
             ) {
               this.router.navigate(['/social-registration/completeProfile']);
               this.showBigSpinner = true;
@@ -726,7 +728,7 @@ getCookie(key: string){
       script.setAttribute('data-telegram-login', environment.telegramBot);
       script.setAttribute('data-size', 'large');
       //script.setAttribute("data-onauth","onTelegramAuth(user)");
-      script.setAttribute('data-auth-url', sattUrl + '/auth/telegram');
+      script.setAttribute('data-auth-url', sattUrl + '/auth/signin/telegram');
 
       script.setAttribute('data-request-access', 'write');
       script.setAttribute('data-userpic', 'false');

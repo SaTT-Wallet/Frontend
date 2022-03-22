@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { sattUrl } from '@config/atn.config';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { __values } from 'tslib';
 import { AngularFireMessaging } from '@angular/fire/compat/messaging';
 import { catchError, filter, mergeMap, mergeMapTo } from 'rxjs/operators';
 import { TokenStorageService } from '../tokenStorage/token-storage-service.service';
+import { INotificationsResponse } from '@app/core/notifications-response.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -25,15 +26,19 @@ export class NotificationService {
     private tokenStorageService: TokenStorageService
   ) {}
 
-  getAllNotifications() {
-    this.httpOptions = {
-      headers: new HttpHeaders({
-        'Cache-Control': 'no-store',
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-      })
-    };
-    return this.http.get<any>(sattUrl + '/notifications', this.httpOptions);
+  getAllNotifications(): Observable<INotificationsResponse> {
+    this.httpOptions = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+
+    return this.http.get<INotificationsResponse>(
+      sattUrl + '/profile/notifications',
+      {
+        headers: this.httpOptions
+      }
+    );
   }
   notifIsSendRes() {
     this.httpOptions = {
@@ -69,7 +74,7 @@ export class NotificationService {
       })
     };
     return this.http.post(
-      sattUrl + '/notification/seen/' + id,
+      sattUrl + '/profile/notification/seen/' + id,
       {},
       this.httpOptions
     );

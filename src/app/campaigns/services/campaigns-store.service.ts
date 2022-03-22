@@ -5,8 +5,6 @@ import { filter, map, takeUntil } from 'rxjs/operators';
 import { Campaign } from '@app/models/campaign.model';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
-import { IcreatorStatistics } from '../../models/icreator-statistics';
-
 import { FormatDataService } from '@campaigns/services/format-data.service';
 
 @Injectable({
@@ -43,23 +41,6 @@ export class CampaignsStoreService {
    */
   public readonly campaignsList$: Observable<any[]>;
 
-  /**
-   * @name creatorStatsSubject
-   * @desc An object containing user -creator- statistics like:
-   *       - Total earnings
-   *       - Number of validated links
-   *       - Number of accepted links
-   *       - ...
-   * @type {BehaviorSubject<IcreatorStatistics>}
-   */
-  private readonly creatorStatsSubject: BehaviorSubject<IcreatorStatistics>;
-
-  /**
-   * @name creatorStats$
-   * @desc An observable of steamed value from the creatorStatsSubject.
-   * @type {Observable<IcreatorStatistics>}
-   */
-  public readonly creatorStats$: Observable<IcreatorStatistics>;
   private isDestroyed = new Subject();
 
   public emitLogoCampaignUpdated = new Subject();
@@ -81,16 +62,6 @@ export class CampaignsStoreService {
       .pipe(filter((list: any) => list.length));
     this.campaignsListSubject = new BehaviorSubject<any[]>([]);
     this.campaignsList$ = this.campaignsListSubject.asObservable();
-    this.creatorStatsSubject = new BehaviorSubject<IcreatorStatistics>({
-      totalEarnedInSaTT: '0',
-      totalEarnedInUSD: '0',
-      numberOfAcceptedLinks: 0,
-      numberOfRejectedLinks: 0,
-      numberOfPendingLinks: 0,
-      numberOfValidatedLinks: 0
-    });
-    this.creatorStats$ = this.creatorStatsSubject.asObservable();
-    this.getCreatorStats();
   }
 
   setCampaign(c: Campaign) {
@@ -156,9 +127,6 @@ export class CampaignsStoreService {
     this.campaignsListByWalletIdSubject.next(list);
   }
 
-  private setCreatorStats(value: IcreatorStatistics): void {
-    this.creatorStatsSubject.next(value);
-  }
   get campaignsByWalletId() {
     return this.campaignsListByWalletIdSubject.getValue();
   }
@@ -241,31 +209,6 @@ export class CampaignsStoreService {
     });
 
     return obs;
-  }
-
-  /**
-   * @name getCreatorStats
-   * @desc Gets the user -creator- links and calculates the
-   *        statistics.
-   */
-  private getCreatorStats(): void {
-    let stats: IcreatorStatistics;
-    this.campaignService
-      .getCreatorlinks()
-      .pipe(takeUntil(this.isDestroyed))
-      .subscribe((response: any) => {
-        stats = {
-          totalEarnedInSaTT: response.SattEarned,
-          totalEarnedInUSD: response.USDEarned,
-          numberOfAcceptedLinks: 0,
-          numberOfRejectedLinks: 0,
-          numberOfPendingLinks: 0,
-          numberOfValidatedLinks: 0
-        };
-        this.setCreatorStats(stats);
-      });
-
-    //this.campaignService.getAcceptedPromsbyOwner
   }
 
   /**
