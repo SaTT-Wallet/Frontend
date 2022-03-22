@@ -9,12 +9,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { interestsList, pattContact } from '@app/config/atn.config';
 import { ListTokensPerso } from '@config/atn.config';
-import { ListTokens } from '@app/config/atn.config';
 import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
 import { WalletStoreService } from '@core/services/wallet-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
-import { of, Subject } from 'rxjs';
-import { catchError, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 
 @Component({
@@ -166,12 +165,12 @@ export class AddTokenComponent implements OnInit {
           this.formToken.get('tokenAdress')?.value
         )
         .pipe(takeUntil(this.isDestroyed))
-        .subscribe((response: any) => {
-  
-          if (response.data !== undefined) {
-            this.isSubmited = false;
-            this.isLoading = false;
-            
+        .subscribe(
+          (response: any) => {
+            if (response.data !== undefined) {
+              this.isSubmited = false;
+              this.isLoading = false;
+
               this.token = response;
 
               this.formToken
@@ -193,25 +192,27 @@ export class AddTokenComponent implements OnInit {
               //   this.successMsg = '';
               //   this.disabled = false;
               // } else {
-                this.errorMsg = '';
-                this.successMsg = 'addToken.token-founded';
-                this.disabled = true;
-                this.showAddBtn = true;
-                this.formToken.disable();
+              this.errorMsg = '';
+              this.successMsg = 'addToken.token-founded';
+              this.disabled = true;
+              this.showAddBtn = true;
+              this.formToken.disable();
               // }
-           
-            //  else {
-            //   this.successMsg = '';
-            //   this.errorMsg = 'addToken.token-or-network-invalid';
-            // }
-          }
-        },(error: any) => {
-if (error.message = "not a token address"){
-  this.successMsg = '';
+
+              //  else {
+              //   this.successMsg = '';
+              //   this.errorMsg = 'addToken.token-or-network-invalid';
+              // }
+            }
+          },
+          (error: any) => {
+            if ((error.message = 'not a token address')) {
+              this.successMsg = '';
               this.errorMsg = 'addToken.token-or-network-invalid';
               this.isLoading = false;
-}
-        });
+            }
+          }
+        );
     }
   }
 
@@ -225,50 +226,50 @@ if (error.message = "not a token address"){
         this.formToken.get('symbol')?.value.toUpperCase(),
         this.formToken.get('decimal')?.value,
         this.formToken.get('tokenAdress')?.value,
-        this.formToken.get('network')?.value.toUpperCase(),
+        this.formToken.get('network')?.value.toUpperCase()
         // this.token.symbol,
         // this.token.decimal,
         // this.token.tokenAdress,
         // this.token.network,
       )
       .pipe(takeUntil(this.isDestroyed))
-      .subscribe((response: any) => {
-        if (response !== undefined) {
-          this.formToken.reset('', { onlySelf: true, emitEvent: false });
-          this.disabled = false;
-          this.isLodingBtn = false;
-          this.isSubmited = false;
-          this.showAddBtn = false;
+      .subscribe(
+        (response: any) => {
+          if (response !== undefined) {
+            this.formToken.reset('', { onlySelf: true, emitEvent: false });
+            this.disabled = false;
+            this.isLodingBtn = false;
+            this.isSubmited = false;
+            this.showAddBtn = false;
             this.formToken.reset('', { onlySelf: true, emitEvent: false });
             this.errorMsg = '';
             this.successMsg = 'addToken.token-added-successfully';
             this.router.navigate(['/home']);
-         
-        }
-      }
-    ,(error: any) => {
-      if ((error.error = "token already added") || (error.error = "not a token address") ){
-           this.errorMsg = 'addToken.token-already-added';
+          }
+        },
+        (error: any) => {
+          if (
+            (error.error = 'token already added') ||
+            (error.error = 'not a token address')
+          ) {
+            this.errorMsg = 'addToken.token-already-added';
             this.successMsg = '';
             this.disabled = false;
-  
 
-            this.showAddBtn=false
+            this.showAddBtn = false;
             this.isLodingBtn = false;
             this.formToken.enable({ onlySelf: true, emitEvent: false });
-        
+
             this.formToken.reset({ onlySelf: true, emitEvent: false });
-        
+
             this.formToken
-        
+
               .get('network')
-        
+
               ?.setValue(this.selectedBlockchain, { onlySelf: true });
-      }
-     
-              });
-      
-    
+          }
+        }
+      );
   }
   getStats(event: any) {
     this.valuelist = event.target.defaultValue;
@@ -286,37 +287,36 @@ if (error.message = "not a token address"){
           this.listToken[this.valuelist].symbol,
           this.listToken[this.valuelist].decimals,
           this.listToken[this.valuelist].tokenAddress,
-          this.listToken[this.valuelist].network,
-
-          
+          this.listToken[this.valuelist].network
         )
         .pipe(takeUntil(this.isDestroyed))
-        .subscribe((response: any) => {
-          if (response !== undefined) {
-            this.disabled = false;
-            this.isLodingBtn = false;
-            this.isSubmited = false;
-            this.showAddBtnsearch = true;
-            if (!response.error) {
+        .subscribe(
+          (response: any) => {
+            if (response !== undefined) {
+              this.disabled = false;
+              this.isLodingBtn = false;
+              this.isSubmited = false;
+              this.showAddBtnsearch = true;
               this.errorMsg = '';
               this.successMsg = 'addToken.token-added-successfully';
               this.router.navigate(['/home']);
               this.walletStoreService.getCryptoList();
-            } else if (response.error === 'token already added') {
+            }
+          },
+
+          (error: any) => {
+            if (
+              (error.error = 'token already added') ||
+              (error.error = 'not a token address')
+            ) {
               this.errorMsg = 'addToken.token-already-added';
               setTimeout(() => {
                 this.errorMsg = '';
               }, 3000);
               this.successMsg = '';
-            } else {
-              this.errorMsg = 'error-message';
-              this.successMsg = '';
             }
           }
-        });
-    } else {
-      this.isLodingBtn = false;
-      this.showAddBtnsearch = true;
+        );
     }
   }
   alreadyAdded(token: any): boolean {
@@ -331,12 +331,15 @@ if (error.message = "not a token address"){
 
   search() {
     this.walletFacade
-      .getlistTokens()
+      // .getlistTokens()
+      .getCryptoPriceList()
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((data: any) => {
-        this.listToken2 = data;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const propertyNames = Object.keys(data.data);
+        this.listToken2 = data.data;
         for (let key in this.listToken2) {
-          if (data.hasOwnProperty(key)) {
+          if (data.data.hasOwnProperty(key)) {
             this.listToken2[key].symbol = key;
             if (this.listToken2[key].tokenAddress) {
               this.listToken.push(this.listToken2[key]);

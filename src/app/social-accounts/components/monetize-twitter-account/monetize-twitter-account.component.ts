@@ -66,7 +66,7 @@ export class MonetizeTwitterAccountComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestoy$))
       .subscribe((data: any) => {
         if (data !== null) {
-          this.channelTwitter = data.data.twitter;
+          this.channelTwitter = data.twitter;
         } else {
           this.channelTwitter = [];
         }

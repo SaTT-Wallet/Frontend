@@ -72,7 +72,9 @@ export class CryptofetchServiceService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.post(sattUrl + '/SaTT/bridge', send, { headers: headers });
+    return this.http.post(sattUrl + '/wallet/bridge', send, {
+      headers: headers
+    });
   }
   deletetoken(token: any) {
     const headers = new HttpHeaders({
@@ -80,7 +82,7 @@ export class CryptofetchServiceService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.post(sattUrl + '/wallet/remove/token', token, {
+    return this.http.delete(sattUrl + '/wallet/removeToken/' + token, {
       headers: headers
     });
   }
