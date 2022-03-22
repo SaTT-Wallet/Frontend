@@ -216,15 +216,13 @@ export class SocialNetworksComponent implements OnInit {
   }
 
   onReditectSocial(social: string) {
-    let url = this.router.url.split('?')[0];
+    //let url = this.router.url.split('?')[0];
     if (isPlatformBrowser(this.platformId))
       window.location.href =
         sattUrl +
         `/addChannel/${social}/${this.userId}` +
         '?redirect=' +
-        url +
-        '&social-network=' +
-        social;
+        this.router.url;
   }
   onReditectLinkedin() {
     if (isPlatformBrowser(this.platformId))
