@@ -52,7 +52,7 @@ export class ConvertSummaryComponent implements OnInit {
     this.getInfo();
 
     this.walletFacade
-      .getPayementId(this.crypto, this.quote_id, this.wallet_id)
+    .getPayementId(this.crypto, this.quote_id, this.wallet_id, this.selectedBlockchainNetwork)
       .pipe(
         tap((res: any) => {
           this.walletFacade.setPaymentId(res.payment_id);

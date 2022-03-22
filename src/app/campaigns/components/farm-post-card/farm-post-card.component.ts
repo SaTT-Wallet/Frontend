@@ -203,13 +203,15 @@ export class FarmPostCardComponent implements OnInit {
     let filterdArray = arrayReason.filter((ele: any) => ele !== null);
     if (filterdArray !== []) {
       this.campaignService
-        .rejectLinks(this.prom, filterdArray, {
-          title: this.prom.campaign.title,
-          id: this.prom.campaign.id
-        })
+        .rejectLinks(
+          this.prom,
+          filterdArray,
+          this.prom.campaign._id,
+          this.prom.campaign.title
+        )
         .pipe(takeUntil(this.isDestroyed))
         .subscribe((data: any) => {
-          if (data['message']) {
+          if (data.message === 'success') {
             this.closeModal(modal);
             this.showLoadingSpinner = false;
             this.deleted.emit(this.prom.id);

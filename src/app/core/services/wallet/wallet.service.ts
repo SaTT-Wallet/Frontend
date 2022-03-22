@@ -94,7 +94,7 @@ export class WalletService {
     });
 
     return this.http.post(
-      `${sattUrl}/wallet/token`,
+      `${sattUrl}/wallet/checkWalletToken`,
       {
         network: network,
         tokenAdress: tokenAdress

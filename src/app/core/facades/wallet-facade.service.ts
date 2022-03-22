@@ -246,7 +246,17 @@ export class WalletFacadeService {
     );
   }
 
-  getPayementId(currency: any, quote_id: any, wallet_id: any) {
+  getPayementId(currency: any, quote_id: any, wallet_id: any, selectedNetwork?: any) {
+        if (currency === 'SATT') {
+          if (selectedNetwork === 'BEP20') {
+            currency = 'SATT-SC';
+          } else {
+            currency = 'SATT-ERC20';
+          }
+        }
+        if (currency === 'SATTBEP20') {
+          currency = 'SATT (BEP20)';
+        }
     return this.cryptofetchServiceService.getPayementId(
       currency,
       quote_id,
