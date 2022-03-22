@@ -661,7 +661,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     //       this.replaceNonAlphanumeric(this.sendform.get('AmountUsd')?.value)
     //     );
     // }
-
     let currency = '';
     var getamount: any = this.sendform.get('Amount')?.value;
     let getusd: any = this.sendform.get('AmountUsd')?.value;
@@ -679,7 +678,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         currency = this.sendform.get('currency')?.value;
       }
       this.dataList?.forEach((crypto: any) => {
-        if (!!this.totalAmount && !!this.dataList) {
           if (
             event === 'amount' &&
             sendamount !== undefined &&
@@ -722,7 +720,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           }
 
           this.editwidthInput();
-        }
+      
       });
     }
   }

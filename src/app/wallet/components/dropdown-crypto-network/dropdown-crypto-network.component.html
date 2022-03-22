@@ -12,23 +12,24 @@
         aria-expanded="false"
       >
         <i class="chevron fa fa-fw" *ngIf="selectedNetworkValue !== 'BTC'"></i>
+        <img
+        class="crypto-image"
+        src="assets/Images/symbol_crypto/{{ cryptoPicName }}.svg"
+        *ngIf="!this.token"
+      />
+      <img
+        class="crypto-image"
+        src="assets/Images/symbol_crypto/{{ cryptoPicName }}.svg"
+        *ngIf="this.addedTokenNopic"
+      />
+      <img
+        class="crypto-image"
+        src="{{ cryptoPicName }}"
+        *ngIf="this.token && !this.addedTokenNopic"
+      />
         <span class="dropdown-text ps-3"
           >{{ cryptoSymbol | translate }}
-          <img
-            class="crypto-image"
-            src="assets/Images/symbol_crypto/{{ cryptoPicName }}.svg"
-            *ngIf="!this.token"
-          />
-          <img
-            class="crypto-image"
-            src="assets/Images/symbol_crypto/{{ cryptoPicName }}.svg"
-            *ngIf="this.addedTokenNopic"
-          />
-          <img
-            class="crypto-image"
-            src="{{ cryptoPicName }}"
-            *ngIf="this.token && !this.addedTokenNopic"
-          />
+
         </span>
       </button>
       <ul

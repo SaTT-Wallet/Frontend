@@ -167,26 +167,26 @@ export class AddTokenComponent implements OnInit {
         )
         .pipe(takeUntil(this.isDestroyed))
         .subscribe((response: any) => {
-          if (response !== undefined) {
+          if (response.data !== undefined) {
             this.isSubmited = false;
             this.isLoading = false;
-            if (response.message) {
+            if (response.data.message) {
               this.token = response;
 
               this.formToken
                 .get('symbol')
-                ?.setValue(response.symbol, { onlySelf: true });
+                ?.setValue(response.data.symbol, { onlySelf: true });
               this.formToken
                 .get('tokenAdress')
-                ?.setValue(response.tokenAdress, { onlySelf: true });
+                ?.setValue(response.data.tokenAdress, { onlySelf: true });
               this.formToken
                 .get('decimal')
-                ?.setValue(response.decimal, { onlySelf: true });
+                ?.setValue(response.data.decimal, { onlySelf: true });
               if (
-                ListTokens[response.symbol.toUpperCase()] &&
-                ListTokens[response.symbol.toUpperCase()][
+                ListTokens[response.data.symbol.toUpperCase()] &&
+                ListTokens[response.data.symbol.toUpperCase()][
                   'type'
-                ].toUpperCase() === response.network
+                ].toUpperCase() === response.data.network
               ) {
                 this.errorMsg = 'addToken.token-exists';
                 this.successMsg = '';
