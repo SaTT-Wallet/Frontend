@@ -14,7 +14,7 @@ export interface ICampaignResponse {
   cost: string;
   cost_usd: string;
   cover: string;
-  createdAt: number;
+  createdAt: string;
   endDate: string;
   idNode: string;
   logo: string;
@@ -28,6 +28,23 @@ export interface ICampaignResponse {
   title: string;
   token: { name: string; type: string; addr: string };
   type: string;
-  updatedAt: number;
+  updatedAt: string;
   _id: string;
+  hash?: string;
+  walletId?: string;
+  funds?: string[];
+  remaining?: string;
+  countries?: any[];
+  description: string;
+  resume: string;
+  shortLink?: string;
+  stat?: string;
+  coverSrc?: string;
+  coverMobile?: string;
+  coverSrcMobile?: string;
+  proms?: any;
+  url?: string;
+  file?: string;
+  urlPicUser?: string;
+  missions?: [];
 }
