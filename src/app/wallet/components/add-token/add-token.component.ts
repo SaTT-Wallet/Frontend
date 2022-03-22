@@ -13,8 +13,8 @@ import { ListTokens } from '@app/config/atn.config';
 import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
 import { WalletStoreService } from '@core/services/wallet-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { of, Subject } from 'rxjs';
+import { catchError, takeUntil } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 
 @Component({
@@ -167,10 +167,11 @@ export class AddTokenComponent implements OnInit {
         )
         .pipe(takeUntil(this.isDestroyed))
         .subscribe((response: any) => {
+  
           if (response.data !== undefined) {
             this.isSubmited = false;
             this.isLoading = false;
-            if (response.data.message) {
+            
               this.token = response;
 
               this.formToken
@@ -182,27 +183,34 @@ export class AddTokenComponent implements OnInit {
               this.formToken
                 .get('decimal')
                 ?.setValue(response.data.decimal, { onlySelf: true });
-              if (
-                ListTokens[response.data.symbol.toUpperCase()] &&
-                ListTokens[response.data.symbol.toUpperCase()][
-                  'type'
-                ].toUpperCase() === response.data.network
-              ) {
-                this.errorMsg = 'addToken.token-exists';
-                this.successMsg = '';
-                this.disabled = false;
-              } else {
+              // if (
+              //   ListTokens[response.data.symbol.toUpperCase()] &&
+              //   ListTokens[response.data.symbol.toUpperCase()][
+              //     'type'
+              //   ].toUpperCase() === response.data.network
+              // ) {
+              //   this.errorMsg = 'addToken.token-exists';
+              //   this.successMsg = '';
+              //   this.disabled = false;
+              // } else {
                 this.errorMsg = '';
                 this.successMsg = 'addToken.token-founded';
                 this.disabled = true;
                 this.showAddBtn = true;
                 this.formToken.disable();
-              }
-            } else {
-              this.successMsg = '';
-              this.errorMsg = 'addToken.token-or-network-invalid';
-            }
+              // }
+           
+            //  else {
+            //   this.successMsg = '';
+            //   this.errorMsg = 'addToken.token-or-network-invalid';
+            // }
           }
+        },(error: any) => {
+if (error.message = "not a token address"){
+  this.successMsg = '';
+              this.errorMsg = 'addToken.token-or-network-invalid';
+              this.isLoading = false;
+}
         });
     }
   }
