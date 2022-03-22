@@ -95,6 +95,7 @@ export class AddTokenComponent implements OnInit {
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((list) => {
         this.listAddedToken = list;
+        console.log("listAddedToken" , this.listAddedToken)
       });
     for (let key in ListTokensPerso) {
       if (ListTokensPerso.hasOwnProperty(key)) {
@@ -297,27 +298,24 @@ if (error.message = "not a token address"){
             this.isLodingBtn = false;
             this.isSubmited = false;
             this.showAddBtnsearch = true;
-            if (!response.error) {
               this.errorMsg = '';
               this.successMsg = 'addToken.token-added-successfully';
               this.router.navigate(['/home']);
               this.walletStoreService.getCryptoList();
-            } else if (response.error === 'token already added') {
-              this.errorMsg = 'addToken.token-already-added';
+          }
+        }
+
+        ,(error: any) => {
+      if ((error.error = "token already added") || (error.error = "not a token address") ){
+               this.errorMsg = 'addToken.token-already-added';
               setTimeout(() => {
                 this.errorMsg = '';
               }, 3000);
               this.successMsg = '';
-            } else {
-              this.errorMsg = 'error-message';
-              this.successMsg = '';
-            }
-          }
-        });
-    } else {
-      this.isLodingBtn = false;
-      this.showAddBtnsearch = true;
-    }
+      } 
+              });
+
+    } 
   }
   alreadyAdded(token: any): boolean {
     if (
@@ -331,12 +329,15 @@ if (error.message = "not a token address"){
 
   search() {
     this.walletFacade
-      .getlistTokens()
+      // .getlistTokens()
+      .getCryptoPriceList()
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((data: any) => {
-        this.listToken2 = data;
+
+        const propertyNames = Object.keys(data.data);
+        this.listToken2 = data.data;
         for (let key in this.listToken2) {
-          if (data.hasOwnProperty(key)) {
+          if (data.data.hasOwnProperty(key)) {
             this.listToken2[key].symbol = key;
             if (this.listToken2[key].tokenAddress) {
               this.listToken.push(this.listToken2[key]);
