@@ -4,7 +4,8 @@
       [title]="'Buy'"
       class="buy-component"
       (clickedBack)="linstingBack($event)"
-    ></app-header-send-receive-buy>
+    >
+    </app-header-send-receive-buy>
     <div class="row white-bloc justify-content-center">
       <!--------------------AmountBloc----------------------------------->
       <div class="div-content d-flex flex-column align-items-center mt-3">
@@ -31,16 +32,17 @@
                     />
                     <span class="dropdown-text">
                       {{
-                        !!selectedCurrencyType
-                          ? selectedCurrencyType.toUpperCase()
-                          : ''
+                      !!selectedCurrencyType
+                        ? selectedCurrencyType.toUpperCase()
+                        : ''
                       }}
                     </span>
                   </div>
-                  <i
-                    class="fa fa-chevron-down label-icon"
-                    aria-hidden="true"
-                  ></i>
+                  <img
+                    style="margin-right: 0.75rem"
+                    src="assets/Images/chevrons/chevron_down.svg"
+                    alt=""
+                  />
                 </button>
                 <ul
                   class="dropdown-menu dropdown-menu-buy mb-3"
@@ -71,8 +73,7 @@
                     <div class="d-flex align-items-center gap-2">
                       <img
                         src="../../../assets/Images/symbol_crypto/bsc-black-icon.svg"
-                        alt=""
-                        class="crypto-image"
+                        style="width: 26px !important"
                       />
                       <span class="li-select-text d-flex">
                         {{ eCurrencyType.BEP20.toUpperCase() }}</span
@@ -123,20 +124,21 @@
                     <span
                       class="symbol2"
                       *ngIf="selectedCurrencyType === eCurrencyType.FIAT"
-                      >{{ selectedCurrencyLogo }}</span
+                    >{{ selectedCurrencyLogo }}</span
                     >
                     <span class="dropdown-text2">
                       {{
-                        selectedTargetCurrency === 'SATTBEP20'
-                          ? 'SATT'
-                          : selectedTargetCurrency
+                      selectedTargetCurrency === 'SATTBEP20'
+                        ? 'SATT'
+                        : selectedTargetCurrency
                       }}
                     </span>
                   </div>
-                  <i
-                    class="fa fa-chevron-down label-icon"
-                    aria-hidden="true"
-                  ></i>
+                  <img
+                    style="margin-right: 0.75rem"
+                    src="assets/Images/chevrons/chevron_down.svg"
+                    alt=""
+                  />
                 </button>
                 <ul
                   class="dropdown-menu"
@@ -178,9 +180,9 @@
                         />
                         <span class="li-select-text">
                           {{
-                            $any(crypto).symbole === 'SATT'
-                              ? 'SATT (' + $any(crypto).type.toUpperCase() + ')'
-                              : $any(crypto).symbole
+                          $any(crypto).symbole === 'SATT'
+                            ? 'SATT (' + $any(crypto).type.toUpperCase() + ')'
+                            : $any(crypto).symbole
                           }}</span
                         >
                       </li>
@@ -235,31 +237,31 @@
                 *ngIf="this.selectedCurrencyType !== eCurrencyType.FIAT"
               >
                 {{
-                  '1 ' +
-                    (selectedTargetCurrency === 'SATTBEP20'
-                      ? 'SATT'
-                      : selectedTargetCurrency)
+                '1 ' +
+                (selectedTargetCurrency === 'SATTBEP20'
+                  ? 'SATT'
+                  : selectedTargetCurrency)
                 }}
                 =
                 {{
-                  (this.rateExchangePerRequestedCrypto$ | async)?.toFixed(8) +
-                    ' ' +
-                    (this.requestedCrypto === 'SATTBEP20'
-                      ? 'SATT'
-                      : this.requestedCrypto)
+                (this.rateExchangePerRequestedCrypto$ | async)?.toFixed(8) +
+                ' ' +
+                (this.requestedCrypto === 'SATTBEP20'
+                  ? 'SATT'
+                  : this.requestedCrypto)
                 }}
               </ng-container>
               <ng-container
                 *ngIf="this.selectedCurrencyType === eCurrencyType.FIAT"
               >
                 {{
-                  '1 ' +
-                    (this.requestedCrypto === 'SATTBEP20'
-                      ? 'SATT'
-                      : this.requestedCrypto)
+                '1 ' +
+                (this.requestedCrypto === 'SATTBEP20'
+                  ? 'SATT'
+                  : this.requestedCrypto)
                 }}
                 =
-                {{ this.varprice?.toFixed(8) + ' USD' }}
+                {{ this.cryptoPrice?.toFixed(8) + ' USD' }}
               </ng-container>
             </p>
           </div>
@@ -267,9 +269,9 @@
             <p class="input-amount-usd">
               ≈
               {{
-                (cryptoAmount | number: '1.0-2') +
-                  ' ' +
-                  (requestedCrypto === 'SATTBEP20' ? 'SATT' : requestedCrypto)
+              (cryptoAmount | number: '1.0-2') +
+              ' ' +
+              (requestedCrypto === 'SATTBEP20' ? 'SATT' : requestedCrypto)
               }}
             </p>
           </div>
@@ -292,15 +294,17 @@
                       }}"
                       alt=""
                       class="crypto-image"
+
                     />
-                    <span class="dropdown-text">
+                    <span class="dropdown-text" >
                       {{ selectedBlockchainNetwork }}
                     </span>
                   </div>
-                  <i
-                    class="fa fa-chevron-down label-icon"
-                    aria-hidden="true"
-                  ></i>
+                  <img
+                    style="margin-right: 0.75rem"
+                    src="assets/Images/chevrons/chevron_down.svg"
+                    alt=""
+                  />
                 </button>
                 <ul
                   class="dropdown-menu dropdown-menu-buy mb-3"
@@ -336,7 +340,7 @@
                       <img
                         src="../../../assets/Images/symbol_crypto/bsc-black-icon.svg"
                         alt=""
-                        class="crypto-image border-radius-circle"
+                        style='width: 26px;'
                       />
                       <span class="li-select-text d-flex">
                         {{ eBlockchainNetwork.BEP20 }}</span
@@ -366,16 +370,17 @@
                     />
                     <span class="dropdown-text2">
                       {{
-                        requestedCrypto === 'SATTBEP20'
-                          ? 'SATT'
-                          : requestedCrypto
+                      requestedCrypto === 'SATTBEP20'
+                        ? 'SATT'
+                        : requestedCrypto
                       }}
                     </span>
                   </div>
-                  <i
-                    class="fa fa-chevron-down label-icon"
-                    aria-hidden="true"
-                  ></i>
+                  <img
+                    style="margin-right: 0.75rem"
+                    src="assets/Images/chevrons/chevron_down.svg"
+                    alt=""
+                  />
                 </button>
                 <ul
                   class="dropdown-menu custom-dropdown-menu"
@@ -402,9 +407,9 @@
                       />
                       <span class="li-select-text">
                         {{
-                          crypto.symbole === 'SATTBEP20'
-                            ? 'SATT'
-                            : crypto.symbole
+                        crypto.symbole === 'SATTBEP20'
+                          ? 'SATT'
+                          : crypto.symbole
                         }}</span
                       >
                     </li>
@@ -442,7 +447,7 @@
                 this.convertform.get('walletId')?.errors?.required &&
                 this.convertform.get('walletId')?.dirty
               "
-              >{{ 'Wallet.field_required' | translate }}</span
+            >{{ 'Wallet.field_required' | translate }}</span
             >
           </div>
           <div class="text-center mt-1" *ngIf="!isConnected">
@@ -452,7 +457,7 @@
                 this.convertform.get('walletId')?.errors?.pattern &&
                 !this.convertform.get('walletId')?.errors?.required
               "
-              >{{ 'Wallet.Invalid address' | translate }}</span
+            >{{ 'Wallet.Invalid address' | translate }}</span
             >
           </div>
 
@@ -472,7 +477,7 @@
               />
               <span class="purshase-btn-text">{{
                 'Pay by Credit Card' | translate
-              }}</span>
+                }}</span>
             </button>
             <a
               class="buy-swap-btn"
@@ -489,7 +494,7 @@
               />
               <span class="purshase-btn-text">{{
                 'Swap with pancakeswap' | translate
-              }}</span>
+                }}</span>
             </a>
 
             <a
@@ -509,7 +514,7 @@
 
               <span class="purshase-btn-text">{{
                 'Swap with uniswap' | translate
-              }}</span>
+                }}</span>
             </a>
           </div>
         </form>
