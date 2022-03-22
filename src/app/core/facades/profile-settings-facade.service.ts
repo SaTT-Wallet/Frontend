@@ -120,6 +120,10 @@ export class ProfileSettingsFacadeService {
     return this.profileService.exportProfileData(password);
   }
 
+  exportProfileDataBTC(password: string) {
+    return this.profileService.exportProfileDataBTC(password);
+  }
+
   getUserProfilePic() {
     return this.profileSettingsStoreService.getProfilePic();
   }
