@@ -69,12 +69,19 @@
     />-->
 
     <img
-      *ngIf="!!campaign.cover"
+      *ngIf="!!campaign.cover && !campaign.coverSrcMobile"
       class="img-campaign ng-isolate-scope"
       alt=""
       loading="lazy"
       [src]="campaign.cover"
     />
+    <img
+    *ngIf="!!campaign.coverSrcMobile"
+    class="img-campaign ng-isolate-scope"
+    alt=""
+    loading="lazy"
+    [src]="campaign.coverSrcMobile"
+  />
     <div
       class="d-flex align-items-center justify-content-center w-100 height-defaut-img flex-nowrap"
       *ngIf="!campaign.cover"
