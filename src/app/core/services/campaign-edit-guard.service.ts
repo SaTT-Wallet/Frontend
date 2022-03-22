@@ -33,7 +33,6 @@ export class CampaignEditGuardService implements CanActivate {
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot) {
-    // debugger;
     if (this.tokenStorageService.getIsAuth() !== 'true') {
       this.tokenStorageService.signOut();
       this.accountFacadeService.dispatchLogoutAccount();

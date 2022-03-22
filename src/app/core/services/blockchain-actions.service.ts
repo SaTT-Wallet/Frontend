@@ -3,7 +3,6 @@ import { BehaviorSubject, combineLatest, of, Subject } from 'rxjs';
 import { CampaignHttpApiService } from './campaign/campaign.service';
 import { EButtonActions } from '@app/core/enums';
 import { catchError, retry, share, switchMap, map, tap } from 'rxjs/operators';
-import { IsCompletedService } from './is-completed.service';
 import { IBlockchainActionEvent } from '@app/models/blockchain-action-event.interface';
 import { ParticipationListStoreService } from '@campaigns/services/participation-list-store.service';
 
@@ -58,21 +57,15 @@ export class BlockchainActionsService {
       this.confirmButtonClick$
     ]).pipe(
       switchMap(([event, password]) => {
-        let promHash = event.data.prom.hash
-          ? event.data.prom.hash
-          : event.data.prom.id;
-        let idCampaign = event.data.prom.id_campaign
-          ? event.data.prom.id_campaign
-          : event.data.prom.campaignHash;
+        let idProm = event.data.prom.hash;
+        let hash = event.data.prom.campaignHash;
 
         if (event.action === EButtonActions.GET_MY_GAINS) {
           return this.campaignService
             .recoverEarnings(
-              promHash,
               password,
-              event.data.bounty,
-
-              idCampaign
+              idProm,
+              hash,
             )
             .pipe(
               map((response: any) => {
@@ -90,7 +83,7 @@ export class BlockchainActionsService {
                   .subscribe();
               }),
               retry(1),
-              catchError((err) => {
+              catchError((err: any) => {
                 return of(null);
               }),
               map((response: any) => {
