@@ -60,7 +60,6 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() isOwnedByUser = false;
   @Input() kits: any;
   @Input() allProms: any;
-  @Input() testV: any;
   @Output() onRecoverEarningClick = new EventEmitter();
   @Output() showPasswordModal: EventEmitter<any> = new EventEmitter();
   @Input() id = '';

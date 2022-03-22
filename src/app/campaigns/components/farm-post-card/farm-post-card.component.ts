@@ -203,13 +203,15 @@ export class FarmPostCardComponent implements OnInit {
     let filterdArray = arrayReason.filter((ele: any) => ele !== null);
     if (filterdArray !== []) {
       this.campaignService
-        .rejectLinks(this.prom, filterdArray, {
-          title: this.prom.campaign.title,
-          id: this.prom.campaign.id
-        })
+        .rejectLinks(
+          this.prom,
+          filterdArray,
+          this.prom.campaign._id,
+          this.prom.campaign.title
+        )
         .pipe(takeUntil(this.isDestroyed))
         .subscribe((data: any) => {
-          if (data['message']) {
+          if (data.message === 'success') {
             this.closeModal(modal);
             this.showLoadingSpinner = false;
             this.deleted.emit(this.prom.id);
@@ -233,20 +235,22 @@ export class FarmPostCardComponent implements OnInit {
       if (this.prom.userPic !== '') {
         this.prom.userPic = this.prom.userPic;
       } else {
-        this.campaignService
-          .getBestInfluencerPic(this.prom.meta._id)
-          .pipe(takeUntil(this.isDestroyed))
-          .subscribe((res: any) => {
-            let objectURL: any;
-            if (res.err !== 'No file exists') {
-              objectURL = URL.createObjectURL(res);
-              this.prom.userPic =
-                this._sanitizer.bypassSecurityTrustUrl(objectURL);
-              this.changeDetectorRef.detectChanges();
-            } else {
-              this.prom.userPic = '';
-            }
-          });
+        if (!this.router.url.includes('farm-posts')) {
+          this.campaignService
+            .getBestInfluencerPic(this.prom.meta._id)
+            .pipe(takeUntil(this.isDestroyed))
+            .subscribe((res: any) => {
+              let objectURL: any;
+              if (res.err !== 'No file exists') {
+                objectURL = URL.createObjectURL(res);
+                this.prom.userPic =
+                  this._sanitizer.bypassSecurityTrustUrl(objectURL);
+                this.changeDetectorRef.detectChanges();
+              } else {
+                this.prom.userPic = '';
+              }
+            });
+        }
       }
     }
   }

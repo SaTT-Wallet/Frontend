@@ -125,15 +125,21 @@ export class ProfileService {
       headers: httpHeaders
     });
   }
-  confirmChangeEmail(body: any) {
+  confirmChangeEmail(code: any) {
     let httpHeaders = new HttpHeaders({
       'Cache-Control': 'no-store',
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.put(sattUrl + '/confirmChangeEmail', body, {
-      headers: httpHeaders
-    });
+    return this.http.post(
+      sattUrl + '/profile/confirmChangeEmail',
+      {
+        code: code
+      },
+      {
+        headers: httpHeaders
+      }
+    );
   }
 
   completeprofile(body: any) {
