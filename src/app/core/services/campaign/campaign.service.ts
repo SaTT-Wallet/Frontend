@@ -759,11 +759,10 @@ export class CampaignHttpApiService {
     let amount = '100000000000000000000000000000';
     // const BEP20 = ListTokens["SATTBEP20"].contract;
     return this.http.post(
-      sattUrl + '/v2/bep20/allow',
+      sattUrl + '/campaign/bep20/allow',
       {
-        access_token: this.tokenStorageService.getToken(),
-        token: bep20.addr,
-        spender: campaignSmartContractBEP20,
+        tokenAddresss: bep20.addr,
+        campaignAddress: campaignSmartContractBEP20,
         amount: amount,
         pass: password
       },
