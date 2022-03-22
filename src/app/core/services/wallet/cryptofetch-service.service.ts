@@ -82,7 +82,7 @@ export class CryptofetchServiceService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.post(sattUrl + '/wallet/remove/token', token, {
+    return this.http.delete(sattUrl + '/wallet/removeToken/' + token, {
       headers: headers
     });
   }
