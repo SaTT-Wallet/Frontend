@@ -1,2 +1,4 @@
-FROM atayen/atayen:latest
+FROM node:latest
+RUN npm install -g @angular/cli
 COPY . /usr/
+

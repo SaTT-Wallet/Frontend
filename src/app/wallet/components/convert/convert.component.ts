@@ -13,14 +13,22 @@ import { TokenStorageService } from '@core/services/tokenStorage/token-storage-s
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { forkJoin, Subject } from 'rxjs';
+import {
+  catchError,
+  filter,
+  map,
+  switchMap,
+  takeUntil,
+  tap
+} from 'rxjs/operators';
+import { forkJoin, of, Subject } from 'rxjs';
 
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DOCUMENT } from '@angular/common';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { Big } from 'big.js';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-convert',
@@ -358,11 +366,11 @@ export class ConvertComponent implements OnInit, OnDestroy {
       this.showSpinner = true;
       this.loading = true;
       this.showButtonSend = false;
-      let direction = this.direction;
+      // let direction = this.direction;
       this.loadingButton = true;
       let splitted: any = this.convertform.get('Amount')?.value;
       this.resetchecker();
-      const token = this.tokenStorageService.getToken();
+      // const token = this.tokenStorageService.getToken();
       const amountdecimal = splitted.toString();
       let amount = splitted.toString();
 
@@ -374,71 +382,121 @@ export class ConvertComponent implements OnInit, OnDestroy {
         .times(ListTokens[this.defaultcurr].decimals)
         .toFixed(30)
         .split('.')[0];
-      const send: any = { token, direction, amount, password };
+      const send: any = { amount: amount, pass: password };
       this.convertform.get('password')?.reset();
-      this.Fetchservice.convertcrypto(send)
-        .pipe(takeUntil(this.onDestoy$))
-        .subscribe(
-          (data: any) => {
-            this.showButtonSend = true;
-            this.loadingButton = false;
-            if (data.transactionHash) {
-              this.amount = splitted;
-              this.currency = currency;
-              this.hashtransaction = data.transactionHash;
-              this.showConvertSuccess = true;
-              this.convertblock = false;
-              this.showConvertfailed = false;
-              this.notEnoughtBalance = false;
-            } else if (data.error === 'Wrong password') {
-              this.showConvertfailed = false;
-              this.showConvertSuccess = false;
-              this.convertblock = true;
-              this.wrongpassword = true;
-              this.show = !this.show;
-              this.show2 = !this.show2;
-              setTimeout(() => {
+      if (this.direction === 'BTE') {
+        this.Fetchservice.convertcrypto(send)
+          .pipe(
+            catchError((error: HttpErrorResponse) => {
+              if (
+                error.error.error ===
+                'Key derivation failed - possibly wrong password'
+              ) {
+                this.showConvertfailed = false;
+                this.showConvertSuccess = false;
+                this.convertblock = true;
+                this.wrongpassword = true;
+                this.show = !this.show;
+                this.show2 = !this.show2;
+                setTimeout(() => {
+                  this.wrongpassword = false;
+                }, 5000);
+                let elementinputconvert =
+                  this.inputAmountConvert?.nativeElement;
+                elementinputconvert.style.width = 23 + 'px';
+              } else if (error.error.error === 'insufficient funds for gas') {
+                this.showConvertfailed = true;
+                this.showConvertSuccess = false;
+                this.convertblock = false;
+
                 this.wrongpassword = false;
-              }, 5000);
-
-              let elementinputconvert = this.inputAmountConvert?.nativeElement;
-              // let elementinputconvertusd = this.inputAmountConvertUsd?.nativeElement;
-              elementinputconvert.style.width = 23 + 'px';
-              //  elementinputconvertusd.style.width = 40 + "px";
-            } else if (data.error) {
-              this.showConvertfailed = true;
-              this.showConvertSuccess = false;
-              this.convertblock = false;
-
-              this.wrongpassword = false;
+                this.showButtonSend = true;
+                this.gazproblem = true;
+                setTimeout(() => {
+                  this.gazproblem = false;
+                }, 5000);
+                let elementinputconvert =
+                  this.inputAmountConvert?.nativeElement;
+                elementinputconvert.style.width = 23 + 'px';
+              } else if (error.error.error === 'not_enough_budget') {
+                this.showConvertfailed = false;
+                this.showConvertSuccess = false;
+                this.convertblock = true;
+                this.notEnoughtBalance = true;
+                this.show = !this.show;
+                this.show2 = !this.show2;
+                setTimeout(() => {
+                  this.notEnoughtBalance = false;
+                }, 5000);
+              }
+              return of(false);
+            }),
+            takeUntil(this.onDestoy$)
+          )
+          .subscribe(
+            (data: any) => {
               this.showButtonSend = true;
-              this.gazproblem = true;
-              setTimeout(() => {
-                this.gazproblem = false;
-              }, 5000);
-              let elementinputconvert = this.inputAmountConvert?.nativeElement;
-              // let elementinputconvertusd = this.inputAmountConvertUsd?.nativeElement;
-              elementinputconvert.style.width = 23 + 'px';
-              //  elementinputconvertusd.style.width = 40 + "px";
-            } else {
-              this.showConvertfailed = false;
-              this.showConvertSuccess = false;
-              this.convertblock = true;
-              this.notEnoughtBalance = true;
-              this.show = !this.show;
-              this.show2 = !this.show2;
-              setTimeout(() => {
+              this.loadingButton = false;
+              if (data.transactionHash) {
+                this.amount = splitted;
+                this.currency = currency;
+                this.hashtransaction = data.transactionHash;
+                this.showConvertSuccess = true;
+                this.convertblock = false;
+                this.showConvertfailed = false;
                 this.notEnoughtBalance = false;
-              }, 5000);
-            }
-          },
+              }
+              // else if (data.error === 'Wrong password') {
+              //   this.showConvertfailed = false;
+              //   this.showConvertSuccess = false;
+              //   this.convertblock = true;
+              //   this.wrongpassword = true;
+              //   this.show = !this.show;
+              //   this.show2 = !this.show2;
+              //   setTimeout(() => {
+              //     this.wrongpassword = false;
+              //   }, 5000);
 
-          () => {
-            this.showSpinner = false;
-            this.showButtonSend = true;
-            this.loadingButton = false;
-          }
-        );
+              //   let elementinputconvert = this.inputAmountConvert?.nativeElement;
+              //   // let elementinputconvertusd = this.inputAmountConvertUsd?.nativeElement;
+              //   elementinputconvert.style.width = 23 + 'px';
+              //   //  elementinputconvertusd.style.width = 40 + "px";
+              // }
+              // else if (data.error) {
+              //   this.showConvertfailed = true;
+              //   this.showConvertSuccess = false;
+              //   this.convertblock = false;
+
+              //   this.wrongpassword = false;
+              //   this.showButtonSend = true;
+              //   this.gazproblem = true;
+              //   setTimeout(() => {
+              //     this.gazproblem = false;
+              //   }, 5000);
+              //   let elementinputconvert = this.inputAmountConvert?.nativeElement;
+              //   // let elementinputconvertusd = this.inputAmountConvertUsd?.nativeElement;
+              //   elementinputconvert.style.width = 23 + 'px';
+              //   //  elementinputconvertusd.style.width = 40 + "px";
+              // } else {
+              //   this.showConvertfailed = false;
+              //   this.showConvertSuccess = false;
+              //   this.convertblock = true;
+              //   this.notEnoughtBalance = true;
+              //   this.show = !this.show;
+              //   this.show2 = !this.show2;
+              //   setTimeout(() => {
+              //     this.notEnoughtBalance = false;
+              //   }, 5000);
+              // }
+            },
+
+            () => {
+              this.showSpinner = false;
+              this.showButtonSend = true;
+              this.loadingButton = false;
+            }
+          );
+      }
     }
   }
 

@@ -128,7 +128,8 @@ export class WalletService {
     );
   }
   listTokens() {
-    return this.http.get(sattUrl + '/prices');
+     return this.http.get(sattUrl + '/prices');
+    // https://api.satt-token.com:3014/prices
   }
 
   // setPayementId(payementId: string) {
