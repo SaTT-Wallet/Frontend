@@ -94,7 +94,7 @@ export class WalletService {
     });
 
     return this.http.post(
-      `${sattUrl}/wallet/token`,
+      `${sattUrl}/wallet/checkWalletToken`,
       {
         network: network,
         tokenAdress: tokenAdress
@@ -108,7 +108,6 @@ export class WalletService {
     decimal: string,
     tokenAdress: string,
     network: string,
-    top: any = ''
   ) {
     let header = new HttpHeaders({
       'Cache-Control': 'no-store',
@@ -117,7 +116,7 @@ export class WalletService {
     });
 
     return this.http.post(
-      `${sattUrl}/wallet/add/token?top=${top}`,
+      `${sattUrl}/wallet/addNewToken`,
       {
         tokenAdress,
         decimal,
@@ -129,7 +128,8 @@ export class WalletService {
     );
   }
   listTokens() {
-    return this.http.get(sattUrl + '/prices');
+     return this.http.get(sattUrl + '/prices');
+    // https://api.satt-token.com:3014/prices
   }
 
   // setPayementId(payementId: string) {

@@ -59,8 +59,10 @@ export class SecurityComponent implements OnInit, OnDestroy {
   domicileValid!: boolean;
   identityValid!: boolean;
   formExportData: FormGroup;
+  formExportDataBTC: FormGroup;
   agreeBox!: boolean;
   formExportDataSubmitted: boolean = false;
+  formExportDataBTCSubmitted: boolean = false;
   formUpdatePassword: FormGroup;
   password: any;
   passwordWrong: string = '';
@@ -125,6 +127,9 @@ export class SecurityComponent implements OnInit, OnDestroy {
     );
 
     this.formExportData = new FormGroup({
+      password: new FormControl(null, Validators.required)
+    });
+    this.formExportDataBTC = new FormGroup({
       password: new FormControl(null, Validators.required)
     });
 
@@ -320,6 +325,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
   closeModal(content: any) {
     this.modalService.dismissAll(content);
     this.formExportData.reset();
+    this.formExportDataBTC.reset();
     this.showSpinnerBTC = false;
     this.showSpinnerETH = false;
     this.showSpinner = false;
@@ -328,6 +334,12 @@ export class SecurityComponent implements OnInit, OnDestroy {
     return (
       this.formExportData.get(controlName)?.invalid &&
       this.formExportData.get(controlName)?.touched
+    );
+  }
+  isValidPwdExportBTC(controlName: any) {
+    return (
+      this.formExportDataBTC.get(controlName)?.invalid &&
+      this.formExportDataBTC.get(controlName)?.touched
     );
   }
 
@@ -395,6 +407,9 @@ export class SecurityComponent implements OnInit, OnDestroy {
   get f() {
     return this.formExportData.controls;
   }
+  get fBtc() {
+    return this.formExportDataBTC.controls;
+  }
   confirmExport(password: any) {
     this.showSpinner = true;
     //this.formExportData.reset()
@@ -412,13 +427,14 @@ export class SecurityComponent implements OnInit, OnDestroy {
       this.profileSettingsFacade
         .exportProfileData(password)
         .pipe(takeUntil(this.onDestroy$))
-        .subscribe((res: any) => {
-          this.showSpinner = false;
-          if (res.error === 'Wrong password') {
-            this.formExportData
-              .get('password')
-              ?.setErrors({ checkPassword: true });
-          } else {
+        .subscribe(
+          (res: any) => {
+            // this.showSpinner = false;
+            // if (res.error === 'Wrong password') {
+            //   this.formExportData
+            //     .get('password')
+            //     ?.setErrors({ checkPassword: true });
+            // } else {
             this.formExportDataSubmitted = false;
             const file = new Blob([JSON.stringify(res)], {
               type: 'application/octet-stream'
@@ -435,8 +451,72 @@ export class SecurityComponent implements OnInit, OnDestroy {
             this.modalService.dismissAll();
             this.showSpinnerBTC = false;
             this.showSpinnerETH = false;
+            // }
+          },
+          (err) => {
+            if (
+              err.error.error === 'Wrong password' &&
+              err.error.code === 401
+            ) {
+              this.formExportData
+                .get('password')
+                ?.setErrors({ checkPassword: true });
+            }
           }
-        });
+        );
+    }
+  }
+  confirmExportBTC(password: any) {
+    this.showSpinner = true;
+    //this.formExportData.reset()
+    //this.formExportData.updateValueAndValidity();
+    let fileName: string = '';
+
+    fileName = 'wallet.bip38';
+    this.formExportDataBTCSubmitted = true;
+    if (this.formExportDataBTC.valid) {
+      this.profileSettingsFacade
+        .exportProfileDataBTC(password)
+        .pipe(takeUntil(this.onDestroy$))
+        .subscribe(
+          (res: any) => {
+            if (res.message === 'success' && res.code === 200) {
+              this.showSpinner = false;
+              // if (res.error === 'Wrong password') {
+              //   this.formExportDataBTC
+              //     .get('password')
+              //     ?.setErrors({ checkPassword: true });
+              // } else {
+              this.formExportDataBTCSubmitted = false;
+              const file = new Blob([JSON.stringify(res)], {
+                type: 'application/octet-stream'
+              });
+
+              const href = URL.createObjectURL(file);
+              const a = this.document.createElement('A');
+              a.setAttribute('href', href);
+              a.setAttribute('download', fileName);
+              this.document.body.appendChild(a);
+              a.click();
+              this.document.body.removeChild(a);
+              this.formExportDataBTC.reset();
+              this.modalService.dismissAll();
+              this.showSpinnerBTC = false;
+              this.showSpinnerETH = false;
+              // }
+            }
+          },
+          (err) => {
+            if (
+              err.error.error === 'Wrong password' &&
+              err.error.code === 401
+            ) {
+              this.formExportDataBTC
+                .get('password')
+                ?.setErrors({ checkPassword: true });
+            }
+          }
+        );
     }
   }
   getListUserLegal() {

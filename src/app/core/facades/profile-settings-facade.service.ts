@@ -108,8 +108,8 @@ export class ProfileSettingsFacadeService {
   updateEmail(body: any) {
     return this.profileService.updateEmail(body);
   }
-  confirmChangeEmail(body: any) {
-    return this.profileService.confirmChangeEmail(body);
+  confirmChangeEmail(code: any) {
+    return this.profileService.confirmChangeEmail(code);
   }
 
   completeProfile(body: any) {
@@ -118,6 +118,10 @@ export class ProfileSettingsFacadeService {
 
   exportProfileData(password: string) {
     return this.profileService.exportProfileData(password);
+  }
+
+  exportProfileDataBTC(password: string) {
+    return this.profileService.exportProfileDataBTC(password);
   }
 
   getUserProfilePic() {

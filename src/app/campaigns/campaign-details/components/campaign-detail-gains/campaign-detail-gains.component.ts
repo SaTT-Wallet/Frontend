@@ -123,11 +123,14 @@ export class CampaignDetailGainsComponent implements OnInit {
     this.getCampaignList();
   }
   calcGains() {
-    this.CampaignService.getAllPromsStats(this.campaign.id, this.isOwnedByUser)
+    this.CampaignService.getAllPromsStats(
+      this.campaign.id,
+      this.campaign.isOwnedByUser
+    )
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((proms: any) => {
-        this.checkingGains(proms.allProms);
-        this.getStatEarnings(proms.allProms);
+        this.checkingGains(proms.data.allProms);
+        this.getStatEarnings(proms.data.allProms);
       });
   }
   ngOnDestroy(): void {
@@ -333,6 +336,7 @@ export class CampaignDetailGainsComponent implements OnInit {
               .plus(this.gains)
               .toFixed();
         this.sumearningUSD = this.walletFacade.getCryptoPriceList().pipe(
+          map((response: any) => response.data),
           map((crypto: any) =>
             (crypto[this.currencyName].price * this.sumearning).toFixed(2)
           ),
@@ -345,6 +349,7 @@ export class CampaignDetailGainsComponent implements OnInit {
           this.currencyName
         );
         this.gainsTotalInUsD = this.walletFacade.getCryptoPriceList().pipe(
+          map((response: any) => response.data),
           map((crypto: any) =>
             (crypto[this.currencyName].price * gainsTotalSatt).toFixed(2)
           ),

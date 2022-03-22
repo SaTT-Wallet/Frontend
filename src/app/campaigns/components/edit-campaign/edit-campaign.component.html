@@ -1,294 +1,301 @@
-<div class="wallet-page" (window:resize)="onResizeWindow($event)">
-  <span id="span-top" class="span-top"></span>
-
-  <!------------------------- bloc prsentation----------------------->
-  <div class="div-block mt-3 pb-3">
-    <app-draft-campaign-presentation
-      [id]="draftId"
-      [notValidPresentation]="sendErrorToPresentation"
-      (validFormPresentation)="listenForPresenationChange($event)"
-      [draftData]="campaignData"
-      (saveFormStatus)="onSaveDraftStatusChange($event)"
-    ></app-draft-campaign-presentation>
-  </div>
-  <div class="row w-100 justify-content-center">
-    <hr class="horizontal-line" />
-  </div>
-  <!------------------------- bloc picture----------------------->
-  <div class="div-block mt-3 pb-3">
-    <app-draft-picture
-      [id]="draftId"
-      [notValidPicture]="sendErrorToPicture"
-      (validFormPicture)="listenForPictureChange($event)"
-      [draftData]="campaignData"
-      (saveFormStatus)="onSaveDraftStatusChange($event)"
-    ></app-draft-picture>
-  </div>
-  <div class="row w-100 justify-content-center">
-    <hr class="horizontal-line" />
-  </div>
-  <!------------------------- bloc param----------------------->
-  <div class="div-block mt-3 pb-3">
-    <app-draft-campaign-parametres
-      [id]="draftId"
-      [isActive]="campaignData.isActive && campaignData.isOwnedByUser"
-      [notValidParam]="sendErrorToParam"
-      (validFormParam)="listenForParamChange($event)"
-      [draftData]="campaignData"
-      (saveFormStatus)="onSaveDraftStatusChange($event)"
-    ></app-draft-campaign-parametres>
-  </div>
-  <div class="row w-100 justify-content-center">
-    <hr class="horizontal-line" />
-  </div>
-  <!------------------------- bloc Rémunération and budget ----------------------->
-  <div class="div-block mt-3 pb-3">
-    <app-remuneration
-      [hidden]="campaignData.isActive && campaignData.isOwnedByUser"
-      [draftData]="campaignData"
-      [id]="draftId"
-      [notValidBudgetRemun]="sendErrorToBudgetRemun"
-      [notValidMissionFromEdit]="sendErrorToMissionRemu"
-      (validFormBudgetRemun)="listenForBudgetRemunChange($event)"
-      (validFormMissionFromRemuToEdit)="listenForMissionChange($event)"
-    ></app-remuneration>
-  </div>
-  <div class="row w-100 justify-content-center">
-    <hr class="horizontal-line" />
-  </div>
-
-  <!------------------------- bloc kit----------------------->
-  <div class="div-block">
-    <app-draft-campaign-kit
-      [id]="draftId"
-      [draftData]="campaignData"
-      (saveFormStatus)="onSaveDraftStatusChange($event)"
-    ></app-draft-campaign-kit>
-  </div>
-  <div class="row w-100 justify-content-center">
-    <hr class="horizontal-line" />
-  </div>
-  <!-- ------------------- -->
-  <div class="row d-flex justify-content-center pb-2">
-    <label
-      class="col-xl-10 col-md-12 col-lg-10 col-sm-8 danger_pic d-flex align-items-center"
-      *ngIf="alertRequired"
-    >
-      <img src="assets/Images/false.svg" class="pb-1 pe-2" />{{
-        'create_campaign_form.alert_required' | translate
-      }}
-    </label>
-  </div>
-  <div class="row d-flex justify-content-center mt-2 pb-4">
-    <div
-      class="col-xl-10 col-md-10 col-lg-10 col-sm-10 d-flex justify-content-center mb-3"
-    >
-      <button type="button" class="btn-white" (click)="goToView()">
-        {{ 'create_campaign_form.generate_preview' | translate }}
-      </button>
-    </div>
-
-    <div
-      class="col-xl-10 col-md-10 col-lg-10 col-sm-10 d-flex justify-content-center pt-3-mobile"
-    >
-      <button
-        type="button"
-        class="btn-blue"
-        (click)="saveAndLaunchCampaign()"
-        [hidden]="campaignData.isActive && campaignData.isOwnedByUser"
-      >
-        <!-- <img src="/assets/Images/Rectangle-lancer_compagne.svg" class="me-4" /> -->
-        {{ 'create_campaign_form.create_new_campaign' | translate }}
-      </button>
-      <button
-        type="button"
-        class="btn-blue"
-        [routerLink]="['/ad-pools']"
-        *ngIf=" campaignData.isOwnedByUser && campaignData.type === 'apply'"
-      >
-        Save changes
-      </button>
-    </div>
+<div class='d-flex w-100 h-100 justify-content-center align-items-start' *ngIf="isLoading">
+  <div class='mt-3' >
+    <img style ="transform: scale(0.5)" src='/assets/Images/loadingLogo.gif' >
   </div>
 </div>
+<div *ngIf="!isLoading">
+   <div class="wallet-page" (window:resize)="onResizeWindow($event)">
+     <span id="span-top" class="span-top"></span>
 
-<ng-template #loading> Loading ... </ng-template>
+     <!------------------------- bloc prsentation----------------------->
+     <div class="div-block mt-3 pb-3">
+       <app-draft-campaign-presentation
+         [id]="draftId"
+         [notValidPresentation]="sendErrorToPresentation"
+         (validFormPresentation)="listenForPresenationChange($event)"
+         [draftData]="campaignData"
+         (saveFormStatus)="onSaveDraftStatusChange($event)"
+       ></app-draft-campaign-presentation>
+     </div>
+     <div class="row w-100 justify-content-center">
+       <hr class="horizontal-line" />
+     </div>
+     <!------------------------- bloc picture----------------------->
+     <div class="div-block mt-3 pb-3">
+       <app-draft-picture
+         [id]="draftId"
+         [notValidPicture]="sendErrorToPicture"
+         (validFormPicture)="listenForPictureChange($event)"
+         [draftData]="campaignData"
+         (saveFormStatus)="onSaveDraftStatusChange($event)"
+       ></app-draft-picture>
+     </div>
+     <div class="row w-100 justify-content-center">
+       <hr class="horizontal-line" />
+     </div>
+     <!------------------------- bloc param----------------------->
+     <div class="div-block mt-3 pb-3">
+       <app-draft-campaign-parametres
+         [id]="draftId"
+         [isActive]="campaignData.isActive && campaignData.isOwnedByUser"
+         [notValidParam]="sendErrorToParam"
+         (validFormParam)="listenForParamChange($event)"
+         [draftData]="campaignData"
+         (saveFormStatus)="onSaveDraftStatusChange($event)"
+       ></app-draft-campaign-parametres>
+     </div>
+     <div class="row w-100 justify-content-center">
+       <hr class="horizontal-line" />
+     </div>
+     <!------------------------- bloc Rémunération and budget ----------------------->
+     <div class="div-block mt-3 pb-3">
+       <app-remuneration
+         [hidden]="campaignData.isActive && campaignData.isOwnedByUser"
+         [draftData]="campaignData"
+         [id]="draftId"
+         [notValidBudgetRemun]="sendErrorToBudgetRemun"
+         [notValidMissionFromEdit]="sendErrorToMissionRemu"
+         (validFormBudgetRemun)="listenForBudgetRemunChange($event)"
+         (validFormMissionFromRemuToEdit)="listenForMissionChange($event)"
+       ></app-remuneration>
+     </div>
+     <div class="row w-100 justify-content-center">
+       <hr class="horizontal-line" />
+     </div>
 
-<!------------------ starrrrrrrrrt fooooter baaaaaaaaaaar----------------- -->
-<div
-  class="div-menu div-footer-bar align-content-center justify-content-between"
-  id="campaign-footer-bar"
->
-  <!------div wallet -->
-  <div class="div-wallet text-center" [routerLink]="['/wallet']">
-    <div class="div-pic">
-      <img src="assets/Images/blue-icons/wallet-icon-blue.svg" width="32" />
-    </div>
+     <!------------------------- bloc kit----------------------->
+     <div class="div-block">
+       <app-draft-campaign-kit
+         [id]="draftId"
+         [draftData]="campaignData"
+         (saveFormStatus)="onSaveDraftStatusChange($event)"
+       ></app-draft-campaign-kit>
+     </div>
+     <div class="row w-100 justify-content-center">
+       <hr class="horizontal-line" />
+     </div>
+     <!-- ------------------- -->
+     <div class="row d-flex justify-content-center pb-2">
+       <label
+         class="col-xl-10 col-md-12 col-lg-10 col-sm-8 danger_pic d-flex align-items-center"
+         *ngIf="alertRequired"
+       >
+         <img src="assets/Images/false.svg" class="pb-1 pe-2" />{{
+         'create_campaign_form.alert_required' | translate
+         }}
+       </label>
+     </div>
+     <div class="row d-flex justify-content-center mt-2 pb-4">
+       <div
+         class="col-xl-10 col-md-10 col-lg-10 col-sm-10 d-flex justify-content-center mb-3"
+       >
+         <button type="button" class="btn-white" (click)="goToView()">
+           {{ 'create_campaign_form.generate_preview' | translate }}
+         </button>
+       </div>
 
-    <span class="span-text blue-text">{{ 'Sidebar.Wallet' | translate }}</span>
-  </div>
-  <!------end div wallet -->
-  <!------div adpoooool -->
-  <div class="div-adPool text-center" [routerLink]="['/ad-pools']">
-    <div class="div-pic">
-      <img src="assets/Images/blue-icons/list-ul.svg" />
-    </div>
+       <div
+         class="col-xl-10 col-md-10 col-lg-10 col-sm-10 d-flex justify-content-center pt-3-mobile"
+       >
+         <button
+           type="button"
+           class="btn-blue"
+           (click)="saveAndLaunchCampaign()"
+           [hidden]="campaignData.isActive && campaignData.isOwnedByUser"
+         >
+           <!-- <img src="/assets/Images/Rectangle-lancer_compagne.svg" class="me-4" /> -->
+           {{ 'create_campaign_form.create_new_campaign' | translate }}
+         </button>
+         <button
+           type="button"
+           class="btn-blue"
+           [routerLink]="['/ad-pools']"
+           *ngIf=" campaignData.isOwnedByUser && campaignData.type === 'apply'"
+         >
+           Save changes
+         </button>
+       </div>
+     </div>
+   </div>
 
-    <span class="span-text blue-text">AdPool list</span>
-  </div>
-  <!------end div adpoooool -->
-  <!------------ div center *ngIf="campaignData.isOwnedByUser"-->
-  <div class="div-center text-center">
-    <!------ div Finalize -->
-    <div
-      (click)="saveAndLaunchCampaign()"
-      *ngIf="!campaignData.isActive"
-      class="div-pic-center"
-    >
-      <img src="assets/Images/pencil-square-pink.svg" />
-    </div>
-    <div
-      (click)="goToView()"
-      *ngIf="campaignData.isActive && campaignData.isOwnedByUser"
-      class="div-pic-center"
-    >
-      <img src="assets/Images/pencil-square-pink.svg" />
-    </div>
-    <span
-      class="span-text pink-text"
-      (click)="goToView()"
-      *ngIf="campaignData.isActive && campaignData.isOwnedByUser"
-      >Save</span
-    >
-    <span
-      class="span-text pink-text"
-      (click)="saveAndLaunchCampaign()"
-      *ngIf="!campaignData.isActive"
-      >Finalize</span
-    >
-    <!-- -----end div finalize -->
-  </div>
-  <!------end div center  -->
-  <!------ div kit+ delete +budget-->
-  <div class="div-home text-center">
-    <!------ div kit-->
+   <ng-template #loading> Loading ... </ng-template>
 
-    <!------ div delete-->
-    <div
-      class="div-pic"
-      *ngIf="!campaignData.isActive && campaignData.isOwnedByUser"
-      (click)="deleteCampaign(draftId)"
-    >
-      <img src="assets/Images/blue-icons/corbeille-blue.svg" />
-    </div>
-    <div
-      class="div-pic"
-      *ngIf="campaignData.isActive && campaignData.isOwnedByUser"
-    >
-      <img src="assets/Images/corbeille_gray.svg" />
-    </div>
+   <!------------------ starrrrrrrrrt fooooter baaaaaaaaaaar----------------- -->
+   <div
+     class="div-menu div-footer-bar align-content-center justify-content-between"
+     id="campaign-footer-bar"
+   >
+     <!------div wallet -->
+     <div class="div-wallet text-center" [routerLink]="['/wallet']">
+       <div class="div-pic">
+         <img src="assets/Images/blue-icons/wallet-icon-blue.svg" width="32" />
+       </div>
 
-    <span
-      class="span-text blue-text"
-      (click)="deleteCampaign(draftId)"
-      *ngIf="!campaignData.isActive && campaignData.isOwnedByUser"
-      >Delete</span
-    >
-    <span
-      class="span-text blue-text disabled-text"
-      *ngIf="campaignData.isActive && campaignData.isOwnedByUser"
-      >Delete</span
-    >
-    <!------end div delete-->
-  </div>
-  <!------end div kit+ delete -->
+       <span class="span-text blue-text">{{ 'Sidebar.Wallet' | translate }}</span>
+     </div>
+     <!------end div wallet -->
+     <!------div adpoooool -->
+     <div class="div-adPool text-center" [routerLink]="['/ad-pools']">
+       <div class="div-pic">
+         <img src="assets/Images/blue-icons/list-ul.svg" />
+       </div>
 
-  <!----div back to top---->
-  <div class="div-back-top text-center">
-    <div class="div-pic" (click)="scrollToTop()">
-      <img
-        src="/assets/Images/chevron_up.svg"
-        id="back-top-pic"
-        [hidden]="!scrolling"
-      />
-      <img
-        src="/assets/Images/chevron_up_disabled.svg"
-        id="back-top-pic-disabled"
-        [hidden]="!inTop"
-      />
-    </div>
+       <span class="span-text blue-text">AdPool list</span>
+     </div>
+     <!------end div adpoooool -->
+     <!------------ div center *ngIf="campaignData.isOwnedByUser"-->
+     <div class="div-center text-center">
+       <!------ div Finalize -->
+       <div
+         (click)="saveAndLaunchCampaign()"
+         *ngIf="!campaignData.isActive"
+         class="div-pic-center"
+       >
+         <img src="assets/Images/pencil-square-pink.svg" />
+       </div>
+       <div
+         (click)="goToView()"
+         *ngIf="campaignData.isActive && campaignData.isOwnedByUser"
+         class="div-pic-center"
+       >
+         <img src="assets/Images/pencil-square-pink.svg" />
+       </div>
+       <span
+         class="span-text pink-text"
+         (click)="goToView()"
+         *ngIf="campaignData.isActive && campaignData.isOwnedByUser"
+       >Save</span
+       >
+       <span
+         class="span-text pink-text"
+         (click)="saveAndLaunchCampaign()"
+         *ngIf="!campaignData.isActive"
+       >Finalize</span
+       >
+       <!-- -----end div finalize -->
+     </div>
+     <!------end div center  -->
+     <!------ div kit+ delete +budget-->
+     <div class="div-home text-center">
+       <!------ div kit-->
 
-    <span
-      (click)="scrollToTop()"
-      id="back-top-text"
-      class="span-text blue-text"
-      [hidden]="!scrolling"
-    >
+       <!------ div delete-->
+       <div
+         class="div-pic"
+         *ngIf="!campaignData.isActive && campaignData.isOwnedByUser"
+         (click)="deleteCampaign(draftId)"
+       >
+         <img src="assets/Images/blue-icons/corbeille-blue.svg" />
+       </div>
+       <div
+         class="div-pic"
+         *ngIf="campaignData.isActive && campaignData.isOwnedByUser"
+       >
+         <img src="assets/Images/corbeille_gray.svg" />
+       </div>
+
+       <span
+         class="span-text blue-text"
+         (click)="deleteCampaign(draftId)"
+         *ngIf="!campaignData.isActive && campaignData.isOwnedByUser"
+       >Delete</span
+       >
+       <span
+         class="span-text blue-text disabled-text"
+         *ngIf="campaignData.isActive && campaignData.isOwnedByUser"
+       >Delete</span
+       >
+       <!------end div delete-->
+     </div>
+     <!------end div kit+ delete -->
+
+     <!----div back to top---->
+     <div class="div-back-top text-center">
+       <div class="div-pic" (click)="scrollToTop()">
+         <img
+           src="/assets/Images/chevron_up.svg"
+           id="back-top-pic"
+           [hidden]="!scrolling"
+         />
+         <img
+           src="/assets/Images/chevron_up_disabled.svg"
+           id="back-top-pic-disabled"
+           [hidden]="!inTop"
+         />
+       </div>
+
+       <span
+         (click)="scrollToTop()"
+         id="back-top-text"
+         class="span-text blue-text"
+         [hidden]="!scrolling"
+       >
       Back to top
     </span>
-    <span
-      [hidden]="!inTop"
-      class="span-text disabled-text"
-      id="back-top-text-disabled"
-      >Back to top</span
-    >
-  </div>
-  <!---- end div back to top---->
-</div>
-<!------------------fooooter baaaaaaaaaaar----------------- -->
+       <span
+         [hidden]="!inTop"
+         class="span-text disabled-text"
+         id="back-top-text-disabled"
+       >Back to top</span
+       >
+     </div>
+     <!---- end div back to top---->
+   </div>
+   <!------------------fooooter baaaaaaaaaaar----------------- -->
 
-<ng-template #checkUserLegalKYCModal>
-  <div class="modal-header modal-custom">
-    <button
-      type="button"
-      class="btn-close"
-      data-bs-dismiss="modal"
-      (click)="this.modalService.dismissAll(checkUserLegalKYCModal)"
-    ></button>
-  </div>
-  <div class="modal-body modal-custom mb-3">
-    <h3>{{ 'Wallet.userLegal_notice_title' | translate }}</h3>
-    <p>{{ 'Wallet.userLegal_notice_msg' | translate }}</p>
-    <a
-      class="btn-link"
-      routerLink="/home/settings/Legal_KYC"
-      (click)="this.modalService.dismissAll()"
-      >{{ 'Wallet.userLegal_notice_btn' | translate }}</a
-    >
-  </div>
-</ng-template>
-<ng-template #useDesktopModal>
-  <div class="modal-header modal-customm">
-    <button
-      type="button"
-      class="btn-close"
-      data-bs-dismiss="modal"
-      (click)="closeModal(useDesktopModal)"
-    ></button>
-  </div>
-  <div class="modal-body modal-custom modal-customm">
-    <div class="text-center">
-      <img
-        src="assets/Images/moonboy/moonboy-adpool.svg"
-        class="moonboy-mobile"
-      />
-    </div>
-    <div class="text-center mt-3">
-      <h2 class="black-text">{{ 'Sometimes-bigger-is-better' | translate }}</h2>
-    </div>
-    <div class="text-center">
-      <P class="text-center black-text">
-        {{ 'To-maximize-user-experience' | translate }}
-      </P>
-    </div>
-    <div class="text-center mt-3">
-      <button
-        type="button"
-        (click)="closeModal(useDesktopModal)"
-        class="blue-btn"
-      >
-        {{ 'i_understand' | translate }}
-      </button>
-    </div>
-  </div>
-</ng-template>
+   <ng-template #checkUserLegalKYCModal>
+     <div class="modal-header modal-custom">
+       <button
+         type="button"
+         class="btn-close"
+         data-bs-dismiss="modal"
+         (click)="this.modalService.dismissAll(checkUserLegalKYCModal)"
+       ></button>
+     </div>
+     <div class="modal-body modal-custom mb-3">
+       <h3>{{ 'Wallet.userLegal_notice_title' | translate }}</h3>
+       <p>{{ 'Wallet.userLegal_notice_msg' | translate }}</p>
+       <a
+         class="btn-link"
+         routerLink="/home/settings/Legal_KYC"
+         (click)="this.modalService.dismissAll()"
+       >{{ 'Wallet.userLegal_notice_btn' | translate }}</a
+       >
+     </div>
+   </ng-template>
+   <ng-template #useDesktopModal>
+     <div class="modal-header modal-customm">
+       <button
+         type="button"
+         class="btn-close"
+         data-bs-dismiss="modal"
+         (click)="closeModal(useDesktopModal)"
+       ></button>
+     </div>
+     <div class="modal-body modal-custom modal-customm">
+       <div class="text-center">
+         <img
+           src="assets/Images/moonboy/moonboy-adpool.svg"
+           class="moonboy-mobile"
+         />
+       </div>
+       <div class="text-center mt-3">
+         <h2 class="black-text">{{ 'Sometimes-bigger-is-better' | translate }}</h2>
+       </div>
+       <div class="text-center">
+         <P class="text-center black-text">
+           {{ 'To-maximize-user-experience' | translate }}
+         </P>
+       </div>
+       <div class="text-center mt-3">
+         <button
+           type="button"
+           (click)="closeModal(useDesktopModal)"
+           class="blue-btn"
+         >
+           {{ 'i_understand' | translate }}
+         </button>
+       </div>
+     </div>
+   </ng-template>
+ </div>

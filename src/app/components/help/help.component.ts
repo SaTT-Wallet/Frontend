@@ -15,7 +15,7 @@ import { pattEmail } from '@config/atn.config';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-
+declare var $: any;
 @Component({
   selector: 'app-help',
   templateUrl: './help.component.html',
@@ -84,7 +84,7 @@ export class HelpComponent implements OnInit {
             }
           }
         },
-        (err) => {},
+        () => {},
         () => {}
       );
 
@@ -136,7 +136,7 @@ export class HelpComponent implements OnInit {
       });
   }
 
-  checkTag(type: any) {
+  checkTag() {
     if (isPlatformBrowser(this.platformId)) {
       if (this.mySet.size > 0) {
         this.mySet.clear();
@@ -233,9 +233,14 @@ export class HelpComponent implements OnInit {
       let value: any = $('#key').val()?.toString().toUpperCase();
       if (value !== '') {
         $('.item').each(function () {
+          //@ts-ignore
           if ($(this).text().toUpperCase().search(value) > -1) {
+            //@ts-ignore
+
             $(this).show();
           } else {
+            //@ts-ignore
+
             $(this).hide();
           }
         });

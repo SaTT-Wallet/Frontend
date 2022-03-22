@@ -45,7 +45,7 @@ import { of, Subject } from 'rxjs';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
-
+declare var $: any;
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
     control: FormControl | null,
@@ -286,8 +286,8 @@ export class InfoComponent implements OnInit, OnDestroy {
       // this.isDirty = false
       // this.showSpinner = false;
       let data_Email = {
-        email: this.formEmail.get('email')?.value,
-        pass: this.formEmail.get('password')?.value
+        pass: this.formEmail.get('password')?.value,
+        email: this.formEmail.get('email')?.value
       };
       this.profileSettingsFacade
         .updateEmail(data_Email)
@@ -346,12 +346,9 @@ export class InfoComponent implements OnInit, OnDestroy {
   }
   confirmcode() {
     let msg: string = '';
-
-    let code = {
-      code: this.formCode.get('code')?.value
-    };
+    let codeNumber = Number(this.formCode.get('code')?.value);
     this.profileSettingsFacade
-      .confirmChangeEmail(code)
+      .confirmChangeEmail(codeNumber)
       .pipe(takeUntil(this.onDestoy$))
       .subscribe((res: any) => {
         if (res === 'code expired') {
