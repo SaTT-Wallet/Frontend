@@ -4,7 +4,7 @@ pipelines:
   branches:
     feature/*:
       - step:
-          name: check directory 
+          name: check directory  
           script:
             - /bin/ls  /opt/atlassian/pipelines/agent/build/
       - step:
