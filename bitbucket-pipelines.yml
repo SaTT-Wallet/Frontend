@@ -17,6 +17,7 @@ pipelines:
           script:      
             -  cd /opt/atlassian/pipelines/agent/build/
             -  rm -rf package-lock.json 
+            -  npm install -g @angular/cli   
             -  rm -rf node_modules/   
             -  npm install --force  
             -  ng add @angular-eslint/schematics 
