@@ -111,11 +111,11 @@ export class SocialNetworksComponent implements OnInit {
       .subscribe(({ params, data }: { params: Params; data: any }) => {
         if (data !== null) {
           let count = 0;
-          this.allChannels = data.data;
-          this.channelGoogle = data.data.google;
-          this.channelTwitter = data.data.twitter;
-          this.channelFacebook = data.data.facebook;
-          this.channelLinkedin = data.data.linkedin;
+          this.allChannels = data;
+          this.channelGoogle = data.google;
+          this.channelTwitter = data.twitter;
+          this.channelFacebook = data.facebook;
+          this.channelLinkedin = data.linkedin;
 
           this.setUrlMsg(params, data);
 

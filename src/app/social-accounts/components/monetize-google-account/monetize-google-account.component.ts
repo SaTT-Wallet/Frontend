@@ -53,7 +53,7 @@ export class MonetizeGoogleAccountComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestoy$))
       .subscribe((data: any) => {
         if (data !== null) {
-          this.channelGoogle = data.data.google;
+          this.channelGoogle = data.google;
         } else {
           this.channelGoogle = [];
         }
