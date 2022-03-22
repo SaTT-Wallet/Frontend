@@ -809,7 +809,6 @@ getCookie(key: string){
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(
         (data) => {
-          console.log("data",data)
           if (data && data.message) {
             this.show = 'second';
             this.forgotpassword = false;
@@ -829,7 +828,6 @@ getCookie(key: string){
           }
         },
         (error) => {
-          console.log("erroe",error)
           if (error.error.error === 'connect_with_gplus') {
             this.errorMessagePwd = 'connect_with_gplus';
           }  if (error['error'].message === 'connect_with_fb') {
