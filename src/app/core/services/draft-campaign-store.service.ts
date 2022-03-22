@@ -104,7 +104,7 @@ export class DraftCampaignStoreService {
 
     let obs = this.campaignService
       .createNewDraftCampaign(values)
-      .pipe(map((data: any) => new Campaign(data)));
+      .pipe(map((data) => new Campaign(data.data)));
     obs
       .pipe
       //tap(console.log),
