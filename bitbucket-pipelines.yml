@@ -16,6 +16,8 @@ pipelines:
           name: add angular-eslint/schematics 
           script:      
             -  cd /opt/atlassian/pipelines/agent/build/
+            -  rm -rf package-lock.json 
+            -  rm -rf node_modules/   
             -  npm install   
             -  ng add @angular-eslint/schematics 
             -  ng lint            
