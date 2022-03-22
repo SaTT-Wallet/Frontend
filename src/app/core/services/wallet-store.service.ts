@@ -111,10 +111,9 @@ export class WalletStoreService {
     decimal: string,
     tokenAdress: string,
     network: string,
-    top: any = ''
   ) {
     return this.walletService
-      .addToken(tokenName, symbol, decimal, tokenAdress, network, top)
+      .addToken(tokenName, symbol, decimal, tokenAdress, network)
       .pipe(tap(() => this.getCryptoList()));
   }
 

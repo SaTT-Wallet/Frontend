@@ -18,7 +18,7 @@ export class ContactService {
   }
 
   supportSaTT(MailContent: any) {
-    return this.http.post(sattUrl + '/SaTT/Support', MailContent, {
+    return this.http.post(sattUrl + '/profile/SaTTSupport', MailContent, {
       headers: this.tokenStorageService.getHeader()
     });
   }
