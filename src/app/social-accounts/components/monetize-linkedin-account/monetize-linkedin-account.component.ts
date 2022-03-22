@@ -58,7 +58,7 @@ export class MonetizeLinkedinAccountComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestoy$))
       .subscribe((data: any) => {
         if (data !== null) {
-          this.channelLinkedin = data.data.linkedin;
+          this.channelLinkedin = data.linkedin;
         } else {
           this.channelLinkedin = [];
         }

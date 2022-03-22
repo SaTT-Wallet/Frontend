@@ -199,10 +199,9 @@ export class CampaignHttpApiService {
    * @returns {Observable} a http client observable.
    */
   recoverEarnings(
-    idProm: string,
     password: string,
-    bounty: boolean,
-    idCampaign: any
+    idProm: string,
+    hash: any
   ): Observable<any> {
     let httpHeaders = new HttpHeaders({
       'Cache-Control': 'no-store',
@@ -211,13 +210,11 @@ export class CampaignHttpApiService {
     });
 
     return this.http.post(
-      `${sattUrl}/v2/campaign/gains2?lang=${this.tokenStorageService.getLocalLang()}`,
+      `${sattUrl}/campaign/gains`,
       {
         idProm,
         pass: password,
-        bounty,
-        idCampaign,
-        token: this.tokenStorageService.getToken()
+        hash
       },
       { headers: httpHeaders }
     );
@@ -1029,7 +1026,7 @@ export class CampaignHttpApiService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.get(`${sattUrl}/statLinkCampaign/` + hash, {
+    return this.http.get(sattUrl + '/campaign/statLinkCampaign/' + hash, {
       headers: header
     });
   }
