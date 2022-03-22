@@ -2,9 +2,14 @@ clone:
   depth: full
 pipelines:
   branches:
-    '{master,release,develop}':
-    - step:
-        script:
-          - git push --mirror git@github.com:Atayen/SaTT_Atayen.git
+    feature/*:
+      - step:
+          name: check directory 
+          script:
+            - /bin/ls  /opt/atlassian/pipelines/agent/build/
+      - step:
+          name: check directory 
+          script:
+            -  cd /opt/atlassian/pipelines/agent/build/ 
           
      
