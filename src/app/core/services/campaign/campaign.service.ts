@@ -840,19 +840,23 @@ export class CampaignHttpApiService {
     );
   }
 
-  rejectLinks(prom: any, reason: any, campaign: any) {
+  rejectLinks(
+    prom: any,
+    reason: any,
+    campaignid: string,
+    titleCampaign: string
+  ) {
     return this.http.put(
-      sattUrl +
-        `/rejectlink/` +
-        prom.hash +
-        `?lang=${this.tokenStorageService.getLocalLang()}`,
+      sattUrl + '/campaign/reject/' + prom.hash,
+
       {
-        idCampaign: campaign.id,
+        idCampaign: campaignid,
         reason: reason,
-        title: campaign.title,
+        title: titleCampaign,
         email: prom.meta.email,
         idUser: prom.meta._id,
-        link: prom.link
+        link: prom.link,
+        lang: this.tokenStorageService.getLocalLang()
       },
       { headers: this.tokenStorageService.getHeader() }
     );
