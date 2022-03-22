@@ -1,8 +1,7 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { Campaign } from '@app/models/campaign.model';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
-import { Observable, Subject } from 'rxjs';
-import { filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 import { forEach } from 'lodash';
 interface IStat {
   accepted: number | '0';
@@ -42,9 +41,11 @@ export class StatDetailsCampaignComponent implements OnInit {
     this.CampaignService.getStatisticsCampaign(this.hash)
       .pipe(
         map((response: any) => {
-          this.totalParticipants = response.creatorParticipate;
-          this.reachTotal = response.reachTotal;
-          return response.stat;
+          if (response.message === 'success' && response.code === 200) {
+            this.totalParticipants = response.data.creatorParticipate;
+            this.reachTotal = response.data.reachTotal;
+            return response.data.stat;
+          }
         }),
         takeUntil(this.isDestroyed)
       )

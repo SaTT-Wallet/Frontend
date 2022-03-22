@@ -121,19 +121,25 @@ export class ProfileService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.put(sattUrl + '/changeEmail', body, {
+    return this.http.post(sattUrl + '/profile/changeEmail', body, {
       headers: httpHeaders
     });
   }
-  confirmChangeEmail(body: any) {
+  confirmChangeEmail(code: any) {
     let httpHeaders = new HttpHeaders({
       'Cache-Control': 'no-store',
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.put(sattUrl + '/confirmChangeEmail', body, {
-      headers: httpHeaders
-    });
+    return this.http.post(
+      sattUrl + '/profile/confirmChangeEmail',
+      {
+        code: code
+      },
+      {
+        headers: httpHeaders
+      }
+    );
   }
 
   completeprofile(body: any) {
@@ -156,6 +162,18 @@ export class ProfileService {
     });
     let body = { pass: password };
     return this.http.post(sattUrl + '/wallet/exportETH', body, {
+      headers: headers
+    });
+  }
+
+  exportProfileDataBTC(password: string) {
+    let headers = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+    let body = { pass: password };
+    return this.http.post(sattUrl + '/wallet/exportBtc', body, {
       headers: headers
     });
   }

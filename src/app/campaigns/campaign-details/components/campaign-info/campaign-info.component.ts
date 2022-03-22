@@ -60,7 +60,6 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() isOwnedByUser = false;
   @Input() kits: any;
   @Input() allProms: any;
-  @Input() testV: any;
   @Output() onRecoverEarningClick = new EventEmitter();
   @Output() showPasswordModal: EventEmitter<any> = new EventEmitter();
   @Input() id = '';
@@ -517,13 +516,12 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
         new Big(this.etherInWei)
       );
 
-      this.gainsEarnedInUsD = this.walletFacade
-        .getCryptoPriceList()
-        .pipe(
-          map((crypto: any) =>
-            this.gainsEarned.times(crypto[this.currencyName].price).toFixed(2)
-          )
-        );
+      this.gainsEarnedInUsD = this.walletFacade.getCryptoPriceList().pipe(
+        map((response: any) => response.data),
+        map((crypto: any) =>
+          this.gainsEarned.times(crypto[this.currencyName].price).toFixed(2)
+        )
+      );
     }
     if (this.kits.length === 1) {
       this.firstscrol = true;
@@ -569,13 +567,12 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
       .minus(this.campaign.budget)
       .div(this.etherInWei);
 
-    this.totalInvestedInUsD = this.walletFacade
-      .getCryptoPriceList()
-      .pipe(
-        map((crypto: any) =>
-          this.totalInvested.times(crypto[this.currencyName].price).toFixed(2)
-        )
-      );
+    this.totalInvestedInUsD = this.walletFacade.getCryptoPriceList().pipe(
+      map((response: any) => response.data),
+      map((crypto: any) =>
+        this.totalInvested.times(crypto[this.currencyName].price).toFixed(2)
+      )
+    );
   }
 
   /**

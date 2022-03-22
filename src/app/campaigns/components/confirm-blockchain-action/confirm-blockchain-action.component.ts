@@ -1,10 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { EButtonActions } from '@app/core/enums';
 import { BlockchainActionsService } from '@core/services/blockchain-actions.service';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-confirm-blockchain-action',
@@ -33,14 +31,14 @@ export class ConfirmBlockchainActionComponent implements OnInit {
 
         // console.log(response.action);
         // in case of success
-        if (response.transactionHash) {
+        if (response.data.transactionHash) {
           this.service.setTrnxStatus({
             status: 'succeeded',
-            transactionHash: response.transactionHash,
+            transactionHash: response.data.transactionHash,
             message: 'success',
             action: response.action
           });
-          this.onSuccess.emit(response.transactionHash);
+          this.onSuccess.emit(response.data.transactionHash);
         }
 
         // in case of error

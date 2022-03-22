@@ -39,6 +39,7 @@ export class User {
   public userSatt: any;
   public photoUpdated: any;
   public passphrase: any;
+  new: string;
 
   constructor(data: any) {
     this.idUser = data._id;
@@ -81,6 +82,7 @@ export class User {
     this.userSatt = data.userSatt || '';
     this.photoUpdated = data.photoUpdated;
     this.passphrase = data.passphrase;
+    this.new = data?.new;
   }
 
   public getAge() {

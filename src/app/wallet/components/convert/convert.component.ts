@@ -1,58 +1,35 @@
 import {
   Component,
   OnInit,
-  Output,
-  EventEmitter,
   ViewChild,
   ElementRef,
-  AfterViewInit,
-  AfterViewChecked,
   OnDestroy,
   Inject
 } from '@angular/core';
 import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
-import {
-  GazConsumedByCampaign,
-  pattContact,
-  pattEmail,
-  ListTokens,
-  dataList,
-  cryptoList
-} from '@config/atn.config';
-import { ProfileService } from '@core/services/profile/profile.service';
+import { GazConsumedByCampaign, ListTokens } from '@config/atn.config';
 import { SidebarService } from '@core/services/sidebar/sidebar.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
-import { Clipboard } from '@angular/cdk/clipboard';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { FilesService } from '@core/services/files/files.Service';
-import { filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import {
-  forkJoin,
-  fromEvent,
-  Observable,
-  pipe,
-  Subject,
-  Subscription
-} from 'rxjs';
-import { ContactMessageService } from '@core/services/contactmessage/contact-message.service';
-import {
-  ActivatedRoute,
-  NavigationStart,
-  Params,
-  Router
-} from '@angular/router';
+  catchError,
+  filter,
+  map,
+  switchMap,
+  takeUntil,
+  tap
+} from 'rxjs/operators';
+import { forkJoin, of, Subject } from 'rxjs';
+
 import { NgxSpinnerService } from 'ngx-spinner';
-import { DOCUMENT, Location } from '@angular/common';
-import { WalletStoreService } from '@core/services/wallet-store.service';
+import { DOCUMENT } from '@angular/common';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
-import { AuthStoreService } from '@core/services/Auth/auth-store.service';
-import { WalletService } from '@app/core/services/wallet/wallet.service';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { Big } from 'big.js';
-declare var $: any;
+import { HttpErrorResponse } from '@angular/common/http';
+
 @Component({
   selector: 'app-convert',
   templateUrl: './convert.component.html',
@@ -389,12 +366,11 @@ export class ConvertComponent implements OnInit, OnDestroy {
       this.showSpinner = true;
       this.loading = true;
       this.showButtonSend = false;
-      let direction = this.direction;
+      // let direction = this.direction;
       this.loadingButton = true;
       let splitted: any = this.convertform.get('Amount')?.value;
       this.resetchecker();
-      const token = this.tokenStorageService.getToken();
-      const to = this.convertform.get('contact')?.value;
+      // const token = this.tokenStorageService.getToken();
       const amountdecimal = splitted.toString();
       let amount = splitted.toString();
 
@@ -406,71 +382,121 @@ export class ConvertComponent implements OnInit, OnDestroy {
         .times(ListTokens[this.defaultcurr].decimals)
         .toFixed(30)
         .split('.')[0];
-      const send: any = { token, direction, amount, password };
+      const send: any = { amount: amount, pass: password };
       this.convertform.get('password')?.reset();
-      this.Fetchservice.convertcrypto(send)
-        .pipe(takeUntil(this.onDestoy$))
-        .subscribe(
-          (data: any) => {
-            this.showButtonSend = true;
-            this.loadingButton = false;
-            if (data.transactionHash) {
-              this.amount = splitted;
-              this.currency = currency;
-              this.hashtransaction = data.transactionHash;
-              this.showConvertSuccess = true;
-              this.convertblock = false;
-              this.showConvertfailed = false;
-              this.notEnoughtBalance = false;
-            } else if (data.error === 'Wrong password') {
-              this.showConvertfailed = false;
-              this.showConvertSuccess = false;
-              this.convertblock = true;
-              this.wrongpassword = true;
-              this.show = !this.show;
-              this.show2 = !this.show2;
-              setTimeout(() => {
+      if (this.direction === 'BTE') {
+        this.Fetchservice.convertcrypto(send)
+          .pipe(
+            catchError((error: HttpErrorResponse) => {
+              if (
+                error.error.error ===
+                'Key derivation failed - possibly wrong password'
+              ) {
+                this.showConvertfailed = false;
+                this.showConvertSuccess = false;
+                this.convertblock = true;
+                this.wrongpassword = true;
+                this.show = !this.show;
+                this.show2 = !this.show2;
+                setTimeout(() => {
+                  this.wrongpassword = false;
+                }, 5000);
+                let elementinputconvert =
+                  this.inputAmountConvert?.nativeElement;
+                elementinputconvert.style.width = 23 + 'px';
+              } else if (error.error.error === 'insufficient funds for gas') {
+                this.showConvertfailed = true;
+                this.showConvertSuccess = false;
+                this.convertblock = false;
+
                 this.wrongpassword = false;
-              }, 5000);
-
-              let elementinputconvert = this.inputAmountConvert?.nativeElement;
-              // let elementinputconvertusd = this.inputAmountConvertUsd?.nativeElement;
-              elementinputconvert.style.width = 23 + 'px';
-              //  elementinputconvertusd.style.width = 40 + "px";
-            } else if (data.error) {
-              this.showConvertfailed = true;
-              this.showConvertSuccess = false;
-              this.convertblock = false;
-
-              this.wrongpassword = false;
+                this.showButtonSend = true;
+                this.gazproblem = true;
+                setTimeout(() => {
+                  this.gazproblem = false;
+                }, 5000);
+                let elementinputconvert =
+                  this.inputAmountConvert?.nativeElement;
+                elementinputconvert.style.width = 23 + 'px';
+              } else if (error.error.error === 'not_enough_budget') {
+                this.showConvertfailed = false;
+                this.showConvertSuccess = false;
+                this.convertblock = true;
+                this.notEnoughtBalance = true;
+                this.show = !this.show;
+                this.show2 = !this.show2;
+                setTimeout(() => {
+                  this.notEnoughtBalance = false;
+                }, 5000);
+              }
+              return of(false);
+            }),
+            takeUntil(this.onDestoy$)
+          )
+          .subscribe(
+            (data: any) => {
               this.showButtonSend = true;
-              this.gazproblem = true;
-              setTimeout(() => {
-                this.gazproblem = false;
-              }, 5000);
-              let elementinputconvert = this.inputAmountConvert?.nativeElement;
-              // let elementinputconvertusd = this.inputAmountConvertUsd?.nativeElement;
-              elementinputconvert.style.width = 23 + 'px';
-              //  elementinputconvertusd.style.width = 40 + "px";
-            } else {
-              this.showConvertfailed = false;
-              this.showConvertSuccess = false;
-              this.convertblock = true;
-              this.notEnoughtBalance = true;
-              this.show = !this.show;
-              this.show2 = !this.show2;
-              setTimeout(() => {
+              this.loadingButton = false;
+              if (data.transactionHash) {
+                this.amount = splitted;
+                this.currency = currency;
+                this.hashtransaction = data.transactionHash;
+                this.showConvertSuccess = true;
+                this.convertblock = false;
+                this.showConvertfailed = false;
                 this.notEnoughtBalance = false;
-              }, 5000);
-            }
-          },
+              }
+              // else if (data.error === 'Wrong password') {
+              //   this.showConvertfailed = false;
+              //   this.showConvertSuccess = false;
+              //   this.convertblock = true;
+              //   this.wrongpassword = true;
+              //   this.show = !this.show;
+              //   this.show2 = !this.show2;
+              //   setTimeout(() => {
+              //     this.wrongpassword = false;
+              //   }, 5000);
 
-          (error) => {
-            this.showSpinner = false;
-            this.showButtonSend = true;
-            this.loadingButton = false;
-          }
-        );
+              //   let elementinputconvert = this.inputAmountConvert?.nativeElement;
+              //   // let elementinputconvertusd = this.inputAmountConvertUsd?.nativeElement;
+              //   elementinputconvert.style.width = 23 + 'px';
+              //   //  elementinputconvertusd.style.width = 40 + "px";
+              // }
+              // else if (data.error) {
+              //   this.showConvertfailed = true;
+              //   this.showConvertSuccess = false;
+              //   this.convertblock = false;
+
+              //   this.wrongpassword = false;
+              //   this.showButtonSend = true;
+              //   this.gazproblem = true;
+              //   setTimeout(() => {
+              //     this.gazproblem = false;
+              //   }, 5000);
+              //   let elementinputconvert = this.inputAmountConvert?.nativeElement;
+              //   // let elementinputconvertusd = this.inputAmountConvertUsd?.nativeElement;
+              //   elementinputconvert.style.width = 23 + 'px';
+              //   //  elementinputconvertusd.style.width = 40 + "px";
+              // } else {
+              //   this.showConvertfailed = false;
+              //   this.showConvertSuccess = false;
+              //   this.convertblock = true;
+              //   this.notEnoughtBalance = true;
+              //   this.show = !this.show;
+              //   this.show2 = !this.show2;
+              //   setTimeout(() => {
+              //     this.notEnoughtBalance = false;
+              //   }, 5000);
+              // }
+            },
+
+            () => {
+              this.showSpinner = false;
+              this.showButtonSend = true;
+              this.loadingButton = false;
+            }
+          );
+      }
     }
   }
 
@@ -634,7 +660,6 @@ export class ConvertComponent implements OnInit, OnDestroy {
 
   //get list of crypto for user
   getusercrypto() {
-    let address = this.tokenStorageService.getIdWallet();
     this.showWalletSpinner = true;
     this.parentFunction()
       .pipe(
@@ -643,7 +668,7 @@ export class ConvertComponent implements OnInit, OnDestroy {
             tap((data: any) => {
               this.totalAmount = parseFloat(data?.Total_balance?.Total_balance);
             }),
-            switchMap((data) => {
+            switchMap(() => {
               return this.cryptoList$.pipe(filter((data) => data.length !== 0));
             })
           );
@@ -746,6 +771,7 @@ export class ConvertComponent implements OnInit, OnDestroy {
   //calculate gaz for erc20 and bep20
   parentFunction() {
     return this.walletFacade.getCryptoPriceList().pipe(
+      map((response: any) => response.data),
       map((data: any) => {
         this.bnb = data['BNB'].price;
         this.eth = data['ETH'].price;

@@ -383,6 +383,7 @@ export class HeaderComponent implements OnInit {
 
   parentFunction() {
     return this.walletFacade.getCryptoPriceList().pipe(
+      map((response: any) => response.data),
       map((data: any) => {
         this.bnb = data['BNB'].price;
         this.eth = data['ETH'].price;

@@ -7,23 +7,16 @@ import {
   Inject,
   PLATFORM_ID
 } from '@angular/core';
-import { Ng2SearchPipeModule } from 'ng2-search-filter';
-import { NgModule } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { pattEmail } from '@config/atn.config';
-import { BrowserModule } from '@angular/platform-browser';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { ContactService } from '@core/services/contact/contact.service';
-import {
-  NgbModal,
-  NgbModalRef,
-  ModalDismissReasons
-} from '@ng-bootstrap/ng-bootstrap';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { capitalize } from 'lodash';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { DOCUMENT, isPlatformBrowser, ViewportScroller } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+declare var $: any;
 @Component({
   selector: 'app-aide-campagne',
   templateUrl: './aide-campagne.component.html',
@@ -92,7 +85,7 @@ export class AideCampagneComponent implements OnInit, AfterViewInit {
             }
           }
         },
-        (err) => {},
+        () => {},
         () => {}
       );
 
@@ -144,7 +137,7 @@ export class AideCampagneComponent implements OnInit, AfterViewInit {
       });
   }
 
-  checkTag(type: any) {
+  checkTag() {
     if (isPlatformBrowser(this.platformId)) {
       if (this.mySet.size > 0) {
         this.mySet.clear();
@@ -242,9 +235,12 @@ export class AideCampagneComponent implements OnInit, AfterViewInit {
 
       if (value !== '') {
         $('.item').each(function () {
+          //@ts-ignore
           if ($(this).text().toUpperCase().search(value) > -1) {
+            //@ts-ignore
             $(this).show();
           } else {
+            //@ts-ignore
             $(this).hide();
           }
         });

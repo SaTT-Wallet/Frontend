@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
@@ -15,21 +15,10 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DraftCampaignStoreService } from '@core/services/draft-campaign-store.service';
 import { Campaign } from '@app/models/campaign.model';
-import {
-  catchError,
-  concatMap,
-  map,
-  mergeMap,
-  retry,
-  switchMap,
-  takeUntil,
-  tap
-} from 'rxjs/operators';
-import { forkJoin, Observable, of, Subject } from 'rxjs';
+import { concatMap, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { forkJoin, of, Subject } from 'rxjs';
 import { CampaignsStoreService } from '@campaigns/services/campaigns-store.service';
-import { param } from 'jquery';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 
 enum EOraclesID {
@@ -100,7 +89,10 @@ export class PasswordModalComponent implements OnInit {
   ngOnInit(): void {
     this.walletFacade
       .getCryptoPriceList()
-      .pipe(takeUntil(this.isDestroyed))
+      .pipe(
+        map((response: any) => response.data),
+        takeUntil(this.isDestroyed)
+      )
       .subscribe((data: any) => {
         this.cryptodata = data;
       });
@@ -204,11 +196,12 @@ export class PasswordModalComponent implements OnInit {
       return this.campaignService
         .eRC20Fee(_FeeObj)
         .pipe(takeUntil(this.isDestroyed))
-        .subscribe((data: any) => {});
+        .subscribe(() => {});
     } else return;
   }
   parentFunction() {
     return this.walletFacade.getCryptoPriceList().pipe(
+      map((response: any) => response.data),
       map((data: any) => {
         this.bnb = data['BNB'].price;
         this.eth = data['ETH'].price;

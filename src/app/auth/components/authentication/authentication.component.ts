@@ -101,7 +101,7 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
   authresetpwd: string = sattUrl + '/resetpssword';
   authFacebook: string = sattUrl + '/auth/signin/facebook';
   authGoogle: string = sattUrl + '/auth/signin/google';
-  authTelegram: string = sattUrl + '/auth/telegram';
+  authTelegram: string = sattUrl + '/auth/signin/telegram';
   cookiesClicked!: boolean;
   validated = '';
   // codeFromUrl: any;
@@ -728,7 +728,7 @@ getCookie(key: string){
       script.setAttribute('data-telegram-login', environment.telegramBot);
       script.setAttribute('data-size', 'large');
       //script.setAttribute("data-onauth","onTelegramAuth(user)");
-      script.setAttribute('data-auth-url', sattUrl + '/auth/telegram');
+      script.setAttribute('data-auth-url', sattUrl + '/auth/signin/telegram');
 
       script.setAttribute('data-request-access', 'write');
       script.setAttribute('data-userpic', 'false');
