@@ -1,6 +1,7 @@
 import { ListTokens } from '@config/atn.config';
 import { getDateObjectFrom } from '@helpers/utils/common';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
+import { ICampaignResponse } from '@app/core/campaigns-list-response.interface';
 
 export class Campaign {
   id: string;
@@ -10,8 +11,8 @@ export class Campaign {
   initialBudgetInUSD: string;
   budget: string; // the remaining budget will get updated each time we increase/decrease budget
   targetedCountries: any[];
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
   description: string;
   ratios: any[];
   bounties: any[];
@@ -34,28 +35,26 @@ export class Campaign {
   proms: [];
   url: any;
   file: any;
-  ownerId: number | null;
+  ownerId: string;
   urlPicUser: any;
   type: string;
   tokenStorageService!: TokenStorageService;
   missions: [];
   isOwnedByUser = false;
-  constructor(data?: any) {
+  constructor(data?: ICampaignResponse) {
     this.id = data?._id || '';
     this.hash = data?.hash || null;
     this.walletId = data?.walletId || '';
-    this.ownerId = data?.idNode || null;
-    this.initialBudget = data?.cost || data?.initialBudget || '0';
-    this.initialBudgetInUSD = data?.cost_usd || data?.initialBudgetInUSD || '0';
+    this.ownerId = data?.idNode || '';
+    this.initialBudget = data?.cost || '0';
+    this.initialBudgetInUSD = data?.cost_usd || '0';
 
     this.budget = data?.funds
-      ? data?.funds[1]
+      ? (data?.funds[1] as string)
       : data?.remaining
-      ? data?.remaining
-      : data?.cost;
-    this.targetedCountries = this.convertCountriesCode(
-      data?.countries || data?.targetedCountries || []
-    );
+      ? (data?.remaining as string)
+      : (data?.cost as string);
+    this.targetedCountries = this.convertCountriesCode(data?.countries || []);
     this.createdAt = data?.createdAt || '';
     this.updatedAt = data?.updatedAt || '';
     this.description = data?.description || '';
@@ -67,12 +66,11 @@ export class Campaign {
     this.status = data?.stat || '';
     this.tags = data?.tags || [];
     this.title = data?.title || '';
-    this.currency = data?.token ||
-      data?.currency || {
-        name: 'SATT',
-        type: 'erc20',
-        addr: ListTokens['SATT'].contract
-      };
+    this.currency = data?.token || {
+      name: 'SATT',
+      type: 'erc20',
+      addr: ListTokens['SATT'].contract
+    };
     this.brand = data?.brand || '';
     this.cover = data?.cover ? 'data:image/png;base64,' + data?.cover : '';
     this.coverSrc = data?.coverSrc
@@ -85,14 +83,14 @@ export class Campaign {
       ? 'data:image/png;base64,' + data?.coverSrcMobile
       : '';
     this.logo = data?.logo ? 'data:image/png;base64,' + data?.logo : '';
-    this.reference = data?.reference;
+    this.reference = data?.reference || '';
     this.endDate = getDateObjectFrom(data?.endDate || '');
     this.startDate = getDateObjectFrom(data?.startDate || '');
     this.proms = data?.proms;
     this.url = data?.url;
     this.file = data?.file;
     this.urlPicUser = data?.urlPicUser || '';
-    this.type = data?.type;
+    this.type = data?.type || '';
     this.missions = data?.missions || [];
   }
 

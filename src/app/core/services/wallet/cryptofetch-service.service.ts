@@ -27,7 +27,7 @@ export class CryptofetchServiceService {
   transactionHistory() {
     return this.http.get(
       sattUrl +
-        '/v2/transaction_history/' +
+        '/wallet/transaction_history/' +
         this.tokenStorageService.getIdWallet(),
       { headers: this.tokenStorageService.getHeader() }
     );
