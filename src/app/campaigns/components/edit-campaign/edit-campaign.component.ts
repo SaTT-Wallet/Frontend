@@ -42,6 +42,8 @@ import { ESocialMediaType } from '@app/core/enums';
 import { DOCUMENT } from '@angular/common';
 import { CampaignsStoreService } from '@app/campaigns/services/campaigns-store.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
+import { IApiResponse } from '@app/core/types/rest-api-responses';
+import { ICampaignResponse } from '@app/core/campaigns-list-response.interface';
 
 enum FormStatus {
   Saving = 'saving',
@@ -354,24 +356,26 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
     this.campaignService
       .getOneById(this.draftId)
       .pipe(
-        map((c) => {
-          const campaign = new Campaign(c);
+        map((c: IApiResponse<ICampaignResponse>) => {
+          const campaign = new Campaign(c.data);
           campaign.ownedByUser =
             Number(campaign.ownerId) ===
             Number(this.localeStorageService.getIdUser());
+
           return campaign;
         }),
         takeUntil(this.isDestroyed$)
       )
       .subscribe((c: Campaign) => {
-        if(!c.isOwnedByUser){
+        if (!c.isOwnedByUser) {
           this.router.navigateByUrl('/ad-pools');
         }
-        if(c.isOwnedByUser){
+        if (c.isOwnedByUser) {
           this.isLoading = false;
         }
         this.campaignData = c;
-      });  }
+      });
+  }
 
   private deleteCampaignIfNotFilled() {
     return this.draftStore.draft$.pipe(

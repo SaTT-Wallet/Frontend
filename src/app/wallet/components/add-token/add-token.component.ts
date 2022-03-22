@@ -13,8 +13,8 @@ import { ListTokens } from '@app/config/atn.config';
 import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
 import { WalletStoreService } from '@core/services/wallet-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { of, Subject } from 'rxjs';
+import { catchError, takeUntil } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 
 @Component({
@@ -95,6 +95,7 @@ export class AddTokenComponent implements OnInit {
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((list) => {
         this.listAddedToken = list;
+        console.log("listAddedToken" , this.listAddedToken)
       });
     for (let key in ListTokensPerso) {
       if (ListTokensPerso.hasOwnProperty(key)) {
@@ -167,42 +168,50 @@ export class AddTokenComponent implements OnInit {
         )
         .pipe(takeUntil(this.isDestroyed))
         .subscribe((response: any) => {
-          if (response !== undefined) {
+  
+          if (response.data !== undefined) {
             this.isSubmited = false;
             this.isLoading = false;
-            if (response.message) {
+            
               this.token = response;
 
               this.formToken
                 .get('symbol')
-                ?.setValue(response.symbol, { onlySelf: true });
+                ?.setValue(response.data.symbol, { onlySelf: true });
               this.formToken
                 .get('tokenAdress')
-                ?.setValue(response.tokenAdress, { onlySelf: true });
+                ?.setValue(response.data.tokenAdress, { onlySelf: true });
               this.formToken
                 .get('decimal')
-                ?.setValue(response.decimal, { onlySelf: true });
-              if (
-                ListTokens[response.symbol.toUpperCase()] &&
-                ListTokens[response.symbol.toUpperCase()][
-                  'type'
-                ].toUpperCase() === response.network
-              ) {
-                this.errorMsg = 'addToken.token-exists';
-                this.successMsg = '';
-                this.disabled = false;
-              } else {
+                ?.setValue(response.data.decimal, { onlySelf: true });
+              // if (
+              //   ListTokens[response.data.symbol.toUpperCase()] &&
+              //   ListTokens[response.data.symbol.toUpperCase()][
+              //     'type'
+              //   ].toUpperCase() === response.data.network
+              // ) {
+              //   this.errorMsg = 'addToken.token-exists';
+              //   this.successMsg = '';
+              //   this.disabled = false;
+              // } else {
                 this.errorMsg = '';
                 this.successMsg = 'addToken.token-founded';
                 this.disabled = true;
                 this.showAddBtn = true;
                 this.formToken.disable();
-              }
-            } else {
-              this.successMsg = '';
-              this.errorMsg = 'addToken.token-or-network-invalid';
-            }
+              // }
+           
+            //  else {
+            //   this.successMsg = '';
+            //   this.errorMsg = 'addToken.token-or-network-invalid';
+            // }
           }
+        },(error: any) => {
+if (error.message = "not a token address"){
+  this.successMsg = '';
+              this.errorMsg = 'addToken.token-or-network-invalid';
+              this.isLoading = false;
+}
         });
     }
   }
@@ -213,12 +222,7 @@ export class AddTokenComponent implements OnInit {
     this.formToken.enable({ onlySelf: true, emitEvent: false });
     this.walletFacade
       .addToken(
-        // this.formToken
-        // .get("symbol")
-        // ?.value,
-
         this.token.tokenName,
-
         this.formToken.get('symbol')?.value.toUpperCase(),
         this.formToken.get('decimal')?.value,
         this.formToken.get('tokenAdress')?.value,
@@ -227,7 +231,6 @@ export class AddTokenComponent implements OnInit {
         // this.token.decimal,
         // this.token.tokenAdress,
         // this.token.network,
-        ''
       )
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((response: any) => {
@@ -237,18 +240,22 @@ export class AddTokenComponent implements OnInit {
           this.isLodingBtn = false;
           this.isSubmited = false;
           this.showAddBtn = false;
-          if (!response.error) {
             this.formToken.reset('', { onlySelf: true, emitEvent: false });
             this.errorMsg = '';
             this.successMsg = 'addToken.token-added-successfully';
             this.router.navigate(['/home']);
-          } else if (response.error === 'token already added') {
-            this.errorMsg = 'addToken.token-already-added';
+         
+        }
+      }
+    ,(error: any) => {
+      if ((error.error = "token already added") || (error.error = "not a token address") ){
+           this.errorMsg = 'addToken.token-already-added';
             this.successMsg = '';
-            this.successMsg = '';
-
             this.disabled = false;
-        
+  
+
+            this.showAddBtn=false
+            this.isLodingBtn = false;
             this.formToken.enable({ onlySelf: true, emitEvent: false });
         
             this.formToken.reset({ onlySelf: true, emitEvent: false });
@@ -258,13 +265,11 @@ export class AddTokenComponent implements OnInit {
               .get('network')
         
               ?.setValue(this.selectedBlockchain, { onlySelf: true });
-
-          } else {
-            this.errorMsg = 'error-message';
-            this.successMsg = '';
-          }
-        }
-      });
+      }
+     
+              });
+      
+    
   }
   getStats(event: any) {
     this.valuelist = event.target.defaultValue;
@@ -284,7 +289,7 @@ export class AddTokenComponent implements OnInit {
           this.listToken[this.valuelist].tokenAddress,
           this.listToken[this.valuelist].network,
 
-          200
+          
         )
         .pipe(takeUntil(this.isDestroyed))
         .subscribe((response: any) => {
@@ -293,27 +298,24 @@ export class AddTokenComponent implements OnInit {
             this.isLodingBtn = false;
             this.isSubmited = false;
             this.showAddBtnsearch = true;
-            if (!response.error) {
               this.errorMsg = '';
               this.successMsg = 'addToken.token-added-successfully';
               this.router.navigate(['/home']);
               this.walletStoreService.getCryptoList();
-            } else if (response.error === 'token already added') {
-              this.errorMsg = 'addToken.token-already-added';
+          }
+        }
+
+        ,(error: any) => {
+      if ((error.error = "token already added") || (error.error = "not a token address") ){
+               this.errorMsg = 'addToken.token-already-added';
               setTimeout(() => {
                 this.errorMsg = '';
               }, 3000);
               this.successMsg = '';
-            } else {
-              this.errorMsg = 'error-message';
-              this.successMsg = '';
-            }
-          }
-        });
-    } else {
-      this.isLodingBtn = false;
-      this.showAddBtnsearch = true;
-    }
+      } 
+              });
+
+    } 
   }
   alreadyAdded(token: any): boolean {
     if (
@@ -327,12 +329,15 @@ export class AddTokenComponent implements OnInit {
 
   search() {
     this.walletFacade
-      .getlistTokens()
+      // .getlistTokens()
+      .getCryptoPriceList()
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((data: any) => {
-        this.listToken2 = data;
+
+        const propertyNames = Object.keys(data.data);
+        this.listToken2 = data.data;
         for (let key in this.listToken2) {
-          if (data.hasOwnProperty(key)) {
+          if (data.data.hasOwnProperty(key)) {
             this.listToken2[key].symbol = key;
             if (this.listToken2[key].tokenAddress) {
               this.listToken.push(this.listToken2[key]);

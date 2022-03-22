@@ -166,6 +166,18 @@ export class ProfileService {
     });
   }
 
+  exportProfileDataBTC(password: string) {
+    let headers = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+    let body = { pass: password };
+    return this.http.post(sattUrl + '/wallet/exportBtc', body, {
+      headers: headers
+    });
+  }
+
   getUserProfilePic() {
     let headers = new HttpHeaders({
       'Cache-Control': 'no-store',
