@@ -382,7 +382,6 @@ export class ConvertComponent implements OnInit, OnDestroy {
         .times(ListTokens[this.defaultcurr].decimals)
         .toFixed(30)
         .split('.')[0];
-      console.log(amount);
       const send: any = { amount: amount, pass: password };
       this.convertform.get('password')?.reset();
       if (this.direction === 'BTE') {
@@ -390,9 +389,8 @@ export class ConvertComponent implements OnInit, OnDestroy {
           .pipe(
             catchError((error: HttpErrorResponse) => {
               if (
-                error.error.error === 'Wrong password' ||
                 error.error.error ===
-                  'Key derivation failed - possibly wrong password'
+                'Key derivation failed - possibly wrong password'
               ) {
                 this.showConvertfailed = false;
                 this.showConvertSuccess = false;
@@ -420,7 +418,7 @@ export class ConvertComponent implements OnInit, OnDestroy {
                 let elementinputconvert =
                   this.inputAmountConvert?.nativeElement;
                 elementinputconvert.style.width = 23 + 'px';
-              } else {
+              } else if (error.error.error === 'not_enough_budget') {
                 this.showConvertfailed = false;
                 this.showConvertSuccess = false;
                 this.convertblock = true;
