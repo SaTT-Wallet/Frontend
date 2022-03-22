@@ -12,5 +12,11 @@ pipelines:
           name: check directory 
           script:
             -  cd /opt/atlassian/pipelines/agent/build/ 
-          
-     
+      - step:
+          name: add angular-eslint/schematics 
+          script:      
+            -  cd /opt/atlassian/pipelines/agent/build/
+            -  npm install   
+            -  ng add @angular-eslint/schematics 
+            -  ng lint            
+      
