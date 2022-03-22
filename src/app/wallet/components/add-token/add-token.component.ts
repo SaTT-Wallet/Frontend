@@ -221,12 +221,7 @@ if (error.message = "not a token address"){
     this.formToken.enable({ onlySelf: true, emitEvent: false });
     this.walletFacade
       .addToken(
-        // this.formToken
-        // .get("symbol")
-        // ?.value,
-
         this.token.tokenName,
-
         this.formToken.get('symbol')?.value.toUpperCase(),
         this.formToken.get('decimal')?.value,
         this.formToken.get('tokenAdress')?.value,
@@ -235,7 +230,6 @@ if (error.message = "not a token address"){
         // this.token.decimal,
         // this.token.tokenAdress,
         // this.token.network,
-        ''
       )
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((response: any) => {
@@ -245,18 +239,22 @@ if (error.message = "not a token address"){
           this.isLodingBtn = false;
           this.isSubmited = false;
           this.showAddBtn = false;
-          if (!response.error) {
             this.formToken.reset('', { onlySelf: true, emitEvent: false });
             this.errorMsg = '';
             this.successMsg = 'addToken.token-added-successfully';
             this.router.navigate(['/home']);
-          } else if (response.error === 'token already added') {
-            this.errorMsg = 'addToken.token-already-added';
+         
+        }
+      }
+    ,(error: any) => {
+      if ((error.error = "token already added") || (error.error = "not a token address") ){
+           this.errorMsg = 'addToken.token-already-added';
             this.successMsg = '';
-            this.successMsg = '';
-
             this.disabled = false;
-        
+  
+
+            this.showAddBtn=false
+            this.isLodingBtn = false;
             this.formToken.enable({ onlySelf: true, emitEvent: false });
         
             this.formToken.reset({ onlySelf: true, emitEvent: false });
@@ -266,13 +264,11 @@ if (error.message = "not a token address"){
               .get('network')
         
               ?.setValue(this.selectedBlockchain, { onlySelf: true });
-
-          } else {
-            this.errorMsg = 'error-message';
-            this.successMsg = '';
-          }
-        }
-      });
+      }
+     
+              });
+      
+    
   }
   getStats(event: any) {
     this.valuelist = event.target.defaultValue;
@@ -292,7 +288,7 @@ if (error.message = "not a token address"){
           this.listToken[this.valuelist].tokenAddress,
           this.listToken[this.valuelist].network,
 
-          200
+          
         )
         .pipe(takeUntil(this.isDestroyed))
         .subscribe((response: any) => {

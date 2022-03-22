@@ -157,7 +157,6 @@ export class WalletFacadeService {
     decimal: string,
     tokenAdress: string,
     network: string,
-    top: any = ''
   ) {
     return this.walletStoreService.addToken(
       tokenName,
@@ -165,7 +164,7 @@ export class WalletFacadeService {
       decimal,
       tokenAdress,
       network,
-      top
+    
     );
   }
 
