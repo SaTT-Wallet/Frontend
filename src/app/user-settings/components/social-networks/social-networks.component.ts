@@ -4,7 +4,7 @@ import { sattUrl } from '@app/config/atn.config';
 
 import { ProfileService } from '@core/services/profile/profile.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { filter, map, mergeMap, takeUntil } from 'rxjs/operators';
+import { map, mergeMap, takeUntil } from 'rxjs/operators';
 import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-facade/socialAcounts-facade.service';
 import { Subject } from 'rxjs';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
@@ -95,10 +95,9 @@ export class SocialNetworksComponent implements OnInit {
   }
 
   getSocialNetwork(): void {
-    this.showSpinner = true;
+    //this.showSpinner = true;
     this.socialAccount$
       .pipe(
-        filter((res) => res !== null),
         mergeMap((data) => {
           return this.route.queryParams.pipe(
             map((params) => {
@@ -153,6 +152,14 @@ export class SocialNetworksComponent implements OnInit {
           let stat = (count * 100) / 4;
           this.percentSocial = stat.toFixed(0);
           this.showSpinner = false;
+        } else {
+          this.percentSocial = 0;
+          this.showSpinner = false;
+          this.allChannels = [];
+          this.channelGoogle = [];
+          this.channelTwitter = [];
+          this.channelFacebook = [];
+          this.channelLinkedin = [];
         }
       });
   }
