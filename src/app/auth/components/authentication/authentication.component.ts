@@ -809,39 +809,62 @@ getCookie(key: string){
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(
         (data) => {
+          console.log("data",data)
           if (data && data.message) {
             this.show = 'second';
             this.forgotpassword = false;
             this.recoverpassword = true;
             this.clickedReset = !this.clickedReset;
-            if (data.message === 'account_locked') {
-              this.closeModal(this.lostpwdModal);
-              //if(this.blocktime && this.blocktime != data.blockedDate)
-              // this.counter.restart();
-              this.errorMessage = 'account_locked';
-              this.blocktime = data.blockedDate + 1800;
-              this.timeLeftToUnLock =
-                this.blocktime - Math.floor(Date.now() / 1000);
-              this.blockedForgetPassword = true;
-            }
+            // if (data.message === 'account_locked') {
+            //   this.closeModal(this.lostpwdModal);
+            
+            //   this.errorMessage = 'account_locked';
+            //   this.blocktime = data.blockedDate + 1800;
+            //   this.timeLeftToUnLock =
+            //     this.blocktime - Math.floor(Date.now() / 1000);
+            //   this.blockedForgetPassword = true;
+            // }
 
             this.isCollapsed = false;
           }
         },
         (error) => {
-          if (error.error.text === 'connect_with_gplus') {
+          console.log("erroe",error)
+          if (error.error.error === 'connect_with_gplus') {
             this.errorMessagePwd = 'connect_with_gplus';
-          } else if (error['error'].message === 'connect_with_fb') {
+          }  if (error['error'].message === 'connect_with_fb') {
             this.errorMessagePwd = 'connect_with_fb';
-          } else {
-            this.errorMessagePwd = 'account_not_exists';
-            setTimeout(() => {
-              this.errorMessagePwd = '';
-              this.formL.reset();
-              this.formF.email.clearValidators();
-              this.formF.email.updateValueAndValidity();
-            }, 6000);
+          } 
+          if (error.error.error === 'account_locked') {
+          this.closeModal(this.lostpwdModal);
+            
+              this.errorMessage = 'account_locked';
+              this.blocktime = error.blockedDate + 1800;
+              this.timeLeftToUnLock =
+                this.blocktime - Math.floor(Date.now() / 1000);
+              this.blockedForgetPassword = true;
           }
+          if (error.error.error === 'account not exists') {
+            this.closeModal(this.lostpwdModal);
+              
+                this.errorMessage = 'account_not_exists';
+                this.blocktime = error.blockedDate + 1800;
+                this.timeLeftToUnLock =
+                  this.blocktime - Math.floor(Date.now() / 1000);
+                this.blockedForgetPassword = true;
+            }
+
+
+          // else {
+          //   this.errorMessagePwd = 'account_not_exists';
+          //   setTimeout(() => {
+          //     this.errorMessagePwd = '';
+          //     this.formL.reset();
+          //     this.formF.email.clearValidators();
+          //     this.formF.email.updateValueAndValidity();
+          //   }, 6000);
+          // }
+          
         }
       );
   }
