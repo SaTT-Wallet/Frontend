@@ -171,8 +171,9 @@ export class CryptoListComponent implements OnInit, OnDestroy {
         }
         ('use strict');
         const sattCryptoBEP20 = this.dataList[indexSattBEP20];
+        let cryptoBEP20 = JSON.parse(JSON.stringify(sattCryptoBEP20));
         const cloneData = JSON.parse(JSON.stringify(this.dataList));
-        cloneData[indexSattERC20].cryptoBEP20 = sattCryptoBEP20;
+        cloneData[indexSattERC20].cryptoBEP20 = cryptoBEP20;
         this.dataList = cloneData;
         this.dataList = this.dataList.filter(
           (element) => element.symbol !== 'SATTBEP20'
@@ -209,6 +210,8 @@ export class CryptoListComponent implements OnInit, OnDestroy {
           crypto.variation = !!crypto.variation
             ? crypto?.variation?.toFixed(2)
             : '0.00';
+
+
           crypto.quantity = this.filterAmount(crypto.quantity + '');
           // crypto.cryptoBEP20.quantity = this.filterAmount(crypto.quantity + '');
           crypto.total_balance = parseFloat(crypto.total_balance + '');
@@ -242,6 +245,8 @@ export class CryptoListComponent implements OnInit, OnDestroy {
           }
 
           if (crypto.symbol === 'SATT') {
+            Object.preventExtensions(crypto);
+
             crypto.cryptoBEP20.quantity = this.filterAmount(
               crypto?.cryptoBEP20.quantity + ''
             );
@@ -486,8 +491,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   }
 
   deletetoken(event: any) {
-    const tokenAdress = event.target.offsetParent.id;
-    const token: any = { tokenAdress };
+    const token = event.target.offsetParent.id;
     this.Fetchservice.deletetoken(token)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(() => {
