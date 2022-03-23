@@ -526,7 +526,7 @@ export class CampaignHttpApiService {
     });
 
     return this.http.post(
-      sattUrl + '/v2/campaign/apply',
+      sattUrl + '/campaign/apply',
       {
         idCampaign: campaign,
         typeSN: application.typeSN,
@@ -1029,7 +1029,7 @@ export class CampaignHttpApiService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.get(sattUrl + '/campaign/statLinkCampaign/' + hash, {
+    return this.http.get(`${sattUrl}/statLinkCampaign/` + hash, {
       headers: header
     });
   }

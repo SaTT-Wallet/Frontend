@@ -148,12 +148,12 @@ export class ParticiperComponent implements OnInit {
       .pipe(
         mergeMap((params) => {
           this.campaignId = params['campaign_id'];
-          return this.CampaignService.getAllInfo(this.campaignId);
+          return this.CampaignService.getOneById(this.campaignId);
         }),
         takeUntil(this.isDestroyedSubject)
       )
       .subscribe((data: any) => {
-        this.campaigndata = data;
+        this.campaigndata = data.data;
         this.networkWallet = data.token.type;
         let performance = this.campaigndata.ratios[0]?.oracle;
 
@@ -183,27 +183,22 @@ export class ParticiperComponent implements OnInit {
   connect(social: any) {
     var linkFacebook: string =
       sattUrl +
-      '/link/fb_insta/' +
-      this.tokenStorageService.getIdUser() +
-      '/' +
-      this.campaignId;
+      '/profile/addChannel/facebook/' +
+      this.tokenStorageService.getIdUser();
+
     var linkGoogle: string =
       sattUrl +
-      '/link/google/' +
-      this.tokenStorageService.getIdUser() +
-      '/' +
-      this.campaignId;
+      '/profile/addChannel/youtube/' +
+      this.tokenStorageService.getIdUser();
+
     var linkTwitter: string =
       sattUrl +
-      '/link/twitter/' +
-      this.tokenStorageService.getIdUser() +
-      '/' +
-      this.campaignId;
+      '/profile/addChannel/twitter/' +
+      this.tokenStorageService.getIdUser();
     var linkLinkedin: string =
       sattUrl +
-      `/linkedin/link/${this.tokenStorageService.getIdUser()}?redirect=/part/${
-        this.campaignId
-      }`;
+      '/profile/addChannel/linkedin/' +
+      this.tokenStorageService.getIdUser();
     if (isPlatformBrowser(this.platformId)) {
       if (social === 'facebook') {
         window.location.href = linkFacebook;
@@ -240,9 +235,10 @@ export class ParticiperComponent implements OnInit {
   }
 
   sendLink(): void {
-    let performance = this.campaigndata?.ratios.length
+    let performance = this.campaigndata?.ratios?.length
       ? this.campaigndata?.ratios
       : this.campaigndata?.bounties;
+
     this.tokenStorageService.saveUrlCampaign(this.sendform.get('url')?.value);
     this.showButtonSend = false;
     let myApplication: any = {};
@@ -315,15 +311,18 @@ export class ParticiperComponent implements OnInit {
 
         if (performance.find((ratio: any) => ratio.oracle === 'facebook')) {
           this.CampaignService.verifyLink(this.application)
-            .pipe(takeUntil(this.isDestroyedSubject))
+            .pipe(
+              takeUntil(this.isDestroyedSubject)
+              // catchError(() => {
+              //   // return of(null);
+              // })
+            )
             .subscribe(
-              () => {},
-              (err) => {
-                this.spinner = false;
-                if (err.error.text === '{result:true}') {
+              (data: any) => {
+                if (data.message === 'success' && data.code === 200) {
                   this.linked = true;
                   this.loadingButton = false;
-                } else if (err.error.text === '{result:false}') {
+                } else if (data.data === 'false' && data.code === 200) {
                   this.error = 'Not_your_link';
                   this.oracleType = 'facebook';
                   this.success = '';
@@ -333,17 +332,40 @@ export class ParticiperComponent implements OnInit {
                       errorMessage: 'error'
                     }
                   });
-                } else if (err.error.text === '{message:"Link already sent"}') {
-                  this.error = 'Lien_déjà_envoyé';
-                  this.success = '';
-                  this.loadingButton = false;
-                } else if (err.error.text === '{error:"account not linked"}') {
+                }
+              },
+              (err) => {
+                this.spinner = false;
+
+                // if (err.error.text === '{result:false}') {
+                //   this.error = 'Not_your_link';
+                //   this.oracleType = 'facebook';
+                //   this.success = '';
+                //   this.loadingButton = false;
+                //   this.router.navigate([], {
+                //     queryParams: {
+                //       errorMessage: 'error'
+                //     }
+                //   });
+                // } else
+                //  if (err.error.text === '{message:"Link already sent"}') {
+                //   this.error = 'Lien_déjà_envoyé';
+                //   this.success = '';
+                //   this.loadingButton = false;
+                // }
+                if (
+                  err.error.error === 'account not linked' &&
+                  err.error.code === 406
+                ) {
                   this.connectValue = 'facebook';
                   this.errorResponse = 'facebook';
                   this.error = '';
                   this.success = '';
                   this.loadingButton = false;
-                } else if (err.error.text === '{error:"lien_invalid"}') {
+                } else if (
+                  err.error.error === 'invalid link' &&
+                  err.error.code === 406
+                ) {
                   this.connectValue = 'facebook';
                   this.errorResponse = 'facebook';
                   this.error = 'Not_your_link';
@@ -355,12 +377,13 @@ export class ParticiperComponent implements OnInit {
                       errorMessage: 'error'
                     }
                   });
-                } else {
-                  this.error = 'Default';
-                  this.errorDescription = 'Default paragraphe';
-                  this.success = '';
-                  this.loadingButton = false;
                 }
+                // else {
+                //   this.error = 'Default';
+                //   this.errorDescription = 'Default paragraphe';
+                //   this.success = '';
+                //   this.loadingButton = false;
+                // }
               }
             );
         } else {
@@ -441,12 +464,11 @@ export class ParticiperComponent implements OnInit {
           this.CampaignService.verifyLink(this.application)
             .pipe(takeUntil(this.isDestroyedSubject))
             .subscribe(
-              () => {},
-              (err) => {
-                if (err.error.text === '{result:true}') {
+              (data: any) => {
+                if (data.message === 'success' && data.code === 200) {
                   this.linked = true;
                   this.loadingButton = false;
-                } else if (err.error.text === '{result:false}') {
+                } else if (data.data === 'false' && data.code === 200) {
                   this.error = 'Not_your_link';
                   this.oracleType = 'twitter';
                   this.success = '';
@@ -456,7 +478,28 @@ export class ParticiperComponent implements OnInit {
                       errorMessage: 'error'
                     }
                   });
-                } else if (err.error.text === '{error:"lien_invalid"}') {
+                }
+              },
+              (err) => {
+                // if (err.error.text === '{result:true}') {
+                //   this.linked = true;
+                //   this.loadingButton = false;
+                // } else
+                // if (err.error.text === '{result:false}') {
+                //   this.error = 'Not_your_link';
+                //   this.oracleType = 'twitter';
+                //   this.success = '';
+                //   this.loadingButton = false;
+                //   this.router.navigate([], {
+                //     queryParams: {
+                //       errorMessage: 'error'
+                //     }
+                //   });
+                // } else
+                if (
+                  err.error.error === 'invalid link' &&
+                  err.error.code === 406
+                ) {
                   this.error = 'Not_your_link';
                   this.oracleType = 'twitter';
                   this.success = '';
@@ -540,13 +583,11 @@ export class ParticiperComponent implements OnInit {
           this.CampaignService.verifyLink(this.application)
             .pipe(takeUntil(this.isDestroyedSubject))
             .subscribe(
-              () => {},
-              (err) => {
-                this.spinner = false;
-                if (err.error.text === '{result:true}') {
+              (data: any) => {
+                if (data.message === 'success' && data.code === 200) {
                   this.linked = true;
                   this.loadingButton = false;
-                } else if (err.error.text === '{result:false}') {
+                } else if (data.data === 'false' && data.code === 200) {
                   this.error = 'Not_your_link';
                   this.oracleType = 'instagram';
                   this.success = '';
@@ -556,29 +597,76 @@ export class ParticiperComponent implements OnInit {
                       errorMessage: 'error'
                     }
                   });
-                } else if (err.error.text === '{message:"Link already sent"}') {
-                  this.error = 'Lien_déjà_envoyé';
-                  this.success = '';
-                  this.loadingButton = false;
-                } else if (err.error.text === '{error:"account not linked"}') {
+                }
+              },
+              (err) => {
+                this.spinner = false;
+                // if (err.error.text === '{result:true}') {
+                //   this.linked = true;
+                //   this.loadingButton = false;
+                // }
+                // else
+                // if (err.error.text === '{result:false}') {
+                //   this.error = 'Not_your_link';
+                //   this.oracleType = 'instagram';
+                //   this.success = '';
+                //   this.loadingButton = false;
+                //   this.router.navigate([], {
+                //     queryParams: {
+                //       errorMessage: 'error'
+                //     }
+                //   });
+                // }
+                // else
+                if (
+                  err.error.error === 'account not linked' &&
+                  err.error.code === 406
+                ) {
                   this.connectValue = 'facebook';
                   this.errorResponse = 'facebook';
                   this.error = '';
                   this.success = '';
                   this.loadingButton = false;
-                } else if (err.error.text === '{error:"lien_invalid"}') {
+                } else if (
+                  err.error.error === 'invalid link' &&
+                  err.error.code === 406
+                ) {
                   this.connectValue = 'facebook';
                   this.errorResponse = 'facebook';
                   this.error = 'Not_your_link';
                   this.success = '';
                   this.loadingButton = false;
-                  this.oracleType = 'instagram';
+                  this.oracleType = 'facebook';
                   this.router.navigate([], {
                     queryParams: {
                       errorMessage: 'error'
                     }
                   });
-                } else {
+                }
+                // if (err.error.text === '{message:"Link already sent"}') {
+                //   this.error = 'Lien_déjà_envoyé';
+                //   this.success = '';
+                //   this.loadingButton = false;
+                // } else if (err.error.text === '{error:"account not linked"}') {
+                //   this.connectValue = 'facebook';
+                //   this.errorResponse = 'facebook';
+                //   this.error = '';
+                //   this.success = '';
+                //   this.loadingButton = false;
+                // } else if (err.error.text === '{error:"lien_invalid"}') {
+                //   this.connectValue = 'facebook';
+                //   this.errorResponse = 'facebook';
+                //   this.error = 'Not_your_link';
+                //   this.success = '';
+                //   this.loadingButton = false;
+                //   this.oracleType = 'instagram';
+                //   this.router.navigate([], {
+                //     queryParams: {
+                //       errorMessage: 'error'
+                //     }
+                //   });
+                // }
+                else {
                   this.error = 'Default';
                   this.errorDescription = 'Default paragraphe';
                   this.success = '';
@@ -663,12 +751,11 @@ export class ParticiperComponent implements OnInit {
           this.CampaignService.verifyLink(this.application)
             .pipe(takeUntil(this.isDestroyedSubject))
             .subscribe(
-              () => {},
-              (err) => {
-                if (err.error.text === '{result:true}') {
+              (data: any) => {
+                if (data.message === 'success' && data.code === 200) {
                   this.linked = true;
                   this.loadingButton = false;
-                } else if (err.error.text === '{result:false}') {
+                } else if (data.data === 'false' && data.code === 200) {
                   this.error = 'Not_your_link';
                   this.oracleType = 'linkedin';
                   this.success = '';
@@ -678,7 +765,28 @@ export class ParticiperComponent implements OnInit {
                       errorMessage: 'error'
                     }
                   });
-                } else if (err.error.text === '{error:"lien_invalid"}') {
+                }
+              },
+              (err) => {
+                // if (err.error.text === '{result:true}') {
+                //   this.linked = true;
+                //   this.loadingButton = false;
+                // } else if (err.error.text === '{result:false}') {
+                //   this.error = 'Not_your_link';
+                //   this.oracleType = 'linkedin';
+                //   this.success = '';
+                //   this.loadingButton = false;
+                //   this.router.navigate([], {
+                //     queryParams: {
+                //       errorMessage: 'error'
+                //     }
+                //   });
+                // }
+                // else
+                if (
+                  err.error.error === 'invalid link' &&
+                  err.error.code === 406
+                ) {
                   this.error = 'Not_your_link';
                   this.oracleType = 'linkedin';
                   this.success = '';
@@ -688,9 +796,18 @@ export class ParticiperComponent implements OnInit {
                       errorMessage: 'error'
                     }
                   });
-                } else {
+                } else if (
+                  err.error.error === 'account not linked' &&
+                  err.error.code === 406
+                ) {
                   this.connectValue = 'linkedin';
+                  this.errorResponse = 'linkedin';
                   this.error = '';
+                  this.success = '';
+                  this.loadingButton = false;
+                } else {
+                  this.error = 'Default';
+                  this.errorDescription = 'Default paragraphe';
                   this.success = '';
                   this.loadingButton = false;
                 }
@@ -756,16 +873,13 @@ export class ParticiperComponent implements OnInit {
         this.CampaignService.verifyLink(this.application)
           .pipe(takeUntil(this.isDestroyedSubject))
           .subscribe(
-            () => {},
-            (err) => {
-              this.spinner = false;
-
-              if (err.error.text === '{result:true}') {
+            (data: any) => {
+              if (data.message === 'success' && data.code === 200) {
                 this.linked = true;
                 this.getdatavideo();
                 this.loadingButton = false;
                 this.spinner = false;
-              } else if (err.error.text === '{result:false}') {
+              } else if (data.data === 'false' && data.code === 200) {
                 this.error = 'Not_your_link';
                 this.oracleType = 'youtube';
                 this.success = '';
@@ -775,27 +889,78 @@ export class ParticiperComponent implements OnInit {
                     errorMessage: 'error'
                   }
                 });
-              } else if (err.error.text === '{error:"account not linked"}') {
+              }
+            },
+            (err) => {
+              this.spinner = false;
+
+              // if (err.error.text === '{result:true}') {
+              //   this.linked = true;
+              //   this.getdatavideo();
+              //   this.loadingButton = false;
+              //   this.spinner = false;
+              // } else if (err.error.text === '{result:false}') {
+              //   this.error = 'Not_your_link';
+              //   this.oracleType = 'youtube';
+              //   this.success = '';
+              //   this.loadingButton = false;
+              //   this.router.navigate([], {
+              //     queryParams: {
+              //       errorMessage: 'error'
+              //     }
+              //   });
+              // }
+              //  else
+              if (
+                err.error.error === 'account not linked' &&
+                err.error.code === 406
+              ) {
                 this.connectValue = 'google';
                 this.errorResponse = 'google';
                 this.error = '';
                 this.success = '';
                 this.loadingButton = false;
-              } else if (err.error.text === '{error:"account desactivated"}') {
+              } else if (
+                err.error.error === 'invalid link' &&
+                err.error.code === 406
+              ) {
+                this.connectValue = 'google';
+                this.errorResponse = 'google';
+                this.error = '';
+                this.success = '';
+                this.loadingButton = false;
+              } else if (
+                err.error.error === 'account deactivated' &&
+                err.error.code === 405
+              ) {
                 this.error = 'account_deactivated_error';
-              } else if (err.error.text === '{error:"lien_invalid"}') {
-                this.connectValue = 'google';
-                this.errorResponse = 'google';
-                this.error = '';
-                this.success = '';
-                this.loadingButton = false;
-                this.oracleType = 'youtube';
               } else {
                 this.error = 'Default';
                 this.errorDescription = 'Default paragraphe';
                 this.success = '';
                 this.loadingButton = false;
               }
+              // if (err.error.text === '{error:"account not linked"}') {
+              //   this.connectValue = 'google';
+              //   this.errorResponse = 'google';
+              //   this.error = '';
+              //   this.success = '';
+              //   this.loadingButton = false;
+              // } else if (err.error.text === '{error:"account desactivated"}') {
+              //   this.error = 'account_deactivated_error';
+              // } else if (err.error.text === '{error:"lien_invalid"}') {
+              //   this.connectValue = 'google';
+              //   this.errorResponse = 'google';
+              //   this.error = '';
+              //   this.success = '';
+              //   this.loadingButton = false;
+              //   this.oracleType = 'youtube';
+              // } else {
+              //   this.error = 'Default';
+              //   this.errorDescription = 'Default paragraphe';
+              //   this.success = '';
+              //   this.loadingButton = false;
+              // }
             }
           );
       } else {
