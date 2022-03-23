@@ -602,21 +602,20 @@ getCookie(key: string){
     this.profileSettingsFacade
       .verifyQRCode(body)
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe((data: any) => {
-
-
-        if (data.dataverifiedCode === false) {
-          this.errorMessagecode = 'code incorrect';
-          this.codesms = false;
-        } else if (data.data.verifiedCode === true) {
-          this.codesms = true;
-          this.errorMessagecode = 'code correct';
+      .subscribe(
+        (data: any) => {
+          if (data.data.verifiedCode === false) {
+            this.errorMessagecode = 'code incorrect';
+            this.codesms = false;
+          } else if (data.data.verifiedCode === true) {
+            this.codesms = true;
+            this.errorMessagecode = 'code correct';
+          }
+        },
+        (error: any) => {
+          // this.errorMessage = 'error';
         }
-      }, 
-      (error: any)=>{
-        this.errorMessage = 'error';
-      });
-     
+      );
   }
   nextRedirection() {
     if (!this.codesms) {
@@ -821,7 +820,7 @@ getCookie(key: string){
             this.clickedReset = !this.clickedReset;
             // if (data.message === 'account_locked') {
             //   this.closeModal(this.lostpwdModal);
-            
+
             //   this.errorMessage = 'account_locked';
             //   this.blocktime = data.blockedDate + 1800;
             //   this.timeLeftToUnLock =
@@ -835,28 +834,28 @@ getCookie(key: string){
         (error) => {
           if (error.error.error === 'connect_with_gplus') {
             this.errorMessagePwd = 'connect_with_gplus';
-          }  if (error['error'].message === 'connect_with_fb') {
+          }
+          if (error['error'].message === 'connect_with_fb') {
             this.errorMessagePwd = 'connect_with_fb';
-          } 
+          }
           if (error.error.error === 'account_locked') {
-          this.closeModal(this.lostpwdModal);
-            
-              this.errorMessage = 'account_locked';
-              this.blocktime = error.blockedDate + 1800;
-              this.timeLeftToUnLock =
-                this.blocktime - Math.floor(Date.now() / 1000);
-              this.blockedForgetPassword = true;
+            this.closeModal(this.lostpwdModal);
+
+            this.errorMessage = 'account_locked';
+            this.blocktime = error.blockedDate + 1800;
+            this.timeLeftToUnLock =
+              this.blocktime - Math.floor(Date.now() / 1000);
+            this.blockedForgetPassword = true;
           }
           if (error.error.error === 'account not exists') {
             this.closeModal(this.lostpwdModal);
-              
-                this.errorMessage = 'account_not_exists';
-                this.blocktime = error.blockedDate + 1800;
-                this.timeLeftToUnLock =
-                  this.blocktime - Math.floor(Date.now() / 1000);
-                this.blockedForgetPassword = true;
-            }
 
+            this.errorMessage = 'account_not_exists';
+            this.blocktime = error.blockedDate + 1800;
+            this.timeLeftToUnLock =
+              this.blocktime - Math.floor(Date.now() / 1000);
+            this.blockedForgetPassword = true;
+          }
 
           // else {
           //   this.errorMessagePwd = 'account_not_exists';
@@ -867,7 +866,6 @@ getCookie(key: string){
           //     this.formF.email.updateValueAndValidity();
           //   }, 6000);
           // }
-          
         }
       );
   }

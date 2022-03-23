@@ -4,7 +4,7 @@ import { sattUrl } from '@app/config/atn.config';
 
 import { ProfileService } from '@core/services/profile/profile.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { catchError, filter, map, mergeMap, takeUntil } from 'rxjs/operators';
+import { catchError, map, mergeMap, takeUntil } from 'rxjs/operators';
 import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-facade/socialAcounts-facade.service';
 import { of, Subject } from 'rxjs';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
@@ -104,7 +104,6 @@ export class SocialNetworksComponent implements OnInit {
           }
           return of(null);
         }),
-        filter((res) => res !== null),
         mergeMap((data) => {
           return this.route.queryParams.pipe(
             map((params) => {
@@ -158,7 +157,9 @@ export class SocialNetworksComponent implements OnInit {
           }
           let stat = (count * 100) / 4;
           this.percentSocial = stat.toFixed(0);
-          this.showSpinner = false;
+          setTimeout(() => {
+            this.showSpinner = false;
+          }, 2000);
         } else {
           this.percentSocial = 0;
           this.allChannels = [];
@@ -166,7 +167,9 @@ export class SocialNetworksComponent implements OnInit {
           this.channelTwitter = [];
           this.channelFacebook = [];
           this.channelLinkedin = [];
-          this.showSpinner = false;
+          setTimeout(() => {
+            this.showSpinner = false;
+          }, 2000);
         }
       });
   }
@@ -279,7 +282,7 @@ export class SocialNetworksComponent implements OnInit {
         .subscribe((response: any) => {
           if (response.message === 'deleted successfully') {
             this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
-            this.getSocialNetwork();
+            // this.getSocialNetwork();
             this.closeModal(id);
           }
         });
@@ -289,8 +292,8 @@ export class SocialNetworksComponent implements OnInit {
         .pipe(takeUntil(this.isDestroyed))
         .subscribe((response: any) => {
           if (response.message === 'deleted successfully') {
-            this.getSocialNetwork();
             this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
+            //this.getSocialNetwork();
             this.closeModal(id);
           }
         });
@@ -301,7 +304,7 @@ export class SocialNetworksComponent implements OnInit {
         .subscribe((response: any) => {
           if (response.message === 'deleted successfully') {
             this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
-            this.getSocialNetwork();
+            //this.getSocialNetwork();
             this.closeModal(id);
           }
         });
@@ -312,7 +315,7 @@ export class SocialNetworksComponent implements OnInit {
         .subscribe((response: any) => {
           if (response.message === 'deleted successfully') {
             this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
-            this.getSocialNetwork();
+            //this.getSocialNetwork();
             this.closeModal(id);
           }
         });
@@ -326,7 +329,7 @@ export class SocialNetworksComponent implements OnInit {
         .subscribe((response: any) => {
           if (response.message === 'deleted successfully') {
             this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
-            this.getSocialNetwork();
+            this.channelGoogle = [];
             this.closeModal(modalName);
           }
         });
@@ -337,7 +340,7 @@ export class SocialNetworksComponent implements OnInit {
         .subscribe((response: any) => {
           if (response.message === 'deleted successfully') {
             this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
-            this.getSocialNetwork();
+            this.channelFacebook = [];
             this.closeModal(modalName);
           }
         });
@@ -348,7 +351,7 @@ export class SocialNetworksComponent implements OnInit {
         .subscribe((response: any) => {
           if (response.message === 'deleted successfully') {
             this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
-            this.getSocialNetwork();
+            this.channelTwitter = [];
             this.closeModal(modalName);
           }
         });
@@ -359,7 +362,7 @@ export class SocialNetworksComponent implements OnInit {
         .subscribe((response: any) => {
           if (response.message === 'deleted successfully') {
             this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
-            this.getSocialNetwork();
+            this.channelLinkedin = [];
             this.closeModal(modalName);
           }
         });
