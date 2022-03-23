@@ -686,9 +686,12 @@ export class CampaignHttpApiService {
     return this.http
       .put<IApiResponse<ICampaignResponse>>(
         `${sattUrl}/campaign/update/${id}`,
+
         values,
+
         {
-          headers: this.tokenStorageService.getHeader()
+          headers:
+           this.tokenStorageService.getHeader()
         }
       )
       .pipe(
