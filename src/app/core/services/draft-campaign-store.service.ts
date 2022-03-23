@@ -158,7 +158,7 @@ export class DraftCampaignStoreService {
    * @param id
    * @returns
    */
-  public updateDraft(values: any, id: string): Observable<Campaign> {
+  public updateDraft(values: any, id: string) {
     values = this.formatData.manipulateDataBeforeSend(values);
     let obs = this.campaignService.updateOneById(values, id);
     obs
