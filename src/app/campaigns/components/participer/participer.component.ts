@@ -154,7 +154,7 @@ export class ParticiperComponent implements OnInit {
       )
       .subscribe((data: any) => {
         this.campaigndata = data.data;
-        this.networkWallet = data.token.type;
+        this.networkWallet = data.data.token.type;
         let performance = this.campaigndata.ratios[0]?.oracle;
 
         if (performance?.length > 1 && performance === 'twitter') {
@@ -720,23 +720,6 @@ export class ParticiperComponent implements OnInit {
       let url = media.split('activity');
       let parts = url[url.length - 1];
       if (parts.includes('-') || parts.includes(':')) {
-        parts = parts.includes('-') ? parts.split('-')[1] : parts.split(':')[1];
-
-        myApplication.idUser = 666;
-        myApplication.idPost = parts;
-        myApplication.typeSN = 5;
-        this.idlinkedin = parts;
-        this.application = myApplication;
-        this.CampaignService.linkedinSharedid(this.idlinkedin)
-          .pipe(takeUntil(this.isDestroyedSubject))
-          .subscribe((linkedin: any) => {
-            this.sharedid = linkedin.shareId;
-            this.renderer.setAttribute(
-              this.linkedinDiv?.nativeElement,
-              'src',
-              'https://www.linkedin.com/embed/feed/update/' + this.sharedid
-            );
-          });
         if (!!this.idlinkedin) {
           this.renderer.removeChild(
             this.linkedinDiv?.nativeElement,
@@ -764,6 +747,26 @@ export class ParticiperComponent implements OnInit {
               });
           }, 1000);
         }
+
+        parts = parts.includes('-') ? parts.split('-')[1] : parts.split(':')[1];
+
+        myApplication.idUser = 666;
+        myApplication.idPost = parts;
+        myApplication.typeSN = 5;
+        this.idlinkedin = parts;
+        this.application = myApplication;
+        this.CampaignService.linkedinSharedid(this.idlinkedin)
+          .pipe(takeUntil(this.isDestroyedSubject))
+          .subscribe((linkedin: any) => {
+            this.sharedid = linkedin.data;
+
+            this.renderer.setAttribute(
+              this.linkedinDiv?.nativeElement,
+              'src',
+              'https://www.linkedin.com/embed/feed/update/' + this.sharedid
+            );
+          });
+
         this.userfaceook = '';
         this.idstatus = '';
         this.idvideo = '';
