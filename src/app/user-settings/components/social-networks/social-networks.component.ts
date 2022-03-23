@@ -157,7 +157,9 @@ export class SocialNetworksComponent implements OnInit {
           }
           let stat = (count * 100) / 4;
           this.percentSocial = stat.toFixed(0);
-          this.showSpinner = false;
+          setTimeout(() => {
+            this.showSpinner = false;
+          }, 2000);
         } else {
           this.percentSocial = 0;
           this.allChannels = [];
@@ -165,7 +167,9 @@ export class SocialNetworksComponent implements OnInit {
           this.channelTwitter = [];
           this.channelFacebook = [];
           this.channelLinkedin = [];
-          this.showSpinner = false;
+          setTimeout(() => {
+            this.showSpinner = false;
+          }, 2000);
         }
       });
   }
@@ -278,7 +282,7 @@ export class SocialNetworksComponent implements OnInit {
         .subscribe((response: any) => {
           if (response.message === 'deleted successfully') {
             this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
-            this.getSocialNetwork();
+            // this.getSocialNetwork();
             this.closeModal(id);
           }
         });
@@ -289,7 +293,7 @@ export class SocialNetworksComponent implements OnInit {
         .subscribe((response: any) => {
           if (response.message === 'deleted successfully') {
             this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
-            this.getSocialNetwork();
+            //this.getSocialNetwork();
             this.closeModal(id);
           }
         });
@@ -300,7 +304,7 @@ export class SocialNetworksComponent implements OnInit {
         .subscribe((response: any) => {
           if (response.message === 'deleted successfully') {
             this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
-            this.getSocialNetwork();
+            //this.getSocialNetwork();
             this.closeModal(id);
           }
         });
@@ -311,7 +315,7 @@ export class SocialNetworksComponent implements OnInit {
         .subscribe((response: any) => {
           if (response.message === 'deleted successfully') {
             this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
-            this.getSocialNetwork();
+            //this.getSocialNetwork();
             this.closeModal(id);
           }
         });
@@ -325,7 +329,7 @@ export class SocialNetworksComponent implements OnInit {
         .subscribe((response: any) => {
           if (response.message === 'deleted successfully') {
             this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
-            this.getSocialNetwork();
+            this.channelGoogle = [];
             this.closeModal(modalName);
           }
         });
@@ -336,7 +340,7 @@ export class SocialNetworksComponent implements OnInit {
         .subscribe((response: any) => {
           if (response.message === 'deleted successfully') {
             this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
-            this.getSocialNetwork();
+            this.channelFacebook = [];
             this.closeModal(modalName);
           }
         });
@@ -347,7 +351,7 @@ export class SocialNetworksComponent implements OnInit {
         .subscribe((response: any) => {
           if (response.message === 'deleted successfully') {
             this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
-            this.getSocialNetwork();
+            this.channelTwitter = [];
             this.closeModal(modalName);
           }
         });
@@ -358,7 +362,7 @@ export class SocialNetworksComponent implements OnInit {
         .subscribe((response: any) => {
           if (response.message === 'deleted successfully') {
             this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
-            this.getSocialNetwork();
+            this.channelLinkedin = [];
             this.closeModal(modalName);
           }
         });
