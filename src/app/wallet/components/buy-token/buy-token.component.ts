@@ -12,8 +12,8 @@ import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 import { dataList, pattContact } from '@config/atn.config';
 import { cryptoList, ListTokens } from '@config/atn.config';
-import { Observable, Subject, zip } from 'rxjs';
-import { filter, tap, map, takeUntil } from 'rxjs/operators';
+import { Observable, of, Subject, zip } from 'rxjs';
+import { filter, tap, map, takeUntil, catchError } from 'rxjs/operators';
 import { Location } from '@angular/common';
 
 import * as _ from 'lodash';
@@ -472,10 +472,23 @@ export class BuyTokenComponent implements OnInit, OnChanges {
           this.selectedBlockchainNetwork
         )
         .pipe(
+          catchError((err) => {
+            // console.log(error);
+            // if (error.error.text === 'Invalid Access Token') {
+            //   this.tokenStorageService.signOut();
+            // }
+this.errMsg = err.error.error
+            return of(null);
+          }),
           tap((data: any) => {
             if (data.data.error) {
+
               this.errMsg = data.data.error;
-            } else {
+            }
+         else   if (data.error){
+              this.errMsg = data.error;
+            }
+            else {
               this.errMsg = '';
             }
           }),

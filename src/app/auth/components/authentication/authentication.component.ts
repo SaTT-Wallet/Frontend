@@ -489,7 +489,8 @@ getCookie(key: string){
               this.tokenStorageService.setItem('valid2FA', 'false');
               this.confirmCodeShow = true;
               this.loginshow = false;
-            } else {
+            }
+             else {
               this.tokenStorageService.saveToken(data.data.access_token);
               if (response.enabled === 0) {
                 // this.errorMessage_validation="account_not_verified";
