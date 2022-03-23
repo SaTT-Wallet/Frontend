@@ -597,21 +597,26 @@ getCookie(key: string){
 
   verifyQRCode() {
     let body = {
-      id: this.idUser,
       code: this.formCode.get('code')?.value
     };
     this.profileSettingsFacade
       .verifyQRCode(body)
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe((data: IresponseCodeQr) => {
-        if (data.verifiedCode === false) {
+      .subscribe((data: any) => {
+
+
+        if (data.dataverifiedCode === false) {
           this.errorMessagecode = 'code incorrect';
           this.codesms = false;
-        } else if (data.verifiedCode === true) {
+        } else if (data.data.verifiedCode === true) {
           this.codesms = true;
           this.errorMessagecode = 'code correct';
         }
+      }, 
+      (error: any)=>{
+        this.errorMessage = 'error';
       });
+     
   }
   nextRedirection() {
     if (!this.codesms) {
@@ -814,34 +819,55 @@ getCookie(key: string){
             this.forgotpassword = false;
             this.recoverpassword = true;
             this.clickedReset = !this.clickedReset;
-            if (data.message === 'account_locked') {
-              this.closeModal(this.lostpwdModal);
-              //if(this.blocktime && this.blocktime != data.blockedDate)
-              // this.counter.restart();
-              this.errorMessage = 'account_locked';
-              this.blocktime = data.blockedDate + 1800;
-              this.timeLeftToUnLock =
-                this.blocktime - Math.floor(Date.now() / 1000);
-              this.blockedForgetPassword = true;
-            }
+            // if (data.message === 'account_locked') {
+            //   this.closeModal(this.lostpwdModal);
+            
+            //   this.errorMessage = 'account_locked';
+            //   this.blocktime = data.blockedDate + 1800;
+            //   this.timeLeftToUnLock =
+            //     this.blocktime - Math.floor(Date.now() / 1000);
+            //   this.blockedForgetPassword = true;
+            // }
 
             this.isCollapsed = false;
           }
         },
         (error) => {
-          if (error.error.text === 'connect_with_gplus') {
+          if (error.error.error === 'connect_with_gplus') {
             this.errorMessagePwd = 'connect_with_gplus';
-          } else if (error['error'].message === 'connect_with_fb') {
+          }  if (error['error'].message === 'connect_with_fb') {
             this.errorMessagePwd = 'connect_with_fb';
-          } else {
-            this.errorMessagePwd = 'account_not_exists';
-            setTimeout(() => {
-              this.errorMessagePwd = '';
-              this.formL.reset();
-              this.formF.email.clearValidators();
-              this.formF.email.updateValueAndValidity();
-            }, 6000);
+          } 
+          if (error.error.error === 'account_locked') {
+          this.closeModal(this.lostpwdModal);
+            
+              this.errorMessage = 'account_locked';
+              this.blocktime = error.blockedDate + 1800;
+              this.timeLeftToUnLock =
+                this.blocktime - Math.floor(Date.now() / 1000);
+              this.blockedForgetPassword = true;
           }
+          if (error.error.error === 'account not exists') {
+            this.closeModal(this.lostpwdModal);
+              
+                this.errorMessage = 'account_not_exists';
+                this.blocktime = error.blockedDate + 1800;
+                this.timeLeftToUnLock =
+                  this.blocktime - Math.floor(Date.now() / 1000);
+                this.blockedForgetPassword = true;
+            }
+
+
+          // else {
+          //   this.errorMessagePwd = 'account_not_exists';
+          //   setTimeout(() => {
+          //     this.errorMessagePwd = '';
+          //     this.formL.reset();
+          //     this.formF.email.clearValidators();
+          //     this.formF.email.updateValueAndValidity();
+          //   }, 6000);
+          // }
+          
         }
       );
   }

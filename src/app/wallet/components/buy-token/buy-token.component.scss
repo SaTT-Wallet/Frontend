@@ -77,7 +77,7 @@
   font-family: Poppins;
   font-style: normal;
   font-weight: bold;
-  font-size: 32px;
+  font-size: 36px;
   line-height: 110%;
 }
 
@@ -142,6 +142,8 @@
   letter-spacing: 0.03em;
   border: none;
   color: #4048ff;
+  margin-top: 24px!important;
+  width:300px;
   background: white;
   border-radius: 30px;
   max-width: 350px;
@@ -365,7 +367,6 @@ input:-webkit-autofill:active {
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
-    margin-top: 5px !important;
   }
   .li-select-text {
     font-size: 11px !important;
@@ -538,7 +539,7 @@ button:focus {
   outline: none !important;
   background: #ffffff;
   border-radius: 30px;
-  width: 183px;
+  width: 216px;
   position: relative;
   border: 1px solid #d6d6e8;
   padding: 0;
@@ -626,7 +627,7 @@ button:focus {
   color: #00041b;
   font-weight: 600;
   text-align: center;
-  font-size: 16px;
+  font-size: 20px;
 }
 
 @media (max-width: 424.98px) {
@@ -647,6 +648,7 @@ button:focus {
   .crypto-image {
     height: 26px;
     top: 12px;
+    margin-left: 4px;
   }
   .width_icon_crypto {
     width: 25px;

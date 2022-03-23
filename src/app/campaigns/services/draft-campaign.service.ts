@@ -14,6 +14,8 @@ import { CampaignHttpApiService } from '@core/services/campaign/campaign.service
 import { DraftCampaignStoreService } from '@core/services/draft-campaign-store.service';
 import { FormatDataService } from '@campaigns/services/format-data.service';
 import { CampaignsStoreService } from '@campaigns/services/campaigns-store.service';
+import { ICampaignResponse } from '@app/core/campaigns-list-response.interface';
+import { IApiResponse } from '@app/core/types/rest-api-responses';
 
 enum FormStatus {
   Saving = 'saving',
@@ -96,13 +98,10 @@ export class DraftCampaignService implements OnDestroy {
       catchError(() => {
         return of(null);
       }),
-      exhaustMap((response) => {
-        // console.log(response)
-        if (response.success === 'updated') {
-          this.draftStore.setStore(new Campaign(response.updatedCampaign));
-          this.campaignsStore.updateDraftCampaign(
-            new Campaign(response.updatedCampaign)
-          );
+      exhaustMap((response: IApiResponse<ICampaignResponse> | null) => {
+        if (response?.code === 200) {
+          this.draftStore.setStore(new Campaign(response.data));
+          this.campaignsStore.updateDraftCampaign(new Campaign(response.data));
           return of(response);
         }
 
@@ -111,9 +110,8 @@ export class DraftCampaignService implements OnDestroy {
       catchError(() => {
         return of(null);
       }),
-      switchMap((response) => {
-        // console.log(response)
-        if (response.success === 'updated') {
+      switchMap((response: IApiResponse<ICampaignResponse> | null) => {
+        if (response?.code === 200) {
           return timer(4000).pipe(
             switchMap(() => this.emitSaveFormStatus(FormStatus.Saved))
           );
