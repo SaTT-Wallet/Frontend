@@ -320,28 +320,34 @@ export class PasswordModalComponent implements OnInit {
           })
         )
         .pipe(takeUntil(this.isDestroyed))
-        .subscribe((data) => {
-          if (
-            data.error ===
-            'Returned error: insufficient funds for gas * price + value'
-          ) {
-            if (cryptoNetwork[token] === 'BEP20') {
-              this.errorMessage =
-                'You dont have enough BNB gaz (BNB : $ ' + this.bepGaz + ')';
-              this.loadingButton = false;
-            } else {
-              this.errorMessage =
-                'Yout dont have enough ETH gaz (ETH :$ ' + this.erc20Gaz + ')';
-              this.loadingButton = false;
+        .subscribe(
+          (data) => {
+            if (data.transactionHash) {
+              this.launchCampaignWithPerPerformanceReward(
+                campaign_info,
+                confirmationContent
+              );
+            }
+          },
+          (err) => {
+            if (
+              err.error ===
+              'Returned error: insufficient funds for gas * price + value'
+            ) {
+              if (cryptoNetwork[token] === 'BEP20') {
+                this.errorMessage =
+                  'You dont have enough BNB gaz (BNB : $ ' + this.bepGaz + ')';
+                this.loadingButton = false;
+              } else {
+                this.errorMessage =
+                  'Yout dont have enough ETH gaz (ETH :$ ' +
+                  this.erc20Gaz +
+                  ')';
+                this.loadingButton = false;
+              }
             }
           }
-          if (data.transactionHash) {
-            this.launchCampaignWithPerPerformanceReward(
-              campaign_info,
-              confirmationContent
-            );
-          }
-        });
+        );
 
       // // @ts-ignore
       // console.log(TokenOBj)

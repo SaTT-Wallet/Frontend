@@ -1127,10 +1127,6 @@ export class ParticiperComponent implements OnInit {
                   this.error = 'out_of_gas_eth';
                   this.success = '';
                 }
-              } else if (data['error'] === 'Wrong password') {
-                this.error = 'wrong_password';
-                this.success = '';
-                this.loadingButton = false;
               } else {
                 this.error = 'Default';
                 this.errorDescription = 'Default paragraphe';
@@ -1151,6 +1147,17 @@ export class ParticiperComponent implements OnInit {
                 }
               });
             }
+          }
+        },
+        (err) => {
+          if (
+            err.error.code === 500 &&
+            err.error.error ===
+              'Key derivation failed - possibly wrong password'
+          ) {
+            this.error = 'wrong_password';
+            this.success = '';
+            this.loadingButton = false;
           }
         },
         () => {
