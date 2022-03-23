@@ -106,9 +106,10 @@ main {
 }
 
 .icon_pc {
-    position: absolute;
+    /* position: absolute;
     width: 33vw;
-    top: 19vh;
+    top: 19vh; */
+    width: 100%;
 }
 
 .title_token {
@@ -1013,14 +1014,6 @@ button .btnModalError {
 }
 
 @media (max-width: 900px) {
-    .google-icon {
-        /* margin-left: -15px; */
-    }
-    .icon_pc {
-        position: absolute;
-        width: 37vw !important;
-        top: 30% !important;
-    }
     .title_token {
         font-size: 13px !important;
         top: 21vw !important;

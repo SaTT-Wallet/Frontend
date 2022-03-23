@@ -5,12 +5,9 @@ import {
   OnChanges,
   OnInit,
   Output,
-  SimpleChanges,
   ViewChild
 } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
 import { CodeInputComponent } from 'angular-code-input';
-import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -20,10 +17,11 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './code-input-auth.component.html',
   styleUrls: ['./code-input-auth.component.scss']
 })
-export class CodeInputAuthComponent implements OnInit {
+export class CodeInputAuthComponent implements OnInit, OnChanges {
   @ViewChild('codeInput') codeInput!: CodeInputComponent;
   @Output() codeCompleted = new EventEmitter<any>();
   @Input() events!: Observable<void>;
+  @Input() clearInput: boolean = false;
   private eventsSubscription!: Subscription;
 
   private isDestroyed = new Subject();
@@ -47,8 +45,14 @@ export class CodeInputAuthComponent implements OnInit {
       this.codeCompleted.emit('');
     }
   }
-  onCodeCompleted(code: string) {
+  onCodeCompleted() {
     //this.codeCompleted.emit(code);
+  }
+  ngOnChanges() {
+    if (this.clearInput) {
+      this.codeInput.reset();
+      //this.codeCompleted.emit('');
+    }
   }
   ngAfterviewInit() {}
   ngOnDestroy() {

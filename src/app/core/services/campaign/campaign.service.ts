@@ -199,10 +199,9 @@ export class CampaignHttpApiService {
    * @returns {Observable} a http client observable.
    */
   recoverEarnings(
-    idProm: string,
     password: string,
-    bounty: boolean,
-    idCampaign: any
+    idProm: string,
+    hash: any
   ): Observable<any> {
     let httpHeaders = new HttpHeaders({
       'Cache-Control': 'no-store',
@@ -211,13 +210,11 @@ export class CampaignHttpApiService {
     });
 
     return this.http.post(
-      `${sattUrl}/v2/campaign/gains2?lang=${this.tokenStorageService.getLocalLang()}`,
+      `${sattUrl}/campaign/gains`,
       {
         idProm,
         pass: password,
-        bounty,
-        idCampaign,
-        token: this.tokenStorageService.getToken()
+        hash
       },
       { headers: httpHeaders }
     );
@@ -385,7 +382,7 @@ export class CampaignHttpApiService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.post(`${sattUrl}/v2/campaign/create/bounties`, campaign, {
+    return this.http.post(`${sattUrl}/campaign/launchBounty`, campaign, {
       headers: header
     });
   }
@@ -643,7 +640,7 @@ export class CampaignHttpApiService {
     // formData.append('data', JSON.stringify(data));
 
     return this.http
-      .post(sattUrl + '/addKits', formData, {
+      .post(sattUrl + '/campaign/addKits', formData, {
         reportProgress: true,
         observe: 'events',
         headers: {
@@ -682,11 +679,18 @@ export class CampaignHttpApiService {
    * @param id campaign identifier.
    * @returns {Observable<any>}
    */
-  updateOneById(values: any, id: string): Observable<any> {
+  updateOneById(
+    values: any,
+    id: string
+  ): Observable<IApiResponse<ICampaignResponse> | null> {
     return this.http
-      .put(`${sattUrl}/campaign/update/${id}`, values, {
-        headers: this.tokenStorageService.getHeader()
-      })
+      .put<IApiResponse<ICampaignResponse>>(
+        `${sattUrl}/campaign/update/${id}`,
+        values,
+        {
+          headers: this.tokenStorageService.getHeader()
+        }
+      )
       .pipe(
         catchError(() => of(null)),
         retry(1),
@@ -821,14 +825,15 @@ export class CampaignHttpApiService {
     });
 
     return this.http.post(
-      `${sattUrl}/v2/campaign/validate?lang=${this.tokenStorageService.getLocalLang()}`,
+      sattUrl + '/campaign/validate',
       {
         idCampaign: prom.campaign._id || id,
         idProm: prom.hash,
         link: prom.link,
         email: prom.meta.email,
         idUser: prom.meta._id,
-        pass: Password
+        pass: Password,
+        lang: this.tokenStorageService.getLocalLang()
       },
       { headers: header }
     );

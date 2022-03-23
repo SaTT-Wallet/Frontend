@@ -67,7 +67,7 @@ export class MonetizeFacebookAccountComponent implements OnInit, OnDestroy {
     this.socialAccount$.pipe(takeUntil(this.onDestoy$)).subscribe(
       (data: any) => {
         if (data !== null) {
-          this.channelFacebook = data.data.facebook;
+          this.channelFacebook = data.facebook;
         } else {
           this.channelFacebook = [];
         }

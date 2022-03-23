@@ -267,7 +267,7 @@ export class DraftCampaignParametresComponent implements OnInit {
   //TODO: refactor this method to better solution or implement our own lib
   checkCountriesTags(values: any) {
     if (isPlatformBrowser(this.platformId)) {
-      if (values.targetedCountries.length === this.dropdownList.length) {
+      if (values.targetedCountries?.length === this.dropdownList.length) {
         var elements = this.document.getElementsByClassName('selected-item');
         var allCountriesElement: HTMLElement;
         if (elements.length > 0) {
