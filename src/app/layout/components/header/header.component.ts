@@ -482,10 +482,12 @@ export class HeaderComponent implements OnInit {
     this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
     this.ParticipationListStoreService.nextPage.pageNumber = 0;
     this.tokenStorageService.signOut();
-    this.campaignsListStore.clearStore();
     this.profileSettingsFacade.clearProfilePicStore();
     this.authStoreService.clearStore();
     this.authService.setIsAuthenticated(false);
+    /*
+    this.campaignsListStore.clearStore();
+*/
 
     this.router.navigate(['/welcome']);
   }
