@@ -123,6 +123,14 @@
                     />
                     <span
                       class="symbol2"
+                      [ngStyle]="{
+                        'font-size':
+                          selectedCurrencyLogo?.length === 1
+                            ? '20px'
+                            : selectedCurrencyLogo?.length === 4
+                            ? '10px'
+                            : '13px'
+                      }"
                       *ngIf="selectedCurrencyType === eCurrencyType.FIAT"
                       >{{ selectedCurrencyLogo }}</span
                     >
@@ -194,7 +202,18 @@
                         class="li-select d-flex align-items-center gap-2"
                         (click)="onSelectCurrency(crypto)"
                       >
-                        <span class="symbol2">{{ $any(crypto).symbol }}</span>
+                        <span
+                          class="symbol2"
+                          [ngStyle]="{
+                            'font-size':
+                              $any(crypto).symbol?.length === 1
+                                ? '20px'
+                                : $any(crypto).symbol?.length === 4
+                                ? '10px'
+                                : '13px'
+                          }"
+                          >{{ $any(crypto).symbol }}</span
+                        >
                         <span class="li-select-text">
                           {{ $any(crypto).value }}</span
                         >
@@ -294,9 +313,8 @@
                       }}"
                       alt=""
                       class="crypto-image"
-
                     />
-                    <span class="dropdown-text" >
+                    <span class="dropdown-text">
                       {{ selectedBlockchainNetwork }}
                     </span>
                   </div>
@@ -340,7 +358,7 @@
                       <img
                         src="../../../assets/Images/symbol_crypto/bsc-black-icon.svg"
                         alt=""
-                        style='width: 26px;'
+                        style="width: 26px"
                       />
                       <span class="li-select-text d-flex">
                         {{ eBlockchainNetwork.BEP20 }}</span
