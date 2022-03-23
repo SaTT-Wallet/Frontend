@@ -435,7 +435,8 @@ export class PasswordModalComponent implements OnInit {
               .tokenApproveERC20(TokenOBj, campaign_info.pass)
               .pipe(
                 tap((response: any) => {
-                  if (response['error'] === 'Wrong password') {
+                  if (response.error ==="Key derivation failed - possibly wrong password")
+                {
                     this.errorMessage = 'wrong_password';
                   }
                 }),

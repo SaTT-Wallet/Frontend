@@ -15,6 +15,7 @@ import { DraftCampaignStoreService } from '@core/services/draft-campaign-store.s
 import _ from 'lodash';
 import { forkJoin, of, Subject, Subscription } from 'rxjs';
 import {
+  catchError,
   debounceTime,
   filter,
   map,
@@ -59,13 +60,19 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
   @ViewChild('welcomeModal', { static: false })
   public welcomeModal!: TemplateRef<any>;
 
-  totalBudgetInvested$ = this.campaignService
-    .getTotalInvestetd()
-    .pipe(map((r: any) => r.totalInvested));
+  totalBudgetInvested$ = this.campaignService.getTotalInvestetd().pipe(
+    catchError(() => {
+      return of('0');
+    }),
+    map((r: any) => r.data.totalInvested)
+  );
 
-  totalBudgetInvestedInUSD$ = this.campaignService
-    .getTotalInvestetd()
-    .pipe(map((r: any) => r.totalInvestedUSD));
+  totalBudgetInvestedInUSD$ = this.campaignService.getTotalInvestetd().pipe(
+    catchError(() => {
+      return of('0');
+    }),
+    map((r: any) => r.data.totalInvestedUSD)
+  );
   idcamp: any;
   isFormatGrid = true;
   percentProfil: any;
