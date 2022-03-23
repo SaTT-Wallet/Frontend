@@ -83,6 +83,8 @@ export class BlockchainActionsService {
                 return of(null);
               }),
               map((response: any) => {
+                //console.log(response);
+
                 if (response.message === 'success') {
                   return { ...response.data, action: event.action };
                 }

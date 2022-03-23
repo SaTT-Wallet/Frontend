@@ -89,7 +89,7 @@ export class ProfileService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.delete(sattUrl + '/linkedin/all/channels', {
+    return this.http.delete(sattUrl + '/profile/RemoveLinkedInChannels', {
       headers: header
     });
   }

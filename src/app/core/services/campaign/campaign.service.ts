@@ -382,7 +382,7 @@ export class CampaignHttpApiService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.post(`${sattUrl}/v2/campaign/create/bounties`, campaign, {
+    return this.http.post(`${sattUrl}/campaign/launchBounty`, campaign, {
       headers: header
     });
   }
@@ -640,7 +640,7 @@ export class CampaignHttpApiService {
     // formData.append('data', JSON.stringify(data));
 
     return this.http
-      .post(sattUrl + '/addKits', formData, {
+      .post(sattUrl + '/campaign/addKits', formData, {
         reportProgress: true,
         observe: 'events',
         headers: {
@@ -679,11 +679,18 @@ export class CampaignHttpApiService {
    * @param id campaign identifier.
    * @returns {Observable<any>}
    */
-  updateOneById(values: any, id: string): Observable<any> {
+  updateOneById(
+    values: any,
+    id: string
+  ): Observable<IApiResponse<ICampaignResponse> | null> {
     return this.http
-      .put(`${sattUrl}/campaign/update/${id}`, values, {
-        headers: this.tokenStorageService.getHeader()
-      })
+      .put<IApiResponse<ICampaignResponse>>(
+        `${sattUrl}/campaign/update/${id}`,
+        values,
+        {
+          headers: this.tokenStorageService.getHeader()
+        }
+      )
       .pipe(
         catchError(() => of(null)),
         retry(1),
