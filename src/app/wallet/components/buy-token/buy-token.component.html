@@ -32,9 +32,9 @@
                     />
                     <span class="dropdown-text">
                       {{
-                      !!selectedCurrencyType
-                        ? selectedCurrencyType.toUpperCase()
-                        : ''
+                        !!selectedCurrencyType
+                          ? selectedCurrencyType.toUpperCase()
+                          : ''
                       }}
                     </span>
                   </div>
@@ -123,14 +123,22 @@
                     />
                     <span
                       class="symbol2"
+                      [ngStyle]="{
+                        'font-size':
+                          selectedCurrencyLogo?.length === 1
+                            ? '20px'
+                            : selectedCurrencyLogo?.length === 4
+                            ? '10px'
+                            : '13px'
+                      }"
                       *ngIf="selectedCurrencyType === eCurrencyType.FIAT"
-                    >{{ selectedCurrencyLogo }}</span
+                      >{{ selectedCurrencyLogo }}</span
                     >
                     <span class="dropdown-text2">
                       {{
-                      selectedTargetCurrency === 'SATTBEP20'
-                        ? 'SATT'
-                        : selectedTargetCurrency
+                        selectedTargetCurrency === 'SATTBEP20'
+                          ? 'SATT'
+                          : selectedTargetCurrency
                       }}
                     </span>
                   </div>
@@ -180,9 +188,9 @@
                         />
                         <span class="li-select-text">
                           {{
-                          $any(crypto).symbole === 'SATT'
-                            ? 'SATT (' + $any(crypto).type.toUpperCase() + ')'
-                            : $any(crypto).symbole
+                            $any(crypto).symbole === 'SATT'
+                              ? 'SATT (' + $any(crypto).type.toUpperCase() + ')'
+                              : $any(crypto).symbole
                           }}</span
                         >
                       </li>
@@ -194,7 +202,18 @@
                         class="li-select d-flex align-items-center gap-2"
                         (click)="onSelectCurrency(crypto)"
                       >
-                        <span class="symbol2">{{ $any(crypto).symbol }}</span>
+                        <span
+                          class="symbol2"
+                          [ngStyle]="{
+                            'font-size':
+                              $any(crypto).symbol?.length === 1
+                                ? '20px'
+                                : $any(crypto).symbol?.length === 4
+                                ? '10px'
+                                : '13px'
+                          }"
+                          >{{ $any(crypto).symbol }}</span
+                        >
                         <span class="li-select-text">
                           {{ $any(crypto).value }}</span
                         >
@@ -237,28 +256,28 @@
                 *ngIf="this.selectedCurrencyType !== eCurrencyType.FIAT"
               >
                 {{
-                '1 ' +
-                (selectedTargetCurrency === 'SATTBEP20'
-                  ? 'SATT'
-                  : selectedTargetCurrency)
+                  '1 ' +
+                    (selectedTargetCurrency === 'SATTBEP20'
+                      ? 'SATT'
+                      : selectedTargetCurrency)
                 }}
                 =
                 {{
-                (this.rateExchangePerRequestedCrypto$ | async)?.toFixed(8) +
-                ' ' +
-                (this.requestedCrypto === 'SATTBEP20'
-                  ? 'SATT'
-                  : this.requestedCrypto)
+                  (this.rateExchangePerRequestedCrypto$ | async)?.toFixed(8) +
+                    ' ' +
+                    (this.requestedCrypto === 'SATTBEP20'
+                      ? 'SATT'
+                      : this.requestedCrypto)
                 }}
               </ng-container>
               <ng-container
                 *ngIf="this.selectedCurrencyType === eCurrencyType.FIAT"
               >
                 {{
-                '1 ' +
-                (this.requestedCrypto === 'SATTBEP20'
-                  ? 'SATT'
-                  : this.requestedCrypto)
+                  '1 ' +
+                    (this.requestedCrypto === 'SATTBEP20'
+                      ? 'SATT'
+                      : this.requestedCrypto)
                 }}
                 =
                 {{ this.cryptoPrice?.toFixed(8) + ' USD' }}
@@ -269,9 +288,9 @@
             <p class="input-amount-usd">
               ≈
               {{
-              (cryptoAmount | number: '1.0-2') +
-              ' ' +
-              (requestedCrypto === 'SATTBEP20' ? 'SATT' : requestedCrypto)
+                (cryptoAmount | number: '1.0-2') +
+                  ' ' +
+                  (requestedCrypto === 'SATTBEP20' ? 'SATT' : requestedCrypto)
               }}
             </p>
           </div>
@@ -294,9 +313,8 @@
                       }}"
                       alt=""
                       class="crypto-image"
-
                     />
-                    <span class="dropdown-text" >
+                    <span class="dropdown-text">
                       {{ selectedBlockchainNetwork }}
                     </span>
                   </div>
@@ -340,7 +358,7 @@
                       <img
                         src="../../../assets/Images/symbol_crypto/bsc-black-icon.svg"
                         alt=""
-                        style='width: 26px;'
+                        style="width: 26px"
                       />
                       <span class="li-select-text d-flex">
                         {{ eBlockchainNetwork.BEP20 }}</span
@@ -370,9 +388,9 @@
                     />
                     <span class="dropdown-text2">
                       {{
-                      requestedCrypto === 'SATTBEP20'
-                        ? 'SATT'
-                        : requestedCrypto
+                        requestedCrypto === 'SATTBEP20'
+                          ? 'SATT'
+                          : requestedCrypto
                       }}
                     </span>
                   </div>
@@ -407,9 +425,9 @@
                       />
                       <span class="li-select-text">
                         {{
-                        crypto.symbole === 'SATTBEP20'
-                          ? 'SATT'
-                          : crypto.symbole
+                          crypto.symbole === 'SATTBEP20'
+                            ? 'SATT'
+                            : crypto.symbole
                         }}</span
                       >
                     </li>
@@ -447,7 +465,7 @@
                 this.convertform.get('walletId')?.errors?.required &&
                 this.convertform.get('walletId')?.dirty
               "
-            >{{ 'Wallet.field_required' | translate }}</span
+              >{{ 'Wallet.field_required' | translate }}</span
             >
           </div>
           <div class="text-center mt-1" *ngIf="!isConnected">
@@ -457,7 +475,7 @@
                 this.convertform.get('walletId')?.errors?.pattern &&
                 !this.convertform.get('walletId')?.errors?.required
               "
-            >{{ 'Wallet.Invalid address' | translate }}</span
+              >{{ 'Wallet.Invalid address' | translate }}</span
             >
           </div>
 
@@ -477,7 +495,7 @@
               />
               <span class="purshase-btn-text">{{
                 'Pay by Credit Card' | translate
-                }}</span>
+              }}</span>
             </button>
             <a
               class="buy-swap-btn"
@@ -494,7 +512,7 @@
               />
               <span class="purshase-btn-text">{{
                 'Swap with pancakeswap' | translate
-                }}</span>
+              }}</span>
             </a>
 
             <a
@@ -514,7 +532,7 @@
 
               <span class="purshase-btn-text">{{
                 'Swap with uniswap' | translate
-                }}</span>
+              }}</span>
             </a>
           </div>
         </form>
