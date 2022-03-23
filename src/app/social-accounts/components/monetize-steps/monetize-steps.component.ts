@@ -115,8 +115,7 @@ export class MonetizeStepsComponent implements OnInit, OnDestroy {
         takeUntil(this.onDestoy$)
       )
       .subscribe((response: any) => {
-        // console.log(response);
-        if (response.visitPassphrase) {
+        if (response.visitsocialAccounts) {
           this.visitedFb = true;
           this.visitedLinkedin = true;
           this.visitedTwitter = true;

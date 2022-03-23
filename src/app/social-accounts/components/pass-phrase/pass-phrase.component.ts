@@ -67,6 +67,18 @@ export class PassPhraseComponent implements OnInit, OnDestroy {
     //  this.visitPassPhrase();
     this.getPassPhrase();
     this.passPhraseOrdered = [];
+    let data_profile = {
+      visitsocialAccounts: true
+    };
+
+    this.profileSettingsFacade
+      .updateProfile(data_profile)
+      .pipe(takeUntil(this.isDestroyed))
+      .subscribe(() => {
+        this.accountFacadeService.dispatchUpdatedAccount();
+        this.router.navigate(['social-registration/downaldJSON']);
+        // route to next page
+      });
   }
 
   onCheckboxChange(event: any, form: any) {
