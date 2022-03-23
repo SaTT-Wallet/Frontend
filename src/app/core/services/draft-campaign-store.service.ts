@@ -163,8 +163,7 @@ export class DraftCampaignStoreService {
     let obs = this.campaignService.updateOneById(values, id);
     obs
       .pipe(
-        //tap(console.log),
-        map((response: any) => response.updatedCampaign),
+        map((response: any) =>  response.updatedCampaign),
         catchError(() => {
           //TODO: handle errors with error handling service instead of logging them to console.
           // console.log(err);
