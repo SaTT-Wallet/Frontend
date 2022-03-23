@@ -32,7 +32,7 @@ export class ProfileService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.delete(sattUrl + '/googleChannels/' + id, {
+    return this.http.delete(sattUrl + '/profile/RemoveGoogleChannel/' + id, {
       headers: header
     });
   }
@@ -46,14 +46,15 @@ export class ProfileService {
       headers: header
     });
   }
-
   deleteOneSocialNetworksTwitter(id: string) {
     let header = new HttpHeaders({
       'Cache-Control': 'no-store',
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.delete(sattUrl + '/twitter/' + id, { headers: header });
+    return this.http.delete(sattUrl + '/profile/RemoveTwitterChannel/' + id, {
+      headers: header
+    });
   }
   deleleteAllSocialNetworksGoogle() {
     let header = new HttpHeaders({
