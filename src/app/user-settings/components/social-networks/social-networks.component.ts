@@ -95,7 +95,7 @@ export class SocialNetworksComponent implements OnInit {
   }
 
   getSocialNetwork(): void {
-    this.showSpinner = true;
+    //this.showSpinner = true;
     this.socialAccount$
       .pipe(
         catchError((error: any) => {
@@ -159,6 +159,14 @@ export class SocialNetworksComponent implements OnInit {
           let stat = (count * 100) / 4;
           this.percentSocial = stat.toFixed(0);
           this.showSpinner = false;
+        } else {
+          this.percentSocial = 0;
+          this.showSpinner = false;
+          this.allChannels = [];
+          this.channelGoogle = [];
+          this.channelTwitter = [];
+          this.channelFacebook = [];
+          this.channelLinkedin = [];
         }
       });
   }

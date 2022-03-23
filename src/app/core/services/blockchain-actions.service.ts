@@ -62,11 +62,7 @@ export class BlockchainActionsService {
 
         if (event.action === EButtonActions.GET_MY_GAINS) {
           return this.campaignService
-            .recoverEarnings(
-              password,
-              idProm,
-              hash,
-            )
+            .recoverEarnings(password, idProm, hash)
             .pipe(
               map((response: any) => {
                 return { ...response, action: event.action };
@@ -83,11 +79,13 @@ export class BlockchainActionsService {
                   .subscribe();
               }),
               retry(1),
-              catchError((err: any) => {
+              catchError(() => {
                 return of(null);
               }),
               map((response: any) => {
-                return { ...response, action: event.action };
+                if (response.message === 'success') {
+                  return { ...response.data, action: event.action };
+                }
               })
             );
         }
