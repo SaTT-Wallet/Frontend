@@ -173,6 +173,8 @@ export class ActivationMailComponent implements OnInit {
           if (response.message === 'Email sent' && response.code === 200) {
             this.successMsg = 'Email sent';
             this.errorMessagecode = '';
+            this.codesms = false;
+            this.formCode.reset();
           }
         },
         (err) => {

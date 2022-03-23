@@ -597,21 +597,26 @@ getCookie(key: string){
 
   verifyQRCode() {
     let body = {
-      id: this.idUser,
       code: this.formCode.get('code')?.value
     };
     this.profileSettingsFacade
       .verifyQRCode(body)
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe((data: IresponseCodeQr) => {
-        if (data.verifiedCode === false) {
+      .subscribe((data: any) => {
+
+
+        if (data.dataverifiedCode === false) {
           this.errorMessagecode = 'code incorrect';
           this.codesms = false;
-        } else if (data.verifiedCode === true) {
+        } else if (data.data.verifiedCode === true) {
           this.codesms = true;
           this.errorMessagecode = 'code correct';
         }
+      }, 
+      (error: any)=>{
+        this.errorMessage = 'error';
       });
+     
   }
   nextRedirection() {
     if (!this.codesms) {
