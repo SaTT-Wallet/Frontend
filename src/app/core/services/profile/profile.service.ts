@@ -287,8 +287,7 @@ export class ProfileService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    // let id = this.tokenStorageService.getIdUser();
-    return this.http.get(sattUrl + '/auth/qrCode' , { headers: header });
+    return this.http.get(sattUrl + '/auth/qrCode', { headers: header });
   }
   verifyQRCode(body: any): Observable<IresponseCodeQr> {
     let header = new HttpHeaders({
