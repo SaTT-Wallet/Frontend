@@ -319,10 +319,18 @@ export class ParticiperComponent implements OnInit {
             )
             .subscribe(
               (data: any) => {
-                if (data.message === 'success' && data.code === 200) {
+                if (
+                  data.message === 'success' &&
+                  data.code === 200 &&
+                  data.data === 'true'
+                ) {
                   this.linked = true;
                   this.loadingButton = false;
-                } else if (data.data === 'false' && data.code === 200) {
+                } else if (
+                  data.data === 'false' &&
+                  data.code === 200 &&
+                  data.message === 'success'
+                ) {
                   this.error = 'Not_your_link';
                   this.oracleType = 'facebook';
                   this.success = '';
@@ -465,10 +473,18 @@ export class ParticiperComponent implements OnInit {
             .pipe(takeUntil(this.isDestroyedSubject))
             .subscribe(
               (data: any) => {
-                if (data.message === 'success' && data.code === 200) {
+                if (
+                  data.message === 'success' &&
+                  data.code === 200 &&
+                  data.data === 'true'
+                ) {
                   this.linked = true;
                   this.loadingButton = false;
-                } else if (data.data === 'false' && data.code === 200) {
+                } else if (
+                  data.data === 'false' &&
+                  data.code === 200 &&
+                  data.message === 'success'
+                ) {
                   this.error = 'Not_your_link';
                   this.oracleType = 'twitter';
                   this.success = '';
@@ -497,6 +513,15 @@ export class ParticiperComponent implements OnInit {
                 //   });
                 // } else
                 if (
+                  err.error.error === 'account not linked' &&
+                  err.error.code === 406
+                ) {
+                  this.connectValue = 'twitter';
+                  this.errorResponse = 'twitter';
+                  this.error = '';
+                  this.success = '';
+                  this.loadingButton = false;
+                } else if (
                   err.error.error === 'invalid link' &&
                   err.error.code === 406
                 ) {
@@ -584,10 +609,18 @@ export class ParticiperComponent implements OnInit {
             .pipe(takeUntil(this.isDestroyedSubject))
             .subscribe(
               (data: any) => {
-                if (data.message === 'success' && data.code === 200) {
+                if (
+                  data.message === 'success' &&
+                  data.code === 200 &&
+                  data.data === ' true'
+                ) {
                   this.linked = true;
                   this.loadingButton = false;
-                } else if (data.data === 'false' && data.code === 200) {
+                } else if (
+                  data.data === 'false' &&
+                  data.code === 200 &&
+                  data.message === 'success'
+                ) {
                   this.error = 'Not_your_link';
                   this.oracleType = 'instagram';
                   this.success = '';
@@ -874,12 +907,20 @@ export class ParticiperComponent implements OnInit {
           .pipe(takeUntil(this.isDestroyedSubject))
           .subscribe(
             (data: any) => {
-              if (data.message === 'success' && data.code === 200) {
+              if (
+                data.message === 'success' &&
+                data.code === 200 &&
+                data.data === 'true'
+              ) {
                 this.linked = true;
                 this.getdatavideo();
                 this.loadingButton = false;
                 this.spinner = false;
-              } else if (data.data === 'false' && data.code === 200) {
+              } else if (
+                data.data === 'false' &&
+                data.code === 200 &&
+                data.message === 'success'
+              ) {
                 this.error = 'Not_your_link';
                 this.oracleType = 'youtube';
                 this.success = '';
