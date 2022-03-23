@@ -39,6 +39,7 @@ export class User {
   public userSatt: any;
   public photoUpdated: any;
   public passphrase: any;
+  public visitsocialAccounts: any;
   new: string;
 
   constructor(data: any) {
@@ -78,6 +79,7 @@ export class User {
     this.is2FA = data.is2FA || false;
     this.completed = data.completed;
     this.visitPassphrase = data.visitPassphrase || '';
+    this.visitsocialAccounts = data.visitsocialAccounts || '';
     this.newsLetter = data.newsLetter || '';
     this.userSatt = data.userSatt || '';
     this.photoUpdated = data.photoUpdated;
