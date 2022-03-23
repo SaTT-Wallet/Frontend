@@ -61,7 +61,7 @@
           <span> {{ 'social_networks.add_twitter' | translate }}</span>
         </button>
 
-                <button class="linkedin-btn-cnx" (click)="onReditectLinkedin()" *ngIf="channelLinkedin?.length === 0">
+                <button class="linkedin-btn-cnx" (click)="onReditectSocial('linkedin')" *ngIf="channelLinkedin?.length === 0">
           <img src="./assets/Images/linkedin-white.png" width="24px" />
           <span> {{ 'social_networks.add_linkedin' | translate }}</span>
         </button>
@@ -356,7 +356,7 @@
                         </div>
                     </div>
                     <div class="btn-action pb-4">
-                        <button (click)="onReditectLinkedin()">
+                        <button (click)="onReditectSocial('linkedin')">
               + {{ 'social_networks.add_linkedin' | translate }}
             </button>
                     </div>
@@ -660,7 +660,7 @@
           <span> {{ 'social_networks.add_twitter' | translate }}</span>
         </button>
 
-                <button class="linkedin-btn-cnx" (click)="onReditectLinkedin()" *ngIf="channelLinkedin?.length === 0">
+                <button class="linkedin-btn-cnx" (click)="onReditectSocial('linkedin')" *ngIf="channelLinkedin?.length === 0">
           <img src="./assets/Images/linkedin-white.png" width="24px" />
           <span> {{ 'social_networks.add_linkedin' | translate }}</span>
         </button>

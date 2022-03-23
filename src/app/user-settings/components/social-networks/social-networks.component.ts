@@ -95,7 +95,7 @@ export class SocialNetworksComponent implements OnInit {
   }
 
   getSocialNetwork(): void {
-    //this.showSpinner = true;
+    this.showSpinner = true;
     this.socialAccount$
       .pipe(
         mergeMap((data) => {
@@ -154,12 +154,12 @@ export class SocialNetworksComponent implements OnInit {
           this.showSpinner = false;
         } else {
           this.percentSocial = 0;
-          this.showSpinner = false;
           this.allChannels = [];
           this.channelGoogle = [];
           this.channelTwitter = [];
           this.channelFacebook = [];
           this.channelLinkedin = [];
+          this.showSpinner = false;
         }
       });
   }
@@ -220,7 +220,7 @@ export class SocialNetworksComponent implements OnInit {
     if (isPlatformBrowser(this.platformId))
       window.location.href =
         sattUrl +
-        `/addChannel/${social}/${this.userId}` +
+        `/profile/addChannel/${social}/${this.userId}` +
         '?redirect=' +
         this.router.url;
   }
