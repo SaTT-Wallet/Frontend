@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-facade/socialAcounts-facade.service';
-import { ProfileService } from '@app/core/services/profile/profile.service';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import {
   loadSocialAccountss,
   loadSocialAccountssFailure,
@@ -28,13 +27,13 @@ export class SocialAccountsEffects {
         ) {
           return this.socialAccountFacadeService.getSocialNetworks().pipe(
             map((data: any) => {
-              if (!data.error) {
+              if (data.message === 'success') {
                 return loadSocialAccountssSuccess({ data });
               } else {
                 return loadSocialAccountssFailure(data);
               }
             }),
-            catchError((error) => of(loadSocialAccountssFailure(error)))
+            catchError((error: any) => of(loadSocialAccountssFailure(error)))
           );
         }
         return of(

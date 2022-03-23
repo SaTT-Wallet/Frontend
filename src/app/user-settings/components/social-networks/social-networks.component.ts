@@ -4,7 +4,7 @@ import { sattUrl } from '@app/config/atn.config';
 
 import { ProfileService } from '@core/services/profile/profile.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { filter, map, mergeMap, takeUntil } from 'rxjs/operators';
+import { map, mergeMap, takeUntil } from 'rxjs/operators';
 import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-facade/socialAcounts-facade.service';
 import { Subject } from 'rxjs';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
@@ -98,7 +98,6 @@ export class SocialNetworksComponent implements OnInit {
     this.showSpinner = true;
     this.socialAccount$
       .pipe(
-        filter((res) => res !== null),
         mergeMap((data) => {
           return this.route.queryParams.pipe(
             map((params) => {
@@ -111,11 +110,11 @@ export class SocialNetworksComponent implements OnInit {
       .subscribe(({ params, data }: { params: Params; data: any }) => {
         if (data !== null) {
           let count = 0;
-          this.allChannels = data.data;
-          this.channelGoogle = data.data.google;
-          this.channelTwitter = data.data.twitter;
-          this.channelFacebook = data.data.facebook;
-          this.channelLinkedin = data.data.linkedin;
+          this.allChannels = data;
+          this.channelGoogle = data.google;
+          this.channelTwitter = data.twitter;
+          this.channelFacebook = data.facebook;
+          this.channelLinkedin = data.linkedin;
 
           this.setUrlMsg(params, data);
 
@@ -152,6 +151,14 @@ export class SocialNetworksComponent implements OnInit {
           }
           let stat = (count * 100) / 4;
           this.percentSocial = stat.toFixed(0);
+          this.showSpinner = false;
+        } else {
+          this.percentSocial = 0;
+          this.allChannels = [];
+          this.channelGoogle = [];
+          this.channelTwitter = [];
+          this.channelFacebook = [];
+          this.channelLinkedin = [];
           this.showSpinner = false;
         }
       });
@@ -209,15 +216,13 @@ export class SocialNetworksComponent implements OnInit {
   }
 
   onReditectSocial(social: string) {
-    let url = this.router.url.split('?')[0];
+    //let url = this.router.url.split('?')[0];
     if (isPlatformBrowser(this.platformId))
       window.location.href =
         sattUrl +
-        `/addChannel/${social}/${this.userId}` +
+        `/profile/addChannel/${social}/${this.userId}` +
         '?redirect=' +
-        url +
-        '&social-network=' +
-        social;
+        this.router.url;
   }
   onReditectLinkedin() {
     if (isPlatformBrowser(this.platformId))
