@@ -51,6 +51,7 @@
                       >Authentification code</span
                     >
                     <app-code-input-auth
+                      [clearInput]="this.successMsg === 'Email sent'"
                       (codeCompleted)="onCodeCompleted($event)"
                       [ngClass]="{
                         'success-code':
