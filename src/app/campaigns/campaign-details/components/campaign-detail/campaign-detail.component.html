@@ -1,65 +1,110 @@
 <div *ngIf="!isLoading">
-    <span id="span-top" class="span-top"></span>
-    <div class="campaign-cover img-container" id="campaign-cover" *ngIf="!showInfoSpinner">
-        <img class="campaign-img desktopClass" src="/assets/Images/img_placeholder.svg" *ngIf="!campaign || !campaign.cover" />
-        <img class="campaign-img desktopClass" [src]="campaign.cover" alt="{{ campaign.title }}" *ngIf="campaign && campaign.cover" />
-        <img class="campaign-img mobileClass" [src]="campaign.coverSrcMobile ? campaign.coverSrcMobile : campaign.cover" alt="{{ campaign.title }}" />
-        <!-- <app-edit-cover-btn
+  <span id="span-top" class="span-top"></span>
+  <div
+    class="campaign-cover img-container"
+    id="campaign-cover"
+    *ngIf="!showInfoSpinner"
+  >
+    <img
+      class="campaign-img desktopClass"
+      src="/assets/Images/img_placeholder.svg"
+      *ngIf="!campaign || !campaign.cover"
+    />
+    <img
+      class="campaign-img desktopClass"
+      [src]="campaign.cover"
+      alt="{{ campaign.title }}"
+      *ngIf="campaign && campaign.cover"
+    />
+    <img
+      class="campaign-img mobileClass"
+      [src]="campaign.coverSrcMobile ? campaign.coverSrcMobile : campaign.cover"
+      alt="{{ campaign.title }}"
+    />
+    <!-- <app-edit-cover-btn
       *ngIf="campaign.isOwnedByUser"
       class="btn-edit"
       (imageImported)="imageImported($event, 'cover')"
       [imageBase64]="campaign.cover"
     ></app-edit-cover-btn> -->
+  </div>
+  <div
+    class="div-top-bar align-content-center justify-content-between"
+    id="campaign-top-bar"
+  >
+    <div class="d-flex gap-4 align-items-center">
+      <img
+        [src]="campaign.logo"
+        class="top-bar-logo"
+        *ngIf="campaign && campaign.logo"
+      />
+      <img
+        class="brand-logo"
+        src="/assets/Images/empty-set 1.svg"
+        *ngIf="!campaign || !campaign.logo"
+      />
+      <span
+        class="font-weight-bold font-size-title dark-gray title-capitalize"
+        >{{ campaign.title | capitalizePhrase }}</span
+      >
     </div>
-    <div class="div-top-bar align-content-center justify-content-between" id="campaign-top-bar">
-        <div class="d-flex gap-4 align-items-center">
-            <img [src]="campaign.logo" class="top-bar-logo" *ngIf="campaign && campaign.logo" />
-            <img class="brand-logo" src="/assets/Images/empty-set 1.svg" *ngIf="!campaign || !campaign.logo" />
-            <span class="font-weight-bold font-size-title dark-gray">{{
-        campaign.title | capitalizePhrase
-      }}</span>
-        </div>
-        <div class="d-flex gap-3 align-items-center">
-            <button type="button" class="btn-white" (click)="downloadFile()">
+    <div class="d-flex gap-3 align-items-center">
+      <button type="button" class="btn-white" (click)="downloadFile()">
         Download AdPool Kit
       </button>
-            <button type="button" class="top-bar-btn-apply btn-apply" (click)="goParticipate(campaign.id)" *ngIf="!campaign.isOwnedByUser && campaign.isActive">
+      <button
+        type="button"
+        class="top-bar-btn-apply btn-apply"
+        (click)="goParticipate(campaign.id)"
+        *ngIf="!campaign.isOwnedByUser && campaign.isActive"
+      >
         {{ 'Apply Now' | translate }}
       </button>
-            <button type="button" class="btn-scroll-top" (click)="scrollToTop()">
+      <button type="button" class="btn-scroll-top" (click)="scrollToTop()">
         <img src="/assets/Images/chevron_up.svg" />
       </button>
-        </div>
     </div>
-    <!------------------ starrrrrrrrrt fooooter baaaaaaaaaaar----------------- -->
-    <div class="div-menu div-footer-bar align-content-center justify-content-between" id="campaign-footer-bar">
-        <!------div wallet -->
-        <div class="div-wallet text-center" [routerLink]="['/wallet']">
-            <div class="div-pic">
-                <img src="assets/Images/blue-icons/wallet-icon-blue.svg" width="32" />
-            </div>
+  </div>
+  <!------------------ starrrrrrrrrt fooooter baaaaaaaaaaar----------------- -->
+  <div
+    class="div-menu div-footer-bar align-content-center justify-content-between"
+    id="campaign-footer-bar"
+  >
+    <!------div wallet -->
+    <div class="div-wallet text-center" [routerLink]="['/wallet']">
+      <div class="div-pic">
+        <img src="assets/Images/blue-icons/wallet-icon-blue.svg" width="32" />
+      </div>
 
-            <span class="span-text blue-text">{{
+      <span class="span-text blue-text">{{
         'Sidebar.Wallet' | translate
       }}</span>
-        </div>
-        <!------end div wallet -->
-        <!------div adpoooool -->
-        <div class="div-adPool text-center" [routerLink]="['/ad-pools']">
-            <div class="div-pic">
-                <img src="assets/Images/blue-icons/list-ul.svg" />
-            </div>
+    </div>
+    <!------end div wallet -->
+    <!------div adpoooool -->
+    <div class="div-adPool text-center" [routerLink]="['/ad-pools']">
+      <div class="div-pic">
+        <img src="assets/Images/blue-icons/list-ul.svg" />
+      </div>
 
-            <span class="span-text blue-text">AdPool list</span>
-        </div>
-        <!------end div adpoooool -->
-        <!------------ div center -->
-        <div class="div-center text-center">
-            <!------------ div Apply-->
-            <div class="div-pic-center" (click)="goParticipate(campaign.id)" *ngIf="!campaign.isOwnedByUser && campaign.isActive">
-                <img src="assets/Images/person-check-fill.svg" width="32px" />
-            </div>
-            <span class="span-text pink-text" (click)="goParticipate(campaign.id)" *ngIf="!campaign.isOwnedByUser && campaign.isActive">Apply</span
+      <span class="span-text blue-text">AdPool list</span>
+    </div>
+    <!------end div adpoooool -->
+    <!------------ div center -->
+    <div class="div-center text-center">
+      <!------------ div Apply-->
+      <div
+        class="div-pic-center"
+        (click)="goParticipate(campaign.id)"
+        *ngIf="!campaign.isOwnedByUser && campaign.isActive"
+      >
+        <img src="assets/Images/person-check-fill.svg" width="32px" />
+      </div>
+      <span
+        class="span-text pink-text"
+        (click)="goParticipate(campaign.id)"
+        *ngIf="!campaign.isOwnedByUser && campaign.isActive"
+        >Apply</span
       >
       <!------end div applay -->
       <!------------ div Manage-->
@@ -160,13 +205,21 @@
       </div>
 
       <span class="span-text blue-text">Budget</span> -->
-            <!-- ----------- -->
-            <!------ div delete-->
-            <div (click)="deleteCampaign()" class="div-pic" *ngIf="campaign.isOwnedByUser && campaign.isDraft">
-                <img src="assets/Images/blue-icons/corbeille-blue.svg" />
-            </div>
+      <!-- ----------- -->
+      <!------ div delete-->
+      <div
+        (click)="deleteCampaign()"
+        class="div-pic"
+        *ngIf="campaign.isOwnedByUser && campaign.isDraft"
+      >
+        <img src="assets/Images/blue-icons/corbeille-blue.svg" />
+      </div>
 
-            <span (click)="deleteCampaign()" class="span-text blue-text" *ngIf="campaign.isOwnedByUser && campaign.isDraft">Delete</span
+      <span
+        (click)="deleteCampaign()"
+        class="span-text blue-text"
+        *ngIf="campaign.isOwnedByUser && campaign.isDraft"
+        >Delete</span
       >
       <!------end div delete-->
     </div>
@@ -195,7 +248,11 @@
       >
         Back to top
       </span>
-            <span [hidden]="!inTop" class="span-text disabled-text" id="back-top-text-disabled">Back to top</span
+      <span
+        [hidden]="!inTop"
+        class="span-text disabled-text"
+        id="back-top-text-disabled"
+        >Back to top</span
       >
     </div>
     <!---- end div back to top---->
@@ -253,38 +310,46 @@
               {{ 'from' | translate }}
               <!-- <span class="text-nowrap text-date">{{ campaign.startDate | date: "fullDate" }}  </span> -->
 
-            <span class="" *ngIf="localId === 'en'">
+              <span class="" *ngIf="localId === 'en'">
                 {{
                   campaign.startDate
                     | date: 'MM/dd/yyyy ':undefined:localId || ''
                 }}
               </span>
-            <span class="" *ngIf="localId === 'fr'">
+              <span class="" *ngIf="localId === 'fr'">
                 {{
                   campaign.startDate
                     | date: 'dd/MM/yyyy ':undefined:localId || ''
                 }}
-              </span> {{ 'to' | translate }}
-            <!-- <span class="text-nowrap text-date">{{ campaign.endDate | date: "fullDate" }} </span> -->
-            <span class="" *ngIf="localId === 'en'">
+              </span>
+              {{ 'to' | translate }}
+              <!-- <span class="text-nowrap text-date">{{ campaign.endDate | date: "fullDate" }} </span> -->
+              <span class="" *ngIf="localId === 'en'">
                 {{
                   campaign.endDate | date: 'MM/dd/yyyy ':undefined:localId || ''
                 }}
               </span>
-            <span class="" *ngIf="localId === 'fr'">
+              <span class="" *ngIf="localId === 'fr'">
                 {{
                   campaign.endDate | date: 'dd/MM/yyyy ':undefined:localId || ''
                 }}
               </span>
             </p>
+          </div>
         </div>
-    </div>
-    <div class="d-flex flex-column align-items-xl-end align-items-lg-end align-items-md-end align-items-sm-center align-items-center ml-3 gap-2">
-        <div class="mb-2">
-            <a class="a-router" [routerLink]="['/ad-pools']">
-                < Back to list</a>
-        </div>
-        <button type="button" class="btn-edit-ad-pool d-xl-block d-lg-block d-md-block d-sm-none d-none" id="btn-edit-ad-pool" (click)="goToEditPage(campaign.id)" *ngIf="campaign.isOwnedByUser && campaign.isActive">
+        <div
+          class="d-flex flex-column align-items-xl-end align-items-lg-end align-items-md-end align-items-sm-center align-items-center ml-3 gap-2"
+        >
+          <div class="mb-2">
+            <a class="a-router" [routerLink]="['/ad-pools']"> < Back to list</a>
+          </div>
+          <button
+            type="button"
+            class="btn-edit-ad-pool d-xl-block d-lg-block d-md-block d-sm-none d-none"
+            id="btn-edit-ad-pool"
+            (click)="goToEditPage(campaign.id)"
+            *ngIf="campaign.isOwnedByUser && campaign.isActive"
+          >
             <span class="padding-16" *ngIf="!this.showSpinner"
               >Edit Adpool
             </span>
@@ -296,7 +361,13 @@
               <span class="sr-only">Loading...</span>
             </div>
           </button>
-        <button type="button" class="btn-apply d-xl-block d-lg-block d-md-block d-sm-none d-none" id="btn-apply" (click)="goParticipate(campaign.id)" *ngIf="!campaign.isOwnedByUser && campaign.isActive">
+          <button
+            type="button"
+            class="btn-apply d-xl-block d-lg-block d-md-block d-sm-none d-none"
+            id="btn-apply"
+            (click)="goParticipate(campaign.id)"
+            *ngIf="!campaign.isOwnedByUser && campaign.isActive"
+          >
             <span class="padding-16" *ngIf="!this.showSpinner">{{
               'Apply Now' | translate
             }}</span>
@@ -308,79 +379,113 @@
               <span class="sr-only">Loading...</span>
             </div>
           </button>
-        <button type="button" class="btn-pending" *ngIf="!campaign.isOwnedByUser && campaign.inProgress">
+          <button
+            type="button"
+            class="btn-pending"
+            *ngIf="!campaign.isOwnedByUser && campaign.inProgress"
+          >
             <span class="padding-16">
               {{ 'Monetize.pending' | translate }}</span
             >
           </button>
-        <div class="d-xl-none d-lg-none d-md-none d-sm-block d-block date-wrapper mt-3 text-center">
+          <div
+            class="d-xl-none d-lg-none d-md-none d-sm-block d-block date-wrapper mt-3 text-center"
+          >
             <p class="date-text">
-                {{ 'from' | translate }}
-                <!-- <span class="text-nowrap text-date">{{ campaign.startDate | date: "fullDate" }}  </span> -->
+              {{ 'from' | translate }}
+              <!-- <span class="text-nowrap text-date">{{ campaign.startDate | date: "fullDate" }}  </span> -->
 
-                <span class="" *ngIf="localId === 'en'">
+              <span class="" *ngIf="localId === 'en'">
                 {{
                   campaign.startDate
                     | date: 'MM/dd/yyyy ':undefined:localId || ''
                 }}
               </span>
-                <span class="" *ngIf="localId === 'fr'">
+              <span class="" *ngIf="localId === 'fr'">
                 {{
                   campaign.startDate
                     | date: 'dd/MM/yyyy ':undefined:localId || ''
                 }}
-              </span> {{ 'to' | translate }}
-                <!-- <span class="text-nowrap text-date">{{ campaign.endDate | date: "fullDate" }} </span> -->
-                <span class="" *ngIf="localId === 'en'">
+              </span>
+              {{ 'to' | translate }}
+              <!-- <span class="text-nowrap text-date">{{ campaign.endDate | date: "fullDate" }} </span> -->
+              <span class="" *ngIf="localId === 'en'">
                 {{
                   campaign.endDate | date: 'MM/dd/yyyy ':undefined:localId || ''
                 }}
               </span>
-                <span class="" *ngIf="localId === 'fr'">
+              <span class="" *ngIf="localId === 'fr'">
                 {{
                   campaign.endDate | date: 'dd/MM/yyyy ':undefined:localId || ''
                 }}
               </span>
             </p>
-        </div>
-        <!-- <button
+          </div>
+          <!-- <button
             class="btn-default btn-primary increase-budget-btn margin-btn"
             (click)="openModal(increaseBudget)"
             *ngIf="this.isOwnedByUser && !campaign.isDraft"
           >
             {{ 'increase_budget' | translate }}
           </button> -->
+        </div>
+      </div>
     </div>
-</div>
-</div>
 
-<!-- *ngIf="campaign_title"-->
-<section id="campaignInfo" class="scroll-outer">
-    <app-campaign-info [campaign]="campaign" [isOwnedByUser]="isOwnedByUser" [kits]="this.kits" [allProms]="allProms" (showPasswordModal)="onShowPasswordModal()" [listeningToDownloadFiles]="downloadFilsClick">
-    </app-campaign-info>
-</section>
-</main>
-<div class="row d-flex justify-content-center mt-4 div_btn" *ngIf="activeCampaign === false">
-    <div style="width: 100%; background: white" *ngIf="activeCampaign === false" class="col-xl-4 col-md-8 col-lg-5 col-sm-8 d-flex justify-content-center pt-3-mobile">
-        <button type="button" class="btn-blue" (click)="launchCampaign()">
+    <!-- *ngIf="campaign_title"-->
+    <section id="campaignInfo" class="scroll-outer">
+      <app-campaign-info
+        [campaign]="campaign"
+        [isOwnedByUser]="isOwnedByUser"
+        [kits]="this.kits"
+        [allProms]="allProms"
+        (showPasswordModal)="onShowPasswordModal()"
+        [listeningToDownloadFiles]="downloadFilsClick"
+      >
+      </app-campaign-info>
+    </section>
+  </main>
+  <div
+    class="row d-flex justify-content-center mt-4 div_btn"
+    *ngIf="activeCampaign === false"
+  >
+    <div
+      style="width: 100%; background: white"
+      *ngIf="activeCampaign === false"
+      class="col-xl-4 col-md-8 col-lg-5 col-sm-8 d-flex justify-content-center pt-3-mobile"
+    >
+      <button type="button" class="btn-blue" (click)="launchCampaign()">
         <img src="/assets/Images/Rectangle-lancer_compagne.svg" class="me-4" />
         {{ 'start my campaign now!' | translate | capitalizePhrase }}
       </button>
     </div>
-</div>
-<div class="row mt-3 d-flex justify-content-center div_msg_error" style="width: 100%; background: white; position: relative" *ngIf="campaign.isDraft && this.disabledBtn === true">
-    <label class="col-xl-7 col-md-12 col-lg-8 col-sm-8 danger_pic d-flex align-items-center" *ngIf="campaign.isDraft && this.disabledBtn === true">
+  </div>
+  <div
+    class="row mt-3 d-flex justify-content-center div_msg_error"
+    style="width: 100%; background: white; position: relative"
+    *ngIf="campaign.isDraft && this.disabledBtn === true"
+  >
+    <label
+      class="col-xl-7 col-md-12 col-lg-8 col-sm-8 danger_pic d-flex align-items-center"
+      *ngIf="campaign.isDraft && this.disabledBtn === true"
+    >
       <img src="assets/Images/false.svg" class="pe-2" />{{
         'create_campaign_form.alert_required' | translate
       }}
     </label>
+  </div>
 </div>
+<div
+  class="d-flex justify-content-center align-items-center"
+  style="height: 100%; width: 100%; background: white; position: relative"
+>
+  <app-loading-logo *ngIf="isLoading && !showmoonboy"></app-loading-logo>
 </div>
-<div class="d-flex justify-content-center align-items-center" style="height: 100%; width: 100%; background: white; position: relative">
-    <app-loading-logo *ngIf="isLoading && !showmoonboy"></app-loading-logo>
-</div>
-<div class="d-flex justify-content-end w-100" style="position: relative; background: white">
-    <div *ngIf="showmoonboy" class="div-footer">
-        <app-moonboy-help [pageName]="'apply in'"></app-moonboy-help>
-    </div>
+<div
+  class="d-flex justify-content-end w-100"
+  style="position: relative; background: white"
+>
+  <div *ngIf="showmoonboy" class="div-footer">
+    <app-moonboy-help [pageName]="'apply in'"></app-moonboy-help>
+  </div>
 </div>
