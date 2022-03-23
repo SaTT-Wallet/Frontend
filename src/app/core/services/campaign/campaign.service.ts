@@ -747,12 +747,12 @@ export class CampaignHttpApiService {
   tokenApproveERC20(erc20: any, password: any) {
     let amount = '100000000000000000000000000000';
     return this.http.post(
-      sattUrl + '/v2/erc20/allow',
+      sattUrl + '/campaign/erc20/allow',
       {
-        access_token: this.tokenStorageService.getToken(),
-        token: erc20.addr,
-        spender: campaignSmartContractERC20,
+        // access_token: this.tokenStorageService.getToken(),
+        campaignAddress: campaignSmartContractERC20,
         amount: amount,
+        tokenAddress: erc20.addr,
         pass: password
       },
       { headers: this.tokenStorageService.getHeader() }
