@@ -97,6 +97,7 @@ export class CampaignsStoreService {
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((res: IApiResponse<ICampaignResponse> | null) => {
         let campaign = new Campaign(res?.data);
+
         campaign.ownedByUser =
           Number(campaign.ownerId) ===
           Number(this.localStorageService.getUserId());

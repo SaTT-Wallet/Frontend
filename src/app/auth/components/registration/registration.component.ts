@@ -390,23 +390,24 @@ export class RegistrationComponent implements OnInit {
               this.router.navigate(['/social-registration/activation-mail'], {
                 queryParams: { email: this.authForm.get('email')?.value }
               });
+            }
+          },
+          (err) => {
+            if (err.error.error.message === 'connect_with_form') {
+              this.errorMessage = 'connect_with_form';
+              this.showSpinner = false;
             } else if (
-              data.message === 'account_already_used' &&
-              data.code === 401
+              err.error.error.message === 'account_already_used' &&
+              err.error.code === 401
             ) {
               this.errorMessage = 'account_already_used';
               setTimeout(() => (this.errorMessage = ''), 6000);
               this.showSpinner = false;
             }
-          },
-          (err) => {
-            if (err.error.message === 'connect_with_form') {
-              this.errorMessage = 'connect_with_form';
-              this.showSpinner = false;
-            } else {
-              this.errorMessage = 'server_error';
-              this.showSpinner = false;
-            }
+            // else {
+            //   this.errorMessage = 'server_error';
+            //   this.showSpinner = false;
+            // }
           }
         );
     } else {
