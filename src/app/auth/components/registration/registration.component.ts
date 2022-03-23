@@ -334,6 +334,8 @@ export class RegistrationComponent implements OnInit {
               this.errorMessage = 'connect_with_gplus';
             } else if (p.idSn === '5') {
               this.errorMessage = 'connect_with_telegram';
+            } else if (p.idSn === '') {
+              this.errorMessage = 'account_already_used';
             }
           } else if (p.message === 'Register First') {
             this.errorMessage = 'Register_First';
