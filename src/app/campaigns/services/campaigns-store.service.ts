@@ -6,6 +6,8 @@ import { Campaign } from '@app/models/campaign.model';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { FormatDataService } from '@campaigns/services/format-data.service';
+import { ICampaignResponse } from '@app/core/campaigns-list-response.interface';
+import { IApiResponse } from '@app/core/types/rest-api-responses';
 
 @Injectable({
   providedIn: 'root'
@@ -93,8 +95,8 @@ export class CampaignsStoreService {
     this.campaignService
       .updateOneById(data, this.campaign.id)
       .pipe(takeUntil(this.isDestroyed))
-      .subscribe((res) => {
-        let campaign = new Campaign(res.updatedCampaign);
+      .subscribe((res: IApiResponse<ICampaignResponse> | null) => {
+        let campaign = new Campaign(res?.data);
         campaign.ownedByUser =
           Number(campaign.ownerId) ===
           Number(this.localStorageService.getUserId());

@@ -46,6 +46,7 @@ export class SocialAccountFacadeService {
     return this.profileService.socialStateFacebook(deactivate, id);
   }
   socialStateLinkedin(deactivate: any, organization: any) {
+    console.log(deactivate, organization);
     return this.profileService.socialStateLinkedin(deactivate, organization);
   }
   socialStateTwitter(deactivate: any, twitter_id: any) {
