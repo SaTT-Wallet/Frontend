@@ -65,7 +65,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
 
   totalBudgetInvestedInUSD$ = this.campaignService
     .getTotalInvestetd()
-    .pipe(map((r: any) => r.totalInvestedUSD.toFixed(4)));
+    .pipe(map((r: any) => r.totalInvestedUSD));
   idcamp: any;
   isFormatGrid = true;
   percentProfil: any;

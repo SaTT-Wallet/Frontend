@@ -38,15 +38,19 @@
             <span class="successLink" *ngIf="successMessage">{{
         successMessage | translate
       }}</span>
-        </div>
-        <!---------------------------------- Link your networks---------------------------------------->
-        <div *ngIf="percentSocial === 0" class="other-network">
-            <img src="./assets/Images/link-social-img.png" alt="" />
-            <p class="network-type">
-                {{ 'Profil.Link-your-social-networks' | translate }}
-            </p>
-            <div class="row flex-column justify-content-center align-items-center">
-                <button class="google-btn-cnx" (click)="onReditectSocial('youtube')" *ngIf="channelGoogle?.length === 0">
+    </div>
+    <!---------------------------------- Link your networks---------------------------------------->
+    <div *ngIf="percentSocial == 0" class="other-network">
+      <img src="./assets/Images/link-social-img.png" alt="" />
+      <p class="network-type">
+        {{ 'Profil.Link-your-social-networks' | translate }}
+      </p>
+      <div class="row flex-column justify-content-center align-items-center">
+        <button
+          class="google-btn-cnx"
+          (click)="onReditectSocial('youtube')"
+          *ngIf="channelGoogle?.length === 0"
+        >
           <img src="./assets/Images/youtube-white.png" />
           <span> {{ 'social_networks.add_youtube_ch' | translate }}</span>
         </button>
