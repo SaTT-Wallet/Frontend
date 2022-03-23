@@ -44,14 +44,15 @@ export class ProfileService {
     });
     return this.http.get(sattUrl + '/twitter/all', { headers: header });
   }
-
   deleteOneSocialNetworksTwitter(id: string) {
     let header = new HttpHeaders({
       'Cache-Control': 'no-store',
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.delete(sattUrl + '/twitter/' + id, { headers: header });
+    return this.http.delete(sattUrl + '/profile/RemoveTwitterChannel/' + id, {
+      headers: header
+    });
   }
   deleleteAllSocialNetworksGoogle() {
     let header = new HttpHeaders({
@@ -69,7 +70,7 @@ export class ProfileService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.delete(sattUrl + '/RemoveFacebookchannels', {
+    return this.http.delete(sattUrl + '/profile/RemoveFacebookchannels', {
       headers: header
     });
   }
@@ -295,9 +296,13 @@ export class ProfileService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.post<IresponseCodeQr>(sattUrl + '/auth/verifyQrCode', body, {
-      headers: header
-    });
+    return this.http.post<IresponseCodeQr>(
+      sattUrl + '/auth/verifyQrCode',
+      body,
+      {
+        headers: header
+      }
+    );
   }
 
   socialStateGoogle(deactivate: any, channelId: any) {

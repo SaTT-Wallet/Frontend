@@ -4,7 +4,7 @@ import { sattUrl } from '@app/config/atn.config';
 
 import { ProfileService } from '@core/services/profile/profile.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { catchError, filter, map, mergeMap, takeUntil } from 'rxjs/operators';
+import { catchError, map, mergeMap, takeUntil } from 'rxjs/operators';
 import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-facade/socialAcounts-facade.service';
 import { of, Subject } from 'rxjs';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
@@ -104,7 +104,6 @@ export class SocialNetworksComponent implements OnInit {
           }
           return of(null);
         }),
-        filter((res) => res !== null),
         mergeMap((data) => {
           return this.route.queryParams.pipe(
             map((params) => {
@@ -289,8 +288,8 @@ export class SocialNetworksComponent implements OnInit {
         .pipe(takeUntil(this.isDestroyed))
         .subscribe((response: any) => {
           if (response.message === 'deleted successfully') {
-            this.getSocialNetwork();
             this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
+            this.getSocialNetwork();
             this.closeModal(id);
           }
         });
