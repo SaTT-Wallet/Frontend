@@ -586,15 +586,18 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
   onToggle2FAChange(event: any) {
     if (event) {
+
       this.formQrCode.reset();
       this.showQrCode = true;
       this.show = !this.show;
       this.account$
         .pipe(
+          
           filter((res) => res !== null),
           takeUntil(this.onDestroy$),
           mergeMap((res: User | null) => {
-            if (res && !res.is2FA && this.show) {
+            if (event) {
+
               return this.profileSettingsFacade.generateQRCode();
             }
             return of(null);
@@ -637,26 +640,35 @@ export class SecurityComponent implements OnInit, OnDestroy {
   verifyQRCode() {
     let body = {
       code: this.formCode.get('code')?.value,
-      id: this.tokenStorageService.getIdUser()
     };
     this.profileSettingsFacade
       .verifyQRCode(body)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((data: any) => {
-        if (data.error || data.verifiedCode === false) {
+        if (data.data.error || data.data.verifiedCode === false) {
           this.formCode.get('valid')?.setValue(false);
           this.errorMessage = 'code incorrect';
           this.successMsg = '';
           this.formCode.get('code')?.setValue('');
-          //   setTimeout(() => {
-          // // this.codeInput.reset();
-          //     this.errorMessage = '';
-          //   }, 3000);
-        } else {
+       
+        }
+        
+        else {
           this.formCode.get('valid')?.setValue(true);
           this.successMsg = 'code correct';
-          this.errorMessage = 'code correct';
+           this.errorMessage = 'code correct';
+        
+   
+    
+       
+      
+         
+
         }
+      },
+      
+      (error: any)=>{
+        this.errorMessage = 'error';
       });
   }
 
@@ -675,7 +687,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
       .updateProfile(update)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((data: any) => {
-        if (data.success === 'updated' && isPlatformBrowser(this.platformId)) {
+        if (data.message === 'profile updated' && isPlatformBrowser(this.platformId)) {
           this.accountFacadeService.dispatchUpdatedAccount();
           // this.is2FAactivated = true && update.is2FA;
           this.formQrCode.reset();
