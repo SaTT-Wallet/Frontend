@@ -892,9 +892,17 @@ export class CampaignHttpApiService {
   //   });
   // }
   linkedinSharedid(idPost: any) {
-    return this.http.get(`${sattUrl}/ShareByActivity/${idPost}`, {
-      headers: this.tokenStorageService.getHeader()
+    let header = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
+    return this.http.get(
+      sattUrl + '/profile/linkedin/ShareByActivity/' + idPost,
+      {
+        headers: header
+      }
+    );
   }
 
   public inProgressCampaign(id: any) {
