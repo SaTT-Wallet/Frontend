@@ -609,10 +609,12 @@ export class SecurityComponent implements OnInit, OnDestroy {
           takeUntil(this.onDestroy$)
         )
         .subscribe((data: any) => {
-          this.qrCode = data.data.qrCode;
-          if (this.qrCode !== '') {
-            this.formQrCode.get('qrCode')?.setValue(this.qrCode);
-            this.secret = data.data.secret;
+          if (data.message === 'success') {
+            this.qrCode = data.data.qrCode;
+            if (this.qrCode !== '') {
+              this.formQrCode.get('qrCode')?.setValue(this.qrCode);
+              this.secret = data.secret;
+            }
           }
         });
     } else {
