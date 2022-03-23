@@ -29,7 +29,7 @@ export class ConfirmBlockchainActionComponent implements OnInit {
       .subscribe((response) => {
         this.isLoading = false;
 
-        // console.log(response.action);
+        // console.log(response);
         // in case of success
         if (response.data.transactionHash) {
           this.service.setTrnxStatus({

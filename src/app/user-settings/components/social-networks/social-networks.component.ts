@@ -95,7 +95,7 @@ export class SocialNetworksComponent implements OnInit {
   }
 
   getSocialNetwork(): void {
-    //this.showSpinner = true;
+    this.showSpinner = true;
     this.socialAccount$
       .pipe(
         mergeMap((data) => {
@@ -154,12 +154,12 @@ export class SocialNetworksComponent implements OnInit {
           this.showSpinner = false;
         } else {
           this.percentSocial = 0;
-          this.showSpinner = false;
           this.allChannels = [];
           this.channelGoogle = [];
           this.channelTwitter = [];
           this.channelFacebook = [];
           this.channelLinkedin = [];
+          this.showSpinner = false;
         }
       });
   }
@@ -216,15 +216,13 @@ export class SocialNetworksComponent implements OnInit {
   }
 
   onReditectSocial(social: string) {
-    let url = this.router.url.split('?')[0];
+    //let url = this.router.url.split('?')[0];
     if (isPlatformBrowser(this.platformId))
       window.location.href =
         sattUrl +
-        `/addChannel/${social}/${this.userId}` +
+        `/profile/addChannel/${social}/${this.userId}` +
         '?redirect=' +
-        url +
-        '&social-network=' +
-        social;
+        this.router.url;
   }
   onReditectLinkedin() {
     if (isPlatformBrowser(this.platformId))

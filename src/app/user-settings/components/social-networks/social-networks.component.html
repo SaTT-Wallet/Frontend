@@ -1,201 +1,147 @@
 <div class="container-fluid page-content" *ngIf="!showSpinner">
-  <div class="show-mobile">
-    <div class="col-md-12 col-lg-12 col-xs-12 mb-3 px-0">
-      <button type="button" class="btn-back" [routerLink]="['/home/settings/']">
+    <div class="show-mobile">
+        <div class="col-md-12 col-lg-12 col-xs-12 mb-3 px-0">
+            <button type="button" class="btn-back" [routerLink]="['/home/settings/']">
         <
       </button>
-    </div>
-  </div>
-
-  <div class="social-network-bloc mt-3">
-    <p class="title">
-      {{ 'social_networks.title' | translate }} {{ 'completed-at' | translate }}
-      <span class="green-text ps-1">{{ percentSocial }}% </span>
-    </p>
-    <div class="separators">
-      <div>
-        <hr [ngClass]="{ active: percentSocial >= 25 }" />
-      </div>
-      <div>
-        <hr [ngClass]="{ active: percentSocial >= 50 }" />
-      </div>
-      <div>
-        <hr [ngClass]="{ active: percentSocial >= 75 }" />
-      </div>
-      <div>
-        <hr [ngClass]="{ active: percentSocial >= 100 }" />
-      </div>
+        </div>
     </div>
 
-    <div class="col-12 d-flex justify-content-center py-1">
-      <p class="desc">{{ 'social_networks.desc' | translate }}</p>
-    </div>
+    <div class="social-network-bloc mt-3">
+        <p class="title">
+            {{ 'social_networks.title' | translate }} {{ 'completed-at' | translate }}
+            <span class="green-text ps-1">{{ percentSocial }}% </span>
+        </p>
+        <div class="separators">
+            <div>
+                <hr [ngClass]="{ active: percentSocial >= 25 }" />
+            </div>
+            <div>
+                <hr [ngClass]="{ active: percentSocial >= 50 }" />
+            </div>
+            <div>
+                <hr [ngClass]="{ active: percentSocial >= 75 }" />
+            </div>
+            <div>
+                <hr [ngClass]="{ active: percentSocial >= 100 }" />
+            </div>
+        </div>
 
-    <div class="col-12 d-flex justify-content-center py-1">
-      <span class="errorLink" *ngIf="errorMessage">{{
+        <div class="col-12 d-flex justify-content-center py-1">
+            <p class="desc">{{ 'social_networks.desc' | translate }}</p>
+        </div>
+
+        <div class="col-12 d-flex justify-content-center py-1">
+            <span class="errorLink" *ngIf="errorMessage">{{
         errorMessage | translate
       }}</span>
-      <span class="successLink" *ngIf="successMessage">{{
+            <span class="successLink" *ngIf="successMessage">{{
         successMessage | translate
       }}</span>
-    </div>
-    <!---------------------------------- Link your networks---------------------------------------->
-    <div *ngIf="percentSocial == 0" class="other-network">
-      <img src="./assets/Images/link-social-img.png" alt="" />
-      <p class="network-type">
-        {{ 'Profil.Link-your-social-networks' | translate }}
-      </p>
-      <div class="row flex-column justify-content-center align-items-center">
-        <button
-          class="google-btn-cnx"
-          (click)="onReditectSocial('google')"
-          *ngIf="channelGoogle?.length === 0"
-        >
+        </div>
+        <!---------------------------------- Link your networks---------------------------------------->
+        <div *ngIf="percentSocial === 0" class="other-network">
+            <img src="./assets/Images/link-social-img.png" alt="" />
+            <p class="network-type">
+                {{ 'Profil.Link-your-social-networks' | translate }}
+            </p>
+            <div class="row flex-column justify-content-center align-items-center">
+                <button class="google-btn-cnx" (click)="onReditectSocial('youtube')" *ngIf="channelGoogle?.length === 0">
           <img src="./assets/Images/youtube-white.png" />
           <span> {{ 'social_networks.add_youtube_ch' | translate }}</span>
         </button>
 
-        <button
-          class="fb-btn-cnx"
-          (click)="onReditectSocial('facebook')"
-          *ngIf="channelFacebook?.length === 0"
-        >
+                <button class="fb-btn-cnx" (click)="onReditectSocial('facebook')" *ngIf="channelFacebook?.length === 0">
           <img src="./assets/Images/f-white.svg" />
           <span> {{ 'social_networks.add_fb' | translate }}</span>
         </button>
 
-        <button
-          class="twitter-btn-cnx"
-          (click)="onReditectSocial('twitter')"
-          *ngIf="channelTwitter?.length === 0"
-        >
+                <button class="twitter-btn-cnx" (click)="onReditectSocial('twitter')" *ngIf="channelTwitter?.length === 0">
           <img src="./assets/Images/Shape_twitter.svg" />
           <span> {{ 'social_networks.add_twitter' | translate }}</span>
         </button>
 
-        <button
-          class="linkedin-btn-cnx"
-          (click)="onReditectLinkedin()"
-          *ngIf="channelLinkedin?.length === 0"
-        >
+                <button class="linkedin-btn-cnx" (click)="onReditectSocial('linkedin')" *ngIf="channelLinkedin?.length === 0">
           <img src="./assets/Images/linkedin-white.png" width="24px" />
           <span> {{ 'social_networks.add_linkedin' | translate }}</span>
         </button>
-      </div>
-    </div>
+            </div>
+        </div>
 
-    <!----------------------------------- start bloc google---------------------------------------->
-    <div
-      *ngIf="channelGoogle?.length !== 0"
-      id="networkGooge"
-      class="social-accounts-block"
-    >
-      <div class="account-bloc">
-        <div class="account-name">
-          <div class="col-1 col-md-1 col-sm-1 bloc-name">
-            <span class="network-logo">
+        <!----------------------------------- start bloc google---------------------------------------->
+        <div *ngIf="channelGoogle?.length !== 0" id="networkGooge" class="social-accounts-block">
+            <div class="account-bloc">
+                <div class="account-name">
+                    <div class="col-1 col-md-1 col-sm-1 bloc-name">
+                        <span class="network-logo">
               <img width="32px" src="{{ networkLogo }}" />
             </span>
-            <span class="acc-name">{{ nameAccount }}</span>
-          </div>
-          <div class="col-md-8 col-sm-9 network-type">
-            <p *ngIf="!showGoogleList" style="color: #75758f">
-              {{ 'social_networks_youtube.linked' | translate }}
-            </p>
-            <p *ngIf="showGoogleList" style="color: #4048ff">
-              {{ 'social_networks_youtube.linked' | translate }}
-            </p>
-          </div>
-          <button
-            style="border: none"
-            class="col-md-2 delete-account-bloc cursor-pointer desktop"
-            (click)="openModalDeleteAll(deleteAllModal, 'google')"
-          >
+                        <span class="acc-name">{{ nameAccount }}</span>
+                    </div>
+                    <div class="col-md-8 col-sm-9 network-type">
+                        <p *ngIf="!showGoogleList" style="color: #75758f">
+                            {{ 'social_networks_youtube.linked' | translate }}
+                        </p>
+                        <p *ngIf="showGoogleList" style="color: #4048ff">
+                            {{ 'social_networks_youtube.linked' | translate }}
+                        </p>
+                    </div>
+                    <button style="border: none" class="col-md-2 delete-account-bloc cursor-pointer desktop" (click)="openModalDeleteAll(deleteAllModal, 'google')">
             <i class="fa fa-trash-o pinkTrash" aria-hidden="true"></i>
             <span>{{ 'social_networks.delete' | translate }}</span>
           </button>
-          <button
-            style="border: none"
-            class="col-1 col-md-1 delete-account-bloc cursor-pointer mobile"
-            (click)="openModalDeleteAll(deleteAllModal, 'google')"
-          >
+                    <button style="border: none" class="col-1 col-md-1 delete-account-bloc cursor-pointer mobile" (click)="openModalDeleteAll(deleteAllModal, 'google')">
             <i class="fa fa-trash-o pinkTrash" aria-hidden="true"></i>
           </button>
-          <div class="col-1 col-md-1 chev-down" (click)="toggelGoogleBlock()">
-            <i
-              *ngIf="!showGoogleList"
-              class="fa fa-chevron-down"
-              aria-hidden="true"
-            ></i>
-            <i
-              *ngIf="showGoogleList"
-              class="fa fa-chevron-up"
-              aria-hidden="true"
-            ></i>
-          </div>
-        </div>
+                    <div class="col-1 col-md-1 chev-down" (click)="toggelGoogleBlock()">
+                        <i *ngIf="!showGoogleList" class="fa fa-chevron-down" aria-hidden="true"></i>
+                        <i *ngIf="showGoogleList" class="fa fa-chevron-up" aria-hidden="true"></i>
+                    </div>
+                </div>
 
-        <div *ngIf="showGoogleList" class="list-ch">
-          <div class="list-ch-body">
-            <div class="bar">
-              <hr />
-            </div>
-            <div class="ch-container">
-              <div
-                class="main-row row d-flex justify-content-center p-0 d-md-flex"
-              >
-                <!-- <div class="titles row">
+                <div *ngIf="showGoogleList" class="list-ch">
+                    <div class="list-ch-body">
+                        <div class="bar">
+                            <hr />
+                        </div>
+                        <div class="ch-container">
+                            <div class="main-row row d-flex justify-content-center p-0 d-md-flex">
+                                <!-- <div class="titles row">
                                     <div class="col">{{ "social_networks.ch_linked_acc" | translate }}</div> 
                                    <div class="col txt-center">
                                         {{ "social_networks.nb_subsc" | translate }}
                                     </div> 
                                     <div class="col txt-center">{{ "social_networks.activation" | translate }}</div>
                                 </div> -->
-                <table class="social-accounts-table w-100">
-                  <thead>
-                    <tr>
-                      <th class="sa-table-titles text-center col-3">
-                        Accounts
-                      </th>
+                                <table class="social-accounts-table w-100">
+                                    <thead>
+                                        <tr>
+                                            <th class="sa-table-titles text-center col-3">
+                                                Accounts
+                                            </th>
 
-                      <th class="sa-table-titles text-center col-4">
-                        <img
-                          src="./assets/Images/followers.png"
-                          width="25px"
-                          alt=""
-                        />
-                      </th>
-                      <th class="sa-table-titles text-center col-3">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      *ngFor="
+                                            <th class="sa-table-titles text-center col-4">
+                                                <img src="./assets/Images/followers.png" width="25px" alt="" />
+                                            </th>
+                                            <th class="sa-table-titles text-center col-3">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="
                         let ch of channelGoogle;
                         let i = index;
                         trackBy: trackByChannelId
-                      "
-                    >
-                      <td>
-                        <div
-                          class="d-flex align-items-center cursor-pointer"
-                          (click)="goToAccount('google', ch.channelId)"
-                        >
-                          <img
-                            class="ch-image"
-                            src="{{ ch.channelImage.default.url }}"
-                            (error)="onImgError($event)"
-                          />
-                          <span class="ch-name me-3">{{
+                      ">
+                                            <td>
+                                                <div class="d-flex align-items-center cursor-pointer" (click)="goToAccount('google', ch.channelId)">
+                                                    <img class="ch-image" src="{{ ch.channelImage.default.url }}" (error)="onImgError($event)" />
+                                                    <span class="ch-name me-3">{{
                             ch.channelTitle
                           }}</span>
-                        </div>
-                      </td>
-                      <td class="text-center">
-                        <span
-                          *ngIf="ch.channelStatistics.subscriberCount < 1000"
-                          class="sa-subscribers-number"
-                          >{{
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <span *ngIf="ch.channelStatistics.subscriberCount < 1000" class="sa-subscribers-number">{{
                             ch.channelStatistics.subscriberCount
                               | transfomNumber
                           }}
@@ -206,11 +152,8 @@
                               >s</span
                             >
                           </span>
-                        </span>
-                        <span
-                          *ngIf="ch.channelStatistics.subscriberCount > 999"
-                          class="sa-subscribers-number"
-                          >{{
+                                                </span>
+                                                <span *ngIf="ch.channelStatistics.subscriberCount > 999" class="sa-subscribers-number">{{
                             ch.channelStatistics.subscriberCount / 1000
                               | transfomNumber
                           }}
@@ -222,11 +165,8 @@
                               >s</span
                             >
                           </span>
-                        </span>
-                        <span
-                          *ngIf="ch.channelStatistics.subscriberCount > 999999"
-                          class="sa-subscribers-number"
-                          >{{
+                                                </span>
+                                                <span *ngIf="ch.channelStatistics.subscriberCount > 999999" class="sa-subscribers-number">{{
                             ch.channelStatistics.subscriberCount
                               | transfomNumber
                           }}
@@ -238,11 +178,11 @@
                               >s</span
                             >
                           </span>
-                        </span>
-                      </td>
-                      <td class="text-center">
-                        <div class="action">
-                          <!--<button (click)="socialStateGoogle(i)" class="btn-on">
+                                                </span>
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="action">
+                                                    <!--<button (click)="socialStateGoogle(i)" class="btn-on">
                           <img
                             *ngIf="!ch.deactivate"
                             src="/assets/Images/on.svg"
@@ -254,8 +194,7 @@
                             alt=""
                           />
                         </button>-->
-                          <button
-                            (click)="
+                                                    <button (click)="
                               openModalDeleteOne(
                                 deleteOneModal,
                                 'google',
@@ -263,152 +202,122 @@
                                 'google',
                                 ch.channelTitle
                               )
-                            "
-                          >
+                            ">
                             <span class="btn-del"></span>
                           </button>
 
-                          <!-- <ui-switch
+                                                    <!-- <ui-switch
                               class="d-flex align-self-center"
                               id="toggle"
                               (change)="toggleSocialAccount($event)"
                               [checked]="true"
                             >
                             </ui-switch> -->
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div class="btn-action pb-4">
-              <button (click)="onReditectSocial('google')">
+                        <div class="btn-action pb-4">
+                            <button (click)="onReditectSocial('youtube')">
                 + {{ 'social_networks.add_youtube_ch' | translate }}
               </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
 
-    <!----------------------------------- start bloc linkedin---------------------------------------->
-    <div *ngIf="channelLinkedin?.length !== 0" id="networkLinkedin">
-      <hr />
-      <div class="account-bloc social-accounts-block">
-        <div class="account-name">
-          <div class="col-1 col-md-1 col-sm-1 bloc-name">
-            <span class="network-logo">
+        <!----------------------------------- start bloc linkedin---------------------------------------->
+        <div *ngIf="channelLinkedin?.length !== 0" id="networkLinkedin">
+            <hr />
+            <div class="account-bloc social-accounts-block">
+                <div class="account-name">
+                    <div class="col-1 col-md-1 col-sm-1 bloc-name">
+                        <span class="network-logo">
               <img width="35px" src="{{ networkLogoLinkedin }}" />
             </span>
-            <span class="acc-name">{{ nameAccount }}</span>
-          </div>
-          <div class="col-md-8 col-sm-9 network-type">
-            <p *ngIf="!showLinkedinList" style="color: #75758f">
-              {{ 'social_networks_linkedin.linked' | translate }}
-            </p>
-            <p *ngIf="showLinkedinList" style="color: #4048ff">
-              {{ 'social_networks_linkedin.linked' | translate }}
-            </p>
-          </div>
-          <button
-            style="border: none"
-            class="col-md-2 delete-account-bloc cursor-pointer desktop"
-            (click)="openModalDeleteAll(deleteAllModal, 'linkedin')"
-          >
+                        <span class="acc-name">{{ nameAccount }}</span>
+                    </div>
+                    <div class="col-md-8 col-sm-9 network-type">
+                        <p *ngIf="!showLinkedinList" style="color: #75758f">
+                            {{ 'social_networks_linkedin.linked' | translate }}
+                        </p>
+                        <p *ngIf="showLinkedinList" style="color: #4048ff">
+                            {{ 'social_networks_linkedin.linked' | translate }}
+                        </p>
+                    </div>
+                    <button style="border: none" class="col-md-2 delete-account-bloc cursor-pointer desktop" (click)="openModalDeleteAll(deleteAllModal, 'linkedin')">
             <i class="fa fa-trash-o pinkTrash" aria-hidden="true"></i>
             <span>{{ 'social_networks.delete' | translate }}</span>
           </button>
-          <button
-            style="border: none"
-            class="col-1 col-md-1 delete-account-bloc cursor-pointer mobile"
-            (click)="openModalDeleteAll(deleteAllModal, 'linkedin')"
-          >
+                    <button style="border: none" class="col-1 col-md-1 delete-account-bloc cursor-pointer mobile" (click)="openModalDeleteAll(deleteAllModal, 'linkedin')">
             <i class="fa fa-trash-o pinkTrash" aria-hidden="true"></i>
           </button>
-          <div class="col-1 col-md-1 chev-down" (click)="toggelLinkedinBlock()">
-            <i
-              *ngIf="!showLinkedinList"
-              class="fa fa-chevron-down"
-              aria-hidden="true"
-            ></i>
-            <i
-              *ngIf="showLinkedinList"
-              class="fa fa-chevron-up"
-              aria-hidden="true"
-            ></i>
-          </div>
-        </div>
+                    <div class="col-1 col-md-1 chev-down" (click)="toggelLinkedinBlock()">
+                        <i *ngIf="!showLinkedinList" class="fa fa-chevron-down" aria-hidden="true"></i>
+                        <i *ngIf="showLinkedinList" class="fa fa-chevron-up" aria-hidden="true"></i>
+                    </div>
+                </div>
 
-        <div *ngIf="showLinkedinList" class="list-ch">
-          <div class="list-ch-body">
-            <div class="bar">
-              <hr />
-            </div>
-            <div class="ch-container">
-              <div class="titles row">
-                <!-- <div class="col">{{ "social_networks.ch_linked_acc" | translate }}</div> -->
-                <!-- <div class="col txt-center">
+                <div *ngIf="showLinkedinList" class="list-ch">
+                    <div class="list-ch-body">
+                        <div class="bar">
+                            <hr />
+                        </div>
+                        <div class="ch-container">
+                            <div class="titles row">
+                                <!-- <div class="col">{{ "social_networks.ch_linked_acc" | translate }}</div> -->
+                                <!-- <div class="col txt-center">
                                         {{ "social_networks.nb_subsc" | translate }}
                                     </div> -->
-                <!-- <div class="col txt-center">{{ "social_networks.activation" | translate }}</div> -->
-              </div>
-              <table class="social-accounts-table w-100">
-                <thead>
-                  <tr>
-                    <th class="sa-table-titles text-center col-3">Accounts</th>
-                    <th class="sa-table-titles text-center col-4">
-                      <img
-                        src="./assets/Images/followers.png"
-                        width="25px"
-                        alt=""
-                      />
-                    </th>
-                    <th class="sa-table-titles text-center col-3">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    *ngFor="
+                                <!-- <div class="col txt-center">{{ "social_networks.activation" | translate }}</div> -->
+                            </div>
+                            <table class="social-accounts-table w-100">
+                                <thead>
+                                    <tr>
+                                        <th class="sa-table-titles text-center col-3">Accounts</th>
+                                        <th class="sa-table-titles text-center col-4">
+                                            <img src="./assets/Images/followers.png" width="25px" alt="" />
+                                        </th>
+                                        <th class="sa-table-titles text-center col-3">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="
                       let ch of channelLinkedin;
                       let i = index;
                       trackBy: trackByChannelOrganization
-                    "
-                  >
-                    <td>
-                      <div
-                        class="d-flex align-items-center cursor-pointer"
-                        (click)="
+                    ">
+                                        <td>
+                                            <div class="d-flex align-items-center cursor-pointer" (click)="
                           goToAccount(
                             'linkedin',
                             ch['organization~'].localizedName
                           )
-                        "
-                      >
-                        <div class="ch-image">
-                          <img
-                            src="{{ ch.photo }}"
-                            (error)="onImgError($event)"
-                          />
-                        </div>
+                        ">
+                                                <div class="ch-image">
+                                                    <img src="{{ ch.photo }}" (error)="onImgError($event)" />
+                                                </div>
 
-                        <span class="ch-name me-3">{{
+                                                <span class="ch-name me-3">{{
                           ch['organization~'].localizedName
                         }}</span>
-                      </div>
-                    </td>
-                    <td class="text-center">
-                      <span class="sa-subscribers-number"
-                        >{{ ch.subscribers | transfomNumber }}
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="sa-subscribers-number">{{ ch.subscribers | transfomNumber }}
                         <span class="desktop">
                           {{ 'social_networks.relation' | translate
                           }}<span *ngIf="ch.subscribers !== 1">s</span>
-                        </span>
-                      </span>
-                    </td>
-                    <td class="text-center">
-                      <div class="action">
-                        <!--<button (click)="socialStateLinkedin(i)" class="btn-on">
+                                            </span>
+                                            </span>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="action">
+                                                <!--<button (click)="socialStateLinkedin(i)" class="btn-on">
                           <img
                             *ngIf="!ch.deactivate"
                             src="/assets/Images/on.svg"
@@ -420,8 +329,7 @@
                             alt=""
                           />
                         </button>-->
-                        <button
-                          (click)="
+                                                <button (click)="
                             openModalDeleteOne(
                               deleteOneModal,
                               'linkedin',
@@ -429,143 +337,112 @@
                               'linkedin',
                               ch['organization~'].localizedName
                             )
-                          "
-                        >
+                          ">
                           <span class="btn-del"></span>
                         </button>
 
-                        <!-- <ui-switch
+                                                <!-- <ui-switch
                               class="d-flex align-self-center"
                               id="toggle"
                               (change)="toggleSocialAccount($event)"
                               [checked]="true"
                             >
                             </ui-switch> -->
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div class="btn-action pb-4">
-            <button (click)="onReditectLinkedin()">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="btn-action pb-4">
+                        <button (click)="onReditectSocial('linkedin')">
               + {{ 'social_networks.add_linkedin' | translate }}
             </button>
-          </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <!----------------------------------- start bloc twitter---------------------------------------->
-    <div *ngIf="channelTwitter?.length !== 0" id="networkTwitter" class="">
-      <hr />
-      <div class="account-bloc social-accounts-block">
-        <div class="account-name">
-          <div class="col-1 col-md-1 col-sm-1 bloc-name">
-            <span class="network-logo">
+        <!----------------------------------- start bloc twitter---------------------------------------->
+        <div *ngIf="channelTwitter?.length !== 0" id="networkTwitter" class="">
+            <hr />
+            <div class="account-bloc social-accounts-block">
+                <div class="account-name">
+                    <div class="col-1 col-md-1 col-sm-1 bloc-name">
+                        <span class="network-logo">
               <img width="35px" src="{{ networkLogoTwitter }}" />
             </span>
-            <span class="acc-name">{{ nameAccount }}</span>
-          </div>
-          <div class="col-md-8 col-sm-9 network-type">
-            <p *ngIf="!showTwitterList" style="color: #75758f">
-              {{ 'social_networks_twitter.linked' | translate }}
-            </p>
-            <p *ngIf="showTwitterList" style="color: #4048ff">
-              {{ 'social_networks_twitter.linked' | translate }}
-            </p>
-          </div>
-          <button
-            style="border: none"
-            class="col-md-2 delete-account-bloc cursor-pointer desktop"
-            (click)="openModalDeleteAll(deleteAllModal, 'twitter')"
-          >
+                        <span class="acc-name">{{ nameAccount }}</span>
+                    </div>
+                    <div class="col-md-8 col-sm-9 network-type">
+                        <p *ngIf="!showTwitterList" style="color: #75758f">
+                            {{ 'social_networks_twitter.linked' | translate }}
+                        </p>
+                        <p *ngIf="showTwitterList" style="color: #4048ff">
+                            {{ 'social_networks_twitter.linked' | translate }}
+                        </p>
+                    </div>
+                    <button style="border: none" class="col-md-2 delete-account-bloc cursor-pointer desktop" (click)="openModalDeleteAll(deleteAllModal, 'twitter')">
             <i class="fa fa-trash-o pinkTrash" aria-hidden="true"></i>
             <span>{{ 'social_networks.delete' | translate }}</span>
           </button>
-          <button
-            style="border: none"
-            class="col-1 col-md-1 delete-account-bloc cursor-pointer mobile"
-            (click)="openModalDeleteAll(deleteAllModal, 'twitter')"
-          >
+                    <button style="border: none" class="col-1 col-md-1 delete-account-bloc cursor-pointer mobile" (click)="openModalDeleteAll(deleteAllModal, 'twitter')">
             <i class="fa fa-trash-o pinkTrash" aria-hidden="true"></i>
           </button>
-          <div class="col-1 col-md-1 chev-down" (click)="toggelTwitterBlock()">
-            <i
-              *ngIf="!showTwitterList"
-              class="fa fa-chevron-down"
-              aria-hidden="true"
-            ></i>
-            <i
-              *ngIf="showTwitterList"
-              class="fa fa-chevron-up"
-              aria-hidden="true"
-            ></i>
-          </div>
-        </div>
+                    <div class="col-1 col-md-1 chev-down" (click)="toggelTwitterBlock()">
+                        <i *ngIf="!showTwitterList" class="fa fa-chevron-down" aria-hidden="true"></i>
+                        <i *ngIf="showTwitterList" class="fa fa-chevron-up" aria-hidden="true"></i>
+                    </div>
+                </div>
 
-        <div *ngIf="showTwitterList" class="list-ch">
-          <div class="list-ch-body">
-            <div class="bar">
-              <hr />
-            </div>
-            <div class="ch-container">
-              <div class="titles row">
-                <!-- <div class="col">{{ "social_networks.ch_linked_acc" | translate }}</div> -->
-                <!-- <div class="col txt-center">
+                <div *ngIf="showTwitterList" class="list-ch">
+                    <div class="list-ch-body">
+                        <div class="bar">
+                            <hr />
+                        </div>
+                        <div class="ch-container">
+                            <div class="titles row">
+                                <!-- <div class="col">{{ "social_networks.ch_linked_acc" | translate }}</div> -->
+                                <!-- <div class="col txt-center">
                                         {{ "social_networks.nb_subsc" | translate }}
                                     </div> -->
-                <!-- <div class="col txt-center">{{ "social_networks.activation" | translate }}</div> -->
-              </div>
-              <table class="social-accounts-table w-100">
-                <thead>
-                  <tr>
-                    <th class="sa-table-titles text-center col-3">Accounts</th>
-                    <th class="sa-table-titles text-center col-4">
-                      <img
-                        src="./assets/Images/followers.png"
-                        width="25px"
-                        alt=""
-                      />
-                    </th>
-                    <th class="sa-table-titles text-center col-3">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    *ngFor="
+                                <!-- <div class="col txt-center">{{ "social_networks.activation" | translate }}</div> -->
+                            </div>
+                            <table class="social-accounts-table w-100">
+                                <thead>
+                                    <tr>
+                                        <th class="sa-table-titles text-center col-3">Accounts</th>
+                                        <th class="sa-table-titles text-center col-4">
+                                            <img src="./assets/Images/followers.png" width="25px" alt="" />
+                                        </th>
+                                        <th class="sa-table-titles text-center col-3">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="
                       let ch of channelTwitter;
                       let i = index;
                       trackBy: trackBuChannelDisplayName
-                    "
-                  >
-                    <td>
-                      <div
-                        class="d-flex align-items-center cursor-pointer"
-                        (click)="goToAccount('twitter', ch.username)"
-                      >
-                        <img
-                          class="ch-image"
-                          src="{{ ch.photos[0].value }}"
-                          (error)="onImgError($event)"
-                        />
-                        <span class="ch-name me-3">{{ ch.displayName }}</span>
-                      </div>
-                    </td>
-                    <td class="text-center">
-                      <span class="sa-subscribers-number"
-                        >{{ ch._json.followers_count | transfomNumber }}
+                    ">
+                                        <td>
+                                            <div class="d-flex align-items-center cursor-pointer" (click)="goToAccount('twitter', ch.username)">
+                                                <img class="ch-image" src="{{ ch.photos[0].value }}" (error)="onImgError($event)" />
+                                                <span class="ch-name me-3">{{ ch.displayName }}</span>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="sa-subscribers-number">{{ ch._json.followers_count | transfomNumber }}
                         <span class="desktop">
                           {{ 'social_networks.follower' | translate
                           }}<span *ngIf="ch._json.followers_count !== 1"
                             >s</span
                           >
                         </span>
-                      </span>
-                    </td>
-                    <td class="text-center">
-                      <div class="action">
-                        <!--<button (click)="socialStateTwitter(i)" class="btn-on">
+                                            </span>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="action">
+                                                <!--<button (click)="socialStateTwitter(i)" class="btn-on">
                           <img
                             *ngIf="!ch.deactivate"
                             src="/assets/Images/on.svg"
@@ -577,8 +454,7 @@
                             alt=""
                           />
                         </button>-->
-                        <button
-                          (click)="
+                                                <button (click)="
                             openModalDeleteOne(
                               deleteOneModal,
                               'twitter',
@@ -586,186 +462,134 @@
                               'twitter',
                               ch.displayName
                             )
-                          "
-                        >
+                          ">
                           <span class="btn-del"></span>
                         </button>
 
-                        <!-- <ui-switch
+                                                <!-- <ui-switch
                               class="d-flex align-self-center"
                               id="toggle"
                               (change)="toggleSocialAccount($event)"
                               [checked]="true"
                             >
                             </ui-switch> -->
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div class="btn-action pb-4">
-            <button (click)="onReditectSocial('twitter')">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="btn-action pb-4">
+                        <button (click)="onReditectSocial('twitter')">
               + {{ 'social_networks.add_twitter' | translate }}
             </button>
-          </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <!----------------------------------- start bloc facebook / insta---------------------------------------->
-    <div
-      *ngIf="channelFacebook?.length !== 0"
-      id="networkFacebook"
-      class="social-accounts-block"
-    >
-      <hr />
-      <div class="account-bloc">
-        <div class="account-name">
-          <div class="col-1 col-md-1 col-sm-1 bloc-name">
-            <span class="network-logo">
+        <!----------------------------------- start bloc facebook / insta---------------------------------------->
+        <div *ngIf="channelFacebook?.length !== 0" id="networkFacebook" class="social-accounts-block">
+            <hr />
+            <div class="account-bloc">
+                <div class="account-name">
+                    <div class="col-1 col-md-1 col-sm-1 bloc-name">
+                        <span class="network-logo">
               <img width="35px" src="{{ networkLogoFacebook }}" />
             </span>
-            <span class="acc-name">{{ nameAccount }}</span>
-          </div>
-          <div class="col-md-8 col-sm-9 network-type">
-            <p *ngIf="!showFacebookList" style="color: #75758f">
-              {{ 'social_networks_facebook.linked' | translate }}
-            </p>
-            <p *ngIf="showFacebookList" style="color: #4048ff">
-              {{ 'social_networks_facebook.linked' | translate }}
-            </p>
-          </div>
-          <button
-            style="border: none"
-            class="col-md-2 delete-account-bloc cursor-pointer desktop"
-            (click)="openModalDeleteAll(deleteAllModal, 'facebook')"
-          >
+                        <span class="acc-name">{{ nameAccount }}</span>
+                    </div>
+                    <div class="col-md-8 col-sm-9 network-type">
+                        <p *ngIf="!showFacebookList" style="color: #75758f">
+                            {{ 'social_networks_facebook.linked' | translate }}
+                        </p>
+                        <p *ngIf="showFacebookList" style="color: #4048ff">
+                            {{ 'social_networks_facebook.linked' | translate }}
+                        </p>
+                    </div>
+                    <button style="border: none" class="col-md-2 delete-account-bloc cursor-pointer desktop" (click)="openModalDeleteAll(deleteAllModal, 'facebook')">
             <i class="fa fa-trash-o pinkTrash" aria-hidden="true"></i>
             <span>{{ 'social_networks.delete' | translate }}</span>
           </button>
-          <button
-            style="border: none"
-            class="col-1 col-md-1 delete-account-bloc cursor-pointer mobile"
-            (click)="openModalDeleteAll(deleteAllModal, 'facebook')"
-          >
+                    <button style="border: none" class="col-1 col-md-1 delete-account-bloc cursor-pointer mobile" (click)="openModalDeleteAll(deleteAllModal, 'facebook')">
             <i class="fa fa-trash-o pinkTrash" aria-hidden="true"></i>
           </button>
-          <div class="col-1 col-md-1 chev-down" (click)="toggelFacebookBlock()">
-            <i
-              *ngIf="!showFacebookList"
-              class="fa fa-chevron-down"
-              aria-hidden="true"
-            ></i>
-            <i
-              *ngIf="showFacebookList"
-              class="fa fa-chevron-up"
-              aria-hidden="true"
-            ></i>
-          </div>
-        </div>
+                    <div class="col-1 col-md-1 chev-down" (click)="toggelFacebookBlock()">
+                        <i *ngIf="!showFacebookList" class="fa fa-chevron-down" aria-hidden="true"></i>
+                        <i *ngIf="showFacebookList" class="fa fa-chevron-up" aria-hidden="true"></i>
+                    </div>
+                </div>
 
-        <div *ngIf="showFacebookList" class="list-ch">
-          <div class="list-ch-body">
-            <div class="bar">
-              <hr />
-            </div>
-            <div class="ch-container">
-              <div class="titles row">
-                <!-- <div class="col">{{ "social_networks.ch_linked_acc" | translate }}</div> -->
-                <!-- <div class="col txt-center">
+                <div *ngIf="showFacebookList" class="list-ch">
+                    <div class="list-ch-body">
+                        <div class="bar">
+                            <hr />
+                        </div>
+                        <div class="ch-container">
+                            <div class="titles row">
+                                <!-- <div class="col">{{ "social_networks.ch_linked_acc" | translate }}</div> -->
+                                <!-- <div class="col txt-center">
                                 {{ "social_networks.nb_subsc" | translate }}
                             </div> -->
-                <!-- <div class="col txt-center">{{ "social_networks.activation" | translate }}</div> -->
-              </div>
+                                <!-- <div class="col txt-center">{{ "social_networks.activation" | translate }}</div> -->
+                            </div>
 
-              <table class="social-accounts-table w-100">
-                <thead>
-                  <tr>
-                    <th class="sa-table-titles text-center col-3">Accounts</th>
-                    <th class="sa-table-titles text-center col-4">
-                      <img
-                        src="./assets/Images/followers.png"
-                        width="25px"
-                        alt=""
-                      />
-                    </th>
-                    <th class="sa-table-titles text-center col-3">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    *ngFor="
+                            <table class="social-accounts-table w-100">
+                                <thead>
+                                    <tr>
+                                        <th class="sa-table-titles text-center col-3">Accounts</th>
+                                        <th class="sa-table-titles text-center col-4">
+                                            <img src="./assets/Images/followers.png" width="25px" alt="" />
+                                        </th>
+                                        <th class="sa-table-titles text-center col-3">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="
                       let ch of channelFacebook;
                       let i = index;
                       trackBy: trackByCahnnelName
-                    "
-                  >
-                    <td>
-                      <div
-                        class="d-flex align-items-center cursor-pointer"
-                        *ngIf="ch.instagram_username"
-                        (click)="
+                    ">
+                                        <td>
+                                            <div class="d-flex align-items-center cursor-pointer" *ngIf="ch.instagram_username" (click)="
                           goToAccount('instagram', ch.instagram_username)
-                        "
-                      >
-                        <div class="social-account-image">
-                          <img
-                            class="ch-image"
-                            src="{{ ch.picture }}"
-                            (error)="onImgError($event)"
-                          />
-                          <img
-                            class="social-account-icon"
-                            [src]="networkLogoInstagram"
-                          />
-                        </div>
-                        <div>
-                          <span class="ch-name me-3"
-                            >{{ ch.name }}
+                        ">
+                                                <div class="social-account-image">
+                                                    <img class="ch-image" src="{{ ch.picture }}" (error)="onImgError($event)" />
+                                                    <img class="social-account-icon" [src]="networkLogoInstagram" />
+                                                </div>
+                                                <div>
+                                                    <span class="ch-name me-3">{{ ch.name }}
                             <img
                               src="./assets/Images/custom_icons/link.svg"
                               class="link-icon"
                             />
                           </span>
-                        </div>
-                      </div>
-                      <div
-                        class="d-flex align-items-center cursor-pointer"
-                        *ngIf="!ch.instagram_username"
-                        (click)="goToAccount('facebook', ch.id)"
-                      >
-                        <div class="social-account-image">
-                          <img
-                            class="ch-image"
-                            src="{{ ch.picture }}"
-                            (error)="onImgError($event)"
-                          />
-                          <img
-                            class="social-account-icon"
-                            [src]="networkLogoFacebook"
-                          />
-                        </div>
-                        <span class="ch-name me-3"
-                          >{{ ch.name }}
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-center cursor-pointer" *ngIf="!ch.instagram_username" (click)="goToAccount('facebook', ch.id)">
+                                                <div class="social-account-image">
+                                                    <img class="ch-image" src="{{ ch.picture }}" (error)="onImgError($event)" />
+                                                    <img class="social-account-icon" [src]="networkLogoFacebook" />
+                                                </div>
+                                                <span class="ch-name me-3">{{ ch.name }}
                           <img
                             src="./assets/Images/custom_icons/link.svg"
                             class="link-icon"
                         /></span>
-                      </div>
-                    </td>
-                    <td class="text-center">
-                      <span class="sa-subscribers-number"
-                        >{{ ch.subscribers | transfomNumber }}
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="sa-subscribers-number">{{ ch.subscribers | transfomNumber }}
                         <span class="desktop">
                           {{ 'social_networks.follower' | translate
                           }}<span *ngIf="ch.subscribers !== 1">s</span>
-                        </span>
-                      </span>
-                    </td>
-                    <td class="text-center">
-                      <div class="action">
-                        <!--<button (click)="socialStateFacebook(i)" class="btn-on">
+                                            </span>
+                                            </span>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="action">
+                                                <!--<button (click)="socialStateFacebook(i)" class="btn-on">
                           <img
                             *ngIf="!ch.deactivate"
                             src="/assets/Images/on.svg"
@@ -777,8 +601,7 @@
                             alt=""
                           />
                         </button>-->
-                        <button
-                          (click)="
+                                                <button (click)="
                             openModalDeleteOne(
                               deleteOneModal,
                               'facebook',
@@ -786,177 +609,131 @@
                               'facebook',
                               ch.name
                             )
-                          "
-                        >
+                          ">
                           <span class="btn-del"></span>
                         </button>
 
-                        <!-- <ui-switch
+                                                <!-- <ui-switch
                               class="d-flex align-self-center"
                               id="toggle"
                               (change)="toggleSocialAccount($event)"
                               [checked]="true"
                             >
                             </ui-switch> -->
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div class="btn-action pb-4">
-            <button (click)="onReditectSocial('facebook')">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="btn-action pb-4">
+                        <button (click)="onReditectSocial('facebook')">
               + {{ 'social_networks.add_fb' | translate }}
             </button>
-          </div>
+                    </div>
+                </div>
+            </div>
+
+            <!------------------------------------------link other netwok------------------------------------------>
         </div>
-      </div>
 
-      <!------------------------------------------link other netwok------------------------------------------>
-    </div>
-
-    <!------------------------------------------link other netwok------------------------------------------>
-    <div class="other-network" *ngIf="percentSocial < 100 && percentSocial > 0">
-      <hr />
-      <p class="network-type">
-        {{ 'social_networks.link_another_acc' | translate }}
-      </p>
-      <div class="row flex-column justify-content-center align-items-center">
-        <button
-          class="google-btn-cnx"
-          (click)="onReditectSocial('google')"
-          *ngIf="channelGoogle?.length === 0"
-        >
+        <!------------------------------------------link other netwok------------------------------------------>
+        <div class="other-network" *ngIf="percentSocial < 100 && percentSocial > 0">
+            <hr />
+            <p class="network-type">
+                {{ 'social_networks.link_another_acc' | translate }}
+            </p>
+            <div class="row flex-column justify-content-center align-items-center">
+                <button class="google-btn-cnx" (click)="onReditectSocial('youtube')" *ngIf="channelGoogle?.length === 0">
           <img src="./assets/Images/youtube-white.png" />
           <span> {{ 'social_networks.add_youtube_ch' | translate }}</span>
         </button>
 
-        <button
-          class="fb-btn-cnx"
-          (click)="onReditectSocial('facebook')"
-          *ngIf="channelFacebook?.length === 0"
-        >
+                <button class="fb-btn-cnx" (click)="onReditectSocial('facebook')" *ngIf="channelFacebook?.length === 0">
           <img src="./assets/Images/f-white.svg" />
           <span> {{ 'social_networks.add_fb' | translate }}</span>
         </button>
 
-        <button
-          class="twitter-btn-cnx"
-          (click)="onReditectSocial('twitter')"
-          *ngIf="channelTwitter?.length === 0"
-        >
+                <button class="twitter-btn-cnx" (click)="onReditectSocial('twitter')" *ngIf="channelTwitter?.length === 0">
           <img src="./assets/Images/Shape_twitter.svg" />
           <span> {{ 'social_networks.add_twitter' | translate }}</span>
         </button>
 
-        <button
-          class="linkedin-btn-cnx"
-          (click)="onReditectLinkedin()"
-          *ngIf="channelLinkedin?.length === 0"
-        >
+                <button class="linkedin-btn-cnx" (click)="onReditectSocial('linkedin')" *ngIf="channelLinkedin?.length === 0">
           <img src="./assets/Images/linkedin-white.png" width="24px" />
           <span> {{ 'social_networks.add_linkedin' | translate }}</span>
         </button>
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
-  <ng-template #deleteAllModal>
-    <div class="">
-      <div class="modal-body modal-customm">
-        <div class="row d-flex justify-content-center">
-          <img src="/assets/Images/deletePop.svg" class="deleteImg img-fluid" />
-        </div>
-        <div class="d-flex justify-content-center text-center mt-2">
-          <h6 class="textTitle">
-            {{ 'delete_text1' | translate: { network: networkName } }}
-          </h6>
-        </div>
-        <div class="d-flex justify-content-center text-center mt-3">
-          <p class="text-paragraph">
-            {{ 'delete_text2' | translate: { network: networkName } }}
-          </p>
-        </div>
-        <div
-          class="d-flex flex-column justify-content-center align-items-center mt-2"
-        >
-          <div class="d-flex align-items-center">
-            <button
-              type="button"
-              class="btn delete"
-              (click)="deleteList(deleteAllModal, networkName)"
-              data-dismiss="modal"
-            >
+    <ng-template #deleteAllModal>
+        <div class="">
+            <div class="modal-body modal-customm">
+                <div class="row d-flex justify-content-center">
+                    <img src="/assets/Images/deletePop.svg" class="deleteImg img-fluid" />
+                </div>
+                <div class="d-flex justify-content-center text-center mt-2">
+                    <h6 class="textTitle">
+                        {{ 'delete_text1' | translate: { network: networkName } }}
+                    </h6>
+                </div>
+                <div class="d-flex justify-content-center text-center mt-3">
+                    <p class="text-paragraph">
+                        {{ 'delete_text2' | translate: { network: networkName } }}
+                    </p>
+                </div>
+                <div class="d-flex flex-column justify-content-center align-items-center mt-2">
+                    <div class="d-flex align-items-center">
+                        <button type="button" class="btn delete" (click)="deleteList(deleteAllModal, networkName)" data-dismiss="modal">
               {{ 'delete_button1' | translate }}
             </button>
-          </div>
-          <div class="d-flex align-items-center mt-2">
-            <button
-              (click)="closeModal(deleteAllModal)"
-              type="button"
-              class="btn cancel"
-              data-dismiss="modal"
-            >
+                    </div>
+                    <div class="d-flex align-items-center mt-2">
+                        <button (click)="closeModal(deleteAllModal)" type="button" class="btn cancel" data-dismiss="modal">
               {{ 'delete_button2' | translate }}
             </button>
-          </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </ng-template>
-  <ng-template #deleteOneModal>
-    <div class="">
-      <div class="modal-body modal-customm">
-        <div class="d-flex justify-content-center">
-          <img src="/assets/Images/iconLink.svg" class="deleteImg img-fluid" />
-        </div>
-        <div class="col justify-content-center mt-2">
-          <h6 class="textTitle" *ngIf="networkName === 'google'">
-            {{ 'delete_text3' | translate: { title: channelTitle } }} "{{
-              channelName
-            }}"
-          </h6>
-          <h6
-            class="textTitle"
-            *ngIf="
+    </ng-template>
+    <ng-template #deleteOneModal>
+        <div class="">
+            <div class="modal-body modal-customm">
+                <div class="d-flex justify-content-center">
+                    <img src="/assets/Images/iconLink.svg" class="deleteImg img-fluid" />
+                </div>
+                <div class="col justify-content-center mt-2">
+                    <h6 class="textTitle" *ngIf="networkName === 'google'">
+                        {{ 'delete_text3' | translate: { title: channelTitle } }} "{{ channelName }}"
+                    </h6>
+                    <h6 class="textTitle" *ngIf="
               networkName === 'twitter' ||
               networkName === 'facebook' ||
               networkName === 'linkedin'
-            "
-          >
-            {{ 'delete_text5' | translate: { title: channelTitle } }} "{{
-              channelName
-            }}"
-          </h6>
-        </div>
-        <div class="col d-flex justify-content-center mt-3">
-          <p class="text-paragraph">{{ 'delete_text4' | translate }}</p>
-        </div>
-        <div class="row d-flex justify-content-center">
-          <div class="col-lg-12 justify-content-center mb-2">
-            <button
-              (click)="deleteAccount(this.channelId, networkName)"
-              type="button"
-              class="btn delete"
-              data-dismiss="modal"
-            >
+            ">
+                        {{ 'delete_text5' | translate: { title: channelTitle } }} "{{ channelName }}"
+                    </h6>
+                </div>
+                <div class="col d-flex justify-content-center mt-3">
+                    <p class="text-paragraph">{{ 'delete_text4' | translate }}</p>
+                </div>
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-12 justify-content-center mb-2">
+                        <button (click)="deleteAccount(this.channelId, networkName)" type="button" class="btn delete" data-dismiss="modal">
               {{ 'delete_button1' | translate }}
             </button>
-          </div>
-          <div class="col-lg-12 justify-content-center">
-            <button
-              (click)="closeModal(deleteOneModal)"
-              type="button"
-              class="btn cancel"
-              data-dismiss="modal"
-            >
+                    </div>
+                    <div class="col-lg-12 justify-content-center">
+                        <button (click)="closeModal(deleteOneModal)" type="button" class="btn cancel" data-dismiss="modal">
               {{ 'delete_button2' | translate }}
             </button>
-          </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </ng-template>
+    </ng-template>
 </div>
 
 <!--------------------------->
