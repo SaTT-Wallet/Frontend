@@ -42,7 +42,9 @@ export class ProfileService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.get(sattUrl + '/twitter/all', { headers: header });
+    return this.http.delete(sattUrl + '/profile/RemoveTwitterChannels', {
+      headers: header
+    });
   }
   deleteOneSocialNetworksTwitter(id: string) {
     let header = new HttpHeaders({
