@@ -423,8 +423,7 @@ export class SocialNetworksComponent implements OnInit {
       .getSocialNetworks()
       .pipe(
         mergeMap((data: any) => {
-          console.log(data);
-          this.deactivateLinkedin = !data.linkedin[i].deactivate;
+          this.deactivateLinkedin = !data.data.linkedin[i].deactivate;
           this.channelLinkedin = this.channelLinkedin.map(
             (chanel: any, index: number) => {
               if (index === i) {
@@ -433,7 +432,7 @@ export class SocialNetworksComponent implements OnInit {
               return chanel;
             }
           );
-          this.organization = data.linkedin[i].organization;
+          this.organization = data.data.linkedin[i].organization;
           return this.socialAccountFacadeService.socialStateLinkedin(
             this.deactivateLinkedin,
             this.organization
