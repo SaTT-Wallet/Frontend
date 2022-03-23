@@ -42,7 +42,7 @@ export class ProfileService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.get(sattUrl + '/profile/RemoveTwitterChannels', {
+    return this.http.delete(sattUrl + '/profile/RemoveTwitterChannels', {
       headers: header
     });
   }
