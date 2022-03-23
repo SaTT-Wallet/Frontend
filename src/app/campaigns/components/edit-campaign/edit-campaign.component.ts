@@ -203,13 +203,13 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
     }
   }
   saveAndLaunchCampaign() {
-    // this.validFormPicture
     this.checkValidation();
     if (
       this.validFormParam &&
       this.validFormPresentation &&
       this.validFormBudgetRemun &&
-      this.validFormMissionFromRemuToEdit
+      this.validFormMissionFromRemuToEdit &&
+      this.validFormPicture
     ) {
       this.alertRequired = false;
       this.router.navigate(['home/check-password'], {
