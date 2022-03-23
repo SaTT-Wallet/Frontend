@@ -220,11 +220,8 @@ export class SocialNetworksComponent implements OnInit {
     if (isPlatformBrowser(this.platformId))
       window.location.href =
         sattUrl +
-        `/addChannel/${social}/${this.userId}` +
-        '?redirect=' +
-        url +
-        '&social-network=' +
-        social;
+        `/profile/addChannel/${social}/${this.userId}` +
+        '?redirect=' + this.router.url
   }
   onReditectLinkedin() {
     if (isPlatformBrowser(this.platformId))
