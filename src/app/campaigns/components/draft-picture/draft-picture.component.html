@@ -136,6 +136,8 @@
                 ? draftData.coverSrc
                 : draftData.coverSrcMobile
             "
+            [cropperStaticWidth]="440"
+            [cropperStaticHeight]="250"
             [resizeToWidth]="1024"
             [transform]="transformMobile"
             *ngIf="showImageMobile === true"
@@ -279,7 +281,7 @@
             [transform]="transform"
             *ngIf="showImage === true"
             [cropperStaticWidth]="1920"
-              [cropperStaticHeight]="800"
+            [cropperStaticHeight]="800"
             [imageChangedEvent]="imageChangedEvent"
             [maintainAspectRatio]="true"
             [imageURL]="draftData.coverSrc"
