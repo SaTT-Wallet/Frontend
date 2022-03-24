@@ -761,6 +761,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
   linstingCrypto(event: any) {
     // this.resetForm();
+    console.log(" this.networks", this.networks)
     this.sendform.controls.currency.reset();
     this.sendform.controls.Amount.reset();
     this.sendform.controls.AmountUsd.reset();
@@ -831,8 +832,11 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.clipboard.copy(this.hashtransaction);
   }
   goToSection(id: string) {
+    console.log("aaa")
+
     if (isPlatformBrowser(this.platformId)) {
       const classElement = this.document.getElementsByClassName(id);
+      console.log("classElement",this.networks)
       if (classElement.length > 0) {
         classElement[0].scrollIntoView({ behavior: 'smooth' });
       }

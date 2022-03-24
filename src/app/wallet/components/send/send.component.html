@@ -93,6 +93,21 @@
             />
           </div>
         </div>
+        
+
+
+        <div
+        class="text-center"
+        *ngIf="
+          this.sendform.get('contact')?.value ==='0x655371C0622cACc22732E872a68034f38E04d6e5' && this.networks === 'BEP20'
+      
+        "
+      >
+        <span class="error_msg">{{"Wallet.bridge-send" | translate}} </span>
+      </div>
+
+
+
         <div
           class="text-center"
           *ngIf="
@@ -111,7 +126,8 @@
             class="error_msg"
             *ngIf="
               this.sendform.get('contact')?.errors?.pattern &&
-              !this.sendform.get('contact')?.errors?.required
+              !this.sendform.get('contact')?.errors?.required 
+             
             "
             >{{ 'Wallet.Invalid address' | translate }}</span
           >
@@ -122,6 +138,9 @@
             (click)="showNextBloc()"
             class="blue-btn"
             [disabled]="
+            ( this.sendform.get('contact')?.value ==='0x655371C0622cACc22732E872a68034f38E04d6e5' && this.networks === 'BEP20' )
+              
+              || 
               this.sendform.get('contact')?.errors?.required ||
               this.sendform.controls.contact.errors?.pattern ||
               this.sendform.controls.contact.errors?.invalid ||
