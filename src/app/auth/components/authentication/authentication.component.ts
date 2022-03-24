@@ -275,6 +275,7 @@ getCookie(key: string){
   skipLoginWhenRedirected() {
     this.routerSub = this.route.queryParams
       .pipe(
+        takeUntil(this.onDestroy$),
         mergeMap((p) => {
           if (p.message === 'account_already_used') {
             if (p.idSn === 1) {
@@ -434,6 +435,7 @@ getCookie(key: string){
         },
         (error: any) => {
           if (
+            error.error &&
             error.error.error === 'Wallet not found' &&
             error.error.code === 404
           ) {
@@ -467,9 +469,8 @@ getCookie(key: string){
   ngOnDestroy() {
     this.onDestroy$.next('');
     this.onDestroy$.complete();
-    if (!!this.routerSub) {
-      this.routerSub.unsubscribe();
-    }
+
+    this.routerSub.unsubscribe();
   }
 
   snlogin(social: string) {

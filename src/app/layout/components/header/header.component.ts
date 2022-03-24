@@ -6,6 +6,7 @@ import {
   HostListener,
   Inject,
   OnChanges,
+  OnDestroy,
   OnInit,
   PLATFORM_ID,
   SimpleChanges,
@@ -85,7 +86,7 @@ const etherscan = env.etherscanaddr;
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   query = '(max-width: 991.98px)';
   mediaQueryList?: MediaQueryList;
   query2 = '(width =   767.9px)';
@@ -281,9 +282,11 @@ export class HeaderComponent implements OnInit {
   // }
 
   ngOnInit(): void {
-    this.authService.isAuthenticated$.subscribe((isAuth: boolean) => {
-      this.isConnected = isAuth;
-    });
+    this.authService.isAuthenticated$
+      .pipe(takeUntil(this.isDestroyed))
+      .subscribe((isAuth: boolean) => {
+        this.isConnected = isAuth;
+      });
     this.fixMenuItemsWidth();
     if (
       this.router.url.includes('ad-pools') ||
@@ -368,10 +371,10 @@ export class HeaderComponent implements OnInit {
   ngAfterViewInit(): void {
     if (this.tokenStorageService.getToken()) {
       this.isConnected = true;
-      setTimeout(() => {
-        // this.generateCodeERCDes();
-        // this.generateCodeERC();
-      });
+      // setTimeout(() => {
+      //   // this.generateCodeERCDes();
+      //   // this.generateCodeERC();
+      // });
     } else {
       this.isConnected = false;
     }
@@ -383,6 +386,7 @@ export class HeaderComponent implements OnInit {
 
   parentFunction() {
     return this.walletFacade.getCryptoPriceList().pipe(
+      takeUntil(this.isDestroyed),
       map((response: any) => response.data),
       map((data: any) => {
         this.bnb = data['BNB'].price;
@@ -395,6 +399,7 @@ export class HeaderComponent implements OnInit {
       switchMap(({ bnb, Eth }) => {
         return forkJoin([
           this.walletFacade.getEtherGaz().pipe(
+            takeUntil(this.isDestroyed),
             tap((gaz: any) => {
               let price;
               price = gaz.data.gasPrice;
@@ -406,6 +411,7 @@ export class HeaderComponent implements OnInit {
             })
           ),
           this.walletFacade.getBnbGaz().pipe(
+            takeUntil(this.isDestroyed),
             tap((gaz: any) => {
               let price = gaz.data.gasPrice;
               this.bepGaz = (
@@ -432,6 +438,7 @@ export class HeaderComponent implements OnInit {
     this.account$
       .pipe(filter((res) => res !== null))
       .pipe(
+        takeUntil(this.isDestroyed),
         mergeMap((data: any) => {
           if (data !== null && data !== undefined) {
             let lang: any = this.tokenStorageService.getLocalLang();
@@ -484,12 +491,12 @@ export class HeaderComponent implements OnInit {
     this.tokenStorageService.signOut();
     this.profileSettingsFacade.clearProfilePicStore();
     this.authStoreService.clearStore();
-    this.authService.setIsAuthenticated(false);
+    //this.authService.setIsAuthenticated(false);
     /*
     this.campaignsListStore.clearStore();
 */
 
-    this.router.navigate(['/welcome']);
+    this.router.navigate(['/auth/login']);
   }
 
   seeNotification() {
@@ -516,6 +523,7 @@ export class HeaderComponent implements OnInit {
         tap((msg) => {}),
         concatMap((payload) =>
           timer(6000).pipe(
+            takeUntil(this.isDestroyed),
             tap((v) => {}),
             mapTo(payload)
           )
@@ -1383,55 +1391,38 @@ export class HeaderComponent implements OnInit {
   fixMenuItemsWidth() {
     setTimeout(() => {
       let element0 = this.document.getElementById('introo');
-      //@ts-ignore
-      element0?.style.width = element0.offsetWidth + 'px';
+      if (element0) element0.style.width = element0.offsetWidth + 'px';
       let element2 = this.document.getElementById('intro2');
-      //@ts-ignore
-      element2?.style.width = element2.offsetWidth + 'px';
+      if (element2) element2.style.width = element2.offsetWidth + 'px';
       let element3 = this.document.getElementById('intro3');
-      //@ts-ignore
-      element3?.style.width = element3.offsetWidth + 'px';
+      if (element3) element3.style.width = element3.offsetWidth + 'px';
       let element4 = this.document.getElementById('intro4');
-      //@ts-ignore
-      element4?.style.width = element4.offsetWidth + 'px';
-
+      if (element4) element4.style.width = element4.offsetWidth + 'px';
       let element6 = this.document.getElementById('intro6');
-      //@ts-ignore
-      element6?.style.width = element6.offsetWidth + 'px';
-
+      if (element6) element6.style.width = element6.offsetWidth + 'px';
       let element7 = this.document.getElementById('intro7');
-      //@ts-ignore
-      element7?.style.width = element7.offsetWidth + 'px';
+      if (element7) element7.style.width = element7.offsetWidth + 'px';
       let element8 = this.document.getElementById('intro8');
-      //@ts-ignore
-      element8?.style.width = element8.offsetWidth + 'px';
+      if (element8) element8.style.width = element8.offsetWidth + 'px';
     }, 1000);
   }
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     if (isPlatformBrowser(this.platformId)) {
       let element0 = this.document.getElementById('introo');
-      //@ts-ignore
-      element0.style.removeProperty('width');
-      //@ts-ignore
+      if (element0) element0.style.removeProperty('width');
       let element2 = this.document.getElementById('intro2');
-      //@ts-ignore
-      element2.style.removeProperty('width');
+      if (element2) element2.style.removeProperty('width');
       let element3 = this.document.getElementById('intro3');
-      //@ts-ignore
-      element3.style.removeProperty('width');
+      if (element3) element3.style.removeProperty('width');
       let element4 = this.document.getElementById('intro4');
-      //@ts-ignore
-      element4?.style.removeProperty('width');
+      if (element4) element4.style.removeProperty('width');
       let element6 = this.document.getElementById('intro6');
-      //@ts-ignore
-      element6?.style.removeProperty('width');
+      if (element6) element6.style.removeProperty('width');
       let element7 = this.document.getElementById('intro7');
-      //@ts-ignore
-      element7?.style.removeProperty('width');
+      if (element7) element7.style.removeProperty('width');
       let element8 = this.document.getElementById('intro8');
-      //@ts-ignore
-      element8?.style.removeProperty('width');
+      if (element8) element8.style.removeProperty('width');
       setTimeout(() => {
         this.resized = true;
       }, 6000);
@@ -1449,5 +1440,6 @@ export class HeaderComponent implements OnInit {
     this.isDestroyed.next('');
     this.isDestroyed.complete();
     this.isDestroyed.unsubscribe();
+    this.translate.onLangChange.unsubscribe();
   }
 }
