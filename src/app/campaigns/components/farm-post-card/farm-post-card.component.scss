@@ -1007,6 +1007,9 @@ input[type='checkbox']:checked+label {
         height: 40px;
         border-radius: 50%;
         background-color: white;
+        display: flex;
+        align-content: center;
+        justify-content: center;
         box-shadow: 0px 4px 4px 0px #00000040;
     }
     .buttom_camp_accept {
@@ -1014,6 +1017,9 @@ input[type='checkbox']:checked+label {
         width: 40px;
         height: 40px;
         border-radius: 50%;
+        display: flex;
+        align-content: center;
+        justify-content: center;
     }
     .hide-row-version {
         display: none !important;
