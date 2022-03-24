@@ -191,6 +191,7 @@ export class PassPhraseComponent implements OnInit, OnDestroy {
     this.tokenStorageService.setSecureWallet('visited-passPhrase', 'true');
     let data_profile = {
       visitPassphrase: true,
+      passphrase: true,
       new: true
     };
 

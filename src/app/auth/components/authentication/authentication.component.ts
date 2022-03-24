@@ -36,7 +36,6 @@ import { AccountFacadeService } from '@app/core/facades/account-facade/account-f
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { IResponseWallet } from '@app/core/iresponse-wallet';
 import { IresponseAccount } from '@app/core/iresponse-account';
-import { IresponseCodeQr } from '@app/core/iresponse-code-qr';
 import { User } from '@app/models/User';
 
 // interface credantials {
@@ -347,25 +346,121 @@ getCookie(key: string){
         })
       )
       .pipe(
-        filter((res) => res !== null),
+        filter(({ response }: any) => {
+          return response !== null;
+        }),
+        catchError(() => {
+          // console.log(error);
+          // if (error.error.text === 'Invalid Access Token') {
+          //   this.tokenStorageService.signOut();
+          // }
+          return of(null);
+        }),
+        mergeMap((response: User) => {
+          this.tokenStorageService.setHeader();
+          this.tokenStorageService.saveUserId(response.idUser);
+          this.tokenStorageService.saveIdSn(response.idSn);
+          this.idUser = Number(response.idUser);
+          if (response.is2FA === true) {
+            this.tokenStorageService.setItem('valid2FA', 'false');
+            this.confirmCodeShow = true;
+            this.loginshow = false;
+          } else {
+            if (
+              !response.completed ||
+              (response.completed && !response.enabled)
+            ) {
+              this.router.navigate(['social-registration/completeProfile']);
+              this.showBigSpinner = true;
+              this.onDestroy$.next('');
+              // this.spinner.hide();
+            } else {
+              return this.walletFacade.getUserWallet().pipe(
+                map((myWallet: IResponseWallet) => ({
+                  myWallet,
+                  response
+                })),
+                takeUntil(this.onDestroy$)
+              );
+            }
+          }
+          return of(null);
+        })
+      )
+      .pipe(
+        filter((res: any) => {
+          if (!res) {
+            return false;
+          }
+          return res.myWallet !== null;
+        }),
         takeUntil(this.onDestroy$)
       )
+      .subscribe(
+        ({
+          myWallet,
+          response
+        }: {
+          myWallet: IResponseWallet;
+          response: User;
+        }) => {
+          if (!myWallet) {
+            return;
+          }
+          if (myWallet.data.address) {
+            if (response?.new) {
+              if (!response.passphrase) {
+                this.router.navigate(['/social-registration/pass-phrase']);
+              } else {
+                this.tokenStorageService.saveIdWallet(myWallet.data.address);
+                this.router.navigate(['']);
+                this.showBigSpinner = true;
+                this.backgroundImage = '';
+                this.backgroundColor = '';
+                this.onDestroy$.next('');
+              }
+            } else {
+              this.tokenStorageService.saveIdWallet(myWallet.data.address);
+              this.router.navigate(['']);
+              this.onDestroy$.next('');
+              this.showBigSpinner = true;
+              this.backgroundImage = '';
+              this.backgroundColor = '';
+            }
 
-      .subscribe((data: User | null) => {
-        this.tokenStorageService.saveIdSn(data?.idSn);
-        this.tokenStorageService.saveUserId(data?.idUser);
-        if (
-          (!data?.completed && data?.idSn !== 0) ||
-          (data?.completed && data?.idSn !== 0 && !data?.enabled) ||
-          (data?.completed === undefined && data?.idSn !== 0) ||
-          (data?.enabled === undefined && data?.idSn !== 0)
-        ) {
-          this.router.navigate(['social-registration/completeProfile']);
-          this.onDestroy$.next('');
-        } else {
-          setTimeout(() => this.router.navigate(['wallet']), 2000);
+            // this.spinner.hide();
+          }
+        },
+        (error: any) => {
+          if (
+            error.error.error === 'Wallet not found' &&
+            error.error.code === 404
+          ) {
+            this.tokenStorageService.setSecureWallet(
+              'visited-completeProfile',
+              'true'
+            );
+            this.router.navigate(['social-registration/monetize-facebook']);
+            this.showBigSpinner = true;
+          }
         }
-      });
+      );
+
+    // .subscribe((data: User | null) => {
+    //   this.tokenStorageService.saveIdSn(data?.idSn);
+    //   this.tokenStorageService.saveUserId(data?.idUser);
+    //   if (
+    //     (!data?.completed && data?.idSn !== 0) ||
+    //     (data?.completed && data?.idSn !== 0 && !data?.enabled) ||
+    //     (data?.completed === undefined && data?.idSn !== 0) ||
+    //     (data?.enabled === undefined && data?.idSn !== 0)
+    //   ) {
+    //     this.router.navigate(['social-registration/completeProfile']);
+    //     this.onDestroy$.next('');
+    //   } else {
+    //     setTimeout(() => this.router.navigate(['wallet']), 2000);
+    //   }
+    // });
   }
 
   ngOnDestroy() {
@@ -489,8 +584,7 @@ getCookie(key: string){
               this.tokenStorageService.setItem('valid2FA', 'false');
               this.confirmCodeShow = true;
               this.loginshow = false;
-            }
-             else {
+            } else {
               this.tokenStorageService.saveToken(data.data.access_token);
               if (response.enabled === 0) {
                 // this.errorMessage_validation="account_not_verified";
@@ -613,7 +707,7 @@ getCookie(key: string){
             this.errorMessagecode = 'code correct';
           }
         },
-        (error: any) => {
+        () => {
           // this.errorMessage = 'error';
         }
       );
