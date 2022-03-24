@@ -240,7 +240,7 @@ input:-webkit-autofill:active {
 ::ng-deep .switch small {
     border-radius: 100%;
     position: absolute;
-    top: 2px;
+    top: 0px;
     background: #fff;
     display: flex;
     align-items: center;

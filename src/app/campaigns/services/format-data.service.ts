@@ -73,10 +73,10 @@ export class FormatDataService {
       object.time = campaign.duration;
     }
     if (campaign.hasOwnProperty('endDate')) {
-      object.endDate = new Date(campaign.endDate);
+      object.endDate = new Date(campaign.endDate).getTime();
     }
     if (campaign.hasOwnProperty('startDate')) {
-      object.startDate = new Date(campaign.startDate);
+      object.startDate = new Date(campaign.startDate).getTime();
     }
     if (campaign.hasOwnProperty('remuneration')) {
       // TODO: fix remuneration not sent to backend

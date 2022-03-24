@@ -351,28 +351,26 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
 
       this.ContactMessageService.reveiveMoney(Receive)
         .pipe(takeUntil(this.isDestroyed))
-        .subscribe((data) => {
-          if (data) {
-            this.amount = '';
-            this.amountUsd = '';
-            this.contactEmail = '';
-            this.loadingButton = false;
-            this.showAmountBloc = false;
-            this.showMsgBloc = false;
-            this.showSuccessBloc = true;
-            this.receiveform.reset();
-          }}
-          , 
+        .subscribe(
+          (data) => {
+            if (data) {
+              this.amount = '';
+              this.amountUsd = '';
+              this.contactEmail = '';
+              this.loadingButton = false;
+              this.showAmountBloc = false;
+              this.showMsgBloc = false;
+              this.showSuccessBloc = true;
+              this.receiveform.reset();
+            }
+          },
           (error) => {
             if (error.error.error === 'user not found') {
               this.usernotfound = true;
               this.loadingButton = false;
-
             }
-
           }
-
-        )
+        );
     }
   }
 
@@ -410,7 +408,7 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.isDestroyed.unsubscribe();
   }
   goToSection(id: string) {
-    if (isPlatformBrowser(this.platformId)) {
+    if (isPlatformBrowser(this.platformId) && window.innerWidth <= 768) {
       const classElement = this.document.getElementsByClassName(id);
       if (classElement.length > 0) {
         classElement[0].scrollIntoView({ behavior: 'smooth' });

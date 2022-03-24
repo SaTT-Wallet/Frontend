@@ -65,8 +65,8 @@ export class WalletService {
         headers: headers
       });
     } else {
-
-      return this.http.post(sattUrl + '/wallet/transferErc20', send, {
+      let body = { token: send.token , to: send.to, amount: send.amount, pass: send.pass , symbole:send.symbole };
+      return this.http.post(sattUrl + '/wallet/transferErc20', body, {
         headers: headers
       });
     }
