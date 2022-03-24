@@ -120,11 +120,17 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     //input pattern="[0-9]*"
     $('[data-toggle="tooltip"]').tooltip;
     this.spinner.show('showWalletSpinner');
-    this.showWalletSpinner = true;
-    this.walletFacade.walletSpinner$.pipe(takeUntil(this.onDestroy$));
-    // .subscribe((res) => {
-    //   this.showWalletSpinner = res;
-    // });
+    if (this.showWalletSpinner = true){
+      this.showWalletSpinner = false
+    }else{
+      this.showWalletSpinner = true;
+    }
+      this.showWalletSpinner = true;
+    this.walletFacade.walletSpinner$
+      .pipe(takeUntil(this.onDestroy$))
+    //   .subscribe((res) => {
+    //     this.showWalletSpinner = res;
+    //   });
     // this.copyaddresse();
   }
   ngAfterContentInit() {
@@ -143,6 +149,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
 
   //get list of crypto for user
   getusercrypto() {
+    this.spinner.show('showWalletSpinner');
     this.showWalletSpinner = true;
     let indexSattBEP20 = 0;
     let indexSattERC20 = 0;
