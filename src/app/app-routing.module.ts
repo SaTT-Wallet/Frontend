@@ -12,10 +12,7 @@ const routes: Routes = [
   {
     path: 'auth',
     loadChildren: () =>
-      import('./auth/authentication.module').then(
-        (m) => m.AuthenticationModule
-      ),
-    canActivate: [AuthService]
+      import('./auth/authentication.module').then((m) => m.AuthenticationModule)
   },
   {
     path: 'cgu',
@@ -68,7 +65,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes, {
       anchorScrolling: 'enabled',
       scrollPositionRestoration: 'enabled',
-      enableTracing: false, // set it true only in dev mode
+      enableTracing: true, // set it true only in dev mode
       initialNavigation: 'enabled'
     })
   ],

@@ -130,7 +130,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
     //window.location.assign("https://satt.atayen.us/#/")
     this.authService.setIsAuthenticated(false);
-    this.router.navigate(['/welcome']);
+    this.router.navigate(['/auth/login']);
   }
 
   openModal(content: any) {
