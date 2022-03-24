@@ -259,7 +259,7 @@ getCookie(key: string){
   onCodeCompleted(code: string) {
     // this.codesms = code
     this.formCode.get('code')?.setValue(code);
-    this.verifyQRCode();
+    if (code.length === 6) this.verifyQRCode();
   }
   onCodeConfirmCompleted(code: string) {
     // this.codesms = code
