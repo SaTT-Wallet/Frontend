@@ -663,49 +663,48 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         currency = this.sendform.get('currency')?.value;
       }
       this.dataList?.forEach((crypto: any) => {
-          if (
-            event === 'amount' &&
-            sendamount !== undefined &&
-            !isNaN(sendamount) &&
-            crypto.symbol === currency
-          ) {
-            this.amountUsd = crypto.price * sendamount;
-            this.amountUsd = this.showNumbersRule.transform(this.amountUsd);
-            if (isNaN(this.amountUsd)) {
-              this.amountUsd = '';
-              this.amount = '';
-            }
-          } else if (
-            event === 'amount' &&
-            (sendamount === undefined || isNaN(sendamount))
-          ) {
+        if (
+          event === 'amount' &&
+          sendamount !== undefined &&
+          !isNaN(sendamount) &&
+          crypto.symbol === currency
+        ) {
+          this.amountUsd = crypto.price * sendamount;
+          this.amountUsd = this.showNumbersRule.transform(this.amountUsd);
+          if (isNaN(this.amountUsd)) {
             this.amountUsd = '';
-          }
-          if (
-            event === 'usd' &&
-            sendusd !== undefined &&
-            !isNaN(sendusd) &&
-            crypto.symbol === currency
-          ) {
-            this.amount = sendusd / crypto.price;
-            this.amount = this.showNumbersRule.transform(this.amount);
-            if (
-              sendamount === '0.00000000' ||
-              sendusd === '' ||
-              isNaN(this.amount)
-            ) {
-              this.amountUsd = '';
-              this.amount = '';
-            }
-          } else if (
-            event === 'usd' &&
-            (sendusd === undefined || isNaN(sendusd))
-          ) {
             this.amount = '';
           }
+        } else if (
+          event === 'amount' &&
+          (sendamount === undefined || isNaN(sendamount))
+        ) {
+          this.amountUsd = '';
+        }
+        if (
+          event === 'usd' &&
+          sendusd !== undefined &&
+          !isNaN(sendusd) &&
+          crypto.symbol === currency
+        ) {
+          this.amount = sendusd / crypto.price;
+          this.amount = this.showNumbersRule.transform(this.amount);
+          if (
+            sendamount === '0.00000000' ||
+            sendusd === '' ||
+            isNaN(this.amount)
+          ) {
+            this.amountUsd = '';
+            this.amount = '';
+          }
+        } else if (
+          event === 'usd' &&
+          (sendusd === undefined || isNaN(sendusd))
+        ) {
+          this.amount = '';
+        }
 
-          this.editwidthInput();
-      
+        this.editwidthInput();
       });
     }
   }
@@ -761,7 +760,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
   linstingCrypto(event: any) {
     // this.resetForm();
-    console.log(" this.networks", this.networks)
     this.sendform.controls.currency.reset();
     this.sendform.controls.Amount.reset();
     this.sendform.controls.AmountUsd.reset();
@@ -832,11 +830,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.clipboard.copy(this.hashtransaction);
   }
   goToSection(id: string) {
-    console.log("aaa")
-
-    if (isPlatformBrowser(this.platformId)) {
+    if (isPlatformBrowser(this.platformId) && window.innerWidth <= 768) {
       const classElement = this.document.getElementsByClassName(id);
-      console.log("classElement",this.networks)
       if (classElement.length > 0) {
         classElement[0].scrollIntoView({ behavior: 'smooth' });
       }
