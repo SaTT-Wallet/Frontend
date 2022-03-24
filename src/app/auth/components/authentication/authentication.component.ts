@@ -732,6 +732,11 @@ getCookie(key: string){
             return this.walletFacade.getUserWallet();
           }
           return of(null);
+        }),
+        catchError(() => {
+          this.tokenStorageService.signOut();
+          this.router.navigate(['auth/login']);
+          return of(null);
         })
       )
       .pipe(
