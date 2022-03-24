@@ -154,6 +154,7 @@
   "Wallet.GAS_TAKEN_FOR_THE_TRANSACTION": "GAS TAKEN FOR THE TRANSACTION: ",
   "Wallet.valid-mail": "you need to enter an email address",
   "Wallet.field_required": "Field required",
+  "Wallet.bridge-send":"the bridge doesn’t work from BEP-20 to ERC-20",
   "Wallet.Custom_message_(Optional)": "Custom message (Optional)",
   "Wallet.userLegal_notice_title": "Please verify your account",
   "Wallet.userLegal_notice_msg": "To perform this transaction",
