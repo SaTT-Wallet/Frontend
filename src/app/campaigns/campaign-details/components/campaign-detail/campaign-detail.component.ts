@@ -30,6 +30,7 @@ import { CampaignsListStoreService } from '@app/campaigns/services/campaigns-lis
 import { TranslateService } from '@ngx-translate/core';
 import { Big } from 'big.js';
 import { WindowRefService } from '@core/windowRefService';
+import FileSaver from 'file-saver';
 declare var $: any;
 @Component({
   selector: 'app-campaign-detail',
@@ -682,6 +683,14 @@ export class CampaignDetailComponent implements OnInit {
     }
   }
   downloadFile() {
+    this.kits.forEach((kit: any) => {
+      if (!kit.link) {
+        let filetype = kit.type.split('/').pop();
+        let fileName = `download.${filetype}`;
+        let urlimg = kit?.url?.changingThisBreaksApplicationSecurity;
+        FileSaver.saveAs(urlimg, fileName);
+      }
+    });
     this.downloadFilsClick = true;
     setTimeout(() => {
       this.downloadFilsClick = false;
