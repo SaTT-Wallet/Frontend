@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+  PLATFORM_ID
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { AuthService } from '../../../core/services/Auth/auth.service';
@@ -18,6 +24,7 @@ import { of, Subject } from 'rxjs';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-facade/socialAcounts-facade.service';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
+import { isPlatformBrowser } from '@angular/common';
 
 declare const $: any;
 @Component({
@@ -71,7 +78,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private tokenStorageService: TokenStorageService,
     private socialAccountFacadeService: SocialAccountFacadeService,
     private walletFacade: WalletFacadeService,
-    private authService: AuthService
+    private authService: AuthService,
+    @Inject(PLATFORM_ID) private platformId: string
   ) {
     this.formProfile = new FormGroup({
       firstName: new FormControl(null, Validators.required),
@@ -121,6 +129,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   //TODO: add signout function to facade service
   signOut() {
+    this.authService.setIsAuthenticated(false);
     this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
     this.ParticipationListStoreService.clearDataFarming();
     this.tokenStorageService.signOut();
@@ -129,7 +138,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.accountFacadeService.dispatchLogoutAccount(); //clear account user
     this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
     //window.location.assign("https://satt.atayen.us/#/")
-    this.authService.setIsAuthenticated(false);
+
+    if (isPlatformBrowser(this.platformId)) {
+      window.location.reload();
+    }
     this.router.navigate(['/auth/login']);
   }
 

@@ -5,69 +5,33 @@ import {
   ElementRef,
   HostListener,
   Inject,
-  OnChanges,
   OnDestroy,
   OnInit,
   PLATFORM_ID,
-  SimpleChanges,
-  ViewChild,
-  ɵɵtrustConstantResourceUrl
+  ViewChild
 } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 // import { bscan, etherscan } from '@app/config/atn.config';
-import {
-  Router,
-  ActivatedRouteSnapshot,
-  ActivatedRoute,
-  NavigationStart,
-  NavigationEnd
-} from '@angular/router';
-import { ProfileService } from '@core/services/profile/profile.service';
+import { Router, NavigationEnd } from '@angular/router';
 import { NotificationService } from '@core/services/notification/notification.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
 import * as moment from 'moment';
-import {
-  GazConsumedByCampaign,
-  sattUrl,
-  walletUrl,
-  ListTokens
-} from '@config/atn.config';
+import { walletUrl, ListTokens } from '@config/atn.config';
 import { User } from '@app/models/User';
 import { SidebarService } from '@core/services/sidebar/sidebar.service';
-import { FormControl } from '@angular/forms';
 import { Clipboard } from '@angular/cdk/clipboard';
-interface IDropdownFilterOptions {
-  value: string;
-  text: string;
-}
-import { DomSanitizer } from '@angular/platform-browser';
-import { ContactMessageService } from '@core/services/contactmessage/contact-message.service';
 import { CampaignsStoreService } from '@campaigns/services/campaigns-store.service';
-import {
-  BehaviorSubject,
-  forkJoin,
-  generate,
-  of,
-  Subject,
-  Subscription,
-  timer
-} from 'rxjs';
+import { BehaviorSubject, of, Subject, Subscription, timer } from 'rxjs';
 import { ParticipationListStoreService } from '@campaigns/services/participation-list-store.service';
 import { ToastrService } from 'ngx-toastr';
 import {
   concatMap,
-  exhaustMap,
   filter,
-  map,
   mapTo,
   mergeMap,
-  switchMap,
   takeUntil,
   tap
 } from 'rxjs/operators';
-import { CampaignsListStoreService } from '@campaigns/services/campaigns-list-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AuthStoreService } from '@core/services/Auth/auth-store.service';
 import { WalletService } from '@app/core/services/wallet/wallet.service';
@@ -167,7 +131,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private account$ = this.accountFacadeService.account$;
   private resized = false;
   menuSendRecieve: boolean = false;
-  private isDestroyed = new Subject();
+  private isDestroyed$ = new Subject();
 
   constructor(
     private accountFacadeService: AccountFacadeService,
@@ -182,13 +146,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private clipboard: Clipboard,
     private ParticipationListStoreService: ParticipationListStoreService,
     private toastr: ToastrService,
-    private campaignsListStore: CampaignsListStoreService,
     private walletFacade: WalletFacadeService,
     private walletService: WalletService,
     private campaignFacade: CampaignsService,
     private profileSettingsFacade: ProfileSettingsFacadeService,
     private socialAccountFacadeService: SocialAccountFacadeService,
-    private activatedRoute: ActivatedRoute,
     private authStoreService: AuthStoreService,
     private authService: AuthService,
 
@@ -219,18 +181,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.languageSelected = 'en';
       translate.setDefaultLang('en');
     }
-    translate.onLangChange
-      .pipe(takeUntil(this.isDestroyed))
-      .subscribe((event: LangChangeEvent) => {
-        this.languageSelected = event.lang;
-        this._changeDetectorRef.detectChanges();
-        this.translate.use(this.languageSelected);
-        this.getNotifications();
-      });
+    // translate.onLangChange
+    //   .pipe(takeUntil(this.isDestroyed$))
+    //   .subscribe((event: LangChangeEvent) => {
+    //     this.languageSelected = event.lang;
+    //     this._changeDetectorRef.detectChanges();
+    //     this.translate.use(this.languageSelected);
+    //     this.getNotifications();
+    //   });
     this.isWelcomePage = this.router.url.includes('welcome');
 
     //detect url changes to change the background of header
-    this.router.events.pipe(takeUntil(this.isDestroyed)).subscribe((event) => {
+    this.router.events.pipe(takeUntil(this.isDestroyed$)).subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.isWelcomePage = event.url.includes('welcome');
 
@@ -277,13 +239,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.seeNotification();
     }
   }
-  // toggleDisplay() {
-  //   this.isDisplay = !this.isDisplay;
-  // }
-
   ngOnInit(): void {
     this.authService.isAuthenticated$
-      .pipe(takeUntil(this.isDestroyed))
+      .pipe(takeUntil(this.isDestroyed$))
       .subscribe((isAuth: boolean) => {
         this.isConnected = isAuth;
       });
@@ -320,7 +278,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
       this.getProfileDetails();
       this.getNotifications();
-      this.parentFunction();
+      // this.parentFunction();
       this.portfeuille();
       // this.showPopUp()
 
@@ -349,96 +307,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.tokenStorageService.signOut();
         this.router.navigate(['/auth/login']);
       }
+      this.tokenStorageService.setItem('wallet_btc', this.btcCode);
+      this.generateCodeDes();
+      this.generateCodeERCDes();
+      this.generateCodeFunction();
+      this.generateCodeERC();
     } else {
       this.isConnected = false;
     }
-    this.tokenStorageService.setItem('wallet_btc', this.btcCode);
-    this.generateCodeDes();
-    this.generateCodeERCDes();
-    this.generateCodeFunction();
-    this.generateCodeERC();
-  }
-  // ngOnChanges() {
-  //   if (
-  //     this.router.url.includes('campaign') ||
-  //     this.router.url.includes('wallet')
-  //   ) {
-  //     this.menuCampaign = true;
-  //   } else {
-  //     this.menuCampaign = false;
-  //   }
-  // }
-  ngAfterViewInit(): void {
-    if (this.tokenStorageService.getToken()) {
-      this.isConnected = true;
-      // setTimeout(() => {
-      //   // this.generateCodeERCDes();
-      //   // this.generateCodeERC();
-      // });
-    } else {
-      this.isConnected = false;
-    }
-    // //this.generateCodeDes()
-    // this.generateCodeERCDes()
-    // //  this.generateCodeFunction()
-    // this.generateCodeERC()
   }
 
-  parentFunction() {
-    return this.walletFacade.getCryptoPriceList().pipe(
-      takeUntil(this.isDestroyed),
-      map((response: any) => response.data),
-      map((data: any) => {
-        this.bnb = data['BNB'].price;
-        this.eth = data['ETH'].price;
-        return {
-          bnb: this.bnb,
-          Eth: this.eth
-        };
-      }),
-      switchMap(({ bnb, Eth }) => {
-        return forkJoin([
-          this.walletFacade.getEtherGaz().pipe(
-            takeUntil(this.isDestroyed),
-            tap((gaz: any) => {
-              let price;
-              price = gaz.data.gasPrice;
-              this.gazsend = (
-                ((price * GazConsumedByCampaign) / 1000000000) *
-                Eth
-              ).toFixed(2);
-              this.erc20Gaz = this.gazsend;
-            })
-          ),
-          this.walletFacade.getBnbGaz().pipe(
-            takeUntil(this.isDestroyed),
-            tap((gaz: any) => {
-              let price = gaz.data.gasPrice;
-              this.bepGaz = (
-                ((price * GazConsumedByCampaign) / 1000000000) *
-                bnb
-              ).toFixed(2);
-
-              if (this.gazsend === 'NaN') {
-                this.gazsend = '';
-                // this.showSpinner=true;
-                let price = gaz.data.gasPrice;
-                this.bepGaz = (
-                  ((price * GazConsumedByCampaign) / 1000000000) *
-                  this.bnb
-                ).toFixed(2);
-              }
-            })
-          )
-        ]);
-      })
-    );
-  }
   getProfileDetails() {
     this.account$
       .pipe(filter((res) => res !== null))
       .pipe(
-        takeUntil(this.isDestroyed),
+        takeUntil(this.isDestroyed$),
         mergeMap((data: any) => {
           if (data !== null && data !== undefined) {
             let lang: any = this.tokenStorageService.getLocalLang();
@@ -465,7 +348,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .pipe(
         filter((res) => res !== null),
 
-        takeUntil(this.isDestroyed)
+        takeUntil(this.isDestroyed$)
       )
       .subscribe((data: any) => {
         if (!data) {
@@ -479,29 +362,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
       });
   }
 
-  signOut() {
-    this.isConnected = false;
-    this.campaignFacade.clearLinksListStore();
-    this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
-    this.ParticipationListStoreService.clearDataFarming();
-    this.walletFacade.dispatchLogout(); //clear totalBalance and cryptoList
-    this.accountFacadeService.dispatchLogoutAccount(); //clear account user
-    this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
-    this.ParticipationListStoreService.nextPage.pageNumber = 0;
-    this.tokenStorageService.signOut();
-    this.profileSettingsFacade.clearProfilePicStore();
-    this.authStoreService.clearStore();
-    //this.authService.setIsAuthenticated(false);
-    /*
-    this.campaignsListStore.clearStore();
-*/
-
-    this.router.navigate(['/auth/login']);
-  }
-
   seeNotification() {
     this.NotificationService.notificationSeen()
-      .pipe(takeUntil(this.isDestroyed))
+      .pipe(takeUntil(this.isDestroyed$))
       .subscribe((response: any) => {
         if (response.message !== 'Notification clicked') {
           this.newNotification = true;
@@ -513,9 +376,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   isClicked() {
     this.clicked = !this.clicked;
-    // console.log("isClicked")
   }
-  isSeen(event: any, notification: any) {}
 
   receiveMessage() {
     this.NotificationService.notifications$
@@ -523,12 +384,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
         tap((msg) => {}),
         concatMap((payload) =>
           timer(6000).pipe(
-            takeUntil(this.isDestroyed),
+            takeUntil(this.isDestroyed$),
             tap((v) => {}),
             mapTo(payload)
           )
         ),
-        takeUntil(this.isDestroyed)
+        takeUntil(this.isDestroyed$)
       )
       .subscribe((payload: any) => {
         this.walletFacade.initWallet();
@@ -541,7 +402,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
           let msg = '';
           this.translate
             .get(item._label, item._params)
-            .pipe(takeUntil(this.isDestroyed))
+            .pipe(takeUntil(this.isDestroyed$))
             .subscribe((data: any) => {
               msg = data;
             });
@@ -646,7 +507,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
   getNotifications() {
     this.NotificationService.getAllNotifications()
-      .pipe(takeUntil(this.isDestroyed))
+      .pipe(takeUntil(this.isDestroyed$))
       .subscribe((response: any) => {
         if (response.code === 200 && response.message === 'success') {
           this.isSend = response.data.isSend;
@@ -699,7 +560,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   redirect(notif: any): void {
     if (notif.isSeen === false) {
       this.NotificationService.oneNotificationSeen(notif._id)
-        .pipe(takeUntil(this.isDestroyed))
+        .pipe(takeUntil(this.isDestroyed$))
         .subscribe((response: any) => {
           if (response.message === 'notification_seen') {
             this.getNotifications();
@@ -1109,13 +970,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  switchLang(lang: string) {
-    this.tokenStorageService.removeLocalLang();
-    this.tokenStorageService.setLocalLang(lang);
-    this.languageSelected = lang;
-    this.translate.use(lang);
-  }
-
   toggleSidebar() {
     this.sidebarService.toggle();
   }
@@ -1147,15 +1001,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     } else {
       this.sidebarService.toggleWalletMobile.next(true);
     }
-    // if (this.showWallet) {
-    //   this.showWallet = !this.showWallet;
-    // } else if (this.sidebarService.toggleSidebarMobile.value) {
-    //   this.sidebarService.toggleSidebarMobile.next(false);
-    //   this.showWallet = true;
-    // } else if (!this.showWallet) {
-    //   this.showWallet = true;
-    //   // this.showMore = false;
-    // }
   }
 
   closeShowMore() {
@@ -1219,7 +1064,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
   portfeuille() {
     this.walletFacade.wallet$
-      .pipe(takeUntil(this.isDestroyed))
+      .pipe(takeUntil(this.isDestroyed$))
       .subscribe((data: any) => {
         if (!!data) {
           this.btcCode = data.data.btc;
@@ -1233,45 +1078,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public copyErc(code: any) {
-    let btncpp = this.document.getElementById('btncpp');
-    if (btncpp) {
-      btncpp.style.backgroundColor = '#4048FF';
-      btncpp.style.color = 'white';
-      this.copyMsg1 = true;
-      setTimeout(() => {
-        let btncpp = this.document.getElementById('btncpp');
-        //@ts-ignore
-        btncpp?.style.backgroundColor = 'white';
-        //@ts-ignore
-        btncpp.style.color = '#4048FF';
-        //@ts-ignore
-        btncppM.style.backgroundColor = 'white';
-        //@ts-ignore
-        btncppM.style.color = '#4048FF';
-      }, 1000);
-    }
-
     this.clipboard.copy(code);
   }
   public copyBtc(code: any) {
-    let btncp = this.document.getElementById('btncp');
-    if (btncp) {
-      btncp.style.backgroundColor = '#4048FF';
-      btncp.style.color = 'white';
-      this.copyMsg = true;
-      setTimeout(() => {
-        let btncp = this.document.getElementById('btncp');
-        //@ts-ignore
-        btncp?.style.backgroundColor = 'white';
-        //@ts-ignore
-        btncp.style.color = '#4048FF';
-        //@ts-ignore
-        btncpM?.style.backgroundColor = 'white';
-        //@ts-ignore
-        btncpM.style.color = '#4048FF';
-      }, 1000);
-      this.generateCodeFunction();
-    }
     this.clipboard.copy(code);
   }
   ////display1////////
@@ -1319,11 +1128,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     } else {
       this.menuAdpool = false;
     }
-    /*  if (this.router.url.includes('welcome-page')) {
-      this.menuFarmPost = false;
-    } else {
-      this.menuFarmPost = false;
-    }*/
   }
   checkMenuFarmPost() {
     this.menuWallet = false;
@@ -1436,10 +1240,32 @@ export class HeaderComponent implements OnInit, OnDestroy {
   navigateToWelcomePage() {
     this.router.navigate(['/']);
   }
+
+  signOut() {
+    this.isConnected = false;
+    this.authService.setIsAuthenticated(false);
+    this.campaignFacade.clearLinksListStore();
+    this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
+    this.ParticipationListStoreService.clearDataFarming();
+    this.walletFacade.dispatchLogout(); //clear totalBalance and cryptoList
+    this.accountFacadeService.dispatchLogoutAccount(); //clear account user
+    this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
+    this.ParticipationListStoreService.nextPage.pageNumber = 0;
+    this.tokenStorageService.signOut();
+    this.profileSettingsFacade.clearProfilePicStore();
+    this.authStoreService.clearStore();
+    /*
+    this.campaignsListStore.clearStore();
+*/
+    if (isPlatformBrowser(this.platformId)) {
+      window.location.reload();
+    }
+    this.router.navigate(['/auth/login']);
+  }
   ngOnDestroy(): void {
-    this.isDestroyed.next('');
-    this.isDestroyed.complete();
-    this.isDestroyed.unsubscribe();
-    this.translate.onLangChange.unsubscribe();
+    if (!!this.isDestroyed$) {
+      this.isDestroyed$.unsubscribe();
+    }
+    //this.translate.onLangChange.unsubscribe();
   }
 }

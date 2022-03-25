@@ -6,7 +6,6 @@ import { ServerErrorComponent } from './components/server-error/server-error.com
 import { MaintenanceComponent } from './maintenance/maintenance.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { CguComponent } from './cgu/cgu.component';
-import { AuthService } from './core/services/Auth/auth.service';
 
 const routes: Routes = [
   {
@@ -65,7 +64,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes, {
       anchorScrolling: 'enabled',
       scrollPositionRestoration: 'enabled',
-      enableTracing: true, // set it true only in dev mode
+      enableTracing: false, // set it true only in dev mode
       initialNavigation: 'enabled'
     })
   ],
