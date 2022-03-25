@@ -33,18 +33,27 @@ export class ParticipationListStoreService {
     new BehaviorSubject([] as Page<Participation>[]);
   readonly list$: Observable<Page<Participation>[]> = this.listSubject
     .asObservable()
-    .pipe(filter((pages: Page<Participation>[]) => pages.length !== 0));
+    .pipe(
+      takeUntil(this.isDestroyed),
+      filter((pages: Page<Participation>[]) => pages.length !== 0)
+    );
 
   private listLinksSubject: BehaviorSubject<Page<Participation>[]> =
     new BehaviorSubject([] as Page<Participation>[]);
   readonly listLinks$: Observable<Page<Participation>[]> = this.listLinksSubject
     .asObservable()
-    .pipe(filter((pages: Page<Participation>[]) => pages.length !== 0));
+    .pipe(
+      takeUntil(this.isDestroyed),
+      filter((pages: Page<Participation>[]) => pages.length !== 0)
+    );
   readonly linksList$ = this.campaignFacade.linksList$;
   triggerLoadLinksList = new BehaviorSubject(false);
   readonly triggerLoadLinksListObs = this.triggerLoadLinksList
     .asObservable()
-    .pipe(filter((value) => !!value));
+    .pipe(
+      takeUntil(this.isDestroyed),
+      filter((value) => !!value)
+    );
 
   queryParams = new BehaviorSubject({});
   nextPage: Page<Participation> = {
@@ -60,13 +69,14 @@ export class ParticipationListStoreService {
     private store: Store<ParticipationListStoreService>
   ) {
     merge(
-      this.onFilterChanges$.pipe(mapTo(true)),
-      this.onPageScroll$.pipe(mapTo(false)), // false means load next page
-      this.queryParams.pipe(mapTo(true))
+      this.onFilterChanges$.pipe(takeUntil(this.isDestroyed), mapTo(true)),
+      this.onPageScroll$.pipe(takeUntil(this.isDestroyed), mapTo(false)), // false means load next page
+      this.queryParams.pipe(takeUntil(this.isDestroyed), mapTo(true))
     )
       .pipe(
         switchMap((isFirstPageRequested) =>
           this.queryParams.pipe(
+            takeUntil(this.isDestroyed),
             map((query) => {
               return { query, isFirstPageRequested };
             })
@@ -136,6 +146,7 @@ export class ParticipationListStoreService {
       );
       obs
         .pipe(
+          takeUntil(this.isDestroyed),
           map((response: any) => {
             if (response.message === 'success') {
               this.count = response.data.count;
@@ -190,7 +201,7 @@ export class ParticipationListStoreService {
             }
           }),
           map((res: any) => {
-            if (res.message === 'success') {
+            if (res && res.message === 'success') {
               return [
                 res.data.count,
                 res.data.Links.map((c: any) => new Participation(c))
@@ -198,8 +209,7 @@ export class ParticipationListStoreService {
             } else {
               return [];
             }
-          }),
-          takeUntil(this.isDestroyed)
+          })
         )
         .subscribe((data) => {
           this.nextPage.items = data[1];
@@ -486,6 +496,7 @@ export class ParticipationListStoreService {
   loadLinks() {
     merge(
       this.onFilterChanges$.pipe(
+        takeUntil(this.isDestroyed),
         filter((filter: any) => {
           return Object.keys(filter).length !== 0;
         }),
@@ -494,12 +505,14 @@ export class ParticipationListStoreService {
         })
       ),
       this.onPageScroll$.pipe(
+        takeUntil(this.isDestroyed),
         map(() => {
           return false;
         }),
         debounceTime(1000)
       ), // false means load next page
       this.queryParams.pipe(
+        takeUntil(this.isDestroyed),
         map(() => {
           return true;
         })
@@ -508,6 +521,7 @@ export class ParticipationListStoreService {
       .pipe(
         switchMap((isFirstPageRequested) =>
           this.queryParams.pipe(
+            takeUntil(this.isDestroyed),
             map((query) => {
               return { query, isFirstPageRequested };
             })

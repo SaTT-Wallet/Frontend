@@ -1156,9 +1156,14 @@ export class ParticiperComponent implements OnInit {
             }
           }
         },
-        () => {
+        (error) => {
           this.loadingButton = false;
           this.showButtonSend = true;
+          if (error.error.code === 500) {
+            this.error = 'Unauthorized';
+          } else {
+            this.error = error.error.error;
+          }
         }
       );
   }
