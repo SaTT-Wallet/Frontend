@@ -17,7 +17,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { CountdownComponent, CountdownEvent } from 'ngx-countdown';
 import { SocialUser } from 'angularx-social-login';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ContactMessageService } from '@core/services/contactmessage/contact-message.service';
 import { TelegramLinkAccountService } from '@core/services/telegramAuth/telegram-link-account.service';
@@ -107,7 +107,7 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
   // codeFromUrl: any;
   // idFromUrl: any;
   isSub = false;
-  french: boolean = true;
+  french: boolean = false;
   disabled: boolean = false;
   authError: boolean = false;
   english: boolean = true;
@@ -167,24 +167,24 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
       translate.setDefaultLang('en');
       this.translate.use(this.languageSelected);
     }
-    translate.onLangChange
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((event: LangChangeEvent) => {
-        this.languageSelected = event.lang;
-        this._changeDetectorRef.detectChanges();
-        this.translate.use(this.languageSelected);
+    // translate.onLangChange
+    //   .pipe(takeUntil(this.onDestroy$))
+    //   .subscribe((event: LangChangeEvent) => {
+    //     this.languageSelected = event.lang;
+    //     this._changeDetectorRef.detectChanges();
+    //     this.translate.use(this.languageSelected);
 
-        if (this.languageSelected === 'en') {
-          this.english = true;
-        } else {
-          this.english = false;
-        }
-        if (this.languageSelected === 'fr') {
-          this.french = true;
-        } else {
-          this.french = false;
-        }
-      });
+    //     if (this.languageSelected === 'en') {
+    //       this.english = true;
+    //     } else {
+    //       this.english = false;
+    //     }
+    //     if (this.languageSelected === 'fr') {
+    //       this.french = true;
+    //     } else {
+    //       this.french = false;
+    //     }
+    //   });
     this.formCode = new FormGroup({
       code: new FormControl(null, [Validators.required])
     });
@@ -235,7 +235,6 @@ getCookie(key: string){
       this.cookiesClicked = false;
     }
     this.skipLoginWhenRedirected();
-    //this.getParmsFromUrl();
     this.convertToScript();
   }
   get getControls() {
@@ -275,6 +274,7 @@ getCookie(key: string){
   skipLoginWhenRedirected() {
     this.routerSub = this.route.queryParams
       .pipe(
+        takeUntil(this.onDestroy$),
         mergeMap((p) => {
           if (p.message === 'account_already_used') {
             if (p.idSn === 1) {
@@ -434,6 +434,7 @@ getCookie(key: string){
         },
         (error: any) => {
           if (
+            error.error &&
             error.error.error === 'Wallet not found' &&
             error.error.code === 404
           ) {
@@ -462,14 +463,6 @@ getCookie(key: string){
     //     setTimeout(() => this.router.navigate(['wallet']), 2000);
     //   }
     // });
-  }
-
-  ngOnDestroy() {
-    this.onDestroy$.next('');
-    this.onDestroy$.complete();
-    if (!!this.routerSub) {
-      this.routerSub.unsubscribe();
-    }
   }
 
   snlogin(social: string) {
@@ -1048,5 +1041,12 @@ getCookie(key: string){
     // this.showBigSpinner = true;
 
     this.modalService.open(puzzle);
+  }
+
+  ngOnDestroy() {
+    if (this.routerSub) this.routerSub.unsubscribe();
+    if (this.eventsSubject) this.eventsSubject.unsubscribe();
+    if (this.onDestroy$) this.onDestroy$.unsubscribe();
+    // this.translate.onLangChange.unsubscribe();
   }
 }

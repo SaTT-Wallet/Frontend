@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-header-auth',
@@ -43,12 +43,13 @@ export class HeaderAuthComponent implements OnInit {
   }
 
   onGoToHome() {
-    if (this.tokenStorageService.getIsAuth() !== 'true') {
-      this.tokenStorageService.signOut();
-      this.router.navigate([''], { skipLocationChange: true });
-    } else {
-      this.router.navigate(['']);
-    }
+    this.router.navigate(['']);
+    // if (this.tokenStorageService.getIsAuth() !== 'true') {
+    //   this.tokenStorageService.signOut();
+    //   this.router.navigate([''], { skipLocationChange: true });
+    // } else {
+    //   this.router.navigate(['']);
+    // }
   }
 
   trackByLanguage(index: number, language: string) {

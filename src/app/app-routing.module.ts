@@ -6,16 +6,12 @@ import { ServerErrorComponent } from './components/server-error/server-error.com
 import { MaintenanceComponent } from './maintenance/maintenance.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { CguComponent } from './cgu/cgu.component';
-import { AuthService } from './core/services/Auth/auth.service';
 
 const routes: Routes = [
   {
     path: 'auth',
     loadChildren: () =>
-      import('./auth/authentication.module').then(
-        (m) => m.AuthenticationModule
-      ),
-    canActivate: [AuthService]
+      import('./auth/authentication.module').then((m) => m.AuthenticationModule)
   },
   {
     path: 'cgu',

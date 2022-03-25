@@ -2,6 +2,7 @@ import {
   Component,
   HostListener,
   Inject,
+  OnDestroy,
   OnInit,
   PLATFORM_ID,
   TemplateRef,
@@ -16,17 +17,20 @@ import { AccountFacadeService } from '@app/core/facades/account-facade/account-f
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-facade/socialAcounts-facade.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.css']
 })
-export class LayoutComponent implements OnInit {
+export class LayoutComponent implements OnInit, OnDestroy {
   @ViewChild('useDesktopModal', { static: false })
   public useDesktopModal!: TemplateRef<any>;
   scrollTopChange: boolean = false;
   smDevice = false;
   scrolled: boolean = false;
+  private isDestroyed$ = new Subject();
   constructor(
     public router: Router,
     private draftCampaignStore: DraftCampaignStoreService,
@@ -39,14 +43,21 @@ export class LayoutComponent implements OnInit {
     @Inject(DOCUMENT) private document: any,
     @Inject(PLATFORM_ID) private platformId: string
   ) {
-    this.router.events.pipe().subscribe((event: any) => {
-      if (event instanceof NavigationEnd) {
-        let outlet = this.document.getElementsByClassName('outlet');
-        if (outlet.length > 0) {
-          outlet[0].scrollIntoView({ behavior: 'smooth' });
+    this.router.events
+      .pipe(takeUntil(this.isDestroyed$))
+      .subscribe((event: any) => {
+        if (event instanceof NavigationEnd) {
+          let outlet = this.document.getElementsByClassName('outlet');
+          if (outlet.length > 0) {
+            outlet[0].scrollIntoView({ behavior: 'smooth' });
+          }
         }
-      }
-    });
+      });
+  }
+  ngOnDestroy(): void {
+    this.isDestroyed$.next('');
+    this.isDestroyed$.complete();
+    this.isDestroyed$.unsubscribe();
   }
   ngOnInit(): void {
     if (window.innerWidth <= 768 && isPlatformBrowser(this.platformId)) {
