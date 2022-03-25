@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '@app/models/User';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
-import { ProfileService } from '@core/services/profile/profile.service';
 import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-facade.service';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-social-config',
@@ -29,27 +28,33 @@ export class SocialConfigComponent implements OnInit {
   calcPercent() {
     this.profileSettingsFacade
       .getSocialNetworks()
-
-      .pipe(takeUntil(this.isDestroyed))
+      .pipe(
+        filter((res) => res !== null),
+        takeUntil(this.isDestroyed)
+      )
       .subscribe((data: any) => {
-        let count2 = 0;
-        if (data.facebook.length !== 0 && data.facebook.instagram_username) {
-          count2++;
+        if (data) {
+          let count2 = 0;
+          if (data.facebook.length !== 0 && data.facebook.instagram_username) {
+            count2++;
+          }
+          if (data.facebook.length !== 0 && !data.facebook.instagram_username) {
+            count2++;
+          }
+          if (data.google.length !== 0) {
+            count2++;
+          }
+          if (data.twitter.length !== 0) {
+            count2++;
+          }
+          if (data.linkedin.length !== 0) {
+            count2++;
+          }
+          this.percentNet = (count2 * 100) / 5;
+          this.percentNet2 = this.percentNet.toFixed(0) + '%';
+        } else {
+          this.percentNet2 = '0';
         }
-        if (data.facebook.length !== 0 && !data.facebook.instagram_username) {
-          count2++;
-        }
-        if (data.google.length !== 0) {
-          count2++;
-        }
-        if (data.twitter.length !== 0) {
-          count2++;
-        }
-        if (data.linkedin.length !== 0) {
-          count2++;
-        }
-        this.percentNet = (count2 * 100) / 5;
-        this.percentNet2 = this.percentNet.toFixed(0) + '%';
       });
   }
   ngOnDestroy(): void {
