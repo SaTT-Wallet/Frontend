@@ -55,6 +55,7 @@ export class NotificationComponent implements OnInit {
   bscan = 'https://bscscan.com/tx/';
   etherscan = 'https://etherscan.io/tx/';
   newNotification: boolean = false;
+  errorMessagecode = '';
   constructor(
     private eRef: ElementRef,
     private _changeDetectorRef: ChangeDetectorRef,
@@ -217,11 +218,11 @@ export class NotificationComponent implements OnInit {
       .pipe(takeUntil(this.isDestroyed))
       .subscribe(
         (response: INotificationsResponse) => {
+
           if (response !== null && response !== undefined) {
             this.showSpinner = false;
             this.isloading = false;
             this.dataNotification = response.data.notifications;
-            console.log(this.dataNotification.length);
 
             this.dataNotification.forEach((item: any) => {
               item.created =item.created? item.created: item.createdAt
@@ -232,11 +233,20 @@ export class NotificationComponent implements OnInit {
               .groupBy('created')
               .map((value: any, key: any) => ({ created: key, value }))
               .value();
-          } else {
-            this.dataNotification = [];
           }
         },
-        () => {}
+        (err) => {
+          
+              if(err.error.error == 'No notifications found'){
+                this.showSpinner = false;
+
+                this.errorMessagecode = 'No notifications found';
+                                console.log(  this.errorMessagecode )
+
+              }
+       
+         
+        }
       );
   }
   onScroll() {
