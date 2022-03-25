@@ -189,6 +189,11 @@ export class DraftCampaignParametresComponent implements OnInit {
     let start: any;
     if (this.draftData.startDate) {
       start = new Date(this.draftData.startDate);
+      this.draftData.startDate = start;
+    }
+    if (this.draftData.endDate) {
+      let end = new Date(this.draftData.endDate);
+      this.draftData.endDate = end;
     }
 
     if (changes.draftData && changes.draftData.currentValue.id) {
@@ -262,6 +267,7 @@ export class DraftCampaignParametresComponent implements OnInit {
       },
       { emitEvent: false, onlySelf: true }
     );
+    this.checkCountriesTags(data.targetedCountries)
   }
 
   //TODO: refactor this method to better solution or implement our own lib
