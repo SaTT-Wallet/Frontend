@@ -221,6 +221,7 @@ export class NotificationComponent implements OnInit {
             this.showSpinner = false;
             this.isloading = false;
             this.dataNotification = response.data.notifications;
+            console.log(this.dataNotification.length);
 
             this.dataNotification.forEach((item: any) => {
               item.created =item.created? item.created: item.createdAt
