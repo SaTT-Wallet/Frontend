@@ -97,7 +97,7 @@ export class NotificationComponent implements OnInit {
     this.NotificationService.notificationSeen()
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((response: any) => {
-        if (response.message === 'Notification clicked') {
+        if (response?.message === 'Notification clicked') {
           this.newNotification = false;
         }
       });
@@ -219,6 +219,14 @@ export class NotificationComponent implements OnInit {
       .subscribe(
         (response: INotificationsResponse) => {
 
+          if(!response){
+            this.showSpinner = false;
+
+            this.errorMessagecode = 'No notifications found';
+
+          }
+          console.log(response);
+
           if (response !== null && response !== undefined) {
             this.showSpinner = false;
             this.isloading = false;
@@ -234,17 +242,6 @@ export class NotificationComponent implements OnInit {
               .map((value: any, key: any) => ({ created: key, value }))
               .value();
           }
-        },
-        (err) => {
-          
-              if(err.error.error == 'No notifications found'){
-                this.showSpinner = false;
-
-                this.errorMessagecode = 'No notifications found';
-
-              }
-       
-         
         }
       );
   }
