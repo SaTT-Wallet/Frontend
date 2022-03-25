@@ -267,7 +267,8 @@ input.input-number2::-webkit-input-placeholder {
     border: 1px solid #d6d6e8;
     border-radius: 30px;
     align-items: center;
-    min-width: 165px;
+    min-width: 145px;
+    /* min-width: 165px; */
     max-width: 165px;
     height: 48px;
     /* padding: 6px 15px; */
@@ -305,7 +306,14 @@ input.input-number2::-webkit-input-placeholder {
 }
 
 .height-first-item {
-    height: 93px;
+    /* height: 93px; */
+    /* height: auto;
+     */
+    /* max-height: 102px;
+    min-height: 79px; */
+    height: 92px;
+    max-height: 92px;
+    min-height: 79px;
 }
 
 .height-span-followers {
@@ -704,6 +712,12 @@ input.input-number2::-webkit-input-placeholder {
             top: 0px;
             left: -8px !important;
         }
+    }
+}
+
+@media (max-width: 991.98px) {
+    .height-first-item {
+        height: auto !important;
     }
 }
 
@@ -1237,4 +1251,14 @@ input[type='number'] {
     position: absolute;
     left: 35%;
     top: 2px;
+}
+
+.max-width-760 {
+    max-width: 760;
+}
+
+.pos-ab-btn-round {
+    position: absolute;
+    right: 0;
+    top: 56%;
 }
