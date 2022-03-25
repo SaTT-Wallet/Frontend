@@ -123,6 +123,8 @@ export class NotificationComponent implements OnInit {
             ) {
               const filter_type_date = this.dataNotificationFilter.forEach(
                 (item: any) => {
+       
+                  
                   return (
                     item.type === this.typeNotifValue &&
                     item.created > this.dateDebutValue &&
@@ -221,6 +223,7 @@ export class NotificationComponent implements OnInit {
             this.dataNotification = response.data.notifications;
 
             this.dataNotification.forEach((item: any) => {
+              item.created =item.created? item.created: item.createdAt
               this.siwtchFunction(item);
             });
 
