@@ -101,6 +101,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
   }
 
   getUserPic() {
+    
     this.subscription = this.account$
       .pipe(
         filter((res) => res !== null),
@@ -117,21 +118,22 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
         })
       )
       .pipe(
-        filter((res) => res !== null),
         takeUntil(this.onDestoy$),
-
         mergeMap((profile: any) => {
-          if (
-            (this.user.idSn === 0 ||
-              (this.picUserUpdated && this.user.idSn !== 0)) &&
-            !!profile
-          ) {
-            let objectURL = URL.createObjectURL(profile);
-            this.user.userPicture =
-              this.sanitizer.bypassSecurityTrustUrl(objectURL);
-          } else if (this.user.picLink) {
-            this.user.userPicture = this.user?.picLink;
+          if(profile){
+            if (
+              (this.user.idSn === 0 ||
+                (this.picUserUpdated && this.user.idSn !== 0)) &&
+              !!profile
+            ) {
+              let objectURL = URL.createObjectURL(profile);
+              this.user.userPicture =
+                this.sanitizer.bypassSecurityTrustUrl(objectURL);
+            } else if (this.user.picLink) {
+              this.user.userPicture = this.user?.picLink;
+            }
           }
+        
           // TODO: load campaigns list here
           return this.campaignsListStoreService.list$.pipe(
             map((pages: Page<Campaign>[]) =>
