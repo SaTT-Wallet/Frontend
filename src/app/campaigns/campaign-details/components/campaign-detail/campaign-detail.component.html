@@ -311,10 +311,7 @@
               <!-- <span class="text-nowrap text-date">{{ campaign.startDate | date: "fullDate" }}  </span> -->
 
               <span class="" *ngIf="localId === 'en'">
-                {{
-                  campaign.startDate
-                    | date: 'MM/dd/yyyy ':undefined:localId || ''
-                }}
+                {{ campaign.startDate || '' }}
               </span>
               <span class="" *ngIf="localId === 'fr'">
                 {{
@@ -325,9 +322,7 @@
               {{ 'to' | translate }}
               <!-- <span class="text-nowrap text-date">{{ campaign.endDate | date: "fullDate" }} </span> -->
               <span class="" *ngIf="localId === 'en'">
-                {{
-                  campaign.endDate | date: 'MM/dd/yyyy ':undefined:localId || ''
-                }}
+                {{ campaign.endDate || '' }}
               </span>
               <span class="" *ngIf="localId === 'fr'">
                 {{
@@ -396,28 +391,18 @@
               <!-- <span class="text-nowrap text-date">{{ campaign.startDate | date: "fullDate" }}  </span> -->
 
               <span class="" *ngIf="localId === 'en'">
-                {{
-                  campaign.startDate
-                    | date: 'MM/dd/yyyy ':undefined:localId || ''
-                }}
+                {{ campaign.startDate || '' }}
               </span>
               <span class="" *ngIf="localId === 'fr'">
-                {{
-                  campaign.startDate
-                    | date: 'dd/MM/yyyy ':undefined:localId || ''
-                }}
+                {{ campaign.startDate || '' }}
               </span>
               {{ 'to' | translate }}
               <!-- <span class="text-nowrap text-date">{{ campaign.endDate | date: "fullDate" }} </span> -->
               <span class="" *ngIf="localId === 'en'">
-                {{
-                  campaign.endDate | date: 'MM/dd/yyyy ':undefined:localId || ''
-                }}
+                {{ campaign.endDate || '' }}
               </span>
               <span class="" *ngIf="localId === 'fr'">
-                {{
-                  campaign.endDate | date: 'dd/MM/yyyy ':undefined:localId || ''
-                }}
+                {{ campaign.endDate || '' }}
               </span>
             </p>
           </div>
