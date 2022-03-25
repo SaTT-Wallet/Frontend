@@ -114,18 +114,16 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   @Output() hidePortfolio: EventEmitter<any> = new EventEmitter();
 
   ngOnInit(): void {
+    
     this.portfeuille();
     this.getTotalBalance();
     this.getusercrypto();
+    
     //input pattern="[0-9]*"
     $('[data-toggle="tooltip"]').tooltip;
     this.spinner.show('showWalletSpinner');
-    this.showWalletSpinner = true;
-    this.walletFacade.walletSpinner$.pipe(takeUntil(this.onDestroy$));
-    // .subscribe((res) => {
-    //   this.showWalletSpinner = res;
-    // });
-    // this.copyaddresse();
+
+
   }
   ngAfterContentInit() {
     this.cdref.detectChanges();
@@ -143,10 +141,11 @@ export class CryptoListComponent implements OnInit, OnDestroy {
 
   //get list of crypto for user
   getusercrypto() {
-    this.showWalletSpinner = true;
+    
+    this.spinner.show('showWalletSpinner');
+    this.showWalletSpinner === true;
     let indexSattBEP20 = 0;
     let indexSattERC20 = 0;
-
     this.cryptoList$
       .pipe(
         filter((data: any) => data?.data?.length !== 0),
@@ -154,7 +153,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
       )
       .subscribe((data: any) => {
         this.walletFacade.hideWalletSpinner();
-        this.showWalletSpinner = false;
+        this.showWalletSpinner === false;
         this.dataList = data;
 
         Object.preventExtensions(this.dataList);

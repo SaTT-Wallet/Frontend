@@ -1,240 +1,105 @@
-<div
-  class="campaign-details bg-white"
-  id="campaignDetails"
-  *ngIf="prom"
-  [ngClass]="{
+<div class="campaign-details bg-white" id="campaignDetails" *ngIf="prom" [ngClass]="{
     'pending-style': this.prom.type === 'waiting_for_validation',
     'align-mobile': showDetails
-  }"
->
-  <i class="chevron show-chevron fa fa-fw" (click)="showBlock()"></i>
-  <img
-    class="hourglass-mobile"
-    src="/assets/Images/campagne/hourglass.svg"
-    *ngIf="prom.type === 'waiting_for_validation' && isOwner"
-  />
+  }">
+    <i class="chevron show-chevron fa fa-fw" (click)="showBlock()"></i>
+    <img class="hourglass-mobile" src="/assets/Images/campagne/hourglass.svg" *ngIf="prom.type === 'waiting_for_validation' && isOwner" />
 
-  <div class="img-block" role="button" tabindex="0">
-    <a
-      [href]="prom.link"
-      target="_blank"
-      class="a_link d-flex justify-content-center"
-    >
-      <img
-        class=""
-        alt=""
-        *ngIf="prom.typeSN == 2"
-        [src]="prom.safeURL"
-        loading="lazy"
-        class="cmp-img2"
-      />
-      <img
-        *ngIf="formatGrid && !isFarmingRouter && isOwner"
-        class=""
-        class="prom_avatar d-flex"
-        [src]="prom.userPic"
-        onerror="this.src='/assets/Images/img_satt/Default_avatar_MoonBoy.png'"
-      />
+    <div class="img-block" role="button" tabindex="0">
+        <a [href]="prom.link" target="_blank" class="a_link d-flex justify-content-center">
+            <img class="" alt="" *ngIf="prom.typeSN === 2" [src]="prom.safeURL" loading="lazy" class="cmp-img2" />
+            <img *ngIf="formatGrid && !isFarmingRouter && isOwner" class="" class="prom_avatar d-flex" [src]="prom.userPic" onerror="this.src='/assets/Images/img_satt/Default_avatar_MoonBoy.png'" />
 
-      <img
-        *ngIf="prom.typeSN == 1"
-        [src]="prom.mediaUrl"
-        onerror="this.src='/assets/Images/cover-fb-gain.png'"
-        class="cmp-img2"
-      />
-      <img
-        *ngIf="prom.typeSN == 4"
-        [src]="prom.mediaUrl"
-        onerror="this.src='/assets/Images/campagne/twitter_cover.svg'"
-        class="cmp-img2"
-        [routerLink]="['/home/campaign/', prom.campaign._id]"
-      />
-      <img
-        *ngIf="prom.typeSN == 3"
-        [src]="prom.mediaUrl"
-        onerror="this.src='/assets/Images/campagne/instagramm.svg'"
-        class="cmp-img2"
-        [routerLink]="['/home/campaign/', prom.campaign._id]"
-      />
-      <img
-        *ngIf="prom.typeSN == 5"
-        [src]="prom.mediaUrl"
-        onerror="this.src='/assets/Images/linkedin-card.svg'"
-        class="cmp-img2"
-        [routerLink]="['/home/campaigns/campaign/', prom.campaign._id]"
-      />
+            <img *ngIf="prom.typeSN === 1" [src]="prom.mediaUrl" onerror="this.src='/assets/Images/cover-fb-gain.png'" class="cmp-img2" />
+            <img *ngIf="prom.typeSN === 4" [src]="prom.mediaUrl" onerror="this.src='/assets/Images/campagne/twitter_cover.svg'" class="cmp-img2" [routerLink]="['/home/campaign/', prom.campaign._id]" />
+            <img *ngIf="prom.typeSN === 3" [src]="prom.mediaUrl" onerror="this.src='/assets/Images/campagne/instagramm.svg'" class="cmp-img2" [routerLink]="['/home/campaign/', prom.campaign._id]" />
+            <img *ngIf="prom.typeSN === 5" [src]="prom.mediaUrl" onerror="this.src='/assets/Images/linkedin-card.svg'" class="cmp-img2" [routerLink]="['/home/campaigns/campaign/', prom.campaign._id]" />
 
-      <!-- <img *ngIf="prom.typeSN == 1" src="/assets/Images/campagne/facebook_cover_gain.svg" class="cmp-img2"> -->
-      <!-- <img *ngIf="prom.typeSN == 4" src="/assets/Images/campagne/twitter_cover.svg" class="cmp-img2" [routerLink]="['/home/campaign/', prom.campaign._id]" /> -->
-      <a [href]="prom.link" target="_blank" class="icon_link hide-row-version"
-        ><img src="/assets/Images/campagne/gains-link.svg"
-      /></a>
-      <img
-        *ngIf="prom.typeSN == 2"
-        src="/assets/Images/campagne/youtube_gain.svg"
-        class="icon_oracle"
-        [routerLink]="['/home/campaign/', prom.campaign._id]"
-      />
-      <img
-        *ngIf="prom.typeSN == 1"
-        src="/assets/Images/campagne/facebook_gain.svg"
-        class="icon_oracle"
-        [routerLink]="['/home/campaign/', prom.campaign._id]"
-      />
-      <img
-        *ngIf="prom.typeSN == 3"
-        src="/assets/Images/campagne/insta_gain.svg"
-        class="icon_oracle"
-        [routerLink]="['/home/campaign/', prom.campaign._id]"
-      />
-      <img
-        *ngIf="prom.typeSN == 4"
-        src="/assets/Images/campagne/twitter_gain.svg"
-        class="icon_oracle"
-        [routerLink]="['/home/campaign/', prom.campaign._id]"
-      />
-    </a>
-  </div>
-  <div
-    class="details-block"
-    [routerLink]="['/home/campaign/', prom.campaign._id]"
-  >
-    <div class="div-name-date-gains" role="button" tabindex="0">
-      <div
-        class="div-name-date"
-        [ngClass]="{
+            <!-- <img *ngIf="prom.typeSN == 1" src="/assets/Images/campagne/facebook_cover_gain.svg" class="cmp-img2"> -->
+            <!-- <img *ngIf="prom.typeSN == 4" src="/assets/Images/campagne/twitter_cover.svg" class="cmp-img2" [routerLink]="['/home/campaign/', prom.campaign._id]" /> -->
+            <a [href]="prom.link" target="_blank" class="icon_link hide-row-version"><img src="/assets/Images/campagne/gains-link.svg" /></a>
+            <img *ngIf="prom.typeSN === 2" src="/assets/Images/campagne/youtube_gain.svg" class="icon_oracle" [routerLink]="['/home/campaign/', prom.campaign._id]" />
+            <img *ngIf="prom.typeSN === 1" src="/assets/Images/campagne/facebook_gain.svg" class="icon_oracle" [routerLink]="['/home/campaign/', prom.campaign._id]" />
+            <img *ngIf="prom.typeSN === 3" src="/assets/Images/campagne/insta_gain.svg" class="icon_oracle" [routerLink]="['/home/campaign/', prom.campaign._id]" />
+            <img *ngIf="prom.typeSN === 4" src="/assets/Images/campagne/twitter_gain.svg" class="icon_oracle" [routerLink]="['/home/campaign/', prom.campaign._id]" />
+        </a>
+    </div>
+    <div class="details-block" [routerLink]="['/home/campaign/', prom.campaign._id]">
+        <div class="div-name-date-gains" role="button" tabindex="0">
+            <div class="div-name-date" [ngClass]="{
           'div-name-date': isOwner,
           'div-title-date': isFarmingRouter
-        }"
-      >
-        <div class="div-title d-flex" *ngIf="isFarmingRouter">
-          <span class="prom_title">{{ prom.campaign.title || '' }} </span>
-        </div>
-        <div class="div-name" [ngClass]="{ 'hide-row-version': !isOwner }">
-          <span class="prom_name" *ngIf="prom.meta && isOwner">
+        }">
+                <div class="div-title d-flex" *ngIf="isFarmingRouter">
+                    <span class="prom_title">{{ prom.campaign.title || '' }} </span>
+                </div>
+                <div class="div-name" [ngClass]="{ 'hide-row-version': !isOwner }">
+                    <span class="prom_name" *ngIf="prom.meta && isOwner">
             {{ prom.meta?.firstName }} {{ prom.meta?.lastName }}
           </span>
-        </div>
-        <div class="div-date">
-          <h2
-            class="under_gains date"
-            *ngIf="localId === 'en' && prom.applyDate"
-          >
-            <!-- h:mm:ss a -->
-            <span>
+                </div>
+                <div class="div-date">
+                    <h2 class="under_gains date" *ngIf="localId === 'en' && prom.applyDate">
+                        <!-- h:mm:ss a -->
+                        <span>
               <img src="assets/Images/calender.svg" width="16px" />
               {{ prom.applyDate | date: 'MM/dd/yyyy':undefined:localId || '' }}
             </span>
-            <!-- <span class="span-hours">
+                        <!-- <span class="span-hours">
               <img src="assets/Images/clock-link.svg" width="16px" />
               {{ prom.applyDate | date: 'h:mm ':undefined:localId || '' }}
             </span> -->
-          </h2>
-          <h2
-            class="under_gains date"
-            *ngIf="localId === 'fr' && prom.applyDate"
-          >
-            <span>
+                    </h2>
+                    <h2 class="under_gains date" *ngIf="localId === 'fr' && prom.applyDate">
+                        <span>
               <img src="assets/Images/calender.svg" width="16px" />
               {{ prom.applyDate | date: 'dd/MM/yyyy ':undefined:localId || '' }}
             </span>
-            <span class="span-hours">
+                        <span class="span-hours">
               <img src="assets/Images/clock-link.svg" width="16px" />
               {{ prom.applyDate | date: 'h:mm ':undefined:localId || '' }}
             </span>
-          </h2>
-        </div>
-      </div>
+                    </h2>
+                </div>
+            </div>
 
-      <hr class="hrstyle" *ngIf="formatGrid" />
-      <div
-        class="stat-icons d-flex justify-content-center mt-4"
-        [ngClass]="{ 'hide-details': !showDetails && isOwner }"
-      >
-        <div class="social-ratios-wrapper flex-column">
-          <img
-            *ngIf="formatGrid"
-            width="26px"
-            height="26px"
-            class="icon-ratio"
-            src="/assets/Images/campagne/view_gain.svg"
-          />
-          <img
-            *ngIf="!formatGrid"
-            src="/assets/Images/view-icon-gray.svg"
-            class="icon-ratio"
-            width="20px"
-          />
-          <span class="prom_name text-valign-middle">{{
+            <hr class="hrstyle" *ngIf="formatGrid" />
+            <div class="stat-icons d-flex justify-content-center mt-4" [ngClass]="{ 'hide-details': !showDetails && isOwner }">
+                <div class="social-ratios-wrapper flex-column">
+                    <img *ngIf="formatGrid" width="26px" height="26px" class="icon-ratio" src="/assets/Images/campagne/view_gain.svg" />
+                    <img *ngIf="!formatGrid" src="/assets/Images/view-icon-gray.svg" class="icon-ratio" width="20px" />
+                    <span class="prom_name text-valign-middle">{{
             prom.views || 0
           }}</span>
-        </div>
-        <div class="social-ratios-wrapper flex-column">
-          <img
-            *ngIf="formatGrid"
-            width="20px"
-            height="20px"
-            class="icon-ratio"
-            src="/assets/Images/campagne/like_gain.svg"
-          />
-          <img
-            *ngIf="!formatGrid"
-            src="/assets/Images/like-icon-gray.svg"
-            class="icon-ratio"
-            width="19px"
-          />
-          <span class="prom_name text-valign-middle">{{
+                </div>
+                <div class="social-ratios-wrapper flex-column">
+                    <img *ngIf="formatGrid" width="20px" height="20px" class="icon-ratio" src="/assets/Images/campagne/like_gain.svg" />
+                    <img *ngIf="!formatGrid" src="/assets/Images/like-icon-gray.svg" class="icon-ratio" width="19px" />
+                    <span class="prom_name text-valign-middle">{{
             prom.likes || 0
           }}</span>
-        </div>
-        <div class="social-ratios-wrapper flex-column">
-          <img
-            *ngIf="formatGrid"
-            width="20px"
-            height="20px"
-            class="icon-ratio"
-            src="/assets/Images/campagne/share_gain.svg"
-          />
-          <img
-            *ngIf="!formatGrid"
-            src="/assets/Images/share-icon-gray.svg"
-            class="icon-ratio"
-            width="19px"
-          />
-          <span class="prom_name text-valign-middle flex-column">{{
+                </div>
+                <div class="social-ratios-wrapper flex-column">
+                    <img *ngIf="formatGrid" width="20px" height="20px" class="icon-ratio" src="/assets/Images/campagne/share_gain.svg" />
+                    <img *ngIf="!formatGrid" src="/assets/Images/share-icon-gray.svg" class="icon-ratio" width="19px" />
+                    <span class="prom_name text-valign-middle flex-column">{{
             prom.shares || 0
           }}</span>
-        </div>
-        <div class="social-ratios-wrapper flex-column" *ngIf="!formatGrid">
-          <img
-            *ngIf="formatGrid"
-            width="20px"
-            height="20px"
-            class="icon-ratio"
-            src="/assets/Images/campagne/bounties-icon.svg"
-          />
-          <img
-            *ngIf="!formatGrid"
-            class="icon-ratio"
-            src="/assets/Images/icon-remun-publication-gray.svg"
-          />
-          <!-- <img *ngIf="!formatGrid" src="/assets/Images/campagne/bounties-icon.svg" class="icon-ratio" width="19px" /> -->
-          <span
-            class="prom_name text-valign-middle flex-column"
-            *ngIf="!!prom.abosNumber"
-          >
+                </div>
+                <div class="social-ratios-wrapper flex-column" *ngIf="!formatGrid">
+                    <img *ngIf="formatGrid" width="20px" height="20px" class="icon-ratio" src="/assets/Images/campagne/bounties-icon.svg" />
+                    <img *ngIf="!formatGrid" class="icon-ratio" src="/assets/Images/icon-remun-publication-gray.svg" />
+                    <!-- <img *ngIf="!formatGrid" src="/assets/Images/campagne/bounties-icon.svg" class="icon-ratio" width="19px" /> -->
+                    <span class="prom_name text-valign-middle flex-column" *ngIf="!!prom.abosNumber">
             {{ prom.abosNumber }}
           </span>
-          <span
-            class="prom_name text-valign-middle flex-column"
-            *ngIf="!prom.abosNumber"
-          >
+                    <span class="prom_name text-valign-middle flex-column" *ngIf="!prom.abosNumber">
             -
           </span>
-        </div>
-      </div>
+                </div>
+            </div>
 
-      <!--<div
+            <!--<div
         class="stat-icons d-flex justify-content-center mt-5"
         [ngClass]="{ 'hide-details': !showDetails && isOwner }"
         *ngIf="
@@ -317,21 +182,15 @@
           }}</span>
         </div>
       </div>-->
-    </div>
-    <div
-      class="div-buttons div-position-absolute"
-      [ngClass]="{
+        </div>
+        <div class="div-buttons div-position-absolute" [ngClass]="{
         'hide-details': !showDetails,
         'margin-bottom-mobile':
           showDetails && prom.type !== 'waiting_for_validation'
-      }"
-    >
-      <div
-        class="div-gains pt-4"
-        *ngIf="
+      }">
+            <div class="div-gains pt-4" *ngIf="
           prom.type !== 'waiting_for_validation' && prom.type !== 'rejected'
-        "
-        [ngClass]="{
+        " [ngClass]="{
           'hide-details': !showDetails,
           'postion-div-gains':
             formatGrid &&
@@ -339,14 +198,10 @@
             prom.type !== 'waiting_for_validation' &&
             prom.type !== 'rejected',
           'bottom-bloc': prom.type === 'indisponible'
-        }"
-      >
-        <hr class="hrstyle" *ngIf="formatGrid" />
+        }">
+                <hr class="hrstyle" *ngIf="formatGrid" />
 
-        <span
-          class="black-text-earning hard-grey-text hide-row-desktop"
-          [ngClass]="{ 'hide-details': prom.type === 'waiting_for_validation' }"
-        >
+                <span class="black-text-earning hard-grey-text hide-row-desktop" [ngClass]="{ 'hide-details': prom.type === 'waiting_for_validation' }">
           {{ 'campaign_details.earning' | translate }}</span
         >
 
@@ -404,14 +259,9 @@
         >
           {{ 'your-media-not-validated' | translate }}
         </span>
-      </div>
-      <!--  link indisponible-->
-      <button
-        type="button"
-        class="buttom_camp"
-        *ngIf="prom.type === 'indisponible'"
-        [ngClass]="{ 'hide-row-desktop width-100-btn': !formatGrid }"
-      >
+            </div>
+            <!--  link indisponible-->
+            <button type="button" class="buttom_camp" *ngIf="prom.type === 'indisponible'" [ngClass]="{ 'hide-row-desktop width-100-btn': !formatGrid }">
         <span class="btn-participe-gain-disabled"
           >{{ 'Unavailable-link' | translate }}
         </span>
@@ -420,20 +270,16 @@
           src="/assets/Images/exclam-white.svg"
         /> -->
       </button>
-      <div class="div-havested-buttons">
-        <div
-          class="div-harvested"
-          *ngIf="prom.status === true"
-          [ngClass]="{
+            <div class="div-havested-buttons">
+                <div class="div-harvested" *ngIf="prom.status === true" [ngClass]="{
             'hide-harvest': isOwner,
             'postion-div-harvested':
               formatGrid &&
               isOwner &&
               prom.type !== 'waiting_for_validation' &&
               prom.type !== 'rejected'
-          }"
-        >
-          <span *ngIf="!formatGrid" class="hard-grey-text hide-row-desktop">
+          }">
+                    <span *ngIf="!formatGrid" class="hard-grey-text hide-row-desktop">
             Harvested</span
           >
           <span class="gray-text-payedAmount">
@@ -460,10 +306,9 @@
             />
 
             <span class="hide-row-version">{{ 'harvested' | translate }}</span>
-          </span>
-          <div class="" *ngIf="!formatGrid">
-            <span class="hard-grey-text-small"
-              >${{ payedAmoundInUSD | async }}</span
+                    </span>
+                    <div class="" *ngIf="!formatGrid">
+                        <span class="hard-grey-text-small">${{ payedAmoundInUSD | async }}</span
             >
           </div>
         </div>
@@ -481,13 +326,9 @@
             <img class="" src="/assets/Images/campagne/hourglass.svg" />
             {{ 'pending-approval' | translate }}
           </span>
-        </div>
-        <!-- rejected -->
-        <button
-          type="button"
-          class="btn-disabled-rejected"
-          *ngIf="prom.type === 'rejected' || prom.status === 'rejected'"
-        >
+                    </div>
+                    <!-- rejected -->
+                    <button type="button" class="btn-disabled-rejected" *ngIf="prom.type === 'rejected' || prom.status === 'rejected'">
           <hr class="new1" *ngIf="formatGrid" />
 
           <span
@@ -505,16 +346,12 @@
             src="/assets/Images/reject-icon.svg"
           />
         </button>
-        <!-- attente_validation -->
-        <button
-          type="button"
-          class="buttom_camp hide-row-version"
-          *ngIf="
+                    <!-- attente_validation -->
+                    <button type="button" class="buttom_camp hide-row-version" *ngIf="
             prom.type === 'waiting_for_validation' &&
             prom.status === false &&
             !isOwner
-          "
-        >
+          ">
           <span class="btn-apply-text text-orange">
             <img
               class="hourglass"
@@ -524,12 +361,8 @@
           </span>
         </button>
 
-        <!-- all gain are recorved -->
-        <button
-          *ngIf="prom.type === 'already_recovered' && !isOwner"
-          type="button"
-          class="btn-disabled"
-        >
+                    <!-- all gain are recorved -->
+                    <button *ngIf="prom.type === 'already_recovered' && !isOwner" type="button" class="btn-disabled">
           <span class="btn-apply-dis hide-row-desktop">
             {{ 'Montant_récupéré' | translate }}
           </span>
@@ -538,12 +371,8 @@
             src="/assets/Images/shape-disabled.svg"
           />
         </button>
-        <!--   no gains-->
-        <button
-          type="button"
-          class="buttom_camp"
-          *ngIf="prom.type === 'no_gains' && !isOwner"
-        >
+                    <!--   no gains-->
+                    <button type="button" class="buttom_camp" *ngIf="prom.type === 'no_gains' && !isOwner">
           <span class="btn-participe-gain-disabled hide-row-desktop">{{
             'no-gains' | translate
           }}</span>
@@ -552,12 +381,8 @@
             src="/assets/Images/shape-disabled.svg"
           />
         </button>
-        <!--  not_enough_budget-->
-        <button
-          type="button"
-          class="btn-disabled"
-          *ngIf="prom.type === 'not_enough_budget' && !isOwner"
-        >
+                    <!--  not_enough_budget-->
+                    <button type="button" class="btn-disabled" *ngIf="prom.type === 'not_enough_budget' && !isOwner">
           <span class="btn-participe-gain-disabled hide-row-desktop"
             >{{ 'not-enough-budget' | translate }}
           </span>
@@ -566,13 +391,8 @@
             src="/assets/Images/shape-disabled.svg"
           />
         </button>
-        <!--   recorver gains-->
-        <button
-          type="button"
-          class="buttom_camp3"
-          (click)="getMyGains(prom)"
-          *ngIf="prom.type === 'harvest' && !isOwner"
-        >
+                    <!--   recorver gains-->
+                    <button type="button" class="buttom_camp3" (click)="getMyGains(prom)" *ngIf="prom.type === 'harvest' && !isOwner">
           <span class="btn-participe-gain">
             <img
               class="hourglass mb-3"
@@ -594,15 +414,10 @@
             />
           </span>
         </button>
-        <!--  link indisponible-->
-        <button
-          type="button"
-          class="buttom_camp"
-          *ngIf="prom.type === 'indisponible'"
-          [ngClass]="{
+                    <!--  link indisponible-->
+                    <button type="button" class="buttom_camp" *ngIf="prom.type === 'indisponible'" [ngClass]="{
             'hide-row-desktop hide-details': !formatGrid
-          }"
-        >
+          }">
           <span class="btn-participe-gain-disabled"
             >{{ 'Unavailable-link' | translate }}
           </span>
@@ -611,19 +426,14 @@
           src="/assets/Images/exclam-white.svg"
         /> -->
         </button>
-        <!-- Already accepted -->
-        <button
-          type="button"
-          class="btn-disabled hide-row-desktop"
-          [ngClass]="{ 'hide-button': isOwner }"
-          *ngIf="
+                    <!-- Already accepted -->
+                    <button type="button" class="btn-disabled hide-row-desktop" [ngClass]="{ 'hide-button': isOwner }" *ngIf="
             (prom.type === 'harvest' ||
               prom.type === 'not_enough_budget' ||
               prom.type === 'already_recovered' ||
               prom.type === 'no_gains') &&
             isOwner
-          "
-        >
+          ">
           <span class="btn-participe-gain-success">
             {{ 'campaign_details.earning' | translate }}
           </span>
@@ -633,163 +443,85 @@
           src="/assets/Images/vector-success.svg"
         /> -->
         </button>
-        <!--acc & refus -->
-        <div
-          class="btn_vignette"
-          *ngIf="isOwner && prom.type === 'waiting_for_validation'"
-        >
-          <button
-            type="button"
-            class="buttom_camp_reject"
-            (click)="openModal(rejectLinkModal)"
-          >
+                    <!--acc & refus -->
+                    <div class="btn_vignette" *ngIf="isOwner && prom.type === 'waiting_for_validation'">
+                        <button type="button" class="buttom_camp_reject" (click)="openModal(rejectLinkModal)">
             <img class="icon-reject-btn" src="/assets/Images/reject-icon.svg" />
           </button>
-          <button
-            type="button"
-            (click)="validateLink(prom)"
-            class="buttom_camp_accept"
-          >
+                        <button type="button" (click)="validateLink(prom)" class="buttom_camp_accept">
             <img
               class="icon-accept-btn"
               src="../../../../assets/Images/accept-icon.svg"
             />
           </button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-</div>
 
-<ng-template #rejectLinkModal>
-  <div class="">
-    <div class="modal-header modal-customm">
-      <button
-        type="button"
-        class="btn-close"
-        data-bs-dismiss="modal"
-        (click)="closeModal(rejectLinkModal)"
-      ></button>
-    </div>
-    <div class="modal-body modal-customm mx-3">
-      <div class="d-flex justify-content-center">
-        <img class="" src="assets/Images/moonboy/MoonBoy-reject.png" />
-      </div>
-      <div class="d-flex justify-content-center mt-3">
-        <h3 class="title-reject-prom">{{ 'reject-post' | translate }}</h3>
-      </div>
-      <div
-        class="row d-flex justify-content-center mt-2"
-        style="max-width: 95%; margin: 0 auto"
-      >
-        <div class="col-12">
-          <p class="gray-dark-text">{{ 'rejectLink-text' | translate }}</p>
-        </div>
-      </div>
+    <ng-template #rejectLinkModal>
+        <div class="">
+            <div class="modal-header modal-customm">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="closeModal(rejectLinkModal)"></button>
+            </div>
+            <div class="modal-body modal-customm mx-3">
+                <div class="d-flex justify-content-center">
+                    <img class="" src="assets/Images/moonboy/MoonBoy-reject.png" />
+                </div>
+                <div class="d-flex justify-content-center mt-3">
+                    <h3 class="title-reject-prom">{{ 'reject-post' | translate }}</h3>
+                </div>
+                <div class="row d-flex justify-content-center mt-2" style="max-width: 95%; margin: 0 auto">
+                    <div class="col-12">
+                        <p class="gray-dark-text">{{ 'rejectLink-text' | translate }}</p>
+                    </div>
+                </div>
 
-      <div class="col-12 mb-2">
-        <form
-          [formGroup]="reasonForm"
-          class="d-flex align-items-center flex-column"
-        >
-          <div class="row w-75">
-            <div class="row mt-1">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value="Irrelevant, illegible, or inaudible content"
-                id="flexCheckDefault1"
-                formControlName="reason1"
-                name="reason1"
-                (change)="onCheckboxChange($event, 'reason1')"
-              />
-              <label
-                class="form-check-label gray-dark-text text-align-start ms-3"
-                for="flexCheckDefault1"
-              >
+                <div class="col-12 mb-2">
+                    <form [formGroup]="reasonForm" class="d-flex align-items-center flex-column">
+                        <div class="row w-75">
+                            <div class="row mt-1">
+                                <input class="form-check-input" type="checkbox" value="Irrelevant, illegible, or inaudible content" id="flexCheckDefault1" formControlName="reason1" name="reason1" (change)="onCheckboxChange($event, 'reason1')" />
+                                <label class="form-check-label gray-dark-text text-align-start ms-3" for="flexCheckDefault1">
                 {{ 'Irrelevant, illegible, or inaudible content' | translate }}
               </label>
-            </div>
+                            </div>
 
-            <div class="row mt-1">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value="Inappropriate or offensive content"
-                id="flexCheckDefault2"
-                formControlName="reason2"
-                name="reason2"
-                (change)="onCheckboxChange($event, 'reason2')"
-              />
-              <label
-                class="form-check-label gray-dark-text text-align-start ms-3"
-                for="flexCheckDefault2"
-              >
+                            <div class="row mt-1">
+                                <input class="form-check-input" type="checkbox" value="Inappropriate or offensive content" id="flexCheckDefault2" formControlName="reason2" name="reason2" (change)="onCheckboxChange($event, 'reason2')" />
+                                <label class="form-check-label gray-dark-text text-align-start ms-3" for="flexCheckDefault2">
                 {{ 'Inappropriate or offensive content' | translate }}
               </label>
-            </div>
+                            </div>
 
-            <div class="row mt-1">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value="Controversial content"
-                id="flexCheckDefault3"
-                formControlName="reason3"
-                name="reason3"
-                (change)="onCheckboxChange($event, 'reason3')"
-              />
-              <label
-                class="form-check-label gray-dark-text text-align-start ms-3"
-                for="flexCheckDefault3"
-              >
+                            <div class="row mt-1">
+                                <input class="form-check-input" type="checkbox" value="Controversial content" id="flexCheckDefault3" formControlName="reason3" name="reason3" (change)="onCheckboxChange($event, 'reason3')" />
+                                <label class="form-check-label gray-dark-text text-align-start ms-3" for="flexCheckDefault3">
                 {{ 'Controversial content' | translate }}
               </label>
-            </div>
+                            </div>
 
-            <div class="row mt-1">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value="Something else"
-                id="flexCheckDefault4"
-                formControlName="reason4"
-                name="reason4"
-                (change)="onCheckboxChange($event, 'reason4')"
-              />
-              <label
-                class="form-check-label gray-dark-text text-align-start ms-3"
-                for="flexCheckDefault4"
-              >
+                            <div class="row mt-1">
+                                <input class="form-check-input" type="checkbox" value="Something else" id="flexCheckDefault4" formControlName="reason4" name="reason4" (change)="onCheckboxChange($event, 'reason4')" />
+                                <label class="form-check-label gray-dark-text text-align-start ms-3" for="flexCheckDefault4">
                 <span> {{ 'Something else' | translate }}</span>
                 <small *ngIf="reasonForm.controls.reason4.value !== null">
                   {{ 'specify-the-reason' | translate }}</small
                 >
               </label>
-            </div>
-          </div>
-          <div
-            class="row w-100 mt-2 mb-2"
-            *ngIf="reasonForm.controls.reason4.value !== null"
-          >
-            <textarea
-              class="type-textarea"
-              formControlName="description"
-            ></textarea>
-          </div>
-        </form>
-      </div>
-      <div class="row d-flex justify-content-center">
-        <button
-          (click)="rejectLink(rejectLinkModal)"
-          type="button"
-          class="btn btn-reject"
-          [disabled]="
+                            </div>
+                        </div>
+                        <div class="row w-100 mt-2 mb-2" *ngIf="reasonForm.controls.reason4.value !== null">
+                            <textarea class="type-textarea" formControlName="description"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="row d-flex justify-content-center">
+                    <button (click)="rejectLink(rejectLinkModal)" type="button" class="btn btn-reject" [disabled]="
             reasonForm?.errors?.requireCheckboxes ||
             reasonForm?.errors?.requiredElseReason
-          "
-          data-dismiss="modal"
-        >
+          " data-dismiss="modal">
           <span *ngIf="!this.showLoadingSpinner">
             {{ 'Reject-now' | translate }}</span
           >
@@ -801,7 +533,7 @@
             <span class="sr-only">Loading...</span>
           </div>
         </button>
-      </div>
-    </div>
-  </div>
-</ng-template>
+                </div>
+            </div>
+        </div>
+    </ng-template>

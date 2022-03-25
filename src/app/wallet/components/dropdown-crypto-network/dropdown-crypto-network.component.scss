@@ -54,6 +54,9 @@ button:focus {
   padding: 0;
   height: max-content;
   z-index: 3;
+  overflow-y: auto;
+  text-overflow: ellipsis;
+  max-height: 363px;
 }
 
 .dropdown2 {
@@ -120,6 +123,7 @@ button:focus {
 
 .btn-dropdown:disabled {
   opacity: 1;
+  padding-left: 15%;
 }
 
 /*-----------end css dropdowen------ */

@@ -132,6 +132,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((p: any) => {
         if (p.id) {
+
           // this.toggleCurrencyType(ECurrencyType.FIAT);
           // this.toggleNetwork(p.network);
           this.selectedCurrencyType = p.currency;
@@ -142,8 +143,15 @@ export class BuyTokenComponent implements OnInit, OnChanges {
           if (p.id === 'SATT-SC') {
             this.fiatLogo = 'SATTBEP20.svg';
           } else if (p.id === 'SATT-ERC20') {
-            this.fiatLogo = 'SATT2.svg';
-          } else {
+
+             this.fiatLogo = 'SATT2.svg';
+          }
+          
+          else if (p.id==='SATTBEP20'){
+            this.selectedCurrencyLogo === 'SATTBEP20'
+          }
+          else {
+             
             this.fiatLogo = p.id + '.svg';
             this.requestedCrypto = p.id;
           }

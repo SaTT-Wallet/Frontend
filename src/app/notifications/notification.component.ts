@@ -55,6 +55,7 @@ export class NotificationComponent implements OnInit {
   bscan = 'https://bscscan.com/tx/';
   etherscan = 'https://etherscan.io/tx/';
   newNotification: boolean = false;
+  errorMessagecode = '';
   constructor(
     private eRef: ElementRef,
     private _changeDetectorRef: ChangeDetectorRef,
@@ -96,7 +97,7 @@ export class NotificationComponent implements OnInit {
     this.NotificationService.notificationSeen()
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((response: any) => {
-        if (response.message === 'Notification clicked') {
+        if (response?.message === 'Notification clicked') {
           this.newNotification = false;
         }
       });
@@ -123,6 +124,8 @@ export class NotificationComponent implements OnInit {
             ) {
               const filter_type_date = this.dataNotificationFilter.forEach(
                 (item: any) => {
+       
+                  
                   return (
                     item.type === this.typeNotifValue &&
                     item.created > this.dateDebutValue &&
@@ -215,12 +218,22 @@ export class NotificationComponent implements OnInit {
       .pipe(takeUntil(this.isDestroyed))
       .subscribe(
         (response: INotificationsResponse) => {
+
+          if(!response){
+            this.showSpinner = false;
+
+            this.errorMessagecode = 'No notifications found';
+
+          }
+          console.log(response);
+
           if (response !== null && response !== undefined) {
             this.showSpinner = false;
             this.isloading = false;
             this.dataNotification = response.data.notifications;
 
             this.dataNotification.forEach((item: any) => {
+              item.created =item.created? item.created: item.createdAt
               this.siwtchFunction(item);
             });
 
@@ -228,11 +241,8 @@ export class NotificationComponent implements OnInit {
               .groupBy('created')
               .map((value: any, key: any) => ({ created: key, value }))
               .value();
-          } else {
-            this.dataNotification = [];
           }
-        },
-        () => {}
+        }
       );
   }
   onScroll() {
