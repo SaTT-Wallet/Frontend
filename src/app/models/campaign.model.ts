@@ -84,8 +84,14 @@ export class Campaign {
       : '';
     this.logo = data?.logo ? 'data:image/png;base64,' + data?.logo : '';
     this.reference = data?.reference || '';
-    this.endDate = new Date(data?.endDate || '');
-    this.startDate = new Date(data?.startDate || '');
+    this.endDate =
+      typeof data?.endDate == 'number'
+        ? new Date(data.endDate * 1000)
+        : data?.endDate;
+    this.startDate =
+      typeof data?.startDate == 'number'
+        ? new Date(data.startDate * 1000)
+        : data?.startDate;
     this.proms = data?.proms;
     this.url = data?.url;
     this.file = data?.file;
