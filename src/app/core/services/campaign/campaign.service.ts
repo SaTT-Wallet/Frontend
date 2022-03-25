@@ -371,7 +371,7 @@ export class CampaignHttpApiService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.put(sattUrl + '/v2/launchCampaign', campagne, {
+    return this.http.post(sattUrl + '/campaign/launch/performance', campagne, {
       headers: header
     });
   }
@@ -716,15 +716,11 @@ export class CampaignHttpApiService {
     // });
   }
 
-  getTokenAllowanceERC20(erc20: any) {
+  approvalERC20(erc20: any) {
     return this.http.post(
       sattUrl +
-        '/campaign/erc20/approval/' +
-        // '/v2/erc20/' +
-        // erc20.addr +
-        // '/approval/' +
-        // erc20.walletaddr +
-        // '/'
+        '/campaign/erc20/approval'
+      ,
         {
           tokenAddress: erc20.addr,
           campaignAddress: campaignSmartContractERC20
@@ -734,20 +730,21 @@ export class CampaignHttpApiService {
     );
   }
 
-  getTokenAllowanceBEP20(bep20: any) {
-    return this.http.get(
+  approveBEP20(bep20: any) {
+    return this.http.post(
       sattUrl +
-        '/v2/bep20/' +
-        bep20.addr +
-        '/approval/' +
-        bep20.walletaddr +
-        '/' +
-        campaignSmartContractBEP20,
+      '/campaign/bep20/approval'
+      ,
+      {
+        tokenAddress: bep20.addr,
+        campaignAddress: campaignSmartContractBEP20
+      },
+
       { headers: this.tokenStorageService.getHeader() }
     );
   }
 
-  tokenApproveERC20(erc20: any, password: any) {
+  allowERC20(erc20: any, password: any) {
     let amount = '100000000000000000000000000000';
     return this.http.post(
       sattUrl + '/campaign/erc20/allow',
@@ -762,11 +759,11 @@ export class CampaignHttpApiService {
     );
   }
 
-  tokenApproveBEP20(bep20: any, password: any) {
+  allowBEP20(bep20: any, password: any) {
     let amount = '100000000000000000000000000000';
     // const BEP20 = ListTokens["SATTBEP20"].contract;
     return this.http.post(
-      sattUrl + '/v2/bep20/allow',
+      sattUrl + '/campaign/bep20/allow',
       {
         access_token: this.tokenStorageService.getToken(),
         token: bep20.addr,

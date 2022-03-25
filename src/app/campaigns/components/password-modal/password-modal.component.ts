@@ -17,7 +17,7 @@ import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Campaign } from '@app/models/campaign.model';
 import { concatMap, map, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { forkJoin, of, Subject } from 'rxjs';
+import { forkJoin, Observable, of, Subject } from 'rxjs';
 import { CampaignsStoreService } from '@campaigns/services/campaigns-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 
@@ -120,9 +120,11 @@ export class PasswordModalComponent implements OnInit {
     if (this.campaign) {
       _campaign.dataUrl =
         'https://ropsten.etherscan.io/token/0x2bef0d7531f0aae08adc26a0442ba8d0516590d0'; //this.campaign.shortLink;
-      _campaign.token = this.tokenStorageService.getToken();
+      _campaign.tokenAddress = this.campaign.currency.addr;
       _campaign.pass = this.passwordForm.get('password')?.value;
+      /*
       _campaign.ERC20token = ListTokens[this.campaign.currency.name].contract;
+*/
       _campaign.amount = this.campaign?.initialBudget;
       _campaign.contract =
         ListTokens[this.campaign.currency.name].type === 'bep20'
@@ -271,119 +273,60 @@ export class PasswordModalComponent implements OnInit {
     TokenOBjBEP20.addr = ListTokens[this.campaign.currency.name].contract;
     TokenOBjBEP20.walletaddr = this.tokenStorageService.getIdWallet();
     campaign_info.currency = cryptoNetwork[token];
+    let LaunchCampaignObs: Observable<any>;
     if (cryptoNetwork[token] === 'BEP20') {
-      this.campaignService
-        .getTokenAllowanceBEP20(TokenOBjBEP20)
-        .pipe(
-          switchMap((response: any) => {
-            this.passwordForm.reset();
-            if (
-              new Big(response.allowance.amount).gt(
-                new Big(this.campaign.initialBudget)
-              )
-            ) {
-              if (this.campaign.remuneration === 'performance') {
-                return this.launchCampaignWithPerPerformanceReward(
-                  campaign_info,
-                  confirmationContent
-                );
-              } else if (this.campaign.remuneration === 'publication') {
-                return this.launchCampaignWithPerPublicationReward(
-                  campaign_info
-                );
-              }
-            }
-
-            return this.campaignService
-              .tokenApproveBEP20(TokenOBjBEP20, campaign_info.pass)
-              .pipe(
-                tap((response: any) => {
-                  if (response['error'] === 'Wrong password') {
-                    this.errorMessage = 'wrong_password';
-                  }
-                }),
-                concatMap(() => {
-                  if (this.campaign.remuneration === 'performance') {
-                    return this.launchCampaignWithPerPerformanceReward(
-                      campaign_info,
-                      confirmationContent
-                    );
-                  } else if (this.campaign.remuneration === 'publication') {
-                    return this.launchCampaignWithPerPublicationReward(
-                      campaign_info
-                    );
-                  }
-                  return of(null);
-                }),
-                takeUntil(this.isDestroyed)
-              );
-          })
-        )
-        .pipe(takeUntil(this.isDestroyed))
-        .subscribe((data) => {
+      LaunchCampaignObs = this.campaignService.approveBEP20(TokenOBj).pipe(
+        map((response: any) => response.data),
+        switchMap((response: any) => {
+          this.passwordForm.reset();
           if (
-            data.error ===
-            'Returned error: insufficient funds for gas * price + value'
+            new Big(response.allowance.amount).gt(
+              new Big(this.campaign.initialBudget)
+            )
           ) {
-            if (cryptoNetwork[token] === 'BEP20') {
-              this.errorMessage =
-                'You dont have enough BNB gaz (BNB : $ ' + this.bepGaz + ')';
-              this.loadingButton = false;
-            } else {
-              this.errorMessage =
-                'Yout dont have enough ETH gaz (ETH :$ ' + this.erc20Gaz + ')';
-              this.loadingButton = false;
+            if (this.campaign.remuneration === 'performance') {
+              return this.launchCampaignWithPerPerformanceReward(
+                campaign_info,
+                confirmationContent
+              );
+            } else if (this.campaign.remuneration === 'publication') {
+              return this.launchCampaignWithPerPublicationReward(campaign_info);
             }
           }
-          if (data.transactionHash) {
-            this.launchCampaignWithPerPerformanceReward(
-              campaign_info,
-              confirmationContent
+
+          return this.campaignService
+            .allowBEP20(TokenOBjBEP20, campaign_info.pass)
+            .pipe(
+              tap((response: any) => {
+                if (response['error'] === 'Wrong password') {
+                  this.errorMessage = 'wrong_password';
+                }
+              }),
+              concatMap(() => {
+                if (this.campaign.remuneration === 'performance') {
+                  return this.launchCampaignWithPerPerformanceReward(
+                    campaign_info,
+                    confirmationContent
+                  );
+                } else if (this.campaign.remuneration === 'publication') {
+                  return this.launchCampaignWithPerPublicationReward(
+                    campaign_info
+                  );
+                }
+                return of(null);
+              }),
+              takeUntil(this.isDestroyed)
             );
-          }
-        });
-
-      // // @ts-ignore
-      // console.log(TokenOBj)
-
-      // this.campaignService
-      //   .getTokenAllowanceBEP20(TokenOBjBEP20)
-      //   .pipe()
-      //   .subscribe((data: any) => {
-      //     this.passwordForm.reset();
-      //     //console.log({ data });
-      //     this.allowanceObj = data;
-      //     let cost = new Big(this.campaign?.initialBudget).times(
-      //       this.etherInWei
-      //     );
-      //     let allowance = new Big(this.allowanceObj.allowance.amount);
-      //     if (allowance.gt(cost)) {
-      //       this.launchCampaignWithPerPerformanceReward(
-      //         campaign_info,
-      //         confirmationContent
-      //       );
-      //     } else {
-      //       this.campaignService
-      //         .tokenApproveBEP20(TokenOBjBEP20, campaign_info.pass)
-      //         .subscribe((data: any) => {
-      //           //console.log(data);
-      //           if (data["error"]) {
-      //             this.errorMessage = data["error"];
-      //             setTimeout(() => {
-      //               this.errorMessage = "";
-      //             }, 5000);
-      //           }
-      //         });
-      //     }
-      //   });
+        })
+      );
     } else {
-      this.campaignService
-        .getTokenAllowanceERC20(TokenOBj)
+      LaunchCampaignObs = this.campaignService
+        .approvalERC20(TokenOBj)
         .pipe(
           switchMap((response: any) => {
             this.passwordForm.reset();
             if (
-              new Big(response.allowance.amount).gt(
+              new Big(response.data.allowance.amount).gt(
                 new Big(this.campaign.initialBudget)
               )
             ) {
@@ -400,11 +343,13 @@ export class PasswordModalComponent implements OnInit {
             }
 
             return this.campaignService
-              .tokenApproveERC20(TokenOBj, campaign_info.pass)
+              .allowERC20(TokenOBj, campaign_info.pass)
               .pipe(
                 tap((response: any) => {
-                  if (response.error ==="Key derivation failed - possibly wrong password")
-                {
+                  if (
+                    response.error ===
+                    'Key derivation failed - possibly wrong password'
+                  ) {
                     this.errorMessage = 'wrong_password';
                   }
                 }),
@@ -425,28 +370,24 @@ export class PasswordModalComponent implements OnInit {
               );
           })
         )
-        .pipe(takeUntil(this.isDestroyed))
-        .subscribe((data) => {
-          if (
-            data.error ===
-            'Returned error: insufficient funds for gas * price + value'
-          ) {
-            if (cryptoNetwork[token] === 'BEP20') {
-              this.errorMessage =
-                'You dont have enough BNB gaz (BNB : $ ' + this.bepGaz + ')';
-            } else {
-              this.errorMessage =
-                'Yout dont have enough ETH gaz (ETH :$ ' + this.erc20Gaz + ')';
-            }
-          }
-          if (data.transactionHash) {
-            this.launchCampaignWithPerPerformanceReward(
-              campaign_info,
-              confirmationContent
-            );
-          }
-        });
+        .pipe(takeUntil(this.isDestroyed));
     }
+    LaunchCampaignObs.pipe(
+      map((data) => data.data),
+      takeUntil(this.isDestroyed)
+    ).subscribe(
+      (data) => {
+        if (data.transactionHash) {
+          this.campaignService.inProgressCampaign(this.campaign.id);
+          this.transactionHash = data.transactionHash;
+          this.showcampaignSuccess = true;
+          this.showpassword = false;
+        }
+      },
+      (error) => {
+        this.handleLaunchResponseError(error, token);
+      }
+    );
   }
 
   launchCampaignWithPerPerformanceReward(
@@ -455,38 +396,9 @@ export class PasswordModalComponent implements OnInit {
   ) {
     return this.campaignService.createCompaign(campaign_info).pipe(
       tap((response: any) => {
-        //let _campaign_Hash = Object.assign({}, this.campaign as any);
         this.showButtonSend = true;
         this.loadingButton = false;
         this.passwordForm.reset();
-
-        if (
-          response['error'] ===
-          'Returned error: insufficient funds for gas * price + value'
-        ) {
-          // this.errorMessage = "out_of_gas_error";
-        } else if (response['error'] === 'Wrong password') {
-          this.errorMessage = 'wrong_password';
-        } else if (response['transactionHash']) {
-          this.campaignService.inProgressCampaign(this.campaign.id);
-
-          // Swal.fire({
-          //   icon: "success",
-          //   title: "Campaign has been created with success",
-          //   showConfirmButton: true,
-          //   confirmButtonColor: "#4048FF",
-          // })
-          this.transactionHash = response['transactionHash'];
-          this.showcampaignSuccess = true;
-          this.showpassword = false;
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: "Sorry, we couldn't treat you request! please try again.",
-            showConfirmButton: true,
-            confirmButtonColor: '#4048FF'
-          });
-        }
       })
     );
   }
@@ -498,36 +410,32 @@ export class PasswordModalComponent implements OnInit {
         this.showButtonSend = true;
         this.loadingButton = false;
         this.passwordForm.reset();
-
-        if (
-          response['error'] ===
-          'Returned error: insufficient funds for gas * price + value'
-        ) {
-          //  this.errorMessage = "out_of_gas_error";
-        } else if (response['error'] === 'Wrong password') {
-          this.errorMessage = 'wrong_password';
-        } else if (response['transactionHash']) {
-          this.campaignService.inProgressCampaign(this.campaign.id);
-
-          // Swal.fire({
-          //   icon: "success",
-          //   title: "Campaign has been created with success",
-          //   showConfirmButton: true,
-          //   confirmButtonColor: "#4048FF",
-          // })
-          this.transactionHash = response['transactionHash'];
-          this.showcampaignSuccess = true;
-          this.showpassword = false;
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: "Sorry, we couldn't treat you request! please try again.",
-            showConfirmButton: true,
-            confirmButtonColor: '#4048FF'
-          });
-        }
       })
     );
+  }
+
+  handleLaunchResponseError(error: any, token: any) {
+    if (
+      error.error.error ===
+      'Returned error: insufficient funds for gas * price + value'
+    ) {
+      if (cryptoNetwork[token] === 'BEP20') {
+        this.errorMessage =
+          'You dont have enough BNB gaz (BNB : $ ' + this.bepGaz + ')';
+        this.loadingButton = false;
+      } else {
+        this.errorMessage =
+          'You dont have enough ETH gaz (ETH :$ ' + this.erc20Gaz + ')';
+        this.loadingButton = false;
+      }
+    } else if(error.error.error.includes('reverted')){
+      this.errorMessage =
+        'Error: Transaction has been reverted by blockchain evm';
+      this.loadingButton = false;
+    } else {
+      this.errorMessage = "An error has been occured, please try again later";
+      this.loadingButton = false;
+    }
   }
 
   //dicimal handel
