@@ -577,6 +577,7 @@ getCookie(key: string){
             return of(null);
           }),
           mergeMap(({ data, response }: { data: any; response: User }) => {
+            debugger
             this.tokenStorageService.setHeader();
             this.tokenStorageService.saveUserId(response.idUser);
             this.tokenStorageService.saveIdSn(response.idSn);
@@ -650,29 +651,29 @@ getCookie(key: string){
           takeUntil(this.onDestroy$)
         )
         .subscribe(
-          ({
-            myWallet,
-            response
-          }: {
-            myWallet: IResponseWallet;
-            response: IresponseAccount;
-          }) => {
-            if (!myWallet) {
+          (res: any) => {
+            if (!res.myWallet) {
+              this.tokenStorageService.setSecureWallet(
+                'visited-completeProfile',
+                'true'
+              );
+              this.router.navigate(['social-registration/monetize-facebook']);
+              this.showBigSpinner = true;
               return;
             }
-            if (myWallet.data.address) {
-              if (response.data?.new) {
-                if (!response.data.passphrase) {
+            if (res.myWallet.data.address) {
+              if (res.response.data?.new) {
+                if (!res.response.data.passphrase) {
                   this.router.navigate(['/social-registration/pass-phrase']);
                 } else {
-                  this.tokenStorageService.saveIdWallet(myWallet.data.address);
+                  this.tokenStorageService.saveIdWallet(res.myWallet.data.address);
                   this.router.navigate(['']);
                   this.showBigSpinner = true;
                   this.backgroundImage = '';
                   this.backgroundColor = '';
                 }
               } else {
-                this.tokenStorageService.saveIdWallet(myWallet.data.address);
+                this.tokenStorageService.saveIdWallet(res.myWallet.data.address);
                 this.router.navigate(['']);
                 this.showBigSpinner = true;
                 this.backgroundImage = '';

@@ -609,10 +609,12 @@ export class ParticiperComponent implements OnInit {
             .pipe(takeUntil(this.isDestroyedSubject))
             .subscribe(
               (data: any) => {
+        
+
                 if (
-                  data.message === 'success' &&
-                  data.code === 200 &&
-                  data.data === ' true'
+                  data.message = 'success' &&
+                  data.code === 200 
+                
                 ) {
                   this.linked = true;
                   this.loadingButton = false;

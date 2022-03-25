@@ -196,6 +196,17 @@ export class DraftCampaignParametresComponent implements OnInit {
       this.draftData.endDate = end;
     }
 
+    if (
+      this.draftData.startDate.toString() === 'Invalid Date' ||
+      this.draftData.endDate.toString() === 'Invalid Date'
+    ) {
+      let today = new Date();
+      let end = new Date();
+      today.setHours(today.getHours() + 2);
+      this.draftData.startDate = today;
+      end.setHours(today.getHours() + 48);
+      this.draftData.endDate = end;
+    }
     if (changes.draftData && changes.draftData.currentValue.id) {
       if (this.form.valid) {
         this.validFormParam.emit(true);
@@ -267,7 +278,7 @@ export class DraftCampaignParametresComponent implements OnInit {
       },
       { emitEvent: false, onlySelf: true }
     );
-    this.checkCountriesTags(data.targetedCountries)
+    this.checkCountriesTags(data.targetedCountries);
   }
 
   //TODO: refactor this method to better solution or implement our own lib
