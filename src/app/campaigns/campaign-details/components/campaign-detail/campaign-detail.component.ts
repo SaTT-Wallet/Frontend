@@ -459,6 +459,7 @@ export class CampaignDetailComponent implements OnInit {
     this.campaign$
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((campaign: Campaign) => {
+        console.log('haithem',campaign)
         if (campaign.id !== this.campaignId) {
           return;
         }
@@ -499,72 +500,7 @@ export class CampaignDetailComponent implements OnInit {
             prom.funds_satt = 0;
             prom.funds_usd = 0;
             prom.showInfo = false;
-            // if(!prom.isAccepted){
-            //   nbProms++
-            // }else{
-            // setTimeout(() => {
-            //   this.CampaignService.getPromStatsLive(prom.id).subscribe(
-            //     (data: any) => {
-            //       prom.view_count = data.views;
-            //       prom.like_count = data.likes;
-            //       prom.share_count = data.shares;
-            //       this.token_price =
-            //         this.allcryptoprice[campaign.currency.name].price;
 
-            //       campaign.ratios.forEach((ratio: any) => {
-            //         prom.view_count_satt = new Big(ratio.viewRatio)
-            //           .mul(prom.view_count || "0")
-            //           .toString();
-            //         prom.like_count_satt = new Big(ratio.likeRatio)
-            //           .mul(prom.like_count || "0")
-            //           .toString();
-            //         prom.share_count_satt = new Big(ratio.shareRatio)
-            //           .mul(prom.share_count || "0")
-            //           .toString();
-            //       });
-            //       prom.totalRatiosInSaTT = new Big(prom.view_count_satt)
-            //         .plus(new Big(prom.like_count_satt))
-            //         .plus(new Big(prom.share_count_satt))
-            //         .toString();
-
-            //       prom.totalRatiosInUSD = new Big(prom.totalRatiosInSaTT)
-            //         .div(new Big(10).pow(18))
-            //         .mul(this.token_price)
-            //         .toFixed(2)
-            //         .toString();
-            //       prom.funds_satt = prom.funds[1];
-            //       prom.funds_usd = prom.funds_satt * this.token_price;
-
-            //       if (
-            //         this.campaign.walletId.toLowerCase() !==
-            //         this.idWallet!.toLowerCase()
-            //       ) {
-            //         if (
-            //           prom.influencer.toLowerCase() ===
-            //           this.idWallet!.toLowerCase()
-            //         ) {
-            //           this.handeltotal(
-            //             this.rejectedProms,
-            //             prom,
-            //             nbProms,
-            //             rejectedProms,
-            //             index
-            //           );
-            //         }
-            //       } else {
-            //         this.handeltotal(
-            //           this.rejectedProms,
-            //           prom,
-            //           nbProms,
-            //           rejectedProms,
-            //           index
-            //         );
-            //       }
-            //     }
-            //   );
-            // }, 0);
-
-            //  } pRom.Isaccepted ends
           });
         }
       });

@@ -101,7 +101,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
   }
 
   getUserPic() {
-    
+
     this.subscription = this.account$
       .pipe(
         filter((res) => res !== null),
@@ -133,7 +133,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
               this.user.userPicture = this.user?.picLink;
             }
           }
-        
+
           // TODO: load campaigns list here
           return this.campaignsListStoreService.list$.pipe(
             map((pages: Page<Campaign>[]) =>
@@ -152,6 +152,14 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
         this.campaignsList = campaigns;
         this.campaignsList2 = campaigns;
         this.campaignsList?.forEach((element: Campaign) => {
+          if(typeof (element.startDate) == "number"){
+            element.startDate=new Date(element.startDate*1000)
+          }
+          if(typeof (element.endDate) == "number"){
+            element.endDate=new Date(element.endDate*1000)
+          }
+
+          console.log(element);
           if (element.isOwnedByUser) {
             element.urlPicUser = this.user.userPicture;
           }

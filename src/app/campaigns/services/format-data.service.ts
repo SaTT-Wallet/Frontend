@@ -6,6 +6,7 @@ import { Big } from 'big.js';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import { createDateFromUnixTimestamp } from '@helpers/utils/common';
 
 @Injectable({
   providedIn: 'root'
@@ -73,10 +74,10 @@ export class FormatDataService {
       object.time = campaign.duration;
     }
     if (campaign.hasOwnProperty('endDate')) {
-      object.endDate = new Date(campaign.endDate).getTime();
+      object.endDate = new Date(campaign.endDate).getTime() / 1000;
     }
     if (campaign.hasOwnProperty('startDate')) {
-      object.startDate = new Date(campaign.startDate).getTime();
+      object.startDate = new Date(campaign.startDate).getTime() / 1000;
     }
     if (campaign.hasOwnProperty('remuneration')) {
       // TODO: fix remuneration not sent to backend
