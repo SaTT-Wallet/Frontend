@@ -60,6 +60,7 @@ export class DropdownCryptoNetworkComponent
   }
 
   ngOnInit(): void {
+
     this.routerSub = this.route.queryParams
       .pipe(takeUntil(this.onDestoy$))
       .subscribe((p: any) => {
@@ -83,6 +84,7 @@ export class DropdownCryptoNetworkComponent
     this.defaultcurr = ListTokens['SATT'].name;
     this.defaultcurrbep = ListTokens['SATTBEP20'].name;
     this.defaultcurrbtc = ListTokens['BTC'].name;
+    
   }
   //get list of crypto for user
   getusercrypto() {
@@ -274,7 +276,7 @@ export class DropdownCryptoNetworkComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.cryptoFromDraft) {
+    if (changes.cryptoFromDraft &&   this.router.url.includes('edit')) {
       if (this.cryptoFromDraft) {
         this.dataList.forEach((crypto: any) => {
           if (crypto.symbol === this.cryptoFromDraft) {
@@ -298,6 +300,24 @@ export class DropdownCryptoNetworkComponent
           this.selectedNetworkValue = this.cryptoFromComponent[0].network;
           this.cdref.detectChanges();
         }
+      }
+    } else {
+      if (this.cryptoFromComponent) {
+        this.isCryptoRouter = false;
+        this.cryptoSymbol = this.cryptoFromComponent.symbol;
+        this.selectedNetworkValue = this.cryptoFromComponent.network;
+        if (this.cryptoFromComponent.AddedToken) {
+          this.isAddedToken = true;
+          this.token = this.cryptoFromComponent.AddedToken;
+          this.cryptoPicName = this.cryptoFromComponent.picUrl;
+        } else {
+          this.token = '';
+          this.isAddedToken = false;
+          this.cryptoPicName = this.cryptoFromComponent.undername2;
+        }
+        this.cryptoSymbol = this.cryptoFromComponent.symbol;
+        this.selectedNetworkValue = this.cryptoFromComponent.network;
+        this.cdref.detectChanges();
       }
     }
   }
