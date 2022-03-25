@@ -509,7 +509,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.NotificationService.getAllNotifications()
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe((response: any) => {
-        if (response.code === 200 && response.message === 'success') {
+        if (response?.code === 200 && response?.message === 'success') {
           this.isSend = response.data.isSend;
 
           // this.ngOnInit();

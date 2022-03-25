@@ -225,7 +225,6 @@ export class NotificationComponent implements OnInit {
             this.errorMessagecode = 'No notifications found';
 
           }
-          console.log(response);
 
           if (response !== null && response !== undefined) {
             this.showSpinner = false;
