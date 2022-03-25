@@ -23,7 +23,14 @@ import { ContactMessageService } from '@core/services/contactmessage/contact-mes
 import { TelegramLinkAccountService } from '@core/services/telegramAuth/telegram-link-account.service';
 import { MatchPasswordValidator } from '@helpers/form-validators';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { catchError, filter, mergeMap, takeUntil, map } from 'rxjs/operators';
+import {
+  catchError,
+  filter,
+  mergeMap,
+  takeUntil,
+  map,
+  tap
+} from 'rxjs/operators';
 import { of, Subject, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { sattUrl } from '@config/atn.config';
@@ -625,7 +632,22 @@ getCookie(key: string){
           })
         )
         .pipe(
-      
+          tap((response: any) => {
+            if (response.myWallet === null) {
+              this.tokenStorageService.setSecureWallet(
+                'visited-completeProfile',
+                'true'
+              );
+              this.router.navigate(['social-registration/monetize-facebook']);
+              this.showBigSpinner = true;
+            }
+          }),
+          filter((res: any) => {
+            if (!res) {
+              return false;
+            }
+            return res.myWallet !== null;
+          }),
           takeUntil(this.onDestroy$)
         )
         .subscribe(

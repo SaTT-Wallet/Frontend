@@ -30,35 +30,28 @@ export class checkStepsService implements CanActivate {
     } else if (url === 'monetize-facebook') {
       if (
         this.tokenStorageService.getSecureWallet('visited-completeProfile') ===
-          'true' &&
-        this.tokenStorageService.getSecureWallet('visited-facebook') === null
+        'true'
       ) {
         return true;
       } else {
-        return this.router.parseUrl('/social-registration/monetize-twitter');
-      }
-    } else if (url === 'monetize-linkedin') {
-      if (
-        this.tokenStorageService.getSecureWallet('visited-linkedin') === null
-      ) {
-        return true;
-      } else {
-        return this.router.parseUrl('/social-registration/monetize-google');
+        return false;
       }
     } else if (url === 'monetize-twitter') {
       if (
-        this.tokenStorageService.getSecureWallet('visited-twitter') === null
+        this.tokenStorageService.getSecureWallet('visited-facebook') === 'true'
       ) {
         return true;
       } else {
-        return this.router.parseUrl('/social-registration/monetize-linkedin');
+        return false;
       }
-      // else if (url === "monetize-telegram") {
-      //   if (this.tokenStorageService.getSecureWallet("visited-facebook") === "true" && this.tokenStorageService.getItem("idSn")!=="5") {
-      //     return true;
-      //   } else {
-      //     return false;
-      //   }
+    } else if (url === 'monetize-linkedin') {
+      if (
+        this.tokenStorageService.getSecureWallet('visited-twitter') === 'true'
+      ) {
+        return true;
+      } else {
+        return false;
+      }
     } else if (url === 'monetize-google') {
       if (
         this.tokenStorageService.getSecureWallet('visited-linkedin') === 'true'
@@ -67,7 +60,43 @@ export class checkStepsService implements CanActivate {
       } else {
         return false;
       }
-    } else if (url === 'socialConfig') {
+    }
+    //  else if (url === 'monetize-facebook') {
+    //   if (
+    //     this.tokenStorageService.getSecureWallet('visited-completeProfile') ===
+    //       'true' &&
+    //     this.tokenStorageService.getSecureWallet('visited-facebook') === null
+    //   ) {
+    //     return true;
+    //   } else {
+    //     return this.router.parseUrl('/social-registration/monetize-twitter');
+    //   }
+    // } else if (url === 'monetize-linkedin') {
+    //   if (
+    //     this.tokenStorageService.getSecureWallet('visited-linkedin') === null
+    //   ) {
+    //     return true;
+    //   } else {
+    //     return this.router.parseUrl('/social-registration/monetize-google');
+    //   }
+    // } else if (url === 'monetize-twitter') {
+    //   if (
+    //     this.tokenStorageService.getSecureWallet('visited-twitter') === null
+    //   ) {
+    //     return true;
+    //   } else {
+    //     return this.router.parseUrl('/social-registration/monetize-linkedin');
+    //   }
+    // } else if (url === 'monetize-google') {
+    //   if (
+    //     this.tokenStorageService.getSecureWallet('visited-linkedin') === 'true'
+    //   ) {
+    //     return true;
+    //   } else {
+    //     return false;
+    //   }
+    // }
+    else if (url === 'socialConfig') {
       if (
         this.tokenStorageService.getSecureWallet('visited-google') === 'true'
       ) {
