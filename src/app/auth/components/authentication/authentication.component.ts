@@ -1066,7 +1066,11 @@ getCookie(key: string){
   ngOnDestroy() {
     if (this.routerSub) this.routerSub.unsubscribe();
     if (this.eventsSubject) this.eventsSubject.unsubscribe();
-    if (this.onDestroy$) this.onDestroy$.unsubscribe();
+    if (this.onDestroy$) {
+      this.onDestroy$.next('');
+      this.onDestroy$.complete();
+      this.onDestroy$.unsubscribe();
+    }
     // this.translate.onLangChange.unsubscribe();
   }
 }
