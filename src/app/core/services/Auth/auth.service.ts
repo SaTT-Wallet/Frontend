@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 import { TokenStorageService } from '../tokenStorage/token-storage-service.service';
 import { IresponseAccount } from '@app/core/iresponse-account';
 import { IresponseCode } from '@app/core/iresponse-code-qr';
-import { IResetPasswordResponse } from '@app/core/reset-password.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -37,19 +36,6 @@ export class AuthService {
       sattUrl + '/auth/confirmCode',
       { email: email, code: code, type: type },
       {}
-    );
-  }
-  resetPasswordWithCode(
-    email: any,
-    newpass: any
-  ): Observable<IResetPasswordResponse> {
-    return this.http.post<IResetPasswordResponse>(
-      sattUrl + '/v2/auth/passrecover',
-      {
-        email: email,
-        newpass: newpass
-      },
-      { headers: this.tokenStorageService.getHeader() }
     );
   }
   confirmResetPassword(data: any) {
