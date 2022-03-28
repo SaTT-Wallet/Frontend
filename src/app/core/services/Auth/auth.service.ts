@@ -99,11 +99,11 @@ export class AuthService {
 
   updatePassword(oldpass: any, newpass: any, id: any) {
     return this.http.post(
-      sattUrl + '/auth/passchange',
+      sattUrl + '/auth/changePassword',
       {
         oldpass: oldpass,
         newpass: newpass,
-        id: id
+
       },
       { headers: this.tokenStorageService.getHeader() }
     );
