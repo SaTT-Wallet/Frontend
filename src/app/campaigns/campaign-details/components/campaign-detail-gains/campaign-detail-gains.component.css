@@ -79,6 +79,9 @@ a:active {
 .make-center {
     justify-content: center;
 }
+.min-height {
+    min-height: 60vh;
+}
 
 ::ng-deep app-loading-logo {
     top: 130px !important;
