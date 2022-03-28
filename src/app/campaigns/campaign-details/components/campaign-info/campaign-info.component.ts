@@ -352,7 +352,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
           this.activeInfo = false;
           this.activeTab = 'gains';
           this.navigationTab = 'gains';
-          // this.showSpinner = true
+          // this.showSpinner = true;
         }
 
         if (params['page'] === 'campaign') {
