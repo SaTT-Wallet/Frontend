@@ -1264,6 +1264,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     if (!!this.isDestroyed$) {
+      this.isDestroyed$.next('');
+      this.isDestroyed$.complete();
       this.isDestroyed$.unsubscribe();
     }
     //this.translate.onLangChange.unsubscribe();

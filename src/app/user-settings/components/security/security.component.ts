@@ -610,7 +610,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
             this.qrCode = data.data.qrCode;
             if (this.qrCode !== '') {
               this.formQrCode.get('qrCode')?.setValue(this.qrCode);
-              this.secret = data.secret;
+              this.secret = data.data.secret;
             }
           }
         });

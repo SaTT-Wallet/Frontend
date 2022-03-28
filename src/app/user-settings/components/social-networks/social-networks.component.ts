@@ -69,7 +69,7 @@ export class SocialNetworksComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: string
   ) {}
   ngOnInit(): void {
-    this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
+    // this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
     this.getSocialNetwork();
   }
   openModalDeleteOne(
