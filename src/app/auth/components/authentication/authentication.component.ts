@@ -577,7 +577,6 @@ getCookie(key: string){
             return of(null);
           }),
           mergeMap(({ data, response }: { data: any; response: User }) => {
-            debugger
             this.tokenStorageService.setHeader();
             this.tokenStorageService.saveUserId(response.idUser);
             this.tokenStorageService.saveIdSn(response.idSn);
