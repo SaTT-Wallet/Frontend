@@ -690,8 +690,7 @@ export class CampaignHttpApiService {
         values,
 
         {
-          headers:
-           this.tokenStorageService.getHeader()
+          headers: this.tokenStorageService.getHeader()
         }
       )
       .pipe(
@@ -718,13 +717,11 @@ export class CampaignHttpApiService {
 
   approvalERC20(erc20: any) {
     return this.http.post(
-      sattUrl +
-        '/campaign/erc20/approval'
-      ,
-        {
-          tokenAddress: erc20.addr,
-          campaignAddress: campaignSmartContractERC20
-        },
+      sattUrl + '/campaign/erc20/approval',
+      {
+        tokenAddress: erc20.addr,
+        campaignAddress: campaignSmartContractERC20
+      },
 
       { headers: this.tokenStorageService.getHeader() }
     );
@@ -732,9 +729,7 @@ export class CampaignHttpApiService {
 
   approveBEP20(bep20: any) {
     return this.http.post(
-      sattUrl +
-      '/campaign/bep20/approval'
-      ,
+      sattUrl + '/campaign/bep20/approval',
       {
         tokenAddress: bep20.addr,
         campaignAddress: campaignSmartContractBEP20
@@ -777,12 +772,6 @@ export class CampaignHttpApiService {
 
   eRC20Fee(FeeObj: any) {
     return this.http.post(sattUrl + '/v2/erc20/transfer', FeeObj, {
-      headers: this.tokenStorageService.getHeader()
-    });
-  }
-
-  getAllInfo(campaign_id: any) {
-    return this.http.get(sattUrl + '/v2/campaign/id/' + campaign_id, {
       headers: this.tokenStorageService.getHeader()
     });
   }
