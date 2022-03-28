@@ -23,7 +23,14 @@ import { ContactMessageService } from '@core/services/contactmessage/contact-mes
 import { TelegramLinkAccountService } from '@core/services/telegramAuth/telegram-link-account.service';
 import { MatchPasswordValidator } from '@helpers/form-validators';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { catchError, filter, mergeMap, takeUntil, map } from 'rxjs/operators';
+import {
+  catchError,
+  filter,
+  mergeMap,
+  takeUntil,
+  map,
+  tap
+} from 'rxjs/operators';
 import { of, Subject, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { sattUrl } from '@config/atn.config';
@@ -624,6 +631,16 @@ getCookie(key: string){
           })
         )
         .pipe(
+          tap((response: any) => {
+            if (response.myWallet === null) {
+              this.tokenStorageService.setSecureWallet(
+                'visited-completeProfile',
+                'true'
+              );
+              this.router.navigate(['social-registration/monetize-facebook']);
+              this.showBigSpinner = true;
+            }
+          }),
           filter((res: any) => {
             if (!res) {
               return false;
@@ -633,29 +650,29 @@ getCookie(key: string){
           takeUntil(this.onDestroy$)
         )
         .subscribe(
-          ({
-            myWallet,
-            response
-          }: {
-            myWallet: IResponseWallet;
-            response: IresponseAccount;
-          }) => {
-            if (!myWallet) {
+          (res: any) => {
+            if (!res.myWallet) {
+              this.tokenStorageService.setSecureWallet(
+                'visited-completeProfile',
+                'true'
+              );
+              this.router.navigate(['social-registration/monetize-facebook']);
+              this.showBigSpinner = true;
               return;
             }
-            if (myWallet.data.address) {
-              if (response.data?.new) {
-                if (!response.data.passphrase) {
+            if (res.myWallet.data.address) {
+              if (res.response.data?.new) {
+                if (!res.response.data.passphrase) {
                   this.router.navigate(['/social-registration/pass-phrase']);
                 } else {
-                  this.tokenStorageService.saveIdWallet(myWallet.data.address);
+                  this.tokenStorageService.saveIdWallet(res.myWallet.data.address);
                   this.router.navigate(['']);
                   this.showBigSpinner = true;
                   this.backgroundImage = '';
                   this.backgroundColor = '';
                 }
               } else {
-                this.tokenStorageService.saveIdWallet(myWallet.data.address);
+                this.tokenStorageService.saveIdWallet(res.myWallet.data.address);
                 this.router.navigate(['']);
                 this.showBigSpinner = true;
                 this.backgroundImage = '';

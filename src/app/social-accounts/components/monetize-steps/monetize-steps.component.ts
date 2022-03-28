@@ -1,10 +1,8 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
-import { AuthStoreService } from '@app/core/services/Auth/auth-store.service';
-import { User } from '@app/models/User';
+
 import { SocialAccountsFacade } from '@app/social-accounts/facade/social-accounts.facade';
-import { ProfileService } from '@core/services/profile/profile.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -82,27 +80,27 @@ export class MonetizeStepsComponent implements OnInit, OnDestroy {
   }
   redirectFromSteps(type: string) {
     let wallet = this.tokenStorageService.getIdWallet();
-    if (wallet !== 'null') {
+    if (!wallet) {
       if (
         type === 'twitter' &&
         this.tokenStorageService.getSecureWallet('visited-twitter') === 'true'
       ) {
-        this.router.navigate(['social-registration/monetize-twitter']);
+        this.router.navigate(['/social-registration/monetize-twitter']);
       } else if (
         type === 'google' &&
         this.tokenStorageService.getSecureWallet('visited-google') === 'true'
       ) {
-        this.router.navigate(['social-registration/monetize-google']);
+        this.router.navigate(['/social-registration/monetize-google']);
       } else if (
         type === 'facebook' &&
         this.tokenStorageService.getSecureWallet('visited-facebook') === 'true'
       ) {
-        this.router.navigate(['social-registration/monetize-facebook']);
+        this.router.navigate(['/social-registration/monetize-facebook']);
       } else if (
         type === 'linkedin' &&
         this.tokenStorageService.getSecureWallet('visited-linkedin') === 'true'
       ) {
-        this.router.navigate(['social-registration/monetize-linkedin']);
+        this.router.navigate(['/social-registration/monetize-linkedin']);
       }
     }
   }

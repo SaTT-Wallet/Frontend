@@ -12,7 +12,6 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { DOCUMENT, isPlatformBrowser, Location } from '@angular/common';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-facade/socialAcounts-facade.service';
-import { AuthStoreService } from '@app/core/services/Auth/auth-store.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 @Component({
@@ -77,7 +76,9 @@ export class HeaderSocialRegistartionComponent implements OnInit {
     this.tokenStorageService.signOut();
     this.socialAccountFacadeService.dispatchLogoutSocialAccounts();
     this.accountFacadeService.dispatchLogoutAccount();
-
+    // if (isPlatformBrowser(this.platformId)) {
+    //   window.location.reload();
+    // }
     //window.location.assign("https://satt.atayen.us/#/")
     this.router.navigate(['/auth/login']);
   }

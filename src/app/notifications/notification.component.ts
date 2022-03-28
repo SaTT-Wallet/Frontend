@@ -218,6 +218,7 @@ export class NotificationComponent implements OnInit {
       .pipe(takeUntil(this.isDestroyed))
       .subscribe(
         (response: INotificationsResponse) => {
+          console.log(response);
 
           if(!response){
             this.showSpinner = false;

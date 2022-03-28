@@ -284,6 +284,7 @@ export class LegalKYCComponent implements OnInit {
       .getListUserLegal()
       .pipe(
         mergeMap((kyc: any) => {
+          console.log(kyc)
           let arrayOfObs: any[] = [];
           if (kyc !== null && kyc !== undefined && kyc.message === 'success') {
             this.showSpinner = false;
