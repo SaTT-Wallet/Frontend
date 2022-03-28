@@ -37,7 +37,7 @@ export class TransactionMessageStatusComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.CampaignService.getAllInfo(this.campaignId)
+    this.CampaignService.getOneById(this.campaignId as string)
       .pipe(takeUntil(this.isDestroyedSubject))
       .subscribe((data: any) => {
         this.networkWallet = data.token.type;

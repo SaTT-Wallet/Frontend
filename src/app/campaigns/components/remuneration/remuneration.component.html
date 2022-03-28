@@ -143,7 +143,7 @@
           class="row d-flex justify-content-center pt-3 mb-2 div-row-network"
         >
           <div
-            class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 p-0 d-flex justify-content-center flex-row"
+            class="col-xl-11 col-lg-12 col-md-12 col-sm-12 col-12 p-0 d-flex justify-content-center flex-row"
           >
             <div class="col-xl-5 col-lg-5 col-md-6 col-sm-6 col-6">
               <button
@@ -231,7 +231,7 @@
             selectRemunerateValue === eRemunerationType.Publication
           "
         >
-          <div class="col-xl-10 col-md-12 col-lg-10 col-sm-12">
+          <div class="col-xl-9 col-md-12 col-lg-10 col-sm-8">
             <label class="label-type">{{
               'create_campaign_form.choose_price' | translate
             }}</label>
@@ -246,7 +246,7 @@
         >
           <div class="row d-flex justify-content-center">
             <div
-              class="col-xl-10 col-md-12 col-lg-10 col-sm-12 row_oracle d-flex flex-xl-row flex-lg-row flex-md-row flex-sm-column flex-column mt-3 mb-1"
+              class="col-xl-10 col-md-12 col-lg-10 col-sm-11 row_oracle d-flex flex-xl-row flex-lg-row flex-md-row flex-sm-column flex-column mt-3 mb-1"
               *ngFor="
                 let ratio of ratios.controls;
                 index as i;
@@ -256,7 +256,7 @@
               <!-- icon and name network common between Performance and Publication-->
 
               <div
-                class="d-flex p-0 col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12"
+                class="d-flex p-0 me-3 col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12"
               >
                 <div class="div-network-name" *ngIf="selectRemunerateValue">
                   <span class="bold-font-weight dark_blue hide-mobile mb-3">
@@ -278,7 +278,7 @@
               </div>
 
               <div
-                class="d-flex p-0 col-xl-10 col-md-10 col-lg-10 col-sm-12 col-12"
+                class="d-flex p-0 col-xl-10 col-md-10 col-lg-10 col-sm-12 col-12 max-width-760"
               >
                 <div
                   class="d-flex flex-column col-12 p-0"
@@ -444,7 +444,7 @@
         >
           <div class="row d-flex justify-content-center">
             <div
-              class="col-xl-10 col-md-12 col-lg-10 col-sm-12 row_oracle d-flex flex-xl-row flex-lg-row flex-md-row flex-sm-column flex-column mt-3 mb-1"
+              class="col-xl-9 col-md-12 col-lg-10 col-sm-12 row_oracle d-flex flex-xl-row flex-lg-row flex-md-row flex-sm-column flex-column mt-3 mb-1"
               *ngFor="
                 let bounty of bounties.controls;
                 index as bountyIndex;
@@ -477,7 +477,7 @@
                 class="d-flex flex-column p-0 col-xl-10 col-md-10 col-lg-10 col-sm-12 col-12"
               >
                 <div
-                  class="d-flex col-12 p-0 flex-column"
+                  class="d-flex col-xl-11 col-lg-11 col-md-12 col-sm-12 col-12 p-0 flex-column"
                   [formGroupName]="bountyIndex"
                 >
                   <ng-container formArrayName="categories">
@@ -493,7 +493,6 @@
                         <div
                           class="row d-flex justify-content-lg-between justify-content-md-between formGroupCategory"
                         >
-                          <!-- followers min -->
                           <div
                             class="col-12 show-mobile align-items-center justify-content-between"
                           >
@@ -518,6 +517,7 @@
                               /></span>
                             </button>
                           </div>
+                          <!-- followers min -->
                           <div
                             class="col-xl-3 col-lg-3 col-md-3 col-12 d-flex follow-min-wrapper"
                           >
@@ -621,8 +621,9 @@
                               >
                             </div>
                           </div>
+                          <!-- followers delete -->
                           <div
-                            class="col-2 div-delete-reword show-desktop"
+                            class="col-1 div-delete-reword show-desktop"
                             [ngClass]="{
                               'height-first-item':
                                 bountyIndex === 0 && categoryIndex === 0,
@@ -654,7 +655,7 @@
                             category.errors?.minBountiesGrater ||
                             category.errors?.bountiesFiledRequired
                           "
-                          class="error d-flex justify-content-center initialBudgetError"
+                          class="error d-flex justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-center justify-content-center initialBudgetError"
                         >
                           <span *ngIf="category.errors?.minBountiesGrater">{{
                             'campaign.minfollowers_must_maxfollowers'
@@ -672,7 +673,7 @@
                         getCategories(bountyIndex)?.errors
                           ?.invalidCategoryMaxMin
                       "
-                      class="error d-flex justify-content-center initialBudgetError"
+                      class="error d-flex justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-center justify-content-center initialBudgetError"
                     >
                       <span class="textError">
                         {{ 'campaign.invalidCategoryMaxMin' | translate }}</span
@@ -681,22 +682,24 @@
                     <!--separator line-->
                   </ng-container>
                 </div>
-                <div class="row d-flex justify-content-center pt-3">
-                  <div class="col-12">
+                <div
+                  class="row d-flex justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-center justify-content-center pt-3"
+                >
+                  <div class="col-xl-9 col-lg-9 col-md-10 col-sm-10 col-11 p-0">
                     <button
                       type="button"
-                      class="btn-add-category w-100"
+                      class="btn-add-category w-100 ms-3"
                       (click)="addRemunerationCategory(bountyIndex)"
                     >
                       +{{ 'Add Category' | translate }}
                     </button>
                   </div>
-                  <div
-                    class="col-xl-10 col-md-10 col-lg-10 col-sm-12 justify-content-center"
-                    *ngIf="bountyIndex !== bounties.controls.length - 1"
-                  >
-                    <hr class="short-horizontal-line" />
-                  </div>
+                </div>
+                <div
+                  class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 justify-content-center"
+                  *ngIf="bountyIndex !== bounties.controls.length - 1"
+                >
+                  <hr class="short-horizontal-line" />
                 </div>
               </div>
 
