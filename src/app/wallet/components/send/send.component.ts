@@ -35,6 +35,7 @@ import { bscan, etherscan } from '@app/config/atn.config';
 import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Location } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-send',
   templateUrl: './send.component.html',
@@ -122,7 +123,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     private showNumbersRule: ShowNumbersRule,
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string,
-    private _location: Location
+    private _location: Location,
+    private toastr: ToastrService
   ) {
     //, Validators.max(this.maxNumber)
     this.sendform = new FormGroup({
@@ -409,6 +411,14 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         )
         .subscribe(
           (data: any) => {
+            this.toastr.success(
+              'You have sent' +
+                splitted +
+                '  ' +
+                currency +
+                '  to  ' +
+                data.data.address
+            );
             this.showSpinner = false;
             this.loadingButton = false;
             if (data.data.transactionHash) {

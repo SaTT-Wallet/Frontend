@@ -9,6 +9,7 @@
   max-height: 100%;
   object-fit: cover;
 }
+
 *:focus {
   outline: none;
 }
@@ -31,6 +32,7 @@
   color: white;
   box-shadow: 0px 4px 20px 0px #00000033;
 }
+
 .btn-edit-ad-pool {
   justify-content: center;
   border: none;
@@ -262,6 +264,7 @@
 .title-capitalize {
   text-transform: capitalize;
 }
+
 .campaign-brand {
   /* padding: 1em; */
   /* border: none; */
@@ -281,11 +284,16 @@
   transform: matrix(1, 0, 0, 1, 0, 0);
   margin-top: 0.5em;
 }
-@media (min-width: 768px) and (max-width: 1024px) {
+
+@media (min-width: 768px) and (max-width: 1024.98px) {
   .div-footer-bar {
     display: flex !important;
   }
+  .btn-apply {
+    display: none !important;
+  }
 }
+
 @media (min-width: 768px) {
   .desktopClass {
     display: block;
@@ -403,7 +411,6 @@
 // .campaing-detail-content {
 //   padding: 0.5em 0em;
 // }
-
 .campaign-details-section {
   padding: 0em;
   flex-direction: column;
@@ -748,6 +755,13 @@
   box-shadow: inset 0px 3px 4px rgba(50, 55, 84, 0.4) !important;
 }
 
+.btn-white:disabled {
+  background: #f6f6ff;
+  color: #adadc8;
+  border: 1px solid #d6d6e8;
+  cursor: auto;
+}
+
 .btn-scroll-top {
   background: #ffffff;
   height: 44px;
@@ -936,6 +950,7 @@ a {
 .back-top-text-disabled {
   display: none;
 }
+
 #back-top-pic-disabled {
   margin-top: 0.5em;
 }
@@ -962,7 +977,6 @@ a {
   // width: 80vw;
   // margin-right: -49px;
   // margin-left: auto;
-
   max-width: 500px;
   width: 80vw;
   z-index: 99;

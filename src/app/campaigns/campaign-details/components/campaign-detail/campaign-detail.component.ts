@@ -459,7 +459,6 @@ export class CampaignDetailComponent implements OnInit {
     this.campaign$
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((campaign: Campaign) => {
-        console.log('haithem',campaign)
         if (campaign.id !== this.campaignId) {
           return;
         }
@@ -500,7 +499,6 @@ export class CampaignDetailComponent implements OnInit {
             prom.funds_satt = 0;
             prom.funds_usd = 0;
             prom.showInfo = false;
-
           });
         }
       });
