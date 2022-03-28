@@ -34,7 +34,7 @@ export const environment = {
   /*
   DEV-ENV
 */
-  API_URL: 'https://api-preprod.satt-token.com:3014',
+  API_URL: 'https://api-preprod2.satt-token.com:3015',
   addresses: {
     smartContracts: {
       campaignERC20: '0xa5F46d6F4F3b318EeFF1B37e39491e52233c5975',
