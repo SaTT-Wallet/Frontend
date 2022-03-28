@@ -92,8 +92,10 @@ export class LayoutComponent implements OnInit, OnDestroy {
         this.smDevice = false;
       }
       if (this.router.url.startsWith('/campaign/')) {
-        if (event.target.innerWidth < 768 && topBar) {
+        if (event.target.innerWidth < 1025 && topBar) {
           topBar.style.display = 'none';
+          if (btnApply) btnApply.style.display = 'none';
+        } else {
           if (btnApply) btnApply.style.display = 'flex';
         }
         //  else {
@@ -170,7 +172,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
         );
         let bluePic = this.document.getElementById('back-top-pic');
         let blueText = this.document.getElementById('back-top-text');
-        if (event.target.clientWidth < 768) {
+        if (event.target.clientWidth < 1025) {
+          if (btnApply) btnApply.style.display = 'none';
           if (event.target.scrollTop < 159) {
             if (blueText && bluePic && disabledText && disabledPic) {
               blueText.style.display = 'none';
@@ -214,7 +217,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
             this.scrolled = true;
             if (cover) cover.style.position = 'relative';
             if (main) main.style.marginTop = '-16vw';
-            if (topBar) topBar.style.display = 'flex';
+            if (topBar) topBar.style.display = 'none';
             if (btnApply) btnApply.style.display = 'none';
             header.style.backgroundColor = '#2F3347';
           } else {

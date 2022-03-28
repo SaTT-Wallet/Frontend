@@ -18,7 +18,7 @@ import { MatchPasswordValidator } from '@helpers/form-validators';
 import { AuthService } from '@app/core/services/Auth/auth.service';
 import { ContactMessageService } from '@core/services/contactmessage/contact-message.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
-import { filter, map, mergeMap, takeUntil } from 'rxjs/operators';
+import { filter, mergeMap, takeUntil } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 
@@ -136,7 +136,7 @@ export class ResetPasswordComponent implements OnInit {
     this.modalService.open(content);
   }
   @HostListener('document:click', ['$event'])
-  public documentOnClick(event: Event) {
+  public documentOnClick() {
     if (isPlatformBrowser(this.platformId)) {
       if (this.isOpen === true) {
         this.router.navigate(['auth/login']);
@@ -194,8 +194,11 @@ export class ResetPasswordComponent implements OnInit {
           email = email.email;
           this.showSpinner = true;
           if (this.resetPasswordForm.valid) {
-            let newpass = this.resetPasswordForm.get('password')?.value;
-            return this.authService.resetPasswordWithCode(email, newpass);
+            let data = {
+              email: email,
+              newpass: this.resetPasswordForm.get('password')?.value
+            };
+            return this.authService.confirmResetPassword(data);
           } else {
             return of(null);
           }
@@ -208,8 +211,8 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   resetPasswordAndOpenSuccessModal(modalRef: TemplateRef<ElementRef>) {
-    this.resetpwd().subscribe(() => {
-      this.openModal(modalRef);
+    this.resetpwd().subscribe((response: any) => {
+      if (response.message === 'successfully') this.openModal(modalRef);
     });
   }
   trackByLanguage(index: number, language: string) {

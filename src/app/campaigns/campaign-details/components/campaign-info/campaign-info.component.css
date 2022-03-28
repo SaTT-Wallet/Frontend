@@ -12,6 +12,12 @@
 .social-little-icon {
   width: 20px;
 }
+.spinner-wrapper{
+  background: white !important;
+  /* position: relative !important;
+  height:500% !important;
+  width: 500% !important; */
+}
 
 .showmeemobile {
   display: none;

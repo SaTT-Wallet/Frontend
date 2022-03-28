@@ -49,7 +49,12 @@
       >
     </div>
     <div class="d-flex gap-3 align-items-center">
-      <button type="button" class="btn-white" (click)="downloadFile()">
+      <button
+        type="button"
+        class="btn-white"
+        [disabled]="this.kits.length === 0"
+        (click)="downloadFile()"
+      >
         Download AdPool Kit
       </button>
       <button
@@ -182,19 +187,41 @@
         class="div-pic"
         (click)="downloadFile()"
         *ngIf="
-          !campaign.isOwnedByUser ||
-          (campaign.isOwnedByUser && !campaign.isDraft)
+          (!campaign.isOwnedByUser ||
+            (campaign.isOwnedByUser && !campaign.isDraft)) &&
+          this.kits.length !== 0
         "
       >
         <img src="assets/Images/blue-icons/download-blue.svg" />
+      </div>
+      <div
+        class="div-pic"
+        (click)="downloadFile()"
+        *ngIf="
+          (!campaign.isOwnedByUser ||
+            (campaign.isOwnedByUser && !campaign.isDraft)) &&
+          this.kits.length === 0
+        "
+      >
+        <img src="assets/Images/download-disabled.svg" />
       </div>
 
       <span
         (click)="downloadFile()"
         class="span-text blue-text"
         *ngIf="
-          !campaign.isOwnedByUser ||
-          (campaign.isOwnedByUser && !campaign.isDraft)
+          (!campaign.isOwnedByUser ||
+            (campaign.isOwnedByUser && !campaign.isDraft)) &&
+          this.kits.length !== 0
+        "
+        >AdPool kit</span
+      >
+      <span
+        class="span-text disabled-text"
+        *ngIf="
+          (!campaign.isOwnedByUser ||
+            (campaign.isOwnedByUser && !campaign.isDraft)) &&
+          this.kits.length === 0
         "
         >AdPool kit</span
       >
@@ -363,7 +390,7 @@
           </button>
           <button
             type="button"
-            class="btn-apply d-xl-block d-lg-block d-md-block d-sm-none d-none"
+            class="btn-apply"
             id="btn-apply"
             (click)="goParticipate(campaign.id)"
             *ngIf="!campaign.isOwnedByUser && campaign.isActive"
@@ -433,7 +460,7 @@
     </div>
 
     <!-- *ngIf="campaign_title"-->
-    <section id="campaignInfo" class="scroll-outer">
+    <section id="campaignInfo" class="">
       <app-campaign-info
         [campaign]="campaign"
         [isOwnedByUser]="isOwnedByUser"
@@ -483,7 +510,7 @@
 </div>
 <div
   class="d-flex justify-content-end w-100"
-  style="position: relative; background: white"
+  style="position: relative; background: white; min-height: 30vh"
 >
   <div *ngIf="showmoonboy" class="div-footer">
     <app-moonboy-help [pageName]="'apply in'"></app-moonboy-help>
