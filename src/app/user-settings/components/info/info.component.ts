@@ -603,22 +603,25 @@ export class InfoComponent implements OnInit, OnDestroy {
       .subscribe((data: any) => {
         if (data) {
           this.showSpinner = false;
-          this.formUploadPic.reset();
+          // this.formUploadPic.reset();
           this.picName = '';
           this.modalService.dismissAll();
           this.user.userPicture = this.croppedDataUrl;
+          this.profileSettingsFacade.loadUserProfilePic();
         }
       });
-    let update = {
-      photoUpdated: true
-    };
-    this.profileSettingsFacade
-      .updateProfile(update)
-      .pipe(takeUntil(this.onDestoy$))
-      .subscribe(() => {
-        this.accountFacadeService.dispatchUpdatedAccount();
-        this.profileSettingsFacade.loadUserProfilePic();
-      });
+    if (this.user.photoUpdated === false) {
+      let update = {
+        photoUpdated: true
+      };
+      this.profileSettingsFacade
+        .updateProfile(update)
+        .pipe(takeUntil(this.onDestoy$))
+        .subscribe(() => {
+          this.accountFacadeService.dispatchUpdatedAccount();
+          this.profileSettingsFacade.loadUserProfilePic();
+        });
+    }
   }
 
   imageCropped(event: ImageCroppedEvent) {
