@@ -69,6 +69,7 @@ export class SocialNetworksComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: string
   ) {}
   ngOnInit(): void {
+    // this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
     this.getSocialNetwork();
   }
   openModalDeleteOne(
@@ -98,10 +99,7 @@ export class SocialNetworksComponent implements OnInit {
     this.showSpinner = true;
     this.socialAccount$
       .pipe(
-        catchError((error: any) => {
-          if (error.error.error === 'Not found' && error.error.code === 404) {
-            this.channelLinkedin = [];
-          }
+        catchError(() => {
           return of(null);
         }),
         mergeMap((data) => {

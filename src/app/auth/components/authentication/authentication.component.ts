@@ -42,7 +42,6 @@ import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-fac
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { IResponseWallet } from '@app/core/iresponse-wallet';
-import { IresponseAccount } from '@app/core/iresponse-account';
 import { User } from '@app/models/User';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -280,6 +279,7 @@ getCookie(key: string){
    */
 
   skipLoginWhenRedirected() {
+    debugger
     this.routerSub = this.route.queryParams
       .pipe(
         takeUntil(this.onDestroy$),
@@ -397,12 +397,18 @@ getCookie(key: string){
         })
       )
       .pipe(
-        filter((res: any) => {
-          if (!res) {
-            return false;
+
+        tap((response: any) => {
+          if (response.myWallet === null) {
+            this.tokenStorageService.setSecureWallet(
+              'visited-completeProfile',
+              'true'
+            );
+            this.router.navigate(['social-registration/monetize-facebook']);
+            this.showBigSpinner = true;
           }
-          return res.myWallet !== null;
         }),
+
         takeUntil(this.onDestroy$)
       )
       .subscribe(
@@ -598,7 +604,7 @@ getCookie(key: string){
                   }
                 });
               } else {
-                if (response.idSn !== 0) {
+                if (response.idSn !== 0 && response.idSn !== null) {
                   if (
                     !response.completed ||
                     (response.completed && !response.enabled)
@@ -638,7 +644,7 @@ getCookie(key: string){
                 'visited-completeProfile',
                 'true'
               );
-              this.router.navigate(['social-registration/monetize-facebook']);
+              this.router.navigate(['social-registration/activation-mail']);
               this.showBigSpinner = true;
             }
           }),
@@ -1069,7 +1075,11 @@ getCookie(key: string){
   ngOnDestroy() {
     if (this.routerSub) this.routerSub.unsubscribe();
     if (this.eventsSubject) this.eventsSubject.unsubscribe();
-    if (this.onDestroy$) this.onDestroy$.unsubscribe();
+    if (this.onDestroy$) {
+      this.onDestroy$.next('');
+      this.onDestroy$.complete();
+      this.onDestroy$.unsubscribe();
+    }
     // this.translate.onLangChange.unsubscribe();
   }
 }
