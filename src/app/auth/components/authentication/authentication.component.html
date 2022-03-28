@@ -397,7 +397,7 @@
           >
             <span
               [ngClass]="{
-                successCode: this.errorMessagecode === 'code correct',
+                successCode: this.successMessagecode === 'code correct',
                 errorCode: this.errorMessagecode === 'code incorrect',
                 code: !this.errorMessagecode
               }"
@@ -406,7 +406,7 @@
             </span>
             <app-code-input-auth
               [ngClass]="{
-                'success-code': this.errorMessagecode === 'code correct',
+                'success-code': this.successMessagecode === 'code correct',
                 'danger-code':
                   this.errorMessagecode === 'code incorrect' ||
                   this.errorMessagecode === 'code expired'
@@ -417,13 +417,20 @@
               class="error_input code-status"
               *ngIf="this.errorMessagecode"
               [ngClass]="{
-                'success-code': this.errorMessagecode === 'code correct',
                 'danger-code':
                   this.errorMessagecode === 'code incorrect' ||
                   this.errorMessagecode === 'code expired'
               }"
             >
               {{ errorMessagecode | translate }}
+            </span>
+            <span
+              *ngIf="this.successMessagecode === 'code correct'"
+              [ngClass]="{
+                'success-code': this.successMessagecode === 'code correct'
+              }"
+            >
+              {{ successMessagecode }}
             </span>
           </div>
         </div>
@@ -433,11 +440,7 @@
             type="submit"
             class="btn-reset-passwd"
             (click)="changePwd(); closeModal(lostpwdModal)"
-            [disabled]="
-              this.errorMessagecode === 'code incorrect' ||
-              this.errorMessagecode === '' ||
-              this.errorMessagecode === 'code expired'
-            "
+            [disabled]="!this.successMessagecode"
           >
             {{ 'pwdreinitialiser' | translate }}
           </button>
