@@ -357,7 +357,11 @@
     ></app-toggle-style-host>
   </div>
 </div>
-<div *ngIf="showSpinner" class="spinner-wrapper">
+<div
+  *ngIf="showSpinner"
+  class="spinner-wrapper"
+  style="height: 100%; width: 100%; background: white; position: relative"
+>
   <app-loading-logo></app-loading-logo>
 </div>
 
@@ -536,7 +540,7 @@
 </div>
 
 <div
-  class="row d-flex make-center justify-content-center"
+  class="row d-flex make-center justify-content-center min-height"
   [ngClass]="{
     'display-column':
       !isStyleGrid && this.campaignLinks.length !== 0 && publications !== 0
@@ -559,7 +563,7 @@
 
   <div *ngIf="campaignLinks | filter: searchData as res">
     <div
-      class="row d-flex make-center"
+      class="row d-flex make-center min-height"
       [ngClass]="{
         'display-column':
           !isStyleGrid && this.campaignLinks.length !== 0 && publications === 0

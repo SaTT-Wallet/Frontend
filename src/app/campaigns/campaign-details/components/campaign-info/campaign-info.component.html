@@ -1097,9 +1097,16 @@
     </div>
 
     <ng-container *ngIf="navigationTab === 'gains'">
-      <div *ngIf="showSpinner" class="spinner-wrapper">
-        <app-loading-logo *ngIf="showSpinner"></app-loading-logo>
-      </div>
+      <!-- <div *ngIf="showSpinner" class="spinner-wrapper">
+        <app-loading-logo
+          style="
+            height: 500%;
+            width: 500%;
+            background: white;
+            position: relative;
+          "
+        ></app-loading-logo>
+      </div> -->
       <app-campaign-detail-gains
         [campaign]="campaign"
         [isOwnedByUser]="this.isOwnedByUser"
@@ -1343,7 +1350,7 @@
         </div>
       </div>
     </div>
-    <div
+    <!-- <div
       *ngIf="!this.showSpinner && this.showmoonboy"
       class="showMobile div-footer-mobile d-none d-xl-none d-lg-none d-md-none d-sm-block d-xs-block p-0"
     >
@@ -1362,6 +1369,6 @@
           class="picture-moonboy"
         />
       </div>
-    </div>
+    </div> -->
   </div>
 </div>

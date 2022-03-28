@@ -460,7 +460,7 @@
     </div>
 
     <!-- *ngIf="campaign_title"-->
-    <section id="campaignInfo" class="scroll-outer">
+    <section id="campaignInfo" class="">
       <app-campaign-info
         [campaign]="campaign"
         [isOwnedByUser]="isOwnedByUser"
@@ -510,7 +510,7 @@
 </div>
 <div
   class="d-flex justify-content-end w-100"
-  style="position: relative; background: white"
+  style="position: relative; background: white; min-height: 30vh"
 >
   <div *ngIf="showmoonboy" class="div-footer">
     <app-moonboy-help [pageName]="'apply in'"></app-moonboy-help>
