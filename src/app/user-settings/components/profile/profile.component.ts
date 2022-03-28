@@ -401,9 +401,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
           this.percentNet = (count * 100) / 4;
           this.percentNet2 = this.percentNet.toFixed(0) + '%';
-        } else {
+        } else if (data === null) {
           this.percentNet = 0;
-          this.percentNet2 = '0';
+          this.percentNet2 = '0%';
         }
       });
   }

@@ -34,9 +34,7 @@ export class AuthFacadeService {
   confirmCode(email: any, code: any, type: any): Observable<any> {
     return this.authService.confirmCode(email, code, type);
   }
-  resetPasswordWithCode(email: any, newpass: any) {
-    return this.authService.resetPasswordWithCode(email, newpass);
-  }
+
   confirmResetPassword(data: any) {
     return this.authService.confirmResetPassword(data);
   }
