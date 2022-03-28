@@ -69,7 +69,7 @@ export class SocialNetworksComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: string
   ) {}
   ngOnInit(): void {
-    this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
+    // this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
     this.getSocialNetwork();
   }
   openModalDeleteOne(
@@ -99,8 +99,7 @@ export class SocialNetworksComponent implements OnInit {
     this.showSpinner = true;
     this.socialAccount$
       .pipe(
-        catchError((error: any) => {
-          
+        catchError(() => {
           return of(null);
         }),
         mergeMap((data) => {
@@ -113,7 +112,6 @@ export class SocialNetworksComponent implements OnInit {
         takeUntil(this.isDestroyed)
       )
       .subscribe(({ params, data }: { params: Params; data: any }) => {
-        console.log(data);
         if (data !== null) {
           let count = 0;
           this.allChannels = data;
