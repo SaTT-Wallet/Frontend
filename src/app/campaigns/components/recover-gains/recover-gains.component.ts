@@ -52,8 +52,8 @@ export class RecoverGainsComponent implements OnInit {
     concatMap((promHash: any) =>
       this.campaignsService.getPromById(promHash).pipe(
         map((res: any) => {
-          this.currencyName = res.prom.currency;
-          return new Participation(res.prom);
+          this.currencyName = res.data.campaign.token.name;
+          return new Participation(res.data);
         })
       )
     ),
