@@ -100,11 +100,10 @@ export class SocialNetworksComponent implements OnInit {
     this.socialAccount$
       .pipe(
         catchError((error: any) => {
-          debugger;
+          
           return of(null);
         }),
         mergeMap((data) => {
-          debugger;
           return this.route.queryParams.pipe(
             map((params) => {
               return { params, data };
