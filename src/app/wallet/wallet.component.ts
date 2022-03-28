@@ -35,7 +35,7 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AuthStoreService } from '@core/services/Auth/auth-store.service';
 import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-facade.service';
-import { filter, takeUntil, mergeMap, tap } from 'rxjs/operators';
+import { filter, takeUntil, mergeMap, tap, map } from 'rxjs/operators';
 import { DOCUMENT } from '@angular/common';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { forkJoin, of, Subject } from 'rxjs';
@@ -668,7 +668,10 @@ export class WalletComponent implements OnInit, OnDestroy {
     this.hideRedBloc = this.tokenStorageService.getHideRedBloc();
     this.walletFacade
       .getBalanceChart()
-      .pipe(takeUntil(this.onDestoy$))
+      .pipe(
+        map((res: any) => res.data),
+        takeUntil(this.onDestoy$)
+      )
       .subscribe((data: any) => {
         this.showDaily = true;
         this.fillChart(data);
@@ -728,7 +731,10 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   totalbalancewallet() {
     this.totalBalance$
-      .pipe(takeUntil(this.onDestoy$))
+      .pipe(
+        filter((res) => Object.keys(res).length !== 0),
+        takeUntil(this.onDestoy$)
+      )
       .subscribe((data: any) => {
         this.totalAmount = data;
         this.variationamount = data?.variation?.toFixed(2);
@@ -841,7 +847,6 @@ export class WalletComponent implements OnInit, OnDestroy {
               .onBoarding()
               .pipe(
                 tap((res: any) => {
-                  console.log(res);
                   if (!!res.success) {
                     this.authStoreService.setAccount({
                       ...this.authStoreService.account,

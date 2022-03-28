@@ -301,6 +301,7 @@ export class DraftCampaignParametresComponent implements OnInit {
   }
 
   saveTags(tags: string[]) {
+    this.form.setValue({ ...this.form.value, tags: tags });
     if (this.draftData.id) {
       this.service.autoSaveFormOnValueChanges({
         formData: { ...this.form.value, tags },

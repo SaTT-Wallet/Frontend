@@ -99,12 +99,10 @@ export class SocialNetworksComponent implements OnInit {
     this.showSpinner = true;
     this.socialAccount$
       .pipe(
-        catchError((error: any) => {
-          debugger;
+        catchError(() => {
           return of(null);
         }),
         mergeMap((data) => {
-          debugger;
           return this.route.queryParams.pipe(
             map((params) => {
               return { params, data };
@@ -114,7 +112,6 @@ export class SocialNetworksComponent implements OnInit {
         takeUntil(this.isDestroyed)
       )
       .subscribe(({ params, data }: { params: Params; data: any }) => {
-        console.log(data);
         if (data !== null) {
           let count = 0;
           this.allChannels = data;
