@@ -18,17 +18,19 @@
     display: flex;
     align-self: center;
 }
+
 .logout {
-    background: #F52079;
+    background: #f52079;
     border-radius: 30px;
     height: 41px;
     width: 128px;
     border: none;
     color: white;
-    font-weight: 600; 
+    font-weight: 600;
     margin-bottom: 10px;
 }
-.space{
+
+.space {
     padding-bottom: 100px !important;
 }
 
@@ -198,11 +200,11 @@ input:-webkit-autofill:active {
     .btn_update_company {
         width: 40vw;
     }
-     ::ng-deep .switch.switch-medium {
+    /* ::ng-deep .switch.switch-medium {
         min-width: 45px !important;
         top: -1px !important;
         position: relative;
-    }
+    } */
 }
 
 @media (min-width: 425.99px) and (max-width: 767.98px) {
@@ -227,12 +229,14 @@ input:-webkit-autofill:active {
     background: #00cc9e;
 }
 
-::ng-deep .switch.checked small {
+
+/* ::ng-deep .switch.checked small {
     right: 3px;
     left: auto;
-}
+} */
 
-::ng-deep .switch.switch-medium small {
+
+/* ::ng-deep .switch.switch-medium small {
     width: 27px;
     height: 21px;
 }
@@ -251,7 +255,7 @@ input:-webkit-autofill:active {
     min-width: 53px;
     top: -3px;
     position: relative;
-}
+} */
 
 
 /*--------end CSS ui-switch--------*/

@@ -363,12 +363,13 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
 
     this.getStatEarnings();
     this.walletFacade.loadCryptoList();
-    this.budgetInUSD = this.cryptoList$.pipe(
-      switchMap((cryptoList: any) => from(cryptoList)),
-      filter((crypto: any) => crypto.symbol === this.currencyName),
-
+    // .getCryptoPriceList()
+    this.budgetInUSD = this.walletFacade
+    // .getlistTokens()
+    .getCryptoPriceList().pipe(
+      map((res: any) => res.data[this.currencyName]),
       map((crypto: any) =>
-        new Big(crypto.price)
+        new Big(crypto.price+'')
           .times(
             this.convertFromWeiTo.transform(
               this.campaign.budget,
@@ -379,6 +380,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
           .toFixed(2)
       )
     );
+    
 
     this.countriesListObj = this.countriesListObj.sort(function (
       a: any,
@@ -556,7 +558,6 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
     this.fourthscrol = true;
     this.fithscrol = true;
 
-    // console.log(this.kits)
     if (this.listeningToDownloadFiles === true) {
       this.downloadFile();
     }

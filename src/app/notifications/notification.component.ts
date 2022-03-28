@@ -124,8 +124,6 @@ export class NotificationComponent implements OnInit {
             ) {
               const filter_type_date = this.dataNotificationFilter.forEach(
                 (item: any) => {
-       
-                  
                   return (
                     item.type === this.typeNotifValue &&
                     item.created > this.dateDebutValue &&
@@ -216,34 +214,29 @@ export class NotificationComponent implements OnInit {
     this.showSpinner = true;
     this.NotificationService.getAllNotifications()
       .pipe(takeUntil(this.isDestroyed))
-      .subscribe(
-        (response: INotificationsResponse) => {
-          console.log(response);
+      .subscribe((response: INotificationsResponse) => {
+        if (!response) {
+          this.showSpinner = false;
 
-          if(!response){
-            this.showSpinner = false;
-
-            this.errorMessagecode = 'No notifications found';
-
-          }
-
-          if (response !== null && response !== undefined) {
-            this.showSpinner = false;
-            this.isloading = false;
-            this.dataNotification = response.data.notifications;
-
-            this.dataNotification.forEach((item: any) => {
-              item.created =item.created? item.created: item.createdAt
-              this.siwtchFunction(item);
-            });
-
-            this.dataNotification = _.chain(this.dataNotification)
-              .groupBy('created')
-              .map((value: any, key: any) => ({ created: key, value }))
-              .value();
-          }
+          this.errorMessagecode = 'No notifications found';
         }
-      );
+
+        if (response !== null && response !== undefined) {
+          this.showSpinner = false;
+          this.isloading = false;
+          this.dataNotification = response.data.notifications;
+
+          this.dataNotification.forEach((item: any) => {
+            item.created = item.created ? item.created : item.createdAt;
+            this.siwtchFunction(item);
+          });
+
+          this.dataNotification = _.chain(this.dataNotification)
+            .groupBy('created')
+            .map((value: any, key: any) => ({ created: key, value }))
+            .value();
+        }
+      });
   }
   onScroll() {
     if (this.isloading) {
@@ -281,7 +274,7 @@ export class NotificationComponent implements OnInit {
       case 'send_demande_satt_event':
         item._params = {
           nbr: item._label['price'],
-          crypto: item._label['currency'],
+          crypto: item._label['cryptoCurrency'],
           name: item._label['name']
         };
         item._label = 'asked_to_acquire';
