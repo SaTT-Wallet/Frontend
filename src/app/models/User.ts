@@ -40,6 +40,7 @@ export class User {
   public photoUpdated: any;
   public passphrase: any;
   public visitsocialAccounts: any;
+  public hasWallet: boolean;
   new: string;
 
   constructor(data: any) {
@@ -85,6 +86,7 @@ export class User {
     this.photoUpdated = data.photoUpdated;
     this.passphrase = data.passphrase;
     this.new = data?.new;
+    this.hasWallet = data?.hasWallet;
   }
 
   public getAge() {

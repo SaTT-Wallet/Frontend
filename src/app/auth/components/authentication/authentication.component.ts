@@ -42,7 +42,6 @@ import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-fac
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { IResponseWallet } from '@app/core/iresponse-wallet';
-import { IresponseAccount } from '@app/core/iresponse-account';
 import { User } from '@app/models/User';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -597,7 +596,7 @@ getCookie(key: string){
                   }
                 });
               } else {
-                if (response.idSn !== 0) {
+                if (response.idSn !== 0 && response.idSn !== null) {
                   if (
                     !response.completed ||
                     (response.completed && !response.enabled)
@@ -665,14 +664,18 @@ getCookie(key: string){
                 if (!res.response.data.passphrase) {
                   this.router.navigate(['/social-registration/pass-phrase']);
                 } else {
-                  this.tokenStorageService.saveIdWallet(res.myWallet.data.address);
+                  this.tokenStorageService.saveIdWallet(
+                    res.myWallet.data.address
+                  );
                   this.router.navigate(['']);
                   this.showBigSpinner = true;
                   this.backgroundImage = '';
                   this.backgroundColor = '';
                 }
               } else {
-                this.tokenStorageService.saveIdWallet(res.myWallet.data.address);
+                this.tokenStorageService.saveIdWallet(
+                  res.myWallet.data.address
+                );
                 this.router.navigate(['']);
                 this.showBigSpinner = true;
                 this.backgroundImage = '';
