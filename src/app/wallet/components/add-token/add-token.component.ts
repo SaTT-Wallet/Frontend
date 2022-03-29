@@ -167,11 +167,9 @@ export class AddTokenComponent implements OnInit {
         .pipe(takeUntil(this.isDestroyed))
         .subscribe(
           (response: any) => {      
-                    console.log("response",response)
 
                     if (!response){
                    
-                        console.log("aaa")
                         this.successMsg = '';
                         this.errorMsg = 'addToken.token-or-network-invalid';
                         this.isLoading = false;
