@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   Inject,
   OnDestroy,
@@ -20,7 +21,16 @@ import { TokenStorageService } from '@core/services/tokenStorage/token-storage-s
 import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-facade.service';
 import { forkJoin, of, Subject } from 'rxjs';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
-import { catchError, filter, map, mergeMap, takeUntil } from 'rxjs/operators';
+import {
+  catchError,
+  debounceTime,
+  filter,
+  map,
+  mergeMap,
+  take,
+  takeUntil,
+  tap
+} from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 @Component({
   selector: 'app-complete-profile',
@@ -41,7 +51,9 @@ export class CompleteProfileComponent implements OnInit, OnDestroy {
   showBigSpinner: boolean = false;
   private account$ = this.accountFacadeService.account$;
   private onDestoy$ = new Subject();
+  modifEmail: unknown;
   constructor(
+    private _changeDetectorRef: ChangeDetectorRef,
     private accountFacadeService: AccountFacadeService,
     public translate: TranslateService,
     private profileSettingsFacade: ProfileSettingsFacadeService,
@@ -97,7 +109,6 @@ export class CompleteProfileComponent implements OnInit, OnDestroy {
   }
 
   updateProfile() {
-    debugger
     // this.show = true;
     let data_profile = {
       firstName: this.completeProfileForm.get('firstName')?.value,
@@ -124,7 +135,9 @@ export class CompleteProfileComponent implements OnInit, OnDestroy {
                 let arrayOfObs = [];
                 arrayOfObs.push(
                   this.account$.pipe(
+                    catchError(() => of(null)),
                     filter((res) => res !== null),
+                    take(1),
                     takeUntil(this.onDestoy$)
                   )
                 );
@@ -153,9 +166,7 @@ export class CompleteProfileComponent implements OnInit, OnDestroy {
               }
             }
             return of(null);
-          })
-        )
-        .pipe(
+          }),
           filter((res) => res !== null),
           takeUntil(this.onDestoy$)
         )
