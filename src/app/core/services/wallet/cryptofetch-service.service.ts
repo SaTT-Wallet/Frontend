@@ -3,6 +3,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { sattUrl } from '@config/atn.config';
 import { TokenStorageService } from '../tokenStorage/token-storage-service.service';
 import { shareReplay } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import {
+  IApiResponse,
+  IPaymentRequestResponse
+} from '@app/core/types/rest-api-responses';
 @Injectable({
   providedIn: 'root'
 })
@@ -126,7 +131,11 @@ export class CryptofetchServiceService {
     }
   }
 
-  getPayementId(currency: any, quote_id: any, idWallet: any) {
+  getPayementId(
+    currency: any,
+    quote_id: any,
+    idWallet: any
+  ): Observable<IApiResponse<IPaymentRequestResponse>> {
     const headers = new HttpHeaders({
       'Cache-Control': 'no-store',
       'Content-Type': 'application/json',
@@ -137,13 +146,13 @@ export class CryptofetchServiceService {
       'Content-Type': 'application/json'
     });
     if (this.tokenStorageService.getToken()) {
-      return this.http.post(
+      return this.http.post<IApiResponse<IPaymentRequestResponse>>(
         sattUrl + '/wallet/payementRequest',
         { currency, quote_id, idWallet },
         { headers: headers }
       );
     } else {
-      return this.http.post(
+      return this.http.post<IApiResponse<IPaymentRequestResponse>>(
         sattUrl + '/wallet/payementRequest',
         { currency, quote_id, idWallet },
         { headers: headers2 }

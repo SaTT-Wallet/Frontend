@@ -166,17 +166,12 @@ export class AddTokenComponent implements OnInit {
         )
         .pipe(takeUntil(this.isDestroyed))
         .subscribe(
-          (response: any) => {      
-
-                    if (!response){
-                   
-                        this.successMsg = '';
-                        this.errorMsg = 'addToken.token-or-network-invalid';
-                        this.isLoading = false;
-                      }
-                    
-                    
-         else    if (response.data !== undefined) {
+          (response: any) => {
+            if (!response) {
+              this.successMsg = '';
+              this.errorMsg = 'addToken.token-or-network-invalid';
+              this.isLoading = false;
+            } else if (response.data !== undefined) {
               this.isSubmited = false;
               this.isLoading = false;
 

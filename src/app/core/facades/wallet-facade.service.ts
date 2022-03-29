@@ -10,6 +10,11 @@ import { selectCryptoList } from '@app/wallet/store/selectors/crypto-list.select
 import { LoadTotalBalanceLogout } from '@app/wallet/store/actions/wallet.actions';
 import { CryptoListState } from '@app/wallet/store/reducers/crypto-list.reducer';
 import { clearCryptoListsState } from '@app/wallet/store/actions/crypto-list.actions';
+import { Observable } from 'rxjs';
+import {
+  IApiResponse,
+  IPaymentRequestResponse
+} from '../types/rest-api-responses';
 @Injectable({
   providedIn: 'root'
 })
@@ -249,7 +254,7 @@ export class WalletFacadeService {
     quote_id: any,
     wallet_id: any,
     selectedNetwork?: any
-  ) {
+  ): Observable<IApiResponse<IPaymentRequestResponse>> {
     if (currency === 'SATT') {
       if (selectedNetwork === 'BEP20') {
         currency = 'SATT-SC';
