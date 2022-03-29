@@ -6,6 +6,7 @@ import { TokenStorageService } from './tokenStorage/token-storage-service.servic
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AccountFacadeService } from '../facades/account-facade/account-facade.service';
 import { User } from '@app/models/User';
+import { IResponseWallet } from '../iresponse-wallet';
 @Injectable({
   providedIn: 'root'
 })
@@ -99,7 +100,7 @@ export class AuthGuardService implements CanActivate {
           return of(false);
         }
       }),
-      mergeMap((data: any) => {
+      mergeMap((data: IResponseWallet) => {
         if (this.tokenStorageService.getvalid2FA() === 'false') {
           // this.tokenStorageService.signOut()
           this.accountFacadeService.dispatchLogoutAccount();

@@ -367,7 +367,7 @@ getCookie(key: string){
         mergeMap((response: User) => {
           this.tokenStorageService.setHeader();
           this.tokenStorageService.saveUserId(response.idUser);
-          this.tokenStorageService.saveIdSn(response.idSn);
+          this.tokenStorageService.saveIdSn(response.idSn.toString());
           this.idUser = Number(response.idUser);
           if (response.is2FA === true) {
             this.tokenStorageService.setItem('valid2FA', 'false');
@@ -444,7 +444,7 @@ getCookie(key: string){
             // this.spinner.hide();
           }
         },
-        (error: any) => {
+        (error: HttpErrorResponse) => {
           if (
             error.error &&
             error.error.error === 'Wallet not found' &&
@@ -525,7 +525,7 @@ getCookie(key: string){
         .login(this.f.email?.value, this.f.password?.value)
         .pipe(
           takeUntil(this.onDestroy$),
-          catchError((error: any) => {
+          catchError((error: HttpErrorResponse) => {
             if (error.error.error.message === 'user not found') {
               this.errorMessage = 'Invalid email address';
             } else if (error.error.error.message === 'invalid_credentials') {
@@ -581,51 +581,37 @@ getCookie(key: string){
             // }
             return of(null);
           }),
-          mergeMap(
-            ({ data, response }: { data: any; response: User | any }) => {
-              this.tokenStorageService.setHeader();
-              this.tokenStorageService.saveUserId(response.idUser);
-              this.tokenStorageService.saveIdSn(response.idSn);
-              this.idUser = Number(response.idUser);
-
-              if (response.is2FA === true) {
-                this.tokenStorageService.setItem('valid2FA', 'false');
-                this.confirmCodeShow = true;
-                this.loginshow = false;
+          mergeMap(({ data, response }: { data: any; response: User }) => {
+            this.tokenStorageService.setHeader();
+            this.tokenStorageService.saveUserId(response.idUser);
+            this.tokenStorageService.saveIdSn(response.idSn.toString());
+            this.idUser = Number(response.idUser);
+            if (response.is2FA === true) {
+              this.tokenStorageService.setItem('valid2FA', 'false');
+              this.confirmCodeShow = true;
+              this.loginshow = false;
+            } else {
+              this.tokenStorageService.saveToken(data.data.access_token);
+              if (response.enabled === 0) {
+                // this.errorMessage_validation="account_not_verified";
+                // tokenStorageService.clear();any
+                this.tokenStorageService.setItem('enabled', '0');
+                this.router.navigate(['/social-registration/activation-mail'], {
+                  queryParams: {
+                    email: this.authForm.get('email')?.value
+                  }
+                });
               } else {
-                this.tokenStorageService.saveToken(data.data.access_token);
-                if (response.enabled === 0) {
-                  // this.errorMessage_validation="account_not_verified";
-                  // tokenStorageService.clear();any
-                  this.tokenStorageService.setItem('enabled', '0');
-                  this.router.navigate(
-                    ['/social-registration/activation-mail'],
-                    {
-                      queryParams: {
-                        email: this.authForm.get('email')?.value
-                      }
-                    }
-                  );
-                } else {
-                  if (response.idSn !== 0 && response.idSn !== null) {
-                    if (
-                      !response.completed ||
-                      (response.completed && !response.enabled)
-                    ) {
-                      this.router.navigate([
-                        'social-registration/completeProfile'
-                      ]);
-                      this.showBigSpinner = true;
-                      // this.spinner.hide();
-                    } else {
-                      return this.walletFacade.getUserWallet().pipe(
-                        map((myWallet: IResponseWallet) => ({
-                          myWallet,
-                          response
-                        })),
-                        takeUntil(this.onDestroy$)
-                      );
-                    }
+                if (response.idSn !== 0 && response.idSn !== null) {
+                  if (
+                    !response.completed ||
+                    (response.completed && !response.enabled)
+                  ) {
+                    this.router.navigate([
+                      'social-registration/completeProfile'
+                    ]);
+                    this.showBigSpinner = true;
+                    // this.spinner.hide();
                   } else {
                     return this.walletFacade.getUserWallet().pipe(
                       map((myWallet: IResponseWallet) => ({
@@ -635,11 +621,19 @@ getCookie(key: string){
                       takeUntil(this.onDestroy$)
                     );
                   }
+                } else {
+                  return this.walletFacade.getUserWallet().pipe(
+                    map((myWallet: IResponseWallet) => ({
+                      myWallet,
+                      response
+                    })),
+                    takeUntil(this.onDestroy$)
+                  );
                 }
               }
-              return of(null);
             }
-          )
+            return of(null);
+          })
         )
         .pipe(
           tap((response: any) => {
@@ -697,7 +691,7 @@ getCookie(key: string){
               // this.spinner.hide();
             }
           },
-          (error: any) => {
+          (error: HttpErrorResponse) => {
             if (
               error.error.error === 'Wallet not found' &&
               error.error.code === 404
@@ -749,7 +743,7 @@ getCookie(key: string){
         mergeMap((response: User | null) => {
           if (response) {
             this.tokenStorageService.saveUserId(response.idUser);
-            this.tokenStorageService.saveIdSn(response.idSn);
+            this.tokenStorageService.saveIdSn(response.idSn.toString());
             this.tokenStorageService.setItem('valid2FA', '');
             this.tokenStorageService.setItem('isAuthenticated', 'true');
             this.tokenStorageService.saveExpire(this.expiresToken);
