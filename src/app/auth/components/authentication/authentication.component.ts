@@ -279,7 +279,6 @@ getCookie(key: string){
    */
 
   skipLoginWhenRedirected() {
-    debugger
     this.routerSub = this.route.queryParams
       .pipe(
         takeUntil(this.onDestroy$),
@@ -397,7 +396,6 @@ getCookie(key: string){
         })
       )
       .pipe(
-
         tap((response: any) => {
           if (response.myWallet === null) {
             this.tokenStorageService.setSecureWallet(
