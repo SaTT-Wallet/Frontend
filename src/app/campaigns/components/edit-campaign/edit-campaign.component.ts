@@ -407,11 +407,13 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
     // rgrtrtg
   }
   ngAfterViewInit() {
-    if (window.innerWidth < 768) {
+    if (!this.showModal && window.innerWidth < 768) {
+      this.isLoading = false;
       this.showModal = true;
       this.openModal(this.useDesktopModal);
     }
   }
+
   openModal(content: any) {
     this.modalService.open(content);
   }
