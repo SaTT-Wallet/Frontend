@@ -81,7 +81,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   bepGaz: any;
   showNotifications: boolean = false;
   newNotification: boolean = false;
-  isSend: number = 0;
+  isSeen: number = 0;
   btcCode: string = '';
   erc20: string = '';
   portfeuilleList: Array<{ type: any; code: any }> = [];
@@ -166,9 +166,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         let vh = window.innerHeight * 0.01;
         this.document.documentElement.style.setProperty('--vh', `${vh}px`);
       });
-      this.NotificationService.newNotification.subscribe((value) => {
-        this.newNotification = value;
-      });
     }
 
     translate.addLangs(['en', 'fr']);
@@ -238,7 +235,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   closeBalanceSection() {
     this.sidebarService.BalanceDropDown('get'); //This Function to fix a bug in the side bar (Balance section Bug)
-    if (this.isSend !== 0) {
+    if (this.isSeen !== 0) {
       this.seeNotification();
     }
   }
@@ -499,7 +496,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
           }
         });
         ls = ls.concat(this.dataNotification);
-        this.issendfire = obj.isSend;
+        this.issendfire = obj.isSeen;
         this.dataNotification = ls;
         if (this.issendfire !== 0) {
           this.newNotification = true;
@@ -513,15 +510,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe((response: any) => {
         if (response?.code === 200 && response?.message === 'success') {
-          this.isSend = response.data.isSend;
+          this.isSeen = response.data.isSeen;
 
           // this.ngOnInit();
-          if (this.isSend !== 0) {
+          if (this.isSeen !== 0) {
+            this.newNotification = true;
             this.NotificationService.newNotification.next(true);
           } else {
+            this.newNotification = false;
             this.NotificationService.newNotification.next(false);
           }
+          // this.NotificationService.newNotification.subscribe((value) => {
+          //   console.log(value);
 
+          //   this.newNotification = value;
+          // });
           this.dataNotification = response.data.notifications;
           this.notifListSize = Math.round(
             window.innerHeight / this.notifItemSize
@@ -1023,7 +1026,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.showNotifications = true;
       this.showWallet = false;
     }
-    if (this.isSend !== 0) this.seeNotification();
+    if (this.isSeen !== 0) this.seeNotification();
   }
   @HostListener('window:resize', ['$event'])
   onScreenResize(event: any) {
