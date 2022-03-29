@@ -140,6 +140,7 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
   private onDestroy$ = new Subject();
   private account$ = this.accountFacadeService.account$;
   blockDate: any;
+  successMessagecode: string = '';
   constructor(
     private modalService: NgbModal,
     private authService: AuthService,
@@ -526,9 +527,9 @@ getCookie(key: string){
           takeUntil(this.onDestroy$),
           catchError((error: any) => {
             if (error.error.error.message === 'user not found') {
-              this.errorMessage = 'Email incorrect';
+              this.errorMessage = 'Invalid email address';
             } else if (error.error.error.message === 'invalid_credentials') {
-              this.errorMessage = 'Password incorrect';
+              this.errorMessage = 'Incorrect password';
             } else if (error.error.error.message === 'account_locked') {
               if (
                 this.blocktime &&
@@ -927,6 +928,7 @@ getCookie(key: string){
   closeModal(content: TemplateRef<ElementRef>) {
     this.modalService.dismissAll(content);
     this.showSpinner = false;
+    this.successMessagecode = '';
   }
 
   verifyCode() {
@@ -938,9 +940,10 @@ getCookie(key: string){
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(
         (data: any) => {
-          if (data.message === 'code is matched' && data.code === 200) {
+          if (data.message === 'code is matched') {
             this.codesms = true;
-            this.errorMessagecode = 'code correct';
+            this.successMessagecode = 'code correct';
+            this.errorMessagecode = '';
           }
         },
         (err) => {
@@ -952,8 +955,8 @@ getCookie(key: string){
           ) {
             this.errorMessagecode = 'code incorrect';
             this.formCode.reset();
+            this.successMessagecode = '';
             // this.codeInput.reset();
-            this.codesms = false;
             setTimeout(() => {
               this.errorMessagecode = '';
             }, 2000);
@@ -967,7 +970,6 @@ getCookie(key: string){
         }
       );
   }
-
   changePwd() {
     let email = this.formL.get('email')?.value;
     this.router.navigate(['auth/resetpassword'], {
