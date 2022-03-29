@@ -166,12 +166,21 @@ export class AddTokenComponent implements OnInit {
         )
         .pipe(takeUntil(this.isDestroyed))
         .subscribe(
-          (response: any) => {
-            if (response.data !== undefined) {
+          (response: any) => {      
+
+                    if (!response){
+                   
+                        this.successMsg = '';
+                        this.errorMsg = 'addToken.token-or-network-invalid';
+                        this.isLoading = false;
+                      }
+                    
+                    
+         else    if (response.data !== undefined) {
               this.isSubmited = false;
               this.isLoading = false;
 
-              this.token = response;
+              this.token = response.data.tokenName;
 
               this.formToken
                 .get('symbol')
@@ -222,7 +231,7 @@ export class AddTokenComponent implements OnInit {
     this.formToken.enable({ onlySelf: true, emitEvent: false });
     this.walletFacade
       .addToken(
-        this.token.tokenName,
+        this.token,
         this.formToken.get('symbol')?.value.toUpperCase(),
         this.formToken.get('decimal')?.value,
         this.formToken.get('tokenAdress')?.value,
