@@ -140,6 +140,7 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
   private onDestroy$ = new Subject();
   private account$ = this.accountFacadeService.account$;
   blockDate: any;
+  successMessagecode: string = '';
   constructor(
     private modalService: NgbModal,
     private authService: AuthService,
@@ -278,7 +279,6 @@ getCookie(key: string){
    */
 
   skipLoginWhenRedirected() {
-    debugger
     this.routerSub = this.route.queryParams
       .pipe(
         takeUntil(this.onDestroy$),
@@ -396,7 +396,6 @@ getCookie(key: string){
         })
       )
       .pipe(
-
         tap((response: any) => {
           if (response.myWallet === null) {
             this.tokenStorageService.setSecureWallet(
@@ -923,6 +922,7 @@ getCookie(key: string){
   closeModal(content: TemplateRef<ElementRef>) {
     this.modalService.dismissAll(content);
     this.showSpinner = false;
+    this.successMessagecode = '';
   }
 
   verifyCode() {
@@ -934,9 +934,10 @@ getCookie(key: string){
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(
         (data: any) => {
-          if (data.message === 'code is matched' && data.code === 200) {
+          if (data.message === 'code is matched') {
             this.codesms = true;
-            this.errorMessagecode = 'code correct';
+            this.successMessagecode = 'code correct';
+            this.errorMessagecode = '';
           }
         },
         (err) => {
@@ -948,8 +949,8 @@ getCookie(key: string){
           ) {
             this.errorMessagecode = 'code incorrect';
             this.formCode.reset();
+            this.successMessagecode = '';
             // this.codeInput.reset();
-            this.codesms = false;
             setTimeout(() => {
               this.errorMessagecode = '';
             }, 2000);
@@ -963,7 +964,6 @@ getCookie(key: string){
         }
       );
   }
-
   changePwd() {
     let email = this.formL.get('email')?.value;
     this.router.navigate(['auth/resetpassword'], {
