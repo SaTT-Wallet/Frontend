@@ -24,7 +24,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FilesService } from '@core/services/files/files.Service';
-import { filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { filter, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { forkJoin, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -140,8 +140,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   ngOnInit(): void {
     this.sendform.get('currency')?.setValue('SATT');
-
-    this.parentFunction().pipe(takeUntil(this.isDestroyed)).subscribe();
     this.getusercrypto();
     this.getProfileDetails();
     this.amountdefault = this.sendform.get('currency')?.value;
@@ -594,6 +592,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   parentFunction() {
     return this.walletFacade.getCryptoPriceList().pipe(
       map((response: any) => response.data),
+      take(1),
       map((data: any) => {
         this.bnb = data['BNB'].price;
         this.eth = data['ETH'].price;
@@ -605,6 +604,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       switchMap(({ bnb, Eth }) => {
         return forkJoin([
           this.walletFacade.getEtherGaz().pipe(
+            take(1),
             tap((gaz: any) => {
               this.showSpinner = false;
               let price;
@@ -617,6 +617,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             })
           ),
           this.walletFacade.getBnbGaz().pipe(
+            take(1),
             tap((gaz: any) => {
               this.showSpinner = false;
               let price = gaz.data.gasPrice;
