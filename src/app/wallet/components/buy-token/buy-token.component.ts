@@ -132,7 +132,6 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((p: any) => {
         if (p.id) {
-
           // this.toggleCurrencyType(ECurrencyType.FIAT);
           // this.toggleNetwork(p.network);
           this.selectedCurrencyType = p.currency;
@@ -143,15 +142,10 @@ export class BuyTokenComponent implements OnInit, OnChanges {
           if (p.id === 'SATT-SC') {
             this.fiatLogo = 'SATTBEP20.svg';
           } else if (p.id === 'SATT-ERC20') {
-
-             this.fiatLogo = 'SATT2.svg';
-          }
-          
-          else if (p.id==='SATTBEP20'){
-            this.selectedCurrencyLogo === 'SATTBEP20'
-          }
-          else {
-             
+            this.fiatLogo = 'SATT2.svg';
+          } else if (p.id === 'SATTBEP20') {
+            this.selectedCurrencyLogo === 'SATTBEP20';
+          } else {
             this.fiatLogo = p.id + '.svg';
             this.requestedCrypto = p.id;
           }
@@ -485,18 +479,18 @@ export class BuyTokenComponent implements OnInit, OnChanges {
             // if (error.error.text === 'Invalid Access Token') {
             //   this.tokenStorageService.signOut();
             // }
-this.errMsg = err.error.error
+            if (err.status !== 500) {
+              this.errMsg = err.error.error;
+            }
+
             return of(null);
           }),
           tap((data: any) => {
-            if (data.data.error) {
-
+            if (data.data.error && data.data.code !== 500) {
               this.errMsg = data.data.error;
-            }
-         else   if (data.error){
+            } else if (data.error) {
               this.errMsg = data.error;
-            }
-            else {
+            } else {
               this.errMsg = '';
             }
           }),
@@ -605,6 +599,4 @@ this.errMsg = err.error.error
     this.isDestroyed.next('');
     this.isDestroyed.unsubscribe();
   }
-
-
 }

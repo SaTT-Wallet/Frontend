@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Inject,
@@ -24,7 +25,10 @@ import { Campaign } from '@app/models/campaign.model';
 import { TranslateService } from '@ngx-translate/core';
 import { arrayCountries } from '@app/config/atn.config';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import {
+  IDropdownSettings,
+  MultiSelectComponent
+} from 'ng-multiselect-dropdown';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -42,6 +46,7 @@ export class DraftCampaignParametresComponent implements OnInit {
   @Output() validFormParam = new EventEmitter();
 
   @Output() saveFormStatus = new EventEmitter();
+  @ViewChild('countries', { static: false }) countries: any;
 
   dropdownSettings: IDropdownSettings = {
     singleSelection: false,
@@ -55,7 +60,7 @@ export class DraftCampaignParametresComponent implements OnInit {
   form = new FormGroup({});
   editor = new Editor();
   showOptions: boolean = false;
-  selectedAttributes: any;
+  selectedAttributes = [];
   countriesListObj: any = arrayCountries;
   dropdownList: any;
   startDay: any;
@@ -65,14 +70,15 @@ export class DraftCampaignParametresComponent implements OnInit {
   check = false;
   selectedTags: string[] = [];
   maxTags = 0;
-  @ViewChild('countries', { static: false }) countries?: any;
+  @ViewChild('countries', { static: false }) countriesDropDown?: any;
   @Input() isActive = false;
 
   constructor(
     private service: DraftCampaignService,
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string,
-    public translate: TranslateService
+    public translate: TranslateService,
+    private refChangeDetect: ChangeDetectorRef
   ) {
     this.InterestList = [
       { name: 'Animals' },
@@ -103,8 +109,7 @@ export class DraftCampaignParametresComponent implements OnInit {
       {
         startDate: new FormControl('', Validators.required),
         endDate: new FormControl('', Validators.required),
-        tags: new FormControl([], Validators.required),
-        targetedCountries: new FormControl('', Validators.required)
+        tags: new FormControl([], Validators.required)
       },
       [DateValidator]
     );
@@ -120,7 +125,6 @@ export class DraftCampaignParametresComponent implements OnInit {
       elem.item_text = elem.name;
       elem.item_id = index;
       elem.code = elem.code;
-
       return elem;
     });
   }
@@ -174,7 +178,9 @@ export class DraftCampaignParametresComponent implements OnInit {
 
     this.saveForm();
     this.emitFormStatus();
+    /*
     this.checkCountriesTags(this.form.value);
+*/
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -196,10 +202,7 @@ export class DraftCampaignParametresComponent implements OnInit {
       this.draftData.endDate = end;
     }
 
-    if (
-      this.draftData.startDate.toString() === 'Invalid Date' ||
-      this.draftData.endDate.toString() === 'Invalid Date'
-    ) {
+    if (!this.draftData.startDate || !this.draftData.endDate) {
       let today = new Date();
       let end = new Date();
       today.setHours(today.getHours() + 2);
@@ -243,13 +246,19 @@ export class DraftCampaignParametresComponent implements OnInit {
         debounceTime(500),
         tap((values: any) => {
           if (this.draftData.id) {
+            /*
             this.checkCountriesTags(values);
+*/
             this.service.autoSaveFormOnValueChanges({
               formData: values,
               id: this.id
             });
           }
-          if (this.form.valid) {
+          if (
+            this.form.valid &&
+            values.tags.length > 0 &&
+            this.selectedAttributes.length > 0
+          ) {
             this.validFormParam.emit(true);
           } else {
             this.validFormParam.emit(false);
@@ -273,18 +282,47 @@ export class DraftCampaignParametresComponent implements OnInit {
       {
         startDate: data.startDate,
         endDate: data.endDate,
-        tags: data.tags,
-        targetedCountries: data.targetedCountries
+        tags: data.tags
       },
       { emitEvent: false, onlySelf: true }
     );
-    this.checkCountriesTags(data.targetedCountries);
+    if (data.targetedCountries[0] === 'All countries') {
+      this.selectedAttributes = this.dropdownList;
+    } else {
+      this.selectedAttributes = this.dropdownList.filter((item: any) =>
+        data.targetedCountries.includes(item.item_text)
+      );
+    }
+    setTimeout(() => {
+      this.checkCountriesTags(this.selectedAttributes);
+    }, 1000);
+
+    //TODO populate tags and selected countries
+  }
+
+  saveTags(tags: string[]) {
+    this.form.setValue({ ...this.form.value, tags: tags });
+    if (this.draftData.id) {
+      this.service.autoSaveFormOnValueChanges({
+        formData: { ...this.form.value, tags },
+        id: this.id
+      });
+      if (
+        this.form.valid &&
+        tags.length > 0 &&
+        this.selectedAttributes.length > 0
+      ) {
+        this.validFormParam.emit(true);
+      } else {
+        this.validFormParam.emit(false);
+      }
+    }
   }
 
   //TODO: refactor this method to better solution or implement our own lib
   checkCountriesTags(values: any) {
     if (isPlatformBrowser(this.platformId)) {
-      if (values.targetedCountries?.length === this.dropdownList.length) {
+      if (values?.length === this.dropdownList.length) {
         var elements = this.document.getElementsByClassName('selected-item');
         var allCountriesElement: HTMLElement;
         if (elements.length > 0) {
@@ -292,8 +330,7 @@ export class DraftCampaignParametresComponent implements OnInit {
           allCountriesElement.innerHTML = 'All countries';
           for (let i = 1; i < elements.length; i++) {
             let element = elements[i] as HTMLElement;
-            element.childNodes[0].nodeValue =
-              values.targetedCountries[i].item_text;
+            element.childNodes[0].nodeValue = values[i].item_text;
             element.style.display = 'none';
             if (element.innerText === '+230') {
               element.style.display = 'none';
@@ -314,10 +351,9 @@ export class DraftCampaignParametresComponent implements OnInit {
         if (elements.length > 0) {
           for (let i = 0; i < elements.length; i++) {
             let element = elements[i] as HTMLElement;
-            element.childNodes[0].nodeValue = !!values.targetedCountries[i]
-              .item_text
-              ? values.targetedCountries[i].item_text
-              : values.targetedCountries[i];
+            element.childNodes[0].nodeValue = !!values[i].item_text
+              ? values[i].item_text
+              : values[i];
             element.style.display = 'block';
           }
         }
@@ -343,7 +379,37 @@ export class DraftCampaignParametresComponent implements OnInit {
     this.selectedTags = this.InterestList.filter((res: any) => res.checked).map(
       (res: any) => res.name
     );
-    this.form.setValue({ ...this.form.value, tags: this.selectedTags });
+    this.saveTags(this.selectedTags);
+  }
+
+  saveCountries(countries: MultiSelectComponent) {
+    const targetedCountries = countries.selectedItems.map((item: any) => {
+      return { item_id: item.id, item_text: item.text };
+    });
+    this.selectedAttributes = this.dropdownList.filter((item: any) =>
+      targetedCountries
+        .map((elem: any) => elem.item_text)
+        .includes(item.item_text)
+    );
+
+    setTimeout(() => {
+      this.checkCountriesTags(targetedCountries);
+    }, 1000);
+    if (this.draftData.id) {
+      this.service.autoSaveFormOnValueChanges({
+        formData: { ...this.form.value, targetedCountries },
+        id: this.id
+      });
+    }
+    if (
+      this.form.valid &&
+      this.form.value.tags.length > 0 &&
+      this.selectedAttributes.length > 0
+    ) {
+      this.validFormParam.emit(true);
+    } else {
+      this.validFormParam.emit(false);
+    }
   }
 }
 

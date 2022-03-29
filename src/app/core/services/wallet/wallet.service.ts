@@ -65,7 +65,13 @@ export class WalletService {
         headers: headers
       });
     } else {
-      let body = { token: send.token , to: send.to, amount: send.amount, pass: send.pass , symbole:send.symbole };
+      let body = {
+        token: send.token,
+        to: send.to,
+        amount: send.amount,
+        pass: send.pass,
+        symbole: send.symbole
+      };
       return this.http.post(sattUrl + '/wallet/transferErc20', body, {
         headers: headers
       });
@@ -83,7 +89,7 @@ export class WalletService {
 	 @parameters : header access token
      @response : object of arrays => different balance stats (daily, weekly, monthly)
      */
-    return this.http.get(sattUrl + '/balance/stats', { headers: headers });
+    return this.http.get(sattUrl + '/wallet/stats', { headers: headers });
   }
 
   checkToken(network: string, tokenAdress: any) {
@@ -107,7 +113,7 @@ export class WalletService {
     symbol: string,
     decimal: string,
     tokenAdress: string,
-    network: string,
+    network: string
   ) {
     let header = new HttpHeaders({
       'Cache-Control': 'no-store',
@@ -128,7 +134,7 @@ export class WalletService {
     );
   }
   listTokens() {
-     return this.http.get(sattUrl + '/prices');
+    return this.http.get(sattUrl + '/prices');
     // https://api.satt-token.com:3014/prices
   }
 

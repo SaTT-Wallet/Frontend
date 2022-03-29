@@ -381,28 +381,29 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
   getSocialNetworkPercent() {
     let count = 0;
-    this.socialAccount$
+    this.profileSettingsFacade
+      .getSocialNetworks()
       .pipe(takeUntil(this.onDestoy$))
       .subscribe((data: any) => {
         if (data !== null) {
-          if (data.facebook.length !== 0) {
+          if (data.data.facebook.length !== 0) {
             count++;
           }
-          if (data.google.length !== 0) {
+          if (data.data.google.length !== 0) {
             count++;
           }
-          if (data.twitter.length !== 0) {
+          if (data.data.twitter.length !== 0) {
             count++;
           }
-          if (data.linkedin.length !== 0) {
+          if (data.data.linkedin.length !== 0) {
             count++;
           }
 
           this.percentNet = (count * 100) / 4;
           this.percentNet2 = this.percentNet.toFixed(0) + '%';
-        } else {
+        } else if (data === null) {
           this.percentNet = 0;
-          this.percentNet2 = '0';
+          this.percentNet2 = '0%';
         }
       });
   }
