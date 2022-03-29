@@ -14,7 +14,7 @@
         </div>
       </div>
       <div class="row d-flex justify-content-center">
-        <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8 make-center mt-5">
+        <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8 make-center ">
           <h1 class="title_page">{{ 'yourPassphrase' | translate }}</h1>
 
           <!-- <label class="form-check-label mt-5" for="flexCheckDefault"> -->
@@ -26,7 +26,7 @@
               'writePassPhrase_third_phrase' | translate
             }}</span>
           </p>
-          <p *ngIf="showConfirmForm" class="drak-gray_text mb-5">
+          <p *ngIf="showConfirmForm" class="drak-gray_text ">
             {{ 'passPhraseOrderedText' | translate }}
           </p>
           <!-- </label> -->
@@ -62,7 +62,7 @@
             />
             <label class="form-check-label mt-3" for="flexCheckDefault">
               <span *ngIf="!showConfirmForm" class="drak-gray_text text-start">
-                {{ 'pwd_text2' | translate }}
+                {{ 'pwd_text5' | translate }}
               </span>
             </label>
 
@@ -195,7 +195,7 @@
                           [disabled]="disabled"
                         >
                           <span *ngIf="!this.showSpinner"
-                            >{{ 'continue' | translate }} >
+                            >{{ 'confirm_' | translate }} 
                           </span>
                           <div
                             *ngIf="this.showSpinner"
