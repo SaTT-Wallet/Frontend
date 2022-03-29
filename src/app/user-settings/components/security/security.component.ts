@@ -360,9 +360,13 @@ export class SecurityComponent implements OnInit, OnDestroy {
     let id = this.user.idUser;
     if (this.formUpdatePassword.valid) {
       if (oldpass === newpass) {
+        console.log("aaaa")
+        this.passwordWrong = 'profile.newPass';
+
         setTimeout(() => {
-          this.passwordWrong = 'profile.newPass';
+          this.passwordWrong = '';
         }, 3000);
+
       } else {
         this.AuthService.updatePassword(oldpass, newpass, id)
           .pipe(takeUntil(this.onDestroy$))
