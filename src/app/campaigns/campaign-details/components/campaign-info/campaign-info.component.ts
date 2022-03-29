@@ -29,8 +29,8 @@ import { Editor } from 'ngx-editor';
 import { WalletStoreService } from '@core/services/wallet-store.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
-import { filter, map, mergeMap, switchMap, takeUntil } from 'rxjs/operators';
-import { from, Observable, Subject } from 'rxjs';
+import { filter, map, mergeMap, takeUntil } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
 import { ConvertFromWei } from '@shared/pipes/wei-to-sa-tt.pipe';
 import { Campaign } from '@app/models/campaign.model';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -365,22 +365,22 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
     this.walletFacade.loadCryptoList();
     // .getCryptoPriceList()
     this.budgetInUSD = this.walletFacade
-    // .getlistTokens()
-    .getCryptoPriceList().pipe(
-      map((res: any) => res.data[this.currencyName]),
-      map((crypto: any) =>
-        new Big(crypto.price+'')
-          .times(
-            this.convertFromWeiTo.transform(
-              this.campaign.budget,
-              this.currencyName,
-              2
+      // .getlistTokens()
+      .getCryptoPriceList()
+      .pipe(
+        map((res: any) => res.data[this.currencyName]),
+        map((crypto: any) =>
+          new Big(crypto.price + '')
+            .times(
+              this.convertFromWeiTo.transform(
+                this.campaign.budget,
+                this.currencyName,
+                2
+              )
             )
-          )
-          .toFixed(2)
-      )
-    );
-    
+            .toFixed(2)
+        )
+      );
 
     this.countriesListObj = this.countriesListObj.sort(function (
       a: any,

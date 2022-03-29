@@ -23,13 +23,11 @@ import { forkJoin, of, Subject } from 'rxjs';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import {
   catchError,
-  debounceTime,
   filter,
   map,
   mergeMap,
   take,
-  takeUntil,
-  tap
+  takeUntil
 } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 @Component({
