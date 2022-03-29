@@ -42,6 +42,7 @@ export class User {
   public visitsocialAccounts: any;
   public hasWallet: boolean;
   new: string;
+  error: any;
 
   constructor(data: any) {
     this.idUser = data._id;
