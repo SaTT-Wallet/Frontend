@@ -10,13 +10,17 @@ import {
   ListTokens,
   GazConsumedByCampaign
 } from '@config/atn.config';
-import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
-import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
-import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Campaign } from '@app/models/campaign.model';
-import { concatMap, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import {
+  concatMap,
+  map,
+  switchMap,
+  take,
+  takeUntil,
+  tap
+} from 'rxjs/operators';
 import { forkJoin, Observable, of, Subject } from 'rxjs';
 import { CampaignsStoreService } from '@campaigns/services/campaigns-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
@@ -65,12 +69,9 @@ export class PasswordModalComponent implements OnInit {
     private campaignService: CampaignHttpApiService,
     public router: Router,
     private tokenStorageService: TokenStorageService,
-    private _fetchPrice: CryptofetchServiceService,
-    private toastr: ToastrService,
     public translate: TranslateService,
     private campaignsStore: CampaignsStoreService,
     private route: ActivatedRoute,
-    private Fetchservice: CryptofetchServiceService,
     private walletFacade: WalletFacadeService
   ) {
     this.route.queryParams
@@ -179,7 +180,7 @@ export class PasswordModalComponent implements OnInit {
     }
   }
 
-  erc20Fee(campaign: any) {
+  erc20Fee() {
     let token = this.fillInformations('ERC20token');
     let data = this.campaign;
     if (token !== ListTokens['SATT'].contract) {
@@ -204,6 +205,7 @@ export class PasswordModalComponent implements OnInit {
   parentFunction() {
     return this.walletFacade.getCryptoPriceList().pipe(
       map((response: any) => response.data),
+      take(1),
       map((data: any) => {
         this.bnb = data['BNB'].price;
         this.eth = data['ETH'].price;
@@ -215,6 +217,7 @@ export class PasswordModalComponent implements OnInit {
       switchMap(({ bnb, Eth }) => {
         return forkJoin([
           this.walletFacade.getEtherGaz().pipe(
+            take(1),
             tap((gaz: any) => {
               let price;
               price = gaz.data.gasPrice;
@@ -226,6 +229,7 @@ export class PasswordModalComponent implements OnInit {
             })
           ),
           this.walletFacade.getBnbGaz().pipe(
+            take(1),
             tap((gaz: any) => {
               let price = gaz.data.gasPrice;
               this.bepGaz = (
@@ -253,19 +257,19 @@ export class PasswordModalComponent implements OnInit {
     let TokenOBjBEP20: any = {};
     let campaign_info = this.fillInformations();
 
-    let confirmationContent = [
-      'cost',
-      'cost_usd',
-      'countries',
-      'description',
-      'hash',
-      'ratios',
-      'resume',
-      'tags',
-      'time',
-      'title',
-      'token'
-    ];
+    // let confirmationContent = [
+    //   'cost',
+    //   'cost_usd',
+    //   'countries',
+    //   'description',
+    //   'hash',
+    //   'ratios',
+    //   'resume',
+    //   'tags',
+    //   'time',
+    //   'title',
+    //   'token'
+    // ];
     this.showButtonSend = false;
     this.loadingButton = true;
     TokenOBj.walletaddr = this.tokenStorageService.getIdWallet();
@@ -285,11 +289,10 @@ export class PasswordModalComponent implements OnInit {
             )
           ) {
             if (this.campaign.remuneration === 'performance') {
-              return this.launchCampaignWithPerPerformanceReward(
-                campaign_info,
-                confirmationContent
-              );
+              //     confirmationContent
+              return this.launchCampaignWithPerPerformanceReward(campaign_info);
             } else if (this.campaign.remuneration === 'publication') {
+              //     confirmationContent
               return this.launchCampaignWithPerPublicationReward(campaign_info);
             }
           }
@@ -305,8 +308,7 @@ export class PasswordModalComponent implements OnInit {
               concatMap(() => {
                 if (this.campaign.remuneration === 'performance') {
                   return this.launchCampaignWithPerPerformanceReward(
-                    campaign_info,
-                    confirmationContent
+                    campaign_info
                   );
                 } else if (this.campaign.remuneration === 'publication') {
                   return this.launchCampaignWithPerPublicationReward(
@@ -332,8 +334,7 @@ export class PasswordModalComponent implements OnInit {
             ) {
               if (this.campaign.remuneration === 'performance') {
                 return this.launchCampaignWithPerPerformanceReward(
-                  campaign_info,
-                  confirmationContent
+                  campaign_info
                 );
               } else if (this.campaign.remuneration === 'publication') {
                 return this.launchCampaignWithPerPublicationReward(
@@ -356,8 +357,7 @@ export class PasswordModalComponent implements OnInit {
                 concatMap(() => {
                   if (this.campaign.remuneration === 'performance') {
                     return this.launchCampaignWithPerPerformanceReward(
-                      campaign_info,
-                      confirmationContent
+                      campaign_info
                     );
                   } else if (this.campaign.remuneration === 'publication') {
                     return this.launchCampaignWithPerPublicationReward(
@@ -390,12 +390,9 @@ export class PasswordModalComponent implements OnInit {
     );
   }
 
-  launchCampaignWithPerPerformanceReward(
-    campaign_info: any,
-    confirmationContent: any
-  ) {
+  launchCampaignWithPerPerformanceReward(campaign_info: any) {
     return this.campaignService.createCompaign(campaign_info).pipe(
-      tap((response: any) => {
+      tap(() => {
         this.showButtonSend = true;
         this.loadingButton = false;
         this.passwordForm.reset();
@@ -405,7 +402,7 @@ export class PasswordModalComponent implements OnInit {
 
   launchCampaignWithPerPublicationReward(campaign_info: any) {
     return this.campaignService.launchCampaignWithBounties(campaign_info).pipe(
-      tap((response: any) => {
+      tap(() => {
         //let _campaign_Hash = Object.assign({}, this.campaign as any);
         this.showButtonSend = true;
         this.loadingButton = false;
@@ -428,12 +425,12 @@ export class PasswordModalComponent implements OnInit {
           'You dont have enough ETH gaz (ETH :$ ' + this.erc20Gaz + ')';
         this.loadingButton = false;
       }
-    } else if(error.error.error.includes('reverted')){
+    } else if (error.error.error.includes('reverted')) {
       this.errorMessage =
         'Error: Transaction has been reverted by blockchain evm';
       this.loadingButton = false;
     } else {
-      this.errorMessage = "An error has been occured, please try again later";
+      this.errorMessage = 'An error has been occured, please try again later';
       this.loadingButton = false;
     }
   }
@@ -507,8 +504,8 @@ export class PasswordModalComponent implements OnInit {
   handleBounties() {
     let array: any[] = [];
     if (!!this.campaign) {
-      this.campaign.bounties.forEach((bounty: any, bountyIndex: number) => {
-        bounty.categories.forEach((category: any, categoryIndex: number) => {
+      this.campaign.bounties.forEach((bounty: any) => {
+        bounty.categories.forEach((category: any) => {
           array.push(
             category.minFollowers,
             category.maxFollowers,
