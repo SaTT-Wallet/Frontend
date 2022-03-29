@@ -1,22 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import {
-  catchError,
-  concatMap,
-  delay,
-  filter,
-  map,
-  mergeMap,
-  switchMap,
-  take,
-  tap
-} from 'rxjs/operators';
-import { AuthService } from './Auth/auth.service';
-import { ContactMessageService } from './contactmessage/contact-message.service';
 import { TokenStorageService } from './tokenStorage/token-storage-service.service';
-import { WalletFacadeService } from '@core/facades/wallet-facade.service';
-import { AuthStoreService } from '@core/services/Auth/auth-store.service';
 import { AccountFacadeService } from '../facades/account-facade/account-facade.service';
 @Injectable({
   providedIn: 'root'
