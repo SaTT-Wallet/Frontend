@@ -1,5 +1,5 @@
 import { User } from '@app/models/User';
-import { createAction, props, union } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 
 export const loadAccount = createAction('[Account] Load Account');
 export const loadUpdatedAccount = createAction(
@@ -12,6 +12,11 @@ export const loadAccountSuccess = createAction(
 
 export const loadAccountFailure = createAction(
   '[Account] Load Account Failure',
+  props<{ error: any }>()
+);
+
+export const loadAccountError = createAction(
+  '[Account] Load Account Error',
   props<{ error: any }>()
 );
 

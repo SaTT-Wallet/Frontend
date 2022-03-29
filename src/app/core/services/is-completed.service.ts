@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, filter, map, take } from 'rxjs/operators';
 import { TokenStorageService } from './tokenStorage/token-storage-service.service';
 import { AccountFacadeService } from '../facades/account-facade/account-facade.service';
+import { User } from '@app/models/User';
 @Injectable({
   providedIn: 'root'
 })
@@ -52,9 +53,10 @@ export class IsCompletedService implements CanActivate {
   handleAccountValue() {
     return this.accountFacadeService.account$.pipe(
       filter((res) => res !== null),
+      map((user) => user as User),
       take(1),
-      map((data: any) => {
-        if (!!data.error || !Object.keys(data).length) {
+      map((data: User) => {
+        if (!Object.keys(data).length) {
           this.tokenStorageService.signOut();
           this.router.navigate(['auth/login']);
           return false;

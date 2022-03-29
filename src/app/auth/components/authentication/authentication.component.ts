@@ -367,7 +367,7 @@ getCookie(key: string){
         mergeMap((response: User) => {
           this.tokenStorageService.setHeader();
           this.tokenStorageService.saveUserId(response.idUser);
-          this.tokenStorageService.saveIdSn(response.idSn);
+          this.tokenStorageService.saveIdSn(response.idSn.toString());
           this.idUser = Number(response.idUser);
           if (response.is2FA === true) {
             this.tokenStorageService.setItem('valid2FA', 'false');
@@ -444,7 +444,7 @@ getCookie(key: string){
             // this.spinner.hide();
           }
         },
-        (error: any) => {
+        (error: HttpErrorResponse) => {
           if (
             error.error &&
             error.error.error === 'Wallet not found' &&
@@ -525,7 +525,7 @@ getCookie(key: string){
         .login(this.f.email?.value, this.f.password?.value)
         .pipe(
           takeUntil(this.onDestroy$),
-          catchError((error: any) => {
+          catchError((error: HttpErrorResponse) => {
             if (error.error.error.message === 'user not found') {
               this.errorMessage = 'Invalid email address';
             } else if (error.error.error.message === 'invalid_credentials') {
@@ -584,7 +584,7 @@ getCookie(key: string){
           mergeMap(({ data, response }: { data: any; response: User }) => {
             this.tokenStorageService.setHeader();
             this.tokenStorageService.saveUserId(response.idUser);
-            this.tokenStorageService.saveIdSn(response.idSn);
+            this.tokenStorageService.saveIdSn(response.idSn.toString());
             this.idUser = Number(response.idUser);
             if (response.is2FA === true) {
               this.tokenStorageService.setItem('valid2FA', 'false');
@@ -691,7 +691,7 @@ getCookie(key: string){
               // this.spinner.hide();
             }
           },
-          (error: any) => {
+          (error: HttpErrorResponse) => {
             if (
               error.error.error === 'Wallet not found' &&
               error.error.code === 404
@@ -743,7 +743,7 @@ getCookie(key: string){
         mergeMap((response: User | null) => {
           if (response) {
             this.tokenStorageService.saveUserId(response.idUser);
-            this.tokenStorageService.saveIdSn(response.idSn);
+            this.tokenStorageService.saveIdSn(response.idSn.toString());
             this.tokenStorageService.setItem('valid2FA', '');
             this.tokenStorageService.setItem('isAuthenticated', 'true');
             this.tokenStorageService.saveExpire(this.expiresToken);
