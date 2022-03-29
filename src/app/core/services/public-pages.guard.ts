@@ -53,8 +53,8 @@ export class PublicPagesGuard implements CanActivate {
           this.tokenStorageService.setPhoneNumber(account.phone);
         }
       }),
-      mergeMap((account: User) => {
-        if (!Object.keys(account).length) {
+      mergeMap((account: User | any) => {
+        if (!Object.keys(account).length || account.error === 'jwt expired') {
           this.tokenStorageService.signOut();
           this.router.navigate(['auth/login']);
           return of(false);

@@ -1,6 +1,6 @@
 export class User {
   public idUser!: string;
-  public idSn: any;
+  public idSn: number;
   public email!: string;
   public firstName!: string;
   public lastName!: string;
@@ -42,6 +42,7 @@ export class User {
   public visitsocialAccounts: any;
   public hasWallet: boolean;
   new: string;
+  error: any;
 
   constructor(data: any) {
     this.idUser = data._id;
