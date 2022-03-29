@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
-import { concatMap, mapTo, takeUntil, tap } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 import {
   SearchCountryField,
   CountryISO,
@@ -12,6 +12,10 @@ import {
 import { environment } from '../../../../environments/environment';
 import { Subject } from 'rxjs';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
+import {
+  IApiResponse,
+  IPaymentRequestResponse
+} from '@app/core/types/rest-api-responses';
 @Component({
   selector: 'app-convert-summary',
   templateUrl: './convert-summary.component.html',
@@ -52,12 +56,17 @@ export class ConvertSummaryComponent implements OnInit {
     this.getInfo();
 
     this.walletFacade
-    .getPayementId(this.crypto, this.quote_id, this.wallet_id, this.selectedBlockchainNetwork)
+      .getPayementId(
+        this.crypto,
+        this.quote_id,
+        this.wallet_id,
+        this.selectedBlockchainNetwork
+      )
       .pipe(
-        tap((res: any) => {
-          this.walletFacade.setPaymentId(res.payment_id);
-          this.tokenStorageService.setItem('payementId', res.payment_id);
-          this.payementId = res.payment_id;
+        tap((res: IApiResponse<IPaymentRequestResponse>) => {
+          this.walletFacade.setPaymentId(res.data.payment_id);
+          this.tokenStorageService.setItem('payementId', res.data.payment_id);
+          this.payementId = res.data.payment_id;
           this.walletFacade.loadCryptoAmount(this.amount);
         }),
         takeUntil(this.isDestroyed)
@@ -87,7 +96,7 @@ export class ConvertSummaryComponent implements OnInit {
   onSubmit() {
     // console.log('clikced!');
   }
-linstingBack(event: any) {
+  linstingBack(event: any) {
     if (event === true) {
       // this.router.navigate(['/wallet/buy-token']);
       this.router.navigate(['/wallet/buy-token'], {
