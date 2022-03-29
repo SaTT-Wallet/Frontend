@@ -221,6 +221,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
           this.checkMenuAdpool();
         }
         if (this.router.url.includes('buy-token')) {
+          //@ts-ignore
+          this.header?.nativeElement.style.background =
+            'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)';
           this.isWelcomePage = false;
           this.menuBuyToken = true;
         }
@@ -1264,6 +1267,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     if (!!this.isDestroyed$) {
+      this.isDestroyed$.next('');
+      this.isDestroyed$.complete();
       this.isDestroyed$.unsubscribe();
     }
     //this.translate.onLangChange.unsubscribe();

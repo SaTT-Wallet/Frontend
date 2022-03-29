@@ -97,6 +97,7 @@ export class CompleteProfileComponent implements OnInit, OnDestroy {
   }
 
   updateProfile() {
+    debugger
     // this.show = true;
     let data_profile = {
       firstName: this.completeProfileForm.get('firstName')?.value,

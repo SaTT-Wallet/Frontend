@@ -27,7 +27,7 @@ const routes: Routes = [
   {
     path: 'buy-token',
     component: BuyTokenComponent
-    // canActivate: [AuthGuardService]
+    //canActivate: [AuthGuardService]
   },
   {
     path: 'token-info',
