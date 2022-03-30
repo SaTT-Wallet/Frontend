@@ -86,7 +86,7 @@ export class BlockchainActionsService {
                 //console.log(response);
 
                 if (response.message === 'success') {
-                  return { ...response.data, action: event.action };
+                  return { ...response, action: event.action };
                 }
               })
             );

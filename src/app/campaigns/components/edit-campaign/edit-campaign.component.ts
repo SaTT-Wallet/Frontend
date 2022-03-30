@@ -141,6 +141,7 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.showModal = true;
     this.campaignsHttpService.scrolling.subscribe(() => {
       this.scrolling = true;
     });

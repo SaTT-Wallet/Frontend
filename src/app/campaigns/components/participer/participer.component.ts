@@ -184,21 +184,31 @@ export class ParticiperComponent implements OnInit {
     var linkFacebook: string =
       sattUrl +
       '/profile/addChannel/facebook/' +
-      this.tokenStorageService.getIdUser();
+      this.tokenStorageService.getIdUser() +
+      '?redirect=' +
+      this.router.url;
 
     var linkGoogle: string =
       sattUrl +
       '/profile/addChannel/youtube/' +
-      this.tokenStorageService.getIdUser();
+      this.tokenStorageService.getIdUser() +
+      '?redirect=' +
+      this.router.url;
 
     var linkTwitter: string =
       sattUrl +
       '/profile/addChannel/twitter/' +
-      this.tokenStorageService.getIdUser();
+      this.tokenStorageService.getIdUser() +
+      '?redirect=' +
+      this.router.url;
+
     var linkLinkedin: string =
       sattUrl +
       '/profile/addChannel/linkedin/' +
-      this.tokenStorageService.getIdUser();
+      this.tokenStorageService.getIdUser() +
+      '?redirect=' +
+      this.router.url;
+
     if (isPlatformBrowser(this.platformId)) {
       if (social === 'facebook') {
         window.location.href = linkFacebook;
@@ -470,7 +480,7 @@ export class ParticiperComponent implements OnInit {
 
         if (performance.find((ratio: any) => ratio.oracle === 'twitter')) {
           this.CampaignService.verifyLink(this.application)
-            .pipe(takeUntil(this.isDestroyedSubject))
+            .pipe(takeUntil(this.isDestroyedSubject),)
             .subscribe(
               (data: any) => {
                 if (
@@ -609,13 +619,7 @@ export class ParticiperComponent implements OnInit {
             .pipe(takeUntil(this.isDestroyedSubject))
             .subscribe(
               (data: any) => {
-        
-
-                if (
-                  data.message = 'success' &&
-                  data.code === 200 
-                
-                ) {
+                if ((data.message = 'success' && data.code === 200)) {
                   this.linked = true;
                   this.loadingButton = false;
                 } else if (
@@ -1143,12 +1147,13 @@ export class ParticiperComponent implements OnInit {
                 this.loadingButton = false;
               }
             } else {
-              this.notifyLink(data.idProm);
+              
+              this.notifyLink(data.data.idProm);
               this.error = '';
-              this.success = data.transactionHash;
+              this.success = data.data.transactionHash;
               this.loadingButton = false;
-              if (data['transactionHash']) {
-                this.transactionHash = data['transactionHash'];
+              if (data.data['transactionHash']) {
+                this.transactionHash = data.data['transactionHash'];
               }
               this.router.navigate([], {
                 queryParams: {
@@ -1162,7 +1167,7 @@ export class ParticiperComponent implements OnInit {
           this.loadingButton = false;
           this.showButtonSend = true;
           if (error.error.code === 500) {
-            this.error = 'Unauthorized';
+            this.error = 'Wrong Password';
           } else {
             this.error = error.error.error;
           }
