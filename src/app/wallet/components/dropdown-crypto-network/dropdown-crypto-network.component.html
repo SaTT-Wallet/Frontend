@@ -1,5 +1,57 @@
 <div class="row justify-content-center flex-row p-2">
-  <div class="d-flex justify-content-end col-6 p-0 pe-2">
+
+  <div class=" d-flex justify-content-end col-6 p-0 pe-2">
+    <div class="dropdown">
+      <button
+        class="btn btntoggle dropdown-toggle btn-dropdown"
+        type="button"
+        id="dropdownMenuButton"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <i class="chevron2 fa fa-fw"></i>
+                  <img
+            class="width_icon_selectednetwork"
+            src="assets/Images/networks-icon/network-black-{{
+              selectedNetworkValue
+            }}.svg"
+          />
+        <span class="dropdown-text ps-2"
+          >{{ selectedNetworkValue }}
+
+        </span>
+      </button>
+      <ul
+        class="dropdown-menu"
+        aria-labelledby="dropdownMenuButton"
+        id="dropdownButtonUl2"
+      >
+        <ng-container *ngFor="let n of networkList; trackBy: trackById2">
+          <li
+            class="li-select"
+            *ngIf="n.network !== selectedNetworkValue"
+            (click)="selectNetworkValue(n.network)"
+          >
+          <img
+          src="assets/Images/networks-icon/network-black-{{
+            n.network
+          }}.svg"
+          class="width_icon_network"
+        />
+            <span class="li-select-text"
+              >{{ n.network }}
+
+              <!-- <span  *ngIf="n.network==='ERC20'" class="icon-ethereum-lg mt-1 blokchIcon displayed"></span>
+                        <span *ngIf="n.network==='BEP20'" class="icon-binance-lg blokchIcon2 displayed"></span>
+                        <span *ngIf="n.network==='BTC'" class="icon-figma-1 mt-2 ms-3 displayed"></span> -->
+            </span>
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+  </div>
+  <div class="d-flex col-6 p-0 ">
     <div class="dropdown" id="dropdown-ul">
       <button
         [disabled]="selectedNetworkValue === 'BTC'"
@@ -71,55 +123,5 @@
       </ul>
     </div>
   </div>
-  <div class="d-flex col-6 p-0">
-    <div class="dropdown">
-      <button
-        class="btn btntoggle dropdown-toggle btn-dropdown"
-        type="button"
-        id="dropdownMenuButton"
-        data-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false"
-      >
-        <i class="chevron2 fa fa-fw"></i>
-                  <img
-            class="width_icon_selectednetwork"
-            src="assets/Images/networks-icon/network-black-{{
-              selectedNetworkValue
-            }}.svg"
-          />
-        <span class="dropdown-text ps-2"
-          >{{ selectedNetworkValue }}
 
-        </span>
-      </button>
-      <ul
-        class="dropdown-menu"
-        aria-labelledby="dropdownMenuButton"
-        id="dropdownButtonUl2"
-      >
-        <ng-container *ngFor="let n of networkList; trackBy: trackById2">
-          <li
-            class="li-select"
-            *ngIf="n.network !== selectedNetworkValue"
-            (click)="selectNetworkValue(n.network)"
-          >
-          <img
-          src="assets/Images/networks-icon/network-black-{{
-            n.network
-          }}.svg"
-          class="width_icon_network"
-        />
-            <span class="li-select-text"
-              >{{ n.network }}
-
-              <!-- <span  *ngIf="n.network==='ERC20'" class="icon-ethereum-lg mt-1 blokchIcon displayed"></span>
-                        <span *ngIf="n.network==='BEP20'" class="icon-binance-lg blokchIcon2 displayed"></span>
-                        <span *ngIf="n.network==='BTC'" class="icon-figma-1 mt-2 ms-3 displayed"></span> -->
-            </span>
-          </li>
-        </ng-container>
-      </ul>
-    </div>
-  </div>
 </div>
