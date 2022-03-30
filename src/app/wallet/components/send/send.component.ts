@@ -404,14 +404,26 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         )
         .subscribe(
           (data: any) => {
-            this.toastr.success(
-              'You have sent' +
-                splitted +
-                '  ' +
-                currency +
-                '  to  ' +
-                data.data.address
-            );
+            if (currency === 'SATTBEP20') {
+              let currenncySatt = 'SATT';
+              this.toastr.success(
+                'You have sent' +
+                  splitted +
+                  '  ' +
+                  currenncySatt +
+                  '  to  ' +
+                  data.data.address
+              );
+            } else {
+              this.toastr.success(
+                'You have sent' +
+                  splitted +
+                  '  ' +
+                  currency +
+                  '  to  ' +
+                  data.data.address
+              );
+            }
             this.showSpinner = false;
             this.loadingButton = false;
             if (data.data.transactionHash) {
