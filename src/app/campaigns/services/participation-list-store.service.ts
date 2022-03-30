@@ -188,6 +188,7 @@ export class ParticipationListStoreService {
                 } else if (element.totalToEarn && !element.payedAmount) {
                   element.sum = element?.totalToEarn;
                 }
+                element.typeSN = Number(element.typeSN);
                 //................................................................................................
                 element.safeURL = this.generatePostThumbnail(element);
                 element.link = this.generatePostLink(element);
@@ -448,15 +449,15 @@ export class ParticipationListStoreService {
   }
 
   generatePostThumbnail(post: any): any {
-    if (post.typeSN === '1') {
+    if (post.typeSN === 1) {
       return this.sanitizer.bypassSecurityTrustResourceUrl(
         'https://www.facebook.com/' + post.idUser + '/posts/' + post.idPost
       );
-    } else if (post.typeSN === '3') {
+    } else if (post.typeSN === 3) {
       return this.sanitizer.bypassSecurityTrustResourceUrl(
         'https://www.instagram.com/p/' + post.idPost + '/'
       );
-    } else if (post.typeSN === '4') {
+    } else if (post.typeSN === 4) {
       return this.sanitizer.bypassSecurityTrustResourceUrl(
         'https://twitter.com/' + post.idUser + '/status/' + post.idPost
       );
@@ -470,15 +471,15 @@ export class ParticipationListStoreService {
   }
 
   generatePostLink(post: any) {
-    if (post.typeSN === '1') {
+    if (post.typeSN === 1) {
       return (
         'https://www.facebook.com/' + post.idUser + '/posts/' + post.idPost
       );
-    } else if (post.typeSN === '3') {
+    } else if (post.typeSN === 3) {
       return 'https://www.instagram.com/p/' + post.idPost + '/';
-    } else if (post.typeSN === '4') {
+    } else if (post.typeSN === 4) {
       return 'https://twitter.com/' + post.idUser + '/status/' + post.idPost;
-    } else if (post.typeSN === '2') {
+    } else if (post.typeSN === 2) {
       return 'https://www.youtube.com/watch?v=' + post.idPost.split('&')[0];
     } else {
       return `https://www.linkedin.com/feed/update/urn:li:${post.typeURL}:${post.idPost}/`;
