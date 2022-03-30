@@ -32,7 +32,10 @@ export class AccountEffects {
         if (account === null || action.type === loadUpdatedAccount.type) {
           return this.authService.verifyAccount().pipe(
             map((data: IresponseAccount) => {
-              if (data.message === 'jwt expired') {
+              if (
+                data.message === 'jwt expired' ||
+                data.error === 'JsonWebTokenError'
+              ) {
                 let error: any = {};
                 error.error = data.message;
                 this.tokenStorageService.signOut();
