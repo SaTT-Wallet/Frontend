@@ -115,7 +115,7 @@ export class CampaignDetailComponent implements OnInit {
   isLoading = true;
   histEarning = false;
   private history: string[] = [];
-  showmoonboy = true;
+  showmoonboy = false;
   private isErnings = false;
 
   constructor(
@@ -156,10 +156,10 @@ export class CampaignDetailComponent implements OnInit {
           if (event instanceof NavigationEnd) {
             if (event.url.includes('earnings')) {
               this.isErnings = true;
-              this.showmoonboy = false;
+              this.showmoonboy = true;
             } else {
               if (!event.url.includes('earnings')) {
-                this.showmoonboy = true;
+                this.showmoonboy = false;
               }
             }
             this.history.push(event.urlAfterRedirects);
@@ -177,9 +177,9 @@ export class CampaignDetailComponent implements OnInit {
   ngOnInit(): void {
     this.CampaignService.isLoading.subscribe((res) => {
       if (res === false) {
-        setTimeout(() => {
-          this.showmoonboy = false;
-        }, 1000);
+        // setTimeout(() => {
+        this.showmoonboy = true;
+        // }, 1000);
       } else {
         if (!this.router.url.includes('earnings')) {
           this.showmoonboy = true;
