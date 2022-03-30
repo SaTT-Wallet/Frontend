@@ -396,6 +396,7 @@ getCookie(key: string){
         })
       )
       .pipe(
+        take(2),
         tap((response: any) => {
           if (response.myWallet === null) {
             this.tokenStorageService.setSecureWallet(
