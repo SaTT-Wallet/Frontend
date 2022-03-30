@@ -381,7 +381,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   receiveMessage() {
     this.NotificationService.notifications$
       .pipe(
-        tap((msg) => {}),
+        tap((msg) => {
+          console.log(msg, 'msg');
+        }),
         concatMap((payload) =>
           timer(6000).pipe(
             takeUntil(this.isDestroyed$),
@@ -400,11 +402,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
         ls.forEach((item: any) => {
           this.siwtchFunction(item);
           let msg = '';
+          console.log(msg, 'mssg ');
           this.translate
             .get(item._label, item._params)
             .pipe(takeUntil(this.isDestroyed$))
             .subscribe((data: any) => {
+              console.log(data, 'datta from header');
               msg = data;
+              console.log(msg, 'msg toastr');
             });
 
           if (item.type === 'send_demande_satt_event') {
