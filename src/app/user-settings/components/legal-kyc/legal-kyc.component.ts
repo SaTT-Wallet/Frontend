@@ -1,15 +1,9 @@
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  Validators,
-  FormBuilder
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FilesService } from '@core/services/files/files.Service';
 import { sattUrl } from '@config/atn.config';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { User } from '../../../models/User';
-import { ProfileService } from '@core/services/profile/profile.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-facade.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
@@ -284,7 +278,6 @@ export class LegalKYCComponent implements OnInit {
       .getListUserLegal()
       .pipe(
         mergeMap((kyc: any) => {
-          console.log(kyc)
           let arrayOfObs: any[] = [];
           if (kyc !== null && kyc !== undefined && kyc.message === 'success') {
             this.showSpinner = false;

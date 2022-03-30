@@ -292,24 +292,35 @@ export class InfoComponent implements OnInit, OnDestroy {
       this.profileSettingsFacade
         .updateEmail(data_Email)
         .pipe(takeUntil(this.onDestoy$))
-        .subscribe((response: any) => {
-          if (response === 'wrong password') {
-            this.errorMsg = 'Wrong Password';
-            setTimeout(() => {
-              this.errorMsg = '';
-            }, 3000);
-          } else if (response === 'duplicated email') {
-            this.duplicateEmail = true;
-            setTimeout(() => {
+        .subscribe(
+          (response: any) => {
+            if (response.code === 200) {
+              this.accountFacadeService.dispatchUpdatedAccount();
+              this.confirmCodeShow = true;
+              this.emailInputShow = false;
               this.duplicateEmail = false;
-            }, 3000);
-          } else {
-            this.accountFacadeService.dispatchUpdatedAccount();
-            this.confirmCodeShow = true;
-            this.emailInputShow = false;
-            this.duplicateEmail = false;
+            }
+          },
+          (err: any) => {
+            if (
+              err.error.error === 'wrong password' &&
+              err.error.code === 406
+            ) {
+              this.errorMsg = 'Wrong Password';
+              setTimeout(() => {
+                this.errorMsg = '';
+              }, 3000);
+            } else if (
+              err.error.error === 'duplicated email' &&
+              err.error.code === 406
+            ) {
+              this.duplicateEmail = true;
+              setTimeout(() => {
+                this.duplicateEmail = false;
+              }, 3000);
+            }
           }
-        });
+        );
     }
   }
   resetPassword() {

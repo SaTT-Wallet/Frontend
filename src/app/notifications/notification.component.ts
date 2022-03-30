@@ -91,7 +91,6 @@ export class NotificationComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getAllNotifications();
-    this.seeNotification();
   }
   seeNotification() {
     this.NotificationService.notificationSeen()
@@ -225,7 +224,9 @@ export class NotificationComponent implements OnInit {
           this.showSpinner = false;
           this.isloading = false;
           this.dataNotification = response.data.notifications;
-
+          if (response.data.isSeen !== 0) {
+            this.seeNotification();
+          }
           this.dataNotification.forEach((item: any) => {
             item.created = item.created ? item.created : item.createdAt;
             this.siwtchFunction(item);

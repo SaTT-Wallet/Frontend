@@ -27,6 +27,7 @@ export class ConfirmBlockchainActionComponent implements OnInit {
     this.actionResults$
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((response) => {
+        debugger
         this.isLoading = false;
 
         // console.log(response);

@@ -101,7 +101,6 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
   }
 
   getUserPic() {
-
     this.subscription = this.account$
       .pipe(
         filter((res) => res !== null),
@@ -120,7 +119,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.onDestoy$),
         mergeMap((profile: any) => {
-          if(profile){
+          if (profile) {
             if (
               (this.user.idSn === 0 ||
                 (this.picUserUpdated && this.user.idSn !== 0)) &&
@@ -152,14 +151,13 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
         this.campaignsList = campaigns;
         this.campaignsList2 = campaigns;
         this.campaignsList?.forEach((element: Campaign) => {
-          if(typeof (element.startDate) == "number"){
-            element.startDate=new Date(element.startDate*1000)
+          if (typeof element.startDate == 'number') {
+            element.startDate = new Date(element.startDate * 1000);
           }
-          if(typeof (element.endDate) == "number"){
-            element.endDate=new Date(element.endDate*1000)
+          if (typeof element.endDate == 'number') {
+            element.endDate = new Date(element.endDate * 1000);
           }
 
-          console.log(element);
           if (element.isOwnedByUser) {
             element.urlPicUser = this.user.userPicture;
           }

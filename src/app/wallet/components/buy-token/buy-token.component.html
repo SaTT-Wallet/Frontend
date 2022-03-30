@@ -279,8 +279,7 @@
                       ? 'SATT'
                       : this.requestedCrypto)
                 }}
-                =
-                {{ this.cryptoPrice?.toFixed(8) + ' USD' }}
+                = {{ this.cryptoPrice?.toFixed(8) + ' USD' }}
               </ng-container>
             </p>
           </div>
@@ -508,6 +507,8 @@
             >
               <img
                 src="../../../assets/Images/symbol_crypto/pancakeswap-icon.svg"
+                width="30px"
+                class="ms-2"
                 alt=""
               />
               <span class="purshase-btn-text">{{
@@ -527,10 +528,10 @@
               <img
                 src="../../../assets/Images/symbol_crypto/Uniswap.svg"
                 alt=""
-                class="img-width-32"
+                class="img-width-32 ms-2"
               />
 
-              <span class="purshase-btn-text">{{
+              <span class="purshase-btn-text pt-1">{{
                 'Swap with uniswap' | translate
               }}</span>
             </a>
