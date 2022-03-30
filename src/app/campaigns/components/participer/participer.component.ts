@@ -1143,7 +1143,7 @@ export class ParticiperComponent implements OnInit {
                 this.loadingButton = false;
               }
             } else {
-              debugger
+              
               this.notifyLink(data.data.idProm);
               this.error = '';
               this.success = data.data.transactionHash;
