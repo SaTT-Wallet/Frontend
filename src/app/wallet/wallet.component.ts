@@ -380,6 +380,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   toggle: boolean = true;
   isChecked: boolean = false;
   picUserUpdated: boolean = false;
+
   private totalBalance$ = this.walletFacade.totalBalance$;
 
   selectTab(tabId: number) {
@@ -651,6 +652,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.verifyOnBoarding();
+    // this.dontShowAgain();
     // let data_profile = {
     //   onBoarding: false
     // };
@@ -958,26 +960,35 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
   dontShowAgain() {
     this.isChecked = !this.isChecked;
-    if (this.isChecked === true) {
+
+    if (this.isChecked === false) {
       let data_profile = {
         toggle: false
       };
       this.profileSettingsFacade
         .updateProfile(data_profile)
         .pipe(takeUntil(this.onDestoy$))
-        .subscribe(() => {});
-      this.tokenStorageService.setShowPopUp('false');
+        .subscribe((data: any) => {
+          if (data.data.toogle === false) {
+            this.accountFacadeService.dispatchUpdatedAccount();
+            this.tokenStorageService.setShowPopUp('false');
+          }
+        });
     }
 
-    if (this.isChecked === false) {
+    if (this.isChecked === true) {
       let data_profile = {
         toggle: true
       };
       this.profileSettingsFacade
         .updateProfile(data_profile)
         .pipe(takeUntil(this.onDestoy$))
-        .subscribe(() => {});
-      this.tokenStorageService.setShowPopUp('true');
+        .subscribe((data: any) => {
+          if (data.data.toggle === true) {
+            this.accountFacadeService.dispatchUpdatedAccount();
+            this.tokenStorageService.setShowPopUp('true');
+          }
+        });
     }
   }
   goToCampaign() {
