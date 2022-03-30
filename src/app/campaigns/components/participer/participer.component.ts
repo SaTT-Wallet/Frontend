@@ -184,21 +184,31 @@ export class ParticiperComponent implements OnInit {
     var linkFacebook: string =
       sattUrl +
       '/profile/addChannel/facebook/' +
-      this.tokenStorageService.getIdUser();
+      this.tokenStorageService.getIdUser() +
+      '?redirect=' +
+      this.router.url;
 
     var linkGoogle: string =
       sattUrl +
       '/profile/addChannel/youtube/' +
-      this.tokenStorageService.getIdUser();
+      this.tokenStorageService.getIdUser() +
+      '?redirect=' +
+      this.router.url;
 
     var linkTwitter: string =
       sattUrl +
       '/profile/addChannel/twitter/' +
-      this.tokenStorageService.getIdUser();
+      this.tokenStorageService.getIdUser() +
+      '?redirect=' +
+      this.router.url;
+
     var linkLinkedin: string =
       sattUrl +
       '/profile/addChannel/linkedin/' +
-      this.tokenStorageService.getIdUser();
+      this.tokenStorageService.getIdUser() +
+      '?redirect=' +
+      this.router.url;
+
     if (isPlatformBrowser(this.platformId)) {
       if (social === 'facebook') {
         window.location.href = linkFacebook;
@@ -609,13 +619,7 @@ export class ParticiperComponent implements OnInit {
             .pipe(takeUntil(this.isDestroyedSubject))
             .subscribe(
               (data: any) => {
-        
-
-                if (
-                  data.message = 'success' &&
-                  data.code === 200 
-                
-                ) {
+                if ((data.message = 'success' && data.code === 200)) {
                   this.linked = true;
                   this.loadingButton = false;
                 } else if (
