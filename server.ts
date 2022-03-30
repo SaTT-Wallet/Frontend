@@ -35,6 +35,7 @@ export function app(): express.Express {
   global['navigator'] = win.navigator;
   global['IDBIndex'] = win.IDBIndex;
   global['Blob'] = Blob;
+  global['localStorage'] = win.localStorage;
   const indexHtml = existsSync(join(distFolder, 'index.original.html'))
     ? 'index.original.html'
     : 'index';
@@ -69,6 +70,10 @@ export function app(): express.Express {
   });
 
   server.get('*', (req, res) => {
+    res.sendFile(join(distFolder, 'index.html'));
+  });
+
+  server.get('/campaign/**/edit', (req, res) => {
     res.sendFile(join(distFolder, 'index.html'));
   });
 

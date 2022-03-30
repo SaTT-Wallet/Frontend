@@ -202,7 +202,7 @@ export class TokenStorageService {
     let header = new HttpHeaders({
       'Cache-Control': 'no-store',
       'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + localStorage.getItem('access_token')
+      Authorization: 'Bearer ' + this.localStorage.getItem('access_token')
     });
     return this.http.get(sattUrl + '/auth/logout', {
       headers: header
