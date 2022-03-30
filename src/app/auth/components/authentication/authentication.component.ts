@@ -140,6 +140,7 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
   private onDestroy$ = new Subject();
   private account$ = this.accountFacadeService.account$;
   blockDate: any;
+  successMessagecode: string = '';
   constructor(
     private modalService: NgbModal,
     private authService: AuthService,
@@ -278,7 +279,6 @@ getCookie(key: string){
    */
 
   skipLoginWhenRedirected() {
-    debugger
     this.routerSub = this.route.queryParams
       .pipe(
         takeUntil(this.onDestroy$),
@@ -367,7 +367,7 @@ getCookie(key: string){
         mergeMap((response: User) => {
           this.tokenStorageService.setHeader();
           this.tokenStorageService.saveUserId(response.idUser);
-          this.tokenStorageService.saveIdSn(response.idSn);
+          this.tokenStorageService.saveIdSn(response.idSn.toString());
           this.idUser = Number(response.idUser);
           if (response.is2FA === true) {
             this.tokenStorageService.setItem('valid2FA', 'false');
@@ -396,7 +396,6 @@ getCookie(key: string){
         })
       )
       .pipe(
-
         tap((response: any) => {
           if (response.myWallet === null) {
             this.tokenStorageService.setSecureWallet(
@@ -445,7 +444,7 @@ getCookie(key: string){
             // this.spinner.hide();
           }
         },
-        (error: any) => {
+        (error: HttpErrorResponse) => {
           if (
             error.error &&
             error.error.error === 'Wallet not found' &&
@@ -526,11 +525,11 @@ getCookie(key: string){
         .login(this.f.email?.value, this.f.password?.value)
         .pipe(
           takeUntil(this.onDestroy$),
-          catchError((error: any) => {
+          catchError((error: HttpErrorResponse) => {
             if (error.error.error.message === 'user not found') {
-              this.errorMessage = 'Email incorrect';
+              this.errorMessage = 'Invalid email address';
             } else if (error.error.error.message === 'invalid_credentials') {
-              this.errorMessage = 'Password incorrect';
+              this.errorMessage = 'Incorrect password';
             } else if (error.error.error.message === 'account_locked') {
               if (
                 this.blocktime &&
@@ -585,7 +584,7 @@ getCookie(key: string){
           mergeMap(({ data, response }: { data: any; response: User }) => {
             this.tokenStorageService.setHeader();
             this.tokenStorageService.saveUserId(response.idUser);
-            this.tokenStorageService.saveIdSn(response.idSn);
+            this.tokenStorageService.saveIdSn(response.idSn.toString());
             this.idUser = Number(response.idUser);
             if (response.is2FA === true) {
               this.tokenStorageService.setItem('valid2FA', 'false');
@@ -692,7 +691,7 @@ getCookie(key: string){
               // this.spinner.hide();
             }
           },
-          (error: any) => {
+          (error: HttpErrorResponse) => {
             if (
               error.error.error === 'Wallet not found' &&
               error.error.code === 404
@@ -744,7 +743,7 @@ getCookie(key: string){
         mergeMap((response: User | null) => {
           if (response) {
             this.tokenStorageService.saveUserId(response.idUser);
-            this.tokenStorageService.saveIdSn(response.idSn);
+            this.tokenStorageService.saveIdSn(response.idSn.toString());
             this.tokenStorageService.setItem('valid2FA', '');
             this.tokenStorageService.setItem('isAuthenticated', 'true');
             this.tokenStorageService.saveExpire(this.expiresToken);
@@ -923,6 +922,7 @@ getCookie(key: string){
   closeModal(content: TemplateRef<ElementRef>) {
     this.modalService.dismissAll(content);
     this.showSpinner = false;
+    this.successMessagecode = '';
   }
 
   verifyCode() {
@@ -934,9 +934,10 @@ getCookie(key: string){
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(
         (data: any) => {
-          if (data.message === 'code is matched' && data.code === 200) {
+          if (data.message === 'code is matched') {
             this.codesms = true;
-            this.errorMessagecode = 'code correct';
+            this.successMessagecode = 'code correct';
+            this.errorMessagecode = '';
           }
         },
         (err) => {
@@ -948,8 +949,8 @@ getCookie(key: string){
           ) {
             this.errorMessagecode = 'code incorrect';
             this.formCode.reset();
+            this.successMessagecode = '';
             // this.codeInput.reset();
-            this.codesms = false;
             setTimeout(() => {
               this.errorMessagecode = '';
             }, 2000);
@@ -963,7 +964,6 @@ getCookie(key: string){
         }
       );
   }
-
   changePwd() {
     let email = this.formL.get('email')?.value;
     this.router.navigate(['auth/resetpassword'], {

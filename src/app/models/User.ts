@@ -1,6 +1,6 @@
 export class User {
   public idUser!: string;
-  public idSn: any;
+  public idSn: number;
   public email!: string;
   public firstName!: string;
   public lastName!: string;
@@ -41,7 +41,9 @@ export class User {
   public passphrase: any;
   public visitsocialAccounts: any;
   public hasWallet: boolean;
+  public toggle: boolean;
   new: string;
+  error: any;
 
   constructor(data: any) {
     this.idUser = data._id;
@@ -81,6 +83,7 @@ export class User {
     this.completed = data.completed;
     this.visitPassphrase = data.visitPassphrase || '';
     this.visitsocialAccounts = data.visitsocialAccounts || '';
+    this.toggle = data.toggle;
     this.newsLetter = data.newsLetter || '';
     this.userSatt = data.userSatt || '';
     this.photoUpdated = data.photoUpdated;

@@ -10,7 +10,8 @@ import {
   loadAccount,
   loadAccountSuccess,
   loadAccountFailure,
-  loadUpdatedAccount
+  loadUpdatedAccount,
+  loadAccountError
 } from '../actions/account.actions';
 @Injectable()
 export class AccountEffects {
@@ -26,9 +27,14 @@ export class AccountEffects {
       mergeMap(([action, account]) => {
         if (account === null || action.type === loadUpdatedAccount.type) {
           return this.authService.verifyAccount().pipe(
-            map((data: IresponseAccount) =>
-              loadAccountSuccess({ data: new User(data.data) })
-            ),
+            map((data: IresponseAccount) => {
+              if (data.message === 'jwt expired') {
+                let error: any = {};
+                error.error = data.message;
+                return loadAccountError(error);
+              }
+              return loadAccountSuccess({ data: new User(data.data) });
+            }),
             catchError((error) => of(loadAccountFailure(error)))
           );
         }

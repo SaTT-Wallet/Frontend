@@ -292,7 +292,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   snlogin(social: string) {
-    if (social === 'facebook') {
+    if (social == 'facebook') {
       this.loginNet = 'facebook';
       if (isPlatformBrowser(this.platformId)) {
         window.location.href = this.authFacebook;

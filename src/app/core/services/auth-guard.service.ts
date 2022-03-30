@@ -6,6 +6,7 @@ import { TokenStorageService } from './tokenStorage/token-storage-service.servic
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AccountFacadeService } from '../facades/account-facade/account-facade.service';
 import { User } from '@app/models/User';
+import { IResponseWallet } from '../iresponse-wallet';
 @Injectable({
   providedIn: 'root'
 })
@@ -36,15 +37,15 @@ export class AuthGuardService implements CanActivate {
   handleAccountValue() {
     return this.accountFacadeService.account$.pipe(
       filter((res) => res !== null),
-      take(1),
+      take(2),
       tap((account: any) => {
         const phonenumber = this.tokenStorageService.getPhoneNumber();
         if (!phonenumber) {
           this.tokenStorageService.setPhoneNumber(account.phone);
         }
       }),
-      mergeMap((account: User) => {
-        if (account.email === '') {
+      mergeMap((account: User | any) => {
+        if (account.email === '' || account.error === 'jwt expired') {
           this.accountFacadeService.dispatchLogoutAccount();
           this.tokenStorageService.signOut();
           this.router.navigate(['auth/login']);
@@ -94,7 +95,7 @@ export class AuthGuardService implements CanActivate {
           return of(false);
         }
       }),
-      mergeMap((data: any) => {
+      mergeMap((data: IResponseWallet) => {
         if (this.tokenStorageService.getvalid2FA() === 'false') {
           // this.tokenStorageService.signOut()
           this.accountFacadeService.dispatchLogoutAccount();
