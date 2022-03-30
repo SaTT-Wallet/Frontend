@@ -31,8 +31,11 @@ export class AccountEffects {
       mergeMap(([action, account]) => {
         if (account === null || action.type === loadUpdatedAccount.type) {
           return this.authService.verifyAccount().pipe(
-            map((data: IresponseAccount) => {
-              if (data.message === 'jwt expired') {
+            map((data: IresponseAccount | any) => {
+              if (
+                data.message === 'jwt expired' ||
+                data.name === 'JsonWebTokenError'
+              ) {
                 let error: any = {};
                 error.error = data.message;
                 this.tokenStorageService.signOut();
