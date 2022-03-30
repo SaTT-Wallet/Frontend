@@ -43,6 +43,7 @@ export class User {
   public hasWallet: boolean;
   public toggle: boolean;
   new: string;
+  error: any;
 
   constructor(data: any) {
     this.idUser = data._id;

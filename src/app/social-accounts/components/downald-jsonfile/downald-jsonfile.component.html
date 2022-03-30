@@ -15,16 +15,18 @@
 
       <div class="row d-flex justify-content-center">
         <div
-          class="col-xl-8 col-lg-10 col-md-11 col-sm-6 mt-lg-5 mt-sm-0 mt-xs-0 make-center"
+          class="col-xl-8 col-lg-10 col-md-11 col-sm-6 mt-lg-5 mt-sm-0 mt-xs-0 make-center margin-top"
         >
           <span class="title_page">{{ 'pwd_downald' | translate }}</span>
         </div>
       </div>
       <div class="row d-flex justify-content-center mt-4">
         <div
-          class="col-xl-8 col-lg-10 col-md-11 col-sm-8 flex-column make-center"
+          class="col-xl-8 col-lg-10 col-md-11 col-sm-6 flex-column make-center make-width"
         >
-          <p class="white-mobile-version">{{ 'json_text' | translate }}</p>
+          <span class="white-mobile-version">{{
+            'json_text' | translate
+          }}</span>
         </div>
       </div>
       <div class="row mt-5">
@@ -91,7 +93,7 @@
                     (click)="confirmExport()"
                   >
                     <span *ngIf="!this.showSpinner">
-                      {{ 'Continue' | translate }}
+                      {{ 'Download' | translate }}
                       <!-- <img class="ms-2" src="/assets/Images/flech.svg"
                     /> -->
                     </span>
@@ -121,12 +123,12 @@
           </div>
         </div>
       </div>
-      <div class="row d-flex justify-content-center mt-3">
+      <div class="row d-flex justify-content-center mt-4">
         <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8 top-10 display-flex">
           <a
             class="skip-page"
             [routerLink]="['/social-registration/activePass']"
-            >{{ 'downald_next' | translate }}></a
+            >{{ 'downald_next' | translate }}</a
           >
         </div>
       </div>
