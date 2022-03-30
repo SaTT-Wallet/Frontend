@@ -1,6 +1,7 @@
 import { User } from '@app/models/User';
 import { createReducer, on } from '@ngrx/store';
 import * as AccountActionsUnion from '../actions/account.actions';
+
 export const accountFeatureKey = 'account';
 export interface AccountResponseError {
   error: string;
