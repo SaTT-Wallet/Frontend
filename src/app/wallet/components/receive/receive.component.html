@@ -155,7 +155,7 @@
           </h3>
           <h3 class="hard-gray">
             ≈ {{ this.receiveform.value.Amount || 0 }}
-            {{ this.selectedCryptoDetails.symbol |translate }}
+            {{ this.selectedCryptoDetails.symbol | translate }}
           </h3>
         </div>
         <div class="">
@@ -176,11 +176,8 @@
         </div>
 
         <div *ngIf="this.usernotfound" class="error_msg">
-          {{
-            'usernotfound' | translate
-          }}
+          {{ 'usernotfound' | translate }}
         </div>
-
 
         <div class="mt-2 text-center">
           <button
