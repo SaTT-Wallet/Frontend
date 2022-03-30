@@ -458,7 +458,7 @@
   </div>
 </div>
 
-<div class="container-fluid page-content participate-page" *ngIf="success">
+<div class="container-fluid page-content participate-page" *ngIf="!!success">
   <div>
     <div class="envoyer_lien success_page">
       <div class="success-link">
@@ -484,7 +484,7 @@
   </div>
 </div>
 
-<div class="container-fluid page-content participate-page" *ngIf="error">
+<div class="container-fluid page-content participate-page" *ngIf="!!error">
   <div class="envoyer_lien error_page">
     <div class="success-link">
       <img src="/assets/Images/error-info.svg" class="img-style mt-5" />
