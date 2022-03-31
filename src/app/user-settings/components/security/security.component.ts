@@ -371,7 +371,16 @@ export class SecurityComponent implements OnInit, OnDestroy {
           .subscribe(
             () => {
               this.showSpinner = false;
-
+              let msg: string = '';
+              this.translate
+                .get('profile.password_change')
+                .pipe(takeUntil(this.onDestroy$))
+                .subscribe((data1: any) => {
+                  msg = data1;
+                });
+              this.toastr.success(msg);
+              this.formUpdatePassword.reset();
+              this.ngOnInit();
               //    if (data.error == "wrong password") {
 
               //     this.passwordWrong = "profile.old_pass_wrong";
@@ -387,20 +396,9 @@ export class SecurityComponent implements OnInit, OnDestroy {
               //   }
             },
             (error) => {
-              if (error.error.text === '{error:"wrong password"}') {
+              console.log("fefzef");
                 this.passwordWrong = 'profile.old_pass_wrong';
-              } else if (error.error.text === '{message:"changed"}') {
-                let msg: string = '';
-                this.translate
-                  .get('profile.password_change')
-                  .pipe(takeUntil(this.onDestroy$))
-                  .subscribe((data1: any) => {
-                    msg = data1;
-                  });
-                this.toastr.success(msg);
-                this.formUpdatePassword.reset();
-                this.ngOnInit();
-              }
+            
             }
           );
       }
