@@ -45,6 +45,7 @@ import { of, Subject } from 'rxjs';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
+import { HttpErrorResponse } from '@angular/common/http';
 declare var $: any;
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -360,35 +361,53 @@ export class InfoComponent implements OnInit, OnDestroy {
     let codeNumber = Number(this.formCode.get('code')?.value);
     this.profileSettingsFacade
       .confirmChangeEmail(codeNumber)
-      .pipe(takeUntil(this.onDestoy$))
-      .subscribe((res: any) => {
-        if (res === 'code expired') {
-          this.formCode.get('code')?.setValue('');
-          this.errorMsg = 'code expired';
-          setTimeout(() => {
-            this.errorMsg = '';
-          }, 3000);
-        } else if (res === 'code incorrect') {
-          this.formCode.get('code')?.setValue('');
-          this.errorMsg = 'code incorrect';
-          setTimeout(() => {
-            this.errorMsg = '';
-          }, 3000);
-        } else {
-          this.translate
-            .get('update_profile')
-            .pipe(takeUntil(this.onDestoy$))
-            .subscribe((message: any) => {
-              msg = message;
+      .pipe(
+        takeUntil(this.onDestoy$)
+        // catchError((error: HttpErrorResponse) => {
+        //   console.log(error.error, 'errroooor');
+        //   if (
+        //     error.error.error === 'code incorrect' &&
+        //     error.error.code === '406'
+        //   ) {
+        //     this.formCode.get('code')?.setValue('');
+        //     this.errorMsg = 'code incorrect';
+        //     setTimeout(() => {
+        //       this.errorMsg = '';
+        //     }, 3000);
+        //   }
+        //   return of(null);
+        // })
+      )
+      .subscribe(
+        (res: any) => {
+          if (res.message === 'email changed' && res.code === 200) {
+            this.translate
+              .get('update_profile')
+              .pipe(takeUntil(this.onDestoy$))
+              .subscribe((message: any) => {
+                msg = message;
+              });
+            this.toastr.success(msg);
+            this.confirmCodeShow = false;
+            this.successmail = true;
+            this.formProfile.patchValue({
+              email: this.formEmail.get('email')?.value
             });
-          this.toastr.success(msg);
-          this.confirmCodeShow = false;
-          this.successmail = true;
-          this.formProfile.patchValue({
-            email: this.formEmail.get('email')?.value
-          });
+          }
+        },
+        (error: HttpErrorResponse) => {
+          if (
+            error.error.error === 'code incorrect' &&
+            error.error.code === 406
+          ) {
+            this.formCode.get('code')?.setValue('');
+            this.errorMsg = 'code incorrect';
+            setTimeout(() => {
+              this.errorMsg = '';
+            }, 3000);
+          }
         }
-      });
+      );
   }
   get getControls() {
     return this.formEmail.controls;
