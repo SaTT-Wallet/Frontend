@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { sattUrl } from '@config/atn.config';
 import { BehaviorSubject, of } from 'rxjs';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { __values } from 'tslib';
 import { AngularFireMessaging } from '@angular/fire/compat/messaging';
 import { catchError, filter, mergeMap, mergeMapTo } from 'rxjs/operators';
 import { TokenStorageService } from '../tokenStorage/token-storage-service.service';

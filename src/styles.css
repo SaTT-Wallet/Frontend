@@ -4,6 +4,7 @@
 @import './assets/fonts/icomoon/style.css';
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&display=swap');
 
+
 /* ------- mm -----------*/
 
 ::ng-deep iframe {
@@ -205,7 +206,7 @@ body {
         border-bottom-left-radius: 1.875em;
         border-bottom-right-radius: 1.875em;
     }
-    /*  
+    /*
    .introjs-arrow.top{
        -webkit-top: -8em !important;
         top: -8em !important;
@@ -1070,7 +1071,7 @@ body {
 
 /*
     ** Styles here are applied on all modals accros our web application
-    ** Please if you worked on modals make that there's no redandency since 
+    ** Please if you worked on modals make that there's no redandency since
         these styles are generic.
     ** Add specific custom stules on each modal's component.css file.
 */
@@ -1547,7 +1548,7 @@ app-header-register {
 
 /* .toast-container {
     background-image:#eaecf7 !important;
-    border-radius: 22px !important; 
+    border-radius: 22px !important;
     box-shadow: -5px 8px 16px 0px rgba(0,0,0,0.3) !important;
     margin-bottom: 2px !important;
   } */
