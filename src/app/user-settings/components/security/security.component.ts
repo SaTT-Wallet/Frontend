@@ -395,10 +395,8 @@ export class SecurityComponent implements OnInit, OnDestroy {
               // this.ngOnInit()
               //   }
             },
-            (error) => {
-              console.log("fefzef");
-                this.passwordWrong = 'profile.old_pass_wrong';
-            
+            () => {
+              this.passwordWrong = 'profile.old_pass_wrong';
             }
           );
       }
@@ -429,34 +427,32 @@ export class SecurityComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.onDestroy$))
         .subscribe(
           (res: any) => {
-            // this.showSpinner = false;
-            // if (res.error === 'Wrong password') {
-            //   this.formExportData
-            //     .get('password')
-            //     ?.setErrors({ checkPassword: true });
-            // } else {
-            this.formExportDataSubmitted = false;
-            const file = new Blob([JSON.stringify(res)], {
-              type: 'application/octet-stream'
-            });
+            if (res.message === 'success' && res.code === 200) {
+              this.formExportDataSubmitted = false;
+              const file = new Blob([JSON.stringify(res)], {
+                type: 'application/octet-stream'
+              });
 
-            const href = URL.createObjectURL(file);
-            const a = this.document.createElement('A');
-            a.setAttribute('href', href);
-            a.setAttribute('download', fileName);
-            this.document.body.appendChild(a);
-            a.click();
-            this.document.body.removeChild(a);
-            this.formExportData.reset();
-            this.modalService.dismissAll();
-            this.showSpinnerBTC = false;
-            this.showSpinnerETH = false;
+              const href = URL.createObjectURL(file);
+              const a = this.document.createElement('A');
+              a.setAttribute('href', href);
+              a.setAttribute('download', fileName);
+              this.document.body.appendChild(a);
+              a.click();
+              this.document.body.removeChild(a);
+              this.formExportData.reset();
+              this.modalService.dismissAll();
+              this.showSpinnerBTC = false;
+              this.showSpinnerETH = false;
+            }
+
             // }
           },
           (err) => {
             if (
-              err.error.error === 'Wrong password' &&
-              err.error.code === 401
+              err.error.error ===
+                'Key derivation failed - possibly wrong password' &&
+              err.error.code === 500
             ) {
               this.formExportData
                 .get('password')
@@ -508,8 +504,9 @@ export class SecurityComponent implements OnInit, OnDestroy {
           },
           (err) => {
             if (
-              err.error.error === 'Wrong password' &&
-              err.error.code === 401
+              err.error.error ===
+                'Key derivation failed - possibly wrong password' &&
+              err.error.code === 500
             ) {
               this.formExportDataBTC
                 .get('password')
