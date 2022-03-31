@@ -709,10 +709,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
       case 'demande_satt_event':
         item._params = {
           nbr: item._label['price'],
-          crypto: item._label['currency'],
+          crypto: item._label['cryptoCurrency'],
           name: item._label['name']
         };
-        item._label = 'asked_cryptoCurrency';
+        item._label = 'asked_to_acquire';
         item.img = receive_satt_pic;
         break;
       //////////////////////////////////////////

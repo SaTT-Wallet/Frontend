@@ -270,6 +270,9 @@ export class NotificationComponent implements OnInit {
     //   item._label = JSON.parse(item.label )
     // }
     item._label = item.label;
+
+
+
     const receive_satt_pic = './assets/Images/notifIcons/Reception.svg';
     switch (item.type) {
       case 'send_demande_satt_event':
