@@ -741,6 +741,22 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.coinType = true;
       this.gazcurrency = 'ETH';
     }
+    console.log("event",event );
+
+console.log("network",this.networks );
+console.log("this.gazsend",this.gazsend );
+
+    setTimeout(() => {
+      if (this.networks === 'ERC20' || this.networks === 'BTC') {
+        this.gazsend = this.eRC20Gaz;
+      }
+      if (this.networks === 'BEP20') {
+        this.gazsend = this.bEPGaz;
+        console.log("this.gazsend",this.gazsend );
+      }
+    },2000)
+
+
     this.dataList?.forEach((crypto: any) => {
       if (this.networks === 'ERC20' || this.networks === 'BTC') {
         this.gazsend = this.eRC20Gaz;
