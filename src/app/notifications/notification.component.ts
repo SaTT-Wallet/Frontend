@@ -248,7 +248,7 @@ export class NotificationComponent implements OnInit {
   siwtchFunction(item: any) {
     const etherInWei = new Big(1000000000000000000);
     let itemDate = new Date(item.created);
-    // console.log(item)
+
     if (this.tokenStorageService.getLocalLang() === 'en') {
       item.createdFormated = moment
         .parseZone(itemDate)
@@ -270,6 +270,9 @@ export class NotificationComponent implements OnInit {
     //   item._label = JSON.parse(item.label )
     // }
     item._label = item.label;
+
+
+
     const receive_satt_pic = './assets/Images/notifIcons/Reception.svg';
     switch (item.type) {
       case 'send_demande_satt_event':
@@ -286,7 +289,7 @@ export class NotificationComponent implements OnInit {
       case 'demande_satt_event':
         item._params = {
           nbr: item._label['price'],
-          crypto: item._label['currency'],
+          crypto: item._label['cryptoCurrency'],
           name: item._label['name']
         };
         item._label = 'asked_cryptoCurrency';

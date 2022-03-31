@@ -636,7 +636,6 @@ main {
 }
 
 .telegram_log {
-    background: url('/assets/Images/share_image.svg') no-repeat, #54a9eb;
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
@@ -644,6 +643,7 @@ main {
     letter-spacing: -0.01em;
     color: #ffffff;
     cursor: pointer;
+    background: url('/assets/Images/share_image.svg') no-repeat, #29a9eb;
     border-radius: 3rem;
     height: 40px;
     align-items: center;
@@ -662,7 +662,7 @@ main {
     filter: drop-shadow(0px 1px 11px #cddefd) !important;
 }
 
-.telegram_log2 {
+/* .telegram_log2 {
     font-style: normal;
     font-weight: normal;
     font-size: 20px;
@@ -683,7 +683,7 @@ main {
     position: relative;
     background-size: 10% !important;
     z-index: 0;
-}
+} */
 
 .tgm {
     position: absolute;
