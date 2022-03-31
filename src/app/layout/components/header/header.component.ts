@@ -186,12 +186,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
     //     this.translate.use(this.languageSelected);
     //     this.getNotifications();
     //   });
-    this.isWelcomePage = this.router.url.includes('welcome');
+    // this.isWelcomePage = this.router.url.includes('welcome');
 
     //detect url changes to change the background of header
     this.router.events.pipe(takeUntil(this.isDestroyed$)).subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        this.isWelcomePage = event.url.includes('welcome');
+        if (event.url.includes('welcome')) {
+          this.isWelcomePage = true;
+        } else {
+          this.isWelcomePage = false;
+        }
 
         if (
           event.url.includes('campaign') ||
@@ -204,6 +208,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         } else {
           this.menuCampaign = false;
         }
+
         if (event.url.includes('errorMessage')) {
           this.errorPart = true;
         } else {
@@ -217,7 +222,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
         if (this.router.url.includes('welcome')) {
           this.checkMenuAdpool();
         }
-        if (this.router.url.includes('buy-token')) {
+        if (
+          this.router.url.includes('buy-token') ||
+          this.router.url.includes('edit')
+        ) {
           //@ts-ignore
           this.header?.nativeElement.style.background =
             'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)';
@@ -246,10 +254,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.isConnected = isAuth;
       });
     this.fixMenuItemsWidth();
-    if (
-      this.router.url.includes('ad-pools') ||
-      this.router.url.includes('welcome')
-    ) {
+    if (this.router.url.includes('welcome')) {
       this.menuAdpool = true;
     }
     if (this.router.url.includes('wallet')) {
@@ -263,7 +268,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
     if (
       this.router.url.includes('campaign') ||
-      this.router.url.includes('wallet')
+      this.router.url.includes('wallet') ||
+      this.router.url.includes('ad-pools')
     ) {
       this.menuCampaign = true;
     } else {
@@ -381,9 +387,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   receiveMessage() {
     this.NotificationService.notifications$
       .pipe(
-        tap((msg) => {
-          console.log(msg, 'msg');
-        }),
+        tap((msg) => {}),
         concatMap((payload) =>
           timer(6000).pipe(
             takeUntil(this.isDestroyed$),
@@ -402,14 +406,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
         ls.forEach((item: any) => {
           this.siwtchFunction(item);
           let msg = '';
-          console.log(msg, 'mssg ');
+
           this.translate
             .get(item._label, item._params)
             .pipe(takeUntil(this.isDestroyed$))
             .subscribe((data: any) => {
-              console.log(data, 'datta from header');
               msg = data;
-              console.log(msg, 'msg toastr');
             });
 
           if (item.type === 'send_demande_satt_event') {
