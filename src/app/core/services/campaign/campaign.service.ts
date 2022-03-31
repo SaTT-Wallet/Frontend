@@ -956,21 +956,13 @@ export class CampaignHttpApiService {
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
     let walletId = this.tokenStorageService.getIdWallet();
-    if (campaignId === '') {
-      return this.http
-        .get(sattUrl + '/campaign/filterLinks/' + walletId, {
-          headers: header,
-          params: queryParams
-        })
-        .pipe(share());
-    } else {
-      return this.http
-        .get(sattUrl + '/campaign/filterLinks/' + walletId, {
-          headers: header,
-          params: queryParamsCamp
-        })
-        .pipe(share());
-    }
+
+    return this.http
+      .get(sattUrl + '/campaign/filterLinks/' + walletId, {
+        headers: header,
+        params: campaignId ? queryParamsCamp : queryParams
+      })
+      .pipe(share());
   }
 
   allCampaigns2() {
