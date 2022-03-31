@@ -722,6 +722,13 @@ input.input-number2::-webkit-input-placeholder {
     }
 }
 
+
+@media (min-width: 768px){
+    .error{
+    position: relative !important;
+    left: -60px !important;
+    }
+}
 @media (max-width: 767.98px) {
     .div-delete-reword {
         height: 52px;
