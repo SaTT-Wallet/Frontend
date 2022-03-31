@@ -215,6 +215,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         });
         this.showWalletSpinner = false;
       });
+
   }
 
   //get user Data
@@ -813,6 +814,24 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.coinType = true;
       this.gazcurrency = 'ETH';
     }
+
+    setTimeout(() => {
+
+      if (this.networks === 'ERC20' || this.networks === 'BTC') {
+
+        this.gazsend = this.eRC20Gaz;
+
+      }
+
+      if (this.networks === 'BEP20') {
+
+        this.gazsend = this.bEPGaz;
+
+      }
+
+    },2000)
+
+    
     this.dataList?.forEach((crypto: any) => {
       if (this.networks === 'ERC20' || this.networks === 'BTC') {
         this.gazsend = this.eRC20Gaz;
