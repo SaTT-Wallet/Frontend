@@ -961,7 +961,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   dontShowAgain() {
     this.isChecked = !this.isChecked;
 
-    if (this.isChecked === false) {
+    if (this.isChecked === true) {
       let data_profile = {
         toggle: false
       };
@@ -976,7 +976,7 @@ export class WalletComponent implements OnInit, OnDestroy {
         });
     }
 
-    if (this.isChecked === true) {
+    if (this.isChecked === false) {
       let data_profile = {
         toggle: true
       };
