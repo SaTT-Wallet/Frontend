@@ -525,7 +525,6 @@ export class HeaderComponent implements OnInit {
       .subscribe((payload: any) => {
         this.walletFacade.initWallet();
         const obj = JSON.parse(payload.data.obj);
-
         let ls = [];
         ls.push(obj);
         ls.forEach((item: any) => {
@@ -821,6 +820,21 @@ export class HeaderComponent implements OnInit {
     item._label = item.label;
     const receive_satt_pic = './assets/Images/notifIcons/Reception.svg';
     switch (item.type) {
+      case 'buy_some_gas':
+        item._label = 'buy_some_gas';
+        item.img = receive_satt_pic;
+
+        break;
+      case 'invite_friends':
+        item._label = 'invite_friends';
+        item.img = receive_satt_pic;
+
+        break;
+      case 'join_on_social':
+        item._label = 'join_on_social';
+        item.img = receive_satt_pic;
+
+        break;
       case 'send_demande_satt_event':
         item._params = {
           nbr: item._label['price'],

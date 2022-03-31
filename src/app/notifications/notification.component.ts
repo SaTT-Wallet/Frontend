@@ -22,6 +22,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-history',
@@ -48,7 +49,6 @@ export class NotificationComponent implements OnInit {
   isClickedOutside: boolean = true;
   showSpinner!: boolean;
   private isDestroyed = new Subject();
-
   offset: any;
   // tansfer:string='transfer_event_currency'
   bscan = 'https://bscscan.com/tx/';
@@ -63,7 +63,8 @@ export class NotificationComponent implements OnInit {
     public router: Router,
     private activatedRoute: ActivatedRoute,
     private tokenStorageService: TokenStorageService,
-    @Inject(PLATFORM_ID) private platformId: string
+    @Inject(PLATFORM_ID) private platformId: string,
+    private modalService: NgbModal
   ) {
     this.arrayTypeNotification = [
       { type: 'transfer_satt_event', type_notif: 'send_satt' },
@@ -262,6 +263,21 @@ export class NotificationComponent implements OnInit {
     item._label = item.label;
     const receive_satt_pic = './assets/Images/notifIcons/Reception.svg';
     switch (item.type) {
+      case 'buy_some_gas':
+        item._label = 'buy_some_gas';
+        item.img = receive_satt_pic;
+
+        break;
+      case 'invite_friends':
+        item._label = 'invite_friends';
+        item.img = receive_satt_pic;
+
+        break;
+      case 'join_on_social':
+        item._label = 'join_on_social';
+        item.img = receive_satt_pic;
+
+        break;
       case 'send_demande_satt_event':
         item._params = {
           nbr: item._label['price'],
@@ -636,23 +652,23 @@ export class NotificationComponent implements OnInit {
             item._label = 'campaign_notification.editor_video_accepted';
             item.img = './assets/Images/notifIcons/lienAccepte.svg';
             break;
-  
+
           case 'cmp_video_rejected':
             item._params = { name: item._label['cmp_name'], cmpUrl: walletUrl + "campaign/" + item.attachedEls['id'] };
             item._label = 'campaign_notification.editor_video_rejected';
             item.img = './assets/Images/notifIcons/lienRefuse.svg';
             break;
-          
+
         case 'order_event':
            item._label = this.tr(item._label[0], '') + ' - ' + item._label[1];
            item.img = receive_satt_pic;
             break;
-         
+
          case 'mailing_target_event':
             item._label = this.tr(item._label[0], '') + ' - ' + item._label[1];
              item.img = receive_satt_pic;
             break;
-       
+
           case 'split_event':
           item._label = this.tr(item._label[0], '') + ' - ' + item._label[1] + ' - ' + item._label[2] + ' - ' + this.tr(item.status, '');
            item.img = receive_satt_pic;
@@ -683,7 +699,10 @@ export class NotificationComponent implements OnInit {
     }
   }
 
-  redirect(notif: any): void {
+  redirect(notif: any, content: any): void {
+    if (notif.type === 'join_on_social') {
+      this.modalService.open(content);
+    }
     if (notif?.label?.cmp_hash) {
       this.router.navigate(['home/campaign', notif.label.cmp_hash], {
         fragment: notif.label.cmp_hash
@@ -730,5 +749,9 @@ export class NotificationComponent implements OnInit {
   ngOnDestroy(): void {
     this.isDestroyed.next('');
     this.isDestroyed.unsubscribe();
+  }
+
+  shareOnSocialMedias(content: any) {
+    this.modalService.open(content);
   }
 }
