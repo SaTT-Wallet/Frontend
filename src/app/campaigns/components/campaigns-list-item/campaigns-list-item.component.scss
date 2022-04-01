@@ -101,25 +101,33 @@
 }
 
 .campaign-funds-details {
-  font-family: Poppins;
+  font-family: 'Poppins';
   font-style: normal;
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 25px;
-  /* or 125% */
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 130%;
+  /* or 21px */
+
   text-align: center;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
+
   /* dark blue */
+
   color: #1f2337;
 }
 
 .under_gains {
-  color: #75758f;
+  font-family: 'Poppins';
   font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  letter-spacing: 0.02em;
-  line-height: 15px;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+
+  /* 02.GREYS/hard grey */
+
+  color: #75758f;
 }
 
 .date {
@@ -154,8 +162,10 @@
 }
 
 .img-block .img-campaign {
-  width: -webkit-fill-available;
-  height: 100%;
+  // width: -webkit-fill-available;
+  // height: 100%;
+  width: 348.13px;
+  height: 198.5px;
 }
 
 .text-delete {
@@ -176,13 +186,16 @@
 
 .details-block .title {
   text-transform: capitalize;
-  font-family: Poppins;
+  font-family: 'Poppins';
   font-style: normal;
-  font-weight: bold;
-  font-size: 22px;
-  line-height: 28px;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 25px;
+  /* or 125% */
+
   text-align: center;
-  letter-spacing: 1px;
+  letter-spacing: 0.02em;
+
   color: #1f2337;
   margin-top: 0px;
   text-overflow: ellipsis;
@@ -303,7 +316,8 @@
   background: #4048ff;
   // height: 20%;
   height: 65px;
-  width: 100%;
+  // width: 100%;
+  width: 348px;
   right: 0px;
   border: none;
 }
