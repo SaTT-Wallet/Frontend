@@ -23,6 +23,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 import { INotificationsResponse } from '@app/core/notifications-response.interface';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-history',
@@ -65,7 +66,8 @@ export class NotificationComponent implements OnInit {
     public router: Router,
     private activatedRoute: ActivatedRoute,
     private tokenStorageService: TokenStorageService,
-    @Inject(PLATFORM_ID) private platformId: string
+    @Inject(PLATFORM_ID) private platformId: string,
+    private modalService: NgbModal
   ) {
     this.arrayTypeNotification = [
       { type: 'transfer_satt_event', type_notif: 'send_satt' },
@@ -271,10 +273,22 @@ export class NotificationComponent implements OnInit {
     // }
     item._label = item.label;
 
-
-
     const receive_satt_pic = './assets/Images/notifIcons/Reception.svg';
     switch (item.type) {
+      case 'buy_some_gas':
+        item._label = 'buy_some_gas';
+        item.img = receive_satt_pic;
+
+        break;
+      case 'invite_friends':
+        item._label = 'invite_friends';
+        item.img = receive_satt_pic;
+
+        break;
+      case 'join_on_social':
+        item._label = 'join_on_social';
+        item.img = receive_satt_pic;
+        break;
       case 'send_demande_satt_event':
         item._params = {
           nbr: item._label['price'],
@@ -696,7 +710,13 @@ export class NotificationComponent implements OnInit {
     }
   }
 
-  redirect(notif: any): void {
+  redirect(notif: any, content: any): void {
+    if (notif.type === 'join_on_social') {
+      this.modalService.open(content);
+    }
+    if (notif.type === 'buy_some_gas') {
+      this.router.navigateByUrl('/wallet/buy-token');
+    }
     if (notif?.label?.cmp_hash) {
       this.router.navigate(['home/campaign', notif.label.cmp_hash], {
         fragment: notif.label.cmp_hash
@@ -739,6 +759,10 @@ export class NotificationComponent implements OnInit {
         queryParams: { linkHash: notif?.label?.linkHash, type: 'earnings' }
       });
     }
+  }
+
+  shareOnSocialMedias(content: any) {
+    this.modalService.open(content);
   }
   ngOnDestroy(): void {
     this.isDestroyed.next('');
