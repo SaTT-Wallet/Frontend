@@ -27,6 +27,8 @@ import { catchError, filter, mergeMap, takeUntil } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { IApiResponse } from '@app/core/types/rest-api-responses';
+import { HttpErrorResponse } from '@angular/common/http';
 enum ExportType {
   eth = 'export',
   btc = 'exportbtc',
@@ -367,9 +369,14 @@ export class SecurityComponent implements OnInit, OnDestroy {
         }, 3000);
       } else {
         this.AuthService.updatePassword(oldpass, newpass, id)
-          .pipe(takeUntil(this.onDestroy$))
-          .subscribe(
-            () => {
+          .pipe(
+            catchError((HttpError: HttpErrorResponse) => {
+              return of(HttpError.error);
+            }),
+            takeUntil(this.onDestroy$)
+          )
+          .subscribe((res: IApiResponse<any>) => {
+            if (res.code === 200) {
               this.showSpinner = false;
               let msg: string = '';
               this.translate
@@ -380,25 +387,11 @@ export class SecurityComponent implements OnInit, OnDestroy {
                 });
               this.toastr.success(msg);
               this.formUpdatePassword.reset();
-              this.ngOnInit();
-              //    if (data.error == "wrong password") {
-
-              //     this.passwordWrong = "profile.old_pass_wrong";
-              //   }else if (data.message == "changed"){
-
-              //     let msg:string="";
-              //     this.translate.get('profile.password_change').subscribe((data1:any)=> {
-              //       msg=data1
-              //     });
-              //     this.toastr.success(msg);
-              //     this.formUpdatePassword.reset()
-              // this.ngOnInit()
-              //   }
-            },
-            () => {
+            } else if (res.code === 401) {
               this.passwordWrong = 'profile.old_pass_wrong';
+              this.formUpdatePassword.get('old_password')?.reset();
             }
-          );
+          });
       }
     }
   }
