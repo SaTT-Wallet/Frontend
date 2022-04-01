@@ -255,6 +255,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       });
     this.fixMenuItemsWidth();
     if (this.router.url.includes('welcome')) {
+      this.isWelcomePage = true;
       this.menuAdpool = true;
     }
     if (this.router.url.includes('wallet')) {
