@@ -649,7 +649,7 @@ export class InfoComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.onDestoy$))
         .subscribe(() => {
           this.accountFacadeService.dispatchUpdatedAccount();
-          this.profileSettingsFacade.loadUserProfilePic();
+          //   this.profileSettingsFacade.loadUserProfilePic();
         });
     }
   }
