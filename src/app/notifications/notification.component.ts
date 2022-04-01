@@ -703,6 +703,12 @@ export class NotificationComponent implements OnInit {
     if (notif.type === 'join_on_social') {
       this.modalService.open(content);
     }
+    if (notif.type === 'invite_friends') {
+      this.modalService.open(content);   }
+      
+    if (notif.type === 'buy_some_gas') {
+this.router.navigateByUrl("/wallet/buy-token")    }
+
     if (notif?.label?.cmp_hash) {
       this.router.navigate(['home/campaign', notif.label.cmp_hash], {
         fragment: notif.label.cmp_hash
