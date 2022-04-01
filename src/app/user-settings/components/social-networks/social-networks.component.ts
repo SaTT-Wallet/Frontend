@@ -69,7 +69,7 @@ export class SocialNetworksComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: string
   ) {}
   ngOnInit(): void {
-    // this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
+    this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
     this.getSocialNetwork();
   }
   openModalDeleteOne(
@@ -173,7 +173,7 @@ export class SocialNetworksComponent implements OnInit {
   }
   //get errors from url
   setUrlMsg(p: Params, data: IGetSocialNetworksResponse): void {
-    console.log("message",p.message)
+    console.log('message', p.message);
     if (p.message) {
       if (p.message === 'access-denied') {
         this.errorMessage = 'access-cancel';
