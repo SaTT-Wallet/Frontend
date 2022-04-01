@@ -12,7 +12,7 @@
   "Aide.particpateCampagne": "Comment participer à une campagne ?",
   "Aide.linkCampagne": "Comment obtenir le lien de ma publication ?",
   "campaign_details.Al_accep": "Déjà accepté",
-  "usernotfound" : "Utilisateur n'est pas trouvé",
+  "usernotfound": "Utilisateur n'est pas trouvé",
   "campaign_details.earning": "REVENUS",
   "sendMSGtwitter": "Pour pouvoir envoyer le lien, merci de lier votre compte Twitter avant.",
   "sendMSGfacebook": "Pour pouvoir envoyer le lien, merci de lier votre compte Facebook avant.",
@@ -1730,7 +1730,7 @@
   "Wallet.Vous n'avez pas assez de gaz pour cette transaction": "Vous n'avez pas assez de gaz pour cette transaction",
   "Wallet.valid-mail": "Vous devez entrer un email valide",
   "Wallet.field_required": "Champ obligatoire",
-  "Wallet.bridge-send":"le pont ne fonctionne pas de BEP-20 à ERC-20",
+  "Wallet.bridge-send": "le pont ne fonctionne pas de BEP-20 à ERC-20",
   "Wallet.Custom_message_(Optional)": "Message personnalisé (Facultatif)",
   "Wallet.userLegal_notice_title": "Veuillez vérifier votre compte",
   "Wallet.userLegal_notice_msg": "Pour effectuer cette transaction",
@@ -2984,5 +2984,8 @@
   "To-maximize-user-experience": "Pour optimiser l'expérience utilisateur, veuillez utiliser un ordinateur de bureau ou une tablette.",
   "pictures": "Images",
   "Retry-again": "Réessayez",
-  "Apply Now": "Appliquer maintenant"
+  "Apply Now": "Appliquer maintenant",
+  "buy_some_gas": "Acheter du gaz",
+  "invite_friends": "Invitez vos amis",
+  "join_on_social": "Rejoignez-nous sur nos réseaux sociaux"
 }
