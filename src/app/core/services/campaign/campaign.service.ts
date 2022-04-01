@@ -1023,7 +1023,7 @@ export class CampaignHttpApiService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.get(`${sattUrl}/statLinkCampaign/` + hash, {
+    return this.http.get(`${sattUrl}/campaign/statLinkCampaign/` + hash, {
       headers: header
     });
   }
