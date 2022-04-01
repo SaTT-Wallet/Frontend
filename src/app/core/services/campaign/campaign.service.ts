@@ -427,7 +427,7 @@ export class CampaignHttpApiService {
   }
 
   removeKit(id_kit: any) {
-    return this.http.delete(sattUrl + '/kit/' + id_kit, {
+    return this.http.delete(sattUrl + '/campaign/kit/' + id_kit, {
       headers: this.tokenStorageService.getHeader()
     });
   }
@@ -667,7 +667,7 @@ export class CampaignHttpApiService {
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
 
-    return this.http.get(sattUrl + '/kit/' + fileId, {
+    return this.http.get(sattUrl + '/campaign/kit/' + fileId, {
       responseType: 'blob',
       headers: httpHeaders
     });
