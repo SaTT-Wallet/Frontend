@@ -161,7 +161,10 @@ export class LayoutComponent implements OnInit, OnDestroy {
             }
           }
         }
-      } else if (this.router.url.startsWith('/campaign/')) {
+      } else if (
+        this.router.url.startsWith('/campaign/') &&
+        !this.router.url.includes('edit')
+      ) {
         let main = this.document.getElementById('campaign-main-content');
         let topBar = this.document.getElementById('campaign-top-bar');
         let header = this.document.getElementById('navbar-id');
