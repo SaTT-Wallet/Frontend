@@ -196,12 +196,17 @@
   </div>
   <!--  <div class="loading "  *ngIf="isloading"></div> -->
 </div>
-<ng-template #shareSocial>
+<ng-template #shareSocial style="position: relative;">
+  <button
+  class="btn-close"
+  style="position: absolute; right: 2em; top:2em"
+  (click)="closeModal(shareSocial)"
+></button>
   <div
     style="border-radius: 5px; padding: 2em 4em"
     class="d-flex flex-column justify-content-center align-content-center"
   >
-    <h4>Share our website on social networks</h4>
+    <h4 style="text-align: center;">Share our website on social networks</h4>
     <div class="w-100 d-flex justify-content-center">
       <share-buttons
         theme="circles-dark"

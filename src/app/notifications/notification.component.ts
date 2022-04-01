@@ -4,7 +4,8 @@ import {
   ChangeDetectorRef,
   ElementRef,
   PLATFORM_ID,
-  Inject
+  Inject,
+  TemplateRef
 } from '@angular/core';
 import { NotificationService } from '@core/services/notification/notification.service';
 import { ContactService } from '@core/services/contact/contact.service';
@@ -759,5 +760,10 @@ this.router.navigateByUrl("/wallet/buy-token")    }
 
   shareOnSocialMedias(content: any) {
     this.modalService.open(content);
+  }
+
+  closeModal(content: TemplateRef<ElementRef>) {
+    this.modalService.dismissAll(content);
+    this.showSpinner = false;
   }
 }
