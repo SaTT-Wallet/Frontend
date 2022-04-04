@@ -127,7 +127,9 @@
 
 .div-input-icon {
   position: relative;
-  width: 300px;
+  // width: 300px;
+  width: 374px;;
+
   height: 48px;
   display: flex;
   border: 1px solid #d6d6e8;
@@ -170,8 +172,8 @@
   background: #4048ff;
   box-shadow: 0px 2px 2px 0px #00000026;
   border-radius: 30px;
-  width: 300px;
-  max-width: 350px;
+  width: 376px;
+  max-width: 380px;
   padding: 0% 3%;
   margin-top: 2vh;
   height: 48px;
@@ -201,6 +203,7 @@
     flex-direction: column;
     gap: 0 !important;
   }
+  
 }
 
 .dark-grey-text {
@@ -769,8 +772,16 @@ input[type='password'] {
   .pink_btn {
     font-size: 4vw !important;
   }
+ 
 }
-
+@media (max-width: 424px) {
+  .div-input-icon {
+    width: 300px !important;
+  }
+  .blue-btn{
+    width: 302px!important;
+  }
+}
 // @media (max-width: 375.98px) {
 //   .text-moonboy {
 //     top: 16.5% !important;
