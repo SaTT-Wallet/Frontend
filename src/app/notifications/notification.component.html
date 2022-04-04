@@ -101,12 +101,21 @@
           <div
             class="div_notif d-flex flex-row align-items-center p-3"
             *ngFor="let i of notification.value"
-            (click)="redirect(i)"
+            (click)="redirect(i, shareSocial)"
           >
             <div class="p-2" id="{{ i._id }}  ">
               <img src="{{ i.img }}" alt="avtar" class="pic_avatar_notif" />
             </div>
             <div class="col-md-11 col-lg-11 col-9 col-sm-9">
+              <p
+                class="label_avatar_notif p-0 m-0"
+                *ngIf="
+                  i.type === 'buy_some_gas' &&
+                  i.type === 'invite_friends' &&
+                  i.type === 'join_on_social'
+                "
+                [translate]="i._label"
+              ></p>
               <p
                 class="label_avatar_notif p-0 m-0"
                 *ngIf="
@@ -149,7 +158,7 @@
                 ></span>
               </p>
               <!-- <p class="label_avatar_notif p-0 m-0" *ngIf="i.type === 'apply_campaign'">
-                            <span  [translate]="i._label" [translateParams]="i._params" ></span> 
+                            <span  [translate]="i._label" [translateParams]="i._params" ></span>
                             <span  class="link" [translate]="'apply_campaign_hash'" [translateParams]="i._params" ></span>
                            </p> -->
               <p class="label_time_notif p-0 m-0">{{ i.createdFormated }}</p>
@@ -167,7 +176,7 @@
   <!-- End div spinner -->
 
   <div
-    *ngIf=" this.errorMessagecode ==='No notifications found'"
+    *ngIf="this.errorMessagecode === 'No notifications found'"
     class="row pb-5"
   >
     <div
@@ -187,3 +196,23 @@
   </div>
   <!--  <div class="loading "  *ngIf="isloading"></div> -->
 </div>
+
+<ng-template #shareSocial>
+  <div
+    style="border-radius: 5px; padding: 2em 4em"
+    class="d-flex flex-column justify-content-center align-content-center"
+  >
+    <h4>Share our website on social networks</h4>
+    <div class="w-100 d-flex justify-content-center">
+      <share-buttons
+        theme="circles-dark"
+        [include]="['copy', 'facebook', 'linkedin', 'twitter']"
+        [showIcon]="true"
+        [showText]="false"
+        url="https://dapp.satt.io/welcome"
+        description="Farm your social networks with SaTT"
+      >
+      </share-buttons>
+    </div>
+  </div>
+</ng-template>
