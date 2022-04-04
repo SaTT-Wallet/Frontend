@@ -139,7 +139,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnInit(): void {
-    this.sendform.get('currency')?.setValue('SATT');
+     this.sendform.get('currency')?.setValue('SATT');
     this.getusercrypto();
     this.getProfileDetails();
     this.amountdefault = this.sendform.get('currency')?.value;

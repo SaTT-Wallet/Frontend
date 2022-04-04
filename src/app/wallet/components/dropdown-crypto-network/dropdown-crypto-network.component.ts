@@ -100,9 +100,10 @@ export class DropdownCryptoNetworkComponent
         this.dataList?.forEach((crypto: any) => {
           if (!this.cryptoFromDraft && !this.firstEmit) {
             if (crypto.symbol === 'SATT') {
-              this.selectedCrypto.emit(crypto);
+              // this.selectedCrypto.emit(crypto);
               this.firstEmit = true;
             }
+            
           }
 
           if (
