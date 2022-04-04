@@ -44,6 +44,7 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { IResponseWallet } from '@app/core/iresponse-wallet';
 import { User } from '@app/models/User';
 import { HttpErrorResponse } from '@angular/common/http';
+import { NotificationService } from '@core/services/notification/notification.service';
 
 // interface credantials {
 //   email: string;
@@ -157,7 +158,8 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
     private accountFacadeService: AccountFacadeService,
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string,
-    private tokenStorageService: TokenStorageService
+    private tokenStorageService: TokenStorageService,
+    private notificationService: NotificationService
   ) {
     if (isPlatformBrowser(this.platformId)) {
       this.mediaQueryList = window.matchMedia(this.query);
@@ -365,7 +367,6 @@ getCookie(key: string){
           return of(null);
         }),
         mergeMap((response: User) => {
-          
           this.tokenStorageService.setHeader();
           this.tokenStorageService.saveUserId(response.idUser);
           this.tokenStorageService.saveIdSn(response.idSn.toString());
@@ -682,6 +683,8 @@ getCookie(key: string){
                   this.tokenStorageService.saveIdWallet(
                     res.myWallet.data.address
                   );
+                  this.notificationService.requestPermission();
+                  this.notificationService.receiveMessage();
                   this.router.navigate(['']);
                   this.showBigSpinner = true;
                   this.backgroundImage = '';
@@ -691,6 +694,8 @@ getCookie(key: string){
                 this.tokenStorageService.saveIdWallet(
                   res.myWallet.data.address
                 );
+                this.notificationService.requestPermission();
+                this.notificationService.receiveMessage();
                 this.router.navigate(['']);
                 this.showBigSpinner = true;
                 this.backgroundImage = '';

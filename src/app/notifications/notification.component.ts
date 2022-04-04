@@ -49,6 +49,7 @@ export class NotificationComponent implements OnInit {
   isfocused: boolean = false;
   isClickedOutside: boolean = true;
   showSpinner!: boolean;
+  crypto: any;
   private isDestroyed = new Subject();
 
   offset: any;
@@ -292,9 +293,13 @@ export class NotificationComponent implements OnInit {
       case 'send_demande_satt_event':
         item._params = {
           nbr: item._label['price'],
-          crypto: item._label['cryptoCurrency'],
+          crypto:
+            item._label['cryptoCurrency'] === 'SATTBEP20'
+              ? 'SATT'
+              : item._label['cryptoCurrency'],
           name: item._label['name']
         };
+
         item._label = 'asked_to_acquire';
         item.img = receive_satt_pic;
         // console.log(item._label);
@@ -337,7 +342,7 @@ export class NotificationComponent implements OnInit {
             : ListTokens[item._label.currency].decimals;
 
           item._params = {
-            currency: item._label['currency'],
+            currency: item.label['cryptoCurrency'],
             // nbr: Big(item._label["amount"])?.div(
             //   ListTokens[item._label.currency]?.decimals
             // ),

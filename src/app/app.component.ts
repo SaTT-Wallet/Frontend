@@ -47,8 +47,6 @@ export class AppComponent {
 
     // this.notificationService.receiveMessage();
     //this.message = this.notificationService.currentMessage;
-    this.notificationService.requestPermission();
-    this.notificationService.receiveMessage();
 
     if (this.tokenStorageService.getIsAuth()) {
       this.profileService.hydrateLocalStorage();
