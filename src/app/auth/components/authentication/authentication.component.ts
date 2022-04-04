@@ -683,8 +683,9 @@ getCookie(key: string){
                   this.tokenStorageService.saveIdWallet(
                     res.myWallet.data.address
                   );
-                  this.notificationService.requestPermission();
-                  this.notificationService.receiveMessage();
+                  this.notificationService.triggerFireBaseNotifications.next(
+                    true
+                  );
                   this.router.navigate(['']);
                   this.showBigSpinner = true;
                   this.backgroundImage = '';
@@ -694,8 +695,10 @@ getCookie(key: string){
                 this.tokenStorageService.saveIdWallet(
                   res.myWallet.data.address
                 );
-                this.notificationService.requestPermission();
-                this.notificationService.receiveMessage();
+                this.notificationService.triggerFireBaseNotifications.next(
+                  true
+                );
+
                 this.router.navigate(['']);
                 this.showBigSpinner = true;
                 this.backgroundImage = '';
