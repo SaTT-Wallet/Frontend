@@ -34,8 +34,9 @@ export class TokenStorageService {
   expireToken: any;
   url: any;
   signOut(): void {
-    this.localStorage.clear();
-    this.logout().subscribe();
+    this.logout().subscribe(() => {
+      this.localStorage.clear();
+    });
   }
   setHeader() {
     this.headers = new HttpHeaders({
