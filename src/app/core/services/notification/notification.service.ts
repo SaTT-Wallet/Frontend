@@ -89,7 +89,7 @@ export class NotificationService {
       })
     };
     return this.http.post(
-      sattUrl + 'auth/save/firebaseAccessToken',
+      sattUrl + '/auth/save/firebaseAccessToken',
       data,
       this.httpOptions
     );

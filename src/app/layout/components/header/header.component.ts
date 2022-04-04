@@ -43,6 +43,7 @@ import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-faca
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Big } from 'big.js';
 import { AuthService } from '@app/core/services/Auth/auth.service';
+import { LocalStorageRefService } from '@core/services/localstorage-ref/local-storage-ref-service.service';
 const bscan = env.bscanaddr;
 const etherscan = env.etherscanaddr;
 @Component({
@@ -153,6 +154,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private socialAccountFacadeService: SocialAccountFacadeService,
     private authStoreService: AuthStoreService,
     private authService: AuthService,
+    private localStorage: LocalStorageRefService,
 
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string
@@ -1271,25 +1273,48 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   signOut() {
-    this.isConnected = false;
-    this.authService.setIsAuthenticated(false);
-    this.campaignFacade.clearLinksListStore();
-    this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
-    this.ParticipationListStoreService.clearDataFarming();
-    this.walletFacade.dispatchLogout(); //clear totalBalance and cryptoList
-    this.accountFacadeService.dispatchLogoutAccount(); //clear account user
-    this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
-    this.ParticipationListStoreService.nextPage.pageNumber = 0;
-    this.tokenStorageService.signOut();
-    this.profileSettingsFacade.clearProfilePicStore();
-    this.authStoreService.clearStore();
+    this.tokenStorageService.logout().subscribe(
+      () => {
+        this.isConnected = false;
+        this.authService.setIsAuthenticated(false);
+        this.campaignFacade.clearLinksListStore();
+        this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
+        this.ParticipationListStoreService.clearDataFarming();
+        this.walletFacade.dispatchLogout(); //clear totalBalance and cryptoList
+        this.accountFacadeService.dispatchLogoutAccount(); //clear account user
+        this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
+        this.ParticipationListStoreService.nextPage.pageNumber = 0;
+        this.profileSettingsFacade.clearProfilePicStore();
+        this.authStoreService.clearStore();
+        this.localStorage.clear();
+        if (isPlatformBrowser(this.platformId)) {
+          window.location.reload();
+        }
+        this.router.navigate(['/auth/login']);
+      },
+      () => {
+        this.isConnected = false;
+        this.authService.setIsAuthenticated(false);
+        this.campaignFacade.clearLinksListStore();
+        this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
+        this.ParticipationListStoreService.clearDataFarming();
+        this.walletFacade.dispatchLogout(); //clear totalBalance and cryptoList
+        this.accountFacadeService.dispatchLogoutAccount(); //clear account user
+        this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
+        this.ParticipationListStoreService.nextPage.pageNumber = 0;
+        this.profileSettingsFacade.clearProfilePicStore();
+        this.authStoreService.clearStore();
+        this.localStorage.clear();
+        if (isPlatformBrowser(this.platformId)) {
+          window.location.reload();
+        }
+        this.router.navigate(['/auth/login']);
+      }
+    );
+
     /*
     this.campaignsListStore.clearStore();
 */
-    if (isPlatformBrowser(this.platformId)) {
-      window.location.reload();
-    }
-    this.router.navigate(['/auth/login']);
   }
   ngOnDestroy(): void {
     if (!!this.isDestroyed$) {
