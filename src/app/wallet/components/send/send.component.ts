@@ -139,7 +139,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnInit(): void {
-    this.sendform.get('currency')?.setValue('SATT');
+     this.sendform.get('currency')?.setValue('SATT');
     this.getusercrypto();
     this.getProfileDetails();
     this.amountdefault = this.sendform.get('currency')?.value;
@@ -215,7 +215,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         });
         this.showWalletSpinner = false;
       });
-
   }
 
   //get user Data
@@ -405,26 +404,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         )
         .subscribe(
           (data: any) => {
-            if (currency === 'SATTBEP20') {
-              let currenncySatt = 'SATT';
-              this.toastr.success(
-                'You have sent' +
-                  splitted +
-                  '  ' +
-                  currenncySatt +
-                  '  to  ' +
-                  data.data.address
-              );
-            } else {
-              this.toastr.success(
-                'You have sent' +
-                  splitted +
-                  '  ' +
-                  currency +
-                  '  to  ' +
-                  data.data.address
-              );
-            }
             this.showSpinner = false;
             this.loadingButton = false;
             if (data.data.transactionHash) {
@@ -816,22 +795,15 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     setTimeout(() => {
-
       if (this.networks === 'ERC20' || this.networks === 'BTC') {
-
         this.gazsend = this.eRC20Gaz;
-
       }
 
       if (this.networks === 'BEP20') {
-
         this.gazsend = this.bEPGaz;
-
       }
+    }, 2000);
 
-    },2000)
-
-    
     this.dataList?.forEach((crypto: any) => {
       if (this.networks === 'ERC20' || this.networks === 'BTC') {
         this.gazsend = this.eRC20Gaz;

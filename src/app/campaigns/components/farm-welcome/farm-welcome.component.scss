@@ -168,6 +168,7 @@
 .spinner-border {
   color: #4048ff;
 }
+
 .header {
   width: 100%;
   object-fit: cover;
@@ -182,6 +183,17 @@
   gap: 30px;
 }
 
+@media (min-width: 1300.98px) and (max-width: 1440.98px) {
+  .style-grid {
+    gap: 60px;
+  }
+}
+
+// @media (min-width: 1440px) {
+//     .style-grid {
+//         gap: 30px !important;
+//     }
+// }
 .bg {
   position: absolute;
   top: 0;
@@ -192,12 +204,14 @@
   background-repeat: no-repeat;
   aspect-ratio: unset;
 }
+
 .bg-container {
   width: 100vw;
   height: 80vh;
   display: block;
   position: relative;
 }
+
 .bg-content {
   position: absolute;
   top: 0;
@@ -205,6 +219,7 @@
   height: 100%;
   padding-top: 8vh;
 }
+
 .bg-title {
   font-family: Poppins;
   font-style: normal;
@@ -213,6 +228,7 @@
   line-height: 110%;
   color: #ffffff;
 }
+
 .bg-subtitle {
   font-family: Poppins;
   font-style: normal;
@@ -225,19 +241,23 @@
   letter-spacing: 1px;
   color: #d6d6e8;
 }
+
 .bg-moon-boy {
   transform: scale(0.75);
   margin-top: -2rem;
   transition: width 2s;
 }
+
 .social-footer {
   cursor: pointer;
 }
+
 @media (max-width: 871px) {
   .adpool-title {
     font-size: 36px !important;
   }
 }
+
 .bg-button {
   background: #f52079;
   border-radius: 30px;
@@ -255,6 +275,7 @@
   margin-top: -3rem;
   cursor: pointer;
 }
+
 .load-more-btn {
   margin-bottom: 15vh;
   background: #f52079;
@@ -273,9 +294,11 @@
   color: #f6f6ff;
   cursor: pointer;
 }
+
 .info-container {
   width: 70%;
 }
+
 .adpools-container {
   width: 75%;
 }
@@ -286,6 +309,7 @@
   padding: 0.5rem 1rem;
   border-radius: 30px;
 }
+
 .info-name {
   font-family: Poppins;
   font-style: normal;
@@ -295,6 +319,7 @@
   letter-spacing: 1px;
   color: #4048ff;
 }
+
 .info-value {
   font-family: Poppins;
   font-style: normal;
@@ -306,6 +331,7 @@
   color: #7f84ff;
   position: relative;
 }
+
 .satt-percent {
   font-weight: 200;
   font-size: 18px;
@@ -313,6 +339,7 @@
   bottom: 0px;
   left: -94px;
 }
+
 .adpool-title {
   font-family: Poppins;
   font-style: normal;
@@ -333,21 +360,21 @@
   margin-top: 15vh;
   background: #1f2337;
 }
+
 .welcome-page-footer-title {
   font-family: Poppins;
   font-style: normal;
   font-weight: bold;
   font-size: 22px;
   line-height: 28px;
-
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   letter-spacing: 1px;
-
   color: #ffffff;
 }
+
 @media (max-width: 913px) {
   .bg-title {
     font-size: 35px;
@@ -356,6 +383,7 @@
     font-size: 18px;
   }
 }
+
 @media (max-width: 425px) {
   .info-container {
     width: 90%;
@@ -369,13 +397,11 @@
   .margin-top-farm {
     margin-top: 18rem !important;
   }
-
   @media not all and (min-resolution: 0.001dpcm) {
     @supports (-webkit-appearance: none) {
       .margin-top {
-        margin-top: 200px !important ;
+        margin-top: 200px !important;
       }
-
       .bg-content {
         position: absolute;
         top: 0;
@@ -386,6 +412,7 @@
     }
   }
 }
+
 @media (max-width: 1440px) {
   .info-container {
     width: 90%;
@@ -398,6 +425,7 @@
     font-size: 17px;
   }
 }
+
 @media (max-width: 1440px) {
   .satt-percent {
     font-weight: 200;
@@ -410,9 +438,10 @@
 
 @media (min-width: 1700px) {
   .adpools-container {
-    width: 60%;
+    width: 65%;
   }
 }
+
 @media (max-width: 548px) {
   .bg-moon-boy {
     transform: scale(0.5);
@@ -422,6 +451,7 @@
     margin-top: -7rem;
   }
 }
+
 @media (min-width: 426px) and (max-width: 548px) {
   .margin-top-farm {
     margin-top: 13rem !important;
@@ -455,6 +485,7 @@
     height: 90vh;
   }
 }
+
 // Media query for Nest Hub screens
 @media (max-width: 1024px) and (max-height: 600px) {
   .bg-moon-boy {
@@ -477,6 +508,7 @@
     height: fit-content;
   }
 }
+
 // Media query for Nest Hub Max screens
 @media (width: 1280px) and (height: 800px) {
   .bg-moon-boy {
@@ -495,6 +527,7 @@
     height: 90vh;
   }
 }
+
 .copyrights {
   font-family: Poppins;
   font-style: normal;

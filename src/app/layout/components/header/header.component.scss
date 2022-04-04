@@ -521,7 +521,6 @@ ul.dropdown-menu.notif_drop_main.show {
 }
 
 @media (max-height: 850px) {
- 
   ul.dropdown-menu.notif_drop_main.show {
     /*
         width: 300px;
@@ -873,7 +872,7 @@ ul .notif_drop_main {
 .notif_drop::-webkit-scrollbar-thumb {
   background-color: #b1b1bb;
   border-radius: 20px;
-  border: 3px solid#b1b1bb;
+  border: 3px solid #b1b1bb;
 }
 
 a {
@@ -1498,6 +1497,7 @@ bottom: 77.54% ; */
     display: none !important;
   }
 }
+
 @media (max-width: 1023.98px) {
   .three-points,
   .div-copy-wallet-mobile,
@@ -1509,7 +1509,6 @@ bottom: 77.54% ; */
     right: 73px;
     top: 8px;
   }
-
   ul.dropdown-menu.notif_drop_main.show {
     width: 284px !important;
   }

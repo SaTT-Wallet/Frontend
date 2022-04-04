@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { sattUrl } from '@config/atn.config';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { __values } from 'tslib';
 import { AngularFireMessaging } from '@angular/fire/compat/messaging';
@@ -14,12 +14,15 @@ import { INotificationsResponse } from '@app/core/notifications-response.interfa
 })
 export class NotificationService {
   httpOptions: any;
-  private currentMessage: BehaviorSubject<any> = new BehaviorSubject(null);
+  public currentMessage: BehaviorSubject<any> = new BehaviorSubject(null);
   public newNotification: BehaviorSubject<any> = new BehaviorSubject(false);
+  public triggerFireBaseNotifications = new Subject();
 
-  readonly notifications$ = this.currentMessage
-    .asObservable()
-    .pipe(filter((message) => message !== null));
+  readonly notifications$ = this.currentMessage.asObservable().pipe(
+    filter((message) => {
+      return message !== null;
+    })
+  );
   constructor(
     private http: HttpClient,
     private angularFireMessaging: AngularFireMessaging,
@@ -89,7 +92,7 @@ export class NotificationService {
       })
     };
     return this.http.post(
-      sattUrl + 'auth/save/firebaseAccessToken',
+      sattUrl + '/auth/save/firebaseAccessToken',
       data,
       this.httpOptions
     );

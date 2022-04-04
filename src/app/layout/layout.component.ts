@@ -189,7 +189,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
             // cover.style.position = 'fixed';
             // main.style.marginTop = '28%';
             // // cover.style.position = 'fixed';
-            header.style.backgroundColor = 'transparent';
+            header.style.background = '';
           } else {
             // cover.style.position = 'relative';
             // main.style.marginTop = '-16vw';
@@ -200,7 +200,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
               disabledPic.style.display = 'none';
               this.campaignService.scrolling.next(false);
             }
-            header.style.backgroundColor = '#2F3347';
+            header.style.background = '#2F3347';
           }
           if (topBar) topBar.style.display = 'none';
         } else {
@@ -212,7 +212,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
             //  main.style.marginTop = '-35px';
             if (topBar) topBar.style.display = 'flex';
             if (btnApply) btnApply.style.display = 'none';
-            header.style.backgroundColor = '#2F3347';
+            header.style.background = '#2F3347';
           } else if (
             event.target.clientWidth <= 1024 &&
             event.target.scrollTop > 477
@@ -222,14 +222,14 @@ export class LayoutComponent implements OnInit, OnDestroy {
             if (main) main.style.marginTop = '-16vw';
             if (topBar) topBar.style.display = 'none';
             if (btnApply) btnApply.style.display = 'none';
-            header.style.backgroundColor = '#2F3347';
+            header.style.background = '#2F3347';
           } else {
             this.scrolled = false;
             if (topBar) topBar.style.display = 'none';
             if (btnApply) btnApply.style.display = 'flex';
             if (cover) cover.style.position = 'fixed';
             if (main) main.style.marginTop = '28%';
-            header.style.backgroundColor = 'transparent';
+            header.style.background = '';
           }
         }
       }
