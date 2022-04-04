@@ -1,20 +1,18 @@
 import { NgModule } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
-import { RouterModule } from '@angular/router';
 import { AuthenticationRoutingModule } from '@app/auth/authentication-routing.module';
 import { CookieService } from 'ngx-cookie-service';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '@core/services/Auth/auth.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { AuthGuardService } from '@core/services/auth-guard.service';
-import { NotificationService } from '@core/services/notification/notification.service';
 import { ContactService } from '@core/services/contact/contact.service';
 import { FilesService } from '@core/services/files/files.Service';
 import { ContactMessageService } from '@core/services/contactmessage/contact-message.service';
 import { ProfileService } from '@core/services/profile/profile.service';
 import { CountdownModule } from 'ngx-countdown';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CustomFormsModule } from 'ng2-validation';
 
@@ -50,7 +48,6 @@ import { ResetPasswordComponent } from '@app/auth/components/reset-password/rese
     AuthService,
     TokenStorageService,
     AuthGuardService,
-    NotificationService,
     AsyncPipe,
     ContactService,
     FilesService,

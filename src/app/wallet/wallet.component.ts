@@ -41,6 +41,7 @@ import { AccountFacadeService } from '@app/core/facades/account-facade/account-f
 import { forkJoin, of, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { ProfileService } from '@app/core/services/profile/profile.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-wallet',
@@ -457,6 +458,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     public mediaMatcher: MediaMatcher,
     private walletFacade: WalletFacadeService,
     private profileService: ProfileService,
+    private toasterService: ToastrService,
     @Inject(DOCUMENT) private document: any
   ) {
     matcher: MediaQueryList;

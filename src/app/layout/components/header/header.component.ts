@@ -403,7 +403,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .subscribe((payload: any) => {
         this.walletFacade.initWallet();
         const obj = JSON.parse(payload.data.obj);
-
         let ls = [];
         ls.push(obj);
         ls.forEach((item: any) => {
@@ -425,7 +424,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
               <p class="m-0">${msg}</p>
             </div>`,
               '',
-              { enableHtml: true }
+              { enableHtml: true, positionClass: 'toast-top-right' }
             );
           } else if (item.type === 'transfer_event') {
             this.toastr.success(
@@ -435,7 +434,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
               <p class="m-0">${msg}</p>
             </div>`,
               '',
-              { enableHtml: true }
+              { enableHtml: true, positionClass: 'toast-top-right' }
             );
           } else if (item.type === 'validated_link') {
             this.toastr.success(
@@ -445,7 +444,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
               <p class="m-0">${msg}</p>
             </div>`,
               '',
-              { enableHtml: true }
+              { enableHtml: true, positionClass: 'toast-top-right' }
             );
           } else if (
             item.type === 'convert_event' ||
@@ -458,7 +457,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
               <p class="m-0">${msg}</p>
             </div>`,
               '',
-              { enableHtml: true }
+              { enableHtml: true, positionClass: 'toast-top-right' }
             );
           } else if (
             item.type === 'rejected_link' ||
@@ -471,7 +470,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
               <p class="m-0">${msg}</p>
             </div>`,
               '',
-              { enableHtml: true }
+              { enableHtml: true, positionClass: 'toast-top-right' }
             );
           } else if (item.type === 'cmp_candidate_accept_link') {
             this.toastr.success(
@@ -481,7 +480,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
               <p class="m-0">${msg}</p>
             </div>`,
               '',
-              { enableHtml: true }
+              { enableHtml: true, positionClass: 'toast-top-right' }
             );
           } else if (item.type === 'cmp_candidate_insert_link') {
             this.toastr.success(
@@ -491,17 +490,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
               <p class="m-0">${msg}</p>
             </div>`,
               '',
-              { enableHtml: true }
+              { enableHtml: true, positionClass: 'toast-top-right' }
             );
           } else if (item.type === 'demande_satt_event') {
             this.toastr.success(
               `
-            <div class="d-flex justify-content-center align-items-center gap-3">
+            <div class="d-flex justify-content-center align-items-center gap-3" style='position: absolute; top: 1em; float: right'>
               <img class='notify-icon' src='./assets/Images/notifIcons/Reception.svg'/>
               <p class="m-0">${msg}</p>
             </div>`,
               '',
-              { enableHtml: true }
+              { enableHtml: true, positionClass: 'toast-top-right' }
             );
           }
         });
