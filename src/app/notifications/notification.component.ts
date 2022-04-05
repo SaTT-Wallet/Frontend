@@ -308,7 +308,10 @@ export class NotificationComponent implements OnInit {
       case 'demande_satt_event':
         item._params = {
           nbr: item._label['price'],
-          crypto: item._label['currency'],
+          crypto:
+            item._label['currency'] === 'SATTBEP20'
+              ? ' SATT'
+              : item._label['currency'],
           name: item._label['name']
         };
         item._label = 'asked_cryptoCurrency';
