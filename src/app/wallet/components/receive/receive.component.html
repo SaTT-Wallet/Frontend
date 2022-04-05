@@ -153,9 +153,13 @@
           <h3 class="black mt-2">
             ${{ this.receiveform.value.AmountUsd || 0 }}
           </h3>
-          <h3 class="hard-gray">
+          <h3 class="hard-gray" *ngIf="this.selectedCryptoDetails">
             ≈ {{ this.receiveform.value.Amount || 0 }}
-            {{ this.selectedCryptoDetails.symbol | translate }}
+            {{ this.selectedCryptoDetails.symbol | translate   }}
+          </h3>
+          <h3 class="hard-gray" *ngIf="!this.selectedCryptoDetails">
+            ≈ {{ this.receiveform.value.Amount || 0 }}
+            {{ 'SATT' }}
           </h3>
         </div>
         <div class="">
