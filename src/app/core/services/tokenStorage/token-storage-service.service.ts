@@ -33,6 +33,9 @@ export class TokenStorageService {
   multiFileheader: any;
   expireToken: any;
   url: any;
+  clear() {
+    this.localStorage.clear();
+  }
   signOut(): void {
     this.logout().subscribe(() => {
       this.localStorage.clear();
