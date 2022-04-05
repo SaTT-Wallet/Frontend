@@ -494,9 +494,16 @@
                 src="../../../assets/Images/symbol_crypto/pay-creditcard-icon.svg"
                 alt=""
               />
-              <span class="purshase-btn-text">{{
+              <span class="purshase-btn-text" *ngIf="!this.showSpinner">{{
                 'Pay by Credit Card' | translate
               }}</span>
+              <div
+                *ngIf="this.showSpinner"
+                class="spinner-border"
+                role="status"
+              >
+                <span class="sr-only">Loading...</span>
+              </div>
             </button>
             <a
               class="buy-swap-btn"
