@@ -162,9 +162,9 @@
 }
 
 .img-block .img-campaign {
-  // width: -webkit-fill-available;
+  width: 100%;
   // height: 100%;
-  width: 348.13px;
+  // width: 348.13px;
   height: 198.5px;
 }
 
@@ -280,7 +280,7 @@
 }
 
 .buttons-wrapper {
-  // height: 70px;
+  width: 348px;
   height: 65px;
 }
 
@@ -316,8 +316,8 @@
   background: #4048ff;
   // height: 20%;
   height: 65px;
-  // width: 100%;
-  width: 348px;
+  width: 100%;
+
   right: 0px;
   border: none;
 }
