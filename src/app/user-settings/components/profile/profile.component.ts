@@ -25,6 +25,7 @@ import { AccountFacadeService } from '@app/core/facades/account-facade/account-f
 import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-facade/socialAcounts-facade.service';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { isPlatformBrowser } from '@angular/common';
+import { CampaignsService } from '@app/campaigns/facade/campaigns.facade';
 
 declare const $: any;
 @Component({
@@ -79,7 +80,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private socialAccountFacadeService: SocialAccountFacadeService,
     private walletFacade: WalletFacadeService,
     private authService: AuthService,
-    @Inject(PLATFORM_ID) private platformId: string
+    @Inject(PLATFORM_ID) private platformId: string,
+    private campaignFacade: CampaignsService
   ) {
     this.formProfile = new FormGroup({
       firstName: new FormControl(null, Validators.required),
@@ -129,20 +131,54 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   //TODO: add signout function to facade service
   signOut() {
-    this.authService.setIsAuthenticated(false);
-    this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
-    this.ParticipationListStoreService.clearDataFarming();
-    this.tokenStorageService.signOut();
-    this.campaignsListStore.clearStore();
-    this.walletFacade.dispatchLogout(); //clear totalBalance and cryptoList
-    this.accountFacadeService.dispatchLogoutAccount(); //clear account user
-    this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
-    //window.location.assign("https://satt.atayen.us/#/")
+    this.tokenStorageService.logout().subscribe(
+      () => {
+        this.tokenStorageService.clear();
 
-    if (isPlatformBrowser(this.platformId)) {
-      window.location.reload();
-    }
-    this.router.navigate(['/auth/login']);
+        this.authService.setIsAuthenticated(false);
+        this.campaignFacade.clearLinksListStore();
+        this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
+        this.ParticipationListStoreService.clearDataFarming();
+        this.walletFacade.dispatchLogout(); //clear totalBalance and cryptoList
+        this.accountFacadeService.dispatchLogoutAccount(); //clear account user
+        this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
+        this.ParticipationListStoreService.nextPage.pageNumber = 0;
+        this.profileSettingsFacade.clearProfilePicStore();
+        if (isPlatformBrowser(this.platformId)) {
+          window.location.reload();
+        }
+        this.router.navigate(['/auth/login']);
+      },
+      () => {
+        this.authService.setIsAuthenticated(false);
+        this.campaignFacade.clearLinksListStore();
+        this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
+        this.ParticipationListStoreService.clearDataFarming();
+        this.walletFacade.dispatchLogout(); //clear totalBalance and cryptoList
+        this.accountFacadeService.dispatchLogoutAccount(); //clear account user
+        this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
+        this.ParticipationListStoreService.nextPage.pageNumber = 0;
+        this.profileSettingsFacade.clearProfilePicStore();
+
+        this.tokenStorageService.clear();
+        if (isPlatformBrowser(this.platformId)) {
+          window.location.reload();
+        }
+        this.router.navigate(['/auth/login']);
+      }
+    );
+    // this.authService.setIsAuthenticated(false);
+    // this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
+    // this.ParticipationListStoreService.clearDataFarming();
+    // this.tokenStorageService.signOut();
+    // this.campaignsListStore.clearStore();
+    // this.walletFacade.dispatchLogout(); //clear totalBalance and cryptoList
+    // this.accountFacadeService.dispatchLogoutAccount(); //clear account user
+    // this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
+    // if (isPlatformBrowser(this.platformId)) {
+    //   window.location.reload();
+    // }
+    // this.router.navigate(['/auth/login']);
   }
 
   openModal(content: any) {
