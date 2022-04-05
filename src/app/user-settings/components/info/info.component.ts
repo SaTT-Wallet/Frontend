@@ -364,7 +364,6 @@ export class InfoComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.onDestoy$)
         // catchError((error: HttpErrorResponse) => {
-        //   console.log(error.error, 'errroooor');
         //   if (
         //     error.error.error === 'code incorrect' &&
         //     error.error.code === '406'
@@ -437,171 +436,171 @@ export class InfoComponent implements OnInit, OnDestroy {
   }
   getDetails() {
     this.showSpinner = true;
-    this.account$
-      .pipe(
-        filter((res) => res !== null),
-        takeUntil(this.onDestoy$)
-      )
-      .pipe(
-        mergeMap((response: any) => {
-          let countProfil = 0;
-          if (response !== null && response !== undefined) {
-            this.picUserUpdated = response.photoUpdated;
-            this.pic = response.picLink;
-            this.showSpinner = false;
-            this.user = new User(response);
-
-            this.urlpic = this.user.idUser;
-            this.selectedGenderValue = this.user.gender;
-            this.langchoosen = this.tokenStorageService.getLocalLang();
-            this.formProfile.get('gender')?.setValue(this.user?.gender);
-            this.formProfile.get('country')?.setValue(this.user?.country);
-            arrayCountries.forEach((item) => {
-              if (item.code === this.user.country) {
-                this.selectedCountryValue = item.name;
-              }
-            });
-            if (this.user.firstName && this.user.firstName !== '') {
-              countProfil++;
-            }
-            if (this.user.lastName && this.user.lastName !== '') {
-              countProfil++;
-            }
-            if (this.user.address && this.user.address !== '') {
-              countProfil++;
-            }
-            if (this.user.email && this.user.email !== '') {
-              countProfil++;
-            }
-            if (this.user.phone && this.user.phone !== '') {
-              countProfil++;
-            }
-            if (this.user.gender && this.user.gender !== '') {
-              countProfil++;
-            }
-            if (this.user.city && this.user.city !== '') {
-              countProfil++;
-            }
-            if (this.user.zipCode && this.user.zipCode !== '') {
-              countProfil++;
-            }
-            if (this.user.country && this.user.country !== '') {
-              countProfil++;
-            }
-            if (this.user.birthday && this.user.birthday !== '') {
-              countProfil++;
-            }
-            let stat = (countProfil * 100) / 10;
-            this.percentProfil = stat.toFixed(0);
-            // this.birthday = moment(this.user.birthday).format('DD-MM-YYYY')
-            return this.profileSettingsFacade.profilePic$;
-          }
-          return of(null);
-        })
-      )
-      .pipe(
-        filter((res) => res !== null),
-        takeUntil(this.onDestoy$)
-      )
-      .subscribe((blob: any) => {
-        if (blob?.type === 'image/png') {
-          let objectURL = URL.createObjectURL(blob);
-          this.user.userPicture =
-            this.sanitizer.bypassSecurityTrustResourceUrl(objectURL);
-
-          if (this.user.idSn === 0) {
-            this.user.userPicture =
-              this.sanitizer.bypassSecurityTrustUrl(objectURL);
-          }
-          if (this.picUserUpdated && this.user.idSn !== 0) {
-            this.user.userPicture =
-              this.sanitizer.bypassSecurityTrustUrl(objectURL);
-          }
-        } else if (this.user?.picLink && !this.user.userPicture) {
-          this.user.userPicture = this.user?.picLink;
-        } else if (blob?.type === 'application/json') {
-          this.user.userPicture =
-            'assets/Images/moonboy/Default_avatar_MoonBoy.png';
-        }
-      });
     // this.account$
     //   .pipe(
     //     filter((res) => res !== null),
     //     takeUntil(this.onDestoy$)
     //   )
-    //   .subscribe((response: any) => {
-    //     if (response !== null && response !== undefined) {
-    //       this.picUserUpdated = response.photoUpdated;
-    //       this.pic = response.picLink;
-    //       this.showSpinner = false;
-    //       this.user = new User(response);
+    //   .pipe(
+    //     mergeMap((response: any) => {
+    //       let countProfil = 0;
+    //       if (response !== null && response !== undefined) {
+    //         this.picUserUpdated = response.photoUpdated;
+    //         this.pic = response.picLink;
+    //         this.showSpinner = false;
+    //         this.user = new User(response);
 
-    //       this.urlpic = this.user.idUser;
-    //       this.selectedGenderValue = this.user.gender;
-    //       this.langchoosen = this.tokenStorageService.getLocalLang();
-    //       this.formProfile.get('gender')?.setValue(this.user?.gender);
-    //       this.formProfile.get('country')?.setValue(this.user?.country);
-    //       arrayCountries.forEach((item) => {
-    //         if (item.code === this.user.country) {
-    //           this.selectedCountryValue = item.name;
+    //         this.urlpic = this.user.idUser;
+    //         this.selectedGenderValue = this.user.gender;
+    //         this.langchoosen = this.tokenStorageService.getLocalLang();
+    //         this.formProfile.get('gender')?.setValue(this.user?.gender);
+    //         this.formProfile.get('country')?.setValue(this.user?.country);
+    //         arrayCountries.forEach((item) => {
+    //           if (item.code === this.user.country) {
+    //             this.selectedCountryValue = item.name;
+    //           }
+    //         });
+    //         if (this.user.firstName && this.user.firstName !== '') {
+    //           countProfil++;
     //         }
-    //       });
-    //       if (this.user.firstName && this.user.firstName !== '') {
-    //         countProfil++;
+    //         if (this.user.lastName && this.user.lastName !== '') {
+    //           countProfil++;
+    //         }
+    //         if (this.user.address && this.user.address !== '') {
+    //           countProfil++;
+    //         }
+    //         if (this.user.email && this.user.email !== '') {
+    //           countProfil++;
+    //         }
+    //         if (this.user.phone && this.user.phone !== '') {
+    //           countProfil++;
+    //         }
+    //         if (this.user.gender && this.user.gender !== '') {
+    //           countProfil++;
+    //         }
+    //         if (this.user.city && this.user.city !== '') {
+    //           countProfil++;
+    //         }
+    //         if (this.user.zipCode && this.user.zipCode !== '') {
+    //           countProfil++;
+    //         }
+    //         if (this.user.country && this.user.country !== '') {
+    //           countProfil++;
+    //         }
+    //         if (this.user.birthday && this.user.birthday !== '') {
+    //           countProfil++;
+    //         }
+    //         let stat = (countProfil * 100) / 10;
+    //         this.percentProfil = stat.toFixed(0);
+    //         // this.birthday = moment(this.user.birthday).format('DD-MM-YYYY')
+    //         return this.profileSettingsFacade.profilePic$;
     //       }
-    //       if (this.user.lastName && this.user.lastName !== '') {
-    //         countProfil++;
+    //       return of(null);
+    //     })
+    //   )
+    //   .pipe(
+    //     filter((res) => res !== null),
+    //     takeUntil(this.onDestoy$)
+    //   )
+    //   .subscribe((profile: any) => {
+    //     if (!!profile) {
+    //       let objectURL = URL.createObjectURL(profile);
+    //       if (this.user.idSn === 0) {
+    //         this.user.userPicture =
+    //           this.sanitizer.bypassSecurityTrustUrl(objectURL);
     //       }
-    //       if (this.user.address && this.user.address !== '') {
-    //         countProfil++;
+    //       if (this.picUserUpdated && this.user.idSn !== 0) {
+    //         this.user.userPicture =
+    //           this.sanitizer.bypassSecurityTrustUrl(objectURL);
     //       }
-    //       if (this.user.email && this.user.email !== '') {
-    //         countProfil++;
-    //       }
-    //       if (this.user.phone && this.user.phone !== '') {
-    //         countProfil++;
-    //       }
-    //       if (this.user.gender && this.user.gender !== '') {
-    //         countProfil++;
-    //       }
-    //       if (this.user.city && this.user.city !== '') {
-    //         countProfil++;
-    //       }
-    //       if (this.user.zipCode && this.user.zipCode !== '') {
-    //         countProfil++;
-    //       }
-    //       if (this.user.country && this.user.country !== '') {
-    //         countProfil++;
-    //       }
-    //       if (this.user.birthday && this.user.birthday !== '') {
-    //         countProfil++;
-    //       }
-    //       let stat = (countProfil * 100) / 10;
-    //       this.percentProfil = stat.toFixed(0);
-    //       // this.birthday = moment(this.user.birthday).format('DD-MM-YYYY')
-    //       this.profileSettingsFacade.profilePic$.subscribe((blob: any) => {
-    //         if (blob?.type === 'image/png') {
-    //           let objectURL = URL.createObjectURL(blob);
-    //           this.user.userPicture =
-    //             this.sanitizer.bypassSecurityTrustResourceUrl(objectURL);
+    //     }
 
-    //           if (this.user.idSn === 0) {
-    //             this.user.userPicture =
-    //               this.sanitizer.bypassSecurityTrustUrl(objectURL);
-    //           }
-    //           if (this.picUserUpdated && this.user.idSn !== 0) {
-    //             this.user.userPicture =
-    //               this.sanitizer.bypassSecurityTrustUrl(objectURL);
-    //           }
-    //         } else if (this.user?.picLink && !this.user.userPicture) {
-    //           this.user.userPicture = this.user?.picLink;
-    //         } else if (blob?.type === 'application/json') {
-    //           this.user.userPicture =
-    //             'assets/Images/moonboy/Default_avatar_MoonBoy.png';
-    //         }
-    //       });
+    //     if (this.user.picLink && !this.user.userPicture) {
+    //       this.user.userPicture = this.user?.picLink;
     //     }
     //   });
+    this.account$
+      .pipe(
+        filter((res) => res !== null),
+        takeUntil(this.onDestoy$)
+      )
+      .subscribe((response: any) => {
+                   let countProfil = 0;
+        if (response !== null && response !== undefined) {
+          this.picUserUpdated = response.photoUpdated;
+          this.pic = response.picLink;
+          this.showSpinner = false;
+          this.user = new User(response);
+
+          this.urlpic = this.user.idUser;
+          this.selectedGenderValue = this.user.gender;
+          this.langchoosen = this.tokenStorageService.getLocalLang();
+          this.formProfile.get('gender')?.setValue(this.user?.gender);
+          this.formProfile.get('country')?.setValue(this.user?.country);
+          arrayCountries.forEach((item) => {
+            if (item.code === this.user.country) {
+              this.selectedCountryValue = item.name;
+            }
+          });
+          if (this.user.firstName && this.user.firstName !== '') {
+              countProfil++;
+  }
+          if (this.user.lastName && this.user.lastName !== '') {
+            countProfil++;
+          }
+          if (this.user.address && this.user.address !== '') {
+            countProfil++;
+          }
+          if (this.user.email && this.user.email !== '') {
+            countProfil++;
+          }
+          if (this.user.phone && this.user.phone !== '') {
+            countProfil++;
+          }
+          if (this.user.gender && this.user.gender !== '') {
+            countProfil++;
+          }
+          if (this.user.city && this.user.city !== '') {
+            countProfil++;
+          }
+          if (this.user.zipCode && this.user.zipCode !== '') {
+            countProfil++;
+          }
+          if (this.user.country && this.user.country !== '') {
+            countProfil++;
+          }
+          if (this.user.birthday && this.user.birthday !== '') {
+            countProfil++;
+          }
+          let stat = (countProfil * 100) / 10;
+          this.percentProfil = stat.toFixed(0);    
+                  this.percentProfil = stat.toFixed(0);
+
+
+
+          this.profileSettingsFacade.profilePic$.subscribe((blob: any) => {
+            if (blob?.type === 'image/png') {
+              let objectURL = URL.createObjectURL(blob);
+              this.user.userPicture =
+                this.sanitizer.bypassSecurityTrustResourceUrl(objectURL);
+
+              if (this.user.idSn === 0) {
+                this.user.userPicture =
+                  this.sanitizer.bypassSecurityTrustUrl(objectURL);
+              }
+              if (this.picUserUpdated && this.user.idSn !== 0) {
+                this.user.userPicture =
+                  this.sanitizer.bypassSecurityTrustUrl(objectURL);
+              }
+            } else if (this.user?.picLink && !this.user.userPicture) {
+              this.user.userPicture = this.user?.picLink;
+            } else if (blob?.type === 'application/json') {
+              this.user.userPicture =
+                'assets/Images/moonboy/Default_avatar_MoonBoy.png';
+            }
+          });
+        }
+      });
   }
 
   isValidFile(controlName: any) {
