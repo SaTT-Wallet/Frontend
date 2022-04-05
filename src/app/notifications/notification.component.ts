@@ -275,7 +275,10 @@ export class NotificationComponent implements OnInit {
       case 'send_demande_satt_event':
         item._params = {
           nbr: item._label['price'],
-          crypto: item._label['cryptoCurrency'],
+          crypto:
+            item.label['cryptoCurrency'] === 'SATTBEP20'
+              ? 'SATT'
+              : item.label['cryptoCurrency'],
           name: item._label['name']
         };
         item._label = 'asked_to_acquire';
@@ -314,13 +317,16 @@ export class NotificationComponent implements OnInit {
       //////////////////////////////////////////
 
       case 'transfer_event':
-        if (item._label['currency']) {
+        if (item.label['cryptoCurrency']) {
           let decimal = item._label['decimal']
             ? new Big('10').pow(item._label['decimal'])
-            : ListTokens[item._label.currency].decimals;
+            : ListTokens[item._label.cryptoCurrency].decimals;
 
           item._params = {
-            currency: item._label['currency'],
+            currency:
+              item._label['cryptoCurrency'] === 'SATTBEP20'
+                ? 'SATT'
+                : item._label['cryptoCurrency'],
             // nbr: Big(item._label["amount"])?.div(
             //   ListTokens[item._label.currency]?.decimals
             // ),
@@ -406,13 +412,16 @@ export class NotificationComponent implements OnInit {
       //     //////////////////////////////////////////
 
       case 'receive_transfer_event':
-        if (item._label['currency']) {
-          let decimal = ListTokens[item._label.currency]
-            ? ListTokens[item._label.currency].decimals
+        if (item._label['cryptoCurrency']) {
+          let decimal = ListTokens[item.label.cryptoCurrency]
+            ? ListTokens[item.label.cryptoCurrency].decimals
             : new Big('10').pow(item._label['decimal']);
 
           item._params = {
-            currency: item._label['currency'],
+            currency:
+              item.label['cryptoCurrency'] === 'SATTBEP20'
+                ? 'SATT'
+                : item.label['cryptoCurrency'],
             nbr: Big(item._label['amount']).div(decimal),
             from: item._label['from']
           };
