@@ -294,9 +294,9 @@ export class NotificationComponent implements OnInit {
         item._params = {
           nbr: item._label['price'],
           crypto:
-            item.label['cryptoCurrency'] === 'SATTBEP20'
+            item.label['currency'] === 'SATTBEP20'
               ? 'SATT'
-              : item.label['cryptoCurrency'],
+              : item.label['currency'],
           name: item._label['name']
         };
 
@@ -308,7 +308,7 @@ export class NotificationComponent implements OnInit {
       case 'demande_satt_event':
         item._params = {
           nbr: item._label['price'],
-          crypto: item._label['cryptoCurrency'],
+          crypto: item._label['currency'],
           name: item._label['name']
         };
         item._label = 'asked_cryptoCurrency';
@@ -336,16 +336,16 @@ export class NotificationComponent implements OnInit {
       //////////////////////////////////////////
 
       case 'transfer_event':
-        if (item.label['cryptoCurrency']) {
+        if (item.label['currency']) {
           let decimal = item._label['decimal']
             ? new Big('10').pow(item._label['decimal'])
-            : ListTokens[item._label.cryptoCurrency].decimals;
+            : ListTokens[item._label.currency].decimals;
 
           item._params = {
             currency:
-              item._label['cryptoCurrency'] === 'SATTBEP20'
+              item._label['currency'] === 'SATTBEP20'
                 ? 'SATT'
-                : item._label['cryptoCurrency'],
+                : item._label['currency'],
             // nbr: Big(item._label["amount"])?.div(
             //   ListTokens[item._label.currency]?.decimals
             // ),
@@ -431,16 +431,16 @@ export class NotificationComponent implements OnInit {
       //     //////////////////////////////////////////
 
       case 'receive_transfer_event':
-        if (item._label['cryptoCurrency']) {
-          let decimal = ListTokens[item.label.cryptoCurrency]
-            ? ListTokens[item.label.cryptoCurrency].decimals
+        if (item._label['currency']) {
+          let decimal = ListTokens[item.label.currency]
+            ? ListTokens[item.label.currency].decimals
             : new Big('10').pow(item._label['decimal']);
 
           item._params = {
             currency:
-              item.label['cryptoCurrency'] === 'SATTBEP20'
+              item.label['currency'] === 'SATTBEP20'
                 ? 'SATT'
-                : item.label['cryptoCurrency'],
+                : item.label['currency'],
             nbr: Big(item._label['amount']).div(decimal),
             from: item._label['from']
           };
