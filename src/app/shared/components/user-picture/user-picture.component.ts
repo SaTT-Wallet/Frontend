@@ -45,35 +45,75 @@ export class UserPictureComponent implements OnInit {
   }
 
   getUserPic() {
-    this.account$
-      .pipe(
-        mergeMap((response: any) => {
-          if (response !== null && response !== undefined) {
-            this.picUserUpdated = response.photoUpdated;
-            this.user = new User(response);
-            return this.profileSettingsFacade.profilePic$;
-          } else {
-            return of(null);
-          }
-        })
-      )
-      .pipe(
-        filter((res) => res !== null),
+  //   this.account$
+  //     .pipe(
+  //       mergeMap((response: any) => {
+  //         if (response !== null && response !== undefined) {
+  //           this.picUserUpdated = response.photoUpdated;
+  //           this.user = new User(response);
+  //           return this.profileSettingsFacade.profilePic$;
+  //         } else {
+  //           return of(null);
+  //         }
+  //       })
+  //     )
+  //     .pipe(
+  //       filter((res) => res !== null),
 
-        takeUntil(this.isDestroyed)
-      )
-      .subscribe((profile: any) => {
-        if (
-          (this.user.idSn === 0 ||
-            (this.picUserUpdated && this.user.idSn !== 0)) &&
-          !!profile
-        ) {
-          let objectURL = (URL || webkitURL).createObjectURL(profile);
-          this.user.userPicture =
-            this.sanitizer.bypassSecurityTrustUrl(objectURL);
-        } else if (this.user.picLink && !this.picUserUpdated) {
-          this.user.userPicture = this.user?.picLink;
-        }
-      });
-  }
+  //       takeUntil(this.isDestroyed)
+  //     )
+  //     .subscribe((profile: any) => {
+  //       if (
+  //         (this.user.idSn === 0 ||
+  //           (this.picUserUpdated && this.user.idSn !== 0)) &&
+  //         !!profile
+  //       ) {
+  //         let objectURL = (URL || webkitURL).createObjectURL(profile);
+  //         this.user.userPicture =
+  //           this.sanitizer.bypassSecurityTrustUrl(objectURL);
+  //       } else if (this.user.picLink && !this.picUserUpdated) {
+  //         this.user.userPicture = this.user?.picLink;
+  //       }
+  //     });
+  // }
+
+
+
+  this.account$
+  .pipe(
+    filter((res) => res !== null)
+  )
+  .subscribe((response: any) => {
+    if (response !== null && response !== undefined) {
+                this.picUserUpdated = response.photoUpdated;
+                this.user = new User(response);
+
+
+                this.profileSettingsFacade.profilePic$.subscribe((profile: any) => {
+                  if (
+                            (this.user.idSn === 0 ||
+                              (this.picUserUpdated && this.user.idSn !== 0)) &&
+                            !!profile
+                          ) {
+                            let objectURL = (URL || webkitURL).createObjectURL(profile);
+                            this.user.userPicture =
+                              this.sanitizer.bypassSecurityTrustUrl(objectURL);
+                          } else if (this.user.picLink && !this.picUserUpdated) {
+                            this.user.userPicture = this.user?.picLink;
+                          }
+                        });  
+                      }
+  });
+}
+
+
+
+
+
+
+
+
+
+
+
 }
