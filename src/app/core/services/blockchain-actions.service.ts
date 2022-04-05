@@ -65,8 +65,24 @@ export class BlockchainActionsService {
           return this.campaignService
             .recoverEarnings(password, idProm, hash)
             .pipe(
+              catchError((error: HttpErrorResponse) => {
+                if (
+                  error.error.error ===
+                  "You didn't exceed the limits timing to harvest again"
+                ) {
+                  this.errorMessage =
+                    'Rewards can be harvested only 24h after the last collect';
+                }
+                return of(null);
+              }),
               map((response: any) => {
-                return { ...response, action: event.action };
+                if (response && response.message === 'success') {
+                  return { ...response, action: event.action };
+                } else {
+                  let data = { error: this.errorMessage };
+                  return { ...data, action: event.action };
+                }
+                //if(response.error==='You didn't exceed the limits timing to harvest again')
               })
             );
         }
