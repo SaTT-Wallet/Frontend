@@ -41,6 +41,7 @@
     overflow: auto;
     overflow-x: hidden;
     margin-left: 0;
+    gap: 9rem;
     // height: 100%;
     // min-height:calc(100vh - 63px) ;
     // min-height: 100vh;
@@ -49,6 +50,12 @@
     padding: 0em 6em !important;
   }
 }
+
+// @media (min-width: 800) and (max-width:1012) {
+//   .white-bloc{
+//     gap: 9rem !important;
+//   }
+// }
 
 .div-content {
   max-width: 727px;
@@ -128,7 +135,7 @@
 .div-input-icon {
   position: relative;
   // width: 300px;
-  width: 374px;;
+  width: 374px;
 
   height: 48px;
   display: flex;
@@ -203,7 +210,6 @@
     flex-direction: column;
     gap: 0 !important;
   }
-  
 }
 
 .dark-grey-text {
@@ -639,6 +645,7 @@ input:-webkit-autofill:active {
     height: 100%;
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
+    gap: 9rem;
     // border-radius: 30px;
     // padding: 1em;
     // border: 1px solid #d6d6e8;
@@ -772,14 +779,13 @@ input[type='password'] {
   .pink_btn {
     font-size: 4vw !important;
   }
- 
 }
 @media (max-width: 424px) {
   .div-input-icon {
     width: 300px !important;
   }
-  .blue-btn{
-    width: 302px!important;
+  .blue-btn {
+    width: 302px !important;
   }
 }
 // @media (max-width: 375.98px) {
