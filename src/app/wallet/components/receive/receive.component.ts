@@ -95,8 +95,14 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnInit(): void {
+    this.receiveform.get('currency')?.setValue('SATT');
     this.getProfileDetails();
     this.getusercrypto();
+    this.amountdefault = this.receiveform.get('currency')?.value;
+     this.receiveform
+    .get('currency')
+    ?.setValue(this.amountdefault);
+
   }
   //get list of crypto for user
   getusercrypto() {
@@ -135,6 +141,7 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.receiveform.get('Amount')?.reset();
     this.receiveform.get('AmountUsd')?.reset();
     this.amountdefault = this.receiveform.get('currency')?.value;
+    console.log("currency",this.amountdefault)
   }
   linstingBack(event: any) {
     if (event === true) {
