@@ -40,10 +40,20 @@
           />
         </div>
         <div class="text-center balance">
-          <p class="hard-gray-text">
+          <p class="hard-gray-text" *ngIf="this.selectedCryptoDetails">
             1 {{ this.selectedCryptoDetails.symbol | translate }} =
             {{ this.selectedCryptoDetails.price || this.sattPrices }} USD
           </p>
+
+          <p class="hard-gray-text" *ngIf="!this.selectedCryptoDetails">
+            1    {{ 'SATT' }} =
+            {{ this.selectedCryptoDetails.price || this.sattPrices }} USD
+          </p>
+
+
+        
+
+
         </div>
 
         <div class="">
