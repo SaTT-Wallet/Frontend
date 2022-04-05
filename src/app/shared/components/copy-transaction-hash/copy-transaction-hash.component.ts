@@ -1,13 +1,10 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  SimpleChanges,
-  OnDestroy
-} from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { bscan, etherscan } from '@app/config/atn.config';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
+
+import { CampaignHttpApiService } from '@app/core/services/campaign/campaign.service';
+import { WindowRefService } from '@app/core/windowRefService';
 
 @Component({
   selector: 'app-copy-transaction-hash',
@@ -19,31 +16,39 @@ export class CopyTransactionHashComponent {
   @Input() networkWallet: any = '';
   @Input() transactionHash: any;
 
+  noTransactionHash!: boolean;
+  urlSmartContrat!: string;
+
   isTransactionHashCopied = false;
   transactionHashLink!: string;
   constructor(
     private clipboard: Clipboard,
-    private tokenStorageService: TokenStorageService
+    private tokenStorageService: TokenStorageService,
+    public CampaignService: CampaignHttpApiService,
+    private windowRefService: WindowRefService
   ) {}
 
   ngOnDestroy() {
     this.tokenStorageService.removeItem('network');
   }
+  ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes) {
-      if (this.networkWallet.toLowerCase() === 'bep20') {
+      if (this.networkWallet?.toLowerCase() === 'bep20') {
         this.tokenStorageService.removeItem('network');
         this.tokenStorageService.setItem('network', this.networkWallet);
       }
-      if (this.networkWallet.toLowerCase() === 'erc20') {
+      if (this.networkWallet?.toLowerCase() === 'erc20') {
         this.tokenStorageService.removeItem('network');
         this.tokenStorageService.setItem('network', this.networkWallet);
       }
       if (this.tokenStorageService.getNetwork() === 'bep20') {
         this.networkWallet = bscan + this.transactionHash;
+        this.windowRefService.nativeWindow.open(this.networkWallet, '_blank');
       } else {
         this.networkWallet = etherscan + this.transactionHash;
+        this.windowRefService.nativeWindow.open(this.networkWallet, '_blank');
       }
     }
   }
