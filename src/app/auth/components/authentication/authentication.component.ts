@@ -652,7 +652,7 @@ getCookie(key: string){
                 'visited-completeProfile',
                 'true'
               );
-              this.router.navigate(['social-registration/activation-mail']);
+              this.router.navigate(['social-registration/monetize-facebook']);
               this.showBigSpinner = true;
             }
           }),
