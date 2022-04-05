@@ -153,12 +153,12 @@
 
 /* .toast-container {
     background-image:#eaecf7 !important;
-    border-radius: 22px !important; 
+    border-radius: 22px !important;
     box-shadow: -5px 8px 16px 0px rgba(0,0,0,0.3) !important;
     margin-bottom: 2px !important;
   } */
-  
-  
+
+
   .toast-success{
     background-color:  #323754!important;
     background-image: url() !important;
@@ -169,13 +169,6 @@
     -ms-border-radius: 20px !important;
     -o-border-radius: 20px !important;
 }
-
-  .toast-top-right {
-    position: relative;
-    top: 90px !important;
-    right: 12px;
-}
-
   .toast-message{
     color:#fdfdfd !important;
   }

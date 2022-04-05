@@ -1016,9 +1016,9 @@
   "by_groupe": "by group",
   "campaign_card": "Campaign card",
   "campaign_details.title": "Campaign details",
-  "campaign_details.deleted": "Your compaing has been successufully deleted",
+  "campaign_details.deleted": "Your campaign  has been successufully deleted",
   "campaign_details_gains.rejected": "The link has been successufully rejected",
-  "campaign_details.draft_save": "Your compaing has been successufully saved as draft",
+  "campaign_details.draft_save": "Your campaign has been successufully saved as draft",
   "campaign_details.draft_save_error": "Sorry an error occured please try again!",
   "campaign_details.number_days": "Number of days",
   "campaign_details.no_summary_msg": "No summary yet!! please add one.",
@@ -3587,5 +3587,8 @@
   "To-maximize-user-experience": "To maximize the user experience, please use a desktop or a tablet device.",
   "pictures": "Pictures",
   "Retry-again": "Retry again",
-  "Apply Now": "Apply now"
+  "Apply Now": "Apply now",
+  "buy_some_gas": "Buy some gas",
+  "invite_friends": "Invite your friends",
+  "join_on_social": "Join us on our social networks"
 }

@@ -234,6 +234,7 @@ a:active {
 @media (min-width: 768px) and (max-width: 993px) {
     .div-filter-search-mobile {
         bottom: -4px !important;
+        height: 295px !important
     }
     .div-sort {
         bottom: -2px !important;
@@ -308,7 +309,7 @@ a:active {
         border-top-right-radius: 30px;
         box-shadow: 0 0 54px 24px rgb(0 0 0 / 15%);
         padding: 2%;
-        z-index: 999;
+        z-index: 999999999999 !important;
         bottom: 61px;
         /* bottom: 0; */
         right: 0;

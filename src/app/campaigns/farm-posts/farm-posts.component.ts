@@ -1,38 +1,14 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Inject,
-  Injector,
-  Input,
-  OnInit,
-  Output,
-  QueryList,
-  ViewChildren
-} from '@angular/core';
-import { BlockchainActionsService } from '@core/services/blockchain-actions.service';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EButtonActions } from '@app/core/enums';
-import { merge, Observable, of, Subject, Subscription } from 'rxjs';
-import {
-  debounceTime,
-  filter,
-  map,
-  skip,
-  switchMap,
-  takeUntil,
-  tap
-} from 'rxjs/operators';
+
+import { Subject, Subscription } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { ParticipationListStoreService } from '@campaigns/services/participation-list-store.service';
 import { Participation } from '@app/models/participation.model';
-import _, { cloneDeep } from 'lodash';
+import _ from 'lodash';
 import { Page } from '@app/models/page.model';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
-import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
-
-import { CampaignsListStoreService } from '@campaigns/services/campaigns-list-store.service';
 import { Big } from 'big.js';
 import { DOCUMENT, ViewportScroller } from '@angular/common';
 import { compare } from '@helpers/utils/math';
@@ -95,7 +71,9 @@ export class FarmPostsComponent implements OnInit {
     private sanitizer: DomSanitizer,
     @Inject(DOCUMENT) private document: any
   ) {
-    this.ParticipationListService.loadLinks();
+    this.ParticipationListService.loadLinks()
+      .pipe(takeUntil(this.isDestroyed))
+      .subscribe();
   }
 
   ngOnInit(): void {
@@ -513,15 +491,15 @@ export class FarmPostsComponent implements OnInit {
   }
 
   generatePostLink(post: any) {
-    if (post.typeSN === '1') {
+    if (post.typeSN === 1) {
       return (
         'https://www.facebook.com/' + post.idUser + '/posts/' + post.idPost
       );
-    } else if (post.typeSN === '3') {
+    } else if (post.typeSN === 3) {
       return 'https://www.instagram.com/p/' + post.idPost + '/';
-    } else if (post.typeSN === '4') {
+    } else if (post.typeSN === 4) {
       return 'https://twitter.com/' + post.idUser + '/status/' + post.idPost;
-    } else if (post.typeSN === '2') {
+    } else if (post.typeSN === 2) {
       return 'https://www.youtube.com/watch?v=' + post.idPost.split('&')[0];
     } else {
       return `https://www.linkedin.com/feed/update/urn:li:${post.typeURL}:${post.idPost}/`;

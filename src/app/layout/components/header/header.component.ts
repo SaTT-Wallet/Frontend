@@ -43,6 +43,7 @@ import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-faca
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Big } from 'big.js';
 import { AuthService } from '@app/core/services/Auth/auth.service';
+import { LocalStorageRefService } from '@core/services/localstorage-ref/local-storage-ref-service.service';
 const bscan = env.bscanaddr;
 const etherscan = env.etherscanaddr;
 @Component({
@@ -153,7 +154,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private socialAccountFacadeService: SocialAccountFacadeService,
     private authStoreService: AuthStoreService,
     private authService: AuthService,
-
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string
   ) {
@@ -186,12 +186,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
     //     this.translate.use(this.languageSelected);
     //     this.getNotifications();
     //   });
-    this.isWelcomePage = this.router.url.includes('welcome');
+    // this.isWelcomePage = this.router.url.includes('welcome');
 
     //detect url changes to change the background of header
     this.router.events.pipe(takeUntil(this.isDestroyed$)).subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        this.isWelcomePage = event.url.includes('welcome');
+        if (event.url.includes('welcome')) {
+          this.isWelcomePage = true;
+        } else {
+          this.isWelcomePage = false;
+        }
 
         if (
           event.url.includes('campaign') ||
@@ -204,6 +208,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         } else {
           this.menuCampaign = false;
         }
+
         if (event.url.includes('errorMessage')) {
           this.errorPart = true;
         } else {
@@ -217,7 +222,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
         if (this.router.url.includes('welcome')) {
           this.checkMenuAdpool();
         }
-        if (this.router.url.includes('buy-token')) {
+        if (
+          this.router.url.includes('buy-token') ||
+          this.router.url.includes('edit')
+        ) {
           //@ts-ignore
           this.header?.nativeElement.style.background =
             'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)';
@@ -246,10 +254,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.isConnected = isAuth;
       });
     this.fixMenuItemsWidth();
-    if (
-      this.router.url.includes('ad-pools') ||
-      this.router.url.includes('welcome')
-    ) {
+    if (this.router.url.includes('welcome')) {
+      this.isWelcomePage = true;
       this.menuAdpool = true;
     }
     if (this.router.url.includes('wallet')) {
@@ -263,7 +269,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
     if (
       this.router.url.includes('campaign') ||
-      this.router.url.includes('wallet')
+      this.router.url.includes('wallet') ||
+      this.router.url.includes('ad-pools')
     ) {
       this.menuCampaign = true;
     } else {
@@ -394,7 +401,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .subscribe((payload: any) => {
         this.walletFacade.initWallet();
         const obj = JSON.parse(payload.data.obj);
-
         let ls = [];
         ls.push(obj);
         ls.forEach((item: any) => {
@@ -416,7 +422,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
               <p class="m-0">${msg}</p>
             </div>`,
               '',
-              { enableHtml: true }
+              { enableHtml: true, positionClass: 'toast-top-right' }
             );
           } else if (item.type === 'receive_transfer_event') {
             this.toastr.success(
@@ -426,7 +432,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
               <p class="m-0">${msg}</p>
             </div>`,
               '',
-              { enableHtml: true }
+              { enableHtml: true, positionClass: 'toast-top-right' }
             );
           } else if (item.type === 'validated_link') {
             this.toastr.success(
@@ -436,7 +442,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
               <p class="m-0">${msg}</p>
             </div>`,
               '',
-              { enableHtml: true }
+              { enableHtml: true, positionClass: 'toast-top-right' }
             );
           } else if (
             item.type === 'convert_event' ||
@@ -449,7 +455,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
               <p class="m-0">${msg}</p>
             </div>`,
               '',
-              { enableHtml: true }
+              { enableHtml: true, positionClass: 'toast-top-right' }
             );
           } else if (
             item.type === 'rejected_link' ||
@@ -462,7 +468,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
               <p class="m-0">${msg}</p>
             </div>`,
               '',
-              { enableHtml: true }
+              { enableHtml: true, positionClass: 'toast-top-right' }
             );
           } else if (item.type === 'cmp_candidate_accept_link') {
             this.toastr.success(
@@ -472,7 +478,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
               <p class="m-0">${msg}</p>
             </div>`,
               '',
-              { enableHtml: true }
+              { enableHtml: true, positionClass: 'toast-top-right' }
             );
           } else if (item.type === 'cmp_candidate_insert_link') {
             this.toastr.success(
@@ -482,17 +488,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
               <p class="m-0">${msg}</p>
             </div>`,
               '',
-              { enableHtml: true }
+              { enableHtml: true, positionClass: 'toast-top-right' }
             );
           } else if (item.type === 'demande_satt_event') {
             this.toastr.success(
               `
-            <div class="d-flex justify-content-center align-items-center gap-3">
+            <div class="d-flex justify-content-center align-items-center gap-3" style='position: absolute; top: 1em; float: right'>
               <img class='notify-icon' src='./assets/Images/notifIcons/Reception.svg'/>
               <p class="m-0">${msg}</p>
             </div>`,
               '',
-              { enableHtml: true }
+              { enableHtml: true, positionClass: 'toast-top-right' }
             );
           }
         });
@@ -692,6 +698,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
     item._label = item.label;
     const receive_satt_pic = './assets/Images/notifIcons/Reception.svg';
     switch (item.type) {
+      case 'buy_some_gas':
+        item._label = 'buy_some_gas';
+        item.img = receive_satt_pic;
+
+        break;
+      case 'invite_friends':
+        item._label = 'invite_friends';
+        item.img = receive_satt_pic;
+
+        break;
+      case 'join_on_social':
+        item._label = 'join_on_social';
+        item.img = receive_satt_pic;
+
+        break;
       case 'send_demande_satt_event':
         item._params = {
           nbr: item._label['price'],
@@ -705,10 +726,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
       case 'demande_satt_event':
         item._params = {
           nbr: item._label['price'],
-          crypto: item._label['currency'],
+          crypto: item._label['cryptoCurrency'],
           name: item._label['name']
         };
-        item._label = 'asked_cryptoCurrency';
+        item._label = 'asked_to_acquire';
         item.img = receive_satt_pic;
         break;
       //////////////////////////////////////////
@@ -1249,25 +1270,48 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   signOut() {
-    this.isConnected = false;
-    this.authService.setIsAuthenticated(false);
-    this.campaignFacade.clearLinksListStore();
-    this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
-    this.ParticipationListStoreService.clearDataFarming();
-    this.walletFacade.dispatchLogout(); //clear totalBalance and cryptoList
-    this.accountFacadeService.dispatchLogoutAccount(); //clear account user
-    this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
-    this.ParticipationListStoreService.nextPage.pageNumber = 0;
-    this.tokenStorageService.signOut();
-    this.profileSettingsFacade.clearProfilePicStore();
-    this.authStoreService.clearStore();
+    this.tokenStorageService.logout().subscribe(
+      () => {
+        this.isConnected = false;
+        this.authService.setIsAuthenticated(false);
+        this.campaignFacade.clearLinksListStore();
+        this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
+        this.ParticipationListStoreService.clearDataFarming();
+        this.walletFacade.dispatchLogout(); //clear totalBalance and cryptoList
+        this.accountFacadeService.dispatchLogoutAccount(); //clear account user
+        this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
+        this.ParticipationListStoreService.nextPage.pageNumber = 0;
+        this.profileSettingsFacade.clearProfilePicStore();
+        this.authStoreService.clearStore();
+        this.tokenStorageService.clear();
+        if (isPlatformBrowser(this.platformId)) {
+          window.location.reload();
+        }
+        this.router.navigate(['/auth/login']);
+      },
+      () => {
+        this.isConnected = false;
+        this.authService.setIsAuthenticated(false);
+        this.campaignFacade.clearLinksListStore();
+        this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
+        this.ParticipationListStoreService.clearDataFarming();
+        this.walletFacade.dispatchLogout(); //clear totalBalance and cryptoList
+        this.accountFacadeService.dispatchLogoutAccount(); //clear account user
+        this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
+        this.ParticipationListStoreService.nextPage.pageNumber = 0;
+        this.profileSettingsFacade.clearProfilePicStore();
+        this.authStoreService.clearStore();
+        this.tokenStorageService.clear();
+        if (isPlatformBrowser(this.platformId)) {
+          window.location.reload();
+        }
+        this.router.navigate(['/auth/login']);
+      }
+    );
+
     /*
     this.campaignsListStore.clearStore();
 */
-    if (isPlatformBrowser(this.platformId)) {
-      window.location.reload();
-    }
-    this.router.navigate(['/auth/login']);
   }
   ngOnDestroy(): void {
     if (!!this.isDestroyed$) {

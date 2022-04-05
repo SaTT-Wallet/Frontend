@@ -78,6 +78,18 @@
   gap: 30px;
 }
 
+@media (min-width: 1324px) and (max-width: 1440px) {
+  .style-grid {
+    gap: 60px !important;
+  }
+}
+
+@media (min-width: 1440px) {
+  .style-grid {
+    gap: 30px !important;
+  }
+}
+
 .SpinnerAuth {
   top: 89% !important;
 }

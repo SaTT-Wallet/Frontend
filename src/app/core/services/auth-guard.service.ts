@@ -23,6 +23,7 @@ export class AuthGuardService implements CanActivate {
   ) {}
 
   canActivate() {
+    
     if (this.tokenStorageService.getIsAuth() !== 'true') {
       this.tokenStorageService.signOut();
       this.accountFacadeService.dispatchLogoutAccount();

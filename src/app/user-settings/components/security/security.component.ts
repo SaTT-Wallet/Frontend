@@ -27,6 +27,8 @@ import { catchError, filter, mergeMap, takeUntil } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { IApiResponse } from '@app/core/types/rest-api-responses';
+import { HttpErrorResponse } from '@angular/common/http';
 enum ExportType {
   eth = 'export',
   btc = 'exportbtc',
@@ -367,42 +369,29 @@ export class SecurityComponent implements OnInit, OnDestroy {
         }, 3000);
       } else {
         this.AuthService.updatePassword(oldpass, newpass, id)
-          .pipe(takeUntil(this.onDestroy$))
-          .subscribe(
-            () => {
+          .pipe(
+            catchError((HttpError: HttpErrorResponse) => {
+              return of(HttpError.error);
+            }),
+            takeUntil(this.onDestroy$)
+          )
+          .subscribe((res: IApiResponse<any>) => {
+            if (res.code === 200) {
               this.showSpinner = false;
-
-              //    if (data.error == "wrong password") {
-
-              //     this.passwordWrong = "profile.old_pass_wrong";
-              //   }else if (data.message == "changed"){
-
-              //     let msg:string="";
-              //     this.translate.get('profile.password_change').subscribe((data1:any)=> {
-              //       msg=data1
-              //     });
-              //     this.toastr.success(msg);
-              //     this.formUpdatePassword.reset()
-              // this.ngOnInit()
-              //   }
-            },
-            (error) => {
-              if (error.error.text === '{error:"wrong password"}') {
-                this.passwordWrong = 'profile.old_pass_wrong';
-              } else if (error.error.text === '{message:"changed"}') {
-                let msg: string = '';
-                this.translate
-                  .get('profile.password_change')
-                  .pipe(takeUntil(this.onDestroy$))
-                  .subscribe((data1: any) => {
-                    msg = data1;
-                  });
-                this.toastr.success(msg);
-                this.formUpdatePassword.reset();
-                this.ngOnInit();
-              }
+              let msg: string = '';
+              this.translate
+                .get('profile.password_change')
+                .pipe(takeUntil(this.onDestroy$))
+                .subscribe((data1: any) => {
+                  msg = data1;
+                });
+              this.toastr.success(msg);
+              this.formUpdatePassword.reset();
+            } else if (res.code === 401) {
+              this.passwordWrong = 'profile.old_pass_wrong';
+              this.formUpdatePassword.get('old_password')?.reset();
             }
-          );
+          });
       }
     }
   }
@@ -431,34 +420,32 @@ export class SecurityComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.onDestroy$))
         .subscribe(
           (res: any) => {
-            // this.showSpinner = false;
-            // if (res.error === 'Wrong password') {
-            //   this.formExportData
-            //     .get('password')
-            //     ?.setErrors({ checkPassword: true });
-            // } else {
-            this.formExportDataSubmitted = false;
-            const file = new Blob([JSON.stringify(res)], {
-              type: 'application/octet-stream'
-            });
+            if (res.message === 'success' && res.code === 200) {
+              this.formExportDataSubmitted = false;
+              const file = new Blob([JSON.stringify(res)], {
+                type: 'application/octet-stream'
+              });
 
-            const href = URL.createObjectURL(file);
-            const a = this.document.createElement('A');
-            a.setAttribute('href', href);
-            a.setAttribute('download', fileName);
-            this.document.body.appendChild(a);
-            a.click();
-            this.document.body.removeChild(a);
-            this.formExportData.reset();
-            this.modalService.dismissAll();
-            this.showSpinnerBTC = false;
-            this.showSpinnerETH = false;
+              const href = URL.createObjectURL(file);
+              const a = this.document.createElement('A');
+              a.setAttribute('href', href);
+              a.setAttribute('download', fileName);
+              this.document.body.appendChild(a);
+              a.click();
+              this.document.body.removeChild(a);
+              this.formExportData.reset();
+              this.modalService.dismissAll();
+              this.showSpinnerBTC = false;
+              this.showSpinnerETH = false;
+            }
+
             // }
           },
           (err) => {
             if (
-              err.error.error === 'Wrong password' &&
-              err.error.code === 401
+              err.error.error ===
+                'Key derivation failed - possibly wrong password' &&
+              err.error.code === 500
             ) {
               this.formExportData
                 .get('password')
@@ -510,8 +497,9 @@ export class SecurityComponent implements OnInit, OnDestroy {
           },
           (err) => {
             if (
-              err.error.error === 'Wrong password' &&
-              err.error.code === 401
+              err.error.error ===
+                'Key derivation failed - possibly wrong password' &&
+              err.error.code === 500
             ) {
               this.formExportDataBTC
                 .get('password')

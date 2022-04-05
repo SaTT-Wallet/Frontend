@@ -44,6 +44,7 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { IResponseWallet } from '@app/core/iresponse-wallet';
 import { User } from '@app/models/User';
 import { HttpErrorResponse } from '@angular/common/http';
+import { NotificationService } from '@core/services/notification/notification.service';
 
 // interface credantials {
 //   email: string;
@@ -157,7 +158,8 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
     private accountFacadeService: AccountFacadeService,
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string,
-    private tokenStorageService: TokenStorageService
+    private tokenStorageService: TokenStorageService,
+    private notificationService: NotificationService
   ) {
     if (isPlatformBrowser(this.platformId)) {
       this.mediaQueryList = window.matchMedia(this.query);
@@ -373,6 +375,7 @@ getCookie(key: string){
             this.tokenStorageService.setItem('valid2FA', 'false');
             this.confirmCodeShow = true;
             this.loginshow = false;
+            this.showBigSpinner = false;
           } else {
             if (
               !response.completed ||
@@ -398,7 +401,7 @@ getCookie(key: string){
       .pipe(
         take(2),
         tap((response: any) => {
-          if (response.myWallet === null) {
+          if (response?.myWallet === null) {
             this.tokenStorageService.setSecureWallet(
               'visited-completeProfile',
               'true'
@@ -406,6 +409,12 @@ getCookie(key: string){
             this.router.navigate(['social-registration/monetize-facebook']);
             this.showBigSpinner = true;
           }
+        }),
+        filter((res: any) => {
+          if (!res) {
+            return false;
+          }
+          return res.myWallet !== null;
         }),
 
         takeUntil(this.onDestroy$)
@@ -427,7 +436,7 @@ getCookie(key: string){
                 this.router.navigate(['/social-registration/pass-phrase']);
               } else {
                 this.tokenStorageService.saveIdWallet(myWallet.data.address);
-                this.router.navigate(['']);
+                this.router.navigateByUrl('/wallet');
                 this.showBigSpinner = true;
                 this.backgroundImage = '';
                 this.backgroundColor = '';
@@ -435,7 +444,7 @@ getCookie(key: string){
               }
             } else {
               this.tokenStorageService.saveIdWallet(myWallet.data.address);
-              this.router.navigate(['']);
+              this.router.navigateByUrl('/wallet');
               this.onDestroy$.next('');
               this.showBigSpinner = true;
               this.backgroundImage = '';
@@ -674,6 +683,9 @@ getCookie(key: string){
                   this.tokenStorageService.saveIdWallet(
                     res.myWallet.data.address
                   );
+                  this.notificationService.triggerFireBaseNotifications.next(
+                    true
+                  );
                   this.router.navigate(['']);
                   this.showBigSpinner = true;
                   this.backgroundImage = '';
@@ -683,6 +695,10 @@ getCookie(key: string){
                 this.tokenStorageService.saveIdWallet(
                   res.myWallet.data.address
                 );
+                this.notificationService.triggerFireBaseNotifications.next(
+                  true
+                );
+
                 this.router.navigate(['']);
                 this.showBigSpinner = true;
                 this.backgroundImage = '';

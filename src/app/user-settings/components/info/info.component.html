@@ -87,11 +87,30 @@
                 <div class="d-flex justify-content-center mt-2">
                   <!-- <img [src]="user?.userPicture" (error)="onImgError($event)" class="avatar" *ngIf="user.idSn === 0">
                                      <img src={{pic}} (error)="onImgError($event)" class="avatar" *ngIf="user.idSn != 0">  -->
-                  <img
-                    [src]="user?.userPicture"
-                    (error)="onImgError($event)"
-                    class="avatar"
-                  />
+
+
+
+
+                                     <!-- <img
+                                     [src]="user?.userPicture"
+                                     (error)="onImgError($event)"
+                                     class="avatar"
+                                     *ngIf="user.idSn === 0"
+                                   />
+                                   <img
+                                   *ngIf="user.idSn != 0"
+                                   [src]="user?.picLink"
+                                   (error)="onImgError($event)"
+                                   class="avatar"
+                                 />    -->
+
+
+                                 <img
+                                 [src]="user?.userPicture"
+                                 (error)="onImgError($event)"
+                                 class="avatar"
+                               />
+
                   <img
                     class="mt-5 pt-5 ms-5 ps-5 position-absolute modifbut"
                     src="/assets/Images/modif_but.svg"
@@ -547,7 +566,7 @@
                               >{{ 'Profil.field_required' | translate }}</span
                             >
                           </div>
-                          <div class="error_email">
+                          <div class="error_email text-center">
                             <span *ngIf="!this.formEmail.get('code')?.errors">
                               {{ this.errorMsg | translate }}</span
                             >

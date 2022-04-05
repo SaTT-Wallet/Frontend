@@ -1,20 +1,21 @@
 <div class="col-12 transactionHash-wrapper bg-grey" *ngIf="transactionHash">
   <h6 class="trx-hash-title text-bold">
-    {{ "Your transaction hash: " | translate }}
+    {{ 'Your transaction hash: ' | translate }}
   </h6>
-  <a [href]="networkWallet" target="_blank" >
-
+  <a [href]="networkWallet" target="_blank">
     <!-- <p class="trx-hash-text text-bold">{{ transactionHash }}</p> -->
     <div class="d-flex">
-      <span class="span-wallet text-bold flex-start">{{ transactionHash }}</span>
-      <span class="span-wallet2 text-bold flex-end mb-1">{{ transactionHash }}</span>
+      <span class="span-wallet text-bold flex-start">{{
+        transactionHash
+      }}</span>
+      <span class="span-wallet2 text-bold flex-end mb-1">{{
+        transactionHash
+      }}</span>
     </div>
-  
-  
   </a>
   <button (click)="copyTransactionHash()" class="copy-to-clipboard-btn d-flex">
     <span *ngIf="!isTransactionHashCopied" class="">
-     <img src="/assets/Images/copy-clipboard.svg" />  Copy 
+      <img src="/assets/Images/copy-clipboard.svg" /> Copy
     </span>
     <span *ngIf="isTransactionHashCopied" class=""> Copied! </span>
   </button>
