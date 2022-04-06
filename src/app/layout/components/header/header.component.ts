@@ -390,7 +390,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .pipe(
         tap((msg) => {}),
         concatMap((payload) =>
-          timer(6000).pipe(
+          timer(3000).pipe(
             takeUntil(this.isDestroyed$),
             tap((v) => {}),
             mapTo(payload)
@@ -414,15 +414,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
               msg = data;
             });
 
-          if (item.type === 'send_demande_satt_event') {
+          if (
+            item.type === 'send_demande_satt_event' ||
+            item.type === 'receive_transfer_event'
+          ) {
             this.toastr.success(
               `
-            <div class="d-flex justify-content-center align-items-center gap-3">
+            <div class="d-flex justify-content-center align-items-center ">
               <img class='notify-icon' src='./assets/Images/notifIcons/Reception.svg'/>
-              <p class="m-0">${msg}</p>
+              <p class="w-100 " style='overflow: hidden; text-overflow: ellipsis; padding: 1em'>${msg}</p>
             </div>`,
               '',
-              { enableHtml: true, positionClass: 'toast-top-right' }
+              { enableHtml: true, positionClass: 'toast-top-right', timeOut: 0 }
             );
           } else if (item.type === 'receive_transfer_event') {
             this.toastr.success(
