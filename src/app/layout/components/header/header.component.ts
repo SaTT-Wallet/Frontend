@@ -373,7 +373,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.NotificationService.notificationSeen()
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe((response: IApiResponse<{ [key: string]: string }>) => {
-        if (response?.message === 'Notification clicked') {
+        if (response === null || response?.message === 'Notification clicked') {
           this.newNotification = false;
         }
       });

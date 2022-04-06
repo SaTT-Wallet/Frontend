@@ -16,6 +16,7 @@ import { IResponseWallet } from '../iresponse-wallet';
 import { User } from '@app/models/User';
 import { AccountFacadeService } from '../facades/account-facade/account-facade.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { NotificationService } from '@core/services/notification/notification.service';
 
 @Injectable({ providedIn: 'root' })
 export class PublicPagesGuard implements CanActivate {
@@ -26,7 +27,8 @@ export class PublicPagesGuard implements CanActivate {
     private tokenStorageService: TokenStorageService,
     private router: Router,
     private walletFacade: WalletFacadeService,
-    private accountFacadeService: AccountFacadeService
+    private accountFacadeService: AccountFacadeService,
+    private notificationService: NotificationService
   ) {}
 
   canActivate(): Observable<boolean> {
@@ -144,9 +146,11 @@ export class PublicPagesGuard implements CanActivate {
           this.tokenStorageService.saveIdWallet(
             (data as IResponseWallet).data.address
           );
+          this.notificationService.triggerFireBaseNotifications.next(true);
           return of(true);
         } else if (this.dateNow > this.dateShouldExpireAt) {
           return of(true);
+          this.notificationService.triggerFireBaseNotifications.next(true);
         }
         return of(false);
       })
