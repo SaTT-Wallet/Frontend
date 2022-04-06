@@ -399,13 +399,21 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
               this.showSuccessBloc = true;
               this.receiveform.reset();
             }
-          },
-          (error) => {
-            if (error.error.error === 'user not found') {
+            if (data == null ){
               this.usernotfound = true;
               this.loadingButton = false;
+              setTimeout(() => {
+                this.usernotfound = false;        
+                    }, 3000);
             }
-          }
+
+          },
+          // (error) => {
+          //   if (error.error.error === 'user not found') {
+          //     this.usernotfound = true;
+          //     this.loadingButton = false;
+          //   }
+          // }
         );
     }
   }
@@ -429,7 +437,8 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.showMsgBloc = false;
     this.showSuccessBloc = false;
     this.showAmountBloc = true;
-    this.receiveform.reset();
+    this.receiveform.reset()
+this.ngOnInit()
     
 
   }

@@ -997,24 +997,22 @@ getCookie(key: string){
       .resetPassword(email)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(
-        (data) => {
-          if (data && data.message) {
-            this.show = 'second';
-            this.forgotpassword = false;
-            this.recoverpassword = true;
-            this.clickedReset = !this.clickedReset;
-            // if (data.message === 'account_locked') {
-            //   this.closeModal(this.lostpwdModal);
+        () => {
+          this.show = 'second';
+          this.forgotpassword = false;
+          this.recoverpassword = true;
+          this.clickedReset = !this.clickedReset;
+          // if (data.message === 'account_locked') {
+          //   this.closeModal(this.lostpwdModal);
 
-            //   this.errorMessage = 'account_locked';
-            //   this.blocktime = data.blockedDate + 1800;
-            //   this.timeLeftToUnLock =
-            //     this.blocktime - Math.floor(Date.now() / 1000);
-            //   this.blockedForgetPassword = true;
-            // }
+          //   this.errorMessage = 'account_locked';
+          //   this.blocktime = data.blockedDate + 1800;
+          //   this.timeLeftToUnLock =
+          //     this.blocktime - Math.floor(Date.now() / 1000);
+          //   this.blockedForgetPassword = true;
+          // }
 
-            this.isCollapsed = false;
-          }
+          this.isCollapsed = false;
         },
         (error) => {
           if (error.error.error === 'connect_with_gplus') {

@@ -525,7 +525,7 @@ export class InfoComponent implements OnInit, OnDestroy {
         takeUntil(this.onDestoy$)
       )
       .subscribe((response: any) => {
-                   let countProfil = 0;
+        let countProfil = 0;
         if (response !== null && response !== undefined) {
           this.picUserUpdated = response.photoUpdated;
           this.pic = response.picLink;
@@ -543,8 +543,8 @@ export class InfoComponent implements OnInit, OnDestroy {
             }
           });
           if (this.user.firstName && this.user.firstName !== '') {
-              countProfil++;
-  }
+            countProfil++;
+          }
           if (this.user.lastName && this.user.lastName !== '') {
             countProfil++;
           }
@@ -573,10 +573,8 @@ export class InfoComponent implements OnInit, OnDestroy {
             countProfil++;
           }
           let stat = (countProfil * 100) / 10;
-          this.percentProfil = stat.toFixed(0);    
-                  this.percentProfil = stat.toFixed(0);
-
-
+          this.percentProfil = stat.toFixed(0);
+          this.percentProfil = stat.toFixed(0);
 
           this.profileSettingsFacade.profilePic$.subscribe((blob: any) => {
             if (blob?.type === 'image/png') {
@@ -647,7 +645,8 @@ export class InfoComponent implements OnInit, OnDestroy {
         .updateProfile(update)
         .pipe(takeUntil(this.onDestoy$))
         .subscribe(() => {
-          this.accountFacadeService.dispatchUpdatedAccount();
+          this.user.photoUpdated = true;
+          // this.accountFacadeService.dispatchUpdatedAccount();
           //   this.profileSettingsFacade.loadUserProfilePic();
         });
     }
