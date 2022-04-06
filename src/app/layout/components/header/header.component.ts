@@ -399,6 +399,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         takeUntil(this.isDestroyed$)
       )
       .subscribe((payload: any) => {
+
         this.walletFacade.initWallet();
         const obj = JSON.parse(payload.data.obj);
         let ls = [];
@@ -406,7 +407,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
         ls.forEach((item: any) => {
           this.siwtchFunction(item);
           let msg = '';
-
+          if (item._label === 'transfer_event_currency') {
+            item._label = 'transfer_event_currency_firebase';
+          }
           this.translate
             .get(item._label, item._params)
             .pipe(takeUntil(this.isDestroyed$))
@@ -414,35 +417,32 @@ export class HeaderComponent implements OnInit, OnDestroy {
               msg = data;
             });
 
-          if (
-            item.type === 'send_demande_satt_event' ||
-            item.type === 'receive_transfer_event'
-          ) {
+          if (item.type === 'send_demande_satt_event') {
             this.toastr.success(
               `
-            <div class="d-flex justify-content-center align-items-center ">
+            <div class="d-flex justify-content-center align-items-center p-3 ">
               <img class='notify-icon' src='./assets/Images/notifIcons/Reception.svg'/>
-              <p class="w-100 " style='overflow: hidden; text-overflow: ellipsis; padding: 1em'>${msg}</p>
-            </div>`,
-              '',
-              { enableHtml: true, positionClass: 'toast-top-right', timeOut: 0 }
-            );
-          } else if (item.type === 'receive_transfer_event') {
-            this.toastr.success(
-              `
-            <div class="d-flex justify-content-center align-items-center gap-3">
-              <img class='notify-icon' src='./assets/Images/notifIcons/envoi.svg'/>
-              <p class="m-0">${msg}</p>
+              <p class="w-100 ml-2 " style='overflow: hidden; max-width: 100%; text-overflow: ellipsis; padding: 1em'>${msg}</p>
             </div>`,
               '',
               { enableHtml: true, positionClass: 'toast-top-right' }
             );
+          } else if (item.type === 'receive_transfer_event') {
+            this.toastr.success(
+              `
+            <div class="d-flex justify-content-center align-items-center p-3">
+              <img class='notify-icon' src='./assets/Images/notifIcons/Reception.svg'/>
+              <p class="w-100 ml-2 " style='overflow: hidden; max-width: 100%; text-overflow: ellipsis; padding: 1em'>${msg}</p>
+            </div>`,
+              '',
+              { enableHtml: true, positionClass: 'toast-top-right'}
+            );
           } else if (item.type === 'validated_link') {
             this.toastr.success(
               `
-            <div class="d-flex justify-content-center align-items-center gap-3">
+            <div class="d-flex justify-content-center align-items-center p-3">
               <img class='notify-icon' src='./assets/Images/notifIcons/lienAccepte.svg'/>
-              <p class="m-0">${msg}</p>
+              <p class="w-100 ml-2 " style='overflow: hidden; text-overflow: ellipsis; padding: 1em'>${msg}</p>
             </div>`,
               '',
               { enableHtml: true, positionClass: 'toast-top-right' }
@@ -453,9 +453,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
           ) {
             this.toastr.success(
               `
-            <div class="d-flex justify-content-center align-items-center gap-3">
+            <div class="d-flex justify-content-center align-items-center p-3">
               <img class='notify-icon' src='./assets/Images/notifIcons/CandidValid.svg'/>
-              <p class="m-0">${msg}</p>
+              <p class="w-100 ml-2 " style='overflow: hidden; max-width: 100%; text-overflow: ellipsis; padding: 1em'>${msg}</p>
             </div>`,
               '',
               { enableHtml: true, positionClass: 'toast-top-right' }
@@ -466,9 +466,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
           ) {
             this.toastr.success(
               `
-            <div class="d-flex justify-content-center align-items-center gap-3">
+            <div class="d-flex justify-content-center align-items-center p-3">
               <img class='notify-icon' src='./assets/Images/notifIcons/lienRefuse.svg'/>
-              <p class="m-0">${msg}</p>
+              <p class="w-100 ml-2 " style='overflow: hidden; max-width: 100%; text-overflow: ellipsis; padding: 1em'>${msg}</p>
             </div>`,
               '',
               { enableHtml: true, positionClass: 'toast-top-right' }
@@ -476,9 +476,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
           } else if (item.type === 'cmp_candidate_accept_link') {
             this.toastr.success(
               `
-            <div class="d-flex justify-content-center align-items-center gap-3">
+            <div class="d-flex justify-content-center align-items-center p-3">
               <img class='notify-icon' src='./assets/Images/notifIcons/lienAccepte.svg'/>
-              <p class="m-0">${msg}</p>
+              <p class="w-100 ml-2 " style='overflow: hidden; max-width: 100%; text-overflow: ellipsis; padding: 1em'>${msg}</p>
             </div>`,
               '',
               { enableHtml: true, positionClass: 'toast-top-right' }
@@ -486,9 +486,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
           } else if (item.type === 'cmp_candidate_insert_link') {
             this.toastr.success(
               `
-            <div class="d-flex justify-content-center align-items-center gap-3">
+            <div class="d-flex justify-content-center align-items-center p-3">
               <img class='notify-icon' src='./assets/Images/notifIcons/ajoutLien.svg'/>
-              <p class="m-0">${msg}</p>
+              <p class="w-100 ml-2 " style='overflow: hidden; max-width: 100%; text-overflow: ellipsis; padding: 1em'>${msg}</p>
             </div>`,
               '',
               { enableHtml: true, positionClass: 'toast-top-right' }
@@ -496,9 +496,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
           } else if (item.type === 'demande_satt_event') {
             this.toastr.success(
               `
-            <div class="d-flex justify-content-center align-items-center gap-3" style='position: absolute; top: 1em; float: right'>
+            <div class="d-flex justify-content-center align-items-center p-3" >
               <img class='notify-icon' src='./assets/Images/notifIcons/Reception.svg'/>
-              <p class="m-0">${msg}</p>
+              <p class="w-100 ml-2 " style='overflow: hidden; max-width: 100%; text-overflow: ellipsis; padding: 1em'>${msg}</p>
+            </div>`,
+              '',
+              { enableHtml: true, positionClass: 'toast-top-right' }
+            );
+          } else if (item.type === 'transfer_event') {
+            this.toastr.success(
+              `
+            <div class="d-flex justify-content-center align-items-center p-3">
+              <img class='notify-icon' src='./assets/Images/notifIcons/envoi.svg'/>
+              <p class="w-100 ml-2 " style='overflow: hidden; max-width: 100%; text-overflow: ellipsis; padding: 1em'>${msg}</p>
             </div>`,
               '',
               { enableHtml: true, positionClass: 'toast-top-right' }
