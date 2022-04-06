@@ -23,7 +23,11 @@ firebase.initializeApp({  
 });
 // Retrieve an instance of Firebase Messaging so that it can handle background
 // messages.
-const messaging = firebase.messaging();
+/* eslint-disable */
+let messaging = firebase.messaging();//@eslint-disable-line
+
+/* eslint-disable */
+
 
 // onBackgroundMessage
 try {
@@ -357,7 +361,7 @@ function siwtchFunction(item) {
             item.img = receive_satt_pic;
             break;
 
-            //////////////////////////////////////////     
+            //////////////////////////////////////////
     }
 
     // console.log( useState(localStorage.getItem('token')))
