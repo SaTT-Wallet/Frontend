@@ -139,7 +139,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnInit(): void {
-     this.sendform.get('currency')?.setValue('SATT');
+    this.sendform.get('currency')?.setValue('SATT');
     this.getusercrypto();
     this.getProfileDetails();
     this.amountdefault = this.sendform.get('currency')?.value;
@@ -410,7 +410,26 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               this.currency = currency;
 
               this.hashtransaction = data.data.transactionHash;
-
+              // if (currency === 'SATTBEP20') {
+              //   let currenncySatt = 'SATT';
+              //   this.toastr.success(
+              //     'You have sent ' +
+              //       splitted +
+              //       '  ' +
+              //       currenncySatt +
+              //       '  to  ' +
+              //       data.data.address
+              //   );
+              // } else {
+              //   this.toastr.success(
+              //     'You have sent ' +
+              //       splitted +
+              //       '  ' +
+              //       currency +
+              //       '  to  ' +
+              //       data.data.address
+              //   );
+              // }
               if (this.networks === 'BEP20') {
                 this.routertransHash = bscan + this.hashtransaction;
               } else {
