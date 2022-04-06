@@ -373,7 +373,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.NotificationService.notificationSeen()
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe((response: IApiResponse<{ [key: string]: string }>) => {
-        if (response?.message === 'Notification clicked') {
+        if (response === null || response?.message === 'Notification clicked') {
           this.newNotification = false;
         }
       });
@@ -396,7 +396,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         takeUntil(this.isDestroyed$)
       )
       .subscribe((payload: any) => {
-
         this.walletFacade.initWallet();
         const obj = JSON.parse(payload.data.obj);
         let ls = [];
@@ -432,7 +431,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
               <p class="w-100 ml-2 " style='overflow: hidden; max-width: 100%; text-overflow: ellipsis; padding: 1em'>${msg}</p>
             </div>`,
               '',
-              { enableHtml: true, positionClass: 'toast-top-right'}
+              { enableHtml: true, positionClass: 'toast-top-right' }
             );
           } else if (item.type === 'validated_link') {
             this.toastr.success(
