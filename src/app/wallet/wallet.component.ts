@@ -706,6 +706,10 @@ export class WalletComponent implements OnInit, OnDestroy {
               response.data.onBoarding === '') &&
             this.router.url === '/wallet'
           ) {
+            if (window.innerHeight < 1025) {
+              this.updateOnBoarding();
+              return;
+            }
             this.startSteps();
           }
         });
@@ -847,25 +851,28 @@ export class WalletComponent implements OnInit, OnDestroy {
           })
           .start()
           .onexit(() => {
-            this.authService
-              .onBoarding()
-              .pipe(
-                tap((res: any) => {
-                  if (!!res.success) {
-                    this.authStoreService.setAccount({
-                      ...this.authStoreService.account,
-                      onBoarding: true
-                    });
-                    this.accountFacadeService.dispatchUpdatedAccount();
-                  }
-                }),
-                takeUntil(this.onDestoy$)
-              )
-              .subscribe(() => {
-                this.showModal = !this.showModal;
-                this.getDetails();
-              });
+            this.updateOnBoarding();
           });
+      });
+  }
+  updateOnBoarding() {
+    this.authService
+      .onBoarding()
+      .pipe(
+        tap((res: any) => {
+          if (!!res.success) {
+            this.authStoreService.setAccount({
+              ...this.authStoreService.account,
+              onBoarding: true
+            });
+            this.accountFacadeService.dispatchUpdatedAccount();
+          }
+        }),
+        takeUntil(this.onDestoy$)
+      )
+      .subscribe(() => {
+        this.showModal = !this.showModal;
+        this.getDetails();
       });
   }
 
