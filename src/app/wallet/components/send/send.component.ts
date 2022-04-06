@@ -477,7 +477,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               this.wrongpassword = true;
               setTimeout(() => {
                 this.wrongpassword = false;
-              }, 5000);
+              }, 2000);
             } else if (
               error.error.error ===
                 'Returned error: execution reverted: BEP20: transfer amount exceeds balance' ||
@@ -491,14 +491,14 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
                 this.amount = '';
                 this.showAmountBloc = true;
                 this.showPwdBloc = false;
-              }, 3000);
+              }, 2000);
               this.sendform.reset();
             } else if (error.error.error === 'not_enough_budget') {
               this.nobalance = true;
               setTimeout(() => {
                 this.nobalance = false;
-              }, 3000);
-            } else if (error.error.error === 'insufficient funds for gas') {
+              }, 2000);
+            } else if (error.error.error === 'insufficient funds for gas' || error.error.error === 'Returned error: insufficient funds for gas * price + value') {
               this.showSuccessBloc = false;
               this.showAmountBloc = false;
               this.showPwdBloc = false;
@@ -506,7 +506,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               this.amountUsd = '';
               this.amount = '';
               this.wrongpassword = false;
-              this.gazproblem = true;
+              // this.gazproblem = true;
               // setTimeout(() => {
               //   this.gazproblem = false;
               // }, 5000);
