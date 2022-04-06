@@ -618,7 +618,8 @@ export class InfoComponent implements OnInit, OnDestroy {
         .updateProfile(update)
         .pipe(takeUntil(this.onDestoy$))
         .subscribe(() => {
-          this.accountFacadeService.dispatchUpdatedAccount();
+          this.user.photoUpdated = true;
+          // this.accountFacadeService.dispatchUpdatedAccount();
           this.profileSettingsFacade.loadUserProfilePic();
         });
     }
