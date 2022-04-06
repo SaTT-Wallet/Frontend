@@ -51,12 +51,7 @@ export class AuthGuardService implements CanActivate {
           this.tokenStorageService.signOut();
           this.router.navigate(['auth/login']);
           return of(false);
-        }
-        //   else if (account.error === 'Invalid Access Token') {
-        //   this.router.navigate(['auth/login']);
-        //   return of(false);
-        // }
-        else if (
+        } else if (
           (account.completed !== true && account.idSn !== 0) ||
           (account.completed === true &&
             account.idSn !== 0 &&
