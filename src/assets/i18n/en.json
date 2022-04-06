@@ -3099,7 +3099,7 @@
     "transfer_money": "You have sent {{nbr}} {{crypto}} to {{email}}",
     "transfert": "Transfer",
     "transfert_limited_amount": "The transfer is limited to an amount greater than $ 25,000",
-    "transfer_event_currency": "You have sent {{nbr}} {{currency}} to",
+    "transfer_event_currency": "You have sent {{nbr}} {{currency}} to ",
     "transfer_event_currency_firebase": "You have sent {{nbr}} {{currency}} to {{to}}",
     "transfer_event_link": " {{to}}",
     "transfer_event_network": "You have sent {{nbr}} to the address {{to}} on the {{network}} network.",

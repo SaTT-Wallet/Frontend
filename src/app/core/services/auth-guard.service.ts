@@ -7,6 +7,7 @@ import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AccountFacadeService } from '../facades/account-facade/account-facade.service';
 import { User } from '@app/models/User';
 import { IResponseWallet } from '../iresponse-wallet';
+import { NotificationService } from '@core/services/notification/notification.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -19,11 +20,11 @@ export class AuthGuardService implements CanActivate {
     private walletFacade: WalletFacadeService,
     private tokenStorageService: TokenStorageService,
     private accountFacadeService: AccountFacadeService,
-    @Inject(PLATFORM_ID) private platformId: string
+    @Inject(PLATFORM_ID) private platformId: string,
+    private notificationService: NotificationService
   ) {}
 
   canActivate() {
-    
     if (this.tokenStorageService.getIsAuth() !== 'true') {
       this.tokenStorageService.signOut();
       this.accountFacadeService.dispatchLogoutAccount();
@@ -105,8 +106,14 @@ export class AuthGuardService implements CanActivate {
         }
         if (data.data.address) {
           this.tokenStorageService.saveIdWallet(data.data.address);
+          setTimeout(() => {
+            this.notificationService.triggerFireBaseNotifications.next(true);
+          }, 4000);
           return of(true);
         } else if (this.dateNow > this.dateShouldExpireAt) {
+          setTimeout(() => {
+            this.notificationService.triggerFireBaseNotifications.next(true);
+          }, 4000);
           return of(true);
         }
         return of(false);
