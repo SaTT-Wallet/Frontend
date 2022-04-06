@@ -480,7 +480,7 @@ export class ParticiperComponent implements OnInit {
 
         if (performance.find((ratio: any) => ratio.oracle === 'twitter')) {
           this.CampaignService.verifyLink(this.application)
-            .pipe(takeUntil(this.isDestroyedSubject),)
+            .pipe(takeUntil(this.isDestroyedSubject))
             .subscribe(
               (data: any) => {
                 if (
@@ -1120,7 +1120,9 @@ export class ParticiperComponent implements OnInit {
               this.balanceNotEnough = false;
               if (
                 data['error'] ===
-                'Returned error: insufficient funds for gas * price + value'
+                  'Returned error: insufficient funds for gas * price + value' ||
+                data['error'] ===
+                  'Returned error: replacement transaction underpriced'
               ) {
                 // this.error = "out_of_gas_error";
                 this.router.navigate([], {
@@ -1147,7 +1149,6 @@ export class ParticiperComponent implements OnInit {
                 this.loadingButton = false;
               }
             } else {
-              
               this.notifyLink(data.data.idProm);
               this.error = '';
               this.success = data.data.transactionHash;
@@ -1169,7 +1170,7 @@ export class ParticiperComponent implements OnInit {
           if (error.error.code === 500) {
             this.error = 'Wrong Password';
           } else {
-            this.error = error.error.error;
+            this.error = 'error-message';
           }
         }
       );
