@@ -43,7 +43,7 @@ import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-faca
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Big } from 'big.js';
 import { AuthService } from '@app/core/services/Auth/auth.service';
-import { LocalStorageRefService } from '@core/services/localstorage-ref/local-storage-ref-service.service';
+import { IApiResponse } from '@app/core/types/rest-api-responses';
 const bscan = env.bscanaddr;
 const etherscan = env.etherscanaddr;
 @Component({
@@ -372,10 +372,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   seeNotification() {
     this.NotificationService.notificationSeen()
       .pipe(takeUntil(this.isDestroyed$))
-      .subscribe((response: any) => {
-        if (response.message !== 'Notification clicked') {
-          this.newNotification = true;
-        } else {
+      .subscribe((response: IApiResponse<{ [key: string]: string }>) => {
+        if (response === null || response?.message === 'Notification clicked') {
           this.newNotification = false;
         }
       });
@@ -388,7 +386,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   receiveMessage() {
     this.NotificationService.notifications$
       .pipe(
-        tap((msg) => {}),
         concatMap((payload) =>
           timer(3000).pipe(
             takeUntil(this.isDestroyed$),
@@ -399,7 +396,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         takeUntil(this.isDestroyed$)
       )
       .subscribe((payload: any) => {
-
         this.walletFacade.initWallet();
         const obj = JSON.parse(payload.data.obj);
         let ls = [];
@@ -435,7 +431,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
               <p class="w-100 ml-2 " style='overflow: hidden; max-width: 100%; text-overflow: ellipsis; padding: 1em'>${msg}</p>
             </div>`,
               '',
-              { enableHtml: true, positionClass: 'toast-top-right'}
+              { enableHtml: true, positionClass: 'toast-top-right' }
             );
           } else if (item.type === 'validated_link') {
             this.toastr.success(
