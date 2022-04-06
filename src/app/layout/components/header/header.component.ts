@@ -154,8 +154,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private socialAccountFacadeService: SocialAccountFacadeService,
     private authStoreService: AuthStoreService,
     private authService: AuthService,
-    private localStorage: LocalStorageRefService,
-
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string
   ) {
@@ -429,7 +427,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
               '',
               { enableHtml: true, positionClass: 'toast-top-right' }
             );
-          } else if (item.type === 'transfer_event') {
+          } else if (item.type === 'receive_transfer_event') {
             this.toastr.success(
               `
             <div class="d-flex justify-content-center align-items-center gap-3">
@@ -1288,7 +1286,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.ParticipationListStoreService.nextPage.pageNumber = 0;
         this.profileSettingsFacade.clearProfilePicStore();
         this.authStoreService.clearStore();
-        this.localStorage.clear();
+        this.tokenStorageService.clear();
         if (isPlatformBrowser(this.platformId)) {
           window.location.reload();
         }
@@ -1306,7 +1304,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.ParticipationListStoreService.nextPage.pageNumber = 0;
         this.profileSettingsFacade.clearProfilePicStore();
         this.authStoreService.clearStore();
-        this.localStorage.clear();
+        this.tokenStorageService.clear();
         if (isPlatformBrowser(this.platformId)) {
           window.location.reload();
         }

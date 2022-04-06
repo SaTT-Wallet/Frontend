@@ -71,7 +71,9 @@ export class FarmPostsComponent implements OnInit {
     private sanitizer: DomSanitizer,
     @Inject(DOCUMENT) private document: any
   ) {
-    this.ParticipationListService.loadLinks();
+    this.ParticipationListService.loadLinks()
+      .pipe(takeUntil(this.isDestroyed))
+      .subscribe();
   }
 
   ngOnInit(): void {

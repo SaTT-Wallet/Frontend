@@ -128,8 +128,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
     // visible height + pixel scrolled >= total height
     if (isPlatformBrowser(this.platformId)) {
       if (
-        event.target.offsetHeight + event.target.scrollTop >
-        event.target.scrollHeight - 3
+        event.target.offsetHeight + event.target.scrollTop >=
+        event.target.scrollHeight
       ) {
         if (this.router.url.startsWith('/ad-pools')) {
           this.campaignService.loadDataAddPoolWhenEndScroll.next(true);

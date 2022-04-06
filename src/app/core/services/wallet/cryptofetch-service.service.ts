@@ -93,7 +93,7 @@ export class CryptofetchServiceService {
   }
   convertCrypto(
     digital_currency: any,
-    requested_amount: any,
+    requested_amount: number,
     fiat_currency: any,
     requested_currency: any
   ) {
