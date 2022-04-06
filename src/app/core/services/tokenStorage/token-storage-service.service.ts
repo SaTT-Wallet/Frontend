@@ -33,9 +33,13 @@ export class TokenStorageService {
   multiFileheader: any;
   expireToken: any;
   url: any;
-  signOut(): void {
+  clear() {
     this.localStorage.clear();
-    this.logout().subscribe();
+  }
+  signOut(): void {
+    this.logout().subscribe(() => {
+      this.localStorage.clear();
+    });
   }
   setHeader() {
     this.headers = new HttpHeaders({
