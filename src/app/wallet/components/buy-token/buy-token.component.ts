@@ -59,7 +59,7 @@ type CryptoListItem = {
 })
 export class BuyTokenComponent implements OnInit, OnChanges {
   liClicked!: boolean;
-  amount = 50;
+  amount: number = 50;
   currency: any;
   convertform: FormGroup;
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -103,6 +103,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   requestedCryptoPriceInUSD$ = new Observable<number>();
   purshaseCryptoPriceInUSD$ = new Observable<number>();
   rateExchangePerRequestedCrypto$ = new Observable<number>();
+  showSpinner = false;
 
   constructor(
     private walletFacade: WalletFacadeService,
@@ -132,7 +133,6 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((p: any) => {
         if (p.id) {
-
           // this.toggleCurrencyType(ECurrencyType.FIAT);
           // this.toggleNetwork(p.network);
           this.selectedCurrencyType = p.currency;
@@ -143,15 +143,10 @@ export class BuyTokenComponent implements OnInit, OnChanges {
           if (p.id === 'SATT-SC') {
             this.fiatLogo = 'SATTBEP20.svg';
           } else if (p.id === 'SATT-ERC20') {
-
-             this.fiatLogo = 'SATT2.svg';
-          }
-          
-          else if (p.id==='SATTBEP20'){
-            this.selectedCurrencyLogo === 'SATTBEP20'
-          }
-          else {
-             
+            this.fiatLogo = 'SATT2.svg';
+          } else if (p.id === 'SATTBEP20') {
+            this.selectedCurrencyLogo === 'SATTBEP20';
+          } else {
             this.fiatLogo = p.id + '.svg';
             this.requestedCrypto = p.id;
           }
@@ -485,27 +480,27 @@ export class BuyTokenComponent implements OnInit, OnChanges {
             // if (error.error.text === 'Invalid Access Token') {
             //   this.tokenStorageService.signOut();
             // }
-this.errMsg = err.error.error
+            if (err.status !== 500) {
+              this.errMsg = err.error.error;
+            }
+
             return of(null);
           }),
           tap((data: any) => {
-            if (data.data.error) {
-
+            if (data?.data.error && data?.data.code !== 500) {
               this.errMsg = data.data.error;
-            }
-         else   if (data.error){
+            } else if (data?.error) {
               this.errMsg = data.error;
-            }
-            else {
+            } else {
               this.errMsg = '';
             }
           }),
           takeUntil(this.isDestroyed)
         )
         .subscribe((data: any) => {
-          this.cryptoAmount = data.data.digital_money?.amount || 0;
+          this.cryptoAmount = data?.data.digital_money?.amount || 0;
 
-          this.quoteId = data.data.quote_id;
+          this.quoteId = data?.data.quote_id;
         });
       this.rateExchangePerRequestedCrypto$ = this.cryptoList$.pipe(
         map(
@@ -572,19 +567,23 @@ this.errMsg = err.error.error
       this.selectedtLogo &&
       this.wallet_id
     ) {
-      this.router.navigate(['/wallet/summary'], {
-        queryParams: {
-          fiatCurrency: this.selectedCurrencyType,
-          network: this.selectedBlockchainNetwork,
-          amount: this.amount,
-          currency: this.selectedTargetCurrency,
-          crypto: this.requestedCrypto,
-          cryptoAmount: this.cryptoAmount,
-          quote_id: this.quoteId,
-          symbol: this.selectedtLogo,
-          wallet: this.wallet_id
-        }
-      });
+      this.showSpinner = true;
+      setTimeout(() => {
+        this.showSpinner = false;
+        this.router.navigate(['/wallet/summary'], {
+          queryParams: {
+            fiatCurrency: this.selectedCurrencyType,
+            network: this.selectedBlockchainNetwork,
+            amount: this.amount,
+            currency: this.selectedTargetCurrency,
+            crypto: this.requestedCrypto,
+            cryptoAmount: this.cryptoAmount,
+            quote_id: this.quoteId,
+            symbol: this.selectedtLogo,
+            wallet: this.wallet_id
+          }
+        });
+      }, 3000);
     }
     this.tokenStorageService.setItem('quoteId', this.quoteId);
   }
@@ -605,6 +604,4 @@ this.errMsg = err.error.error
     this.isDestroyed.next('');
     this.isDestroyed.unsubscribe();
   }
-
-
 }

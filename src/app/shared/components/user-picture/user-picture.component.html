@@ -2,3 +2,4 @@
 <img [src]="user?.userPicture" (error)="onImgError($event)" class="avatar" alt="" *ngIf="!isHeaderPic" />
 <!-- user picture in header -->
 <img [src]="user?.userPicture" (error)="onImgError($event)" class="avatarimage" alt="" *ngIf="isHeaderPic" />
+<!-- <img [src]="user?.picLink"  (error)="onImgError($event)" class="avatarimage" alt="" *ngIf="isHeaderPic && user.idSn != 0" /> -->

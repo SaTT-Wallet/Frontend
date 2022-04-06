@@ -82,7 +82,7 @@
             />
             <!--error msg endDate -->
             <div class="error">
-              <!-- <span *ngIf=" this.form.get('endDate')?.errors?.required && this.form.get('endDate')?.touched || 
+              <!-- <span *ngIf=" this.form.get('endDate')?.errors?.required && this.form.get('endDate')?.touched ||
                         this.form.get('endDate')?.errors?.required && (this.getControls.targetedCountries.dirty || this.getControls.tags.dirty ) ">{{
                         "Profil.field_required" | translate }}</span> -->
               <span
@@ -180,10 +180,14 @@
         <div class="col-xl-9 col-md-9 col-lg-8 col-sm-12">
           <ng-multiselect-dropdown
             #countries
-            formControlName="targetedCountries"
             [settings]="dropdownSettings"
             [data]="dropdownList"
             [(ngModel)]="selectedAttributes"
+            (onSelect)="saveCountries(countries)"
+            (onSelectAll)="saveCountries(countries)"
+            (onDeSelect)="saveCountries(countries)"
+            (onDeSelectAll)="saveCountries(countries)"
+            [ngModelOptions]="{ standalone: true }"
             class="input_country country_input"
           >
           </ng-multiselect-dropdown>
@@ -200,7 +204,7 @@
           >{{ 'Profil.field_required' | translate }}</span
         >
         <!-- <span *ngIf="
-              this.form.get('targetedCountries')?.errors?.required && this.form.get('targetedCountries')?.touched  || 
+              this.form.get('targetedCountries')?.errors?.required && this.form.get('targetedCountries')?.touched  ||
               this.form.get('targetedCountries')?.errors?.required && this.getControls.tags.dirty">{{
                         "Profil.field_required" | translate }}</span> -->
       </div>

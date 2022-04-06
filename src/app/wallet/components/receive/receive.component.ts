@@ -64,7 +64,6 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
   private isDestroyed = new Subject();
   sattPrices: any;
   usernotfound: boolean = false;
-
   constructor(
     private accountFacadeService: AccountFacadeService,
     public sidebarService: SidebarService,
@@ -96,8 +95,14 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnInit(): void {
+    this.receiveform.get('currency')?.setValue('SATT');
     this.getProfileDetails();
     this.getusercrypto();
+    this.amountdefault = this.receiveform.get('currency')?.value;
+     this.receiveform
+    .get('currency')
+    ?.setValue(this.amountdefault);
+
   }
   //get list of crypto for user
   getusercrypto() {
@@ -136,6 +141,7 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.receiveform.get('Amount')?.reset();
     this.receiveform.get('AmountUsd')?.reset();
     this.amountdefault = this.receiveform.get('currency')?.value;
+    console.log("currency",this.amountdefault)
   }
   linstingBack(event: any) {
     if (event === true) {
@@ -166,77 +172,106 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
       });
   }
   //convert currency to usd
-  convertcurrency(event: any): void {
-    // if (event === 'amountreceive') {
-    //   this.receiveform
-    //     .get('Amount')
-    //     ?.setValue(
-    //       this.replaceNonAlphanumeric(this.receiveform.get('Amount')?.value)
-    //     );
-    // } else {
-    //   this.receiveform
-    //     .get('AmountUsd')
-    //     ?.setValue(
-    //       this.replaceNonAlphanumeric(this.receiveform.get('AmountUsd')?.value)
-    //     );
+  restrictZero(event: any) {
+    // if (event.target.value.length === 0 && event.key === '0') {
+    //   event.preventDefault();
     // }
-    let currency = '';
-    let currencyreceive = '';
-    var getamountreceive: any = this.receiveform.get('Amount')?.value;
-    let getusdreceive: any = this.receiveform.get('AmountUsd')?.value;
-    let receiveamount = getamountreceive?.toString();
-    let receiveusd = getusdreceive?.toString();
-    if (event === 'usdreceive' && Number(receiveusd) > this.maxNumber) {
-      receiveusd = receiveusd.slice(0, 9);
-      this.receiveform.get('AmountUsd')?.setValue(receiveusd);
+
+    // console.log(event, event.keyCode);
+    if (event.keyCode === 54) {
+      event.preventDefault();
+      this.convertcurrency('', false);
+    }
+    if (!this.isValidKeyCode(event.keyCode)) {
+      event.preventDefault();
+      this.convertcurrency('', false);
+    }
+  }
+
+  //inputAmountUsd
+  isValidKeyCode(code: number): boolean {
+    return (
+      (code >= 48 && code <= 57) ||
+      (code >= 96 && code <= 105) ||
+      code === 8 ||
+      code === 46 ||
+      code === 27 ||
+      code === 110 ||
+      code === 37 ||
+      code === 39
+    );
+  }
+
+  convertcurrency(event: any, restrict?: boolean): void {
+    let allow: boolean = true;
+    if (restrict !== undefined && restrict === false) {
+      allow = false;
     } else {
-      this.selectedCryptoSend = currency;
-      if (this.selectedCryptoSend) {
-        currencyreceive = this.selectedCryptoSend;
+      allow = true;
+    }
+    if (allow) {
+      let currency = '';
+      let currencyreceive = '';
+      var getamountreceive: any = this.receiveform.get('Amount')?.value;
+      let getusdreceive: any = this.receiveform.get('AmountUsd')?.value;
+      let receiveamount = getamountreceive?.toString();
+      let receiveusd = getusdreceive?.toString();
+      if (event === 'usdreceive' && Number(receiveusd) > this.maxNumber) {
+        receiveusd = receiveusd.slice(0, 9);
+        this.receiveform.get('AmountUsd')?.setValue(receiveusd);
       } else {
-        currencyreceive = this.amountdefault;
+        this.selectedCryptoSend = currency;
+        if (this.selectedCryptoSend) {
+          currencyreceive = this.selectedCryptoSend;
+        } else {
+          currencyreceive = this.amountdefault;
+        }
+        this.dataList?.forEach((crypto: any) => {
+          if (
+            event === 'amountreceive' &&
+            receiveamount !== undefined &&
+            !isNaN(receiveamount)
+          ) {
+            if (crypto.symbol === currencyreceive) {
+              this.amountUsd = crypto.price * receiveamount;
+              this.amountUsd = this.showNumbersRule.transform(this.amountUsd);
+              if (isNaN(this.amountUsd)) {
+                this.amountUsd = '';
+                this.amount = '';
+              }
+            }
+          } else if (
+            event === 'amountreceive' &&
+            (receiveamount === undefined || isNaN(receiveamount))
+          ) {
+            this.amountUsd = '';
+          }
+          if (
+            event === 'usdreceive' &&
+            receiveusd !== '' &&
+            !isNaN(receiveusd)
+          ) {
+            if (crypto.symbol === currencyreceive) {
+              this.amount = receiveusd / crypto.price;
+              this.amount = this.showNumbersRule.transform(this.amount);
+              if (
+                receiveamount === '0.00000000' ||
+                receiveusd === '' ||
+                isNaN(this.amount)
+              ) {
+                this.amountUsd = '';
+                this.amount = '';
+              }
+            }
+          } else if (
+            event === 'usdreceive' &&
+            (receiveusd === '' || isNaN(receiveusd))
+          ) {
+            this.amount = '';
+          }
+        });
+        this.editwidthInput();
       }
-      this.dataList?.forEach((crypto: any) => {
-        if (
-          event === 'amountreceive' &&
-          receiveamount !== undefined &&
-          !isNaN(receiveamount)
-        ) {
-          if (crypto.symbol === currencyreceive) {
-            this.amountUsd = crypto.price * receiveamount;
-            this.amountUsd = this.showNumbersRule.transform(this.amountUsd);
-            if (isNaN(this.amountUsd)) {
-              this.amountUsd = '';
-              this.amount = '';
-            }
-          }
-        } else if (
-          event === 'amountreceive' &&
-          (receiveamount === undefined || isNaN(receiveamount))
-        ) {
-          this.amountUsd = '';
-        }
-        if (event === 'usdreceive' && receiveusd !== '' && !isNaN(receiveusd)) {
-          if (crypto.symbol === currencyreceive) {
-            this.amount = receiveusd / crypto.price;
-            this.amount = this.showNumbersRule.transform(this.amount);
-            if (
-              receiveamount === '0.00000000' ||
-              receiveusd === '' ||
-              isNaN(this.amount)
-            ) {
-              this.amountUsd = '';
-              this.amount = '';
-            }
-          }
-        } else if (
-          event === 'usdreceive' &&
-          (receiveusd === '' || isNaN(receiveusd))
-        ) {
-          this.amount = '';
-        }
-      });
-      this.editwidthInput();
     }
   }
   replaceNonAlphanumeric(value: any) {
@@ -316,6 +351,7 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   receiveMoney() {
     if (this.receiveform.valid) {
+      console.log("aa")
       this.loadingButton = true;
       const wallet = this.tokenStorageService.getIdWallet();
       var name = '';
@@ -393,11 +429,9 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.showMsgBloc = false;
     this.showSuccessBloc = false;
     this.showAmountBloc = true;
-  }
-  restrictZero(event: any) {
-    if (event.target.value.length === 0 && event.key === '0') {
-      event.preventDefault();
-    }
+    this.receiveform.reset();
+    
+
   }
   ngOnDestroy(): void {
     if (!!this.routeEventSubscription$) {

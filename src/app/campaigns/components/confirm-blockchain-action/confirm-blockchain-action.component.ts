@@ -28,10 +28,8 @@ export class ConfirmBlockchainActionComponent implements OnInit {
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((response) => {
         this.isLoading = false;
-
-        // console.log(response);
         // in case of success
-        if (response.data.transactionHash) {
+        if (response.data && response.data.transactionHash) {
           this.service.setTrnxStatus({
             status: 'succeeded',
             transactionHash: response.data.transactionHash,
@@ -45,6 +43,12 @@ export class ConfirmBlockchainActionComponent implements OnInit {
         if (response.error) {
           if (response.error === 'Wrong password') {
             this.errorMessage = 'wrong_password';
+          } else if (
+            response.error ===
+            'Rewards can be harvested only 24h after the last collect'
+          ) {
+            this.errorMessage =
+              'Rewards can be harvested only 24h after the last collect';
           } else if (
             response.error ===
             'Returned error: insufficient funds for gas * price + value'

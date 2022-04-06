@@ -43,6 +43,7 @@ import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-faca
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Big } from 'big.js';
 import { AuthService } from '@app/core/services/Auth/auth.service';
+import { LocalStorageRefService } from '@core/services/localstorage-ref/local-storage-ref-service.service';
 const bscan = env.bscanaddr;
 const etherscan = env.etherscanaddr;
 @Component({
@@ -81,7 +82,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   bepGaz: any;
   showNotifications: boolean = false;
   newNotification: boolean = false;
-  isSend: number = 0;
+  isSeen: number = 0;
   btcCode: string = '';
   erc20: string = '';
   portfeuilleList: Array<{ type: any; code: any }> = [];
@@ -153,7 +154,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private socialAccountFacadeService: SocialAccountFacadeService,
     private authStoreService: AuthStoreService,
     private authService: AuthService,
-
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string
   ) {
@@ -165,9 +165,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       window.addEventListener('resize', () => {
         let vh = window.innerHeight * 0.01;
         this.document.documentElement.style.setProperty('--vh', `${vh}px`);
-      });
-      this.NotificationService.newNotification.subscribe((value) => {
-        this.newNotification = value;
       });
     }
 
@@ -189,12 +186,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
     //     this.translate.use(this.languageSelected);
     //     this.getNotifications();
     //   });
-    this.isWelcomePage = this.router.url.includes('welcome');
+    // this.isWelcomePage = this.router.url.includes('welcome');
 
     //detect url changes to change the background of header
     this.router.events.pipe(takeUntil(this.isDestroyed$)).subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        this.isWelcomePage = event.url.includes('welcome');
+        if (event.url.includes('welcome')) {
+          this.isWelcomePage = true;
+        } else {
+          this.isWelcomePage = false;
+        }
 
         if (
           event.url.includes('campaign') ||
@@ -207,6 +208,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         } else {
           this.menuCampaign = false;
         }
+
         if (event.url.includes('errorMessage')) {
           this.errorPart = true;
         } else {
@@ -220,7 +222,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
         if (this.router.url.includes('welcome')) {
           this.checkMenuAdpool();
         }
-        if (this.router.url.includes('buy-token')) {
+        if (
+          this.router.url.includes('buy-token') ||
+          this.router.url.includes('edit')
+        ) {
+          //@ts-ignore
+          this.header?.nativeElement.style.background =
+            'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)';
           this.isWelcomePage = false;
           this.menuBuyToken = true;
         }
@@ -235,7 +243,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   closeBalanceSection() {
     this.sidebarService.BalanceDropDown('get'); //This Function to fix a bug in the side bar (Balance section Bug)
-    if (this.isSend !== 0) {
+    if (this.isSeen !== 0) {
       this.seeNotification();
     }
   }
@@ -246,10 +254,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.isConnected = isAuth;
       });
     this.fixMenuItemsWidth();
-    if (
-      this.router.url.includes('ad-pools') ||
-      this.router.url.includes('welcome')
-    ) {
+    if (this.router.url.includes('welcome')) {
+      this.isWelcomePage = true;
       this.menuAdpool = true;
     }
     if (this.router.url.includes('wallet')) {
@@ -263,7 +269,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
     if (
       this.router.url.includes('campaign') ||
-      this.router.url.includes('wallet')
+      this.router.url.includes('wallet') ||
+      this.router.url.includes('ad-pools')
     ) {
       this.menuCampaign = true;
     } else {
@@ -383,7 +390,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .pipe(
         tap((msg) => {}),
         concatMap((payload) =>
-          timer(6000).pipe(
+          timer(3000).pipe(
             takeUntil(this.isDestroyed$),
             tap((v) => {}),
             mapTo(payload)
@@ -392,14 +399,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
         takeUntil(this.isDestroyed$)
       )
       .subscribe((payload: any) => {
+
         this.walletFacade.initWallet();
         const obj = JSON.parse(payload.data.obj);
-
         let ls = [];
         ls.push(obj);
         ls.forEach((item: any) => {
           this.siwtchFunction(item);
           let msg = '';
+          if (item._label === 'transfer_event_currency') {
+            item._label = 'transfer_event_currency_firebase';
+          }
           this.translate
             .get(item._label, item._params)
             .pipe(takeUntil(this.isDestroyed$))
@@ -410,32 +420,32 @@ export class HeaderComponent implements OnInit, OnDestroy {
           if (item.type === 'send_demande_satt_event') {
             this.toastr.success(
               `
-            <div class="d-flex justify-content-center align-items-center gap-3">
+            <div class="d-flex justify-content-center align-items-center p-3 ">
               <img class='notify-icon' src='./assets/Images/notifIcons/Reception.svg'/>
-              <p class="m-0">${msg}</p>
+              <p class="w-100 ml-2 " style='overflow: hidden; max-width: 100%; text-overflow: ellipsis; padding: 1em'>${msg}</p>
             </div>`,
               '',
-              { enableHtml: true }
+              { enableHtml: true, positionClass: 'toast-top-right' }
             );
-          } else if (item.type === 'transfer_event') {
+          } else if (item.type === 'receive_transfer_event') {
             this.toastr.success(
               `
-            <div class="d-flex justify-content-center align-items-center gap-3">
-              <img class='notify-icon' src='./assets/Images/notifIcons/envoi.svg'/>
-              <p class="m-0">${msg}</p>
+            <div class="d-flex justify-content-center align-items-center p-3">
+              <img class='notify-icon' src='./assets/Images/notifIcons/Reception.svg'/>
+              <p class="w-100 ml-2 " style='overflow: hidden; max-width: 100%; text-overflow: ellipsis; padding: 1em'>${msg}</p>
             </div>`,
               '',
-              { enableHtml: true }
+              { enableHtml: true, positionClass: 'toast-top-right'}
             );
           } else if (item.type === 'validated_link') {
             this.toastr.success(
               `
-            <div class="d-flex justify-content-center align-items-center gap-3">
+            <div class="d-flex justify-content-center align-items-center p-3">
               <img class='notify-icon' src='./assets/Images/notifIcons/lienAccepte.svg'/>
-              <p class="m-0">${msg}</p>
+              <p class="w-100 ml-2 " style='overflow: hidden; text-overflow: ellipsis; padding: 1em'>${msg}</p>
             </div>`,
               '',
-              { enableHtml: true }
+              { enableHtml: true, positionClass: 'toast-top-right' }
             );
           } else if (
             item.type === 'convert_event' ||
@@ -443,12 +453,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
           ) {
             this.toastr.success(
               `
-            <div class="d-flex justify-content-center align-items-center gap-3">
+            <div class="d-flex justify-content-center align-items-center p-3">
               <img class='notify-icon' src='./assets/Images/notifIcons/CandidValid.svg'/>
-              <p class="m-0">${msg}</p>
+              <p class="w-100 ml-2 " style='overflow: hidden; max-width: 100%; text-overflow: ellipsis; padding: 1em'>${msg}</p>
             </div>`,
               '',
-              { enableHtml: true }
+              { enableHtml: true, positionClass: 'toast-top-right' }
             );
           } else if (
             item.type === 'rejected_link' ||
@@ -456,47 +466,57 @@ export class HeaderComponent implements OnInit, OnDestroy {
           ) {
             this.toastr.success(
               `
-            <div class="d-flex justify-content-center align-items-center gap-3">
+            <div class="d-flex justify-content-center align-items-center p-3">
               <img class='notify-icon' src='./assets/Images/notifIcons/lienRefuse.svg'/>
-              <p class="m-0">${msg}</p>
+              <p class="w-100 ml-2 " style='overflow: hidden; max-width: 100%; text-overflow: ellipsis; padding: 1em'>${msg}</p>
             </div>`,
               '',
-              { enableHtml: true }
+              { enableHtml: true, positionClass: 'toast-top-right' }
             );
           } else if (item.type === 'cmp_candidate_accept_link') {
             this.toastr.success(
               `
-            <div class="d-flex justify-content-center align-items-center gap-3">
+            <div class="d-flex justify-content-center align-items-center p-3">
               <img class='notify-icon' src='./assets/Images/notifIcons/lienAccepte.svg'/>
-              <p class="m-0">${msg}</p>
+              <p class="w-100 ml-2 " style='overflow: hidden; max-width: 100%; text-overflow: ellipsis; padding: 1em'>${msg}</p>
             </div>`,
               '',
-              { enableHtml: true }
+              { enableHtml: true, positionClass: 'toast-top-right' }
             );
           } else if (item.type === 'cmp_candidate_insert_link') {
             this.toastr.success(
               `
-            <div class="d-flex justify-content-center align-items-center gap-3">
+            <div class="d-flex justify-content-center align-items-center p-3">
               <img class='notify-icon' src='./assets/Images/notifIcons/ajoutLien.svg'/>
-              <p class="m-0">${msg}</p>
+              <p class="w-100 ml-2 " style='overflow: hidden; max-width: 100%; text-overflow: ellipsis; padding: 1em'>${msg}</p>
             </div>`,
               '',
-              { enableHtml: true }
+              { enableHtml: true, positionClass: 'toast-top-right' }
             );
           } else if (item.type === 'demande_satt_event') {
             this.toastr.success(
               `
-            <div class="d-flex justify-content-center align-items-center gap-3">
+            <div class="d-flex justify-content-center align-items-center p-3" >
               <img class='notify-icon' src='./assets/Images/notifIcons/Reception.svg'/>
-              <p class="m-0">${msg}</p>
+              <p class="w-100 ml-2 " style='overflow: hidden; max-width: 100%; text-overflow: ellipsis; padding: 1em'>${msg}</p>
             </div>`,
               '',
-              { enableHtml: true }
+              { enableHtml: true, positionClass: 'toast-top-right' }
+            );
+          } else if (item.type === 'transfer_event') {
+            this.toastr.success(
+              `
+            <div class="d-flex justify-content-center align-items-center p-3">
+              <img class='notify-icon' src='./assets/Images/notifIcons/envoi.svg'/>
+              <p class="w-100 ml-2 " style='overflow: hidden; max-width: 100%; text-overflow: ellipsis; padding: 1em'>${msg}</p>
+            </div>`,
+              '',
+              { enableHtml: true, positionClass: 'toast-top-right' }
             );
           }
         });
         ls = ls.concat(this.dataNotification);
-        this.issendfire = obj.isSend;
+        this.issendfire = obj.isSeen;
         this.dataNotification = ls;
         if (this.issendfire !== 0) {
           this.newNotification = true;
@@ -510,15 +530,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe((response: any) => {
         if (response?.code === 200 && response?.message === 'success') {
-          this.isSend = response.data.isSend;
+          this.isSeen = response.data.isSeen;
 
           // this.ngOnInit();
-          if (this.isSend !== 0) {
+          if (this.isSeen !== 0) {
+            this.newNotification = true;
             this.NotificationService.newNotification.next(true);
           } else {
+            this.newNotification = false;
             this.NotificationService.newNotification.next(false);
           }
+          // this.NotificationService.newNotification.subscribe((value) => {
+          //   console.log(value);
 
+          //   this.newNotification = value;
+          // });
           this.dataNotification = response.data.notifications;
           this.notifListSize = Math.round(
             window.innerHeight / this.notifItemSize
@@ -685,6 +711,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
     item._label = item.label;
     const receive_satt_pic = './assets/Images/notifIcons/Reception.svg';
     switch (item.type) {
+      case 'buy_some_gas':
+        item._label = 'buy_some_gas';
+        item.img = receive_satt_pic;
+
+        break;
+      case 'invite_friends':
+        item._label = 'invite_friends';
+        item.img = receive_satt_pic;
+
+        break;
+      case 'join_on_social':
+        item._label = 'join_on_social';
+        item.img = receive_satt_pic;
+
+        break;
       case 'send_demande_satt_event':
         item._params = {
           nbr: item._label['price'],
@@ -698,10 +739,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
       case 'demande_satt_event':
         item._params = {
           nbr: item._label['price'],
-          crypto: item._label['currency'],
+          crypto: item._label['cryptoCurrency'],
           name: item._label['name']
         };
-        item._label = 'asked_cryptoCurrency';
+        item._label = 'asked_to_acquire';
         item.img = receive_satt_pic;
         break;
       //////////////////////////////////////////
@@ -1020,7 +1061,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.showNotifications = true;
       this.showWallet = false;
     }
-    if (this.isSend !== 0) this.seeNotification();
+    if (this.isSeen !== 0) this.seeNotification();
   }
   @HostListener('window:resize', ['$event'])
   onScreenResize(event: any) {
@@ -1242,28 +1283,53 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   signOut() {
-    this.isConnected = false;
-    this.authService.setIsAuthenticated(false);
-    this.campaignFacade.clearLinksListStore();
-    this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
-    this.ParticipationListStoreService.clearDataFarming();
-    this.walletFacade.dispatchLogout(); //clear totalBalance and cryptoList
-    this.accountFacadeService.dispatchLogoutAccount(); //clear account user
-    this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
-    this.ParticipationListStoreService.nextPage.pageNumber = 0;
-    this.tokenStorageService.signOut();
-    this.profileSettingsFacade.clearProfilePicStore();
-    this.authStoreService.clearStore();
+    this.tokenStorageService.logout().subscribe(
+      () => {
+        this.isConnected = false;
+        this.authService.setIsAuthenticated(false);
+        this.campaignFacade.clearLinksListStore();
+        this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
+        this.ParticipationListStoreService.clearDataFarming();
+        this.walletFacade.dispatchLogout(); //clear totalBalance and cryptoList
+        this.accountFacadeService.dispatchLogoutAccount(); //clear account user
+        this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
+        this.ParticipationListStoreService.nextPage.pageNumber = 0;
+        this.profileSettingsFacade.clearProfilePicStore();
+        this.authStoreService.clearStore();
+        this.tokenStorageService.clear();
+        if (isPlatformBrowser(this.platformId)) {
+          window.location.reload();
+        }
+        this.router.navigate(['/auth/login']);
+      },
+      () => {
+        this.isConnected = false;
+        this.authService.setIsAuthenticated(false);
+        this.campaignFacade.clearLinksListStore();
+        this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
+        this.ParticipationListStoreService.clearDataFarming();
+        this.walletFacade.dispatchLogout(); //clear totalBalance and cryptoList
+        this.accountFacadeService.dispatchLogoutAccount(); //clear account user
+        this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
+        this.ParticipationListStoreService.nextPage.pageNumber = 0;
+        this.profileSettingsFacade.clearProfilePicStore();
+        this.authStoreService.clearStore();
+        this.tokenStorageService.clear();
+        if (isPlatformBrowser(this.platformId)) {
+          window.location.reload();
+        }
+        this.router.navigate(['/auth/login']);
+      }
+    );
+
     /*
     this.campaignsListStore.clearStore();
 */
-    if (isPlatformBrowser(this.platformId)) {
-      window.location.reload();
-    }
-    this.router.navigate(['/auth/login']);
   }
   ngOnDestroy(): void {
     if (!!this.isDestroyed$) {
+      this.isDestroyed$.next('');
+      this.isDestroyed$.complete();
       this.isDestroyed$.unsubscribe();
     }
     //this.translate.onLangChange.unsubscribe();

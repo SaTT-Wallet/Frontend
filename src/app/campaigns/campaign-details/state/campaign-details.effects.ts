@@ -18,9 +18,7 @@ export class CampaignsEffects {
       concatMap((action: any) =>
         this.campaignHttpApiService.getOneById(action.id).pipe(
           map((data: any) => {
-            console.log('old',data.data)
             const campaign = new Campaign(data.data);
-            console.log('new',campaign)
             campaign.ownedByUser =
               Number(campaign.ownerId) ===
               Number(this.localStorageService.getIdUser());

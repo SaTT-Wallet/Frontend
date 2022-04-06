@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderRegisterComponent } from '@shared/components/header-register/header-register.component';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { FooterComponent } from './components/footer/footer.component';
 import { LoadingLogoComponent } from '@shared/components/loading-logo/loading-logo.component';
@@ -54,7 +54,6 @@ import { ItemsListDirective } from '@shared/components/list-items/items-list.dir
 import { ListItemsComponent } from '@shared/components/list-items/list-items.component';
 import { OrderByPipe } from '@shared/pipes/order-by.pipe';
 import { UserPictureComponent } from './components/user-picture/user-picture.component';
-import { NgxTweetModule } from 'ngx-tweet';
 import { InstagramPostDirective } from './directives/instagram-post.directives';
 import { MultiSelectComponent } from './components/multi-select/multi-select.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -67,6 +66,7 @@ import { DropdownCryptoNetworkComponent } from '@app/wallet/components/dropdown-
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MoonboyHelpComponent } from './components/moonboy-help/moonboy-help.component';
+import { WheelMouseDirective } from './directives/wheelMouse.directive';
 
 @NgModule({
   declarations: [
@@ -98,7 +98,8 @@ import { MoonboyHelpComponent } from './components/moonboy-help/moonboy-help.com
     BlockCopyPasteDirective,
     FilterBynamePipe,
     DropdownCryptoNetworkComponent,
-    MoonboyHelpComponent
+    MoonboyHelpComponent,
+    WheelMouseDirective
   ],
   exports: [
     //directives and components
@@ -118,6 +119,7 @@ import { MoonboyHelpComponent } from './components/moonboy-help/moonboy-help.com
     NgCircleProgressModule,
     NgxPaginationModule,
     DateInputConverterDirective,
+    WheelMouseDirective,
     EarnedSattPipe,
     OrderByPipe,
     TransfomNumberPipe,

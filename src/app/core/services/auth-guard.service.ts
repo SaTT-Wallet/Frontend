@@ -6,6 +6,8 @@ import { TokenStorageService } from './tokenStorage/token-storage-service.servic
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AccountFacadeService } from '../facades/account-facade/account-facade.service';
 import { User } from '@app/models/User';
+import { IResponseWallet } from '../iresponse-wallet';
+import { NotificationService } from '@core/services/notification/notification.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -18,7 +20,8 @@ export class AuthGuardService implements CanActivate {
     private walletFacade: WalletFacadeService,
     private tokenStorageService: TokenStorageService,
     private accountFacadeService: AccountFacadeService,
-    @Inject(PLATFORM_ID) private platformId: string
+    @Inject(PLATFORM_ID) private platformId: string,
+    private notificationService: NotificationService
   ) {}
 
   canActivate() {
@@ -36,25 +39,20 @@ export class AuthGuardService implements CanActivate {
   handleAccountValue() {
     return this.accountFacadeService.account$.pipe(
       filter((res) => res !== null),
-      take(1),
+      take(2),
       tap((account: any) => {
         const phonenumber = this.tokenStorageService.getPhoneNumber();
         if (!phonenumber) {
           this.tokenStorageService.setPhoneNumber(account.phone);
         }
       }),
-      mergeMap((account: User) => {
-        if (account.email === '') {
+      mergeMap((account: User | any) => {
+        if (account.email === '' || account.error === 'jwt expired') {
           this.accountFacadeService.dispatchLogoutAccount();
           this.tokenStorageService.signOut();
           this.router.navigate(['auth/login']);
           return of(false);
-        }
-        //   else if (account.error === 'Invalid Access Token') {
-        //   this.router.navigate(['auth/login']);
-        //   return of(false);
-        // }
-        else if (
+        } else if (
           (account.completed !== true && account.idSn !== 0) ||
           (account.completed === true &&
             account.idSn !== 0 &&
@@ -99,7 +97,7 @@ export class AuthGuardService implements CanActivate {
           return of(false);
         }
       }),
-      mergeMap((data: any) => {
+      mergeMap((data: IResponseWallet) => {
         if (this.tokenStorageService.getvalid2FA() === 'false') {
           // this.tokenStorageService.signOut()
           this.accountFacadeService.dispatchLogoutAccount();
@@ -108,8 +106,14 @@ export class AuthGuardService implements CanActivate {
         }
         if (data.data.address) {
           this.tokenStorageService.saveIdWallet(data.data.address);
+          setTimeout(() => {
+            this.notificationService.triggerFireBaseNotifications.next(true);
+          }, 4000);
           return of(true);
         } else if (this.dateNow > this.dateShouldExpireAt) {
+          setTimeout(() => {
+            this.notificationService.triggerFireBaseNotifications.next(true);
+          }, 4000);
           return of(true);
         }
         return of(false);

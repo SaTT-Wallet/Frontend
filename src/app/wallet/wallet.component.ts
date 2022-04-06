@@ -35,12 +35,13 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AuthStoreService } from '@core/services/Auth/auth-store.service';
 import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-facade.service';
-import { filter, takeUntil, mergeMap, tap } from 'rxjs/operators';
+import { filter, takeUntil, mergeMap, tap, map } from 'rxjs/operators';
 import { DOCUMENT } from '@angular/common';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { forkJoin, of, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { ProfileService } from '@app/core/services/profile/profile.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-wallet',
@@ -380,6 +381,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   toggle: boolean = true;
   isChecked: boolean = false;
   picUserUpdated: boolean = false;
+
   private totalBalance$ = this.walletFacade.totalBalance$;
 
   selectTab(tabId: number) {
@@ -456,6 +458,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     public mediaMatcher: MediaMatcher,
     private walletFacade: WalletFacadeService,
     private profileService: ProfileService,
+    private toasterService: ToastrService,
     @Inject(DOCUMENT) private document: any
   ) {
     matcher: MediaQueryList;
@@ -651,6 +654,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.verifyOnBoarding();
+    // this.dontShowAgain();
     // let data_profile = {
     //   onBoarding: false
     // };
@@ -668,7 +672,10 @@ export class WalletComponent implements OnInit, OnDestroy {
     this.hideRedBloc = this.tokenStorageService.getHideRedBloc();
     this.walletFacade
       .getBalanceChart()
-      .pipe(takeUntil(this.onDestoy$))
+      .pipe(
+        map((res: any) => res.data),
+        takeUntil(this.onDestoy$)
+      )
       .subscribe((data: any) => {
         this.showDaily = true;
         this.fillChart(data);
@@ -728,7 +735,10 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   totalbalancewallet() {
     this.totalBalance$
-      .pipe(takeUntil(this.onDestoy$))
+      .pipe(
+        filter((res) => Object.keys(res).length !== 0),
+        takeUntil(this.onDestoy$)
+      )
       .subscribe((data: any) => {
         this.totalAmount = data;
         this.variationamount = data?.variation?.toFixed(2);
@@ -841,7 +851,6 @@ export class WalletComponent implements OnInit, OnDestroy {
               .onBoarding()
               .pipe(
                 tap((res: any) => {
-                  console.log(res);
                   if (!!res.success) {
                     this.authStoreService.setAccount({
                       ...this.authStoreService.account,
@@ -953,6 +962,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
   dontShowAgain() {
     this.isChecked = !this.isChecked;
+
     if (this.isChecked === true) {
       let data_profile = {
         toggle: false
@@ -960,8 +970,12 @@ export class WalletComponent implements OnInit, OnDestroy {
       this.profileSettingsFacade
         .updateProfile(data_profile)
         .pipe(takeUntil(this.onDestoy$))
-        .subscribe(() => {});
-      this.tokenStorageService.setShowPopUp('false');
+        .subscribe((data: any) => {
+          if (data.data.toogle === false) {
+            this.accountFacadeService.dispatchUpdatedAccount();
+            this.tokenStorageService.setShowPopUp('false');
+          }
+        });
     }
 
     if (this.isChecked === false) {
@@ -971,8 +985,12 @@ export class WalletComponent implements OnInit, OnDestroy {
       this.profileSettingsFacade
         .updateProfile(data_profile)
         .pipe(takeUntil(this.onDestoy$))
-        .subscribe(() => {});
-      this.tokenStorageService.setShowPopUp('true');
+        .subscribe((data: any) => {
+          if (data.data.toggle === true) {
+            this.accountFacadeService.dispatchUpdatedAccount();
+            this.tokenStorageService.setShowPopUp('true');
+          }
+        });
     }
   }
   goToCampaign() {

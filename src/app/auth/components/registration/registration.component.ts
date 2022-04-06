@@ -53,7 +53,7 @@ export class RegistrationComponent implements OnInit {
   authForm: FormGroup;
   languageSelected: string = 'en';
   showSpinner: boolean = false;
-  authFacebook: string = sattUrl + '/auth/signup_fb';
+  authFacebook: string = sattUrl + '/auth/signup/facebook';
   authGoogle: string = sattUrl + '/auth/signup/google';
   authTelegram: string = sattUrl + '/auth/signup/telegram';
   loginNet: string = '';
@@ -292,7 +292,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   snlogin(social: string) {
-    if (social === 'facebook') {
+    if (social == 'facebook') {
       this.loginNet = 'facebook';
       if (isPlatformBrowser(this.platformId)) {
         window.location.href = this.authFacebook;

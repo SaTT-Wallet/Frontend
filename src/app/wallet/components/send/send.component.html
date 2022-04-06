@@ -71,7 +71,7 @@
         </div>
         <div class="d-flex justify-content-center">
           <div
-            class="mt-3 div-input-icon p-1"
+            class="mt-3 div-input-icon p-2"
             [ngClass]="{
               'border-error':
                 (this.sendform.get('contact')?.errors?.required &&
@@ -93,20 +93,17 @@
             />
           </div>
         </div>
-        
-
 
         <div
-        class="text-center"
-        *ngIf="
-          this.sendform.get('contact')?.value ==='0x655371C0622cACc22732E872a68034f38E04d6e5' && this.networks === 'BEP20'
-      
-        "
-      >
-        <span class="error_msg">{{"Wallet.bridge-send" | translate}} </span>
-      </div>
-
-
+          class="text-center"
+          *ngIf="
+            this.sendform.get('contact')?.value ===
+              '0x655371C0622cACc22732E872a68034f38E04d6e5' &&
+            this.networks === 'BEP20'
+          "
+        >
+          <span class="error_msg">{{ 'Wallet.bridge-send' | translate }} </span>
+        </div>
 
         <div
           class="text-center"
@@ -126,8 +123,7 @@
             class="error_msg"
             *ngIf="
               this.sendform.get('contact')?.errors?.pattern &&
-              !this.sendform.get('contact')?.errors?.required 
-             
+              !this.sendform.get('contact')?.errors?.required
             "
             >{{ 'Wallet.Invalid address' | translate }}</span
           >
@@ -138,9 +134,9 @@
             (click)="showNextBloc()"
             class="blue-btn"
             [disabled]="
-            ( this.sendform.get('contact')?.value ==='0x655371C0622cACc22732E872a68034f38E04d6e5' && this.networks === 'BEP20' )
-              
-              || 
+              (this.sendform.get('contact')?.value ===
+                '0x655371C0622cACc22732E872a68034f38E04d6e5' &&
+                this.networks === 'BEP20') ||
               this.sendform.get('contact')?.errors?.required ||
               this.sendform.controls.contact.errors?.pattern ||
               this.sendform.controls.contact.errors?.invalid ||
@@ -265,7 +261,7 @@
       </div>
       <div class="tex-center mt-2">
         <h3 class="black">
-          {{ amount || 0 }} {{ this.selectedCryptoDetails.symbol | translate}}
+          {{ amount || 0 }} {{ this.selectedCryptoDetails.symbol | translate }}
           {{ 'Transactions.Send' | translate }}
         </h3>
       </div>

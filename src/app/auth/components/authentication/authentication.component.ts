@@ -42,9 +42,9 @@ import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-fac
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { IResponseWallet } from '@app/core/iresponse-wallet';
-import { IresponseAccount } from '@app/core/iresponse-account';
 import { User } from '@app/models/User';
 import { HttpErrorResponse } from '@angular/common/http';
+import { NotificationService } from '@core/services/notification/notification.service';
 
 // interface credantials {
 //   email: string;
@@ -141,6 +141,7 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
   private onDestroy$ = new Subject();
   private account$ = this.accountFacadeService.account$;
   blockDate: any;
+  successMessagecode: string = '';
   constructor(
     private modalService: NgbModal,
     private authService: AuthService,
@@ -157,7 +158,8 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
     private accountFacadeService: AccountFacadeService,
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string,
-    private tokenStorageService: TokenStorageService
+    private tokenStorageService: TokenStorageService,
+    private notificationService: NotificationService
   ) {
     if (isPlatformBrowser(this.platformId)) {
       this.mediaQueryList = window.matchMedia(this.query);
@@ -367,12 +369,13 @@ getCookie(key: string){
         mergeMap((response: User) => {
           this.tokenStorageService.setHeader();
           this.tokenStorageService.saveUserId(response.idUser);
-          this.tokenStorageService.saveIdSn(response.idSn);
+          this.tokenStorageService.saveIdSn(response.idSn.toString());
           this.idUser = Number(response.idUser);
           if (response.is2FA === true) {
             this.tokenStorageService.setItem('valid2FA', 'false');
             this.confirmCodeShow = true;
             this.loginshow = false;
+            this.showBigSpinner = false;
           } else {
             if (
               !response.completed ||
@@ -396,12 +399,24 @@ getCookie(key: string){
         })
       )
       .pipe(
+        take(2),
+        tap((response: any) => {
+          if (response?.myWallet === null) {
+            this.tokenStorageService.setSecureWallet(
+              'visited-completeProfile',
+              'true'
+            );
+            this.router.navigate(['social-registration/monetize-facebook']);
+            this.showBigSpinner = true;
+          }
+        }),
         filter((res: any) => {
           if (!res) {
             return false;
           }
           return res.myWallet !== null;
         }),
+
         takeUntil(this.onDestroy$)
       )
       .subscribe(
@@ -421,7 +436,7 @@ getCookie(key: string){
                 this.router.navigate(['/social-registration/pass-phrase']);
               } else {
                 this.tokenStorageService.saveIdWallet(myWallet.data.address);
-                this.router.navigate(['']);
+                this.router.navigateByUrl('/wallet');
                 this.showBigSpinner = true;
                 this.backgroundImage = '';
                 this.backgroundColor = '';
@@ -429,7 +444,7 @@ getCookie(key: string){
               }
             } else {
               this.tokenStorageService.saveIdWallet(myWallet.data.address);
-              this.router.navigate(['']);
+              this.router.navigateByUrl('/wallet');
               this.onDestroy$.next('');
               this.showBigSpinner = true;
               this.backgroundImage = '';
@@ -439,7 +454,7 @@ getCookie(key: string){
             // this.spinner.hide();
           }
         },
-        (error: any) => {
+        (error: HttpErrorResponse) => {
           if (
             error.error &&
             error.error.error === 'Wallet not found' &&
@@ -520,11 +535,11 @@ getCookie(key: string){
         .login(this.f.email?.value, this.f.password?.value)
         .pipe(
           takeUntil(this.onDestroy$),
-          catchError((error: any) => {
+          catchError((error: HttpErrorResponse) => {
             if (error.error.error.message === 'user not found') {
-              this.errorMessage = 'Email incorrect';
+              this.errorMessage = 'Invalid email address';
             } else if (error.error.error.message === 'invalid_credentials') {
-              this.errorMessage = 'Password incorrect';
+              this.errorMessage = 'Incorrect password';
             } else if (error.error.error.message === 'account_locked') {
               if (
                 this.blocktime &&
@@ -579,7 +594,7 @@ getCookie(key: string){
           mergeMap(({ data, response }: { data: any; response: User }) => {
             this.tokenStorageService.setHeader();
             this.tokenStorageService.saveUserId(response.idUser);
-            this.tokenStorageService.saveIdSn(response.idSn);
+            this.tokenStorageService.saveIdSn(response.idSn.toString());
             this.idUser = Number(response.idUser);
             if (response.is2FA === true) {
               this.tokenStorageService.setItem('valid2FA', 'false');
@@ -597,7 +612,7 @@ getCookie(key: string){
                   }
                 });
               } else {
-                if (response.idSn !== 0) {
+                if (response.idSn !== 0 && response.idSn !== null) {
                   if (
                     !response.completed ||
                     (response.completed && !response.enabled)
@@ -665,14 +680,25 @@ getCookie(key: string){
                 if (!res.response.data.passphrase) {
                   this.router.navigate(['/social-registration/pass-phrase']);
                 } else {
-                  this.tokenStorageService.saveIdWallet(res.myWallet.data.address);
+                  this.tokenStorageService.saveIdWallet(
+                    res.myWallet.data.address
+                  );
+                  this.notificationService.triggerFireBaseNotifications.next(
+                    true
+                  );
                   this.router.navigate(['']);
                   this.showBigSpinner = true;
                   this.backgroundImage = '';
                   this.backgroundColor = '';
                 }
               } else {
-                this.tokenStorageService.saveIdWallet(res.myWallet.data.address);
+                this.tokenStorageService.saveIdWallet(
+                  res.myWallet.data.address
+                );
+                this.notificationService.triggerFireBaseNotifications.next(
+                  true
+                );
+
                 this.router.navigate(['']);
                 this.showBigSpinner = true;
                 this.backgroundImage = '';
@@ -682,7 +708,7 @@ getCookie(key: string){
               // this.spinner.hide();
             }
           },
-          (error: any) => {
+          (error: HttpErrorResponse) => {
             if (
               error.error.error === 'Wallet not found' &&
               error.error.code === 404
@@ -734,7 +760,7 @@ getCookie(key: string){
         mergeMap((response: User | null) => {
           if (response) {
             this.tokenStorageService.saveUserId(response.idUser);
-            this.tokenStorageService.saveIdSn(response.idSn);
+            this.tokenStorageService.saveIdSn(response.idSn.toString());
             this.tokenStorageService.setItem('valid2FA', '');
             this.tokenStorageService.setItem('isAuthenticated', 'true');
             this.tokenStorageService.saveExpire(this.expiresToken);
@@ -913,6 +939,7 @@ getCookie(key: string){
   closeModal(content: TemplateRef<ElementRef>) {
     this.modalService.dismissAll(content);
     this.showSpinner = false;
+    this.successMessagecode = '';
   }
 
   verifyCode() {
@@ -924,9 +951,10 @@ getCookie(key: string){
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(
         (data: any) => {
-          if (data.message === 'code is matched' && data.code === 200) {
+          if (data.message === 'code is matched') {
             this.codesms = true;
-            this.errorMessagecode = 'code correct';
+            this.successMessagecode = 'code correct';
+            this.errorMessagecode = '';
           }
         },
         (err) => {
@@ -938,8 +966,8 @@ getCookie(key: string){
           ) {
             this.errorMessagecode = 'code incorrect';
             this.formCode.reset();
+            this.successMessagecode = '';
             // this.codeInput.reset();
-            this.codesms = false;
             setTimeout(() => {
               this.errorMessagecode = '';
             }, 2000);
@@ -953,7 +981,6 @@ getCookie(key: string){
         }
       );
   }
-
   changePwd() {
     let email = this.formL.get('email')?.value;
     this.router.navigate(['auth/resetpassword'], {
@@ -1063,7 +1090,11 @@ getCookie(key: string){
   ngOnDestroy() {
     if (this.routerSub) this.routerSub.unsubscribe();
     if (this.eventsSubject) this.eventsSubject.unsubscribe();
-    if (this.onDestroy$) this.onDestroy$.unsubscribe();
+    if (this.onDestroy$) {
+      this.onDestroy$.next('');
+      this.onDestroy$.complete();
+      this.onDestroy$.unsubscribe();
+    }
     // this.translate.onLangChange.unsubscribe();
   }
 }

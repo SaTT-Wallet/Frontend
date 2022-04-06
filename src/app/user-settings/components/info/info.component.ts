@@ -45,6 +45,7 @@ import { of, Subject } from 'rxjs';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
+import { HttpErrorResponse } from '@angular/common/http';
 declare var $: any;
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -292,24 +293,35 @@ export class InfoComponent implements OnInit, OnDestroy {
       this.profileSettingsFacade
         .updateEmail(data_Email)
         .pipe(takeUntil(this.onDestoy$))
-        .subscribe((response: any) => {
-          if (response === 'wrong password') {
-            this.errorMsg = 'Wrong Password';
-            setTimeout(() => {
-              this.errorMsg = '';
-            }, 3000);
-          } else if (response === 'duplicated email') {
-            this.duplicateEmail = true;
-            setTimeout(() => {
+        .subscribe(
+          (response: any) => {
+            if (response.code === 200) {
+              this.accountFacadeService.dispatchUpdatedAccount();
+              this.confirmCodeShow = true;
+              this.emailInputShow = false;
               this.duplicateEmail = false;
-            }, 3000);
-          } else {
-            this.accountFacadeService.dispatchUpdatedAccount();
-            this.confirmCodeShow = true;
-            this.emailInputShow = false;
-            this.duplicateEmail = false;
+            }
+          },
+          (err: any) => {
+            if (
+              err.error.error === 'wrong password' &&
+              err.error.code === 406
+            ) {
+              this.errorMsg = 'Wrong Password';
+              setTimeout(() => {
+                this.errorMsg = '';
+              }, 3000);
+            } else if (
+              err.error.error === 'duplicated email' &&
+              err.error.code === 406
+            ) {
+              this.duplicateEmail = true;
+              setTimeout(() => {
+                this.duplicateEmail = false;
+              }, 3000);
+            }
           }
-        });
+        );
     }
   }
   resetPassword() {
@@ -349,35 +361,52 @@ export class InfoComponent implements OnInit, OnDestroy {
     let codeNumber = Number(this.formCode.get('code')?.value);
     this.profileSettingsFacade
       .confirmChangeEmail(codeNumber)
-      .pipe(takeUntil(this.onDestoy$))
-      .subscribe((res: any) => {
-        if (res === 'code expired') {
-          this.formCode.get('code')?.setValue('');
-          this.errorMsg = 'code expired';
-          setTimeout(() => {
-            this.errorMsg = '';
-          }, 3000);
-        } else if (res === 'code incorrect') {
-          this.formCode.get('code')?.setValue('');
-          this.errorMsg = 'code incorrect';
-          setTimeout(() => {
-            this.errorMsg = '';
-          }, 3000);
-        } else {
-          this.translate
-            .get('update_profile')
-            .pipe(takeUntil(this.onDestoy$))
-            .subscribe((message: any) => {
-              msg = message;
+      .pipe(
+        takeUntil(this.onDestoy$)
+        // catchError((error: HttpErrorResponse) => {
+        //   if (
+        //     error.error.error === 'code incorrect' &&
+        //     error.error.code === '406'
+        //   ) {
+        //     this.formCode.get('code')?.setValue('');
+        //     this.errorMsg = 'code incorrect';
+        //     setTimeout(() => {
+        //       this.errorMsg = '';
+        //     }, 3000);
+        //   }
+        //   return of(null);
+        // })
+      )
+      .subscribe(
+        (res: any) => {
+          if (res.message === 'email changed' && res.code === 200) {
+            this.translate
+              .get('update_profile')
+              .pipe(takeUntil(this.onDestoy$))
+              .subscribe((message: any) => {
+                msg = message;
+              });
+            this.toastr.success(msg);
+            this.confirmCodeShow = false;
+            this.successmail = true;
+            this.formProfile.patchValue({
+              email: this.formEmail.get('email')?.value
             });
-          this.toastr.success(msg);
-          this.confirmCodeShow = false;
-          this.successmail = true;
-          this.formProfile.patchValue({
-            email: this.formEmail.get('email')?.value
-          });
+          }
+        },
+        (error: HttpErrorResponse) => {
+          if (
+            error.error.error === 'code incorrect' &&
+            error.error.code === 406
+          ) {
+            this.formCode.get('code')?.setValue('');
+            this.errorMsg = 'code incorrect';
+            setTimeout(() => {
+              this.errorMsg = '';
+            }, 3000);
+          }
         }
-      });
+      );
   }
   get getControls() {
     return this.formEmail.controls;
@@ -407,171 +436,169 @@ export class InfoComponent implements OnInit, OnDestroy {
   }
   getDetails() {
     this.showSpinner = true;
-    this.account$
-      .pipe(
-        filter((res) => res !== null),
-        takeUntil(this.onDestoy$)
-      )
-      .pipe(
-        mergeMap((response: any) => {
-          let countProfil = 0;
-          if (response !== null && response !== undefined) {
-            this.picUserUpdated = response.photoUpdated;
-            this.pic = response.picLink;
-            this.showSpinner = false;
-            this.user = new User(response);
-
-            this.urlpic = this.user.idUser;
-            this.selectedGenderValue = this.user.gender;
-            this.langchoosen = this.tokenStorageService.getLocalLang();
-            this.formProfile.get('gender')?.setValue(this.user?.gender);
-            this.formProfile.get('country')?.setValue(this.user?.country);
-            arrayCountries.forEach((item) => {
-              if (item.code === this.user.country) {
-                this.selectedCountryValue = item.name;
-              }
-            });
-            if (this.user.firstName && this.user.firstName !== '') {
-              countProfil++;
-            }
-            if (this.user.lastName && this.user.lastName !== '') {
-              countProfil++;
-            }
-            if (this.user.address && this.user.address !== '') {
-              countProfil++;
-            }
-            if (this.user.email && this.user.email !== '') {
-              countProfil++;
-            }
-            if (this.user.phone && this.user.phone !== '') {
-              countProfil++;
-            }
-            if (this.user.gender && this.user.gender !== '') {
-              countProfil++;
-            }
-            if (this.user.city && this.user.city !== '') {
-              countProfil++;
-            }
-            if (this.user.zipCode && this.user.zipCode !== '') {
-              countProfil++;
-            }
-            if (this.user.country && this.user.country !== '') {
-              countProfil++;
-            }
-            if (this.user.birthday && this.user.birthday !== '') {
-              countProfil++;
-            }
-            let stat = (countProfil * 100) / 10;
-            this.percentProfil = stat.toFixed(0);
-            // this.birthday = moment(this.user.birthday).format('DD-MM-YYYY')
-            return this.profileSettingsFacade.profilePic$;
-          }
-          return of(null);
-        })
-      )
-      .pipe(
-        filter((res) => res !== null),
-        takeUntil(this.onDestoy$)
-      )
-      .subscribe((blob: any) => {
-        if (blob?.type === 'image/png') {
-          let objectURL = URL.createObjectURL(blob);
-          this.user.userPicture =
-            this.sanitizer.bypassSecurityTrustResourceUrl(objectURL);
-
-          if (this.user.idSn === 0) {
-            this.user.userPicture =
-              this.sanitizer.bypassSecurityTrustUrl(objectURL);
-          }
-          if (this.picUserUpdated && this.user.idSn !== 0) {
-            this.user.userPicture =
-              this.sanitizer.bypassSecurityTrustUrl(objectURL);
-          }
-        } else if (this.user?.picLink && !this.user.userPicture) {
-          this.user.userPicture = this.user?.picLink;
-        } else if (blob?.type === 'application/json') {
-          this.user.userPicture =
-            'assets/Images/moonboy/Default_avatar_MoonBoy.png';
-        }
-      });
     // this.account$
     //   .pipe(
     //     filter((res) => res !== null),
     //     takeUntil(this.onDestoy$)
     //   )
-    //   .subscribe((response: any) => {
-    //     if (response !== null && response !== undefined) {
-    //       this.picUserUpdated = response.photoUpdated;
-    //       this.pic = response.picLink;
-    //       this.showSpinner = false;
-    //       this.user = new User(response);
+    //   .pipe(
+    //     mergeMap((response: any) => {
+    //       let countProfil = 0;
+    //       if (response !== null && response !== undefined) {
+    //         this.picUserUpdated = response.photoUpdated;
+    //         this.pic = response.picLink;
+    //         this.showSpinner = false;
+    //         this.user = new User(response);
 
-    //       this.urlpic = this.user.idUser;
-    //       this.selectedGenderValue = this.user.gender;
-    //       this.langchoosen = this.tokenStorageService.getLocalLang();
-    //       this.formProfile.get('gender')?.setValue(this.user?.gender);
-    //       this.formProfile.get('country')?.setValue(this.user?.country);
-    //       arrayCountries.forEach((item) => {
-    //         if (item.code === this.user.country) {
-    //           this.selectedCountryValue = item.name;
+    //         this.urlpic = this.user.idUser;
+    //         this.selectedGenderValue = this.user.gender;
+    //         this.langchoosen = this.tokenStorageService.getLocalLang();
+    //         this.formProfile.get('gender')?.setValue(this.user?.gender);
+    //         this.formProfile.get('country')?.setValue(this.user?.country);
+    //         arrayCountries.forEach((item) => {
+    //           if (item.code === this.user.country) {
+    //             this.selectedCountryValue = item.name;
+    //           }
+    //         });
+    //         if (this.user.firstName && this.user.firstName !== '') {
+    //           countProfil++;
     //         }
-    //       });
-    //       if (this.user.firstName && this.user.firstName !== '') {
-    //         countProfil++;
+    //         if (this.user.lastName && this.user.lastName !== '') {
+    //           countProfil++;
+    //         }
+    //         if (this.user.address && this.user.address !== '') {
+    //           countProfil++;
+    //         }
+    //         if (this.user.email && this.user.email !== '') {
+    //           countProfil++;
+    //         }
+    //         if (this.user.phone && this.user.phone !== '') {
+    //           countProfil++;
+    //         }
+    //         if (this.user.gender && this.user.gender !== '') {
+    //           countProfil++;
+    //         }
+    //         if (this.user.city && this.user.city !== '') {
+    //           countProfil++;
+    //         }
+    //         if (this.user.zipCode && this.user.zipCode !== '') {
+    //           countProfil++;
+    //         }
+    //         if (this.user.country && this.user.country !== '') {
+    //           countProfil++;
+    //         }
+    //         if (this.user.birthday && this.user.birthday !== '') {
+    //           countProfil++;
+    //         }
+    //         let stat = (countProfil * 100) / 10;
+    //         this.percentProfil = stat.toFixed(0);
+    //         // this.birthday = moment(this.user.birthday).format('DD-MM-YYYY')
+    //         return this.profileSettingsFacade.profilePic$;
     //       }
-    //       if (this.user.lastName && this.user.lastName !== '') {
-    //         countProfil++;
+    //       return of(null);
+    //     })
+    //   )
+    //   .pipe(
+    //     filter((res) => res !== null),
+    //     takeUntil(this.onDestoy$)
+    //   )
+    //   .subscribe((profile: any) => {
+    //     if (!!profile) {
+    //       let objectURL = URL.createObjectURL(profile);
+    //       if (this.user.idSn === 0) {
+    //         this.user.userPicture =
+    //           this.sanitizer.bypassSecurityTrustUrl(objectURL);
     //       }
-    //       if (this.user.address && this.user.address !== '') {
-    //         countProfil++;
+    //       if (this.picUserUpdated && this.user.idSn !== 0) {
+    //         this.user.userPicture =
+    //           this.sanitizer.bypassSecurityTrustUrl(objectURL);
     //       }
-    //       if (this.user.email && this.user.email !== '') {
-    //         countProfil++;
-    //       }
-    //       if (this.user.phone && this.user.phone !== '') {
-    //         countProfil++;
-    //       }
-    //       if (this.user.gender && this.user.gender !== '') {
-    //         countProfil++;
-    //       }
-    //       if (this.user.city && this.user.city !== '') {
-    //         countProfil++;
-    //       }
-    //       if (this.user.zipCode && this.user.zipCode !== '') {
-    //         countProfil++;
-    //       }
-    //       if (this.user.country && this.user.country !== '') {
-    //         countProfil++;
-    //       }
-    //       if (this.user.birthday && this.user.birthday !== '') {
-    //         countProfil++;
-    //       }
-    //       let stat = (countProfil * 100) / 10;
-    //       this.percentProfil = stat.toFixed(0);
-    //       // this.birthday = moment(this.user.birthday).format('DD-MM-YYYY')
-    //       this.profileSettingsFacade.profilePic$.subscribe((blob: any) => {
-    //         if (blob?.type === 'image/png') {
-    //           let objectURL = URL.createObjectURL(blob);
-    //           this.user.userPicture =
-    //             this.sanitizer.bypassSecurityTrustResourceUrl(objectURL);
+    //     }
 
-    //           if (this.user.idSn === 0) {
-    //             this.user.userPicture =
-    //               this.sanitizer.bypassSecurityTrustUrl(objectURL);
-    //           }
-    //           if (this.picUserUpdated && this.user.idSn !== 0) {
-    //             this.user.userPicture =
-    //               this.sanitizer.bypassSecurityTrustUrl(objectURL);
-    //           }
-    //         } else if (this.user?.picLink && !this.user.userPicture) {
-    //           this.user.userPicture = this.user?.picLink;
-    //         } else if (blob?.type === 'application/json') {
-    //           this.user.userPicture =
-    //             'assets/Images/moonboy/Default_avatar_MoonBoy.png';
-    //         }
-    //       });
+    //     if (this.user.picLink && !this.user.userPicture) {
+    //       this.user.userPicture = this.user?.picLink;
     //     }
     //   });
+    this.account$
+      .pipe(
+        filter((res) => res !== null),
+        takeUntil(this.onDestoy$)
+      )
+      .subscribe((response: any) => {
+        let countProfil = 0;
+        if (response !== null && response !== undefined) {
+          this.picUserUpdated = response.photoUpdated;
+          this.pic = response.picLink;
+          this.showSpinner = false;
+          this.user = new User(response);
+
+          this.urlpic = this.user.idUser;
+          this.selectedGenderValue = this.user.gender;
+          this.langchoosen = this.tokenStorageService.getLocalLang();
+          this.formProfile.get('gender')?.setValue(this.user?.gender);
+          this.formProfile.get('country')?.setValue(this.user?.country);
+          arrayCountries.forEach((item) => {
+            if (item.code === this.user.country) {
+              this.selectedCountryValue = item.name;
+            }
+          });
+          if (this.user.firstName && this.user.firstName !== '') {
+            countProfil++;
+          }
+          if (this.user.lastName && this.user.lastName !== '') {
+            countProfil++;
+          }
+          if (this.user.address && this.user.address !== '') {
+            countProfil++;
+          }
+          if (this.user.email && this.user.email !== '') {
+            countProfil++;
+          }
+          if (this.user.phone && this.user.phone !== '') {
+            countProfil++;
+          }
+          if (this.user.gender && this.user.gender !== '') {
+            countProfil++;
+          }
+          if (this.user.city && this.user.city !== '') {
+            countProfil++;
+          }
+          if (this.user.zipCode && this.user.zipCode !== '') {
+            countProfil++;
+          }
+          if (this.user.country && this.user.country !== '') {
+            countProfil++;
+          }
+          if (this.user.birthday && this.user.birthday !== '') {
+            countProfil++;
+          }
+          let stat = (countProfil * 100) / 10;
+          this.percentProfil = stat.toFixed(0);
+          this.percentProfil = stat.toFixed(0);
+
+          this.profileSettingsFacade.profilePic$.subscribe((blob: any) => {
+            if (blob?.type === 'image/png') {
+              let objectURL = URL.createObjectURL(blob);
+              this.user.userPicture =
+                this.sanitizer.bypassSecurityTrustResourceUrl(objectURL);
+
+              if (this.user.idSn === 0) {
+                this.user.userPicture =
+                  this.sanitizer.bypassSecurityTrustUrl(objectURL);
+              }
+              if (this.picUserUpdated && this.user.idSn !== 0) {
+                this.user.userPicture =
+                  this.sanitizer.bypassSecurityTrustUrl(objectURL);
+              }
+            } else if (this.user?.picLink && !this.user.userPicture) {
+              this.user.userPicture = this.user?.picLink;
+            } else if (blob?.type === 'application/json') {
+              this.user.userPicture =
+                'assets/Images/moonboy/Default_avatar_MoonBoy.png';
+            }
+          });
+        }
+      });
   }
 
   isValidFile(controlName: any) {
@@ -620,7 +647,7 @@ export class InfoComponent implements OnInit, OnDestroy {
         .subscribe(() => {
           this.user.photoUpdated = true;
           // this.accountFacadeService.dispatchUpdatedAccount();
-          this.profileSettingsFacade.loadUserProfilePic();
+          //   this.profileSettingsFacade.loadUserProfilePic();
         });
     }
   }
