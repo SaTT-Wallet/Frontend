@@ -351,6 +351,7 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   receiveMoney() {
     if (this.receiveform.valid) {
+      console.log("aa")
       this.loadingButton = true;
       const wallet = this.tokenStorageService.getIdWallet();
       var name = '';
@@ -428,6 +429,9 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.showMsgBloc = false;
     this.showSuccessBloc = false;
     this.showAmountBloc = true;
+    this.receiveform.reset();
+    
+
   }
   ngOnDestroy(): void {
     if (!!this.routeEventSubscription$) {
