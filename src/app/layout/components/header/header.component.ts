@@ -392,7 +392,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .pipe(
         tap((msg) => {}),
         concatMap((payload) =>
-          timer(6000).pipe(
+          timer(3000).pipe(
             takeUntil(this.isDestroyed$),
             tap((v) => {}),
             mapTo(payload)
@@ -416,7 +416,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
               msg = data;
             });
 
-          if (item.type === 'send_demande_satt_event') {
+          if (
+            item.type === 'send_demande_satt_event' ||
+            item.type === 'receive_transfer_event'
+          ) {
             this.toastr.success(
               `
             <div class="d-flex justify-content-center align-items-center gap-3">
