@@ -41,6 +41,7 @@ import * as fromSocialAccounts from './store/social-accounts/reducers/social-acc
 import { WalletEffects } from '@wallet/store/effects/wallet.effects';
 import { CryptoListEffects } from '@app/wallet/store/effects/crypto-list.effects';
 import { SocialAccountsEffects } from './store/social-accounts/effects/social-accounts.effects';
+import { KycEffects } from './store/kyc-store/effects/kyc.effects';
 @NgModule({
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
@@ -71,7 +72,7 @@ import { SocialAccountsEffects } from './store/social-accounts/effects/social-ac
       fromAccountReducers.accountFeatureKey,
       fromAccountReducers.reducer
     ),*/
-    EffectsModule.forFeature([AccountEffects]),
+    EffectsModule.forFeature([AccountEffects, KycEffects]),
     EffectsModule.forFeature([ProfilePicEffects]),
     EffectsModule.forFeature([SocialAccountsEffects]),
 

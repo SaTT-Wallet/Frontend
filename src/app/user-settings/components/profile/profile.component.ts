@@ -26,6 +26,7 @@ import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-faca
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { isPlatformBrowser } from '@angular/common';
 import { CampaignsService } from '@app/campaigns/facade/campaigns.facade';
+import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.service';
 
 declare const $: any;
 @Component({
@@ -81,7 +82,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private walletFacade: WalletFacadeService,
     private authService: AuthService,
     @Inject(PLATFORM_ID) private platformId: string,
-    private campaignFacade: CampaignsService
+    private campaignFacade: CampaignsService,
+    private kycFacadeService: KycFacadeService
   ) {
     this.formProfile = new FormGroup({
       firstName: new FormControl(null, Validators.required),
@@ -144,6 +146,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
         this.ParticipationListStoreService.nextPage.pageNumber = 0;
         this.profileSettingsFacade.clearProfilePicStore();
+        this.kycFacadeService.dispatchLogoutKyc();
         if (isPlatformBrowser(this.platformId)) {
           window.location.reload();
         }
@@ -159,7 +162,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
         this.ParticipationListStoreService.nextPage.pageNumber = 0;
         this.profileSettingsFacade.clearProfilePicStore();
-
+        this.kycFacadeService.dispatchLogoutKyc();
         this.tokenStorageService.clear();
         if (isPlatformBrowser(this.platformId)) {
           window.location.reload();

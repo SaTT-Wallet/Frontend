@@ -44,6 +44,7 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Big } from 'big.js';
 import { AuthService } from '@app/core/services/Auth/auth.service';
 import { IApiResponse } from '@app/core/types/rest-api-responses';
+import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.service';
 const bscan = env.bscanaddr;
 const etherscan = env.etherscanaddr;
 @Component({
@@ -155,7 +156,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private authStoreService: AuthStoreService,
     private authService: AuthService,
     @Inject(DOCUMENT) private document: Document,
-    @Inject(PLATFORM_ID) private platformId: string
+    @Inject(PLATFORM_ID) private platformId: string,
+    private kycFacadeService: KycFacadeService
   ) {
     if (isPlatformBrowser(this.platformId)) {
       this.mediaQueryList = window.matchMedia(this.query);
@@ -1293,6 +1295,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.profileSettingsFacade.clearProfilePicStore();
         this.authStoreService.clearStore();
         this.tokenStorageService.clear();
+        this.kycFacadeService.dispatchLogoutKyc();
         if (isPlatformBrowser(this.platformId)) {
           window.location.reload();
         }
@@ -1311,6 +1314,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.profileSettingsFacade.clearProfilePicStore();
         this.authStoreService.clearStore();
         this.tokenStorageService.clear();
+        this.kycFacadeService.dispatchLogoutKyc();
         if (isPlatformBrowser(this.platformId)) {
           window.location.reload();
         }
