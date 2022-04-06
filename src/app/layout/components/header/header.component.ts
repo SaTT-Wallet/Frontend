@@ -43,7 +43,7 @@ import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-faca
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Big } from 'big.js';
 import { AuthService } from '@app/core/services/Auth/auth.service';
-import { LocalStorageRefService } from '@core/services/localstorage-ref/local-storage-ref-service.service';
+import { IApiResponse } from '@app/core/types/rest-api-responses';
 const bscan = env.bscanaddr;
 const etherscan = env.etherscanaddr;
 @Component({
@@ -372,10 +372,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   seeNotification() {
     this.NotificationService.notificationSeen()
       .pipe(takeUntil(this.isDestroyed$))
-      .subscribe((response: any) => {
-        if (response.message !== 'Notification clicked') {
-          this.newNotification = true;
-        } else {
+      .subscribe((response: IApiResponse<{ [key: string]: string }>) => {
+        if (response?.message === 'Notification clicked') {
           this.newNotification = false;
         }
       });
@@ -388,7 +386,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   receiveMessage() {
     this.NotificationService.notifications$
       .pipe(
-        tap((msg) => {}),
         concatMap((payload) =>
           timer(3000).pipe(
             takeUntil(this.isDestroyed$),
