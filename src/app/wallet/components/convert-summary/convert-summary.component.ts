@@ -45,7 +45,7 @@ export class ConvertSummaryComponent implements OnInit {
   private isDestroyed = new Subject();
   selectedCurrencyType: any;
   selectedBlockchainNetwork: any;
-  showSpinner = false;
+  showSpinner = true;
   constructor(
     private activatedRoute: ActivatedRoute,
     public walletFacade: WalletFacadeService,
@@ -55,6 +55,9 @@ export class ConvertSummaryComponent implements OnInit {
 
   ngOnInit(): void {
     this.getInfo();
+    setTimeout(() => {
+      this.showSpinner = false;
+    }, 3000);
 
     this.walletFacade
       .getPayementId(
@@ -94,13 +97,7 @@ export class ConvertSummaryComponent implements OnInit {
     this.tokenStorageService.setItem('Crypto', this.crypto);
   }
 
-  onSubmit(event: any) {
-    this.showSpinner = true;
-    setTimeout(() => {
-      this.showSpinner = false;
-      event.preventDefault();
-    }, 3000);
-  }
+  onSubmit() {}
   linstingBack(event: any) {
     if (event === true) {
       // this.router.navigate(['/wallet/buy-token']);
