@@ -534,7 +534,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
         .getListTokensPrices()
         .pipe(
           map((cryptoListObject: any) => {
-            return cryptoListObject[this.requestedCrypto]?.price || 0;
+            return cryptoListObject.data[this.requestedCrypto]?.price || 0;
           })
         )
         .subscribe((data) => {
