@@ -8,8 +8,10 @@ import {
   mapTo,
   filter,
   switchMap,
-  debounceTime,
-  takeUntil
+  takeUntil,
+  tap,
+  take,
+  startWith
 } from 'rxjs/operators';
 import { DomSanitizer } from '@angular/platform-browser';
 import { compare } from '@helpers/utils/math';
@@ -25,7 +27,9 @@ import { Big } from 'big.js';
 export class ParticipationListStoreService {
   private isDestroyed = new Subject();
   isEarnings: boolean = false;
-  public onFilterChangesSubject = new BehaviorSubject({});
+  public onFilterChangesSubject = new BehaviorSubject<{
+    [key: string]: string | [] | number;
+  }>({});
   readonly onFilterChanges$ = this.onFilterChangesSubject.asObservable();
   private onPageScrollSubject = new Subject();
   readonly onPageScroll$ = this.onPageScrollSubject.asObservable();
@@ -55,7 +59,7 @@ export class ParticipationListStoreService {
       filter((value) => !!value)
     );
 
-  queryParams = new BehaviorSubject({});
+  queryParams = new BehaviorSubject<{ [key: string]: string }>({});
   nextPage: Page<Participation> = {
     pageNumber: 0,
     size: 10,
@@ -67,31 +71,7 @@ export class ParticipationListStoreService {
     private campaignFacade: CampaignsService,
     private sanitizer: DomSanitizer,
     private store: Store<ParticipationListStoreService>
-  ) {
-    merge(
-      this.onFilterChanges$.pipe(takeUntil(this.isDestroyed), mapTo(true)),
-      this.onPageScroll$.pipe(takeUntil(this.isDestroyed), mapTo(false)), // false means load next page
-      this.queryParams.pipe(takeUntil(this.isDestroyed), mapTo(true))
-    )
-      .pipe(
-        switchMap((isFirstPageRequested) =>
-          this.queryParams.pipe(
-            takeUntil(this.isDestroyed),
-            map((query) => {
-              return { query, isFirstPageRequested };
-            })
-          )
-        ),
-        takeUntil(this.isDestroyed)
-      )
-      .subscribe(({ query, isFirstPageRequested }) => {
-        this.loadNextPage(
-          this.onFilterChangesSubject.getValue(),
-          isFirstPageRequested,
-          query
-        );
-      });
-  }
+  ) {}
 
   setQueryParams(queryParams: any) {
     this.queryParams.next(queryParams);
@@ -188,6 +168,7 @@ export class ParticipationListStoreService {
                 } else if (element.totalToEarn && !element.payedAmount) {
                   element.sum = element?.totalToEarn;
                 }
+                element.typeSN = Number(element.typeSN);
                 //................................................................................................
                 element.safeURL = this.generatePostThumbnail(element);
                 element.link = this.generatePostLink(element);
@@ -448,15 +429,15 @@ export class ParticipationListStoreService {
   }
 
   generatePostThumbnail(post: any): any {
-    if (post.typeSN === '1') {
+    if (post.typeSN === 1) {
       return this.sanitizer.bypassSecurityTrustResourceUrl(
         'https://www.facebook.com/' + post.idUser + '/posts/' + post.idPost
       );
-    } else if (post.typeSN === '3') {
+    } else if (post.typeSN === 3) {
       return this.sanitizer.bypassSecurityTrustResourceUrl(
         'https://www.instagram.com/p/' + post.idPost + '/'
       );
-    } else if (post.typeSN === '4') {
+    } else if (post.typeSN === 4) {
       return this.sanitizer.bypassSecurityTrustResourceUrl(
         'https://twitter.com/' + post.idUser + '/status/' + post.idPost
       );
@@ -470,15 +451,15 @@ export class ParticipationListStoreService {
   }
 
   generatePostLink(post: any) {
-    if (post.typeSN === '1') {
+    if (post.typeSN === 1) {
       return (
         'https://www.facebook.com/' + post.idUser + '/posts/' + post.idPost
       );
-    } else if (post.typeSN === '3') {
+    } else if (post.typeSN === 3) {
       return 'https://www.instagram.com/p/' + post.idPost + '/';
-    } else if (post.typeSN === '4') {
+    } else if (post.typeSN === 4) {
       return 'https://twitter.com/' + post.idUser + '/status/' + post.idPost;
-    } else if (post.typeSN === '2') {
+    } else if (post.typeSN === 2) {
       return 'https://www.youtube.com/watch?v=' + post.idPost.split('&')[0];
     } else {
       return `https://www.linkedin.com/feed/update/urn:li:${post.typeURL}:${post.idPost}/`;
@@ -494,48 +475,37 @@ export class ParticipationListStoreService {
     this.setListParticipants([]);
   }
   loadLinks() {
-    merge(
+    return merge(
       this.onFilterChanges$.pipe(
         takeUntil(this.isDestroyed),
-        filter((filter: any) => {
-          return Object.keys(filter).length !== 0;
-        }),
-        map(() => {
-          return true;
-        })
+        filter((filterOptions) => filterOptions.status !== undefined),
+        startWith({}),
+        mapTo(true)
       ),
-      this.onPageScroll$.pipe(
-        takeUntil(this.isDestroyed),
-        map(() => {
-          return false;
-        }),
-        debounceTime(1000)
-      ), // false means load next page
-      this.queryParams.pipe(
-        takeUntil(this.isDestroyed),
-        map(() => {
-          return true;
-        })
-      )
-    )
-      .pipe(
-        switchMap((isFirstPageRequested) =>
-          this.queryParams.pipe(
-            takeUntil(this.isDestroyed),
-            map((query) => {
-              return { query, isFirstPageRequested };
-            })
-          )
-        ),
-        takeUntil(this.isDestroyed)
-      )
-      .subscribe(({ query, isFirstPageRequested }) => {
+      this.onPageScroll$.pipe(takeUntil(this.isDestroyed), mapTo(false)) // false means load next page
+      //this.queryParams.pipe(takeUntil(this.isDestroyed), mapTo(true))
+    ).pipe(
+      // tap((v) => console.log(v)),
+      switchMap((isFirstPageRequested) =>
+        this.queryParams.pipe(
+          take(1),
+          takeUntil(this.isDestroyed),
+          map((query) => {
+            if (query && query.campaignId)
+              return { query, isFirstPageRequested: true };
+            return { query, isFirstPageRequested };
+          })
+        )
+      ),
+      tap(({ query, isFirstPageRequested }) => {
         this.loadNextPage(
           this.onFilterChangesSubject.getValue(),
           isFirstPageRequested,
           query
         );
-      });
+      }),
+      takeUntil(this.isDestroyed)
+    );
   }
   ngOnDestroy(): void {
     this.isDestroyed.next('');

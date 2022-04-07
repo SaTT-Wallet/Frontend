@@ -26,13 +26,13 @@ import {
   filter,
   map,
   switchMap,
+  take,
   takeUntil,
   tap
 } from 'rxjs/operators';
 import { GazConsumedByCampaign } from '@app/config/atn.config';
 import { checkIfEnoughBalance } from '@helpers/form-validators';
 import { Campaign } from '@app/models/campaign.model';
-import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
 import { ConvertFromWei } from '@shared/pipes/wei-to-sa-tt.pipe';
 import { DraftCampaignService } from '@campaigns/services/draft-campaign.service';
 import { WalletStoreService } from '@core/services/wallet-store.service';
@@ -47,8 +47,6 @@ import {
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { DOCUMENT } from '@angular/common';
 import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
-import { CampaignsService } from '@app/campaigns/facade/campaigns.facade';
-import { CampaignsStoreService } from '@app/campaigns/services/campaigns-store.service';
 enum ERemunerationType {
   Publication = 'publication',
   Performance = 'performance'
@@ -159,13 +157,10 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   constructor(
     private service: DraftCampaignService,
     private convertFromWeiTo: ConvertFromWei,
-    private fetchservice: CryptofetchServiceService,
     private walletStore: WalletStoreService,
     private cdref: ChangeDetectorRef,
     private walletFacade: WalletFacadeService,
     private showNumbersRule: ShowNumbersRule,
-    private CampaignsService: CampaignsService,
-    private campaignsStoreService: CampaignsStoreService,
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string
   ) {
@@ -222,12 +217,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     this.showSelectedValue = false;
     // this.selectedBlockchain = 'erc20';
     // this.f.currency?.setValue('SATT');
-  }
-
-  ngAfterContentChecked() {
-    //  this.amountUsd = '0.00';
-    // this.cdref.detectChanges();
-    // this.cdref.markForCheck();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -723,6 +712,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   parentFunction() {
     return this.walletFacade.getCryptoPriceList().pipe(
       map((response: any) => response.data),
+      take(1),
       map((data: any) => {
         this.bnb = data['BNB'].price;
         this.eth = data['ETH'].price;
@@ -734,6 +724,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       switchMap(({ bnb, Eth }) => {
         return forkJoin([
           this.walletFacade.getEtherGaz().pipe(
+            take(1),
             tap((gaz: any) => {
               let price;
               price = gaz.data.gasPrice;
@@ -745,6 +736,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
             })
           ),
           this.walletFacade.getBnbGaz().pipe(
+            take(1),
             tap((gaz: any) => {
               let price = gaz.data.gasPrice;
               this.bnbGaz = (

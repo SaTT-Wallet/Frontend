@@ -19,6 +19,7 @@ import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-faca
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.service';
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
@@ -41,7 +42,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
     private tokenStorageService: TokenStorageService,
     private socialAccountFacadeService: SocialAccountFacadeService,
     @Inject(DOCUMENT) private document: any,
-    @Inject(PLATFORM_ID) private platformId: string
+    @Inject(PLATFORM_ID) private platformId: string,
+    private kycFacadeService: KycFacadeService
   ) {
     this.router.events
       .pipe(takeUntil(this.isDestroyed$))
@@ -77,6 +79,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
         this.profileSettingsFacade.loadUserProfilePic(); // initialize user profile picture
         this.accountFacadeService.initAccount();
         this.socialAccountFacadeService.initSocialAccount();
+        this.kycFacadeService.initKyc();
       }
     }
   }
@@ -128,8 +131,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
     // visible height + pixel scrolled >= total height
     if (isPlatformBrowser(this.platformId)) {
       if (
-        event.target.offsetHeight + event.target.scrollTop >
-        event.target.scrollHeight - 3
+        event.target.offsetHeight + event.target.scrollTop >=
+        event.target.scrollHeight
       ) {
         if (this.router.url.startsWith('/ad-pools')) {
           this.campaignService.loadDataAddPoolWhenEndScroll.next(true);
@@ -161,7 +164,10 @@ export class LayoutComponent implements OnInit, OnDestroy {
             }
           }
         }
-      } else if (this.router.url.startsWith('/campaign/')) {
+      } else if (
+        this.router.url.startsWith('/campaign/') &&
+        !this.router.url.includes('edit')
+      ) {
         let main = this.document.getElementById('campaign-main-content');
         let topBar = this.document.getElementById('campaign-top-bar');
         let header = this.document.getElementById('navbar-id');
@@ -186,7 +192,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
             // cover.style.position = 'fixed';
             // main.style.marginTop = '28%';
             // // cover.style.position = 'fixed';
-            header.style.backgroundColor = 'transparent';
+            header.style.background = '';
           } else {
             // cover.style.position = 'relative';
             // main.style.marginTop = '-16vw';
@@ -197,7 +203,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
               disabledPic.style.display = 'none';
               this.campaignService.scrolling.next(false);
             }
-            header.style.backgroundColor = '#2F3347';
+            header.style.background = '#2F3347';
           }
           if (topBar) topBar.style.display = 'none';
         } else {
@@ -209,7 +215,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
             //  main.style.marginTop = '-35px';
             if (topBar) topBar.style.display = 'flex';
             if (btnApply) btnApply.style.display = 'none';
-            header.style.backgroundColor = '#2F3347';
+            header.style.background = '#2F3347';
           } else if (
             event.target.clientWidth <= 1024 &&
             event.target.scrollTop > 477
@@ -219,14 +225,14 @@ export class LayoutComponent implements OnInit, OnDestroy {
             if (main) main.style.marginTop = '-16vw';
             if (topBar) topBar.style.display = 'none';
             if (btnApply) btnApply.style.display = 'none';
-            header.style.backgroundColor = '#2F3347';
+            header.style.background = '#2F3347';
           } else {
             this.scrolled = false;
             if (topBar) topBar.style.display = 'none';
             if (btnApply) btnApply.style.display = 'flex';
             if (cover) cover.style.position = 'fixed';
             if (main) main.style.marginTop = '28%';
-            header.style.backgroundColor = 'transparent';
+            header.style.background = '';
           }
         }
       }

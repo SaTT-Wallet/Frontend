@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { CampaignsListStoreService } from '@app/campaigns/services/campaigns-list-store.service';
 import { ParticipationListStoreService } from '@app/campaigns/services/participation-list-store.service';
 import { IOption } from '@shared/components/multi-select/multi-select.component';
 import { Subject } from 'rxjs';
@@ -76,11 +75,18 @@ export class HeaderCampaignComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private participationListService: ParticipationListStoreService
-  ) {}
+  ) {
+    // reset filter
+    this.participationListService.setFilterValues({
+      searchTerm: '',
+      status: 'all',
+      oracles: []
+    });
+  }
 
   ngOnInit(): void {
     this.filterGainsForm?.valueChanges
-      .pipe(debounceTime(500), takeUntil(this.isDestroyed))
+      .pipe(debounceTime(700), takeUntil(this.isDestroyed))
       .subscribe((v) => {
         this.onFormChange.emit(v);
         this.participationListService.setFilterValues(v);

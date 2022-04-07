@@ -1,25 +1,27 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { sattUrl } from '@config/atn.config';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { __values } from 'tslib';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { AngularFireMessaging } from '@angular/fire/compat/messaging';
 import { catchError, filter, mergeMap, mergeMapTo } from 'rxjs/operators';
 import { TokenStorageService } from '../tokenStorage/token-storage-service.service';
 import { INotificationsResponse } from '@app/core/notifications-response.interface';
+import { IApiResponse } from '@app/core/types/rest-api-responses';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
   httpOptions: any;
-  private currentMessage: BehaviorSubject<any> = new BehaviorSubject(null);
+  public currentMessage: BehaviorSubject<any> = new BehaviorSubject(null);
   public newNotification: BehaviorSubject<any> = new BehaviorSubject(false);
+  public triggerFireBaseNotifications = new Subject();
 
-  readonly notifications$ = this.currentMessage
-    .asObservable()
-    .pipe(filter((message) => message !== null));
+  readonly notifications$ = this.currentMessage.asObservable().pipe(
+    filter((message) => {
+      return message !== null;
+    })
+  );
   constructor(
     private http: HttpClient,
     private angularFireMessaging: AngularFireMessaging,
@@ -51,17 +53,16 @@ export class NotificationService {
     return this.http.patch(sattUrl + '/issend', {}, this.httpOptions);
   }
 
-  notificationSeen() {
-    this.httpOptions = {
-      headers: new HttpHeaders({
-        'Cache-Control': 'no-store',
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-      })
-    };
-    return this.http.get(
+  notificationSeen(): Observable<IApiResponse<{ [key: string]: string }>> {
+    let headers = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+
+    return this.http.get<IApiResponse<{ [key: string]: string }>>(
       sattUrl + '/profile/notification/issend/clicked',
-      this.httpOptions
+      { headers }
     );
   }
 
@@ -89,7 +90,7 @@ export class NotificationService {
       })
     };
     return this.http.post(
-      sattUrl + 'auth/save/firebaseAccessToken',
+      sattUrl + '/auth/save/firebaseAccessToken',
       data,
       this.httpOptions
     );

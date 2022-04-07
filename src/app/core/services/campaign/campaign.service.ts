@@ -427,7 +427,7 @@ export class CampaignHttpApiService {
   }
 
   removeKit(id_kit: any) {
-    return this.http.delete(sattUrl + '/kit/' + id_kit, {
+    return this.http.delete(sattUrl + '/campaign/kit/' + id_kit, {
       headers: this.tokenStorageService.getHeader()
     });
   }
@@ -667,7 +667,7 @@ export class CampaignHttpApiService {
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
 
-    return this.http.get(sattUrl + '/kit/' + fileId, {
+    return this.http.get(sattUrl + '/campaign/kit/' + fileId, {
       responseType: 'blob',
       headers: httpHeaders
     });
@@ -760,11 +760,10 @@ export class CampaignHttpApiService {
     return this.http.post(
       sattUrl + '/campaign/bep20/allow',
       {
-        access_token: this.tokenStorageService.getToken(),
-        token: bep20.addr,
-        spender: campaignSmartContractBEP20,
+        campaignAddress: campaignSmartContractBEP20,
         amount: amount,
-        pass: password
+        pass: password,
+        tokenAddress: bep20.addr
       },
       { headers: this.tokenStorageService.getHeader() }
     );
@@ -956,21 +955,13 @@ export class CampaignHttpApiService {
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
     let walletId = this.tokenStorageService.getIdWallet();
-    if (campaignId === '') {
-      return this.http
-        .get(sattUrl + '/campaign/filterLinks/' + walletId, {
-          headers: header,
-          params: queryParams
-        })
-        .pipe(share());
-    } else {
-      return this.http
-        .get(sattUrl + '/campaign/filterLinks/' + walletId, {
-          headers: header,
-          params: queryParamsCamp
-        })
-        .pipe(share());
-    }
+
+    return this.http
+      .get(sattUrl + '/campaign/filterLinks/' + walletId, {
+        headers: header,
+        params: campaignId ? queryParamsCamp : queryParams
+      })
+      .pipe(share());
   }
 
   allCampaigns2() {
@@ -1031,7 +1022,7 @@ export class CampaignHttpApiService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.get(`${sattUrl}/statLinkCampaign/` + hash, {
+    return this.http.get(`${sattUrl}/campaign/statLinkCampaign/` + hash, {
       headers: header
     });
   }

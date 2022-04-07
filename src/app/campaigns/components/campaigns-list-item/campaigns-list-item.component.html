@@ -76,12 +76,12 @@
       [src]="campaign.cover"
     />
     <img
-        *ngIf="!!campaign.coverSrcMobile"
-        class="img-campaign ng-isolate-scope"
-        alt=""
-        loading="lazy"
-        [src]="campaign.coverSrcMobile"
-      />
+      *ngIf="!!campaign.coverSrcMobile"
+      class="img-campaign ng-isolate-scope"
+      alt=""
+      loading="lazy"
+      [src]="campaign.coverSrcMobile"
+    />
 
     <div
       class="d-flex align-items-center justify-content-center w-100 height-defaut-img flex-nowrap"
@@ -95,7 +95,7 @@
             {{ 'campaign.draftNoCover' | translate }}</span
           >
           <span class="logo-draft-details-dimentions d-block">
-            {{ 'campaign.draftCoverImgDimentions' | translate }}: 1080X 577 px
+            {{ 'campaign.draftCoverImgDimentions' | translate }}: 440 X 250 px
             <br />
             {{ 'campaign.draftCoverImgFormats' | translate }}: JPG, PNG, GIF
           </span>

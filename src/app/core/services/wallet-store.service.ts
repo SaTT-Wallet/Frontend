@@ -110,7 +110,7 @@ export class WalletStoreService {
     symbol: string,
     decimal: string,
     tokenAdress: string,
-    network: string,
+    network: string
   ) {
     return this.walletService
       .addToken(tokenName, symbol, decimal, tokenAdress, network)

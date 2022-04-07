@@ -41,6 +41,7 @@ import { AccountFacadeService } from '@app/core/facades/account-facade/account-f
 import { forkJoin, of, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { ProfileService } from '@app/core/services/profile/profile.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-wallet',
@@ -380,6 +381,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   toggle: boolean = true;
   isChecked: boolean = false;
   picUserUpdated: boolean = false;
+
   private totalBalance$ = this.walletFacade.totalBalance$;
 
   selectTab(tabId: number) {
@@ -456,6 +458,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     public mediaMatcher: MediaMatcher,
     private walletFacade: WalletFacadeService,
     private profileService: ProfileService,
+    private toasterService: ToastrService,
     @Inject(DOCUMENT) private document: any
   ) {
     matcher: MediaQueryList;
@@ -651,6 +654,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.verifyOnBoarding();
+    // this.dontShowAgain();
     // let data_profile = {
     //   onBoarding: false
     // };
@@ -702,6 +706,10 @@ export class WalletComponent implements OnInit, OnDestroy {
               response.data.onBoarding === '') &&
             this.router.url === '/wallet'
           ) {
+            if (window.innerHeight < 1025) {
+              this.updateOnBoarding();
+              return;
+            }
             this.startSteps();
           }
         });
@@ -843,25 +851,28 @@ export class WalletComponent implements OnInit, OnDestroy {
           })
           .start()
           .onexit(() => {
-            this.authService
-              .onBoarding()
-              .pipe(
-                tap((res: any) => {
-                  if (!!res.success) {
-                    this.authStoreService.setAccount({
-                      ...this.authStoreService.account,
-                      onBoarding: true
-                    });
-                    this.accountFacadeService.dispatchUpdatedAccount();
-                  }
-                }),
-                takeUntil(this.onDestoy$)
-              )
-              .subscribe(() => {
-                this.showModal = !this.showModal;
-                this.getDetails();
-              });
+            this.updateOnBoarding();
           });
+      });
+  }
+  updateOnBoarding() {
+    this.authService
+      .onBoarding()
+      .pipe(
+        tap((res: any) => {
+          if (!!res.success) {
+            this.authStoreService.setAccount({
+              ...this.authStoreService.account,
+              onBoarding: true
+            });
+            this.accountFacadeService.dispatchUpdatedAccount();
+          }
+        }),
+        takeUntil(this.onDestoy$)
+      )
+      .subscribe(() => {
+        this.showModal = !this.showModal;
+        this.getDetails();
       });
   }
 
@@ -958,6 +969,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
   dontShowAgain() {
     this.isChecked = !this.isChecked;
+
     if (this.isChecked === true) {
       let data_profile = {
         toggle: false
@@ -965,8 +977,12 @@ export class WalletComponent implements OnInit, OnDestroy {
       this.profileSettingsFacade
         .updateProfile(data_profile)
         .pipe(takeUntil(this.onDestoy$))
-        .subscribe(() => {});
-      this.tokenStorageService.setShowPopUp('false');
+        .subscribe((data: any) => {
+          if (data.data.toogle === false) {
+            this.accountFacadeService.dispatchUpdatedAccount();
+            this.tokenStorageService.setShowPopUp('false');
+          }
+        });
     }
 
     if (this.isChecked === false) {
@@ -976,8 +992,12 @@ export class WalletComponent implements OnInit, OnDestroy {
       this.profileSettingsFacade
         .updateProfile(data_profile)
         .pipe(takeUntil(this.onDestoy$))
-        .subscribe(() => {});
-      this.tokenStorageService.setShowPopUp('true');
+        .subscribe((data: any) => {
+          if (data.data.toggle === true) {
+            this.accountFacadeService.dispatchUpdatedAccount();
+            this.tokenStorageService.setShowPopUp('true');
+          }
+        });
     }
   }
   goToCampaign() {

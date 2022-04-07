@@ -10,6 +10,11 @@ import { selectCryptoList } from '@app/wallet/store/selectors/crypto-list.select
 import { LoadTotalBalanceLogout } from '@app/wallet/store/actions/wallet.actions';
 import { CryptoListState } from '@app/wallet/store/reducers/crypto-list.reducer';
 import { clearCryptoListsState } from '@app/wallet/store/actions/crypto-list.actions';
+import { Observable } from 'rxjs';
+import {
+  IApiResponse,
+  IPaymentRequestResponse
+} from '../types/rest-api-responses';
 @Injectable({
   providedIn: 'root'
 })
@@ -156,15 +161,14 @@ export class WalletFacadeService {
     symbol: string,
     decimal: string,
     tokenAdress: string,
-    network: string,
+    network: string
   ) {
     return this.walletStoreService.addToken(
       tokenName,
       symbol,
       decimal,
       tokenAdress,
-      network,
-    
+      network
     );
   }
 
@@ -245,17 +249,22 @@ export class WalletFacadeService {
     );
   }
 
-  getPayementId(currency: any, quote_id: any, wallet_id: any, selectedNetwork?: any) {
-        if (currency === 'SATT') {
-          if (selectedNetwork === 'BEP20') {
-            currency = 'SATT-SC';
-          } else {
-            currency = 'SATT-ERC20';
-          }
-        }
-        if (currency === 'SATTBEP20') {
-          currency = 'SATT (BEP20)';
-        }
+  getPayementId(
+    currency: any,
+    quote_id: any,
+    wallet_id: any,
+    selectedNetwork?: any
+  ): Observable<IApiResponse<IPaymentRequestResponse>> {
+    if (currency === 'SATT') {
+      if (selectedNetwork === 'BEP20') {
+        currency = 'SATT-SC';
+      } else {
+        currency = 'SATT-ERC20';
+      }
+    }
+    if (currency === 'SATTBEP20') {
+      currency = 'SATT (BEP20)';
+    }
     return this.cryptofetchServiceService.getPayementId(
       currency,
       quote_id,

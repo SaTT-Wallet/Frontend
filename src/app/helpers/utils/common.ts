@@ -13,25 +13,30 @@
 =========================================================
 */
 
-
 /**
  * Takes a value and parse it to date object
- * @param d 
- * @returns {Date | undefined} a date object 
+ * @param d
+ * @returns {Date | undefined} a date object
  */
-export function getDateObjectFrom(d: any): Date | any {
-  if (d) {
-    if (Date.parse(d)) return new Date(Date.parse(d));
-    else return createDateFromUnixTimestamp(+d);
+export function getDateObjectFrom(d: any, isEndDate?: boolean): Date | null {
+
+  if(!d) {
+    return null
   }
-  return d;
+  if (Date.parse(d)) {
+    let date = new Date(d)
+    return date;
+  }
+  return createDateFromUnixTimestamp(d);
 }
 
- /**
-   * Creates a date object from a unix timestamp.
-   * @param unixTimestamp
-   * @returns {Date} a Date object.
-   */
-  export function createDateFromUnixTimestamp(unixTimestamp: number): Date {
-    return new Date(unixTimestamp * 1000);
-  }
+/**
+ * Creates a date object from a unix timestamp.
+ * @param unixTimestamp
+ * @returns {Date} a Date object.
+ */
+export function createDateFromUnixTimestamp(
+  unixTimestamp: number | string
+): Date {
+  return new Date(+unixTimestamp * 1000);
+}

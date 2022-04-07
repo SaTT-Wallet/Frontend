@@ -64,12 +64,8 @@
             </div>
 
             <div
-              class="row"
+              class="row telegram_log"
               (click)="isClicked = true; convertToScript()"
-              [ngClass]="{
-                telegram_log2: isClicked,
-                telegram_log: !isClicked
-              }"
             >
               <a (click)="convertToScript()">
                 <div class="d-flex justify-content-center">

@@ -9,7 +9,7 @@ import { CampaignHttpApiService } from '@core/services/campaign/campaign.service
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { catchError, map, takeUntil, delay } from 'rxjs/operators';
+import { catchError, map, takeUntil } from 'rxjs/operators';
 import { Observable, of, Subject, Subscription } from 'rxjs';
 // import { ConvertFromWei } from ""
 import { BlockchainActionsService } from '@core/services/blockchain-actions.service';
@@ -121,6 +121,9 @@ export class CampaignDetailGainsComponent implements OnInit {
     }
     this.etherInWei = ListTokens[this.currencyName].decimals;
     this.getCampaignList();
+    this.ParticipationListService.loadLinks()
+      .pipe(takeUntil(this.isDestroyed))
+      .subscribe();
   }
   calcGains() {
     this.CampaignService.getAllPromsStats(
@@ -206,8 +209,7 @@ export class CampaignDetailGainsComponent implements OnInit {
         takeUntil(this.isDestroyed),
         map((pages: Page<Participation>[]) =>
           _.flatten(pages.map((page: Page<Participation>) => page.items))
-        ),
-        delay(5000)
+        )
       )
       .subscribe((links: Participation[]) => {
         this.campaignService.isLoading.next(false);
@@ -474,14 +476,14 @@ export class CampaignDetailGainsComponent implements OnInit {
       this.sortDownDate = true;
       this.campaignLinks = this.campaignLinks.sort(
         (a: Participation, b: Participation) => {
-          return b.applyDate.getTime() - a.applyDate.getTime();
+          return (b.applyDate as Date).getTime() - (a.applyDate as Date).getTime();
         }
       );
     } else if (type === 'down') {
       this.sortDownDate = false;
       this.campaignLinks = this.campaignLinks.sort(
         (a: Participation, b: Participation) => {
-          return a.applyDate.getTime() - b.applyDate.getTime();
+          return (a.applyDate as Date).getTime() - (b.applyDate as Date).getTime();
         }
       );
     }

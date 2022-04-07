@@ -23,6 +23,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 import { INotificationsResponse } from '@app/core/notifications-response.interface';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-history',
@@ -48,6 +49,7 @@ export class NotificationComponent implements OnInit {
   isfocused: boolean = false;
   isClickedOutside: boolean = true;
   showSpinner!: boolean;
+  crypto: any;
   private isDestroyed = new Subject();
 
   offset: any;
@@ -65,7 +67,8 @@ export class NotificationComponent implements OnInit {
     public router: Router,
     private activatedRoute: ActivatedRoute,
     private tokenStorageService: TokenStorageService,
-    @Inject(PLATFORM_ID) private platformId: string
+    @Inject(PLATFORM_ID) private platformId: string,
+    private modalService: NgbModal
   ) {
     this.arrayTypeNotification = [
       { type: 'transfer_satt_event', type_notif: 'send_satt' },
@@ -91,7 +94,6 @@ export class NotificationComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getAllNotifications();
-    this.seeNotification();
   }
   seeNotification() {
     this.NotificationService.notificationSeen()
@@ -225,7 +227,9 @@ export class NotificationComponent implements OnInit {
           this.showSpinner = false;
           this.isloading = false;
           this.dataNotification = response.data.notifications;
-
+          if (response.data.isSeen !== 0) {
+            this.seeNotification();
+          }
           this.dataNotification.forEach((item: any) => {
             item.created = item.created ? item.created : item.createdAt;
             this.siwtchFunction(item);
@@ -247,7 +251,7 @@ export class NotificationComponent implements OnInit {
   siwtchFunction(item: any) {
     const etherInWei = new Big(1000000000000000000);
     let itemDate = new Date(item.created);
-    // console.log(item)
+
     if (this.tokenStorageService.getLocalLang() === 'en') {
       item.createdFormated = moment
         .parseZone(itemDate)
@@ -269,14 +273,33 @@ export class NotificationComponent implements OnInit {
     //   item._label = JSON.parse(item.label )
     // }
     item._label = item.label;
+
     const receive_satt_pic = './assets/Images/notifIcons/Reception.svg';
     switch (item.type) {
+      case 'buy_some_gas':
+        item._label = 'buy_some_gas';
+        item.img = receive_satt_pic;
+
+        break;
+      case 'invite_friends':
+        item._label = 'invite_friends';
+        item.img = receive_satt_pic;
+
+        break;
+      case 'join_on_social':
+        item._label = 'join_on_social';
+        item.img = receive_satt_pic;
+        break;
       case 'send_demande_satt_event':
         item._params = {
           nbr: item._label['price'],
-          crypto: item._label['cryptoCurrency'],
+          crypto:
+            item.label['currency'] === 'SATTBEP20'
+              ? 'SATT'
+              : item.label['currency'],
           name: item._label['name']
         };
+
         item._label = 'asked_to_acquire';
         item.img = receive_satt_pic;
         // console.log(item._label);
@@ -285,7 +308,10 @@ export class NotificationComponent implements OnInit {
       case 'demande_satt_event':
         item._params = {
           nbr: item._label['price'],
-          crypto: item._label['currency'],
+          crypto:
+            item._label['currency'] === 'SATTBEP20'
+              ? ' SATT'
+              : item._label['currency'],
           name: item._label['name']
         };
         item._label = 'asked_cryptoCurrency';
@@ -313,13 +339,16 @@ export class NotificationComponent implements OnInit {
       //////////////////////////////////////////
 
       case 'transfer_event':
-        if (item._label['currency']) {
+        if (item.label['currency']) {
           let decimal = item._label['decimal']
             ? new Big('10').pow(item._label['decimal'])
             : ListTokens[item._label.currency].decimals;
 
           item._params = {
-            currency: item._label['currency'],
+            currency:
+              item._label['currency'] === 'SATTBEP20'
+                ? 'SATT'
+                : item._label['currency'],
             // nbr: Big(item._label["amount"])?.div(
             //   ListTokens[item._label.currency]?.decimals
             // ),
@@ -406,12 +435,15 @@ export class NotificationComponent implements OnInit {
 
       case 'receive_transfer_event':
         if (item._label['currency']) {
-          let decimal = ListTokens[item._label.currency]
-            ? ListTokens[item._label.currency].decimals
+          let decimal = ListTokens[item.label.currency]
+            ? ListTokens[item.label.currency].decimals
             : new Big('10').pow(item._label['decimal']);
 
           item._params = {
-            currency: item._label['currency'],
+            currency:
+              item.label['currency'] === 'SATTBEP20'
+                ? 'SATT'
+                : item.label['currency'],
             nbr: Big(item._label['amount']).div(decimal),
             from: item._label['from']
           };
@@ -692,31 +724,37 @@ export class NotificationComponent implements OnInit {
     }
   }
 
-  redirect(notif: any): void {
+  redirect(notif: any, content: any): void {
+    if (notif.type === 'join_on_social') {
+      this.modalService.open(content);
+    }
+    if (notif.type === 'buy_some_gas') {
+      this.router.navigateByUrl('/wallet/buy-token');
+    }
     if (notif?.label?.cmp_hash) {
       this.router.navigate(['home/campaign', notif.label.cmp_hash], {
         fragment: notif.label.cmp_hash
       });
     } //if the notification has cmp_has it will redirect to campaign detail component
 
-    if (notif?.label?.transactionHash) {
-      let owner = notif.type === 'transfer_event' ? null : 'not owner';
+    // if (notif?.label?.transactionHash) {
+    //   let owner = notif.type === 'transfer_event' ? null : 'not owner';
 
-      if (owner === 'not owner') {
-        this.router.navigate(['home'], {
-          queryParams: {
-            page: 'send',
-            transactionHash: notif?.label?.transactionHash,
-            network: notif?.label?.network,
-            amount: notif?.label?.amount,
-            currency: notif?.label?.currency,
-            owner
-          }
-        });
-      } else {
-        // this.router.navigate(['home/TransactionsHistory']);
-      }
-    }
+    //   if (owner === 'not owner') {
+    //     this.router.navigate(['home'], {
+    //       queryParams: {
+    //         page: 'send',
+    //         transactionHash: notif?.label?.transactionHash,
+    //         network: notif?.label?.network,
+    //         amount: notif?.label?.amount,
+    //         currency: notif?.label?.currency,
+    //         owner
+    //       }
+    //     });
+    //   } else {
+    //     // this.router.navigate(['home/TransactionsHistory']);
+    //   }
+    // }
 
     // if (notif?.label?.transactionHash) {
     //   let owner = notif.type == "transfer_event" ? null : "not owner";
@@ -735,6 +773,10 @@ export class NotificationComponent implements OnInit {
         queryParams: { linkHash: notif?.label?.linkHash, type: 'earnings' }
       });
     }
+  }
+
+  shareOnSocialMedias(content: any) {
+    this.modalService.open(content);
   }
   ngOnDestroy(): void {
     this.isDestroyed.next('');

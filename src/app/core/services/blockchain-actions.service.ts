@@ -5,6 +5,7 @@ import { EButtonActions } from '@app/core/enums';
 import { catchError, retry, share, switchMap, map, tap } from 'rxjs/operators';
 import { IBlockchainActionEvent } from '@app/models/blockchain-action-event.interface';
 import { ParticipationListStoreService } from '@campaigns/services/participation-list-store.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export interface ITransactionStatus {
   status: 'succeeded' | 'failed' | null;
@@ -27,7 +28,7 @@ export class BlockchainActionsService {
 
   private confirmButtonSubject = new Subject<string>();
   readonly confirmButtonClick$ = this.confirmButtonSubject.asObservable();
-
+  errorMessage: string = '';
   initialTrnxStatus: ITransactionStatus = {
     status: null,
     message: ''
@@ -64,8 +65,24 @@ export class BlockchainActionsService {
           return this.campaignService
             .recoverEarnings(password, idProm, hash)
             .pipe(
+              catchError((error: HttpErrorResponse) => {
+                if (
+                  error.error.error ===
+                  "You didn't exceed the limits timing to harvest again"
+                ) {
+                  this.errorMessage =
+                    'Rewards can be harvested only 24h after the last collect';
+                }
+                return of(null);
+              }),
               map((response: any) => {
-                return { ...response, action: event.action };
+                if (response && response.message === 'success') {
+                  return { ...response, action: event.action };
+                } else {
+                  let data = { error: this.errorMessage };
+                  return { ...data, action: event.action };
+                }
+                //if(response.error==='You didn't exceed the limits timing to harvest again')
               })
             );
         }
@@ -73,6 +90,17 @@ export class BlockchainActionsService {
           return this.campaignService
             .validateLinks(event.data.prom, password, event.data.campaignId)
             .pipe(
+              catchError((error: HttpErrorResponse) => {
+                if (
+                  error.error.error ===
+                  'Key derivation failed - possibly wrong password'
+                ) {
+                  this.errorMessage = 'Wrong password';
+                } else {
+                  this.errorMessage = error.error.error;
+                }
+                return of(null);
+              }),
               tap(() => {
                 this.participationListService
                   .loadNextPage({}, true, { campaignId: '', state: '' })
@@ -83,10 +111,11 @@ export class BlockchainActionsService {
                 return of(null);
               }),
               map((response: any) => {
-                //console.log(response);
-
-                if (response.message === 'success') {
-                  return { ...response.data, action: event.action };
+                if (response && response.message === 'success') {
+                  return { ...response, action: event.action };
+                } else {
+                  let data = { error: this.errorMessage };
+                  return { ...data, action: event.action };
                 }
               })
             );

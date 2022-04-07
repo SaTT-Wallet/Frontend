@@ -69,7 +69,7 @@ export class SocialNetworksComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: string
   ) {}
   ngOnInit(): void {
-    // this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
+    this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
     this.getSocialNetwork();
   }
   openModalDeleteOne(
@@ -173,6 +173,7 @@ export class SocialNetworksComponent implements OnInit {
   }
   //get errors from url
   setUrlMsg(p: Params, data: IGetSocialNetworksResponse): void {
+    console.log('message', p.message);
     if (p.message) {
       if (p.message === 'access-denied') {
         this.errorMessage = 'access-cancel';
@@ -187,7 +188,7 @@ export class SocialNetworksComponent implements OnInit {
           this.router.navigate(['/home/settings/social-networks']);
         }, 6000);
       } else if (
-        p.message === 'account_linked_with_success' ||
+        p.message === 'account_linked_with_success_facebook' ||
         p.message === 'account_linked_with_success_instagram_facebook' ||
         p.message === 'required_page'
       ) {

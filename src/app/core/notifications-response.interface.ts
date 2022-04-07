@@ -1,7 +1,7 @@
 export interface INotificationsResponse {
   code: number;
   data: {
-    isSend: number;
+    isSeen: number;
     next: {
       page: number;
       limit: number;

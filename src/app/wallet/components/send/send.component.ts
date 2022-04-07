@@ -23,11 +23,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { FilesService } from '@core/services/files/files.Service';
-import { filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { filter, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { forkJoin, Subject } from 'rxjs';
-import { Router } from '@angular/router';
-
 import { WalletStoreService } from '@core/services/wallet-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
@@ -35,7 +32,7 @@ import { bscan, etherscan } from '@app/config/atn.config';
 import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Location } from '@angular/common';
-import { ToastrService } from 'ngx-toastr';
+import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.service';
 @Component({
   selector: 'app-send',
   templateUrl: './send.component.html',
@@ -109,13 +106,12 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   contactWallet: string = '';
   maxNumber: number = 999999999;
   sattBalance: any;
+  private kyc$ = this.kycFacadeService.kyc$;
   constructor(
     private accountFacadeService: AccountFacadeService,
     public sidebarService: SidebarService,
     public modalService: NgbModal,
     public translate: TranslateService,
-    private fileService: FilesService,
-    private router: Router,
     private tokenStorageService: TokenStorageService,
     private walletStoreService: WalletStoreService,
     private walletFacade: WalletFacadeService,
@@ -124,7 +120,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string,
     private _location: Location,
-    private toastr: ToastrService
+    private kycFacadeService: KycFacadeService
   ) {
     //, Validators.max(this.maxNumber)
     this.sendform = new FormGroup({
@@ -140,8 +136,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   ngOnInit(): void {
     this.sendform.get('currency')?.setValue('SATT');
-
-    this.parentFunction().pipe(takeUntil(this.isDestroyed)).subscribe();
     this.getusercrypto();
     this.getProfileDetails();
     this.amountdefault = this.sendform.get('currency')?.value;
@@ -271,11 +265,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       return '-';
     }
   }
-  restrictZero(event: any) {
-    if (event.target.value.length === 0 && event.key === '0') {
-      event.preventDefault();
-    }
-  }
 
   //check legal kyc before send
   onSubmitSendMoney(event: any) {
@@ -284,25 +273,15 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.showSpinner = true;
       event.preventDefault();
       event.stopPropagation();
-      this.fileService
-        .getListUserLegal()
-        .pipe(
-          map((data: any) =>
-            Object.keys(data.data.legal).map((key) => ({
-              value: data.data.legal[key]
-            }))
-          ),
-          takeUntil(this.isDestroyed)
-        )
-        .subscribe((items) => {
+      this.kyc$.pipe(takeUntil(this.isDestroyed)).subscribe((response) => {
+        if (response !== null && response !== undefined) {
           if (
-            items.length > 1 &&
-            items.reduce((acc: any, item: any) => {
-              return acc && item.value['validate'] === true;
+            response.legal.length > 1 &&
+            response.legal.reduce((acc: any, item: any) => {
+              return acc && item['validate'] === true;
             }, true)
           ) {
             this.sendMoney();
-            //this.sendform.reset();
             this.showSpinner = false;
             this.isSubmitting = false;
           } else {
@@ -310,7 +289,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             this.modalService.open(this.checkUserLegalKYCModal);
             this.isSubmitting = false;
           }
-        });
+        }
+      });
     } else {
       this.showSpinner = false;
     }
@@ -411,21 +391,32 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         )
         .subscribe(
           (data: any) => {
-            this.toastr.success(
-              'You have sent' +
-                splitted +
-                '  ' +
-                currency +
-                '  to  ' +
-                data.data.address
-            );
             this.showSpinner = false;
             this.loadingButton = false;
             if (data.data.transactionHash) {
               this.currency = currency;
 
               this.hashtransaction = data.data.transactionHash;
-
+              // if (currency === 'SATTBEP20') {
+              //   let currenncySatt = 'SATT';
+              //   this.toastr.success(
+              //     'You have sent ' +
+              //       splitted +
+              //       '  ' +
+              //       currenncySatt +
+              //       '  to  ' +
+              //       data.data.address
+              //   );
+              // } else {
+              //   this.toastr.success(
+              //     'You have sent ' +
+              //       splitted +
+              //       '  ' +
+              //       currency +
+              //       '  to  ' +
+              //       data.data.address
+              //   );
+              // }
               if (this.networks === 'BEP20') {
                 this.routertransHash = bscan + this.hashtransaction;
               } else {
@@ -492,7 +483,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               this.wrongpassword = true;
               setTimeout(() => {
                 this.wrongpassword = false;
-              }, 5000);
+              }, 2000);
             } else if (
               error.error.error ===
                 'Returned error: execution reverted: BEP20: transfer amount exceeds balance' ||
@@ -506,14 +497,18 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
                 this.amount = '';
                 this.showAmountBloc = true;
                 this.showPwdBloc = false;
-              }, 3000);
+              }, 2000);
               this.sendform.reset();
             } else if (error.error.error === 'not_enough_budget') {
               this.nobalance = true;
               setTimeout(() => {
                 this.nobalance = false;
-              }, 3000);
-            } else if (error.error.error === 'insufficient funds for gas') {
+              }, 2000);
+            } else if (
+              error.error.error === 'insufficient funds for gas' ||
+              error.error.error ===
+                'Returned error: insufficient funds for gas * price + value'
+            ) {
               this.showSuccessBloc = false;
               this.showAmountBloc = false;
               this.showPwdBloc = false;
@@ -521,7 +516,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               this.amountUsd = '';
               this.amount = '';
               this.wrongpassword = false;
-              this.gazproblem = true;
+              // this.gazproblem = true;
               // setTimeout(() => {
               //   this.gazproblem = false;
               // }, 5000);
@@ -594,6 +589,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   parentFunction() {
     return this.walletFacade.getCryptoPriceList().pipe(
       map((response: any) => response.data),
+      take(1),
       map((data: any) => {
         this.bnb = data['BNB'].price;
         this.eth = data['ETH'].price;
@@ -605,6 +601,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       switchMap(({ bnb, Eth }) => {
         return forkJoin([
           this.walletFacade.getEtherGaz().pipe(
+            take(1),
             tap((gaz: any) => {
               this.showSpinner = false;
               let price;
@@ -617,6 +614,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             })
           ),
           this.walletFacade.getBnbGaz().pipe(
+            take(1),
             tap((gaz: any) => {
               this.showSpinner = false;
               let price = gaz.data.gasPrice;
@@ -642,94 +640,105 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   /*------------------------ */
-  convertcurrency(event: any): void {
-    // if (event === 'amount') {
-    //   this.sendform
-    //     .get('Amount')
-    //     ?.setValue(
-    //       this.replaceNonAlphanumeric(this.sendform.get('Amount')?.value)
-    //     );
-    // } else {
-    //   this.sendform
-    //     .get('AmountUsd')
-    //     ?.setValue(
-    //       this.replaceNonAlphanumeric(this.sendform.get('AmountUsd')?.value)
-    //     );
-    // }
-    let currency = '';
-    var getamount: any = this.sendform.get('Amount')?.value;
-    let getusd: any = this.sendform.get('AmountUsd')?.value;
-    let sendamount = getamount?.toString();
-    let sendusd = getusd?.toString();
 
-    if (event === 'usd' && Number(sendusd) > this.maxNumber) {
-      sendusd = sendusd.slice(0, 9);
-      this.sendform.get('AmountUsd')?.setValue(sendusd);
+  restrictZero(event: any) {
+    // if (event.target.value.length === 0 && event.key === '0') {
+    //   event.preventDefault();
+    // }
+    if (event.keyCode === 54) {
+      event.preventDefault();
+      this.convertcurrency('', false);
+    }
+    if (!this.isValidKeyCode(event.keyCode)) {
+      event.preventDefault();
+      this.convertcurrency('', false);
+    }
+  }
+  isValidKeyCode(code: number): boolean {
+    return (
+      (code >= 48 && code <= 57) ||
+      (code >= 96 && code <= 105) ||
+      code === 8 ||
+      code === 46 ||
+      code === 27 ||
+      code === 110 ||
+      code === 37 ||
+      code === 39
+    );
+  }
+
+  convertcurrency(event: any, restrict?: boolean): void {
+    let allow: boolean = true;
+    if (restrict !== undefined && restrict === false) {
+      allow = false;
     } else {
-      this.selectedCryptoSend = currency;
-      if (this.selectedCryptoSend) {
-        currency = this.selectedCryptoSend;
+      allow = true;
+    }
+    if (allow) {
+      let currency = '';
+      var getamount: any = this.sendform.get('Amount')?.value;
+      let getusd: any = this.sendform.get('AmountUsd')?.value;
+      let sendamount = getamount?.toString();
+      let sendusd = getusd?.toString();
+
+      if (event === 'usd' && Number(sendusd) > this.maxNumber) {
+        sendusd = sendusd.slice(0, 9);
+        this.sendform.get('AmountUsd')?.setValue(sendusd);
       } else {
-        currency = this.sendform.get('currency')?.value;
-      }
-      this.dataList?.forEach((crypto: any) => {
-        if (
-          event === 'amount' &&
-          sendamount !== undefined &&
-          !isNaN(sendamount) &&
-          crypto.symbol === currency
-        ) {
-          this.amountUsd = crypto.price * sendamount;
-          this.amountUsd = this.showNumbersRule.transform(this.amountUsd);
-          if (isNaN(this.amountUsd)) {
-            this.amountUsd = '';
-            this.amount = '';
-          }
-        } else if (
-          event === 'amount' &&
-          (sendamount === undefined || isNaN(sendamount))
-        ) {
-          this.amountUsd = '';
+        this.selectedCryptoSend = currency;
+        if (this.selectedCryptoSend) {
+          currency = this.selectedCryptoSend;
+        } else {
+          currency = this.sendform.get('currency')?.value;
         }
-        if (
-          event === 'usd' &&
-          sendusd !== undefined &&
-          !isNaN(sendusd) &&
-          crypto.symbol === currency
-        ) {
-          this.amount = sendusd / crypto.price;
-          this.amount = this.showNumbersRule.transform(this.amount);
+        this.dataList?.forEach((crypto: any) => {
           if (
-            sendamount === '0.00000000' ||
-            sendusd === '' ||
-            isNaN(this.amount)
+            event === 'amount' &&
+            sendamount !== undefined &&
+            !isNaN(sendamount) &&
+            crypto.symbol === currency
+          ) {
+            this.amountUsd = crypto.price * sendamount;
+            this.amountUsd = this.showNumbersRule.transform(this.amountUsd);
+            if (isNaN(this.amountUsd)) {
+              this.amountUsd = '';
+              this.amount = '';
+            }
+          } else if (
+            event === 'amount' &&
+            (sendamount === undefined || isNaN(sendamount))
           ) {
             this.amountUsd = '';
+          }
+          if (
+            event === 'usd' &&
+            sendusd !== undefined &&
+            !isNaN(sendusd) &&
+            crypto.symbol === currency
+          ) {
+            this.amount = sendusd / crypto.price;
+            this.amount = this.showNumbersRule.transform(this.amount);
+            if (
+              sendamount === '0.00000000' ||
+              sendusd === '' ||
+              isNaN(this.amount)
+            ) {
+              this.amountUsd = '';
+              this.amount = '';
+            }
+          } else if (
+            event === 'usd' &&
+            (sendusd === undefined || isNaN(sendusd))
+          ) {
             this.amount = '';
           }
-        } else if (
-          event === 'usd' &&
-          (sendusd === undefined || isNaN(sendusd))
-        ) {
-          this.amount = '';
-        }
 
-        this.editwidthInput();
-      });
+          this.editwidthInput();
+        });
+      }
     }
   }
 
-  replaceNonAlphanumeric(value: any) {
-    return (
-      value
-        .replace(/[^0-9.]+/g, '')
-        // .replace(/^0+/, "")
-        .replace(/^\.+/, '0.')
-        .replace(/\./, 'x')
-        .replace(/\./g, '')
-        .replace(/x/, '.')
-    );
-  }
   ngAfterViewChecked(): void {
     let elementinputusd = this.inputAmountUsd?.nativeElement;
     if (elementinputusd)
@@ -794,6 +803,17 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.coinType = true;
       this.gazcurrency = 'ETH';
     }
+
+    setTimeout(() => {
+      if (this.networks === 'ERC20' || this.networks === 'BTC') {
+        this.gazsend = this.eRC20Gaz;
+      }
+
+      if (this.networks === 'BEP20') {
+        this.gazsend = this.bEPGaz;
+      }
+    }, 2000);
+
     this.dataList?.forEach((crypto: any) => {
       if (this.networks === 'ERC20' || this.networks === 'BTC') {
         this.gazsend = this.eRC20Gaz;

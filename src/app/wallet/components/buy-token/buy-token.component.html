@@ -74,6 +74,7 @@
                       <img
                         src="../../../assets/Images/symbol_crypto/bsc-black-icon.svg"
                         style="width: 26px !important"
+                        class="crypto-image"
                       />
                       <span class="li-select-text d-flex">
                         {{ eCurrencyType.BEP20.toUpperCase() }}</span
@@ -279,8 +280,7 @@
                       ? 'SATT'
                       : this.requestedCrypto)
                 }}
-                =
-                {{ this.cryptoPrice?.toFixed(8) + ' USD' }}
+                = {{ this.cryptoPrice?.toFixed(8) + ' USD' }}
               </ng-container>
             </p>
           </div>
@@ -404,6 +404,7 @@
                   class="dropdown-menu custom-dropdown-menu"
                   aria-labelledby="dropdownButton2"
                   id="dropdownButtonUl"
+                  style="max-height: 125px !important"
                 >
                   <ng-container
                     *ngFor="
@@ -437,7 +438,7 @@
             </div>
           </div>
 
-          <div class="d-flex justify-content-center" *ngIf="!isConnected">
+          <!-- <div class="d-flex justify-content-center" *ngIf="!isConnected">
             <div
               class="mt-3 div-input-icon p-1"
               [ngClass]="{
@@ -467,7 +468,7 @@
               "
               >{{ 'Wallet.field_required' | translate }}</span
             >
-          </div>
+          </div> -->
           <div class="text-center mt-1" *ngIf="!isConnected">
             <span
               class="error_msg"
@@ -508,6 +509,8 @@
             >
               <img
                 src="../../../assets/Images/symbol_crypto/pancakeswap-icon.svg"
+                width="30px"
+                class="ms-2"
                 alt=""
               />
               <span class="purshase-btn-text">{{
@@ -527,10 +530,10 @@
               <img
                 src="../../../assets/Images/symbol_crypto/Uniswap.svg"
                 alt=""
-                class="img-width-32"
+                class="img-width-32 ms-2"
               />
 
-              <span class="purshase-btn-text">{{
+              <span class="purshase-btn-text pt-1">{{
                 'Swap with uniswap' | translate
               }}</span>
             </a>

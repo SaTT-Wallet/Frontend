@@ -59,7 +59,7 @@ type CryptoListItem = {
 })
 export class BuyTokenComponent implements OnInit, OnChanges {
   liClicked!: boolean;
-  amount = 50;
+  amount: number = 50;
   currency: any;
   convertform: FormGroup;
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -103,6 +103,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   requestedCryptoPriceInUSD$ = new Observable<number>();
   purshaseCryptoPriceInUSD$ = new Observable<number>();
   rateExchangePerRequestedCrypto$ = new Observable<number>();
+  showSpinner = false;
 
   constructor(
     private walletFacade: WalletFacadeService,
@@ -486,9 +487,9 @@ export class BuyTokenComponent implements OnInit, OnChanges {
             return of(null);
           }),
           tap((data: any) => {
-            if (data.data.error && data.data.code !== 500) {
+            if (data?.data.error && data?.data.code !== 500) {
               this.errMsg = data.data.error;
-            } else if (data.error) {
+            } else if (data?.error) {
               this.errMsg = data.error;
             } else {
               this.errMsg = '';
@@ -497,9 +498,9 @@ export class BuyTokenComponent implements OnInit, OnChanges {
           takeUntil(this.isDestroyed)
         )
         .subscribe((data: any) => {
-          this.cryptoAmount = data.data.digital_money?.amount || 0;
+          this.cryptoAmount = data?.data.digital_money?.amount || 0;
 
-          this.quoteId = data.data.quote_id;
+          this.quoteId = data?.data.quote_id;
         });
       this.rateExchangePerRequestedCrypto$ = this.cryptoList$.pipe(
         map(

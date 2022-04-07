@@ -86,12 +86,12 @@ export class Campaign {
     this.reference = data?.reference || '';
     this.endDate =
       typeof data?.endDate == 'number'
-        ? new Date(data.endDate * 1000)
-        : data?.endDate;
+        ? getDateObjectFrom(data.endDate)
+        : getDateObjectFrom(data?.endDate, true);
     this.startDate =
       typeof data?.startDate == 'number'
-        ? new Date(data.startDate * 1000)
-        : data?.startDate;
+        ? getDateObjectFrom(data.startDate)
+        : getDateObjectFrom(data?.startDate);
     this.proms = data?.proms;
     this.url = data?.url;
     this.file = data?.file;

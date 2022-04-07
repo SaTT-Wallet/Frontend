@@ -33,9 +33,13 @@ export class TokenStorageService {
   multiFileheader: any;
   expireToken: any;
   url: any;
-  signOut(): void {
+  clear() {
     this.localStorage.clear();
-    this.logout().subscribe();
+  }
+  signOut(): void {
+    this.logout().subscribe(() => {
+      this.localStorage.clear();
+    });
   }
   setHeader() {
     this.headers = new HttpHeaders({
@@ -202,7 +206,7 @@ export class TokenStorageService {
     let header = new HttpHeaders({
       'Cache-Control': 'no-store',
       'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + localStorage.getItem('access_token')
+      Authorization: 'Bearer ' + this.localStorage.getItem('access_token')
     });
     return this.http.get(sattUrl + '/auth/logout', {
       headers: header

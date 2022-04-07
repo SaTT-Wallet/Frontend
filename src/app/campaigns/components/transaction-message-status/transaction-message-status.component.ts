@@ -40,7 +40,7 @@ export class TransactionMessageStatusComponent implements OnInit {
     this.CampaignService.getOneById(this.campaignId as string)
       .pipe(takeUntil(this.isDestroyedSubject))
       .subscribe((data: any) => {
-        this.networkWallet = data.token.type;
+        this.networkWallet = data.data.token.type;
         this.tokenStorageService.setItem('network', this.networkWallet);
       });
     this.service.trnxStatus$
