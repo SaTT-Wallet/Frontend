@@ -25,7 +25,10 @@
   height: calc(100vh - 63px);
   position: relative;
 }
-
+.spinner-border {
+  color: #4048ff;
+  margin: 0 auto;
+}
 .div-content {
   max-width: 727px;
 }

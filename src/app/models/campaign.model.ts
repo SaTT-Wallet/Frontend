@@ -87,11 +87,11 @@ export class Campaign {
     this.endDate =
       typeof data?.endDate == 'number'
         ? getDateObjectFrom(data.endDate)
-        : getDateObjectFrom(data?.endDate as string);
+        : getDateObjectFrom(data?.endDate, true);
     this.startDate =
       typeof data?.startDate == 'number'
         ? getDateObjectFrom(data.startDate)
-        : getDateObjectFrom(data?.startDate as string);
+        : getDateObjectFrom(data?.startDate);
     this.proms = data?.proms;
     this.url = data?.url;
     this.file = data?.file;

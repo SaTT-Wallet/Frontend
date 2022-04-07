@@ -330,14 +330,14 @@ export class FarmPostsComponent implements OnInit {
       this.sortDownDate = true;
       this.listLinks = this.listLinks.sort(
         (a: Participation, b: Participation) => {
-          return b.applyDate.getTime() - a.applyDate.getTime();
+          return (b.applyDate as Date).getTime() - (a.applyDate as Date).getTime();
         }
       );
     } else if (type === 'down') {
       this.sortDownDate = false;
       this.listLinks = this.listLinks.sort(
         (a: Participation, b: Participation) => {
-          return a.applyDate.getTime() - b.applyDate.getTime();
+          return (a.applyDate as Date).getTime() - (b.applyDate as Date ).getTime();
         }
       );
     }
