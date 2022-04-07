@@ -1,39 +1,38 @@
 <app-header-register></app-header-register>
 
-    <main class="container auth-body">
-        <div class="col-lg-8 col-md-10 col-sm-12">
-            <div class="row title">
-
-                <div class="maintenance-title">
-                    <p> {{"maintenance-title"| translate}}</p>
-                </div>
-            </div>
-            <div class="row lost_in_space_img">
-                <img src="/assets/Images/new-maintenance.svg" class="server" alt="sever">
-            </div>
-            <div class="row err_desc ">
-                <div class="maintenance-paragraph col-lg-9 col-md-10 col-sm-12">
-                    <p> {{"maintenance-paragraph"|translate}}</p>
-                </div>
-                <div class="maintenance-telegram col-lg-9 col-md-10 col-sm-12">
-                    <p>{{"maintenance-telegram"|translate}} </p>
-                </div>
-                <div class="col-lg-9 col-md-10 col-sm-12">
-                    <h4>
-                        <a
-                        href="https://t.me/satttoken"
-                        target="_blank">
-                        <img src="./assets/Images/maintenance-telegram.svg" 
-                        class="telegram_icon tgm_img" 
-                        width="30px" 
-                        >
-                    </a>
-                    
-                    </h4>
-                </div>
-
-            </div>
-          
-        </div>
-    </main>
+<main class="container auth-body">
+  <div class="col-lg-8 col-md-10 col-sm-12">
+    <div class="row title">
+      <div class="maintenance-title">
+        <p>{{ 'maintenance-title' | translate }}</p>
+      </div>
+    </div>
+    <div class="row lost_in_space_img">
+      <img
+        src="/assets/Images/new-maintenance.svg"
+        class="server"
+        alt="sever"
+      />
+    </div>
+    <div class="row err_desc">
+      <div class="maintenance-paragraph col-lg-9 col-md-10 col-sm-12">
+        <p>{{ 'maintenance-paragraph' | translate }}</p>
+      </div>
+      <div class="maintenance-telegram col-lg-9 col-md-10 col-sm-12">
+        <p>{{ 'maintenance-telegram' | translate }}</p>
+      </div>
+      <div class="col-lg-9 col-md-10 col-sm-12">
+        <h4>
+          <a href="https://t.me/satttoken" target="_blank">
+            <img
+              src="./assets/Images/maintenance-telegram.svg"
+              class="telegram_icon tgm_img"
+              width="30px"
+            />
+          </a>
+        </h4>
+      </div>
+    </div>
+  </div>
+</main>
 <app-footer></app-footer>
