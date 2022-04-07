@@ -19,9 +19,8 @@ button:focus {
   top: 0px !important;
   padding-left: 13% !important;
   // padding-left: 4% !important;
-  max-height: max-content;
-  // max-height: 146px;
-  overflow: hidden;
+  max-height: 150px;
+  overflow: auto;
 }
 
 .dropdown-menu2 {
@@ -100,7 +99,7 @@ button:focus {
   color: #00041b;
   position: absolute;
   right: 10px;
-    top: 15px;
+  top: 15px;
 }
 
 .chevron2:before {
@@ -113,7 +112,7 @@ button:focus {
   color: #00041b;
   position: absolute;
   right: 10px;
-    top: 15px;
+  top: 15px;
 }
 
 .btn-dropdown {
