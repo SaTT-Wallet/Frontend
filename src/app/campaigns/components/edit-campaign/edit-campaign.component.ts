@@ -368,6 +368,7 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
         takeUntil(this.isDestroyed$)
       )
       .subscribe((c: Campaign) => {
+
         if (!c.isOwnedByUser) {
           this.router.navigateByUrl('/ad-pools');
         }
