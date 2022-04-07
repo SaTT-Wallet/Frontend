@@ -21,7 +21,7 @@ export const reducer = createReducer(
     KycActionsUnion.loadKycSuccess,
     (state, payload): KycState => ({
       ...state,
-      legal: { ...payload.data.legal },
+      legal: { ...payload.data },
       loading: true,
       error: ''
     })

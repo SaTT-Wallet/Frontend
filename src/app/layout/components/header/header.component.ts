@@ -1283,8 +1283,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   signOut() {
     this.tokenStorageService.logout().subscribe(
       () => {
-        this.isConnected = false;
-        this.authService.setIsAuthenticated(false);
         this.campaignFacade.clearLinksListStore();
         this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
         this.ParticipationListStoreService.clearDataFarming();
@@ -1296,14 +1294,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.authStoreService.clearStore();
         this.tokenStorageService.clear();
         this.kycFacadeService.dispatchLogoutKyc();
+        this.isConnected = false;
+        this.authService.setIsAuthenticated(false);
         if (isPlatformBrowser(this.platformId)) {
           window.location.reload();
         }
         this.router.navigate(['/auth/login']);
       },
       () => {
-        this.isConnected = false;
-        this.authService.setIsAuthenticated(false);
         this.campaignFacade.clearLinksListStore();
         this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
         this.ParticipationListStoreService.clearDataFarming();
@@ -1315,6 +1313,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.authStoreService.clearStore();
         this.tokenStorageService.clear();
         this.kycFacadeService.dispatchLogoutKyc();
+        this.isConnected = false;
+        this.authService.setIsAuthenticated(false);
         if (isPlatformBrowser(this.platformId)) {
           window.location.reload();
         }

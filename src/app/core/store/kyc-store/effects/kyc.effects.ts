@@ -40,7 +40,7 @@ export class KycEffects {
                 this.router.navigate(['/auth/login']);
                 return loadKycLogout();
               }
-              return loadKycSuccess({ data: data.data.legal });
+              return loadKycSuccess({ data: data.data });
             }),
             catchError((error) => of(loadKycFailure(error)))
           );

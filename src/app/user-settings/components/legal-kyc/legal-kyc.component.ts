@@ -55,7 +55,6 @@ export class LegalKYCComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    //this.getListUserLegal();
     this.uploadUserLegal();
   }
   ///////////////////////identity//////////////////////////////////
@@ -251,67 +250,6 @@ export class LegalKYCComponent implements OnInit {
         });
     }
   }
-
-  getListUserLegal() {
-    this.showSpinner = true;
-    this.profileSettingsFacade
-      .getListUserLegal()
-      .pipe(
-        mergeMap((kyc: any) => {
-          let arrayOfObs: any[] = [];
-          if (kyc !== null && kyc !== undefined && kyc.message === 'success') {
-            this.showSpinner = false;
-            this.dataLegal = kyc.data.legal;
-            this.dataLegal.forEach((item: any) => {
-              switch (item.type) {
-                case 'proofId':
-                  this.dataLegalIdentity = item;
-                  if (item.contentType !== 'application/pdf') {
-                    arrayOfObs.push(
-                      this.profileSettingsFacade.getUserLegalPic(item._id).pipe(
-                        map((data) => {
-                          return { data, type: 'proofId' };
-                        })
-                      )
-                    );
-                  }
-                  break;
-                case 'proofDomicile':
-                  this.dataLegalDomicile = item;
-                  if (item.contentType !== 'application/pdf') {
-                    arrayOfObs.push(
-                      this.profileSettingsFacade.getUserLegalPic(item._id).pipe(
-                        map((data) => {
-                          return { data, type: 'proofDomicile' };
-                        })
-                      )
-                    );
-                  }
-                  break;
-              }
-            });
-            return forkJoin(arrayOfObs);
-          }
-          return of(null);
-        })
-      )
-      .pipe(
-        filter((res) => res !== null),
-        takeUntil(this.isDestroyed)
-      )
-      .subscribe((resArray: any) => {
-        resArray.forEach(({ data, type }: any) => {
-          if (type === 'proofId') {
-            let objectURL = URL.createObjectURL(data);
-            this.imgsrcId = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-          } else if (type === 'proofDomicile') {
-            let objectURL = URL.createObjectURL(data);
-            this.imgsrcDomicile =
-              this.sanitizer.bypassSecurityTrustUrl(objectURL);
-          }
-        });
-      });
-  }
   uploadUserLegal() {
     this.showSpinner = true;
     this.kyc$
@@ -321,7 +259,7 @@ export class LegalKYCComponent implements OnInit {
           if (legal !== null) {
             this.showSpinner = false;
             let arrayOfObs: any[] = [];
-            this.dataLegal = legal;
+            this.dataLegal = legal.legal;
             this.dataLegal.forEach((item: any) => {
               switch (item.type) {
                 case 'proofId':
