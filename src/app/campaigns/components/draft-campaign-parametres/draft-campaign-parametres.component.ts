@@ -181,9 +181,11 @@ export class DraftCampaignParametresComponent implements OnInit {
     /*
     this.checkCountriesTags(this.form.value);
 */
+
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    
     this.InterestList.forEach((tag: any) => {
       if (this.draftData.tags.indexOf(tag.name) >= 0) {
         tag.checked = true;
