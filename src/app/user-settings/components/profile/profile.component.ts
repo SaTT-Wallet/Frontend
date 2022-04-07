@@ -17,7 +17,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-facade.service';
 import { CampaignsStoreService } from '@app/campaigns/services/campaigns-store.service';
-import { CampaignsListStoreService } from '@app/campaigns/services/campaigns-list-store.service';
 import { ParticipationListStoreService } from '@campaigns/services/participation-list-store.service';
 import { catchError, filter, takeUntil } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
@@ -26,6 +25,7 @@ import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-faca
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { isPlatformBrowser } from '@angular/common';
 import { CampaignsService } from '@app/campaigns/facade/campaigns.facade';
+import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.service';
 
 declare const $: any;
 @Component({
@@ -66,6 +66,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   private account$ = this.accountFacadeService.account$;
   private onDestoy$ = new Subject();
   private socialAccount$ = this.socialAccountFacadeService.socialAccount$;
+  private kyc$ = this.kycFacadeService.kyc$;
+
   constructor(
     private accountFacadeService: AccountFacadeService,
     public translate: TranslateService,
@@ -75,13 +77,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private router: Router,
     private campaignDataStore: CampaignsStoreService,
     private ParticipationListStoreService: ParticipationListStoreService,
-    private campaignsListStore: CampaignsListStoreService,
     private tokenStorageService: TokenStorageService,
     private socialAccountFacadeService: SocialAccountFacadeService,
     private walletFacade: WalletFacadeService,
     private authService: AuthService,
     @Inject(PLATFORM_ID) private platformId: string,
-    private campaignFacade: CampaignsService
+    private campaignFacade: CampaignsService,
+    private kycFacadeService: KycFacadeService
   ) {
     this.formProfile = new FormGroup({
       firstName: new FormControl(null, Validators.required),
@@ -144,6 +146,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
         this.ParticipationListStoreService.nextPage.pageNumber = 0;
         this.profileSettingsFacade.clearProfilePicStore();
+        this.kycFacadeService.dispatchLogoutKyc();
         if (isPlatformBrowser(this.platformId)) {
           window.location.reload();
         }
@@ -159,7 +162,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
         this.ParticipationListStoreService.nextPage.pageNumber = 0;
         this.profileSettingsFacade.clearProfilePicStore();
-
+        this.kycFacadeService.dispatchLogoutKyc();
         this.tokenStorageService.clear();
         if (isPlatformBrowser(this.platformId)) {
           window.location.reload();
@@ -363,32 +366,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.showSpinnerAccount = true;
   }
   getListUserLegal() {
-    let count = 0;
-    this.showSpinner = true;
-    this.profileSettingsFacade
-      .getListUserLegal()
-      .pipe(takeUntil(this.onDestoy$))
-      .subscribe((response: any) => {
-        if (response !== null && response !== undefined) {
-          this.showSpinner = false;
-          this.dataLegal = response.data.legal;
-          this.dataLegal.forEach((item: any) => {
-            switch (item.type) {
-              case 'proofId':
-                this.dataLegalIdentity = item;
-                count++;
-                break;
-              case 'proofDomicile':
-                this.dataLegalDomicile = item;
-                count++;
-                break;
-            }
-          });
-
-          this.percentKyc = (count * 100) / 2;
-          this.percentKyc2 = this.percentKyc + '%';
-        }
-      });
+    this.kyc$.pipe(takeUntil(this.onDestoy$)).subscribe((response) => {
+      if (response !== null && response !== undefined) {
+        this.percentKyc = (response.legal.length * 100) / 2;
+        this.percentKyc2 = this.percentKyc + '%';
+      }
+    });
   }
   getUserInterests() {
     this.profileSettingsFacade

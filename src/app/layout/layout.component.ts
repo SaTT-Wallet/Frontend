@@ -19,6 +19,7 @@ import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-faca
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.service';
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
@@ -41,7 +42,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
     private tokenStorageService: TokenStorageService,
     private socialAccountFacadeService: SocialAccountFacadeService,
     @Inject(DOCUMENT) private document: any,
-    @Inject(PLATFORM_ID) private platformId: string
+    @Inject(PLATFORM_ID) private platformId: string,
+    private kycFacadeService: KycFacadeService
   ) {
     this.router.events
       .pipe(takeUntil(this.isDestroyed$))
@@ -77,6 +79,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
         this.profileSettingsFacade.loadUserProfilePic(); // initialize user profile picture
         this.accountFacadeService.initAccount();
         this.socialAccountFacadeService.initSocialAccount();
+        this.kycFacadeService.initKyc();
       }
     }
   }

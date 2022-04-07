@@ -9,7 +9,7 @@ export class Participation {
   //wallet: string;
   postId: string;
   campaignHash: string;
-  applyDate: Date;
+  applyDate: Date | null;
   //date: Date;
   //fund: 0;
   isPayed: boolean;
@@ -47,7 +47,7 @@ export class Participation {
     this.postId = data?.idPost || '';
     this.idPost = data?.idPost || '';
     this.campaignHash = data?.id_campaign || '';
-    this.applyDate = getDateObjectFrom(data?.appliedDate);
+    this.applyDate = getDateObjectFrom(data?.appliedDate)
     this.appliedDate = data?.appliedDate || '';
     this.isPayed = data?.isPayed ?? 'eezee';
 
