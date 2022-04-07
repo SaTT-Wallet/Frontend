@@ -567,23 +567,19 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       this.selectedtLogo &&
       this.wallet_id
     ) {
-      this.showSpinner = true;
-      setTimeout(() => {
-        this.showSpinner = false;
-        this.router.navigate(['/wallet/summary'], {
-          queryParams: {
-            fiatCurrency: this.selectedCurrencyType,
-            network: this.selectedBlockchainNetwork,
-            amount: this.amount,
-            currency: this.selectedTargetCurrency,
-            crypto: this.requestedCrypto,
-            cryptoAmount: this.cryptoAmount,
-            quote_id: this.quoteId,
-            symbol: this.selectedtLogo,
-            wallet: this.wallet_id
-          }
-        });
-      }, 3000);
+      this.router.navigate(['/wallet/summary'], {
+        queryParams: {
+          fiatCurrency: this.selectedCurrencyType,
+          network: this.selectedBlockchainNetwork,
+          amount: this.amount,
+          currency: this.selectedTargetCurrency,
+          crypto: this.requestedCrypto,
+          cryptoAmount: this.cryptoAmount,
+          quote_id: this.quoteId,
+          symbol: this.selectedtLogo,
+          wallet: this.wallet_id
+        }
+      });
     }
     this.tokenStorageService.setItem('quoteId', this.quoteId);
   }
