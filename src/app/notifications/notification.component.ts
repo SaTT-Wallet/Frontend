@@ -737,24 +737,24 @@ export class NotificationComponent implements OnInit {
       });
     } //if the notification has cmp_has it will redirect to campaign detail component
 
-    if (notif?.label?.transactionHash) {
-      let owner = notif.type === 'transfer_event' ? null : 'not owner';
+    // if (notif?.label?.transactionHash) {
+    //   let owner = notif.type === 'transfer_event' ? null : 'not owner';
 
-      if (owner === 'not owner') {
-        this.router.navigate(['home'], {
-          queryParams: {
-            page: 'send',
-            transactionHash: notif?.label?.transactionHash,
-            network: notif?.label?.network,
-            amount: notif?.label?.amount,
-            currency: notif?.label?.currency,
-            owner
-          }
-        });
-      } else {
-        // this.router.navigate(['home/TransactionsHistory']);
-      }
-    }
+    //   if (owner === 'not owner') {
+    //     this.router.navigate(['home'], {
+    //       queryParams: {
+    //         page: 'send',
+    //         transactionHash: notif?.label?.transactionHash,
+    //         network: notif?.label?.network,
+    //         amount: notif?.label?.amount,
+    //         currency: notif?.label?.currency,
+    //         owner
+    //       }
+    //     });
+    //   } else {
+    //     // this.router.navigate(['home/TransactionsHistory']);
+    //   }
+    // }
 
     // if (notif?.label?.transactionHash) {
     //   let owner = notif.type == "transfer_event" ? null : "not owner";

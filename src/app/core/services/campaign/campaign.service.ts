@@ -760,11 +760,6 @@ export class CampaignHttpApiService {
     return this.http.post(
       sattUrl + '/campaign/bep20/allow',
       {
-        // access_token: this.tokenStorageService.getToken(),
-        // token: bep20.addr,
-        // spender: campaignSmartContractBEP20,
-        // amount: amount,
-        // pass: password
         campaignAddress: campaignSmartContractBEP20,
         amount: amount,
         pass: password,
