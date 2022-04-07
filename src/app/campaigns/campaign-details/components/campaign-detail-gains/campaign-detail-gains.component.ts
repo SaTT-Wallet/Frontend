@@ -476,14 +476,14 @@ export class CampaignDetailGainsComponent implements OnInit {
       this.sortDownDate = true;
       this.campaignLinks = this.campaignLinks.sort(
         (a: Participation, b: Participation) => {
-          return b.applyDate.getTime() - a.applyDate.getTime();
+          return (b.applyDate as Date).getTime() - (a.applyDate as Date).getTime();
         }
       );
     } else if (type === 'down') {
       this.sortDownDate = false;
       this.campaignLinks = this.campaignLinks.sort(
         (a: Participation, b: Participation) => {
-          return a.applyDate.getTime() - b.applyDate.getTime();
+          return (a.applyDate as Date).getTime() - (b.applyDate as Date).getTime();
         }
       );
     }

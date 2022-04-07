@@ -18,11 +18,15 @@
  * @param d
  * @returns {Date | undefined} a date object
  */
-export function getDateObjectFrom(d: string): Date {
-  if (Date.parse(d)) {
-    return new Date(d);
-  }
+export function getDateObjectFrom(d: any, isEndDate?: boolean): Date | null {
 
+  if(!d) {
+    return null
+  }
+  if (Date.parse(d)) {
+    let date = new Date(d)
+    return date;
+  }
   return createDateFromUnixTimestamp(d);
 }
 
