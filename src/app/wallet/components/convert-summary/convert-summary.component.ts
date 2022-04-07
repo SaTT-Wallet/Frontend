@@ -45,6 +45,7 @@ export class ConvertSummaryComponent implements OnInit {
   private isDestroyed = new Subject();
   selectedCurrencyType: any;
   selectedBlockchainNetwork: any;
+  showSpinner = false;
   constructor(
     private activatedRoute: ActivatedRoute,
     public walletFacade: WalletFacadeService,
@@ -93,8 +94,12 @@ export class ConvertSummaryComponent implements OnInit {
     this.tokenStorageService.setItem('Crypto', this.crypto);
   }
 
-  onSubmit() {
-    // console.log('clikced!');
+  onSubmit(event: any) {
+    this.showSpinner = true;
+    setTimeout(() => {
+      this.showSpinner = false;
+      event.preventDefault();
+    }, 3000);
   }
   linstingBack(event: any) {
     if (event === true) {

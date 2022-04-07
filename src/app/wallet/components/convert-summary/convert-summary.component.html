@@ -48,8 +48,20 @@
               />
               <input type="hidden" name="payment_id" [value]="payementId" />
             </form>
-            <button type="submit" form="payment_form" class="blue-btn">
-              Continue with Simplex
+            <button
+              type="submit"
+              form="payment_form"
+              class="blue-btn"
+              (click)="onSubmit($event)"
+            >
+              <span *ngIf="!this.showSpinner"> Continue with Simplex </span>
+              <div
+                *ngIf="this.showSpinner"
+                class="spinner-border"
+                role="status"
+              >
+                <span class="sr-only">Loading...</span>
+              </div>
             </button>
           </ng-container>
         </div>
