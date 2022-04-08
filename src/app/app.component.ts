@@ -61,7 +61,7 @@ export class AppComponent {
     if (isPlatformServer(this.platformId)) {
       this.meta.addTags([
         {
-          name: 'title',
+          name: 'og:title',
           content: 'SaTT - Smart advertising Transaction Token'
         }
       ]);
