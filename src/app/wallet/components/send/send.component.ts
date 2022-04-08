@@ -516,10 +516,10 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               this.amountUsd = '';
               this.amount = '';
               this.wrongpassword = false;
-              // this.gazproblem = true;
+               this.gazproblem = true;
               // setTimeout(() => {
               //   this.gazproblem = false;
-              // }, 5000);
+              // }, 3000);
               this.sendform.reset();
             }
 

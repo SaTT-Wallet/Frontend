@@ -1,28 +1,33 @@
-<!-- <div class="style-grid mt-4" *ngIf="this.tokenStorageService.getIsAuth()">
-    <div class="block-create-campaign">
-        <div class="block-title-create-campaign text-center">
-            <h2 class="title-budget">
-                {{ 'AllCampains.budget' | translate }}
-            </h2>
-            <h2 class="title-budget">
-                {{ (totalBudgetInvested$ | async) || '0' | fromWeiTo: 'SATT' }} SaTT
-            </h2>
-            <h5>
-                ( {{ 'AllCampains.soit' | translate }} {{ (totalBudgetInvestedInUSD$ | async) || '0' }} $ )
-            </h5>
-        </div>
-        <div class="" (click)="createNewDraftCampaign()">
-            <img src="/assets/Images/newImages/Mask-Group.svg" width="70px" class="pic-btn-create-campaign" />
-            <button type="button" class="btn-create-campaign">
+<div class="style-grid mt-4" *ngIf="this.tokenStorageService.getIsAuth()">
+  <div class="block-create-campaign">
+    <div class="block-title-create-campaign text-center">
+      <h2 class="title-budget">
+        {{ 'AllCampains.budget' | translate }}
+      </h2>
+      <h2 class="title-budget">
+        {{ (totalBudgetInvested$ | async) || '0' | fromWeiTo: 'SATT' }} SaTT
+      </h2>
+      <h5>
+        ( {{ 'AllCampains.soit' | translate }}
+        {{ (totalBudgetInvestedInUSD$ | async) || '0' }} $ )
+      </h5>
+    </div>
+    <div class="" (click)="createNewDraftCampaign()">
+      <img
+        src="/assets/Images/newImages/Mask-Group.svg"
+        width="70px"
+        class="pic-btn-create-campaign"
+      />
+      <button type="button" class="btn-create-campaign">
         <span class="text-btn-create-campaign">{{
           'confirm_btc' | translate
         }}</span>
       </button>
-        </div>
     </div>
-</div> -->
+  </div>
+</div>
 <div class="row filter-container">
-    <!-- <app-ad-pool-filter
+  <!-- <app-ad-pool-filter
     (isFormatGrid)="listenForStyleHost($event)"
     class="w-100"
     (cryptoFilter)="filterCampaignsBySelectedCryptos($event)"
@@ -30,73 +35,111 @@
   </app-ad-pool-filter> -->
 </div>
 <div *ngIf="!isFormatGrid" class="row justify-content-center">
-    <app-ad-pool-grid [campaigns]="campaignsList" class="mt-3" *ngIf="!!campaignsList.length"></app-ad-pool-grid>
-    <!-- <ng-container *ngIf="isLoading">
+  <app-ad-pool-grid
+    [campaigns]="campaignsList"
+    class="mt-3"
+    *ngIf="!!campaignsList.length"
+  ></app-ad-pool-grid>
+  <!-- <ng-container *ngIf="isLoading">
     <app-campaigns-list-item-placeholder-ui
     *ngFor="let card of [1, 2, 3]"
   ></app-campaigns-list-item-placeholder-ui>
   </ng-container> -->
-    <app-loading-logo class="SpinnerAuth" *ngIf="isLoading"></app-loading-logo>
+  <app-loading-logo class="SpinnerAuth" *ngIf="isLoading"></app-loading-logo>
 </div>
 <div class="style-grid mt-4" *ngIf="isFormatGrid">
-    <app-list-items [infiniteScrollContainer]="'.center-content'" [fromRoot]="true" (onEndPageScroll)="onScroll()">
-        <ng-template appItemsList>
-            <app-campaigns-list-item *ngFor="
+  <app-list-items
+    [infiniteScrollContainer]="'.center-content'"
+    [fromRoot]="true"
+    (onEndPageScroll)="onScroll()"
+  >
+    <ng-template appItemsList>
+      <app-campaigns-list-item
+        *ngFor="
           let campaign of campaignsList;
           trackBy: trackByCampaignId;
           let i = index
-        " [campaign]="campaign"></app-campaigns-list-item>
+        "
+        [campaign]="campaign"
+      ></app-campaigns-list-item>
 
-            <ng-container *ngIf="isLoading">
-                <app-campaigns-list-item-placeholder-ui *ngFor="let card of [1, 2, 3]"></app-campaigns-list-item-placeholder-ui>
-            </ng-container>
-        </ng-template>
-    </app-list-items>
+      <ng-container *ngIf="isLoading">
+        <app-campaigns-list-item-placeholder-ui
+          *ngFor="let card of [1, 2, 3]"
+        ></app-campaigns-list-item-placeholder-ui>
+      </ng-container>
+    </ng-template>
+  </app-list-items>
 </div>
 
 <div class="mt-2">
-    <div *ngIf="!isLoading && campaignsList.length === 0" class="row d-flex make-center">
-        <img class="not-found" src="/assets/Images/not-found.svg " />
+  <div
+    *ngIf="!isLoading && campaignsList.length === 0"
+    class="row d-flex make-center"
+  >
+    <img class="not-found" src="/assets/Images/not-found.svg " />
 
-        <p class="result-found mt-3">
-            {{ 'No result found' | translate }}
-        </p>
-    </div>
+    <p class="result-found mt-3">
+      {{ 'No result found' | translate }}
+    </p>
+  </div>
 </div>
 
 <ng-template #welcomeModal>
-    <div class="modal-header modal-customm">
-        <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="closeModal(welcomeModal)"></button>
+  <div class="modal-header modal-customm">
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="modal"
+      (click)="closeModal(welcomeModal)"
+    ></button>
+  </div>
+  <div class="modal-body modal-custom welcome-body modal-customm">
+    <div class="row d-flex justify-content-center">
+      <circle-progress
+        class="prog"
+        [percent]="this.percentProfil"
+      ></circle-progress>
+      <img
+        [src]="user?.userPicture"
+        (error)="onImgError($event)"
+        class="pic-profile"
+      />
+      <span class="cercle">{{ percentProfil }}%</span>
     </div>
-    <div class="modal-body modal-custom welcome-body modal-customm">
-        <div class="row d-flex justify-content-center">
-            <circle-progress class="prog" [percent]="this.percentProfil"></circle-progress>
-            <img [src]="user?.userPicture" (error)="onImgError($event)" class="pic-profile" />
-            <span class="cercle">{{ percentProfil }}%</span>
-        </div>
-        <h3 class="textpwd">{{ 'Welcome_title' | translate }}</h3>
-        <div class="d-flex justify-content-center welcome-paragraph">
-            <p>{{ 'welcome_parag' | translate }}</p>
-        </div>
-        <div class="d-flex flex-column justify-content-center align-items-center">
-            <div class="d-flex align-items-center justify-content-center col-xl-6 col-lg-8 col-md-8 col-sm-8">
-                <button class="btnModalError btn_fill_profile" (click)="goToProfile(modalService)">
+    <h3 class="textpwd">{{ 'Welcome_title' | translate }}</h3>
+    <div class="d-flex justify-content-center welcome-paragraph">
+      <p>{{ 'welcome_parag' | translate }}</p>
+    </div>
+    <div class="d-flex flex-column justify-content-center align-items-center">
+      <div
+        class="d-flex align-items-center justify-content-center col-xl-6 col-lg-8 col-md-8 col-sm-8"
+      >
+        <button
+          class="btnModalError btn_fill_profile"
+          (click)="goToProfile(modalService)"
+        >
           {{ 'fill_profile' | translate }}
         </button>
-            </div>
-            <div class="col-xl-6 col-lg-8 col-md-8 col-sm-8 d-flex flex-column justify-content-center align-items-center">
-                <button class="btnModalError btn_later" (click)="closeModal(welcomeModal)">
+      </div>
+      <div
+        class="col-xl-6 col-lg-8 col-md-8 col-sm-8 d-flex flex-column justify-content-center align-items-center"
+      >
+        <button
+          class="btnModalError btn_later"
+          (click)="closeModal(welcomeModal)"
+        >
           {{ 'later' | translate }}
         </button>
-            </div>
-        </div>
-        <div class="col-12 d-flex justify-content-start">
-            <div class="col-12">
-                <input type="checkbox" id="confirm" (click)="dontShowAgain()" />
-                <label class="dont_show ms-2">{{
+      </div>
+    </div>
+    <div class="col-12 d-flex justify-content-start">
+      <div class="col-12">
+        <input type="checkbox" id="confirm" (click)="dontShowAgain()" />
+        <label class="dont_show ms-2">{{
           "don't_show_again" | translate
         }}</label>
-            </div>
-        </div>
+      </div>
     </div>
+  </div>
 </ng-template>
