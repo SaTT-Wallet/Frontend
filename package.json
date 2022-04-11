@@ -18,7 +18,6 @@
     "dev:ssr": "ng run satt-token-atayen:serve-ssr",
     "serve:ssr": "node dist/satt-token-atayen/server/main.js",
     "build:ssr": "ng build  && ng run satt-token-atayen:server",
-    "build:ssr:prod": "ng build && ng run satt-token-atayen:server",
     "prerender": "ng run satt-token-atayen:prerender"
   },
   "lint-staged": {

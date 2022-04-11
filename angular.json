@@ -183,14 +183,8 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ]
-            },
-            "development": {
-              "optimization": false,
-              "sourceMap": true,
-              "extractLicenses": false
             }
-          },
-          "defaultConfiguration": "production"
+          }
         },
         "serve-ssr": {
           "builder": "@nguniversal/builders:ssr-dev-server",
