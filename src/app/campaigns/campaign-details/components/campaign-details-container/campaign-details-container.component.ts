@@ -155,7 +155,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
       this.meta.updateTag(
         {
           name: 'og:image:secure_url',
-          content: `${sattUrl}/coverByCampaign/${campaign.id}`
+          content: `${sattUrl}/campaign/coverByCampaign/${campaign.id}`
         },
         `name='og:image:secure_url'`
       );
@@ -163,7 +163,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
       this.meta.updateTag(
         {
           name: 'og:image',
-          content: `${sattUrl}/coverByCampaign/${campaign.id}`
+          content: `${sattUrl}/campaign/coverByCampaign/${campaign.id}`
         },
         `name='og:image'`
       );
