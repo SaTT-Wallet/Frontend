@@ -79,6 +79,7 @@ a:active {
 .make-center {
     justify-content: center;
 }
+
 .min-height {
     min-height: 60vh;
 }
@@ -234,11 +235,11 @@ a:active {
 @media (min-width: 768px) and (max-width: 993px) {
     .div-filter-search-mobile {
         bottom: -4px !important;
-        height: 295px !important
+        height: 295px !important;
     }
-    .div-sort {
+    /* .div-sort {
         bottom: -2px !important;
-    }
+    } */
 }
 
 
@@ -318,8 +319,10 @@ a:active {
     }
     .div-sort {
         width: 100% !important;
-        max-height: 548px;
-        min-height: 477px;
+        /* max-height: 548px;
+        min-height: 477px; */
+        max-height: 606px;
+        min-height: 540px;
         justify-content: flex-end !important;
         flex-direction: column-reverse;
         gap: 1em;
