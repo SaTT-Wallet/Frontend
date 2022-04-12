@@ -405,6 +405,16 @@ export class InfoComponent implements OnInit, OnDestroy {
               this.errorMsg = '';
             }, 3000);
           }
+          if (
+            error.error.error === 'code expired' &&
+            error.error.code === 401
+          ) {
+            this.formCode.get('code')?.setValue('');
+            this.errorMsg = 'code expired';
+            setTimeout(() => {
+              this.errorMsg = '';
+            }, 3000);
+          }
         }
       );
   }
