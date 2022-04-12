@@ -1619,16 +1619,16 @@ app-header-register {
 
 /* ------------ Custom Scrollbar -------------------- */
 *::-webkit-scrollbar {
-  width: 7px;
+  width: 10px;
 }
 
 *::-webkit-scrollbar-track {
-  background: transparent;
+  background: #F6F6FF;
 }
 
 *::-webkit-scrollbar-thumb {
-  background: #434343;
-  border-radius: 16px;
+  background: #D6D6E8;
+  border-radius: 10px;
   height: 50px;
 }
 /* ------------ End Custom Scrollbar -------------------- */
