@@ -757,7 +757,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
               : item.label['currency'],
           name: item._label['name']
         };
-        item._label = 'asked_to_acquire';
+        item._label = 'asked_cryptoCurrency';
         item.img = receive_satt_pic;
         break;
       //////////////////////////////////////////
