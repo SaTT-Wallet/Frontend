@@ -727,7 +727,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
       case 'send_demande_satt_event':
         item._params = {
           nbr: item._label['price'],
-          crypto: item._label['currency'],
+          crypto:
+            item.label['cryptoCurrency'] &&
+            item.label['cryptoCurrency'] === 'SATTBEP20'
+              ? 'SATT'
+              : item.label['cryptoCurrency'] ||
+                (item.label['currency'] &&
+                  item.label['currency'] === 'SATTBEP20')
+              ? 'SATT'
+              : item.label['currency'],
+          // crypto: item._label['currency'],
           name: item._label['name']
         };
         item._label = 'asked_to_acquire';
@@ -737,7 +746,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
       case 'demande_satt_event':
         item._params = {
           nbr: item._label['price'],
-          crypto: item._label['cryptoCurrency'],
+          crypto:
+            item.label['cryptoCurrency'] &&
+            item.label['cryptoCurrency'] === 'SATTBEP20'
+              ? 'SATT'
+              : item.label['cryptoCurrency'] ||
+                (item.label['currency'] &&
+                  item.label['currency'] === 'SATTBEP20')
+              ? 'SATT'
+              : item.label['currency'],
           name: item._label['name']
         };
         item._label = 'asked_to_acquire';
