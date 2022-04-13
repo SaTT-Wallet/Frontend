@@ -17,6 +17,7 @@ import { HeaderSendReceiveBuyComponent } from './components/header-send-receive-
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { ChartModule } from 'angular-highcharts';
 import { CryptoInfoComponent } from './components/crypto-info/crypto-info.component';
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
 
 @NgModule({
   declarations: [
@@ -32,13 +33,15 @@ import { CryptoInfoComponent } from './components/crypto-info/crypto-info.compon
     ReceiveComponent,
     ConvertComponent,
     HeaderSendReceiveBuyComponent,
-    CryptoInfoComponent
+    CryptoInfoComponent,
   ],
   imports: [
     SharedModule,
     WalletRoutingModule,
     NgxIntlTelInputModule,
-    ChartModule
+    ChartModule,
+    ZXingScannerModule
+
   ],
   providers: [DecimalPipe, DatePipe]
 })
