@@ -322,6 +322,7 @@ export class DraftCampaignKitComponent implements OnInit {
 
           const FileKit = this.base64ToFile(selectedFile, selectedFilename);
           if (e.target.files[0].type === 'application/pdf') {
+
             this.kits = [
               ...this.kits,
               {
@@ -345,6 +346,7 @@ export class DraftCampaignKitComponent implements OnInit {
               }
             ];
           }
+          console.log(this.kits)
 
           if (this.countImages() > 3) {
             this.customOptions.loop = true;

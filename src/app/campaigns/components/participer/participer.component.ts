@@ -619,13 +619,13 @@ export class ParticiperComponent implements OnInit {
             .pipe(takeUntil(this.isDestroyedSubject))
             .subscribe(
               (data: any) => {
-                if ((data.message = 'success' && data.code === 200)) {
+                if ((data.message == 'success' && data.code === 200 && data.data !== 'false')) {
                   this.linked = true;
                   this.loadingButton = false;
                 } else if (
-                  data.data === 'false' &&
+                  data.data == 'false' &&
                   data.code === 200 &&
-                  data.message === 'success'
+                  data.message == 'success'
                 ) {
                   this.error = 'Not_your_link';
                   this.oracleType = 'instagram';
