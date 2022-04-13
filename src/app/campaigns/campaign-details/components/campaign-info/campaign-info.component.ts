@@ -58,7 +58,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() showSpinner: boolean = false;
   @Input() campaign = new Campaign();
   @Input() isOwnedByUser = false;
-  @Input() kits: any;
+  @Input() kits: any[] = [];
   @Input() allProms: any;
   @Output() onRecoverEarningClick = new EventEmitter();
   @Output() showPasswordModal: EventEmitter<any> = new EventEmitter();
@@ -165,6 +165,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
   channelLinkedin: any;
   arrayMission: Array<{ mission: string }>;
   showmoonboy: boolean = false;
+  kitsImages: any = [];
   constructor(
     private clipboard: Clipboard,
     public router: Router,
@@ -561,6 +562,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
     if (this.listeningToDownloadFiles === true) {
       this.downloadFile();
     }
+    this.setImagesKits(this.kits);
   }
 
   getStatEarnings(): void {
@@ -959,5 +961,12 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
     } else {
       return [];
     }
+  }
+
+  setImagesKits(kits: any) {
+    setTimeout(() => {
+      this.kitsImages = kits.filter((kit: any) => !!kit.url);
+      this.cdRef.markForCheck();
+    }, 3000);
   }
 }

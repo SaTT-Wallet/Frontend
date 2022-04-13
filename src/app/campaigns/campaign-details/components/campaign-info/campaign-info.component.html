@@ -828,12 +828,15 @@
                 [options]="customOptions"
               >
                 <ng-container
-                  *ngFor="let elem of kits; index as i; trackBy: trackByKitLink"
+                  *ngFor="
+                    let elem of kitsImages;
+                    index as i;
+                    trackBy: trackByKitLink
+                  "
                 >
                   <ng-template
                     carouselSlide
                     id="{{ i }}"
-                    *ngIf="!elem.link"
                     [width]="260"
                     class="d-flex justify-content-center align-items-center"
                     style="margin-right: 2rem"
