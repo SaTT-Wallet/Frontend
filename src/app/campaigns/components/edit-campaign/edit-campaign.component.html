@@ -53,6 +53,7 @@
     <!------------------------- bloc Rémunération and budget ----------------------->
     <div class="div-block mt-3 pb-3">
       <app-remuneration
+        [hidden]="campaignData.isActive && campaignData.isOwnedByUser"
         [draftData]="campaignData"
         [id]="draftId"
         [notValidBudgetRemun]="sendErrorToBudgetRemun"

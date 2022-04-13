@@ -3,8 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false /*
-  API_URL: 'https://api-preprod2.satt-token.com:3015', //'http://localhost:3014',
+  production: false,
+  /* API_URL: 'https://api-preprod2.satt-token.com:3015', //'http://localhost:3014',
   //https://api-preprod.satt-token.com:3014
   addresses: {
     smartContracts: {
@@ -34,7 +34,7 @@ export const environment = {
   etherscan: 'https://ropsten.etherscan.io/tx/',
   bscanaddr: 'https://testnet.bscscan.com/address/',
   etherscanaddr: 'https://ropsten.etherscan.io/address/',
-  simplexUrl: 'https://sandbox.test-simplexcc.com/payments/new'*/,
+  simplexUrl: 'https://sandbox.test-simplexcc.com/payments/new',*/
   API_URL: 'https://api2.satt-token.com:3016',
   addresses: {
     smartContracts: {

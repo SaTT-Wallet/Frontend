@@ -117,6 +117,7 @@ export class CampaignDetailComponent implements OnInit {
   private history: string[] = [];
   showmoonboy = false;
   private isErnings = false;
+  downloadKit = false;
 
   constructor(
     public router: Router,
@@ -414,6 +415,7 @@ export class CampaignDetailComponent implements OnInit {
               _id: kit._id
             });
           } else {
+            this.downloadKit = true;
             return this.CampaignService.getKitPic(kit._id).pipe(
               map((data) => {
                 let objectURL = URL.createObjectURL(data);
