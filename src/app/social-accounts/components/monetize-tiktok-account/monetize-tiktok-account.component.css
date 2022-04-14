@@ -66,7 +66,7 @@
     /* .margin-bottom {
         margin-bottom: 0 !important;
     } */
-    /* .div-connect-twitter {
+    /* .div-connect-tiktok {
         width: 300px !important;
     } */
     .skip-page,
@@ -125,9 +125,8 @@
     cursor: pointer;
 }
 
-.div-connect-twitter {
-    background: #54a9eb;
-    border: 1.63449px solid #54a9eb;
+.div-connect-tiktok {
+    background: black;
     border-radius: 43px;
     height: 40px;
     align-items: center;
@@ -142,11 +141,10 @@
     justify-content: center;
     width: 253px;
     text-align: center;
-    box-shadow: 0px 4px 4px 0px #00000040;
 }
 
-.div-connect-twitter:hover {
-    background: #1e86d7;
+.div-connect-tiktok:hover {
+    box-shadow: 0px 1px 11px 0px #79a9ff;
 }
 
 .white-text-span {

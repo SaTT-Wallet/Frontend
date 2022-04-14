@@ -7,7 +7,8 @@
       this.router.url.startsWith('/social-registration/monetize-google') ||
       this.router.url.startsWith('/social-registration/monetize-twitter') ||
       this.router.url.startsWith('/social-registration/monetize-linkedin') ||
-      this.router.url.startsWith('/social-registration/activation-mail')
+      this.router.url.startsWith('/social-registration/activation-mail') ||
+      this.router.url.startsWith('/social-registration/monetize-tiktok')
     "
   >
     <div
@@ -58,7 +59,12 @@
         src="../../../assets/Images/groupe-twitter.svg"
       />
     </div>
-
+    <div
+      class="d-flex justify-content-center flex-column align-items-center"
+      *ngIf="this.router.url.startsWith('/social-registration/monetize-tiktok')"
+    >
+      <img class="picture-groupe-twitter" src="assets/Images/tiktok-left.svg" />
+    </div>
     <div
       class="d-flex justify-content-center flex-column align-items-center"
       *ngIf="this.router.url.startsWith('/social-registration/activation-mail')"

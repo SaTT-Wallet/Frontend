@@ -1,24 +1,23 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { sattUrl } from '@app/config/atn.config';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-facade/socialAcounts-facade.service';
+import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 import { SocialAccountsFacade } from '@app/social-accounts/facade/social-accounts.facade';
 import { ESocialMediaNames } from '@app/core/enums';
-import { of, Subject } from 'rxjs';
-import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-facade/socialAcounts-facade.service';
 import { catchError, takeUntil } from 'rxjs/operators';
-import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
+import { of, Subject } from 'rxjs';
 
 @Component({
-  selector: 'app-monetize-linkedin-account',
-  templateUrl: './monetize-linkedin-account.component.html',
-  styleUrls: ['./monetize-linkedin-account.component.css']
+  selector: 'app-monetize-tiktok-account',
+  templateUrl: './monetize-tiktok-account.component.html',
+  styleUrls: ['./monetize-tiktok-account.component.css']
 })
-export class MonetizeLinkedinAccountComponent implements OnInit, OnDestroy {
+export class MonetizeTiktokAccountComponent implements OnInit {
   loginNet: string = '';
   routerSub: any;
   errorMessage = '';
   successMessage = '';
-  channelLinkedin: any;
+  channelTiktok = [];
   userId = this.tokenStorageService.getIdUser();
   private socialAccount$ = this.socialAccountFacadeService.socialAccount$;
   private onDestoy$ = new Subject();
@@ -29,22 +28,35 @@ export class MonetizeLinkedinAccountComponent implements OnInit, OnDestroy {
     private socialAccountFacadeService: SocialAccountFacadeService,
     private tokenStorageService: TokenStorageService
   ) {}
-  ngOnInit(): void {
-    this.tokenStorageService.setSecureWallet('visited-linkedin', 'true');
-    this.getSocialNetwork();
-    this.getUrlMsg();
-    this.route.queryParams.subscribe((params: any) => {
-      if (params.message === 'account_linked_with_success') {
-        if (params.sn && params.sn === 'linkd') {
-          this.socialAccountsFacade.pageVisited(ESocialMediaNames.linkedIn);
-        }
-      }
-    });
-  }
 
+  ngOnInit(): void {
+    this.tokenStorageService.setSecureWallet('visited-tiktok', 'true');
+    //this.getSocialNetwork();
+    //  this.getUrlMsg();
+  }
   skipPage() {
-    this.socialAccountsFacade.pageVisited(ESocialMediaNames.linkedIn);
-    this.router.navigate(['social-registration/monetize-google']);
+    this.socialAccountsFacade.pageVisited(ESocialMediaNames.tiktok);
+    this.router.navigate(['social-registration/monetize-linkedin']);
+  }
+  linkAccount() {
+    // if (isPlatformBrowser(this.platformId))
+    //   window.location.href =
+    //     sattUrl +
+    //     '/profile/addChannel/tiktok/' +
+    //     this.userId +
+    //     '?redirect=' +
+    //     this.router.url;
+  }
+  deleteLink() {
+    // this.socialAccountFacadeService
+    //   .deleteOneSocialNetworksTwitter(this.channelTiktok[0]._id)
+    //   .pipe(takeUntil(this.onDestoy$))
+    //   .subscribe((response: any) => {
+    //     if (response.message === 'deleted successfully') {
+    //       this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
+    //       this.ngOnInit();
+    //     }
+    //   });
   }
   skipAll() {
     this.socialAccountsFacade.pageVisited(ESocialMediaNames.facebook);
@@ -60,7 +72,7 @@ export class MonetizeLinkedinAccountComponent implements OnInit, OnDestroy {
       .pipe(
         catchError((error: any) => {
           if (error.error.error === 'Not found' && error.error.code === 404) {
-            this.channelLinkedin = [];
+            this.channelTiktok = [];
           }
           return of(null);
         }),
@@ -68,32 +80,12 @@ export class MonetizeLinkedinAccountComponent implements OnInit, OnDestroy {
       )
       .subscribe((data: any) => {
         if (data !== null) {
-          this.channelLinkedin = data.linkedin;
+          this.channelTiktok = data.tiktok;
         } else {
-          this.channelLinkedin = [];
+          this.channelTiktok = [];
         }
       });
   }
-  linkAccount() {
-    window.location.href =
-      sattUrl +
-      '/profile/addChannel/linkedin/' +
-      this.userId +
-      '?redirect=' +
-      this.router.url;
-  }
-  deleteLink() {
-    this.socialAccountFacadeService
-      .deleteOneSocialNetworksLinkedin(this.channelLinkedin[0].organization)
-      .pipe(takeUntil(this.onDestoy$))
-      .subscribe((response: any) => {
-        if (response.message === 'deleted successfully') {
-          this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
-          this.ngOnInit();
-        }
-      });
-  }
-
   getUrlMsg() {
     this.routerSub = this.route.queryParams
       .pipe(takeUntil(this.onDestoy$))
@@ -102,25 +94,25 @@ export class MonetizeLinkedinAccountComponent implements OnInit, OnDestroy {
           this.successMessage = 'account_linked_with_success';
           setTimeout(() => {
             this.successMessage = '';
-            this.router.navigate(['social-registration/monetize-google']);
+            this.router.navigate(['social-registration/monetize-linkedin']);
           }, 1000);
         } else if (p.message === 'account exist') {
           this.errorMessage = 'account_linked_other_account';
           setTimeout(() => {
             this.errorMessage = '';
-            this.router.navigate(['social-registration/monetize-linkedin']);
+            this.router.navigate(['social-registration/monetize-tiktok']);
           }, 1000);
         } else if (p.message === 'channel obligatoire') {
           this.errorMessage = 'no_channel_found';
           setTimeout(() => {
             this.errorMessage = '';
-            this.router.navigate(['social-registration/monetize-linkedin']);
+            this.router.navigate(['social-registration/monetize-tiktok']);
           }, 1000);
         } else if (p.message === 'access-denied') {
           this.errorMessage = 'access-cancel';
           setTimeout(() => {
             this.errorMessage = '';
-            this.router.navigate(['social-registration/monetize-linkedin']);
+            this.router.navigate(['social-registration/monetize-tiktok']);
           }, 1000);
         }
       });
@@ -128,6 +120,6 @@ export class MonetizeLinkedinAccountComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.onDestoy$.next('');
     this.onDestoy$.complete();
-    this.routerSub.unsubscribe();
+    //  this.routerSub.unsubscribe();
   }
 }
