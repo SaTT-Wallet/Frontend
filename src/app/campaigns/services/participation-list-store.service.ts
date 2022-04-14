@@ -74,11 +74,11 @@ export class ParticipationListStoreService {
   ) {}
 
   setQueryParams(queryParams: any) {
+    this.setListParticipants([]);
+    this.setListFarming([]);
     if (queryParams.campaignId === '') {
-      this.setListParticipants([]);
       this.isEarnings = false;
     } else {
-      this.setListFarming([]);
       this.isEarnings = true;
     }
     this.queryParams.next(queryParams);
