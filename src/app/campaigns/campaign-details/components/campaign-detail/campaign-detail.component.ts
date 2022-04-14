@@ -232,10 +232,10 @@ export class CampaignDetailComponent implements OnInit {
   ngOnDestroy(): void {
     this.isDestroyed.next('');
     this.isDestroyed.unsubscribe();
-    let header = this.document.getElementById('navbar-id');
-    if (header) {
-      header.style.backgroundColor = 'transparent';
-    }
+    // let header = this.document.getElementById('navbar-id');
+    // if (header) {
+    //   header.style.backgroundColor = 'transparent';
+    // }
 
     //this.ParticipationListService.clearDataParticipations()
     //this.campaignsStoreService.clearDataStore()
