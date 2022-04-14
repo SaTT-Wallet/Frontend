@@ -58,7 +58,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() showSpinner: boolean = false;
   @Input() campaign = new Campaign();
   @Input() isOwnedByUser = false;
-  @Input() kits: any;
+  @Input() kits: any[] = [];
   @Input() allProms: any;
   @Output() onRecoverEarningClick = new EventEmitter();
   @Output() showPasswordModal: EventEmitter<any> = new EventEmitter();
@@ -70,6 +70,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
   @ViewChild('image', { static: false }) image!: ElementRef;
   @ViewChild('size', { static: false }) size!: ElementRef;
   @Input() listeningToDownloadFiles: boolean = false;
+  kitsImages: any = [];
   titleTab: string = '';
   countriesListObj: any = arrayCountries;
   dropdownList: any;
@@ -561,6 +562,14 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
     if (this.listeningToDownloadFiles === true) {
       this.downloadFile();
     }
+    this.setImagesKits(this.kits);
+  }
+
+  setImagesKits(kits: any) {
+    setTimeout(() => {
+      this.kitsImages = kits.filter((kit: any) => !!kit.url);
+      this.cdRef.markForCheck();
+    }, 3000);
   }
 
   getStatEarnings(): void {
