@@ -1206,16 +1206,14 @@
                 <div>
                   <div class="d-flex justify-content-start align-items-center">
                     <div class="d-flex align-items-center">
-                      <div
-                        [id]="crypto.symbol + crypto.type + 'IconsMobile'"
-                        [ngStyle]="{
-                          display: !crypto.selected
-                            ? 'block'
-                            : crypto.symbol === 'SATT'
-                            ? 'block'
-                            : 'none'
-                        }"
-                      >
+                      <div [id]="crypto.symbol + crypto.type + 'IconsMobile'">
+                        <!-- [ngStyle]="{
+                        display: !crypto.selected
+                          ? 'block'
+                          : crypto.symbol === 'SATT'
+                          ? 'block'
+                          : 'none'
+                      }" -->
                         <img
                           class="IconsMobile"
                           *ngIf="!crypto.picUrl"
@@ -1225,7 +1223,7 @@
                           alt=""
                         />
                       </div>
-                      <img
+                      <!-- <img
                         id="{{
                           crypto.symbol + crypto.type + 'IconsMobileChecked'
                         }}"
@@ -1239,7 +1237,7 @@
                         }"
                         src="../../../assets/Images/crypto-mobile-check.svg"
                         alt=""
-                      />
+                      /> -->
                       <div
                         [id]="crypto.symbol + crypto.type + 'addedToken'"
                         [ngStyle]="{
@@ -1361,7 +1359,7 @@
                                 class="price-varition noselect"
                                 [ngStyle]="{ color: '#00CC9E' }"
                               >
-                                {{ crypto.arrow }}   {{ crypto.variation }}%
+                                {{ crypto.arrow }} {{ crypto.variation }}%
                               </span>
                             </div>
                             <div
