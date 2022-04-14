@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ESocialMediaNames } from '@app/core/enums';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import * as SocialAccountsActions from './social-accounts.actions';
 import { EStoreErrorCodes } from './social-accounts.actions';
 
@@ -30,6 +30,9 @@ export class SocialAccountsEffects {
               'visited-linkedin',
               'true'
             );
+          }
+          if (pageVisited === ESocialMediaNames.tiktok) {
+            this.tokenStorageService.setSecureWallet('visited-tiktok', 'true');
           }
           return SocialAccountsActions.pageVisitedSuccess({ pageVisited });
         } catch {

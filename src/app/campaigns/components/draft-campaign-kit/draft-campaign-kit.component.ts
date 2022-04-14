@@ -288,7 +288,7 @@ export class DraftCampaignKitComponent implements OnInit {
             this.kits[index] = data[index];
           }
         });
-       /* if (this.countImages() > 3) {
+        /* if (this.countImages() > 3) {
           this.customOptions.loop = true;
         } else {
           this.customOptions.loop = false;

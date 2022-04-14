@@ -88,6 +88,8 @@ export class MonetizeGoogleAccountComponent implements OnInit, OnDestroy {
     this.socialAccountsFacade.pageVisited(ESocialMediaNames.youtube);
     this.socialAccountsFacade.pageVisited(ESocialMediaNames.linkedIn);
     this.socialAccountsFacade.pageVisited(ESocialMediaNames.twitter);
+    this.socialAccountsFacade.pageVisited(ESocialMediaNames.tiktok);
+
     this.router.navigate(['social-registration/socialConfig']);
   }
   getUrlMsg() {

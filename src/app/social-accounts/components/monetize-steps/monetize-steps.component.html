@@ -66,7 +66,28 @@
       <li class="col d-flex justify-content-center">
         <span class="line" [ngClass]="{ active: visitedTwitter }"> </span>
       </li>
-
+      <li
+        class="col d-flex justify-content-center max-width"
+        (click)="redirectFromSteps('tiktok')"
+        [ngClass]="{ 'cursor-pointer': visitedTiktok }"
+      >
+        <div
+          class="col d-flex justify-content-center align-items-center max-width picture"
+          [ngClass]="{ 'active cursor-pointer': visitedTiktok }"
+        >
+          <img
+            src="/assets/Images/vector/tiktokGray.svg"
+            *ngIf="!visitedTiktok"
+          />
+          <img
+            src="/assets/Images/vector/TiktokVisited.svg"
+            *ngIf="visitedTiktok"
+          />
+        </div>
+      </li>
+      <li class="col d-flex justify-content-center">
+        <span class="line" [ngClass]="{ active: visitedTiktok }"> </span>
+      </li>
       <li
         class="col d-flex justify-content-center max-width"
         (click)="redirectFromSteps('linkedin')"

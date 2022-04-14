@@ -828,7 +828,11 @@
                 [options]="customOptions"
               >
                 <ng-container
-                  *ngFor="let elem of kitsImages; index as i; trackBy: trackByKitLink"
+                  *ngFor="
+                    let elem of kitsImages;
+                    index as i;
+                    trackBy: trackByKitLink
+                  "
                 >
                   <ng-template
                     carouselSlide
