@@ -84,7 +84,8 @@
                   !this.sendform.get('contact')?.errors?.required)
             }"
           >
-            <img src="assets/Images/wallet-icon-black.svg" />
+            <!-- <img src="assets/Images/wallet-icon-black.svg" /> -->
+            <img src="assets/Images/qrcode-send.svg" (click)="openqrcode()"/>
 
             <input
               formControlName="contact"
@@ -93,13 +94,13 @@
               type="text"
               [(ngModel)]="contactWallet"
               id="receive_contact"
-              placeholder="Id wallet"
+              placeholder="Id wallet or QR code"
             />
           </div>
         </div>
 
-        <zxing-scanner></zxing-scanner>
-
+        <zxing-scanner *ngIf="showScanner" previewFitMode="cover" (scanSuccess)="onCodeResult($event)" ></zxing-scanner>
+    
 
 
         <div
