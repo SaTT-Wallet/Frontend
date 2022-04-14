@@ -52,7 +52,7 @@
       <button
         type="button"
         class="btn-white"
-        [disabled]="this.kits.length === 0"
+        [disabled]="!this.downloadKit"
         (click)="downloadFile()"
       >
         Download AdPool Kit
