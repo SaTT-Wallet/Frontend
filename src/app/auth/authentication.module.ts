@@ -54,6 +54,8 @@ import { ResetPasswordComponent } from '@app/auth/components/reset-password/rese
     ContactMessageService,
     ProfileService
     // {provide: LocationStrategy, useClass: HashLocationStrategy},
+        // {provide: LocationStrategy, useClass: HashLocationStrategy},
+
     //{ provide: LOCALE_ID, useValue: "fr" },
     //{ provide: LOCALE_ID, useValue: 'de-DE' },
   ]
