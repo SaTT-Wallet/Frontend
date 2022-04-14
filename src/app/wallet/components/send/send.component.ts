@@ -33,6 +33,7 @@ import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Location } from '@angular/common';
 import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-send',
   templateUrl: './send.component.html',
@@ -120,7 +121,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string,
     private _location: Location,
-    private kycFacadeService: KycFacadeService
+    private kycFacadeService: KycFacadeService,
+    private router: Router
   ) {
     //, Validators.max(this.maxNumber)
     this.sendform = new FormGroup({
@@ -517,6 +519,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               this.amount = '';
               this.wrongpassword = false;
               this.gazproblem = true;
+
               // setTimeout(() => {
               //   this.gazproblem = false;
               // }, 3000);
@@ -529,6 +532,13 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         );
       // }
     }
+  }
+  goToBuy() {
+    this.router.navigate(['/wallet/buy-token'], {
+      queryParams: {
+        gaz: this.gazcurrency
+      }
+    });
   }
   onClickAmount(): void {
     let currency = '';
