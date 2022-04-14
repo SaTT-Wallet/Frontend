@@ -40,8 +40,7 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
     WalletRoutingModule,
     NgxIntlTelInputModule,
     ChartModule,
-    ZXingScannerModule
-
+    ZXingScannerModule,
   ],
   providers: [DecimalPipe, DatePipe]
 })

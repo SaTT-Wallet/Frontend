@@ -95,6 +95,8 @@
     "angular-notification-icons": "^1.0.0",
     "angular-spec-generator": "^1.1.0",
     "angular-ui-switch": "^0.1.1",
+    "angular2-qrcode": "^2.0.3",
+    "angular2-qrscanner": "^1.0.7",
     "angularx-qrcode": "^13.0.3",
     "angularx-social-login": "^4.0.1",
     "array-shuffle": "^3.0.0",
