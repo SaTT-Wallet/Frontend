@@ -91,7 +91,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   decimals: any;
   token: any;
   symbol: any;
-  gazcurrency: any;
+  gazcurrency: string = 'ERC20';
   /*--------------------------------*/
   @ViewChild('checkUserLegalKYCModal') checkUserLegalKYCModal!: ElementRef;
   routeEventSubscription$ = new Subject();
@@ -516,7 +516,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               this.amountUsd = '';
               this.amount = '';
               this.wrongpassword = false;
-               this.gazproblem = true;
+              this.gazproblem = true;
               // setTimeout(() => {
               //   this.gazproblem = false;
               // }, 3000);
@@ -795,13 +795,16 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.token = event.AddedToken;
     if (this.networks === 'ERC20') {
       this.coinType = false;
-      this.gazcurrency = 'ETH';
+      this.gazcurrency = 'ERC20';
+      //this.gazcurrency = 'ETH';
     } else if (this.networks === 'BEP20') {
       this.coinType = false;
-      this.gazcurrency = 'BNB';
+      this.gazcurrency = 'BEP20';
+      // this.gazcurrency = 'BNB';
     } else if (this.networks === 'BTC') {
       this.coinType = true;
-      this.gazcurrency = 'ETH';
+      this.gazcurrency = 'ERC20';
+      // this.gazcurrency = 'ETH';
     }
 
     setTimeout(() => {
