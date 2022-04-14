@@ -9,7 +9,10 @@
     autocomplete="off"
   />
 </div>
-<div class="d-flex div-desktop-filter div-mobile-filter align-items-center">
+<div
+  class="d-flex div-desktop-filter div-mobile-filter align-items-center"
+  *ngIf="!showSpinner"
+>
   <div
     class="d-flex div-filter-search"
     [ngClass]="{ 'div-filter-search-mobile': showFilter }"
@@ -369,6 +372,7 @@
 </div>
 <div
   class=""
+  *ngIf="!showSpinner"
   [ngClass]="{
     'div-content': isStyleGrid,
     'display-column':
@@ -542,7 +546,7 @@
     class="mt-2"
     *ngIf="
       this.listLinks.length === 0 &&
-      postsNumber == 0 &&
+      postsNumber === 0 &&
       !showWelcome &&
       showSpinner
     "
