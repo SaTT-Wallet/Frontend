@@ -20,14 +20,14 @@
 }
 
 .logout {
-    background: #f52079;
-    border-radius: 30px;
+    background: #f52079 !important;
+    /* border-radius: 30px;
     height: 41px;
     width: 128px;
     border: none;
     color: white;
     font-weight: 600;
-    margin-bottom: 10px;
+    margin-bottom: 10px; */
 }
 
 .space {
@@ -299,7 +299,9 @@ input:-webkit-autofill:active {
     letter-spacing: 0.03em;
     color: #f6f6ff;
 }
-
+.logout-describe{
+  padding-top: 3em;
+}
 
 /*-------css block profile -----*/
 
@@ -478,9 +480,9 @@ input:valid {
 }
 
 @media (max-width: 918px) {
-    .card-profile {
+    /* .card-profile {
         width: 97% !important;
-    }
+    } */
     /* .card-profile{max-width: 95%;}  */
 }
 
