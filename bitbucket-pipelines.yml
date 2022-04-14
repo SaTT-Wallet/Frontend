@@ -18,11 +18,11 @@ pipelines:
  #           -  mkdir ~/.ssh
  #           -  touch  ~/.ssh/know_hosts
             -  ssh-keyscan -H 92.243.9.233 >> ~/.ssh/known_hosts  
-            -  sshpass -p ${SCP_PASSWORD} ssh satt@92.234.9.233  "cd /home/satt/wallet_satt/satt-wallet && git pull"
-            -  sshpass -p ${SCP_PASSWORD} ssh satt@92.234.9.233  "cd /home/satt/wallet_satt/satt-wallet && npm install" 
-            -  sshpass -p ${SCP_PASSWORD} ssh satt@92.234.9.233  "cd /home/satt/wallet_satt/satt-wallet && ng build  " 
-            -  sshpass -p ${SCP_PASSWORD} ssh satt@92.234.9.233  "cd /home/satt/wallet_satt/satt-wallet && ng run satt-token:server"
-            -  sshpass -p ${SCP_PASSWORD} ssh satt@92.234.9.233  "cd /home/satt/wallet_satt/satt-wallet && pm2 restart 0 "
+            -  sshpass -p ${SCP_PASSWORD_SATT} ssh satt@92.234.9.233  "cd /home/satt/wallet_satt/satt-wallet && git pull"
+            -  sshpass -p ${SCP_PASSWORD_SATT} ssh satt@92.234.9.233  "cd /home/satt/wallet_satt/satt-wallet && npm install" 
+            -  sshpass -p ${SCP_PASSWORD_SATT} ssh satt@92.234.9.233  "cd /home/satt/wallet_satt/satt-wallet && ng build  " 
+            -  sshpass -p ${SCP_PASSWORD_SATT} ssh satt@92.234.9.233  "cd /home/satt/wallet_satt/satt-wallet && ng run satt-token:server"
+            -  sshpass -p ${SCP_PASSWORD_SATT} ssh satt@92.234.9.233  "cd /home/satt/wallet_satt/satt-wallet && pm2 restart 0 "
     feature/*:
       - step:
           name: check directory  
