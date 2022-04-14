@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { CampaignsDashboardService } from '@campaigns/services/campaigns-dashboard.service';
-import { merge, Subject } from 'rxjs';
-import { filter, map, mapTo, startWith, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { filter, map, startWith, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-campaigns-dashboard',
@@ -10,8 +10,9 @@ import { filter, map, mapTo, startWith, takeUntil } from 'rxjs/operators';
   styleUrls: ['./campaigns-dashboard.component.scss']
 })
 export class CampaignsDashboardComponent implements OnInit {
-  title = '';
+  titlee = '';
   private isDestroyed = new Subject();
+  @Input() title = 'page title';
 
   requestedPathUrlChanges$ = this.router.events.pipe(
     filter((event: any) => event instanceof NavigationEnd),
