@@ -288,11 +288,11 @@ export class DraftCampaignKitComponent implements OnInit {
             this.kits[index] = data[index];
           }
         });
-        if (this.countImages() > 3) {
+        /*if (this.countImages() > 3) {
           this.customOptions.loop = true;
         } else {
           this.customOptions.loop = false;
-        }
+        }*/
         // console.log(file);
       });
   }
@@ -346,11 +346,11 @@ export class DraftCampaignKitComponent implements OnInit {
             ];
           }
 
-          if (this.countImages() > 3) {
+          /*  if (this.countImages() > 3) {
             this.customOptions.loop = true;
           } else {
             this.customOptions.loop = false;
-          }
+          }*/
         };
         if (e.target.files[0].type === 'application/pdf') {
           this.pdf = 'assets/Images/img_satt/pdf-xs.png';
