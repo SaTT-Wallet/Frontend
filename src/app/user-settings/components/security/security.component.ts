@@ -454,6 +454,13 @@ export class SecurityComponent implements OnInit, OnDestroy {
               this.formExportData
                 .get('password')
                 ?.setErrors({ checkPassword: true });
+            } else if (
+              err.error.error === 'wrong password' &&
+              err.error.code === 401
+            ) {
+              this.formExportData
+                .get('password')
+                ?.setErrors({ checkPassword: true });
             }
           }
         );
