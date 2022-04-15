@@ -9,6 +9,10 @@
   </div>
   <div class="row white-bloc justify-content-center flex-column">
     <!--------------------AmountBloc----------------------------------->
+
+    <!-- <zxing-scanner [formats]="allowedFormats"></zxing-scanner> -->
+
+
     <div
       class="div-content d-flex flex-column align-items-center"
       *ngIf="showAmountBloc"
@@ -80,7 +84,8 @@
                   !this.sendform.get('contact')?.errors?.required)
             }"
           >
-            <img src="assets/Images/wallet-icon-black.svg" />
+            <!-- <img src="assets/Images/wallet-icon-black.svg" /> -->
+            <img src="assets/Images/qrcode-send.svg" (click)="openqrcode()"/>
 
             <input
               formControlName="contact"
@@ -89,10 +94,14 @@
               type="text"
               [(ngModel)]="contactWallet"
               id="receive_contact"
-              placeholder="Id wallet"
+              placeholder="Id wallet or QR code"
             />
           </div>
         </div>
+
+        <zxing-scanner *ngIf="showScanner" previewFitMode="cover" (scanSuccess)="onCodeResult($event)" ></zxing-scanner>
+    
+
 
         <div
           class="text-center"
