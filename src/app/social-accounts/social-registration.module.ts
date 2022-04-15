@@ -21,12 +21,12 @@ import { PassPhraseComponent } from './components/pass-phrase/pass-phrase.compon
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MonetizeLinkedinAccountComponent } from './components/monetize-linkedin-account/monetize-linkedin-account.component';
 import { StoreModule } from '@ngrx/store';
-import { reducer } from './state/social-accounts.reducer';
 import * as fromSocialNetworks from './state/social-accounts.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { SocialAccountsEffects } from './state/social-accounts.effects';
 import { MoonBoySocialMediasComponent } from './components/left-component/moon-boy-social-medias/moon-boy-social-medias.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { MonetizeTiktokAccountComponent } from './components/monetize-tiktok-account/monetize-tiktok-account.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +48,8 @@ import { TranslateModule } from '@ngx-translate/core';
     ActivationMailComponent,
     PassPhraseComponent,
     MonetizeLinkedinAccountComponent,
-    MoonBoySocialMediasComponent
+    MoonBoySocialMediasComponent,
+    MonetizeTiktokAccountComponent
   ],
   imports: [
     SharedModule,

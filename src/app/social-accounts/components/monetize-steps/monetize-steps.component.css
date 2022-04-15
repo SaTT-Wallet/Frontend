@@ -17,13 +17,15 @@ li {
     padding: 0;
     max-width: 30px;
 }
-.line{
+
+.line {
     display: inline-block;
-    border-top: 2px solid #D6D6E8;
+    border-top: 2px solid #d6d6e8;
 }
-.line.active{
+
+.line.active {
     display: inline-block;
-    border-top: 2px solid #00CC9E;
+    border-top: 2px solid #00cc9e;
 }
 
 .steps {
@@ -33,7 +35,7 @@ li {
 }
 
 .max-width {
-    max-width:32px!important;
+    max-width: 32px !important;
 }
 
 .picture {
@@ -46,26 +48,33 @@ li {
 .picture.active {
     /* background-color: #00CC9E; */
 }
-.first-step.active{
+
+.first-step.active {
     background-color: white !important;
 }
 
 .hrline {
     min-width: 25px;
     width: 100%;
-    background-color: #D6D6E8;
+    background-color: #d6d6e8;
     position: relative;
     height: 2px;
     /* padding: 0; */
 }
 
 .hrline.active {
-    background-color: #00CC9E;
+    background-color: #00cc9e;
 }
 
-@media (max-width:767.98px) {
+@media (max-width: 767.98px) {
      :host {
         height: 0 !important;
+    }
+}
+
+@media (max-width: 900.98px) {
+    li {
+        max-width: 20px;
     }
 }
 

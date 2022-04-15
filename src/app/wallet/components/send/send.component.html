@@ -344,6 +344,7 @@
           type="submit"
           class="white-btn"
           [routerLink]="['/wallet/buy-token']"
+          (click)="goToBuy()"
         >
           {{ 'buy_gas' | translate }}
         </button>

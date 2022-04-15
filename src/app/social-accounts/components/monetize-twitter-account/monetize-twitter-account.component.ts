@@ -52,13 +52,15 @@ export class MonetizeTwitterAccountComponent implements OnInit, OnDestroy {
 
   skipPage() {
     this.socialAccountsFacade.pageVisited(ESocialMediaNames.twitter);
-    this.router.navigate(['social-registration/monetize-linkedin']);
+    this.router.navigate(['social-registration/monetize-tiktok']);
   }
   skipAll() {
     this.socialAccountsFacade.pageVisited(ESocialMediaNames.facebook);
     this.socialAccountsFacade.pageVisited(ESocialMediaNames.youtube);
     this.socialAccountsFacade.pageVisited(ESocialMediaNames.linkedIn);
     this.socialAccountsFacade.pageVisited(ESocialMediaNames.twitter);
+    this.socialAccountsFacade.pageVisited(ESocialMediaNames.tiktok);
+
     this.router.navigate(['social-registration/socialConfig']);
   }
   getSocialNetwork() {
@@ -112,7 +114,7 @@ export class MonetizeTwitterAccountComponent implements OnInit, OnDestroy {
           this.successMessage = 'account_linked_with_success';
           setTimeout(() => {
             this.successMessage = '';
-            this.router.navigate(['social-registration/monetize-linkedin']);
+            this.router.navigate(['social-registration/monetize-tiktok']);
           }, 1000);
         } else if (p.message === 'account exist') {
           this.errorMessage = 'account_linked_other_account';

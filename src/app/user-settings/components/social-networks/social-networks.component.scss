@@ -368,13 +368,15 @@ input:-webkit-autofill:active {
   padding-left: 20px !important;
 }
 
-.fb-btn-cnx span {
+.fb-btn-cnx span,
+.tiktok-btn-cnx span {
   padding-left: 5px;
 }
 
 .fb-btn-cnx img,
 .twitter-btn-cnx img,
 .linkedin-btn-cnx img,
+.tiktok-btn-cnx img,
 .google-btn-cnx img {
   max-width: 28px;
   margin-right: 10px;
@@ -406,10 +408,18 @@ input:-webkit-autofill:active {
   padding: 10px;
 }
 
+.tiktok-btn-cnx {
+  background: #090707;
+  border-radius: 20px;
+  border: none;
+  box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+  padding: 10px;
+}
+
 .linkedin-btn-cnx:disabled,
 .twitter-btn-cnx:disabled,
 .google-btn-cnx:disabled,
-.fb-btn-cnx:disabled {
+.tiktok-btn-cnx:disabled .fb-btn-cnx:disabled {
   background: #d4d4d4 !important;
 }
 

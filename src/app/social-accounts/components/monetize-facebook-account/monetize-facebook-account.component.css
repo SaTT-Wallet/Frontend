@@ -17,9 +17,9 @@
     min-width: 300px;
     display: flex;
     flex-direction: column;
-    /* overflow: hidden !important; */
+    overflow: hidden !important;
     position: relative;
-    overflow: auto;
+    /* overflow: auto; */
 }
 
 .padding-top {
@@ -32,15 +32,16 @@
     height: 22px;
     left: 7px;
 }
+
 @media (min-width: 767.98px) {
     .padding-top {
-      /* padding-top: 55px; */
-      padding-top: 70px;
+        /* padding-top: 55px; */
+        padding-top: 70px;
     }
-    .padding-top-top{
+    .padding-top-top {
         padding-top: 39px;
     }
-  }
+}
 
 @media (max-width: 767.98px) {
     .div-mobile-version {

@@ -297,6 +297,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.tokenStorageService.removeItem('hasTwitter');
       this.tokenStorageService.removeItem('visited-google');
       this.tokenStorageService.removeItem('visited-twitter');
+      this.tokenStorageService.removeItem('visited-tiktok');
       this.tokenStorageService.removeItem('visited-socialConfig');
       this.tokenStorageService.removeItem('visited-transactionPwd');
       this.tokenStorageService.removeItem('visited-pwd');

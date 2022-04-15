@@ -79,6 +79,8 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   cryptoList$ = this.walletFacade.cryptoList$;
   ethPrice: any;
   cryptoPrice = 0;
+  gaz: any;
+
   private isDestroyed = new Subject<any>();
 
   isDestroyedObs = this.isDestroyed.asObservable();
@@ -112,7 +114,8 @@ export class BuyTokenComponent implements OnInit, OnChanges {
     @Inject(DOCUMENT) private document: Document,
     private tokenStorageService: TokenStorageService,
     @Inject(PLATFORM_ID) private platformId: string,
-    private _location: Location
+    private _location: Location,
+    private activatedRoute: ActivatedRoute
   ) {
     this.convertform = new FormGroup({
       Amount: new FormControl(
@@ -129,6 +132,11 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     // this.toggleCurrencyType(ECurrencyType.FIAT);
     // this.toggleNetwork(EBlockchainNetwork.BEP20);
+    this.gaz = this.activatedRoute.snapshot.queryParamMap.get('gaz');
+
+    // if (this.gaz === 'ERC20') {
+    //   this.toggleNetwork(EBlockchainNetwork.ERC20);
+    // }
     this.routerSub = this.route.queryParams
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((p: any) => {
@@ -172,6 +180,16 @@ export class BuyTokenComponent implements OnInit, OnChanges {
           this.selectedtLogo = p.symbol;
           this.wallet_id = p.wallet;
           this.selectedTargetCurrency = p.currency;
+        } else if (p.gaz === 'ERC20') {
+          this.toggleCurrencyType(ECurrencyType.FIAT);
+
+          this.toggleNetwork(EBlockchainNetwork.ERC20);
+          this.requestedCrypto = 'ETH';
+        } else if (p.gaz === 'BEP20') {
+          this.toggleCurrencyType(ECurrencyType.FIAT);
+          this.toggleNetwork(EBlockchainNetwork.BEP20);
+          this.requestedCrypto = 'BNB';
+          // this.selectedTargetCurrency = 'SATT';
         } else {
           this.toggleCurrencyType(ECurrencyType.FIAT);
           this.toggleNetwork(EBlockchainNetwork.BEP20);
@@ -228,6 +246,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
         this.toggleCurrencyType(ECurrencyType.BEP20);
       } else if (network === EBlockchainNetwork.ERC20) {
         this.toggleCurrencyType(ECurrencyType.ERC20);
+
         // this.selectedCurrencyType = ECurrencyType.ERC20;
       }
       this.sourceCryptoList = this.cryptoList.filter(
