@@ -45,10 +45,10 @@ export class CopyTransactionHashComponent {
       }
       if (this.tokenStorageService.getNetwork() === 'bep20') {
         this.networkWallet = bscan + this.transactionHash;
-        this.windowRefService.nativeWindow.open(this.networkWallet, '_blank');
+        // this.windowRefService.nativeWindow.open(this.networkWallet, '_blank');
       } else {
         this.networkWallet = etherscan + this.transactionHash;
-        this.windowRefService.nativeWindow.open(this.networkWallet, '_blank');
+        // this.windowRefService.nativeWindow.open(this.networkWallet, '_blank');
       }
     }
   }
