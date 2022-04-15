@@ -1006,6 +1006,7 @@ getCookie(key: string){
             this.timeLeftToUnLock =
               this.blocktime - Math.floor(Date.now() / 1000);
             this.blockedForgetPassword = true;*/
+            return;
           }
           this.show = 'second';
           this.forgotpassword = false;
