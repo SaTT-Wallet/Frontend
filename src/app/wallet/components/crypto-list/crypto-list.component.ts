@@ -641,13 +641,13 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     this.erc20Selected = false;
     this.bep20Selected = false;
     let index = this.cryptoList
-      .map((res: any) => res.symbol)
-      .indexOf(crypto.symbol);
+      .map((res: any) => res.name)
+      .indexOf(crypto.name);
     if (crypto.selected === true) {
       this.cryptoList[index].selected = false;
     } else {
       this.cryptoList[
-        this.cryptoList.map((res: any) => res.symbol).indexOf(crypto.symbol)
+        this.cryptoList.map((res: any) => res.name).indexOf(crypto.name)
       ].selected = true;
       for (let i = 0; i < this.cryptoList.length; i++) {
         if (i !== index) {
