@@ -57,7 +57,7 @@ export class ConvertSummaryComponent implements OnInit {
     this.getInfo();
     setTimeout(() => {
       this.showSpinner = false;
-    }, 3000);
+    }, 4000);
 
     this.walletFacade
       .getPayementId(
