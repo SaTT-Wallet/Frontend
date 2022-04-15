@@ -520,6 +520,13 @@
       >
         {{ 'Réessayer' | translate }}
       </button>
+      <button *ngIf="gazproblem"
+      type="submit"
+      class="btn-info me-2 mt-2 mb-2"
+            [routerLink]="['/wallet/buy-token']"
+    >
+      {{ 'buy_gas' | translate }}
+    </button>
       <!-- <button  class="btn-info me-2 mt-2 mb-2"   [routerLink]="['/home']">{{"bye_gaz"|translate}} </button> -->
       <button
         class="btn-info me-2 mt-2 mb-4"

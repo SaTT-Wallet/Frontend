@@ -101,6 +101,7 @@ export class ParticiperComponent implements OnInit {
   @ViewChild('tweetId') tweetId?: ElementRef;
   ratioLink: boolean = false;
   isGoogleUrl: boolean = false;
+  gazproblem: boolean = false;
   constructor(
     private router: Router,
     public CampaignService: CampaignHttpApiService,
@@ -1158,6 +1159,7 @@ export class ParticiperComponent implements OnInit {
                 error.error.error ===
                 'Returned error: replacement transaction underpriced'
             ) {
+              this.gazproblem = true;
               // this.error = "out_of_gas_error";
               this.router.navigate([], {
                 queryParams: {
