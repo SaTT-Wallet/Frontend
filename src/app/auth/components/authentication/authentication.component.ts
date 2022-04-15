@@ -997,7 +997,11 @@ getCookie(key: string){
       .resetPassword(email)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(
-        () => {
+        (res) => {
+          if (!res) {
+            this.closeModal(this.lostpwdModal);
+            this.errorMessage = 'account_not_exists';
+          }
           this.show = 'second';
           this.forgotpassword = false;
           this.recoverpassword = true;
