@@ -33,6 +33,7 @@ import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Location } from '@angular/common';
 import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.service';
+import { BarcodeFormat } from '@zxing/library';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-send',
@@ -107,6 +108,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   contactWallet: string = '';
   maxNumber: number = 999999999;
   sattBalance: any;
+  allowedFormats = [ BarcodeFormat.QR_CODE, BarcodeFormat.EAN_13, BarcodeFormat.CODE_128, BarcodeFormat.DATA_MATRIX ];
+  qrResultString: string | null | undefined ;
+  showScanner: boolean = false;
   private kyc$ = this.kycFacadeService.kyc$;
   constructor(
     private accountFacadeService: AccountFacadeService,
@@ -141,6 +145,14 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.getusercrypto();
     this.getProfileDetails();
     this.amountdefault = this.sendform.get('currency')?.value;
+  }
+  openqrcode(): void {
+    this.showScanner = true;
+  }
+  onCodeResult(resultString: string) {
+    this.qrResultString = resultString;
+    this.sendform.get('contact')?.setValue(resultString);
+    this.showScanner = false;
   }
 
   //get list of crypto for user

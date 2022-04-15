@@ -67,6 +67,7 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MoonboyHelpComponent } from './components/moonboy-help/moonboy-help.component';
 import { WheelMouseDirective } from './directives/wheelMouse.directive';
+import { QRCodeMode } from '@zxing/library';
 
 @NgModule({
   declarations: [
@@ -183,7 +184,8 @@ import { WheelMouseDirective } from './directives/wheelMouse.directive';
     TranslateModule,
     RouterModule,
     NgxPaginationModule,
-    ChartsModule
+    ChartsModule,
+
   ],
   providers: [ConvertFromWei]
 })
