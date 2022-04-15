@@ -43,7 +43,11 @@ export class ConfirmBlockchainActionComponent implements OnInit {
         if (response.error) {
           if (response.error === 'Wrong password') {
             this.errorMessage = 'wrong_password';
-          } else if (
+          }
+          else   if (response.error === 'out_of_gas_error') {
+            this.errorMessage = 'You need more gas to make this transaction';
+          }
+          else if (
             response.error ===
             'Rewards can be harvested only 24h after the last collect'
           ) {
@@ -66,7 +70,18 @@ export class ConfirmBlockchainActionComponent implements OnInit {
             this.errorMessage = '';
           }, 3000);
         }
-      });
+      },(error) => {
+        console.log(error);
+        debugger
+        if(error.error.code === 500 && error.error.error==="Key derivation failed - possibly wrong password"){
+          this.errorMessage = 'wrong_password';
+        }else
+        if(error.error.code === 500){
+          this.errorMessage = 'out_of_gas_error';
+        }
+
+      })
+      
   }
 
   get password() {

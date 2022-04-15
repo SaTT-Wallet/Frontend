@@ -66,6 +66,7 @@ export class BlockchainActionsService {
             .recoverEarnings(password, idProm, hash)
             .pipe(
               catchError((error: HttpErrorResponse) => {
+                debugger
                 if (
                   error.error.error ===
                   "You didn't exceed the limits timing to harvest again"
@@ -73,6 +74,22 @@ export class BlockchainActionsService {
                   this.errorMessage =
                     'Rewards can be harvested only 24h after the last collect';
                 }
+
+               else if (
+                  error.error.error ===
+                  "Key derivation failed - possibly wrong password"
+                ) {
+                  this.errorMessage =
+                    'Wrong password';
+                }
+                else if (
+                  error.error.error === "Cannot read property 'events' of undefined"
+                ) {
+                  this.errorMessage =
+                    'out_of_gas_error';
+                }
+
+
                 return of(null);
               }),
               map((response: any) => {
