@@ -24,7 +24,13 @@
       "@faq/*": ["app/faq/*"],
       "@campaigns/*": ["app/campaigns/*"],
       "@social-accounts/*": ["app/social-accounts/*"],
-      "@user-settings/*": ["app/user-settings/*"]
+      "@user-settings/*": [
+        "app/user-settings/*"
+      ],
+      "dropdown-crypto-network": [
+        "dist/dropdown-crypto-network/dropdown-crypto-network",
+        "dist/dropdown-crypto-network"
+      ]
     },
     "removeComments": true,
     "forceConsistentCasingInFileNames": true,

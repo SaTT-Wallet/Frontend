@@ -232,6 +232,37 @@
           "defaultConfiguration": "production"
         }
       }
+    },
+    "dropdown-crypto-network": {
+      "projectType": "library",
+      "root": "projects/dropdown-crypto-network",
+      "sourceRoot": "projects/dropdown-crypto-network/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/dropdown-crypto-network/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/dropdown-crypto-network/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/dropdown-crypto-network/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/dropdown-crypto-network/src/test.ts",
+            "tsConfig": "projects/dropdown-crypto-network/tsconfig.spec.json",
+            "karmaConfig": "projects/dropdown-crypto-network/karma.conf.js"
+          }
+        }
+      }
     }
   },
   "defaultProject": "satt-token-atayen"

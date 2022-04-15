@@ -233,6 +233,7 @@
     "karma-jasmine-html-reporter": "~1.7.0",
     "lato-font": "^3.0.0",
     "lint-staged": "^12.3.4",
+    "ng-packagr": "^12.1.0",
     "ngx-spec": "^2.1.5",
     "prettier": "^2.5.1",
     "prettier-eslint": "^13.0.0",
