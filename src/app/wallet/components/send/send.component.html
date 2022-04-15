@@ -84,8 +84,8 @@
                   !this.sendform.get('contact')?.errors?.required)
             }"
           >
-            <!-- <img src="assets/Images/wallet-icon-black.svg" /> -->
-            <img src="assets/Images/qrcode-send.svg" (click)="openqrcode()"/>
+            <img class="wallet-icon" src="assets/Images/wallet-icon-black.svg" /> 
+            <img class="qrcode" src="assets/Images/qrcode-send.svg" (click)="openqrcode()"/>
 
             <input
               formControlName="contact"

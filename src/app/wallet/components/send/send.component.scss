@@ -18,7 +18,12 @@
   z-index: -1 !important;
   opacity: 0 !important;
 }
-
+.qrcode{
+  display: none
+}
+.wallet-icon{
+  display: block
+}
 @media (max-width: 1400px) {
   :host {
     overflow-y: auto !important;
@@ -28,6 +33,7 @@
   }
 }
 @media (min-width: 768px) {
+
   .white-bloc {
     width: 100%;
     padding-top: 120px;
@@ -537,6 +543,12 @@ input:-webkit-autofill:active {
 }
 
 @media (max-width: 767.98px) {
+  .qrcode{
+    display: block
+  }
+  .wallet-icon{
+    display: none
+  }
   // .div-footer {
   //     margin-top: 8vh;
   // }
