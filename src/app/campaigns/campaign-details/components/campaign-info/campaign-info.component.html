@@ -764,7 +764,7 @@
             </div> -->
             <!----------------------------------------------------------------------------------------------------------------->
 
-            <div class="campaign-kits">
+            <div class="campaign-kits" *ngIf="campaignLen || linksLen">
               <!--
                             <div class="d-flex">
                             <h6 *ngIf="campaignLen || linksLen" class="labels pt-2">
@@ -791,10 +791,7 @@
               <div class="row">
                 <div class="row">
                   <div class="col">
-                    <h6
-                      *ngIf="campaignLen || linksLen"
-                      class="camp-kits titre pt-3"
-                    >
+                    <h6 class="camp-kits titre pt-3">
                       {{ 'campaign_details.campaign_kit' | translate }}
                     </h6>
                   </div>
