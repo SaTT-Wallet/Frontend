@@ -31,6 +31,7 @@ export class MissionsComponent implements OnInit {
   isInstagramSelected = false;
   isTwitterSelected = false;
   isLinkedinSelected = false;
+  isTikTokSelected = false;
   isReachLimitActivated = false;
   @Input() id = '';
   disableBtn!: boolean;
@@ -56,6 +57,10 @@ export class MissionsComponent implements OnInit {
       }),
       new FormGroup({
         oracle: new FormControl('instagram'),
+        sub_missions: new FormArray([])
+      }),
+      new FormGroup({
+        oracle: new FormControl('tikTok'),
         sub_missions: new FormArray([])
       })
     ])
@@ -101,6 +106,14 @@ export class MissionsComponent implements OnInit {
         'Add tags #tag01 #tag02 #tag03',
         'Indicate as a paid partnership with our brand'
       ]
+    },
+    {
+      oracle: 'tikTok',
+      sub_missions: [
+        'Post a photo of the product “xxx”',
+        'Add tags #tag01 #tag02 #tag03',
+        'Indicate as a paid partnership with our brand'
+      ]
     }
   ];
 
@@ -111,6 +124,7 @@ export class MissionsComponent implements OnInit {
   showYoutube: boolean = false;
   showLinkedIn: boolean = false;
   showTwitter: boolean = false;
+  showTikTok: boolean = false;
   constructor(private service: DraftCampaignService) {}
   ngOnDestroy(): void {
     this.isDestroyed$.next('');
@@ -166,6 +180,8 @@ export class MissionsComponent implements OnInit {
       } else if (this.closeOracle === 'linkedin') {
         (this.missions.at(2).get('sub_missions') as FormArray).clear();
       } else if (this.closeOracle === 'instagram') {
+        (this.missions.at(4).get('sub_missions') as FormArray).clear();
+      } else if (this.closeOracle === 'tikTok') {
         (this.missions.at(4).get('sub_missions') as FormArray).clear();
       }
       this.campaignMissionsOracl = this.campaignMissionsOracl.filter(
@@ -269,10 +285,7 @@ export class MissionsComponent implements OnInit {
       .pipe(
         debounceTime(500),
         tap((values: any) => {
-          if (
-            this.draftData.id &&
-            !this.notValidMissionData
-          ) {
+          if (this.draftData.id && !this.notValidMissionData) {
             this.service.autoSaveFormOnValueChanges({
               formData: values,
               id: this.id
