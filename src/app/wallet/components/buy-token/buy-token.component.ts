@@ -267,7 +267,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   }
 
   toggleCurrencyType(currencyType: ECurrencyType) {
-    debugger
+    
     this.selectedCurrencyType = currencyType;
     if (currencyType === ECurrencyType.FIAT) {
       this.selectedTargetCurrency = 'USD';
@@ -397,7 +397,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   }
 
   onSelectCurrency(crypto: { value: string; symbol: string } | Crypto) {
-    debugger
+    
     if (this.isCryptoRouter) {
       this.isCryptoRouter = false;
       this.router.navigate([], { queryParams: [] });
@@ -632,9 +632,5 @@ export class BuyTokenComponent implements OnInit, OnChanges {
     this.isDestroyed.unsubscribe();
   }
 
-  swapCryptos() {
-    console.log('from', this.fromSwapCrypto)
-    console.log('to', this.toSwapCrypto)
-
-  }
+  
 }
