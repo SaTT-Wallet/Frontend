@@ -421,7 +421,6 @@ export class CampaignDetailComponent implements OnInit {
                 let objectURL = URL.createObjectURL(data);
                 let urlPicture =
                   this.sanitizer.bypassSecurityTrustUrl(objectURL);
-
                 return {
                   name: kit.name,
                   url: urlPicture,
