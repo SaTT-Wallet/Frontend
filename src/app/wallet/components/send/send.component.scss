@@ -56,7 +56,10 @@
 //     gap: 9rem !important;
 //   }
 // }
-
+.img-size {
+  width: 30px;
+  height: 30px;
+}
 .div-content {
   max-width: 727px;
   background-color: #ffffff;
@@ -796,7 +799,6 @@ input[type='password'] {
 //   }
 // }
 ::ng-deep {
-
   zxing-scanner {
     position: absolute;
     top: 0;
@@ -804,8 +806,6 @@ input[type='password'] {
     height: 100vh;
     left: 0;
     z-index: 999;
-
-
   }
 
   video {

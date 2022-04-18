@@ -7,10 +7,7 @@
     "esModuleInterop": true,
     "target": "es2017",
     "module": "es2020",
-    "lib": [
-      "es2018",
-      "dom"
-    ],
+    "lib": ["es2018", "dom"],
     "paths": {
       "@app/*": ["app/*"],
       "@config/*": ["app/config/*"],
@@ -24,12 +21,10 @@
       "@faq/*": ["app/faq/*"],
       "@campaigns/*": ["app/campaigns/*"],
       "@social-accounts/*": ["app/social-accounts/*"],
-      "@user-settings/*": [
-        "app/user-settings/*"
-      ],
+      "@user-settings/*": ["app/user-settings/*"],
       "dropdown-crypto-network": [
-        "dist/dropdown-crypto-network/dropdown-crypto-network",
-        "dist/dropdown-crypto-network"
+        "../dist/dropdown-crypto-network/dropdown-crypto-network",
+        "../dist/dropdown-crypto-network"
       ]
     },
     "removeComments": true,
@@ -44,15 +39,12 @@
     "downlevelIteration": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
-    "importHelpers": true,
+    "importHelpers": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true,
-    
+    "strictTemplates": true
   }
-
-
 }

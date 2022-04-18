@@ -83,8 +83,8 @@
             },
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
+              "./node_modules/@popperjs/core/dist/umd/popper.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
-              "node_modules/popper.js/dist/umd/popper.min.js",
               "node_modules/intro.js/intro.js",
               "node_modules/intl-tel-input/build/js/intlTelInput.min.js"
             ]

@@ -12,7 +12,6 @@
 
     <!-- <zxing-scanner [formats]="allowedFormats"></zxing-scanner> -->
 
-
     <div
       class="div-content d-flex flex-column align-items-center"
       *ngIf="showAmountBloc"
@@ -23,6 +22,22 @@
             (selectedCrypto)="linstingCrypto($event)"
             [cryptoFromComponent]="this.cryptoToDropdown"
           ></app-dropdown-crypto-network>
+
+          <!-- <lib-dropdown-crypto-network
+            [buttonTextTemplateRef]="btnTpl"
+            [itemsTemplateRef]="listItem"
+            [list]="options"
+            (onSelect)="onSelect($event)"
+          >
+            <ng-template #btnTpl let-selectedItem="selectedItem">
+              <img src="assets/Images/symbol_crypto/{{ selectedItem?.undername2 ? selectedItem?.undername2:'SATT' }}.svg" alt="img" class="img-size" />
+              <span class="btn-text"> {{ selectedItem?.symbol ? selectedItem?.symbol:'SATT'}} </span>
+            </ng-template>
+            <ng-template #listItem let-item="item">
+              <img src="assets/Images/symbol_crypto/{{ item?.undername2 }}.svg" alt="img" class="img-size" />
+              <span class="btn-text"> {{ item?.symbol }} </span>
+            </ng-template>
+          </lib-dropdown-crypto-network> -->
         </div>
         <div class="">
           <input
@@ -85,7 +100,7 @@
             }"
           >
             <!-- <img src="assets/Images/wallet-icon-black.svg" /> -->
-            <img src="assets/Images/qrcode-send.svg" (click)="openqrcode()"/>
+            <img src="assets/Images/qrcode-send.svg" (click)="openqrcode()" />
 
             <input
               formControlName="contact"
@@ -99,9 +114,11 @@
           </div>
         </div>
 
-        <zxing-scanner *ngIf="showScanner" previewFitMode="cover" (scanSuccess)="onCodeResult($event)" ></zxing-scanner>
-    
-
+        <zxing-scanner
+          *ngIf="showScanner"
+          previewFitMode="cover"
+          (scanSuccess)="onCodeResult($event)"
+        ></zxing-scanner>
 
         <div
           class="text-center"

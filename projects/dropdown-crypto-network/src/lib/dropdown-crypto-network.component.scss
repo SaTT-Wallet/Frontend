@@ -1,0 +1,45 @@
+:host {
+  display: inline-block;
+}
+
+.custom-btn {
+  border: none;
+  background: transparent;
+  padding: 0.5em 1em;
+  width: 100%;
+  text-align: left;
+  min-width: 10rem;
+}
+
+.item {
+  padding: 0.5em 1em;
+  cursor: pointer;
+}
+
+.item:hover {
+  background-color: rgb(196, 207, 245);
+}
+
+.dropdown-items {
+  width: 98%;
+  border: none;
+  background: none;
+  position: relative !important;
+  transform: none !important;
+  top: 0px !important;
+  max-height: 150px;
+  overflow: auto;
+}
+
+.dropdown-wrapper {
+  outline: none !important;
+  border-radius: 30px;
+  border: 1px solid #d6d6e8;
+  width: 184px;
+  height: max-content;
+  z-index: 3;
+  text-overflow: ellipsis;
+  overflow-y: auto;
+  text-overflow: ellipsis;
+  max-height: 363px;
+}

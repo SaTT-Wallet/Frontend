@@ -1,0 +1,38 @@
+<ng-template #defaultTemplate>
+  <span class="element">Your list goes here</span>
+</ng-template>
+<div class="dropdown dropdown-wrapper">
+  <button
+    class="dropdown-toggle custom-btn"
+    type="button"
+    id="dropdownMenuButton1"
+    data-bs-toggle="dropdown"
+    aria-expanded="false"
+  >
+    <ng-container
+      *ngTemplateOutlet="
+        buttonTextTemplateRef || defaultTemplate;
+        context: { selectedItem: this.selectedItem }
+      "
+    ></ng-container>
+  </button>
+  <ul
+    class="dropdown-menu dropdown-items"
+    aria-labelledby="dropdownMenuButton1"
+  >
+    <ng-container *ngFor="let item of list.items">
+      <li
+        *ngIf="item !== selectedItem"
+        class="item"
+        (click)="onSelectItem(item)"
+      >
+        <ng-container
+          *ngTemplateOutlet="
+            itemsTemplateRef || defaultTemplate;
+            context: { item: this.item }
+          "
+        ></ng-container>
+      </li>
+    </ng-container>
+  </ul>
+</div>

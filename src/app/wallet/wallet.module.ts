@@ -18,6 +18,8 @@ import { DatePipe, DecimalPipe } from '@angular/common';
 import { ChartModule } from 'angular-highcharts';
 import { CryptoInfoComponent } from './components/crypto-info/crypto-info.component';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { DropdownCryptoNetworkModule } from '../../../projects/dropdown-crypto-network/src/public-api';
+// import { DropdownCryptoNetworkModule } from 'dropdown-crypto-network';
 
 @NgModule({
   declarations: [
@@ -41,6 +43,7 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
     NgxIntlTelInputModule,
     ChartModule,
     ZXingScannerModule,
+    DropdownCryptoNetworkModule
   ],
   providers: [DecimalPipe, DatePipe]
 })

@@ -35,6 +35,26 @@ import { Location } from '@angular/common';
 import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.service';
 import { BarcodeFormat } from '@zxing/library';
 import { Router } from '@angular/router';
+import { IOptionsList } from 'dropdown-crypto-network';
+
+export interface ICrypto {
+  AddedToken: boolean
+  contract: string
+  contrat: string
+  decimal: number
+  name: string
+  network: string
+  picUrl: boolean
+  price: string
+  quantity: string
+  symbol: string
+  total_balance: string
+  type: string
+  typetab: string
+  undername: string
+  undername2: string
+  variation: number
+}
 @Component({
   selector: 'app-send',
   templateUrl: './send.component.html',
@@ -112,6 +132,11 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   qrResultString: string | null | undefined ;
   showScanner: boolean = false;
   private kyc$ = this.kycFacadeService.kyc$;
+
+  options: IOptionsList<any> = {
+    items: this.dataList,
+  };
+
   constructor(
     private accountFacadeService: AccountFacadeService,
     public sidebarService: SidebarService,
@@ -155,6 +180,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.showScanner = false;
   }
 
+  onSelect(item: any) {
+    console.log('event', item);
+  }
   //get list of crypto for user
   getusercrypto() {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -179,6 +207,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.showWalletSpinner = false;
         data = JSON.parse(JSON.stringify(data));
         this.dataList = data;
+        this.options.items = data
+        console.log('dataList',this.options.items);
         this.cryptoList = [
           ...this.dataList.filter((data: any) => data.symbol === 'SATT'),
 

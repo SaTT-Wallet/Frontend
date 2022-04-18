@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { DropdownCryptoNetworkComponent } from './dropdown-crypto-network.component';
 
@@ -8,6 +9,7 @@ import { DropdownCryptoNetworkComponent } from './dropdown-crypto-network.compon
     DropdownCryptoNetworkComponent
   ],
   imports: [
+    CommonModule
   ],
   exports: [
     DropdownCryptoNetworkComponent
