@@ -415,7 +415,9 @@
                   >
                     <li
                       class="li-select"
-                      (click)="onSelectCrypto(crypto.symbole, crypto.logo)"
+                      (click)="
+                        onSelectCrypto(crypto.symbole, crypto.logo, crypto)
+                      "
                       *ngIf="crypto.symbole !== requestedCrypto"
                     >
                       <img
@@ -504,7 +506,10 @@
                 selectedCurrencyType === eCurrencyType.BEP20 &&
                 selectedBlockchainNetwork === eBlockchainNetwork.BEP20
               "
-              href="https://pancakeswap.finance/swap"
+              (click)="swapCryptos()"
+              href="https://pancakeswap.finance/swap?outputCurrency={{
+                fromSwapCrypto.contract
+              }}&inputCurrency={{ toSwapCrypto.contract }}"
               target="_blank"
             >
               <img

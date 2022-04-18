@@ -106,6 +106,8 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   purshaseCryptoPriceInUSD$ = new Observable<number>();
   rateExchangePerRequestedCrypto$ = new Observable<number>();
   showSpinner = false;
+  toSwapCrypto: any;
+  fromSwapCrypto: any;
 
   constructor(
     private walletFacade: WalletFacadeService,
@@ -265,6 +267,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   }
 
   toggleCurrencyType(currencyType: ECurrencyType) {
+    debugger
     this.selectedCurrencyType = currencyType;
     if (currencyType === ECurrencyType.FIAT) {
       this.selectedTargetCurrency = 'USD';
@@ -303,7 +306,11 @@ export class BuyTokenComponent implements OnInit, OnChanges {
           crypto.type.toUpperCase() === this.selectedBlockchainNetwork
       );
     }
-
+    this.toSwapCrypto = this.sourceCryptoList.find(
+      (crypto: Crypto) =>
+        crypto.name.includes('SATT') &&
+        crypto.type.toUpperCase() === this.selectedBlockchainNetwork
+    )
     this.requestedCrypto = this.sourceCryptoList.find(
       (crypto: Crypto) =>
         crypto.name.includes('SATT') &&
@@ -376,7 +383,8 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       }, 2000);
     }
   }
-  onSelectCrypto(cryptoSymbol: string, logo: any) {
+  onSelectCrypto(cryptoSymbol: string, logo: any, crypto?: any) {
+    this.toSwapCrypto = crypto
     if (this.isCryptoRouter) {
       this.isCryptoRouter = false;
       this.router.navigate([], { queryParams: [] });
@@ -389,6 +397,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   }
 
   onSelectCurrency(crypto: { value: string; symbol: string } | Crypto) {
+    debugger
     if (this.isCryptoRouter) {
       this.isCryptoRouter = false;
       this.router.navigate([], { queryParams: [] });
@@ -399,6 +408,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       ).value;
     } else {
       this.targetCurrency = crypto;
+      this.fromSwapCrypto = crypto;
       this.switchTokensWhenIdentical();
     }
 
@@ -420,6 +430,8 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       this.selectedTargetCurrency = (
         this.targetCurrencyList[0] as Crypto
       ).symbole;
+
+      this.fromSwapCrypto = this.targetCurrencyList[0] as Crypto;
     }
   }
 
@@ -618,5 +630,11 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   ngOnDestroy(): void {
     this.isDestroyed.next('');
     this.isDestroyed.unsubscribe();
+  }
+
+  swapCryptos() {
+    console.log('from', this.fromSwapCrypto)
+    console.log('to', this.toSwapCrypto)
+
   }
 }
