@@ -3,18 +3,25 @@
 </ng-template>
 <div class="dropdown dropdown-wrapper">
   <button
-    class="dropdown-toggle custom-btn"
+    class="custom-btn"
     type="button"
     id="dropdownMenuButton1"
     data-bs-toggle="dropdown"
     aria-expanded="false"
   >
+  <div>
+
     <ng-container
-      *ngTemplateOutlet="
-        buttonTextTemplateRef || defaultTemplate;
-        context: { selectedItem: this.selectedItem }
-      "
+    *ngTemplateOutlet="
+    buttonTextTemplateRef || defaultTemplate;
+    context: { selectedItem: this.selectedItem }
+    "
     ></ng-container>
+  </div>
+  <div>
+
+    <i class="chevron2 fa fa-fw"></i>
+  </div>  
   </button>
   <ul
     class="dropdown-menu dropdown-items"

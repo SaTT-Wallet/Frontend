@@ -4,15 +4,18 @@
 
 .custom-btn {
   border: none;
-  background: transparent;
-  padding: 0.5em 1em;
+  background: white;
+  padding: 0.5em;
   width: 100%;
   text-align: left;
   min-width: 10rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .item {
-  padding: 0.5em 1em;
+  padding: 0.5em;
   cursor: pointer;
 }
 
@@ -42,4 +45,18 @@
   overflow-y: auto;
   text-overflow: ellipsis;
   max-height: 363px;
+  background: white;
+}
+
+.chevron2:before {
+  font-family: 'FontAwesome';
+  font-style: normal;
+  font-size: 1.2rem;
+  content: '\f107';
+  display: inline-block;
+  line-height: 22px;
+  color: #00041b;
+  position: absolute;
+  right: 10px;
+  top: 15px;
 }

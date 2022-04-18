@@ -35,7 +35,7 @@ import { Location } from '@angular/common';
 import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.service';
 import { BarcodeFormat } from '@zxing/library';
 import { Router } from '@angular/router';
-import { IOptionsList } from 'dropdown-crypto-network';
+import { IOptionsList } from 'atayen-ui';
 
 export interface ICrypto {
   AddedToken: boolean

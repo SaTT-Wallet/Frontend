@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DropdownCryptoNetworkService } from './dropdown-crypto-network.service';
+import { DropdownCryptoNetworkService } from './atayen-ui.service';
 
 describe('DropdownCryptoNetworkService', () => {
   let service: DropdownCryptoNetworkService;
