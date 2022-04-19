@@ -95,11 +95,13 @@
       />
     </a>
   </div>
-  <div
-    class="details-block"
-    [routerLink]="['/home/campaign/', prom.campaign._id]"
-  >
-    <div class="div-name-date-gains" role="button" tabindex="0">
+  <div class="details-block">
+    <div
+      class="div-name-date-gains"
+      role="button"
+      tabindex="0"
+      [routerLink]="['/home/campaign/', prom.campaign._id]"
+    >
       <div
         class="div-name-date"
         [ngClass]="{
