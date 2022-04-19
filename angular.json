@@ -237,7 +237,7 @@
       "projectType": "library",
       "root": "projects/atayen-ui",
       "sourceRoot": "projects/atayen-ui/src",
-      "prefix": "lib",
+      "prefix": "auilib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",

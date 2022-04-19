@@ -11,7 +11,7 @@ export interface IOptionsList<T> {
   items: T[];
 }
 @Component({
-  selector: 'lib-custom-dropdown',
+  selector: 'auilib-custom-dropdown',
   templateUrl:'./custom-dropdown.component.html',
   styleUrls: ['./custom-dropdown.component.scss'
   ]
