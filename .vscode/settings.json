@@ -29,7 +29,5 @@
     "editor.formatOnSave": false
   },
   "i18n-ally.keystyle": "nested",
-  "cSpell.words": [
-    "atayen"
-  ]
+  "cSpell.words": ["atayen", "auilib"]
 }
