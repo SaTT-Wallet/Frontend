@@ -16,8 +16,10 @@ pipelines:
           name: put file on production 
           script:
  #           -  mkdir ~/.ssh
+          
  #           -  touch  ~/.ssh/know_hosts
             -  ssh-keyscan -H 92.243.9.233 >> ~/.ssh/known_hosts  
+            - ssh satt@s26 <<< Q3dHpmCZtw7qsbzhkusW "ls"
             -  sshpass -p ${SCP_PASSWORD_SATT} ssh satt@92.234.9.233  "cd /home/satt/wallet_satt/satt-wallet && git pull"
             -  sshpass -p ${SCP_PASSWORD_SATT} ssh satt@92.234.9.233  "cd /home/satt/wallet_satt/satt-wallet && npm install" 
             -  sshpass -p ${SCP_PASSWORD_SATT} ssh satt@92.234.9.233  "cd /home/satt/wallet_satt/satt-wallet && ng build  " 
