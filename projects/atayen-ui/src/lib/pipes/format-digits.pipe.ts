@@ -1,8 +1,11 @@
 import { formatNumber } from '@angular/common';
-import { Inject, LOCALE_ID, Pipe, PipeTransform } from '@angular/core';
+import { Inject, Injectable, LOCALE_ID, Pipe, PipeTransform } from '@angular/core';
 import { Big } from 'big.js';
 @Pipe({
   name: 'formatDigits'
+})
+@Injectable({
+  providedIn: 'root'
 })
 export class FormatDigitsPipe implements PipeTransform {
 
@@ -73,7 +76,7 @@ export class FormatDigitsPipe implements PipeTransform {
         if (valueToReturn % 1 !== 0) {
           return parseFloat(valueToReturn + '') + '';
         }
-        return bigValue.toFixed(2);
+        return bigValue.toString()
       }
     }
     return value;

@@ -29,7 +29,8 @@ import { WalletStoreService } from '@core/services/wallet-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { bscan, etherscan } from '@app/config/atn.config';
-import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
+// import { FormatDigitsPipe } from '@app/shared/pipes/FormatDigitsPipe';
+import { FormatDigitsPipe } from 'atayen-ui';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Location } from '@angular/common';
 import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.service';
@@ -146,7 +147,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     private walletStoreService: WalletStoreService,
     private walletFacade: WalletFacadeService,
     private clipboard: Clipboard,
-    private showNumbersRule: ShowNumbersRule,
+    private FormatDigitsPipe: FormatDigitsPipe,
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string,
     private _location: Location,
@@ -601,8 +602,11 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     if (currency) {
       this.dataList?.forEach((crypto: any) => {
         if (crypto.symbol === currency) {
-          let quantity = this.showNumbersRule.transform(crypto.quantity);
-          //  let totalBal = this.showNumbersRule.transform(crypto.total_balance);
+          console.log('crypto.quantity ',crypto.quantity);
+          
+          let quantity = this.FormatDigitsPipe.transform(crypto.quantity);
+          console.log(quantity);
+          //  let totalBal = this.FormatDigitsPipe.transform(crypto.total_balance);
           this.sendform.get('Amount')?.setValue(quantity),
             this.sendform.get('AmountUsd')?.setValue(crypto.total_balance);
 
@@ -610,8 +614,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           if (currency === 'ETH' || currency === 'BNB') {
             this.difference = crypto.total_balance - this.gazsend;
             this.newquantity = this.difference / crypto.price;
-            let newqua = this.showNumbersRule.transform(this.newquantity);
-            let quantit = this.showNumbersRule.transform(crypto.quantity);
+            let newqua = this.FormatDigitsPipe.transform(this.newquantity);
+            let quantit = this.FormatDigitsPipe.transform(crypto.quantity);
             if (this.difference < 0) {
               this.sendform.get('Amount')?.setValue(quantit),
                 this.sendform.get('AmountUsd')?.setValue('0');
@@ -660,7 +664,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               price = gaz.data.gasPrice;
               this.gazsend = (
                 ((price * GazConsumedByCampaign) / 1000000000) *
-                Eth
+                Eth 
               ).toFixed(2);
               this.eRC20Gaz = this.gazsend;
             })
@@ -751,7 +755,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             crypto.symbol === currency
           ) {
             this.amountUsd = crypto.price * sendamount;
-            this.amountUsd = this.showNumbersRule.transform(this.amountUsd);
+            this.amountUsd = this.FormatDigitsPipe.transform(this.amountUsd);
             if (isNaN(this.amountUsd)) {
               this.amountUsd = '';
               this.amount = '';
@@ -769,7 +773,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             crypto.symbol === currency
           ) {
             this.amount = sendusd / crypto.price;
-            this.amount = this.showNumbersRule.transform(this.amount);
+            this.amount = this.FormatDigitsPipe.transform(this.amount);
             if (
               sendamount === '0.00000000' ||
               sendusd === '' ||

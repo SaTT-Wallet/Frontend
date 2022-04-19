@@ -149,13 +149,9 @@
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular-builders/jest:run",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
-            "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
               "src/assets"
@@ -185,18 +181,12 @@
               ]
             },
             "development": {
-
               "optimization": false,
-
               "sourceMap": true,
-
               "extractLicenses": false
-
             }
           },
           "defaultConfiguration": "production"
-
-
         },
         "serve-ssr": {
           "builder": "@nguniversal/builders:ssr-dev-server",
@@ -255,11 +245,9 @@
           "defaultConfiguration": "production"
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular-builders/jest:run",
           "options": {
-            "main": "projects/atayen-ui/src/test.ts",
-            "tsConfig": "projects/atayen-ui/tsconfig.spec.json",
-            "karmaConfig": "projects/atayen-ui/karma.conf.js"
+            "tsConfig": "projects/atayen-ui/tsconfig.spec.json"
           }
         }
       }
