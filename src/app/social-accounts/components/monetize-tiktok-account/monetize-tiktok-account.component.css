@@ -141,6 +141,8 @@
     justify-content: center;
     width: 253px;
     text-align: center;
+    box-shadow: 0px 4px 4px 0px #00000040;
+
 }
 
 .div-connect-tiktok:hover {
