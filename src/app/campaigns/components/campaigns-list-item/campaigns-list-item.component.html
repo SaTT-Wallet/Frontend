@@ -118,6 +118,7 @@
           !isFacebookSelected &&
           !isYoutubeSelected &&
           !isLinkedinSelected &&
+          !isTikTokSelected &&
           campaign.type === 'draft'
         "
       />
@@ -130,6 +131,7 @@
           !isFacebookSelected &&
           !isYoutubeSelected &&
           !isLinkedinSelected &&
+          !isTikTokSelected &&
           campaign.type === 'draft'
         "
       />
@@ -142,6 +144,7 @@
           !isFacebookSelected &&
           !isYoutubeSelected &&
           !isLinkedinSelected &&
+          !isTikTokSelected &&
           campaign.type === 'draft'
         "
       />
@@ -157,21 +160,35 @@
           !isFacebookSelected &&
           !isYoutubeSelected &&
           !isLinkedinSelected &&
+          !isTikTokSelected &&
           campaign.type === 'draft'
         "
       />
       <img
-        src="./assets/Images/linkedin-desactivate.svg"
+        src="./assets/Images/desabled-linkedin.svg"
         *ngIf="
           !isInstagramSelected &&
           !isTwitterSelected &&
           !isFacebookSelected &&
           !isYoutubeSelected &&
           !isLinkedinSelected &&
+          !isTikTokSelected &&
           campaign.type === 'draft'
         "
       />
-      <img src="./assets/Images/linkedin.svg" *ngIf="isLinkedinSelected" />
+      <img
+        src="./assets/Images/desabled-tikTok.svg"
+        *ngIf="
+          !isInstagramSelected &&
+          !isTwitterSelected &&
+          !isFacebookSelected &&
+          !isYoutubeSelected &&
+          !isLinkedinSelected &&
+          !isTikTokSelected &&
+          campaign.type === 'draft'
+        "
+      />
+      <img src="./assets/Images/tikTok.svg" *ngIf="isTikTokSelected" />
     </div>
 
     <h3 class="title" [ngClass]="{ 'gray-title': !campaign?.hash }">
