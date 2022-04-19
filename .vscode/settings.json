@@ -8,7 +8,7 @@
     "editor.formatOnSave": false
   },
   "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": true
     },
