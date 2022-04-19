@@ -64,7 +64,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes, {
       anchorScrolling: 'enabled',
       scrollPositionRestoration: 'enabled',
-      enableTracing: true, // set it true only in dev mode
+      enableTracing: false, // set it true only in dev mode
       initialNavigation: 'enabled'
     })
   ],
