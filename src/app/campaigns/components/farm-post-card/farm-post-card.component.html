@@ -95,11 +95,13 @@
       />
     </a>
   </div>
-  <div
-    class="details-block"
-    [routerLink]="['/home/campaign/', prom.campaign._id]"
-  >
-    <div class="div-name-date-gains" role="button" tabindex="0">
+  <div class="details-block">
+    <div
+      class="div-name-date-gains"
+      role="button"
+      tabindex="0"
+      [routerLink]="['/home/campaign/', prom.campaign._id]"
+    >
       <div
         class="div-name-date"
         [ngClass]="{
@@ -643,7 +645,11 @@
             class="buttom_camp_reject"
             (click)="openModal(rejectLinkModal)"
           >
-            <img class="icon-reject-btn" src="/assets/Images/reject-icon.svg" />
+            <img
+              class="icon-reject-btn"
+              style="align-self: center"
+              src="/assets/Images/reject-icon.svg"
+            />
           </button>
           <button
             type="button"
@@ -651,6 +657,7 @@
             class="buttom_camp_accept"
           >
             <img
+              style="align-self: center"
               class="icon-accept-btn"
               src="../../../../assets/Images/accept-icon.svg"
             />
