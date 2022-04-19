@@ -424,7 +424,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.onDestroy$))
         .subscribe(
           (res: any) => {
-            if (res.message === 'success' && res.code === 200) {
+           // if (res.message === 'success' && res.code === 200) {
               this.formExportDataSubmitted = false;
               const file = new Blob([JSON.stringify(res)], {
                 type: 'application/octet-stream'
@@ -441,7 +441,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
               this.modalService.dismissAll();
               this.showSpinnerBTC = false;
               this.showSpinnerETH = false;
-            }
+          //  }
 
             // }
           },
@@ -480,7 +480,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.onDestroy$))
         .subscribe(
           (res: any) => {
-            if (res.message === 'success' && res.code === 200) {
+         //   if (res.message === 'success' && res.code === 200) {
               this.showSpinner = false;
               // if (res.error === 'Wrong password') {
               //   this.formExportDataBTC
@@ -504,7 +504,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
               this.showSpinnerBTC = false;
               this.showSpinnerETH = false;
               // }
-            }
+            //}
           },
           (err) => {
             if (
