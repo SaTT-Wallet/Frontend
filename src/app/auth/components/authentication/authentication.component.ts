@@ -341,7 +341,7 @@ getCookie(key: string){
             }
           }
           if (p.token) {
-            this.showBigSpinner = true;
+            this.showBigSpinner = false;
             let token = JSON.parse(p.token);
             this.tokenStorageService.saveToken(token.access_token);
             this.tokenStorageService.saveExpire(token.expires_in);
@@ -378,12 +378,13 @@ getCookie(key: string){
             this.showBigSpinner = false;
           } else {
             if (
-              !response.completed ||
+              // eslint-disable-next-line eqeqeq
+              response.completed == '0' ||
+              response.completed === false ||
               (response.completed && !response.enabled)
             ) {
-              this.router.navigate(['social-registration/completeProfile']);
-              this.showBigSpinner = true;
-              this.onDestroy$.next('');
+              this.router.navigateByUrl('/social-registration/completeProfile');
+              this.showBigSpinner = false;
               // this.spinner.hide();
             } else {
               return this.walletFacade.getUserWallet().pipe(
