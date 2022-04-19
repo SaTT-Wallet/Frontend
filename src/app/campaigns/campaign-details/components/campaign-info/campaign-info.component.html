@@ -425,14 +425,14 @@
               <div
                 class="d-flex justify-content-center gap-2 align-items-center"
                 *ngIf="
-                  campaign.isOwnedByUser &&
+                  !campaign.isOwnedByUser &&
                   bounty.oracle === 'tikTok' &&
                   channelTikTok?.length === 0
                 "
                 (click)="linkAccount()"
               >
                 <div class="">
-                  <div class="btn-connect-twitter position-relative login_img">
+                  <div class="btn-connect-tikTok position-relative login_img">
                     <img
                       src="assets/Images/tikTok-icon.svg"
                       class="icon-twitter"
@@ -697,14 +697,14 @@
               <div
                 class="d-flex justify-content-center gap-2 align-items-center"
                 *ngIf="
-                  campaign.isOwnedByUser &&
+                  !campaign.isOwnedByUser &&
                   ratio.oracle === 'tikTok' &&
                   channelTikTok?.length === 0
                 "
                 (click)="linkAccount()"
               >
                 <div class="">
-                  <div class="btn-connect-twitter position-relative login_img">
+                  <div class="btn-connect-tikTok position-relative login_img">
                     <img
                       src="assets/Images/tikTok-icon.svg"
                       class="icon-twitter"
