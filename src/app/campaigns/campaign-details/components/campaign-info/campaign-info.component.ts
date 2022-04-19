@@ -164,6 +164,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
   channelFacebook: any;
   channelInstagram: any;
   channelLinkedin: any;
+  channelTikTok: any;
   arrayMission: Array<{ mission: string }>;
   showmoonboy: boolean = false;
   constructor(
@@ -921,6 +922,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
             this.channelTwitter = data.twitter;
             this.channelFacebook = data.facebook;
             this.channelLinkedin = data.linkedin;
+            this.channelTikTok = [];
           }
         }
       );
