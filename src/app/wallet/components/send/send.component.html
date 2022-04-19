@@ -12,7 +12,6 @@
 
     <!-- <zxing-scanner [formats]="allowedFormats"></zxing-scanner> -->
 
-
     <div
       class="div-content d-flex flex-column align-items-center"
       *ngIf="showAmountBloc"
@@ -84,8 +83,15 @@
                   !this.sendform.get('contact')?.errors?.required)
             }"
           >
-            <img class="wallet-icon" src="assets/Images/wallet-icon-black.svg" /> 
-            <img class="qrcode" src="assets/Images/qrcode-send.svg" (click)="openqrcode()"/>
+            <img
+              class="wallet-icon"
+              src="assets/Images/wallet-icon-black.svg"
+            />
+            <img
+              class="qrcode"
+              src="assets/Images/qrcode-send.svg"
+              (click)="openqrcode()"
+            />
 
             <input
               formControlName="contact"
@@ -99,9 +105,11 @@
           </div>
         </div>
 
-        <zxing-scanner *ngIf="showScanner" previewFitMode="cover" (scanSuccess)="onCodeResult($event)" ></zxing-scanner>
-    
-
+        <zxing-scanner
+          *ngIf="showScanner"
+          previewFitMode="cover"
+          (scanSuccess)="onCodeResult($event)"
+        ></zxing-scanner>
 
         <div
           class="text-center"
