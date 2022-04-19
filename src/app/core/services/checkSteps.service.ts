@@ -20,7 +20,6 @@ export class checkStepsService implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot): boolean | UrlTree {
     let url: any;
     url = route.url[0].path;
-
     if (url === 'activation-mail') {
       if (this.tokenStorageService.getEnabled() === '0') {
         return true;
