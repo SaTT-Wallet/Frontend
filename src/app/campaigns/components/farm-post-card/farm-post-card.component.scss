@@ -1134,8 +1134,9 @@ input[type='checkbox']:checked + label {
     .div-havested-buttons {
       display: flex;
       justify-content: flex-end;
-      width: 14vw;
+      width: 12vw;
       align-items: center;
+      margin-right: 1em;
     }
   }
   @media (min-width: 1900px) {
