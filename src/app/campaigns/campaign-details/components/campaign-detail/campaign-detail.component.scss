@@ -561,6 +561,9 @@
 }
 
 @media (max-width: 767.98px) {
+  .hide-mobile {
+    display: none !important;
+  }
   .desktopClass {
     display: none;
   }
@@ -965,9 +968,6 @@ a {
   // :host {
   //   padding: 0 1em;
   // }
-  .showMobile {
-    display: none !important;
-  }
 }
 
 .div-footer {
