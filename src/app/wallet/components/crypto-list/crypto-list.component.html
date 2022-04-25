@@ -10,12 +10,26 @@
       <!------------------------------------------------------------------------------------------------------------------------------------->
       <div class="row d-flex crypto-data-table">
         <app-loading-logo *ngIf="showWalletSpinner"></app-loading-logo>
-        <div *ngIf="cryptoList | filterByname: search as res" class="d-flex justify-content-center">
+        <div
+          *ngIf="cryptoList | filterByname: search as res"
+          class="d-flex justify-content-center"
+        >
           <div class="cryptoContainer">
-            <input id="key" class="key d-flex search-input-wrapper mt-3" type="text" name="search" autocomplete="on"
-              autocomplete="off" placeholder="Search a token or add your own" [(ngModel)]="search"
-              (ngModelChange)="onTextChange($event)" />
-            <div class="row d-flex make-center" *ngIf="res.length === 0 && this.searched">
+            <input
+              id="key"
+              class="key d-flex search-input-wrapper mt-3"
+              type="text"
+              name="search"
+              autocomplete="on"
+              autocomplete="off"
+              placeholder="Search a token or add your own"
+              [(ngModel)]="search"
+              (ngModelChange)="onTextChange($event)"
+            />
+            <div
+              class="row d-flex make-center"
+              *ngIf="res.length === 0 && this.searched"
+            >
               <img class="not-found" src="/assets/Images/not-found.svg " />
 
               <p class="result-found make-center mt-3">
@@ -23,15 +37,36 @@
               </p>
             </div>
             <div *ngFor="let crypto of res; trackBy: trackByCryptoListSymbol">
-              <div class="w-100 row pt-2 pb-2 d-flex justify-content-center" style="border-bottom: 1px solid #f6f6ff">
-                <div class="d-flex justify-content-start" style="width: 90%" [id]="crypto.symbol">
-                  <div class="col-2 d-flex align-items-center justify-content-start">
+              <div
+                class="w-100 row pt-2 pb-2 d-flex justify-content-center"
+                style="border-bottom: 1px solid #f6f6ff"
+              >
+                <div
+                  class="d-flex justify-content-start"
+                  style="width: 90%"
+                  [id]="crypto.symbol"
+                >
+                  <div
+                    class="col-2 d-flex align-items-center justify-content-start"
+                  >
                     <div class="d-flex align-items-center w-100 width-img">
-                      <img class="Icons" *ngIf="!crypto.picUrl" src="../../../assets/Images/symbol_crypto/{{
+                      <img
+                        class="Icons"
+                        *ngIf="!crypto.picUrl"
+                        src="../../../assets/Images/symbol_crypto/{{
                           crypto.undername2
-                        }}.svg" alt="" />
-                      <img class="Icons" *ngIf="crypto.picUrl" [src]="crypto.picUrl" alt="" />
-                      <div class="div-ellipsis-span-name CryptoID d-flex justify-content-center align-items-center">
+                        }}.svg"
+                        alt=""
+                      />
+                      <img
+                        class="Icons"
+                        *ngIf="crypto.picUrl"
+                        [src]="crypto.picUrl"
+                        alt=""
+                      />
+                      <div
+                        class="div-ellipsis-span-name CryptoID d-flex justify-content-center align-items-center"
+                      >
                         <span class="Cryptoname ellipsis-span-name ml-2">{{
                           crypto.name === 'Binance-Peg BUSD Token'
                           + ? 'BUSD'
@@ -41,7 +76,9 @@
                     </div>
                   </div>
                   <!----------------------------------------------------------------------------------------------------------------->
-                  <div class="col-2 d-flex align-items-center justify-content-start">
+                  <div
+                    class="col-2 d-flex align-items-center justify-content-start"
+                  >
                     <div class="cryptopri">
                       <div class="textalignEnd qte">
                         <span class="indicatorfont">
@@ -56,7 +93,9 @@
                       </ng-template>
                     </div>
                   </div>
-                  <div class="col-2 d-flex align-items-center justify-content-start">
+                  <div
+                    class="col-2 d-flex align-items-center justify-content-start"
+                  >
                     <div class="cryptopri">
                       <div class="cryptoprice">
                         <ng-container>
@@ -75,7 +114,9 @@
                   </div> -->
                     </div>
                   </div>
-                  <div class="col-2 d-flex align-items-center justify-content-start">
+                  <div
+                    class="col-2 d-flex align-items-center justify-content-start"
+                  >
                     <div class="cryptopri">
                       <div class="totalbalance textalignEnd">
                         <ng-container>
@@ -105,34 +146,58 @@
                   <!------------------------------------------------------------------------------------------------------------->
 
                   <!------------------------------------------------------------------------------------------------------------->
-                  <div class="col-1 d-flex align-items-center justify-content-start">
+                  <div
+                    class="col-1 d-flex align-items-center justify-content-start"
+                  >
                     <div class="cryptopri indicatorPriceChange">
-                      <span class="indicatorfont ms-1" [ngStyle]="{ color: crypto.arrowColor }">
+                      <span
+                        class="indicatorfont ms-1"
+                        [ngStyle]="{ color: crypto.arrowColor }"
+                      >
                         {{ crypto.arrow }}{{ crypto.variation }}%
                       </span>
                     </div>
                   </div>
                   <div class="col-4">
                     <div class="row">
-                      <div class="col-2 d-flex justify-content-end align-items-center">
-                        <a (click)="
+                      <div
+                        class="col-2 d-flex justify-content-end align-items-center"
+                      >
+                        <a
+                          (click)="
                             goTosend(
                               crypto.symbol,
                               crypto.network,
                               crypto.picUrl
                             )
-                          ">
-                          <img src="/assets/Images/Shape-receive.svg" class="send-receive" />
+                          "
+                        >
+                          <img
+                            src="/assets/Images/Shape-receive.svg"
+                            class="send-receive"
+                          />
                         </a>
                       </div>
-                      <div class="col-2 d-flex justify-content-center align-items-center">
-                        <a id="{{ crypto.symbol }}" (click)="goTorecieve(crypto.symbol, crypto.network)">
-                          <img src="/assets/Images/Shape-send.svg" class="send-receive" id="{{ crypto.symbol }}"
-                            alt="{{ crypto.type }}" />
+                      <div
+                        class="col-2 d-flex justify-content-center align-items-center"
+                      >
+                        <a
+                          id="{{ crypto.symbol }}"
+                          (click)="goTorecieve(crypto.symbol, crypto.network)"
+                        >
+                          <img
+                            src="/assets/Images/Shape-send.svg"
+                            class="send-receive"
+                            id="{{ crypto.symbol }}"
+                            alt="{{ crypto.type }}"
+                          />
                         </a>
                       </div>
-                      <div class="col-2 d-flex justify-content-start align-items-center">
-                        <div *ngIf="
+                      <div
+                        class="col-2 d-flex justify-content-start align-items-center"
+                      >
+                        <div
+                          *ngIf="
                             [
                               'SATT',
                               '(BEP20)',
@@ -143,39 +208,64 @@
                               'BTC',
                               'ETH'
                             ].includes(crypto.undername)
-                          ">
-                          <img class="buy-token border-0" src="/assets/Images/new-buy-token.svg"
-                            (click)="goToBuy(crypto.symbol, crypto.network)" />
+                          "
+                        >
+                          <img
+                            class="buy-token border-0"
+                            src="/assets/Images/new-buy-token.svg"
+                            (click)="goToBuy(crypto.symbol, crypto.network)"
+                          />
                         </div>
-                        <a href="https://app.uniswap.org/#/swap?outputCurrency=0x70a6395650b47d94a77de4cfedf9629f6922e645 "
-                          target="_blank" rel="noopener">
+                        <a
+                          href="https://app.uniswap.org/#/swap?outputCurrency=0x70a6395650b47d94a77de4cfedf9629f6922e645 "
+                          target="_blank"
+                          rel="noopener"
+                        >
                           <div *ngIf="crypto.undername === 'WSATT'">
                             <!-- <button class="background3 mt-4 ms-2 pt-2 border-0">
                               <span class="icon-ins buyIcon"></span>
                             </button> -->
-                            <img class="buy-token border-0" src="/assets/Images/new-buy-token.svg" />
+                            <img
+                              class="buy-token border-0"
+                              src="/assets/Images/new-buy-token.svg"
+                            />
                           </div>
                         </a>
-                        <a href="https://app.uniswap.org/#/swap?outputCurrency=0x70a6395650b47d94a77de4cfedf9629f6922e645 "
-                          target="_blank" rel="noopener" *ngIf="crypto.AddedToken">
+                        <a
+                          href="https://app.uniswap.org/#/swap?outputCurrency=0x70a6395650b47d94a77de4cfedf9629f6922e645 "
+                          target="_blank"
+                          rel="noopener"
+                          *ngIf="crypto.AddedToken"
+                        >
                           <div *ngIf="crypto.network === 'ERC20'">
                             <!-- <button class="background3 mt-4 ms-2 pt-2 border-0">
                             <span class="icon-ins buyIcon"></span>
                           </button> -->
-                            <img class="buy-token border-0" src="/assets/Images/new-buy-token.svg" />
+                            <img
+                              class="buy-token border-0"
+                              src="/assets/Images/new-buy-token.svg"
+                            />
                           </div>
                         </a>
-                        <a href="https://pancakeswap.finance/swap#/swap?inputCurrency=USDT&outputCurrency=0x448bee2d93be708b54ee6353a7cc35c4933f1156"
-                          target="_blank" rel="noopener" *ngIf="crypto.AddedToken">
+                        <a
+                          href="https://pancakeswap.finance/swap#/swap?inputCurrency=USDT&outputCurrency=0x448bee2d93be708b54ee6353a7cc35c4933f1156"
+                          target="_blank"
+                          rel="noopener"
+                          *ngIf="crypto.AddedToken"
+                        >
                           <div *ngIf="crypto.network === 'BEP20'">
                             <!-- <button class="background3 mt-4 ms-2 pt-2 border-0">
                           <span class="icon-ins buyIcon"></span>
                         </button> -->
-                            <img class="buy-token border-0" src="/assets/Images/new-buy-token.svg" />
+                            <img
+                              class="buy-token border-0"
+                              src="/assets/Images/new-buy-token.svg"
+                            />
                           </div>
                         </a>
                         <a>
-                          <div *ngIf="
+                          <div
+                            *ngIf="
                               crypto.undername !== 'SATT' &&
                               crypto.undername !== '(BEP20)' &&
                               crypto.undername !== 'WSATT' &&
@@ -185,7 +275,8 @@
                               crypto.undername !== 'DAI' &&
                               crypto.undername !== 'BUSD' &&
                               !crypto.AddedToken
-                            ">
+                            "
+                          >
                             <!-- <button
                               class="background3 mt-4 ms-2 pt-2 border-0"
                               id="{{ crypto.symbol }}"
@@ -193,24 +284,43 @@
                             >
                               <span class="icon-ins buyIcon"></span>
                             </button> -->
-                            <img (click)="buy(crypto.undername, changly)" id="{{ crypto.symbol }}"
-                              class="buy-token border-0" src="/assets/Images/new-buy-token.svg" />
+                            <img
+                              (click)="buy(crypto.undername, changly)"
+                              id="{{ crypto.symbol }}"
+                              class="buy-token border-0"
+                              src="/assets/Images/new-buy-token.svg"
+                            />
                           </div>
                         </a>
                       </div>
-                      <div class="col-1 d-flex justify-content-start align-items-center">
-                        <img *ngIf="crypto.AddedToken" (click)="openModal(supprimertoken)" class="deletettoken"
-                          src="./../../../assets/Images/new-delete.svg" />
+                      <div
+                        class="col-1 d-flex justify-content-start align-items-center"
+                      >
+                        <img
+                          *ngIf="crypto.AddedToken"
+                          (click)="openModal(supprimertoken)"
+                          class="deletettoken"
+                          src="./../../../assets/Images/new-delete.svg"
+                        />
                       </div>
-                      <div class="col-2 d-flex justify-content-start align-items-center" style="width: fit-content"
-                        details.hidden="true">
-                        <img *ngIf="details.hidden && crypto.undername === 'SATT'"
-                          src="./../../../assets/Images/Rectangle-down.svg" style="font-size: 13px; cursor: pointer"
-                          (click)="details.hidden = false" />
+                      <div
+                        class="col-2 d-flex justify-content-start align-items-center"
+                        style="width: fit-content"
+                        details.hidden="true"
+                      >
+                        <img
+                          *ngIf="details.hidden && crypto.undername === 'SATT'"
+                          src="./../../../assets/Images/Rectangle-down.svg"
+                          style="font-size: 13px; cursor: pointer"
+                          (click)="details.hidden = false"
+                        />
 
-                        <img *ngIf="!details.hidden && crypto.undername === 'SATT'"
-                          src="./../../../assets/Images/new-rectongle.svg" style="font-size: 13px; cursor: pointer"
-                          (click)="details.hidden = true" />
+                        <img
+                          *ngIf="!details.hidden && crypto.undername === 'SATT'"
+                          src="./../../../assets/Images/new-rectongle.svg"
+                          style="font-size: 13px; cursor: pointer"
+                          (click)="details.hidden = true"
+                        />
                       </div>
                     </div>
                   </div>
@@ -218,12 +328,24 @@
 
                 <ng-template #supprimertoken>
                   <div class="modal-header modal-custom">
-                    <button type="button" class="btn-close pull-right close" (click)="closeModal(supprimertoken)"
-                      data-dismiss="modal" aria-label="Close"></button>
+                    <button
+                      type="button"
+                      class="btn-close pull-right close"
+                      (click)="closeModal(supprimertoken)"
+                      data-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
                   </div>
-                  <div class="modal-body modal-custom flex-column" style="padding: 20px 4em !important">
+                  <div
+                    class="modal-body modal-custom flex-column"
+                    style="padding: 20px 4em !important"
+                  >
                     <div>
-                      <img class="alert-supp" src="../../../../assets/Images/Question_MoonBoy.svg" alt="" />
+                      <img
+                        class="alert-supp"
+                        src="../../../../assets/Images/Question_MoonBoy.svg"
+                        alt=""
+                      />
                     </div>
                     <div class="d-flex justify-content-center">
                       <h3 class="delete-token-modal-title">
@@ -236,21 +358,39 @@
                       </h3>
                     </div>
                     <div class="row btn-mobile-token">
-                      <div class="col-md-6 col-sm-12" id="{{ crypto.AddedToken }}" (click)="deletetoken($event)">
-                        <button type="button" class="btn increase-budget delete-tok" *ngIf="!loadingButton">
+                      <div
+                        class="col-md-6 col-sm-12"
+                        id="{{ crypto.AddedToken }}"
+                        (click)="deletetoken($event)"
+                      >
+                        <button
+                          type="button"
+                          class="btn increase-budget delete-tok"
+                          *ngIf="!loadingButton"
+                        >
                           <span class="btn-apply-text-delete">{{
                             'AllCampains.Supp_campaign' | translate
-                            }}</span>
+                          }}</span>
                         </button>
-                        <button *ngIf="loadingButton" disabled class="btn increase-budget delete-tok">
-                          <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+                        <button
+                          *ngIf="loadingButton"
+                          disabled
+                          class="btn increase-budget delete-tok"
+                        >
+                          <i
+                            class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"
+                          ></i>
                         </button>
                       </div>
                       <div class="col-md-6 col-sm-12">
-                        <button type="button" class="btn increase-budget" (click)="closeModal(supprimertoken)">
+                        <button
+                          type="button"
+                          class="btn increase-budget"
+                          (click)="closeModal(supprimertoken)"
+                        >
                           <span class="btn-apply-text-annuler">{{
                             'AllCampains.Cancel' | translate
-                            }}</span>
+                          }}</span>
                         </button>
                       </div>
                     </div>
@@ -260,12 +400,22 @@
               </div>
               <div [id]="crypto.symbol + crypto.name" #details>
                 <div *ngIf="crypto.symbol === 'SATT'">
-                  <div class="w-100 row d-flex justify-content-center" style="border-bottom: 1px solid white">
-                    <div class="d-flex justify-content-start" style="width: 90%">
-                      <div class="col-2 d-flex align-items-center justify-content-start pt-2 pb-2"
-                        style="background: #f6f6ff">
+                  <div
+                    class="w-100 row d-flex justify-content-center"
+                    style="border-bottom: 1px solid white"
+                  >
+                    <div
+                      class="d-flex justify-content-start"
+                      style="width: 90%"
+                    >
+                      <div
+                        class="col-2 d-flex align-items-center justify-content-start pt-2 pb-2"
+                        style="background: #f6f6ff"
+                      >
                         <div class="d-flex align-items-center w-100">
-                          <div class="CryptoID d-flex justify-content-center align-items-center">
+                          <div
+                            class="CryptoID d-flex justify-content-center align-items-center"
+                          >
                             <span style="width: 33px"></span>
                             <span class="Cryptoname cryptonameDetails ml-2">
                               ERC20
@@ -274,7 +424,10 @@
                           </div>
                         </div>
                       </div>
-                      <div class="col-2 d-flex align-items-center justify-content-start" style="background: #f6f6ff">
+                      <div
+                        class="col-2 d-flex align-items-center justify-content-start"
+                        style="background: #f6f6ff"
+                      >
                         <div class="cryptopri">
                           <div class="textalignEnd qte">
                             <span class="indicatorfont">
@@ -289,7 +442,10 @@
                           </ng-template>
                         </div>
                       </div>
-                      <div class="col-2 d-flex align-items-center justify-content-start" style="background: #f6f6ff">
+                      <div
+                        class="col-2 d-flex align-items-center justify-content-start"
+                        style="background: #f6f6ff"
+                      >
                         <div class="cryptopri">
                           <div class="cryptoprice">
                             <ng-container>
@@ -308,7 +464,10 @@
                       </div> -->
                         </div>
                       </div>
-                      <div class="col-2 d-flex align-items-center justify-content-start" style="background: #f6f6ff">
+                      <div
+                        class="col-2 d-flex align-items-center justify-content-start"
+                        style="background: #f6f6ff"
+                      >
                         <div class="cryptopri">
                           <div class="totalbalance textalignEnd">
                             <ng-container>
@@ -341,31 +500,54 @@
                       <!------------------------------------------------------------------------------------------------------------->
 
                       <!------------------------------------------------------------------------------------------------------------->
-                      <div class="col-1 d-flex align-items-center justify-content-start"
-                        style="background: #f6f6ff; box-shadow: 4px 0px #f6f6ff">
+                      <div
+                        class="col-1 d-flex align-items-center justify-content-start"
+                        style="background: #f6f6ff; box-shadow: 4px 0px #f6f6ff"
+                      >
                         <div class="cryptopri indicatorPriceChange">
-                          <span class="indicatorfont ms-1" [ngStyle]="{ color: crypto.arrowColor }">
+                          <span
+                            class="indicatorfont ms-1"
+                            [ngStyle]="{ color: crypto.arrowColor }"
+                          >
                             {{ crypto.arrow }} {{ crypto.variation }}%
                           </span>
                         </div>
                       </div>
                       <div class="col-4">
                         <div class="row h-100">
-                          <div class="col-2 d-flex justify-content-end align-items-center" style="background: #f6f6ff">
+                          <div
+                            class="col-2 d-flex justify-content-end align-items-center"
+                            style="background: #f6f6ff"
+                          >
                             <a [routerLink]="['/wallet/send']">
-                              <img src="/assets/Images/Shape-receive.svg" class="send-receive" />
+                              <img
+                                src="/assets/Images/Shape-receive.svg"
+                                class="send-receive"
+                              />
                             </a>
                           </div>
-                          <div class="col-2 d-flex justify-content-center align-items-center"
-                            style="background: #f6f6ff">
-                            <a id="{{ crypto.symbol }}" [routerLink]="['/wallet/receive']">
-                              <img src="/assets/Images/Shape-send.svg" class="send-receive" id="{{ crypto.symbol }}"
-                                alt="{{ crypto.type }}" />
+                          <div
+                            class="col-2 d-flex justify-content-center align-items-center"
+                            style="background: #f6f6ff"
+                          >
+                            <a
+                              id="{{ crypto.symbol }}"
+                              [routerLink]="['/wallet/receive']"
+                            >
+                              <img
+                                src="/assets/Images/Shape-send.svg"
+                                class="send-receive"
+                                id="{{ crypto.symbol }}"
+                                alt="{{ crypto.type }}"
+                              />
                             </a>
                           </div>
-                          <div class="col-2 d-flex justify-content-start align-items-center"
-                            style="background: #f6f6ff">
-                            <div *ngIf="
+                          <div
+                            class="col-2 d-flex justify-content-start align-items-center"
+                            style="background: #f6f6ff"
+                          >
+                            <div
+                              *ngIf="
                                 [
                                   'SATT',
                                   '(BEP20)',
@@ -376,21 +558,32 @@
                                   'BTC',
                                   'ETH'
                                 ].includes(crypto.undername)
-                              ">
-                              <img class="buy-token border-0" src="/assets/Images/new-buy-token.svg"
-                                (click)="goToBuy(crypto.symbol, crypto.network)" />
+                              "
+                            >
+                              <img
+                                class="buy-token border-0"
+                                src="/assets/Images/new-buy-token.svg"
+                                (click)="goToBuy(crypto.symbol, crypto.network)"
+                              />
                             </div>
-                            <a href="https://app.uniswap.org/#/swap?outputCurrency=0x70a6395650b47d94a77de4cfedf9629f6922e645 "
-                              target="_blank" rel="noopener">
+                            <a
+                              href="https://app.uniswap.org/#/swap?outputCurrency=0x70a6395650b47d94a77de4cfedf9629f6922e645 "
+                              target="_blank"
+                              rel="noopener"
+                            >
                               <div *ngIf="crypto.undername === 'WSATT'">
                                 <!-- <button class="background3 mt-4 ms-2 pt-2 border-0">
                                   <span class="icon-ins buyIcon"></span>
                                 </button> -->
-                                <img class="buy-token border-0" src="/assets/Images/new-buy-token.svg" />
+                                <img
+                                  class="buy-token border-0"
+                                  src="/assets/Images/new-buy-token.svg"
+                                />
                               </div>
                             </a>
                             <a>
-                              <div *ngIf="
+                              <div
+                                *ngIf="
                                   crypto.undername !== 'SATT' &&
                                   crypto.undername !== '(BEP20)' &&
                                   crypto.undername !== 'WSATT' &&
@@ -400,7 +593,8 @@
                                   crypto.undername !== 'DAI' &&
                                   crypto.undername !== 'BUSD' &&
                                   !crypto.AddedToken
-                                ">
+                                "
+                              >
                                 <!-- <button
                                   class="background3 mt-4 ms-2 pt-2 border-0"
                                   id="{{ crypto.symbol }}"
@@ -408,30 +602,54 @@
                                 >
                                   <span class="icon-ins buyIcon"></span>
                                 </button> -->
-                                <img (click)="buy(crypto.undername, changly)" id="{{ crypto.symbol }}"
-                                  class="buy-token border-0" src="/assets/Images/new-buy-token.svg" />
+                                <img
+                                  (click)="buy(crypto.undername, changly)"
+                                  id="{{ crypto.symbol }}"
+                                  class="buy-token border-0"
+                                  src="/assets/Images/new-buy-token.svg"
+                                />
                               </div>
                             </a>
                           </div>
-                          <div class="col-1 d-flex justify-content-start align-items-center"
-                            style="background: #f6f6ff">
-                            <img *ngIf="crypto.AddedToken" (click)="openModal(supprimertoken)" class="deletettoken"
-                              src="./../../../assets/Images/new-delete.svg" />
+                          <div
+                            class="col-1 d-flex justify-content-start align-items-center"
+                            style="background: #f6f6ff"
+                          >
+                            <img
+                              *ngIf="crypto.AddedToken"
+                              (click)="openModal(supprimertoken)"
+                              class="deletettoken"
+                              src="./../../../assets/Images/new-delete.svg"
+                            />
                           </div>
-                          <div class="col-2 d-flex justify-content-start align-items-center"
-                            style="width: fit-content; background: #f6f6ff"></div>
+                          <div
+                            class="col-2 d-flex justify-content-start align-items-center"
+                            style="width: fit-content; background: #f6f6ff"
+                          ></div>
                         </div>
                       </div>
                     </div>
 
                     <ng-template #supprimertoken>
                       <div class="modal-header modal-custom">
-                        <button type="button" class="btn-close pull-right close" (click)="closeModal(supprimertoken)"
-                          data-dismiss="modal" aria-label="Close"></button>
+                        <button
+                          type="button"
+                          class="btn-close pull-right close"
+                          (click)="closeModal(supprimertoken)"
+                          data-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
                       </div>
-                      <div class="modal-body modal-custom flex-column" style="padding: 20px 4em !important">
+                      <div
+                        class="modal-body modal-custom flex-column"
+                        style="padding: 20px 4em !important"
+                      >
                         <div>
-                          <img class="alert-supp" src="../../../../assets/Images/Question_MoonBoy.svg" alt="" />
+                          <img
+                            class="alert-supp"
+                            src="../../../../assets/Images/Question_MoonBoy.svg"
+                            alt=""
+                          />
                         </div>
                         <div class="d-flex justify-content-center">
                           <h3 class="delete-token-modal-title">
@@ -444,21 +662,39 @@
                           </h3>
                         </div>
                         <div class="row btn-mobile-token">
-                          <div class="col-md-6 col-sm-12" id="{{ crypto.AddedToken }}" (click)="deletetoken($event)">
-                            <button type="button" class="btn increase-budget delete-tok" *ngIf="!loadingButton">
+                          <div
+                            class="col-md-6 col-sm-12"
+                            id="{{ crypto.AddedToken }}"
+                            (click)="deletetoken($event)"
+                          >
+                            <button
+                              type="button"
+                              class="btn increase-budget delete-tok"
+                              *ngIf="!loadingButton"
+                            >
                               <span class="btn-apply-text-delete">{{
                                 'AllCampains.Supp_campaign' | translate
-                                }}</span>
+                              }}</span>
                             </button>
-                            <button *ngIf="loadingButton" disabled class="btn increase-budget delete-tok">
-                              <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+                            <button
+                              *ngIf="loadingButton"
+                              disabled
+                              class="btn increase-budget delete-tok"
+                            >
+                              <i
+                                class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"
+                              ></i>
                             </button>
                           </div>
                           <div class="col-md-6 col-sm-12">
-                            <button type="button" class="btn increase-budget" (click)="closeModal(supprimertoken)">
+                            <button
+                              type="button"
+                              class="btn increase-budget"
+                              (click)="closeModal(supprimertoken)"
+                            >
                               <span class="btn-apply-text-annuler">{{
                                 'AllCampains.Cancel' | translate
-                                }}</span>
+                              }}</span>
                             </button>
                           </div>
                         </div>
@@ -466,12 +702,22 @@
                     </ng-template>
                     <!----------------------------------------------------------------------------------------------------------------->
                   </div>
-                  <div class="w-100 row d-flex justify-content-center" style="border-bottom: 1px solid white">
-                    <div class="d-flex justify-content-start" style="width: 90%">
-                      <div class="col-2 d-flex align-items-center justify-content-start pt-2 pb-2"
-                        style="background: #f6f6ff">
+                  <div
+                    class="w-100 row d-flex justify-content-center"
+                    style="border-bottom: 1px solid white"
+                  >
+                    <div
+                      class="d-flex justify-content-start"
+                      style="width: 90%"
+                    >
+                      <div
+                        class="col-2 d-flex align-items-center justify-content-start pt-2 pb-2"
+                        style="background: #f6f6ff"
+                      >
                         <div class="d-flex align-items-center w-100">
-                          <div class="CryptoID d-flex justify-content-center align-items-center">
+                          <div
+                            class="CryptoID d-flex justify-content-center align-items-center"
+                          >
                             <span style="width: 33px"></span>
                             <span class="Cryptoname cryptonameDetails ml-2">
                               BEP20
@@ -480,13 +726,16 @@
                           </div>
                         </div>
                       </div>
-                      <div class="col-2 d-flex align-items-center justify-content-start" style="background: #f6f6ff">
+                      <div
+                        class="col-2 d-flex align-items-center justify-content-start"
+                        style="background: #f6f6ff"
+                      >
                         <div class="cryptopri">
                           <div class="textalignEnd qte">
                             <span class="indicatorfont">
                               {{
-                              crypto?.cryptoBEP20?.quantity
-                              | number: '.0-2' || ''
+                                crypto?.cryptoBEP20?.quantity
+                                  | number: '.0-2' || ''
                               }}
                             </span>
                             <!-- <span class="indicatorfont ms-1" >{{crypto.name}}</span> -->
@@ -498,7 +747,10 @@
                           </ng-template>
                         </div>
                       </div>
-                      <div class="col-2 d-flex align-items-center justify-content-start" style="background: #f6f6ff">
+                      <div
+                        class="col-2 d-flex align-items-center justify-content-start"
+                        style="background: #f6f6ff"
+                      >
                         <div class="cryptopri">
                           <div class="cryptoprice">
                             <ng-container>
@@ -518,7 +770,10 @@
                       </div> -->
                         </div>
                       </div>
-                      <div class="col-2 d-flex align-items-center justify-content-start" style="background: #f6f6ff">
+                      <div
+                        class="col-2 d-flex align-items-center justify-content-start"
+                        style="background: #f6f6ff"
+                      >
                         <div class="cryptopri">
                           <div class="totalbalance textalignEnd">
                             <ng-container>
@@ -546,42 +801,66 @@
                       <!------------------------------------------------------------------------------------------------------------->
 
                       <!------------------------------------------------------------------------------------------------------------->
-                      <div class="col-1 d-flex align-items-center justify-content-start"
-                        style="background: #f6f6ff; box-shadow: 4px 0px #f6f6ff">
+                      <div
+                        class="col-1 d-flex align-items-center justify-content-start"
+                        style="background: #f6f6ff; box-shadow: 4px 0px #f6f6ff"
+                      >
                         <div class="cryptopri indicatorPriceChange">
-                          <span class="indicatorfont ms-1" [ngStyle]="{ color: crypto.arrowColor }">
+                          <span
+                            class="indicatorfont ms-1"
+                            [ngStyle]="{ color: crypto.arrowColor }"
+                          >
                             {{ crypto.arrow }} {{ crypto.variation }}%
                           </span>
                         </div>
                       </div>
                       <div class="col-4">
                         <div class="row h-100">
-                          <div class="col-2 d-flex justify-content-end align-items-center" style="background: #f6f6ff">
-                            <a (click)="
+                          <div
+                            class="col-2 d-flex justify-content-end align-items-center"
+                            style="background: #f6f6ff"
+                          >
+                            <a
+                              (click)="
                                 goTosend(
                                   crypto.symbol,
                                   crypto.cryptoBEP20.network,
                                   crypto.picUrl
                                 )
-                              ">
-                              <img src="/assets/Images/Shape-receive.svg" class="send-receive" />
+                              "
+                            >
+                              <img
+                                src="/assets/Images/Shape-receive.svg"
+                                class="send-receive"
+                              />
                             </a>
                           </div>
-                          <div class="col-2 d-flex justify-content-center align-items-center"
-                            style="background: #f6f6ff">
-                            <a (click)="
+                          <div
+                            class="col-2 d-flex justify-content-center align-items-center"
+                            style="background: #f6f6ff"
+                          >
+                            <a
+                              (click)="
                                 goTorecieve(
                                   crypto.symbol,
                                   crypto.cryptoBEP20.network
                                 )
-                              ">
-                              <img src="/assets/Images/Shape-send.svg" class="send-receive" id="{{ crypto.symbol }}"
-                                alt="{{ crypto.type }}" />
+                              "
+                            >
+                              <img
+                                src="/assets/Images/Shape-send.svg"
+                                class="send-receive"
+                                id="{{ crypto.symbol }}"
+                                alt="{{ crypto.type }}"
+                              />
                             </a>
                           </div>
-                          <div class="col-2 d-flex justify-content-start align-items-center"
-                            style="background: #f6f6ff">
-                            <div *ngIf="
+                          <div
+                            class="col-2 d-flex justify-content-start align-items-center"
+                            style="background: #f6f6ff"
+                          >
+                            <div
+                              *ngIf="
                                 [
                                   'SATT',
                                   '(BEP20)',
@@ -592,25 +871,37 @@
                                   'BTC',
                                   'ETH'
                                 ].includes(crypto.undername)
-                              ">
-                              <img class="buy-token border-0" src="/assets/Images/new-buy-token.svg" (click)="
+                              "
+                            >
+                              <img
+                                class="buy-token border-0"
+                                src="/assets/Images/new-buy-token.svg"
+                                (click)="
                                   goToBuy(
                                     crypto.cryptoBEP20.symbol,
                                     crypto.cryptoBEP20.network
                                   )
-                                " />
+                                "
+                              />
                             </div>
-                            <a href="https://app.uniswap.org/#/swap?outputCurrency=0x70a6395650b47d94a77de4cfedf9629f6922e645 "
-                              target="_blank" rel="noopener">
+                            <a
+                              href="https://app.uniswap.org/#/swap?outputCurrency=0x70a6395650b47d94a77de4cfedf9629f6922e645 "
+                              target="_blank"
+                              rel="noopener"
+                            >
                               <div *ngIf="crypto.undername === 'WSATT'">
                                 <!-- <button class="background3 mt-4 ms-2 pt-2 border-0">
                                   <span class="icon-ins buyIcon"></span>
                                 </button> -->
-                                <img class="buy-token border-0" src="/assets/Images/new-buy-token.svg" />
+                                <img
+                                  class="buy-token border-0"
+                                  src="/assets/Images/new-buy-token.svg"
+                                />
                               </div>
                             </a>
                             <a>
-                              <div *ngIf="
+                              <div
+                                *ngIf="
                                   crypto.undername !== 'SATT' &&
                                   crypto.undername !== '(BEP20)' &&
                                   crypto.undername !== 'WSATT' &&
@@ -620,7 +911,8 @@
                                   crypto.undername !== 'DAI' &&
                                   crypto.undername !== 'BUSD' &&
                                   !crypto.AddedToken
-                                ">
+                                "
+                              >
                                 <!-- <button
                                   class="background3 mt-4 ms-2 pt-2 border-0"
                                   id="{{ crypto.symbol }}"
@@ -628,30 +920,54 @@
                                 >
                                   <span class="icon-ins buyIcon"></span>
                                 </button> -->
-                                <img (click)="buy(crypto.undername, changly)" id="{{ crypto.symbol }}"
-                                  class="buy-token border-0" src="/assets/Images/new-buy-token.svg" />
+                                <img
+                                  (click)="buy(crypto.undername, changly)"
+                                  id="{{ crypto.symbol }}"
+                                  class="buy-token border-0"
+                                  src="/assets/Images/new-buy-token.svg"
+                                />
                               </div>
                             </a>
                           </div>
-                          <div class="col-1 d-flex justify-content-start align-items-center"
-                            style="background: #f6f6ff">
-                            <img *ngIf="crypto.AddedToken" (click)="openModal(supprimertoken)" class="deletettoken"
-                              src="./../../../assets/Images/new-delete.svg" />
+                          <div
+                            class="col-1 d-flex justify-content-start align-items-center"
+                            style="background: #f6f6ff"
+                          >
+                            <img
+                              *ngIf="crypto.AddedToken"
+                              (click)="openModal(supprimertoken)"
+                              class="deletettoken"
+                              src="./../../../assets/Images/new-delete.svg"
+                            />
                           </div>
-                          <div class="col-2 d-flex justify-content-start align-items-center"
-                            style="width: fit-content; background: #f6f6ff"></div>
+                          <div
+                            class="col-2 d-flex justify-content-start align-items-center"
+                            style="width: fit-content; background: #f6f6ff"
+                          ></div>
                         </div>
                       </div>
                     </div>
 
                     <ng-template #supprimertoken>
                       <div class="modal-header modal-custom">
-                        <button type="button" class="btn-close pull-right close" (click)="closeModal(supprimertoken)"
-                          data-dismiss="modal" aria-label="Close"></button>
+                        <button
+                          type="button"
+                          class="btn-close pull-right close"
+                          (click)="closeModal(supprimertoken)"
+                          data-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
                       </div>
-                      <div class="modal-body modal-custom flex-column" style="padding: 20px 4em !important">
+                      <div
+                        class="modal-body modal-custom flex-column"
+                        style="padding: 20px 4em !important"
+                      >
                         <div>
-                          <img class="alert-supp" src="../../../../assets/Images/Question_MoonBoy.svg" alt="" />
+                          <img
+                            class="alert-supp"
+                            src="../../../../assets/Images/Question_MoonBoy.svg"
+                            alt=""
+                          />
                         </div>
                         <div class="d-flex justify-content-center">
                           <h3 class="delete-token-modal-title">
@@ -664,21 +980,39 @@
                           </h3>
                         </div>
                         <div class="row btn-mobile-token">
-                          <div class="col-md-6 col-sm-12" id="{{ crypto.AddedToken }}" (click)="deletetoken($event)">
-                            <button type="button" class="btn increase-budget delete-tok" *ngIf="!loadingButton">
+                          <div
+                            class="col-md-6 col-sm-12"
+                            id="{{ crypto.AddedToken }}"
+                            (click)="deletetoken($event)"
+                          >
+                            <button
+                              type="button"
+                              class="btn increase-budget delete-tok"
+                              *ngIf="!loadingButton"
+                            >
                               <span class="btn-apply-text-delete">{{
                                 'AllCampains.Supp_campaign' | translate
-                                }}</span>
+                              }}</span>
                             </button>
-                            <button *ngIf="loadingButton" disabled class="btn increase-budget delete-tok">
-                              <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+                            <button
+                              *ngIf="loadingButton"
+                              disabled
+                              class="btn increase-budget delete-tok"
+                            >
+                              <i
+                                class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"
+                              ></i>
                             </button>
                           </div>
                           <div class="col-md-6 col-sm-12">
-                            <button type="button" class="btn increase-budget" (click)="closeModal(supprimertoken)">
+                            <button
+                              type="button"
+                              class="btn increase-budget"
+                              (click)="closeModal(supprimertoken)"
+                            >
                               <span class="btn-apply-text-annuler">{{
                                 'AllCampains.Cancel' | translate
-                                }}</span>
+                              }}</span>
                             </button>
                           </div>
                         </div>
@@ -692,13 +1026,23 @@
           </div>
         </div>
 
-        <div class="row d-flex justify-content-center mb-3 mt-2" *ngIf="cryptoList.length !== 0">
-          <div class="col-xl-5 col-lg-7 col-md-10 d-flex justify-content-center" (click)="goToAddToken()">
+        <div
+          class="row d-flex justify-content-center mb-3 mt-2"
+          *ngIf="cryptoList.length !== 0"
+        >
+          <div
+            class="col-xl-5 col-lg-7 col-md-10 d-flex justify-content-center"
+            (click)="goToAddToken()"
+          >
             <button class="white-btn">
               <span *ngIf="!this.showSpinner">{{
                 'addToken' | translate
-                }}</span>
-              <div *ngIf="this.showSpinner" class="spinner-border" role="status">
+              }}</span>
+              <div
+                *ngIf="this.showSpinner"
+                class="spinner-border"
+                role="status"
+              >
                 <span class="sr-only">Loading...</span>
               </div>
             </button>
@@ -742,27 +1086,49 @@
 
 <ng-template #changly class="">
   <div class="modal-header modal-custom">
-    <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="closeModal(changly)"></button>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="modal"
+      (click)="closeModal(changly)"
+    ></button>
   </div>
   <app-loading-logo *ngIf="showBigSpinner"></app-loading-logo>
 
   <div class="modal-body modal-custom">
-    <iframe #iframeContainer
+    <iframe
+      #iframeContainer
       onLoad="function A(e){var t=e.target,n=t.parentNode,r=t.contentWindow,a=function(){return r.postMessage({width:n.offsetWidth},'https://v2.satt.atayen.us/')};window.addEventListener('resize',a),a()};A.apply(this, arguments);"
-      [src]="buyIframSrc" width="100%" height="440" class="changelly border-0 overflow-hidden" scrolling="no"
-      id="iframe" onerror="iframeError()">
+      [src]="buyIframSrc"
+      width="100%"
+      height="440"
+      class="changelly border-0 overflow-hidden"
+      scrolling="no"
+      id="iframe"
+      onerror="iframeError()"
+    >
       Can't load widget
     </iframe>
   </div>
 
   <div class="modal-footer modal-custom height">
-    <span *ngIf="isBitcoinAdress && !showBigSpinner" class="B_add">{{ 'address_bitcoin' | translate }} :</span>
+    <span *ngIf="isBitcoinAdress && !showBigSpinner" class="B_add"
+      >{{ 'address_bitcoin' | translate }} :</span
+    >
     <span *ngIf="isBitcoinAdress && !showBigSpinner" class="addresse">
-      {{ this.btcCode }}</span>
-    <span *ngIf="isERC20Adress && !showBigSpinner" class="B_add">{{ 'address_ERC20' | translate }} :</span>
+      {{ this.btcCode }}</span
+    >
+    <span *ngIf="isERC20Adress && !showBigSpinner" class="B_add"
+      >{{ 'address_ERC20' | translate }} :</span
+    >
     <span *ngIf="isERC20Adress && !showBigSpinner" class="addresse">
-      {{ this.erc20 }}</span>
-    <button class="btn-send-add" *ngIf="!showBigSpinner" (click)="copyaddresse()">
+      {{ this.erc20 }}</span
+    >
+    <button
+      class="btn-send-add"
+      *ngIf="!showBigSpinner"
+      (click)="copyaddresse()"
+    >
       {{ 'copieWallet.copier' | translate }}
     </button>
   </div>
@@ -776,16 +1142,35 @@
       <app-loading-logo *ngIf="showWalletSpinner"></app-loading-logo>
 
       <div *ngIf="cryptoList | filter: search as res" class="container-mobile">
-        <div class="mobtable d-flex flex-column justify-content-center align-items-center">
-          <div style="width: 100%" class="d-flex flex-column justify-content-center align-items-center">
-            <div id="keyContainer" class="d-flex justify-content-center col-sm-12 col-md-12 col-lg-8">
-              <input id="key" style="text-overflow: ellipsis" class="key d-flex search-input-wrapper mt-3" type="text"
-                name="search" autocomplete="off" placeholder="Search a token or add your own" [(ngModel)]="search"
-                (ngModelChange)="onTextChange($event)" />
+        <div
+          class="mobtable d-flex flex-column justify-content-center align-items-center"
+        >
+          <div
+            style="width: 100%"
+            class="d-flex flex-column justify-content-center align-items-center"
+          >
+            <div
+              id="keyContainer"
+              class="d-flex justify-content-center col-sm-12 col-md-12 col-lg-8"
+            >
+              <input
+                id="key"
+                style="text-overflow: ellipsis"
+                class="key d-flex search-input-wrapper mt-3"
+                type="text"
+                name="search"
+                autocomplete="off"
+                placeholder="Search a token or add your own"
+                [(ngModel)]="search"
+                (ngModelChange)="onTextChange($event)"
+              />
             </div>
 
             <!-------------------------------------------------------------------------------------------------------------------------->
-            <div class="row d-flex make-center" *ngIf="res.length === 0 && this.searched">
+            <div
+              class="row d-flex make-center"
+              *ngIf="res.length === 0 && this.searched"
+            >
               <img class="not-found" src="/assets/Images/not-found.svg " />
 
               <p class="result-found make-center mt-3">
@@ -795,75 +1180,116 @@
             <ng-container *ngIf="!cryptoList.length">
               <div style="background: white; height: 100vh; width: 100%"></div>
             </ng-container>
-            <ng-container id="lala" *ngFor="
+            <ng-container
+              id="lala"
+              *ngFor="
                 let crypto of cryptoList | filter: search as res;
                 trackBy: trackByCryptoListSymbol
-              ">
-              <div #cryptoContainer [ngClass]="{
+              "
+            >
+              <div
+                #cryptoContainer
+                [ngClass]="{
                   BottomBorder: crypto.symbol !== 'SATT',
                   BottomBorderSelected:
                     crypto.selected && crypto.symbol !== 'SATT',
                   BottomBorderSelectedSatt:
                     crypto.selected && crypto.symbol === 'SATT'
-                }" class="w-100 d-flex justify-content-between align-items-center cryptoRowContainerMobile" (click)="
+                }"
+                class="w-100 d-flex justify-content-between align-items-center cryptoRowContainerMobile"
+                (click)="
                   toggle(crypto);
                   openDetails(details, crypto);
                   selectCryptoContainer(cryptoContainer, crypto)
-                " style="border-bottom: 1px solid #f2ecec">
+                "
+                style="border-bottom: 1px solid #f2ecec"
+              >
                 <div>
                   <div class="d-flex justify-content-start align-items-center">
                     <div class="d-flex align-items-center">
-                      <div [id]="crypto.symbol + crypto.type + 'IconsMobile'" [ngStyle]="{
+                      <div
+                        [id]="crypto.symbol + crypto.type + 'IconsMobile'"
+                        [ngStyle]="{
                           display: !crypto.selected
                             ? 'block'
                             : crypto.symbol === 'SATT'
                             ? 'block'
                             : 'none'
-                        }">
-                        <img class="IconsMobile" *ngIf="!crypto.picUrl" src="../../../assets/Images/symbol_crypto/{{
+                        }"
+                      >
+                        <img
+                          class="IconsMobile"
+                          *ngIf="!crypto.picUrl"
+                          src="../../../assets/Images/symbol_crypto/{{
                             crypto.undername2
-                          }}.svg" alt="" />
+                          }}.svg"
+                          alt=""
+                        />
                       </div>
-                      <img id="{{
+                      <img
+                        id="{{
                           crypto.symbol + crypto.type + 'IconsMobileChecked'
-                        }}" class="crypto-check" *ngIf="!crypto.picUrl" [ngStyle]="{
+                        }}"
+                        class="crypto-check"
+                        *ngIf="!crypto.picUrl"
+                        [ngStyle]="{
                           display:
                             crypto.selected && crypto.symbol !== 'SATT'
                               ? 'block'
                               : 'none'
-                        }" src="../../../assets/Images/crypto-mobile-check.svg" alt="" />
-                      <div [id]="crypto.symbol + crypto.type + 'addedToken'" [ngStyle]="{
+                        }"
+                        src="../../../assets/Images/crypto-mobile-check.svg"
+                        alt=""
+                      />
+                      <div
+                        [id]="crypto.symbol + crypto.type + 'addedToken'"
+                        [ngStyle]="{
                           display: !crypto.selected
                             ? 'block'
                             : crypto.symbol === 'SATT'
                             ? 'block'
                             : 'none'
-                        }">
+                        }"
+                      >
                         <!--
                         image if added token
 -->
-                        <img class="IconsMobile" *ngIf="crypto.picUrl" [src]="crypto.picUrl" alt="" />
+                        <img
+                          class="IconsMobile"
+                          *ngIf="crypto.picUrl"
+                          [src]="crypto.picUrl"
+                          alt=""
+                        />
                       </div>
                     </div>
-                    <div class="d-flex align-items-start justify-content-start flex-column ml-2">
-                      <span class="nameCrypto noselect" [ngStyle]="{
+                    <div
+                      class="d-flex align-items-start justify-content-start flex-column ml-2"
+                    >
+                      <span
+                        class="nameCrypto noselect"
+                        [ngStyle]="{
                           color: crypto.selected
                             ? crypto.symbol !== 'SATT'
                               ? 'white'
                               : 'black'
                             : 'black'
-                        }">
+                        }"
+                      >
                         {{ crypto.name === 'Binance-Peg BUSD Token'
                         + ? 'BUSD'
                         + : crypto.name}}
                       </span>
-                      <span class="IconsName noselect" style="margin-top: 6px" [ngStyle]="{
+                      <span
+                        class="IconsName noselect"
+                        style="margin-top: 6px"
+                        [ngStyle]="{
                           color: crypto.selected
                             ? crypto.symbol !== 'SATT'
                               ? 'white'
                               : '#75758F'
                             : '#75758F'
-                        }">
+                        }"
+                      >
                         <ng-container>
                           {{ quantitySum(crypto) }}
                         </ng-container>
@@ -873,51 +1299,83 @@
                 </div>
                 <div class="d-flex align-items-center">
                   <div>
-                    <div class="d-flex justify-content-end align-items-end flex-column">
-                      <div class="d-flex justify-content-center align-items-end">
-                        <div class="balanceCrypto noselect" [ngStyle]="{
+                    <div
+                      class="d-flex justify-content-end align-items-end flex-column"
+                    >
+                      <div
+                        class="d-flex justify-content-center align-items-end"
+                      >
+                        <div
+                          class="balanceCrypto noselect"
+                          [ngStyle]="{
                             color: !crypto.selected
                               ? 'black'
                               : crypto.symbol !== 'SATT'
                               ? 'white'
                               : 'black'
-                          }">
+                          }"
+                        >
                           ${{ totalBalanceSum(crypto) }}
                         </div>
                       </div>
-                      <div class="d-flex justify-content-center align-items-center flex-row flex-nowrap">
-                        <div class="balanceCrypto d-flex justify-content-center align-items-end flex-row flex-nowrap">
-                          <span class="IconsName noselect" [ngStyle]="{
+                      <div
+                        class="d-flex justify-content-center align-items-center flex-row flex-nowrap"
+                      >
+                        <div
+                          class="balanceCrypto d-flex justify-content-center align-items-end flex-row flex-nowrap"
+                        >
+                          <span
+                            class="IconsName noselect"
+                            [ngStyle]="{
                               color: !crypto.selected
                                 ? '#75758F'
                                 : crypto.symbol !== 'SATT'
                                 ? 'white'
                                 : '#75758F'
-                            }">
+                            }"
+                          >
                             $ {{ transformPrice(crypto) }}
                           </span>
                           <div class="" *ngIf="crypto.undername === 'SATT'">
-                            <div class="variation-box noselect" *ngIf="crypto.arrowColor === 'green'">
+                            <div
+                              class="variation-box noselect"
+                              *ngIf="crypto.arrowColor === 'green'"
+                            >
                               <span class="price-varition-up">
                                 {{ crypto.arrow }} {{ crypto.variation }}%
                               </span>
                             </div>
-                            <div class="variation-box-red noselect" *ngIf="crypto.arrowColor === 'red'"
-                              [ngStyle]="{ color: crypto.arrowColor }">
+                            <div
+                              class="variation-box-red noselect"
+                              *ngIf="crypto.arrowColor === 'red'"
+                              [ngStyle]="{ color: crypto.arrowColor }"
+                            >
                               <span class="price-varition-down">
                                 {{ crypto.arrow }} {{ crypto.variation }}%
                               </span>
                             </div>
                           </div>
                           <span *ngIf="crypto.undername !== 'SATT'">
-                            <div class="variation-box noselect" *ngIf="crypto.arrowColor === 'green'">
-                              <span class="price-varition noselect" [ngStyle]="{ color: '#00CC9E' }">
+                            <div
+                              class="variation-box noselect"
+                              *ngIf="crypto.arrowColor === 'green'"
+                            >
+                              <span
+                                class="price-varition noselect"
+                                [ngStyle]="{ color: '#00CC9E' }"
+                              >
                                 {{ crypto.arrow }} {{ crypto.variation }}%
                               </span>
                             </div>
-                            <div class="variation-box-red noselect" *ngIf="crypto.arrowColor === 'red'"
-                              [ngStyle]="{ color: crypto.arrowColor }">
-                              <span class="price-varition-down noselect" [ngStyle]="{ color: crypto.arrowColor }">
+                            <div
+                              class="variation-box-red noselect"
+                              *ngIf="crypto.arrowColor === 'red'"
+                              [ngStyle]="{ color: crypto.arrowColor }"
+                            >
+                              <span
+                                class="price-varition-down noselect"
+                                [ngStyle]="{ color: crypto.arrowColor }"
+                              >
                                 {{ crypto.arrow }} {{ crypto.variation }}%
                               </span>
                             </div>
@@ -955,64 +1413,102 @@
               </div>
               <!------------------------------------------------------------------------------------------------------------------------------->
 
-              <div [hidden]="true" #details [ngStyle]="{
+              <div
+                [hidden]="true"
+                #details
+                [ngStyle]="{
                   background: '#F6F6FF '
-                }" class="w-100 mb-2">
-                <div (click)="toggle(crypto); selectERC20()"
+                }"
+                class="w-100 mb-2"
+              >
+                <div
+                  (click)="toggle(crypto); selectERC20()"
                   class="d-flex w-100 justify-content-between align-items-center pt-2 pb-2 BottomBorder1 cryptoRowContainerMobile"
                   [ngClass]="{
                     BottomBorderSelected: erc20Selected
-                  }" style="border-bottom: 1px solid white">
+                  }"
+                  style="border-bottom: 1px solid white"
+                >
                   <div class="w-50 d-flex justify-content-start">
-                    <div class="d-flex flex-column justify-content-center align-items-start" style="margin-left: 40px">
-                      <div class="cryptoType1 noselect" [ngStyle]="{
+                    <div
+                      class="d-flex flex-column justify-content-center align-items-start"
+                      style="margin-left: 40px"
+                    >
+                      <div
+                        class="cryptoType1 noselect"
+                        [ngStyle]="{
                           color: erc20Selected ? 'white' : '#75758F'
-                        }">
+                        }"
+                      >
                         ERC20
                       </div>
-                      <span class="cryptoType1 noselect" [ngStyle]="{
+                      <span
+                        class="cryptoType1 noselect"
+                        [ngStyle]="{
                           color: erc20Selected ? 'white' : '#75758F'
-                        }">
+                        }"
+                      >
                         {{ quantitySum(crypto, true) }}
                       </span>
                     </div>
                   </div>
-                  <div class="d-flex w-50 justify-content-end cryptoAmount1 noselect" style="padding-right: 2rem">
-                    <span [ngStyle]="{ color: erc20Selected ? 'white' : 'black' }">
+                  <div
+                    class="d-flex w-50 justify-content-end cryptoAmount1 noselect"
+                    style="padding-right: 2rem"
+                  >
+                    <span
+                      [ngStyle]="{ color: erc20Selected ? 'white' : 'black' }"
+                    >
                       $ {{ totalBalanceSum(crypto, true) }}
                     </span>
                   </div>
                 </div>
-                <div (click)="toggle(crypto.cryptoBEP20); selectBEP20()"
+                <div
+                  (click)="toggle(crypto.cryptoBEP20); selectBEP20()"
                   class="d-flex w-100 justify-content-between align-items-center BottomBorder2 cryptoRowContainerMobile"
                   [ngClass]="{
                     BottomBorderSelected: bep20Selected
-                  }">
+                  }"
+                >
                   <div class="w-50 justify-content-center">
-                    <div class="d-flex flex-column justify-content-center align-items-start" style="margin-left: 40px">
-                      <div class="cryptoType2 noselect" [ngStyle]="{
+                    <div
+                      class="d-flex flex-column justify-content-center align-items-start"
+                      style="margin-left: 40px"
+                    >
+                      <div
+                        class="cryptoType2 noselect"
+                        [ngStyle]="{
                           color: bep20Selected ? 'white' : '#75758F'
-                        }">
+                        }"
+                      >
                         BEP20
                       </div>
-                      <span class="cryptoType2 noselect" [ngStyle]="{
+                      <span
+                        class="cryptoType2 noselect"
+                        [ngStyle]="{
                           color: bep20Selected ? 'white' : '#75758F'
-                        }">
+                        }"
+                      >
                         {{
-                        !!crypto.cryptoBEP20
-                        ? quantitySum(crypto.cryptoBEP20, true)
-                        : 0
+                          !!crypto.cryptoBEP20
+                            ? quantitySum(crypto.cryptoBEP20, true)
+                            : 0
                         }}
                       </span>
                     </div>
                   </div>
-                  <div class="d-flex w-50 justify-content-end cryptoAmount2 noselect" style="padding-right: 2rem">
-                    <span [ngStyle]="{ color: bep20Selected ? 'white' : 'black' }">
+                  <div
+                    class="d-flex w-50 justify-content-end cryptoAmount2 noselect"
+                    style="padding-right: 2rem"
+                  >
+                    <span
+                      [ngStyle]="{ color: bep20Selected ? 'white' : 'black' }"
+                    >
                       $
                       {{
-                      !!crypto.cryptoBEP20
-                      ? totalBalanceSum(crypto.cryptoBEP20, true)
-                      : 0
+                        !!crypto.cryptoBEP20
+                          ? totalBalanceSum(crypto.cryptoBEP20, true)
+                          : 0
                       }}
                     </span>
                   </div>
@@ -1124,8 +1620,14 @@
         </div>
       </div>
     </div>
-    <div class="row d-flex justify-content-center mb-3 mt-2" *ngIf="cryptoList.length !== 0">
-      <div class="col-sm-8 d-flex justify-content-center" [routerLink]="['/wallet/add-token']">
+    <div
+      class="row d-flex justify-content-center mb-3 mt-2"
+      *ngIf="cryptoList.length !== 0"
+    >
+      <div
+        class="col-sm-8 d-flex justify-content-center"
+        [routerLink]="['/wallet/add-token']"
+      >
         <button class="white-btn mb-4" style="margin-bottom: 70px !important">
           + {{ 'addToken' | translate }}
         </button>
@@ -1138,13 +1640,21 @@
 <!---------------------------------------------------------------------------checkUserLegalKYCModal------------------------->
 <ng-template #checkUserLegalKYCModal>
   <div class="modal-header modal-custom">
-    <button type="button" class="btn-close" data-bs-dismiss="modal"
-      (click)="this.modalService.dismissAll(checkUserLegalKYCModal)"></button>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="modal"
+      (click)="this.modalService.dismissAll(checkUserLegalKYCModal)"
+    ></button>
   </div>
   <div class="modal-body modal-custom mb-3">
     <h3>{{ 'Wallet.userLegal_notice_title' | translate }}</h3>
     <p>{{ 'Wallet.userLegal_notice_msg' | translate }}</p>
-    <a class="btn-link" routerLink="/settings/Legal_KYC" (click)="this.modalService.dismissAll()">{{
-      'Wallet.userLegal_notice_btn' | translate }}</a>
+    <a
+      class="btn-link"
+      routerLink="/settings/Legal_KYC"
+      (click)="this.modalService.dismissAll()"
+      >{{ 'Wallet.userLegal_notice_btn' | translate }}</a
+    >
   </div>
 </ng-template>
