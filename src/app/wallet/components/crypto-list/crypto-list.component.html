@@ -68,7 +68,9 @@
                         class="div-ellipsis-span-name CryptoID d-flex justify-content-center align-items-center"
                       >
                         <span class="Cryptoname ellipsis-span-name ml-2">{{
-                          crypto.name
+                          crypto.name === 'Binance-Peg BUSD Token'
+                            ? 'BUSD'
+                            : crypto.name
                         }}</span>
                         <!-- <div class="CryptoUNDERname pt-2">{{ crypto.typetab }}</div> -->
                       </div>
@@ -1274,7 +1276,11 @@
                             : 'black'
                         }"
                       >
-                        {{ crypto.name }}
+                        {{
+                          crypto.name === 'Binance-Peg BUSD Token'
+                            ? 'BUSD'
+                            : crypto.name
+                        }}
                       </span>
                       <span
                         class="IconsName noselect"
@@ -1361,7 +1367,7 @@
                                 class="price-varition noselect"
                                 [ngStyle]="{ color: '#00CC9E' }"
                               >
-                                {{ crypto.arrow }}   {{ crypto.variation }}%
+                                {{ crypto.arrow }} {{ crypto.variation }}%
                               </span>
                             </div>
                             <div
