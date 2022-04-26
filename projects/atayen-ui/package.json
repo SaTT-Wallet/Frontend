@@ -1,6 +1,6 @@
 {
-  "name": "atayen-ui",
-  "version": "0.0.1",
+  "name": "@atayen.org/atayen-ui",
+  "version": "0.0.2",
   "peerDependencies": {
     "@angular/common": "^12.1.0",
     "@angular/core": "^12.1.0",
