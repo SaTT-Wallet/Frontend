@@ -39,22 +39,22 @@ import { Router } from '@angular/router';
 import { IOptionsList } from 'atayen-ui';
 
 export interface ICrypto {
-  AddedToken: boolean
-  contract: string
-  contrat: string
-  decimal: number
-  name: string
-  network: string
-  picUrl: boolean
-  price: string
-  quantity: string
-  symbol: string
-  total_balance: string
-  type: string
-  typetab: string
-  undername: string
-  undername2: string
-  variation: number
+  AddedToken: boolean;
+  contract: string;
+  contrat: string;
+  decimal: number;
+  name: string;
+  network: string;
+  picUrl: boolean;
+  price: string;
+  quantity: string;
+  symbol: string;
+  total_balance: string;
+  type: string;
+  typetab: string;
+  undername: string;
+  undername2: string;
+  variation: number;
 }
 @Component({
   selector: 'app-send',
@@ -129,13 +129,18 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   contactWallet: string = '';
   maxNumber: number = 999999999;
   sattBalance: any;
-  allowedFormats = [ BarcodeFormat.QR_CODE, BarcodeFormat.EAN_13, BarcodeFormat.CODE_128, BarcodeFormat.DATA_MATRIX ];
-  qrResultString: string | null | undefined ;
+  allowedFormats = [
+    BarcodeFormat.QR_CODE,
+    BarcodeFormat.EAN_13,
+    BarcodeFormat.CODE_128,
+    BarcodeFormat.DATA_MATRIX
+  ];
+  qrResultString: string | null | undefined;
   showScanner: boolean = false;
   private kyc$ = this.kycFacadeService.kyc$;
 
   options: IOptionsList<any> = {
-    items: this.dataList,
+    items: this.dataList
   };
 
   constructor(
@@ -181,9 +186,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.showScanner = false;
   }
 
-  onSelect(item: any) {
-    console.log('event', item);
-  }
+  // onSelect(item: any) {
+  // }
+
   //get list of crypto for user
   getusercrypto() {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -208,8 +213,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.showWalletSpinner = false;
         data = JSON.parse(JSON.stringify(data));
         this.dataList = data;
-        this.options.items = data
-        console.log('dataList',this.options.items);
+        this.options.items = data;
         this.cryptoList = [
           ...this.dataList.filter((data: any) => data.symbol === 'SATT'),
 
@@ -602,10 +606,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     if (currency) {
       this.dataList?.forEach((crypto: any) => {
         if (crypto.symbol === currency) {
-          console.log('crypto.quantity ',crypto.quantity);
-          
           let quantity = this.FormatDigitsPipe.transform(crypto.quantity);
-          console.log(quantity);
           //  let totalBal = this.FormatDigitsPipe.transform(crypto.total_balance);
           this.sendform.get('Amount')?.setValue(quantity),
             this.sendform.get('AmountUsd')?.setValue(crypto.total_balance);
@@ -664,7 +665,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               price = gaz.data.gasPrice;
               this.gazsend = (
                 ((price * GazConsumedByCampaign) / 1000000000) *
-                Eth 
+                Eth
               ).toFixed(2);
               this.eRC20Gaz = this.gazsend;
             })
