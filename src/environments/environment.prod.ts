@@ -51,7 +51,7 @@ export const environment = {
   firebase: {
     apiKey: 'AIzaSyAHfBKuneC6G0Uu9RKwI9hZKOjNiPQRd1U',
     authDomain: 'satt-token.firebaseapp.com',
-    //databaseURL: 'https://satt-token.firebaseio.com',
+    databaseURL: 'https://satt-token.firebaseio.com',
     projectId: 'satt-token',
     storageBucket: 'satt-token.appspot.com',
     messagingSenderId: '284190209745',
