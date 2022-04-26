@@ -28,6 +28,7 @@ export const environment = {
     messagingSenderId: '284190209745',
     appId: '1:284190209745:web:dc01085f6a6dabfcc837f0',
     measurementId: 'G-DSJK01CZ0X'
+    
   },
   fcmredirectUrl: 'http://localhost:4200/#/home',
   bscan: 'https://testnet.bscscan.com/tx/',
