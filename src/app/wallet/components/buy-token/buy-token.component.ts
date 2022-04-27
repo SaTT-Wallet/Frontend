@@ -476,14 +476,12 @@ export class BuyTokenComponent implements OnInit, OnChanges {
         )
         .pipe(
           catchError((err) => {
-            // console.log(error);
-            // if (error.error.text === 'Invalid Access Token') {
-            //   this.tokenStorageService.signOut();
-            // }
-            if (err.status !== 500) {
+            if (err.status === 403) {
               this.errMsg = err.error.error;
+            } else {
+              this.errMsg =
+                'service is temporarily unavailable, please try again later.';
             }
-
             return of(null);
           }),
           tap((data: any) => {
@@ -491,16 +489,15 @@ export class BuyTokenComponent implements OnInit, OnChanges {
               this.errMsg = data.data.error;
             } else if (data?.error) {
               this.errMsg = data.error;
-            } else {
-              this.errMsg = '';
             }
           }),
           takeUntil(this.isDestroyed)
         )
+        .pipe(filter((res) => res != null))
         .subscribe((data: any) => {
           this.cryptoAmount = data?.data.digital_money?.amount || 0;
-
           this.quoteId = data?.data.quote_id;
+          this.errMsg = '';
         });
       this.rateExchangePerRequestedCrypto$ = this.cryptoList$.pipe(
         map(
@@ -534,7 +531,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
         .getListTokensPrices()
         .pipe(
           map((cryptoListObject: any) => {
-            return cryptoListObject.data[this.requestedCrypto]?.price || 0;
+            return cryptoListObject[this.requestedCrypto]?.price || 0;
           })
         )
         .subscribe((data) => {
