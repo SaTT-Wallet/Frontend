@@ -267,7 +267,6 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   }
 
   toggleCurrencyType(currencyType: ECurrencyType) {
-    
     this.selectedCurrencyType = currencyType;
     if (currencyType === ECurrencyType.FIAT) {
       this.selectedTargetCurrency = 'USD';
@@ -310,7 +309,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       (crypto: Crypto) =>
         crypto.name.includes('SATT') &&
         crypto.type.toUpperCase() === this.selectedBlockchainNetwork
-    )
+    );
     this.requestedCrypto = this.sourceCryptoList.find(
       (crypto: Crypto) =>
         crypto.name.includes('SATT') &&
@@ -384,7 +383,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
     }
   }
   onSelectCrypto(cryptoSymbol: string, logo: any, crypto?: any) {
-    this.toSwapCrypto = crypto
+    this.toSwapCrypto = crypto;
     if (this.isCryptoRouter) {
       this.isCryptoRouter = false;
       this.router.navigate([], { queryParams: [] });
@@ -397,7 +396,6 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   }
 
   onSelectCurrency(crypto: { value: string; symbol: string } | Crypto) {
-    
     if (this.isCryptoRouter) {
       this.isCryptoRouter = false;
       this.router.navigate([], { queryParams: [] });
@@ -507,14 +505,12 @@ export class BuyTokenComponent implements OnInit, OnChanges {
         )
         .pipe(
           catchError((err) => {
-            // console.log(error);
-            // if (error.error.text === 'Invalid Access Token') {
-            //   this.tokenStorageService.signOut();
-            // }
-            if (err.status !== 500) {
+            if (err.status === 403) {
               this.errMsg = err.error.error;
+            } else {
+              this.errMsg =
+                'service is temporarily unavailable, please try again later.';
             }
-
             return of(null);
           }),
           tap((data: any) => {
@@ -522,16 +518,15 @@ export class BuyTokenComponent implements OnInit, OnChanges {
               this.errMsg = data.data.error;
             } else if (data?.error) {
               this.errMsg = data.error;
-            } else {
-              this.errMsg = '';
             }
           }),
           takeUntil(this.isDestroyed)
         )
+        .pipe(filter((res) => res != null))
         .subscribe((data: any) => {
           this.cryptoAmount = data?.data.digital_money?.amount || 0;
-
           this.quoteId = data?.data.quote_id;
+          this.errMsg = '';
         });
       this.rateExchangePerRequestedCrypto$ = this.cryptoList$.pipe(
         map(
@@ -631,6 +626,4 @@ export class BuyTokenComponent implements OnInit, OnChanges {
     this.isDestroyed.next('');
     this.isDestroyed.unsubscribe();
   }
-
-  
 }

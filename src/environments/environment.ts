@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  API_URL: 'https://api-preprod2.satt-token.com:3015', //'http://localhost:3014',
+  API_URL: 'https://localhost:3015', //'http://localhost:3014',
   //https://api-preprod.satt-token.com:3014
   addresses: {
     smartContracts: {
