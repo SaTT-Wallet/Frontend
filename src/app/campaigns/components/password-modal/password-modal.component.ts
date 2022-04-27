@@ -430,7 +430,7 @@ export class PasswordModalComponent implements OnInit {
         'Error: Transaction has been reverted by blockchain evm';
       this.loadingButton = false;
     } else {
-      this.errorMessage = 'An error has been occured, please try again later';
+      this.errorMessage = 'An error has occurred, please try again later';
       this.loadingButton = false;
     }
   }
