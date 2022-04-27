@@ -11,5 +11,12 @@ export class ExchangeRateService {
     return amount * price 
   }
 
-  
+  convertFromUSD(amount:number, price:number){
+    return Number((amount / price).toFixed(10)) 
+  }
+
+  convertToCrypto(amount:number,sourceCryptoPrice:number,targetCryptoPrice:number){
+    const value = (sourceCryptoPrice / targetCryptoPrice) * amount
+    return Number(value.toFixed(11))
+  }
 }
