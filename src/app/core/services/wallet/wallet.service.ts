@@ -64,7 +64,17 @@ export class WalletService {
       return this.http.post(sattUrl + '/wallet/transferBep20', send, {
         headers: headers
       });
-    } else {
+    } 
+    
+    else if (send.network.toLowerCase() === 'polygon') {
+      // delete send.token;
+      return this.http.post(sattUrl + '/wallet/transferPolygon', send, {
+        headers: headers
+      });
+    } 
+    
+
+    else {
       let body = {
         token: send.token,
         to: send.to,
