@@ -1,11 +1,17 @@
 import { Injectable } from '@angular/core';
+import { HttpService } from './http.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExchangeRateService {
 
-  constructor() { }
+  constructor(private service: HttpService) {
+    this.service.getPrices().subscribe(console.log)
+
+   }
+
+  private prices$ = this.service.getPrices()
 
   convertToUSD(amount:number, price:number ){
     return amount * price 
