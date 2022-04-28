@@ -55,6 +55,7 @@ export class DropdownCryptoNetworkComponent
     this.networkList = [
       { network: 'BEP20' },
       { network: 'ERC20' },
+      { network: 'POLYGON' },
       { network: 'BTC' }
     ];
   }
@@ -260,6 +261,12 @@ export class DropdownCryptoNetworkComponent
       this.cryptoName = this.defaultcurrbtc;
       this.cryptoPicName = this.defaultcurrbtc;
       this.cryptoDetails = 'BTC';
+    }
+    else if (network === 'POLYGON') {
+      this.cryptoSymbol = 'SATTPOLYGON';
+      this.cryptoName = this.defaultcurr;
+      this.cryptoPicName = this.defaultcurr;
+      this.cryptoDetails = 'SATT';
     }
     this.dataList.forEach((crypto: any) => {
       if (crypto.symbol === this.cryptoDetails) {
