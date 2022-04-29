@@ -5,13 +5,14 @@
 export const environment = {
   production: false,
   API_URL: 'https://api-preprod2.satt-token.com:3015',
- // 'https://api-preprod2.satt-token.com:3015',
-   //'https://localhost:3015',
+  // 'https://api-preprod2.satt-token.com:3015',
+  //'https://localhost:3015',
   //https://api-preprod.satt-token.com:3014
   addresses: {
     smartContracts: {
       campaignERC20: '0xa5F46d6F4F3b318EeFF1B37e39491e52233c5975',
       campaignBEP20: '0x2beF0d7531f0aaE08ADc26A0442Ba8D0516590d0',
+      campaignPOLYGON: '0x8CC1e2E2C4a04c3029579fD9612FEBb0323C319F',
       SATT_TOKENERC20: '0x2beF0d7531f0aaE08ADc26A0442Ba8D0516590d0',
       SATT_TOKENBEP20: '0x6fAc729f346A46fC0093126f237b4A520c40eb89',
       SATT_TOKENPOLYGON: '0x195DC8342D923D3dFe0167Dc902A33Eabd801653',
@@ -36,7 +37,7 @@ export const environment = {
   bscan: 'https://testnet.bscscan.com/tx/',
   etherscan: 'https://ropsten.etherscan.io/tx/',
   bscanaddr: 'https://testnet.bscscan.com/address/',
-  polygonscanAddr:'https://mumbai.polygonscan.com/tx/',
+  polygonscanAddr: 'https://mumbai.polygonscan.com/tx/',
   etherscanaddr: 'https://ropsten.etherscan.io/address/',
   simplexUrl: 'https://sandbox.test-simplexcc.com/payments/new'
 

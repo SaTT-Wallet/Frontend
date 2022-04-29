@@ -8,7 +8,8 @@ import {
   campaignSmartContractBEP20,
   cryptoNetwork,
   ListTokens,
-  GazConsumedByCampaign
+  GazConsumedByCampaign,
+  campaignSmartContractPOLYGON
 } from '@config/atn.config';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -127,10 +128,20 @@ export class PasswordModalComponent implements OnInit {
       _campaign.ERC20token = ListTokens[this.campaign.currency.name].contract;
 */
       _campaign.amount = this.campaign?.initialBudget;
-      _campaign.contract =
-        ListTokens[this.campaign.currency.name].type === 'bep20'
-          ? campaignSmartContractBEP20
-          : campaignSmartContractERC20;
+      switch (ListTokens[this.campaign.currency.name].type) {
+        case 'bep20': {
+          _campaign.contract = campaignSmartContractBEP20;
+          break;
+        }
+        case 'erc20': {
+          _campaign.contract = campaignSmartContractERC20;
+          break;
+        }
+        case 'POLYGON': {
+          _campaign.contract = campaignSmartContractPOLYGON;
+          break;
+        }
+      }
       if (this.campaign.remuneration === 'performance') {
         _campaign.ratios = this.handleRatios();
       }
@@ -254,28 +265,11 @@ export class PasswordModalComponent implements OnInit {
 
   allowance(token: any) {
     let TokenOBj: any = {};
-    let TokenOBjBEP20: any = {};
     let campaign_info = this.fillInformations();
-
-    // let confirmationContent = [
-    //   'cost',
-    //   'cost_usd',
-    //   'countries',
-    //   'description',
-    //   'hash',
-    //   'ratios',
-    //   'resume',
-    //   'tags',
-    //   'time',
-    //   'title',
-    //   'token'
-    // ];
     this.showButtonSend = false;
     this.loadingButton = true;
     TokenOBj.walletaddr = this.tokenStorageService.getIdWallet();
     TokenOBj.addr = ListTokens[this.campaign.currency.name].contract;
-    TokenOBjBEP20.addr = ListTokens[this.campaign.currency.name].contract;
-    TokenOBjBEP20.walletaddr = this.tokenStorageService.getIdWallet();
     campaign_info.currency = cryptoNetwork[token];
     let LaunchCampaignObs: Observable<any>;
     if (cryptoNetwork[token] === 'BEP20') {
@@ -298,7 +292,50 @@ export class PasswordModalComponent implements OnInit {
           }
 
           return this.campaignService
-            .allowBEP20(TokenOBjBEP20, campaign_info.pass)
+            .allowBEP20(TokenOBj, campaign_info.pass)
+            .pipe(
+              tap((response: any) => {
+                if (response['error'] === 'Wrong password') {
+                  this.errorMessage = 'wrong_password';
+                }
+              }),
+              concatMap(() => {
+                if (this.campaign.remuneration === 'performance') {
+                  return this.launchCampaignWithPerPerformanceReward(
+                    campaign_info
+                  );
+                } else if (this.campaign.remuneration === 'publication') {
+                  return this.launchCampaignWithPerPublicationReward(
+                    campaign_info
+                  );
+                }
+                return of(null);
+              }),
+              takeUntil(this.isDestroyed)
+            );
+        })
+      );
+    } else if (cryptoNetwork[token] === 'POLYGON') {
+      LaunchCampaignObs = this.campaignService.approvePOLYGON(TokenOBj).pipe(
+        map((response: any) => response.data),
+        switchMap((response: any) => {
+          this.passwordForm.reset();
+          if (
+            new Big(response.allowance.amount).gt(
+              new Big(this.campaign.initialBudget)
+            )
+          ) {
+            if (this.campaign.remuneration === 'performance') {
+              //     confirmationContent
+              return this.launchCampaignWithPerPerformanceReward(campaign_info);
+            } else if (this.campaign.remuneration === 'publication') {
+              //     confirmationContent
+              return this.launchCampaignWithPerPublicationReward(campaign_info);
+            }
+          }
+
+          return this.campaignService
+            .allowPOLYGON(TokenOBj, campaign_info.pass)
             .pipe(
               tap((response: any) => {
                 if (response['error'] === 'Wrong password') {
