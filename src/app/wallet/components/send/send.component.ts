@@ -28,7 +28,7 @@ import { forkJoin, Subject } from 'rxjs';
 import { WalletStoreService } from '@core/services/wallet-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
-import { bscan, etherscan } from '@app/config/atn.config';
+import { bscan, etherscan ,polygonscanAddr} from '@app/config/atn.config';
 import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Location } from '@angular/common';
@@ -433,9 +433,12 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               // }
               if (this.networks === 'BEP20') {
                 this.routertransHash = bscan + this.hashtransaction;
-              } else {
+              } else if (this.networks === 'ERC20') {
                 this.routertransHash = etherscan + this.hashtransaction;
               }
+              else if (this.networks === 'POLYGON') {
+                this.routertransHash = polygonscanAddr + this.hashtransaction;
+              } 
               this.showPwdBloc = false;
               this.showSuccessBloc = true;
             }

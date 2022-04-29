@@ -33,6 +33,7 @@ export class MissionsComponent implements OnInit {
   isLinkedinSelected = false;
   isTikTokSelected = false;
   isReachLimitActivated = false;
+  isGoogleAnalyticsSelected = false;
   @Input() id = '';
   disableBtn!: boolean;
   @Input() draftData!: Campaign;
@@ -61,6 +62,10 @@ export class MissionsComponent implements OnInit {
       }),
       new FormGroup({
         oracle: new FormControl('tikTok'),
+        sub_missions: new FormArray([])
+      }),
+      new FormGroup({
+        oracle: new FormControl('googleAnalytics'),
         sub_missions: new FormArray([])
       })
     ])
@@ -114,6 +119,14 @@ export class MissionsComponent implements OnInit {
         'Add tags #tag01 #tag02 #tag03',
         'Indicate as a paid partnership with our brand'
       ]
+    },
+    {
+      oracle: 'googleAnalytics',
+      sub_missions: [
+        'Post a photo of the product “xxx”',
+        'Add tags #tag01 #tag02 #tag03',
+        'Indicate as a paid partnership with our brand'
+      ]
     }
   ];
 
@@ -125,6 +138,7 @@ export class MissionsComponent implements OnInit {
   showLinkedIn: boolean = false;
   showTwitter: boolean = false;
   showTikTok: boolean = false;
+  showGoogleAnalytics: boolean = false;
   constructor(private service: DraftCampaignService) {}
   ngOnDestroy(): void {
     this.isDestroyed$.next('');
@@ -182,7 +196,9 @@ export class MissionsComponent implements OnInit {
       } else if (this.closeOracle === 'instagram') {
         (this.missions.at(4).get('sub_missions') as FormArray).clear();
       } else if (this.closeOracle === 'tikTok') {
-        (this.missions.at(4).get('sub_missions') as FormArray).clear();
+        (this.missions.at(5).get('sub_missions') as FormArray).clear();
+      } else if (this.closeOracle === 'googleAnalytics') {
+        (this.missions.at(6).get('sub_missions') as FormArray).clear();
       }
       this.campaignMissionsOracl = this.campaignMissionsOracl.filter(
         (oracle) => {
