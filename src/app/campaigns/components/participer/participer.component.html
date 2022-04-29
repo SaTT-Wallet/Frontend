@@ -253,6 +253,32 @@
                 </div>
               </div>
             </div>
+            <div
+              class="error_container div-error d-flex justify-content-center mt-2"
+              *ngIf="connectValue === 'googleAnalytics'"
+            >
+              <!-- *ngIf="user.idSn !== 1"-->
+              <label class="mt-3 errorSocial"
+                >{{ 'sendMSGgoogle' | translate }}
+              </label>
+
+              <div class="d-flex justify-content-center mt-2 mb-3">
+                <div
+                  class="div-connect-google"
+                  (click)="connect('googleAnalytics')"
+                >
+                  <!--(click)="snlogin('google')" src="./assets/Images/vector-google.svg"-->
+                  <img
+                    src="./assets/Images/vector-google.svg"
+                    class="goog_icon"
+                    width="30px"
+                  />
+                  <span class="d-flex align-self-center gray-text-span ps-2">
+                    {{ 'google_signup' | translate }}</span
+                  >
+                </div>
+              </div>
+            </div>
 
             <div
               class="error_container div-error d-flex justify-content-center mt-2"
@@ -280,7 +306,15 @@
               </div>
             </div>
           </div>
-
+          <div *ngIf="showInputProperty">
+            <input
+              class=""
+              type="number"
+              name="property"
+              formControlName="propertyId"
+            />
+            <button type="button" (click)="clicked()">clicked</button>
+          </div>
           <div id="fb-root"></div>
           <div *ngIf="validUrl">
             <div
@@ -520,13 +554,14 @@
       >
         {{ 'Réessayer' | translate }}
       </button>
-      <button *ngIf="gazproblem"
-      type="submit"
-      class="btn-info me-2 mt-2 mb-2"
-            [routerLink]="['/wallet/buy-token']"
-    >
-      {{ 'buy_gas' | translate }}
-    </button>
+      <button
+        *ngIf="gazproblem"
+        type="submit"
+        class="btn-info me-2 mt-2 mb-2"
+        [routerLink]="['/wallet/buy-token']"
+      >
+        {{ 'buy_gas' | translate }}
+      </button>
       <!-- <button  class="btn-info me-2 mt-2 mb-2"   [routerLink]="['/home']">{{"bye_gaz"|translate}} </button> -->
       <button
         class="btn-info me-2 mt-2 mb-4"

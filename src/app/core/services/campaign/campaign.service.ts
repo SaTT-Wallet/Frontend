@@ -87,13 +87,13 @@ export class CampaignHttpApiService {
   }
 
   /*
-	@url : /campaign/totalSpent/:owner
-	@description: fetching total spending of the user in USD
-	@params:
+  @url : /campaign/totalSpent/:owner
+  @description: fetching total spending of the user in USD
+  @params:
     owner : wallet address of user
-	{headers}
-	@Output JSON object
-	*/
+  {headers}
+  @Output JSON object
+  */
   getTotalSpent() {
     return this.http.get(
       sattUrl +
@@ -500,6 +500,20 @@ export class CampaignHttpApiService {
         linkApplication.idUser +
         '/' +
         linkApplication.idPost,
+      {
+        headers: {
+          Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+        }
+      }
+    );
+  }
+  verifyBlog(link: any, idUser: any, propertyId: any) {
+    return this.http.post(
+      'https://127.0.0.1:3015/profile/link/verifyGoogle/' +
+        idUser +
+        '/' +
+        propertyId,
+      { link: link },
       {
         headers: {
           Authorization: 'Bearer ' + this.tokenStorageService.getToken()

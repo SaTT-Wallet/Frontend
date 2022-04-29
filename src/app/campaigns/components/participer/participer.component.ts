@@ -16,7 +16,7 @@ import {
 } from '@angular/forms';
 
 import { forkJoin, of, Subject } from 'rxjs';
-import { catchError, map, mergeMap, takeUntil } from 'rxjs/operators';
+import { catchError, filter, map, mergeMap, takeUntil } from 'rxjs/operators';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
@@ -30,6 +30,7 @@ import { TokenStorageService } from '@core/services/tokenStorage/token-storage-s
 import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 
 @Component({
   selector: 'app-participer',
@@ -102,7 +103,11 @@ export class ParticiperComponent implements OnInit {
   ratioLink: boolean = false;
   isGoogleUrl: boolean = false;
   gazproblem: boolean = false;
+  showInputProperty = false;
+  private account$ = this.accountFacadeService.account$;
+
   constructor(
+    private accountFacadeService: AccountFacadeService,
     private router: Router,
     public CampaignService: CampaignHttpApiService,
     private campaignStore: CampaignsStoreService,
@@ -121,7 +126,8 @@ export class ParticiperComponent implements OnInit {
         Validators.required,
         Validators.pattern(pattMedia)
       ]),
-      password: new FormControl('', Validators.required)
+      password: new FormControl('', Validators.required),
+      propertyId: new FormControl('')
     });
   }
 
@@ -209,6 +215,12 @@ export class ParticiperComponent implements OnInit {
       this.tokenStorageService.getIdUser() +
       '?redirect=' +
       this.router.url;
+    var googleAnalytics: string =
+      sattUrl +
+      '/profile/analytics/google/' +
+      this.tokenStorageService.getIdUser() +
+      '?redirect=' +
+      this.router.url;
 
     if (isPlatformBrowser(this.platformId)) {
       if (social === 'facebook') {
@@ -217,6 +229,8 @@ export class ParticiperComponent implements OnInit {
         window.location.href = linkGoogle;
       } else if (social === 'twitter') {
         window.location.href = linkTwitter;
+      } else if (social === 'googleAnalytics') {
+        window.location.href = googleAnalytics;
       } else {
         window.location.href = linkLinkedin;
       }
@@ -246,6 +260,7 @@ export class ParticiperComponent implements OnInit {
   }
 
   sendLink(): void {
+    this.showInputProperty = false;
     let performance = this.campaigndata?.ratios?.length
       ? this.campaigndata?.ratios
       : this.campaigndata?.bounties;
@@ -1024,8 +1039,54 @@ export class ParticiperComponent implements OnInit {
         this.loadingButton = false;
       }
     } else {
-      this.validUrl = false;
+      this.account$
+        .pipe(
+          filter((res) => res !== null),
+          takeUntil(this.isDestroyedSubject)
+        )
+        .subscribe((response: any) => {
+          console.log(response);
+        });
+      this.showInputProperty = true;
+      //this.validUrl = false;
     }
+  }
+  clicked() {
+    let url = '';
+    let link = this.sendform.get('url')?.value;
+    let domaine = link.split('//').slice(-1)[0].split('/')[0];
+    let splitedUrl = link.split('https://' + domaine)[1];
+    if (splitedUrl === '/') {
+      url = '(not set)';
+    } else {
+      url = splitedUrl;
+    }
+    console.log('splitedUrl', splitedUrl);
+    this.CampaignService.verifyBlog(
+      url,
+      this.tokenStorageService.getIdUser(),
+      this.sendform.get('propertyId')?.value
+    )
+      .pipe(takeUntil(this.isDestroyedSubject))
+      .subscribe(
+        (data: any) => {
+          this.linked = true;
+          console.log(data);
+        },
+        (error) => {
+          console.log('err', error.error.error);
+          if (error.error.error === 'Proprety invalid') {
+            this.errorMessage = 'google';
+            this.error = 'Proprety invalid';
+          } else {
+            this.connectValue = 'googleAnalytics';
+            this.errorResponse = 'googleAnalytics';
+            this.error = '';
+            this.success = '';
+            this.loadingButton = false;
+          }
+        }
+      );
   }
 
   // videoDescription$: Observable<any> = this.promData$.pipe(
@@ -1110,38 +1171,40 @@ export class ParticiperComponent implements OnInit {
           // this.sendform.get('password')?.clearValidators();
           this.loadingButton = false;
           this.showButtonSend = true;
- 
-            // if (data['error']) {
-            //   this.balanceNotEnough = false;
 
-            // } else {
-              this.notifyLink(data.data.idProm);
-              this.error = '';
-              this.success = data.data.transactionHash;
-              this.loadingButton = false;
-              if (data.data['transactionHash']) {
-                this.transactionHash = data.data['transactionHash'];
-              }
-              this.router.navigate([], {
-                queryParams: {
-                  successMessage: 'linkSubmitted'
-                }
-              });
-            // }
-       
+          // if (data['error']) {
+          //   this.balanceNotEnough = false;
+
+          // } else {
+          this.notifyLink(data.data.idProm);
+          this.error = '';
+          this.success = data.data.transactionHash;
+          this.loadingButton = false;
+          if (data.data['transactionHash']) {
+            this.transactionHash = data.data['transactionHash'];
+          }
+          this.router.navigate([], {
+            queryParams: {
+              successMessage: 'linkSubmitted'
+            }
+          });
+          // }
         },
         (error) => {
-          
           this.loadingButton = false;
           this.showButtonSend = true;
-          if (error.error.code === 402 && error.error.error ==="Returned error: already known") 
+          if (
+            error.error.code === 402 &&
+            error.error.error === 'Returned error: already known'
+          ) {
+            this.balanceNotEnough = false;
+          }
 
-           { this.balanceNotEnough = false;}
-
-
-
-          if (error.error.code === 500 ) {
-            if ( error.error.error ==="Key derivation failed - possibly wrong password") {
+          if (error.error.code === 500) {
+            if (
+              error.error.error ===
+              'Key derivation failed - possibly wrong password'
+            ) {
               this.error = 'wrong_password';
               this.success = '';
               this.loadingButton = false;
@@ -1151,12 +1214,11 @@ export class ParticiperComponent implements OnInit {
               this.success = '';
               this.loadingButton = false;
             }
-          } 
-         else if (error.error.code === 402) {
+          } else if (error.error.code === 402) {
             if (
               error.error.error ===
                 'Returned error: insufficient funds for gas * price + value' ||
-                error.error.error ===
+              error.error.error ===
                 'Returned error: replacement transaction underpriced'
             ) {
               this.gazproblem = true;
@@ -1175,25 +1237,23 @@ export class ParticiperComponent implements OnInit {
                 this.success = '';
               }
             }
-          }
-          else if (error.error.code === 401) {
-          if (error.error.error === 'Link already sent') {
-            this.error = 'link_already_exist';
-            this.success = '';
-            this.loadingButton = false;
-            this.router.navigate([], {
-              queryParams: {
-                errorMessage: 'error'
-              }
-            });
-          }}
-          else {
+          } else if (error.error.code === 401) {
+            if (error.error.error === 'Link already sent') {
+              this.error = 'link_already_exist';
+              this.success = '';
+              this.loadingButton = false;
+              this.router.navigate([], {
+                queryParams: {
+                  errorMessage: 'error'
+                }
+              });
+            }
+          } else {
             this.error = 'error-message';
           }
         }
       );
   }
-
 
   parentFunction() {
     this.walletFacade
