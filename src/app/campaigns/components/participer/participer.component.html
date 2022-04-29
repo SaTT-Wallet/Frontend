@@ -462,23 +462,37 @@
   <div>
     <div class="envoyer_lien success_page">
       <div class="success-link">
-        <img src="/assets/Images/success_info.svg" class="img-style mt-5" />
-        <h3 class="success-title mt-2">{{ 'titre_succes' | translate }}</h3>
+        <img
+          src="/assets/Images/moonboy/moonBoy-pink.svg"
+          class="img-style mt-5"
+        />
+        <h3 class="success-title mt-2">
+          {{ 'Your_link_is_now_submitted' | translate }}
+        </h3>
         <label class="text">{{ 'paragraph_succes' | translate }}</label>
         <app-copy-transaction-hash
           [transactionHash]="transactionHash"
           [networkWallet]="networkWallet"
           class="transaction-width"
         ></app-copy-transaction-hash>
-        <button class="btn-info me-2 mt-5 mb-2" (click)="redirect('send_link')">
-          {{ 'send_new_post' | translate }} >
-        </button>
-        <button
-          class="btn-info me-2 mt-2 mb-4"
-          (click)="redirect('campaign_details')"
+        <label class="text mt-3">{{ 'paragraph_succes' | translate }}</label>
+        <div
+          class="d-flex flex-xl-row flex-lg-row flex-md-row flx-sm-column flex-column mb-3 justify-content-center"
         >
-          < {{ 'Retour_aux_infos' | translate }}
-        </button>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+            <button
+              class="btn-info white-btn mt-3"
+              (click)="redirect('adPools')"
+            >
+              {{ 'back_toAdPools' | translate }}
+            </button>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+            <button class="btn-green mt-3" (click)="redirect('send_link')">
+              {{ 'participate' | translate }}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -520,13 +534,14 @@
       >
         {{ 'Réessayer' | translate }}
       </button>
-      <button *ngIf="gazproblem"
-      type="submit"
-      class="btn-info me-2 mt-2 mb-2"
-            [routerLink]="['/wallet/buy-token']"
-    >
-      {{ 'buy_gas' | translate }}
-    </button>
+      <button
+        *ngIf="gazproblem"
+        type="submit"
+        class="btn-info me-2 mt-2 mb-2"
+        [routerLink]="['/wallet/buy-token']"
+      >
+        {{ 'buy_gas' | translate }}
+      </button>
       <!-- <button  class="btn-info me-2 mt-2 mb-2"   [routerLink]="['/home']">{{"bye_gaz"|translate}} </button> -->
       <button
         class="btn-info me-2 mt-2 mb-4"

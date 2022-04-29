@@ -2144,6 +2144,7 @@
   "campaign_details.cover_letter_title": "Lettre de motivation",
   "campaign_details.creators_search_placeholder": "Rechercher un créateur",
   "campaign_details.current-cost": "Coût actuel de la campagne",
+  "campaign_details.campaign_about": "À propos de la campagne",
   "campaign_details.day": "jour",
   "campaign_details.description": "Présentation",
   "campaign_details.description-campaign": " Description de la campagne",
@@ -2779,7 +2780,7 @@
   "monetize_your_post": "Monétisez votre publication",
   "ur_pass": "Mot de passe de transaction",
   "titre_succes": "Votre média a été envoyé à l'annonceur !",
-  "paragraph_succes": "Vous serez averti si votre courrier est accepté",
+  "paragraph_succes": "Vous serez informé dès que l'annonceur l'aura reçu.",
   "send_new_post": "Envoyer une nouvelle publication",
   "Retour_aux_infos": "Retour aux infos de la campagne",
   "titre_erreur": "Oups ! Il y a eu un souci lors de l’envoi... ",
@@ -2991,5 +2992,7 @@
   "Apply Now": "Appliquer maintenant",
   "buy_some_gas": "Acheter du gaz",
   "invite_friends": "Invitez vos amis",
-  "join_on_social": "Rejoignez-nous sur nos réseaux sociaux"
+  "join_on_social": "Rejoignez-nous sur nos réseaux sociaux",
+  "back_toAdPools": "Retour vers AdPool",
+  "Your_link_is_now_submitted": "Votre lien est maintenant soumis."
 }

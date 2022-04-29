@@ -240,12 +240,15 @@ export class ParticiperComponent implements OnInit {
       this.router.navigate([]);
     } else if (link === 'FAQ') {
       this.router.navigate(['home/FAQ']);
+    } else if (link === 'adPools') {
+      this.router.navigate(['/ad-pools']);
     } else {
       this.router.navigate(['home/campaign/' + this.campaignId]);
     }
   }
 
   sendLink(): void {
+    this.connectValue = '';
     let performance = this.campaigndata?.ratios?.length
       ? this.campaigndata?.ratios
       : this.campaigndata?.bounties;
@@ -1110,38 +1113,40 @@ export class ParticiperComponent implements OnInit {
           // this.sendform.get('password')?.clearValidators();
           this.loadingButton = false;
           this.showButtonSend = true;
- 
-            // if (data['error']) {
-            //   this.balanceNotEnough = false;
 
-            // } else {
-              this.notifyLink(data.data.idProm);
-              this.error = '';
-              this.success = data.data.transactionHash;
-              this.loadingButton = false;
-              if (data.data['transactionHash']) {
-                this.transactionHash = data.data['transactionHash'];
-              }
-              this.router.navigate([], {
-                queryParams: {
-                  successMessage: 'linkSubmitted'
-                }
-              });
-            // }
-       
+          // if (data['error']) {
+          //   this.balanceNotEnough = false;
+
+          // } else {
+          this.notifyLink(data.data.idProm);
+          this.error = '';
+          this.success = data.data.transactionHash;
+          this.loadingButton = false;
+          if (data.data['transactionHash']) {
+            this.transactionHash = data.data['transactionHash'];
+          }
+          this.router.navigate([], {
+            queryParams: {
+              successMessage: 'linkSubmitted'
+            }
+          });
+          // }
         },
         (error) => {
-          
           this.loadingButton = false;
           this.showButtonSend = true;
-          if (error.error.code === 402 && error.error.error ==="Returned error: already known") 
+          if (
+            error.error.code === 402 &&
+            error.error.error === 'Returned error: already known'
+          ) {
+            this.balanceNotEnough = false;
+          }
 
-           { this.balanceNotEnough = false;}
-
-
-
-          if (error.error.code === 500 ) {
-            if ( error.error.error ==="Key derivation failed - possibly wrong password") {
+          if (error.error.code === 500) {
+            if (
+              error.error.error ===
+              'Key derivation failed - possibly wrong password'
+            ) {
               this.error = 'wrong_password';
               this.success = '';
               this.loadingButton = false;
@@ -1151,12 +1156,11 @@ export class ParticiperComponent implements OnInit {
               this.success = '';
               this.loadingButton = false;
             }
-          } 
-         else if (error.error.code === 402) {
+          } else if (error.error.code === 402) {
             if (
               error.error.error ===
                 'Returned error: insufficient funds for gas * price + value' ||
-                error.error.error ===
+              error.error.error ===
                 'Returned error: replacement transaction underpriced'
             ) {
               this.gazproblem = true;
@@ -1175,25 +1179,23 @@ export class ParticiperComponent implements OnInit {
                 this.success = '';
               }
             }
-          }
-          else if (error.error.code === 401) {
-          if (error.error.error === 'Link already sent') {
-            this.error = 'link_already_exist';
-            this.success = '';
-            this.loadingButton = false;
-            this.router.navigate([], {
-              queryParams: {
-                errorMessage: 'error'
-              }
-            });
-          }}
-          else {
+          } else if (error.error.code === 401) {
+            if (error.error.error === 'Link already sent') {
+              this.error = 'link_already_exist';
+              this.success = '';
+              this.loadingButton = false;
+              this.router.navigate([], {
+                queryParams: {
+                  errorMessage: 'error'
+                }
+              });
+            }
+          } else {
             this.error = 'error-message';
           }
         }
       );
   }
-
 
   parentFunction() {
     this.walletFacade

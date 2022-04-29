@@ -68,7 +68,7 @@
 .block-facebook::-webkit-scrollbar-thumb {
     background-color: #b1b1bb;
     border-radius: 20px;
-    border: 3px solid#b1b1bb;
+    border: 3px solid #b1b1bb;
 }
 
 
@@ -132,8 +132,8 @@
 
 .envoyer_lien {
     background: #ffffff;
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
-    border-radius: 30px;
+    /* box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 30px; */
     /* height: 440px; */
 }
 
@@ -536,7 +536,7 @@ input:-webkit-autofill:active {
     text-align: center;
     letter-spacing: 0.03em;
     text-transform: lowercase;
-    color: black;
+    color: #323754;
 }
 
 .error-text {
@@ -554,7 +554,8 @@ input:-webkit-autofill:active {
 .img-style {
     align-items: center;
     justify-content: center;
-    width: 76px;
+     width: 120px;
+    /* width: 76px; */
 }
 
 .success-title {
@@ -881,23 +882,23 @@ input:-webkit-autofill:active {
         align-items: center;
         /* justify-content: center; */
     }
-    .error_page {
+    /* .error_page {
         background: #f52079;
         border-radius: 0;
         top: 79px !important;
-    }
-    .success-title,
+    } */
+    /* .success-title,
     .error-title,
     .text,
     .error-text {
         color: #ffffff;
         padding: 10px 23px;
-    }
-    .success_page {
+    } */
+    /* .success_page {
         background: #00cc9e;
         border-radius: 0;
         top: 79px !important;
-    }
+    } */
      ::ng-deep iframe {
         opacity: 0.001;
         z-index: -1 !important;
@@ -1008,4 +1009,53 @@ input:-webkit-autofill:active {
     right: -15px;
     margin-top: -9px;
     width: 105px;
+}
+.btn-green {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.03em;
+    background: #00cc9e;
+    color: #f6f6ff;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    height: 48px;
+    /* width: 100%; */
+  width: 205px;
+}
+
+.btn-green:disabled {
+    background: #f6f6ff;
+    color: #adadc8;
+    border: 1px solid #d6d6e8;
+    cursor: auto;
+}
+
+.btn-green:hover{
+    background: #009775;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 30px;
+}
+
+.btn-green:focus {
+    background: #009775;
+    /* border: 6px solid rgb(243 243 243 / 70%); */
+    border-radius: 30px;
+    /* box-sizing: content-box;
+      opacity: 88%; */
+}
+.white-btn{
+    height: 48px;
+    width: 205px;
+}
+@media(max-width:567.98px){
+    .btn-green,
+    .white-btn{
+        width: 272px;
+    }
 }

@@ -1,10 +1,10 @@
 :host {
   width: 100%
 }
-
+/* 
 .bg-grey {
   background-color: #f6f6ff;
-}
+} */
 a:link {
   text-decoration: underline;
 }
@@ -15,7 +15,8 @@ a:hover {
   margin: 1em auto;
   border-radius: 1.2rem;
   padding: 1em;
-  max-width: 500px;
+  /* max-width: 500px; */
+  max-width: 236px;
 }
 .copy-to-clipboard-btn {
   cursor: pointer;
@@ -30,8 +31,9 @@ a:hover {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  width: 56%;
+  width: 54%;
   color: #4048ff;
+  font-weight: 400;
 }
 
 .span-wallet2 {
@@ -42,8 +44,11 @@ a:hover {
   width: 52%;
   justify-content: flex-end;
   color: #4048ff;
+    font-weight: 400;
 }
-
+a{
+  text-decoration: none !important;
+}
 .trx-hash-text {
   text-overflow: ellipsis;
   overflow: hidden;
@@ -53,6 +58,9 @@ a:hover {
 .trx-hash-title {
   color: #75758f;
   text-align: center;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 14px;
 }
 
 .text-color-white {
