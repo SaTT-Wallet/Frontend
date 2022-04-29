@@ -248,6 +248,7 @@ export class ParticiperComponent implements OnInit {
   }
 
   sendLink(): void {
+    this.connectValue = '';
     let performance = this.campaigndata?.ratios?.length
       ? this.campaigndata?.ratios
       : this.campaigndata?.bounties;

@@ -477,14 +477,21 @@
         ></app-copy-transaction-hash>
         <label class="text mt-3">{{ 'paragraph_succes' | translate }}</label>
         <div
-          class="d-flex flex-xl-row flex-lg-row flex-md-row flx-sm-column mb-3 justify-content-between"
+          class="d-flex flex-xl-row flex-lg-row flex-md-row flx-sm-column flex-column mb-3 justify-content-center"
         >
-          <button class="btn-green mt-3" (click)="redirect('send_link')">
-            {{ 'participate' | translate }}
-          </button>
-          <button class="btn-info white-btn mt-3" (click)="redirect('adPools')">
-            {{ 'back_toAdPools' | translate }}
-          </button>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+            <button
+              class="btn-info white-btn mt-3"
+              (click)="redirect('adPools')"
+            >
+              {{ 'back_toAdPools' | translate }}
+            </button>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+            <button class="btn-green mt-3" (click)="redirect('send_link')">
+              {{ 'participate' | translate }}
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -109,8 +109,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   menuCampaign: boolean = false;
   menuTokenInfo: boolean = false;
   menuBuyToken: boolean = false;
-  successPart: boolean = false;
-  errorPart: boolean = false;
+  // successPart: boolean = false;
+  // errorPart: boolean = false;
   sucess: any = false;
 
   @ViewChild('qrbtnERCM', { static: false }) qrbtnERCM?: ElementRef;
@@ -211,16 +211,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
           this.menuCampaign = false;
         }
 
-        if (event.url.includes('errorMessage')) {
-          this.errorPart = true;
-        } else {
-          this.errorPart = false;
-        }
-        if (event.url.includes('successMessage')) {
-          this.successPart = true;
-        } else {
-          this.successPart = false;
-        }
+        // if (event.url.includes('errorMessage')) {
+        //   this.errorPart = true;
+        // } else {
+        //   this.errorPart = false;
+        // }
+        // if (event.url.includes('successMessage')) {
+        //   this.successPart = true;
+        // } else {
+        //   this.successPart = false;
+        // }
         if (this.router.url.includes('welcome')) {
           this.checkMenuAdpool();
         }

@@ -882,23 +882,23 @@ input:-webkit-autofill:active {
         align-items: center;
         /* justify-content: center; */
     }
-    .error_page {
+    /* .error_page {
         background: #f52079;
         border-radius: 0;
         top: 79px !important;
-    }
-    .success-title,
+    } */
+    /* .success-title,
     .error-title,
     .text,
     .error-text {
         color: #ffffff;
         padding: 10px 23px;
-    }
-    .success_page {
+    } */
+    /* .success_page {
         background: #00cc9e;
         border-radius: 0;
         top: 79px !important;
-    }
+    } */
      ::ng-deep iframe {
         opacity: 0.001;
         z-index: -1 !important;
@@ -1025,8 +1025,8 @@ input:-webkit-autofill:active {
     border: none;
     cursor: pointer;
     height: 48px;
-    width: 100%;
-    max-width: 205px;
+    /* width: 100%; */
+  width: 205px;
 }
 
 .btn-green:disabled {
@@ -1050,7 +1050,12 @@ input:-webkit-autofill:active {
       opacity: 88%; */
 }
 .white-btn{
-        height: 48px;
-    width: 100%;
-    max-width: 205px;
+    height: 48px;
+    width: 205px;
+}
+@media(max-width:567.98px){
+    .btn-green,
+    .white-btn{
+        width: 272px;
+    }
 }
