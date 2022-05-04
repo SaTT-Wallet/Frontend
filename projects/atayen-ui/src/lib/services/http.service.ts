@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { CryptoData } from './exchange-rate.service';
 
 @Injectable({providedIn: 'root'})
 export class HttpService {
@@ -8,8 +10,8 @@ export class HttpService {
 
     private baseUrl = 'https://api-preprod2.satt-token.com:3015'
 
-    getPrices(){
-        return this.http.get(`${this.baseUrl}/wallet/cryptoDetails`)
+    getPrices(): Observable<CryptoData>{
+        return this.http.get<CryptoData>(`${this.baseUrl}/wallet/cryptoDetails`)
     }
     
 }

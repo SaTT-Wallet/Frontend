@@ -1,40 +1,179 @@
-import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { Type } from '@angular/core';
+import { inject, TestBed } from '@angular/core/testing';
 
-import { ExchangeRateService } from './exchange-rate.service';
+import { CryptoData, ExchangeRateService } from './exchange-rate.service';
 
 describe('ExchangeRateService', () => {
   let service: ExchangeRateService;
+  let httpMock: HttpTestingController;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(ExchangeRateService);
+  beforeEach(async() => {
+   TestBed.configureTestingModule({
+      imports: [
+        HttpClientTestingModule,
+      ],
+      providers: [
+        ExchangeRateService
+      ]
+    })
+  
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+  beforeEach( 
+    inject([ExchangeRateService, HttpTestingController], 
+      (_service:ExchangeRateService, _httpMock:HttpTestingController) => { 
+    service = _service;
+    httpMock = _httpMock;
+  }));
+
+  afterEach(() => {
+    httpMock.verify();
   });
 
-  it('should return value in usd', () => {
-
-   const result = service.convertToUSD(50,397.08)
-   expect(result).toEqual(19854)
+  it('should be created', (done) => {
+    const dummyCryptoData: CryptoData = {
+      data: {
+        'BNB': {
+          name: 'BNB',
+          price: 399.7564537866204,
+          percent_change_24h: -1.22927092,
+          market_cap: 65271024363.09679,
+          volume_24h: 2138948537.9572053,
+          circulating_supply: 163276974.63,
+          total_supply: 163276974.63,
+          max_supply: 165116760,
+          logo: ''
+        }
+      }
+    }
+    
+    service.getPrices().subscribe((airports:any) => {
+      // console.log(airports)
+      expect(airports.data['BNB'].price).toEqual(399.7564537866204)
+      done()
+    });
+    
+    const req = httpMock.expectOne(`https://api-preprod2.satt-token.com:3015/wallet/cryptoDetails`);
+    
+    req.flush(dummyCryptoData);
   });
 
-  it('should convert from usd to crypto', () => {
+  it('should return value in usd', (done) => {
+    const dummyCryptoData: CryptoData = {
+      data: {
+        'BNB': {
+          name: 'BNB',
+          price: 399.7564537866204,
+          percent_change_24h: -1.22927092,
+          market_cap: 65271024363.09679,
+          volume_24h: 2138948537.9572053,
+          circulating_supply: 163276974.63,
+          total_supply: 163276974.63,
+          max_supply: 165116760,
+          logo: ''
+        }
+      }
+    }
 
-   const result = service.convertFromUSD(100,392.0884402439951)
-   expect(result).toEqual(0.2550444995)
+    service.getPrices().subscribe(() => {
+      let result = service.convertToUSD(1,'BNB')
+      expect(result).toEqual(399.7564537866)
+
+      result = service.convertToUSD(1,'ETH')
+      expect(result).toEqual(null)
+      done()
+    });
+    
+    const req = httpMock.expectOne(`https://api-preprod2.satt-token.com:3015/wallet/cryptoDetails`);
+    
+    req.flush(dummyCryptoData);
   });
 
-  it('should convert the value to target currency', () => {
-   let result = service.convertToCrypto(10, 2953.837573145851, 39925.98163987281)
-   expect(result).toEqual(0.73982841544)
+  it('should convert from usd to crypto', (done) => {
+
+    const dummyCryptoData: CryptoData = {
+      data: {
+        'BNB': {
+          name: 'BNB',
+          price: 399.7564537866204,
+          percent_change_24h: -1.22927092,
+          market_cap: 65271024363.09679,
+          volume_24h: 2138948537.9572053,
+          circulating_supply: 163276974.63,
+          total_supply: 163276974.63,
+          max_supply: 165116760,
+          logo: ''
+        }
+      }
+    }
+
+    service.getPrices().subscribe(() => {
+      let result = service.convertFromUSD(100,'BNB')
+      expect(result).toEqual(0.2501523091)
+
+      result = service.convertFromUSD(100,'DOG')
+
+      expect(result).toEqual(null)
+
+
+      done()
+    });
+    
+    const req = httpMock.expectOne(`https://api-preprod2.satt-token.com:3015/wallet/cryptoDetails`);
+    
+    req.flush(dummyCryptoData);
    
-   result = service.convertToCrypto(10,395.5785409966289,2953.837573145851)
-    expect(result).toEqual(1.33920207595)
+  });
 
-   result = service.convertToCrypto(10,98.69987331652021,0.6680541454125344)
-    expect(result).toEqual(1477.4232596906)
+  it('should convert the value to target currency', (done) => {
+
+    const dummyCryptoData: CryptoData = {
+      data: {
+        'BNB': {
+          name: 'BNB',
+          price: 399.7564537866204,
+          percent_change_24h: -1.22927092,
+          market_cap: 65271024363.09679,
+          volume_24h: 2138948537.9572053,
+          circulating_supply: 163276974.63,
+          total_supply: 163276974.63,
+          max_supply: 165116760,
+          logo: ''
+        },
+        'ETH': {
+          name: 'ETH',
+          price: 3000,
+          percent_change_24h: -1.22927092,
+          market_cap: 65271024363.09679,
+          volume_24h: 2138948537.9572053,
+          circulating_supply: 163276974.63,
+          total_supply: 163276974.63,
+          max_supply: 165116760,
+          logo: ''
+        }
+      }
+    }
+
+    service.getPrices().subscribe(() => {
+      let result = service.convertToCrypto(10, 'BNB', 'ETH')
+      expect(result).toEqual(1.3325215126)
+   
+      result = service.convertToCrypto(10, 'ETH', 'BNB')
+      expect(result).toEqual(75.0456927357)
+
+       result = service.convertToCrypto(10,'BNB','JOT')
+       expect(result).toEqual(null)
+
+
+      done()
+    });
+    
+    const req = httpMock.expectOne(`https://api-preprod2.satt-token.com:3015/wallet/cryptoDetails`);
+    
+    req.flush(dummyCryptoData);
+
+   
   });
   
  

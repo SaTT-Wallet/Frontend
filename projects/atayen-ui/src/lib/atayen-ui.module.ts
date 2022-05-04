@@ -10,14 +10,16 @@ import { CryptoConverterPipe } from './pipes/crypto-converter.pipe';
   declarations: [
     CustomDropDownComponent,
     FormatDigitsPipe,
-    CryptoConverterPipe
+    CryptoConverterPipe,
   ],
   imports: [
     CommonModule
   ],
   exports: [
     CustomDropDownComponent,
-    FormatDigitsPipe
+    FormatDigitsPipe,
+    CryptoConverterPipe,
+    
   ]
 })
 export class AtayenUiModule { }

@@ -18,7 +18,8 @@ import { DatePipe, DecimalPipe } from '@angular/common';
 import { ChartModule } from 'angular-highcharts';
 import { CryptoInfoComponent } from './components/crypto-info/crypto-info.component';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
-import { AtayenUiModule } from 'atayen-ui';
+import { AtayenUiModule } from '../../../projects/atayen-ui/src/public-api';
+// import { AtayenUiModule } from 'atayen-ui';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,7 @@ import { AtayenUiModule } from 'atayen-ui';
     ReceiveComponent,
     ConvertComponent,
     HeaderSendReceiveBuyComponent,
-    CryptoInfoComponent,
+    CryptoInfoComponent
   ],
   imports: [
     SharedModule,

@@ -1,23 +1,29 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Injectable, Pipe, PipeTransform } from '@angular/core';
 import {ExchangeRateService} from '../services/exchange-rate.service'
+
 @Pipe({
   name: 'convertTo'
 })
 export class CryptoConverterPipe implements PipeTransform {
 
   constructor(private exchangeRateService: ExchangeRateService) {
-
+    this.exchangeRateService.getPrices().subscribe(console.log)
   }
-  transform(amount:number,sourceCryptoPrice:number,targetCurrency: string = 'USD', targetCryptoPrice?:number): number {
-    if(!targetCryptoPrice && targetCurrency === 'USD') {
-      return this.exchangeRateService.convertToUSD(amount, sourceCryptoPrice)
+  transform(amount:number,sourceCurrencySymbol:string,targetCurrencySymbol?:string): number | null {
+    
+    if(!targetCurrencySymbol) {
+      return this.exchangeRateService.convertToUSD(amount, sourceCurrencySymbol) as number;
     }
-
-    if(!targetCryptoPrice && targetCurrency !== 'USD') {
-     return this.exchangeRateService.convertFromUSD(amount, sourceCryptoPrice)
+    
+    if(sourceCurrencySymbol === 'USD' && targetCurrencySymbol) {
+      return this.exchangeRateService.convertFromUSD(amount, targetCurrencySymbol)
     }
-
-    return this.exchangeRateService.convertToCrypto(amount,sourceCryptoPrice,targetCryptoPrice || 0)
+      
+    if(sourceCurrencySymbol !== 'USD' && targetCurrencySymbol){
+      return this.exchangeRateService.convertToCrypto(amount,sourceCurrencySymbol,targetCurrencySymbol)
+    }
+    
+    return null;
   }
 
 }
