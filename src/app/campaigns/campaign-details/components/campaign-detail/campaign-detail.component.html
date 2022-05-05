@@ -65,6 +65,15 @@
       >
         {{ 'Apply Now' | translate }}
       </button>
+      <button
+        type="button"
+        class="btn-edit-ad-pool"
+        id="btn-edit-ad-pool"
+        (click)="goToEditPage(campaign.id)"
+        *ngIf="campaign.isOwnedByUser && campaign.isActive"
+      >
+        Edit Adpool
+      </button>
       <button type="button" class="btn-scroll-top" (click)="scrollToTop()">
         <img src="/assets/Images/chevron_up.svg" />
       </button>
