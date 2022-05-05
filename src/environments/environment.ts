@@ -37,7 +37,7 @@ export const environment = {
   // etherscanaddr: 'https://ropsten.etherscan.io/address/',
   // simplexUrl: 'https://sandbox.test-simplexcc.com/payments/new'
 
-  API_URL: 'https://api-preprod2.satt-token.com',
+  API_URL: 'https://api2.satt-token.com:3016',
   addresses: {
     smartContracts: {
       campaignERC20: '0xf961c85517fe86244cb60889afc4a928068d49ef',
