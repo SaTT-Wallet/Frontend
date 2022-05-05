@@ -245,7 +245,8 @@
           }}</span>
 
           <span class="error_msg" *ngIf="nobalance">{{
-            'send.no_balance' | translate
+            'send.no_balance_crypto'
+              | translate: { crypto: this.selectedCryptoDetails.symbol }
           }}</span>
         </div>
         <div class="text-center">
