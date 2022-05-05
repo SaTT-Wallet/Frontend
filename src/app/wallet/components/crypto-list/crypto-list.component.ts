@@ -114,16 +114,13 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   @Output() hidePortfolio: EventEmitter<any> = new EventEmitter();
 
   ngOnInit(): void {
-    
     this.portfeuille();
     this.getTotalBalance();
     this.getusercrypto();
-    
+
     //input pattern="[0-9]*"
     $('[data-toggle="tooltip"]').tooltip;
     this.spinner.show('showWalletSpinner');
-
-
   }
   ngAfterContentInit() {
     this.cdref.detectChanges();
@@ -141,7 +138,6 @@ export class CryptoListComponent implements OnInit, OnDestroy {
 
   //get list of crypto for user
   getusercrypto() {
-    
     this.spinner.show('showWalletSpinner');
     this.showWalletSpinner === true;
     let indexSattBEP20 = 0;
@@ -210,7 +206,6 @@ export class CryptoListComponent implements OnInit, OnDestroy {
             ? crypto?.variation?.toFixed(2)
             : '0.00';
 
-
           crypto.quantity = this.filterAmount(crypto.quantity + '');
           // crypto.cryptoBEP20.quantity = this.filterAmount(crypto.quantity + '');
           crypto.total_balance = parseFloat(crypto.total_balance + '');
@@ -237,10 +232,10 @@ export class CryptoListComponent implements OnInit, OnDestroy {
           // }
           if (cryptoVariations < 0) {
             crypto.arrow = '';
-            crypto.arrowColor = 'red';
+            crypto.arrowColor = '#F52079';
           } else {
             crypto.arrow = '+';
-            crypto.arrowColor = 'green';
+            crypto.arrowColor = '#00CC9E';
           }
 
           if (crypto.symbol === 'SATT') {
@@ -640,16 +635,12 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     }
     this.erc20Selected = false;
     this.bep20Selected = false;
-    console.log("crypto.selected",crypto.selected)
     let index = this.cryptoList
       .map((res: any) => res.name)
       .indexOf(crypto.name);
     if (crypto.selected === true) {
-      console.log("aa")
       this.cryptoList[index].selected = false;
     } else {
-      console.log("bb")
-
       this.cryptoList[
         this.cryptoList.map((res: any) => res.name).indexOf(crypto.name)
       ].selected = true;

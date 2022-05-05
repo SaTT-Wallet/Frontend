@@ -749,17 +749,17 @@ export class WalletComponent implements OnInit, OnDestroy {
         if (this.variationamount < 0) {
           this.arrowvar = '';
           this.arrowup = false;
-          this.arrowColor = 'red';
+          this.arrowColor = '#F52079';
         } else if (this.variationamount === 0) {
           this.arrowvar = '';
           this.arrowup = true;
-          this.arrowColor = '#5cff5c';
+          this.arrowColor = '#00CC9E';
         } else {
           this.arrowvar = '+';
 
           this.arrowup = true;
 
-          this.arrowColor = '#5cff5c';
+          this.arrowColor = '#00CC9E';
         }
       });
   }

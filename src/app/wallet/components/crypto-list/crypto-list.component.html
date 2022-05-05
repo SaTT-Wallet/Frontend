@@ -1344,7 +1344,7 @@
                           <div class="" *ngIf="crypto.undername === 'SATT'">
                             <div
                               class="variation-box noselect"
-                              *ngIf="crypto.arrowColor === 'green'"
+                              *ngIf="crypto.arrowColor === '#00CC9E'"
                             >
                               <span class="price-varition-up">
                                 {{ crypto.arrow }} {{ crypto.variation }}%
@@ -1352,7 +1352,7 @@
                             </div>
                             <div
                               class="variation-box-red noselect"
-                              *ngIf="crypto.arrowColor === 'red'"
+                              *ngIf="crypto.arrowColor === '#F52079'"
                               [ngStyle]="{ color: crypto.arrowColor }"
                             >
                               <span class="price-varition-down">
@@ -1363,7 +1363,7 @@
                           <span *ngIf="crypto.undername !== 'SATT'">
                             <div
                               class="variation-box noselect"
-                              *ngIf="crypto.arrowColor === 'green'"
+                              *ngIf="crypto.arrowColor === '#00CC9E'"
                             >
                               <span
                                 class="price-varition noselect"
@@ -1374,7 +1374,7 @@
                             </div>
                             <div
                               class="variation-box-red noselect"
-                              *ngIf="crypto.arrowColor === 'red'"
+                              *ngIf="crypto.arrowColor === '#F52079'"
                               [ngStyle]="{ color: crypto.arrowColor }"
                             >
                               <span
