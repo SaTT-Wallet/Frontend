@@ -516,7 +516,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               this.amountUsd = '';
               this.amount = '';
               this.wrongpassword = false;
-               this.gazproblem = true;
+              this.gazproblem = true;
               // setTimeout(() => {
               //   this.gazproblem = false;
               // }, 3000);
@@ -645,7 +645,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     // if (event.target.value.length === 0 && event.key === '0') {
     //   event.preventDefault();
     // }
-    if (event.keyCode === 54) {
+    if (event.keyCode === 54 && !event.shiftKey) {
       event.preventDefault();
       this.convertcurrency('', false);
     }
