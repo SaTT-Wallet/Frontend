@@ -259,7 +259,7 @@
   letter-spacing: 1px;
   color: #1f2337;
   max-width: 70%;
-  line-height: 33px;
+  line-height: 40px;
   margin-top: 0.5em;
   text-transform: capitalize;
 }
@@ -587,6 +587,7 @@
     /* text-align: center; */
     /* padding: 0.2em; */
     font-size: 32px !important;
+    line-height: 33px;
     /* max-width: 100% !important; */
     text-align: center !important;
     /* margin: 70px auto 0px; */
@@ -815,6 +816,7 @@
   border: 1px solid #a0a0c1;
   max-width: 72px;
   min-width: 72px;
+  max-height: 72px;
   /* width: 6vw; */
 }
 
@@ -959,6 +961,20 @@ a {
 }
 
 @media (min-width: 768px) {
+  .btn-apply-desk {
+    position: absolute;
+    bottom: 1rem;
+  }
+  .back-list-desk {
+    position: absolute;
+    top: 0.5em;
+    margin-top: 0.5em;
+
+    right: 0;
+  }
+  .width-desktop-300 {
+    width: 300px;
+  }
   .img-container {
     margin: 0em 0 0em 0;
   }
