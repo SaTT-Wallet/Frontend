@@ -587,6 +587,7 @@
     /* text-align: center; */
     /* padding: 0.2em; */
     font-size: 32px !important;
+    line-height: 33px;
     /* max-width: 100% !important; */
     text-align: center !important;
     /* margin: 70px auto 0px; */
@@ -783,7 +784,7 @@
 
 .font-size-title {
   font-size: 2.1vw;
-  line-height: 33px;
+  line-height: 40px;
   min-width: 80px;
   color: #1f2337;
   -webkit-box-orient: vertical;
@@ -972,6 +973,20 @@ a {
 @media (min-width: 768px) {
   .img-container {
     margin: 0em 0 0em 0;
+  }
+  .btn-apply-desk {
+    position: absolute;
+    bottom: 1rem;
+  }
+  .back-list-desk {
+    position: absolute;
+    top: 0.5em;
+    margin-top: 0.5em;
+
+    right: 0;
+  }
+  .width-desktop-300 {
+    width: 300px;
   }
   // :host {
   //   padding: 0 1em;
