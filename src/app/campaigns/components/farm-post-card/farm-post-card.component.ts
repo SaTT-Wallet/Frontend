@@ -241,13 +241,15 @@ export class FarmPostCardComponent implements OnInit {
             .pipe(takeUntil(this.isDestroyed))
             .subscribe((res: any) => {
               let objectURL: any;
-              if (res.err !== 'No file exists') {
-                objectURL = URL.createObjectURL(res);
-                this.prom.userPic =
-                  this._sanitizer.bypassSecurityTrustUrl(objectURL);
-                this.changeDetectorRef.detectChanges();
-              } else {
-                this.prom.userPic = '';
+              if (res) {
+                if (res.err !== 'No file exists') {
+                  objectURL = URL.createObjectURL(res);
+                  this.prom.userPic =
+                    this._sanitizer.bypassSecurityTrustUrl(objectURL);
+                  this.changeDetectorRef.detectChanges();
+                } else {
+                  this.prom.userPic = '';
+                }
               }
             });
         }

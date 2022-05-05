@@ -215,7 +215,10 @@ export class CampaignDetailGainsComponent implements OnInit {
         this.campaignService.isLoading.next(false);
         this.showSpinner = false;
         this.isFirstLoad = false;
-        this.campaignLinks = links;
+
+        if (!this.campaignLinks.length) {
+          this.campaignLinks = links;
+        }
 
         //   this.checkingGains(this.campaignLinks);
         this.publications = links?.length || '0';
