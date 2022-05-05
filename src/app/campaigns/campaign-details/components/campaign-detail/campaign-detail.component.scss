@@ -746,7 +746,9 @@
   /* width: 13vw; */
   cursor: pointer;
   width: fit-content;
-  padding: 0px 25px;
+  min-width: 187px;
+  padding: 0px 8px;
+  // padding: 0px 25px;
 }
 
 .btn-scroll-top,
@@ -781,9 +783,17 @@
 
 .font-size-title {
   font-size: 2.1vw;
-  line-height: 18px;
+  line-height: 33px;
   min-width: 80px;
   color: #1f2337;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  overflow: hidden;
+  max-width: 60vw;
+  padding: 5px 0px;
+  // max-height: 70px;
+  text-overflow: ellipsis;
 }
 
 .dark-gray {
@@ -969,7 +979,6 @@ a {
     position: absolute;
     top: 0.5em;
     margin-top: 0.5em;
-
     right: 0;
   }
   .width-desktop-300 {
