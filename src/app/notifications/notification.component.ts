@@ -234,11 +234,13 @@ export class NotificationComponent implements OnInit {
             item.created = item.created ? item.created : item.createdAt;
             this.siwtchFunction(item);
           });
+          console.log('this.dataNotification111 ', this.dataNotification);
 
           this.dataNotification = _.chain(this.dataNotification)
             .groupBy('created')
             .map((value: any, key: any) => ({ created: key, value }))
             .value();
+          console.log('this.dataNotification ', this.dataNotification);
         }
       });
   }
@@ -251,12 +253,12 @@ export class NotificationComponent implements OnInit {
   siwtchFunction(item: any) {
     const etherInWei = new Big(1000000000000000000);
     let itemDate = new Date(item.created);
-
+    item.createdInit = item.created;
     if (this.tokenStorageService.getLocalLang() === 'en') {
       item.createdFormated = moment
         .parseZone(itemDate)
         .format(' MMMM Do YYYY, h:mm a z');
-      item.created = moment.parseZone(itemDate).fromNow().slice();
+      item.created = moment.parseZone(item.created).fromNow();
     } else if (this.tokenStorageService.getLocalLang() === 'fr') {
       item.createdFormated = moment
         .parseZone(itemDate)
