@@ -121,7 +121,8 @@
                 *ngIf="
                   i.type !== 'transfer_event' &&
                   i.type !== 'apply_campaign' &&
-                  i.type !== 'cmp_candidate_accept_link'
+                  i.type !== 'cmp_candidate_accept_link' &&
+                  i.type !== 'receive_transfer_event'
                 "
                 [translate]="i._label"
                 [translateParams]="i._params"
@@ -131,7 +132,8 @@
                 *ngIf="
                   i.type === 'transfer_event' ||
                   i.type === 'apply_campaign' ||
-                  i.type === 'cmp_candidate_accept_link'
+                  i.type === 'cmp_candidate_accept_link' ||
+                  i.type === 'receive_transfer_event'
                 "
               >
                 <span
@@ -154,6 +156,12 @@
                   *ngIf="i.type === 'transfer_event'"
                   class="link"
                   [translate]="'transfer_event_link'"
+                  [translateParams]="i._params"
+                ></span>
+                <span
+                  *ngIf="i.type === 'receive_transfer_event'"
+                  class="link"
+                  [translate]="'receive_event_link'"
                   [translateParams]="i._params"
                 ></span>
               </p>

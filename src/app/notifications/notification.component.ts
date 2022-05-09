@@ -787,6 +787,14 @@ export class NotificationComponent implements OnInit {
         queryParams: { linkHash: notif?.label?.linkHash, type: 'earnings' }
       });
     }
+
+    if (notif.label.network === 'ERC20') {
+      window.open(etherscan + notif.label.transactionHash, '_blank');
+    }
+
+    if (notif.label.network === 'BEP20') {
+      window.open(bscan + notif.label.transactionHash, '_blank');
+    }
   }
 
   shareOnSocialMedias(content: any) {
