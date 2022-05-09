@@ -33,6 +33,9 @@ import introJs from 'intro.js';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { ProfileService } from '@app/core/services/profile/profile.service';
+import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
+import { ConvertFromWei } from '@app/shared/pipes/wei-to-sa-tt.pipe';
+import { Big } from 'big.js';
 @Component({
   selector: 'app-ad-pools',
   templateUrl: './ad-pools.component.html',
@@ -79,6 +82,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
   isChecked = false;
   private account$ = this.accountFacadeService.account$;
   private onDestoy$ = new Subject();
+  cryptoPrices: any;
   constructor(
     private accountFacadeService: AccountFacadeService,
     private campaignsListStoreService: CampaignsListStoreService,
@@ -92,14 +96,39 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private profileService: ProfileService,
     public translate: TranslateService,
-    public modalService: NgbModal
+    public modalService: NgbModal,
+    private convertFromWeiTo: ConvertFromWei,
+    private walletFacade: WalletFacadeService
   ) {}
 
   ngOnInit(): void {
     this.onBoarding();
     this.loadCampaigns();
   }
+  getCryptoPrices() {
+    this.walletFacade
+      // .getlistTokens()
+      .getCryptoPriceList()
+      .pipe(
+        map((res: any) => res.data)
+        // map((crypto: any) =>
+        //   new Big(crypto.price + '')
+        //     .times(
+        //       this.convertFromWeiTo.transform(
+        //         this.campaign.budget,
+        //         this.currencyName,
+        //         2
+        //       )
+        //     )
+        //     .toFixed(2)
+        // )
+      )
+      .subscribe((cryptos) => {
+        //this.cryptoPrices = Object.entries(cryptos);
 
+        this.cryptoPrices = cryptos;
+      });
+  }
   getUserPic() {
     this.subscription = this.account$
       .pipe(
@@ -138,7 +167,10 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
             map((pages: Page<Campaign>[]) =>
               _.flatten(pages.map((page: Page<Campaign>) => page.items))
             ),
-            takeUntil(this.onDestoy$)
+            takeUntil(this.onDestoy$),
+            tap(() => {
+              this.getCryptoPrices();
+            })
           );
         })
       )
@@ -151,6 +183,19 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
         this.campaignsList = campaigns;
         this.campaignsList2 = campaigns;
         this.campaignsList?.forEach((element: Campaign) => {
+          if (this.cryptoPrices) {
+            element.budgetUsd = new Big(
+              this.cryptoPrices[element.currency.name].price + ''
+            )
+              .times(
+                this.convertFromWeiTo.transform(
+                  element.budget,
+                  element.currency.name,
+                  2
+                )
+              )
+              .toFixed(2);
+          }
           if (typeof element.startDate == 'number') {
             element.startDate = new Date(element.startDate * 1000);
           }
