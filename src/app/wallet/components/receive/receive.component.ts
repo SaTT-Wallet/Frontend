@@ -176,11 +176,11 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
     // console.log(event, event.keyCode);
     if (event.keyCode === 54 && !event.shiftKey) {
       event.preventDefault();
-      this.convertcurrency('', false);
+      //this.convertcurrency('', false);
     }
     if (!this.isValidKeyCode(event.keyCode)) {
       event.preventDefault();
-      this.convertcurrency('', false);
+      // this.convertcurrency('', false);
     }
   }
 
@@ -198,76 +198,64 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
     );
   }
 
-  convertcurrency(event: any, restrict?: boolean): void {
-    let allow: boolean = true;
-    if (restrict !== undefined && restrict === false) {
-      allow = false;
+  convertcurrency(event: any): void {
+    let currency = '';
+    let currencyreceive = '';
+    var getamountreceive: any = this.receiveform.get('Amount')?.value;
+    let getusdreceive: any = this.receiveform.get('AmountUsd')?.value;
+    let receiveamount = getamountreceive?.toString();
+    let receiveusd = getusdreceive?.toString();
+    if (event === 'usdreceive' && Number(receiveusd) > this.maxNumber) {
+      receiveusd = receiveusd.slice(0, 9);
+      this.receiveform.get('AmountUsd')?.setValue(receiveusd);
     } else {
-      allow = true;
-    }
-    if (allow) {
-      let currency = '';
-      let currencyreceive = '';
-      var getamountreceive: any = this.receiveform.get('Amount')?.value;
-      let getusdreceive: any = this.receiveform.get('AmountUsd')?.value;
-      let receiveamount = getamountreceive?.toString();
-      let receiveusd = getusdreceive?.toString();
-      if (event === 'usdreceive' && Number(receiveusd) > this.maxNumber) {
-        receiveusd = receiveusd.slice(0, 9);
-        this.receiveform.get('AmountUsd')?.setValue(receiveusd);
+      this.selectedCryptoSend = currency;
+      if (this.selectedCryptoSend) {
+        currencyreceive = this.selectedCryptoSend;
       } else {
-        this.selectedCryptoSend = currency;
-        if (this.selectedCryptoSend) {
-          currencyreceive = this.selectedCryptoSend;
-        } else {
-          currencyreceive = this.amountdefault;
-        }
-        this.dataList?.forEach((crypto: any) => {
-          if (
-            event === 'amountreceive' &&
-            receiveamount !== undefined &&
-            !isNaN(receiveamount)
-          ) {
-            if (crypto.symbol === currencyreceive) {
-              this.amountUsd = crypto.price * receiveamount;
-              this.amountUsd = this.showNumbersRule.transform(this.amountUsd);
-              if (isNaN(this.amountUsd)) {
-                this.amountUsd = '';
-                this.amount = '';
-              }
-            }
-          } else if (
-            event === 'amountreceive' &&
-            (receiveamount === undefined || isNaN(receiveamount))
-          ) {
-            this.amountUsd = '';
-          }
-          if (
-            event === 'usdreceive' &&
-            receiveusd !== '' &&
-            !isNaN(receiveusd)
-          ) {
-            if (crypto.symbol === currencyreceive) {
-              this.amount = receiveusd / crypto.price;
-              this.amount = this.showNumbersRule.transform(this.amount);
-              if (
-                receiveamount === '0.00000000' ||
-                receiveusd === '' ||
-                isNaN(this.amount)
-              ) {
-                this.amountUsd = '';
-                this.amount = '';
-              }
-            }
-          } else if (
-            event === 'usdreceive' &&
-            (receiveusd === '' || isNaN(receiveusd))
-          ) {
-            this.amount = '';
-          }
-        });
-        this.editwidthInput();
+        currencyreceive = this.amountdefault;
       }
+      this.dataList?.forEach((crypto: any) => {
+        if (
+          event === 'amountreceive' &&
+          receiveamount !== undefined &&
+          !isNaN(receiveamount)
+        ) {
+          if (crypto.symbol === currencyreceive) {
+            this.amountUsd = crypto.price * receiveamount;
+            this.amountUsd = this.showNumbersRule.transform(this.amountUsd);
+            if (isNaN(this.amountUsd)) {
+              this.amountUsd = '';
+              this.amount = '';
+            }
+          }
+        } else if (
+          event === 'amountreceive' &&
+          (receiveamount === undefined || isNaN(receiveamount))
+        ) {
+          this.amountUsd = '';
+        }
+        if (event === 'usdreceive' && receiveusd !== '' && !isNaN(receiveusd)) {
+          if (crypto.symbol === currencyreceive) {
+            this.amount = receiveusd / crypto.price;
+            this.amount = this.showNumbersRule.transform(this.amount);
+            if (
+              receiveamount === '0.00000000' ||
+              receiveusd === '' ||
+              isNaN(this.amount)
+            ) {
+              this.amountUsd = '';
+              this.amount = '';
+            }
+          }
+        } else if (
+          event === 'usdreceive' &&
+          (receiveusd === '' || isNaN(receiveusd))
+        ) {
+          this.amount = '';
+        }
+      });
+      this.editwidthInput();
     }
   }
   replaceNonAlphanumeric(value: any) {

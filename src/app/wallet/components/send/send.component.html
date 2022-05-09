@@ -20,13 +20,14 @@
             [cryptoFromComponent]="this.cryptoToDropdown"
           ></app-dropdown-crypto-network>
         </div>
+        <!--             (keydown)="restrictZero($event)"
+ -->
         <div class="">
           <input
             type="number"
             id=""
             (focus)="goToSection('amount')"
             pattern="^[1-9][0-9]*$"
-            (keydown)="restrictZero($event)"
             formControlName="Amount"
             input
             class="amount input-amount"
@@ -60,7 +61,6 @@
               (focus)="goToSection('usd')"
               pattern="(\d{1,2}([\.,])?)*([\d{1,2}]?)*"
               class="usd input-amount-usd"
-              (keydown)="restrictZero($event)"
               placeholder="0"
               formControlName="AmountUsd"
               [(ngModel)]="amountUsd"

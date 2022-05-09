@@ -67,6 +67,7 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MoonboyHelpComponent } from './components/moonboy-help/moonboy-help.component';
 import { WheelMouseDirective } from './directives/wheelMouse.directive';
+import { AcceptNumbersDirective } from './directives/acceptNumbers.directive';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import { WheelMouseDirective } from './directives/wheelMouse.directive';
     EarnedSattPipe,
     TransfomNumberPipe,
     ClickElseWhereDirective,
+    AcceptNumbersDirective,
     CapitalizePhrasePipe,
     ConvertToWeiPipe,
     ConvertFromWei,
@@ -124,6 +126,7 @@ import { WheelMouseDirective } from './directives/wheelMouse.directive';
     OrderByPipe,
     TransfomNumberPipe,
     ClickElseWhereDirective,
+    AcceptNumbersDirective,
     CapitalizePhrasePipe,
     ConvertToWeiPipe,
     ConvertFromWei,

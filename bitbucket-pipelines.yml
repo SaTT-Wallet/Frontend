@@ -1,20 +1,20 @@
-image: atayen/atayen:1.0
-clone:
-  depth: full
-pipelines:
-  branches:
-    release/*:
-      - step:
-          name: check directory 
-          script:
-            - /bin/ls  /opt/atlassian/pipelines/agent/build/
-      - step:
-          name: check directory 
-          script:
-            -  cd /opt/atlassian/pipelines/agent/build/               
-      - step:
-          name: put file on production 
-          script:
+# image: atayen/atayen:1.0
+# clone:
+#   depth: full
+# pipelines:
+#   branches:
+#     release/*:
+#       - step:
+#           name: check directory 
+#           script:
+#             - /bin/ls  /opt/atlassian/pipelines/agent/build/
+#       - step:
+#           name: check directory 
+#           script:
+#             -  cd /opt/atlassian/pipelines/agent/build/               
+#       - step:
+#           name: put file on production 
+#           script:
        #           -  mkdir ~/.ssh
 
        #           -  touch  ~/.ssh/know_hosts
@@ -25,22 +25,22 @@ pipelines:
 #            -  ssh satt@92.243.9.233 <<< ${SCP_PASSWORD_SATT} " cd /home/satt/wallet_satt/satt-wallet && ng build  " 
 #            -  ssh satt@92.243.9.233 <<< ${SCP_PASSWORD_SATT} "cd /home/satt/wallet_satt/satt-wallet && ng run satt-token-atayen:server"
 #            -  ssh satt@92.243.9.233 <<< ${SCP_PASSWORD_SATT} "cd /home/satt/wallet_satt/satt-wallet && pm2 restart 0 "
-    feature/*:
-      - step:
-          name: check directory  
-          script:
-            - /bin/ls  /opt/atlassian/pipelines/agent/build/
-      - step:
-          name: check directory 
-          script:
-            -  cd /opt/atlassian/pipelines/agent/build/ 
-      - step:
-          name: add angular-eslint/schematics 
-          script:      
-            -  cd /opt/atlassian/pipelines/agent/build/
-            -  rm -rf package-lock.json 
-            -  npm install -g @angular/cli   
-            -  rm -rf node_modules/   
-            -  npm install --force  
-            -  ng add @angular-eslint/schematics 
-            -  ng lint            
+    # feature/*:
+    #   - step:
+    #       name: check directory  
+    #       script:
+    #         - /bin/ls  /opt/atlassian/pipelines/agent/build/
+    #   - step:
+    #       name: check directory 
+    #       script:
+    #         -  cd /opt/atlassian/pipelines/agent/build/ 
+    #   - step:
+    #       name: add angular-eslint/schematics 
+    #       script:      
+    #         -  cd /opt/atlassian/pipelines/agent/build/
+    #         -  rm -rf package-lock.json 
+    #         -  npm install -g @angular/cli   
+    #         -  rm -rf node_modules/   
+    #         -  npm install --force  
+    #         -  ng add @angular-eslint/schematics 
+    #         -  ng lint            
