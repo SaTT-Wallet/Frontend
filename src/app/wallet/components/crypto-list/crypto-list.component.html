@@ -1210,16 +1210,7 @@
                 <div>
                   <div class="d-flex justify-content-start align-items-center">
                     <div class="d-flex align-items-center">
-                      <div
-                        [id]="crypto.symbol + crypto.type + 'IconsMobile'"
-                        [ngStyle]="{
-                          display: !crypto.selected
-                            ? 'block'
-                            : crypto.symbol === 'SATT'
-                            ? 'block'
-                            : 'none'
-                        }"
-                      >
+                      <div [id]="crypto.symbol + crypto.type + 'IconsMobile'">
                         <img
                           class="IconsMobile"
                           *ngIf="!crypto.picUrl"
@@ -1229,7 +1220,7 @@
                           alt=""
                         />
                       </div>
-                      <img
+                      <!-- <img
                         id="{{
                           crypto.symbol + crypto.type + 'IconsMobileChecked'
                         }}"
@@ -1243,20 +1234,9 @@
                         }"
                         src="../../../assets/Images/crypto-mobile-check.svg"
                         alt=""
-                      />
-                      <div
-                        [id]="crypto.symbol + crypto.type + 'addedToken'"
-                        [ngStyle]="{
-                          display: !crypto.selected
-                            ? 'block'
-                            : crypto.symbol === 'SATT'
-                            ? 'block'
-                            : 'none'
-                        }"
-                      >
-                        <!--
-                        image if added token
--->
+                      /> -->
+                      <div [id]="crypto.symbol + crypto.type + 'addedToken'">
+                        <!-- image if added token -->
                         <img
                           class="IconsMobile"
                           *ngIf="crypto.picUrl"
