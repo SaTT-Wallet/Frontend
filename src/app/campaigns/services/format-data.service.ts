@@ -6,7 +6,6 @@ import { Big } from 'big.js';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { createDateFromUnixTimestamp } from '@helpers/utils/common';
 
 @Injectable({
   providedIn: 'root'
@@ -59,7 +58,11 @@ export class FormatDataService {
         addr: campaign.currency.addr || ListTokens[campaign.currency].contract
       };
 
-      if (object.token.name === 'WSATT' || object.token.name === 'SATTBEP20') {
+      if (
+        object.token.name === 'WSATT' ||
+        object.token.name === 'SATTBEP20' ||
+        object.token.name === 'SATTPOLYGON'
+      ) {
         price = new Big(this.coinsPrices['SATT'].price).toFixed(8).toString();
       } else {
         price = new Big(this.coinsPrices[object.token.name]?.price || 0)
