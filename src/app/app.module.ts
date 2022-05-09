@@ -17,6 +17,9 @@ import { HelpComponent } from './components/help/help.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TransferHttpCacheModule } from '@nguniversal/common';
 import { translateBrowserLoaderFactory } from '@core/loaders/translate-browser.loader';
+import { QRCodeMode } from '@zxing/library';
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
+
 @NgModule({
   declarations: [
     AppComponent,

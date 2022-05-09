@@ -49,18 +49,18 @@ export class DropdownCryptoNetworkComponent
   constructor(
     private walletFacade: WalletFacadeService,
     private route: ActivatedRoute,
-    private router: Router,
+    public router: Router,
     private cdref: ChangeDetectorRef
   ) {
     this.networkList = [
       { network: 'BEP20' },
       { network: 'ERC20' },
+      { network: 'POLYGON' },
       { network: 'BTC' }
     ];
   }
 
   ngOnInit(): void {
-
     this.routerSub = this.route.queryParams
       .pipe(takeUntil(this.onDestoy$))
       .subscribe((p: any) => {
@@ -84,7 +84,6 @@ export class DropdownCryptoNetworkComponent
     this.defaultcurr = ListTokens['SATT'].name;
     this.defaultcurrbep = ListTokens['SATTBEP20'].name;
     this.defaultcurrbtc = ListTokens['BTC'].name;
-    
   }
   //get list of crypto for user
   getusercrypto() {
@@ -103,7 +102,6 @@ export class DropdownCryptoNetworkComponent
               // this.selectedCrypto.emit(crypto);
               this.firstEmit = true;
             }
-            
           }
 
           if (
@@ -264,6 +262,12 @@ export class DropdownCryptoNetworkComponent
       this.cryptoPicName = this.defaultcurrbtc;
       this.cryptoDetails = 'BTC';
     }
+    else if (network === 'POLYGON') {
+      this.cryptoSymbol = 'SATTPOLYGON';
+      this.cryptoName = this.defaultcurr;
+      this.cryptoPicName = this.defaultcurr;
+      this.cryptoDetails = 'SATT';
+    }
     this.dataList.forEach((crypto: any) => {
       if (crypto.symbol === this.cryptoDetails) {
         this.selectedCrypto.emit(crypto);
@@ -277,7 +281,7 @@ export class DropdownCryptoNetworkComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.cryptoFromDraft &&   this.router.url.includes('edit')) {
+    if (changes.cryptoFromDraft && this.router.url.includes('edit')) {
       if (this.cryptoFromDraft) {
         this.dataList.forEach((crypto: any) => {
           if (crypto.symbol === this.cryptoFromDraft) {

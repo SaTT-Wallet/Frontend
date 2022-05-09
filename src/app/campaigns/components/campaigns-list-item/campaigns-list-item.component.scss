@@ -190,21 +190,25 @@
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
-  line-height: 25px;
-  /* or 125% */
-
+  line-height: 28px;
   text-align: center;
   letter-spacing: 0.02em;
-
   color: #1f2337;
   margin-top: 0px;
   text-overflow: ellipsis;
-  white-space: nowrap;
-  /* padding: 1em;*/
   overflow: hidden;
-  max-width: 100%;
+  max-height: 3em;
+  display: -webkit-box;
+  width: 100%;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; /* number of lines to show */
 }
-
+.div-title {
+  display: flex;
+  max-width: 43em;
+  justify-content: center;
+  max-height: 47px;
+}
 .img-block:hover .overlay2 {
   opacity: 1;
   backdrop-filter: blur(4px);
@@ -275,6 +279,7 @@
   padding: 25px 11px 4px;
   font-style: normal;
   font-size: 13px;
+  max-height: 130px;
   height: 130px;
   position: relative;
 }

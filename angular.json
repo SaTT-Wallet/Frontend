@@ -1,7 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "cli": {
-    "analytics": false
+    "analytics": false,
+    "defaultCollection": "@ngrx/schematics"
   },
   "version": 1,
   "newProjectRoot": "projects",
@@ -76,7 +77,9 @@
               }
             ],
             "stylePreprocessorOptions": {
-              "includePaths": ["src/app/styles/common.scss"]
+              "includePaths": [
+                "src/app/styles/common.scss"
+              ]
             },
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
@@ -153,8 +156,13 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "inlineStyleLanguage": "scss",
-            "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.scss"],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.scss"
+            ],
             "scripts": []
           }
         },
@@ -177,12 +185,18 @@
               ]
             },
             "development": {
+
               "optimization": false,
+
               "sourceMap": true,
+
               "extractLicenses": false
+
             }
           },
           "defaultConfiguration": "production"
+
+
         },
         "serve-ssr": {
           "builder": "@nguniversal/builders:ssr-dev-server",
@@ -201,7 +215,9 @@
         "prerender": {
           "builder": "@nguniversal/builders:prerender",
           "options": {
-            "routes": ["/"]
+            "routes": [
+              "/"
+            ]
           },
           "configurations": {
             "production": {

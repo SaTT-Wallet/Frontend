@@ -15,6 +15,7 @@ export interface IGetSocialNetworksResponse {
   google: { [key: string]: string | boolean }[];
   linkedin: { [key: string]: string | boolean }[];
   twitter: { [key: string]: string | boolean }[];
+  //tikTok: { [key: string]: string | boolean }[];
 }
 @Component({
   selector: 'app-social-networks',
@@ -173,7 +174,6 @@ export class SocialNetworksComponent implements OnInit {
   }
   //get errors from url
   setUrlMsg(p: Params, data: IGetSocialNetworksResponse): void {
-    console.log('message', p.message);
     if (p.message) {
       if (p.message === 'access-denied') {
         this.errorMessage = 'access-cancel';

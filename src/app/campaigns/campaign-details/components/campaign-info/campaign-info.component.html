@@ -422,6 +422,30 @@
                   </div>
                 </div>
               </div>
+              <div
+                class="d-flex justify-content-center gap-2 align-items-center"
+                *ngIf="
+                  !campaign.isOwnedByUser &&
+                  bounty.oracle === 'tikTok' &&
+                  channelTikTok?.length === 0
+                "
+                (click)="linkAccount()"
+              >
+                <div class="">
+                  <div class="btn-connect-tikTok position-relative login_img">
+                    <img
+                      src="assets/Images/tikTok-icon.svg"
+                      class="icon-twitter"
+                      width="38px"
+                    />
+
+                    <span
+                      class="d-flex align-self-center white-text-span ms-3"
+                      >{{ 'add-tiktok-channel' | translate }}</span
+                    >
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="div-missions mt-3">
               <div
@@ -670,6 +694,30 @@
                   </div>
                 </div>
               </div>
+              <div
+                class="d-flex justify-content-center gap-2 align-items-center"
+                *ngIf="
+                  !campaign.isOwnedByUser &&
+                  ratio.oracle === 'tikTok' &&
+                  channelTikTok?.length === 0
+                "
+                (click)="linkAccount()"
+              >
+                <div class="">
+                  <div class="btn-connect-tikTok position-relative login_img">
+                    <img
+                      src="assets/Images/tikTok-icon.svg"
+                      class="icon-twitter"
+                      width="38px"
+                    />
+
+                    <span
+                      class="d-flex align-self-center white-text-span ms-3"
+                      >{{ 'add-tiktok-channel' | translate }}</span
+                    >
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="div-missions mt-3">
               <div
@@ -764,7 +812,7 @@
             </div> -->
             <!----------------------------------------------------------------------------------------------------------------->
 
-            <div class="campaign-kits">
+            <div class="campaign-kits" *ngIf="campaignLen || linksLen">
               <!--
                             <div class="d-flex">
                             <h6 *ngIf="campaignLen || linksLen" class="labels pt-2">
@@ -791,10 +839,7 @@
               <div class="row">
                 <div class="row">
                   <div class="col">
-                    <h6
-                      *ngIf="campaignLen || linksLen"
-                      class="camp-kits titre pt-3"
-                    >
+                    <h6 class="camp-kits titre pt-3">
                       {{ 'campaign_details.campaign_kit' | translate }}
                     </h6>
                   </div>
@@ -828,12 +873,15 @@
                 [options]="customOptions"
               >
                 <ng-container
-                  *ngFor="let elem of kits; index as i; trackBy: trackByKitLink"
+                  *ngFor="
+                    let elem of kitsImages;
+                    index as i;
+                    trackBy: trackByKitLink
+                  "
                 >
                   <ng-template
                     carouselSlide
                     id="{{ i }}"
-                    *ngIf="!elem.link"
                     [width]="260"
                     class="d-flex justify-content-center align-items-center"
                     style="margin-right: 2rem"

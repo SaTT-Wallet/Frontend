@@ -294,7 +294,12 @@ export class NotificationComponent implements OnInit {
         item._params = {
           nbr: item._label['price'],
           crypto:
-            item.label['currency'] === 'SATTBEP20'
+            item.label['cryptoCurrency'] &&
+            item.label['cryptoCurrency'] === 'SATTBEP20'
+              ? 'SATT'
+              : item.label['cryptoCurrency'] ||
+                (item.label['currency'] &&
+                  item.label['currency'] === 'SATTBEP20')
               ? 'SATT'
               : item.label['currency'],
           name: item._label['name']
@@ -309,9 +314,14 @@ export class NotificationComponent implements OnInit {
         item._params = {
           nbr: item._label['price'],
           crypto:
-            item._label['currency'] === 'SATTBEP20'
-              ? ' SATT'
-              : item._label['currency'],
+            item.label['cryptoCurrency'] &&
+            item.label['cryptoCurrency'] === 'SATTBEP20'
+              ? 'SATT'
+              : item.label['cryptoCurrency'] ||
+                (item.label['currency'] &&
+                  item.label['currency'] === 'SATTBEP20')
+              ? 'SATT'
+              : item.label['currency'],
           name: item._label['name']
         };
         item._label = 'asked_cryptoCurrency';

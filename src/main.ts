@@ -6,11 +6,12 @@ import { environment } from './environments/environment';
 
 if (environment.production) {
   enableProdMode();
+} else {
 }
 function bootstrap() {
   platformBrowserDynamic()
     .bootstrapModule(AppModule)
-    .catch((err) => {});
+    .catch(() => {});
 }
 if (document.readyState === 'complete') {
   bootstrap();
@@ -18,6 +19,6 @@ if (document.readyState === 'complete') {
   document.addEventListener('DOMContentLoaded', () => {
     platformBrowserDynamic()
       .bootstrapModule(AppModule)
-      .catch((err) => {});
+      .catch(() => {});
   });
 }

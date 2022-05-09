@@ -70,21 +70,18 @@ export class FarmPostsComponent implements OnInit {
     private scroller: ViewportScroller,
     private sanitizer: DomSanitizer,
     @Inject(DOCUMENT) private document: any
-  ) {
-    this.ParticipationListService.loadLinks()
-      .pipe(takeUntil(this.isDestroyed))
-      .subscribe();
-  }
+  ) {}
 
   ngOnInit(): void {
     this.ParticipationListService.isEarnings = false;
     this.setQuery();
+
     this.subscription = this.campaignService.loadDataPostFarmWhenEndScroll
       .pipe(takeUntil(this.isDestroyed))
       .subscribe(() => {
         this.ParticipationListService.emitPageScroll();
       });
-    //  this.showSpinner = true;
+    this.showSpinner = true;
     this.ParticipationListService.list$
       .pipe(
         map((pages: Page<Participation>[]) =>
@@ -103,7 +100,9 @@ export class FarmPostsComponent implements OnInit {
         }
         this.getLink();
       });
-
+    this.ParticipationListService.loadLinks()
+      .pipe(takeUntil(this.isDestroyed))
+      .subscribe();
     /*this.campaignFacade.linksList$.subscribe((links) => {
       let list = [
         ...this.newHandledLinks(cloneDeep(links)).map(
@@ -330,14 +329,18 @@ export class FarmPostsComponent implements OnInit {
       this.sortDownDate = true;
       this.listLinks = this.listLinks.sort(
         (a: Participation, b: Participation) => {
-          return b.applyDate.getTime() - a.applyDate.getTime();
+          return (
+            (b.applyDate as Date).getTime() - (a.applyDate as Date).getTime()
+          );
         }
       );
     } else if (type === 'down') {
       this.sortDownDate = false;
       this.listLinks = this.listLinks.sort(
         (a: Participation, b: Participation) => {
-          return a.applyDate.getTime() - b.applyDate.getTime();
+          return (
+            (a.applyDate as Date).getTime() - (b.applyDate as Date).getTime()
+          );
         }
       );
     }

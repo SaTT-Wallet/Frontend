@@ -6,7 +6,7 @@ const sattUrl = env.API_URL;
 const walletUrl = 'http://localhost:4200/#/';
 const bscan = env.bscan;
 const etherscan = env.etherscan;
-
+const polygonscanAddr = env.polygonscanAddr
 const campaignSmartContractERC20 = env.addresses.smartContracts.campaignERC20;
 
 const campaignSmartContractBEP20 = env.addresses.smartContracts.campaignBEP20;
@@ -159,6 +159,14 @@ var ListTokens: { [key: string]: { [key: string]: any } } = {
     type: 'bep20',
     symbole: 'SATTBEP20'
   },
+  SATTPOLYGON: {
+    name: 'SATTPOLYGON',
+    contract: env.addresses.smartContracts.SATT_TOKENPOLYGON,
+    decimals: new Big('10').pow(18),
+    logo: 'SATT.svg',
+    type: 'POLYGON',
+    symbole: 'SATTPOLYGON'
+  },
   WSATT: {
     name: 'WSATT',
     contract: '0x70A6395650b47D94A77dE4cFEDF9629f6922e645',
@@ -255,7 +263,16 @@ var ListTokens: { [key: string]: { [key: string]: any } } = {
     logo: 'CAKE.svg',
     type: 'bep20',
     symbole: 'CAKE'
-  }
+  },
+  MATIC: {
+    name: 'MATIC',
+    contract: '0x0000000000000000000000000000000000001010',
+    decimals: new Big('18').pow(18),
+    logo: 'MATIC.svg',
+    type: 'POLYGON',
+    symbole: 'MATIC'
+  },
+
 };
 
 var ListTokensPerso: { [key: string]: { [key: string]: any } } = {
@@ -830,6 +847,7 @@ export {
   id_campaign_to_participate,
   bscan,
   etherscan,
+  polygonscanAddr,
   dataList,
   cryptoList
 };

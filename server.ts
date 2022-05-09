@@ -61,6 +61,12 @@ export function app(): express.Express {
     })
   );
 
+  const getStaticFiles = (req: any, res: any) => {
+    res.sendFile(join(distFolder, 'index.html'));
+  };
+
+  server.get('/campaign/**/edit', getStaticFiles);
+
   // All regular routes use the Universal engine
   server.get('/campaign/**', (req, res) => {
     res.render(indexHtml, {
@@ -69,13 +75,7 @@ export function app(): express.Express {
     });
   });
 
-  server.get('*', (req, res) => {
-    res.sendFile(join(distFolder, 'index.html'));
-  });
-
-  server.get('/campaign/**/edit', (req, res) => {
-    res.sendFile(join(distFolder, 'index.html'));
-  });
+  server.get('*', getStaticFiles);
 
   return server;
 }

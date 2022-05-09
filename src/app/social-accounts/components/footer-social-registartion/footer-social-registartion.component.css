@@ -33,7 +33,8 @@
     background-position: center;
 }
 
-.Copyright_footer_login, .Copyright_footer_login a {
+.Copyright_footer_login,
+.Copyright_footer_login a {
     color: white;
     font-size: 12px;
     width: 32% !important;
@@ -46,7 +47,8 @@
 }
 
 .logo_footer_login {
-    width: 100px;
+    width: 85px;
+    /* width: 100px; */
 }
 
 .social-media-icons {
@@ -63,8 +65,7 @@
     opacity: 0.7;
     cursor: pointer;
     text-decoration: none !important;
-    background-color: #FFFFFF;
-    ;
+    background-color: #ffffff;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.35);
 }
 
@@ -72,7 +73,7 @@
     text-decoration: none !important;
     font-size: 18px;
     background-color: white;
-    color: #1F2337;
+    color: #1f2337;
 }
 
 .social-media-icons-container {

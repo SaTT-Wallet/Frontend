@@ -29,6 +29,7 @@ import { AccountFacadeService } from '@app/core/facades/account-facade/account-f
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { IApiResponse } from '@app/core/types/rest-api-responses';
 import { HttpErrorResponse } from '@angular/common/http';
+import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.service';
 enum ExportType {
   eth = 'export',
   btc = 'exportbtc',
@@ -88,6 +89,8 @@ export class SecurityComponent implements OnInit, OnDestroy {
   private account$ = this.accountFacadeService.account$;
   private onDestroy$ = new Subject();
   kycPendingReject: boolean = false;
+  private kyc$ = this.kycFacadeService.kyc$;
+
   constructor(
     private accountFacadeService: AccountFacadeService,
     private tokenStorageService: TokenStorageService,
@@ -100,7 +103,8 @@ export class SecurityComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
     public translate: TranslateService,
     @Inject(DOCUMENT) private document: Document,
-    @Inject(PLATFORM_ID) private platformId: string
+    @Inject(PLATFORM_ID) private platformId: string,
+    private kycFacadeService: KycFacadeService
   ) {
     this.reasonList = [
       { name: 'prb-use' },
@@ -208,8 +212,8 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
     this.idSn = this.tokenStorageService.getTypeSN();
 
-    this.getListUserLegal();
-
+    //this.getListUserLegal();
+    this.loadUserLegal();
     // this.account$
     //   .pipe(
     //     filter((res) => res !== null),
@@ -420,7 +424,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.onDestroy$))
         .subscribe(
           (res: any) => {
-            if (res.message === 'success' && res.code === 200) {
+           // if (res.message === 'success' && res.code === 200) {
               this.formExportDataSubmitted = false;
               const file = new Blob([JSON.stringify(res)], {
                 type: 'application/octet-stream'
@@ -437,7 +441,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
               this.modalService.dismissAll();
               this.showSpinnerBTC = false;
               this.showSpinnerETH = false;
-            }
+          //  }
 
             // }
           },
@@ -446,6 +450,13 @@ export class SecurityComponent implements OnInit, OnDestroy {
               err.error.error ===
                 'Key derivation failed - possibly wrong password' &&
               err.error.code === 500
+            ) {
+              this.formExportData
+                .get('password')
+                ?.setErrors({ checkPassword: true });
+            } else if (
+              err.error.error === 'wrong password' &&
+              err.error.code === 401
             ) {
               this.formExportData
                 .get('password')
@@ -469,7 +480,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.onDestroy$))
         .subscribe(
           (res: any) => {
-            if (res.message === 'success' && res.code === 200) {
+         //   if (res.message === 'success' && res.code === 200) {
               this.showSpinner = false;
               // if (res.error === 'Wrong password') {
               //   this.formExportDataBTC
@@ -493,7 +504,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
               this.showSpinnerBTC = false;
               this.showSpinnerETH = false;
               // }
-            }
+            //}
           },
           (err) => {
             if (
@@ -509,52 +520,41 @@ export class SecurityComponent implements OnInit, OnDestroy {
         );
     }
   }
-  getListUserLegal() {
-    this.showSpinner = true;
-    this.profileSettingsFacade
-      .getListUserLegal()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(
-        (data: any) => {
-          if (data !== null && data !== undefined) {
-            // *ngIf="dataLegalDomicile.validate && dataLegalIdentity.validate == 'validate'"
-            this.showSpinner = false;
-            this.dataLegal = data.data.legal;
-            this.dataLegal.forEach((item: any) => {
-              switch (item.type) {
-                case 'proofId':
-                  this.dataLegalIdentity = item;
-                  if (
-                    this.dataLegalIdentity.validate &&
-                    this.dataLegalIdentity.validate === true
-                  ) {
-                    this.identityValid = true;
-                  } else {
-                    this.identityValid = false;
-                  }
-                  break;
-                case 'proofDomicile':
-                  this.dataLegalDomicile = item;
-                  if (
-                    this.dataLegalDomicile.validate &&
-                    this.dataLegalDomicile.validate === true
-                  ) {
-                    this.domicileValid = true;
-                  } else {
-                    this.domicileValid = false;
-                  }
-                  break;
+  loadUserLegal() {
+    this.kyc$.pipe(takeUntil(this.onDestroy$)).subscribe((response) => {
+      if (response !== null && response !== undefined) {
+        this.dataLegal = response.legal;
+        this.dataLegal.forEach((item: any) => {
+          switch (item.type) {
+            case 'proofId':
+              this.dataLegalIdentity = item;
+              if (
+                this.dataLegalIdentity.validate &&
+                this.dataLegalIdentity.validate === true
+              ) {
+                this.identityValid = true;
+              } else {
+                this.identityValid = false;
               }
-            });
-          } else {
-            this.domicileValid = false;
-            this.identityValid = false;
+              break;
+            case 'proofDomicile':
+              this.dataLegalDomicile = item;
+              if (
+                this.dataLegalDomicile.validate &&
+                this.dataLegalDomicile.validate === true
+              ) {
+                this.domicileValid = true;
+              } else {
+                this.domicileValid = false;
+              }
+              break;
           }
-        },
-        (error) => {
-          throw new Error(error);
-        }
-      );
+        });
+      } else {
+        this.domicileValid = false;
+        this.identityValid = false;
+      }
+    });
   }
   copyCode(secret: any) {
     this.clipboard.copy(secret);

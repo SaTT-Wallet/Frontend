@@ -10,7 +10,8 @@ export enum ESocialMediaType {
   youtube,
   instagram,
   twitter,
-  linkedin
+  linkedin,
+  tiktok
 }
 
 export enum ESocialMediaNames {
@@ -18,5 +19,6 @@ export enum ESocialMediaNames {
   'youtube' = 'youtube',
   'instagram' = 'instagram',
   'twitter' = 'twitter',
-  'linkedIn' = 'linkedIn'
+  'linkedIn' = 'linkedIn',
+  'tiktok' = 'tiktok'
 }

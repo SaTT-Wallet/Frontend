@@ -21,6 +21,7 @@ export class MonetizeStepsComponent implements OnInit, OnDestroy {
   visitedTwitter: boolean = false;
   visitedPassPhrase: boolean = false;
   visitedLinkedin: boolean = false;
+  visitedTiktok: boolean = false;
   visitedPages$ = this.socialAccountsFacade.visitedPages$;
   private account$ = this.accountFacadeService.account$;
   private onDestoy$ = new Subject();
@@ -58,6 +59,9 @@ export class MonetizeStepsComponent implements OnInit, OnDestroy {
     ) {
       this.visitedTwitter = true;
     }
+    if (this.tokenStorageService.getSecureWallet('visited-tiktok') === 'true') {
+      this.visitedTiktok = true;
+    }
     if (this.tokenStorageService.getSecureWallet('visited-google') === 'true') {
       this.visitedGoogle = true;
     }
@@ -87,6 +91,16 @@ export class MonetizeStepsComponent implements OnInit, OnDestroy {
       ) {
         this.router.navigate(['/social-registration/monetize-twitter']);
       } else if (
+        type === 'tiktok' &&
+        this.tokenStorageService.getSecureWallet('visited-tiktok') === 'true'
+      ) {
+        this.router.navigate(['/social-registration/monetize-tiktok']);
+      } else if (
+        type === 'linkedin' &&
+        this.tokenStorageService.getSecureWallet('visited-linkedin') === 'true'
+      ) {
+        this.router.navigate(['/social-registration/monetize-linkedin']);
+      } else if (
         type === 'google' &&
         this.tokenStorageService.getSecureWallet('visited-google') === 'true'
       ) {
@@ -96,11 +110,6 @@ export class MonetizeStepsComponent implements OnInit, OnDestroy {
         this.tokenStorageService.getSecureWallet('visited-facebook') === 'true'
       ) {
         this.router.navigate(['/social-registration/monetize-facebook']);
-      } else if (
-        type === 'linkedin' &&
-        this.tokenStorageService.getSecureWallet('visited-linkedin') === 'true'
-      ) {
-        this.router.navigate(['/social-registration/monetize-linkedin']);
       }
     }
   }

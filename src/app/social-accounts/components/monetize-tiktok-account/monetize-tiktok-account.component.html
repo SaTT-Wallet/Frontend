@@ -1,0 +1,127 @@
+<app-header-social-registartion> </app-header-social-registartion>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xl-5 col-lg-5 col-md-5">
+      <app-left-component></app-left-component>
+    </div>
+    <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 padding-top margin-bottom">
+      <div class="row d-flex justify-content-center">
+        <div
+          class="col-xl-8 col-lg-10 col-md-11 col-sm-8 d-flex justify-content-start"
+        >
+          <app-monetize-steps></app-monetize-steps>
+        </div>
+      </div>
+      <div class="row d-flex justify-content-center padding-top-top">
+        <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8 make-center mt-2">
+          <span class="title_page"
+            >{{ 'monetize-your-tiktok-account' | translate }}!</span
+          >
+        </div>
+      </div>
+      <div class="row d-flex justify-content-center mt-2">
+        <div class="col-sm-8 show-mobile text-center">
+          <img
+            class="height-pic"
+            width="150px"
+            src="/assets/Images/tiktok-left.svg"
+          />
+        </div>
+      </div>
+
+      <div class="row d-flex justify-content-center mt-3">
+        <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8 make-center">
+          <!-- <p class="drak-gray_text">
+                        {{ 'activate-oracle-twitter-text1' | translate }}
+                    </p> -->
+          <p class="drak-gray_text">
+            {{ 'activate-oracle-tiktok-text1' | translate }}
+            <strong>TikTok</strong>
+            {{ 'activate-oracle-tiktok-text2' | translate }}
+          </p>
+          <p class="drak-gray_text mb-0">
+            {{ ' Cash-in-at-first-sight' | translate }}
+          </p>
+        </div>
+      </div>
+      <div
+        class="row d-flex justify-content-center margin-top-btn"
+        *ngIf="channelTiktok?.length === 0"
+      >
+        <div
+          class="col-xl-8 col-lg-10 col-md-11 col-sm-8 d-flex justify-content-center"
+        >
+          <div
+            class="div-connect-tiktok position-relative login_img"
+            (click)="linkAccount()"
+          >
+            <img
+              src="assets/Images/white-icon-tiktok.svg"
+              class="icon-twitter"
+              width="38px "
+            />
+            <span class="d-flex align-self-center white-text-span ms-3"
+              >{{ 'signin_with' | translate }} TikTok</span
+            >
+          </div>
+        </div>
+      </div>
+      <div
+        class="row d-flex justify-content-center margin-top-btn"
+        *ngIf="channelTiktok?.length !== 0"
+      >
+        <div
+          class="col-xl-8 col-lg-10 col-md-11 col-sm-8 d-flex justify-content-center"
+        >
+          <div
+            class="div-connect-tiktok position-relative login_img disabled"
+            (click)="deleteLink()"
+          >
+            <img
+              src="assets/Images/gray-icon-tiktok.svg"
+              class="icon-twitter"
+              width="38px "
+            />
+            <span class="d-flex align-self-center gray-text-span ms-3">
+              {{ 'signin_with' | translate }} TikTok</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="row d-flex justify-content-center mt-2">
+        <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8 make-center">
+          <span *ngIf="errorMessage" class="error-message">{{
+            errorMessage | translate
+          }}</span>
+          <span class="successLink" *ngIf="successMessage">{{
+            successMessage | translate
+          }}</span>
+        </div>
+      </div>
+      <div class="row d-flex justify-content-center">
+        <div
+          class="col-xl-8 col-lg-10 col-md-11 col-sm-8 top-10 make-center text-center"
+        >
+          <a
+            class="skip-page skip-page2"
+            (click)="skipPage()"
+            *ngIf="channelTiktok?.length === 0"
+            >{{ 'skip-network' | translate: { network: 'TikTok' } }}</a
+          >
+        </div>
+      </div>
+
+      <div class="row d-flex justify-content-center">
+        <div
+          class="col-xl-8 col-lg-10 col-md-11 col-sm-8 top-10 make-center text-center div-mobile-version"
+        >
+          <a class="skip-page" (click)="skipAll()">{{
+            'link-social-networks-later' | translate
+          }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer-social-registartion></app-footer-social-registartion>

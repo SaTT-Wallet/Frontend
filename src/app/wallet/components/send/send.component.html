@@ -9,6 +9,9 @@
   </div>
   <div class="row white-bloc justify-content-center flex-column">
     <!--------------------AmountBloc----------------------------------->
+
+    <!-- <zxing-scanner [formats]="allowedFormats"></zxing-scanner> -->
+
     <div
       class="div-content d-flex flex-column align-items-center"
       *ngIf="showAmountBloc"
@@ -80,7 +83,15 @@
                   !this.sendform.get('contact')?.errors?.required)
             }"
           >
-            <img src="assets/Images/wallet-icon-black.svg" />
+            <img
+              class="wallet-icon"
+              src="assets/Images/wallet-icon-black.svg"
+            />
+            <img
+              class="qrcode"
+              src="assets/Images/qrcode-send.svg"
+              (click)="openqrcode()"
+            />
 
             <input
               formControlName="contact"
@@ -89,10 +100,16 @@
               type="text"
               [(ngModel)]="contactWallet"
               id="receive_contact"
-              placeholder="Id wallet"
+              placeholder="Id wallet or QR code"
             />
           </div>
         </div>
+
+        <zxing-scanner
+          *ngIf="showScanner"
+          previewFitMode="cover"
+          (scanSuccess)="onCodeResult($event)"
+        ></zxing-scanner>
 
         <div
           class="text-center"
@@ -155,7 +172,7 @@
       class="div-content d-flex flex-column align-items-center"
       *ngIf="showPwdBloc"
     >
-      <form [formGroup]="sendform" (ngSubmit)="sendMoney()">
+      <form [formGroup]="sendform" (ngSubmit)="onSubmitSendMoney($event)">
         <div class="text-center">
           <img src="assets/Images/moonboy/moonboy-send.svg" />
         </div>
@@ -228,7 +245,8 @@
           }}</span>
 
           <span class="error_msg" *ngIf="nobalance">{{
-            'send.no_balance' | translate
+            'send.no_balance_crypto'
+              | translate: { crypto: this.selectedCryptoDetails.symbol }
           }}</span>
         </div>
         <div class="text-center">
@@ -335,6 +353,7 @@
           type="submit"
           class="white-btn"
           [routerLink]="['/wallet/buy-token']"
+          (click)="goToBuy()"
         >
           {{ 'buy_gas' | translate }}
         </button>

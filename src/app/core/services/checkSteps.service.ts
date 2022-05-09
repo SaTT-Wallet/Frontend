@@ -20,7 +20,6 @@ export class checkStepsService implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot): boolean | UrlTree {
     let url: any;
     url = route.url[0].path;
-
     if (url === 'activation-mail') {
       if (this.tokenStorageService.getEnabled() === '0') {
         return true;
@@ -44,9 +43,17 @@ export class checkStepsService implements CanActivate {
       } else {
         return false;
       }
-    } else if (url === 'monetize-linkedin') {
+    } else if (url === 'monetize-tiktok') {
       if (
         this.tokenStorageService.getSecureWallet('visited-twitter') === 'true'
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    } else if (url === 'monetize-linkedin') {
+      if (
+        this.tokenStorageService.getSecureWallet('visited-tiktok') === 'true'
       ) {
         return true;
       } else {

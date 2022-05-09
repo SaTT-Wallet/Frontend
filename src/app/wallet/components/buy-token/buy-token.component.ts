@@ -79,6 +79,8 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   cryptoList$ = this.walletFacade.cryptoList$;
   ethPrice: any;
   cryptoPrice = 0;
+  gaz: any;
+
   private isDestroyed = new Subject<any>();
 
   isDestroyedObs = this.isDestroyed.asObservable();
@@ -104,6 +106,8 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   purshaseCryptoPriceInUSD$ = new Observable<number>();
   rateExchangePerRequestedCrypto$ = new Observable<number>();
   showSpinner = false;
+  toSwapCrypto: any;
+  fromSwapCrypto: any;
 
   constructor(
     private walletFacade: WalletFacadeService,
@@ -112,7 +116,8 @@ export class BuyTokenComponent implements OnInit, OnChanges {
     @Inject(DOCUMENT) private document: Document,
     private tokenStorageService: TokenStorageService,
     @Inject(PLATFORM_ID) private platformId: string,
-    private _location: Location
+    private _location: Location,
+    private activatedRoute: ActivatedRoute
   ) {
     this.convertform = new FormGroup({
       Amount: new FormControl(
@@ -129,6 +134,11 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     // this.toggleCurrencyType(ECurrencyType.FIAT);
     // this.toggleNetwork(EBlockchainNetwork.BEP20);
+    this.gaz = this.activatedRoute.snapshot.queryParamMap.get('gaz');
+
+    // if (this.gaz === 'ERC20') {
+    //   this.toggleNetwork(EBlockchainNetwork.ERC20);
+    // }
     this.routerSub = this.route.queryParams
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((p: any) => {
@@ -172,6 +182,16 @@ export class BuyTokenComponent implements OnInit, OnChanges {
           this.selectedtLogo = p.symbol;
           this.wallet_id = p.wallet;
           this.selectedTargetCurrency = p.currency;
+        } else if (p.gaz === 'ERC20') {
+          this.toggleCurrencyType(ECurrencyType.FIAT);
+
+          this.toggleNetwork(EBlockchainNetwork.ERC20);
+          this.requestedCrypto = 'ETH';
+        } else if (p.gaz === 'BEP20') {
+          this.toggleCurrencyType(ECurrencyType.FIAT);
+          this.toggleNetwork(EBlockchainNetwork.BEP20);
+          this.requestedCrypto = 'BNB';
+          // this.selectedTargetCurrency = 'SATT';
         } else {
           this.toggleCurrencyType(ECurrencyType.FIAT);
           this.toggleNetwork(EBlockchainNetwork.BEP20);
@@ -228,6 +248,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
         this.toggleCurrencyType(ECurrencyType.BEP20);
       } else if (network === EBlockchainNetwork.ERC20) {
         this.toggleCurrencyType(ECurrencyType.ERC20);
+
         // this.selectedCurrencyType = ECurrencyType.ERC20;
       }
       this.sourceCryptoList = this.cryptoList.filter(
@@ -284,7 +305,11 @@ export class BuyTokenComponent implements OnInit, OnChanges {
           crypto.type.toUpperCase() === this.selectedBlockchainNetwork
       );
     }
-
+    this.toSwapCrypto = this.sourceCryptoList.find(
+      (crypto: Crypto) =>
+        crypto.name.includes('SATT') &&
+        crypto.type.toUpperCase() === this.selectedBlockchainNetwork
+    );
     this.requestedCrypto = this.sourceCryptoList.find(
       (crypto: Crypto) =>
         crypto.name.includes('SATT') &&
@@ -357,7 +382,8 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       }, 2000);
     }
   }
-  onSelectCrypto(cryptoSymbol: string, logo: any) {
+  onSelectCrypto(cryptoSymbol: string, logo: any, crypto?: any) {
+    this.toSwapCrypto = crypto;
     if (this.isCryptoRouter) {
       this.isCryptoRouter = false;
       this.router.navigate([], { queryParams: [] });
@@ -380,6 +406,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       ).value;
     } else {
       this.targetCurrency = crypto;
+      this.fromSwapCrypto = crypto;
       this.switchTokensWhenIdentical();
     }
 
@@ -401,6 +428,8 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       this.selectedTargetCurrency = (
         this.targetCurrencyList[0] as Crypto
       ).symbole;
+
+      this.fromSwapCrypto = this.targetCurrencyList[0] as Crypto;
     }
   }
 
@@ -476,14 +505,12 @@ export class BuyTokenComponent implements OnInit, OnChanges {
         )
         .pipe(
           catchError((err) => {
-            // console.log(error);
-            // if (error.error.text === 'Invalid Access Token') {
-            //   this.tokenStorageService.signOut();
-            // }
-            if (err.status !== 500) {
+            if (err.status === 403) {
               this.errMsg = err.error.error;
+            } else {
+              this.errMsg =
+                'service is temporarily unavailable, please try again later.';
             }
-
             return of(null);
           }),
           tap((data: any) => {
@@ -491,16 +518,15 @@ export class BuyTokenComponent implements OnInit, OnChanges {
               this.errMsg = data.data.error;
             } else if (data?.error) {
               this.errMsg = data.error;
-            } else {
-              this.errMsg = '';
             }
           }),
           takeUntil(this.isDestroyed)
         )
+        .pipe(filter((res) => res != null))
         .subscribe((data: any) => {
           this.cryptoAmount = data?.data.digital_money?.amount || 0;
-
           this.quoteId = data?.data.quote_id;
+          this.errMsg = '';
         });
       this.rateExchangePerRequestedCrypto$ = this.cryptoList$.pipe(
         map(
@@ -534,12 +560,10 @@ export class BuyTokenComponent implements OnInit, OnChanges {
         .getListTokensPrices()
         .pipe(
           map((cryptoListObject: any) => {
-            return cryptoListObject[this.requestedCrypto]?.price || 0;
+            return cryptoListObject.data[this.requestedCrypto]?.price || 0;
           })
         )
-        .subscribe((data) => {
-          this.cryptoPrice = data;
-        });
+        .subscribe();
       this.rateExchangePerRequestedCrypto$ = zip(
         this.purshaseCryptoPriceInUSD$,
         this.requestedCryptoPriceInUSD$
@@ -567,23 +591,19 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       this.selectedtLogo &&
       this.wallet_id
     ) {
-      this.showSpinner = true;
-      setTimeout(() => {
-        this.showSpinner = false;
-        this.router.navigate(['/wallet/summary'], {
-          queryParams: {
-            fiatCurrency: this.selectedCurrencyType,
-            network: this.selectedBlockchainNetwork,
-            amount: this.amount,
-            currency: this.selectedTargetCurrency,
-            crypto: this.requestedCrypto,
-            cryptoAmount: this.cryptoAmount,
-            quote_id: this.quoteId,
-            symbol: this.selectedtLogo,
-            wallet: this.wallet_id
-          }
-        });
-      }, 3000);
+      this.router.navigate(['/wallet/summary'], {
+        queryParams: {
+          fiatCurrency: this.selectedCurrencyType,
+          network: this.selectedBlockchainNetwork,
+          amount: this.amount,
+          currency: this.selectedTargetCurrency,
+          crypto: this.requestedCrypto,
+          cryptoAmount: this.cryptoAmount,
+          quote_id: this.quoteId,
+          symbol: this.selectedtLogo,
+          wallet: this.wallet_id
+        }
+      });
     }
     this.tokenStorageService.setItem('quoteId', this.quoteId);
   }

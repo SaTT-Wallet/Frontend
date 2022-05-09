@@ -72,7 +72,8 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   @Input() isSelectedFacebook = false;
   @Input() isSelectedInstagram = false;
   @Input() isSelectedLinkedin = false;
-
+  @Input() isSelectedTikTok = false;
+  @Input() isSelectedGoogleAnalytics = false;
   @Input()
   id = '';
 
@@ -303,6 +304,14 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       this.isSelectedLinkedin = !this.isSelectedLinkedin;
       this.toggleOracle('linkedin', event.event);
     }
+    if (event.oracle === 'tikTok') {
+      this.isSelectedTikTok = !this.isSelectedTikTok;
+      this.toggleOracle('tikTok', event.event);
+    }
+    if (event.oracle === 'googleAnalytics') {
+      this.isSelectedGoogleAnalytics = !this.isSelectedGoogleAnalytics;
+      this.toggleOracle('googleAnalytics', event.event);
+    }
   }
   toggleOracle(oracle: string, checked?: boolean) {
     let group = new FormGroup({});
@@ -442,7 +451,9 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       this.isSelectedYoutube ||
       this.isSelectedTwitter ||
       this.isSelectedFacebook ||
-      this.isSelectedInstagram
+      this.isSelectedInstagram ||
+      this.isSelectedTikTok ||
+      this.isSelectedGoogleAnalytics
     ) {
       this.selectRemunerateValue = type;
       this.f.remuneration.setValue(type);
@@ -463,6 +474,12 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       }
       if (this.isSelectedLinkedin) {
         this.toggleOracle('linkedin', true);
+      }
+      if (this.isSelectedTikTok) {
+        this.toggleOracle('tikTok', true);
+      }
+      if (this.isSelectedGoogleAnalytics) {
+        this.toggleOracle('googleAnalytics', true);
       }
     } else {
       this.selectRemunerateValue = type;
@@ -810,6 +827,14 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     this.isSelectedLinkedin = array.find((elem) => elem.oracle === 'linkedin')
       ? true
       : false;
+    this.isSelectedTikTok = array.find((elem) => elem.oracle === 'tikTok')
+      ? true
+      : false;
+    this.isSelectedGoogleAnalytics = array.find(
+      (elem) => elem.oracle === 'googleAnalytics'
+    )
+      ? true
+      : false;
   }
 
   handleAmountEntries(form: AbstractControl, control: string) {
@@ -896,7 +921,10 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         oracle === 'instagram' ? false : this.isSelectedInstagram;
       this.isSelectedLinkedin =
         oracle === 'linkedin' ? false : this.isSelectedLinkedin;
-
+      this.isSelectedTikTok =
+        oracle === 'tikTok' ? false : this.isSelectedTikTok;
+      this.isSelectedGoogleAnalytics =
+        oracle === 'googleAnalytics' ? false : this.isSelectedGoogleAnalytics;
       return;
     }
     categories.removeAt(categoryIndex);

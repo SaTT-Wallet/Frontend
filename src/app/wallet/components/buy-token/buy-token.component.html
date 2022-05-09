@@ -415,7 +415,9 @@
                   >
                     <li
                       class="li-select"
-                      (click)="onSelectCrypto(crypto.symbole, crypto.logo)"
+                      (click)="
+                        onSelectCrypto(crypto.symbole, crypto.logo, crypto)
+                      "
                       *ngIf="crypto.symbole !== requestedCrypto"
                     >
                       <img
@@ -494,16 +496,9 @@
                 src="../../../assets/Images/symbol_crypto/pay-creditcard-icon.svg"
                 alt=""
               />
-              <span class="purshase-btn-text" *ngIf="!this.showSpinner">{{
+              <span class="purshase-btn-text">{{
                 'Pay by Credit Card' | translate
               }}</span>
-              <div
-                *ngIf="this.showSpinner"
-                class="spinner-border"
-                role="status"
-              >
-                <span class="sr-only">Loading...</span>
-              </div>
             </button>
             <a
               class="buy-swap-btn"
@@ -511,7 +506,9 @@
                 selectedCurrencyType === eCurrencyType.BEP20 &&
                 selectedBlockchainNetwork === eBlockchainNetwork.BEP20
               "
-              href="https://pancakeswap.finance/swap"
+              href="https://pancakeswap.finance/swap?outputCurrency={{
+                fromSwapCrypto.contract
+              }}&inputCurrency={{ toSwapCrypto.contract }}"
               target="_blank"
             >
               <img

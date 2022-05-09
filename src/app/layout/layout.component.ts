@@ -19,6 +19,7 @@ import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-faca
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.service';
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
@@ -41,7 +42,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
     private tokenStorageService: TokenStorageService,
     private socialAccountFacadeService: SocialAccountFacadeService,
     @Inject(DOCUMENT) private document: any,
-    @Inject(PLATFORM_ID) private platformId: string
+    @Inject(PLATFORM_ID) private platformId: string,
+    private kycFacadeService: KycFacadeService
   ) {
     this.router.events
       .pipe(takeUntil(this.isDestroyed$))
@@ -77,6 +79,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
         this.profileSettingsFacade.loadUserProfilePic(); // initialize user profile picture
         this.accountFacadeService.initAccount();
         this.socialAccountFacadeService.initSocialAccount();
+        this.kycFacadeService.initKyc();
       }
     }
   }
@@ -92,7 +95,11 @@ export class LayoutComponent implements OnInit, OnDestroy {
         this.smDevice = false;
       }
       if (this.router.url.startsWith('/campaign/')) {
-        if (event.target.innerWidth < 1025 && topBar) {
+        if (
+          event.target.innerWidth > 768 &&
+          event.target.innerWidth < 1025 &&
+          topBar
+        ) {
           topBar.style.display = 'none';
           if (btnApply) btnApply.style.display = 'none';
         } else {
@@ -176,7 +183,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
         let bluePic = this.document.getElementById('back-top-pic');
         let blueText = this.document.getElementById('back-top-text');
         if (event.target.clientWidth < 1025) {
-          if (btnApply) btnApply.style.display = 'none';
+          //if (btnApply) btnApply.style.display = 'none';
           if (event.target.scrollTop < 159) {
             if (blueText && bluePic && disabledText && disabledPic) {
               blueText.style.display = 'none';
@@ -217,11 +224,13 @@ export class LayoutComponent implements OnInit, OnDestroy {
             event.target.clientWidth <= 1024 &&
             event.target.scrollTop > 477
           ) {
+            if (event.target.innerWidth > 768) {
+              if (btnApply) btnApply.style.display = 'none';
+            }
             this.scrolled = true;
             if (cover) cover.style.position = 'relative';
             if (main) main.style.marginTop = '-16vw';
             if (topBar) topBar.style.display = 'none';
-            if (btnApply) btnApply.style.display = 'none';
             header.style.background = '#2F3347';
           } else {
             this.scrolled = false;

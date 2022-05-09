@@ -44,6 +44,7 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Big } from 'big.js';
 import { AuthService } from '@app/core/services/Auth/auth.service';
 import { IApiResponse } from '@app/core/types/rest-api-responses';
+import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.service';
 const bscan = env.bscanaddr;
 const etherscan = env.etherscanaddr;
 @Component({
@@ -108,8 +109,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   menuCampaign: boolean = false;
   menuTokenInfo: boolean = false;
   menuBuyToken: boolean = false;
-  successPart: boolean = false;
-  errorPart: boolean = false;
+  // successPart: boolean = false;
+  // errorPart: boolean = false;
   sucess: any = false;
 
   @ViewChild('qrbtnERCM', { static: false }) qrbtnERCM?: ElementRef;
@@ -155,7 +156,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private authStoreService: AuthStoreService,
     private authService: AuthService,
     @Inject(DOCUMENT) private document: Document,
-    @Inject(PLATFORM_ID) private platformId: string
+    @Inject(PLATFORM_ID) private platformId: string,
+    private kycFacadeService: KycFacadeService
   ) {
     if (isPlatformBrowser(this.platformId)) {
       this.mediaQueryList = window.matchMedia(this.query);
@@ -209,16 +211,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
           this.menuCampaign = false;
         }
 
-        if (event.url.includes('errorMessage')) {
-          this.errorPart = true;
-        } else {
-          this.errorPart = false;
-        }
-        if (event.url.includes('successMessage')) {
-          this.successPart = true;
-        } else {
-          this.successPart = false;
-        }
+        // if (event.url.includes('errorMessage')) {
+        //   this.errorPart = true;
+        // } else {
+        //   this.errorPart = false;
+        // }
+        // if (event.url.includes('successMessage')) {
+        //   this.successPart = true;
+        // } else {
+        //   this.successPart = false;
+        // }
         if (this.router.url.includes('welcome')) {
           this.checkMenuAdpool();
         }
@@ -295,6 +297,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.tokenStorageService.removeItem('hasTwitter');
       this.tokenStorageService.removeItem('visited-google');
       this.tokenStorageService.removeItem('visited-twitter');
+      this.tokenStorageService.removeItem('visited-tiktok');
       this.tokenStorageService.removeItem('visited-socialConfig');
       this.tokenStorageService.removeItem('visited-transactionPwd');
       this.tokenStorageService.removeItem('visited-pwd');
@@ -725,7 +728,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
       case 'send_demande_satt_event':
         item._params = {
           nbr: item._label['price'],
-          crypto: item._label['currency'],
+          crypto:
+            item.label['cryptoCurrency'] &&
+            item.label['cryptoCurrency'] === 'SATTBEP20'
+              ? 'SATT'
+              : item.label['cryptoCurrency'] ||
+                (item.label['currency'] &&
+                  item.label['currency'] === 'SATTBEP20')
+              ? 'SATT'
+              : item.label['currency'],
+          // crypto: item._label['currency'],
           name: item._label['name']
         };
         item._label = 'asked_to_acquire';
@@ -735,10 +747,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
       case 'demande_satt_event':
         item._params = {
           nbr: item._label['price'],
-          crypto: item._label['cryptoCurrency'],
+          crypto:
+            item.label['cryptoCurrency'] &&
+            item.label['cryptoCurrency'] === 'SATTBEP20'
+              ? 'SATT'
+              : item.label['cryptoCurrency'] ||
+                (item.label['currency'] &&
+                  item.label['currency'] === 'SATTBEP20')
+              ? 'SATT'
+              : item.label['currency'],
           name: item._label['name']
         };
-        item._label = 'asked_to_acquire';
+        item._label = 'asked_cryptoCurrency';
         item.img = receive_satt_pic;
         break;
       //////////////////////////////////////////
@@ -1281,8 +1301,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   signOut() {
     this.tokenStorageService.logout().subscribe(
       () => {
-        this.isConnected = false;
-        this.authService.setIsAuthenticated(false);
         this.campaignFacade.clearLinksListStore();
         this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
         this.ParticipationListStoreService.clearDataFarming();
@@ -1293,14 +1311,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.profileSettingsFacade.clearProfilePicStore();
         this.authStoreService.clearStore();
         this.tokenStorageService.clear();
+        this.kycFacadeService.dispatchLogoutKyc();
+        this.isConnected = false;
+        this.authService.setIsAuthenticated(false);
         if (isPlatformBrowser(this.platformId)) {
           window.location.reload();
         }
         this.router.navigate(['/auth/login']);
       },
       () => {
-        this.isConnected = false;
-        this.authService.setIsAuthenticated(false);
         this.campaignFacade.clearLinksListStore();
         this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
         this.ParticipationListStoreService.clearDataFarming();
@@ -1311,6 +1330,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.profileSettingsFacade.clearProfilePicStore();
         this.authStoreService.clearStore();
         this.tokenStorageService.clear();
+        this.kycFacadeService.dispatchLogoutKyc();
+        this.isConnected = false;
+        this.authService.setIsAuthenticated(false);
         if (isPlatformBrowser(this.platformId)) {
           window.location.reload();
         }

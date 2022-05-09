@@ -4,7 +4,8 @@ import { filter } from 'rxjs/operators';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { NotificationService } from '@core/services/notification/notification.service';
 import { ProfileSettingsStoreService } from './core/services/profile/profile-settings-store.service';
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser, isPlatformServer } from '@angular/common';
+import { Meta } from '@angular/platform-browser';
 // './services/notification/notification'
 // declare ga as a function to set and sent the events
 declare const gtag: Function;
@@ -22,6 +23,7 @@ export class AppComponent {
     private tokenStorageService: TokenStorageService,
     private notificationService: NotificationService,
     private profileService: ProfileSettingsStoreService,
+    private meta: Meta,
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string
   ) {
@@ -53,6 +55,16 @@ export class AppComponent {
     });
     if (this.tokenStorageService.getIsAuth()) {
       this.profileService.hydrateLocalStorage();
+    }
+
+    // TODO: still need to add other meta tags here for better SEO performance
+    if (isPlatformServer(this.platformId)) {
+      this.meta.addTags([
+        {
+          name: 'og:title',
+          content: 'SaTT - Smart advertising Transaction Token'
+        }
+      ]);
     }
   }
 }

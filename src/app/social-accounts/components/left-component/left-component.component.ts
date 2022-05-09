@@ -1,9 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '@app/models/User';
-import { ProfileService } from '@core/services/profile/profile.service';
-import { AuthStoreService } from '@core/services/Auth/auth-store.service';
-import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-facade.service';
 import { Subject } from 'rxjs';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -28,7 +25,6 @@ export class LeftComponentComponent implements OnInit, OnDestroy {
   constructor(
     private accountFacadeService: AccountFacadeService,
     public router: Router,
-    private profileSettingsFacade: ProfileSettingsFacadeService,
     private socialAccountFacadeService: SocialAccountFacadeService,
     private tokenStorageService: TokenStorageService
   ) {}

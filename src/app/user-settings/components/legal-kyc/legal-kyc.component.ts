@@ -1,14 +1,13 @@
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { FilesService } from '@core/services/files/files.Service';
 import { sattUrl } from '@config/atn.config';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { User } from '../../../models/User';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-facade.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { filter, map, mergeMap, takeUntil } from 'rxjs/operators';
 import { forkJoin, of, Subject } from 'rxjs';
+import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.service';
 @Component({
   selector: 'app-legal-kyc',
   templateUrl: './legal-kyc.component.html',
@@ -39,14 +38,14 @@ export class LegalKYCComponent implements OnInit {
   disabled: boolean = true;
   showSpinner!: boolean;
   private isDestroyed = new Subject();
+  private kyc$ = this.kycFacadeService.kyc$;
 
   constructor(
-    private FileService: FilesService,
-    private modalService: NgbModal,
     private profileSettingsFacade: ProfileSettingsFacadeService,
     private sanitizer: DomSanitizer,
     @Inject(DOCUMENT) private document: Document,
-    @Inject(PLATFORM_ID) private platformId: string
+    @Inject(PLATFORM_ID) private platformId: string,
+    private kycFacadeService: KycFacadeService
   ) {
     this.formUploadProofID = new FormGroup({
       proofId: new FormControl(null, Validators.required)
@@ -56,7 +55,7 @@ export class LegalKYCComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    this.getListUserLegal();
+    this.uploadUserLegal();
   }
   ///////////////////////identity//////////////////////////////////
   fileChangeEventIdentity(event: any): void {
@@ -223,72 +222,51 @@ export class LegalKYCComponent implements OnInit {
 
     if (fileType === 'proofId') {
       this.formUploadProofID.get('proofId')?.updateValueAndValidity();
-      // this.FileService.getEstimation().subscribe((response:any)=>{
-      // if(response.address){
-      //   this.ContactMessageService.userNode(response.address).subscribe((response2:any)=>{
-      //     if(response2){
-      this.profileSettingsFacade
+
+      this.kycFacadeService
         .uploadProofID(this.formUploadProofID.value.proofId)
         .pipe(takeUntil(this.isDestroyed))
         .subscribe((response: any) => {
           if (response) {
             this.showSpinner = false;
-            this.ngOnInit();
+            this.kycFacadeService.dispatchUpdatedKyc();
+            // this.ngOnInit();
           }
         });
-      //     }
-      //   })
-      // }
-      // else if(response.err=='no_account'){
-      //   this.showSpinner=false;
-      //   Swal.fire({
-      //     icon: "error",
-      //     text:
-      //         "no_account",
-      //   });
-      // }
-      // })
     } else if (fileType === 'proofDomicile') {
       this.formUploadProofDomicile
         .get('proofDomicile')
         ?.updateValueAndValidity();
-      // this.FileService.getEstimation().subscribe((response: any) => {
-      //   if (response.address) {
-      //     this.ContactMessageService.userNode(response.address).subscribe((response2: any) => {
-      //       if (response2) {
-      this.profileSettingsFacade
+
+      this.kycFacadeService
         .uploadProofDomicile(this.formUploadProofDomicile.value.proofDomicile)
         .pipe(takeUntil(this.isDestroyed))
         .subscribe((data: any) => {
           if (data) {
             this.showSpinner = false;
-            this.ngOnInit();
+            this.kycFacadeService.dispatchUpdatedKyc();
+            // this.ngOnInit();
           }
         });
-      //         }
-      //       })
-      //     }
-      //   })
     }
   }
-
-  getListUserLegal() {
+  uploadUserLegal() {
     this.showSpinner = true;
-    this.profileSettingsFacade
-      .getListUserLegal()
+    this.kyc$
       .pipe(
-        mergeMap((kyc: any) => {
-          let arrayOfObs: any[] = [];
-          if (kyc !== null && kyc !== undefined && kyc.message === 'success') {
+        takeUntil(this.isDestroyed),
+        mergeMap((legal: any) => {
+          if (legal !== null) {
             this.showSpinner = false;
-            this.dataLegal = kyc.data.legal;
+            let arrayOfObs: any[] = [];
+            this.dataLegal = legal.legal;
             this.dataLegal.forEach((item: any) => {
               switch (item.type) {
                 case 'proofId':
                   this.dataLegalIdentity = item;
                   if (item.contentType !== 'application/pdf') {
                     arrayOfObs.push(
-                      this.profileSettingsFacade.getUserLegalPic(item._id).pipe(
+                      this.kycFacadeService.getUserLegalPic(item._id).pipe(
                         map((data) => {
                           return { data, type: 'proofId' };
                         })
@@ -300,7 +278,7 @@ export class LegalKYCComponent implements OnInit {
                   this.dataLegalDomicile = item;
                   if (item.contentType !== 'application/pdf') {
                     arrayOfObs.push(
-                      this.profileSettingsFacade.getUserLegalPic(item._id).pipe(
+                      this.kycFacadeService.getUserLegalPic(item._id).pipe(
                         map((data) => {
                           return { data, type: 'proofDomicile' };
                         })

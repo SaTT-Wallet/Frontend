@@ -101,6 +101,7 @@ export class ParticiperComponent implements OnInit {
   @ViewChild('tweetId') tweetId?: ElementRef;
   ratioLink: boolean = false;
   isGoogleUrl: boolean = false;
+  gazproblem: boolean = false;
   constructor(
     private router: Router,
     public CampaignService: CampaignHttpApiService,
@@ -239,12 +240,15 @@ export class ParticiperComponent implements OnInit {
       this.router.navigate([]);
     } else if (link === 'FAQ') {
       this.router.navigate(['home/FAQ']);
+    } else if (link === 'adPools') {
+      this.router.navigate(['/ad-pools']);
     } else {
       this.router.navigate(['home/campaign/' + this.campaignId]);
     }
   }
 
   sendLink(): void {
+    this.connectValue = '';
     let performance = this.campaigndata?.ratios?.length
       ? this.campaigndata?.ratios
       : this.campaigndata?.bounties;
@@ -619,7 +623,10 @@ export class ParticiperComponent implements OnInit {
             .pipe(takeUntil(this.isDestroyedSubject))
             .subscribe(
               (data: any) => {
-                if ((data.message = 'success' && data.code === 200)) {
+                if (
+                  (data.message =
+                    'success' && data.code === 200 && data.data !== 'false')
+                ) {
                   this.linked = true;
                   this.loadingButton = false;
                 } else if (
@@ -1106,69 +1113,83 @@ export class ParticiperComponent implements OnInit {
           // this.sendform.get('password')?.clearValidators();
           this.loadingButton = false;
           this.showButtonSend = true;
-          if (data.message === 'Link already sent') {
-            this.error = 'link_already_exist';
-            this.success = '';
-            this.loadingButton = false;
-            this.router.navigate([], {
-              queryParams: {
-                errorMessage: 'error'
-              }
-            });
-          } else {
-            if (data['error']) {
-              this.balanceNotEnough = false;
-              if (
-                data['error'] ===
-                  'Returned error: insufficient funds for gas * price + value' ||
-                data['error'] ===
-                  'Returned error: replacement transaction underpriced'
-              ) {
-                // this.error = "out_of_gas_error";
-                this.router.navigate([], {
-                  queryParams: {
-                    errorMessage: 'error'
-                  }
-                });
 
-                if (this.networkWallet === 'bep20') {
-                  this.error = 'out_of_gas_bnb';
-                  this.success = '';
-                } else {
-                  this.error = 'out_of_gas_eth';
-                  this.success = '';
-                }
-              } else if (data['error'] === 'Wrong password') {
-                this.error = 'wrong_password';
-                this.success = '';
-                this.loadingButton = false;
-              } else {
-                this.error = 'Default';
-                this.errorDescription = 'Default paragraphe';
-                this.success = '';
-                this.loadingButton = false;
-              }
-            } else {
-              this.notifyLink(data.data.idProm);
-              this.error = '';
-              this.success = data.data.transactionHash;
-              this.loadingButton = false;
-              if (data.data['transactionHash']) {
-                this.transactionHash = data.data['transactionHash'];
-              }
-              this.router.navigate([], {
-                queryParams: {
-                  successMessage: 'linkSubmitted'
-                }
-              });
-            }
+          // if (data['error']) {
+          //   this.balanceNotEnough = false;
+
+          // } else {
+          this.notifyLink(data.data.idProm);
+          this.error = '';
+          this.success = data.data.transactionHash;
+          this.loadingButton = false;
+          if (data.data['transactionHash']) {
+            this.transactionHash = data.data['transactionHash'];
           }
+          this.router.navigate([], {
+            queryParams: {
+              successMessage: 'linkSubmitted'
+            }
+          });
+          // }
         },
         (error) => {
           this.loadingButton = false;
           this.showButtonSend = true;
+          if (
+            error.error.code === 402 &&
+            error.error.error === 'Returned error: already known'
+          ) {
+            this.balanceNotEnough = false;
+          }
+
           if (error.error.code === 500) {
-            this.error = 'Wrong Password';
+            if (
+              error.error.error ===
+              'Key derivation failed - possibly wrong password'
+            ) {
+              this.error = 'wrong_password';
+              this.success = '';
+              this.loadingButton = false;
+            } else {
+              this.error = 'Default';
+              this.errorDescription = 'Default paragraphe';
+              this.success = '';
+              this.loadingButton = false;
+            }
+          } else if (error.error.code === 402) {
+            if (
+              error.error.error ===
+                'Returned error: insufficient funds for gas * price + value' ||
+              error.error.error ===
+                'Returned error: replacement transaction underpriced'
+            ) {
+              this.gazproblem = true;
+              // this.error = "out_of_gas_error";
+              this.router.navigate([], {
+                queryParams: {
+                  errorMessage: 'error'
+                }
+              });
+
+              if (this.networkWallet === 'bep20') {
+                this.error = 'out_of_gas_bnb';
+                this.success = '';
+              } else {
+                this.error = 'out_of_gas_eth';
+                this.success = '';
+              }
+            }
+          } else if (error.error.code === 401) {
+            if (error.error.error === 'Link already sent') {
+              this.error = 'link_already_exist';
+              this.success = '';
+              this.loadingButton = false;
+              this.router.navigate([], {
+                queryParams: {
+                  errorMessage: 'error'
+                }
+              });
+            }
           } else {
             this.error = 'error-message';
           }

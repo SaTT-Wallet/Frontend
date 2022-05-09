@@ -23,19 +23,18 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { FilesService } from '@core/services/files/files.Service';
 import { filter, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { forkJoin, Subject } from 'rxjs';
-import { Router } from '@angular/router';
-
 import { WalletStoreService } from '@core/services/wallet-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
-import { bscan, etherscan } from '@app/config/atn.config';
+import { bscan, etherscan, polygonscanAddr } from '@app/config/atn.config';
 import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Location } from '@angular/common';
-import { ToastrService } from 'ngx-toastr';
+import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.service';
+import { BarcodeFormat } from '@zxing/library';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-send',
   templateUrl: './send.component.html',
@@ -94,7 +93,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   decimals: any;
   token: any;
   symbol: any;
-  gazcurrency: any;
+  gazcurrency: string = 'ERC20';
   /*--------------------------------*/
   @ViewChild('checkUserLegalKYCModal') checkUserLegalKYCModal!: ElementRef;
   routeEventSubscription$ = new Subject();
@@ -109,13 +108,20 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   contactWallet: string = '';
   maxNumber: number = 999999999;
   sattBalance: any;
+  allowedFormats = [
+    BarcodeFormat.QR_CODE,
+    BarcodeFormat.EAN_13,
+    BarcodeFormat.CODE_128,
+    BarcodeFormat.DATA_MATRIX
+  ];
+  qrResultString: string | null | undefined;
+  showScanner: boolean = false;
+  private kyc$ = this.kycFacadeService.kyc$;
   constructor(
     private accountFacadeService: AccountFacadeService,
     public sidebarService: SidebarService,
     public modalService: NgbModal,
     public translate: TranslateService,
-    private fileService: FilesService,
-    private router: Router,
     private tokenStorageService: TokenStorageService,
     private walletStoreService: WalletStoreService,
     private walletFacade: WalletFacadeService,
@@ -124,7 +130,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string,
     private _location: Location,
-    private toastr: ToastrService
+    private kycFacadeService: KycFacadeService,
+    private router: Router
   ) {
     //, Validators.max(this.maxNumber)
     this.sendform = new FormGroup({
@@ -143,6 +150,14 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.getusercrypto();
     this.getProfileDetails();
     this.amountdefault = this.sendform.get('currency')?.value;
+  }
+  openqrcode(): void {
+    this.showScanner = true;
+  }
+  onCodeResult(resultString: string) {
+    this.qrResultString = resultString;
+    this.sendform.get('contact')?.setValue(resultString);
+    this.showScanner = false;
   }
 
   //get list of crypto for user
@@ -277,25 +292,15 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.showSpinner = true;
       event.preventDefault();
       event.stopPropagation();
-      this.fileService
-        .getListUserLegal()
-        .pipe(
-          map((data: any) =>
-            Object.keys(data.data.legal).map((key) => ({
-              value: data.data.legal[key]
-            }))
-          ),
-          takeUntil(this.isDestroyed)
-        )
-        .subscribe((items) => {
+      this.kyc$.pipe(takeUntil(this.isDestroyed)).subscribe((response) => {
+        if (response !== null && response !== undefined) {
           if (
-            items.length > 1 &&
-            items.reduce((acc: any, item: any) => {
-              return acc && item.value['validate'] === true;
+            response.legal.length > 1 &&
+            response.legal.reduce((acc: any, item: any) => {
+              return acc && item['validate'] === true;
             }, true)
           ) {
             this.sendMoney();
-            //this.sendform.reset();
             this.showSpinner = false;
             this.isSubmitting = false;
           } else {
@@ -303,7 +308,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             this.modalService.open(this.checkUserLegalKYCModal);
             this.isSubmitting = false;
           }
-        });
+        }
+      });
     } else {
       this.showSpinner = false;
     }
@@ -432,8 +438,10 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               // }
               if (this.networks === 'BEP20') {
                 this.routertransHash = bscan + this.hashtransaction;
-              } else {
+              } else if (this.networks === 'ERC20') {
                 this.routertransHash = etherscan + this.hashtransaction;
+              } else if (this.networks === 'POLYGON') {
+                this.routertransHash = polygonscanAddr + this.hashtransaction;
               }
               this.showPwdBloc = false;
               this.showSuccessBloc = true;
@@ -517,7 +525,11 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               setTimeout(() => {
                 this.nobalance = false;
               }, 2000);
-            } else if (error.error.error === 'insufficient funds for gas' || error.error.error === 'Returned error: insufficient funds for gas * price + value') {
+            } else if (
+              error.error.error === 'insufficient funds for gas' ||
+              error.error.error ===
+                'Returned error: insufficient funds for gas * price + value'
+            ) {
               this.showSuccessBloc = false;
               this.showAmountBloc = false;
               this.showPwdBloc = false;
@@ -525,10 +537,10 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               this.amountUsd = '';
               this.amount = '';
               this.wrongpassword = false;
-              // this.gazproblem = true;
+              this.gazproblem = true;
               // setTimeout(() => {
               //   this.gazproblem = false;
-              // }, 5000);
+              // }, 3000);
               this.sendform.reset();
             }
 
@@ -538,6 +550,13 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         );
       // }
     }
+  }
+  goToBuy() {
+    this.router.navigate(['/wallet/buy-token'], {
+      queryParams: {
+        gaz: this.gazcurrency
+      }
+    });
   }
   onClickAmount(): void {
     let currency = '';
@@ -654,7 +673,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     // if (event.target.value.length === 0 && event.key === '0') {
     //   event.preventDefault();
     // }
-    if (event.keyCode === 54) {
+    if (event.keyCode === 54 && !event.shiftKey) {
       event.preventDefault();
       this.convertcurrency('', false);
     }
@@ -804,13 +823,16 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.token = event.AddedToken;
     if (this.networks === 'ERC20') {
       this.coinType = false;
-      this.gazcurrency = 'ETH';
+      this.gazcurrency = 'ERC20';
+      //this.gazcurrency = 'ETH';
     } else if (this.networks === 'BEP20') {
       this.coinType = false;
-      this.gazcurrency = 'BNB';
+      this.gazcurrency = 'BEP20';
+      // this.gazcurrency = 'BNB';
     } else if (this.networks === 'BTC') {
       this.coinType = true;
-      this.gazcurrency = 'ETH';
+      this.gazcurrency = 'ERC20';
+      // this.gazcurrency = 'ETH';
     }
 
     setTimeout(() => {

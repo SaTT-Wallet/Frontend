@@ -52,7 +52,7 @@
       <button
         type="button"
         class="btn-white"
-        [disabled]="this.kits.length === 0"
+        [disabled]="!this.downloadKit"
         (click)="downloadFile()"
       >
         Download AdPool Kit
@@ -64,6 +64,15 @@
         *ngIf="!campaign.isOwnedByUser && campaign.isActive"
       >
         {{ 'Apply Now' | translate }}
+      </button>
+      <button
+        type="button"
+        class="btn-edit-ad-pool top-bar-btn-apply"
+        id="btn-edit-ad-pool"
+        (click)="goToEditPage(campaign.id)"
+        *ngIf="campaign.isOwnedByUser && campaign.isActive"
+      >
+        Edit Adpool
       </button>
       <button type="button" class="btn-scroll-top" (click)="scrollToTop()">
         <img src="/assets/Images/chevron_up.svg" />
@@ -307,7 +316,7 @@
 
     <div class="container pt-4">
       <div
-        class="d-flex flex-xl-row flex-lg-row flex-md-row flex-sm-column flex-column align-items-center"
+        class="d-flex flex-xl-row flex-lg-row flex-md-row flex-sm-column flex-column align-items-center position-relative"
       >
         <div class="d-flex text-center" style="align-items: center">
           <img
@@ -365,14 +374,14 @@
           </div>
         </div>
         <div
-          class="d-flex flex-column align-items-xl-end align-items-lg-end align-items-md-end align-items-sm-center align-items-center ml-3 gap-2"
+          class="width-desktop-300 d-flex flex-column align-items-xl-end align-items-lg-end align-items-md-end align-items-sm-center align-items-center ml-3 gap-2"
         >
-          <div class="mb-2">
+          <div class="mb-2 back-list-desk">
             <a class="a-router" [routerLink]="['/ad-pools']"> < Back to list</a>
           </div>
           <button
             type="button"
-            class="btn-edit-ad-pool d-xl-block d-lg-block d-md-block d-sm-none d-none"
+            class="btn-edit-ad-pool d-xl-block d-lg-block d-md-block d-sm-none d-none btn-apply-desk"
             id="btn-edit-ad-pool"
             (click)="goToEditPage(campaign.id)"
             *ngIf="campaign.isOwnedByUser && campaign.isActive"
@@ -390,7 +399,7 @@
           </button>
           <button
             type="button"
-            class="btn-apply"
+            class="btn-apply btn-apply-desk"
             id="btn-apply"
             (click)="goParticipate(campaign.id)"
             *ngIf="!campaign.isOwnedByUser && campaign.isActive"
@@ -408,7 +417,7 @@
           </button>
           <button
             type="button"
-            class="btn-pending"
+            class="btn-pending btn-apply-desk"
             *ngIf="!campaign.isOwnedByUser && campaign.inProgress"
           >
             <span class="padding-16">

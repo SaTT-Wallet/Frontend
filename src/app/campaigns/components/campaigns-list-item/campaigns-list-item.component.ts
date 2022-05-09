@@ -6,7 +6,6 @@ import {
   OnInit,
   Output
 } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
@@ -14,10 +13,9 @@ import { ToastrService } from 'ngx-toastr';
 import { Campaign } from '@app/models/campaign.model';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { CampaignsStoreService } from '@campaigns/services/campaigns-store.service';
-import { ListTokens } from '@app/config/atn.config';
 import { CampaignsListStoreService } from '@campaigns/services/campaigns-list-store.service';
-import { mergeMap, takeUntil } from 'rxjs/operators';
-import { of, Subject } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 // TODO: missing budget property in the data sent by backend /v2/campaigns
 
 @Component({
@@ -150,6 +148,12 @@ export class CampaignsListItemComponent implements OnInit {
       ? this.campaign.ratios
       : this.campaign.bounties;
     return !!campaignPerformance.find((r) => r.oracle === 'linkedin');
+  }
+  get isTikTokSelected(): boolean {
+    let campaignPerformance = this.campaign.ratios.length
+      ? this.campaign.ratios
+      : this.campaign.bounties;
+    return !!campaignPerformance.find((r) => r.oracle === 'tikTok');
   }
   get localId(): string {
     return this.tokenStorageService.getLocale() || 'en';
