@@ -788,11 +788,17 @@ export class NotificationComponent implements OnInit {
       });
     }
 
-    if (notif.label.network === 'ERC20') {
+    if (
+      notif.label.network === 'ERC20' &&
+      notif.label.transactionHash !== 'ret.transactionHash'
+    ) {
       window.open(etherscan + notif.label.transactionHash, '_blank');
     }
 
-    if (notif.label.network === 'BEP20') {
+    if (
+      notif.label.network === 'BEP20' &&
+      notif.label.transactionHash !== 'ret.transactionHash'
+    ) {
       window.open(bscan + notif.label.transactionHash, '_blank');
     }
   }
