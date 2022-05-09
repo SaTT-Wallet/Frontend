@@ -20,7 +20,8 @@ import * as _ from 'lodash';
 
 enum EBlockchainNetwork {
   ERC20 = 'ERC20',
-  BEP20 = 'BEP20'
+  BEP20 = 'BEP20',
+  BTC = 'BTC'
 }
 enum ECurrencyType {
   FIAT = 'fiat',
@@ -209,7 +210,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
 
   toggleNetwork(network: EBlockchainNetwork) {
     this.selectedBlockchainNetwork = network;
-    if (this.selectedCurrencyType === ECurrencyType.FIAT) {
+    if (network === EBlockchainNetwork.BTC) {
       this.sourceCryptoList = cryptoList
         .map((crypto: { symbol: string; network: string; logo: string }) => {
           return {
@@ -222,6 +223,27 @@ export class BuyTokenComponent implements OnInit, OnChanges {
           } as Crypto;
         })
         .filter((crypto: Crypto) => crypto.type.toUpperCase() === network);
+      this.requestedCrypto = this.sourceCryptoList.find(
+        (crypto: Crypto) =>
+          crypto.type.toUpperCase() === this.selectedBlockchainNetwork
+      )?.symbole as string;
+    } else if (this.selectedCurrencyType === ECurrencyType.FIAT) {
+      this.sourceCryptoList = cryptoList
+        .map((crypto: { symbol: string; network: string; logo: string }) => {
+          return {
+            name: crypto.symbol,
+            contract: '',
+            decimals: '0',
+            logo: crypto.logo,
+            type: crypto.network,
+            symbole: crypto.symbol
+          } as Crypto;
+        })
+        .filter((crypto: Crypto) => crypto.type.toUpperCase() === network);
+      this.requestedCrypto = this.sourceCryptoList.find(
+        (crypto: Crypto) =>
+          crypto.type.toUpperCase() === this.selectedBlockchainNetwork
+      )?.symbole as string;
     } else {
       if (network === EBlockchainNetwork.BEP20) {
         // this.selectedCurrencyType = ECurrencyType.BEP20;
@@ -233,14 +255,15 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       this.sourceCryptoList = this.cryptoList.filter(
         (crypto: Crypto) => crypto.type.toUpperCase() === network
       );
+
+      this.requestedCrypto = this.sourceCryptoList.find(
+        (crypto: Crypto) =>
+          crypto.name.includes('SATT') &&
+          crypto.type.toUpperCase() === this.selectedBlockchainNetwork
+      )?.symbole as string;
+
       this.switchTokensWhenIdentical();
     }
-
-    this.requestedCrypto = this.sourceCryptoList.find(
-      (crypto: Crypto) =>
-        crypto.name.includes('SATT') &&
-        crypto.type.toUpperCase() === this.selectedBlockchainNetwork
-    )?.symbole as string;
 
     this.convertCrypto();
   }
@@ -417,6 +440,8 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   get selectedBlockchainNetworkLogo() {
     if (this.selectedBlockchainNetwork === EBlockchainNetwork.ERC20) {
       return 'etherium-blockchain-icon.png';
+    } else if (this.selectedBlockchainNetwork === EBlockchainNetwork.BTC) {
+      return 'BTC.svg';
     } else {
       return 'bsc-black-icon.svg';
     }
@@ -485,7 +510,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
             return of(null);
           }),
           tap((data: any) => {
-            if (data?.data.error && data?.data.code !== 500) {
+            if (data?.data?.error && data?.data?.code !== 500) {
               this.errMsg = data.data.error;
             } else if (data?.error) {
               this.errMsg = data.error;
