@@ -47,7 +47,7 @@ export class ActivationMailComponent implements OnInit {
 
   ngOnInit(): void {
     this.email = this.getEmail();
-    // this.resendCode()
+    this.resendCode();
     this.account$
       .pipe(
         filter((res) => res !== null)

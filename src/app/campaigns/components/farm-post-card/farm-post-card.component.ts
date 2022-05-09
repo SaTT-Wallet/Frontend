@@ -150,7 +150,7 @@ export class FarmPostCardComponent implements OnInit {
   }
   validateLink(prom: any) {
     this.blockchainActions.onActionButtonClick({
-      data: { prom, campaignId: prom.campaign.id },
+      data: { prom, campaignId: prom.campaign._id },
       action: EButtonActions.VALIDATE_LINK
     });
     this.router.navigate(['verify-link'], {
