@@ -735,7 +735,11 @@ export class NotificationComponent implements OnInit {
   }
 
   redirect(notif: any, content: any): void {
-    if (notif.type === 'join_on_social') {
+    if (
+      notif.type === 'join_on_social' ||
+      notif.type === 'invite_friends' ||
+      notif.type === 'join_on_social'
+    ) {
       this.modalService.open(content);
     }
     if (notif.type === 'buy_some_gas') {
