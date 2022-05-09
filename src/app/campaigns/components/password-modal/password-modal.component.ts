@@ -385,19 +385,32 @@ export class PasswordModalComponent implements OnInit {
         }
       },
       (error) => {
+        if (
+        error.error.error ===
+          'Key derivation failed - possibly wrong password'
+        ) {
+          this.errorMessage = 'wrong_password';
+        }
+
+        
         this.handleLaunchResponseError(error, token);
       }
     );
   }
 
   launchCampaignWithPerPerformanceReward(campaign_info: any) {
+
     return this.campaignService.createCompaign(campaign_info).pipe(
-      tap(() => {
+      
+      tap((response:any) => {
+       
         this.showButtonSend = true;
         this.loadingButton = false;
         this.passwordForm.reset();
-      })
-    );
+      }),
+    
+    )
+    
   }
 
   launchCampaignWithPerPublicationReward(campaign_info: any) {
@@ -429,7 +442,14 @@ export class PasswordModalComponent implements OnInit {
       this.errorMessage =
         'Error: Transaction has been reverted by blockchain evm';
       this.loadingButton = false;
-    } else {
+    }
+    else if (error.error.error ===
+      'Key derivation failed - possibly wrong password') {
+      this.errorMessage =
+        'Wrong password';
+      this.loadingButton = false;
+    }
+    else {
       this.errorMessage = 'An error has occurred, please try again later';
       this.loadingButton = false;
     }
