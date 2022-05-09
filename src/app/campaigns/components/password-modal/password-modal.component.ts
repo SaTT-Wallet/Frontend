@@ -422,6 +422,13 @@ export class PasswordModalComponent implements OnInit {
         }
       },
       (error) => {
+        if (
+          error.error.error ===
+          'Key derivation failed - possibly wrong password'
+        ) {
+          this.errorMessage = 'wrong_password';
+        }
+
         this.handleLaunchResponseError(error, token);
       }
     );
@@ -465,6 +472,11 @@ export class PasswordModalComponent implements OnInit {
     } else if (error.error.error.includes('reverted')) {
       this.errorMessage =
         'Error: Transaction has been reverted by blockchain evm';
+      this.loadingButton = false;
+    } else if (
+      error.error.error === 'Key derivation failed - possibly wrong password'
+    ) {
+      this.errorMessage = 'Wrong password';
       this.loadingButton = false;
     } else {
       this.errorMessage = 'An error has occurred, please try again later';

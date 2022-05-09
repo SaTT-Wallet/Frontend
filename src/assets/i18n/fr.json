@@ -119,6 +119,7 @@
   "send.return_to_portfolio": "Revenir au portefeuille",
   "send.return_to_campaign": "Retour à la campagne",
   "send.no_balance": "Vous n'avez pas assez d'équilibre",
+  "send.no_balance_crypto": "Vous n'avez pas assez de {{crypto}} dans votre solde",
   "send.must_select_devise": "vous devez sélectionner une devise",
   "send.no_gaz": "Vous n'avez pas assez de gaz pour cette transaction",
   "send.send_successfully": "Envoi réussi !",

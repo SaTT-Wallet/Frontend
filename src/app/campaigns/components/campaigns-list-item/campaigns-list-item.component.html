@@ -190,10 +190,11 @@
       />
       <img src="./assets/Images/tikTok.svg" *ngIf="isTikTokSelected" />
     </div>
-
-    <h3 class="title" [ngClass]="{ 'gray-title': !campaign?.hash }">
-      {{ campaign.title }}
-    </h3>
+    <div class="div-title justify-content-center align-items-center">
+      <h3 class="title" [ngClass]="{ 'gray-title': !campaign?.hash }">
+        {{ campaign.title }}
+      </h3>
+    </div>
 
     <h3 class="pink-text mt-2" *ngIf="campaign?.hash">
       <span class="campaign-funds-details d-flex justify-content-center">
