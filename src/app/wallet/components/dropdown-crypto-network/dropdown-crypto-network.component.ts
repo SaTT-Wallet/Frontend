@@ -46,6 +46,7 @@ export class DropdownCryptoNetworkComponent
   cryptoToDropdown: any;
   addedTokenNopic: boolean = false;
   private firstEmit = false;
+  defaultcurrpolygon: any;
   constructor(
     private walletFacade: WalletFacadeService,
     private route: ActivatedRoute,
@@ -84,6 +85,7 @@ export class DropdownCryptoNetworkComponent
     this.defaultcurr = ListTokens['SATT'].name;
     this.defaultcurrbep = ListTokens['SATTBEP20'].name;
     this.defaultcurrbtc = ListTokens['BTC'].name;
+    this.defaultcurrpolygon = ListTokens['SATTPOLYGON'].name;
   }
   //get list of crypto for user
   getusercrypto() {
@@ -261,12 +263,11 @@ export class DropdownCryptoNetworkComponent
       this.cryptoName = this.defaultcurrbtc;
       this.cryptoPicName = this.defaultcurrbtc;
       this.cryptoDetails = 'BTC';
-    }
-    else if (network === 'POLYGON') {
+    } else if (network === 'POLYGON') {
       this.cryptoSymbol = 'SATTPOLYGON';
       this.cryptoName = this.defaultcurr;
       this.cryptoPicName = this.defaultcurr;
-      this.cryptoDetails = 'SATT';
+      this.cryptoDetails = 'SATTPOLYGON';
     }
     this.dataList.forEach((crypto: any) => {
       if (crypto.symbol === this.cryptoDetails) {
