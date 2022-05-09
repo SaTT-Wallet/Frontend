@@ -169,7 +169,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
             ),
             takeUntil(this.onDestoy$),
             tap(() => {
-              this.getCryptoPrices();
+              //this.getCryptoPrices();
             })
           );
         })
@@ -183,19 +183,19 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
         this.campaignsList = campaigns;
         this.campaignsList2 = campaigns;
         this.campaignsList?.forEach((element: Campaign) => {
-          if (this.cryptoPrices) {
-            element.budgetUsd = new Big(
-              this.cryptoPrices[element.currency.name].price + ''
-            )
-              .times(
-                this.convertFromWeiTo.transform(
-                  element.budget,
-                  element.currency.name,
-                  2
-                )
-              )
-              .toFixed(2);
-          }
+          // if (this.cryptoPrices) {
+          //   element.budgetUsd = new Big(
+          //     this.cryptoPrices[element.currency.name].price + ''
+          //   )
+          //     .times(
+          //       this.convertFromWeiTo.transform(
+          //         element.budget,
+          //         element.currency.name,
+          //         2
+          //       )
+          //     )
+          //     .toFixed(2);
+          // }
           if (typeof element.startDate == 'number') {
             element.startDate = new Date(element.startDate * 1000);
           }
