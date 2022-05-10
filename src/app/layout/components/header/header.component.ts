@@ -134,6 +134,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private resized = false;
   menuSendRecieve: boolean = false;
   private isDestroyed$ = new Subject();
+  isTransactionHashCopied = false;
 
   constructor(
     private accountFacadeService: AccountFacadeService,
@@ -1132,7 +1133,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
         }
       });
   }
-
+  copiedHash() {
+    this.isTransactionHashCopied = true;
+    setTimeout(() => {
+      this.isTransactionHashCopied = false;
+    }, 2000);
+  }
   public copyErc(code: any) {
     this.clipboard.copy(code);
   }
