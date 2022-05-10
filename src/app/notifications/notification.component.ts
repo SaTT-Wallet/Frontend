@@ -236,6 +236,8 @@ export class NotificationComponent implements OnInit {
           });
 
           this.dataNotification = _.chain(this.dataNotification)
+            .sortBy((data) => data.createdInit)
+            .reverse()
             .groupBy('created')
             .map((value: any, key: any) => ({ created: key, value }))
             .value();
@@ -251,7 +253,7 @@ export class NotificationComponent implements OnInit {
   siwtchFunction(item: any) {
     const etherInWei = new Big(1000000000000000000);
     let itemDate = new Date(item.created);
-
+    item.createdInit = item.created;
     if (this.tokenStorageService.getLocalLang() === 'en') {
       item.createdFormated = moment
         .parseZone(itemDate)
