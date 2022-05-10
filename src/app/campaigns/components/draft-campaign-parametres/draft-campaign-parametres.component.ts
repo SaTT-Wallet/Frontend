@@ -85,7 +85,7 @@ export class DraftCampaignParametresComponent implements OnInit {
       { name: 'Beauty' },
       { name: 'Creative hobbies' },
       { name: 'Decoration' },
-      { name: 'Environement' },
+      { name: 'Environment' },
       { name: 'Finance' },
       { name: 'Kitchen' },
       { name: 'Games' },
@@ -97,7 +97,7 @@ export class DraftCampaignParametresComponent implements OnInit {
       { name: 'Reading' },
       { name: 'Social Networking' },
       { name: 'Sport' },
-      { name: 'Technlogies' },
+      { name: 'Technologies' },
       { name: 'Theatre' },
       { name: 'Travel' }
     ];
@@ -181,11 +181,9 @@ export class DraftCampaignParametresComponent implements OnInit {
     /*
     this.checkCountriesTags(this.form.value);
 */
-
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    
     this.InterestList.forEach((tag: any) => {
       if (this.draftData.tags.indexOf(tag.name) >= 0) {
         tag.checked = true;
