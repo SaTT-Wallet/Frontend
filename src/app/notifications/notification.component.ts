@@ -9,7 +9,7 @@ import {
 import { NotificationService } from '@core/services/notification/notification.service';
 import { ContactService } from '@core/services/contact/contact.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import * as moment from 'moment';
+//import * as moment from 'moment';
 import _ from 'lodash';
 import { walletUrl, ListTokens } from '@config/atn.config';
 import { isPlatformBrowser } from '@angular/common';
@@ -24,6 +24,7 @@ import { takeUntil } from 'rxjs/operators';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 import { INotificationsResponse } from '@app/core/notifications-response.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import moment from 'moment';
 
 @Component({
   selector: 'app-history',
@@ -234,13 +235,15 @@ export class NotificationComponent implements OnInit {
             item.created = item.created ? item.created : item.createdAt;
             this.siwtchFunction(item);
           });
-          console.log('this.dataNotification111 ', this.dataNotification);
-
           this.dataNotification = _.chain(this.dataNotification)
+            .sortBy((data) => data.createdInit)
+            .reverse()
             .groupBy('created')
-            .map((value: any, key: any) => ({ created: key, value }))
+            .map((value: any, key: any) => {
+              //console.log('vvv', value, key);
+              return { created: key, value };
+            })
             .value();
-          console.log('this.dataNotification ', this.dataNotification);
         }
       });
   }
@@ -258,7 +261,7 @@ export class NotificationComponent implements OnInit {
       item.createdFormated = moment
         .parseZone(itemDate)
         .format(' MMMM Do YYYY, h:mm a z');
-      item.created = moment.parseZone(item.created).fromNow();
+      item.created = moment.parseZone(item.created).fromNow().slice();
     } else if (this.tokenStorageService.getLocalLang() === 'fr') {
       item.createdFormated = moment
         .parseZone(itemDate)
