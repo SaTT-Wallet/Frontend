@@ -1,4 +1,3 @@
-import { HttpHeaders } from '@angular/common/http';
 import { Big } from 'big.js';
 import { environment as env } from '../../environments/environment';
 const sattUrl = env.API_URL;
@@ -6,10 +5,13 @@ const sattUrl = env.API_URL;
 const walletUrl = 'http://localhost:4200/#/';
 const bscan = env.bscan;
 const etherscan = env.etherscan;
-const polygonscanAddr = env.polygonscanAddr
+const polygonscanAddr = env.polygonscanAddr;
 const campaignSmartContractERC20 = env.addresses.smartContracts.campaignERC20;
 
 const campaignSmartContractBEP20 = env.addresses.smartContracts.campaignBEP20;
+
+const campaignSmartContractPOLYGON =
+  env.addresses.smartContracts.campaignPOLYGON;
 
 const id_campaign_to_participate = '61139d487048d8251bf91401';
 
@@ -141,6 +143,7 @@ cryptoNetwork['(smart chain)'] =
   cryptoNetwork['SATTBEP20'] =
   cryptoNetwork['BUSD'] =
     'BEP20';
+cryptoNetwork['SATTPOLYGON'] = 'POLYGON';
 
 var ListTokens: { [key: string]: { [key: string]: any } } = {
   SATT: {
@@ -271,8 +274,7 @@ var ListTokens: { [key: string]: { [key: string]: any } } = {
     logo: 'MATIC.svg',
     type: 'POLYGON',
     symbole: 'MATIC'
-  },
-
+  }
 };
 
 var ListTokensPerso: { [key: string]: { [key: string]: any } } = {
@@ -826,6 +828,7 @@ export {
   GazConsumedByCampaign,
   campaignSmartContractERC20,
   campaignSmartContractBEP20,
+  campaignSmartContractPOLYGON,
   pattContact,
   pattEmail,
   pattNetwork,

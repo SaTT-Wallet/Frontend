@@ -150,7 +150,7 @@ export class FarmPostCardComponent implements OnInit {
   }
   validateLink(prom: any) {
     this.blockchainActions.onActionButtonClick({
-      data: { prom, campaignId: prom.campaign.id },
+      data: { prom, campaignId: prom.campaign._id },
       action: EButtonActions.VALIDATE_LINK
     });
     this.router.navigate(['verify-link'], {
@@ -241,13 +241,15 @@ export class FarmPostCardComponent implements OnInit {
             .pipe(takeUntil(this.isDestroyed))
             .subscribe((res: any) => {
               let objectURL: any;
-              if (res.err !== 'No file exists') {
-                objectURL = URL.createObjectURL(res);
-                this.prom.userPic =
-                  this._sanitizer.bypassSecurityTrustUrl(objectURL);
-                this.changeDetectorRef.detectChanges();
-              } else {
-                this.prom.userPic = '';
+              if (res) {
+                if (res.err !== 'No file exists') {
+                  objectURL = URL.createObjectURL(res);
+                  this.prom.userPic =
+                    this._sanitizer.bypassSecurityTrustUrl(objectURL);
+                  this.changeDetectorRef.detectChanges();
+                } else {
+                  this.prom.userPic = '';
+                }
               }
             });
         }

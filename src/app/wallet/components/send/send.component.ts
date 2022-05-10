@@ -28,7 +28,7 @@ import { forkJoin, Subject } from 'rxjs';
 import { WalletStoreService } from '@core/services/wallet-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
-import { bscan, etherscan ,polygonscanAddr} from '@app/config/atn.config';
+import { bscan, etherscan, polygonscanAddr } from '@app/config/atn.config';
 import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Location } from '@angular/common';
@@ -108,8 +108,13 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   contactWallet: string = '';
   maxNumber: number = 999999999;
   sattBalance: any;
-  allowedFormats = [ BarcodeFormat.QR_CODE, BarcodeFormat.EAN_13, BarcodeFormat.CODE_128, BarcodeFormat.DATA_MATRIX ];
-  qrResultString: string | null | undefined ;
+  allowedFormats = [
+    BarcodeFormat.QR_CODE,
+    BarcodeFormat.EAN_13,
+    BarcodeFormat.CODE_128,
+    BarcodeFormat.DATA_MATRIX
+  ];
+  qrResultString: string | null | undefined;
   showScanner: boolean = false;
   private kyc$ = this.kycFacadeService.kyc$;
   constructor(
@@ -435,10 +440,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
                 this.routertransHash = bscan + this.hashtransaction;
               } else if (this.networks === 'ERC20') {
                 this.routertransHash = etherscan + this.hashtransaction;
-              }
-              else if (this.networks === 'POLYGON') {
+              } else if (this.networks === 'POLYGON') {
                 this.routertransHash = polygonscanAddr + this.hashtransaction;
-              } 
+              }
               this.showPwdBloc = false;
               this.showSuccessBloc = true;
             }
@@ -534,7 +538,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               this.amount = '';
               this.wrongpassword = false;
               this.gazproblem = true;
-
               // setTimeout(() => {
               //   this.gazproblem = false;
               // }, 3000);
@@ -670,7 +673,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     // if (event.target.value.length === 0 && event.key === '0') {
     //   event.preventDefault();
     // }
-    if (event.keyCode === 54) {
+    if (event.keyCode === 54 && !event.shiftKey) {
       event.preventDefault();
       this.convertcurrency('', false);
     }

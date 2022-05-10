@@ -3,7 +3,8 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import {
   sattUrl,
   campaignSmartContractERC20,
-  campaignSmartContractBEP20
+  campaignSmartContractBEP20,
+  campaignSmartContractPOLYGON
 } from '@config/atn.config';
 import { TokenStorageService } from '../tokenStorage/token-storage-service.service';
 import {
@@ -739,6 +740,18 @@ export class CampaignHttpApiService {
     );
   }
 
+  approvePOLYGON(token: any) {
+    return this.http.post(
+      sattUrl + '/campaign/polygon/approval',
+      {
+        tokenAddress: token.addr,
+        campaignAddress: campaignSmartContractPOLYGON
+      },
+
+      { headers: this.tokenStorageService.getHeader() }
+    );
+  }
+
   allowERC20(erc20: any, password: any) {
     let amount = '100000000000000000000000000000';
     return this.http.post(
@@ -764,6 +777,21 @@ export class CampaignHttpApiService {
         amount: amount,
         pass: password,
         tokenAddress: bep20.addr
+      },
+      { headers: this.tokenStorageService.getHeader() }
+    );
+  }
+
+  allowPOLYGON(token: any, password: any) {
+    let amount = '100000000000000000000000000000';
+    // const BEP20 = ListTokens["SATTBEP20"].contract;
+    return this.http.post(
+      sattUrl + '/campaign/polygon/allow',
+      {
+        campaignAddress: campaignSmartContractPOLYGON,
+        amount: amount,
+        pass: password,
+        tokenAddress: token.token
       },
       { headers: this.tokenStorageService.getHeader() }
     );
