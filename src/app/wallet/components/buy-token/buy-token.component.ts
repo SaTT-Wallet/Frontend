@@ -109,6 +109,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   showSpinner = false;
   toSwapCrypto: any;
   fromSwapCrypto: any;
+  quoteIdParams: boolean = false;
 
   constructor(
     private walletFacade: WalletFacadeService,
@@ -144,6 +145,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((p: any) => {
         if (p.id) {
+          
           // this.toggleCurrencyType(ECurrencyType.FIAT);
           // this.toggleNetwork(p.network);
           this.selectedCurrencyType = p.currency;
@@ -151,6 +153,12 @@ export class BuyTokenComponent implements OnInit, OnChanges {
           this.requestedCrypto = p.id;
           this.toggleCurrencyType(ECurrencyType.FIAT);
           this.toggleNetwork(p.network);
+          if (!p.quote_id){
+            this.quoteIdParams = false 
+         } else {
+           this.quoteIdParams = true 
+ 
+         }
           if (p.id === 'SATT-SC') {
             this.fiatLogo = 'SATTBEP20.svg';
           } else if (p.id === 'SATT-ERC20') {
@@ -200,8 +208,10 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       });
 
     this.convertCryptoUnitToUSD();
-    this.convertCrypto();
-    this.listenToPressKeyOnCurrencySelect();
+    if (!this.quoteIdParams){
+      this.convertCrypto();
+     }
+     this.listenToPressKeyOnCurrencySelect();
 
     if (this.tokenStorageService.getToken()) {
       this.isConnected = true;
