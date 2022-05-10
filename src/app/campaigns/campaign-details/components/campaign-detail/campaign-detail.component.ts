@@ -30,7 +30,8 @@ import { CampaignsListStoreService } from '@app/campaigns/services/campaigns-lis
 import { TranslateService } from '@ngx-translate/core';
 import { Big } from 'big.js';
 import { WindowRefService } from '@core/windowRefService';
-import FileSaver from 'file-saver';
+import * as FileSaver from 'file-saver';
+import JSZip from 'jszip';
 declare var $: any;
 @Component({
   selector: 'app-campaign-detail',
@@ -682,15 +683,41 @@ export class CampaignDetailComponent implements OnInit {
       this.disabledBtn = true;
     }
   }
-  downloadFile() {
-    this.kits.forEach((kit: any) => {
+
+  async downloadFile() {
+    let zip = new JSZip();
+    let resourceKitFolder = zip.folder('kits');
+
+    for (let [index, kit] of this.kits.entries()) {
       if (!kit.link) {
         let filetype = kit.type.split('/').pop();
-        let fileName = `download.${filetype}`;
+        let fileName = `kit-resource-${index}.${filetype}`;
         let urlimg = kit?.url?.changingThisBreaksApplicationSecurity;
-        FileSaver.saveAs(urlimg, fileName);
+        let blob = await (await fetch(urlimg)).blob();
+
+        let base64data: string = await new Promise((resolve, reject) => {
+          let reader = new FileReader();
+          reader.readAsDataURL(blob);
+          try {
+            reader.onloadend = function () {
+              let dataUrl = reader.result;
+              resolve((dataUrl as string)?.split(',')[1]);
+            };
+          } catch (err) {
+            reject(err);
+          }
+        });
+
+        resourceKitFolder?.file(fileName, base64data, {
+          base64: true
+        });
       }
+    }
+
+    await zip.generateAsync({ type: 'blob' }).then(function (content) {
+      FileSaver.saveAs(content, 'resources.zip');
     });
+
     this.downloadFilsClick = true;
     setTimeout(() => {
       this.downloadFilsClick = false;
