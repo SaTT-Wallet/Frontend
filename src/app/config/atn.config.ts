@@ -1,4 +1,3 @@
-import { HttpHeaders } from '@angular/common/http';
 import { Big } from 'big.js';
 import { environment as env } from '../../environments/environment';
 const sattUrl = env.API_URL;
@@ -138,6 +137,7 @@ cryptoNetwork['SATT'] =
   cryptoNetwork['MKR'] =
     'ERC20';
 cryptoNetwork['(smart chain)'] =
+  cryptoNetwork['BNB'] =
   cryptoNetwork['SATTBEP20'] =
   cryptoNetwork['BUSD'] =
     'BEP20';
