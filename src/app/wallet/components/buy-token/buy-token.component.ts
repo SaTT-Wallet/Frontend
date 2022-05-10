@@ -133,12 +133,14 @@ export class BuyTokenComponent implements OnInit, OnChanges {
     this.routerSub = this.route.queryParams
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((p: any) => {
+        if (!p.quote_id){
+          this.quoteIdParams = false 
+       } else {
+         this.quoteIdParams = true 
+       }
+       
         if (p.id) {
-          if (!p.quote_id){
-            this.quoteIdParams = false 
-         } else {
-           this.quoteIdParams = true 
-         }
+        
           // this.toggleCurrencyType(ECurrencyType.FIAT);
           // this.toggleNetwork(p.network);
           this.selectedCurrencyType = p.currency;
