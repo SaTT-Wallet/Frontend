@@ -1789,3 +1789,33 @@ li.li-menu.is-visited {
 li.li-menu.is-visited a {
   font-weight: bold;
 }
+.black-dialog {
+  width: 73px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  z-index: 1;
+  bottom: -29px;
+  left: 50%;
+  opacity: 1;
+  margin-left: -39px;
+}
+.position-relative {
+  position: relative;
+}
+.dialog-point {
+  width: 0;
+  height: 0;
+  border-left: 16px solid black;
+  border-right: 0px solid transparent;
+  border-top: 17px solid transparent;
+  position: absolute;
+  bottom: -12px;
+  right: 4px;
+}

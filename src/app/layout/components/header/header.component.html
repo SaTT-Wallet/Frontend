@@ -451,16 +451,19 @@
                 <span class="span-text-wallet"
                   >{{ erc20.slice(0, 4) }}...{{ erc20.slice(-5) }}</span
                 >
-                <span class="pr-1"
+                <span class="pr-1 position-relative"
                   ><img
                     class="img-copied"
-                    (click)="copyErc(erc20)"
-                    ngbPopover="Copied"
-                    popoverTitle=""
-                    [openDelay]="100"
-                    [closeDelay]="100"
-                    src="../../../../assets/Images/copiedIcon.png"
-                /></span>
+                    (click)="copiedHash()"
+                    [cdkCopyToClipboard]="erc20"
+                    src="/assets/Images/copiedIcon.png" />
+                  <span *ngIf="isTransactionHashCopied" class="black-dialog">
+                    Copied! </span
+                  ><span
+                    *ngIf="isTransactionHashCopied"
+                    class="dialog-point"
+                  ></span
+                ></span>
               </div>
               <div class="d-flex justify-content-center gap mt-1">
                 <div>
@@ -494,16 +497,19 @@
                 <span class="span-text-wallet"
                   >{{ btcCode.slice(0, 4) }}...{{ btcCode.slice(-5) }}</span
                 >
-                <span class="pr-1"
+                <span class="pr-1 position-relative"
                   ><img
                     class="img-copied"
-                    (click)="copyBtc(btcCode)"
-                    ngbPopover="Copied"
-                    popoverTitle=""
-                    [openDelay]="100"
-                    [closeDelay]="100"
-                    src="../../../../assets/Images/copiedIcon.png"
-                /></span>
+                    (click)="copiedHash()"
+                    [cdkCopyToClipboard]="btcCode"
+                    src="/assets/Images/copiedIcon.png" />
+                  <span *ngIf="isTransactionHashCopied" class="black-dialog">
+                    Copied! </span
+                  ><span
+                    *ngIf="isTransactionHashCopied"
+                    class="dialog-point"
+                  ></span
+                ></span>
               </div>
               <div class="d-flex justify-content-center mt-2">
                 <div class="">
@@ -785,16 +791,16 @@
       >
       <!-- <span class="span-wallet flex-start">{{ erc20 }}</span>
             <span class="span-wallet2 flex-end">{{ erc20 }}</span> -->
-      <span class="pr-1"
+      <span class="pr-1 position-relative"
         ><img
           class="img-copied"
-          (click)="copyErc(erc20)"
-          ngbPopover="Copied"
-          popoverTitle=""
-          [openDelay]="100"
-          [closeDelay]="100"
-          src="../../../../assets/Images/copiedIcon.png"
-      /></span>
+          (click)="copiedHash()"
+          [cdkCopyToClipboard]="erc20"
+          src="/assets/Images/copiedIcon.png" />
+        <span *ngIf="isTransactionHashCopied" class="black-dialog">
+          Copied! </span
+        ><span *ngIf="isTransactionHashCopied" class="dialog-point"></span
+      ></span>
     </div>
 
     <div class="toggle d-flex justify-content-center mt-2">
@@ -820,16 +826,16 @@
 
       <!-- <span class="span-wallet flex-start">{{ btcCode }}</span>
             <span class="span-wallet2 flex-end">{{ btcCode }}</span> -->
-      <span class="pr-1"
+      <span class="pr-1 position-relative"
         ><img
           class="img-copied"
-          (click)="copyBtc(btcCode)"
-          ngbPopover="Copied"
-          popoverTitle=""
-          [openDelay]="100"
-          [closeDelay]="100"
-          src="../../../../assets/Images/copiedIcon.png"
-      /></span>
+          (click)="copiedHash()"
+          [cdkCopyToClipboard]="btcCode"
+          src="/assets/Images/copiedIcon.png" />
+        <span *ngIf="isTransactionHashCopied" class="black-dialog">
+          Copied! </span
+        ><span *ngIf="isTransactionHashCopied" class="dialog-point"></span
+      ></span>
     </div>
 
     <div
