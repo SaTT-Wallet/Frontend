@@ -122,7 +122,10 @@ export class PasswordModalComponent implements OnInit {
     if (this.campaign) {
       _campaign.dataUrl =
         'https://ropsten.etherscan.io/token/0x2bef0d7531f0aae08adc26a0442ba8d0516590d0'; //this.campaign.shortLink;
-      _campaign.tokenAddress = this.campaign.currency.addr;
+      _campaign.tokenAddress =
+        (this.campaign.currency.name === 'BNB' &&
+          ListTokens['SATTBEP20'].contract) ||
+        this.campaign.currency.addr;
       _campaign.pass = this.passwordForm.get('password')?.value;
       /*
       _campaign.ERC20token = ListTokens[this.campaign.currency.name].contract;
@@ -268,8 +271,10 @@ export class PasswordModalComponent implements OnInit {
     let campaign_info = this.fillInformations();
     this.showButtonSend = false;
     this.loadingButton = true;
+    let tokenSymbol =
+      (token === 'BNB' && 'SATTBEP20') || this.campaign.currency.name;
     TokenOBj.walletaddr = this.tokenStorageService.getIdWallet();
-    TokenOBj.addr = ListTokens[this.campaign.currency.name].contract;
+    TokenOBj.addr = ListTokens[tokenSymbol].contract;
     campaign_info.currency = cryptoNetwork[token];
     let LaunchCampaignObs: Observable<any>;
     if (cryptoNetwork[token] === 'BEP20') {
