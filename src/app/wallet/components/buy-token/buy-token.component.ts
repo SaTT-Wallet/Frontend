@@ -81,7 +81,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   ethPrice: any;
   cryptoPrice = 0;
   private isDestroyed = new Subject<any>();
-
+  quoteIdParams: boolean = false;
   isDestroyedObs = this.isDestroyed.asObservable();
 
   position: any;
@@ -134,6 +134,11 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((p: any) => {
         if (p.id) {
+          if (!p.quote_id){
+            this.quoteIdParams = false 
+         } else {
+           this.quoteIdParams = true 
+         }
           // this.toggleCurrencyType(ECurrencyType.FIAT);
           // this.toggleNetwork(p.network);
           this.selectedCurrencyType = p.currency;
@@ -180,8 +185,12 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       });
 
     this.convertCryptoUnitToUSD();
-    this.convertCrypto();
-    this.listenToPressKeyOnCurrencySelect();
+    if (!this.quoteIdParams){
+
+      this.convertCrypto();
+
+     }
+         this.listenToPressKeyOnCurrencySelect();
 
     if (this.tokenStorageService.getToken()) {
       this.isConnected = true;
