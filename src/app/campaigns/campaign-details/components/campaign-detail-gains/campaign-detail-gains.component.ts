@@ -190,9 +190,10 @@ export class CampaignDetailGainsComponent implements OnInit {
     this.linkHash = this.activatedRoute.snapshot.queryParamMap.get('linkHash');
     if (this.linkHash) {
       let itemFound = false;
+
       this.campaignLinks.map((item) => {
-        itemFound = this.linkHash === item.hash;
-        if (itemFound) {
+        if (this.linkHash === item.hash) {
+          itemFound = true;
           this.scroller.scrollToAnchor(this.linkHash);
         }
       });
@@ -219,6 +220,7 @@ export class CampaignDetailGainsComponent implements OnInit {
 
         //   this.checkingGains(this.campaignLinks);
         this.publications = links?.length || '0';
+
         this.getLink();
         this.ref.detectChanges();
       });
