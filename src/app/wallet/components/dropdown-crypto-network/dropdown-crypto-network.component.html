@@ -31,6 +31,9 @@
           <li
             class="li-select"
             *ngIf="n.network !== selectedNetworkValue"
+            [ngClass]="{
+              hide: n.network === 'BTC' && router.url.startsWith('/campaign')
+            }"
             (click)="selectNetworkValue(n.network)"
           >
             <img

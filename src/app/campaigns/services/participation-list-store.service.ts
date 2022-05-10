@@ -499,7 +499,7 @@ export class ParticipationListStoreService {
           takeUntil(this.isDestroyed),
           map((query) => {
             if (query && query.campaignId)
-              return { query, isFirstPageRequested: true };
+              return { query, isFirstPageRequested };
             return { query, isFirstPageRequested };
           })
         )
