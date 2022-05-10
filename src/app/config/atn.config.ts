@@ -141,6 +141,7 @@ cryptoNetwork['SATT'] =
     'ERC20';
 cryptoNetwork['(smart chain)'] =
   cryptoNetwork['SATTBEP20'] =
+  cryptoNetwork['BNB'] =
   cryptoNetwork['BUSD'] =
     'BEP20';
 cryptoNetwork['SATTPOLYGON'] = 'POLYGON';
