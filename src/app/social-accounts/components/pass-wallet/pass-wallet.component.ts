@@ -44,6 +44,8 @@ export class PassWalletComponent implements OnInit, OnDestroy {
   showErrors!: Observable<boolean>;
   showBigSpinner: boolean = false;
   visited: boolean = false;
+  showPass: boolean = false;
+  showPass2: boolean = false;
   private account$ = this.accountFacadeService.account$;
   private onDestoy$ = new Subject();
   constructor(

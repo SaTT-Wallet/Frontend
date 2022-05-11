@@ -73,7 +73,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   defaultcurr: string = ListTokens['SATT'].name;
   private isDestroyed = new Subject();
-
+  showPass: boolean = false;
   cryptoList: any = [];
   newquantity: any;
   difference: any;
