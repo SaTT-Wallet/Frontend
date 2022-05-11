@@ -174,6 +174,7 @@ export class SocialNetworksComponent implements OnInit {
   }
   //get errors from url
   setUrlMsg(p: Params, data: IGetSocialNetworksResponse): void {
+    console.log("zazaz",p.message)
     if (p.message) {
       if (p.message === 'access-denied') {
         this.errorMessage = 'access-cancel';
@@ -188,6 +189,7 @@ export class SocialNetworksComponent implements OnInit {
           this.router.navigate(['/home/settings/social-networks']);
         }, 6000);
       } else if (
+        p.message === 'account_linked_with_success' ||
         p.message === 'account_linked_with_success_facebook' ||
         p.message === 'account_linked_with_success_instagram_facebook' ||
         p.message === 'required_page'
@@ -195,6 +197,7 @@ export class SocialNetworksComponent implements OnInit {
         if (p.sn === 'fb' && data.facebook.length === 0) {
           this.errorMessage = 'no_page_selected';
         } else {
+          console.log("true")
           this.successMessage = 'account_linked_with_success';
         }
         setTimeout(() => {
