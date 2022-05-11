@@ -188,6 +188,7 @@ export class SocialNetworksComponent implements OnInit {
           this.router.navigate(['/home/settings/social-networks']);
         }, 6000);
       } else if (
+        p.message === 'account_linked_with_success' ||
         p.message === 'account_linked_with_success_facebook' ||
         p.message === 'account_linked_with_success_instagram_facebook' ||
         p.message === 'required_page'
