@@ -24,7 +24,8 @@
       "@faq/*": ["app/faq/*"],
       "@campaigns/*": ["app/campaigns/*"],
       "@social-accounts/*": ["app/social-accounts/*"],
-      "@user-settings/*": ["app/user-settings/*"]
+      "@user-settings/*": ["app/user-settings/*"],
+      "jszip": ["./node_modules/jszip/dist/jszip.min.js"]
     },
     "removeComments": true,
     "forceConsistentCasingInFileNames": true,
@@ -45,7 +46,7 @@
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true,
-    
+
   }
 
 
