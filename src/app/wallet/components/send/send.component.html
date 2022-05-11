@@ -208,22 +208,18 @@
               <input
                 autocomplete="off"
                 type="text"
-                class="input-password pass-hide"
+                [ngClass]="
+                  showPass ? 'input-password' : 'input-password pass-hide'
+                "
                 formControlName="password"
                 #password_field
               />
-              <!-- <span
-                (click)="
-                  password_field.type =
-                    password_field.type == 'password' ? 'text' : 'password'
-                "
+              <span
+                (click)="showPass = !showPass"
                 class="fa fa-fw cross_input_network align-self-center"
-                [ngClass]="
-                  password_field.type == 'password'
-                    ? ' fa-eye-slash '
-                    : ' fa-eye'
-                "
-              ></span> -->
+                aria-hidden="true"
+                [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"
+              ></span>
             </div>
           </div>
         </div>
