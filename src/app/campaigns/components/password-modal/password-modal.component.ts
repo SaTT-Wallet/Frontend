@@ -107,7 +107,7 @@ export class PasswordModalComponent implements OnInit {
     //     console.log(params["id"]);
     //   });
     // }
-    this.parentFunction();
+    this.parentFunction().subscribe();
   }
 
   creatYourCampaign() {
