@@ -63,13 +63,14 @@
                     src="/assets/Images/Kep-password.svg"
                   />
                   <input
+                    autocomplete="off"
+                    type="text"
                     appBlockCopyPaste
-                    type="password"
                     autocomplete="on"
                     name="password"
                     id="password"
                     formControlName="password"
-                    class="input_oeil"
+                    class="input_oeil pass-hide"
                     #passwordInput
                   />
                   <span
@@ -115,7 +116,7 @@
                   <input
                     #confirmPasswordInput
                     appBlockCopyPaste
-                    type="password"
+                    type="text"
                     autocomplete="on"
                     name="confirmPassword"
                     id="confirmPassword"
