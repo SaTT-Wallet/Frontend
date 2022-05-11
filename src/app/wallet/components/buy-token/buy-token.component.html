@@ -288,7 +288,7 @@
             <p class="input-amount-usd">
               ≈
               {{
-                (cryptoAmount | number: '1.0-2') +
+                (cryptoAmount.toString() | showNumbersRule) +
                   ' ' +
                   (requestedCrypto === 'SATTBEP20' ? 'SATT' : requestedCrypto)
               }}
