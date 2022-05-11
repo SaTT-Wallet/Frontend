@@ -206,25 +206,20 @@
             >
               <img class="" src="../../../assets/Images/Kep-password.svg" />
               <input
-                class="input-password"
-                type="password"
+                autocomplete="off"
+                type="text"
+                [ngClass]="
+                  showPass ? 'input-password' : 'input-password pass-hide'
+                "
                 formControlName="password"
-                autocomplete="new-password"
-                placeholder="Transaction password"
                 #password_field
               />
-              <!-- <span
-                (click)="
-                  password_field.type =
-                    password_field.type == 'password' ? 'text' : 'password'
-                "
+              <span
+                (click)="showPass = !showPass"
                 class="fa fa-fw cross_input_network align-self-center"
-                [ngClass]="
-                  password_field.type == 'password'
-                    ? ' fa-eye-slash '
-                    : ' fa-eye'
-                "
-              ></span> -->
+                aria-hidden="true"
+                [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"
+              ></span>
             </div>
           </div>
         </div>

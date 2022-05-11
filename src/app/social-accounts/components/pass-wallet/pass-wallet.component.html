@@ -63,27 +63,18 @@
                     src="/assets/Images/Kep-password.svg"
                   />
                   <input
-                    appBlockCopyPaste
-                    type="password"
-                    autocomplete="on"
-                    name="password"
-                    id="password"
-                    formControlName="password"
-                    class="input_oeil"
+                    type="text"
                     #passwordInput
+                    autocomplete="off"
+                    appBlockCopyPaste
+                    formControlName="password"
+                    [ngClass]="showPass ? 'input_oeil' : 'input_oeil pass-hide'"
                   />
                   <span
-                    (click)="
-                      passwordInput.type =
-                        passwordInput.type === 'password' ? 'text' : 'password'
-                    "
+                    (click)="showPass = !showPass"
                     class="fa fa-fw cross_input_network align-self-center"
                     aria-hidden="true"
-                    [ngClass]="
-                      passwordInput.type === 'password'
-                        ? ' fa-eye-slash '
-                        : ' fa-eye'
-                    "
+                    [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"
                   ></span>
                 </div>
                 <div class="error-message">
@@ -115,27 +106,20 @@
                   <input
                     #confirmPasswordInput
                     appBlockCopyPaste
-                    type="password"
-                    autocomplete="on"
+                    type="text"
+                    autocomplete="off"
                     name="confirmPassword"
                     id="confirmPassword"
                     formControlName="confirmPassword"
-                    class="input_oeil"
+                    [ngClass]="
+                      showPass2 ? 'input_oeil' : 'input_oeil pass-hide'
+                    "
                   />
                   <span
-                    (click)="
-                      confirmPasswordInput.type =
-                        confirmPasswordInput.type === 'password'
-                          ? 'text'
-                          : 'password'
-                    "
+                    (click)="showPass2 = !showPass2"
                     class="fa fa-fw cross_input_network align-self-center"
                     aria-hidden="true"
-                    [ngClass]="
-                      confirmPasswordInput.type === 'password'
-                        ? ' fa-eye-slash '
-                        : ' fa-eye'
-                    "
+                    [ngClass]="showPass2 ? ' fa-eye ' : ' fa-eye-slash'"
                   ></span>
                 </div>
 
