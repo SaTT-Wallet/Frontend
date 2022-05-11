@@ -107,7 +107,7 @@ export class PasswordModalComponent implements OnInit {
     //     console.log(params["id"]);
     //   });
     // }
-    this.parentFunction();
+    this.parentFunction().subscribe();
   }
 
   creatYourCampaign() {
@@ -121,7 +121,10 @@ export class PasswordModalComponent implements OnInit {
     if (this.campaign) {
       _campaign.dataUrl =
         'https://ropsten.etherscan.io/token/0x2bef0d7531f0aae08adc26a0442ba8d0516590d0'; //this.campaign.shortLink;
-      _campaign.tokenAddress = this.campaign.currency.addr;
+      _campaign.tokenAddress =
+        (this.campaign.currency.name === 'BNB' &&
+          ListTokens['SATTBEP20'].contract) ||
+        this.campaign.currency.addr;
       _campaign.pass = this.passwordForm.get('password')?.value;
       /*
       _campaign.ERC20token = ListTokens[this.campaign.currency.name].contract;
@@ -272,9 +275,11 @@ export class PasswordModalComponent implements OnInit {
     // ];
     this.showButtonSend = false;
     this.loadingButton = true;
+    let tokenSymbol =
+      (token === 'BNB' && 'SATTBEP20') || this.campaign.currency.name;
     TokenOBj.walletaddr = this.tokenStorageService.getIdWallet();
-    TokenOBj.addr = ListTokens[this.campaign.currency.name].contract;
-    TokenOBjBEP20.addr = ListTokens[this.campaign.currency.name].contract;
+    TokenOBj.addr = ListTokens[tokenSymbol].contract;
+    TokenOBjBEP20.addr = ListTokens[tokenSymbol].contract;
     TokenOBjBEP20.walletaddr = this.tokenStorageService.getIdWallet();
     campaign_info.currency = cryptoNetwork[token];
     let LaunchCampaignObs: Observable<any>;
@@ -386,18 +391,12 @@ export class PasswordModalComponent implements OnInit {
       },
       (error) => {
         if (
-
           error.error.error ===
-  
-            'Key derivation failed - possibly wrong password'
-  
-          ) {
-  
-            this.errorMessage = 'wrong_password';
-  
-          }
-  
-  
+          'Key derivation failed - possibly wrong password'
+        ) {
+          this.errorMessage = 'wrong_password';
+        }
+
         this.handleLaunchResponseError(error, token);
       }
     );
@@ -442,19 +441,13 @@ export class PasswordModalComponent implements OnInit {
       this.errorMessage =
         'Error: Transaction has been reverted by blockchain evm';
       this.loadingButton = false;
-    } 
-    else if (error.error.error ===
-
-      'Key derivation failed - possibly wrong password') {
-
-      this.errorMessage =
-
-        'Wrong password';
+    } else if (
+      error.error.error === 'Key derivation failed - possibly wrong password'
+    ) {
+      this.errorMessage = 'Wrong password';
 
       this.loadingButton = false;
-
-    }
-    else {
+    } else {
       this.errorMessage = 'An error has occurred, please try again later';
       this.loadingButton = false;
     }
