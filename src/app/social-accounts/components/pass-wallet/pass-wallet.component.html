@@ -111,13 +111,15 @@
                     name="confirmPassword"
                     id="confirmPassword"
                     formControlName="confirmPassword"
-                    [ngClass]="showPass ? 'input_oeil' : 'input_oeil pass-hide'"
+                    [ngClass]="
+                      showPass2 ? 'input_oeil' : 'input_oeil pass-hide'
+                    "
                   />
                   <span
-                    (click)="showPass = !showPass"
+                    (click)="showPass2 = !showPass2"
                     class="fa fa-fw cross_input_network align-self-center"
                     aria-hidden="true"
-                    [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"
+                    [ngClass]="showPass2 ? ' fa-eye ' : ' fa-eye-slash'"
                   ></span>
                 </div>
 
