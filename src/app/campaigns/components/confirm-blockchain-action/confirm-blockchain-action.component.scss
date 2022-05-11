@@ -35,6 +35,16 @@
     content: '\f002';
   }
 
+  @font-face {
+    font-family: 'password';
+    src: url(https://jsbin-user-assets.s3.amazonaws.com/rafaelcastrocouto/password.ttf);
+  }
+
+  input.pass-hide {
+    font-family: 'password';
+    -webkit-text-security: disc !important;
+  }
+
   .div_input_add {
     background-color: white;
     border: 1px solid #d6d6e8;

@@ -12,11 +12,21 @@
 .social-little-icon {
   width: 20px;
 }
-.spinner-wrapper{
+.spinner-wrapper {
   background: white !important;
   /* position: relative !important;
   height:500% !important;
   width: 500% !important; */
+}
+
+@font-face {
+  font-family: 'password';
+  src: url(https://jsbin-user-assets.s3.amazonaws.com/rafaelcastrocouto/password.ttf);
+}
+
+input.pass-hide {
+  font-family: 'password';
+  -webkit-text-security: disc !important;
 }
 
 .showmeemobile {
@@ -647,17 +657,17 @@
 
 .btn-show-more {
   background: #ffffff;
-    font-style: normal;
-    font-weight: 600;
-    font-size: min(max(16px, 1vw), 22px);
-    border-radius: 30px;
-    color: #4048ff;
-    border: none;
-    box-shadow: 0px 2px 6px rgb(50 55 84 / 40%);
-    height: 48px;
-    cursor: pointer;
-    width: fit-content;
-    padding: 0px 25px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: min(max(16px, 1vw), 22px);
+  border-radius: 30px;
+  color: #4048ff;
+  border: none;
+  box-shadow: 0px 2px 6px rgb(50 55 84 / 40%);
+  height: 48px;
+  cursor: pointer;
+  width: fit-content;
+  padding: 0px 25px;
   margin: auto;
   display: block;
   margin-top: 10px;
@@ -1528,25 +1538,25 @@ input[type='number'] {
   );
 }
 .btn-connect-tikTok {
-    background: black;
-    border-radius: 43px;
-    height: 40px;
-    align-items: center;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 17px;
-    line-height: 130%;
-    letter-spacing: -0.02em;
-    color: #ffffff;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    width: 252px;
-    text-align: center;
+  background: black;
+  border-radius: 43px;
+  height: 40px;
+  align-items: center;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 17px;
+  line-height: 130%;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  width: 252px;
+  text-align: center;
 }
 
 .btn-connect-tikTok:hover {
-    box-shadow: 0px 1px 11px 0px #79a9ff;
+  box-shadow: 0px 1px 11px 0px #79a9ff;
 }
 
 .icon-facebook {
