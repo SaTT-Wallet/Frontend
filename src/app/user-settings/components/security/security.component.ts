@@ -79,7 +79,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
   showSpinnerBTC!: boolean;
   showSpinnerETH!: boolean;
   selectedReasonName: string = '';
-
+  showPass: boolean = false;
   reasonList: any;
   isSub = false;
   errorMessage = '';
@@ -424,23 +424,23 @@ export class SecurityComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.onDestroy$))
         .subscribe(
           (res: any) => {
-          //  if (res.message === 'success' && res.code === 200) {
-              this.formExportDataSubmitted = false;
-              const file = new Blob([JSON.stringify(res)], {
-                type: 'application/octet-stream'
-              });
+            //  if (res.message === 'success' && res.code === 200) {
+            this.formExportDataSubmitted = false;
+            const file = new Blob([JSON.stringify(res)], {
+              type: 'application/octet-stream'
+            });
 
-              const href = URL.createObjectURL(file);
-              const a = this.document.createElement('A');
-              a.setAttribute('href', href);
-              a.setAttribute('download', fileName);
-              this.document.body.appendChild(a);
-              a.click();
-              this.document.body.removeChild(a);
-              this.formExportData.reset();
-              this.modalService.dismissAll();
-              this.showSpinnerBTC = false;
-              this.showSpinnerETH = false;
+            const href = URL.createObjectURL(file);
+            const a = this.document.createElement('A');
+            a.setAttribute('href', href);
+            a.setAttribute('download', fileName);
+            this.document.body.appendChild(a);
+            a.click();
+            this.document.body.removeChild(a);
+            this.formExportData.reset();
+            this.modalService.dismissAll();
+            this.showSpinnerBTC = false;
+            this.showSpinnerETH = false;
             //}
 
             // }
@@ -473,31 +473,31 @@ export class SecurityComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.onDestroy$))
         .subscribe(
           (res: any) => {
-          //  if (res.message === 'success' && res.code === 200) {
-              this.showSpinner = false;
-              // if (res.error === 'Wrong password') {
-              //   this.formExportDataBTC
-              //     .get('password')
-              //     ?.setErrors({ checkPassword: true });
-              // } else {
-              this.formExportDataBTCSubmitted = false;
-              const file = new Blob([JSON.stringify(res)], {
-                type: 'application/octet-stream'
-              });
+            //  if (res.message === 'success' && res.code === 200) {
+            this.showSpinner = false;
+            // if (res.error === 'Wrong password') {
+            //   this.formExportDataBTC
+            //     .get('password')
+            //     ?.setErrors({ checkPassword: true });
+            // } else {
+            this.formExportDataBTCSubmitted = false;
+            const file = new Blob([JSON.stringify(res)], {
+              type: 'application/octet-stream'
+            });
 
-              const href = URL.createObjectURL(file);
-              const a = this.document.createElement('A');
-              a.setAttribute('href', href);
-              a.setAttribute('download', fileName);
-              this.document.body.appendChild(a);
-              a.click();
-              this.document.body.removeChild(a);
-              this.formExportDataBTC.reset();
-              this.modalService.dismissAll();
-              this.showSpinnerBTC = false;
-              this.showSpinnerETH = false;
-              // }
-         //   }
+            const href = URL.createObjectURL(file);
+            const a = this.document.createElement('A');
+            a.setAttribute('href', href);
+            a.setAttribute('download', fileName);
+            this.document.body.appendChild(a);
+            a.click();
+            this.document.body.removeChild(a);
+            this.formExportDataBTC.reset();
+            this.modalService.dismissAll();
+            this.showSpinnerBTC = false;
+            this.showSpinnerETH = false;
+            // }
+            //   }
           },
           (err) => {
             if (
