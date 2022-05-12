@@ -40,7 +40,7 @@
       }}</span>
     </div>
     <!---------------------------------- Link your networks---------------------------------------->
-    <div *ngIf="percentSocial == 0" class="other-network">
+    <div *ngIf="percentSocial === 0" class="other-network">
       <img src="./assets/Images/link-social-img.png" alt="" />
       <p class="network-type">
         {{ 'Profil.Link-your-social-networks' | translate }}
@@ -95,7 +95,13 @@
       class="social-accounts-block"
     >
       <div class="account-bloc">
-        <div class="account-name">
+        <div
+          class="collapsed panel-heading account-name cursor_pntr"
+          data-toggle="collapse"
+          href="#collapseYoutube"
+          aria-expanded="false"
+          aria-controls="collapseYoutube"
+        >
           <div class="col-1 col-md-1 col-sm-1 bloc-name">
             <span class="network-logo">
               <img width="32px" src="{{ networkLogo }}" />
@@ -125,8 +131,10 @@
           >
             <i class="fa fa-trash-o pinkTrash" aria-hidden="true"></i>
           </button>
-          <div class="col-1 col-md-1 chev-down" (click)="toggelGoogleBlock()">
-            <i
+          <!-- (click)="toggelGoogleBlock()" -->
+          <div class="col-1 col-md-1 chev-down">
+            <i class="chevron fa fa-fw"></i>
+            <!-- <i
               *ngIf="!showGoogleList"
               class="fa fa-chevron-down"
               aria-hidden="true"
@@ -135,11 +143,11 @@
               *ngIf="showGoogleList"
               class="fa fa-chevron-up"
               aria-hidden="true"
-            ></i>
+            ></i> -->
           </div>
         </div>
-
-        <div *ngIf="showGoogleList" class="list-ch">
+        <!-- *ngIf="showGoogleList" -->
+        <div class="collapse list-ch" id="collapseYoutube">
           <div class="list-ch-body">
             <div class="bar">
               <hr />
@@ -300,7 +308,13 @@
     <div *ngIf="channelLinkedin?.length !== 0" id="networkLinkedin">
       <hr />
       <div class="account-bloc social-accounts-block">
-        <div class="account-name">
+        <div
+          class="collapsed panel-heading account-name cursor_pntr"
+          data-toggle="collapse"
+          href="#collapseLinkedin"
+          aria-expanded="false"
+          aria-controls="collapseLinkedin"
+        >
           <div class="col-1 col-md-1 col-sm-1 bloc-name">
             <span class="network-logo">
               <img width="35px" src="{{ networkLogoLinkedin }}" />
@@ -330,31 +344,20 @@
           >
             <i class="fa fa-trash-o pinkTrash" aria-hidden="true"></i>
           </button>
-          <div class="col-1 col-md-1 chev-down" (click)="toggelLinkedinBlock()">
-            <i
-              *ngIf="!showLinkedinList"
-              class="fa fa-chevron-down"
-              aria-hidden="true"
-            ></i>
-            <i
-              *ngIf="showLinkedinList"
-              class="fa fa-chevron-up"
-              aria-hidden="true"
-            ></i>
+          <!-- (click)="toggelLinkedinBlock()" -->
+          <div class="col-1 col-md-1 chev-down cursor_pntr">
+            <i class="chevron fa fa-fw cursor_pntr"></i>
+            <!-- <i *ngIf="!showLinkedinList" class="fa fa-chevron-down" aria-hidden="true" ></i> <i *ngIf="showLinkedinList" class="fa fa-chevron-up" aria-hidden="true" ></i> -->
           </div>
         </div>
-
-        <div *ngIf="showLinkedinList" class="list-ch">
+        <!-- class="list-ch" *ngIf="showLinkedinList" -->
+        <div class="collapse list-ch" id="collapseLinkedin">
           <div class="list-ch-body">
-            <div class="bar">
-              <hr />
-            </div>
+            <div class="bar"><hr /></div>
             <div class="ch-container">
               <div class="titles row">
                 <!-- <div class="col">{{ "social_networks.ch_linked_acc" | translate }}</div> -->
-                <!-- <div class="col txt-center">
-                                        {{ "social_networks.nb_subsc" | translate }}
-                                    </div> -->
+                <!-- <div class="col txt-center"> {{ "social_networks.nb_subsc" | translate }} </div> -->
                 <!-- <div class="col txt-center">{{ "social_networks.activation" | translate }}</div> -->
               </div>
               <table class="social-accounts-table w-100">
@@ -395,7 +398,6 @@
                             (error)="onImgError($event)"
                           />
                         </div>
-
                         <span class="ch-name me-3">{{
                           ch['organization~'].localizedName
                         }}</span>
@@ -412,18 +414,7 @@
                     </td>
                     <td class="text-center">
                       <div class="action">
-                        <!--<button (click)="socialStateLinkedin(i)" class="btn-on">
-                          <img
-                            *ngIf="!ch.deactivate"
-                            src="/assets/Images/on.svg"
-                            alt=""
-                          />
-                          <img
-                            *ngIf="ch.deactivate"
-                            src="/assets/Images/off.svg"
-                            alt=""
-                          />
-                        </button>-->
+                        <!--<button (click)="socialStateLinkedin(i)" class="btn-on"> <img *ngIf="!ch.deactivate" src="/assets/Images/on.svg" alt="" /> <img *ngIf="ch.deactivate" src="/assets/Images/off.svg" alt="" /> </button>-->
                         <button
                           (click)="
                             openModalDeleteOne(
@@ -437,14 +428,7 @@
                         >
                           <span class="btn-del"></span>
                         </button>
-
-                        <!-- <ui-switch
-                              class="d-flex align-self-center"
-                              id="toggle"
-                              (change)="toggleSocialAccount($event)"
-                              [checked]="true"
-                            >
-                            </ui-switch> -->
+                        <!-- <ui-switch class="d-flex align-self-center" id="toggle" (change)="toggleSocialAccount($event)" [checked]="true" > </ui-switch> -->
                       </div>
                     </td>
                   </tr>
@@ -464,7 +448,13 @@
     <div *ngIf="channelTwitter?.length !== 0" id="networkTwitter" class="">
       <hr />
       <div class="account-bloc social-accounts-block">
-        <div class="account-name">
+        <div
+          class="collapsed panel-heading account-name cursor_pntr"
+          data-toggle="collapse"
+          href="#collapseTwitter"
+          aria-expanded="false"
+          aria-controls="collapseTwitter"
+        >
           <div class="col-1 col-md-1 col-sm-1 bloc-name">
             <span class="network-logo">
               <img width="35px" src="{{ networkLogoTwitter }}" />
@@ -494,8 +484,10 @@
           >
             <i class="fa fa-trash-o pinkTrash" aria-hidden="true"></i>
           </button>
-          <div class="col-1 col-md-1 chev-down" (click)="toggelTwitterBlock()">
-            <i
+          <!-- (click)="toggelTwitterBlock()" -->
+          <div class="col-1 col-md-1 chev-down">
+            <i class="chevron fa fa-fw cursor_pntr"></i>
+            <!-- <i
               *ngIf="!showTwitterList"
               class="fa fa-chevron-down"
               aria-hidden="true"
@@ -504,11 +496,11 @@
               *ngIf="showTwitterList"
               class="fa fa-chevron-up"
               aria-hidden="true"
-            ></i>
+            ></i> -->
           </div>
         </div>
-
-        <div *ngIf="showTwitterList" class="list-ch">
+        <!-- *ngIf="showTwitterList" -->
+        <div class="collapse list-ch" id="collapseTwitter">
           <div class="list-ch-body">
             <div class="bar">
               <hr />
@@ -625,7 +617,13 @@
     >
       <hr />
       <div class="account-bloc">
-        <div class="account-name">
+        <div
+          class="collapsed panel-heading account-name cursor_pntr"
+          data-toggle="collapse"
+          href="#collapseFacebook"
+          aria-expanded="false"
+          aria-controls="collapseFacebook"
+        >
           <div class="col-1 col-md-1 col-sm-1 bloc-name">
             <span class="network-logo">
               <img width="35px" src="{{ networkLogoFacebook }}" />
@@ -655,8 +653,10 @@
           >
             <i class="fa fa-trash-o pinkTrash" aria-hidden="true"></i>
           </button>
-          <div class="col-1 col-md-1 chev-down" (click)="toggelFacebookBlock()">
-            <i
+          <!-- (click)="toggelFacebookBlock()" -->
+          <div class="col-1 col-md-1 chev-down">
+            <i class="chevron fa fa-fw cursor_pntr"></i>
+            <!-- <i
               *ngIf="!showFacebookList"
               class="fa fa-chevron-down"
               aria-hidden="true"
@@ -665,11 +665,11 @@
               *ngIf="showFacebookList"
               class="fa fa-chevron-up"
               aria-hidden="true"
-            ></i>
+            ></i> -->
           </div>
         </div>
-
-        <div *ngIf="showFacebookList" class="list-ch">
+        <!-- *ngIf="showFacebookList" -->
+        <div class="collapse list-ch" id="collapseFacebook">
           <div class="list-ch-body">
             <div class="bar">
               <hr />
