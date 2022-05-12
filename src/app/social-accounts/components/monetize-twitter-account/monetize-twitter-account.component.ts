@@ -52,7 +52,9 @@ export class MonetizeTwitterAccountComponent implements OnInit, OnDestroy {
 
   skipPage() {
     this.socialAccountsFacade.pageVisited(ESocialMediaNames.twitter);
-    this.router.navigate(['social-registration/monetize-tiktok']);
+    this.router.navigate(['social-registration/monetize-linkedin']);
+
+    // this.router.navigate(['social-registration/monetize-tiktok']);
   }
   skipAll() {
     this.socialAccountsFacade.pageVisited(ESocialMediaNames.facebook);

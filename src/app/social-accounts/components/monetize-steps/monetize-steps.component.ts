@@ -90,12 +90,14 @@ export class MonetizeStepsComponent implements OnInit, OnDestroy {
         this.tokenStorageService.getSecureWallet('visited-twitter') === 'true'
       ) {
         this.router.navigate(['/social-registration/monetize-twitter']);
-      } else if (
-        type === 'tiktok' &&
-        this.tokenStorageService.getSecureWallet('visited-tiktok') === 'true'
-      ) {
-        this.router.navigate(['/social-registration/monetize-tiktok']);
-      } else if (
+      }
+      //  else if (
+      //   type === 'tiktok' &&
+      //   this.tokenStorageService.getSecureWallet('visited-tiktok') === 'true'
+      // ) {
+      //   this.router.navigate(['/social-registration/monetize-tiktok']);
+      // }
+      else if (
         type === 'linkedin' &&
         this.tokenStorageService.getSecureWallet('visited-linkedin') === 'true'
       ) {

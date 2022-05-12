@@ -360,9 +360,7 @@ getCookie(key: string){
           } else {
             return of(null);
           }
-        })
-      )
-      .pipe(
+        }),
         filter(({ response }: any) => {
           return response !== null;
         }),
@@ -404,9 +402,7 @@ getCookie(key: string){
             }
           }
           return of(null);
-        })
-      )
-      .pipe(
+        }),
         take(2),
         tap((response: any) => {
           if (response?.myWallet === null) {
@@ -422,28 +418,61 @@ getCookie(key: string){
           if (!res) {
             return false;
           }
-          return res.myWallet !== null;
+          return res;
         }),
+        mergeMap(
+          ({
+            myWallet,
+            response
+          }: {
+            myWallet: IResponseWallet;
+            response: User;
+          }) => {
+            this.socialAccountFacadeService.initSocialAccount();
+            if (myWallet === null) {
+              return this.socialAccount$.pipe(
+                filter((res: any) => res !== null),
+                tap((data) => {
+                  if (data !== null) {
+                    this.socialAcountCheck(data);
+                  } else {
+                    this.tokenStorageService.setSecureWallet(
+                      'visited-completeProfile',
+                      'true'
+                    );
+                    this.router.navigate([
+                      'social-registration/monetize-facebook'
+                    ]);
+                  }
+                }),
 
+                takeUntil(this.onDestroy$)
+              );
+            }
+            return of({ myWallet, response });
+          }
+        ),
+        filter((res: any) => {
+          if (!res) {
+            return false;
+          }
+          return res.wallet !== null;
+        }),
         takeUntil(this.onDestroy$)
       )
       .subscribe(
-        ({
-          myWallet,
-          response
-        }: {
-          myWallet: IResponseWallet;
-          response: User;
-        }) => {
-          if (!myWallet) {
+        (res: any) => {
+          if (!res.myWallet) {
             return;
           }
-          if (myWallet.data.address) {
-            if (response?.new) {
-              if (!response.passphrase) {
+          if (res.myWallet.data.address) {
+            if (res.response?.new) {
+              if (!res.response.passphrase) {
                 this.router.navigate(['/social-registration/pass-phrase']);
               } else {
-                this.tokenStorageService.saveIdWallet(myWallet.data.address);
+                this.tokenStorageService.saveIdWallet(
+                  res.myWallet.data.address
+                );
                 this.router.navigateByUrl('/wallet');
                 this.showBigSpinner = true;
                 this.backgroundImage = '';
@@ -451,7 +480,7 @@ getCookie(key: string){
                 this.onDestroy$.next('');
               }
             } else {
-              this.tokenStorageService.saveIdWallet(myWallet.data.address);
+              this.tokenStorageService.saveIdWallet(res.myWallet.data.address);
               this.router.navigateByUrl('/wallet');
               this.onDestroy$.next('');
               this.showBigSpinner = true;
@@ -533,7 +562,6 @@ getCookie(key: string){
    * Authenticate user
    */
   login() {
-    debugger;
     this.isSubmitting = true;
     this.showSpinner = true;
     this.loggedrs = false;
@@ -587,9 +615,8 @@ getCookie(key: string){
               );
             }
             return of(null);
-          })
-        )
-        .pipe(
+          }),
+
           filter(({ data, response }: any) => {
             return response !== null && data !== null;
           }),
@@ -652,29 +679,9 @@ getCookie(key: string){
               }
             }
             return of(null);
-          })
-        )
-        .pipe(
+          }),
           // tap((response: any) => {
           //   if (response.myWallet === null) {
-          //     //           this.socialAccount$.pipe(takeUntil(this.onDestoy$)).subscribe(
-          //     //   (data: any) => {
-          //     //     if (data !== null) {
-          //     //       this.channelFacebook = data.facebook;
-          //     //     } else {
-          //     //       this.channelFacebook = [];
-          //     //     }
-          //     //   },
-          //     //   (err) => {
-          //     //     if (err.error.code === 404 && err.error.message === 'No channel found')
-          //     //       this.channelFacebook = [];
-          //     //   }
-          //     // );
-          //     //               this.socialAccountsFacade.pageVisited(ESocialMediaNames.facebook);
-          //     // this.socialAccountsFacade.pageVisited(ESocialMediaNames.youtube);
-          //     // this.socialAccountsFacade.pageVisited(ESocialMediaNames.linkedIn);
-          //     // this.socialAccountsFacade.pageVisited(ESocialMediaNames.twitter);
-          //     // this.socialAccountsFacade.pageVisited(ESocialMediaNames.tiktok);
           //     console.log('res.response.data', response);
 
           //     this.tokenStorageService.setSecureWallet(
@@ -692,66 +699,21 @@ getCookie(key: string){
             return res;
           }),
           mergeMap(
-            ({ myWallet, response }: { myWallet: any; response: User }) => {
+            ({
+              myWallet,
+              response
+            }: {
+              myWallet: IResponseWallet;
+              response: User;
+            }) => {
+              this.socialAccountFacadeService.initSocialAccount();
               if (myWallet === null) {
                 return this.socialAccount$.pipe(
+                  filter((res: any) => res !== null),
                   tap((data) => {
-                    console.log('dd', data);
-
                     if (data !== null) {
-                      console.log('uu');
-                      this.tokenStorageService.setSecureWallet(
-                        'visited-completeProfile',
-                        'true'
-                      );
-                      if (data.facebook === []) {
-                        this.router.navigate([
-                          'social-registration/monetize-facebook'
-                        ]);
-                      } else if (data.twitter === []) {
-                        this.socialAccountsFacade.pageVisited(
-                          ESocialMediaNames.facebook
-                        );
-                        this.tokenStorageService.setSecureWallet(
-                          'visited-facebook',
-                          'true'
-                        );
-                        this.router.navigate([
-                          'social-registration/monetize-twitter'
-                        ]);
-                      } else if (data.linkedin === []) {
-                        this.tokenStorageService.setSecureWallet(
-                          'visited-facebook',
-                          'true'
-                        );
-                        this.tokenStorageService.setSecureWallet(
-                          'visited-twitter',
-                          'true'
-                        );
-                        this.router.navigate([
-                          'social-registration/monetize-linkedin'
-                        ]);
-                      } else if (data.google === []) {
-                        this.tokenStorageService.setSecureWallet(
-                          'visited-facebook',
-                          'true'
-                        );
-                        this.tokenStorageService.setSecureWallet(
-                          'visited-twitter',
-                          'true'
-                        );
-                        this.tokenStorageService.setSecureWallet(
-                          'visited-linkedin',
-                          'true'
-                        );
-
-                        this.router.navigate([
-                          'social-registration/monetize-google'
-                        ]);
-                      }
+                      this.socialAcountCheck(data);
                     } else {
-                      console.log(',hth');
-
                       this.tokenStorageService.setSecureWallet(
                         'visited-completeProfile',
                         'true'
@@ -764,36 +726,6 @@ getCookie(key: string){
 
                   takeUntil(this.onDestroy$)
                 );
-                // .subscribe(
-                //   (data: any) => {
-                //     if (data !== null) {
-                //       console.log('uu');
-                //       this.tokenStorageService.setSecureWallet(
-                //         'visited-completeProfile',
-                //         'true'
-                //       );
-                //       this.router.navigate([
-                //         'social-registration/monetize-facebook'
-                //       ]);
-                //       //this.channelFacebook = data.facebook;
-                //     }
-                //   },
-                //   (err) => {
-                //     if (
-                //       err.error.code === 404 &&
-                //       err.error.message === 'No channel found'
-                //     ) {
-                //       this.tokenStorageService.setSecureWallet(
-                //         'visited-completeProfile',
-                //         'true'
-                //       );
-                //       this.router.navigate([
-                //         'social-registration/monetize-facebook'
-                //       ]);
-                //       this.showBigSpinner = true;
-                //     }
-                //   }
-                // );
               }
               return of({ myWallet, response });
             }
@@ -808,16 +740,12 @@ getCookie(key: string){
         )
         .subscribe(
           (res: any) => {
-            console.log('rrress', res);
-
             if (!res.myWallet) {
-              console.log('jj');
-
-              this.tokenStorageService.setSecureWallet(
-                'visited-completeProfile',
-                'true'
-              );
-              this.router.navigate(['social-registration/monetize-facebook']);
+              // this.tokenStorageService.setSecureWallet(
+              //   'visited-completeProfile',
+              //   'true'
+              // );
+              // this.router.navigate(['social-registration/monetize-facebook']);
               this.showBigSpinner = true;
               return;
             }
@@ -870,6 +798,47 @@ getCookie(key: string){
         );
     } else {
       this.showSpinner = false;
+    }
+  }
+  socialAcountCheck(data: any) {
+    this.tokenStorageService.setSecureWallet('visited-completeProfile', 'true');
+    if (data.facebook.length === 0) {
+      this.router.navigate(['social-registration/monetize-facebook']);
+    } else if (data.twitter.length === 0) {
+      this.tokenStorageService.setSecureWallet('visited-facebook', 'true');
+      this.socialAccountsFacade.pageVisited(ESocialMediaNames.facebook);
+      this.router.navigate(['social-registration/monetize-twitter']);
+    } else if (data.linkedin.length === 0) {
+      this.socialAccountsFacade.pageVisited(ESocialMediaNames.twitter);
+      this.socialAccountsFacade.pageVisited(ESocialMediaNames.facebook);
+      this.tokenStorageService.setSecureWallet('visited-facebook', 'true');
+      this.tokenStorageService.setSecureWallet('visited-twitter', 'true');
+      this.router.navigate(['social-registration/monetize-linkedin']);
+    } else if (data.google.length === 0) {
+      this.socialAccountsFacade.pageVisited(ESocialMediaNames.twitter);
+      this.socialAccountsFacade.pageVisited(ESocialMediaNames.facebook);
+      this.socialAccountsFacade.pageVisited(ESocialMediaNames.linkedIn);
+      this.tokenStorageService.setSecureWallet('visited-facebook', 'true');
+      this.tokenStorageService.setSecureWallet('visited-twitter', 'true');
+      this.tokenStorageService.setSecureWallet('visited-linkedin', 'true');
+
+      this.router.navigate(['social-registration/monetize-google']);
+    } else {
+      this.tokenStorageService.setSecureWallet('visited-facebook', 'true');
+      this.tokenStorageService.setSecureWallet('visited-twitter', 'true');
+      this.tokenStorageService.setSecureWallet('visited-linkedin', 'true');
+      this.tokenStorageService.setSecureWallet('visited-google', 'true');
+      this.tokenStorageService.setSecureWallet('visited-socialConfig', 'true');
+      this.tokenStorageService.setSecureWallet(
+        'visited-transactionPwd',
+        'true'
+      );
+      this.socialAccountsFacade.pageVisited(ESocialMediaNames.facebook);
+      this.socialAccountsFacade.pageVisited(ESocialMediaNames.youtube);
+      this.socialAccountsFacade.pageVisited(ESocialMediaNames.linkedIn);
+      this.socialAccountsFacade.pageVisited(ESocialMediaNames.twitter);
+      this.socialAccountsFacade.pageVisited(ESocialMediaNames.tiktok);
+      this.router.navigate(['social-registration/password_wallet']);
     }
   }
 

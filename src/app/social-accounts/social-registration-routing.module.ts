@@ -20,7 +20,7 @@ import { MonetizeTwitterAccountComponent } from './components/monetize-twitter-a
 import { ActivationMailComponent } from './components/activation-mail/activation-mail.component';
 import { PassPhraseComponent } from './components/pass-phrase/pass-phrase.component';
 import { MonetizeLinkedinAccountComponent } from './components/monetize-linkedin-account/monetize-linkedin-account.component';
-import { MonetizeTiktokAccountComponent } from './components/monetize-tiktok-account/monetize-tiktok-account.component';
+//import { MonetizeTiktokAccountComponent } from './components/monetize-tiktok-account/monetize-tiktok-account.component';
 
 const routes: Routes = [
   {
@@ -47,11 +47,11 @@ const routes: Routes = [
         component: MonetizeTwitterAccountComponent,
         canActivate: [HasIdWalletService, checkStepsService]
       },
-      {
-        path: 'monetize-tiktok',
-        component: MonetizeTiktokAccountComponent,
-        canActivate: [HasIdWalletService, checkStepsService]
-      },
+      // {
+      //   path: 'monetize-tiktok',
+      //   component: MonetizeTiktokAccountComponent,
+      //   canActivate: [HasIdWalletService, checkStepsService]
+      // },
       {
         path: 'monetize-linkedin',
         component: MonetizeLinkedinAccountComponent,
