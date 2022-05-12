@@ -378,7 +378,8 @@ getCookie(key: string){
             this.showBigSpinner = false;
           } else {
             if (
-              !response.completed ||
+              response.completed == '0' ||
+              response.completed === false ||
               (response.completed && !response.enabled)
             ) {
               this.router.navigate(['social-registration/completeProfile']);
