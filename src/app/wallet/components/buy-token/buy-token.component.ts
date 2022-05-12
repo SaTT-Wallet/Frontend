@@ -13,7 +13,14 @@ import { TokenStorageService } from '@app/core/services/tokenStorage/token-stora
 import { dataList, pattContact } from '@config/atn.config';
 import { cryptoList, ListTokens } from '@config/atn.config';
 import { Observable, of, Subject, zip } from 'rxjs';
-import { filter, tap, map, takeUntil, catchError } from 'rxjs/operators';
+import {
+  filter,
+  tap,
+  map,
+  takeUntil,
+  catchError,
+  switchMap
+} from 'rxjs/operators';
 import { Location } from '@angular/common';
 
 import * as _ from 'lodash';
@@ -110,6 +117,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   toSwapCrypto: any;
   fromSwapCrypto: any;
   quoteIdParams: boolean = false;
+  inputAmount$ = new Subject();
 
   constructor(
     private walletFacade: WalletFacadeService,
@@ -134,6 +142,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    this.listenToInputAmountChange();
     // this.toggleCurrencyType(ECurrencyType.FIAT);
     // this.toggleNetwork(EBlockchainNetwork.BEP20);
     this.gaz = this.activatedRoute.snapshot.queryParamMap.get('gaz');
@@ -653,6 +662,102 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   }
   trackByCryptoListValue(index: number, crypto: any): string {
     return crypto.value;
+  }
+
+  listenToInputAmountChange() {
+    this.inputAmount$
+      .asObservable()
+      .pipe(
+        switchMap(() => {
+          if (this.amount && this.selectedCurrencyType === ECurrencyType.FIAT) {
+            this.rateExchangePerRequestedCrypto$ = this.cryptoList$.pipe(
+              map(
+                (cryptoList: CryptoListItem[]) =>
+                  cryptoList.find(
+                    (crypto: CryptoListItem) =>
+                      crypto.symbol === this.requestedCrypto
+                  )?.price || 0
+              )
+            );
+            return this.walletFacade
+              .convertCrypto(
+                this.requestedCrypto,
+                this.amount,
+                this.selectedTargetCurrency,
+                this.selectedTargetCurrency,
+                this.selectedBlockchainNetwork
+              )
+              .pipe(
+                catchError((err) => {
+                  if (err.error?.code === 403) {
+                    this.errMsg = err.error.data.error;
+                  } else {
+                    this.errMsg =
+                      'service is temporarily unavailable, please try again later.';
+                  }
+                  return of(null);
+                }),
+                tap((data: any) => {
+                  if (data?.data?.error && data?.data?.code !== 500) {
+                    this.errMsg = data.data.error;
+                  } else if (data?.error) {
+                    this.errMsg = data.error;
+                  }
+                }),
+                takeUntil(this.isDestroyed)
+              );
+          } else {
+            this.errMsg = '';
+            this.requestedCryptoPriceInUSD$ = this.cryptoList$.pipe(
+              map(
+                (cryptoList: CryptoListItem[]) =>
+                  cryptoList.find(
+                    (crypto: CryptoListItem) =>
+                      crypto.symbol === this.requestedCrypto
+                  )?.price || 0
+              )
+            );
+            this.purshaseCryptoPriceInUSD$ = this.cryptoList$.pipe(
+              map(
+                (cryptoList: CryptoListItem[]) =>
+                  cryptoList.find(
+                    (crypto: CryptoListItem) =>
+                      crypto.symbol === this.selectedTargetCurrency
+                  )?.price || 0
+              )
+            );
+            this.walletFacade
+              .getListTokensPrices()
+              .pipe(
+                map((cryptoListObject: any) => {
+                  return (
+                    cryptoListObject.data[this.requestedCrypto]?.price || 0
+                  );
+                })
+              )
+              .subscribe();
+            this.rateExchangePerRequestedCrypto$ = zip(
+              this.purshaseCryptoPriceInUSD$,
+              this.requestedCryptoPriceInUSD$
+            ).pipe(
+              map(([purshaseCryptoPriceInUSD, requestedCryptoPriceInUSD]) => {
+                if (requestedCryptoPriceInUSD === 0) return 0;
+                this.cryptoAmount =
+                  this.amount *
+                  (purshaseCryptoPriceInUSD / requestedCryptoPriceInUSD);
+                return purshaseCryptoPriceInUSD / requestedCryptoPriceInUSD;
+              })
+            );
+            return of(null);
+          }
+        })
+      )
+      .pipe(filter((res) => res !== null))
+      .subscribe((data: any) => {
+        this.cryptoAmount = data?.data.digital_money?.amount || 0;
+        this.quoteId = data?.data.quote_id;
+        this.errMsg = '';
+      });
   }
   ngOnDestroy(): void {
     this.isDestroyed.next('');
