@@ -19,7 +19,8 @@
     "serve:ssr": "node dist/satt-token-atayen/server/main.js",
     "build:ssr": "ng build  && ng run satt-token-atayen:server",
     "build-dev:ssr": "ng build --configuration dev-ssr  && ng run satt-token-atayen:server --configuration dev-ssr",
-    "prerender": "ng run satt-token-atayen:prerender"
+    "prerender": "ng run satt-token-atayen:prerender",
+    "max-size": "export NODE_OPTIONS='--max-old-space-size=8192' && ng s"
   },
   "lint-staged": {
     "src/**/*.{js,ts,scss,md,html,json}": "prettier --write",
