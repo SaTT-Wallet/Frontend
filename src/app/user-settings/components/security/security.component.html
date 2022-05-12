@@ -838,29 +838,24 @@
                   alt=""
                 />
                 <input
-                  autocomplete="on"
-                  type="password"
+                  autocomplete="off"
+                  type="text"
                   name="password"
                   formControlName="password"
                   class="input_oeil"
                   #password_field
                   [ngClass]="{
                     errorMsg2:
-                      this.formExportData.get('password')?.errors?.checkPassword
+                      this.formExportData.get('password')?.errors
+                        ?.checkPassword,
+                    'pass-hide': !showPass
                   }"
                 />
                 <span
-                  (click)="
-                    password_field.type =
-                      password_field.type == 'password' ? 'text' : 'password'
-                  "
+                  (click)="showPass = !showPass"
                   class="fa fa-fw cross_input_network align-self-center"
                   aria-hidden="true"
-                  [ngClass]="
-                    password_field.type === 'password'
-                      ? ' fa-eye-slash '
-                      : ' fa-eye'
-                  "
+                  [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"
                 ></span>
               </div>
             </div>
@@ -950,30 +945,24 @@
                   alt=""
                 />
                 <input
-                  autocomplete="on"
-                  type="password"
+                  autocomplete="off"
+                  type="text"
                   name="password"
                   formControlName="password"
                   class="input_oeil"
                   #password_field
                   [ngClass]="{
                     errorMsg2:
-                      this.formExportDataBTC.get('password')?.errors
-                        ?.checkPassword
+                      this.formExportData.get('password')?.errors
+                        ?.checkPassword,
+                    'pass-hide': !showPass
                   }"
                 />
                 <span
-                  (click)="
-                    password_field.type =
-                      password_field.type == 'password' ? 'text' : 'password'
-                  "
+                  (click)="showPass = !showPass"
                   class="fa fa-fw cross_input_network align-self-center"
                   aria-hidden="true"
-                  [ngClass]="
-                    password_field.type === 'password'
-                      ? ' fa-eye-slash '
-                      : ' fa-eye'
-                  "
+                  [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"
                 ></span>
               </div>
             </div>
