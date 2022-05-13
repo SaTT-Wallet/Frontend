@@ -162,7 +162,7 @@
                   *ngIf="i.type === 'receive_transfer_event'"
                   class="link"
                   [translate]="'receive_event_link'"
-                  [translateParams]="i._params"
+                  [translateParams]="{ from: i._params.from }"
                 ></span>
               </p>
               <!-- <p class="label_avatar_notif p-0 m-0" *ngIf="i.type === 'apply_campaign'">
