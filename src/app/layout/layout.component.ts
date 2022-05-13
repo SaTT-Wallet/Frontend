@@ -95,7 +95,11 @@ export class LayoutComponent implements OnInit, OnDestroy {
         this.smDevice = false;
       }
       if (this.router.url.startsWith('/campaign/')) {
-        if (event.target.innerWidth < 1025 && topBar) {
+        if (
+          event.target.innerWidth > 768 &&
+          event.target.innerWidth < 1025 &&
+          topBar
+        ) {
           topBar.style.display = 'none';
           if (btnApply) btnApply.style.display = 'none';
         } else {
@@ -151,6 +155,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
       //change chart wallet position on scroll
       if (this.router.url.startsWith('/wallet')) {
         let chart = this.document.getElementById('chart');
+        let header = this.document.getElementById('navbar-id');
+        header.style.background = '';
         if (event.target.clientWidth < 768) {
           if (chart) {
             if (event.target.scrollTop >= 68) {
@@ -179,7 +185,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
         let bluePic = this.document.getElementById('back-top-pic');
         let blueText = this.document.getElementById('back-top-text');
         if (event.target.clientWidth < 1025) {
-          if (btnApply) btnApply.style.display = 'none';
+          //if (btnApply) btnApply.style.display = 'none';
           if (event.target.scrollTop < 159) {
             if (blueText && bluePic && disabledText && disabledPic) {
               blueText.style.display = 'none';
@@ -235,6 +241,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
             header.style.background = '';
           }
         }
+      } else {
+        let header = this.document.getElementById('navbar-id');
+        header.style.background = '';
       }
     }
   }

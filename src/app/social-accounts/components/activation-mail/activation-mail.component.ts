@@ -106,7 +106,8 @@ export class ActivationMailComponent implements OnInit {
   }
   confirmCode() {
     let data_profile = {
-      new: true
+      new: true,
+      enabled: 1
     };
 
     this.profileSettingsFacade

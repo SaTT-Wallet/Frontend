@@ -45,6 +45,9 @@ import { IResponseWallet } from '@app/core/iresponse-wallet';
 import { User } from '@app/models/User';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NotificationService } from '@core/services/notification/notification.service';
+import { SocialAccountsFacade } from '@app/social-accounts/facade/social-accounts.facade';
+import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-facade/socialAcounts-facade.service';
+import { ESocialMediaNames } from '@app/core/enums';
 
 // interface credantials {
 //   email: string;
@@ -140,6 +143,7 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
   loggedrs!: boolean;
   private onDestroy$ = new Subject();
   private account$ = this.accountFacadeService.account$;
+  private socialAccount$ = this.socialAccountFacadeService.socialAccount$;
   blockDate: any;
   successMessagecode: string = '';
   constructor(
@@ -159,7 +163,9 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string,
     private tokenStorageService: TokenStorageService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private socialAccountsFacade: SocialAccountsFacade,
+    private socialAccountFacadeService: SocialAccountFacadeService
   ) {
     if (isPlatformBrowser(this.platformId)) {
       this.mediaQueryList = window.matchMedia(this.query);
@@ -341,7 +347,7 @@ getCookie(key: string){
             }
           }
           if (p.token) {
-            this.showBigSpinner = true;
+            this.showBigSpinner = false;
             let token = JSON.parse(p.token);
             this.tokenStorageService.saveToken(token.access_token);
             this.tokenStorageService.saveExpire(token.expires_in);
@@ -353,9 +359,7 @@ getCookie(key: string){
           } else {
             return of(null);
           }
-        })
-      )
-      .pipe(
+        }),
         filter(({ response }: any) => {
           return response !== null;
         }),
@@ -378,12 +382,13 @@ getCookie(key: string){
             this.showBigSpinner = false;
           } else {
             if (
-              !response.completed ||
+              // eslint-disable-next-line eqeqeq
+              response.completed == '0' ||
+              response.completed === false ||
               (response.completed && !response.enabled)
             ) {
-              this.router.navigate(['social-registration/completeProfile']);
-              this.showBigSpinner = true;
-              this.onDestroy$.next('');
+              this.router.navigateByUrl('/social-registration/completeProfile');
+              this.showBigSpinner = false;
               // this.spinner.hide();
             } else {
               return this.walletFacade.getUserWallet().pipe(
@@ -396,9 +401,7 @@ getCookie(key: string){
             }
           }
           return of(null);
-        })
-      )
-      .pipe(
+        }),
         take(2),
         tap((response: any) => {
           if (response?.myWallet === null) {
@@ -414,28 +417,61 @@ getCookie(key: string){
           if (!res) {
             return false;
           }
-          return res.myWallet !== null;
+          return res;
         }),
+        mergeMap(
+          ({
+            myWallet,
+            response
+          }: {
+            myWallet: IResponseWallet;
+            response: User;
+          }) => {
+            this.socialAccountFacadeService.initSocialAccount();
+            if (myWallet === null) {
+              return this.socialAccount$.pipe(
+                filter((res: any) => res !== null),
+                tap((data) => {
+                  if (data !== null) {
+                    this.socialAcountCheck(data);
+                  } else {
+                    this.tokenStorageService.setSecureWallet(
+                      'visited-completeProfile',
+                      'true'
+                    );
+                    this.router.navigate([
+                      'social-registration/monetize-facebook'
+                    ]);
+                  }
+                }),
 
+                takeUntil(this.onDestroy$)
+              );
+            }
+            return of({ myWallet, response });
+          }
+        ),
+        filter((res: any) => {
+          if (!res) {
+            return false;
+          }
+          return res.wallet !== null;
+        }),
         takeUntil(this.onDestroy$)
       )
       .subscribe(
-        ({
-          myWallet,
-          response
-        }: {
-          myWallet: IResponseWallet;
-          response: User;
-        }) => {
-          if (!myWallet) {
+        (res: any) => {
+          if (!res.myWallet) {
             return;
           }
-          if (myWallet.data.address) {
-            if (response?.new) {
-              if (!response.passphrase) {
+          if (res.myWallet.data.address) {
+            if (res.response?.new) {
+              if (!res.response.passphrase) {
                 this.router.navigate(['/social-registration/pass-phrase']);
               } else {
-                this.tokenStorageService.saveIdWallet(myWallet.data.address);
+                this.tokenStorageService.saveIdWallet(
+                  res.myWallet.data.address
+                );
                 this.router.navigateByUrl('/wallet');
                 this.showBigSpinner = true;
                 this.backgroundImage = '';
@@ -443,7 +479,7 @@ getCookie(key: string){
                 this.onDestroy$.next('');
               }
             } else {
-              this.tokenStorageService.saveIdWallet(myWallet.data.address);
+              this.tokenStorageService.saveIdWallet(res.myWallet.data.address);
               this.router.navigateByUrl('/wallet');
               this.onDestroy$.next('');
               this.showBigSpinner = true;
@@ -578,9 +614,8 @@ getCookie(key: string){
               );
             }
             return of(null);
-          })
-        )
-        .pipe(
+          }),
+
           filter(({ data, response }: any) => {
             return response !== null && data !== null;
           }),
@@ -643,35 +678,73 @@ getCookie(key: string){
               }
             }
             return of(null);
-          })
-        )
-        .pipe(
-          tap((response: any) => {
-            if (response.myWallet === null) {
-              this.tokenStorageService.setSecureWallet(
-                'visited-completeProfile',
-                'true'
-              );
-              this.router.navigate(['social-registration/monetize-facebook']);
-              this.showBigSpinner = true;
-            }
           }),
+          // tap((response: any) => {
+          //   if (response.myWallet === null) {
+          //     console.log('res.response.data', response);
+
+          //     this.tokenStorageService.setSecureWallet(
+          //       'visited-completeProfile',
+          //       'true'
+          //     );
+          //     this.router.navigate(['social-registration/monetize-facebook']);
+          //     this.showBigSpinner = true;
+          //   }
+          // }),
           filter((res: any) => {
             if (!res) {
               return false;
             }
-            return res.myWallet !== null;
+            return res;
+          }),
+          mergeMap(
+            ({
+              myWallet,
+              response
+            }: {
+              myWallet: IResponseWallet;
+              response: User;
+            }) => {
+              this.socialAccountFacadeService.initSocialAccount();
+              if (myWallet === null) {
+                return this.socialAccount$.pipe(
+                  filter((res: any) => res !== null),
+                  tap((data) => {
+                    if (data !== null) {
+                      this.socialAcountCheck(data);
+                    } else {
+                      this.tokenStorageService.setSecureWallet(
+                        'visited-completeProfile',
+                        'true'
+                      );
+                      this.router.navigate([
+                        'social-registration/monetize-facebook'
+                      ]);
+                    }
+                  }),
+
+                  takeUntil(this.onDestroy$)
+                );
+              }
+              return of({ myWallet, response });
+            }
+          ),
+          filter((res: any) => {
+            if (!res) {
+              return false;
+            }
+            return res.wallet !== null;
           }),
           takeUntil(this.onDestroy$)
         )
         .subscribe(
           (res: any) => {
             if (!res.myWallet) {
-              this.tokenStorageService.setSecureWallet(
-                'visited-completeProfile',
-                'true'
-              );
-              this.router.navigate(['social-registration/monetize-facebook']);
+              // this.tokenStorageService.setSecureWallet(
+              //   'visited-completeProfile',
+              //   'true'
+              // );
+              // this.router.navigate(['social-registration/monetize-facebook']);
               this.showBigSpinner = true;
               return;
             }
@@ -724,6 +797,46 @@ getCookie(key: string){
         );
     } else {
       this.showSpinner = false;
+    }
+  }
+
+  socialAcountCheck(data: any) {
+    this.tokenStorageService.setSecureWallet('visited-completeProfile', 'true');
+    if (data.facebook.length === 0) {
+      this.router.navigate(['social-registration/monetize-facebook']);
+    } else if (data.twitter.length === 0) {
+      this.tokenStorageService.setSecureWallet('visited-facebook', 'true');
+      this.socialAccountsFacade.pageVisited(ESocialMediaNames.facebook);
+      this.router.navigate(['social-registration/monetize-twitter']);
+    } else if (data.linkedin.length === 0) {
+      this.socialAccountsFacade.pageVisited(ESocialMediaNames.twitter);
+      this.socialAccountsFacade.pageVisited(ESocialMediaNames.facebook);
+      this.tokenStorageService.setSecureWallet('visited-facebook', 'true');
+      this.tokenStorageService.setSecureWallet('visited-twitter', 'true');
+      this.router.navigate(['social-registration/monetize-linkedin']);
+    } else if (data.google.length === 0) {
+      this.socialAccountsFacade.pageVisited(ESocialMediaNames.twitter);
+      this.socialAccountsFacade.pageVisited(ESocialMediaNames.facebook);
+      this.socialAccountsFacade.pageVisited(ESocialMediaNames.linkedIn);
+      this.tokenStorageService.setSecureWallet('visited-facebook', 'true');
+      this.tokenStorageService.setSecureWallet('visited-twitter', 'true');
+      this.tokenStorageService.setSecureWallet('visited-linkedin', 'true');
+      this.router.navigate(['social-registration/monetize-google']);
+    } else {
+      this.tokenStorageService.setSecureWallet('visited-facebook', 'true');
+      this.tokenStorageService.setSecureWallet('visited-twitter', 'true');
+      this.tokenStorageService.setSecureWallet('visited-linkedin', 'true');
+      this.tokenStorageService.setSecureWallet('visited-google', 'true');
+      this.tokenStorageService.setSecureWallet('visited-socialConfig', 'true');
+      this.tokenStorageService.setSecureWallet(
+        'visited-transactionPwd',
+        'true'
+      );
+      this.socialAccountsFacade.pageVisited(ESocialMediaNames.facebook);
+      this.socialAccountsFacade.pageVisited(ESocialMediaNames.youtube);
+      this.socialAccountsFacade.pageVisited(ESocialMediaNames.linkedIn);
+      this.socialAccountsFacade.pageVisited(ESocialMediaNames.twitter);
+      this.router.navigate(['social-registration/password_wallet']);
     }
   }
 
@@ -1003,9 +1116,9 @@ getCookie(key: string){
 
             this.errorMessage = 'account_not_exists';
             /*this.blocktime = error.blockedDate + 1800;
-            this.timeLeftToUnLock =
-              this.blocktime - Math.floor(Date.now() / 1000);
-            this.blockedForgetPassword = true;*/
+          this.timeLeftToUnLock =
+            this.blocktime - Math.floor(Date.now() / 1000);
+          this.blockedForgetPassword = true;*/
             return;
           }
           this.show = 'second';

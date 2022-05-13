@@ -242,7 +242,7 @@
               class="input-amount"
               placeholder="0 {{ selectedTargetCurrency }}"
               [(ngModel)]="amount"
-              (input)="convertCrypto()"
+              (input)="inputAmount$.next('')"
             />
           </div>
           <div class="mb-1 mt-1 d-flex justify-content-center" *ngIf="errMsg">

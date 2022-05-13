@@ -10,10 +10,7 @@
   *ngIf="router.url !== '/password_wallet'"
   [ngClass]="{
     navWallet: this.sidebarService.toggleWalletMobile.value,
-    'navbar-trans': menuCampaign,
-    'navbar-success':
-      successPart && !this.sidebarService.toggleWalletMobile.value,
-    'navbar-fail': errorPart && !this.sidebarService.toggleWalletMobile.value
+    'navbar-trans': menuCampaign
   }"
   [ngStyle]="{
     background: isWelcomePage ? '#1f2337' : defaultHeaderBackground
