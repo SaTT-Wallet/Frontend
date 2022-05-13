@@ -189,8 +189,8 @@
                         />
                         <span class="li-select-text">
                           {{
-                            $any(crypto).symbole === 'SATT'
-                              ? 'SATT (' + $any(crypto).type.toUpperCase() + ')'
+                            $any(crypto).symbole === 'SATTBEP20'
+                              ? 'SATT'
                               : $any(crypto).symbole
                           }}</span
                         >
@@ -298,7 +298,7 @@
             <div class="d-flex col-6 justify-content-end">
               <div class="dropdown" id="dropdown-ul">
                 <button
-                  class="btn btntoggle dropdown-toggle btn-dropdown d-flex justify-content-between align-items-center w-100 saber"
+                  class="btn btntoggle dropdown-toggle btn-dropdown d-flex justify-content-between align-items-center w-100"
                   data-flip="false"
                   type="button"
                   id="dropdownButton2"
@@ -387,7 +387,7 @@
             <div class="d-flex col-6">
               <div class="dropdown" id="dropdown-ul">
                 <button
-                  class="btn btntoggle dropdown-toggle btn-dropdown d-flex justify-content-between align-items-center w-100 saber2"
+                  class="btn btntoggle dropdown-toggle btn-dropdown d-flex justify-content-between align-items-center w-100"
                   data-flip="false"
                   type="button"
                   id="dropdownButton2"
