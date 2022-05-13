@@ -245,7 +245,11 @@ export class BuyTokenComponent implements OnInit, OnChanges {
         this.convertCrypto();
       });
   }
-
+  redirect(){
+    if(!this.isConnected){
+      this.router.navigate(['auth/login'])
+     }
+   }
   toggleNetwork(network: EBlockchainNetwork) {
     this.selectedBlockchainNetwork = network;
     if (network === EBlockchainNetwork.BTC) {
