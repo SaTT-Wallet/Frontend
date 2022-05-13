@@ -855,6 +855,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
   getUrlSmartContart() {
     let bscan = environment.bscan;
     let etherscan = environment.etherscan;
+    let polygonscan = environment.polygonscanAddr;
 
     this.CampaignService.getOneById(this.campaign.id)
       .pipe(
@@ -869,6 +870,8 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
             this.urlSmartContrat = etherscan + data['transactionHash'];
           } else if (data['token']['type'] === 'bep20') {
             this.urlSmartContrat = bscan + data['transactionHash'];
+          } else if (data['token']['type'] === 'POLYGON') {
+            this.urlSmartContrat = polygonscan + data['transactionHash'];
           }
           if (isPlatformBrowser(this.platformId)) {
             this.windowRefService.nativeWindow.open(
