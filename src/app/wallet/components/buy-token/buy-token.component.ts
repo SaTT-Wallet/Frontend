@@ -548,7 +548,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
         )
         .pipe(
           catchError((err) => {
-            if (err.status === 403) {
+            if (err.error.code === 403) {
               this.errMsg = err.error.error;
             } else {
               this.errMsg =
@@ -689,8 +689,8 @@ export class BuyTokenComponent implements OnInit, OnChanges {
               )
               .pipe(
                 catchError((err) => {
-                  if (err.error?.code === 403) {
-                    this.errMsg = err.error.data.error;
+                  if (err.error.code === 403) {
+                    this.errMsg = err.error.error;
                   } else {
                     this.errMsg =
                       'service is temporarily unavailable, please try again later.';
