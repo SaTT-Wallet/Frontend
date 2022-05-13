@@ -155,6 +155,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
       //change chart wallet position on scroll
       if (this.router.url.startsWith('/wallet')) {
         let chart = this.document.getElementById('chart');
+        let header = this.document.getElementById('navbar-id');
+        header.style.background = '';
         if (event.target.clientWidth < 768) {
           if (chart) {
             if (event.target.scrollTop >= 68) {
@@ -241,6 +243,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
             header.style.background = '';
           }
         }
+      } else {
+        let header = this.document.getElementById('navbar-id');
+        header.style.background = '';
       }
     }
   }
