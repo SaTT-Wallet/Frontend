@@ -228,8 +228,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
      this.router.navigate(['auth/login']);
 
     }
-    else {
-    }
+  
    
    
   }
