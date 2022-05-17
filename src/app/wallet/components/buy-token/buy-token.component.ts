@@ -84,7 +84,20 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   errMsg = '';
   errorMsg = '';
   quoteId: any;
-  cryptoList$ = this.walletFacade.cryptoList$;
+  cryptoList$ = this.walletFacade.getCryptoPriceList().pipe(
+    map((cryptoPrices: any) => {
+      let arr: CryptoListItem[] = [];
+
+      for (let key in cryptoPrices.data) {
+        arr.push({
+          symbol: key,
+          ...cryptoPrices.data[key]
+        });
+      }
+
+      return arr;
+    })
+  );
   ethPrice: any;
   cryptoPrice = 0;
   gaz: any;
@@ -245,11 +258,11 @@ export class BuyTokenComponent implements OnInit, OnChanges {
         this.convertCrypto();
       });
   }
-  redirect(){
-    if(!this.isConnected){
-      this.router.navigate(['auth/login'])
-     }
-   }
+  redirect() {
+    if (!this.isConnected) {
+      this.router.navigate(['auth/login']);
+    }
+  }
   toggleNetwork(network: EBlockchainNetwork) {
     this.selectedBlockchainNetwork = network;
     if (network === EBlockchainNetwork.BTC) {
@@ -331,6 +344,11 @@ export class BuyTokenComponent implements OnInit, OnChanges {
           (crypto: Crypto) =>
             crypto.type.toUpperCase() === this.selectedBlockchainNetwork
         );
+
+      this.requestedCrypto = this.sourceCryptoList.find(
+        (crypto: Crypto) =>
+          crypto.type.toUpperCase() === this.selectedBlockchainNetwork
+      )?.symbole as string;
     } else {
       this.targetCurrencyList = this.cryptoList.filter(
         (crypto: Crypto) =>
@@ -349,17 +367,19 @@ export class BuyTokenComponent implements OnInit, OnChanges {
         (crypto: Crypto) =>
           crypto.type.toUpperCase() === this.selectedBlockchainNetwork
       );
+
+      this.requestedCrypto = this.sourceCryptoList.find(
+        (crypto: Crypto) =>
+          crypto.name.includes('SATT') &&
+          crypto.type.toUpperCase() === this.selectedBlockchainNetwork
+      )?.symbole as string;
     }
     this.toSwapCrypto = this.sourceCryptoList.find(
       (crypto: Crypto) =>
         crypto.name.includes('SATT') &&
         crypto.type.toUpperCase() === this.selectedBlockchainNetwork
     );
-    this.requestedCrypto = this.sourceCryptoList.find(
-      (crypto: Crypto) =>
-        crypto.name.includes('SATT') &&
-        crypto.type.toUpperCase() === this.selectedBlockchainNetwork
-    )?.symbole as string;
+
     this.switchTokensWhenIdentical();
 
     // if (this.isCryptoRouter) {
@@ -525,7 +545,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       .pipe(filter((res) => res != null))
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((data) => {
-        let selectedCrypto = data.filter((crypto) => {
+        let selectedCrypto = data.filter((crypto: any) => {
           if (crypto.symbol === 'SATT') {
             this.sattprice = crypto.price;
           }
@@ -586,22 +606,36 @@ export class BuyTokenComponent implements OnInit, OnChanges {
     } else {
       this.errMsg = '';
       this.requestedCryptoPriceInUSD$ = this.cryptoList$.pipe(
-        map(
-          (cryptoList: CryptoListItem[]) =>
+        map((cryptoList: CryptoListItem[]) => {
+          let requestedCrypto = ['SATTBEP20', 'WSATT'].includes(
+            this.requestedCrypto
+          )
+            ? 'SATT'
+            : this.requestedCrypto;
+
+          return (
             cryptoList.find(
-              (crypto: CryptoListItem) => crypto.symbol === this.requestedCrypto
+              (crypto: CryptoListItem) => crypto.symbol === requestedCrypto
             )?.price || 0
-        )
+          );
+        })
       );
 
       this.purshaseCryptoPriceInUSD$ = this.cryptoList$.pipe(
-        map(
-          (cryptoList: CryptoListItem[]) =>
+        map((cryptoList: CryptoListItem[]) => {
+          let selectedTargetCurrency = ['SATTBEP20', 'WSATT'].includes(
+            this.selectedTargetCurrency
+          )
+            ? 'SATT'
+            : this.selectedTargetCurrency;
+
+          return (
             cryptoList.find(
               (crypto: CryptoListItem) =>
-                crypto.symbol === this.selectedTargetCurrency
+                crypto.symbol === selectedTargetCurrency
             )?.price || 0
-        )
+          );
+        })
       );
       this.walletFacade
         .getListTokensPrices()

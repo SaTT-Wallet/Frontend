@@ -280,7 +280,11 @@
                       ? 'SATT'
                       : this.requestedCrypto)
                 }}
-                = {{ this.cryptoPrice?.toFixed(8) + ' USD' }}
+                =
+                {{
+                  (this.rateExchangePerRequestedCrypto$ | async)?.toFixed(8) +
+                    ' USD'
+                }}
               </ng-container>
             </p>
           </div>
@@ -502,7 +506,6 @@
             class="text-center mt-2"
             [ngClass]="{ 'margin-top-btn': isConnected }"
             (click)="redirect()"
-
           >
             <button
               type="submit"
