@@ -59,15 +59,15 @@ export class MissionsComponent implements OnInit {
       new FormGroup({
         oracle: new FormControl('instagram'),
         sub_missions: new FormArray([])
-      }),
-      new FormGroup({
-        oracle: new FormControl('tikTok'),
-        sub_missions: new FormArray([])
-      }),
-      new FormGroup({
-        oracle: new FormControl('googleAnalytics'),
-        sub_missions: new FormArray([])
       })
+      // new FormGroup({
+      //   oracle: new FormControl('tikTok'),
+      //   sub_missions: new FormArray([])
+      // }),
+      // new FormGroup({
+      //   oracle: new FormControl('googleAnalytics'),
+      //   sub_missions: new FormArray([])
+      // })
     ])
   });
 
