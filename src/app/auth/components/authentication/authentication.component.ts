@@ -411,7 +411,7 @@ getCookie(key: string){
               'true'
             );
             this.router.navigate(['social-registration/monetize-facebook']);
-            this.showBigSpinner = true;
+            this.showBigSpinner = false;
           }
         }),
         filter((res: any) => {
@@ -431,8 +431,18 @@ getCookie(key: string){
             this.socialAccountFacadeService.initSocialAccount();
             if (myWallet === null) {
               return this.socialAccount$.pipe(
-                filter((res: any) => res !== null),
+                catchError(() => {
+                  this.tokenStorageService.setSecureWallet(
+                    'visited-completeProfile',
+                    'true'
+                  );
+                  this.router.navigate([
+                    'social-registration/monetize-facebook'
+                  ]);
+                  return of({ myWallet, response });
+                }),
                 tap((data) => {
+                  this.showBigSpinner = true;
                   if (data !== null) {
                     this.socialAcountCheck(data);
                   } else {
@@ -445,7 +455,7 @@ getCookie(key: string){
                     ]);
                   }
                 }),
-
+                filter((res: any) => res !== null),
                 takeUntil(this.onDestroy$)
               );
             }
@@ -706,10 +716,20 @@ getCookie(key: string){
               myWallet: IResponseWallet;
               response: User;
             }) => {
+              this.showBigSpinner = true;
               this.socialAccountFacadeService.initSocialAccount();
               if (myWallet === null) {
                 return this.socialAccount$.pipe(
-                  filter((res: any) => res !== null),
+                  catchError(() => {
+                    this.tokenStorageService.setSecureWallet(
+                      'visited-completeProfile',
+                      'true'
+                    );
+                    this.router.navigate([
+                      'social-registration/monetize-facebook'
+                    ]);
+                    return of({ myWallet, response });
+                  }),
                   tap((data) => {
                     if (data !== null) {
                       this.socialAcountCheck(data);
@@ -723,6 +743,7 @@ getCookie(key: string){
                       ]);
                     }
                   }),
+                  filter((res: any) => res !== null),
 
                   takeUntil(this.onDestroy$)
                 );
