@@ -144,7 +144,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     this.showWalletSpinner === true;
     let indexSattBEP20 = 0;
     let indexSattERC20 = 0;
-    let indexSattPOLYGON = 0 ;
+    let indexSattPOLYGON = 0;
     this.cryptoList$
       .pipe(
         filter((data: any) => data?.data?.length !== 0),
@@ -182,7 +182,8 @@ export class CryptoListComponent implements OnInit, OnDestroy {
 
         this.dataList = cloneData;
         this.dataList = this.dataList.filter(
-          (element) => element.symbol !== 'SATTBEP20' && element.symbol !== 'SATTPOLYGON'
+          (element) =>
+            element.symbol !== 'SATTBEP20' && element.symbol !== 'SATTPOLYGON'
         );
         this.cryptoList = [
           ...this.dataList.filter((data: any) => data.symbol === 'SATT'),
@@ -529,14 +530,11 @@ export class CryptoListComponent implements OnInit, OnDestroy {
       sum =
         parseFloat(crypto.total_balance) +
         parseFloat(crypto.cryptoBEP20.total_balance);
-    }
-    else if (!!crypto.cryptoPOLYGON) {
+    } else if (!!crypto.cryptoPOLYGON) {
       sum =
         parseFloat(crypto.total_balance) +
         parseFloat(crypto.cryptoPOLYGON.total_balance);
-    }
-    
-    else {
+    } else {
       sum = crypto.total_balance;
     }
     return this.showNumbersRule.transform(sum + '', true);
@@ -550,12 +548,11 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     if (!!crypto.cryptoBEP20) {
       sum =
         parseFloat(crypto.quantity) + parseFloat(crypto.cryptoBEP20.quantity);
-    } 
+    }
     if (!!crypto.cryptoPOLYGON) {
       sum =
         parseFloat(crypto.quantity) + parseFloat(crypto.cryptoPOLYGON.quantity);
-    }
-    else {
+    } else {
       sum = crypto.quantity;
     }
     return this.showNumbersRule.transform(sum + '', true);
@@ -659,7 +656,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     }
     this.erc20Selected = false;
     this.bep20Selected = false;
-    this.polygonSelected=false;
+    this.polygonSelected = false;
     let index = this.cryptoList
       .map((res: any) => res.name)
       .indexOf(crypto.name);
@@ -720,7 +717,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
       this.sidebarService.toggleFooterMobile.next(true);
     }
     this.bep20Selected = false;
-    this.polygonSelected=false;
+    this.polygonSelected = false;
     for (let i = 1; i < this.cryptoList.length; i++) {
       this.cryptoList[i].selected = false;
     }
@@ -733,7 +730,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
       this.sidebarService.toggleFooterMobile.next(true);
     }
     this.erc20Selected = false;
-    this.polygonSelected=false;
+    this.polygonSelected = false;
 
     for (let i = 1; i < this.cryptoList.length; i++) {
       this.cryptoList[i].selected = false;
