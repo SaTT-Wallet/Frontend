@@ -561,6 +561,9 @@
 }
 
 @media (max-width: 767.98px) {
+  .campaign-title {
+    max-width: 100%;
+  }
   .desktopClass {
     display: none;
   }
