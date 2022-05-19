@@ -255,12 +255,29 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
       this.getUserPic();
     } else {
       // TODO: load campaigns list here
-      this.campaignsListStoreService.list$
-        .pipe(filter((data) => data[0].size !== 0))
+      // this.campaignsListStoreService.list$
+      //   .pipe(filter((data) => data[0].size !== 0))
+      //   .pipe(
+      //     map((pages: Page<Campaign>[]) => {
+      //       this.isLoading = false;
+      //       return _.flatten(pages.map((page: Page<Campaign>) => page.items));
+      //     }),
+      //     takeUntil(this.onDestoy$)
+      //   )
+      this.walletFacade
+        .getCryptoPriceList()
         .pipe(
-          map((pages: Page<Campaign>[]) => {
-            this.isLoading = false;
-            return _.flatten(pages.map((page: Page<Campaign>) => page.items));
+          filter((res) => {
+            return res !== null;
+          }),
+          map((res: any) => res.data),
+          tap((cryptoPrices) => (this.cryptoPrices = cryptoPrices)),
+          mergeMap(() => {
+            return this.campaignsListStoreService.list$.pipe(
+              map((pages: Page<Campaign>[]) =>
+                _.flatten(pages.map((page: Page<Campaign>) => page.items))
+              )
+            );
           }),
           takeUntil(this.onDestoy$)
         )
@@ -271,6 +288,25 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
             }
             this.campaignsList = campaigns;
             this.campaignsList2 = campaigns;
+            this.campaignsList?.forEach((element: Campaign) => {
+              if (element.currency.name === 'SATTPOLYGON')
+                element.currency.name = 'MATIC';
+              if (element.currency.name === 'SATTBEP20')
+                element.currency.name = 'SATT';
+              if (this.cryptoPrices) {
+                element.budgetUsd = new Big(
+                  this.cryptoPrices[element.currency.name].price + ''
+                )
+                  .times(
+                    this.convertFromWeiTo.transform(
+                      element.budget,
+                      element.currency.name,
+                      2
+                    )
+                  )
+                  .toFixed(2);
+              }
+            });
             // this.campaignsList = campaigns.filter(
             //   (campaign: Campaign) => campaign.isDraft === false
             // );
