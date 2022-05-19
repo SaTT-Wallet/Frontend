@@ -6,7 +6,14 @@ import {
   PLATFORM_ID
 } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { debounceTime, filter, map, takeUntil } from 'rxjs/operators';
+import {
+  debounceTime,
+  filter,
+  map,
+  mergeMap,
+  takeUntil,
+  tap
+} from 'rxjs/operators';
 import { Page } from '@app/models/page.model';
 import { Campaign } from '@app/models/campaign.model';
 import _ from 'lodash';
@@ -16,6 +23,9 @@ import { CampaignHttpApiService } from '@core/services/campaign/campaign.service
 
 import { Subject } from 'rxjs';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
+import Big from 'big.js';
+import { ConvertFromWei } from '@app/shared/pipes/wei-to-sa-tt.pipe';
 
 @Component({
   selector: 'app-farm-welcome',
@@ -42,7 +52,7 @@ export class FarmWelcomeComponent implements OnInit {
   noData: boolean = true;
   campaignNumber: number = 0;
   private isDestroyed = new Subject();
-
+  cryptoPrices: any;
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -50,7 +60,9 @@ export class FarmWelcomeComponent implements OnInit {
     private tokenStorageService: TokenStorageService,
     private campaignsHttpService: CampaignHttpApiService,
     @Inject(DOCUMENT) private document: Document,
-    @Inject(PLATFORM_ID) private platformId: string
+    @Inject(PLATFORM_ID) private platformId: string,
+    private walletFacade: WalletFacadeService,
+    private convertFromWeiTo: ConvertFromWei
   ) {}
 
   ngOnInit(): void {
@@ -103,11 +115,28 @@ export class FarmWelcomeComponent implements OnInit {
         }
       });
     // TODO: load campaigns list here
-    this.campaignsListStoreService.list$
-      .pipe(filter((data) => data[0].size !== 0))
+    // this.campaignsListStoreService.list$
+    //   .pipe(filter((data) => data[0].size !== 0))
+    //   .pipe(
+    //     map((pages: Page<Campaign>[]) => {
+    //       return _.flatten(pages.map((page: Page<Campaign>) => page.items));
+    //     }),
+    //     takeUntil(this.isDestroyed)
+    //   )
+    this.walletFacade
+      .getCryptoPriceList()
       .pipe(
-        map((pages: Page<Campaign>[]) => {
-          return _.flatten(pages.map((page: Page<Campaign>) => page.items));
+        filter((res) => {
+          return res !== null;
+        }),
+        map((res: any) => res.data),
+        tap((cryptoPrices) => (this.cryptoPrices = cryptoPrices)),
+        mergeMap(() => {
+          return this.campaignsListStoreService.list$.pipe(
+            map((pages: Page<Campaign>[]) =>
+              _.flatten(pages.map((page: Page<Campaign>) => page.items))
+            )
+          );
         }),
         takeUntil(this.isDestroyed)
       )
@@ -116,6 +145,25 @@ export class FarmWelcomeComponent implements OnInit {
           this.isLoading = false;
           this.campaignsList = campaigns;
           this.campaignsList2 = campaigns;
+          this.campaignsList?.forEach((element: Campaign) => {
+            if (element.currency.name === 'SATTPOLYGON')
+              element.currency.name = 'MATIC';
+            if (element.currency.name === 'SATTBEP20')
+              element.currency.name = 'SATT';
+            if (this.cryptoPrices) {
+              element.budgetUsd = new Big(
+                this.cryptoPrices[element.currency.name].price + ''
+              )
+                .times(
+                  this.convertFromWeiTo.transform(
+                    element.budget,
+                    element.currency.name,
+                    2
+                  )
+                )
+                .toFixed(2);
+            }
+          });
           this.campaignNumber = this.campaignsListStoreService.countCampaigns;
           if (campaigns.length === 0 && this.campaignNumber === 0) {
             this.noData = true;
