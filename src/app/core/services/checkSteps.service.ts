@@ -43,17 +43,20 @@ export class checkStepsService implements CanActivate {
       } else {
         return false;
       }
-    } else if (url === 'monetize-tiktok') {
+    }
+    //  else if (url === 'monetize-tiktok') {
+    //   if (
+    //     this.tokenStorageService.getSecureWallet('visited-twitter') === 'true'
+    //   ) {
+    //     return true;
+    //   } else {
+    //     return false;
+    //   }
+    // }
+    else if (url === 'monetize-linkedin') {
       if (
+        //this.tokenStorageService.getSecureWallet('visited-tiktok') === 'true'
         this.tokenStorageService.getSecureWallet('visited-twitter') === 'true'
-      ) {
-        return true;
-      } else {
-        return false;
-      }
-    } else if (url === 'monetize-linkedin') {
-      if (
-        this.tokenStorageService.getSecureWallet('visited-tiktok') === 'true'
       ) {
         return true;
       } else {

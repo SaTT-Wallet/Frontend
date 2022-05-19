@@ -560,9 +560,9 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
     this.fourthscrol = true;
     this.fithscrol = true;
 
-    if (this.listeningToDownloadFiles === true) {
-      this.downloadFile();
-    }
+    // if (this.listeningToDownloadFiles === true) {
+    //   this.downloadFile();
+    // }
     this.setImagesKits(this.kits);
   }
 
@@ -837,12 +837,14 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
       }
     });
   }
-  downloadOneFile(i: number) {
-    let kit = this.kits[i];
+  downloadOneFile(kitId: string) {
+    let kit = this.kits.find((kit) => kit.id === kitId);
+
     if (!kit.link) {
       let filetype = kit.type.split('/').pop();
       let fileName = `download.${filetype}`;
       let urlimg = kit?.url?.changingThisBreaksApplicationSecurity;
+
       FileSaver.saveAs(urlimg, fileName);
     }
   }
@@ -853,6 +855,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
   getUrlSmartContart() {
     let bscan = environment.bscan;
     let etherscan = environment.etherscan;
+    let polygonscan = environment.polygonscanAddr;
 
     this.CampaignService.getOneById(this.campaign.id)
       .pipe(
@@ -867,6 +870,8 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
             this.urlSmartContrat = etherscan + data['transactionHash'];
           } else if (data['token']['type'] === 'bep20') {
             this.urlSmartContrat = bscan + data['transactionHash'];
+          } else if (data['token']['type'] === 'POLYGON') {
+            this.urlSmartContrat = polygonscan + data['transactionHash'];
           }
           if (isPlatformBrowser(this.platformId)) {
             this.windowRefService.nativeWindow.open(

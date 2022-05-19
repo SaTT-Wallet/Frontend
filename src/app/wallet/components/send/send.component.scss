@@ -18,11 +18,11 @@
   z-index: -1 !important;
   opacity: 0 !important;
 }
-.qrcode{
-  display: none
+.qrcode {
+  display: none;
 }
-.wallet-icon{
-  display: block
+.wallet-icon {
+  display: block;
 }
 @media (max-width: 1400px) {
   :host {
@@ -33,7 +33,6 @@
   }
 }
 @media (min-width: 768px) {
-
   .white-bloc {
     width: 100%;
     padding-top: 120px;
@@ -166,6 +165,16 @@
   color: #162746;
   border-radius: 30px;
   border: none;
+}
+
+@font-face {
+  font-family: 'password';
+  src: url(https://jsbin-user-assets.s3.amazonaws.com/rafaelcastrocouto/password.ttf);
+}
+
+input.pass-hide {
+  font-family: 'password';
+  -webkit-text-security: disc !important;
 }
 
 .input-password::placeholder,
@@ -543,11 +552,11 @@ input:-webkit-autofill:active {
 }
 
 @media (max-width: 767.98px) {
-  .qrcode{
-    display: block
+  .qrcode {
+    display: block;
   }
-  .wallet-icon{
-    display: none
+  .wallet-icon {
+    display: none;
   }
   // .div-footer {
   //     margin-top: 8vh;
@@ -808,7 +817,6 @@ input[type='password'] {
 //   }
 // }
 ::ng-deep {
-
   zxing-scanner {
     position: absolute;
     top: 0;
@@ -816,8 +824,6 @@ input[type='password'] {
     height: 100vh;
     left: 0;
     z-index: 999;
-
-
   }
 
   video {

@@ -916,7 +916,7 @@
                           alt=""
                           id="btn"
                           class="img-download cursor-pointer"
-                          (click)="downloadOneFile(i)"
+                          (click)="downloadOneFile(elem.id)"
                         />
                       </span>
                       <img
@@ -1273,8 +1273,9 @@
                 alt=""
               />
               <input
-                type="password"
-                class="input_oeil"
+                autocomplete="off"
+                type="text"
+                class="input_oeil pass-hide"
                 placeholder="{{ 'your_wallet_password' | translate }}"
                 id="password"
                 aria-label="password"

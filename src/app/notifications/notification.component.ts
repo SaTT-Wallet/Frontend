@@ -9,7 +9,7 @@ import {
 import { NotificationService } from '@core/services/notification/notification.service';
 import { ContactService } from '@core/services/contact/contact.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import * as moment from 'moment';
+//import * as moment from 'moment';
 import _ from 'lodash';
 import { walletUrl, ListTokens } from '@config/atn.config';
 import { isPlatformBrowser } from '@angular/common';
@@ -24,6 +24,7 @@ import { takeUntil } from 'rxjs/operators';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 import { INotificationsResponse } from '@app/core/notifications-response.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import moment from 'moment';
 
 @Component({
   selector: 'app-history',
@@ -234,10 +235,14 @@ export class NotificationComponent implements OnInit {
             item.created = item.created ? item.created : item.createdAt;
             this.siwtchFunction(item);
           });
-
           this.dataNotification = _.chain(this.dataNotification)
+            .sortBy((data) => data.createdInit)
+            .reverse()
             .groupBy('created')
-            .map((value: any, key: any) => ({ created: key, value }))
+            .map((value: any, key: any) => {
+              //console.log('vvv', value, key);
+              return { created: key, value };
+            })
             .value();
         }
       });
@@ -251,12 +256,12 @@ export class NotificationComponent implements OnInit {
   siwtchFunction(item: any) {
     const etherInWei = new Big(1000000000000000000);
     let itemDate = new Date(item.created);
-
+    item.createdInit = item.created;
     if (this.tokenStorageService.getLocalLang() === 'en') {
       item.createdFormated = moment
         .parseZone(itemDate)
         .format(' MMMM Do YYYY, h:mm a z');
-      item.created = moment.parseZone(itemDate).fromNow().slice();
+      item.created = moment.parseZone(item.created).fromNow().slice();
     } else if (this.tokenStorageService.getLocalLang() === 'fr') {
       item.createdFormated = moment
         .parseZone(itemDate)
@@ -735,7 +740,11 @@ export class NotificationComponent implements OnInit {
   }
 
   redirect(notif: any, content: any): void {
-    if (notif.type === 'join_on_social') {
+    if (
+      notif.type === 'join_on_social' ||
+      notif.type === 'invite_friends' ||
+      notif.type === 'join_on_social'
+    ) {
       this.modalService.open(content);
     }
     if (notif.type === 'buy_some_gas') {
