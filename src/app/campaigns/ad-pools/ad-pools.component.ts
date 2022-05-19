@@ -105,30 +105,6 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
     this.onBoarding();
     this.loadCampaigns();
   }
-  getCryptoPrices() {
-    this.walletFacade
-      // .getlistTokens()
-      .getCryptoPriceList()
-      .pipe(
-        map((res: any) => res.data)
-        // map((crypto: any) =>
-        //   new Big(crypto.price + '')
-        //     .times(
-        //       this.convertFromWeiTo.transform(
-        //         this.campaign.budget,
-        //         this.currencyName,
-        //         2
-        //       )
-        //     )
-        //     .toFixed(2)
-        // )
-      )
-      .subscribe((cryptos) => {
-        //this.cryptoPrices = Object.entries(cryptos);
-
-        this.cryptoPrices = cryptos;
-      });
-  }
   getUserPic() {
     this.subscription = this.account$
       .pipe(
@@ -161,16 +137,27 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
               this.user.userPicture = this.user?.picLink;
             }
           }
-
-          // TODO: load campaigns list here
+          return of(null);
+        }),
+        mergeMap(() => {
+          return this.walletFacade.getCryptoPriceList().pipe(
+            filter((res) => {
+              return res !== null;
+            }),
+            map((res: any) => res.data),
+            tap((cryptoPrices) => (this.cryptoPrices = cryptoPrices))
+          );
+        }),
+        // this.walletFacade.getCryptoPriceList()
+        //       .pipe(
+        //         map((res: any) => res.data)),
+        // TODO: load campaigns list here
+        mergeMap(() => {
           return this.campaignsListStoreService.list$.pipe(
             map((pages: Page<Campaign>[]) =>
               _.flatten(pages.map((page: Page<Campaign>) => page.items))
             ),
-            takeUntil(this.onDestoy$),
-            tap(() => {
-              //this.getCryptoPrices();
-            })
+            takeUntil(this.onDestoy$)
           );
         })
       )
@@ -183,19 +170,23 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
         this.campaignsList = campaigns;
         this.campaignsList2 = campaigns;
         this.campaignsList?.forEach((element: Campaign) => {
-          // if (this.cryptoPrices) {
-          //   element.budgetUsd = new Big(
-          //     this.cryptoPrices[element.currency.name].price + ''
-          //   )
-          //     .times(
-          //       this.convertFromWeiTo.transform(
-          //         element.budget,
-          //         element.currency.name,
-          //         2
-          //       )
-          //     )
-          //     .toFixed(2);
-          // }
+          if (element.currency.name === 'SATTPOLYGON')
+            element.currency.name = 'MATIC';
+          if (element.currency.name === 'SATTBEP20')
+            element.currency.name = 'SATT';
+          if (this.cryptoPrices) {
+            element.budgetUsd = new Big(
+              this.cryptoPrices[element.currency.name].price + ''
+            )
+              .times(
+                this.convertFromWeiTo.transform(
+                  element.budget,
+                  element.currency.name,
+                  2
+                )
+              )
+              .toFixed(2);
+          }
           if (typeof element.startDate == 'number') {
             element.startDate = new Date(element.startDate * 1000);
           }
