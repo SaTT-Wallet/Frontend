@@ -66,7 +66,7 @@ export class CampaignsListItemComponent implements OnInit {
     //   });
     // window.location.reload();
     if (this.deletebutton === false) {
-      this.router.navigate(['home/campaign', this.campaign.id]);
+      this.router.navigate(['home/campaign', id]);
     }
   }
   onImgError(event: any) {
