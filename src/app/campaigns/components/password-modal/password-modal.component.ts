@@ -64,6 +64,8 @@ export class PasswordModalComponent implements OnInit {
   erc20Gaz: any;
   bepGaz: any;
   private isDestroyed = new Subject();
+  matic: any;
+  polygonGaz: any;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -223,12 +225,16 @@ export class PasswordModalComponent implements OnInit {
       map((data: any) => {
         this.bnb = data['BNB'].price;
         this.eth = data['ETH'].price;
+        this.matic = data['MATIC'].price;
+
         return {
           bnb: this.bnb,
-          Eth: this.eth
+          Eth: this.eth,
+          matic : this.matic
+
         };
       }),
-      switchMap(({ bnb, Eth }) => {
+      switchMap(({ bnb, Eth, matic }) => {
         return forkJoin([
           this.walletFacade.getEtherGaz().pipe(
             take(1),
@@ -260,7 +266,42 @@ export class PasswordModalComponent implements OnInit {
                 ).toFixed(2);
               }
             })
+          ),
+
+          this.walletFacade.getBnbGaz().pipe(
+            take(1),
+            tap((gaz: any) => {
+              let price = gaz.data.gasPrice;
+              this.bepGaz = (
+                ((price * GazConsumedByCampaign) / 1000000000) *
+                bnb
+              ).toFixed(2);
+
+              if (this.gazsend === 'NaN') {
+                this.gazsend = '';
+                let price = gaz.data.gasPrice;
+                this.bepGaz = (
+                  ((price * GazConsumedByCampaign) / 1000000000) *
+                  this.bnb
+                ).toFixed(2);
+              }
+            })
+          ),
+
+          this.walletFacade.getPolygonGaz().pipe(
+            take(1),
+            tap((gaz: any) => {
+              let price;
+              price = gaz.data.gasPrice;
+            
+
+              this.polygonGaz = (
+                ((price * GazConsumedByCampaign) / 1000000000) *
+                matic
+              ).toFixed(8);
+            })
           )
+
         ]);
       })
     );

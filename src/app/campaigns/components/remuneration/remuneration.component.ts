@@ -155,6 +155,8 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     }
   ];
   difference: any;
+  matic: any;
+  polygonGaz: any;
   constructor(
     private service: DraftCampaignService,
     private convertFromWeiTo: ConvertFromWei,
@@ -731,14 +733,18 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       map((response: any) => response.data),
       take(1),
       map((data: any) => {
-        this.bnb = data['BNB'].price;
-        this.eth = data['ETH'].price;
+        this.bnb = data['BNB'].price,
+        this.eth = data['ETH'].price,
+        this.matic = data['MATIC'].price;
+
         return {
           bnb: this.bnb,
-          Eth: this.eth
+          Eth: this.eth,         
+          matic : this.matic
+
         };
       }),
-      switchMap(({ bnb, Eth }) => {
+      switchMap(({ bnb, Eth , matic}) => {
         return forkJoin([
           this.walletFacade.getEtherGaz().pipe(
             take(1),
@@ -769,6 +775,19 @@ export class RemunerationComponent implements OnInit, OnDestroy {
                   this.bnb
                 ).toFixed(2);
               }
+            })
+          ),
+          this.walletFacade.getPolygonGaz().pipe(
+            take(1),
+            tap((gaz: any) => {
+              let price;
+              price = gaz.data.gasPrice;
+            
+
+              this.polygonGaz = (
+                ((price * GazConsumedByCampaign) / 1000000000) *
+                matic
+              ).toFixed(8);
             })
           )
         ]);
