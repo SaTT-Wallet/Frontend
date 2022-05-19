@@ -54,7 +54,9 @@ export class CryptofetchServiceService {
   getEtherGaz() {
     return this.http.get(sattUrl + '/wallet/Erc20GasPrice');
   }
-
+  getPolygonGaz() {
+    return this.http.get(sattUrl + '/wallet/polygonGasPrice');
+  }
   getBnbGaz() {
     return this.http.get(sattUrl + '/wallet/Bep20GasPrice', {
       headers: this.tokenStorageService.getHeader()
