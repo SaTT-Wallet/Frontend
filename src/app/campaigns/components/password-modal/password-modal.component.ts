@@ -230,8 +230,7 @@ export class PasswordModalComponent implements OnInit {
         return {
           bnb: this.bnb,
           Eth: this.eth,
-          matic : this.matic
-
+          matic: this.matic
         };
       }),
       switchMap(({ bnb, Eth, matic }) => {
@@ -293,7 +292,6 @@ export class PasswordModalComponent implements OnInit {
             tap((gaz: any) => {
               let price;
               price = gaz.data.gasPrice;
-            
 
               this.polygonGaz = (
                 ((price * GazConsumedByCampaign) / 1000000000) *
@@ -301,7 +299,6 @@ export class PasswordModalComponent implements OnInit {
               ).toFixed(8);
             })
           )
-
         ]);
       })
     );
@@ -314,6 +311,7 @@ export class PasswordModalComponent implements OnInit {
     this.loadingButton = true;
     let tokenSymbol =
       (token === 'BNB' && 'SATTBEP20') || this.campaign.currency.name;
+
     TokenOBj.walletaddr = this.tokenStorageService.getIdWallet();
     TokenOBj.addr = ListTokens[tokenSymbol].contract;
     campaign_info.currency = cryptoNetwork[token];
