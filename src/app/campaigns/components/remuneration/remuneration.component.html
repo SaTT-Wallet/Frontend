@@ -94,16 +94,35 @@
           </label>
         </div>
       </div>
-      <div class="error d-flex initialBudgetError">
-        <span
-          *ngIf="
-            (this.form.get('initialBudget')?.errors?.required ||
-              this.form.get('initialBudget')?.value === 0) &&
-            this.notValidBudgetRemun
-          "
-          >{{ 'campaign.field_required' | translate }}</span
+      <div class="row d-flex justify-content-center pt-3 mb-1">
+        <div
+          class="col-xxl-3 col-xl-3 col-md-12 col-lg-4 col-sm-8 col-10 d-flex align-items-center justify-content-center"
         >
+          <div class="error d-flex initialBudgetError ml-4">
+            <span
+              *ngIf="
+                (this.form.get('initialBudget')?.errors?.required ||
+                  this.form.get('initialBudget')?.value === 0) &&
+                this.notValidBudgetRemun
+              "
+              >{{ 'campaign.field_required' | translate }}</span
+            >
+          </div>
+        </div>
       </div>
+
+      <div class="row d-flex justify-content-center pt-3 mb-1">
+        <div
+          class="col-xxl-3 col-xl-3 col-md-12 col-lg-4 col-sm-8 col-10 d-flex align-items-center justify-content-center"
+        >
+          <div class="error ml-4">
+            <span *ngIf="this.form.errors?.notEnoughBalance">{{
+              'not_enough_balance' | translate
+            }}</span>
+          </div>
+        </div>
+      </div>
+
       <!-- </div>  -->
     </div>
   </div>
