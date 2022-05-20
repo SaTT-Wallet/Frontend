@@ -409,13 +409,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
           if (item._label === 'transfer_event_currency') {
             item._label = 'transfer_event_currency_firebase';
           }
+          if (item._label === 'receive_transfer_event_currency') {
+            item._label = 'receive_transfer_event_currency_firebase';
+          }
           this.translate
             .get(item._label, item._params)
             .pipe(takeUntil(this.isDestroyed$))
             .subscribe((data: any) => {
               msg = data;
             });
-
           if (item.type === 'send_demande_satt_event') {
             this.toastr.success(
               `
@@ -729,14 +731,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
         item._params = {
           nbr: item._label['price'],
           crypto:
-            item.label['cryptoCurrency'] &&
-            item.label['cryptoCurrency'] === 'SATTBEP20'
+            item._label['cryptoCurrency'] &&
+            (item._label['cryptoCurrency'] === 'SATTBEP20' ||
+              item._label['cryptoCurrency'] === 'SATTPOLYGON')
               ? 'SATT'
-              : item.label['cryptoCurrency'] ||
-                (item.label['currency'] &&
-                  item.label['currency'] === 'SATTBEP20')
+              : item._label['cryptoCurrency'] ||
+                (item._label['currency'] &&
+                  (item._label['currency'] === 'SATTBEP20' ||
+                    item._label['currency'] === 'SATTPOLYGON'))
               ? 'SATT'
-              : item.label['currency'],
+              : item._label['currency'],
           // crypto: item._label['currency'],
           name: item._label['name']
         };
@@ -748,14 +752,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
         item._params = {
           nbr: item._label['price'],
           crypto:
-            item.label['cryptoCurrency'] &&
-            item.label['cryptoCurrency'] === 'SATTBEP20'
+            item._label['cryptoCurrency'] &&
+            (item._label['cryptoCurrency'] === 'SATTBEP20' ||
+              item._label['cryptoCurrency'] === 'SATTPOLYGON')
               ? 'SATT'
-              : item.label['cryptoCurrency'] ||
-                (item.label['currency'] &&
-                  item.label['currency'] === 'SATTBEP20')
+              : item._label['cryptoCurrency'] ||
+                (item._label['currency'] &&
+                  (item._label['currency'] === 'SATTBEP20' ||
+                    item._label['currency'] === 'SATTPOLYGON'))
               ? 'SATT'
-              : item.label['currency'],
+              : item._label['currency'],
           name: item._label['name']
         };
         item._label = 'asked_cryptoCurrency';
@@ -789,7 +795,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
             : ListTokens[item._label.currency].decimals;
 
           item._params = {
-            currency: item._label['currency'],
+            currency:
+              item._label['currency'] === 'SATTBEP20' ||
+              item._label['currency'] === 'SATTPOLYGON'
+                ? 'SATT'
+                : item.label['currency'],
             nbr: Big(item._label['amount']).div(decimal),
             //  currency: item._label["currency"],
             to: item._label['to']
@@ -805,6 +815,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
         }
         item.img = './assets/Images/notifIcons/envoi.svg';
         break;
+
+      /*
+            item._label['currency'] === 'SATTBEP20' ||
+              item._label['currency'] === 'SATTPOLYGON'
+              ? 'SATT': item.label['currency'],
+        
+        */
       //////////////////////////////////////////
 
       case 'receive_transfer_event':
@@ -815,7 +832,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
           item._params = {
             nbr: Big(item._label['amount']).div(decimal),
-            currency: item._label['currency'],
+            currency:
+              item._label['currency'] === 'SATTBEP20' ||
+              item._label['currency'] === 'SATTPOLYGON'
+                ? 'SATT'
+                : item.label['currency'],
             from: item._label['from']
           };
           item._label = 'receive_transfer_event_currency';
@@ -955,7 +976,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
       case 'transfer_satt_event':
         item._params = {
           nbr: item._label['amount'],
-          crypto: item._label['currency'],
+          crypto:
+            item._label['currency'] === 'SATTBEP20' ||
+            item._label['currency'] === 'SATTPOLYGON'
+              ? 'SATT'
+              : item.label['currency'],
           email: item._label[2]
         };
         item._label = 'transfer_money';
@@ -965,7 +990,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
       case 'received_satt_event':
         item._params = {
           nbr: item._label['amount'],
-          crypto: item._label['currency'],
+          crypto:
+            item._label['currency'] === 'SATTBEP20' ||
+            item._label['currency'] === 'SATTPOLYGON'
+              ? 'SATT'
+              : item.label['currency'],
           email: item._label[2]
         };
         item._label = 'received_satt';

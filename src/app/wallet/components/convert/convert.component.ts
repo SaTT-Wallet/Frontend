@@ -171,6 +171,8 @@ export class ConvertComponent implements OnInit, OnDestroy {
   quantitysatt: any;
   private onDestoy$ = new Subject();
   private account$ = this.accountFacadeService.account$;
+  matic: any;
+  polygonGaz: any;
   constructor(
     private accountFacadeService: AccountFacadeService,
     private Fetchservice: CryptofetchServiceService,
@@ -775,12 +777,16 @@ export class ConvertComponent implements OnInit, OnDestroy {
       map((data: any) => {
         this.bnb = data['BNB'].price;
         this.eth = data['ETH'].price;
+        this.matic = data['MATIC'].price;
+
         return {
           bnb: this.bnb,
-          Eth: this.eth
+          Eth: this.eth,
+          matic : this.matic
+
         };
       }),
-      switchMap(({ bnb, Eth }) => {
+      switchMap(({ bnb, Eth ,matic}) => {
         return forkJoin([
           this.walletFacade.getEtherGaz().pipe(
             tap((gaz: any) => {
@@ -812,6 +818,20 @@ export class ConvertComponent implements OnInit, OnDestroy {
                   this.bnb
                 ).toFixed(2);
               }
+            })
+          ),
+          this.walletFacade.getPolygonGaz().pipe(
+           
+            tap((gaz: any) => {
+              this.showSpinner = false; 
+              let price;
+              price = gaz.data.gasPrice;
+            
+
+              this.polygonGaz = (
+                ((price * GazConsumedByCampaign) / 1000000000) *
+                matic
+              ).toFixed(8);
             })
           )
         ]);

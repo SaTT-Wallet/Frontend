@@ -70,7 +70,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   bnb: any;
   eth: any;
   eRC20Gaz: any;
-
+  polygonGaz:any
+  matic: any;
   defaultcurr: string = ListTokens['SATT'].name;
   private isDestroyed = new Subject();
   showPass: boolean = false;
@@ -93,7 +94,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   decimals: any;
   token: any;
   symbol: any;
-  gazcurrency: string = 'ERC20';
+  gazcurrency: string = 'ETH';
   /*--------------------------------*/
   @ViewChild('checkUserLegalKYCModal') checkUserLegalKYCModal!: ElementRef;
   routeEventSubscription$ = new Subject();
@@ -583,7 +584,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             this.sendform.get('AmountUsd')?.setValue(crypto.total_balance);
 
           this.gazproblem = false;
-          if (currency === 'ETH' || currency === 'BNB') {
+          if (currency === 'ETH' || currency === 'BNB' || currency === 'MATIC') {
             this.difference = crypto.total_balance - this.gazsend;
             this.newquantity = this.difference / crypto.price;
             let newqua = this.showNumbersRule.transform(this.newquantity);
@@ -621,12 +622,14 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       map((data: any) => {
         this.bnb = data['BNB'].price;
         this.eth = data['ETH'].price;
+        this.matic = data['MATIC'].price;
         return {
           bnb: this.bnb,
-          Eth: this.eth
+          Eth: this.eth,
+          matic : this.matic
         };
       }),
-      switchMap(({ bnb, Eth }) => {
+      switchMap(({ bnb, Eth , matic }) => {
         return forkJoin([
           this.walletFacade.getEtherGaz().pipe(
             take(1),
@@ -660,6 +663,20 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
                   this.bnb
                 ).toFixed(2);
               }
+            })
+          ),
+          this.walletFacade.getPolygonGaz().pipe(
+            take(1),
+            tap((gaz: any) => {
+              this.showSpinner = false; 
+              let price;
+              price = gaz.data.gasPrice;
+            
+
+              this.polygonGaz = (
+                ((price * GazConsumedByCampaign) / 1000000000) *
+                matic
+              ).toFixed(8);
             })
           )
         ]);
@@ -823,15 +840,20 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.token = event.AddedToken;
     if (this.networks === 'ERC20') {
       this.coinType = false;
-      this.gazcurrency = 'ERC20';
+      this.gazcurrency = 'ETH';
       //this.gazcurrency = 'ETH';
     } else if (this.networks === 'BEP20') {
       this.coinType = false;
-      this.gazcurrency = 'BEP20';
+      this.gazcurrency = 'BNB';
       // this.gazcurrency = 'BNB';
     } else if (this.networks === 'BTC') {
       this.coinType = true;
-      this.gazcurrency = 'ERC20';
+      this.gazcurrency = 'BTC';
+      // this.gazcurrency = 'ETH';
+    }
+
+    else if (this.networks === 'POLYGON') {
+      this.gazcurrency = 'MATIC';
       // this.gazcurrency = 'ETH';
     }
 
@@ -842,6 +864,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
 
       if (this.networks === 'BEP20') {
         this.gazsend = this.bEPGaz;
+      }
+      if (this.networks === 'POLYGON') {
+        this.gazsend = this.polygonGaz;
       }
     }, 2000);
 
@@ -855,6 +880,12 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       if (this.networks === 'BEP20') {
         this.gazsend = this.bEPGaz;
         if (crypto.symbol === 'BNB') {
+          this.gazsendether = (this.gazsend / crypto.price).toFixed(8);
+        }
+      }
+      if (this.networks === 'POLYGON') {
+        this.gazsend = this.polygonGaz;
+        if (crypto.symbol === 'MATIC') {
           this.gazsendether = (this.gazsend / crypto.price).toFixed(8);
         }
       }

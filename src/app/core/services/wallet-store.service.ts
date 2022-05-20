@@ -28,6 +28,11 @@ export class WalletStoreService {
   readonly wallet$ = this._wallet.asObservable();
   private _etherGaz: BehaviorSubject<any> = new BehaviorSubject({});
   readonly etherGaz$ = this._etherGaz.asObservable();
+
+  private _polygonGaz: BehaviorSubject<any> = new BehaviorSubject({});
+  readonly _polygonGaz$ = this._polygonGaz.asObservable();
+
+  
   private _bnbGaz: BehaviorSubject<any> = new BehaviorSubject({});
   readonly bnbGaz$ = this._bnbGaz.asObservable();
   private _paymentIdSubject: BehaviorSubject<string | null> =
@@ -47,6 +52,7 @@ export class WalletStoreService {
     this.getCryptoList();
     this.getTotalBalance();
     this.getEtherGaz();
+    this.getPolygonGaz();
     this.getBnbGaz();
   }
 
@@ -137,7 +143,11 @@ export class WalletStoreService {
       this._etherGaz.next(res);
     });
   }
-
+  getPolygonGaz() {
+    this.cryptoService.getPolygonGaz().subscribe((res) => {
+      this._polygonGaz.next(res);
+    });
+  }
   getBnbGaz() {
     this.cryptoService.getBnbGaz().subscribe((res) => {
       this._bnbGaz.next(res);
