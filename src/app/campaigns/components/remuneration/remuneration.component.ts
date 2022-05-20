@@ -214,7 +214,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     //   this.campaign = campaign;
     //   console.log(campaign, 'campaign from remi');
     // });
-
+    this.checkValidForm();
     this.saveForm();
     // this.cryptoSymbol = 'SATT';
     this.showSelectedValue = false;
@@ -733,18 +733,17 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       map((response: any) => response.data),
       take(1),
       map((data: any) => {
-        this.bnb = data['BNB'].price,
-        this.eth = data['ETH'].price,
-        this.matic = data['MATIC'].price;
+        (this.bnb = data['BNB'].price),
+          (this.eth = data['ETH'].price),
+          (this.matic = data['MATIC'].price);
 
         return {
           bnb: this.bnb,
-          Eth: this.eth,         
-          matic : this.matic
-
+          Eth: this.eth,
+          matic: this.matic
         };
       }),
-      switchMap(({ bnb, Eth , matic}) => {
+      switchMap(({ bnb, Eth, matic }) => {
         return forkJoin([
           this.walletFacade.getEtherGaz().pipe(
             take(1),
@@ -782,7 +781,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
             tap((gaz: any) => {
               let price;
               price = gaz.data.gasPrice;
-            
 
               this.polygonGaz = (
                 ((price * GazConsumedByCampaign) / 1000000000) *
@@ -1234,6 +1232,14 @@ export class RemunerationComponent implements OnInit, OnDestroy {
           }
         }
       });
+    }
+  }
+
+  private checkValidForm() {
+    if (this.form.valid) {
+      this.validFormBudgetRemun.emit(true);
+    } else {
+      this.validFormBudgetRemun.emit(false);
     }
   }
 }
