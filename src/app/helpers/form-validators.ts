@@ -3,31 +3,42 @@ import {
   ValidatorFn,
   FormControl,
   FormArray,
-  ValidationErrors
+  ValidationErrors,
+  AsyncValidatorFn
 } from '@angular/forms';
 import Big from 'big.js';
-import { WalletStoreService } from '@core/services/wallet-store.service';
 import moment from 'moment';
 import { ListTokens } from '@config/atn.config';
+import { WalletFacadeService } from '@core/facades/wallet-facade.service';
+import { Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 
-export function checkIfEnoughBalance(service: WalletStoreService): ValidatorFn {
-  return (control: AbstractControl): { [key: string]: any } | null => {
+export function checkIfEnoughBalance(
+  walletFacade: WalletFacadeService
+): AsyncValidatorFn {
+  return (
+    control: AbstractControl
+  ): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
     const initialBudget = control.get('initialBudget') as FormControl;
     const currency = control.get('currency') as FormControl;
-    const selectedCrypto = service.walletBalance.find((elem: any) => {
-      return elem.symbol === currency.value;
-    });
-
-    if (!isNaN(initialBudget.value) && currency.value && selectedCrypto) {
-      const amount = new Big(initialBudget.value || 0);
-      const balance = selectedCrypto ? new Big(selectedCrypto.quantity) : '0';
-
-      return amount.gt(balance) ? { notEnoughBalance: true } : null;
-    }
-    return null;
+    return walletFacade.cryptoList$.pipe(
+      take(1),
+      map((res) => {
+        const selectedCrypto = res.find((elem: any) => {
+          return elem.symbol === currency.value;
+        });
+        if (!isNaN(initialBudget.value) && currency.value && selectedCrypto) {
+          const amount = new Big(initialBudget.value || 0);
+          const balance = selectedCrypto
+            ? new Big(selectedCrypto.quantity)
+            : '0';
+          return amount.gt(balance) ? { notEnoughBalance: true } : null;
+        }
+        return null;
+      })
+    );
   };
 }
-
 export function MatchPasswordValidator(): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
     const password = control.get('password');

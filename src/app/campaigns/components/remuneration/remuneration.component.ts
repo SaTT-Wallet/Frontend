@@ -188,12 +188,12 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       },
       {
         validators: [
-          checkIfEnoughBalance(this.walletStore),
           Validators.required,
           InitiaBudgetValidator,
           customValidateRequired(),
           customValidateInsufficientBudget()
-        ]
+        ],
+        asyncValidators: [checkIfEnoughBalance(this.walletFacade)]
       }
     );
     this.showRetrySaveButtonOnError = this.service.saveStatus.pipe(
