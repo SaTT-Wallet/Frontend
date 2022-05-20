@@ -791,7 +791,7 @@ export class CampaignHttpApiService {
         campaignAddress: campaignSmartContractPOLYGON,
         amount: amount,
         pass: password,
-        tokenAddress: token.token
+        tokenAddress: token.addr
       },
       { headers: this.tokenStorageService.getHeader() }
     );
