@@ -294,21 +294,22 @@ export class NotificationComponent implements OnInit {
       case 'join_on_social':
         item._label = 'join_on_social';
         item.img = receive_satt_pic;
+
         break;
       case 'send_demande_satt_event':
         item._params = {
           nbr: item._label['price'],
           crypto:
-            item.label['cryptoCurrency'] &&
-            (item.label['cryptoCurrency'] === 'SATTBEP20' ||
-              item.label['cryptoCurrency'] === 'SATTPOLYGON')
+            item._label['cryptoCurrency'] &&
+            (item._label['cryptoCurrency'] === 'SATTBEP20' ||
+              item._label['cryptoCurrency'] === 'SATTPOLYGON')
               ? 'SATT'
-              : item.label['cryptoCurrency'] ||
-                (item.label['currency'] &&
-                  (item.label['currency'] === 'SATTBEP20' ||
-                    item.label['currency'] === 'SATTPOLYGON'))
+              : item._label['cryptoCurrency'] ||
+                (item._label['currency'] &&
+                  (item._label['currency'] === 'SATTBEP20' ||
+                    item._label['currency'] === 'SATTPOLYGON'))
               ? 'SATT'
-              : item.label['currency'],
+              : item._label['currency'],
           // crypto: item._label['currency'],
           name: item._label['name']
         };
@@ -320,16 +321,16 @@ export class NotificationComponent implements OnInit {
         item._params = {
           nbr: item._label['price'],
           crypto:
-            item.label['cryptoCurrency'] &&
-            (item.label['cryptoCurrency'] === 'SATTBEP20' ||
-              item.label['cryptoCurrency'] === 'SATTPOLYGON')
+            item._label['cryptoCurrency'] &&
+            (item._label['cryptoCurrency'] === 'SATTBEP20' ||
+              item._label['cryptoCurrency'] === 'SATTPOLYGON')
               ? 'SATT'
-              : item.label['cryptoCurrency'] ||
-                (item.label['currency'] &&
-                  (item.label['currency'] === 'SATTBEP20' ||
-                    item.label['currency'] === 'SATTPOLYGON'))
+              : item._label['cryptoCurrency'] ||
+                (item._label['currency'] &&
+                  (item._label['currency'] === 'SATTBEP20' ||
+                    item._label['currency'] === 'SATTPOLYGON'))
               ? 'SATT'
-              : item.label['currency'],
+              : item._label['currency'],
           name: item._label['name']
         };
         item._label = 'asked_cryptoCurrency';
@@ -357,112 +358,54 @@ export class NotificationComponent implements OnInit {
       //////////////////////////////////////////
 
       case 'transfer_event':
-        if (item.label['currency']) {
+        if (item._label['currency']) {
           let decimal = item._label['decimal']
             ? new Big('10').pow(item._label['decimal'])
             : ListTokens[item._label.currency].decimals;
 
           item._params = {
             currency:
-              item._label['currency'] === 'SATTBEP20'
-                ? 'SATT'
-                : item._label['currency'],
-            // nbr: Big(item._label["amount"])?.div(
-            //   ListTokens[item._label.currency]?.decimals
-            // ),
-            // nbr: ListTokens[item._label.currency] ? ListTokens[item._label.currency].decimals : new Big("10").pow(item._label["decimal"]),
-            nbr: Big(item._label['amount']).div(decimal),
-            to: item._label['to']
-          };
-          item._label = 'transfer_event_currency';
-        } else if (item._label['network']) {
-          item._params = {
-            nbr: Big(item._label['amount']).div(etherInWei),
-            network: item._label['network'],
-            to: item._label['to']
-          };
-          item._label = 'transfer_event_network';
-        }
-        item.img = './assets/Images/notifIcons/envoi.svg';
-        break;
-        //////////////////////////////////////////
-
-        item._params = {
-          nbr: item._label['price'],
-          crypto: item._label['currency'],
-          name: item._label['name']
-        };
-        item._label = 'asked_to_acquire';
-        item.img = receive_satt_pic;
-        // console.log(item._label);
-        break;
-      //////////////////////////////////////////
-      case 'demande_satt_event':
-        item._params = {
-          nbr: item._label['price'],
-          crypto: item._label['currency'],
-          name: item._label['name']
-        };
-        item._label = 'asked_cryptoCurrency';
-        item.img = receive_satt_pic;
-        break;
-      //////////////////////////////////////////
-      case 'save_legal_file_event':
-        if (item._label['type'] === 'proofDomicile') {
-          item._label = 'confirm_legal_kyc_proof';
-        } else {
-          item._label = 'confirm_legal_kyc_identity';
-        }
-        item.img = './assets/Images/notifIcons/CandidValid.svg';
-        break;
-      //////////////////////////////////////////
-      case 'validated_link':
-        item._params = {
-          name: item._label['cmp_name'],
-          link: item._label['cmp_link'],
-          hash: item._label['cmp_hash']
-        };
-        item._label = 'campaign_notification.candidate_accept_link';
-        item.img = './assets/Images/notifIcons/lienAccepte.svg';
-        break;
-      //////////////////////////////////////////
-
-      case 'transfer_event':
-        if (item._label['currency']) {
-          let decimal = ListTokens[item._label.currency]
-            ? ListTokens[item._label.currency].decimals
-            : new Big('10').pow(item._label['decimal']);
-
-          item._params = {
-            currency: item._label['currency'],
-            nbr: Big(item._label['amount']).div(decimal),
-            to: item._label['to']
-          };
-          item._label = 'transfer_event_currency';
-        } else if (item._label['network']) {
-          item._params = {
-            nbr: Big(item._label['amount']).div(etherInWei),
-            network: item._label['network'],
-            to: item._label['to']
-          };
-          item._label = 'transfer_event_network';
-        }
-        item.img = './assets/Images/notifIcons/envoi.svg';
-        break;
-      //     //////////////////////////////////////////
-
-      case 'receive_transfer_event':
-        if (item._label['currency']) {
-          let decimal = ListTokens[item.label.currency]
-            ? ListTokens[item.label.currency].decimals
-            : new Big('10').pow(item._label['decimal']);
-
-          item._params = {
-            currency:
-              item.label['currency'] === 'SATTBEP20'
+              item._label['currency'] === 'SATTBEP20' ||
+              item._label['currency'] === 'SATTPOLYGON'
                 ? 'SATT'
                 : item.label['currency'],
             nbr: Big(item._label['amount']).div(decimal),
+            //  currency: item._label["currency"],
+            to: item._label['to']
+          };
+          item._label = 'transfer_event_currency';
+        } else if (item._label['network']) {
+          item._params = {
+            nbr: Big(item._label['amount']).div(etherInWei),
+            network: item._label['network'],
+            to: item._label['to']
+          };
+          item._label = 'transfer_event_network';
+        }
+        item.img = './assets/Images/notifIcons/envoi.svg';
+        break;
+
+      /*
+            item._label['currency'] === 'SATTBEP20' ||
+              item._label['currency'] === 'SATTPOLYGON'
+              ? 'SATT': item.label['currency'],
+        
+        */
+      //////////////////////////////////////////
+
+      case 'receive_transfer_event':
+        if (item._label['currency']) {
+          let decimal = item._label['decimal']
+            ? new Big('10').pow(item._label['decimal'])
+            : ListTokens[item._label.currency].decimals;
+
+          item._params = {
+            nbr: Big(item._label['amount']).div(decimal),
+            currency:
+              item._label['currency'] === 'SATTBEP20' ||
+              item._label['currency'] === 'SATTPOLYGON'
+                ? 'SATT'
+                : item.label['currency'],
             from: item._label['from']
           };
           item._label = 'receive_transfer_event_currency';
@@ -476,7 +419,7 @@ export class NotificationComponent implements OnInit {
         }
         item.img = './assets/Images/notifIcons/Reception.svg';
         break;
-      // //////////////////////////////////////////
+      //////////////////////////////////////////
       case 'convert_event':
         item._params = {
           amount: Big(item._label['amount']).div(etherInWei),
@@ -486,21 +429,6 @@ export class NotificationComponent implements OnInit {
           item._label['Direction'] === 'ETB'
             ? 'convert_event_ETB'
             : 'convert_event_BTE';
-        item.img = './assets/Images/notifIcons/CandidValid.svg';
-        break;
-
-      //////////////////////////////////////////
-      case 'apply_campaign':
-        item._params = {
-          title: item._label['cmp_name'],
-          owner: item._label['cmp_owner'],
-          hash: item._label['hash']
-        };
-        item._label =
-          // item._label['Direction'] === 'ETB'
-          //   ? 'convert_event_ETB'
-          //   : 'convert_event_BTE';
-          item._label = 'apply_campaign';
         item.img = './assets/Images/notifIcons/CandidValid.svg';
         break;
 
@@ -572,18 +500,6 @@ export class NotificationComponent implements OnInit {
         item.img = './assets/Images/notifIcons/lienRefuse.svg';
         break;
       //////////////////////////////////////////
-      /*case 'kyc_validation':
-           if (item._label['status'] == 'reject') {
-           item._params = { reason: item.attachedEls['reason-reject'] };
-              item._label = 'kyc_validation_reject';
-              item.img = './assets/Images/notifIcons/CandidRefus.svg';
-            }
-            else {
-              item._label = this.tr('kyc_validation_cofirm', '');
-              item.img = './assets/Images/notifIcons/CandidValid.svg';
-            }
-            item.img = receive_satt_pic;
-            break;*/
       case 'validate_kyc':
         if (item._label['action'] === 'validated kyc') {
           item._label = 'kyc_validation_cofirm';
@@ -629,7 +545,11 @@ export class NotificationComponent implements OnInit {
       case 'transfer_satt_event':
         item._params = {
           nbr: item._label['amount'],
-          crypto: item._label['currency'],
+          crypto:
+            item._label['currency'] === 'SATTBEP20' ||
+            item._label['currency'] === 'SATTPOLYGON'
+              ? 'SATT'
+              : item.label['currency'],
           email: item._label[2]
         };
         item._label = 'transfer_money';
@@ -639,7 +559,11 @@ export class NotificationComponent implements OnInit {
       case 'received_satt_event':
         item._params = {
           nbr: item._label['amount'],
-          crypto: item._label['currency'],
+          crypto:
+            item._label['currency'] === 'SATTBEP20' ||
+            item._label['currency'] === 'SATTPOLYGON'
+              ? 'SATT'
+              : item.label['currency'],
           email: item._label[2]
         };
         item._label = 'received_satt';
@@ -690,33 +614,6 @@ export class NotificationComponent implements OnInit {
         break;
 
       //////////////////////////////////////////
-      /* case 'cmp_video_accepted':
-            item._params = { name: item._label['cmp_name'], cmpUrl: walletUrl + "campaign/" + item.attachedEls['id'] };
-            item._label = 'campaign_notification.editor_video_accepted';
-            item.img = './assets/Images/notifIcons/lienAccepte.svg';
-            break;
-
-          case 'cmp_video_rejected':
-            item._params = { name: item._label['cmp_name'], cmpUrl: walletUrl + "campaign/" + item.attachedEls['id'] };
-            item._label = 'campaign_notification.editor_video_rejected';
-            item.img = './assets/Images/notifIcons/lienRefuse.svg';
-            break;
-
-        case 'order_event':
-           item._label = this.tr(item._label[0], '') + ' - ' + item._label[1];
-           item.img = receive_satt_pic;
-            break;
-
-         case 'mailing_target_event':
-            item._label = this.tr(item._label[0], '') + ' - ' + item._label[1];
-             item.img = receive_satt_pic;
-            break;
-
-          case 'split_event':
-          item._label = this.tr(item._label[0], '') + ' - ' + item._label[1] + ' - ' + item._label[2] + ' - ' + this.tr(item.status, '');
-           item.img = receive_satt_pic;
-            break;
-     */
     }
   }
 
