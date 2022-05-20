@@ -2637,6 +2637,7 @@
   "receive_event_link": " {{from}}",
   "transfer_event_network": "You have sent {{nbr}} to the address {{to}} on the {{network}} network.",
   "receive_transfer_event_currency": "You have received {{nbr}} {{currency}} from",
+  "receive_transfer_event_currency_firebase": "You have received {{nbr}} {{currency}} from {{from}}",
   "receive_transfer_event_network": "You have received {{nbr}} from {{from}} {{network}} network.",
   "trial": "Trial",
   "twitter": "Twitter",

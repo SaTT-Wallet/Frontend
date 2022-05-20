@@ -300,19 +300,20 @@ export class NotificationComponent implements OnInit {
           nbr: item._label['price'],
           crypto:
             item.label['cryptoCurrency'] &&
-            item.label['cryptoCurrency'] === 'SATTBEP20'
+            (item.label['cryptoCurrency'] === 'SATTBEP20' ||
+              item.label['cryptoCurrency'] === 'SATTPOLYGON')
               ? 'SATT'
               : item.label['cryptoCurrency'] ||
                 (item.label['currency'] &&
-                  item.label['currency'] === 'SATTBEP20')
+                  (item.label['currency'] === 'SATTBEP20' ||
+                    item.label['currency'] === 'SATTPOLYGON'))
               ? 'SATT'
               : item.label['currency'],
+          // crypto: item._label['currency'],
           name: item._label['name']
         };
-
         item._label = 'asked_to_acquire';
         item.img = receive_satt_pic;
-        // console.log(item._label);
         break;
       //////////////////////////////////////////
       case 'demande_satt_event':
@@ -320,11 +321,13 @@ export class NotificationComponent implements OnInit {
           nbr: item._label['price'],
           crypto:
             item.label['cryptoCurrency'] &&
-            item.label['cryptoCurrency'] === 'SATTBEP20'
+            (item.label['cryptoCurrency'] === 'SATTBEP20' ||
+              item.label['cryptoCurrency'] === 'SATTPOLYGON')
               ? 'SATT'
               : item.label['cryptoCurrency'] ||
                 (item.label['currency'] &&
-                  item.label['currency'] === 'SATTBEP20')
+                  (item.label['currency'] === 'SATTBEP20' ||
+                    item.label['currency'] === 'SATTPOLYGON'))
               ? 'SATT'
               : item.label['currency'],
           name: item._label['name']

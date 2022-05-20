@@ -409,13 +409,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
           if (item._label === 'transfer_event_currency') {
             item._label = 'transfer_event_currency_firebase';
           }
+          if (item._label === 'receive_transfer_event_currency') {
+            item._label = 'receive_transfer_event_currency_firebase';
+          }
           this.translate
             .get(item._label, item._params)
             .pipe(takeUntil(this.isDestroyed$))
             .subscribe((data: any) => {
               msg = data;
             });
-
           if (item.type === 'send_demande_satt_event') {
             this.toastr.success(
               `
@@ -730,11 +732,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
           nbr: item._label['price'],
           crypto:
             item.label['cryptoCurrency'] &&
-            item.label['cryptoCurrency'] === 'SATTBEP20'
+            (item.label['cryptoCurrency'] === 'SATTBEP20' ||
+              item.label['cryptoCurrency'] === 'SATTPOLYGON')
               ? 'SATT'
               : item.label['cryptoCurrency'] ||
                 (item.label['currency'] &&
-                  item.label['currency'] === 'SATTBEP20')
+                  (item.label['currency'] === 'SATTBEP20' ||
+                    item.label['currency'] === 'SATTPOLYGON'))
               ? 'SATT'
               : item.label['currency'],
           // crypto: item._label['currency'],
@@ -749,11 +753,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
           nbr: item._label['price'],
           crypto:
             item.label['cryptoCurrency'] &&
-            item.label['cryptoCurrency'] === 'SATTBEP20'
+            (item.label['cryptoCurrency'] === 'SATTBEP20' ||
+              item.label['cryptoCurrency'] === 'SATTPOLYGON')
               ? 'SATT'
               : item.label['cryptoCurrency'] ||
                 (item.label['currency'] &&
-                  item.label['currency'] === 'SATTBEP20')
+                  (item.label['currency'] === 'SATTBEP20' ||
+                    item.label['currency'] === 'SATTPOLYGON'))
               ? 'SATT'
               : item.label['currency'],
           name: item._label['name']
