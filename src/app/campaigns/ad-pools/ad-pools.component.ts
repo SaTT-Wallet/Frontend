@@ -33,6 +33,9 @@ import introJs from 'intro.js';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { ProfileService } from '@app/core/services/profile/profile.service';
+import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
+import { ConvertFromWei } from '@app/shared/pipes/wei-to-sa-tt.pipe';
+import { Big } from 'big.js';
 @Component({
   selector: 'app-ad-pools',
   templateUrl: './ad-pools.component.html',
@@ -79,6 +82,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
   isChecked = false;
   private account$ = this.accountFacadeService.account$;
   private onDestoy$ = new Subject();
+  cryptoPrices: any;
   constructor(
     private accountFacadeService: AccountFacadeService,
     private campaignsListStoreService: CampaignsListStoreService,
@@ -92,14 +96,15 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private profileService: ProfileService,
     public translate: TranslateService,
-    public modalService: NgbModal
+    public modalService: NgbModal,
+    private convertFromWeiTo: ConvertFromWei,
+    private walletFacade: WalletFacadeService
   ) {}
 
   ngOnInit(): void {
     this.onBoarding();
     this.loadCampaigns();
   }
-
   getUserPic() {
     this.subscription = this.account$
       .pipe(
@@ -132,8 +137,22 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
               this.user.userPicture = this.user?.picLink;
             }
           }
-
-          // TODO: load campaigns list here
+          return of(null);
+        }),
+        mergeMap(() => {
+          return this.walletFacade.getCryptoPriceList().pipe(
+            filter((res) => {
+              return res !== null;
+            }),
+            map((res: any) => res.data),
+            tap((cryptoPrices) => (this.cryptoPrices = cryptoPrices))
+          );
+        }),
+        // this.walletFacade.getCryptoPriceList()
+        //       .pipe(
+        //         map((res: any) => res.data)),
+        // TODO: load campaigns list here
+        mergeMap(() => {
           return this.campaignsListStoreService.list$.pipe(
             map((pages: Page<Campaign>[]) =>
               _.flatten(pages.map((page: Page<Campaign>) => page.items))
@@ -151,6 +170,23 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
         this.campaignsList = campaigns;
         this.campaignsList2 = campaigns;
         this.campaignsList?.forEach((element: Campaign) => {
+          if (element.currency.name === 'SATTPOLYGON')
+            element.currency.name = 'MATIC';
+          if (element.currency.name === 'SATTBEP20')
+            element.currency.name = 'SATT';
+          if (this.cryptoPrices) {
+            element.budgetUsd = new Big(
+              this.cryptoPrices[element.currency.name].price + ''
+            )
+              .times(
+                this.convertFromWeiTo.transform(
+                  element.budget,
+                  element.currency.name,
+                  2
+                )
+              )
+              .toFixed(2);
+          }
           if (typeof element.startDate == 'number') {
             element.startDate = new Date(element.startDate * 1000);
           }
@@ -219,12 +255,29 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
       this.getUserPic();
     } else {
       // TODO: load campaigns list here
-      this.campaignsListStoreService.list$
-        .pipe(filter((data) => data[0].size !== 0))
+      // this.campaignsListStoreService.list$
+      //   .pipe(filter((data) => data[0].size !== 0))
+      //   .pipe(
+      //     map((pages: Page<Campaign>[]) => {
+      //       this.isLoading = false;
+      //       return _.flatten(pages.map((page: Page<Campaign>) => page.items));
+      //     }),
+      //     takeUntil(this.onDestoy$)
+      //   )
+      this.walletFacade
+        .getCryptoPriceList()
         .pipe(
-          map((pages: Page<Campaign>[]) => {
-            this.isLoading = false;
-            return _.flatten(pages.map((page: Page<Campaign>) => page.items));
+          filter((res) => {
+            return res !== null;
+          }),
+          map((res: any) => res.data),
+          tap((cryptoPrices) => (this.cryptoPrices = cryptoPrices)),
+          mergeMap(() => {
+            return this.campaignsListStoreService.list$.pipe(
+              map((pages: Page<Campaign>[]) =>
+                _.flatten(pages.map((page: Page<Campaign>) => page.items))
+              )
+            );
           }),
           takeUntil(this.onDestoy$)
         )
@@ -235,6 +288,25 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
             }
             this.campaignsList = campaigns;
             this.campaignsList2 = campaigns;
+            this.campaignsList?.forEach((element: Campaign) => {
+              if (element.currency.name === 'SATTPOLYGON')
+                element.currency.name = 'MATIC';
+              if (element.currency.name === 'SATTBEP20')
+                element.currency.name = 'SATT';
+              if (this.cryptoPrices) {
+                element.budgetUsd = new Big(
+                  this.cryptoPrices[element.currency.name].price + ''
+                )
+                  .times(
+                    this.convertFromWeiTo.transform(
+                      element.budget,
+                      element.currency.name,
+                      2
+                    )
+                  )
+                  .toFixed(2);
+              }
+            });
             // this.campaignsList = campaigns.filter(
             //   (campaign: Campaign) => campaign.isDraft === false
             // );

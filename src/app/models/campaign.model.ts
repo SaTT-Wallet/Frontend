@@ -41,6 +41,7 @@ export class Campaign {
   tokenStorageService!: TokenStorageService;
   missions: [];
   isOwnedByUser = false;
+  budgetUsd: string;
   constructor(data?: ICampaignResponse) {
     this.id = data?._id || '';
     this.hash = data?.hash || null;
@@ -98,6 +99,7 @@ export class Campaign {
     this.urlPicUser = data?.urlPicUser || '';
     this.type = data?.type || '';
     this.missions = data?.missions || [];
+    this.budgetUsd = '';
   }
 
   get isDraft(): boolean {

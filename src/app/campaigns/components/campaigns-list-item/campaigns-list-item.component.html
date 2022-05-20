@@ -196,7 +196,7 @@
       </h3>
     </div>
 
-    <h3 class="pink-text mt-2" *ngIf="campaign?.hash">
+    <h3 class="pink-text mt-1 mb-0 d-flex flex-column" *ngIf="campaign?.hash">
       <span class="campaign-funds-details d-flex justify-content-center">
         <span class="d-flex align-items-center">
           {{ 'Monetize.funds' | translate }}:
@@ -210,6 +210,11 @@
               getCurrencyName(campaign)
             }}.svg"
           />
+        </span>
+      </span>
+      <span class="under_gains d-flex justify-content-center">
+        <span class="d-flex align-items-center">
+          ~${{ campaign.budgetUsd || '0' }}
         </span>
       </span>
     </h3>

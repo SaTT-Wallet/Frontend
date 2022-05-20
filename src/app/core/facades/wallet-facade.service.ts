@@ -194,6 +194,20 @@ export class WalletFacadeService {
     this.walletStoreService.getEtherGaz();
   }
 
+
+
+  // Get polygon gaz from api: use it only in case of real time data;
+  // recommended to use $polygonGaz attribute
+  getPolygonGaz() {
+    return this.cryptofetchServiceService.getPolygonGaz();
+  }
+
+  loadPolygonGaz() {
+    this.walletStoreService.getPolygonGaz();
+  }
+
+
+
   // Get bnb gaz from api: use it only in case of real time data;
   // recommended to use $bnbGaz attribute
   getBnbGaz() {
