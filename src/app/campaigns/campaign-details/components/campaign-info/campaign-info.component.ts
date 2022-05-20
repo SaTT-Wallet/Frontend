@@ -370,7 +370,14 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
       // .getlistTokens()
       .getCryptoPriceList()
       .pipe(
-        map((res: any) => res.data[this.currencyName]),
+        map(
+          (res: any) =>
+            res.data[
+              ['SATTPOLYGON', 'SATTBEP20'].includes(this.currencyName)
+                ? 'SATT'
+                : this.currencyName
+            ]
+        ),
         map((crypto: any) =>
           new Big(crypto.price + '')
             .times(
@@ -477,7 +484,10 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
 
   ngOnChanges() {
     this.currencyName = this.campaign.currency.name;
-    if (this.currencyName === 'SATTBEP20') {
+    if (
+      this.currencyName === 'SATTBEP20' ||
+      this.currencyName === 'SATTPOLYGON'
+    ) {
       this.currencyName = 'SATT';
     }
     this.etherInWei = ListTokens[this.currencyName].decimals;
