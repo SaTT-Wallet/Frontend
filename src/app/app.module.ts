@@ -17,8 +17,7 @@ import { HelpComponent } from './components/help/help.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TransferHttpCacheModule } from '@nguniversal/common';
 import { translateBrowserLoaderFactory } from '@core/loaders/translate-browser.loader';
-import { QRCodeMode } from '@zxing/library';
-import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { GoogleTagManagerModule } from 'angular-google-tag-manager';
 
 @NgModule({
   declarations: [
@@ -49,6 +48,9 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
       maxAge: 25, // Retains last 25 states
       logOnly: environment.production, // Restrict extension to log-only mode
       autoPause: true // Pauses recording actions and state changes when the extension window is not open
+    }),
+    GoogleTagManagerModule.forRoot({
+      id: environment.gmtId
     })
   ],
   providers: [{ provide: 'isBrowser', useValue: true }],

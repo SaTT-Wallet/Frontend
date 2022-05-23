@@ -29,8 +29,8 @@ export const environment = {
   etherscan: 'https://etherscan.io/tx/',
   bscanaddr: 'https://bscscan.com/address/',
   etherscanaddr: 'https://etherscan.io/address/',
-  simplexUrl: 'https://checkout.simplexcc.com/payments/new'
-
+  simplexUrl: 'https://checkout.simplexcc.com/payments/new',
+  gmtId: 'GTM-W8VRJBZ'
   /*
   DEV-ENV
 */

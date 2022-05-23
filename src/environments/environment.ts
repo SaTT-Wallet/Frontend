@@ -39,7 +39,8 @@ export const environment = {
   bscanaddr: 'https://testnet.bscscan.com/address/',
   polygonscanAddr: 'https://mumbai.polygonscan.com/tx/',
   etherscanaddr: 'https://ropsten.etherscan.io/address/',
-  simplexUrl: 'https://sandbox.test-simplexcc.com/payments/new'
+  simplexUrl: 'https://sandbox.test-simplexcc.com/payments/new',
+  gmtId: 'GTM-P4Z7TKQ'
 
   /*  API_URL: 'https://api2.satt-token.com:3016',
   addresses: {
