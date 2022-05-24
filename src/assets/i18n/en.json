@@ -2858,6 +2858,8 @@
   "media_success": "Your media has been sent to the announcer!",
   "campaign_success": "The campaign has been successfully created !",
   "paragraph_succes": "You will be informed as soon as the advertiser has received it.",
+  "paragraph_success": "In the meantime, you can participate in another Ad Pool.",
+
   "send_new_post": "Send a new post",
   "Retour_aux_infos": "Back to campaign info",
   "titre_erreur": "Oops! There was a problem sending ...",
