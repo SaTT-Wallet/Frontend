@@ -171,7 +171,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
         this.campaignsList2 = campaigns;
         this.campaignsList?.forEach((element: Campaign) => {
           if (element.currency.name === 'SATTPOLYGON')
-            element.currency.name = 'MATIC';
+            element.currency.name = 'SATT';
           if (element.currency.name === 'SATTBEP20')
             element.currency.name = 'SATT';
           if (this.cryptoPrices) {

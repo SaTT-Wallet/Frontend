@@ -24,8 +24,8 @@ export class ConvertFromWei implements PipeTransform {
     if (!value || value === '0') return '0';
 
     let decimals = ListTokens[symbol].decimals.toString();
-    if (value === 'SATTBEP20') {
-      value = 'SATT';
+    if (symbol === 'SATTBEP20' || symbol === 'SATTPOLYGON') {
+      symbol = 'SATT';
     }
     return new Big(value).div(decimals).round(digits).toString();
   }

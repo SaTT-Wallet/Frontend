@@ -40,10 +40,11 @@ export class CampaignsListItemComponent implements OnInit {
     private campaignListStoreService: CampaignsListStoreService,
     private translate: TranslateService,
     private toastr: ToastrService,
-    private tokenStorageService: TokenStorageService
+    private tokenStorageService: TokenStorageService,
   ) {}
 
   ngOnInit(): void {
+
     this.currencyName = this.campaign.currency.name;
     if (this.currencyName === 'SATTBEP20') {
       this.currencyName = 'SATT';

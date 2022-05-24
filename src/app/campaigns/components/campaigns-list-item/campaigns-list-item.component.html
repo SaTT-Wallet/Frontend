@@ -200,7 +200,7 @@
       <span class="campaign-funds-details d-flex justify-content-center">
         <span class="d-flex align-items-center">
           {{ 'Monetize.funds' | translate }}:
-          {{ campaign.budget | fromWeiTo: currencyName:3 | number }}
+          {{  campaign.budget | fromWeiTo: currencyName:3 | number }}
         </span>
         <span class="d-flex align-items-center ml-1">
           <img
@@ -214,7 +214,7 @@
       </span>
       <span class="under_gains d-flex justify-content-center">
         <span class="d-flex align-items-center">
-          ~${{ campaign.budgetUsd || '0' }}
+          &asymp; ${{ campaign.budgetUsd || '0' }}
         </span>
       </span>
     </h3>
