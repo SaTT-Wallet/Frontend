@@ -2782,6 +2782,7 @@
   "ur_pass": "Mot de passe de transaction",
   "titre_succes": "Votre média a été envoyé à l'annonceur !",
   "paragraph_succes": "Vous serez informé dès que l'annonceur l'aura reçu.",
+  "paragraph_success": "En attendant, vous pouvez participer à un autre pool d'annonces.",
   "send_new_post": "Envoyer une nouvelle publication",
   "Retour_aux_infos": "Retour aux infos de la campagne",
   "titre_erreur": "Oups ! Il y a eu un souci lors de l’envoi... ",
