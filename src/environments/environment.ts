@@ -40,7 +40,7 @@ export const environment = {
   polygonscanAddr: 'https://mumbai.polygonscan.com/tx/',
   etherscanaddr: 'https://ropsten.etherscan.io/address/',
   simplexUrl: 'https://sandbox.test-simplexcc.com/payments/new',
-  gmtId: 'GTM-59LPDLD'
+  gmtId: 'GTM-K2RMTJ3'
 
   /*  API_URL: 'https://api2.satt-token.com:3016',
   addresses: {
