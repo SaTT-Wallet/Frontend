@@ -508,14 +508,11 @@ export class PasswordModalComponent implements OnInit {
         this.errorMessage =
           'You dont have enough BNB gaz (BNB : $ ' + this.bepGaz + ')';
         this.loadingButton = false;
-      }
-      else if (cryptoNetwork[token] === 'POLYGON') {
+      } else if (cryptoNetwork[token] === 'POLYGON') {
         this.errorMessage =
           'You dont have enough MATIC gaz (MATIC : $ ' + this.polygonGaz + ')';
         this.loadingButton = false;
-      }
-
-      else {
+      } else {
         this.errorMessage =
           'You dont have enough ETH gaz (ETH :$ ' + this.erc20Gaz + ')';
         this.loadingButton = false;
