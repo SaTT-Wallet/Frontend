@@ -176,11 +176,7 @@ else {
     this.amountdefault = this.sendform.get('currency')?.value;
    
   }
-  ngOnChanges(): void {
-    if (isPlatformBrowser(this.platformId) && window.innerWidth <= 768) {
-      this.emailPlaceholderText = "Id wallet"
-    }
-  }
+
   openqrcode(): void {
     this.showScanner = true;
   }
