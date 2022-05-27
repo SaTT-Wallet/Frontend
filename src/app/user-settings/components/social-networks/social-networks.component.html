@@ -81,9 +81,11 @@
           <img src="./assets/Images/linkedin-white.png" width="24px" />
           <span> {{ 'social_networks.add_linkedin' | translate }}</span>
         </button>
-        <button class="tiktok-btn-cnx">
+        <button class="tiktok-btn-cnx" (click)="onReditectSocial('tiktok')">
           <img src="./assets/Images/tiktok-white.svg" width="20px" />
-          <span> {{ 'social_networks.add_tiktok' | translate }}</span>
+          <span>
+            {{ 'social_networks.add_tiktok' | translate }}
+          </span>
         </button>
       </div>
     </div>
@@ -157,10 +159,10 @@
                 class="main-row row d-flex justify-content-center p-0 d-md-flex"
               >
                 <!-- <div class="titles row">
-                                    <div class="col">{{ "social_networks.ch_linked_acc" | translate }}</div> 
+                                    <div class="col">{{ "social_networks.ch_linked_acc" | translate }}</div>
                                    <div class="col txt-center">
                                         {{ "social_networks.nb_subsc" | translate }}
-                                    </div> 
+                                    </div>
                                     <div class="col txt-center">{{ "social_networks.activation" | translate }}</div>
                                 </div> -->
                 <table class="social-accounts-table w-100">
@@ -862,7 +864,7 @@
           <img src="./assets/Images/linkedin-white.png" width="24px" />
           <span> {{ 'social_networks.add_linkedin' | translate }}</span>
         </button>
-        <button class="tiktok-btn-cnx">
+        <button class="tiktok-btn-cnx" (click)="onReditectSocial('tiktok')">
           <img src="./assets/Images/tiktok-white.svg" width="20px" />
           <span> {{ 'social_networks.add_tiktok' | translate }}</span>
         </button>
