@@ -611,6 +611,169 @@
         </div>
       </div>
     </div>
+    <!-- -------------------- start bloc tiktok --------------------------- -->
+    <div *ngIf="channelTiktok?.length !== 0" id="networkTiktok" class="">
+      <hr />
+      <div class="account-bloc social-accounts-block">
+        <div
+          class="collapsed panel-heading account-name cursor_pntr"
+          data-toggle="collapse"
+          href="#collapseTiktok"
+          aria-expanded="false"
+          aria-controls="collapseTwitter"
+        >
+          <div class="col-1 col-md-1 col-sm-1 bloc-name">
+            <span class="network-logo">
+              <img width="35px" src="{{ networkLogoTiktok }}" />
+            </span>
+            <span class="acc-name">{{ nameAccount }}</span>
+          </div>
+          <div class="col-md-8 col-sm-9 network-type">
+            <p *ngIf="!showTiktokList" style="color: #75758f">
+              {{ 'social_networks_tiktok.linked' | translate }}
+            </p>
+            <p *ngIf="showTiktokList" style="color: #4048ff">
+              {{ 'social_networks_tiktok.linked' | translate }}
+            </p>
+          </div>
+          <button
+            style="border: none"
+            class="col-md-2 delete-account-bloc cursor-pointer desktop"
+            (click)="openModalDeleteAll(deleteAllModal, 'tiktok')"
+          >
+            <i class="fa fa-trash-o pinkTrash" aria-hidden="true"></i>
+            <span>{{ 'social_networks.delete' | translate }}</span>
+          </button>
+          <button
+            style="border: none"
+            class="col-1 col-md-1 delete-account-bloc cursor-pointer mobile"
+            (click)="openModalDeleteAll(deleteAllModal, 'tiktok')"
+          >
+            <i class="fa fa-trash-o pinkTrash" aria-hidden="true"></i>
+          </button>
+          <!-- (click)="toggelTwitterBlock()" -->
+          <div class="col-1 col-md-1 chev-down">
+            <i class="chevron fa fa-fw cursor_pntr"></i>
+            <!-- <i
+              *ngIf="!showTwitterList"
+              class="fa fa-chevron-down"
+              aria-hidden="true"
+            ></i>
+            <i
+              *ngIf="showTwitterList"
+              class="fa fa-chevron-up"
+              aria-hidden="true"
+            ></i> -->
+          </div>
+        </div>
+        <!-- *ngIf="showTwitterList" -->
+        <div class="collapse list-ch" id="collapseTiktok">
+          <div class="list-ch-body">
+            <div class="bar">
+              <hr />
+            </div>
+            <div class="ch-container">
+              <div class="titles row">
+                <!-- <div class="col">{{ "social_networks.ch_linked_acc" | translate }}</div> -->
+                <!-- <div class="col txt-center">
+                                        {{ "social_networks.nb_subsc" | translate }}
+                                    </div> -->
+                <!-- <div class="col txt-center">{{ "social_networks.activation" | translate }}</div> -->
+              </div>
+              <table class="social-accounts-table w-100">
+                <thead>
+                  <tr>
+                    <th class="sa-table-titles text-center col-3">Accounts</th>
+                    <th class="sa-table-titles text-center col-4">
+                      <img
+                        src="./assets/Images/followers.png"
+                        width="25px"
+                        alt=""
+                      />
+                    </th>
+                    <th class="sa-table-titles text-center col-3">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="
+                      let ch of channelTiktok;
+                      let i = index;
+                      trackBy: trackBuChannelDisplayName
+                    "
+                  >
+                    <td>
+                      <div
+                        class="d-flex align-items-center cursor-pointer"
+                        (click)="goToAccount('tiktok', ch.username)"
+                      >
+                        <img
+                          class="ch-image"
+                          src="{{ ch.profileImage }}"
+                          (error)="onImgError($event)"
+                        />
+                        <span class="ch-name me-3">{{ ch.displayName }}</span>
+                      </div>
+                    </td>
+                    <td class="text-center">
+                      <!-- <span class="sa-subscribers-number"
+                        >{{}}
+                        <span class="desktop">
+                          {{ 'social_networks.follower' | translate
+                          }}<span *ngIf="">s</span>
+                        </span>
+                      </span> -->
+                    </td>
+                    <td class="text-center">
+                      <div class="action">
+                        <!--<button (click)="socialStateTwitter(i)" class="btn-on">
+                          <img
+                            *ngIf="!ch.deactivate"
+                            src="/assets/Images/on.svg"
+                            alt=""
+                          />
+                          <img
+                            *ngIf="ch.deactivate"
+                            src="/assets/Images/off.svg"
+                            alt=""
+                          />
+                        </button>-->
+                        <button
+                          (click)="
+                            openModalDeleteOne(
+                              deleteOneModal,
+                              'tiktok',
+                              ch._id,
+                              'tiktok',
+                              ch.displayName
+                            )
+                          "
+                        >
+                          <span class="btn-del"></span>
+                        </button>
+
+                        <!-- <ui-switch
+                              class="d-flex align-self-center"
+                              id="toggle"
+                              (change)="toggleSocialAccount($event)"
+                              [checked]="true"
+                            >
+                            </ui-switch> -->
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="btn-action pb-4">
+            <button (click)="onReditectSocial('tiktok')">
+              + {{ 'social_networks.add_tiktok' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
     <!----------------------------------- start bloc facebook / insta---------------------------------------->
     <div
       *ngIf="channelFacebook?.length !== 0"
