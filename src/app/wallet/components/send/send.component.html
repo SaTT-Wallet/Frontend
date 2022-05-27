@@ -100,7 +100,9 @@
               type="text"
               [(ngModel)]="contactWallet"
               id="receive_contact"
-              placeholder="Id wallet or QR code"
+              [placeholder]="emailPlaceholderText"
+            
+              
             />
           </div>
         </div>
