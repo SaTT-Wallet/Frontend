@@ -212,12 +212,12 @@ export class BuyTokenComponent implements OnInit, OnChanges {
           this.selectedtLogo = p.symbol;
           this.wallet_id = p.wallet;
           this.selectedTargetCurrency = p.currency;
-        } else if (p.gaz === 'ERC20') {
+        } else if (p.gaz === 'ETH') {
           this.toggleCurrencyType(ECurrencyType.FIAT);
 
           this.toggleNetwork(EBlockchainNetwork.ERC20);
           this.requestedCrypto = 'ETH';
-        } else if (p.gaz === 'BEP20') {
+        } else if (p.gaz === 'BNB') {
           this.toggleCurrencyType(ECurrencyType.FIAT);
           this.toggleNetwork(EBlockchainNetwork.BEP20);
           this.requestedCrypto = 'BNB';
