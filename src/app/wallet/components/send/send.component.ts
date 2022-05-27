@@ -6,7 +6,8 @@ import {
   AfterViewChecked,
   OnDestroy,
   Inject,
-  PLATFORM_ID
+  PLATFORM_ID,
+  HostListener
 } from '@angular/core';
 
 import { Big } from 'big.js';
@@ -42,6 +43,7 @@ import { Router } from '@angular/router';
 })
 export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('inputAmountUsd') inputAmountUsd?: ElementRef;
+  emailPlaceholderText= "Id wallet"
   sendform: FormGroup;
   typetab: string = '';
   btcCode: string = '';
@@ -109,6 +111,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   contactWallet: string = '';
   maxNumber: number = 999999999;
   sattBalance: any;
+  
   allowedFormats = [
     BarcodeFormat.QR_CODE,
     BarcodeFormat.EAN_13,
@@ -118,6 +121,25 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   qrResultString: string | null | undefined;
   showScanner: boolean = false;
   private kyc$ = this.kycFacadeService.kyc$;
+  query = '(max-width: 767.98px)';
+  mediaQueryList?: MediaQueryList;
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+
+    if (isPlatformBrowser(this.platformId) && event) {
+      this.mediaQueryList = window.matchMedia(this.query);
+
+      if (this.mediaQueryList?.matches) {
+               this.emailPlaceholderText = "Id wallet or QR code"}
+else {
+  this.emailPlaceholderText = "Id wallet"
+
+}
+
+      
+    }
+  }
   constructor(
     private accountFacadeService: AccountFacadeService,
     public sidebarService: SidebarService,
@@ -134,6 +156,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     private kycFacadeService: KycFacadeService,
     private router: Router
   ) {
+
     //, Validators.max(this.maxNumber)
     this.sendform = new FormGroup({
       contact: new FormControl(null, {
@@ -151,6 +174,12 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.getusercrypto();
     this.getProfileDetails();
     this.amountdefault = this.sendform.get('currency')?.value;
+   
+  }
+  ngOnChanges(): void {
+    if (isPlatformBrowser(this.platformId) && window.innerWidth <= 768) {
+      this.emailPlaceholderText = "Id wallet"
+    }
   }
   openqrcode(): void {
     this.showScanner = true;
