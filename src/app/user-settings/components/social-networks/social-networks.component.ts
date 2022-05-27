@@ -29,6 +29,7 @@ export class SocialNetworksComponent implements OnInit {
   networkLogoTwitter = './assets/Images/twitter.svg';
   networkLogoInstagram = './assets/Images/img_satt/Instagram.png';
   networkLogoLinkedin = './assets/Images/linkedin-icon.svg';
+  networkLogoTiktok = './assets/Images/tikTok.svg';
   accounts: any;
   accountsTwitter: any;
   channelId: string = '';
@@ -45,15 +46,18 @@ export class SocialNetworksComponent implements OnInit {
   channelFacebook: any;
   channelInstagram: any;
   channelLinkedin: any;
+  channelTiktok: any;
   allChannels: any;
   showGoogleList: boolean = false;
   showTwitterList: boolean = false;
   showFacebookList: boolean = false;
   showLinkedinList: boolean = false;
+  showTiktokList = false;
   deactivateGoogle: boolean = false;
   deactivateLinkedin: boolean = false;
   deactivateTwitter: boolean = false;
   deactivateFacebook: boolean = false;
+  deactivateTiktok = false;
   networkName: string = '';
   percentSocial: any;
   private isDestroyed = new Subject();
@@ -120,6 +124,7 @@ export class SocialNetworksComponent implements OnInit {
           this.channelTwitter = data.twitter;
           this.channelFacebook = data.facebook;
           this.channelLinkedin = data.linkedin;
+          this.channelTiktok = data.tikTok;
 
           this.setUrlMsg(params, data);
 
@@ -152,6 +157,14 @@ export class SocialNetworksComponent implements OnInit {
           } else {
             this.channelLinkedin?.forEach((ch: any) => {
               this.deactivateLinkedin = !!data.linkedin[ch].deactivate;
+            });
+          }
+
+          if (this.channelTiktok?.length !== 0) {
+            count++;
+          } else {
+            this.channelTiktok?.forEach((ch: any) => {
+              this.deactivateTiktok = !!data.tiktok[ch].deactivate;
             });
           }
           let stat = (count * 100) / 4;
@@ -272,6 +285,9 @@ export class SocialNetworksComponent implements OnInit {
   }
   toggelLinkedinBlock() {
     this.showLinkedinList = !this.showLinkedinList;
+  }
+  toggelTiktokBlock() {
+    this.showTiktokList = !this.showTiktokList;
   }
 
   deleteAccount(id: string, network: string) {
