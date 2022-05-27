@@ -525,7 +525,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               this.nobalance = true;
               setTimeout(() => {
                 this.nobalance = false;
-              }, 2000);
+              }, 4000);
             } else if (
               error.error.error === 'insufficient funds for gas' ||
               error.error.error ===
