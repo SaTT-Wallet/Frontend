@@ -379,6 +379,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
         crypto.name.includes('SATT') &&
         crypto.type.toUpperCase() === this.selectedBlockchainNetwork
     );
+  
 
     this.switchTokensWhenIdentical();
 
@@ -495,6 +496,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       ).symbole;
 
       this.fromSwapCrypto = this.targetCurrencyList[0] as Crypto;
+     
     }
   }
 
@@ -539,7 +541,26 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       event.preventDefault();
     }
   }
+  CurrencyBnB(){
+  
 
+    if (this.toSwapCrypto.contract == "0xdac17f958d2ee523a2206206994597c13d831ec7"){
+      this.toSwapCrypto.contract = "BNB"
+    }
+    if (this.fromSwapCrypto.contract === "0xdac17f958d2ee523a2206206994597c13d831ec7"){
+      this.fromSwapCrypto.contract = "BNB"
+    }
+  }
+  CurrencyETH(){
+    
+
+    if (this.toSwapCrypto.contract == "0xdac17f958d2ee523a2206206994597c13d831ec7"){
+      this.toSwapCrypto.contract = "ETH"
+    }
+    if (this.fromSwapCrypto.contract === "0xdac17f958d2ee523a2206206994597c13d831ec7"){
+      this.fromSwapCrypto.contract = "ETH"
+    }
+  }
   convertCryptoUnitToUSD() {
     this.cryptoList$
       .pipe(filter((res) => res != null))
