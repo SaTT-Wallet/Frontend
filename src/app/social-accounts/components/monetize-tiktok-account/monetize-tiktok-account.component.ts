@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-facade/socialAcounts-facade.service';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
@@ -6,6 +6,8 @@ import { SocialAccountsFacade } from '@app/social-accounts/facade/social-account
 import { ESocialMediaNames } from '@app/core/enums';
 import { catchError, takeUntil } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
+import { sattUrl } from '@app/config/atn.config';
 
 @Component({
   selector: 'app-monetize-tiktok-account',
@@ -26,7 +28,8 @@ export class MonetizeTiktokAccountComponent implements OnInit {
     private route: ActivatedRoute,
     private socialAccountsFacade: SocialAccountsFacade,
     private socialAccountFacadeService: SocialAccountFacadeService,
-    private tokenStorageService: TokenStorageService
+    private tokenStorageService: TokenStorageService,
+    @Inject(PLATFORM_ID) private platformId: string
   ) {}
 
   ngOnInit(): void {
@@ -36,27 +39,27 @@ export class MonetizeTiktokAccountComponent implements OnInit {
   }
   skipPage() {
     this.socialAccountsFacade.pageVisited(ESocialMediaNames.tiktok);
-    this.router.navigate(['social-registration/monetize-linkedin']);
+    this.router.navigate(['social-registration/socialConfig']);
   }
   linkAccount() {
-    // if (isPlatformBrowser(this.platformId))
-    //   window.location.href =
-    //     sattUrl +
-    //     '/profile/addChannel/tiktok/' +
-    //     this.userId +
-    //     '?redirect=' +
-    //     this.router.url;
+    if (isPlatformBrowser(this.platformId))
+      window.location.href =
+        sattUrl +
+        '/profile/addChannel/tiktok/' +
+        this.userId +
+        '?redirect=' +
+        this.router.url;
   }
   deleteLink() {
-    // this.socialAccountFacadeService
-    //   .deleteOneSocialNetworksTwitter(this.channelTiktok[0]._id)
-    //   .pipe(takeUntil(this.onDestoy$))
-    //   .subscribe((response: any) => {
-    //     if (response.message === 'deleted successfully') {
-    //       this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
-    //       this.ngOnInit();
-    //     }
-    //   });
+    this.socialAccountFacadeService
+      .deleteOneSocialNetworksTwitter((this.channelTiktok[0] as any)._id)
+      .pipe(takeUntil(this.onDestoy$))
+      .subscribe((response: any) => {
+        if (response.message === 'deleted successfully') {
+          this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
+          this.ngOnInit();
+        }
+      });
   }
   skipAll() {
     this.socialAccountsFacade.pageVisited(ESocialMediaNames.facebook);
