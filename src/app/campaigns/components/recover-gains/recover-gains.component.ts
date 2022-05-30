@@ -60,7 +60,10 @@ export class RecoverGainsComponent implements OnInit {
     concatMap((prom: Participation) => {
       return this.walletFacade.getCryptoPriceList().pipe(
         tap(() => {
-          if (this.currencyName === 'SATTBEP20') {
+          if (
+            this.currencyName === 'SATTBEP20' ||
+            this.currencyName === 'SATTPOLYGON'
+          ) {
             this.currencyName = 'SATT';
           }
         }),

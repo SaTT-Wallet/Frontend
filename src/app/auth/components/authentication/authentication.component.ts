@@ -348,7 +348,7 @@ getCookie(key: string){
             }
           }
           if (p.token) {
-            this.showBigSpinner = false;
+            this.showBigSpinner = true;
             let token = JSON.parse(p.token);
             this.tokenStorageService.saveToken(token.access_token);
             this.tokenStorageService.saveExpire(token.expires_in);
@@ -362,6 +362,7 @@ getCookie(key: string){
           }
         }),
         filter(({ response }: any) => {
+
           return response !== null;
         }),
         catchError(() => {
@@ -376,6 +377,7 @@ getCookie(key: string){
           this.tokenStorageService.saveUserId(response.idUser);
           this.tokenStorageService.saveIdSn(response.idSn.toString());
           this.idUser = Number(response.idUser);
+          
           if (response.is2FA === true) {
             this.tokenStorageService.setItem('valid2FA', 'false');
             this.confirmCodeShow = true;
