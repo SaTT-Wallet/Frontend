@@ -81,7 +81,7 @@ export class MonetizeGoogleAccountComponent implements OnInit, OnDestroy {
   }
   skipPage() {
     this.socialAccountsFacade.pageVisited(ESocialMediaNames.youtube);
-    this.router.navigate(['social-registration/socialConfig']);
+    this.router.navigate(['social-registration/monetize-tiktok']);
   }
   skipAll() {
     this.socialAccountsFacade.pageVisited(ESocialMediaNames.facebook);

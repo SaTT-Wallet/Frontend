@@ -81,3 +81,7 @@ li {
 .cursor-pointer {
     cursor: pointer;
 }
+
+.step-icon-img {
+  width: 35px;
+}
