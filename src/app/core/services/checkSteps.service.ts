@@ -70,6 +70,14 @@ export class checkStepsService implements CanActivate {
       } else {
         return false;
       }
+    } else if (url === 'monetize-tiktok') {
+      if (
+        this.tokenStorageService.getSecureWallet('visited-google') === 'true'
+      ) {
+        return true;
+      } else {
+        return false;
+      }
     }
     //  else if (url === 'monetize-facebook') {
     //   if (
@@ -108,7 +116,7 @@ export class checkStepsService implements CanActivate {
     // }
     else if (url === 'socialConfig') {
       if (
-        this.tokenStorageService.getSecureWallet('visited-google') === 'true'
+        this.tokenStorageService.getSecureWallet('visited-tiktok') === 'true'
       ) {
         return true;
       } else {
