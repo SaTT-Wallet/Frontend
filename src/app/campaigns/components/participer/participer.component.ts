@@ -1170,12 +1170,16 @@ export class ParticiperComponent implements OnInit {
                   errorMessage: 'error'
                 }
               });
-
               if (this.networkWallet === 'bep20') {
                 this.error = 'out_of_gas_bnb';
                 this.success = '';
-              } else {
+              } 
+              else if (this.networkWallet === 'erc20'){
                 this.error = 'out_of_gas_eth';
+                this.success = '';
+              }
+              else {
+                this.error = 'out_of_gas_matic';
                 this.success = '';
               }
             }

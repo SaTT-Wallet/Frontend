@@ -2721,7 +2721,7 @@
   "out_of_gas_error": "panne gas",
   "out_of_gas_bnb": "Vous n'avez pas assez de gaz BNB",
   "out_of_gas_eth": "Vous n'avez pas assez de gaz ETH",
-
+  "out_of_gas_matic": "Vous n'avez pas assez de gaz MATIC",
   "wrong_password_error": "Mot de passe incorrect !!",
   "get_my_earning_btn_text": "obtenir mon revenu",
   "media_rejected_text": "Ce lien a été rejeté !",
