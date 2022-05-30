@@ -2893,6 +2893,7 @@
   "out_of_gas_error": "You need more gas to make this transaction",
   "out_of_gas_bnb": "You dont have enough BNB gaz",
   "out_of_gas_eth": "You dont have enough ETH gaz",
+  "out_of_gas_matic": "You dont have enough MATIC gaz",
   "activate-oracle-facebook": "Start monetizing your Facebook audience today, the easy way!",
   "activate-oracle-telegram": "Transform Telegram into cash flow through monetization",
   "activate-oracle-google": "Generate some green on Google through audience monetization.",
