@@ -527,6 +527,7 @@
                 selectedCurrencyType === eCurrencyType.BEP20 &&
                 selectedBlockchainNetwork === eBlockchainNetwork.BEP20
               "
+              (click)="CurrencyBnB()"
               href="https://pancakeswap.finance/swap?outputCurrency={{
                 toSwapCrypto.contract
               }}&inputCurrency={{ fromSwapCrypto.contract }}"
@@ -545,11 +546,15 @@
 
             <a
               class="buy-swap-btn"
+              (click)="CurrencyETH()"
               *ngIf="
                 selectedCurrencyType === eCurrencyType.ERC20 &&
                 selectedBlockchainNetwork === eBlockchainNetwork.ERC20
               "
               href="https://app.uniswap.org/#/swap"
+              href="https://app.uniswap.org/#/swap?outputCurrency={{
+                toSwapCrypto.contract
+              }}&inputCurrency={{ fromSwapCrypto.contract }}"
               target="_blank"
             >
               <img
