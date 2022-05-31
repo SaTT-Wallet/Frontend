@@ -258,7 +258,7 @@
   "apply_form.not_specified": "Non renseigné",
   "apply_form.verify_information": "Merci de vérifier ces informations",
   "apply_form.youtube_alert": "Vous devez renseigner l'adresse de votre chaîne Youtube avant de pouvoir postuler.",
-  "apply_campaign": "Vous avez postulé à la campagne suivante:{{title}}. hash:",
+  "apply_campaign": "Vous avez postulé à la campagne suivante:{{title}}. hash: {{hash}}",
   "apply_campaign_hash": "{{hash}}",
   "cmp_candidate_accept_link_hash": "{{hash}}",
   "asked_cryptoCurrency": "{{name}} vous demande {{nbr}}",

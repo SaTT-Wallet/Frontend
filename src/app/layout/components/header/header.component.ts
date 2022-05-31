@@ -820,7 +820,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
             item._label['currency'] === 'SATTBEP20' ||
               item._label['currency'] === 'SATTPOLYGON'
               ? 'SATT': item.label['currency'],
-        
+
         */
       //////////////////////////////////////////
 
@@ -864,7 +864,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         break;
 
       //////////////////////////////////////////
-      case 'apply_campaign':
+      case 'apply_campaign': {
         item._params = {
           title: item._label['cmp_name'],
           owner: item._label['cmp_owner'],
@@ -873,6 +873,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
         item._label = 'apply_campaign';
         item.img = './assets/Images/notifIcons/CandidValid.svg';
         break;
+      }
+
       case 'rejected_link':
         item._params = {
           name: item._label['cmp_name'],
