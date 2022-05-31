@@ -530,10 +530,13 @@ export class CryptoListComponent implements OnInit, OnDestroy {
       sum =
         parseFloat(crypto.total_balance) +
         parseFloat(crypto.cryptoBEP20.total_balance);
-    } else if (!!crypto.cryptoPOLYGON) {
+    } if (!!crypto.cryptoPOLYGON) {
+     
       sum =
         parseFloat(crypto.total_balance) +
+        parseFloat(crypto.cryptoBEP20.total_balance) + 
         parseFloat(crypto.cryptoPOLYGON.total_balance);
+
     } else {
       sum = crypto.total_balance;
     }
@@ -551,7 +554,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     }
     if (!!crypto.cryptoPOLYGON) {
       sum =
-        parseFloat(crypto.quantity) + parseFloat(crypto.cryptoPOLYGON.quantity);
+        parseFloat(crypto.quantity) + parseFloat(crypto.cryptoPOLYGON.quantity) + parseFloat(crypto.cryptoBEP20.quantity);
     } else {
       sum = crypto.quantity;
     }
@@ -596,9 +599,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
         .pipe(take(1), takeUntil(this.onDestroy$))
         .subscribe((data: string) => {
           if (data === 'buy') {
-            // console.log(crypto,'crypto.AddedToken',crypto.AddedToken);
             if (crypto.AddedToken) {
-              // console.log(crypto.network ,'crypto.AddedToken');
 
               if (crypto.network === 'ERC20') {
                 if (isPlatformBrowser(this.platformId))
