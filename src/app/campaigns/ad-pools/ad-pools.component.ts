@@ -36,6 +36,7 @@ import { ProfileService } from '@app/core/services/profile/profile.service';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { ConvertFromWei } from '@app/shared/pipes/wei-to-sa-tt.pipe';
 import { Big } from 'big.js';
+import { ShowNumbersRule } from '@shared/pipes/showNumbersRule';
 @Component({
   selector: 'app-ad-pools',
   templateUrl: './ad-pools.component.html',
@@ -63,19 +64,23 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
   @ViewChild('welcomeModal', { static: false })
   public welcomeModal!: TemplateRef<any>;
 
-  totalBudgetInvested$ = this.campaignService.getTotalInvestetd().pipe(
+  totalBudgetInvested$ = this.campaignService.getTotalInvestetd()
+  .pipe(
     catchError(() => {
       return of('0');
     }),
-    map((r: any) => r.data.totalInvested)
+    map((r: any) => this.showNumbersRule.transform(r.data.totalInvested),
+    )
   );
 
+  
   totalBudgetInvestedInUSD$ = this.campaignService.getTotalInvestetd().pipe(
     catchError(() => {
       return of('0');
     }),
-    map((r: any) => r.data.totalInvestedUSD)
+    map((r: any) => this.showNumbersRule.transform(r.data.totalInvestedUSD))
   );
+
   idcamp: any;
   isFormatGrid = true;
   percentProfil: any;
@@ -98,10 +103,15 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
     public translate: TranslateService,
     public modalService: NgbModal,
     private convertFromWeiTo: ConvertFromWei,
-    private walletFacade: WalletFacadeService
+    private walletFacade: WalletFacadeService,
+    private showNumbersRule: ShowNumbersRule,
+
   ) {}
 
   ngOnInit(): void {
+
+   
+
     this.onBoarding();
     this.loadCampaigns();
   }
