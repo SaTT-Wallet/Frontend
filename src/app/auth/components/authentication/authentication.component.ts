@@ -347,6 +347,7 @@ getCookie(key: string){
             }
           }
           if (p.token) {
+            
             this.showBigSpinner = false;
             let token = JSON.parse(p.token);
             this.tokenStorageService.saveToken(token.access_token);
@@ -373,7 +374,7 @@ getCookie(key: string){
         mergeMap((response: User) => {
           this.tokenStorageService.setHeader();
           this.tokenStorageService.saveUserId(response.idUser);
-          this.tokenStorageService.saveIdSn(response.idSn.toString());
+          this.tokenStorageService.saveIdSn(response.idSn?.toString());
           this.idUser = Number(response.idUser);
           if (response.is2FA === true) {
             this.tokenStorageService.setItem('valid2FA', 'false');
