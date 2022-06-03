@@ -30,6 +30,7 @@ import { TokenStorageService } from '@core/services/tokenStorage/token-storage-s
 import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-participer',
@@ -81,6 +82,7 @@ export class ParticiperComponent implements OnInit {
   idfaceook: any;
   idinstagram: any;
   idlinkedin: any;
+  idtiktok: any;
   sharedid: any;
   accountDeactivatedError = false;
   // @ViewChild('draggable') private draggableElement: ElementRef | undefined;
@@ -102,6 +104,7 @@ export class ParticiperComponent implements OnInit {
   ratioLink: boolean = false;
   isGoogleUrl: boolean = false;
   gazproblem: boolean = false;
+  embedTiktokVideo: any;
   constructor(
     private router: Router,
     public CampaignService: CampaignHttpApiService,
@@ -110,6 +113,7 @@ export class ParticiperComponent implements OnInit {
     private tokenStorageService: TokenStorageService,
     private Fetchservice: CryptofetchServiceService,
     private walletFacade: WalletFacadeService,
+    private sanitizer: DomSanitizer,
     private renderer: Renderer2,
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string
@@ -1026,6 +1030,112 @@ export class ParticiperComponent implements OnInit {
         this.success = '';
         this.loadingButton = false;
       }
+    } else if (media.indexOf('tiktok.com') !== -1) {
+      this.idtiktok = media.split('video/')[1].split('?')[0];
+      this.embedTiktokVideo = this.sanitizer.bypassSecurityTrustHtml(`
+        <iframe
+          src="https://www.tiktok.com/embed/v2/${this.idtiktok}"
+          width="400"
+          height="750"
+          frameborder="0"
+          allowfullscreen
+        >
+        </iframe>`);
+
+      myApplication.idPost = this.idtiktok;
+      myApplication.idUser = '0';
+      myApplication.typeSN = 6;
+
+      this.userfaceook = '';
+      this.idinstagram = '';
+      this.idstatus = '';
+      this.idlinkedin = '';
+
+      this.application = myApplication;
+
+      if (this.application) {
+        this.tokenStorageService.setIdPost(myApplication.idPost);
+        this.tokenStorageService.setIdUserPost(myApplication.idUser);
+        this.tokenStorageService.setTypeSN(myApplication.typeSN);
+      } else {
+        myApplication.idPost = this.tokenStorageService.getIdPost();
+        myApplication.idUser = this.tokenStorageService.getIdUserPost();
+        myApplication.typeSN = this.tokenStorageService.getTypeSN();
+
+        this.application = myApplication;
+      }
+
+      if (performance.find((ratio: any) => ratio.oracle === 'tikTok')) {
+        //TODO: send correct json
+        this.CampaignService.verifyLink(this.application)
+          .pipe(takeUntil(this.isDestroyedSubject))
+          .subscribe(
+            (data: any) => {
+              if (
+                data.message === 'success' &&
+                data.code === 200 &&
+                data.data === 'true'
+              ) {
+                this.linked = true;
+                this.getdatavideo();
+                this.loadingButton = false;
+                this.spinner = false;
+              } else if (
+                data.data === 'false' &&
+                data.code === 200 &&
+                data.message === 'success'
+              ) {
+                this.error = 'Not_your_link';
+                this.oracleType = 'tiktok';
+                this.success = '';
+                this.loadingButton = false;
+                this.router.navigate([], {
+                  queryParams: {
+                    errorMessage: 'error'
+                  }
+                });
+              }
+            },
+            (err) => {
+              this.spinner = false;
+
+              if (
+                err.error.error === 'account not linked' &&
+                err.error.code === 406
+              ) {
+                this.connectValue = 'google';
+                this.errorResponse = 'google';
+                this.error = '';
+                this.success = '';
+                this.loadingButton = false;
+              } else if (
+                err.error.error === 'invalid link' &&
+                err.error.code === 406
+              ) {
+                this.connectValue = 'tiktok';
+                this.errorResponse = 'tiktok';
+                this.error = '';
+                this.success = '';
+                this.loadingButton = false;
+              } else if (
+                err.error.error === 'account deactivated' &&
+                err.error.code === 405
+              ) {
+                this.error = 'account_deactivated_error';
+              } else {
+                this.error = 'Default';
+                this.errorDescription = 'Default paragraphe';
+                this.success = '';
+                this.loadingButton = false;
+              }
+            }
+          );
+      } else {
+        this.spinner = false;
+        this.error = 'oracle_not_exist';
+        this.success = '';
+        this.loadingButton = false;
+      }
     } else {
       this.validUrl = false;
     }
@@ -1173,12 +1283,10 @@ export class ParticiperComponent implements OnInit {
               if (this.networkWallet === 'bep20') {
                 this.error = 'out_of_gas_bnb';
                 this.success = '';
-              } 
-              else if (this.networkWallet === 'erc20'){
+              } else if (this.networkWallet === 'erc20') {
                 this.error = 'out_of_gas_eth';
                 this.success = '';
-              }
-              else {
+              } else {
                 this.error = 'out_of_gas_matic';
                 this.success = '';
               }
