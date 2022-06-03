@@ -14,13 +14,16 @@
     </p>
     <div class="separators">
       <div>
-        <hr [ngClass]="{ active: percentSocial >= 25 }" />
+        <hr [ngClass]="{ active: percentSocial >= 20 }" />
       </div>
       <div>
-        <hr [ngClass]="{ active: percentSocial >= 50 }" />
+        <hr [ngClass]="{ active: percentSocial >= 40 }" />
       </div>
       <div>
-        <hr [ngClass]="{ active: percentSocial >= 75 }" />
+        <hr [ngClass]="{ active: percentSocial >= 60 }" />
+      </div>
+      <div>
+        <hr [ngClass]="{ active: percentSocial >= 80 }" />
       </div>
       <div>
         <hr [ngClass]="{ active: percentSocial >= 100 }" />
@@ -81,7 +84,12 @@
           <img src="./assets/Images/linkedin-white.png" width="24px" />
           <span> {{ 'social_networks.add_linkedin' | translate }}</span>
         </button>
-        <button class="tiktok-btn-cnx" (click)="onReditectSocial('tiktok')">
+
+        <button
+          class="tiktok-btn-cnx"
+          (click)="onReditectSocial('tiktok')"
+          *ngIf="channelTiktok?.length === 0"
+        >
           <img src="./assets/Images/tiktok-white.svg" width="20px" />
           <span>
             {{ 'social_networks.add_tiktok' | translate }}
@@ -1018,7 +1026,14 @@
           <img src="./assets/Images/Shape_twitter.svg" />
           <span> {{ 'social_networks.add_twitter' | translate }}</span>
         </button>
-
+        <button
+          class="tiktok-btn-cnx"
+          (click)="onReditectSocial('tiktok')"
+          *ngIf="channelTiktok"
+        >
+          <img src="./assets/Images/tiktok-white.svg" width="20px" />
+          <span> {{ 'social_networks.add_tiktok' | translate }}</span>
+        </button>
         <button
           class="linkedin-btn-cnx"
           (click)="onReditectSocial('linkedin')"
@@ -1026,10 +1041,6 @@
         >
           <img src="./assets/Images/linkedin-white.png" width="24px" />
           <span> {{ 'social_networks.add_linkedin' | translate }}</span>
-        </button>
-        <button class="tiktok-btn-cnx" (click)="onReditectSocial('tiktok')">
-          <img src="./assets/Images/tiktok-white.svg" width="20px" />
-          <span> {{ 'social_networks.add_tiktok' | translate }}</span>
         </button>
       </div>
     </div>
@@ -1094,7 +1105,8 @@
             *ngIf="
               networkName === 'twitter' ||
               networkName === 'facebook' ||
-              networkName === 'linkedin'
+              networkName === 'linkedin' ||
+              networkName === 'tiktok'
             "
           >
             {{ 'delete_text5' | translate: { title: channelTitle } }} "{{

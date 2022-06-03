@@ -52,12 +52,12 @@ export class SocialNetworksComponent implements OnInit {
   showTwitterList: boolean = false;
   showFacebookList: boolean = false;
   showLinkedinList: boolean = false;
-  showTiktokList = false;
+  showTiktokList: boolean = false;
   deactivateGoogle: boolean = false;
   deactivateLinkedin: boolean = false;
   deactivateTwitter: boolean = false;
   deactivateFacebook: boolean = false;
-  deactivateTiktok = false;
+  deactivateTiktok: boolean = false;
   networkName: string = '';
   percentSocial: any;
   private isDestroyed = new Subject();
@@ -167,7 +167,7 @@ export class SocialNetworksComponent implements OnInit {
               this.deactivateTiktok = !!data.tiktok[ch].deactivate;
             });
           }
-          let stat = (count * 100) / 4;
+          let stat = (count * 100) / 5;
           this.percentSocial = stat.toFixed(0);
           setTimeout(() => {
             this.showSpinner = false;
@@ -179,6 +179,7 @@ export class SocialNetworksComponent implements OnInit {
           this.channelTwitter = [];
           this.channelFacebook = [];
           this.channelLinkedin = [];
+          this.channelTiktok = [];
           setTimeout(() => {
             this.showSpinner = false;
           }, 2000);
@@ -271,6 +272,13 @@ export class SocialNetworksComponent implements OnInit {
         window.open('https://www.instagram.com/' + userName, '_blank');
       } else if (network === 'linkedin') {
         window.open('https://www.linkedin.com/company/' + userName, '_blank');
+      } else if (network === 'tiktok') {
+        window.open('https://www.tiktok.com/@' + userName.replace(/\s/g, ''));
+      } else if (network === 'tiktok') {
+        window.open(
+          'https://www.tiktok.com/@' + userName.replace(/\s/g, ''),
+          '_blank'
+        );
       }
     }
   }
@@ -335,6 +343,17 @@ export class SocialNetworksComponent implements OnInit {
             this.closeModal(id);
           }
         });
+    } else if (network === 'tiktok') {
+      this.socialAccountFacadeService
+        .deleteTiktokChannel(id)
+        .pipe(takeUntil(this.isDestroyed))
+        .subscribe((response: any) => {
+          if (response.message === 'deleted successfully') {
+            this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
+            //this.getSocialNetwork();
+            this.closeModal(id);
+          }
+        });
     }
   }
   deleteList(modalName: any, network: string) {
@@ -379,6 +398,17 @@ export class SocialNetworksComponent implements OnInit {
           if (response.message === 'deleted successfully') {
             this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
             this.channelLinkedin = [];
+            this.closeModal(modalName);
+          }
+        });
+    } else if (network === 'tiktok') {
+      this.socialAccountFacadeService
+        .deleteAllTiktokChannels()
+        .pipe(takeUntil(this.isDestroyed))
+        .subscribe((response: any) => {
+          if (response.message === 'deleted successfully') {
+            this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
+            //this.getSocialNetwork();
             this.closeModal(modalName);
           }
         });
