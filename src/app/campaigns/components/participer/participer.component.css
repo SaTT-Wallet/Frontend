@@ -708,6 +708,18 @@ input:-webkit-autofill:active {
   background-repeat: no-repeat;
   background-position: 99% 43%;
 }
+.tiktokLinkSpinner {
+  background-image: url('/assets/Images/tiktok-spin.gif');
+  background-repeat: no-repeat;
+  background-position: 99% 43%;
+}
+
+.tiktokLink {
+  background-image: url('/assets/Images/tiktok-checked.svg');
+  background-repeat: no-repeat;
+  background-position: 99% 43%;
+}
+
 
 @media (max-width: 1499px) and (min-width: 1451px) {
   .input_link {
