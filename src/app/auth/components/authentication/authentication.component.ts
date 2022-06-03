@@ -375,7 +375,7 @@ getCookie(key: string){
         mergeMap((response: User) => {
           this.tokenStorageService.setHeader();
           this.tokenStorageService.saveUserId(response.idUser);
-          this.tokenStorageService.saveIdSn(response.idSn.toString());
+          this.tokenStorageService.saveIdSn(response.idSn?.toString());
           this.idUser = Number(response.idUser);
           
           if (response.is2FA === true) {
