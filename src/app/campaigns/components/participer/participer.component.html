@@ -132,7 +132,18 @@
                   spinner &&
                   sendform
                     .get('url')
-                    ?.value?.indexOf('https://www.linkedin.com/') === 0
+                    ?.value?.indexOf('https://www.linkedin.com/') === 0,
+                tiktokLink:
+                  !spinner &&
+                  sendform
+                    .get('url')
+                    ?.value?.indexOf('https://www.tiktok.com/') === 0,
+
+                tiktokLinkSpinner:
+                  spinner &&
+                  sendform
+                    .get('url')
+                    ?.value?.indexOf('https://www.tiktok.com/') === 0
               }"
             />
             <div
@@ -362,6 +373,22 @@
             />
           </div>
 
+          <div
+            #tiktokDiv
+            id="tiktok-div"
+            class="block-facebook mt-3 mb-3 justify-content-center"
+            [hidden]="
+              userfaceook ||
+              idinstagram ||
+              idstatus ||
+              idvideo ||
+              idlinkedin ||
+              !idtiktok
+            "
+          >
+            <div [innerHTML]="embedTiktokVideo"></div>
+          </div>
+
           <div class="row pass pass_post" *ngIf="linked">
             <div class="block-video-youtube mt-3 mb-3" *ngIf="idvideo">
               <div class="title-video mb-1">{{ titlevideo }}</div>
@@ -390,7 +417,8 @@
 
             <span class="titre_pass"> {{ 'ur_pass' | translate }} </span>
             <div class="div_input position-relative mt-1">
-              <img class="ps-1" src="/assets/Images/Kep-password.svg" /><input
+              <img class="ps-1" src="/assets/Images/Kep-password.svg" />
+              <input
                 class="input-amount pass-hide"
                 autocomplete="off"
                 type="text"
