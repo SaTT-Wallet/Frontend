@@ -5,6 +5,23 @@
     height: 100%;
     min-height: 100%;
 }
+.col-title{
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 130%;
+  /* or 18px */
+
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+
+  /* 02.GREYS/hard grey */
+
+  color: #75758F;
+}
 
 
 
@@ -4480,7 +4497,7 @@ color: white}
 
 #key {
    align-self: center;
-   margin: 2em auto;
+   margin: 2em auto 2em 0;
      background-image: url('/assets/Images/serch-hard-gray.svg');
     background-position: 13px;
     background-repeat: no-repeat;
@@ -4488,7 +4505,7 @@ color: white}
     margin-bottom: 1rem;
     padding-left: 45px;
 
-    height: 46px;
+    height: 35px;
     border: 1px solid #d6d6e8;
     border-radius: 30px;
     /* margin-left: 2%; */
@@ -4662,7 +4679,7 @@ hr {
 
 
 .search-input-wrapper {
-    width: 75%;
+    width: 100%;
     justify-content: flex-end;
     gap: 0.5em;
     align-items: flex-start;
@@ -4678,6 +4695,27 @@ hr {
     text-align: center;
     letter-spacing: 0.02em;
     padding: 0;
+}
+
+.btn-import-token{
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.01em;
+  padding: 0.5em 2em;
+  color:#4048FF !important;
+;
+  cursor: pointer;
+  background: #FFFFFF;
+  /* button_shadow */
+
+  box-shadow: 0px 2px 6px rgba(50, 55, 84, 0.4);
+  border-radius: 30px;
 }
 
 .nav-tabs {

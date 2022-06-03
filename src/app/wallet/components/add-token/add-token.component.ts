@@ -339,8 +339,6 @@ export class AddTokenComponent implements OnInit {
       .getCryptoPriceList()
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((data: any) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const propertyNames = Object.keys(data.data);
         this.listToken2 = data.data;
         for (let key in this.listToken2) {
           if (data.data.hasOwnProperty(key)) {

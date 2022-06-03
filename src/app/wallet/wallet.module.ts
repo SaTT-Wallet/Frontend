@@ -33,14 +33,14 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
     ReceiveComponent,
     ConvertComponent,
     HeaderSendReceiveBuyComponent,
-    CryptoInfoComponent,
+    CryptoInfoComponent
   ],
   imports: [
     SharedModule,
     WalletRoutingModule,
     NgxIntlTelInputModule,
     ChartModule,
-    ZXingScannerModule,
+    ZXingScannerModule
   ],
   providers: [DecimalPipe, DatePipe]
 })
