@@ -272,6 +272,8 @@ export class SocialNetworksComponent implements OnInit {
         window.open('https://www.instagram.com/' + userName, '_blank');
       } else if (network === 'linkedin') {
         window.open('https://www.linkedin.com/company/' + userName, '_blank');
+      } else if (network === 'tiktok') {
+        window.open('https://www.tiktok.com/@' + userName.replace(/\s/g, ''));
       }
       else if (network === 'tiktok') {
         window.open('https://www.tiktok.com/@' + userName.replace(/\s/g, ""), '_blank');
