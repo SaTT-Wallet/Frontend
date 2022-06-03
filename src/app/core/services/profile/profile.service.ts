@@ -110,6 +110,30 @@ export class ProfileService {
     );
   }
 
+  deleteTiktokChannel(tiktokProfileId: string) {
+    let header = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+    return this.http.delete(
+      sattUrl + '/profile/RemoveTiktokChannel/' + tiktokProfileId,
+      {
+        headers: header
+      }
+    );
+  }
+  deleteAllTiktokChannels() {
+    let header = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+    return this.http.delete(sattUrl + '/profile/RemoveTiktokChannels', {
+      headers: header
+    });
+  }
+
   updateprofile(body: any) {
     let httpHeaders = new HttpHeaders({
       'Cache-Control': 'no-store',
