@@ -629,9 +629,12 @@ export class CryptoListComponent implements OnInit, OnDestroy {
             ) {
               this.openModal(this.chaglymodal);
               this.buy(crypto.undername, this.chaglymodal);
+            } else if (
+              crypto.symbol === 'SATTPOLYGON' ||
+              crypto.symbol === 'MATIC'
+            ) {
+              this.router.navigate(['/wallet']);
             } else {
-              if (crypto.symbol === 'SATTPOLYGON' || crypto.symbol === 'MATIC')
-                return;
               this.goToBuy(crypto.symbol, crypto.network);
             }
           }
@@ -780,7 +783,6 @@ export class CryptoListComponent implements OnInit, OnDestroy {
             this.listToken[
               this.listToken.map((res) => res.symbol).indexOf(token.symbol)
             ].isLoading = false;
-            this.search = '';
             this.walletStoreService.getCryptoList();
           }
         },
