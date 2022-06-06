@@ -1369,7 +1369,14 @@
                         class="w-50 btn-import-token text-center d-flex justify-content-center align-content-center"
                         (click)="importToken(crypto)"
                       >
-                        <span>import this token</span>
+                        <div
+                          *ngIf="!!crypto.isLoading"
+                          class="spinner-border text-primary"
+                          role="status"
+                        >
+                          <span class="sr-only">Loading...</span>
+                        </div>
+                        <span *ngIf="!crypto.isLoading">import this token</span>
                       </div>
                     </div>
                   </div>
