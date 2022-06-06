@@ -417,8 +417,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
           if (data.data.linkedin.length !== 0) {
             count++;
           }
+          if (data.data.tikTok.length !== 0) {
+            count++;
+          }
 
-          this.percentNet = (count * 100) / 4;
+          this.percentNet = (count * 100) / 5;
           this.percentNet2 = this.percentNet.toFixed(0) + '%';
         } else if (data === null) {
           this.percentNet = 0;
