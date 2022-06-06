@@ -64,6 +64,12 @@ export class SocialAccountFacadeService {
   deleteOneSocialNetworksLinkedin(organization: string) {
     return this.profileService.deleteOneSocialNetworksLinkedin(organization);
   }
+  deleteTiktokChannel(tiktokProfileId: string) {
+    return this.profileService.deleteTiktokChannel(tiktokProfileId);
+  }
+  deleteAllTiktokChannels() {
+    return this.profileService.deleteAllTiktokChannels();
+  }
   deleteAllSocialNetworksGoogle() {
     return this.profileService.deleleteAllSocialNetworksGoogle();
   }
