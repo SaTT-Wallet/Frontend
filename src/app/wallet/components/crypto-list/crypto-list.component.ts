@@ -629,8 +629,10 @@ export class CryptoListComponent implements OnInit, OnDestroy {
             ) {
               this.openModal(this.chaglymodal);
               this.buy(crypto.undername, this.chaglymodal);
-            } else {
-              if(crypto.symbol === 'SATTPOLYGON' ||crypto.symbol === 'MATIC' ) return;
+            } 
+            else if ( crypto.symbol === 'SATTPOLYGON'  ||  crypto.symbol === 'MATIC' ) { this.router.navigate(['/wallet']) }
+            else {
+              
               this.goToBuy(crypto.symbol, crypto.network);
             }
           }
