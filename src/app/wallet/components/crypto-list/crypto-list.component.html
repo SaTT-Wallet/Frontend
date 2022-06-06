@@ -15,27 +15,49 @@
           class="d-flex justify-content-center"
         >
           <div class="cryptoContainer">
-            <input
-              id="key"
-              class="key d-flex search-input-wrapper mt-3"
-              type="text"
-              name="search"
-              autocomplete="on"
-              autocomplete="off"
-              placeholder="Search a token or add your own"
-              [(ngModel)]="search"
-              (ngModelChange)="onTextChange($event)"
-            />
             <div
-              class="row d-flex make-center"
-              *ngIf="res.length === 0 && this.searched"
+              class="w-100 row pt-2 pb-2 d-flex justify-content-center"
+              style="border-bottom: 1px solid #f6f6ff"
             >
-              <img class="not-found" src="/assets/Images/not-found.svg " />
-
-              <p class="result-found make-center mt-3">
-                {{ 'No result found' | translate }}
-              </p>
+              <div class="d-flex justify-content-start" style="width: 90%">
+                <div
+                  class="col-2 d-flex align-items-center justify-content-start"
+                >
+                  <input
+                    id="key"
+                    class="key d-flex search-input-wrapper mt-3"
+                    type="text"
+                    name="search"
+                    autocomplete="on"
+                    autocomplete="off"
+                    placeholder="Search a token or add your own"
+                    [(ngModel)]="search"
+                    (ngModelChange)="onTextChange($event)"
+                  />
+                </div>
+                <div
+                  class="col-2 d-flex align-items-center justify-content-start"
+                >
+                  <div class="col-title">PRICE</div>
+                </div>
+                <div
+                  class="col-2 d-flex align-items-center justify-content-start"
+                >
+                  <div class="col-title">TOTAL</div>
+                </div>
+                <div
+                  class="col-2 d-flex align-items-center justify-content-start"
+                >
+                  <div class="col-title">USD VALUE</div>
+                </div>
+                <div
+                  class="col-2 d-flex align-items-center justify-content-start"
+                >
+                  <div class="col-title">24H %</div>
+                </div>
+              </div>
             </div>
+
             <div *ngFor="let crypto of res; trackBy: trackByCryptoListSymbol">
               <div
                 class="w-100 row pt-2 pb-2 d-flex justify-content-center"
@@ -1269,6 +1291,87 @@
                       </div>
                     </ng-template>
                     <!----------------------------------------------------------------------------------------------------------------->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="listToken | filterByname: search as res2">
+              <div
+                class="row d-flex make-center"
+                *ngIf="res.length === 0 && res2.length === 0 && this.searched"
+              >
+                <img class="not-found" src="/assets/Images/not-found.svg " />
+
+                <p class="result-found make-center mt-3">
+                  {{ 'No result found' | translate }}
+                </p>
+              </div>
+              <div *ngIf="!!search">
+                <div
+                  *ngFor="let crypto of res2"
+                  class="w-100 row d-flex justify-content-center"
+                  style="border-bottom: 1px solid #f6f6ff"
+                >
+                  <div
+                    *ngIf="!alreadyAdded(crypto)"
+                    class="d-flex justify-content-start pt-2 pb-2"
+                    style="width: 90%; background: #f6f6ff; border-radius: 10px"
+                  >
+                    <div
+                      class="col-2 d-flex align-items-center justify-content-start"
+                    >
+                      <div class="d-flex align-items-center w-100 width-img">
+                        <img
+                          class="Icons mt-2 me-2"
+                          src="{{ crypto.logo }}"
+                          alt=""
+                        />
+                        <div
+                          class="div-ellipsis-span-name CryptoID d-flex justify-content-center align-items-center"
+                        >
+                          <span class="Cryptoname ellipsis-span-name ml-2">
+                            {{
+                              crypto.name === 'Binance-Peg BUSD Token'
+                                ? 'BUSD'
+                                : crypto.name
+                            }}
+                          </span>
+                          <!-- <div class="CryptoUNDERname pt-2">{{ crypto.typetab }}</div> -->
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="col-5 d-flex align-items-center justify-content-start"
+                    >
+                      <span
+                        class="more-info-text"
+                        style="color: #4048ff !important"
+                        >More infos on
+                        <span *ngIf="crypto.network?.toLowerCase() === 'erc20'"
+                          >Etherscan</span
+                        >
+                        <span *ngIf="crypto.network?.toLowerCase() === 'bep20'"
+                          >Bscscan</span
+                        ></span
+                      >
+                      <img
+                        style="cursor: pointer"
+                        class="ml-4"
+                        src="assets/Images/share-img.png"
+                        alt=""
+                      />
+                    </div>
+                    <div
+                      class="col-5 d-flex align-items-center justify-content-end"
+                    >
+                      <div
+                        *ngIf="!alreadyAdded(crypto)"
+                        class="w-50 btn-import-token text-center d-flex justify-content-center align-content-center"
+                        (click)="importToken(crypto)"
+                      >
+                        <span>import this token</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

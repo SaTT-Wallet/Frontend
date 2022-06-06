@@ -20,8 +20,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { Clipboard } from '@angular/cdk/clipboard';
 
-import { filter, map, take, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { filter, map, mergeMap, take, takeUntil } from 'rxjs/operators';
+import { of, Subject } from 'rxjs';
 
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -83,7 +83,11 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   polygonSelected = false;
 
   portfeuilleList: Array<{ type: any; code: any }> = [];
-
+  listToken2: any[] = [];
+  listToken: any[] = [];
+  private listAddedToken: any[] = [];
+  isLodingBtn = false;
+  errorAddTokenMsg = '';
   constructor(
     private Fetchservice: CryptofetchServiceService,
     public sidebarService: SidebarService,
@@ -148,153 +152,141 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     this.cryptoList$
       .pipe(
         filter((data: any) => data?.data?.length !== 0),
-        takeUntil(this.onDestroy$)
-      )
-      .subscribe((data: any) => {
-        this.walletFacade.hideWalletSpinner();
-        this.showWalletSpinner === false;
-        this.dataList = data;
+        takeUntil(this.onDestroy$),
+        mergeMap((data: any) => {
+          this.walletFacade.hideWalletSpinner();
+          this.showWalletSpinner === false;
+          this.dataList = data;
 
-        Object.preventExtensions(this.dataList);
-        this.dataList?.forEach((crypto: any, index: any) => {
-          if (crypto.symbol === 'SATTBEP20') {
-            indexSattBEP20 = index;
-          }
-          if (crypto.symbol === 'SATT') {
-            indexSattERC20 = index;
-          }
-          if (crypto.symbol === 'SATTPOLYGON') {
-            indexSattPOLYGON = index;
-          }
-        });
-        if (this.dataList.length === 0) {
-          return;
-        }
-        ('use strict');
-        const sattCryptoBEP20 = this.dataList[indexSattBEP20];
-        const sattCryptoPOLYGON = this.dataList[indexSattPOLYGON];
-
-        let cryptoBEP20 = JSON.parse(JSON.stringify(sattCryptoBEP20));
-        let cryptoPOLYGON = JSON.parse(JSON.stringify(sattCryptoPOLYGON));
-        const cloneData = JSON.parse(JSON.stringify(this.dataList));
-        cloneData[indexSattERC20].cryptoBEP20 = cryptoBEP20;
-        cloneData[indexSattERC20].cryptoPOLYGON = cryptoPOLYGON;
-
-        this.dataList = cloneData;
-        this.dataList = this.dataList.filter(
-          (element) =>
-            element.symbol !== 'SATTBEP20' && element.symbol !== 'SATTPOLYGON'
-        );
-        this.cryptoList = [
-          ...this.dataList.filter((data: any) => data.symbol === 'SATT'),
-          ...this.dataList.filter((data: any) => data.symbol === 'SATTBEP20'),
-          ...this.dataList.filter((data: any) => data.symbol === 'SATTPOLYGON'),
-          ...this.dataList.filter((data: any) => data.symbol === 'WSATT'),
-          ...this.dataList.filter((data: any) => data.symbol === 'BITCOIN'),
-          ...this.dataList.filter((data: any) => data.symbol === 'BNB'),
-          ...this.dataList.filter((data: any) => data.symbol === 'ETH'),
-          ...this.dataList
-            .filter(
-              (data: any) =>
-                data.symbol !== 'WSATT' &&
-                data.symbol !== 'SATTBEP20' &&
-                data.symbol !== 'SATTPOLYGON' &&
-                data.symbol !== 'SATT' &&
-                data.symbol !== 'BITCOIN' &&
-                data.symbol !== 'BNB' &&
-                data.symbol !== 'ETH'
-            )
-            .reverse()
-        ];
-        this.cryptoList.forEach((crypto: any) => {
-          crypto.selected = false;
-        });
-
-        this.dataList?.forEach((crypto: any) => {
-          crypto.price = this.filterAmount(crypto.price + '');
-          crypto.variation = parseFloat(crypto.variation + '');
-          var cryptoVariations = crypto?.variation?.toFixed(8) ?? '0';
-
-          crypto.variation = !!crypto.variation
-            ? crypto?.variation?.toFixed(2)
-            : '0.00';
-
-          crypto.quantity = this.filterAmount(crypto.quantity + '');
-          // crypto.cryptoBEP20.quantity = this.filterAmount(crypto.quantity + '');
-          crypto.total_balance = parseFloat(crypto.total_balance + '');
-          // crypto.cryptoBEP20.total_balance = parseFloat(crypto.cryptoBEP20.total_balance + '');
-
-          crypto.total_balance = crypto?.total_balance?.toFixed(2);
-          // crypto.cryptoBEP20.total_balance  = crypto?.cryptoBEP20.total_balance?.toFixed(2);p
-
-          // crypto.affectPercent = (
-          //   (crypto.total_balance * 100) /
-          //   this.totalAmount
-          // ).toFixed(2);
-          // crypto.type =
-          //   crypto.network ?? ListTokens[crypto.symbol].type.toUpperCase();
-          crypto.undername2 = crypto.undername2 ?? 'indispo';
-          crypto.undername = crypto.undername ?? 'indispo';
-          // crypto.typetab = crypto.type;
-          crypto.contrat = crypto.AddedToken || '';
-          // if (crypto.symbol === 'ETH') {
-          //   this.gazsendether = (this.gazsend / crypto.price).toFixed(8);
-          // }
-          // if (crypto.symbol === 'BTC') {
-          //   crypto.typetab = 'BTC';
-          // }
-          if (cryptoVariations < 0) {
-            crypto.arrow = '';
-            crypto.arrowColor = '#F52079';
-          } else {
-            crypto.arrow = '+';
-            crypto.arrowColor = '#00CC9E';
-          }
-
-          if (crypto.symbol === 'SATT') {
-            Object.preventExtensions(crypto);
-
-            crypto.cryptoBEP20.quantity = this.filterAmount(
-              crypto?.cryptoBEP20.quantity + ''
-            );
-            crypto.cryptoBEP20.total_balance = parseFloat(
-              crypto.cryptoBEP20.total_balance + ''
-            );
-            crypto.cryptoBEP20.total_balance =
-              crypto?.cryptoBEP20.total_balance?.toFixed(2);
-          }
-        });
-        setTimeout(() => {
-          this.dataList.forEach((crypto) => {
-            let element = this.document.getElementById(
-              crypto.symbol + crypto.name
-            ) as HTMLElement;
-            if (!!element) {
-              element.hidden = true;
+          Object.preventExtensions(this.dataList);
+          this.dataList?.forEach((crypto: any, index: any) => {
+            if (crypto.symbol === 'SATTBEP20') {
+              indexSattBEP20 = index;
+            }
+            if (crypto.symbol === 'SATT') {
+              indexSattERC20 = index;
+            }
+            if (crypto.symbol === 'SATTPOLYGON') {
+              indexSattPOLYGON = index;
             }
           });
-        }, 100);
+          if (this.dataList.length === 0) {
+            return of(null);
+          }
+          ('use strict');
+          const sattCryptoBEP20 = this.dataList[indexSattBEP20];
+          const sattCryptoPOLYGON = this.dataList[indexSattPOLYGON];
 
-        // this.dataList?.forEach((crypto: any, index) => {
-        //   if (crypto.symbol === 'SATTBEP20') {
-        //     this.quantityBEP20 = crypto.quantity;
-        //     indexSattBEP20 = index;
-        //   }
-        //   if (crypto.symbol === 'SATT') {
-        //     this.quantityERC20 = crypto.quantity;
-        //     indexSattERC20 = index;
-        //   }
-        // });
-        // this.cryptoStorage = this.cryptoList.slice();
-        // this.convertdata = this.cryptoList;
-        // this.newtab = this.convertdata.slice(0, 0);
+          let cryptoBEP20 = JSON.parse(JSON.stringify(sattCryptoBEP20));
+          let cryptoPOLYGON = JSON.parse(JSON.stringify(sattCryptoPOLYGON));
+          const cloneData = JSON.parse(JSON.stringify(this.dataList));
+          cloneData[indexSattERC20].cryptoBEP20 = cryptoBEP20;
+          cloneData[indexSattERC20].cryptoPOLYGON = cryptoPOLYGON;
 
-        let divCrypto = this.document.getElementById('cryptoList');
-        if (divCrypto) {
-          divCrypto.style.height = 'auto';
+          this.dataList = cloneData;
+          this.dataList = this.dataList.filter(
+            (element) =>
+              element.symbol !== 'SATTBEP20' && element.symbol !== 'SATTPOLYGON'
+          );
+          this.cryptoList = [
+            ...this.dataList.filter((data: any) => data.symbol === 'SATT'),
+            ...this.dataList.filter((data: any) => data.symbol === 'SATTBEP20'),
+            ...this.dataList.filter(
+              (data: any) => data.symbol === 'SATTPOLYGON'
+            ),
+            ...this.dataList.filter((data: any) => data.symbol === 'WSATT'),
+            ...this.dataList.filter((data: any) => data.symbol === 'BITCOIN'),
+            ...this.dataList.filter((data: any) => data.symbol === 'BNB'),
+            ...this.dataList.filter((data: any) => data.symbol === 'ETH'),
+            ...this.dataList
+              .filter(
+                (data: any) =>
+                  data.symbol !== 'WSATT' &&
+                  data.symbol !== 'SATTBEP20' &&
+                  data.symbol !== 'SATTPOLYGON' &&
+                  data.symbol !== 'SATT' &&
+                  data.symbol !== 'BITCOIN' &&
+                  data.symbol !== 'BNB' &&
+                  data.symbol !== 'ETH'
+              )
+              .reverse()
+          ];
+          this.cryptoList.forEach((crypto: any) => {
+            crypto.selected = false;
+          });
+
+          this.dataList?.forEach((crypto: any) => {
+            crypto.price = this.filterAmount(crypto.price + '');
+            crypto.variation = parseFloat(crypto.variation + '');
+            var cryptoVariations = crypto?.variation?.toFixed(8) ?? '0';
+
+            crypto.variation = !!crypto.variation
+              ? crypto?.variation?.toFixed(2)
+              : '0.00';
+            crypto.quantity = this.filterAmount(crypto.quantity + '');
+            crypto.total_balance = parseFloat(crypto.total_balance + '');
+            crypto.total_balance = crypto?.total_balance?.toFixed(2);
+            crypto.undername2 = crypto.undername2 ?? 'indispo';
+            crypto.undername = crypto.undername ?? 'indispo';
+            crypto.contrat = crypto.AddedToken || '';
+            if (cryptoVariations < 0) {
+              crypto.arrow = '';
+              crypto.arrowColor = '#F52079';
+            } else {
+              crypto.arrow = '+';
+              crypto.arrowColor = '#00CC9E';
+            }
+
+            if (crypto.symbol === 'SATT') {
+              Object.preventExtensions(crypto);
+
+              crypto.cryptoBEP20.quantity = this.filterAmount(
+                crypto?.cryptoBEP20.quantity + ''
+              );
+              crypto.cryptoBEP20.total_balance = parseFloat(
+                crypto.cryptoBEP20.total_balance + ''
+              );
+              crypto.cryptoBEP20.total_balance =
+                crypto?.cryptoBEP20.total_balance?.toFixed(2);
+            }
+          });
+          setTimeout(() => {
+            this.dataList.forEach((crypto) => {
+              let element = this.document.getElementById(
+                crypto.symbol + crypto.name
+              ) as HTMLElement;
+              if (!!element) {
+                element.hidden = true;
+              }
+            });
+          }, 100);
+
+          let divCrypto = this.document.getElementById('cryptoList');
+          if (divCrypto) {
+            divCrypto.style.height = 'auto';
+          }
+          this.spinner.hide('showWalletSpinner');
+          this.showWalletSpinner = false;
+          return this.walletFacade.getCryptoPriceList();
+        }),
+        filter((res: any) => {
+          if (!res) return false;
+          if (!!res) {
+            if (!!res.data) return true;
+          }
+          return false;
+        })
+      )
+      .subscribe((data: any) => {
+        this.listToken2 = data.data;
+        for (let key in this.listToken2) {
+          if (data.data.hasOwnProperty(key)) {
+            this.listToken2[key].symbol = key;
+            if (this.listToken2[key].tokenAddress) {
+              this.listToken.push(this.listToken2[key]);
+            }
+          }
         }
-        this.spinner.hide('showWalletSpinner');
-        this.showWalletSpinner = false;
       });
   }
   getTotalBalance() {
@@ -394,6 +386,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   //     !this.dropDownSection[event.target.attributes.id.nodeValue * 1];
   // }
   // fixing crypto decimals to 9
+  nonAdedCryptos: any[] = [];
 
   filterAmount(input: any, nbre: any = 10) {
     if (input) {
@@ -530,13 +523,12 @@ export class CryptoListComponent implements OnInit, OnDestroy {
       sum =
         parseFloat(crypto.total_balance) +
         parseFloat(crypto.cryptoBEP20.total_balance);
-    } if (!!crypto.cryptoPOLYGON) {
-     
+    }
+    if (!!crypto.cryptoPOLYGON) {
       sum =
         parseFloat(crypto.total_balance) +
-        parseFloat(crypto.cryptoBEP20.total_balance) + 
+        parseFloat(crypto.cryptoBEP20.total_balance) +
         parseFloat(crypto.cryptoPOLYGON.total_balance);
-
     } else {
       sum = crypto.total_balance;
     }
@@ -554,7 +546,9 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     }
     if (!!crypto.cryptoPOLYGON) {
       sum =
-        parseFloat(crypto.quantity) + parseFloat(crypto.cryptoPOLYGON.quantity) + parseFloat(crypto.cryptoBEP20.quantity);
+        parseFloat(crypto.quantity) +
+        parseFloat(crypto.cryptoPOLYGON.quantity) +
+        parseFloat(crypto.cryptoBEP20.quantity);
     } else {
       sum = crypto.quantity;
     }
@@ -571,6 +565,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     } else {
       this.searched = false;
     }
+    this.getCryptoToImport();
   }
   toggle(crypto: any) {
     if (crypto.symbol !== 'SATT') {
@@ -600,7 +595,6 @@ export class CryptoListComponent implements OnInit, OnDestroy {
         .subscribe((data: string) => {
           if (data === 'buy') {
             if (crypto.AddedToken) {
-
               if (crypto.network === 'ERC20') {
                 if (isPlatformBrowser(this.platformId))
                   window.open(
@@ -755,5 +749,56 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   }
   trackByCryptoListSymbol(index: any, crypto: any) {
     return crypto.symbol;
+  }
+
+  private getCryptoToImport() {}
+
+  alreadyAdded(token: any): boolean {
+    if (
+      this.cryptoList.map((res: any) => res.symbol).indexOf(token.symbol) >= 0
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  importToken(token: any) {
+    this.listToken[
+      this.listToken.map((res) => res.symbol).indexOf(token.symbol)
+    ].isLoading = true;
+    this.isLodingBtn = true;
+    this.walletFacade
+      .addToken(
+        token.name,
+        token.symbol,
+        token.decimals,
+        token.tokenAddress,
+        token.network
+      )
+      .subscribe(
+        (response: any) => {
+          if (response !== undefined) {
+            this.listToken[
+              this.listToken.map((res) => res.symbol).indexOf(token.symbol)
+            ].isLoading = false;
+            this.walletStoreService.getCryptoList();
+          }
+        },
+
+        (error: any) => {
+          this.listToken[
+            this.listToken.map((res) => res.symbol).indexOf(token.symbol)
+          ].isLoading = false;
+          if (
+            (error.error = 'token already added') ||
+            (error.error = 'not a token address')
+          ) {
+            this.errorAddTokenMsg = 'addToken.token-already-added';
+            setTimeout(() => {
+              this.errorAddTokenMsg = '';
+            }, 3000);
+          }
+        }
+      );
   }
 }
