@@ -14,16 +14,13 @@
     </p>
     <div class="separators">
       <div>
-        <hr [ngClass]="{ active: percentSocial >= 20 }" />
+        <hr [ngClass]="{ active: percentSocial >= 25 }" />
       </div>
       <div>
-        <hr [ngClass]="{ active: percentSocial >= 40 }" />
+        <hr [ngClass]="{ active: percentSocial >= 50 }" />
       </div>
       <div>
-        <hr [ngClass]="{ active: percentSocial >= 60 }" />
-      </div>
-      <div>
-        <hr [ngClass]="{ active: percentSocial >= 80 }" />
+        <hr [ngClass]="{ active: percentSocial >= 75 }" />
       </div>
       <div>
         <hr [ngClass]="{ active: percentSocial >= 100 }" />
@@ -84,12 +81,7 @@
           <img src="./assets/Images/linkedin-white.png" width="24px" />
           <span> {{ 'social_networks.add_linkedin' | translate }}</span>
         </button>
-
-        <button
-          class="tiktok-btn-cnx"
-          (click)="onReditectSocial('tiktok')"
-          *ngIf="channelTiktok?.length === 0"
-        >
+        <button class="tiktok-btn-cnx" (click)="onReditectSocial('tiktok')">
           <img src="./assets/Images/tiktok-white.svg" width="20px" />
           <span>
             {{ 'social_networks.add_tiktok' | translate }}
@@ -137,9 +129,9 @@
           <button
             style="border: none"
             class="col-1 col-md-1 delete-account-bloc cursor-pointer mobile"
-            (click)="openModalDeleteAll(deleteAllModal, 'google')"
           >
-            <i class="fa fa-trash-o pinkTrash" aria-hidden="true"></i>
+            <i class="fa fa-trash-o pinkTrash" aria-hidden="true"             (click)="openModalDeleteAll(deleteAllModal, 'google')"
+            ></i>
           </button>
           <!-- (click)="toggelGoogleBlock()" -->
           <div class="col-1 col-md-1 chev-down">
@@ -350,9 +342,9 @@
           <button
             style="border: none"
             class="col-1 col-md-1 delete-account-bloc cursor-pointer mobile"
-            (click)="openModalDeleteAll(deleteAllModal, 'linkedin')"
+           
           >
-            <i class="fa fa-trash-o pinkTrash" aria-hidden="true"></i>
+            <i  (click)="openModalDeleteAll(deleteAllModal, 'linkedin')" class="fa fa-trash-o pinkTrash" aria-hidden="true"></i>
           </button>
           <!-- (click)="toggelLinkedinBlock()" -->
           <div class="col-1 col-md-1 chev-down cursor_pntr">
@@ -490,9 +482,9 @@
           <button
             style="border: none"
             class="col-1 col-md-1 delete-account-bloc cursor-pointer mobile"
-            (click)="openModalDeleteAll(deleteAllModal, 'twitter')"
+            
           >
-            <i class="fa fa-trash-o pinkTrash" aria-hidden="true"></i>
+            <i (click)="openModalDeleteAll(deleteAllModal, 'twitter')" class="fa fa-trash-o pinkTrash" aria-hidden="true"></i>
           </button>
           <!-- (click)="toggelTwitterBlock()" -->
           <div class="col-1 col-md-1 chev-down">
@@ -655,9 +647,9 @@
           <button
             style="border: none"
             class="col-1 col-md-1 delete-account-bloc cursor-pointer mobile"
-            (click)="openModalDeleteAll(deleteAllModal, 'tiktok')"
+          
           >
-            <i class="fa fa-trash-o pinkTrash" aria-hidden="true"></i>
+            <i   (click)="openModalDeleteAll(deleteAllModal, 'tiktok')" class="fa fa-trash-o pinkTrash" aria-hidden="true"></i>
           </button>
           <!-- (click)="toggelTwitterBlock()" -->
           <div class="col-1 col-md-1 chev-down">
@@ -822,9 +814,9 @@
           <button
             style="border: none"
             class="col-1 col-md-1 delete-account-bloc cursor-pointer mobile"
-            (click)="openModalDeleteAll(deleteAllModal, 'facebook')"
+          
           >
-            <i class="fa fa-trash-o pinkTrash" aria-hidden="true"></i>
+            <i   (click)="openModalDeleteAll(deleteAllModal, 'facebook')" class="fa fa-trash-o pinkTrash" aria-hidden="true"></i>
           </button>
           <!-- (click)="toggelFacebookBlock()" -->
           <div class="col-1 col-md-1 chev-down">
@@ -1026,14 +1018,7 @@
           <img src="./assets/Images/Shape_twitter.svg" />
           <span> {{ 'social_networks.add_twitter' | translate }}</span>
         </button>
-        <button
-          class="tiktok-btn-cnx"
-          (click)="onReditectSocial('tiktok')"
-          *ngIf="channelTiktok"
-        >
-          <img src="./assets/Images/tiktok-white.svg" width="20px" />
-          <span> {{ 'social_networks.add_tiktok' | translate }}</span>
-        </button>
+
         <button
           class="linkedin-btn-cnx"
           (click)="onReditectSocial('linkedin')"
@@ -1041,6 +1026,10 @@
         >
           <img src="./assets/Images/linkedin-white.png" width="24px" />
           <span> {{ 'social_networks.add_linkedin' | translate }}</span>
+        </button>
+        <button class="tiktok-btn-cnx" (click)="onReditectSocial('tiktok')">
+          <img src="./assets/Images/tiktok-white.svg" width="20px" />
+          <span> {{ 'social_networks.add_tiktok' | translate }}</span>
         </button>
       </div>
     </div>
@@ -1105,8 +1094,7 @@
             *ngIf="
               networkName === 'twitter' ||
               networkName === 'facebook' ||
-              networkName === 'linkedin' ||
-              networkName === 'tiktok'
+              networkName === 'linkedin'
             "
           >
             {{ 'delete_text5' | translate: { title: channelTitle } }} "{{
