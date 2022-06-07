@@ -112,6 +112,9 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   wallet_id: any = this.tokenStorageService.getIdWallet()
     ? this.tokenStorageService.getIdWallet()
     : '';
+    wallet_btc: any;
+
+
   isConnected: boolean = false;
   sattprice = 0;
   routerSub: any;
@@ -155,6 +158,9 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+  
+    this.wallet_btc = this.tokenStorageService.getWalletBtc();
+
     this.listenToInputAmountChange();
     // this.toggleCurrencyType(ECurrencyType.FIAT);
     // this.toggleNetwork(EBlockchainNetwork.BEP20);
@@ -683,6 +689,12 @@ export class BuyTokenComponent implements OnInit, OnChanges {
 
   onSumbit() {
     this.wallet_id = this.convertform.get('walletId')?.value;
+    this.wallet_btc = this.tokenStorageService.getWalletBtc();
+
+    if (this.requestedCrypto==="BTC"){
+      this.wallet_id = this.wallet_btc
+    }
+
     if (
       this.convertform.valid &&
       this.amount &&
