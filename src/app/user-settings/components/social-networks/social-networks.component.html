@@ -81,7 +81,7 @@
           <img src="./assets/Images/linkedin-white.png" width="24px" />
           <span> {{ 'social_networks.add_linkedin' | translate }}</span>
         </button>
-        <button class="tiktok-btn-cnx" (click)="onReditectSocial('tiktok')">
+        <button class="tiktok-btn-cnx" (click)="onReditectSocial('tiktok')"   *ngIf="channelTiktok?.length === 0"> 
           <img src="./assets/Images/tiktok-white.svg" width="20px" />
           <span>
             {{ 'social_networks.add_tiktok' | translate }}
@@ -1022,12 +1022,12 @@
         <button
           class="linkedin-btn-cnx"
           (click)="onReditectSocial('linkedin')"
-          *ngIf="channelLinkedin?.length === 0"
+        vn_c
         >
           <img src="./assets/Images/linkedin-white.png" width="24px" />
           <span> {{ 'social_networks.add_linkedin' | translate }}</span>
         </button>
-        <button class="tiktok-btn-cnx" (click)="onReditectSocial('tiktok')">
+        <button class="tiktok-btn-cnx" (click)="onReditectSocial('tiktok')" *ngIf="channelTiktok?.length === 0">
           <img src="./assets/Images/tiktok-white.svg" width="20px" />
           <span> {{ 'social_networks.add_tiktok' | translate }}</span>
         </button>
