@@ -207,7 +207,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.cdref.markForCheck();
-     this.parentFunction().subscribe();
+    this.parentFunction().subscribe();
     this.getUserCrypto();
     // this.campaign$ = this.campaignsStoreService.updateOneById;
     // this.campaign$.pipe().subscribe((campaign) => {
@@ -305,9 +305,9 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       this.isSelectedLinkedin = !this.isSelectedLinkedin;
       this.toggleOracle('linkedin', event.event);
     }
-    if (event.oracle === 'tikTok') {
+    if (event.oracle === 'tiktok') {
       this.isSelectedTikTok = !this.isSelectedTikTok;
-      this.toggleOracle('tikTok', event.event);
+      this.toggleOracle('tiktok', event.event);
     }
     if (event.oracle === 'googleAnalytics') {
       this.isSelectedGoogleAnalytics = !this.isSelectedGoogleAnalytics;
@@ -477,7 +477,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         this.toggleOracle('linkedin', true);
       }
       if (this.isSelectedTikTok) {
-        this.toggleOracle('tikTok', true);
+        this.toggleOracle('tiktok', true);
       }
       if (this.isSelectedGoogleAnalytics) {
         this.toggleOracle('googleAnalytics', true);
@@ -724,8 +724,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
           ...this.dataList.filter((data: any) => data.symbol === 'SATTBEP20'),
           ...this.dataList.filter((data: any) => data.symbol === 'BUSD'),
           ...this.dataList.filter((data: any) => data.symbol === 'SATTPOLYGON'),
-          ...this.dataList.filter((data: any) => data.symbol === 'MATIC'),
-
+          ...this.dataList.filter((data: any) => data.symbol === 'MATIC')
         ];
       });
   }
@@ -735,9 +734,9 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       map((response: any) => response.data),
       take(1),
       map((data: any) => {
-        this.bnb = data['BNB'].price,
-          this.eth = data['ETH'].price,
-          this.matic = data['MATIC'].price;
+        (this.bnb = data['BNB'].price),
+          (this.eth = data['ETH'].price),
+          (this.matic = data['MATIC'].price);
         return {
           bnb: this.bnb,
           Eth: this.eth,
@@ -844,7 +843,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     this.isSelectedLinkedin = array.find((elem) => elem.oracle === 'linkedin')
       ? true
       : false;
-    this.isSelectedTikTok = array.find((elem) => elem.oracle === 'tikTok')
+    this.isSelectedTikTok = array.find((elem) => elem.oracle === 'tiktok')
       ? true
       : false;
     this.isSelectedGoogleAnalytics = array.find(
@@ -939,7 +938,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       this.isSelectedLinkedin =
         oracle === 'linkedin' ? false : this.isSelectedLinkedin;
       this.isSelectedTikTok =
-        oracle === 'tikTok' ? false : this.isSelectedTikTok;
+        oracle === 'tiktok' ? false : this.isSelectedTikTok;
       this.isSelectedGoogleAnalytics =
         oracle === 'googleAnalytics' ? false : this.isSelectedGoogleAnalytics;
       return;
@@ -1157,8 +1156,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     } else if (this.networks === 'BTC') {
       this.coinType = true;
       this.gazcurrency = 'ETH';
-    }
-    else if (this.networks === 'POLYGON') {
+    } else if (this.networks === 'POLYGON') {
       this.gazcurrency = 'MATIC';
       // this.gazcurrency = 'ETH';
     }
@@ -1188,15 +1186,13 @@ export class RemunerationComponent implements OnInit, OnDestroy {
           this.gazsendether = (this.gazsend / crypto.price).toFixed(8);
         }
       }
-       if (this.networks === 'POLYGON') {
+      if (this.networks === 'POLYGON') {
         this.gazsend = this.polygonGaz;
         if (crypto.symbol === 'MATIC') {
           this.gazsendether = (this.gazsend / crypto.price).toFixed(8);
-
         }
       }
     });
-
   }
   setMaxAmount(): void {
     let selectedCurrency = this.f.currency.value;
@@ -1224,7 +1220,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     }
     if (currency) {
       this.dataList?.forEach((crypto: any) => {
-
         if (crypto.symbol === currency) {
           let quantity = this.showNumbersRule.transform(crypto.quantity);
           //  let totalBal = this.showNumbersRule.transform(crypto.total_balance);
@@ -1234,8 +1229,11 @@ export class RemunerationComponent implements OnInit, OnDestroy {
             this.form.get('initialBudgetInUSD')?.setValue(crypto.total_balance);
 
           this.gazproblem = false;
-          if (currency === 'ETH' || currency === 'BNB' || currency === 'MATIC') {     
-
+          if (
+            currency === 'ETH' ||
+            currency === 'BNB' ||
+            currency === 'MATIC'
+          ) {
             this.difference = crypto.total_balance - this.gazsend;
             this.newquantity = this.difference / crypto.price;
             let newqua = this.showNumbersRule.transform(this.newquantity);

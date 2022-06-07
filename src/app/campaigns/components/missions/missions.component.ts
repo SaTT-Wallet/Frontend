@@ -61,7 +61,7 @@ export class MissionsComponent implements OnInit {
         sub_missions: new FormArray([])
       }),
       new FormGroup({
-        oracle: new FormControl('tikTok'),
+        oracle: new FormControl('tiktok'),
         sub_missions: new FormArray([])
       })
       // new FormGroup({
@@ -113,7 +113,7 @@ export class MissionsComponent implements OnInit {
       ]
     },
     {
-      oracle: 'tikTok',
+      oracle: 'tiktok',
       sub_missions: [
         'Post a photo of the product “xxx”',
         'Add tags #tag01 #tag02 #tag03',
@@ -195,7 +195,7 @@ export class MissionsComponent implements OnInit {
         (this.missions.at(2).get('sub_missions') as FormArray).clear();
       } else if (this.closeOracle === 'instagram') {
         (this.missions.at(4).get('sub_missions') as FormArray).clear();
-      } else if (this.closeOracle === 'tikTok') {
+      } else if (this.closeOracle === 'tiktok') {
         (this.missions.at(5).get('sub_missions') as FormArray).clear();
       } else if (this.closeOracle === 'googleAnalytics') {
         (this.missions.at(6).get('sub_missions') as FormArray).clear();

@@ -1065,7 +1065,7 @@ export class ParticiperComponent implements OnInit {
         this.application = myApplication;
       }
 
-      if (performance.find((ratio: any) => ratio.oracle === 'tikTok')) {
+      if (performance.find((ratio: any) => ratio.oracle === 'tiktok')) {
         //TODO: send correct json
         this.CampaignService.verifyLink(this.application)
           .pipe(takeUntil(this.isDestroyedSubject))
