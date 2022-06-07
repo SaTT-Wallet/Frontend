@@ -40,11 +40,10 @@ export class CampaignsListItemComponent implements OnInit {
     private campaignListStoreService: CampaignsListStoreService,
     private translate: TranslateService,
     private toastr: ToastrService,
-    private tokenStorageService: TokenStorageService,
+    private tokenStorageService: TokenStorageService
   ) {}
 
   ngOnInit(): void {
-
     this.currencyName = this.campaign.currency.name;
     if (this.currencyName === 'SATTBEP20') {
       this.currencyName = 'SATT';
@@ -154,7 +153,7 @@ export class CampaignsListItemComponent implements OnInit {
     let campaignPerformance = this.campaign.ratios.length
       ? this.campaign.ratios
       : this.campaign.bounties;
-    return !!campaignPerformance.find((r) => r.oracle === 'tikTok');
+    return !!campaignPerformance.find((r) => r.oracle === 'tiktok');
   }
   get localId(): string {
     return this.tokenStorageService.getLocale() || 'en';

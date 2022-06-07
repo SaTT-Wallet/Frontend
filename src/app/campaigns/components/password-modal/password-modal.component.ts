@@ -594,6 +594,16 @@ export class PasswordModalComponent implements OnInit {
       Number(
         this.campaign.ratios.find((elem) => elem.oracle === 'linkedin')
           ?.reachLimit
+      ) || 0,
+      this.campaign.ratios.find((elem) => elem.oracle === 'tiktok')?.like ||
+        '0',
+      this.campaign.ratios.find((elem) => elem.oracle === 'tiktok')?.share ||
+        '0',
+      this.campaign.ratios.find((elem) => elem.oracle === 'tiktok')?.view ||
+        '0',
+      Number(
+        this.campaign.ratios.find((elem) => elem.oracle === 'tiktok')
+          ?.reachLimit
       ) || 0
     ];
   }
