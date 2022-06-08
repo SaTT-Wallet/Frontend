@@ -23,12 +23,80 @@
   color: #75758F;
 }
 
+.import-manually-btn{
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 27px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.01em;
+  /* 01.COLORS/blue */
+  color: #4048FF;
+  /* 01.COLORS/White */
 
+  background: #FFFFFF;
+  /* button_shadow */
+
+  box-shadow: 0px 2px 6px rgba(50, 55, 84, 0.4);
+  border-radius: 30px;
+  padding: 0.7em 2em;
+
+}
 
 .crypto-data-table {
     position: relative;
     width:100%;
   margin-bottom: 3rem;
+}
+picture-moonboy {
+  max-width: 100%;
+}
+.text-moonboy{
+  ont-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 21px;
+  line-height: 130%;
+  /* or 14px */
+
+  text-align: center;
+  letter-spacing: 0.03em;
+
+  /* dark grey */
+
+  color: #323754;
+}
+
+.text-popup {
+  background: #ffffff;
+  box-shadow: 6px 7px 16px 9px rgb(214 214 232 / 30%);
+  border-radius: 80px;
+  width: fit-content;
+  padding: 1em 3em;
+  position: relative;
+  margin-left: -5vw;
+ margin-left: -7px;
+  margin-bottom: -40px;
+}
+.dialog-point {
+  width: 0;
+  height: 0;
+  border-left: 19px solid transparent;
+  border-right: 0px solid transparent;
+  border-top: 19px solid white;
+  position: absolute;
+  bottom: -15px;
+  right: 48px;
+}
+
+@media (max-width:500px) {
+  .text-popup {
+    margin-left: -42px !important;
+    margin-bottom: -7vw !important;
+  }
 }
 
 @media not all and (min-resolution:.001dpcm)

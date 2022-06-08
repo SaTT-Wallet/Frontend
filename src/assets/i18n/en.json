@@ -2996,6 +2996,9 @@
   "addToken.token-founded": "Token found",
   "addToken.token-exists": "Token exists, Please add new Token",
   "addToken.token-already-added": "Token already added",
+  "addToken.moon-boy1": "You dont find your token ",
+  "addToken.moon-boy2": "add by smartcontract id",
+
   "When_moon": "When-moon, the Game",
   "No result found": "No result found",
   "demande_satt_event": "Request of SaTT",

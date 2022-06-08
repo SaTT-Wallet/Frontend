@@ -2408,17 +2408,54 @@
     <div
       class="row d-flex justify-content-center mb-3 mt-2"
       *ngIf="cryptoList.length !== 0"
+      style="position: relative; padding-bottom: 11rem"
     >
       <div
+        class="d-flex justify-content-center align-items-center"
+        style="text-align: center"
+      >
+        You don’t find your token in our list?<br />
+        You can add it manually.
+      </div>
+      <div class="d-flex justify-content-center align-items-center mt-5">
+        <span class="import-manually-btn">Import Manually</span>
+      </div>
+
+      <!--<div
         class="col-sm-8 d-flex justify-content-center"
         [routerLink]="['/wallet/add-token']"
       >
         <button class="white-btn mb-4" style="margin-bottom: 70px !important">
           + {{ 'addToken' | translate }}
         </button>
-      </div>
+      </div>-->
     </div>
     <div class="space d-sm-block d-md-none"></div>
+    <div
+      style="
+        transform: scale(0.5);
+        position: absolute;
+        bottom: -125px;
+        right: -158px;
+      "
+    >
+      <div class="text-popup">
+        <p class="text-moonboy d-flex flex-column align-items-center">
+          <span
+            >{{ 'addToken.moon-boy1' | translate }} <br />
+            {{ 'addToken.moon-boy2' | translate }}</span
+          >
+        </p>
+
+        <span class="dialog-point"></span>
+      </div>
+      <div class="img-wrapper">
+        <img
+          src="assets/Images/moonboy/new-moonboy-help.svg"
+          class="picture-moonboy"
+        />
+      </div>
+    </div>
   </div>
 </div>
 
