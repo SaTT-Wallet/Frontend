@@ -30,6 +30,8 @@ import { WalletStoreService } from '@core/services/wallet-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 
 import { ShowNumbersRule } from '@shared/pipes/showNumbersRule';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { pattContact } from '@config/atn.config';
 // import { data } from 'jquery';
 declare var $: any;
 @Component({
@@ -88,6 +90,13 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   private listAddedToken: any[] = [];
   isLodingBtn = false;
   errorAddTokenMsg = '';
+  formToken: FormGroup;
+  successMsg: string = '';
+  selectedBlockchain = 'erc20';
+  errorMsg: string = '';
+  isLoading = false;
+  isSubmited = false;
+  showAddBtn = false;
   constructor(
     private Fetchservice: CryptofetchServiceService,
     public sidebarService: SidebarService,
@@ -106,6 +115,15 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     @Inject(PLATFORM_ID) private platformId: string
   ) {
     this.buyIframSrc = this.dom.bypassSecurityTrustResourceUrl('');
+    this.formToken = new FormGroup({
+      network: new FormControl('bep20', Validators.required),
+      tokenAdress: new FormControl('', {
+        validators: [Validators.required, Validators.pattern(pattContact)]
+      }),
+      symbol: new FormControl(''),
+      decimal: new FormControl(''),
+      tokenName: new FormControl('')
+    });
   }
 
   ngOnDestroy(): void {
@@ -123,6 +141,12 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     this.portfeuille();
     this.getTotalBalance();
     this.getusercrypto();
+    this.formToken.valueChanges.subscribe((values: any) => {
+      if (values.tokenAdress !== null) {
+        this.disabled = false;
+        this.checkToken();
+      }
+    });
 
     //input pattern="[0-9]*"
     $('[data-toggle="tooltip"]').tooltip;
@@ -387,7 +411,106 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   // }
   // fixing crypto decimals to 9
   nonAdedCryptos: any[] = [];
+  disabled = false;
+  selectedNetwork = 'BEP20';
+  networkList = ['BEP20', 'ERC20', 'POLYGON'];
 
+  onBlockchainChange(event: any) {
+    if (event.target.value === 'erc20') {
+      this.selectedBlockchain = 'erc20';
+      this.formToken.get('network')?.setValue('erc20');
+    } else {
+      this.selectedBlockchain = 'bep20';
+      this.formToken.get('network')?.setValue('bep20');
+    }
+  }
+  cancel() {
+    this.errorMsg = '';
+    this.successMsg = '';
+    this.disabled = false;
+    this.formToken.enable({ onlySelf: true, emitEvent: false });
+    this.formToken.reset({ onlySelf: true, emitEvent: false });
+    this.formToken
+      .get('network')
+      ?.setValue(this.selectedBlockchain, { onlySelf: true });
+  }
+  clearInput() {
+    this.errorMsg = '';
+    this.successMsg = '';
+    this.disabled = false;
+    this.cdref.detectChanges();
+  }
+  checkToken() {
+    if (!this.formToken.valid) {
+      this.showAddBtn = false;
+    }
+    this.isSubmited = true;
+    this.isLoading = true;
+    this.errorMsg = '';
+    this.successMsg = '';
+    this.walletFacade
+      .checkToken(
+        this.formToken.get('network')?.value,
+        this.formToken.get('tokenAdress')?.value
+      )
+      .subscribe(
+        (response: any) => {
+          if (!response) {
+            this.successMsg = '';
+            this.errorMsg = 'addToken.token-or-network-invalid';
+            this.isLoading = false;
+            this.disabled = false;
+          } else if (response.data !== undefined) {
+            this.isSubmited = false;
+            this.isLoading = false;
+
+            this.token = response.data.tokenName;
+
+            this.formToken
+              .get('symbol')
+              ?.setValue(response.data.symbol, { onlySelf: true });
+            this.formToken
+              .get('tokenAdress')
+              ?.setValue(response.data.tokenAdress, { onlySelf: true });
+            this.formToken
+              .get('decimal')
+              ?.setValue(response.data.decimal, { onlySelf: true });
+            // if (
+            //   ListTokens[response.data.symbol.toUpperCase()] &&
+            //   ListTokens[response.data.symbol.toUpperCase()][
+            //     'type'
+            //   ].toUpperCase() === response.data.network
+            // ) {
+            //   this.errorMsg = 'addToken.token-exists';
+            //   this.successMsg = '';
+            //   this.disabled = false;
+            // } else {
+            this.errorMsg = '';
+            this.successMsg = 'addToken.token-founded';
+            this.disabled = true;
+            this.showAddBtn = true;
+            /*
+              this.formToken.disable();
+*/
+            // }
+
+            //  else {
+            //   this.successMsg = '';
+            //   this.errorMsg = 'addToken.token-or-network-invalid';
+            // }
+          }
+        },
+        (error: any) => {
+          this.showAddBtn = false;
+
+          if ((error.message = 'not a token address')) {
+            this.successMsg = '';
+            this.errorMsg = 'addToken.token-or-network-invalid';
+            this.isLoading = false;
+          }
+        }
+      );
+  }
   filterAmount(input: any, nbre: any = 10) {
     if (input) {
       var out = input;
@@ -763,6 +886,57 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     }
     return false;
   }
+  addToken() {
+    this.isSubmited = true;
+    this.isLodingBtn = true;
+    this.formToken.enable({ onlySelf: true, emitEvent: false });
+    this.walletFacade
+      .addToken(
+        this.token,
+        this.formToken.get('symbol')?.value.toUpperCase(),
+        this.formToken.get('decimal')?.value,
+        this.formToken.get('tokenAdress')?.value,
+        this.formToken.get('network')?.value.toUpperCase()
+      )
+      .subscribe(
+        (response: any) => {
+          if (response !== undefined) {
+            this.formToken.reset('', { onlySelf: true, emitEvent: false });
+            this.disabled = false;
+            this.isLodingBtn = false;
+            this.isSubmited = false;
+            this.showAddBtn = false;
+            this.formToken.reset('', { onlySelf: true, emitEvent: false });
+            this.errorMsg = '';
+            this.successMsg = 'addToken.token-added-successfully';
+            this.walletStoreService.getCryptoList();
+            this.router.navigate(['/home']);
+          }
+        },
+        (error: any) => {
+          if (
+            (error.error = 'token already added') ||
+            (error.error = 'not a token address')
+          ) {
+            this.errorMsg = 'addToken.token-already-added';
+            this.successMsg = '';
+            this.disabled = false;
+
+            this.showAddBtn = false;
+            this.isLodingBtn = false;
+            // this.formToken.enable({ onlySelf: true, emitEvent: false });
+            //
+            // this.formToken.reset({ onlySelf: true, emitEvent: false });
+
+            // this.formToken
+            //
+            //   .get('network')
+            //
+            //   ?.setValue(this.selectedBlockchain, { onlySelf: true });
+          }
+        }
+      );
+  }
 
   importToken(token: any) {
     this.listToken[
@@ -802,5 +976,10 @@ export class CryptoListComponent implements OnInit, OnDestroy {
           }
         }
       );
+  }
+
+  selectNetwork(network: string) {
+    this.selectedNetwork = network;
+    this.formToken.get('network')?.setValue(network?.toLowerCase());
   }
 }

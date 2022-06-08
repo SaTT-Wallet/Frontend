@@ -27,7 +27,8 @@
 
 .crypto-data-table {
     position: relative;
-    width:100%
+    width:100%;
+  margin-bottom: 3rem;
 }
 
 @media not all and (min-resolution:.001dpcm)
@@ -2511,7 +2512,26 @@ hr {
 .li-select:hover {
     background-color: aliceblue;
 }
+.dropdown-network{
 
+}
+.li-network{
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 120%;
+  /* or 19px */
+
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.03em;
+
+  /* 01.COLORS/dark blue */
+
+  color: #1F2337;
+  padding: 1em 2em;
+}
 .text-align-left {
     text-align: left;
     font-style: normal;
@@ -4696,7 +4716,12 @@ hr {
     letter-spacing: 0.02em;
     padding: 0;
 }
-
+.custom-add-token-wrapper{
+  background: #F6F6FF;
+  border-radius: 15px;
+  padding: 2em 1em;
+  width: 87%;
+}
 .btn-import-token{
   font-family: 'Poppins';
   font-style: normal;
@@ -4854,6 +4879,7 @@ hr {
     background-color: white;
     color: #47526a;
     border-radius: 30px;
+  box-shadow: none!important;
 }
 
 .label-type {
@@ -5099,6 +5125,10 @@ hr {
     position: absolute;
     right: 22px;
     top: 35px;
+}
+
+.icon-input-2 {
+
 }
 
 .title-page {
