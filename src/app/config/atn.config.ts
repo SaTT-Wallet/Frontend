@@ -220,14 +220,14 @@ var ListTokens: { [key: string]: { [key: string]: any } } = {
     symbole: 'OMG'
   },
 
-  // USDC: {
-  //   name: "USDC",
-  //   contract: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-  //   decimals: new Big("10").pow(6),
-  //   logo: "USD.svg",
-  //   type: "erc20",
-  //   symbole: "USDC",
-  // },
+   USDC: {
+     name: "USDC",
+     contract: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+     decimals: new Big("10").pow(6),
+     logo: "USD.svg",
+     type: "erc20",
+     symbole: "USDC",
+   },
   ZRX: {
     name: 'ZRX',
     contract: '0xe41d2489571d322189246dafa5ebde1f4699f498',
