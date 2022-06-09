@@ -31,7 +31,8 @@ enum EOraclesID {
   'youtube',
   'instagram',
   'twitter',
-  'linkedin'
+  'linkedin',
+  'tiktok'
 }
 @Component({
   selector: 'app-password-modal',
