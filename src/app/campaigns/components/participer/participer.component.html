@@ -146,6 +146,15 @@
                     ?.value?.indexOf('https://www.tiktok.com/') === 0
               }"
             />
+
+            <div class="Alert d-flex mt-2" *ngIf="idtiktok === 0">
+              <p class="m-0 p-2">
+                {{
+                  'Unfortunately a short link is not supported yet. please open your short link on a browser then copy the full link and try again.'
+                    | translate
+                }}
+              </p>
+            </div>
             <div
               *ngIf="
                 (sendform.controls['url'].invalid || !validUrl) &&

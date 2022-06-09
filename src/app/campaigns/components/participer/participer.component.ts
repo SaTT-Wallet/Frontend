@@ -1030,7 +1030,7 @@ export class ParticiperComponent implements OnInit {
         this.success = '';
         this.loadingButton = false;
       }
-    } else if (media.indexOf('tiktok.com') !== -1) {
+    } else if (media.indexOf('www.tiktok.com') !== -1) {
       this.idtiktok = media.split('video/')[1].split('?')[0];
       this.embedTiktokVideo = this.sanitizer.bypassSecurityTrustHtml(`
         <iframe
@@ -1043,7 +1043,7 @@ export class ParticiperComponent implements OnInit {
         </iframe>`);
 
       myApplication.idPost = this.idtiktok;
-      myApplication.idUser = this.tokenStorageService.getIdUserPost();
+      myApplication.idUser = this.tokenStorageService.getUserId();
       myApplication.typeSN = 6;
 
       this.userfaceook = '';
@@ -1136,6 +1136,8 @@ export class ParticiperComponent implements OnInit {
         this.success = '';
         this.loadingButton = false;
       }
+    } else if (media.indexOf('vm.tiktok.com') !== -1) {
+      this.idtiktok = 0;
     } else {
       this.validUrl = false;
     }
