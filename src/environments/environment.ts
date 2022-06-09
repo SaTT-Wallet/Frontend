@@ -4,7 +4,6 @@
 
 export const environment = {
   production: false,
-  /*
   API_URL: 'https://api-preprod2.satt-token.com',
   // 'https://api-preprod2.satt-token.com:3015',
   // API_URL: 'https://localhost:3015',
@@ -42,9 +41,8 @@ export const environment = {
   etherscanaddr: 'https://ropsten.etherscan.io/address/',
   simplexUrl: 'https://sandbox.test-simplexcc.com/payments/new',
   gmtId: 'GTM-K2RMTJ3'
-*/
 
-  API_URL: 'https://api2.satt-token.com:3016',
+  /* API_URL: 'https://api2.satt-token.com:3016',
   addresses: {
     smartContracts: {
       campaignERC20: '0xf961c85517fe86244cb60889afc4a928068d49ef',
@@ -77,7 +75,7 @@ export const environment = {
   bscanaddr: 'https://bscscan.com/address/',
   etherscanaddr: 'https://etherscan.io/address/',
   simplexUrl: 'https://checkout.simplexcc.com/payments/new',
-  polygonscanAddr: 'https://mumbai.polygonscan.com/tx/'
+  polygonscanAddr: 'https://mumbai.polygonscan.com/tx/'*/
 };
 
 /*
