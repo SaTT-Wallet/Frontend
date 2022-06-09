@@ -1351,24 +1351,18 @@
                       <span
                         class="more-info-text"
                         style="color: #4048ff !important"
+                        (click)="
+                          crypto.network?.toLowerCase() === 'erc20'
+                            ? navigateToERC20Infos(crypto.tokenAddress)
+                            : navigateToBEP20Infos(crypto.tokenAddress)
+                        "
                         >More infos on
-                        <a
-                          [href]="etherscanUrl + crypto.tokenAddress"
-                          target="_blank"
-                          style="cursor: pointer"
-                          ><span
-                            *ngIf="crypto.network?.toLowerCase() === 'erc20'"
-                            >Etherscan</span
-                          ></a
+                        <span *ngIf="crypto.network?.toLowerCase() === 'erc20'"
+                          >Etherscan</span
                         >
 
-                        <a
-                          [href]="bscanUrl + crypto.tokenAddress"
-                          style="cursor: pointer"
-                          ><span
-                            *ngIf="crypto.network?.toLowerCase() === 'bep20'"
-                            >Bscscan</span
-                          ></a
+                        <span *ngIf="crypto.network?.toLowerCase() === 'bep20'"
+                          >Bscscan</span
                         ></span
                       >
                     </div>
