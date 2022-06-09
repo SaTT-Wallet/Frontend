@@ -1002,4 +1002,16 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     this.selectedNetwork = network;
     this.formToken.get('network')?.setValue(network?.toLowerCase());
   }
+
+  navigateToERC20Infos(tokenAddress: any) {
+    if (isPlatformBrowser(this.platformId)) {
+      window.open(this.etherscanUrl + tokenAddress, '_blank');
+    }
+  }
+
+  navigateToBEP20Infos(tokenAddress: any) {
+    if (isPlatformBrowser(this.platformId)) {
+      window.open(this.bscanUrl + tokenAddress, '_blank');
+    }
+  }
 }
