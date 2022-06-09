@@ -7,6 +7,9 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class MoonboyHelpComponent implements OnInit {
   @Input() pageName = '';
+  @Input() customTextEnabled = false;
+  @Input() customText = '';
+
   constructor() {}
 
   ngOnInit(): void {}
