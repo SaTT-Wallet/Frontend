@@ -1043,7 +1043,7 @@ export class ParticiperComponent implements OnInit {
         </iframe>`);
 
       myApplication.idPost = this.idtiktok;
-      myApplication.idUser = '0';
+      myApplication.idUser = this.tokenStorageService.getIdUserPost();
       myApplication.typeSN = 6;
 
       this.userfaceook = '';
