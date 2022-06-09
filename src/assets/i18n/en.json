@@ -2998,6 +2998,8 @@
   "addToken.token-already-added": "Token already added",
   "addToken.moon-boy1": "You dont find your token ",
   "addToken.moon-boy2": "add by smartcontract id",
+  "addToken.moon-boy3": "How to find contract of",
+  "addToken.moon-boy4": "token",
 
   "When_moon": "When-moon, the Game",
   "No result found": "No result found",

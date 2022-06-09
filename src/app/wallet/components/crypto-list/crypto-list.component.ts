@@ -91,6 +91,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   isLodingBtn = false;
   errorAddTokenMsg = '';
   formToken: FormGroup;
+
   successMsg: string = '';
   selectedBlockchain = 'erc20';
   errorMsg: string = '';
@@ -414,6 +415,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   disabled = false;
   selectedNetwork = 'BEP20';
   networkList = ['BEP20', 'ERC20', 'POLYGON'];
+  importManually = false;
 
   onBlockchainChange(event: any) {
     if (event.target.value === 'erc20') {
@@ -639,7 +641,10 @@ export class CryptoListComponent implements OnInit, OnDestroy {
 
   totalBalanceSum(crypto: any, modeDetails?: boolean) {
     if (modeDetails && crypto.symbol === 'SATT') {
-      return this.showNumbersRule.transform(crypto.total_balance + '', true);
+      return this.showNumbersRule.transform(
+        (!!crypto.total_balance ? crypto.total_balance : 0) + '',
+        true
+      );
     }
     let sum = 0;
     if (!!crypto.cryptoBEP20) {
@@ -655,12 +660,15 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     } else {
       sum = crypto.total_balance;
     }
-    return this.showNumbersRule.transform(sum + '', true);
+    return this.showNumbersRule.transform((!!sum ? sum : 0) + '', true);
   }
 
   quantitySum(crypto: any, modeDetails?: boolean) {
     if (modeDetails && crypto.symbol === 'SATT') {
-      return this.showNumbersRule.transform(crypto.quantity + '', true);
+      return this.showNumbersRule.transform(
+        (!!crypto.quantity ? crypto.quantity : 0) + '',
+        true
+      );
     }
     let sum = 0;
     if (!!crypto.cryptoBEP20) {
@@ -675,7 +683,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     } else {
       sum = crypto.quantity;
     }
-    return this.showNumbersRule.transform(sum + '', true);
+    return this.showNumbersRule.transform((!!sum ? sum : 0) + '', true);
   }
   transformPrice(crypto: any) {
     return this.showNumbersRule.transform(crypto?.price + '', true);
@@ -685,6 +693,11 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     this.txtValue = value;
     if (this.txtValue !== '') {
       this.searched = true;
+      if (value.indexOf('0x') >= 0) {
+        this.importManually = true;
+      } else {
+        this.importManually = false;
+      }
     } else {
       this.searched = false;
     }
@@ -769,7 +782,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     if (crypto.symbol === 'SATT') {
       details.hidden = !details.hidden;
     } else {
-      details.hidden = true;
+      details.hidden = !details.hidden;
     }
   }
 
@@ -954,6 +967,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
       .subscribe(
         (response: any) => {
           if (response !== undefined) {
+            this.search = '';
             this.listToken[
               this.listToken.map((res) => res.symbol).indexOf(token.symbol)
             ].isLoading = false;
