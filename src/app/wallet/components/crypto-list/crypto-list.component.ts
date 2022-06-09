@@ -32,6 +32,7 @@ import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { ShowNumbersRule } from '@shared/pipes/showNumbersRule';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { pattContact } from '@config/atn.config';
+import { environment } from '@environments/environment';
 // import { data } from 'jquery';
 declare var $: any;
 @Component({
@@ -60,6 +61,8 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   isBitcoinAdress: boolean = false;
   isERC20Adress: boolean = false;
   search: any;
+  etherscanUrl = environment.etherscanaddr;
+  bscanUrl = environment.bscanaddr;
 
   @ViewChild('checkUserLegalKYCModal') checkUserLegalKYCModal!: ElementRef;
   @ViewChild('changly', { static: false })
@@ -966,6 +969,8 @@ export class CryptoListComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         (response: any) => {
+          this.isLodingBtn = true;
+
           if (response !== undefined) {
             this.search = '';
             this.listToken[
@@ -976,6 +981,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
         },
 
         (error: any) => {
+          this.isLodingBtn = true;
           this.listToken[
             this.listToken.map((res) => res.symbol).indexOf(token.symbol)
           ].isLoading = false;
