@@ -2889,6 +2889,7 @@
   "addToken.add-new-token": "Ajouter un jeton",
   "addToken.token-address": "Adresse du contrat du jeton",
   "addToken.token-symbol": "Symbole du jeton",
+  "addToken.network": "RESEAU",
   "addToken.decimals": "Décimales",
   "addToken.Custom Token": "Jeton personnalisé",
   "addToken.token-added-successfully": "Jeton ajouté avec Succès",

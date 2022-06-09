@@ -11,7 +11,6 @@ export class FilterBynamePipe implements PipeTransform {
     }
     // filter items array, items which match and return true will be
     // kept, false will be filtered out
-
     return items.filter((item) => {
       let cond1 =
         (!!item.name &&

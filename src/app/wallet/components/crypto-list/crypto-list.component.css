@@ -23,11 +23,87 @@
   color: #75758F;
 }
 
+.non-added-token-wrapper-sm{
+  background: #F6F6FF;
+  border-radius: 15px;
+}
 
+.import-manually-btn{
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 27px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.01em;
+  /* 01.COLORS/blue */
+  color: #4048FF;
+  /* 01.COLORS/White */
+
+  background: #FFFFFF;
+  /* button_shadow */
+
+  box-shadow: 0px 2px 6px rgba(50, 55, 84, 0.4);
+  border-radius: 30px;
+  padding: 0.7em 2em;
+
+}
 
 .crypto-data-table {
     position: relative;
-    width:100%
+    width:100%;
+  margin-bottom: 3rem;
+}
+picture-moonboy {
+  max-width: 100%;
+}
+.text-moonboy{
+  ont-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 21px;
+  line-height: 130%;
+  /* or 14px */
+
+  text-align: center;
+  letter-spacing: 0.03em;
+
+  /* dark grey */
+
+  color: #323754;
+}
+
+
+
+.text-popup {
+  background: #ffffff;
+  box-shadow: 6px 7px 16px 9px rgb(214 214 232 / 30%);
+  border-radius: 80px;
+  width: fit-content;
+  padding: 1em 3em;
+  position: relative;
+  margin-left: -5vw;
+ margin-left: -7px;
+  margin-bottom: -40px;
+}
+.dialog-point {
+  width: 0;
+  height: 0;
+  border-left: 19px solid transparent;
+  border-right: 0px solid transparent;
+  border-top: 19px solid white;
+  position: absolute;
+  bottom: -15px;
+  right: 48px;
+}
+
+@media (max-width:500px) {
+  .text-popup {
+    margin-left: -42px !important;
+    margin-bottom: -7vw !important;
+  }
 }
 
 @media not all and (min-resolution:.001dpcm)
@@ -2511,7 +2587,26 @@ hr {
 .li-select:hover {
     background-color: aliceblue;
 }
+.dropdown-network{
 
+}
+.li-network{
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 120%;
+  /* or 19px */
+
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.03em;
+
+  /* 01.COLORS/dark blue */
+
+  color: #1F2337;
+  padding: 1em 2em;
+}
 .text-align-left {
     text-align: left;
     font-style: normal;
@@ -4497,7 +4592,9 @@ color: white}
 
 #key {
    align-self: center;
+   /*
    margin: 2em auto 2em 0;
+   */
      background-image: url('/assets/Images/serch-hard-gray.svg');
     background-position: 13px;
     background-repeat: no-repeat;
@@ -4525,6 +4622,36 @@ color: white}
     padding-right: 1rem;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
+}
+cryptoRowContainerMobileNonAddedToken{
+  background: #F6F6FF;
+}
+.info-warning{
+  background: #FFFAEA;
+  border-radius: 30px;
+}
+.info-text-warning{
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 130%;
+  /* or 18px */
+  align-items: center;
+  letter-spacing: 0.03em;
+
+  /* 01.COLORS/Orange */
+
+  color: #FFA318;
+
+}
+.btn-addtoken-info-sm{
+  background: #FFFFFF;
+  /* button_shadow */
+height: 42px;
+  width: 42px;
+  box-shadow: 0px 2px 6px rgba(50, 55, 84, 0.4);
+  border-radius: 30px;
 }
 
 .tablette {
@@ -4696,7 +4823,12 @@ hr {
     letter-spacing: 0.02em;
     padding: 0;
 }
-
+.custom-add-token-wrapper{
+  background: #F6F6FF;
+  border-radius: 15px;
+  padding: 2em 1em;
+  width: 87%;
+}
 .btn-import-token{
   font-family: 'Poppins';
   font-style: normal;
@@ -4854,6 +4986,7 @@ hr {
     background-color: white;
     color: #47526a;
     border-radius: 30px;
+  box-shadow: none!important;
 }
 
 .label-type {
@@ -5101,6 +5234,10 @@ hr {
     top: 35px;
 }
 
+.icon-input-2 {
+
+}
+
 .title-page {
     font-style: normal;
     font-weight: 700;
@@ -5233,6 +5370,22 @@ img.not-found {
     width: 33%;
     max-width: 400px;
     min-width: 150px;
+}
+
+.non-added-token-network-sm{
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 130%;
+  /* identical to box height, or 16px */
+
+  text-align: right;
+  letter-spacing: 0.03em;
+
+  /* 02.GREYS/hard grey */
+
+  color: #75758F;
 }
 
 
