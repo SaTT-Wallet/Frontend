@@ -11,8 +11,8 @@ export const environment = {
   addresses: {
     smartContracts: {
       campaignERC20: '0xa5F46d6F4F3b318EeFF1B37e39491e52233c5975',
-      campaignBEP20: '0x7ccf8e6b1ea2c018ec133299b4d41de4e5b28304',
-      campaignPOLYGON: '0x8CC1e2E2C4a04c3029579fD9612FEBb0323C319F',
+      campaignBEP20: '0xcef9b240c13f269354e5ae3d6808fecf9834bf10',
+      campaignPOLYGON: '0x19e0a7b387694ff10bC3203D2b4A1Cc3bb27f3e8',
       SATT_TOKENERC20: '0x2beF0d7531f0aaE08ADc26A0442Ba8D0516590d0',
       SATT_TOKENBEP20: '0x6fAc729f346A46fC0093126f237b4A520c40eb89',
       SATT_TOKENPOLYGON: '0x195DC8342D923D3dFe0167Dc902A33Eabd801653',
@@ -50,6 +50,9 @@ export const environment = {
       SATT_TOKENERC20: '0xdf49c9f599a0a9049d97cff34d0c30e468987389',
       SATT_TOKENBEP20: '0x448bee2d93be708b54ee6353a7cc35c4933f1156',
       TETHER_TOKENERC20: '0xdac17f958d2ee523a2206206994597c13d831ec7',
+      SATT_TOKENPOLYGON: '0x195DC8342D923D3dFe0167Dc902A33Eabd801653',
+      campaignPOLYGON: '0x8CC1e2E2C4a04c3029579fD9612FEBb0323C319F',
+
       DAI: '0x6b175474e89094c44da98b954eedeac495271d0f',
       BUSD: '0xe9e7cea3dedca5984780bafc599bd69add087d56'
     }
@@ -71,7 +74,8 @@ export const environment = {
   etherscan: 'https://etherscan.io/tx/',
   bscanaddr: 'https://bscscan.com/address/',
   etherscanaddr: 'https://etherscan.io/address/',
-  simplexUrl: 'https://checkout.simplexcc.com/payments/new'*/
+  simplexUrl: 'https://checkout.simplexcc.com/payments/new',
+  polygonscanAddr: 'https://mumbai.polygonscan.com/tx/'*/
 };
 
 /*

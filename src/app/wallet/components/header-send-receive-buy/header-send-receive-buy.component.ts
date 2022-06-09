@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header-send-receive-buy',
@@ -8,10 +9,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class HeaderSendReceiveBuyComponent implements OnInit {
   @Input() title: string = '';
   @Output() clickedBack: EventEmitter<boolean> = new EventEmitter();
-  constructor() {}
+  constructor(  private router: Router,
+    ) {}
 
   ngOnInit(): void {}
   back() {
-    this.clickedBack.emit(true);
+    this.router.navigate(['/wallet']);
+    //this.clickedBack.emit(true);
   }
 }
