@@ -10,7 +10,7 @@ export const environment = {
   //https://api-preprod.satt-token.com:3014
   addresses: {
     smartContracts: {
-      campaignERC20: '0xa5F46d6F4F3b318EeFF1B37e39491e52233c5975',
+      campaignERC20: '0x8CC1e2E2C4a04c3029579fD9612FEBb0323C319F',
       campaignBEP20: '0xcef9b240c13f269354e5ae3d6808fecf9834bf10',
       campaignPOLYGON: '0x19e0a7b387694ff10bC3203D2b4A1Cc3bb27f3e8',
       SATT_TOKENERC20: '0x2beF0d7531f0aaE08ADc26A0442Ba8D0516590d0',
