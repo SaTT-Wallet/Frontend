@@ -924,7 +924,7 @@ export class WalletComponent implements OnInit, OnDestroy {
             if (
               this.percentProfil < 60 &&
               showAgain === 'true' &&
-              (this.showModal === true || this.user.onBoarding === true)
+              this.user.onBoarding === true
             ) {
               setTimeout(() => {
                 if (
