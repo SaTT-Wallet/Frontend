@@ -54,7 +54,7 @@ button:focus {
   height: max-content;
   z-index: 3;
   text-overflow: ellipsis;
-  overflow-y: auto;
+  overflow-y: clip;
 
   text-overflow: ellipsis;
 
