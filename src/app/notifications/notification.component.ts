@@ -693,6 +693,7 @@ export class NotificationComponent implements OnInit {
       });
     }
 
+    
     if (notif.label.network === 'ERC20') {
       window.open(etherscan + notif.label.transactionHash, '_blank');
     }

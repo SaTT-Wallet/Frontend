@@ -310,7 +310,8 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
       );
       this.isImageCroppedSubject.next(true);
       this.readAsBase64(this.srcFileMobile).then((data) => {
-        if (data.result.length < 2000000) {
+        if ((data.result.length * 6) / 8 < 2 * 10 ** 7) {
+          // we add  594455 byte , because readAsBase64 add some size ( approximately 594455 byte ) to original size of the image
           this.sizeErrorCoverMobile = false;
           this.form.get('coverMobile')?.setValue(data.result);
         } else {
@@ -340,7 +341,7 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
       if (!imgExtensions.includes(fileUploaded.type)) {
         this.extensionErrorCover = true;
         this.inputCover.nativeElement.value = '';
-      } else if (fileUploaded.size > 2000000) {
+      } else if (fileUploaded.size > 2000000 + 594455) {
         this.isConformCover = false;
         this.extensionErrorCover = false;
         this.sizeErrorCover = true;
@@ -353,7 +354,7 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
         this.picName = fileUploaded.name;
         this.showImage = true;
         this.readAsBase64(fileUploaded).then((data) => {
-          if (data.result.length < 2000000) {
+          if (data.result.length < 2000000 + 594455) {
             this.imageChangedEvent = event;
             this.isConformCover = true;
             this.sizeErrorCover = false;
@@ -381,7 +382,8 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
       if (!imgExtensions.includes(fileUploaded.type)) {
         this.extensionErrorCoverMobile = true;
         this.coverInputMobile.nativeElement.value = '';
-      } else if (fileUploaded.size > 2000000) {
+      } else if (fileUploaded.size > 2000000 + 594455) {
+        // we add  594455 byte , because readAsBase64 add some size ( approximately 594455 byte ) to original size of the image
         this.isConformCoverMobile = false;
         this.extensionErrorCoverMobile = false;
         this.sizeErrorCoverMobile = true;
@@ -393,7 +395,8 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
         this.picNameMobile = fileUploaded.name;
         this.extensionErrorCoverMobile = false;
         this.readAsBase64(fileUploaded).then((data) => {
-          if (data.result.length < 2000000) {
+          if (data.result.length < 2000000 + 594455) {
+            // we add  594455 byte , because readAsBase64 add some size ( approximately 594455 byte ) to original size of the image
             this.imageChangedEventMobile = event;
             this.isConformCoverMobile = true;
             this.showImageMobile = true;
