@@ -385,6 +385,7 @@ export class RegistrationComponent implements OnInit {
               this.tokenStorageService.setUserSn('0');
               this.tokenStorageService.setEnabled('0');
               this.accountFacadeService.dispatchUpdatedAccount();
+              this.tokenStorageService.setShowPopUp('false');
               // this.modalService.open(this.confirmModal);
               this.showSpinner = false;
               this.router.navigate(['/social-registration/activation-mail'], {
