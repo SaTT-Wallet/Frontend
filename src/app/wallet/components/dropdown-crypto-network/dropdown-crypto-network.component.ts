@@ -68,7 +68,10 @@ export class DropdownCryptoNetworkComponent
         if (p.id) {
           this.firstEmit = true;
           this.isCryptoRouter = true;
-          this.cryptoPicName = p.id;
+          if (this.cryptoPicName = "SATTPOLYGON")
+          {this.cryptoPicName = "SATT"}
+
+     
           this.cryptoSymbol = p.id;
           this.selectedNetworkValue = p.network;
           if (p.pic === 'false') {
