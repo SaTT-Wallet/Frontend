@@ -33,6 +33,7 @@ import { ShowNumbersRule } from '@shared/pipes/showNumbersRule';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { pattContact } from '@config/atn.config';
 import { environment } from '@environments/environment';
+import { FilterBynamePipe } from '@shared/pipes/filter-byname.pipe';
 // import { data } from 'jquery';
 declare var $: any;
 @Component({
@@ -116,7 +117,8 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     private cdref: ChangeDetectorRef,
     @Inject(DOCUMENT) private document: Document,
     private showNumbersRule: ShowNumbersRule,
-    @Inject(PLATFORM_ID) private platformId: string
+    @Inject(PLATFORM_ID) private platformId: string,
+    private filterByNamePipe: FilterBynamePipe
   ) {
     this.buyIframSrc = this.dom.bypassSecurityTrustResourceUrl('');
     this.formToken = new FormGroup({
@@ -494,6 +496,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
             this.successMsg = 'addToken.token-founded';
             this.disabled = true;
             this.showAddBtn = true;
+            this.isLodingBtn = false;
             /*
               this.formToken.disable();
 */
@@ -507,7 +510,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
         },
         (error: any) => {
           this.showAddBtn = false;
-
+          this.isLodingBtn = false;
           if ((error.message = 'not a token address')) {
             this.successMsg = '';
             this.errorMsg = 'addToken.token-or-network-invalid';
@@ -696,7 +699,11 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     this.txtValue = value;
     if (this.txtValue !== '') {
       this.searched = true;
-      if (value.indexOf('0x') >= 0) {
+      if (
+        value.indexOf('0x') >= 0 &&
+        this.filterByNamePipe.transform(this.listToken, this.search).length ===
+          0
+      ) {
         this.importManually = true;
       } else {
         this.importManually = false;
@@ -785,7 +792,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     if (crypto.symbol === 'SATT') {
       details.hidden = !details.hidden;
     } else {
-      details.hidden = !details.hidden;
+      details.hidden = true;
     }
   }
 

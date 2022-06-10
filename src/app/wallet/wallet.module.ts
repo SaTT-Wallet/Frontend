@@ -18,6 +18,7 @@ import { DatePipe, DecimalPipe } from '@angular/common';
 import { ChartModule } from 'angular-highcharts';
 import { CryptoInfoComponent } from './components/crypto-info/crypto-info.component';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { FilterBynamePipe } from '@shared/pipes/filter-byname.pipe';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,6 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
     ChartModule,
     ZXingScannerModule
   ],
-  providers: [DecimalPipe, DatePipe]
+  providers: [DecimalPipe, DatePipe, FilterBynamePipe]
 })
 export class WalletModule {}
