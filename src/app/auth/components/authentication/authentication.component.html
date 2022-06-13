@@ -4,7 +4,7 @@
     <!----------------------------------------------------------->
 
     <!-------------------------------------------------------------- right bloc--------------------------------------------------------->
-    <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 auth_col">
+    <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 auth_col flex-column">
       <main class="container auth-body">
         <div
           *ngIf="loginshow"
@@ -293,6 +293,10 @@
           </div>
         </div>
       </main>
+      <app-footer
+        *ngIf="!showBigSpinner"
+        style="position: relative !important; width: 100vw; z-index: 1000"
+      ></app-footer>
     </div>
 
     <div
@@ -304,7 +308,6 @@
         <!-- <h3 class="title_token">{{ 'token_révolution' | translate }}</h3> -->
       </div>
     </div>
-    <app-footer *ngIf="!showBigSpinner"></app-footer>
   </div>
 </div>
 
