@@ -161,7 +161,6 @@ export class ParticiperComponent implements OnInit {
         this.campaigndata = data.data;
         this.networkWallet = data.data.token.type;
         let performance = this.campaigndata.ratios[0]?.oracle;
-
         if (performance?.length > 1 && performance === 'twitter') {
           this.ratioLink = true;
         }
@@ -214,6 +213,13 @@ export class ParticiperComponent implements OnInit {
       '?redirect=' +
       this.router.url;
 
+      var linkTiktok: string =
+      sattUrl +
+      '/profile/addChannel/tiktok/' +
+      this.tokenStorageService.getIdUser() +
+      '?redirect=' +
+      this.router.url;
+
     if (isPlatformBrowser(this.platformId)) {
       if (social === 'facebook') {
         window.location.href = linkFacebook;
@@ -221,8 +227,11 @@ export class ParticiperComponent implements OnInit {
         window.location.href = linkGoogle;
       } else if (social === 'twitter') {
         window.location.href = linkTwitter;
-      } else {
+      } else if (social === 'linkedin') {
         window.location.href = linkLinkedin;
+      }
+      else {
+        window.location.href = linkTiktok;
       }
     }
   }
@@ -1103,8 +1112,8 @@ export class ParticiperComponent implements OnInit {
                 err.error.error === 'account not linked' &&
                 err.error.code === 406
               ) {
-                this.connectValue = 'google';
-                this.errorResponse = 'google';
+                this.connectValue = 'tiktok';
+                this.errorResponse = 'tiktok';
                 this.error = '';
                 this.success = '';
                 this.loadingButton = false;
@@ -1130,6 +1139,7 @@ export class ParticiperComponent implements OnInit {
               }
             }
           );
+          console.log("connectValue",this.connectValue)
       } else {
         this.spinner = false;
         this.error = 'oracle_not_exist';
