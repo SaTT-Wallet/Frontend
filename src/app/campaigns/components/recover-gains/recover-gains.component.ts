@@ -237,41 +237,7 @@ export class RecoverGainsComponent implements OnInit {
     this.router.navigate(['/home/campaign/' + this.campaignId]);
   }
 
-  getPriceGas() {
-    this.walletFacade
-      .getCryptoPriceList()
-      .pipe(
-        map((response: any) => response.data),
-        mergeMap((data: any) => {
-          this.bnb = data['BNB'].price;
-          this.eth = data['ETH'].price;
-          this.matic = data['MATIC'].price;
-          let arrayOfObs = [];
-          arrayOfObs.push(this.walletFacade.etherGaz$);
-          arrayOfObs.push(this.walletFacade.bnbGaz$);
-          return forkJoin(arrayOfObs);
-        }),
-        takeUntil(this.isDestroyedSubject)
-      )
-      .subscribe((resArray) => {
-        let priceEther;
-        const gazEther = resArray[0];
-        priceEther = gazEther.gasPrice;
-        this.gazsend = (
-          ((priceEther * GazConsumedByCampaign) / 1000000000) *
-          this.eth
-        ).toFixed(2);
-        this.eRC20Gaz = this.gazsend;
-        console.log("this.eRC20Gaz",this.eRC20Gaz)
-        ////
-        const gazBnb = resArray[1];
-        let priceBnb = gazBnb.gasPrice;
-        this.bEPGaz = (
-          ((priceBnb * GazConsumedByCampaign) / 1000000000) *
-          this.bnb
-        ).toFixed(2);
-      });
-  }
+  
 
   parentFunction() {
     return this.walletFacade.getCryptoPriceList().pipe(
