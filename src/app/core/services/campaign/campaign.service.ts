@@ -753,7 +753,7 @@ export class CampaignHttpApiService {
   }
 
   allowERC20(erc20: any, password: any) {
-    let amount = '100000000000000000000000000000';
+    let amount = '999999999999999999999999999999999999999999999999999999999';
     return this.http.post(
       sattUrl + '/campaign/erc20/allow',
       {
@@ -768,7 +768,7 @@ export class CampaignHttpApiService {
   }
 
   allowBEP20(bep20: any, password: any) {
-    let amount = '100000000000000000000000000000';
+    let amount = '999999999999999999999999999999999999999999999999999999999';
     // const BEP20 = ListTokens["SATTBEP20"].contract;
     return this.http.post(
       sattUrl + '/campaign/bep20/allow',
@@ -783,7 +783,7 @@ export class CampaignHttpApiService {
   }
 
   allowPOLYGON(token: any, password: any) {
-    let amount = '100000000000000000000000000000';
+    let amount = '999999999999999999999999999999999999999999999999999999999';
     // const BEP20 = ListTokens["SATTBEP20"].contract;
     return this.http.post(
       sattUrl + '/campaign/polygon/allow',
