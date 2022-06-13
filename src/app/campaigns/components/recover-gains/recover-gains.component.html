@@ -129,6 +129,12 @@
         >
           Gas fees BNB: ${{ bEPGaz }}
         </div>
+        <div
+        class="text-grey gas-fee"
+        *ngIf="campaign.currency.type === 'matic'"
+      >
+        Gas fees MATIC: ${{ polygonGaz }}
+      </div>
       </div>
     </div>
   </ng-container>
