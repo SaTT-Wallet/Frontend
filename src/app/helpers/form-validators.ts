@@ -104,7 +104,7 @@ export function customValidateInsufficientBudget(): ValidatorFn {
     if (bounties.length) {
       bounties.forEach((elem: any) => {
         elem.value.categories.forEach((val: any) => {
-          sumReward += Number(val.reward);
+          sumReward = Number(val.reward);
           if (!isNaN(sumReward)) {
             totaleBounties += sumReward;
           }
