@@ -11,7 +11,7 @@ export const environment = {
   addresses: {
     smartContracts: {
       campaignERC20: '0xf23c1ee8910995602Ff44EAB26fd281d2d31d720',
-      campaignBEP20: '0xcef9b240c13f269354e5ae3d6808fecf9834bf10',
+      campaignBEP20: '0x2646cB509703B7c14aFC31aeEaF38b6c6A8bF478',
       campaignPOLYGON: '0x493A5AE936C6BBa4424920Da89860B845A00d42e',
       SATT_TOKENERC20: '0x2beF0d7531f0aaE08ADc26A0442Ba8D0516590d0',
       SATT_TOKENBEP20: '0x6fAc729f346A46fC0093126f237b4A520c40eb89',
