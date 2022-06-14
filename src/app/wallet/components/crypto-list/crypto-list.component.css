@@ -180,6 +180,7 @@ picture-moonboy {
 
 .deletettoken {
     background-color: transparent !important;
+    cursor: pointer;
 }
 
 div.li-Clickedd2 {
