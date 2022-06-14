@@ -19,7 +19,7 @@
               class="w-100 row pt-2 pb-2 d-flex justify-content-center"
               style="border-bottom: 1px solid #f6f6ff"
             >
-              <div class="d-flex justify-content-start" style="width: 90%">
+              <div class="d-flex justify-content-start" style="width: 91%">
                 <div
                   class="col-2 d-flex align-items-center justify-content-start"
                 >
@@ -30,7 +30,7 @@
                     name="search"
                     autocomplete="on"
                     autocomplete="off"
-                    placeholder="Search a token or add your own"
+                    placeholder="Search "
                     [(ngModel)]="search"
                     (ngModelChange)="onTextChange($event); clearInput()"
                   />
@@ -330,21 +330,26 @@
                       </div>
                       <div
                         class="col-2 d-flex justify-content-start align-items-center"
-                        style="width: fit-content"
+                        style="width: fit-content; cursor: pointer"
                         details.hidden="true"
+                        *ngIf="details.hidden && crypto.undername === 'SATT'"
+                        (click)="details.hidden = false"
                       >
                         <img
-                          *ngIf="details.hidden && crypto.undername === 'SATT'"
                           src="./../../../assets/Images/Rectangle-down.svg"
                           style="font-size: 13px; cursor: pointer"
-                          (click)="details.hidden = false"
                         />
-
+                      </div>
+                      <div
+                        class="col-2 d-flex justify-content-start align-items-center"
+                        style="width: fit-content; cursor: pointer"
+                        details.hidden="true"
+                        *ngIf="!details.hidden && crypto.undername === 'SATT'"
+                        (click)="details.hidden = true"
+                      >
                         <img
-                          *ngIf="!details.hidden && crypto.undername === 'SATT'"
                           src="./../../../assets/Images/new-rectongle.svg"
                           style="font-size: 13px; cursor: pointer"
-                          (click)="details.hidden = true"
                         />
                       </div>
                     </div>
@@ -1668,7 +1673,7 @@
                 type="text"
                 name="search"
                 autocomplete="off"
-                placeholder="Search a token or add your own"
+                placeholder="Search"
                 [(ngModel)]="search"
                 (ngModelChange)="onTextChange($event)"
               />
