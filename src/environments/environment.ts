@@ -74,7 +74,7 @@ export const environment = {
   etherscan: 'https://etherscan.io/tx/',
   bscanaddr: 'https://bscscan.com/address/',
   etherscanaddr: 'https://etherscan.io/address/',
-  polygonscanAddr: 'https://mumbai.polygonscan.com/tx/',
+  polygonscanAddr: 'https://polygonscan.com/tx/',
   simplexUrl: 'https://checkout.simplexcc.com/payments/new',
 };
 
