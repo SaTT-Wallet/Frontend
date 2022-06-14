@@ -147,13 +147,22 @@
               }"
             />
 
-            <div class="Alert d-flex mt-2" *ngIf="idtiktok === 0">
+            <!-- <div class="Alert d-flex mt-2" >
               <p class="m-0 p-2">
                 {{
                   'Unfortunately a short link is not supported yet. please open your short link on a browser then copy the full link and try again.'
                     | translate
                 }}
               </p>
+            </div> -->
+            <div class="orangeAlert d-flex p-2 mt-2" *ngIf="idtiktok === 0">
+              <img
+                src="/assets/Images/exclam-attente.svg"
+                class="ps-2 pe-4 icon-warning"
+              />{{
+                'Unfortunately a short link is not supported yet. please open your short link on a browser then copy the full link and try again.'
+                  | translate
+              }}
             </div>
             <div
               *ngIf="
@@ -269,6 +278,30 @@
                   />
                   <span class="d-flex align-self-center gray-text-span ps-2">
                     {{ 'google_signup' | translate }}</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="error_container div-error d-flex justify-content-center mt-2"
+              *ngIf="connectValue === 'tiktok'"
+            >
+              <!-- *ngIf="user.idSn !== 1"-->
+              <label class="mt-3 errorSocial"
+                >{{ 'sendMSGtiktok' | translate }}
+              </label>
+
+              <div class="d-flex justify-content-center mt-2 mb-3">
+                <div class="div-connect-google" (click)="connect('tiktok')">
+                  <!--(click)="snlogin('google')" src="./assets/Images/vector-google.svg"-->
+                  <img
+                    src="./assets/Images/missions/tiktok-icon.png"
+                    class="goog_icon"
+                    width="30px"
+                  />
+                  <span class="d-flex align-self-center gray-text-span ps-2">
+                    {{ 'tiktok_signup' | translate }}</span
                   >
                 </div>
               </div>
@@ -562,6 +595,9 @@
         </span>
         <span *ngIf="oracleType === 'linkedin'">
           {{ 'Add_channel_linkedin' | translate }}
+        </span>
+        <span *ngIf="oracleType === 'tiktok'">
+          {{ 'Add_channel_tiktok' | translate }}
         </span>
       </button>
       <button

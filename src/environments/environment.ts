@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  //API_URL: 'https://api-preprod2.satt-token.com',
+  API_URL: 'https://api-preprod2.satt-token.com',
   // 'https://api-preprod2.satt-token.com:3015',
-  API_URL: 'https://localhost:3015',
+  // API_URL: 'https://localhost:3015',
   //https://api-preprod.satt-token.com:3014
   addresses: {
     smartContracts: {
@@ -42,17 +42,17 @@ export const environment = {
   simplexUrl: 'https://sandbox.test-simplexcc.com/payments/new',
   gmtId: 'GTM-K2RMTJ3'
 
-  /*  API_URL: 'https://api2.satt-token.com:3016',
+  /* API_URL: 'https://api2.satt-token.com:3016',
   addresses: {
     smartContracts: {
       campaignERC20: '0xf961c85517fe86244cb60889afc4a928068d49ef',
       campaignBEP20: '0xcef9b240c13f269354e5ae3d6808fecf9834bf10',
+      campaignPOLYGON: '0x493A5AE936C6BBa4424920Da89860B845A00d42e',
+
       SATT_TOKENERC20: '0xdf49c9f599a0a9049d97cff34d0c30e468987389',
       SATT_TOKENBEP20: '0x448bee2d93be708b54ee6353a7cc35c4933f1156',
       TETHER_TOKENERC20: '0xdac17f958d2ee523a2206206994597c13d831ec7',
       SATT_TOKENPOLYGON: '0x195DC8342D923D3dFe0167Dc902A33Eabd801653',
-      campaignPOLYGON: '0x8CC1e2E2C4a04c3029579fD9612FEBb0323C319F',
-
       DAI: '0x6b175474e89094c44da98b954eedeac495271d0f',
       BUSD: '0xe9e7cea3dedca5984780bafc599bd69add087d56'
     }
@@ -74,8 +74,8 @@ export const environment = {
   etherscan: 'https://etherscan.io/tx/',
   bscanaddr: 'https://bscscan.com/address/',
   etherscanaddr: 'https://etherscan.io/address/',
-  simplexUrl: 'https://checkout.simplexcc.com/payments/new',
-  polygonscanAddr: 'https://mumbai.polygonscan.com/tx/'*/
+  polygonscanAddr: 'https://mumbai.polygonscan.com/tx/',
+  simplexUrl: 'https://checkout.simplexcc.com/payments/new',*/
 };
 
 /*
