@@ -5,6 +5,7 @@ import { Participation } from '@app/models/participation.model';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
 import { forkJoin, Observable, of, Subject } from 'rxjs';
+
 import {
   catchError,
   concatMap,
@@ -12,10 +13,11 @@ import {
   mapTo,
   mergeMap,
   switchMap,
+  take,
   takeUntil,
   tap
 } from 'rxjs/operators';
-import { take } from '@helpers/utils/math';
+ import { take as takeMath } from '@helpers/utils/math';
 import { ConvertFromWei } from '@shared/pipes/wei-to-sa-tt.pipe';
 import {
   BlockchainActionsService,
@@ -42,6 +44,7 @@ export class RecoverGainsComponent implements OnInit {
   eRC20Gaz: any;
   bEPGaz: any;
   bnb: any;
+  polygonGaz:any
   eth: any;
   gazsend: any;
   queryParams$ = this.route.queryParams;
@@ -70,7 +73,7 @@ export class RecoverGainsComponent implements OnInit {
         map((response: any) => response.data),
         map((data: any) => data[this.currencyName]),
         tap((sattCrypto) => {
-          prom.totalToEarnInUSD = take(
+          prom.totalToEarnInUSD = takeMath(
             this.formWeiToPipe.transform(
               prom.totalToEarn,
               this.currencyName.toString()
@@ -149,9 +152,9 @@ export class RecoverGainsComponent implements OnInit {
               .filter((r) => r.oracle === prom.oracle)
               .map((r) => {
                 return {
-                  likesInSaTT: take(r.like).times(prom.likes).toString(),
-                  viewsInSaTT: take(r.view).times(prom.views).toString(),
-                  sharesInSaTT: take(r.share).times(prom.shares).toString()
+                  likesInSaTT: takeMath(r.like).times(prom.likes).toString(),
+                  viewsInSaTT: takeMath(r.view).times(prom.views).toString(),
+                  sharesInSaTT: takeMath(r.share).times(prom.shares).toString()
                 };
               })[0] as IEarningsInSaTT;
           }
@@ -191,6 +194,7 @@ export class RecoverGainsComponent implements OnInit {
   // );
 
   trnxStatus$ = this.service.trnxStatus$;
+  matic: any;
 
   constructor(
     private router: Router,
@@ -203,7 +207,7 @@ export class RecoverGainsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getPriceGas();
+    // this.getPriceGas();
     this.trnxStatus$
       .pipe(takeUntil(this.isDestroyedSubject))
       .subscribe((e: ITransactionStatus) => {
@@ -213,6 +217,8 @@ export class RecoverGainsComponent implements OnInit {
           });
         }
       });
+      this.parentFunction().subscribe();
+
   }
 
   ngOnDestroy(): void {
@@ -231,37 +237,73 @@ export class RecoverGainsComponent implements OnInit {
     this.router.navigate(['/home/campaign/' + this.campaignId]);
   }
 
-  getPriceGas() {
-    this.walletFacade
-      .getCryptoPriceList()
-      .pipe(
-        map((response: any) => response.data),
-        mergeMap((data: any) => {
-          this.bnb = data['BNB'].price;
-          this.eth = data['ETH'].price;
-          let arrayOfObs = [];
-          arrayOfObs.push(this.walletFacade.etherGaz$);
-          arrayOfObs.push(this.walletFacade.bnbGaz$);
-          return forkJoin(arrayOfObs);
-        }),
-        takeUntil(this.isDestroyedSubject)
-      )
-      .subscribe((resArray) => {
-        let priceEther;
-        const gazEther = resArray[0];
-        priceEther = gazEther.gasPrice;
-        this.gazsend = (
-          ((priceEther * GazConsumedByCampaign) / 1000000000) *
-          this.eth
-        ).toFixed(2);
-        this.eRC20Gaz = this.gazsend;
-        ////
-        const gazBnb = resArray[1];
-        let priceBnb = gazBnb.gasPrice;
-        this.bEPGaz = (
-          ((priceBnb * GazConsumedByCampaign) / 1000000000) *
-          this.bnb
-        ).toFixed(2);
-      });
+  
+
+  parentFunction() {
+    return this.walletFacade.getCryptoPriceList().pipe(
+      map((response: any) => response.data),
+      take(1),
+      map((data: any) => {
+        console.log("data",data)
+        this.bnb = data['BNB'].price;
+        this.eth = data['ETH'].price;
+        this.matic = data['MATIC'].price;
+        return {
+          bnb: this.bnb,
+          Eth: this.eth,
+          matic : this.matic
+        };
+      }),
+      switchMap(({ bnb, Eth , matic }) => {
+        return forkJoin([
+          this.walletFacade.getEtherGaz().pipe(
+            tap((gaz: any) => {
+              let price;
+              price = gaz.data.gasPrice;
+              this.gazsend = (
+                ((price * GazConsumedByCampaign) / 1000000000) *
+                Eth
+              ).toFixed(2);
+              this.eRC20Gaz = this.gazsend;
+              console.log("this.eRC20Gaz",this.eRC20Gaz)
+            })
+          ),
+          this.walletFacade.getBnbGaz().pipe(
+            tap((gaz: any) => {
+              let price = gaz.data.gasPrice;
+              this.bEPGaz = (
+                ((price * GazConsumedByCampaign) / 1000000000) *
+                bnb
+              ).toFixed(2);
+
+              if (this.gazsend === 'NaN') {
+                this.gazsend = '';
+                // this.showSpinner=true;
+                let price = gaz.data.gasPrice;
+                this.bEPGaz = (
+                  ((price * GazConsumedByCampaign) / 1000000000) *
+                  this.bnb
+                ).toFixed(2);
+              }
+            })
+          ),
+          this.walletFacade.getPolygonGaz().pipe(
+            tap((gaz: any) => {
+              let price;
+              price = gaz.data.gasPrice;
+            
+
+              this.polygonGaz = (
+                ((price * GazConsumedByCampaign) / 1000000000) *
+                matic
+              ).toFixed(8);
+            })
+          )
+        ]);
+      })
+    );
   }
+
+
+
 }

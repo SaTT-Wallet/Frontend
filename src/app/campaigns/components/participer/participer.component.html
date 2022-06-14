@@ -274,6 +274,33 @@
               </div>
             </div>
 
+
+            <div
+            class="error_container div-error d-flex justify-content-center mt-2"
+            *ngIf="connectValue === 'tiktok'"
+          >
+            <!-- *ngIf="user.idSn !== 1"-->
+            <label class="mt-3 errorSocial"
+              >{{ 'sendMSGtiktok' | translate }}
+            </label>
+
+            <div class="d-flex justify-content-center mt-2 mb-3">
+              <div class="div-connect-google" (click)="connect('tiktok')">
+                <!--(click)="snlogin('google')" src="./assets/Images/vector-google.svg"-->
+                <img
+                  src="./assets/Images/missions/tiktok-icon.png"
+                  class="goog_icon"
+                  width="30px"
+                />
+                <span class="d-flex align-self-center gray-text-span ps-2">
+                  {{ 'tiktok_signup' | translate }}</span
+                >
+              </div>
+            </div>
+          </div>
+
+
+
             <div
               class="error_container div-error d-flex justify-content-center mt-2"
               *ngIf="connectValue === 'linkedin'"
@@ -562,6 +589,9 @@
         </span>
         <span *ngIf="oracleType === 'linkedin'">
           {{ 'Add_channel_linkedin' | translate }}
+        </span>
+        <span *ngIf="oracleType === 'tiktok'">
+          {{ 'Add_channel_tiktok' | translate }}
         </span>
       </button>
       <button
