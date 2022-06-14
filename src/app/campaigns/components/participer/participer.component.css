@@ -673,6 +673,24 @@ input:-webkit-autofill:active {
   line-height: 1rem;
 }
 
+.orangeAlert {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 163, 24, 0.2);
+  border-radius: 30px;
+  font-family: Poppins !important;
+  font-style: normal;
+  font-weight: 600 !important;
+  font-size: 12px;
+  /*text-align: center;*/
+  line-height: 125.9%;
+  color: #ffa318;
+  height: auto;
+  min-height: 18px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
 .twitterLink {
   background-image: url('/assets/Images/twitter_icon.png');
   background-repeat: no-repeat;
