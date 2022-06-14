@@ -928,7 +928,21 @@ a {
     font-size: 32px;
   }
 }
-
+.div-pic-center-2{
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  background:  #F52079;
+  border-radius: 30px;
+  width: 45px;
+  height: 45px;
+  margin-top: 6px;
+  z-index: 1;
+  span {
+    // color: white;
+    font-size: 32px;
+  }
+}
 .pink-text {
   color: #f52079;
 }
