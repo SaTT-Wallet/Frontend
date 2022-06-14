@@ -36,7 +36,8 @@
                   />
                 </div>
                 <div
-                  class="col-2 d-flex align-items-center justify-content-start pl-4"
+                  class="col-2 d-flex align-items-center justify-content-start"
+                  style="padding-left: 2em"
                 >
                   <div class="col-title">PRICE</div>
                 </div>
@@ -105,23 +106,6 @@
                     class="col-2 d-flex align-items-center justify-content-start"
                   >
                     <div class="cryptopri">
-                      <div class="textalignEnd qte">
-                        <span class="indicatorfont">
-                          {{ quantitySum(crypto) }}
-                        </span>
-                        <!-- <span class="indicatorfont ms-1" >{{crypto.name}}</span> -->
-                      </div>
-                      <ng-template #spinner>
-                        <div class="cryptoprice textalignEnd">
-                          <img src="./../../../assets/Images/Spin.gif" />
-                        </div>
-                      </ng-template>
-                    </div>
-                  </div>
-                  <div
-                    class="col-2 d-flex align-items-center justify-content-start"
-                  >
-                    <div class="cryptopri">
                       <div class="cryptoprice">
                         <ng-container>
                           <span style="white-space: nowrap">
@@ -137,6 +121,23 @@
                       {{ crypto.arrow }} {{ crypto.variation }}%
                     </span>
                   </div> -->
+                    </div>
+                  </div>
+                  <div
+                    class="col-2 d-flex align-items-center justify-content-start"
+                  >
+                    <div class="cryptopri">
+                      <div class="textalignEnd qte">
+                        <span class="indicatorfont">
+                          {{ quantitySum(crypto) }}
+                        </span>
+                        <!-- <span class="indicatorfont ms-1" >{{crypto.name}}</span> -->
+                      </div>
+                      <ng-template #spinner>
+                        <div class="cryptoprice textalignEnd">
+                          <img src="./../../../assets/Images/Spin.gif" />
+                        </div>
+                      </ng-template>
                     </div>
                   </div>
                   <div
@@ -459,24 +460,6 @@
                         style="background: #f6f6ff"
                       >
                         <div class="cryptopri">
-                          <div class="textalignEnd qte">
-                            <span class="indicatorfont">
-                              {{ quantitySum(crypto, true) }}
-                            </span>
-                            <!-- <span class="indicatorfont ms-1" >{{crypto.name}}</span> -->
-                          </div>
-                          <ng-template #spinner>
-                            <div class="cryptoprice textalignEnd">
-                              <img src="./../../../assets/Images/Spin.gif" />
-                            </div>
-                          </ng-template>
-                        </div>
-                      </div>
-                      <div
-                        class="col-2 d-flex align-items-center justify-content-start"
-                        style="background: #f6f6ff"
-                      >
-                        <div class="cryptopri">
                           <div class="cryptoprice">
                             <ng-container>
                               <span style="white-space: nowrap">
@@ -494,6 +477,25 @@
                       </div> -->
                         </div>
                       </div>
+                      <div
+                        class="col-2 d-flex align-items-center justify-content-start"
+                        style="background: #f6f6ff"
+                      >
+                        <div class="cryptopri">
+                          <div class="textalignEnd qte">
+                            <span class="indicatorfont">
+                              {{ quantitySum(crypto, true) }}
+                            </span>
+                            <!-- <span class="indicatorfont ms-1" >{{crypto.name}}</span> -->
+                          </div>
+                          <ng-template #spinner>
+                            <div class="cryptoprice textalignEnd">
+                              <img src="./../../../assets/Images/Spin.gif" />
+                            </div>
+                          </ng-template>
+                        </div>
+                      </div>
+
                       <div
                         class="col-2 d-flex align-items-center justify-content-start"
                         style="background: #f6f6ff"
@@ -761,27 +763,6 @@
                         style="background: #f6f6ff"
                       >
                         <div class="cryptopri">
-                          <div class="textalignEnd qte">
-                            <span class="indicatorfont">
-                              {{
-                                crypto?.cryptoBEP20?.quantity
-                                  | number: '.0-2' || ''
-                              }}
-                            </span>
-                            <!-- <span class="indicatorfont ms-1" >{{crypto.name}}</span> -->
-                          </div>
-                          <ng-template #spinner>
-                            <div class="cryptoprice textalignEnd">
-                              <img src="./../../../assets/Images/Spin.gif" />
-                            </div>
-                          </ng-template>
-                        </div>
-                      </div>
-                      <div
-                        class="col-2 d-flex align-items-center justify-content-start"
-                        style="background: #f6f6ff"
-                      >
-                        <div class="cryptopri">
                           <div class="cryptoprice">
                             <ng-container>
                               <span style="white-space: nowrap">
@@ -800,6 +781,28 @@
                       </div> -->
                         </div>
                       </div>
+                      <div
+                        class="col-2 d-flex align-items-center justify-content-start"
+                        style="background: #f6f6ff"
+                      >
+                        <div class="cryptopri">
+                          <div class="textalignEnd qte">
+                            <span class="indicatorfont">
+                              {{
+                                crypto?.cryptoBEP20?.quantity
+                                  | number: '.0-2' || ''
+                              }}
+                            </span>
+                            <!-- <span class="indicatorfont ms-1" >{{crypto.name}}</span> -->
+                          </div>
+                          <ng-template #spinner>
+                            <div class="cryptoprice textalignEnd">
+                              <img src="./../../../assets/Images/Spin.gif" />
+                            </div>
+                          </ng-template>
+                        </div>
+                      </div>
+
                       <div
                         class="col-2 d-flex align-items-center justify-content-start"
                         style="background: #f6f6ff"
@@ -1004,27 +1007,6 @@
                         style="background: #f6f6ff"
                       >
                         <div class="cryptopri">
-                          <div class="textalignEnd qte">
-                            <span class="indicatorfont">
-                              {{
-                                crypto?.cryptoPOLYGON?.quantity
-                                  | number: '.0-2' || ''
-                              }}
-                            </span>
-                            <!-- <span class="indicatorfont ms-1" >{{crypto.name}}</span> -->
-                          </div>
-                          <ng-template #spinner>
-                            <div class="cryptoprice textalignEnd">
-                              <img src="./../../../assets/Images/Spin.gif" />
-                            </div>
-                          </ng-template>
-                        </div>
-                      </div>
-                      <div
-                        class="col-2 d-flex align-items-center justify-content-start"
-                        style="background: #f6f6ff"
-                      >
-                        <div class="cryptopri">
                           <div class="cryptoprice">
                             <ng-container>
                               <span style="white-space: nowrap">
@@ -1043,6 +1025,28 @@
                     </div> -->
                         </div>
                       </div>
+                      <div
+                        class="col-2 d-flex align-items-center justify-content-start"
+                        style="background: #f6f6ff"
+                      >
+                        <div class="cryptopri">
+                          <div class="textalignEnd qte">
+                            <span class="indicatorfont">
+                              {{
+                                crypto?.cryptoPOLYGON?.quantity
+                                  | number: '.0-2' || ''
+                              }}
+                            </span>
+                            <!-- <span class="indicatorfont ms-1" >{{crypto.name}}</span> -->
+                          </div>
+                          <ng-template #spinner>
+                            <div class="cryptoprice textalignEnd">
+                              <img src="./../../../assets/Images/Spin.gif" />
+                            </div>
+                          </ng-template>
+                        </div>
+                      </div>
+
                       <div
                         class="col-2 d-flex align-items-center justify-content-start"
                         style="background: #f6f6ff"
@@ -2177,7 +2181,7 @@
             </div>
 
             <div *ngIf="listToken | filterByname: search as res2" class="w-100">
-              <div *ngIf="!!search" class="w-100">
+              <div *ngIf="!!search && !importManually" class="w-100">
                 <ng-container
                   id="lala2"
                   *ngFor="let crypto of res2"
