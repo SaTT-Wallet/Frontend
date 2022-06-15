@@ -914,7 +914,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
   getSocialNetwork(): void {
     this.socialAccount$
       .pipe(
-        filter((res) => res !== null),
+        filter((res: any) => res !== null),
         mergeMap((data: IGetSocialNetworksResponse | null) => {
           return this.route.queryParams.pipe(
             map((params) => {
@@ -937,7 +937,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
             this.channelTwitter = data.twitter;
             this.channelFacebook = data.facebook;
             this.channelLinkedin = data.linkedin;
-            this.channelTikTok = [];
+            this.channelTikTok = data.tiktok;
           }
         }
       );
