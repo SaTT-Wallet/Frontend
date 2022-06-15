@@ -37,6 +37,7 @@ export class MonetizeLinkedinAccountComponent implements OnInit, OnDestroy {
       if (params.message === 'account_linked_with_success') {
         if (params.sn && params.sn === 'linkd') {
           this.socialAccountsFacade.pageVisited(ESocialMediaNames.linkedIn);
+          this.skipPage();
         }
       }
     });
