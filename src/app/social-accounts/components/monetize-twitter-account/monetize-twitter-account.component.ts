@@ -45,6 +45,7 @@ export class MonetizeTwitterAccountComponent implements OnInit, OnDestroy {
       if (params.message === 'account_linked_with_success') {
         if (params.sn && params.sn === 'twitter') {
           this.socialAccountsFacade.pageVisited(ESocialMediaNames.twitter);
+          this.skipPage();
         }
       }
     });

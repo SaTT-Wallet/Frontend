@@ -48,6 +48,7 @@ export class MonetizeFacebookAccountComponent implements OnInit, OnDestroy {
       if (params.message === 'account_linked_with_success') {
         if (params.sn && params.sn === 'fb') {
           this.socialAccountsFacade.pageVisited(ESocialMediaNames.linkedIn);
+          this.skipPage();
         }
       }
     });

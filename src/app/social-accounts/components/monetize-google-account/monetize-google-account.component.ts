@@ -44,6 +44,7 @@ export class MonetizeGoogleAccountComponent implements OnInit, OnDestroy {
       if (params.message === 'account_linked_with_success') {
         if (params.sn && params.sn === 'google') {
           this.socialAccountsFacade.pageVisited(ESocialMediaNames.youtube);
+          this.skipPage();
         }
       }
     });
