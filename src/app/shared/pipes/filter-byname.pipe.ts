@@ -18,10 +18,12 @@ export class FilterBynamePipe implements PipeTransform {
         false;
       let cond2 =
         (!!item.contract &&
+          filter.indexOf('0x') >= 0 &&
           item.contract?.toLowerCase().indexOf(filter.toLowerCase()) !== -1) ||
         false;
       let cond3 =
         (!!item.tokenAddress &&
+          filter.indexOf('0x') >= 0 &&
           item.tokenAddress?.toLowerCase().indexOf(filter.toLowerCase()) !==
             -1) ||
         false;

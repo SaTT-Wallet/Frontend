@@ -15,7 +15,7 @@ export interface IGetSocialNetworksResponse {
   google: { [key: string]: string | boolean }[];
   linkedin: { [key: string]: string | boolean }[];
   twitter: { [key: string]: string | boolean }[];
-  //tikTok: { [key: string]: string | boolean }[];
+  tiktok: { [key: string]: string | boolean }[];
 }
 @Component({
   selector: 'app-social-networks',
