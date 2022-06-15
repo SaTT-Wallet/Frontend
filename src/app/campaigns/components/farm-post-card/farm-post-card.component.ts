@@ -106,6 +106,8 @@ export class FarmPostCardComponent implements OnInit {
         this.prom = new Participation(prom);
       });
     let currencyName = this.prom.campaign.currency;
+    console.log(this.prom)
+
     if (currencyName === 'SATTBEP20') currencyName = 'SATT';
 
     let etherInWei = ListTokens[currencyName].decimals;
