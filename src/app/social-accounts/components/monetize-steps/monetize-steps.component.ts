@@ -23,7 +23,7 @@ export class MonetizeStepsComponent implements OnInit, OnDestroy {
   visitedLinkedin: boolean = false;
   visitedTiktok: boolean = false;
   visitedPages$ = this.socialAccountsFacade.visitedPages$;
-  private account$ = this.accountFacadeService.account$;
+  account$ = this.accountFacadeService.account$;
   private onDestoy$ = new Subject();
   constructor(
     private accountFacadeService: AccountFacadeService,
