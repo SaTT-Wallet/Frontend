@@ -363,7 +363,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
     let oldpass = this.formUpdatePassword.get('old_password')?.value;
     let newpass = this.formUpdatePassword.get('password')?.value;
-    let id = this.user.idUser;
+
     if (this.formUpdatePassword.valid) {
       if (oldpass === newpass) {
         this.passwordWrong = 'profile.newPass';
@@ -372,7 +372,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
           this.passwordWrong = '';
         }, 3000);
       } else {
-        this.AuthService.updatePassword(oldpass, newpass, id)
+        this.AuthService.updatePassword(oldpass, newpass)
           .pipe(
             catchError((HttpError: HttpErrorResponse) => {
               return of(HttpError.error);
