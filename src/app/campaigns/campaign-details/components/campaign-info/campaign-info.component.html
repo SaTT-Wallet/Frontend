@@ -907,8 +907,8 @@
                           data-target="#exampleModal"
                           (click)="
                             elem.selectedFile
-                              ? openModalZoomIn(elem.selectedFile, i)
-                              : openModalZoomIn(elem.url, i)
+                              ? openModalZoomIn(elem.selectedFile, i , elem.id)
+                              : openModalZoomIn(elem.url, i , elem.id)
                           "
                         />
 
@@ -1311,7 +1311,7 @@
   <div
     class="modal fade"
     id="exampleModal"
-    data-backdrop="false"
+    data-backdrop="true"
     tabindex="-1"
     role="dialog"
     aria-labelledby="exampleModalLabel"
@@ -1334,6 +1334,7 @@
             id="btn"
             class="img-kit-download cursor-pointer"
             (click)="downloadOneFile(idkit)"
+            
           />
           <img
             id="img-reader"
@@ -1421,4 +1422,5 @@
       </div>
     </div> -->
   </div>
+  
 </div>
