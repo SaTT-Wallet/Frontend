@@ -42,33 +42,40 @@ export const environment = {
   simplexUrl: 'https://sandbox.test-simplexcc.com/payments/new',
   gmtId: 'GTM-K2RMTJ3'
 
-  //     SATT_TOKENERC20: '0xdf49c9f599a0a9049d97cff34d0c30e468987389',
-  //     SATT_TOKENBEP20: '0x448bee2d93be708b54ee6353a7cc35c4933f1156',
-  //     TETHER_TOKENERC20: '0xdac17f958d2ee523a2206206994597c13d831ec7',
-  //     SATT_TOKENPOLYGON: '0x195DC8342D923D3dFe0167Dc902A33Eabd801653',
-  //     DAI: '0x6b175474e89094c44da98b954eedeac495271d0f',
-  //     BUSD: '0xe9e7cea3dedca5984780bafc599bd69add087d56'
-  //   }
-  // },
-  // domainName: 'https://satt.atayen.us',
-  // telegramBot: 'v2_satt_token_bot',
-  // firebase: {
-  //   apiKey: 'AIzaSyAHfBKuneC6G0Uu9RKwI9hZKOjNiPQRd1U',
-  //   authDomain: 'satt-token.firebaseapp.com',
-  //   //databaseURL: 'https://satt-token.firebaseio.com',
-  //   projectId: 'satt-token',
-  //   storageBucket: 'satt-token.appspot.com',
-  //   messagingSenderId: '284190209745',
-  //   appId: '1:284190209745:web:dc01085f6a6dabfcc837f0',
-  //   measurementId: 'G-DSJK01CZ0X'
-  // },
-  // fcmredirectUrl: 'https://satt.atayen.us/#/home',
-  // bscan: 'https://bscscan.com/tx/',
-  // etherscan: 'https://etherscan.io/tx/',
-  // bscanaddr: 'https://bscscan.com/address/',
-  // etherscanaddr: 'https://etherscan.io/address/',
-  // polygonscanAddr: 'https://polygonscan.com/tx/',
-  // simplexUrl: 'https://checkout.simplexcc.com/payments/new',
+  /* API_URL: 'https://api2.satt-token.com:3016',
+  addresses: {
+    smartContracts: {
+   campaignERC20: '0xf961c85517fe86244cb60889afc4a928068d49ef',
+      campaignBEP20: '0xcef9b240c13f269354e5ae3d6808fecf9834bf10',
+      campaignPOLYGON: '0xa01f80042512Cdf9355a66CBB1266240c0456513',
+
+      SATT_TOKENERC20: '0xdf49c9f599a0a9049d97cff34d0c30e468987389',
+      SATT_TOKENBEP20: '0x448bee2d93be708b54ee6353a7cc35c4933f1156',
+      TETHER_TOKENERC20: '0xdac17f958d2ee523a2206206994597c13d831ec7',
+      SATT_TOKENPOLYGON: '0x4b6d775b7ea8e66499cb80777e65b895474f5c86',
+      DAI: '0x6b175474e89094c44da98b954eedeac495271d0f',
+      BUSD: '0xe9e7cea3dedca5984780bafc599bd69add087d56'
+    }
+  },
+  domainName: 'https://satt.atayen.us',
+  telegramBot: 'v2_satt_token_bot',
+  firebase: {
+    apiKey: 'AIzaSyAHfBKuneC6G0Uu9RKwI9hZKOjNiPQRd1U',
+    authDomain: 'satt-token.firebaseapp.com',
+    //databaseURL: 'https://satt-token.firebaseio.com',
+    projectId: 'satt-token',
+    storageBucket: 'satt-token.appspot.com',
+    messagingSenderId: '284190209745',
+    appId: '1:284190209745:web:dc01085f6a6dabfcc837f0',
+    measurementId: 'G-DSJK01CZ0X'
+  },
+  fcmredirectUrl: 'https://satt.atayen.us/#/home',
+  bscan: 'https://bscscan.com/tx/',
+  etherscan: 'https://etherscan.io/tx/',
+  bscanaddr: 'https://bscscan.com/address/',
+  etherscanaddr: 'https://etherscan.io/address/',
+  polygonscanAddr: 'https://mumbai.polygonscan.com/tx/',
+  simplexUrl: 'https://checkout.simplexcc.com/payments/new',*/
 };
 
 /*

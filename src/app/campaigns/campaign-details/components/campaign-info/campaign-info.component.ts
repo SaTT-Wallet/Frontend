@@ -261,10 +261,16 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
     }
     return new Blob([uInt8Array], { type: contentType });
   }
-  openModalZoomIn(url: any, i: any) {
+  openModalZoomIn(url: any, i: any , id:any) {
     if (isPlatformBrowser(this.platformId)) {
+      setTimeout(() => {
+          element = document.getElementsByClassName('modal-backdrop')[0]
+          if(!!element){
+            element.parentElement.removeChild(element);
+          }
+      }, 100)
       this.urlImage = url;
-      this.idkit = i;
+      this.idkit = id;
       var size = null;
       var width = null;
       var height = null;
@@ -580,7 +586,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
     setTimeout(() => {
       this.kitsImages = kits.filter((kit: any) => !!kit.url);
       this.cdRef.markForCheck();
-    }, 3000);
+    }, 1000);
   }
 
   getStatEarnings(): void {
@@ -848,6 +854,8 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
     });
   }
   downloadOneFile(kitId: string) {
+
+
     let kit = this.kits.find((kit) => kit.id === kitId);
 
     if (!kit.link) {
