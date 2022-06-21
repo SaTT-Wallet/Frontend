@@ -998,7 +998,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   }
 
   restrictZero(event: any) {
-  /*  if (event.target.value.length === 0 && event.key === '0') {
+    /*if (event.target.value.length === 0 && event.key === '0') {
       event.preventDefault();
     }*/
   }
