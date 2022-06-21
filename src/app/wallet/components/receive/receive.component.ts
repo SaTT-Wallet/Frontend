@@ -60,7 +60,8 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
   cryptoList$ = this.walletFacade.cryptoList$;
   cryptoToDropdown: any;
   contactEmail: string = '';
-  maxNumber: number = 999999999;
+  maxUsdAmountNumber: number = 999999999;
+  maxAmountNumber: number = 9999999999999999999999;
   private isDestroyed = new Subject();
   sattPrices: any;
   usernotfound: boolean = false;
@@ -99,10 +100,7 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.getProfileDetails();
     this.getusercrypto();
     this.amountdefault = this.receiveform.get('currency')?.value;
-     this.receiveform
-    .get('currency')
-    ?.setValue(this.amountdefault);
-
+    this.receiveform.get('currency')?.setValue(this.amountdefault);
   }
   //get list of crypto for user
   getusercrypto() {
@@ -141,7 +139,6 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.receiveform.get('Amount')?.reset();
     this.receiveform.get('AmountUsd')?.reset();
     this.amountdefault = this.receiveform.get('currency')?.value;
-    console.log("currency",this.amountdefault)
   }
   linstingBack(event: any) {
     if (event === true) {
@@ -216,7 +213,17 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
       let getusdreceive: any = this.receiveform.get('AmountUsd')?.value;
       let receiveamount = getamountreceive?.toString();
       let receiveusd = getusdreceive?.toString();
-      if (event === 'usdreceive' && Number(receiveusd) > this.maxNumber) {
+      if (
+        event === 'amountreceive' &&
+        Number(getamountreceive) > this.maxAmountNumber
+      ) {
+        receiveusd = receiveusd.slice(0, 22);
+        this.receiveform.get('Amount')?.setValue(getamountreceive);
+      }
+      if (
+        event === 'usdreceive' &&
+        Number(receiveusd) > this.maxUsdAmountNumber
+      ) {
         receiveusd = receiveusd.slice(0, 9);
         this.receiveform.get('AmountUsd')?.setValue(receiveusd);
       } else {
@@ -351,7 +358,6 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   receiveMoney() {
     if (this.receiveform.valid) {
-      console.log("aa")
       this.loadingButton = true;
       const wallet = this.tokenStorageService.getIdWallet();
       var name = '';
@@ -399,15 +405,14 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
               this.showSuccessBloc = true;
               this.receiveform.reset();
             }
-            if (data == null ){
+            if (data == null) {
               this.usernotfound = true;
               this.loadingButton = false;
               setTimeout(() => {
-                this.usernotfound = false;        
-                    }, 3000);
+                this.usernotfound = false;
+              }, 3000);
             }
-
-          },
+          }
           // (error) => {
           //   if (error.error.error === 'user not found') {
           //     this.usernotfound = true;
@@ -437,10 +442,8 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.showMsgBloc = false;
     this.showSuccessBloc = false;
     this.showAmountBloc = true;
-    this.receiveform.reset()
-this.ngOnInit()
-    
-
+    this.receiveform.reset();
+    this.ngOnInit();
   }
   ngOnDestroy(): void {
     if (!!this.routeEventSubscription$) {
