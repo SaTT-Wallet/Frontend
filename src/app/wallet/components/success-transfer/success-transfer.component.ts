@@ -25,7 +25,6 @@ export class SuccessTransferComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.cryptoAmount = this.tokenStorageService.getCryptoCryptoAmount();
-    console.log("cryptoAmount",this.cryptoAmount)
     this.crypto = this.tokenStorageService.getCrypto();
     this.payementId = this.tokenStorageService.getPayementId();
     // this.route.queryParams
