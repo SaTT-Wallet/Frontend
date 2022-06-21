@@ -296,10 +296,10 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
     // }
 
     if (event === FormStatus.Error) {
-      this._snackBar.open(
+      /* this._snackBar.open(
         'Not Saved!: Error sending request please try again!',
         'OK'
-      );
+      );*/
     }
   }
 
