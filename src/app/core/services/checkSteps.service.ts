@@ -7,6 +7,7 @@ import {
 } from '@angular/router';
 import { AuthService } from '@core/services/Auth/auth.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +18,12 @@ export class checkStepsService implements CanActivate {
     private auth: AuthService,
     private router: Router
   ) {}
-  canActivate(route: ActivatedRouteSnapshot): boolean | UrlTree {
+  canActivate(
+    route: ActivatedRouteSnapshot
+  ): boolean | UrlTree | Observable<boolean | UrlTree> {
     let url: any;
     url = route.url[0].path;
+
     if (url === 'activation-mail') {
       if (this.tokenStorageService.getEnabled() === '0') {
         return true;
@@ -31,14 +35,33 @@ export class checkStepsService implements CanActivate {
         this.tokenStorageService.getSecureWallet('visited-completeProfile') ===
         'true'
       ) {
+        if (
+          this.tokenStorageService.getSecureWallet('visited-facebook') ===
+          'true'
+        ) {
+          return this.router.createUrlTree([
+            '/social-registration/monetize-twitter'
+          ]);
+        }
         return true;
       } else {
         return false;
       }
     } else if (url === 'monetize-twitter') {
       if (
-        this.tokenStorageService.getSecureWallet('visited-facebook') === 'true'
+        (this.tokenStorageService.getSecureWallet('visited-facebook') ===
+          'true') ===
+        true
       ) {
+        if (
+          (this.tokenStorageService.getSecureWallet('visited-twitter') ===
+            'true') ===
+          true
+        ) {
+          return this.router.createUrlTree([
+            '/social-registration/monetize-linkedin'
+          ]);
+        }
         return true;
       } else {
         return false;
@@ -58,6 +81,14 @@ export class checkStepsService implements CanActivate {
         //this.tokenStorageService.getSecureWallet('visited-tiktok') === 'true'
         this.tokenStorageService.getSecureWallet('visited-twitter') === 'true'
       ) {
+        if (
+          this.tokenStorageService.getSecureWallet('visited-linkedin') ===
+          'true'
+        ) {
+          return this.router.createUrlTree([
+            '/social-registration/monetize-google'
+          ]);
+        }
         return true;
       } else {
         return false;
@@ -66,6 +97,13 @@ export class checkStepsService implements CanActivate {
       if (
         this.tokenStorageService.getSecureWallet('visited-linkedin') === 'true'
       ) {
+        if (
+          this.tokenStorageService.getSecureWallet('visited-google') === 'true'
+        ) {
+          return this.router.createUrlTree([
+            '/social-registration/monetize-tiktok'
+          ]);
+        }
         return true;
       } else {
         return false;

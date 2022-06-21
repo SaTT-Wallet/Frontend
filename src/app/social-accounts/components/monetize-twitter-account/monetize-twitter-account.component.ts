@@ -14,6 +14,7 @@ import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-faca
 import { takeUntil } from 'rxjs/operators';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 import { isPlatformBrowser } from '@angular/common';
+
 @Component({
   selector: 'app-monetize-twitter-account',
   templateUrl: './monetize-twitter-account.component.html',

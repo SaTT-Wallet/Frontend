@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
+import { User } from '@app/models/User';
 
 import { SocialAccountsFacade } from '@app/social-accounts/facade/social-accounts.facade';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
@@ -23,7 +24,7 @@ export class MonetizeStepsComponent implements OnInit, OnDestroy {
   visitedLinkedin: boolean = false;
   visitedTiktok: boolean = false;
   visitedPages$ = this.socialAccountsFacade.visitedPages$;
-  private account$ = this.accountFacadeService.account$;
+  account$ = this.accountFacadeService.account$;
   private onDestoy$ = new Subject();
   constructor(
     private accountFacadeService: AccountFacadeService,
@@ -123,8 +124,8 @@ export class MonetizeStepsComponent implements OnInit, OnDestroy {
         filter((res) => res !== null),
         takeUntil(this.onDestoy$)
       )
-      .subscribe((response: any) => {
-        if (response.visitsocialAccounts) {
+      .subscribe((account: User) => {
+        if (account.visitsocialAccounts) {
           this.visitedFb = true;
           this.visitedLinkedin = true;
           this.visitedTwitter = true;

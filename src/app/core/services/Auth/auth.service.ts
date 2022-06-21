@@ -83,13 +83,12 @@ export class AuthService {
     });
   }
 
-  updatePassword(oldpass: any, newpass: any, id: any) {
+  updatePassword(oldpass: any, newpass: any) {
     return this.http.post(
       sattUrl + '/auth/changePassword',
       {
         oldpass: oldpass,
-        newpass: newpass,
-
+        newpass: newpass
       },
       { headers: this.tokenStorageService.getHeader() }
     );
@@ -149,5 +148,16 @@ export class AuthService {
     }
     this.router.navigate(['']);
     return false;
+  }
+
+  setVisitSignUpStep(body: { userId: string; visitedStep: string }) {
+    let httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-store',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+    return this.http.post(sattUrl + '/auth/setVisitSignUpStep', body, {
+      headers: httpHeaders
+    });
   }
 }
