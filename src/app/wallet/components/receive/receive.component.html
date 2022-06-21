@@ -32,7 +32,6 @@
             pattern="(\d{1,2}([\.,])?)*([\d{1,2}]?)*"
             formControlName="Amount"
             (keydown)="restrictZero($event)"
-            input
             class="amountreceive input-amount"
             placeholder="0"
             [(ngModel)]="amount"
@@ -46,14 +45,9 @@
           </p>
 
           <p class="hard-gray-text" *ngIf="!this.selectedCryptoDetails">
-            1    {{ 'SATT' }} =
+            1 {{ 'SATT' }} =
             {{ this.selectedCryptoDetails.price || this.sattPrices }} USD
           </p>
-
-
-        
-
-
         </div>
 
         <div class="">
@@ -67,7 +61,6 @@
               (focus)="goToSection('usdreceive')"
               placeholder="0"
               (keydown)="restrictZero($event)"
-              input
               #inputAmountUsd
               formControlName="AmountUsd"
               [(ngModel)]="amountUsd"
@@ -165,7 +158,7 @@
           </h3>
           <h3 class="hard-gray" *ngIf="this.selectedCryptoDetails">
             ≈ {{ this.receiveform.value.Amount || 0 }}
-            {{ this.selectedCryptoDetails.symbol | translate   }}
+            {{ this.selectedCryptoDetails.symbol | translate }}
           </h3>
           <h3 class="hard-gray" *ngIf="!this.selectedCryptoDetails">
             ≈ {{ this.receiveform.value.Amount || 0 }}
