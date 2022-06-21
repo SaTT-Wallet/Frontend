@@ -37,7 +37,7 @@ export class MonetizeGoogleAccountComponent implements OnInit, OnDestroy {
     @Inject(PLATFORM_ID) private platformId: string
   ) {}
   ngOnInit(): void {
-    this.tokenStorageService.setSecureWallet('visited-google', 'true');
+    //this.tokenStorageService.setSecureWallet('visited-google', 'true');
     this.getSocialNetwork();
     this.getUrlMsg();
     this.route.queryParams.subscribe((params: any) => {

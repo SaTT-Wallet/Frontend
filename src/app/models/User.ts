@@ -45,6 +45,12 @@ export class User {
   new: string;
   error: any;
 
+  visitedFacebook: boolean;
+  visitedLinkedIn: boolean;
+  visitedTwitter: boolean;
+  visitedYoutube: boolean;
+  visitedTiktok: boolean;
+
   constructor(data: any) {
     this.idUser = data._id;
     this.idSn = data.idSn;
@@ -90,6 +96,11 @@ export class User {
     this.passphrase = data.passphrase;
     this.new = data?.new;
     this.hasWallet = data?.hasWallet;
+    this.visitedFacebook = data['visited-facebook'];
+    this.visitedLinkedIn = data['visited-linkedIn'];
+    this.visitedTwitter = data['visited-twitter'];
+    this.visitedYoutube = data['visited-youtube'];
+    this.visitedTiktok = data['visited-tiktok'];
   }
 
   public getAge() {

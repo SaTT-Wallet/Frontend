@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-facade/socialAcounts-facade.service';
+
 import { tap } from 'rxjs/operators';
 
 @Component({
@@ -15,8 +16,7 @@ export class SocialRegistrationComponent implements OnInit {
   constructor(
     public router: Router,
     private accountFacadeService: AccountFacadeService,
-    private socialAccountFacadeService: SocialAccountFacadeService,
-    private route: ActivatedRoute
+    private socialAccountFacadeService: SocialAccountFacadeService
   ) {}
 
   ngOnInit(): void {
