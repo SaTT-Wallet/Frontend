@@ -21,10 +21,11 @@ pipelines:
             -  ssh-keyscan -H 92.243.9.233 >> ~/.ssh/known_hosts  
             - ssh satt@92.243.9.233 <<<  "ls"
             - ssh satt@92.243.9.233 <<< ${SCP_PASSWORD_SATT} "cd /home/satt/wallet_satt/satt-wallet && npm install" 
-            -  ssh satt@92.243.9.233 <<< ${SCP_PASSWORD_SATT} "cd /home/satt/wallet_satt/satt-wallet && git pull"
-            -  ssh satt@92.243.9.233 <<< ${SCP_PASSWORD_SATT} " cd /home/satt/wallet_satt/satt-wallet && ng build  " 
-            -  ssh satt@92.243.9.233 <<< ${SCP_PASSWORD_SATT} "cd /home/satt/wallet_satt/satt-wallet && ng run satt-token-atayen:server"
-            -  ssh satt@92.243.9.233 <<< ${SCP_PASSWORD_SATT} "cd /home/satt/wallet_satt/satt-wallet && pm2 restart 0 "
+            -  ssh satt@92.243.9.233 <<< ${SCP_PASSWORD_SATT} "cd /home/satt/wallet_satt/satt-wallet && git pull origin $BITBUCKET_BRANCH "
+            -  ssh satt@92.243.9.233 <<< ${SCP_PASSWORD_SATT} "cd /home/satt/wallet_satt/satt-wallet && git checkout $BITBUCKET_BRANCH "
+            -  ssh satt@92.243.9.233 <<< ${SCP_PASSWORD_SATT} " cd /home/satt/wallet_satt/satt-wallet && ng build --configuration dev-ssr  " 
+            -  ssh satt@92.243.9.233 <<< ${SCP_PASSWORD_SATT} "cd /home/satt/wallet_satt/satt-wallet && ng run satt-token-atayen:server --configuration dev-ssr"
+            -  ssh satt@92.243.9.233 <<< ${SCP_PASSWORD_SATT} "cd /home/satt/wallet_satt/satt-wallet && pm2 restart all"
     feature/*:
       - step:
           name: check directory  
