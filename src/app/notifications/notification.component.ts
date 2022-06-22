@@ -94,7 +94,8 @@ export class NotificationComponent implements OnInit {
       });
   }
   ngOnInit(): void {
-    this.getAllNotifications();
+      this.getAllNotifications();
+
   }
   seeNotification() {
     this.NotificationService.notificationSeen()
@@ -231,8 +232,9 @@ export class NotificationComponent implements OnInit {
           if (response.data.isSeen !== 0) {
             this.seeNotification();
           }
+          
           this.dataNotification.forEach((item: any) => {
-            item.created = item.created ? item.created : item.createdAt;
+            item.created = (item.created && item.created !== "a few seconds ago")   ? item.created : item.createdAt;
             this.siwtchFunction(item);
           });
           this.dataNotification = _.chain(this.dataNotification)
@@ -240,7 +242,6 @@ export class NotificationComponent implements OnInit {
             .reverse()
             .groupBy('created')
             .map((value: any, key: any) => {
-              //console.log('vvv', value, key);
               return { created: key, value };
             })
             .value();
