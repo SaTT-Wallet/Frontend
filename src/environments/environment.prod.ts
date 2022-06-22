@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  API_URL: 'https://api2.satt-token.com:3016',
+  API_URL: 'https://api2.satt-token.com',
   addresses: {
     smartContracts: {
       campaignERC20: '0xf961c85517fe86244cb60889afc4a928068d49ef',
