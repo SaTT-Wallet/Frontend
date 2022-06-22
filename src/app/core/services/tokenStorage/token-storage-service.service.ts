@@ -270,7 +270,7 @@ export class TokenStorageService {
     return this.localStorage.getItem('Crypto');
   }
   public getCryptoCryptoAmount() {
-    return this.localStorage.getItem('CryptoCryptoAmount');
+    return this.localStorage.getItem('CryptoAmount');
   }
   public getQuoteId() {
     return this.localStorage.getItem('quoteId');

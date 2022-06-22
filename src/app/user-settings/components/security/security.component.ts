@@ -30,6 +30,12 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { IApiResponse } from '@app/core/types/rest-api-responses';
 import { HttpErrorResponse } from '@angular/common/http';
 import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.service';
+import { CampaignsService } from '@app/campaigns/facade/campaigns.facade';
+import { CampaignsStoreService } from '@app/campaigns/services/campaigns-store.service';
+import { ParticipationListStoreService } from '@campaigns/services/participation-list-store.service';
+import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
+import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-facade/socialAcounts-facade.service';
+
 enum ExportType {
   eth = 'export',
   btc = 'exportbtc',
@@ -90,6 +96,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
   private onDestroy$ = new Subject();
   kycPendingReject: boolean = false;
   private kyc$ = this.kycFacadeService.kyc$;
+  private socialAccount$ = this.socialAccountFacadeService.socialAccount$;
 
   constructor(
     private accountFacadeService: AccountFacadeService,
@@ -101,7 +108,13 @@ export class SecurityComponent implements OnInit, OnDestroy {
     private clipboard: Clipboard,
     private router: Router,
     private toastr: ToastrService,
+    private socialAccountFacadeService: SocialAccountFacadeService,
+    private campaignFacade: CampaignsService,
+    private campaignDataStore: CampaignsStoreService,
     public translate: TranslateService,
+    private walletFacade: WalletFacadeService,
+    private ParticipationListStoreService: ParticipationListStoreService,
+
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string,
     private kycFacadeService: KycFacadeService
@@ -286,12 +299,54 @@ export class SecurityComponent implements OnInit, OnDestroy {
             }
             return of(null);
           }),
-          takeUntil(this.onDestroy$)
         )
         .subscribe((response: any) => {
           if (response && response.message === 'account deleted') {
-            this.tokenStorageService.signOut();
-            if (isPlatformBrowser(this.platformId)) window.location.reload();
+            // this.tokenStorageService.signOut();
+            // if (isPlatformBrowser(this.platformId)) 
+            // this.router.navigate(['/auth/registration']);
+            //window.location.reload();
+
+
+            this.tokenStorageService.logout().subscribe(
+              () => {
+                this.tokenStorageService.clear();
+        
+                this.AuthService.setIsAuthenticated(false);
+                this.campaignFacade.clearLinksListStore();
+                this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
+                this.ParticipationListStoreService.clearDataFarming();
+                this.walletFacade.dispatchLogout(); //clear totalBalance and cryptoList
+                this.accountFacadeService.dispatchLogoutAccount(); //clear account user
+                this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
+                this.ParticipationListStoreService.nextPage.pageNumber = 0;
+                this.profileSettingsFacade.clearProfilePicStore();
+                this.kycFacadeService.dispatchLogoutKyc();
+                if (isPlatformBrowser(this.platformId)) {
+                  window.location.reload();
+                }
+                this.router.navigate(['/auth/registration']);
+              },
+              () => {
+                this.AuthService.setIsAuthenticated(false);
+                this.campaignFacade.clearLinksListStore();
+                this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
+                this.ParticipationListStoreService.clearDataFarming();
+                this.walletFacade.dispatchLogout(); //clear totalBalance and cryptoList
+                this.accountFacadeService.dispatchLogoutAccount(); //clear account user
+                this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
+                this.ParticipationListStoreService.nextPage.pageNumber = 0;
+                this.profileSettingsFacade.clearProfilePicStore();
+                this.kycFacadeService.dispatchLogoutKyc();
+                this.tokenStorageService.clear();
+                if (isPlatformBrowser(this.platformId)) {
+                  window.location.reload();
+                }
+                this.router.navigate(['/auth/registration']);
+              }
+            );
+
+            
           }
         });
     }
@@ -705,9 +760,9 @@ export class SecurityComponent implements OnInit, OnDestroy {
       });
   }
   ngOnDestroy() {
-    this.onDestroy$.next('');
-    this.onDestroy$.complete();
+    // this.onDestroy$.next('');
+    // this.onDestroy$.complete();
 
-    this.modalService.dismissAll();
+    // this.modalService.dismissAll();
   }
 }
