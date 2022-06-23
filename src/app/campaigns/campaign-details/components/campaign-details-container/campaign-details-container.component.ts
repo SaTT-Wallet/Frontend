@@ -150,7 +150,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
           itemprop: 'thumbnailUrl',
           content: `${sattUrl}/campaign/coverByCampaign/${campaign.id}`
         },
-        `itemprop='thumbnailUrl'`
+        `itemprop='thumbnailUrl`
       );
 
       this.meta.updateTag(
