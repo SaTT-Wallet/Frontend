@@ -144,6 +144,14 @@ export class CampaignDetailsContainerComponent implements OnInit {
         this.showmoonboy = campaign.id === this.campaignId;
       }, 1000);
 
+      this.meta.updateTag(
+        {
+          property: 'og:image',
+          itemprop: 'image',
+          content:  `${sattUrl}/campaign/coverByCampaign/${campaign.id}`
+        },
+        `itemprop='image'`
+      );
 
       this.meta.updateTag(
         {
