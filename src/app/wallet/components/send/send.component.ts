@@ -36,6 +36,7 @@ import { Location } from '@angular/common';
 import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.service';
 import { BarcodeFormat } from '@zxing/library';
 import { Router } from '@angular/router';
+import { ITransferTokensRequestBody } from '@app/core/services/wallet/wallet.service';
 @Component({
   selector: 'app-send',
   templateUrl: './send.component.html',
@@ -360,11 +361,11 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   //send crypto
 
   public sendMoney() {
-    let token: any;
+    let tokenAddress: any;
     if (this.sendform.valid) {
       this.showSpinner = true;
       this.loading = true;
-      let symbole: any;
+      let tokenSymbol: any;
       let decimal: any;
       this.loadingButton = true;
 
@@ -398,7 +399,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         currency = 'SATTBEP20';
       }
 
-      token = this.token ? this.token : ListTokens[currency].contract;
+      tokenAddress = this.token ? this.token : ListTokens[currency].contract;
 
       decimal = this.decimals
         ? new Big('10').pow(this.decimals)
@@ -406,23 +407,22 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
 
       amount = new Big(amountdecimal).times(decimal).toFixed(30).split('.')[0];
       // symbole = this.symbol ? this.symbol : ListTokens[currency].symbole;
-      symbole = this.sendform.get('currency')?.value;
+      tokenSymbol = this.sendform.get('currency')?.value;
       let network = this.networks
         ? this.networks.toLowerCase()
         : ListTokens[currency].type;
-      const send: any = {
-        token,
-        access_token,
+      const send: ITransferTokensRequestBody = {
+        from:'zer',
+        tokenAddress,
         to,
         amount,
         pass,
-        symbole,
+        tokenSymbol,
         network,
-        decimal: this.decimals
       };
       this.sendform.get('password')?.reset();
       this.walletFacade
-        .sendAmount(send)
+        .transferTokens(send)
         .pipe(
           tap(() => {
             // after sending amount we update total balance and crypto list state
