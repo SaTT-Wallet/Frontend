@@ -10,6 +10,16 @@ import {
   ITransferTokensResponse
 } from '@app/core/types/rest-api-responses';
 
+export interface ITransferTokensRequestBody {
+  from: string;
+  to: string;
+  amount: string;
+  pass: string;
+  network: string;
+  tokenSymbol: string;
+  tokenAddress: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -87,22 +97,14 @@ export class WalletService {
     }
   }
 
-  transferTokens(body: {
-    from: string;
-    to: string;
-    amount: string;
-    walletPassword: string;
-    network: string;
-    tokenSymbol: string;
-    tokenAddress: string;
-  }): Observable<IApiResponse<ITransferTokensResponse>> {
+  transferTokens(body: ITransferTokensRequestBody): Observable<IApiResponse<ITransferTokensResponse>> {
     const headers = new HttpHeaders({
       'Cache-Control': 'no-store',
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
     return this.http.post<IApiResponse<ITransferTokensResponse>>(
-      `${sattUrl}/wallet/transfer`,
+      `${sattUrl}/wallet/transferTokens`,
       body,
       { headers }
     );
