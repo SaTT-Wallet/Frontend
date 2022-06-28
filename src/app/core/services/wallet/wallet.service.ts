@@ -5,6 +5,20 @@ import { share } from 'rxjs/operators';
 import { Observable, Subject } from 'rxjs';
 import { TokenStorageService } from '../tokenStorage/token-storage-service.service';
 import { IResponseWallet } from '@app/core/iresponse-wallet';
+import {
+  IApiResponse,
+  ITransferTokensResponse
+} from '@app/core/types/rest-api-responses';
+
+export interface ITransferTokensRequestBody {
+  from: string;
+  to: string;
+  amount: string;
+  pass: string;
+  network: string;
+  tokenSymbol: string;
+  tokenAddress: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -64,17 +78,12 @@ export class WalletService {
       return this.http.post(sattUrl + '/wallet/transferBep20', send, {
         headers: headers
       });
-    } 
-    
-    else if (send.network.toLowerCase() === 'polygon') {
+    } else if (send.network.toLowerCase() === 'polygon') {
       // delete send.token;
       return this.http.post(sattUrl + '/wallet/transferPolygon', send, {
         headers: headers
       });
-    } 
-    
-
-    else {
+    } else {
       let body = {
         token: send.token,
         to: send.to,
@@ -86,6 +95,19 @@ export class WalletService {
         headers: headers
       });
     }
+  }
+
+  transferTokens(body: ITransferTokensRequestBody): Observable<IApiResponse<ITransferTokensResponse>> {
+    const headers = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+    return this.http.post<IApiResponse<ITransferTokensResponse>>(
+      `${sattUrl}/wallet/transferTokens`,
+      body,
+      { headers }
+    );
   }
   chartjs() {
     const headers = new HttpHeaders({
