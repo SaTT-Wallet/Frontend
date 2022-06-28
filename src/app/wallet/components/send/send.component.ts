@@ -109,7 +109,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   private account$ = this.accountFacadeService.account$;
   cryptoToDropdown: any;
   contactWallet: string = '';
-  maxNumber: number = 999999999;
+  maxAmountNumber: number = 999999999;
+  maxUsdAmountNumber: number = 9999999999999;
+
   sattBalance: any;
 
   allowedFormats = [
@@ -747,8 +749,11 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       let getusd: any = this.sendform.get('AmountUsd')?.value;
       let sendamount = getamount?.toString();
       let sendusd = getusd?.toString();
-
-      if (event === 'usd' && Number(sendusd) > this.maxNumber) {
+      if (event === 'amount' && Number(sendusd) > this.maxAmountNumber) {
+        sendamount = sendamount.slice(0, 13);
+        this.sendform.get('Amount')?.setValue(sendamount);
+      }
+      if (event === 'usd' && Number(sendusd) > this.maxAmountNumber) {
         sendusd = sendusd.slice(0, 9);
         this.sendform.get('AmountUsd')?.setValue(sendusd);
       } else {
