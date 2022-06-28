@@ -32,6 +32,8 @@ import { Big } from 'big.js';
 import { WindowRefService } from '@core/windowRefService';
 import * as FileSaver from 'file-saver';
 import JSZip from 'jszip';
+import {Location} from '@angular/common';
+
 declare var $: any;
 @Component({
   selector: 'app-campaign-detail',
@@ -140,7 +142,8 @@ export class CampaignDetailComponent implements OnInit {
     private toastr: ToastrService,
     private campaignListStoreService: CampaignsListStoreService,
     private Window: WindowRefService,
-    private campaignsHttpService: CampaignHttpApiService
+    private campaignsHttpService: CampaignHttpApiService,
+    private _location: Location
   ) {
     this.sendform = new FormGroup({
       url: new FormControl(null, Validators.required)
@@ -175,7 +178,9 @@ export class CampaignDetailComponent implements OnInit {
         });
     }
   }
-
+  backClicked() {
+    this._location.back();
+  }
   ngOnInit(): void {
     this.CampaignService.isLoading.subscribe((res) => {
       if (res === false) {
