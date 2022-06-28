@@ -43,7 +43,7 @@ import { Router } from '@angular/router';
 })
 export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('inputAmountUsd') inputAmountUsd?: ElementRef;
-  emailPlaceholderText= "Id wallet"
+  emailPlaceholderText = 'Id wallet';
   sendform: FormGroup;
   typetab: string = '';
   btcCode: string = '';
@@ -72,7 +72,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   bnb: any;
   eth: any;
   eRC20Gaz: any;
-  polygonGaz:any
+  polygonGaz: any;
   matic: any;
   defaultcurr: string = ListTokens['SATT'].name;
   private isDestroyed = new Subject();
@@ -109,9 +109,11 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   private account$ = this.accountFacadeService.account$;
   cryptoToDropdown: any;
   contactWallet: string = '';
-  maxNumber: number = 999999999;
+  maxAmountNumber: number = 999999999;
+  maxUsdAmountNumber: number = 9999999999999;
+
   sattBalance: any;
-  
+
   allowedFormats = [
     BarcodeFormat.QR_CODE,
     BarcodeFormat.EAN_13,
@@ -126,18 +128,14 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
-
     if (isPlatformBrowser(this.platformId) && event) {
       this.mediaQueryList = window.matchMedia(this.query);
 
       if (this.mediaQueryList?.matches) {
-               this.emailPlaceholderText = "Id wallet or QR code"}
-else {
-  this.emailPlaceholderText = "Id wallet"
-
-}
-
-      
+        this.emailPlaceholderText = 'Id wallet or QR code';
+      } else {
+        this.emailPlaceholderText = 'Id wallet';
+      }
     }
   }
   constructor(
@@ -156,7 +154,6 @@ else {
     private kycFacadeService: KycFacadeService,
     private router: Router
   ) {
-
     //, Validators.max(this.maxNumber)
     this.sendform = new FormGroup({
       contact: new FormControl(null, {
@@ -174,7 +171,6 @@ else {
     this.getusercrypto();
     this.getProfileDetails();
     this.amountdefault = this.sendform.get('currency')?.value;
-   
   }
 
   openqrcode(): void {
@@ -609,7 +605,11 @@ else {
             this.sendform.get('AmountUsd')?.setValue(crypto.total_balance);
 
           this.gazproblem = false;
-          if (currency === 'ETH' || currency === 'BNB' || currency === 'MATIC') {
+          if (
+            currency === 'ETH' ||
+            currency === 'BNB' ||
+            currency === 'MATIC'
+          ) {
             this.difference = crypto.total_balance - this.gazsend;
             this.newquantity = this.difference / crypto.price;
             let newqua = this.showNumbersRule.transform(this.newquantity);
@@ -651,10 +651,10 @@ else {
         return {
           bnb: this.bnb,
           Eth: this.eth,
-          matic : this.matic
+          matic: this.matic
         };
       }),
-      switchMap(({ bnb, Eth , matic }) => {
+      switchMap(({ bnb, Eth, matic }) => {
         return forkJoin([
           this.walletFacade.getEtherGaz().pipe(
             take(1),
@@ -693,10 +693,9 @@ else {
           this.walletFacade.getPolygonGaz().pipe(
             take(1),
             tap((gaz: any) => {
-              this.showSpinner = false; 
+              this.showSpinner = false;
               let price;
               price = gaz.data.gasPrice;
-            
 
               this.polygonGaz = (
                 ((price * GazConsumedByCampaign) / 1000000000) *
@@ -750,8 +749,11 @@ else {
       let getusd: any = this.sendform.get('AmountUsd')?.value;
       let sendamount = getamount?.toString();
       let sendusd = getusd?.toString();
-
-      if (event === 'usd' && Number(sendusd) > this.maxNumber) {
+      if (event === 'amount' && Number(sendusd) > this.maxAmountNumber) {
+        sendamount = sendamount.slice(0, 13);
+        this.sendform.get('Amount')?.setValue(sendamount);
+      }
+      if (event === 'usd' && Number(sendusd) > this.maxAmountNumber) {
         sendusd = sendusd.slice(0, 9);
         this.sendform.get('AmountUsd')?.setValue(sendusd);
       } else {
@@ -875,9 +877,7 @@ else {
       this.coinType = true;
       this.gazcurrency = 'BTC';
       // this.gazcurrency = 'ETH';
-    }
-
-    else if (this.networks === 'POLYGON') {
+    } else if (this.networks === 'POLYGON') {
       this.gazcurrency = 'MATIC';
       // this.gazcurrency = 'ETH';
     }
