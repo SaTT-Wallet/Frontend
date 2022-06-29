@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { WalletService } from '@core/services/wallet/wallet.service';
+import { ITransferTokensRequestBody, WalletService } from '@core/services/wallet/wallet.service';
 import { WalletStoreService } from '@core/services/wallet-store.service';
 import { CreatePasswordWalletService } from '@core/services/wallet/create-password-wallet.service';
 import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
@@ -139,6 +139,10 @@ export class WalletFacadeService {
 
   sendAmount(send: any) {
     return this.walletService.sendAmount(send);
+  }
+
+  transferTokens(body: ITransferTokensRequestBody) {
+    return this.walletService.transferTokens(body);
   }
 
   getBalanceChart() {
