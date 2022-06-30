@@ -714,10 +714,10 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     // if (event.target.value.length === 0 && event.key === '0') {
     //   event.preventDefault();
     // }
-    if (event.keyCode === 54 && !event.shiftKey) {
-      event.preventDefault();
-      this.convertcurrency('', false);
-    }
+    // if (event.keyCode === 54 && !event.shiftKey) {
+    //   event.preventDefault();
+    //   this.convertcurrency('', false);
+    // }
     if (!this.isValidKeyCode(event.keyCode)) {
       event.preventDefault();
       this.convertcurrency('', false);
