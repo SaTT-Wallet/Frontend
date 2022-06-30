@@ -753,7 +753,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         sendamount = sendamount.slice(0, 13);
         this.sendform.get('Amount')?.setValue(sendamount);
       }
-      if (event === 'usd' && Number(sendusd) > this.maxAmountNumber) {
+      if (event === 'usd' && Number(sendusd) > this.maxUsdAmountNumber) {
         sendusd = sendusd.slice(0, 9);
         this.sendform.get('AmountUsd')?.setValue(sendusd);
       } else {
