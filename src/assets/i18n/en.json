@@ -2992,7 +2992,7 @@
   "addToken.add-new-token": "Add token",
   "addToken.token-address": "Token’s contract address",
   "addToken.search": "NO SEARCH RESULT AVAILABLE",
-  "addToken.network": "SMARTCHAIN",
+  "addToken.network": "NETWORK",
   "addToken.token-symbol": "Token’s symbol",
   "addToken.decimals": "Decimals",
   "addToken.Custom Token": "Custom Token",
