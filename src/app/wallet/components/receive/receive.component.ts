@@ -175,10 +175,10 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
     // }
 
     // console.log(event, event.keyCode);
-    if (event.keyCode === 54) {
-      event.preventDefault();
-      this.convertcurrency('', false);
-    }
+    // if (event.keyCode === 54) {
+    //   event.preventDefault();
+    //   this.convertcurrency('', false);
+    // }
     if (!this.isValidKeyCode(event.keyCode)) {
       event.preventDefault();
       this.convertcurrency('', false);
