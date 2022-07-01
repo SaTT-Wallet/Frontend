@@ -247,7 +247,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
         let header = this.document.getElementById('navbar-id');
         header.style.background = '';
         if (event.target.scrollTop === 0) {
-          header.style.background = '#1f2337';
+          header.style.background = '';
         }
       }
     }
