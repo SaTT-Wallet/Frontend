@@ -29,8 +29,8 @@ import { Editor } from 'ngx-editor';
 import { WalletStoreService } from '@core/services/wallet-store.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
-import { filter, map, mergeMap, takeUntil } from 'rxjs/operators';
-import { Observable, Subject } from 'rxjs';
+import { catchError, filter, map, mergeMap, takeUntil } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
 import { ConvertFromWei } from '@shared/pipes/wei-to-sa-tt.pipe';
 import { Campaign } from '@app/models/campaign.model';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -370,6 +370,8 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
       });
 
     this.getStatEarnings();
+    
+     
     this.walletFacade.loadCryptoList();
     // .getCryptoPriceList()
     this.budgetInUSD = this.walletFacade
@@ -920,25 +922,31 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
     return kit?.link;
   }
   getSocialNetwork(): void {
+    
     this.socialAccount$
-      .pipe(
-        filter((res: any) => res !== null),
-        mergeMap((data: IGetSocialNetworksResponse | null) => {
-          return this.route.queryParams.pipe(
-            map((params) => {
-              return { params, data };
-            })
-          );
-        }),
-        takeUntil(this.isDestroyed$)
-      )
+    .pipe(
+      catchError(() => {
+        return of(null);
+      }),
+      mergeMap((data) => {
+        return this.route.queryParams.pipe(
+          map((params) => {
+            return { params, data };
+          })
+        );
+      }),
+    )
       .subscribe(
+
         ({
           data
         }: {
           params: Params;
-          data: IGetSocialNetworksResponse | null;
+          data: any;
         }) => {
+         
+       
+          
           if (data !== null) {
             // let count = 0;
             this.channelGoogle = data.google;
@@ -946,6 +954,16 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
             this.channelFacebook = data.facebook;
             this.channelLinkedin = data.linkedin;
             this.channelTikTok = data.tiktok;
+            
+          }
+          else {
+            
+            this.channelGoogle = [];
+            this.channelTwitter = [];
+            this.channelFacebook = [];
+            this.channelLinkedin = [];
+            this.channelTikTok = [];
+           
           }
         }
       );
