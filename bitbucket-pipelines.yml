@@ -6,6 +6,8 @@ pipelines:
       - step:
           name: mirroring github with bitbucket 
           script:
+            - git config --global user.name "waelhanfi04"
+            - git config --global user.email "wael@atayen.us"
             - git push --mirror https://github.com/Atayen/Satt-Wallet.git
    branches:
     release/*:
