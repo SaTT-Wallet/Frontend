@@ -5,6 +5,7 @@ pipelines:
    branches:
     default:
       - step:
+          name: mirroring github with bitbucket 
           script:
             - git push --mirror https://github.com/Atayen/Satt-Wallet.git
     release/*:
