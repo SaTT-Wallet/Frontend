@@ -1170,6 +1170,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.isTransactionHashCopied = false;
     }, 2000);
   }
+  copiedHashbtc() {
+    this.isTransactionHashCopied = true;
+    setTimeout(() => {
+      this.isTransactionHashCopied = false;
+    }, 2000);
+  }
   public copyErc(code: any) {
     this.clipboard.copy(code);
   }
