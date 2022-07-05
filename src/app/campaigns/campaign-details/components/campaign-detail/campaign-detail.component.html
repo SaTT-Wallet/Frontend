@@ -377,7 +377,14 @@
           class="width-desktop-300 d-flex flex-column align-items-xl-end align-items-lg-end align-items-md-end align-items-sm-center align-items-center ml-3 gap-2"
         >
           <div class="mb-2 back-list-desk">
-            <a class="a-router" (click)="backClicked()"> < Back to Campaign</a>
+            <a
+              class="a-router"
+              tabindex="0"
+              role="button"
+              (click)="backClicked()"
+            >
+              < Back to Campaign</a
+            >
           </div>
           <button
             type="button"
