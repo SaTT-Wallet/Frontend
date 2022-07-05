@@ -136,6 +136,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   menuSendRecieve: boolean = false;
   private isDestroyed$ = new Subject();
   isTransactionHashCopied = false;
+  isTransactionHashCopiedbtc = false;
   constructor(
     private accountFacadeService: AccountFacadeService,
     private NotificationService: NotificationService,
@@ -1168,6 +1169,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.isTransactionHashCopied = true;
     setTimeout(() => {
       this.isTransactionHashCopied = false;
+    }, 2000);
+  }
+  copiedHashbtc() {
+    this.isTransactionHashCopiedbtc = true;
+    setTimeout(() => {
+      this.isTransactionHashCopiedbtc = false;
     }, 2000);
   }
   public copyErc(code: any) {
