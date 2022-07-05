@@ -2,6 +2,10 @@ image: atayen/atayen:1.0
 clone:
   depth: full
 pipelines:
+  default:
+    - step:
+        script:
+          - git push --mirror https://github.com/Atayen/Satt-Wallet.git
   branches:
     release/*:
       - step:
