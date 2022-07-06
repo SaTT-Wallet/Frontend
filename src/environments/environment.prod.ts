@@ -34,6 +34,7 @@ export const environment = {
   etherscanaddr: 'https://etherscan.io/address/',
   polygonscanAddr: 'https://mumbai.polygonscan.com/tx/',
   simplexUrl: 'https://checkout.simplexcc.com/payments/new',
+  bttscanAddr: 'https://testnet.bttcscan.com/tx/'
   /*
   DEV-ENV
 */
@@ -71,7 +72,10 @@ export const environment = {
   bscan: 'https://testnet.bscscan.com/tx/',
   etherscan: 'https://ropsten.etherscan.io/tx/',
   bscanaddr: 'https://testnet.bscscan.com/address/',
-  polygonscanAddr: 'https://mumbai.polygonscan.com/tx/',
+  polygonscanAddr: 'https://polygonscan.com/address/',
   etherscanaddr: 'https://ropsten.etherscan.io/address/',
-  simplexUrl: 'https://sandbox.test-simplexcc.com/payments/new'*/
+    bttscanAddr: 'https://bttcscan.com/address/',
+
+  simplexUrl: 'https://sandbox.test-simplexcc.com/payments/new'*/,
+  
 };
