@@ -219,6 +219,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           ...this.dataList.filter((data: any) => data.symbol === 'BITCOIN'),
           ...this.dataList.filter((data: any) => data.symbol === 'BNB'),
           ...this.dataList.filter((data: any) => data.symbol === 'ETH'),
+         
+
           ...this.dataList
             .filter(
               (data: any) =>
@@ -227,7 +229,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
                 data.symbol !== 'SATT' &&
                 data.symbol !== 'BITCOIN' &&
                 data.symbol !== 'BNB' &&
-                data.symbol !== 'ETH'
+                data.symbol !== 'ETH' 
+              
+
             )
             .reverse()
         ];
@@ -607,6 +611,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         if (crypto.symbol === currency) {
           let quantity = this.showNumbersRule.transform(crypto.quantity);
           //  let totalBal = this.showNumbersRule.transform(crypto.total_balance);
+        //    crypto.total_balance = parseFloat(crypto.total_balance + '');
+        //  crypto.total_balance = crypto?.total_balance?.toFixed(2);
           this.sendform.get('Amount')?.setValue(quantity),
             this.sendform.get('AmountUsd')?.setValue(crypto.total_balance);
 
@@ -614,9 +620,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           if (
             currency === 'ETH' ||
             currency === 'BNB' ||
-            currency === 'MATIC' ||
-            currency === 'BTT'
-          ) {
+            currency === 'MATIC'           ) {
             this.difference = crypto.total_balance - this.gazsend;
             this.newquantity = this.difference / crypto.price;
             let newqua = this.showNumbersRule.transform(this.newquantity);
