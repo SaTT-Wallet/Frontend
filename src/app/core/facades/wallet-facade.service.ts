@@ -211,6 +211,17 @@ export class WalletFacadeService {
   }
 
 
+    // Get btt gaz from api: use it only in case of real time data;
+  // recommended to use $bttGaz attribute
+  getBttGaz() {
+    return this.cryptofetchServiceService.getBttGaz();
+  }
+
+  loadBttGaz() {
+    this.walletStoreService.getBttGaz();
+  }
+
+
 
   // Get bnb gaz from api: use it only in case of real time data;
   // recommended to use $bnbGaz attribute
