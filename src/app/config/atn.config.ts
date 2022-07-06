@@ -6,6 +6,7 @@ const walletUrl = 'http://localhost:4200/#/';
 const bscan = env.bscan;
 const etherscan = env.etherscan;
 const polygonscanAddr = env.polygonscanAddr;
+const bttscanAddr=env.bttscanAddr;
 const campaignSmartContractERC20 = env.addresses.smartContracts.campaignERC20;
 
 const campaignSmartContractBEP20 = env.addresses.smartContracts.campaignBEP20;
@@ -171,6 +172,14 @@ var ListTokens: { [key: string]: { [key: string]: any } } = {
     type: 'POLYGON',
     symbole: 'SATTPOLYGON'
   },
+  SATTBTT: {
+    name: 'SATTBTT',
+    contract: env.addresses.smartContracts.SATT_TOKENBTT,
+    decimals: new Big('10').pow(18),
+    logo: 'SATT.svg',
+    type: 'BTT',
+    symbole: 'SATTBTT'
+  },
   WSATT: {
     name: 'WSATT',
     contract: '0x70A6395650b47D94A77dE4cFEDF9629f6922e645',
@@ -275,7 +284,15 @@ var ListTokens: { [key: string]: { [key: string]: any } } = {
     logo: 'MATIC.svg',
     type: 'POLYGON',
     symbole: 'MATIC'
-  }
+  },
+  BTT: {
+    name: 'BTT',
+    contract: '0x0000000000000000000000000000000000001010',
+    decimals: new Big('18').pow(18),
+    logo: 'BTT.svg',
+    type: 'BTT',
+    symbole: 'BTT'
+  },
 };
 
 var ListTokensPerso: { [key: string]: { [key: string]: any } } = {
@@ -852,6 +869,7 @@ export {
   bscan,
   etherscan,
   polygonscanAddr,
+  bttscanAddr,
   dataList,
   cryptoList
 };
