@@ -22,11 +22,16 @@ export class ConvertFromWei implements PipeTransform {
    */
   transform(value: string, symbol: string, digits: number = 3): string {
     if (!value || value === '0') return '0';
-
+    console.log(symbol +"rrr"+ value)
     let decimals = ListTokens[symbol].decimals.toString();
-    if (symbol === 'SATTBEP20' || symbol === 'SATTPOLYGON') {
+    if (symbol === 'SATTBEP20' || symbol === 'SATTPOLYGON' || symbol === 'SATTBTT') {
       symbol = 'SATT';
     }
+    console.log(value)
+    console.log(decimals)
+
+    console.log(digits)
+
     return new Big(value).div(decimals).round(digits).toString();
   }
 }

@@ -14,6 +14,10 @@ const campaignSmartContractBEP20 = env.addresses.smartContracts.campaignBEP20;
 const campaignSmartContractPOLYGON =
   env.addresses.smartContracts.campaignPOLYGON;
 
+  
+const campaignSmartContractBTT =
+ env.addresses.smartContracts.campaignBTT;
+
 const id_campaign_to_participate = '61139d487048d8251bf91401';
 
 let pattContact = /^0x[a-fA-F0-9]{40}$|^(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,39}$/;
@@ -146,6 +150,7 @@ cryptoNetwork['(smart chain)'] =
   cryptoNetwork['BUSD'] =
     'BEP20';
 cryptoNetwork['SATTPOLYGON'] = 'POLYGON';
+cryptoNetwork['SATTBTT'] = 'BTT';
 
 var ListTokens: { [key: string]: { [key: string]: any } } = {
   SATT: {
@@ -280,7 +285,7 @@ var ListTokens: { [key: string]: { [key: string]: any } } = {
   MATIC: {
     name: 'MATIC',
     contract: '0x0000000000000000000000000000000000001010',
-    decimals: new Big('18').pow(18),
+    decimals: new Big('10').pow(18),
     logo: 'MATIC.svg',
     type: 'POLYGON',
     symbole: 'MATIC'
@@ -288,7 +293,7 @@ var ListTokens: { [key: string]: { [key: string]: any } } = {
   BTT: {
     name: 'BTT',
     contract: '0x0000000000000000000000000000000000001010',
-    decimals: new Big('18').pow(18),
+    decimals: new Big('10').pow(18),
     logo: 'BTT.svg',
     type: 'BTT',
     symbole: 'BTT'
@@ -847,6 +852,7 @@ export {
   campaignSmartContractERC20,
   campaignSmartContractBEP20,
   campaignSmartContractPOLYGON,
+  campaignSmartContractBTT,
   pattContact,
   pattEmail,
   pattNetwork,
