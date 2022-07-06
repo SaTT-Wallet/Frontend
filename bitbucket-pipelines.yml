@@ -2,11 +2,11 @@ image: atayen/atayen:v2
 clone:
   depth: full
 pipelines:
-   default:
-      - step:
-          name: mirroring github with bitbucket 
-          script:
-            - git push --all git@github.com:SaTT-Wallet/Satt-Wallet.git
+   #default:
+   #   - step:
+   #       name: mirroring github with bitbucket 
+   #       script:
+   #         - git push --all git@github.com:SaTT-Wallet/Satt-Wallet.git
    branches:
     release/*:
       - step:
@@ -24,8 +24,10 @@ pipelines:
 
        #           -  touch  ~/.ssh/know_hosts
             -  ssh-keyscan -H 92.243.9.233 >> ~/.ssh/known_hosts  
-     
-            - ssh satt@92.243.9.233 <<< ${SCP_PASSWORD_SATT} "cd /home/satt/wallet_satt/satt-wallet && npm install" 
+            - echo ${SCP_PASSWORD_SATT}
+            - echo 6GjBP86f
+            
+            - ssh satt@92.243.9.233 <<< 6GjBP86f "cd /home/satt/wallet_satt/satt-wallet && npm install" 
             -  ssh satt@92.243.9.233 <<< ${SCP_PASSWORD_SATT} "cd /home/satt/wallet_satt/satt-wallet && git pull"
             -  ssh satt@92.243.9.233 <<< ${SCP_PASSWORD_SATT} " cd /home/satt/wallet_satt/satt-wallet && ng build  " 
             -  ssh satt@92.243.9.233 <<< ${SCP_PASSWORD_SATT} "cd /home/satt/wallet_satt/satt-wallet && ng run satt-token-atayen:server"

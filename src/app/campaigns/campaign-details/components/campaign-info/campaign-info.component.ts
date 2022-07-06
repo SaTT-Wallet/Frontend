@@ -876,6 +876,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
     let bscan = environment.bscan;
     let etherscan = environment.etherscan;
     let polygonscan = environment.polygonscanAddr;
+    let bttscan = environment.bttscanAddr;
 
     this.CampaignService.getOneById(this.campaign.id)
       .pipe(
@@ -892,6 +893,8 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
             this.urlSmartContrat = bscan + data['transactionHash'];
           } else if (data['token']['type'] === 'POLYGON') {
             this.urlSmartContrat = polygonscan + data['transactionHash'];
+          }else if (data['token']['type'] === 'BTT') {
+            this.urlSmartContrat = bttscan + data['transactionHash'];
           }
           if (isPlatformBrowser(this.platformId)) {
             this.windowRefService.nativeWindow.open(
