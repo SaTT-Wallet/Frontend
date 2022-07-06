@@ -399,13 +399,14 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       } else {
         currency = this.sendform.get('currency')?.value;
       }
+     
       this.network = this.networks
         ? this.networks.toLowerCase()
         : ListTokens[currency].type;
       if (this.network === 'bep20' && currency === 'SATT') {
         currency = 'SATTBEP20';
       }
-
+    
       tokenAddress = this.token ? this.token : ListTokens[currency].contract;
 
       decimal = this.decimals
@@ -415,9 +416,15 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       amount = new Big(amountdecimal).times(decimal).toFixed(30).split('.')[0];
       // symbole = this.symbol ? this.symbol : ListTokens[currency].symbole;
       tokenSymbol = this.sendform.get('currency')?.value;
+      if (this.network==='btt'){
+        this.network = 'BTT'
+      }
       let network = this.networks
         ? this.networks.toLowerCase()
         : ListTokens[currency].type;
+        if (network==='btt'){
+         network = "BTT"
+        }
       const send: ITransferTokensRequestBody = {
         from:'zer',
         tokenAddress,
@@ -427,6 +434,10 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         tokenSymbol,
         network,
       };
+      if (network==='btt'){
+      network = "BTT"
+      }
+
       this.sendform.get('password')?.reset();
       this.walletFacade
         .transferTokens(send)
