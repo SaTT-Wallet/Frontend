@@ -2,9 +2,11 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  Inject,
   Input,
   OnInit,
-  Output
+  Output,
+  PLATFORM_ID
 } from '@angular/core';
 import { BlockchainActionsService } from '@core/services/blockchain-actions.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
@@ -27,6 +29,7 @@ import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import copy from 'fast-copy';
 import { Subject } from 'rxjs';
 import { Big } from 'big.js';
+import { isPlatformBrowser } from '@angular/common';
 @Component({
   selector: 'app-farm-post-card',
   templateUrl: './farm-post-card.component.html',
@@ -59,7 +62,8 @@ export class FarmPostCardComponent implements OnInit {
     private ref: ChangeDetectorRef,
     private _sanitizer: DomSanitizer,
     private walletFacade: WalletFacadeService,
-    public changeDetectorRef: ChangeDetectorRef
+    public changeDetectorRef: ChangeDetectorRef,
+    @Inject(PLATFORM_ID) private platformId: string,
   ) {
     this.reasonForm = new FormGroup(
       {
@@ -131,6 +135,12 @@ export class FarmPostCardComponent implements OnInit {
 
   get localId(): string {
     return this.tokenStorageService.getLocale() || 'en';
+  }
+
+  getLink(){
+    if (isPlatformBrowser(this.platformId)) {
+      window.open(this.prom.link,  "_blank");
+    }
   }
 
   getMyGains(prom: any) {
