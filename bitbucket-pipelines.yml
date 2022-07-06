@@ -7,7 +7,6 @@ pipelines:
           name: mirroring github with bitbucket 
           script:
             - git push --mirror git@github.com:SaTT-Wallet/Satt-Wallet.git
-
    branches:
     release/*:
       - step:
