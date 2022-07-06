@@ -1,8 +1,13 @@
-image: atayen/atayen:1.0
+image: atayen/atayen:v2
 clone:
   depth: full
 pipelines:
-  branches:
+   default:
+      - step:
+          name: mirroring github with bitbucket 
+          script:
+            - git push --all git@github.com:SaTT-Wallet/Satt-Wallet.git
+   branches:
     release/*:
       - step:
           name: check directory 
