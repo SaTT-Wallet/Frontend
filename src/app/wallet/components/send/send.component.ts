@@ -29,7 +29,7 @@ import { forkJoin, Subject } from 'rxjs';
 import { WalletStoreService } from '@core/services/wallet-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
-import { bscan, etherscan, polygonscanAddr } from '@app/config/atn.config';
+import { bscan, etherscan, polygonscanAddr,bttscanAddr } from '@app/config/atn.config';
 import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Location } from '@angular/common';
@@ -74,6 +74,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   eth: any;
   eRC20Gaz: any;
   polygonGaz: any;
+  bttGaz: any;
+
   matic: any;
   defaultcurr: string = ListTokens['SATT'].name;
   private isDestroyed = new Subject();
@@ -126,6 +128,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   private kyc$ = this.kycFacadeService.kyc$;
   query = '(max-width: 767.98px)';
   mediaQueryList?: MediaQueryList;
+  btt: any;
 
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
@@ -216,6 +219,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           ...this.dataList.filter((data: any) => data.symbol === 'BITCOIN'),
           ...this.dataList.filter((data: any) => data.symbol === 'BNB'),
           ...this.dataList.filter((data: any) => data.symbol === 'ETH'),
+         
+
           ...this.dataList
             .filter(
               (data: any) =>
@@ -224,7 +229,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
                 data.symbol !== 'SATT' &&
                 data.symbol !== 'BITCOIN' &&
                 data.symbol !== 'BNB' &&
-                data.symbol !== 'ETH'
+                data.symbol !== 'ETH' 
+              
+
             )
             .reverse()
         ];
@@ -465,6 +472,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               } else if (this.networks === 'POLYGON') {
                 this.routertransHash = polygonscanAddr + this.hashtransaction;
               }
+              else if (this.networks === 'BTT') {
+                this.routertransHash = bttscanAddr + this.hashtransaction;
+              }
               this.showPwdBloc = false;
               this.showSuccessBloc = true;
             }
@@ -601,6 +611,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         if (crypto.symbol === currency) {
           let quantity = this.showNumbersRule.transform(crypto.quantity);
           //  let totalBal = this.showNumbersRule.transform(crypto.total_balance);
+        //    crypto.total_balance = parseFloat(crypto.total_balance + '');
+        //  crypto.total_balance = crypto?.total_balance?.toFixed(2);
           this.sendform.get('Amount')?.setValue(quantity),
             this.sendform.get('AmountUsd')?.setValue(crypto.total_balance);
 
@@ -608,8 +620,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           if (
             currency === 'ETH' ||
             currency === 'BNB' ||
-            currency === 'MATIC'
-          ) {
+            currency === 'MATIC'           ) {
             this.difference = crypto.total_balance - this.gazsend;
             this.newquantity = this.difference / crypto.price;
             let newqua = this.showNumbersRule.transform(this.newquantity);
@@ -648,13 +659,17 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.bnb = data['BNB'].price;
         this.eth = data['ETH'].price;
         this.matic = data['MATIC'].price;
+        this.btt = data['BTT'].price;
+
         return {
           bnb: this.bnb,
           Eth: this.eth,
-          matic: this.matic
+          matic: this.matic,
+          btt: this.btt
+
         };
       }),
-      switchMap(({ bnb, Eth, matic }) => {
+      switchMap(({ bnb, Eth, matic ,btt}) => {
         return forkJoin([
           this.walletFacade.getEtherGaz().pipe(
             take(1),
@@ -702,7 +717,23 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
                 matic
               ).toFixed(8);
             })
+          ),
+
+          this.walletFacade.getBttGaz().pipe(
+            take(1),
+            tap((gaz: any) => {
+              this.showSpinner = false;
+              let price;
+              price = gaz.data.gasPrice;
+
+              this.bttGaz = (
+                ((price * GazConsumedByCampaign) / 1000000000) *
+                btt
+              ).toFixed(8);
+            })
           )
+
+
         ]);
       })
     );
@@ -881,7 +912,10 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.gazcurrency = 'MATIC';
       // this.gazcurrency = 'ETH';
     }
-
+    else if (this.networks === 'BTT') {
+      this.gazcurrency = 'BTT';
+      // this.gazcurrency = 'ETH';
+    }
     setTimeout(() => {
       if (this.networks === 'ERC20' || this.networks === 'BTC') {
         this.gazsend = this.eRC20Gaz;
@@ -893,6 +927,10 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       if (this.networks === 'POLYGON') {
         this.gazsend = this.polygonGaz;
       }
+      if (this.networks === 'BTT') {
+        this.gazsend = this.bttGaz;
+      }
+
     }, 2000);
 
     this.dataList?.forEach((crypto: any) => {
@@ -911,6 +949,12 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       if (this.networks === 'POLYGON') {
         this.gazsend = this.polygonGaz;
         if (crypto.symbol === 'MATIC') {
+          this.gazsendether = (this.gazsend / crypto.price).toFixed(8);
+        }
+      }
+      if (this.networks === 'BTT') {
+        this.gazsend = this.polygonGaz;
+        if (crypto.symbol === 'BTT') {
           this.gazsendether = (this.gazsend / crypto.price).toFixed(8);
         }
       }

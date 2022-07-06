@@ -157,6 +157,8 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   difference: any;
   matic: any;
   polygonGaz: any;
+  btt: any;
+  bttGaz: any;
   constructor(
     private service: DraftCampaignService,
     private convertFromWeiTo: ConvertFromWei,
@@ -711,6 +713,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       .subscribe((data: any) => {
         data = JSON.parse(JSON.stringify(data));
         this.dataList = data;
+        console.log("aa",this.dataList);
         Object.preventExtensions(this.dataList);
         this.cryptoQuantity = (
           this.dataList.find(
@@ -724,7 +727,10 @@ export class RemunerationComponent implements OnInit, OnDestroy {
           ...this.dataList.filter((data: any) => data.symbol === 'SATTBEP20'),
           ...this.dataList.filter((data: any) => data.symbol === 'BUSD'),
           ...this.dataList.filter((data: any) => data.symbol === 'SATTPOLYGON'),
-          ...this.dataList.filter((data: any) => data.symbol === 'MATIC')
+          ...this.dataList.filter((data: any) => data.symbol === 'MATIC'),
+          ...this.dataList.filter((data: any) => data.symbol === 'SATTBTT'),
+          ...this.dataList.filter((data: any) => data.symbol === 'BTT')
+
         ];
       });
   }
@@ -736,14 +742,16 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       map((data: any) => {
         (this.bnb = data['BNB'].price),
           (this.eth = data['ETH'].price),
-          (this.matic = data['MATIC'].price);
+          (this.matic = data['MATIC'].price),
+          (this.btt = data['BTT'].price)
         return {
           bnb: this.bnb,
           Eth: this.eth,
-          matic: this.matic
+          matic: this.matic,
+          btt: this.btt
         };
       }),
-      switchMap(({ bnb, Eth, matic }) => {
+      switchMap(({ bnb, Eth, matic , btt }) => {
         return forkJoin([
           this.walletFacade.getEtherGaz().pipe(
             take(1),
@@ -784,6 +792,18 @@ export class RemunerationComponent implements OnInit, OnDestroy {
               this.polygonGaz = (
                 ((price * GazConsumedByCampaign) / 1000000000) *
                 matic
+              ).toFixed(8);
+            })
+          ),
+          this.walletFacade.getBttGaz().pipe(
+            take(1),
+            tap((gaz: any) => {
+              let price;
+              price = gaz.data.gasPrice;
+
+              this.bttGaz = (
+                ((price * GazConsumedByCampaign) / 1000000000) *
+                btt
               ).toFixed(8);
             })
           )
@@ -1160,6 +1180,10 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       this.gazcurrency = 'MATIC';
       // this.gazcurrency = 'ETH';
     }
+    else if (this.networks === 'BTT') {
+      this.gazcurrency = 'BTT';
+      // this.gazcurrency = 'ETH';
+    }
     setTimeout(() => {
       if (this.networks === 'ERC20' || this.networks === 'BTC') {
         this.gazsend = this.eRC20Gaz;
@@ -1170,6 +1194,9 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       }
       if (this.networks === 'POLYGON') {
         this.gazsend = this.polygonGaz;
+      }
+      if (this.networks === 'BTT') {
+        this.gazsend = this.bttGaz;
       }
     }, 4000);
 
@@ -1189,6 +1216,12 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       if (this.networks === 'POLYGON') {
         this.gazsend = this.polygonGaz;
         if (crypto.symbol === 'MATIC') {
+          this.gazsendether = (this.gazsend / crypto.price).toFixed(8);
+        }
+      }
+      if (this.networks === 'BTT') {
+        this.gazsend = this.polygonGaz;
+        if (crypto.symbol === 'BTT') {
           this.gazsendether = (this.gazsend / crypto.price).toFixed(8);
         }
       }
@@ -1232,12 +1265,12 @@ export class RemunerationComponent implements OnInit, OnDestroy {
           if (
             currency === 'ETH' ||
             currency === 'BNB' ||
-            currency === 'MATIC'
-          ) {
+            currency === 'MATIC'           ) {
             this.difference = crypto.total_balance - this.gazsend;
             this.newquantity = this.difference / crypto.price;
             let newqua = this.showNumbersRule.transform(this.newquantity);
             let quantit = this.showNumbersRule.transform(crypto.quantity);
+           
             if (this.difference < 0) {
               this.form.get('initialBudget')?.setValue(quantit),
                 this.form.get('initialBudgetInUSD')?.setValue('0');
@@ -1245,6 +1278,9 @@ export class RemunerationComponent implements OnInit, OnDestroy {
               setTimeout(() => {
                 this.gazproblem = false;
               }, 3000);
+
+             
+
             } else {
               this.form.get('initialBudget')?.setValue(newqua),
                 this.form
