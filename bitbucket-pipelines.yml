@@ -24,7 +24,7 @@ pipelines:
 
        #           -  touch  ~/.ssh/know_hosts
             -  ssh-keyscan -H 92.243.9.233 >> ~/.ssh/known_hosts  
-            - ssh satt@92.243.9.233 <<<  "ls"
+     
             - ssh satt@92.243.9.233 <<< ${SCP_PASSWORD_SATT} "cd /home/satt/wallet_satt/satt-wallet && npm install" 
             -  ssh satt@92.243.9.233 <<< ${SCP_PASSWORD_SATT} "cd /home/satt/wallet_satt/satt-wallet && git pull"
             -  ssh satt@92.243.9.233 <<< ${SCP_PASSWORD_SATT} " cd /home/satt/wallet_satt/satt-wallet && ng build  " 
