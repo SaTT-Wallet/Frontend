@@ -226,7 +226,9 @@ export class CryptoListComponent implements OnInit, OnDestroy {
           this.dataList = cloneData;
           this.dataList = this.dataList.filter(
             (element) =>
-              element.symbol !== 'SATTBEP20' && element.symbol !== 'SATTPOLYGON'&& element.symbol !== 'SATTBTT'
+              element.symbol !== 'SATTBEP20' &&
+              element.symbol !== 'SATTPOLYGON' &&
+              element.symbol !== 'SATTBTT'
           );
           this.cryptoList = [
             ...this.dataList.filter((data: any) => data.symbol === 'SATT'),
@@ -234,9 +236,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
             ...this.dataList.filter(
               (data: any) => data.symbol === 'SATTPOLYGON'
             ),
-            ...this.dataList.filter(
-              (data: any) => data.symbol === 'SATTBTT'
-            ),
+            ...this.dataList.filter((data: any) => data.symbol === 'SATTBTT'),
             ...this.dataList.filter((data: any) => data.symbol === 'WSATT'),
             ...this.dataList.filter((data: any) => data.symbol === 'BITCOIN'),
             ...this.dataList.filter((data: any) => data.symbol === 'BNB'),
@@ -571,7 +571,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     }
   }
 
-  buy(currency: any, changly: any) {
+  buy(currency: any) {
     setTimeout(() => {
       this.spinner.hide();
       this.showBigSpinner = false;
@@ -627,7 +627,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
         '&theme=default&payment_id=&v=3';
       this.buyIframSrc = this.dom.bypassSecurityTrustResourceUrl(url);
     }
-    this.modalService.open(changly);
+    // this.modalService.open(changly);
   }
 
   buyClose(): void {
@@ -787,14 +787,12 @@ export class CryptoListComponent implements OnInit, OnDestroy {
               crypto.symbol === 'USDT' ||
               crypto.symbol === 'OMG'
             ) {
-              this.openModal(this.chaglymodal);
-              this.buy(crypto.undername, this.chaglymodal);
+              // this.openModal(this.chaglymodal);
+              this.buy(crypto.undername);
             } else if (
               crypto.symbol === 'SATTPOLYGON' ||
               crypto.symbol === 'MATIC' ||
               crypto.symbol === 'BTT'
-
-
             ) {
               this.router.navigate(['/wallet']);
             } else {
@@ -883,7 +881,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     }
     this.bep20Selected = false;
     this.polygonSelected = false;
-    this.bttSelected = false
+    this.bttSelected = false;
 
     for (let i = 1; i < this.cryptoList.length; i++) {
       this.cryptoList[i].selected = false;
@@ -898,8 +896,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     }
     this.erc20Selected = false;
     this.polygonSelected = false;
-    this.bttSelected = false
-
+    this.bttSelected = false;
 
     for (let i = 1; i < this.cryptoList.length; i++) {
       this.cryptoList[i].selected = false;
@@ -912,7 +909,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     } else {
       this.sidebarService.toggleFooterMobile.next(true);
     }
-    this.bttSelected = false
+    this.bttSelected = false;
     this.erc20Selected = false;
     this.bep20Selected = false;
     for (let i = 1; i < this.cryptoList.length; i++) {
@@ -920,20 +917,20 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     }
   }
 
-selectBtt() {
-  this.bttSelected = !this.bttSelected;
-  if (!this.bttSelected) {
-    this.sidebarService.toggleFooterMobile.next(false);
-  } else {
-    this.sidebarService.toggleFooterMobile.next(true);
+  selectBtt() {
+    this.bttSelected = !this.bttSelected;
+    if (!this.bttSelected) {
+      this.sidebarService.toggleFooterMobile.next(false);
+    } else {
+      this.sidebarService.toggleFooterMobile.next(true);
+    }
+    this.erc20Selected = false;
+    this.bep20Selected = false;
+    this.polygonSelected = false;
+    for (let i = 1; i < this.cryptoList.length; i++) {
+      this.cryptoList[i].selected = false;
+    }
   }
-  this.erc20Selected = false;
-  this.bep20Selected = false;
-  this.polygonSelected=false
-  for (let i = 1; i < this.cryptoList.length; i++) {
-    this.cryptoList[i].selected = false;
-  }
-}
 
   trackByCryptoListSymbol(index: any, crypto: any) {
     return crypto.symbol;
