@@ -258,7 +258,97 @@
                           </div>
                         </a>
                         <a
-                          href="https://app.uniswap.org/#/swap?outputCurrency=0x70a6395650b47d94a77de4cfedf9629f6922e645 "
+                          href="https://app.uniswap.org/#/swap?outputCurrency=0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2"
+                          target="_blank"
+                          rel="noopener"
+                        >
+                          <div *ngIf="crypto.undername === 'MKR'">
+                            <!-- <button class="background3 mt-4 ms-2 pt-2 border-0">
+                            <span class="icon-ins buyIcon"></span>
+                          </button> -->
+                            <img
+                              class="buy-token border-0"
+                              src="/assets/Images/new-buy-token.svg"
+                            />
+                          </div>
+                        </a>
+                        <a
+                          href="https://app.uniswap.org/#/swap?outputCurrency=0xdac17f958d2ee523a2206206994597c13d831ec7 "
+                          target="_blank"
+                          rel="noopener"
+                        >
+                          <div *ngIf="crypto.undername === 'USDT'">
+                            <!-- <button class="background3 mt-4 ms-2 pt-2 border-0">
+                          <span class="icon-ins buyIcon"></span>
+                        </button> -->
+                            <img
+                              class="buy-token border-0"
+                              src="/assets/Images/new-buy-token.svg"
+                            />
+                          </div>
+                        </a>
+                        <a
+                          href="https://app.uniswap.org/#/swap?outputCurrency=0xe41d2489571d322189246dafa5ebde1f4699f498"
+                          target="_blank"
+                          rel="noopener"
+                        >
+                          <div *ngIf="crypto.undername === 'ZRX'">
+                            <!-- <button class="background3 mt-4 ms-2 pt-2 border-0">
+                        <span class="icon-ins buyIcon"></span>
+                      </button> -->
+                            <img
+                              class="buy-token border-0"
+                              src="/assets/Images/new-buy-token.svg"
+                            />
+                          </div>
+                        </a>
+                        <a
+                          href="https://pancakeswap.finance/swap#/swap?inputCurrency=USDT&outputCurrency=0x448bee2d93be708b54ee6353a7cc35c4933f1156"
+                          target="_blank"
+                          rel="noopener"
+                        >
+                          <div *ngIf="crypto.undername === 'CAKE'">
+                            <!-- <button class="background3 mt-4 ms-2 pt-2 border-0">
+                      <span class="icon-ins buyIcon"></span>
+                    </button> -->
+                            <img
+                              class="buy-token border-0"
+                              src="/assets/Images/new-buy-token.svg"
+                            />
+                          </div>
+                        </a>
+                        <a
+                          href="https://quickswap.exchange/#/swap"
+                          target="_blank"
+                          rel="noopener"
+                        >
+                          <div *ngIf="crypto.undername === 'MATIC'">
+                            <!-- <button class="background3 mt-4 ms-2 pt-2 border-0">
+                    <span class="icon-ins buyIcon"></span>
+                  </button> -->
+                            <img
+                              class="buy-token border-0"
+                              src="/assets/Images/new-buy-token.svg"
+                            />
+                          </div>
+                        </a>
+                        <a
+                          href="https://sunswap.com/#/home"
+                          target="_blank"
+                          rel="noopener"
+                        >
+                          <div *ngIf="crypto.undername === 'BTT'">
+                            <!-- <button class="background3 mt-4 ms-2 pt-2 border-0">
+                  <span class="icon-ins buyIcon"></span>
+                </button> -->
+                            <img
+                              class="buy-token border-0"
+                              src="/assets/Images/new-buy-token.svg"
+                            />
+                          </div>
+                        </a>
+                        <a
+                          href="https://app.uniswap.org/#/swap?outputCurrency=0xe41d2489571d322189246dafa5ebde1f4699f498"
                           target="_blank"
                           rel="noopener"
                           *ngIf="crypto.AddedToken"
@@ -300,6 +390,12 @@
                               crypto.undername !== 'BTC' &&
                               crypto.undername !== 'DAI' &&
                               crypto.undername !== 'BUSD' &&
+                              crypto.undername !== 'MKR' &&
+                              crypto.undername !== 'USDT' &&
+                              crypto.undername !== 'ZRX' &&
+                              crypto.undername !== 'CAKE' &&
+                              crypto.undername !== 'MATIC' &&
+                              crypto.undername !== 'BTT' &&
                               !crypto.AddedToken
                             "
                           >
