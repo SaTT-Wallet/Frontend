@@ -239,7 +239,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
             if (topBar) topBar.style.display = 'none';
             if (btnApply) btnApply.style.display = 'flex';
             if (cover) cover.style.position = 'fixed';
-            if (main) main.style.marginTop = '28%';
+            //  if (main) main.style.marginTop = '28%';
             header.style.background = '';
           }
         }
