@@ -426,7 +426,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
          network = "BTT"
         }
       const send: ITransferTokensRequestBody = {
-        from:'zer',
+        from: this.tokenStorageService.getIdWallet() as string,
         tokenAddress,
         to,
         amount,
