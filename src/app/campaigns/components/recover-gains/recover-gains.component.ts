@@ -65,7 +65,7 @@ export class RecoverGainsComponent implements OnInit {
         tap(() => {
           if (
             this.currencyName === 'SATTBEP20' ||
-            this.currencyName === 'SATTPOLYGON'
+            this.currencyName === 'SATTPOLYGON' || this.currencyName === 'SATTBTT'
           ) {
             this.currencyName = 'SATT';
           }
