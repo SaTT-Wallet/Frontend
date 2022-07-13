@@ -53,6 +53,7 @@ export class BlockchainActionsService {
   }
 
   performAction() {
+    debugger
     return combineLatest([
       this.actionButtonClick$,
       this.confirmButtonClick$

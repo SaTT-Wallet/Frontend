@@ -674,6 +674,10 @@ a {
     /* Inside auto layout */
     flex: none;
     order: 0;
+    white-space: nowrap; 
+    width: 25vw;
+    overflow: hidden;
+    text-overflow: ellipsis; 
 }
 
 .IconsMobile {
