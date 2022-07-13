@@ -381,7 +381,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
         map(
           (res: any) =>
             res.data[
-              ['SATTPOLYGON', 'SATTBEP20'].includes(this.currencyName)
+              ['SATTPOLYGON', 'SATTBEP20', 'SATTBTT'].includes(this.currencyName)
                 ? 'SATT'
                 : this.currencyName
             ]
