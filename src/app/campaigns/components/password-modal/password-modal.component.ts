@@ -138,22 +138,22 @@ export class PasswordModalComponent implements OnInit {
       switch (ListTokens[this.campaign.currency.name].type) {
         case 'bep20': {
           _campaign.contract = campaignSmartContractBEP20;
-          _campaign.network  = "bep20"
+          _campaign.network = 'bep20';
           break;
         }
         case 'erc20': {
           _campaign.contract = campaignSmartContractERC20;
-          _campaign.network  = "erc20"
+          _campaign.network = 'erc20';
           break;
         }
         case 'POLYGON': {
           _campaign.contract = campaignSmartContractPOLYGON;
-          _campaign.network  = "POLYGON"
+          _campaign.network = 'POLYGON';
           break;
         }
         case 'BTT': {
           _campaign.contract = campaignSmartContractBTT;
-          _campaign.network  = "BTT"
+          _campaign.network = 'BTT';
           break;
         }
       }
@@ -324,7 +324,7 @@ export class PasswordModalComponent implements OnInit {
 
     TokenOBj.walletaddr = this.tokenStorageService.getIdWallet();
     TokenOBj.addr = ListTokens[tokenSymbol].contract;
-    campaign_info.currency = cryptoNetwork[token];
+    campaign_info.currency = tokenSymbol;
     let LaunchCampaignObs: Observable<any>;
     if (cryptoNetwork[token] === 'BEP20') {
       LaunchCampaignObs = this.campaignService.approveBEP20(TokenOBj).pipe(
@@ -412,7 +412,7 @@ export class PasswordModalComponent implements OnInit {
             );
         })
       );
-    }else if (cryptoNetwork[token] === 'BTT') {
+    } else if (cryptoNetwork[token] === 'BTT') {
       LaunchCampaignObs = this.campaignService.approveBTT(TokenOBj).pipe(
         map((response: any) => response.data),
         switchMap((response: any) => {
@@ -455,8 +455,7 @@ export class PasswordModalComponent implements OnInit {
             );
         })
       );
-    }
-     else {
+    } else {
       LaunchCampaignObs = this.campaignService
         .approvalERC20(TokenOBj)
         .pipe(
