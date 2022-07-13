@@ -74,6 +74,7 @@ export class FarmPostCardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.prom.mediaUrl)
     this.getPartPic();
     if (this.router.url.includes('farm-posts')) {
       this.isFarmingRouter = true;
