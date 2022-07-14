@@ -1,7 +1,17 @@
 :host {
   display: block;
   position: relative;
-  padding: 0;
+  padding: 650px 0 0;
+}
+@media (max-width: 768px) {
+  :host {
+    padding: 450px 0 0;
+  }
+}
+@media (max-width: 425px) {
+  :host {
+  padding: 150px 0 0;
+  }
 }
 
 .brand-logo {
@@ -59,14 +69,13 @@
   max-width: 1570px;
   max-height: 576px;
   position: relative; */
-  overflow: hidden;
-  right: 0;
-  bottom: 0;
   top: 0;
-  overflow: hidden;
-  position: relative;
+  bottom:0;
+  position:absolute;
+  overflow-y:scroll;
+  overflow-x:hidden;
   width: 100vw;
-  max-height: 576px;
+ 
 }
 
 .campaign-img {

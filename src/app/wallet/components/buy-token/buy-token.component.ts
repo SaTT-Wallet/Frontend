@@ -183,8 +183,8 @@ export class BuyTokenComponent implements OnInit, OnChanges {
           this.selectedCurrencyType = p.currency;
           this.isCryptoRouter = true;
           this.requestedCrypto = p.id;
-          this.toggleCurrencyType(ECurrencyType.FIAT);
-          this.toggleNetwork(p.network);
+          this.initToggleCurrencyType(ECurrencyType.FIAT);
+          this.initToggleNetwork(p.network);
 
           if (p.id === 'SATT-SC') {
             this.fiatLogo = 'SATTBEP20.svg';
@@ -236,6 +236,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
 
     this.convertCryptoUnitToUSD();
     if (!this.quoteIdParams) {
+       
       this.convertCrypto();
     }
     this.listenToPressKeyOnCurrencySelect();
@@ -261,6 +262,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       ?.valueChanges.pipe(takeUntil(this.isDestroyed))
       .subscribe((data: any) => {
         this.amount = data;
+       
         this.convertCrypto();
       });
   }
@@ -270,6 +272,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
     }
   }
   toggleNetwork(network: EBlockchainNetwork) {
+    
     this.selectedBlockchainNetwork = network;
     if (network === EBlockchainNetwork.BTC) {
       this.sourceCryptoList = cryptoList
@@ -329,8 +332,68 @@ export class BuyTokenComponent implements OnInit, OnChanges {
 
     this.convertCrypto();
   }
+  initToggleNetwork(network: EBlockchainNetwork) {
+    
+    this.selectedBlockchainNetwork = network;
+    if (network === EBlockchainNetwork.BTC) {
+      this.sourceCryptoList = cryptoList
+        .map((crypto: { symbol: string; network: string; logo: string }) => {
+          return {
+            name: crypto.symbol,
+            contract: '',
+            decimals: '0',
+            logo: crypto.logo,
+            type: crypto.network,
+            symbole: crypto.symbol
+          } as Crypto;
+        })
+        .filter((crypto: Crypto) => crypto.type.toUpperCase() === network);
+      this.requestedCrypto = this.sourceCryptoList.find(
+        (crypto: Crypto) =>
+          crypto.type.toUpperCase() === this.selectedBlockchainNetwork
+      )?.symbole as string;
+    } else if (this.selectedCurrencyType === ECurrencyType.FIAT) {
+      this.sourceCryptoList = cryptoList
+        .map((crypto: { symbol: string; network: string; logo: string }) => {
+          return {
+            name: crypto.symbol,
+            contract: '',
+            decimals: '0',
+            logo: crypto.logo,
+            type: crypto.network,
+            symbole: crypto.symbol
+          } as Crypto;
+        })
+        .filter((crypto: Crypto) => crypto.type.toUpperCase() === network);
+      this.requestedCrypto = this.sourceCryptoList.find(
+        (crypto: Crypto) =>
+          crypto.type.toUpperCase() === this.selectedBlockchainNetwork
+      )?.symbole as string;
+    } else {
+      if (network === EBlockchainNetwork.BEP20) {
+        // this.selectedCurrencyType = ECurrencyType.BEP20;
+        this.toggleCurrencyType(ECurrencyType.BEP20);
+      } else if (network === EBlockchainNetwork.ERC20) {
+        this.toggleCurrencyType(ECurrencyType.ERC20);
 
+        // this.selectedCurrencyType = ECurrencyType.ERC20;
+      }
+      this.sourceCryptoList = this.cryptoList.filter(
+        (crypto: Crypto) => crypto.type.toUpperCase() === network
+      );
+
+      this.requestedCrypto = this.sourceCryptoList.find(
+        (crypto: Crypto) =>
+          crypto.name.includes('SATT') &&
+          crypto.type.toUpperCase() === this.selectedBlockchainNetwork
+      )?.symbole as string;
+
+      this.switchTokensWhenIdentical();
+    }
+
+  }
   toggleCurrencyType(currencyType: ECurrencyType) {
+   
     this.selectedCurrencyType = currencyType;
     if (currencyType === ECurrencyType.FIAT) {
       this.selectedTargetCurrency = 'USD';
@@ -399,8 +462,78 @@ export class BuyTokenComponent implements OnInit, OnChanges {
 
     // this.convertform.get('currency')?.setValue(currency);
     // var getcurrency = this.convertform.get('currency')?.value;
-
     this.convertCrypto();
+  }
+  initToggleCurrencyType(currencyType: ECurrencyType) {
+    
+    this.selectedCurrencyType = currencyType;
+    if (currencyType === ECurrencyType.FIAT) {
+      this.selectedTargetCurrency = 'USD';
+      this.targetCurrencyList = dataList;
+      this.sourceCryptoList = cryptoList
+        .map((crypto: { symbol: string; network: string; logo: string }) => {
+          return {
+            name: crypto.symbol,
+            contract: '',
+            decimals: '0',
+            logo: crypto.logo,
+            type: crypto.network,
+            symbole: crypto.symbol
+          } as Crypto;
+        })
+        .filter(
+          (crypto: Crypto) =>
+            crypto.type.toUpperCase() === this.selectedBlockchainNetwork
+        );
+
+      this.requestedCrypto = this.sourceCryptoList.find(
+        (crypto: Crypto) =>
+          crypto.type.toUpperCase() === this.selectedBlockchainNetwork
+      )?.symbole as string;
+    } else {
+      this.targetCurrencyList = this.cryptoList.filter(
+        (crypto: Crypto) =>
+          crypto.type.toUpperCase() === this.selectedCurrencyType.toUpperCase()
+      );
+
+      if (currencyType === ECurrencyType.BEP20) {
+        this.selectedBlockchainNetwork = EBlockchainNetwork.BEP20;
+        this.selectedTargetCurrency = 'SATTBEP20';
+      } else if (currencyType === ECurrencyType.ERC20) {
+        this.selectedTargetCurrency = 'SATT';
+        this.selectedBlockchainNetwork = EBlockchainNetwork.ERC20;
+      }
+
+      this.sourceCryptoList = this.cryptoList.filter(
+        (crypto: Crypto) =>
+          crypto.type.toUpperCase() === this.selectedBlockchainNetwork
+      );
+
+      this.requestedCrypto = this.sourceCryptoList.find(
+        (crypto: Crypto) =>
+          crypto.name.includes('SATT') &&
+          crypto.type.toUpperCase() === this.selectedBlockchainNetwork
+      )?.symbole as string;
+    }
+    this.toSwapCrypto = this.sourceCryptoList.find(
+      (crypto: Crypto) =>
+        crypto.name.includes('SATT') &&
+        crypto.type.toUpperCase() === this.selectedBlockchainNetwork
+    );
+  
+
+    this.switchTokensWhenIdentical();
+
+    // if (this.isCryptoRouter) {
+    //   this.isCryptoRouter = false;
+    //   this.router.navigate([], { queryParams: [] });
+    // }
+    // this.selectedCurrencyValue = currency;
+    // this.selectedtLogo = symbol;
+    // this.fiatCurrency = currency;
+
+    // this.convertform.get('currency')?.setValue(currency);
+    // var getcurrency = this.convertform.get('currency')?.value;
   }
 
   get selectedCryptoLogo() {
@@ -588,6 +721,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   }
 
   convertCrypto() {
+    
     if (this.amount && this.selectedCurrencyType === ECurrencyType.FIAT) {
       this.walletFacade
         .convertCrypto(
