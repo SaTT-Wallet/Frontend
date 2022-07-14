@@ -5,6 +5,7 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 import { of, Subject } from 'rxjs';
 import { result } from 'lodash';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
+import { ShowNumbersRule } from '@shared/pipes/showNumbersRule';
 
 @Component({
   selector: 'app-success-transfer',
@@ -20,13 +21,18 @@ export class SuccessTransferComponent implements OnInit, OnDestroy {
     public walletFacade: WalletFacadeService,
     private route: ActivatedRoute,
     private router: Router,
-    private tokenStorageService: TokenStorageService
+    private tokenStorageService: TokenStorageService,
+    private showNumbersRule: ShowNumbersRule,
+
   ) {}
 
   ngOnInit(): void {
     this.cryptoAmount = this.tokenStorageService.getCryptoCryptoAmount();
     this.crypto = this.tokenStorageService.getCrypto();
     this.payementId = this.tokenStorageService.getPayementId();
+    
+    this.cryptoAmount =  this.showNumbersRule.transform((this.cryptoAmount) + '', true);
+
     // this.route.queryParams
     //   .pipe(
     //     filter((data) => data !== null),

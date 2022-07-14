@@ -1,10 +1,6 @@
 <div *ngIf="!isLoading">
   <span id="span-top" class="span-top"></span>
-  <div
-    class="campaign-cover img-container"
-    id="campaign-cover"
-    *ngIf="!showInfoSpinner"
-  >
+  <div class="campaign-cover img-container" id="" *ngIf="!showInfoSpinner">
     <img
       class="campaign-img desktopClass"
       src="/assets/Images/img_placeholder.svg"
@@ -377,7 +373,14 @@
           class="width-desktop-300 d-flex flex-column align-items-xl-end align-items-lg-end align-items-md-end align-items-sm-center align-items-center ml-3 gap-2"
         >
           <div class="mb-2 back-list-desk">
-            <a class="a-router" [routerLink]="['/ad-pools']"> < Back to list</a>
+            <a
+              class="a-router"
+              tabindex="0"
+              role="button"
+              (click)="backClicked()"
+            >
+              < Back to Campaign</a
+            >
           </div>
           <button
             type="button"

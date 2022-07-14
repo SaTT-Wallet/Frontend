@@ -1,9 +1,11 @@
+
 <ng-container *ngIf="campaign?.id === campaignId; else loading">
   <div class="content" style="min-height: 50vh">
     <router-outlet></router-outlet>
   </div>
 </ng-container>
 <ng-template #loading>
+  
   <app-loading-logo> </app-loading-logo>
 </ng-template>
 <!-- <div

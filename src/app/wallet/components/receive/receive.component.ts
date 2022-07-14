@@ -61,7 +61,7 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
   cryptoToDropdown: any;
   contactEmail: string = '';
   maxUsdAmountNumber: number = 999999999;
-  maxAmountNumber: number = 9999999999999999999999;
+  maxAmountNumber: number = 9999999999999;
   private isDestroyed = new Subject();
   sattPrices: any;
   usernotfound: boolean = false;
@@ -175,10 +175,10 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
     // }
 
     // console.log(event, event.keyCode);
-    if (event.keyCode === 54) {
-      event.preventDefault();
-      this.convertcurrency('', false);
-    }
+    // if (event.keyCode === 54) {
+    //   event.preventDefault();
+    //   this.convertcurrency('', false);
+    // }
     if (!this.isValidKeyCode(event.keyCode)) {
       event.preventDefault();
       this.convertcurrency('', false);
@@ -215,10 +215,10 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
       let receiveusd = getusdreceive?.toString();
       if (
         event === 'amountreceive' &&
-        Number(getamountreceive) > this.maxAmountNumber
+        Number(receiveamount) > this.maxAmountNumber
       ) {
-        receiveusd = receiveusd.slice(0, 22);
-        this.receiveform.get('Amount')?.setValue(getamountreceive);
+        receiveamount = receiveamount.slice(0, 13);
+        this.receiveform.get('Amount')?.setValue(receiveamount);
       }
       if (
         event === 'usdreceive' &&

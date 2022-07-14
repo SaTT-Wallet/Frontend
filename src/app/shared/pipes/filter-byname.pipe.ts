@@ -27,7 +27,19 @@ export class FilterBynamePipe implements PipeTransform {
           item.tokenAddress?.toLowerCase().indexOf(filter.toLowerCase()) !==
             -1) ||
         false;
-      let cond = cond1 || cond2 || cond3;
+        let cond4 =
+        (!!item.cryptoBEP20?.contract &&
+          filter.indexOf('0x') >= 0 &&
+          item.cryptoBEP20.contract?.toLowerCase().indexOf(filter.toLowerCase()) !==
+            -1) ||
+        false;
+        let cond5 =
+        (!!item.cryptoPOLYGON?.contract &&
+          filter.indexOf('0x') >= 0 &&
+          item.cryptoPOLYGON.contract?.toLowerCase().indexOf(filter.toLowerCase()) !==
+            -1) ||
+        false;
+      let cond = cond1 || cond2 || cond3 || cond4 || cond5;
       return cond;
     });
   }
