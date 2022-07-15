@@ -28,7 +28,8 @@ import * as _ from 'lodash';
 enum EBlockchainNetwork {
   ERC20 = 'ERC20',
   BEP20 = 'BEP20',
-  BTC = 'BTC'
+  BTC = 'BTC',
+  POLYGON = 'POLYGON'
 }
 enum ECurrencyType {
   FIAT = 'fiat',
@@ -654,6 +655,9 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       return 'etherium-blockchain-icon.png';
     } else if (this.selectedBlockchainNetwork === EBlockchainNetwork.BTC) {
       return 'BTC.svg';
+      
+    } else if (this.selectedBlockchainNetwork === EBlockchainNetwork.POLYGON) {
+      return 'polygon.svg';
     } else {
       return 'bsc-black-icon.svg';
     }
