@@ -355,7 +355,7 @@ body {
 }
 
 .page-content {
-    padding: 20px 15px;
+    padding: 80px 15px;
     margin-bottom: 100px;
     max-width: 1600px;
 }
@@ -1411,7 +1411,12 @@ app-footer {
     bottom: 0;
     height: 60px;
 }
-
+app-header{
+    position: absolute;
+    margin: 0 0 50px 0;
+    overflow: hidden;
+    top: 0;
+}
 app-header-auth {
     position: absolute;
     top: 0;

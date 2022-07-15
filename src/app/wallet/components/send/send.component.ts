@@ -219,7 +219,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           ...this.dataList.filter((data: any) => data.symbol === 'BITCOIN'),
           ...this.dataList.filter((data: any) => data.symbol === 'BNB'),
           ...this.dataList.filter((data: any) => data.symbol === 'ETH'),
-         
+
 
           ...this.dataList
             .filter(
@@ -229,8 +229,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
                 data.symbol !== 'SATT' &&
                 data.symbol !== 'BITCOIN' &&
                 data.symbol !== 'BNB' &&
-                data.symbol !== 'ETH' 
-              
+                data.symbol !== 'ETH'
+
 
             )
             .reverse()
@@ -399,14 +399,14 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       } else {
         currency = this.sendform.get('currency')?.value;
       }
-     
+
       this.network = this.networks
         ? this.networks.toLowerCase()
         : ListTokens[currency].type;
       if (this.network === 'bep20' && currency === 'SATT') {
         currency = 'SATTBEP20';
       }
-    
+
       tokenAddress = this.token ? this.token : ListTokens[currency].contract;
 
       decimal = this.decimals
@@ -417,16 +417,16 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       // symbole = this.symbol ? this.symbol : ListTokens[currency].symbole;
       tokenSymbol = this.sendform.get('currency')?.value;
       if (this.network==='btt'){
-        this.network = 'BTT'
+        this.network = 'BTTC'
       }
       let network = this.networks
         ? this.networks.toLowerCase()
         : ListTokens[currency].type;
         if (network==='btt'){
-         network = "BTT"
+         network = "BTTC"
         }
       const send: ITransferTokensRequestBody = {
-        from:'zer',
+        from: this.tokenStorageService.getIdWallet() as string,
         tokenAddress,
         to,
         amount,
@@ -435,7 +435,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         network,
       };
       if (network==='btt'){
-      network = "BTT"
+      network = "BTTC"
       }
 
       this.sendform.get('password')?.reset();

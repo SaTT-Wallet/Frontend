@@ -6,7 +6,7 @@
 
 .center-content {
     width: 100%;
-    height: calc(100vh - 63px);
+    height: 100vh;
     /* height: calc(100vh - 82px); */
     overflow-y: auto;
     overflow-x: hidden;
