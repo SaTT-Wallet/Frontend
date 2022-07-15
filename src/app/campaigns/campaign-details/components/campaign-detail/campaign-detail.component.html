@@ -378,9 +378,20 @@
               tabindex="0"
               role="button"
               (click)="backClicked()"
+              *ngIf=" this.campaign.isOwnedByUser  && !campaign.isActive"
             >
               < Back to Campaign</a
             >
+            <a
+            class="a-router"
+            tabindex="0"
+            role="button"
+            (click)="backClicked()"
+            *ngIf=" !this.campaign.isOwnedByUser  && campaign.isActive || this.campaign.isOwnedByUser && campaign.isActive"
+          >
+            < Back to List</a
+          >
+
           </div>
           <button
             type="button"
