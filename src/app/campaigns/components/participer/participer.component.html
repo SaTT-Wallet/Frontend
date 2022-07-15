@@ -611,7 +611,7 @@
         *ngIf="gazproblem"
         type="submit"
         class="btn-info me-2 mt-2 mb-2"
-        [routerLink]="['/wallet/buy-token']"
+        (click)="goToBuy()"
       >
         {{ 'buy_gas' | translate }}
       </button>
