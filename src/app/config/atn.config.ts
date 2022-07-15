@@ -60,7 +60,11 @@ let cryptoList: { symbol: string; network: string; logo: string }[] = [
   { symbol: 'BTC', network: 'btc', logo: 'BTC.svg' },
   { symbol: 'DAI', network: 'erc20', logo: 'DAI.svg' },
   { symbol: 'BUSD', network: 'bep20', logo: 'BUSD.svg' },
-  { symbol: 'BNB', network: 'bep20', logo: 'BNB.svg' }
+  { symbol: 'BNB', network: 'bep20', logo: 'BNB.svg' },
+  { symbol: 'MATIC', network: 'polygon', logo: 'MATIC.svg' },
+  { symbol: 'MAKER', network: 'erc20', logo: 'MKR.svg' },
+  { symbol: 'TETHER', network: 'erc20', logo: 'USDT.svg' },
+  { symbol: 'CAKE', network: 'bep20', logo: 'CAKE.svg' }
 
   // { value: 'USDT', logo: 'USDT.svg' }
   //  {value :"BNB"},
