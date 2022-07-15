@@ -380,6 +380,12 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     if (id === 'SATT' && network === 'BEP20') {
       id = 'SATT-SC';
     }
+     if ( id === 'MKR' && network === 'ERC20'){
+      id = 'MAKER'
+     }
+     if ( id === 'USDT' && network === 'ERC20'){
+      id = 'TETHER'
+     }
     this.router.navigate(['/wallet/buy-token'], {
       queryParams: { id: id, network: network },
       relativeTo: this.activatedRoute
