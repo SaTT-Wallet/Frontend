@@ -2799,7 +2799,7 @@
   "Add_channel_insta": "Ajouter votre compte Instagram",
   "Add_channel_twitter": "Ajouter votre compte Twitter",
   "Add_channel_linkedin": "Ajouter votre compte Linkedin",
-  "Add_channel_tiktok":"Ajouter votre compte TikTok",
+  "Add_channel_tiktok": "Ajouter votre compte TikTok",
   "bye_gaz": "Acheter plus de gas",
   "Default": "Oups ! Il y a eu un souci lors de l’envoi... ",
   "oracle_not_exist": "Oracles non définis",
@@ -3000,5 +3000,7 @@
   "invite_friends": "Invitez vos amis",
   "join_on_social": "Rejoignez-nous sur nos réseaux sociaux",
   "back_toAdPools": "Retour vers AdPool",
-  "Your_link_is_now_submitted": "Votre lien est maintenant soumis."
+  "Your_link_is_now_submitted": "Votre lien est maintenant soumis.",
+  "campaign_validation.description1": "Il sera en ligne le",
+  "campaign_validation.description2": "Vous pouvez modifier certaines informations ou ajouter plus de budget à tout moment"
 }
