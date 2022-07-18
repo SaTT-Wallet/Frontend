@@ -355,7 +355,7 @@ body {
 }
 
 .page-content {
-    padding: 80px 15px;
+    padding: 80px 15px 0 15px!important;
     margin-bottom: 100px;
     max-width: 1600px;
 }
@@ -1413,7 +1413,7 @@ app-footer {
 }
 app-header{
     position: absolute;
-    margin: 0 0 50px 0;
+
     overflow: hidden;
     top: 0;
 }

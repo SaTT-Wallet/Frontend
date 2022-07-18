@@ -170,7 +170,7 @@
   "send.back_to_portfolio": "Back to portfolio",
   "send.back_to_wallet": "Back",
   "send.return_to_portfolio": "Back to wallet",
-  "send.return_to_campaign": "Return to campaign",
+  "send.return_to_campaign": "Back to Adpools list",
   "send.no_balance": "You don't have enough balance",
   "send.no_balance_crypto": "You don't have enough {{crypto}} in your balance",
   "send.must_select_devise": "You must select a currency",
@@ -1365,7 +1365,7 @@
   "confirm": "Confirm !",
   "confirm_bank_transfer_btn": "Confirm payment by bank transfer",
   "confirm_bitcoin": "Verify",
-  "confirm_btc": "Create",
+  "confirm_btc": "Create a new Adpool",
   "confirm_create_btn": "Save password",
   "confirm_definitive_delete": "Confirm definitive delete",
   "confirm_delete_element": "Confirm delete element",
@@ -2860,7 +2860,7 @@
   "Prices": "Prices",
   "Gains": "Earnings",
   "media_success": "Your media has been sent to the announcer!",
-  "campaign_success": "The campaign has been successfully created !",
+  "campaign_success": "Congratulations ! Your Adpool is now ready to be launched.",
   "paragraph_succes": "You will be informed as soon as the advertiser has received it.",
   "paragraph_success": "In the meantime, you can participate in another Ad Pool.",
 
@@ -3147,5 +3147,7 @@
   "invite_friends": "Invite your friends",
   "join_on_social": "Join us on our social networks",
   "back_toAdPools": "Back to AdPool",
-  "Your_link_is_now_submitted": "Your link is now submitted."
+  "Your_link_is_now_submitted": "Your link is now submitted.",
+  "campaign_validation.description1": "It will be online at",
+  "campaign_validation.description2": "You can modify some informations or add more budget at any time"
 }
