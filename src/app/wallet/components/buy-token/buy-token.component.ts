@@ -159,7 +159,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-  
+
     this.wallet_btc = this.tokenStorageService.getWalletBtc();
 
     this.listenToInputAmountChange();
@@ -237,7 +237,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
 
     this.convertCryptoUnitToUSD();
     if (!this.quoteIdParams) {
-       
+
       this.convertCrypto();
     }
     this.listenToPressKeyOnCurrencySelect();
@@ -263,7 +263,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       ?.valueChanges.pipe(takeUntil(this.isDestroyed))
       .subscribe((data: any) => {
         this.amount = data;
-       
+
         this.convertCrypto();
       });
   }
@@ -273,7 +273,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
     }
   }
   toggleNetwork(network: EBlockchainNetwork) {
-    
+
     this.selectedBlockchainNetwork = network;
     if (network === EBlockchainNetwork.BTC) {
       this.sourceCryptoList = cryptoList
@@ -334,7 +334,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
     this.convertCrypto();
   }
   initToggleNetwork(network: EBlockchainNetwork) {
-    
+
     this.selectedBlockchainNetwork = network;
     if (network === EBlockchainNetwork.BTC) {
       this.sourceCryptoList = cryptoList
@@ -394,7 +394,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
 
   }
   toggleCurrencyType(currencyType: ECurrencyType) {
-   
+
     this.selectedCurrencyType = currencyType;
     if (currencyType === ECurrencyType.FIAT) {
       this.selectedTargetCurrency = 'USD';
@@ -449,7 +449,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
         crypto.name.includes('SATT') &&
         crypto.type.toUpperCase() === this.selectedBlockchainNetwork
     );
-  
+
 
     this.switchTokensWhenIdentical();
 
@@ -466,7 +466,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
     this.convertCrypto();
   }
   initToggleCurrencyType(currencyType: ECurrencyType) {
-    
+
     this.selectedCurrencyType = currencyType;
     if (currencyType === ECurrencyType.FIAT) {
       this.selectedTargetCurrency = 'USD';
@@ -521,7 +521,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
         crypto.name.includes('SATT') &&
         crypto.type.toUpperCase() === this.selectedBlockchainNetwork
     );
-  
+
 
     this.switchTokensWhenIdentical();
 
@@ -636,7 +636,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       ).symbole;
 
       this.fromSwapCrypto = this.targetCurrencyList[0] as Crypto;
-     
+
     }
   }
 
@@ -655,7 +655,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       return 'etherium-blockchain-icon.png';
     } else if (this.selectedBlockchainNetwork === EBlockchainNetwork.BTC) {
       return 'BTC.svg';
-      
+
     } else if (this.selectedBlockchainNetwork === EBlockchainNetwork.POLYGON) {
       return 'polygon.svg';
     } else {
@@ -685,9 +685,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
     }
   }
   CurrencyBnB(){
-  
-
-    if (this.toSwapCrypto.contract == "0xdac17f958d2ee523a2206206994597c13d831ec7"){
+    if (this.toSwapCrypto.contract === "0xdac17f958d2ee523a2206206994597c13d831ec7"){
       this.toSwapCrypto.contract = "BNB"
     }
     if (this.fromSwapCrypto.contract === "0xdac17f958d2ee523a2206206994597c13d831ec7"){
@@ -695,8 +693,6 @@ export class BuyTokenComponent implements OnInit, OnChanges {
     }
   }
   CurrencyETH(){
-    
-
     if (this.toSwapCrypto.contract == "0xdac17f958d2ee523a2206206994597c13d831ec7"){
       this.toSwapCrypto.contract = "ETH"
     }
@@ -725,7 +721,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   }
 
   convertCrypto() {
-    
+
     if (this.amount && this.selectedCurrencyType === ECurrencyType.FIAT) {
       this.walletFacade
         .convertCrypto(

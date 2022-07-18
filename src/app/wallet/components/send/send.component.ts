@@ -107,7 +107,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   showPwdBloc: boolean = false;
   showSuccessBloc: boolean = false;
   showErrorBloc: boolean = false;
-  selectedCryptoDetails: any = '';
+  selectedCryptoDetails: any = 'SaTT';
   routertransHash: string = '';
   private account$ = this.accountFacadeService.account$;
   cryptoToDropdown: any;
@@ -259,6 +259,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           }
         });
         this.showWalletSpinner = false;
+
+        this.selectedCryptoDetails = this.dataList.find((crypto: any) => crypto.symbol === 'SATT');
       });
   }
 
@@ -378,7 +380,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
 
       let splitted: any = this.sendform.get('Amount')?.value;
       this.resetchecker();
-      const access_token = this.tokenStorageService.getToken();
       const to = this.sendform.get('contact')?.value;
       const amountdecimal = splitted.toString();
       let amount = splitted.toString();
@@ -419,11 +420,19 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       if (this.network==='btt'){
         this.network = 'BTTC'
       }
+
       let network = this.networks
         ? this.networks.toLowerCase()
         : ListTokens[currency].type;
         if (network==='btt'){
          network = "BTTC"
+        }
+
+        if (network==='bep20'){
+          network = 'bsc'
+        }
+        if (network==='erc20'){
+          network = 'eth'
         }
       const send: ITransferTokensRequestBody = {
         from: this.tokenStorageService.getIdWallet() as string,
@@ -563,7 +572,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
                 this.showPwdBloc = false;
               }, 2000);
               this.sendform.reset();
-            } else if (error.error.error === 'not_enough_budget') {
+            } else if (error.error.error === 'No enough balance to perform withdraw !!') {
               this.nobalance = true;
               setTimeout(() => {
                 this.nobalance = false;
