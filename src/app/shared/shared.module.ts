@@ -67,6 +67,7 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MoonboyHelpComponent } from './components/moonboy-help/moonboy-help.component';
 import { WheelMouseDirective } from './directives/wheelMouse.directive';
+import { BuyGasComponent } from './components/buy-gas/buy-gas.component';
 
 @NgModule({
   declarations: [
@@ -99,7 +100,8 @@ import { WheelMouseDirective } from './directives/wheelMouse.directive';
     FilterBynamePipe,
     DropdownCryptoNetworkComponent,
     MoonboyHelpComponent,
-    WheelMouseDirective
+    WheelMouseDirective,
+    BuyGasComponent
   ],
   exports: [
     //directives and components
@@ -173,7 +175,8 @@ import { WheelMouseDirective } from './directives/wheelMouse.directive';
     ShowNumbersRule,
     FooterSendReceiveBuyComponent,
     DropdownCryptoNetworkComponent,
-    TranslateModule
+    TranslateModule,
+    BuyGasComponent
   ],
   imports: [
     CommonModule,

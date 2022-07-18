@@ -69,17 +69,17 @@
         <i class="chevron fa fa-fw" *ngIf="selectedNetworkValue !== 'BTC'"></i>
         <img
           class="crypto-image"
-          src="assets/Images/symbol_crypto/{{ cryptoPicName }}.svg"
+          src="assets/Images/symbol_crypto/{{ cryptoSymbol }}.svg"
           *ngIf="!this.token"
         />
         <img
           class="crypto-image"
-          src="assets/Images/symbol_crypto/{{ cryptoPicName }}.svg"
+          src="assets/Images/symbol_crypto/{{ cryptoSymbol }}.svg"
           *ngIf="this.addedTokenNopic"
         />
         <img
           class="crypto-image"
-          src="{{ cryptoPicName }}"
+          src="{{ cryptoSymbol }}"
           *ngIf="this.token && !this.addedTokenNopic"
         />
         <span class="dropdown-text ps-3">{{ cryptoSymbol | translate }} </span>

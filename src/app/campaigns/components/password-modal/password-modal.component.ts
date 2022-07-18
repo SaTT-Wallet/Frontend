@@ -42,6 +42,7 @@ enum EOraclesID {
 })
 export class PasswordModalComponent implements OnInit {
   @Input() campaign = new Campaign();
+  gasError = false;
 
   passwordForm = new FormGroup({});
   date = new Date();
@@ -540,6 +541,7 @@ export class PasswordModalComponent implements OnInit {
   launchCampaignWithPerPerformanceReward(campaign_info: any) {
     return this.campaignService.createCompaign(campaign_info).pipe(
       tap(() => {
+        this.gasError = false;
         this.showButtonSend = true;
         this.loadingButton = false;
         this.passwordForm.reset();
@@ -550,6 +552,8 @@ export class PasswordModalComponent implements OnInit {
   launchCampaignWithPerPublicationReward(campaign_info: any) {
     return this.campaignService.launchCampaignWithBounties(campaign_info).pipe(
       tap(() => {
+        this.gasError = false;
+
         //let _campaign_Hash = Object.assign({}, this.campaign as any);
         this.showButtonSend = true;
         this.loadingButton = false;
@@ -563,6 +567,7 @@ export class PasswordModalComponent implements OnInit {
       error.error.error ===
       'Returned error: insufficient funds for gas * price + value'
     ) {
+      this.gasError = true;
       if (cryptoNetwork[token] === 'BEP20') {
         this.errorMessage =
           'You dont have enough BNB gaz (BNB : $ ' + this.bepGaz + ')';

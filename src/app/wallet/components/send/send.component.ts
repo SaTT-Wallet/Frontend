@@ -380,7 +380,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
 
       let splitted: any = this.sendform.get('Amount')?.value;
       this.resetchecker();
-      const access_token = this.tokenStorageService.getToken();
       const to = this.sendform.get('contact')?.value;
       const amountdecimal = splitted.toString();
       let amount = splitted.toString();
@@ -421,7 +420,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       if (this.network==='btt'){
         this.network = 'BTTC'
       }
-    
+
       let network = this.networks
         ? this.networks.toLowerCase()
         : ListTokens[currency].type;
@@ -902,7 +901,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
   linstingCrypto(event: any) {
-    console.log(event)
     // this.resetForm();
     this.sendform.controls.currency.reset();
     this.sendform.controls.Amount.reset();
