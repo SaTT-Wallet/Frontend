@@ -1,0 +1,86 @@
+.title-buy-gas {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 28px;
+  /* or 140% */
+
+  text-align: center;
+  letter-spacing: 1px;
+
+  /* dark blue */
+
+  color: #1f2337;
+}
+.title2-buy-gas {
+  margin-top: 1em;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 130%;
+  /* or 21px */
+
+  text-align: center;
+  letter-spacing: 0.03em;
+
+  /* 02.GREYS/dark grey */
+
+  color: #323754;
+}
+
+.fees-desc {
+  margin-top: 2rem;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 130%;
+  /* or 21px */
+
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.03em;
+
+  /* 02.GREYS/dark grey */
+
+  color: #323754;
+}
+
+.fee-error-msg {
+  margin-top: 1.5rem;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 130%;
+  /* or 21px */
+
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.03em;
+
+  /* 01.COLORS/Red */
+
+  color: #f52079;
+}
+
+.btn-buy-gas {
+  margin-top: 1rem;
+  width: 200px;
+  background: #4048ff;
+  border-radius: 30px;
+  padding: 1rem 2rem;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 27px;
+  text-align: center;
+  letter-spacing: 0.01em;
+
+  /* 01.COLORS/White */
+
+  color: #ffffff;
+}
