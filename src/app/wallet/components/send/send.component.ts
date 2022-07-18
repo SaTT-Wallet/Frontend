@@ -29,7 +29,7 @@ import { forkJoin, Subject } from 'rxjs';
 import { WalletStoreService } from '@core/services/wallet-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
-import { bscan, etherscan, polygonscanAddr } from '@app/config/atn.config';
+import { bscan, etherscan, polygonscanAddr,bttscanAddr } from '@app/config/atn.config';
 import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Location } from '@angular/common';
@@ -74,6 +74,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   eth: any;
   eRC20Gaz: any;
   polygonGaz: any;
+  bttGaz: any;
+
   matic: any;
   defaultcurr: string = ListTokens['SATT'].name;
   private isDestroyed = new Subject();
@@ -105,7 +107,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   showPwdBloc: boolean = false;
   showSuccessBloc: boolean = false;
   showErrorBloc: boolean = false;
-  selectedCryptoDetails: any = '';
+  selectedCryptoDetails: any = 'SaTT';
   routertransHash: string = '';
   private account$ = this.accountFacadeService.account$;
   cryptoToDropdown: any;
@@ -126,6 +128,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   private kyc$ = this.kycFacadeService.kyc$;
   query = '(max-width: 767.98px)';
   mediaQueryList?: MediaQueryList;
+  btt: any;
 
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
@@ -216,6 +219,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           ...this.dataList.filter((data: any) => data.symbol === 'BITCOIN'),
           ...this.dataList.filter((data: any) => data.symbol === 'BNB'),
           ...this.dataList.filter((data: any) => data.symbol === 'ETH'),
+
+
           ...this.dataList
             .filter(
               (data: any) =>
@@ -225,6 +230,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
                 data.symbol !== 'BITCOIN' &&
                 data.symbol !== 'BNB' &&
                 data.symbol !== 'ETH'
+
+
             )
             .reverse()
         ];
@@ -252,6 +259,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           }
         });
         this.showWalletSpinner = false;
+
+        this.selectedCryptoDetails = this.dataList.find((crypto: any) => crypto.symbol === 'SATT');
       });
   }
 
@@ -392,6 +401,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       } else {
         currency = this.sendform.get('currency')?.value;
       }
+
       this.network = this.networks
         ? this.networks.toLowerCase()
         : ListTokens[currency].type;
@@ -408,11 +418,25 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       amount = new Big(amountdecimal).times(decimal).toFixed(30).split('.')[0];
       // symbole = this.symbol ? this.symbol : ListTokens[currency].symbole;
       tokenSymbol = this.sendform.get('currency')?.value;
+      if (this.network==='btt'){
+        this.network = 'BTTC'
+      }
+    
       let network = this.networks
         ? this.networks.toLowerCase()
         : ListTokens[currency].type;
+        if (network==='btt'){
+         network = "BTTC"
+        }
+
+        if (network==='bep20'){
+          network = 'bsc'
+        }
+        if (network==='erc20'){
+          network = 'eth'
+        }
       const send: ITransferTokensRequestBody = {
-        from:'zer',
+        from: this.tokenStorageService.getIdWallet() as string,
         tokenAddress,
         to,
         amount,
@@ -420,6 +444,10 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         tokenSymbol,
         network,
       };
+      if (network==='btt'){
+      network = "BTTC"
+      }
+
       this.sendform.get('password')?.reset();
       this.walletFacade
         .transferTokens(send)
@@ -464,6 +492,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
                 this.routertransHash = etherscan + this.hashtransaction;
               } else if (this.networks === 'POLYGON') {
                 this.routertransHash = polygonscanAddr + this.hashtransaction;
+              }
+              else if (this.networks === 'BTT') {
+                this.routertransHash = bttscanAddr + this.hashtransaction;
               }
               this.showPwdBloc = false;
               this.showSuccessBloc = true;
@@ -542,7 +573,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
                 this.showPwdBloc = false;
               }, 2000);
               this.sendform.reset();
-            } else if (error.error.error === 'not_enough_budget') {
+            } else if (error.error.error === 'No enough balance to perform withdraw !!') {
               this.nobalance = true;
               setTimeout(() => {
                 this.nobalance = false;
@@ -601,6 +632,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         if (crypto.symbol === currency) {
           let quantity = this.showNumbersRule.transform(crypto.quantity);
           //  let totalBal = this.showNumbersRule.transform(crypto.total_balance);
+        //    crypto.total_balance = parseFloat(crypto.total_balance + '');
+        //  crypto.total_balance = crypto?.total_balance?.toFixed(2);
           this.sendform.get('Amount')?.setValue(quantity),
             this.sendform.get('AmountUsd')?.setValue(crypto.total_balance);
 
@@ -608,8 +641,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           if (
             currency === 'ETH' ||
             currency === 'BNB' ||
-            currency === 'MATIC'
-          ) {
+            currency === 'MATIC'           ) {
             this.difference = crypto.total_balance - this.gazsend;
             this.newquantity = this.difference / crypto.price;
             let newqua = this.showNumbersRule.transform(this.newquantity);
@@ -648,13 +680,17 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.bnb = data['BNB'].price;
         this.eth = data['ETH'].price;
         this.matic = data['MATIC'].price;
+        this.btt = data['BTT'].price;
+
         return {
           bnb: this.bnb,
           Eth: this.eth,
-          matic: this.matic
+          matic: this.matic,
+          btt: this.btt
+
         };
       }),
-      switchMap(({ bnb, Eth, matic }) => {
+      switchMap(({ bnb, Eth, matic ,btt}) => {
         return forkJoin([
           this.walletFacade.getEtherGaz().pipe(
             take(1),
@@ -702,7 +738,23 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
                 matic
               ).toFixed(8);
             })
+          ),
+
+          this.walletFacade.getBttGaz().pipe(
+            take(1),
+            tap((gaz: any) => {
+              this.showSpinner = false;
+              let price;
+              price = gaz.data.gasPrice;
+
+              this.bttGaz = (
+                ((price * GazConsumedByCampaign) / 1000000000) *
+                btt
+              ).toFixed(8);
+            })
           )
+
+
         ]);
       })
     );
@@ -753,7 +805,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         sendamount = sendamount.slice(0, 13);
         this.sendform.get('Amount')?.setValue(sendamount);
       }
-      if (event === 'usd' && Number(sendusd) > this.maxAmountNumber) {
+      if (event === 'usd' && Number(sendusd) > this.maxUsdAmountNumber) {
         sendusd = sendusd.slice(0, 9);
         this.sendform.get('AmountUsd')?.setValue(sendusd);
       } else {
@@ -850,6 +902,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
   linstingCrypto(event: any) {
+    console.log(event)
     // this.resetForm();
     this.sendform.controls.currency.reset();
     this.sendform.controls.Amount.reset();
@@ -881,7 +934,10 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.gazcurrency = 'MATIC';
       // this.gazcurrency = 'ETH';
     }
-
+    else if (this.networks === 'BTT') {
+      this.gazcurrency = 'BTT';
+      // this.gazcurrency = 'ETH';
+    }
     setTimeout(() => {
       if (this.networks === 'ERC20' || this.networks === 'BTC') {
         this.gazsend = this.eRC20Gaz;
@@ -893,6 +949,10 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       if (this.networks === 'POLYGON') {
         this.gazsend = this.polygonGaz;
       }
+      if (this.networks === 'BTT') {
+        this.gazsend = this.bttGaz;
+      }
+
     }, 2000);
 
     this.dataList?.forEach((crypto: any) => {
@@ -911,6 +971,12 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       if (this.networks === 'POLYGON') {
         this.gazsend = this.polygonGaz;
         if (crypto.symbol === 'MATIC') {
+          this.gazsendether = (this.gazsend / crypto.price).toFixed(8);
+        }
+      }
+      if (this.networks === 'BTT') {
+        this.gazsend = this.polygonGaz;
+        if (crypto.symbol === 'BTT') {
           this.gazsendether = (this.gazsend / crypto.price).toFixed(8);
         }
       }

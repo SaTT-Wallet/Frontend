@@ -60,8 +60,8 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
   cryptoList$ = this.walletFacade.cryptoList$;
   cryptoToDropdown: any;
   contactEmail: string = '';
-  maxUsdAmountNumber: number = 9999999999999;
-  maxAmountNumber: number = 999999999;
+  maxUsdAmountNumber: number = 999999999;
+  maxAmountNumber: number = 9999999999999;
   private isDestroyed = new Subject();
   sattPrices: any;
   usernotfound: boolean = false;

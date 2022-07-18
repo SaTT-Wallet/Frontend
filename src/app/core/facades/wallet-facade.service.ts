@@ -211,6 +211,17 @@ export class WalletFacadeService {
   }
 
 
+    // Get btt gaz from api: use it only in case of real time data;
+  // recommended to use $bttGaz attribute
+  getBttGaz() {
+    return this.cryptofetchServiceService.getBttGaz();
+  }
+
+  loadBttGaz() {
+    this.walletStoreService.getBttGaz();
+  }
+
+
 
   // Get bnb gaz from api: use it only in case of real time data;
   // recommended to use $bnbGaz attribute
@@ -258,6 +269,15 @@ export class WalletFacadeService {
 
     if (digitalCurrency === 'SATTBEP20') {
       digitalCurrency = 'SATT (BEP20)';
+    }
+    if (digitalCurrency === 'SATTBEP20') {
+      digitalCurrency = 'SATT (BEP20)';
+    }
+    if (digitalCurrency === 'TETHER') {
+      digitalCurrency = 'USDT';
+    }
+    if (digitalCurrency === 'Maker') {
+      digitalCurrency = 'MKR';
     }
     return this.cryptofetchServiceService.convertCrypto(
       digitalCurrency,

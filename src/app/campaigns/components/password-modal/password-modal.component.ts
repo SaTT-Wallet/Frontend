@@ -9,7 +9,8 @@ import {
   cryptoNetwork,
   ListTokens,
   GazConsumedByCampaign,
-  campaignSmartContractPOLYGON
+  campaignSmartContractPOLYGON,
+  campaignSmartContractBTT
 } from '@config/atn.config';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -25,7 +26,7 @@ import {
 import { forkJoin, Observable, of, Subject } from 'rxjs';
 import { CampaignsStoreService } from '@campaigns/services/campaigns-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
-
+import { DraftCampaignStoreService } from '@core/services/draft-campaign-store.service';
 enum EOraclesID {
   'facebook' = 1,
   'youtube',
@@ -43,7 +44,7 @@ export class PasswordModalComponent implements OnInit {
   @Input() campaign = new Campaign();
 
   passwordForm = new FormGroup({});
-
+  date = new Date();
   userbalanceInfo: any;
   cryptodata: any;
   passwordBlockChain: any;
@@ -67,11 +68,13 @@ export class PasswordModalComponent implements OnInit {
   private isDestroyed = new Subject();
   matic: any;
   polygonGaz: any;
-
+  idcamp: any;
+  private onDestoy$ = new Subject();
   constructor(
     private _formBuilder: FormBuilder,
     private campaignService: CampaignHttpApiService,
     public router: Router,
+    private draftStore: DraftCampaignStoreService,
     private tokenStorageService: TokenStorageService,
     public translate: TranslateService,
     private campaignsStore: CampaignsStoreService,
@@ -120,6 +123,10 @@ export class PasswordModalComponent implements OnInit {
     this.allowance(token);
   }
 
+  convertUnixToDate(x: any) {
+    return new Date(x * 1000);
+  }
+
   fillInformations(getinfo?: any) {
     let _campaign: any = {};
     if (this.campaign) {
@@ -137,14 +144,22 @@ export class PasswordModalComponent implements OnInit {
       switch (ListTokens[this.campaign.currency.name].type) {
         case 'bep20': {
           _campaign.contract = campaignSmartContractBEP20;
+          _campaign.network = 'bep20';
           break;
         }
         case 'erc20': {
           _campaign.contract = campaignSmartContractERC20;
+          _campaign.network = 'erc20';
           break;
         }
         case 'POLYGON': {
           _campaign.contract = campaignSmartContractPOLYGON;
+          _campaign.network = 'POLYGON';
+          break;
+        }
+        case 'BTT': {
+          _campaign.contract = campaignSmartContractBTT;
+          _campaign.network = 'BTT';
           break;
         }
       }
@@ -315,7 +330,7 @@ export class PasswordModalComponent implements OnInit {
 
     TokenOBj.walletaddr = this.tokenStorageService.getIdWallet();
     TokenOBj.addr = ListTokens[tokenSymbol].contract;
-    campaign_info.currency = cryptoNetwork[token];
+    campaign_info.currency = tokenSymbol;
     let LaunchCampaignObs: Observable<any>;
     if (cryptoNetwork[token] === 'BEP20') {
       LaunchCampaignObs = this.campaignService.approveBEP20(TokenOBj).pipe(
@@ -381,6 +396,49 @@ export class PasswordModalComponent implements OnInit {
 
           return this.campaignService
             .allowPOLYGON(TokenOBj, campaign_info.pass)
+            .pipe(
+              tap((response: any) => {
+                if (response['error'] === 'Wrong password') {
+                  this.errorMessage = 'wrong_password';
+                }
+              }),
+              concatMap(() => {
+                if (this.campaign.remuneration === 'performance') {
+                  return this.launchCampaignWithPerPerformanceReward(
+                    campaign_info
+                  );
+                } else if (this.campaign.remuneration === 'publication') {
+                  return this.launchCampaignWithPerPublicationReward(
+                    campaign_info
+                  );
+                }
+                return of(null);
+              }),
+              takeUntil(this.isDestroyed)
+            );
+        })
+      );
+    } else if (cryptoNetwork[token] === 'BTT') {
+      LaunchCampaignObs = this.campaignService.approveBTT(TokenOBj).pipe(
+        map((response: any) => response.data),
+        switchMap((response: any) => {
+          this.passwordForm.reset();
+          if (
+            new Big(response.allowance.amount).gt(
+              new Big(this.campaign.initialBudget)
+            )
+          ) {
+            if (this.campaign.remuneration === 'performance') {
+              //     confirmationContent
+              return this.launchCampaignWithPerPerformanceReward(campaign_info);
+            } else if (this.campaign.remuneration === 'publication') {
+              //     confirmationContent
+              return this.launchCampaignWithPerPublicationReward(campaign_info);
+            }
+          }
+
+          return this.campaignService
+            .allowBTT(TokenOBj, campaign_info.pass)
             .pipe(
               tap((response: any) => {
                 if (response['error'] === 'Wrong password') {
@@ -539,7 +597,16 @@ export class PasswordModalComponent implements OnInit {
 
     return _amount;
   }
-
+  createNewDraftCampaign(): void {
+    this.draftStore.init();
+    this.draftStore
+      .addNewDraft(new Campaign())
+      .pipe(takeUntil(this.onDestoy$))
+      .subscribe((draft: Campaign) => {
+        this.idcamp = draft.id || '';
+        this.router.navigate(['home/campaign', this.idcamp, 'edit']);
+      });
+  }
   backToCampaign(): void {
     this.router.navigate(['home/ad-pools']);
   }

@@ -239,7 +239,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
             if (topBar) topBar.style.display = 'none';
             if (btnApply) btnApply.style.display = 'flex';
             if (cover) cover.style.position = 'fixed';
-            if (main) main.style.marginTop = '28%';
+            //  if (main) main.style.marginTop = '28%';
             header.style.background = '';
           }
         }
@@ -247,7 +247,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
         let header = this.document.getElementById('navbar-id');
         header.style.background = '';
         if (event.target.scrollTop === 0) {
-          header.style.background = '#1f2337';
+          header.style.background = '';
         }
       }
     }

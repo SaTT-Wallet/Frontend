@@ -130,11 +130,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isWelcomePage = false;
   defaultHeaderBackground =
     'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%);';
+
   private account$ = this.accountFacadeService.account$;
   private resized = false;
   menuSendRecieve: boolean = false;
   private isDestroyed$ = new Subject();
   isTransactionHashCopied = false;
+  isTransactionHashCopiedbtc = false;
   constructor(
     private accountFacadeService: AccountFacadeService,
     private NotificationService: NotificationService,
@@ -163,7 +165,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.mediaQueryList = window.matchMedia(this.query);
       this.mediaQueryList2 = window.matchMedia(this.query2);
 
-      let vh = window.innerHeight * 0.01;
       window.addEventListener('resize', () => {
         let vh = window.innerHeight * 0.01;
         this.document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -1168,6 +1169,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.isTransactionHashCopied = true;
     setTimeout(() => {
       this.isTransactionHashCopied = false;
+    }, 2000);
+  }
+  copiedHashbtc() {
+    this.isTransactionHashCopiedbtc = true;
+    setTimeout(() => {
+      this.isTransactionHashCopiedbtc = false;
     }, 2000);
   }
   public copyErc(code: any) {
