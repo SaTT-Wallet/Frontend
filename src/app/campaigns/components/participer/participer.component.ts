@@ -91,6 +91,7 @@ export class ParticiperComponent implements OnInit {
   // | undefined;
   linkNetorwkMutch: boolean = true;
   validUrl: boolean = true;
+  gazcurrency: string = '';
   twitter: any;
   window!: (Window & typeof globalThis) | null;
   @ViewChild('myIframe') myIframe?: ElementRef;
@@ -183,6 +184,21 @@ export class ParticiperComponent implements OnInit {
   openYoutubeurl() {
     if (isPlatformBrowser(this.platformId))
       window.open('https://www.youtube.com/watch?v=tAZHZwrZh0o', '_blank');
+  }
+  goToBuy() {
+    if (this.networkWallet === 'bep20') {
+      this.gazcurrency = 'BNB'
+    } else if (this.networkWallet === 'erc20') {
+      this.gazcurrency = 'ETH'
+    } else {
+      this.gazcurrency = 'MATIC'
+    }
+    this.router.navigate(['/wallet/buy-token'], {
+      
+      queryParams: {
+        gaz: this.gazcurrency
+      }
+    });
   }
   connect(social: any) {
     var linkFacebook: string =

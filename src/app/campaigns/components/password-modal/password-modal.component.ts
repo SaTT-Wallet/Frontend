@@ -26,7 +26,7 @@ import {
 import { forkJoin, Observable, of, Subject } from 'rxjs';
 import { CampaignsStoreService } from '@campaigns/services/campaigns-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
-
+import { DraftCampaignStoreService } from '@core/services/draft-campaign-store.service';
 enum EOraclesID {
   'facebook' = 1,
   'youtube',
@@ -44,7 +44,7 @@ export class PasswordModalComponent implements OnInit {
   @Input() campaign = new Campaign();
 
   passwordForm = new FormGroup({});
-
+  date = new Date();
   userbalanceInfo: any;
   cryptodata: any;
   passwordBlockChain: any;
@@ -68,12 +68,13 @@ export class PasswordModalComponent implements OnInit {
   private isDestroyed = new Subject();
   matic: any;
   polygonGaz: any;
-  gasError = false;
-
+  idcamp: any;
+  private onDestoy$ = new Subject();
   constructor(
     private _formBuilder: FormBuilder,
     private campaignService: CampaignHttpApiService,
     public router: Router,
+    private draftStore: DraftCampaignStoreService,
     private tokenStorageService: TokenStorageService,
     public translate: TranslateService,
     private campaignsStore: CampaignsStoreService,
@@ -120,6 +121,10 @@ export class PasswordModalComponent implements OnInit {
     this.errorMessage = '';
     let token = this.campaign?.currency?.name;
     this.allowance(token);
+  }
+
+  convertUnixToDate(x: any) {
+    return new Date(x * 1000);
   }
 
   fillInformations(getinfo?: any) {
@@ -535,7 +540,6 @@ export class PasswordModalComponent implements OnInit {
   launchCampaignWithPerPerformanceReward(campaign_info: any) {
     return this.campaignService.createCompaign(campaign_info).pipe(
       tap(() => {
-        this.gasError = false;
         this.showButtonSend = true;
         this.loadingButton = false;
         this.passwordForm.reset();
@@ -547,7 +551,6 @@ export class PasswordModalComponent implements OnInit {
     return this.campaignService.launchCampaignWithBounties(campaign_info).pipe(
       tap(() => {
         //let _campaign_Hash = Object.assign({}, this.campaign as any);
-        this.gasError = false;
         this.showButtonSend = true;
         this.loadingButton = false;
         this.passwordForm.reset();
@@ -560,7 +563,6 @@ export class PasswordModalComponent implements OnInit {
       error.error.error ===
       'Returned error: insufficient funds for gas * price + value'
     ) {
-      this.gasError = true;
       if (cryptoNetwork[token] === 'BEP20') {
         this.errorMessage =
           'You dont have enough BNB gaz (BNB : $ ' + this.bepGaz + ')';
@@ -595,7 +597,16 @@ export class PasswordModalComponent implements OnInit {
 
     return _amount;
   }
-
+  createNewDraftCampaign(): void {
+    this.draftStore.init();
+    this.draftStore
+      .addNewDraft(new Campaign())
+      .pipe(takeUntil(this.onDestoy$))
+      .subscribe((draft: Campaign) => {
+        this.idcamp = draft.id || '';
+        this.router.navigate(['home/campaign', this.idcamp, 'edit']);
+      });
+  }
   backToCampaign(): void {
     this.router.navigate(['home/ad-pools']);
   }

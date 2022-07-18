@@ -289,6 +289,15 @@ export class WalletFacadeService {
     if (digitalCurrency === 'SATTBEP20') {
       digitalCurrency = 'SATT (BEP20)';
     }
+    if (digitalCurrency === 'SATTBEP20') {
+      digitalCurrency = 'SATT (BEP20)';
+    }
+    if (digitalCurrency === 'TETHER') {
+      digitalCurrency = 'USDT';
+    }
+    if (digitalCurrency === 'Maker') {
+      digitalCurrency = 'MKR';
+    }
     return this.cryptofetchServiceService.convertCrypto(
       digitalCurrency,
       amount,
