@@ -371,8 +371,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
       
 
     this.getStatEarnings();
-    
-     
+        
     this.walletFacade.loadCryptoList();
     // .getCryptoPriceList()
     this.budgetInUSD = this.walletFacade
