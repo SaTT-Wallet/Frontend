@@ -67,6 +67,7 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MoonboyHelpComponent } from './components/moonboy-help/moonboy-help.component';
 import { WheelMouseDirective } from './directives/wheelMouse.directive';
+import { CreateTronWalletComponent } from './components/create-tron-wallet/create-tron-wallet.component';
 
 @NgModule({
   declarations: [
@@ -99,7 +100,8 @@ import { WheelMouseDirective } from './directives/wheelMouse.directive';
     FilterBynamePipe,
     DropdownCryptoNetworkComponent,
     MoonboyHelpComponent,
-    WheelMouseDirective
+    WheelMouseDirective,
+    CreateTronWalletComponent
   ],
   exports: [
     //directives and components
