@@ -303,12 +303,16 @@ export class NotificationComponent implements OnInit {
           crypto:
             item._label['cryptoCurrency'] &&
             (item._label['cryptoCurrency'] === 'SATTBEP20' ||
-              item._label['cryptoCurrency'] === 'SATTPOLYGON')
+              item._label['cryptoCurrency'] === 'SATTPOLYGON' ||
+              item._label['currency'] === 'SATTBTT'
+              )
               ? 'SATT'
               : item._label['cryptoCurrency'] ||
                 (item._label['currency'] &&
                   (item._label['currency'] === 'SATTBEP20' ||
-                    item._label['currency'] === 'SATTPOLYGON'))
+                    item._label['currency'] === 'SATTPOLYGON' ||
+                    item._label['currency'] === 'SATTBTT'
+                    ))
               ? 'SATT'
               : item._label['currency'],
           // crypto: item._label['currency'],
@@ -324,12 +328,16 @@ export class NotificationComponent implements OnInit {
           crypto:
             item._label['cryptoCurrency'] &&
             (item._label['cryptoCurrency'] === 'SATTBEP20' ||
-              item._label['cryptoCurrency'] === 'SATTPOLYGON')
+              item._label['cryptoCurrency'] === 'SATTPOLYGON' ||
+              item._label['currency'] === 'SATTBTT'
+              )
               ? 'SATT'
               : item._label['cryptoCurrency'] ||
                 (item._label['currency'] &&
                   (item._label['currency'] === 'SATTBEP20' ||
-                    item._label['currency'] === 'SATTPOLYGON'))
+                    item._label['currency'] === 'SATTPOLYGON' ||
+                    item._label['currency'] === 'SATTBTT'
+                    ))
               ? 'SATT'
               : item._label['currency'],
           name: item._label['name']
@@ -367,7 +375,9 @@ export class NotificationComponent implements OnInit {
           item._params = {
             currency:
               item._label['currency'] === 'SATTBEP20' ||
-              item._label['currency'] === 'SATTPOLYGON'
+              item._label['currency'] === 'SATTPOLYGON' || 
+              item._label['currency'] === 'SATTBTT'
+
                 ? 'SATT'
                 : item.label['currency'],
             nbr: Big(item._label['amount']).div(decimal),
@@ -404,7 +414,9 @@ export class NotificationComponent implements OnInit {
             nbr: Big(item._label['amount']).div(decimal),
             currency:
               item._label['currency'] === 'SATTBEP20' ||
-              item._label['currency'] === 'SATTPOLYGON'
+              item._label['currency'] === 'SATTPOLYGON' ||
+              item._label['currency'] === 'SATTBTT'
+
                 ? 'SATT'
                 : item.label['currency'],
             from: item._label['from']
@@ -548,7 +560,9 @@ export class NotificationComponent implements OnInit {
           nbr: item._label['amount'],
           crypto:
             item._label['currency'] === 'SATTBEP20' ||
-            item._label['currency'] === 'SATTPOLYGON'
+            item._label['currency'] === 'SATTPOLYGON' ||
+            item._label['currency'] === 'SATTBTT'
+
               ? 'SATT'
               : item.label['currency'],
           email: item._label[2]
@@ -562,7 +576,9 @@ export class NotificationComponent implements OnInit {
           nbr: item._label['amount'],
           crypto:
             item._label['currency'] === 'SATTBEP20' ||
-            item._label['currency'] === 'SATTPOLYGON'
+            item._label['currency'] === 'SATTPOLYGON' ||
+            item._label['currency'] === 'SATTBTT'
+
               ? 'SATT'
               : item.label['currency'],
           email: item._label[2]
