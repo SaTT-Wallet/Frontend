@@ -91,6 +91,7 @@ export class ParticiperComponent implements OnInit {
   // | undefined;
   linkNetorwkMutch: boolean = true;
   validUrl: boolean = true;
+  gazcurrency: string = '';
   twitter: any;
   window!: (Window & typeof globalThis) | null;
   @ViewChild('myIframe') myIframe?: ElementRef;
@@ -184,6 +185,20 @@ export class ParticiperComponent implements OnInit {
     if (isPlatformBrowser(this.platformId))
       window.open('https://www.youtube.com/watch?v=tAZHZwrZh0o', '_blank');
   }
+  goToBuy() {
+    if (this.networkWallet === 'bep20') {
+      this.gazcurrency = 'BNB';
+    } else if (this.networkWallet === 'erc20') {
+      this.gazcurrency = 'ETH';
+    } else {
+      this.gazcurrency = 'MATIC';
+    }
+    this.router.navigate(['/wallet/buy-token'], {
+      queryParams: {
+        gaz: this.gazcurrency
+      }
+    });
+  }
   connect(social: any) {
     var linkFacebook: string =
       sattUrl +
@@ -213,7 +228,7 @@ export class ParticiperComponent implements OnInit {
       '?redirect=' +
       this.router.url;
 
-      var linkTiktok: string =
+    var linkTiktok: string =
       sattUrl +
       '/profile/addChannel/tiktok/' +
       this.tokenStorageService.getIdUser() +
@@ -229,8 +244,7 @@ export class ParticiperComponent implements OnInit {
         window.location.href = linkTwitter;
       } else if (social === 'linkedin') {
         window.location.href = linkLinkedin;
-      }
-      else {
+      } else {
         window.location.href = linkTiktok;
       }
     }
@@ -1139,7 +1153,7 @@ export class ParticiperComponent implements OnInit {
               }
             }
           );
-          console.log("connectValue",this.connectValue)
+        // console.log("connectValue",this.connectValue)
       } else {
         this.spinner = false;
         this.error = 'oracle_not_exist';

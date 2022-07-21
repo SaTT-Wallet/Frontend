@@ -385,6 +385,24 @@
                       </span>
                     </div>
                   </li>
+                  <li
+                    class="li-select"
+                    (click)="toggleNetwork(eBlockchainNetwork.POLYGON)"
+                    *ngIf="
+                      selectedBlockchainNetwork !== eBlockchainNetwork.POLYGON
+                    "
+                  >
+                    <div class="d-flex align-items-center gap-2">
+                      <img
+                        src="../../../assets/Images/symbol_crypto/polygon.svg"
+                        alt=""
+                        style="width: 26px"
+                      />
+                      <span class="li-select-text d-flex">
+                        {{ eBlockchainNetwork.POLYGON }}</span
+                      >
+                    </div>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -527,7 +545,7 @@
                 selectedCurrencyType === eCurrencyType.BEP20 &&
                 selectedBlockchainNetwork === eBlockchainNetwork.BEP20
               "
-              (click)="CurrencyBnB()"
+              (click)="currencyBnB()"
               href="https://pancakeswap.finance/swap?outputCurrency={{
                 toSwapCrypto.contract
               }}&inputCurrency={{ fromSwapCrypto.contract }}"
@@ -546,7 +564,7 @@
 
             <a
               class="buy-swap-btn"
-              (click)="CurrencyETH()"
+              (click)="currencyETH()"
               *ngIf="
                 selectedCurrencyType === eCurrencyType.ERC20 &&
                 selectedBlockchainNetwork === eBlockchainNetwork.ERC20

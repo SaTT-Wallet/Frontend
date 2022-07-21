@@ -7,17 +7,18 @@ export const environment = {
   //API_URL: 'https://api-preprod2.satt-token.com',
   //https://api-preprod2.satt-token.com
   //https://api2.satt-token.com
-   API_URL: 'https://localhost:3015',
+  API_URL: 'https://localhost:3015',
   //https://api-preprod.satt-token.com:3014
   addresses: {
     smartContracts: {
       campaignERC20: '0x477C93E935DcBFd330c7aE1A8BA128232eA87AC7',
       campaignBEP20: '0x4074ec9dfd977a7af1ca93a708490966ef8120b9',
       campaignPOLYGON: '0xD6Cb96a00b312D5930FC2E8084A98ff2Daa5aD2e',
-      campaignBTT: '0x3d2849B71Bae20e3Be94E6E9A0E9FA959493fb84',
+      campaignBTT: '0x5F63570b466a9383993da9Ffffe186B6D66E8FA7',
 
       SATT_TOKENERC20: '0x85e14cbe5856e74fff53107cf0aefd850d5f8808',
       SATT_TOKENBEP20: '0x6fAc729f346A46fC0093126f237b4A520c40eb89',
+
       SATT_TOKENPOLYGON: '0x195DC8342D923D3dFe0167Dc902A33Eabd801653',
       SATT_TOKENBTT: '0xaabda8813dF0fDc254B3aeD3d901E3838f0CCfCF',
       TETHER_TOKENERC20: '0x3B2243E3Aeb6d4A102061BCE6C5c233c2C08fF65',

@@ -68,6 +68,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MoonboyHelpComponent } from './components/moonboy-help/moonboy-help.component';
 import { WheelMouseDirective } from './directives/wheelMouse.directive';
 import { CreateTronWalletComponent } from './components/create-tron-wallet/create-tron-wallet.component';
+import { BuyGasComponent } from './components/buy-gas/buy-gas.component';
 
 @NgModule({
   declarations: [
@@ -101,7 +102,8 @@ import { CreateTronWalletComponent } from './components/create-tron-wallet/creat
     DropdownCryptoNetworkComponent,
     MoonboyHelpComponent,
     WheelMouseDirective,
-    CreateTronWalletComponent
+    CreateTronWalletComponent,
+    BuyGasComponent
   ],
   exports: [
     //directives and components
@@ -175,7 +177,8 @@ import { CreateTronWalletComponent } from './components/create-tron-wallet/creat
     ShowNumbersRule,
     FooterSendReceiveBuyComponent,
     DropdownCryptoNetworkComponent,
-    TranslateModule
+    TranslateModule,
+    BuyGasComponent
   ],
   imports: [
     CommonModule,

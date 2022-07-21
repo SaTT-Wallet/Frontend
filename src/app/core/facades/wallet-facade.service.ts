@@ -1,5 +1,8 @@
 import { Injectable, Injector } from '@angular/core';
-import { ITransferTokensRequestBody, WalletService } from '@core/services/wallet/wallet.service';
+import {
+  ITransferTokensRequestBody,
+  WalletService
+} from '@core/services/wallet/wallet.service';
 import { WalletStoreService } from '@core/services/wallet-store.service';
 import { CreatePasswordWalletService } from '@core/services/wallet/create-password-wallet.service';
 import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
@@ -198,8 +201,6 @@ export class WalletFacadeService {
     this.walletStoreService.getEtherGaz();
   }
 
-
-
   // Get polygon gaz from api: use it only in case of real time data;
   // recommended to use $polygonGaz attribute
   getPolygonGaz() {
@@ -210,8 +211,7 @@ export class WalletFacadeService {
     this.walletStoreService.getPolygonGaz();
   }
 
-
-    // Get btt gaz from api: use it only in case of real time data;
+  // Get btt gaz from api: use it only in case of real time data;
   // recommended to use $bttGaz attribute
   getBttGaz() {
     return this.cryptofetchServiceService.getBttGaz();
@@ -221,12 +221,31 @@ export class WalletFacadeService {
     this.walletStoreService.getBttGaz();
   }
 
-
-
   // Get bnb gaz from api: use it only in case of real time data;
   // recommended to use $bnbGaz attribute
   getBnbGaz() {
     return this.cryptofetchServiceService.getBnbGaz();
+  }
+
+  getGazByNetwork(network: string) {
+    network = network.toLowerCase();
+    switch (network) {
+      case 'be20': {
+        return this.getBnbGaz();
+      }
+      case 'erc20': {
+        return this.getEtherGaz();
+      }
+      case 'btt': {
+        return this.getBttGaz();
+      }
+      case 'polygon': {
+        return this.getPolygonGaz();
+      }
+      default: {
+        return this.getBnbGaz();
+      }
+    }
   }
 
   loadBnbGaz() {
@@ -269,6 +288,15 @@ export class WalletFacadeService {
 
     if (digitalCurrency === 'SATTBEP20') {
       digitalCurrency = 'SATT (BEP20)';
+    }
+    if (digitalCurrency === 'SATTBEP20') {
+      digitalCurrency = 'SATT (BEP20)';
+    }
+    if (digitalCurrency === 'TETHER') {
+      digitalCurrency = 'USDT';
+    }
+    if (digitalCurrency === 'Maker') {
+      digitalCurrency = 'MKR';
     }
     return this.cryptofetchServiceService.convertCrypto(
       digitalCurrency,

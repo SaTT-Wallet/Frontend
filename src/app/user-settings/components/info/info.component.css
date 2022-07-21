@@ -1239,7 +1239,6 @@ input[type='number'] {
     border: none;
     border-radius: 30px;
 }
-
 .image-spec-text {
     font-family: Poppins;
     font-style: normal;
@@ -1263,6 +1262,4 @@ input[type='number'] {
     margin: 0.5em 0 !important;
 }
 
-.page-content {
-    padding: 20px 15px 4em 15px !important;
-}
+

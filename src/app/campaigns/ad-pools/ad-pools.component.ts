@@ -64,16 +64,13 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
   @ViewChild('welcomeModal', { static: false })
   public welcomeModal!: TemplateRef<any>;
 
-  totalBudgetInvested$ = this.campaignService.getTotalInvestetd()
-  .pipe(
+  totalBudgetInvested$ = this.campaignService.getTotalInvestetd().pipe(
     catchError(() => {
       return of('0');
     }),
-    map((r: any) => this.showNumbersRule.transform(r.data.totalInvested),
-    )
+    map((r: any) => this.showNumbersRule.transform(r.data.totalInvested))
   );
 
-  
   totalBudgetInvestedInUSD$ = this.campaignService.getTotalInvestetd().pipe(
     catchError(() => {
       return of('0');
@@ -104,14 +101,10 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
     public modalService: NgbModal,
     private convertFromWeiTo: ConvertFromWei,
     private walletFacade: WalletFacadeService,
-    private showNumbersRule: ShowNumbersRule,
-
+    private showNumbersRule: ShowNumbersRule
   ) {}
 
   ngOnInit(): void {
-
-   
-
     this.onBoarding();
     this.loadCampaigns();
   }
@@ -180,13 +173,18 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
         this.campaignsList = campaigns;
         this.campaignsList2 = campaigns;
         this.campaignsList?.forEach((element: Campaign) => {
-          if (element.currency.name === 'SATTPOLYGON')
+          if (
+            ['SATTPOLYGON', 'SATTBEP20', 'SATTBTT'].includes(
+              element.currency.name
+            )
+          )
             element.currency.name = 'SATT';
-          if (element.currency.name === 'SATTBEP20')
-            element.currency.name = 'SATT';
+
           if (this.cryptoPrices) {
             element.budgetUsd = new Big(
-              this.cryptoPrices[element.currency.name].price + ''
+              (!!this.cryptoPrices[element.currency.name] &&
+                this.cryptoPrices[element.currency.name].price + '') ||
+                0
             )
               .times(
                 this.convertFromWeiTo.transform(

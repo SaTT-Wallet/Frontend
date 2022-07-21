@@ -29,7 +29,12 @@ import { forkJoin, Subject } from 'rxjs';
 import { WalletStoreService } from '@core/services/wallet-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
-import { bscan, etherscan, polygonscanAddr,bttscanAddr } from '@app/config/atn.config';
+import {
+  bscan,
+  etherscan,
+  polygonscanAddr,
+  bttscanAddr
+} from '@app/config/atn.config';
 import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Location } from '@angular/common';
@@ -107,7 +112,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   showPwdBloc: boolean = false;
   showSuccessBloc: boolean = false;
   showErrorBloc: boolean = false;
-  selectedCryptoDetails: any = '';
+  selectedCryptoDetails: any = 'SaTT';
   routertransHash: string = '';
   private account$ = this.accountFacadeService.account$;
   cryptoToDropdown: any;
@@ -219,7 +224,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           ...this.dataList.filter((data: any) => data.symbol === 'BITCOIN'),
           ...this.dataList.filter((data: any) => data.symbol === 'BNB'),
           ...this.dataList.filter((data: any) => data.symbol === 'ETH'),
-         
 
           ...this.dataList
             .filter(
@@ -229,9 +233,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
                 data.symbol !== 'SATT' &&
                 data.symbol !== 'BITCOIN' &&
                 data.symbol !== 'BNB' &&
-                data.symbol !== 'ETH' 
-              
-
+                data.symbol !== 'ETH'
             )
             .reverse()
         ];
@@ -259,6 +261,10 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           }
         });
         this.showWalletSpinner = false;
+
+        this.selectedCryptoDetails = this.dataList.find(
+          (crypto: any) => crypto.symbol === 'SATT'
+        );
       });
   }
 
@@ -378,7 +384,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
 
       let splitted: any = this.sendform.get('Amount')?.value;
       this.resetchecker();
-      const access_token = this.tokenStorageService.getToken();
       const to = this.sendform.get('contact')?.value;
       const amountdecimal = splitted.toString();
       let amount = splitted.toString();
@@ -399,16 +404,18 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       } else {
         currency = this.sendform.get('currency')?.value;
       }
-     
+
       this.network = this.networks
         ? this.networks.toLowerCase()
         : ListTokens[currency].type;
       if (this.network === 'bep20' && currency === 'SATT') {
         currency = 'SATTBEP20';
       }
-    
-      tokenAddress = this.token ? this.token : ListTokens[currency].contract;
 
+      tokenAddress = this.token ? this.token : ListTokens[currency].contract;
+      if (tokenAddress === 'BTT') {
+        tokenAddress = '0x0000000000000000000000000000000000001010';
+      }
       decimal = this.decimals
         ? new Big('10').pow(this.decimals)
         : ListTokens[currency].decimals;
@@ -416,15 +423,23 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       amount = new Big(amountdecimal).times(decimal).toFixed(30).split('.')[0];
       // symbole = this.symbol ? this.symbol : ListTokens[currency].symbole;
       tokenSymbol = this.sendform.get('currency')?.value;
-      if (this.network==='btt'){
-        this.network = 'BTT'
+      if (this.network === 'btt') {
+        this.network = 'BTTC';
       }
+
       let network = this.networks
         ? this.networks.toLowerCase()
         : ListTokens[currency].type;
-        if (network==='btt'){
-         network = "BTT"
-        }
+      if (network === 'btt') {
+        network = 'BTTC';
+      }
+
+      if (network === 'bep20') {
+        network = 'bsc';
+      }
+      if (network === 'erc20') {
+        network = 'eth';
+      }
       const send: ITransferTokensRequestBody = {
         from: this.tokenStorageService.getIdWallet() as string,
         tokenAddress,
@@ -432,10 +447,10 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         amount,
         pass,
         tokenSymbol,
-        network,
+        network
       };
-      if (network==='btt'){
-      network = "BTT"
+      if (network === 'btt') {
+        network = 'BTTC';
       }
 
       this.sendform.get('password')?.reset();
@@ -482,8 +497,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
                 this.routertransHash = etherscan + this.hashtransaction;
               } else if (this.networks === 'POLYGON') {
                 this.routertransHash = polygonscanAddr + this.hashtransaction;
-              }
-              else if (this.networks === 'BTT') {
+              } else if (this.networks === 'BTT') {
                 this.routertransHash = bttscanAddr + this.hashtransaction;
               }
               this.showPwdBloc = false;
@@ -563,7 +577,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
                 this.showPwdBloc = false;
               }, 2000);
               this.sendform.reset();
-            } else if (error.error.error === 'not_enough_budget') {
+            } else if (
+              error.error.error === 'No enough balance to perform withdraw !!'
+            ) {
               this.nobalance = true;
               setTimeout(() => {
                 this.nobalance = false;
@@ -622,8 +638,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         if (crypto.symbol === currency) {
           let quantity = this.showNumbersRule.transform(crypto.quantity);
           //  let totalBal = this.showNumbersRule.transform(crypto.total_balance);
-        //    crypto.total_balance = parseFloat(crypto.total_balance + '');
-        //  crypto.total_balance = crypto?.total_balance?.toFixed(2);
+          //    crypto.total_balance = parseFloat(crypto.total_balance + '');
+          //  crypto.total_balance = crypto?.total_balance?.toFixed(2);
           this.sendform.get('Amount')?.setValue(quantity),
             this.sendform.get('AmountUsd')?.setValue(crypto.total_balance);
 
@@ -631,7 +647,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           if (
             currency === 'ETH' ||
             currency === 'BNB' ||
-            currency === 'MATIC'           ) {
+            currency === 'MATIC'
+          ) {
             this.difference = crypto.total_balance - this.gazsend;
             this.newquantity = this.difference / crypto.price;
             let newqua = this.showNumbersRule.transform(this.newquantity);
@@ -677,10 +694,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           Eth: this.eth,
           matic: this.matic,
           btt: this.btt
-
         };
       }),
-      switchMap(({ bnb, Eth, matic ,btt}) => {
+      switchMap(({ bnb, Eth, matic, btt }) => {
         return forkJoin([
           this.walletFacade.getEtherGaz().pipe(
             take(1),
@@ -743,8 +759,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               ).toFixed(8);
             })
           )
-
-
         ]);
       })
     );
@@ -922,8 +936,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     } else if (this.networks === 'POLYGON') {
       this.gazcurrency = 'MATIC';
       // this.gazcurrency = 'ETH';
-    }
-    else if (this.networks === 'BTT') {
+    } else if (this.networks === 'BTT') {
       this.gazcurrency = 'BTT';
       // this.gazcurrency = 'ETH';
     }
@@ -941,7 +954,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       if (this.networks === 'BTT') {
         this.gazsend = this.bttGaz;
       }
-
     }, 2000);
 
     this.dataList?.forEach((crypto: any) => {

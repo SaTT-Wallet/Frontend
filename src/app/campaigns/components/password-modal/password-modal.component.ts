@@ -26,7 +26,7 @@ import {
 import { forkJoin, Observable, of, Subject } from 'rxjs';
 import { CampaignsStoreService } from '@campaigns/services/campaigns-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
-
+import { DraftCampaignStoreService } from '@core/services/draft-campaign-store.service';
 enum EOraclesID {
   'facebook' = 1,
   'youtube',
@@ -42,9 +42,10 @@ enum EOraclesID {
 })
 export class PasswordModalComponent implements OnInit {
   @Input() campaign = new Campaign();
+  gasError = false;
 
   passwordForm = new FormGroup({});
-
+  date = new Date();
   userbalanceInfo: any;
   cryptodata: any;
   passwordBlockChain: any;
@@ -68,11 +69,13 @@ export class PasswordModalComponent implements OnInit {
   private isDestroyed = new Subject();
   matic: any;
   polygonGaz: any;
-
+  idcamp: any;
+  private onDestoy$ = new Subject();
   constructor(
     private _formBuilder: FormBuilder,
     private campaignService: CampaignHttpApiService,
     public router: Router,
+    private draftStore: DraftCampaignStoreService,
     private tokenStorageService: TokenStorageService,
     public translate: TranslateService,
     private campaignsStore: CampaignsStoreService,
@@ -119,6 +122,10 @@ export class PasswordModalComponent implements OnInit {
     this.errorMessage = '';
     let token = this.campaign?.currency?.name;
     this.allowance(token);
+  }
+
+  convertUnixToDate(x: any) {
+    return new Date(x * 1000);
   }
 
   fillInformations(getinfo?: any) {
@@ -326,6 +333,7 @@ export class PasswordModalComponent implements OnInit {
     TokenOBj.addr = ListTokens[tokenSymbol].contract;
     campaign_info.currency = tokenSymbol;
     let LaunchCampaignObs: Observable<any>;
+    // console.log(cryptoNetwork[token]);
     if (cryptoNetwork[token] === 'BEP20') {
       LaunchCampaignObs = this.campaignService.approveBEP20(TokenOBj).pipe(
         map((response: any) => response.data),
@@ -413,6 +421,8 @@ export class PasswordModalComponent implements OnInit {
         })
       );
     } else if (cryptoNetwork[token] === 'BTT') {
+      if (TokenOBj.addr === 'BTT')
+        TokenOBj.addr = '0xD6Cb96a00b312D5930FC2E8084A98ff2Daa5aD2e';
       LaunchCampaignObs = this.campaignService.approveBTT(TokenOBj).pipe(
         map((response: any) => response.data),
         switchMap((response: any) => {
@@ -422,6 +432,10 @@ export class PasswordModalComponent implements OnInit {
               new Big(this.campaign.initialBudget)
             )
           ) {
+            if (campaign_info.tokenAddress === 'BTT')
+              campaign_info.tokenAddress =
+                '0xD6Cb96a00b312D5930FC2E8084A98ff2Daa5aD2e';
+
             if (this.campaign.remuneration === 'performance') {
               //     confirmationContent
               return this.launchCampaignWithPerPerformanceReward(campaign_info);
@@ -534,6 +548,7 @@ export class PasswordModalComponent implements OnInit {
   launchCampaignWithPerPerformanceReward(campaign_info: any) {
     return this.campaignService.createCompaign(campaign_info).pipe(
       tap(() => {
+        this.gasError = false;
         this.showButtonSend = true;
         this.loadingButton = false;
         this.passwordForm.reset();
@@ -544,6 +559,8 @@ export class PasswordModalComponent implements OnInit {
   launchCampaignWithPerPublicationReward(campaign_info: any) {
     return this.campaignService.launchCampaignWithBounties(campaign_info).pipe(
       tap(() => {
+        this.gasError = false;
+
         //let _campaign_Hash = Object.assign({}, this.campaign as any);
         this.showButtonSend = true;
         this.loadingButton = false;
@@ -557,6 +574,7 @@ export class PasswordModalComponent implements OnInit {
       error.error.error ===
       'Returned error: insufficient funds for gas * price + value'
     ) {
+      this.gasError = true;
       if (cryptoNetwork[token] === 'BEP20') {
         this.errorMessage =
           'You dont have enough BNB gaz (BNB : $ ' + this.bepGaz + ')';
@@ -591,7 +609,16 @@ export class PasswordModalComponent implements OnInit {
 
     return _amount;
   }
-
+  createNewDraftCampaign(): void {
+    this.draftStore.init();
+    this.draftStore
+      .addNewDraft(new Campaign())
+      .pipe(takeUntil(this.onDestoy$))
+      .subscribe((draft: Campaign) => {
+        this.idcamp = draft.id || '';
+        this.router.navigate(['home/campaign', this.idcamp, 'edit']);
+      });
+  }
   backToCampaign(): void {
     this.router.navigate(['home/ad-pools']);
   }

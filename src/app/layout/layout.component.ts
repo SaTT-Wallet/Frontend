@@ -157,7 +157,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
         let chart = this.document.getElementById('chart');
         let header = this.document.getElementById('navbar-id');
         header.style.background = '';
-        if (event.target.clientWidth < 768) {
+        header.classList.remove('navbar-trans2');
+        if (event.target.scrollTop < 768) {
           if (chart) {
             if (event.target.scrollTop >= 68) {
               chart.style.position = 'relative';
@@ -184,7 +185,10 @@ export class LayoutComponent implements OnInit, OnDestroy {
         );
         let bluePic = this.document.getElementById('back-top-pic');
         let blueText = this.document.getElementById('back-top-text');
+
         if (event.target.clientWidth < 1025) {
+          // console.log(event.target.scrollTop);
+          header.style.background = '';
           //if (btnApply) btnApply.style.display = 'none';
           if (event.target.scrollTop < 159) {
             if (blueText && bluePic && disabledText && disabledPic) {
@@ -198,7 +202,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
             // cover.style.position = 'fixed';
             // main.style.marginTop = '28%';
             // // cover.style.position = 'fixed';
-            header.style.background = '';
+            // header.style.background = 'transparent';
           } else {
             // cover.style.position = 'relative';
             // main.style.marginTop = '-16vw';
@@ -245,9 +249,14 @@ export class LayoutComponent implements OnInit, OnDestroy {
         }
       } else {
         let header = this.document.getElementById('navbar-id');
-        header.style.background = '';
+        header.style.background =
+          'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%);';
+        header.classList.add('navbar-trans2');
+
         if (event.target.scrollTop === 0) {
           header.style.background = '';
+          header.classList.remove('navbar-trans2');
+          header.classList.remove('navbar-trans');
         }
       }
     }
