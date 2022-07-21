@@ -86,6 +86,5 @@ export const environment = {
   etherscanaddr: 'https://ropsten.etherscan.io/address/',
     bttscanAddr: 'https://bttcscan.com/address/',
 
-  simplexUrl: 'https://sandbox.test-simplexcc.com/payments/new'*/,
-  
+  simplexUrl: 'https://sandbox.test-simplexcc.com/payments/new'*/
 };
