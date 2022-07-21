@@ -119,6 +119,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
       }
       if (this.router.url.startsWith('/wallet')) {
         let chart = this.document.getElementById('chart');
+
         if (chart) {
           if (event.target.innerWidth > 767.98) {
             chart.style.position = 'relative';
@@ -156,16 +157,17 @@ export class LayoutComponent implements OnInit, OnDestroy {
       if (this.router.url.startsWith('/wallet')) {
         let chart = this.document.getElementById('chart');
         let header = this.document.getElementById('navbar-id');
+        let content = this.document.getElementById('center-content');
+        content.classList.add('center-content-2');
         header.style.background = '';
-        header.classList.remove("navbar-trans2");
-        console.log(event.target.scrollTop)
-        if (event.target.scrollTop>250){
-          header.classList.add("navbar-wallet");
-        }else{
-          header.classList.remove("navbar-wallet");
+        header.classList.remove('navbar-trans2');
+
+        if (event.target.scrollTop > 250) {
+          header.classList.add('navbar-wallet');
+        } else {
+          header.classList.remove('navbar-wallet');
         }
         if (event.target.scrollTop < 768) {
-          
           if (chart) {
             if (event.target.scrollTop >= 68) {
               chart.style.position = 'relative';
@@ -178,7 +180,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
             }
           }
         }
-        
       } else if (
         this.router.url.startsWith('/campaign/') &&
         !this.router.url.includes('edit')
@@ -193,16 +194,17 @@ export class LayoutComponent implements OnInit, OnDestroy {
         );
         let bluePic = this.document.getElementById('back-top-pic');
         let blueText = this.document.getElementById('back-top-text');
+        let content = this.document.getElementById('center-content');
+        content.classList.add('center-content-2');
         header.style.background = '';
-        header.classList.remove("navbar-trans2");
-     
+        header.classList.remove('navbar-trans2');
+
         if (event.target.clientWidth < 1025) {
-       
-          header.classList.add("navbar-trans2");
+          header.classList.add('navbar-trans2');
           //header.style.background = '';
           //if (btnApply) btnApply.style.display = 'none';
           if (event.target.scrollTop < 159) {
-            header.classList.remove("navbar-trans2");
+            header.classList.remove('navbar-trans2');
             if (blueText && bluePic && disabledText && disabledPic) {
               blueText.style.display = 'none';
               bluePic.style.display = 'none';
@@ -210,11 +212,11 @@ export class LayoutComponent implements OnInit, OnDestroy {
               disabledPic.style.display = 'block';
               this.campaignService.scrolling.next(true);
             }
-       
+
             // cover.style.position = 'fixed';
             // main.style.marginTop = '28%';
             // // cover.style.position = 'fixed';
-           // header.style.background = 'transparent';
+            // header.style.background = 'transparent';
           } else {
             // cover.style.position = 'relative';
             // main.style.marginTop = '-16vw';
@@ -229,7 +231,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
           }
           if (topBar) topBar.style.display = 'none';
         } else {
-          
           if (
             event.target.clientWidth > 1024 &&
             event.target.scrollTop >= 440
@@ -240,7 +241,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
             if (btnApply) btnApply.style.display = 'none';
             header.style.background = '#2F3347';
           } else if (
-            
             event.target.clientWidth <= 1024 &&
             event.target.scrollTop > 477
           ) {
@@ -262,17 +262,17 @@ export class LayoutComponent implements OnInit, OnDestroy {
           }
         }
       } else {
-       
-    
         let header = this.document.getElementById('navbar-id');
-        header.style.background = 'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%);';
-         header.classList.add("navbar-trans2");
-       
+        header.style.background =
+          'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%);';
+        header.classList.add('navbar-trans2');
+        let content = this.document.getElementById('center-content');
+        content.classList.remove('center-content-2');
+
         if (event.target.scrollTop === 0) {
           header.style.background = '';
-          header.classList.remove("navbar-trans2");
-          header.classList.remove("navbar-trans");
-          
+          header.classList.remove('navbar-trans2');
+          header.classList.remove('navbar-trans');
         }
       }
     }
