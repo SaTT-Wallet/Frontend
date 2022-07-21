@@ -1606,6 +1606,7 @@ table>th {
     background: #ffffff;
     color: #4048ff;
     box-shadow: 0px 2px 6px rgb(50 55 84 / 40%) !important;
+    font-weight: 600 !important;
 }
 
 .modal-body.modal-customm .btn_fill_profile:hover {
@@ -1852,4 +1853,70 @@ table>th {
 
 .welcome-body {
     max-width: 600px;
+}
+
+.div-input-icon {
+  position: relative;
+  width: 300px;
+  width: 374px;
+
+  height: 48px;
+  display: flex;
+  border: 1px solid #d6d6e8;
+  border-radius: 30px;
+  align-items: center;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+@media (max-width: 424px) {
+  .div-input-icon {
+    width: 300px !important;
+  }
+}
+
+.input-password {
+  width: 74%;
+  line-height: 1.57142857;
+  font-size: 14px;
+  color: #162746;
+  border-radius: 30px;
+  border: none !important;
+  background: none !important;
+}
+
+.input-password::placeholder,
+.input-icon::placeholder {
+  color: #adadc8;
+}
+
+.cross_input_network {
+  cursor: pointer;
+  color: #adadc8;
+  right: 14px;
+  top: 15px;
+  position: absolute;
+  font-size: 17px;
+}
+
+.btn-blue {
+  background: #4048ff !important;
+  border-radius: 30px;
+  width: 165px;
+  height: 56px;
+  font-style: normal;
+  font-weight: 600 !important;
+  font-size: 18px;
+  line-height: 27px;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.01em;
+  color: #f6f6ff !important;
+  border: none;
+  /* margin-right: 1.5rem; */
+}
+
+.modal-body.modal-custom {
+  margin-top: 0;
+  overflow-y: auto
 }

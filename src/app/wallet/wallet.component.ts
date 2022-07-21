@@ -58,7 +58,11 @@ export class WalletComponent implements OnInit, OnDestroy {
   @ViewChild('welcomeModal', { static: false })
   public welcomeModal!: TemplateRef<any>;
 
+  @ViewChild('createTronWalletModal', { static: false })
+  private createTronWalletModal!: TemplateRef<any>;
+
   showModal: Boolean = false;
+  showPass: boolean = false;
 
   lineChartDataMonth: ChartDataSets[] = [
     {
@@ -935,6 +939,11 @@ export class WalletComponent implements OnInit, OnDestroy {
                 }
                 this.tokenStorageService.setFillMyProfil('false');
               }, 3000);
+              setTimeout(() => {
+                if (this.tokenStorageService.getIdWallet()) {
+                  this.openModal(this.createTronWalletModal);
+                }
+              }, 4000);
               return this.profileSettingsFacade.profilePic$;
             }
           }
