@@ -186,13 +186,16 @@ export class LayoutComponent implements OnInit, OnDestroy {
         );
         let bluePic = this.document.getElementById('back-top-pic');
         let blueText = this.document.getElementById('back-top-text');
-
+        header.style.background = '';
+        header.classList.remove("navbar-trans2");
+     
         if (event.target.clientWidth < 1025) {
           console.log(event.target.scrollTop);
-          header.style.background = '';
+          header.classList.add("navbar-trans2");
+          //header.style.background = '';
           //if (btnApply) btnApply.style.display = 'none';
           if (event.target.scrollTop < 159) {
-          
+            header.classList.remove("navbar-trans2");
             if (blueText && bluePic && disabledText && disabledPic) {
               blueText.style.display = 'none';
               bluePic.style.display = 'none';
@@ -215,14 +218,14 @@ export class LayoutComponent implements OnInit, OnDestroy {
               disabledPic.style.display = 'none';
               this.campaignService.scrolling.next(false);
             }
-            header.style.background = '#2F3347';
+            header.style.background = '';
           }
           if (topBar) topBar.style.display = 'none';
         } else {
           
           if (
             event.target.clientWidth > 1024 &&
-            event.target.scrollTop >= 744
+            event.target.scrollTop >= 440
           ) {
             //cover.style.position = 'relative';
             //  main.style.marginTop = '-35px';
@@ -256,7 +259,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     
         let header = this.document.getElementById('navbar-id');
         header.style.background = 'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%);';
-        header.classList.add("navbar-trans2");
+         header.classList.add("navbar-trans2");
        
         if (event.target.scrollTop === 0) {
           header.style.background = '';
