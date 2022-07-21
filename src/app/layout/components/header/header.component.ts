@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
+  AfterViewInit,
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -8,10 +9,11 @@ import {
   OnDestroy,
   OnInit,
   PLATFORM_ID,
+  TemplateRef,
   ViewChild
 } from '@angular/core';
 // import { bscan, etherscan } from '@app/config/atn.config';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { NotificationService } from '@core/services/notification/notification.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
@@ -27,10 +29,12 @@ import { ToastrService } from 'ngx-toastr';
 import {
   concatMap,
   filter,
+  map,
   mapTo,
   mergeMap,
   takeUntil,
-  tap
+  tap,
+  startWith
 } from 'rxjs/operators';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AuthStoreService } from '@core/services/Auth/auth-store.service';
@@ -52,7 +56,7 @@ const etherscan = env.etherscanaddr;
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   query = '(max-width: 991.98px)';
   mediaQueryList?: MediaQueryList;
   query2 = '(width =   767.9px)';
@@ -115,6 +119,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   @ViewChild('qrbtnERCM', { static: false }) qrbtnERCM?: ElementRef;
   @ViewChild('header', { static: false }) header?: ElementRef;
+  @ViewChild('headerNav') headerNav?: ElementRef;
 
   allnotification: BehaviorSubject<Array<any>> = new BehaviorSubject([null]);
   message: any;
@@ -159,7 +164,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string,
-    private kycFacadeService: KycFacadeService
+    private kycFacadeService: KycFacadeService,
+    private route:ActivatedRoute,
+    private hostElement: ElementRef
   ) {
     if (isPlatformBrowser(this.platformId)) {
       this.mediaQueryList = window.matchMedia(this.query);
@@ -170,6 +177,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.document.documentElement.style.setProperty('--vh', `${vh}px`);
       });
     }
+
+    console.log(this.route)
 
     translate.addLangs(['en', 'fr']);
     if (this.tokenStorageService.getLocale()) {
@@ -240,6 +249,32 @@ export class HeaderComponent implements OnInit, OnDestroy {
           this.header?.nativeElement.style.background =
             'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)';
         }
+      }
+    });
+  }
+  ngAfterViewInit(): void {
+    // if(this.route.url)
+    this.route.url.subscribe((e) => {
+      console.log('what!!! => ', e)
+    })
+    this.router.events
+    .pipe(
+      tap((e) => {
+        //  console.log(e)
+      }),
+      filter((e: any) => e instanceof NavigationEnd),
+      startWith({url: this.router.url})
+    )
+    .subscribe((e: any) => {
+      console.log(e)
+      if(['/home',  '/wallet'].includes(e.url) || e.url.includes('/campaign')) {
+        (this.headerNav as ElementRef).nativeElement.style.position = "absolute";
+        (this.headerNav as ElementRef).nativeElement.style.width = "100%";
+        this.hostElement.nativeElement.style.height = "inherit"
+      }else{
+        (this.headerNav as ElementRef).nativeElement.style.position = "inherit";
+        (this.headerNav as ElementRef).nativeElement.style.width = "inherit";
+        this.hostElement.nativeElement.style.height = "64px;"
       }
     });
   }

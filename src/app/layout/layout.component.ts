@@ -158,8 +158,14 @@ export class LayoutComponent implements OnInit, OnDestroy {
         let header = this.document.getElementById('navbar-id');
         header.style.background = '';
         header.classList.remove("navbar-trans2");
+        console.log(event.target.scrollTop)
+        if (event.target.scrollTop>250){
+          header.classList.add("navbar-wallet");
+        }else{
+          header.classList.remove("navbar-wallet");
+        }
         if (event.target.scrollTop < 768) {
-     
+          
           if (chart) {
             if (event.target.scrollTop >= 68) {
               chart.style.position = 'relative';
@@ -172,6 +178,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
             }
           }
         }
+        
       } else if (
         this.router.url.startsWith('/campaign/') &&
         !this.router.url.includes('edit')
