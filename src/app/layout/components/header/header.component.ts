@@ -178,7 +178,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
       });
     }
 
-    console.log(this.route)
+
 
     translate.addLangs(['en', 'fr']);
     if (this.tokenStorageService.getLocale()) {
@@ -255,7 +255,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit(): void {
     // if(this.route.url)
     this.route.url.subscribe((e) => {
-      console.log('what!!! => ', e)
+    
     })
     this.router.events
     .pipe(
@@ -266,7 +266,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
       startWith({url: this.router.url})
     )
     .subscribe((e: any) => {
-      console.log(e)
+    
       if(['/home',  '/wallet'].includes(e.url) || e.url.includes('/campaign')) {
         (this.headerNav as ElementRef).nativeElement.style.position = "absolute";
         (this.headerNav as ElementRef).nativeElement.style.width = "100%";

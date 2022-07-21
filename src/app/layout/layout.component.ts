@@ -197,7 +197,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
         header.classList.remove("navbar-trans2");
      
         if (event.target.clientWidth < 1025) {
-          console.log(event.target.scrollTop);
+       
           header.classList.add("navbar-trans2");
           //header.style.background = '';
           //if (btnApply) btnApply.style.display = 'none';
