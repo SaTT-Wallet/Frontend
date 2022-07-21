@@ -40,6 +40,7 @@ export const environment = {
   bscanaddr: 'https://testnet.bscscan.com/address/',
   polygonscanAddr: 'https://mumbai.polygonscan.com/tx/',
   bttscanAddr: 'https://testnet.bttcscan.com/tx/',
+  tronScanAddr: 'https://shasta.tronscan.org/address/',
 
   etherscanaddr: 'https://ropsten.etherscan.io/address/',
   simplexUrl: 'https://sandbox.test-simplexcc.com/payments/new',
@@ -85,6 +86,5 @@ export const environment = {
   etherscanaddr: 'https://ropsten.etherscan.io/address/',
     bttscanAddr: 'https://bttcscan.com/address/',
 
-  simplexUrl: 'https://sandbox.test-simplexcc.com/payments/new'*/,
-  
+  simplexUrl: 'https://sandbox.test-simplexcc.com/payments/new'*/
 };
