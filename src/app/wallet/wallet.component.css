@@ -248,6 +248,7 @@ select option {
     /* height: 100%; */
 }
 
+
 #home-tab {
     background-position: 23%;
     background-image: url('assets/Images/Arrow_up1.svg');
@@ -824,7 +825,9 @@ textarea::placeholder {
     min-width: 320px;
     padding-top: 2.5rem;
 }
-
+.blockk-3{
+    min-height: 300px;
+}
 @media (max-width: 767.98px) and (min-width: 0px) {
      :host {
         overflow: hidden;
