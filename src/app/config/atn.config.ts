@@ -155,6 +155,7 @@ cryptoNetwork['(smart chain)'] =
     'BEP20';
 cryptoNetwork['SATTPOLYGON'] = 'POLYGON';
 cryptoNetwork['SATTBTT'] = 'BTT';
+cryptoNetwork['BTT'] = 'BTT';
 
 var ListTokens: { [key: string]: { [key: string]: any } } = {
   SATT: {
@@ -296,7 +297,7 @@ var ListTokens: { [key: string]: { [key: string]: any } } = {
   },
   BTT: {
     name: 'BTT',
-    contract: '0x0000000000000000000000000000000000001010',
+    contract: 'BTT',
     decimals: new Big('10').pow(18),
     logo: 'BTT.svg',
     type: 'BTT',

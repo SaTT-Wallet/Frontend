@@ -107,7 +107,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   showPwdBloc: boolean = false;
   showSuccessBloc: boolean = false;
   showErrorBloc: boolean = false;
-  selectedCryptoDetails: any = 'SaTT';
+  selectedCryptoDetails: any = '';
   routertransHash: string = '';
   private account$ = this.accountFacadeService.account$;
   cryptoToDropdown: any;
@@ -260,7 +260,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         });
         this.showWalletSpinner = false;
 
-        this.selectedCryptoDetails = this.dataList.find((crypto: any) => crypto.symbol === 'SATT');
+        // this.selectedCryptoDetails = this.dataList.find((crypto: any) => crypto.symbol === 'SATT');
       });
   }
 
@@ -409,7 +409,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       }
 
       tokenAddress = this.token ? this.token : ListTokens[currency].contract;
-
+      if (tokenAddress ==='BTT'){
+        tokenAddress ='0x0000000000000000000000000000000000001010'
+      }
       decimal = this.decimals
         ? new Big('10').pow(this.decimals)
         : ListTokens[currency].decimals;
