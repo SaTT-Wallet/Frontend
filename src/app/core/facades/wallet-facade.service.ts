@@ -345,4 +345,8 @@ export class WalletFacadeService {
   // savePayementId(payementId: string) {
   //   return this.walletService.setPayementId(payementId);
   // }
+
+  createTronWallet(password: string) {
+    return this.walletService.createTronWallet(password);
+  }
 }
