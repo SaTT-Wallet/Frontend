@@ -674,7 +674,7 @@ a {
     /* Inside auto layout */
     flex: none;
     order: 0;
-    white-space: nowrap; 
+    white-space: nowrap;
 
     width: 25vw;
 
@@ -2683,7 +2683,9 @@ hr {
     background: #f6f6ff;
     color: #d6d6e8;
 }
-
+.disabled{
+  pointer-events: none
+}
 .envoi_reussi {
     margin-top: 2.1rem;
 }
