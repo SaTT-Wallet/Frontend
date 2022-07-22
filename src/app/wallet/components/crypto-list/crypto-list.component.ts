@@ -683,7 +683,16 @@ export class CryptoListComponent implements OnInit, OnDestroy {
         parseFloat(crypto.total_balance) +
         parseFloat(crypto.cryptoBEP20.total_balance) +
         parseFloat(crypto.cryptoPOLYGON.total_balance);
-    } else {
+    }
+    if (!!crypto.cryptoBTT) {
+      sum =
+        parseFloat(crypto.total_balance) +
+        parseFloat(crypto.cryptoBEP20.total_balance) +
+        parseFloat(crypto.cryptoPOLYGON.total_balance)+
+        parseFloat(crypto.cryptoBTT.total_balance);
+
+    }
+    else {
       sum = crypto.total_balance;
     }
     return this.showNumbersRule.transform((!!sum ? sum : 0) + '', true);
