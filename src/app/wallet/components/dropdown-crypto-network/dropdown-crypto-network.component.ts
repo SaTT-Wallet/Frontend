@@ -59,7 +59,7 @@ export class DropdownCryptoNetworkComponent
       { network: 'POLYGON' },
       { network: 'BTT' },
       { network: 'BTC' },
-      { network: 'TRON' }
+      // { network: 'TRON' }
     ];
   }
 
