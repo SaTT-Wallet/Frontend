@@ -505,6 +505,9 @@ getCookie(key: string){
                 this.tokenStorageService.saveIdWallet(
                   res.myWallet.data.address
                 );
+                this.tokenStorageService.saveTronWallet(
+                  res.myWallet.data?.tronAddress
+                );
                 this.router.navigateByUrl('/wallet');
                 this.showBigSpinner = true;
                 this.backgroundImage = '';
@@ -513,6 +516,9 @@ getCookie(key: string){
               }
             } else {
               this.tokenStorageService.saveIdWallet(res.myWallet.data.address);
+              this.tokenStorageService.saveTronWallet(
+                res.myWallet.data?.tronAddress
+              );
               this.router.navigateByUrl('/wallet');
               this.onDestroy$.next('');
               this.showBigSpinner = true;
@@ -827,6 +833,9 @@ getCookie(key: string){
                   this.tokenStorageService.saveIdWallet(
                     res.myWallet.data.address
                   );
+                  this.tokenStorageService.saveTronWallet(
+                    res.myWallet.data?.tronAddress
+                  );
                   this.notificationService.triggerFireBaseNotifications.next(
                     true
                   );
@@ -838,6 +847,9 @@ getCookie(key: string){
               } else {
                 this.tokenStorageService.saveIdWallet(
                   res.myWallet.data.address
+                );
+                this.tokenStorageService.saveTronWallet(
+                  res.myWallet.data?.tronAddress
                 );
                 this.notificationService.triggerFireBaseNotifications.next(
                   true
@@ -983,6 +995,7 @@ getCookie(key: string){
       .subscribe((myWallet: IResponseWallet | null) => {
         if (myWallet && myWallet.data.address) {
           this.tokenStorageService.saveIdWallet(myWallet.data.address);
+          this.tokenStorageService.saveTronWallet(myWallet.data?.tronAddress);
           this.router.navigate(['']);
           this.showBigSpinner = true;
           this.backgroundImage = '';
