@@ -198,7 +198,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
         content.classList.add('center-content-2');
         header.style.background = '';
         header.classList.remove('navbar-trans2');
-
+        header.classList.remove('navbar-wallet');
         if (event.target.clientWidth < 1025) {
           header.classList.add('navbar-trans2');
           //header.style.background = '';
@@ -268,11 +268,13 @@ export class LayoutComponent implements OnInit, OnDestroy {
         header.classList.add('navbar-trans2');
         let content = this.document.getElementById('center-content');
         content.classList.remove('center-content-2');
+        header.classList.remove('navbar-wallet');
 
         if (event.target.scrollTop === 0) {
           header.style.background = '';
           header.classList.remove('navbar-trans2');
           header.classList.remove('navbar-trans');
+          header.classList.remove('navbar-wallet');
         }
       }
     }
