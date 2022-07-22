@@ -66,26 +66,29 @@
           />
         </div>
       </div>
-      <div class="pointer row d-flex justify-content-center pt-3 mb-1"  [routerLink]="['/wallet/buy-token']"
-      target="_blank">
+      <div
+        class="pointer row d-flex justify-content-center pt-3 mb-1"
+        [routerLink]="['/wallet/buy-token']"
+        target="_blank"
+      >
         <div
           class="div-Not-enough-satt col-xxl-3 col-xl-4 col-md-12 col-lg-5 col-sm-8 col-10 d-flex align-items-center justify-content-start"
-         
         >
           <img
             src="assets/Images/exclam-attente.svg"
             alt="info icon"
             class="info-icon-image pb-1 pe-2"
           />
-          <label class="pointer mb-0" 
-          
-          >{{ 'create_campaign_form.not-enough-satt' | translate }}
-
+          <label class="pointer mb-0"
+            >{{ 'create_campaign_form.not-enough-satt' | translate }}
           </label>
         </div>
       </div>
-      <div class="pointer row d-flex justify-content-center pt-3 mb-1" [routerLink]="['/wallet']"
-      target="_blank">
+      <div
+        class="pointer row d-flex justify-content-center pt-3 mb-1"
+        [routerLink]="['/wallet']"
+        target="_blank"
+      >
         <div
           class="div-Not-enoughsatt col-xxl-3 col-xl-3 col-md-12 col-lg-4 col-sm-8 col-10 d-flex align-items-center justify-content-start"
         >
@@ -95,8 +98,6 @@
             class="info-icon-image pb-1 pe-2"
           />
           <label class="pointer mb-0"
-          
-
             >{{ 'create_campaign_form.notenough-satt' | translate }}
           </label>
         </div>
@@ -122,7 +123,7 @@
         <div
           class="col-xxl-3 col-xl-3 col-md-12 col-lg-4 col-sm-8 col-10 d-flex align-items-center justify-content-center"
         >
-          <div class="error ">
+          <div class="error">
             <span *ngIf="this.form.errors?.notEnoughBalance">{{
               'not_enough_balance' | translate
             }}</span>
