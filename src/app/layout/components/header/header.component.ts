@@ -49,6 +49,7 @@ import { Big } from 'big.js';
 import { AuthService } from '@app/core/services/Auth/auth.service';
 import { IApiResponse } from '@app/core/types/rest-api-responses';
 import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.service';
+import { ReturnStatement } from '@angular/compiler';
 const bscan = env.bscanaddr;
 const etherscan = env.etherscanaddr;
 @Component({
@@ -1430,4 +1431,5 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     //this.translate.onLangChange.unsubscribe();
   }
+  
 }
