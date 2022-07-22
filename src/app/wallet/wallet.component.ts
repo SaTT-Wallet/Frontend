@@ -35,7 +35,14 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AuthStoreService } from '@core/services/Auth/auth-store.service';
 import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-facade.service';
-import { filter, takeUntil, mergeMap, tap, map } from 'rxjs/operators';
+import {
+  filter,
+  takeUntil,
+  mergeMap,
+  tap,
+  map,
+  catchError
+} from 'rxjs/operators';
 import { DOCUMENT } from '@angular/common';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { forkJoin, of, Subject } from 'rxjs';
@@ -61,8 +68,13 @@ export class WalletComponent implements OnInit, OnDestroy {
   @ViewChild('createTronWalletModal', { static: false })
   private createTronWalletModal!: TemplateRef<any>;
 
+  @ViewChild('tronWalletCreatedSuccessModal', { static: false })
+  private tronWalletCreatedSuccessModal!: TemplateRef<any>;
+
   showModal: Boolean = false;
   showPass: boolean = false;
+  tronWalletPassword = '';
+  tronWalletAddress = '';
 
   lineChartDataMonth: ChartDataSets[] = [
     {
@@ -697,6 +709,23 @@ export class WalletComponent implements OnInit, OnDestroy {
     //ctx.fillStyle = my_gradient;
     ctx?.fillRect(20, 20, 150, 100);
   }
+
+  createTronWallet() {
+    this.walletFacade
+      .createTronWallet(this.tronWalletPassword)
+      .pipe(
+        catchError((error) => {
+          return of(error.error);
+        })
+      )
+      .subscribe((response: any) => {
+        this.closeModal(this.createTronWalletModal);
+        if (response?.data?.tronAddress) {
+          this.tronWalletAddress = response.data.tronAddress;
+        }
+        this.openModal(this.tronWalletCreatedSuccessModal);
+      });
+  }
   verifyOnBoarding() {
     let address = this.tokenStorageService.getIdWallet();
     if (address) {
@@ -940,7 +969,7 @@ export class WalletComponent implements OnInit, OnDestroy {
                 this.tokenStorageService.setFillMyProfil('false');
               }, 3000);
               setTimeout(() => {
-                if (this.tokenStorageService.getIdWallet()) {
+                if (!this.tokenStorageService.getTronWalletAddress()) {
                   this.openModal(this.createTronWalletModal);
                 }
               }, 4000);

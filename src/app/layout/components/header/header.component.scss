@@ -1482,7 +1482,7 @@ bottom: 77.54% ; */
   width: 100%;
   z-index: 999 !important;
   color: white;
-  position: fixed;
+/*  position: fixed;*/
 }
 .header-absolute{
   position: absolute;
@@ -1498,7 +1498,11 @@ bottom: 77.54% ; */
 
 }
 .navbar-trans2 {
-  background: linear-gradient(180deg,#1f2337b3 27.82%,#1f233700 161.54%)
+ /* background: linear-gradient(180deg,#1f2337b3 27.82%,#1f233700 161.54%)*/
+ background: linear-gradient(180deg,#1f2337b3 27.82%,#1f233700 161.54%);
+}
+.navbar-wallet{
+  background: #4048FF;
 }
 
 @media (min-width: 1024px) {
