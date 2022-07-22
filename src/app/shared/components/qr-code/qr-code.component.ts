@@ -84,9 +84,9 @@ export class QRCodeComponent implements OnInit {
     if (isPlatformBrowser(this.platformId))
       window.open(etherscanaddr + eth, '_blank');
   }
-  goToBscan(btcCode: any) {
+  goToBscan(eth: any) {
     if (isPlatformBrowser(this.platformId))
-      window.open(bscanaddr + btcCode, '_blank');
+      window.open(bscanaddr + eth, '_blank');
   }
   goToPolygonScan(eth: any) {
     if (isPlatformBrowser(this.platformId))
