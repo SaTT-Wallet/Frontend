@@ -88,7 +88,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   bep20Selected = false;
   polygonSelected = false;
   bttSelected = false;
-
+  tronSelected = false;
   portfeuilleList: Array<{ type: any; code: any }> = [];
   listToken2: any[] = [];
   listToken: any[] = [];
@@ -181,6 +181,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     let indexSattERC20 = 0;
     let indexSattPOLYGON = 0;
     let indexSattBTT = 0;
+    let indexSattTRON = 0;
 
     this.cryptoList$
       .pipe(
@@ -205,6 +206,9 @@ export class CryptoListComponent implements OnInit, OnDestroy {
             if (crypto.symbol === 'SATTBTT') {
               indexSattBTT = index;
             }
+            if (crypto.symbol === 'SATTTRON') {
+              indexSattTRON = index;
+            }
           });
           if (this.dataList.length === 0) {
             return of(null);
@@ -213,22 +217,26 @@ export class CryptoListComponent implements OnInit, OnDestroy {
           const sattCryptoBEP20 = this.dataList[indexSattBEP20];
           const sattCryptoPOLYGON = this.dataList[indexSattPOLYGON];
           const sattCryptoBTT = this.dataList[indexSattBTT];
+          const sattCryptoTRON = this.dataList[indexSattTRON];
 
           let cryptoBEP20 = JSON.parse(JSON.stringify(sattCryptoBEP20));
           let cryptoPOLYGON = JSON.parse(JSON.stringify(sattCryptoPOLYGON));
           let cryptoBTT = JSON.parse(JSON.stringify(sattCryptoBTT));
+          let cryptoTRON = JSON.parse(JSON.stringify(sattCryptoTRON));
 
           const cloneData = JSON.parse(JSON.stringify(this.dataList));
           cloneData[indexSattERC20].cryptoBEP20 = cryptoBEP20;
           cloneData[indexSattERC20].cryptoPOLYGON = cryptoPOLYGON;
           cloneData[indexSattERC20].cryptoBTT = cryptoBTT;
+          cloneData[indexSattERC20].cryptoTRON = cryptoTRON;
 
           this.dataList = cloneData;
           this.dataList = this.dataList.filter(
             (element) =>
               element.symbol !== 'SATTBEP20' &&
               element.symbol !== 'SATTPOLYGON' &&
-              element.symbol !== 'SATTBTT'
+              element.symbol !== 'SATTBTT' &&
+              element.symbol !== 'SATTTRON'
           );
           this.cryptoList = [
             ...this.dataList.filter((data: any) => data.symbol === 'SATT'),
@@ -237,6 +245,8 @@ export class CryptoListComponent implements OnInit, OnDestroy {
               (data: any) => data.symbol === 'SATTPOLYGON'
             ),
             ...this.dataList.filter((data: any) => data.symbol === 'SATTBTT'),
+            ...this.dataList.filter((data: any) => data.symbol === 'SATTTRON'),
+
             ...this.dataList.filter((data: any) => data.symbol === 'WSATT'),
             ...this.dataList.filter((data: any) => data.symbol === 'BITCOIN'),
             ...this.dataList.filter((data: any) => data.symbol === 'BNB'),
@@ -249,6 +259,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
                   data.symbol !== 'SATTPOLYGON' &&
                   data.symbol !== 'SATTBTT' &&
                   data.symbol !== 'SATT' &&
+                  data.symbol !== 'SATTTRON' &&
                   data.symbol !== 'BITCOIN' &&
                   data.symbol !== 'BNB' &&
                   data.symbol !== 'ETH'
@@ -380,12 +391,12 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     if (id === 'SATT' && network === 'BEP20') {
       id = 'SATT-SC';
     }
-     if ( id === 'MKR' && network === 'ERC20'){
-      id = 'MAKER'
-     }
-     if ( id === 'USDT' && network === 'ERC20'){
-      id = 'TETHER'
-     }
+    if (id === 'MKR' && network === 'ERC20') {
+      id = 'MAKER';
+    }
+    if (id === 'USDT' && network === 'ERC20') {
+      id = 'TETHER';
+    }
     this.router.navigate(['/wallet/buy-token'], {
       queryParams: { id: id, network: network },
       relativeTo: this.activatedRoute
@@ -688,11 +699,9 @@ export class CryptoListComponent implements OnInit, OnDestroy {
       sum =
         parseFloat(crypto.total_balance) +
         parseFloat(crypto.cryptoBEP20.total_balance) +
-        parseFloat(crypto.cryptoPOLYGON.total_balance)+
+        parseFloat(crypto.cryptoPOLYGON.total_balance) +
         parseFloat(crypto.cryptoBTT.total_balance);
-
-    }
-    else {
+    } else {
       sum = crypto.total_balance;
     }
     return this.showNumbersRule.transform((!!sum ? sum : 0) + '', true);
@@ -721,8 +730,8 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     return this.showNumbersRule.transform((!!sum ? sum : 0) + '', true);
   }
   transformPrice(crypto: any) {
-    if (crypto.symbol === 'BTT'){
-      return crypto.price
+    if (crypto.symbol === 'BTT') {
+      return crypto.price;
     }
     return this.showNumbersRule.transform(crypto?.price + '', true);
   }
@@ -900,7 +909,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     this.bep20Selected = false;
     this.polygonSelected = false;
     this.bttSelected = false;
-
+    this.tronSelected = false;
     for (let i = 1; i < this.cryptoList.length; i++) {
       this.cryptoList[i].selected = false;
     }
@@ -915,6 +924,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     this.erc20Selected = false;
     this.polygonSelected = false;
     this.bttSelected = false;
+    this.tronSelected = false;
 
     for (let i = 1; i < this.cryptoList.length; i++) {
       this.cryptoList[i].selected = false;
@@ -930,6 +940,8 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     this.bttSelected = false;
     this.erc20Selected = false;
     this.bep20Selected = false;
+    this.tronSelected = false;
+
     for (let i = 1; i < this.cryptoList.length; i++) {
       this.cryptoList[i].selected = false;
     }
@@ -945,11 +957,28 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     this.erc20Selected = false;
     this.bep20Selected = false;
     this.polygonSelected = false;
+    this.tronSelected = false;
+
     for (let i = 1; i < this.cryptoList.length; i++) {
       this.cryptoList[i].selected = false;
     }
   }
+  selecttron() {
+    this.tronSelected = !this.tronSelected;
+    if (!this.tronSelected) {
+      this.sidebarService.toggleFooterMobile.next(false);
+    } else {
+      this.sidebarService.toggleFooterMobile.next(true);
+    }
+    this.erc20Selected = false;
+    this.bep20Selected = false;
+    this.polygonSelected = false;
+    this.bttSelected = false;
 
+    for (let i = 1; i < this.cryptoList.length; i++) {
+      this.cryptoList[i].selected = false;
+    }
+  }
   trackByCryptoListSymbol(index: any, crypto: any) {
     return crypto.symbol;
   }
