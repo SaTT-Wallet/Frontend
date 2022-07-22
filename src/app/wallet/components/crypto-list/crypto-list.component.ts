@@ -712,6 +712,9 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     return this.showNumbersRule.transform((!!sum ? sum : 0) + '', true);
   }
   transformPrice(crypto: any) {
+    if (crypto.symbol === 'BTT'){
+      return crypto.price
+    }
     return this.showNumbersRule.transform(crypto?.price + '', true);
   }
 

@@ -68,6 +68,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MoonboyHelpComponent } from './components/moonboy-help/moonboy-help.component';
 import { WheelMouseDirective } from './directives/wheelMouse.directive';
 import { BuyGasComponent } from './components/buy-gas/buy-gas.component';
+import { QRCodeComponent } from './components/qr-code/qr-code.component';
+
 
 @NgModule({
   declarations: [
@@ -101,7 +103,8 @@ import { BuyGasComponent } from './components/buy-gas/buy-gas.component';
     DropdownCryptoNetworkComponent,
     MoonboyHelpComponent,
     WheelMouseDirective,
-    BuyGasComponent
+    BuyGasComponent,
+    QRCodeComponent
   ],
   exports: [
     //directives and components
@@ -176,7 +179,8 @@ import { BuyGasComponent } from './components/buy-gas/buy-gas.component';
     FooterSendReceiveBuyComponent,
     DropdownCryptoNetworkComponent,
     TranslateModule,
-    BuyGasComponent
+    BuyGasComponent,
+    QRCodeComponent
   ],
   imports: [
     CommonModule,
@@ -186,7 +190,8 @@ import { BuyGasComponent } from './components/buy-gas/buy-gas.component';
     TranslateModule,
     RouterModule,
     NgxPaginationModule,
-    ChartsModule
+    ChartsModule,
+    ClipboardModule
   ],
   providers: [ConvertFromWei]
 })
