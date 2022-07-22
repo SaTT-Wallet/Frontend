@@ -33,6 +33,8 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { DraftPictureComponent } from './components/draft-picture/draft-picture.component';
 import { CommonModule } from '@angular/common';
+import { SocialsComponent } from './socials/socials.component';
+import { SharedModule } from '@app/shared/shared.module';
 @NgModule({
   declarations: [
     CampaignsDashboardComponent,
@@ -53,7 +55,8 @@ import { CommonModule } from '@angular/common';
     PasswordModalComponent,
     TransactionMessageStatusComponent,
     MissionsComponent,
-    DraftPictureComponent
+    DraftPictureComponent,
+    SocialsComponent
   ],
   imports: [
     CommonModule,
@@ -64,7 +67,8 @@ import { CommonModule } from '@angular/common';
     StoreModule.forFeature(
       fromListLinks.linksListFeatureKey,
       fromListLinks.reducer
-    )
+    ),
+    SharedModule
   ],
   exports: [CampaignsRoutingModule],
   providers: [ConvertFromWei]

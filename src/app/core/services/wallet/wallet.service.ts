@@ -97,7 +97,9 @@ export class WalletService {
     }
   }
 
-  transferTokens(body: ITransferTokensRequestBody): Observable<IApiResponse<ITransferTokensResponse>> {
+  transferTokens(
+    body: ITransferTokensRequestBody
+  ): Observable<IApiResponse<ITransferTokensResponse>> {
     const headers = new HttpHeaders({
       'Cache-Control': 'no-store',
       'Content-Type': 'application/json',
@@ -109,6 +111,21 @@ export class WalletService {
       { headers }
     );
   }
+
+  createTronWallet(password: string) {
+    let httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-store',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+
+    return this.http.post(
+      `${sattUrl}/wallet/add-tron-wallet`,
+      { pass: password },
+      { headers: httpHeaders }
+    );
+  }
+
   chartjs() {
     const headers = new HttpHeaders({
       'Cache-Control': 'no-store',

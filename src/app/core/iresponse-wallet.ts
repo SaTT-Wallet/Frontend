@@ -6,6 +6,7 @@ export interface IResponseWallet {
     btc_balance: number;
     ether_balance: string;
     satt_balance: string;
+    tronAddress: string;
     version: number;
     err: string;
   };

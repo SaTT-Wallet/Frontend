@@ -7,7 +7,7 @@ export const environment = {
   API_URL: 'https://api-preprod2.satt-token.com',
   //https://api-preprod2.satt-token.com
   //https://api2.satt-token.com
-  //API_URL: 'https://localhost:3015',
+  //API_URL: 'https://localhost:3015,
   //https://api-preprod.satt-token.com:3014
   addresses: {
     smartContracts: {
@@ -44,6 +44,7 @@ export const environment = {
   bscanaddr: 'https://testnet.bscscan.com/address/',
   polygonscanAddr: 'https://mumbai.polygonscan.com/tx/',
   bttscanAddr: 'https://testnet.bttcscan.com/tx/',
+  tronScanAddr: 'https://shasta.tronscan.org/#/address/',
 
   etherscanaddr: 'https://ropsten.etherscan.io/address/',
   simplexUrl: 'https://sandbox.test-simplexcc.com/payments/new',
