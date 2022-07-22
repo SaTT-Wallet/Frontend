@@ -6,7 +6,7 @@ const walletUrl = 'http://localhost:4200/#/';
 const bscan = env.bscan;
 const etherscan = env.etherscan;
 const polygonscanAddr = env.polygonscanAddr;
-const bttscanAddr=env.bttscanAddr;
+const bttscanAddr = env.bttscanAddr;
 const campaignSmartContractERC20 = env.addresses.smartContracts.campaignERC20;
 
 const campaignSmartContractBEP20 = env.addresses.smartContracts.campaignBEP20;
@@ -14,9 +14,7 @@ const campaignSmartContractBEP20 = env.addresses.smartContracts.campaignBEP20;
 const campaignSmartContractPOLYGON =
   env.addresses.smartContracts.campaignPOLYGON;
 
-  
-const campaignSmartContractBTT =
- env.addresses.smartContracts.campaignBTT;
+const campaignSmartContractBTT = env.addresses.smartContracts.campaignBTT;
 
 const id_campaign_to_participate = '61139d487048d8251bf91401';
 
@@ -190,6 +188,14 @@ var ListTokens: { [key: string]: { [key: string]: any } } = {
     type: 'BTT',
     symbole: 'SATTBTT'
   },
+  SATTTRON: {
+    name: 'SATTTRON',
+    contract: env.addresses.smartContracts.SATT_TOKENTRON,
+    decimals: new Big('10').pow(18),
+    logo: 'SATT.svg',
+    type: 'BTT',
+    symbole: 'SATTTRON'
+  },
   WSATT: {
     name: 'WSATT',
     contract: '0x70A6395650b47D94A77dE4cFEDF9629f6922e645',
@@ -205,6 +211,14 @@ var ListTokens: { [key: string]: { [key: string]: any } } = {
     logo: 'ETH.svg',
     type: 'erc20',
     symbole: 'ETH'
+  },
+  TRX: {
+    name: 'TRX',
+    contract: 'TNUC9Qb1rRpS5CbWLmNMxXBjyFoydXjWFR',
+    decimals: new Big('10').pow(6),
+    logo: 'TRON.svg',
+    type: 'TRON',
+    symbole: 'TRX'
   },
   BTC: {
     name: 'BTC',
@@ -239,14 +253,14 @@ var ListTokens: { [key: string]: { [key: string]: any } } = {
     symbole: 'OMG'
   },
 
-   USDC: {
-     name: "USDC",
-     contract: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-     decimals: new Big("10").pow(6),
-     logo: "USD.svg",
-     type: "erc20",
-     symbole: "USDC",
-   },
+  USDC: {
+    name: 'USDC',
+    contract: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+    decimals: new Big('10').pow(6),
+    logo: 'USD.svg',
+    type: 'erc20',
+    symbole: 'USDC'
+  },
   ZRX: {
     name: 'ZRX',
     contract: '0xe41d2489571d322189246dafa5ebde1f4699f498',
@@ -302,7 +316,7 @@ var ListTokens: { [key: string]: { [key: string]: any } } = {
     logo: 'BTT.svg',
     type: 'BTT',
     symbole: 'BTT'
-  },
+  }
 };
 
 var ListTokensPerso: { [key: string]: { [key: string]: any } } = {

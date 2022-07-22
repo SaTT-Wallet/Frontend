@@ -7,7 +7,7 @@ export const environment = {
   API_URL: 'https://api-preprod2.satt-token.com',
   //https://api-preprod2.satt-token.com
   //https://api2.satt-token.com
-  //API_URL: 'https://localhost:3015,
+  // API_URL: 'https://localhost:3015',
   //https://api-preprod.satt-token.com:3014
   addresses: {
     smartContracts: {
@@ -21,6 +21,7 @@ export const environment = {
 
       SATT_TOKENPOLYGON: '0x195DC8342D923D3dFe0167Dc902A33Eabd801653',
       SATT_TOKENBTT: '0xaabda8813dF0fDc254B3aeD3d901E3838f0CCfCF',
+      SATT_TOKENTRON: 'TZ9mUjmxCtowj9h68NJq626qaGWiv61KWo',
       TETHER_TOKENERC20: '0x3B2243E3Aeb6d4A102061BCE6C5c233c2C08fF65',
       DAI: '0x7d6550Bb3946c0BB0701c75baBE2f679E01F3f3E',
       BUSD: '0xE6baB06eb943e9b6D475fB229E3E15F6E49a5461'
