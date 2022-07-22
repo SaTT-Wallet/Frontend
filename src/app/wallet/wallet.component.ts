@@ -969,7 +969,11 @@ export class WalletComponent implements OnInit, OnDestroy {
                 this.tokenStorageService.setFillMyProfil('false');
               }, 3000);
               setTimeout(() => {
-                if (!this.tokenStorageService.getTronWalletAddress()) {
+                if (
+                  !this.tokenStorageService.getTronWalletAddress() ||
+                  this.tokenStorageService.getTronWalletAddress() ===
+                    'undefined'
+                ) {
                   this.openModal(this.createTronWalletModal);
                 }
               }, 4000);
