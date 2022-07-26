@@ -43,7 +43,7 @@ export class MonetizeTiktokAccountComponent implements OnInit {
       }
     });
     //this.getSocialNetwork();
-    //  this.getUrlMsg();
+    this.getUrlMsg();
   }
   skipPage() {
     this.socialAccountsFacade.pageVisited(ESocialMediaNames.tiktok);

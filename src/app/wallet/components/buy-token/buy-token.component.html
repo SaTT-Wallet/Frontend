@@ -261,14 +261,14 @@
                     (selectedTargetCurrency === 'SATTBEP20'
                       ? 'SATT'
                       : selectedTargetCurrency)
+                      
                 }}
                 =
                 {{
                   (this.rateExchangePerRequestedCrypto$ | async)?.toFixed(8) +
                     ' ' +
-                    (this.requestedCrypto === 'SATTBEP20'
-                      ? 'SATT'
-                      : this.requestedCrypto)
+                    ([ 'SATTBEP20','SATTPOLYGON'].includes(requestedCrypto)  ? 'SATT'  : requestedCrypto)
+
                 }}
               </ng-container>
               <ng-container
@@ -293,8 +293,9 @@
               ≈
               {{
                 (cryptoAmount.toString() | showNumbersRule) +
+
                   ' ' +
-                  (requestedCrypto === 'SATTBEP20' ? 'SATT' : requestedCrypto)
+                  ([ 'SATTBEP20','SATTPOLYGON'].includes(requestedCrypto)  ? 'SATT'  : requestedCrypto)
               }}
             </p>
           </div>
@@ -426,9 +427,8 @@
                     />
                     <span class="dropdown-text2">
                       {{
-                        requestedCrypto === 'SATTBEP20'
-                          ? 'SATT'
-                          : requestedCrypto
+                        ([ 'SATTBEP20','SATTPOLYGON'].includes(requestedCrypto)  ? 'SATT'  : requestedCrypto)
+
                       }}
                     </span>
                   </div>
@@ -465,10 +465,11 @@
                         }}"
                       />
                       <span class="li-select-text">
+
                         {{
-                          crypto.symbole === 'SATTBEP20'
-                            ? 'SATT'
-                            : crypto.symbole
+                        
+                          ([ 'SATTBEP20','SATTPOLYGON'].includes(crypto.symbole)  ? 'SATT'  : crypto.symbole)
+
                         }}</span
                       >
                     </li>
