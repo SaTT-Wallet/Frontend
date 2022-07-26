@@ -15,7 +15,6 @@
   [ngStyle]="{
     background: isWelcomePage ? '#1f2337' : defaultHeaderBackground
   }"
-
   #headerNav
 >
   <div class="container-fluid height-fluid">
@@ -75,13 +74,9 @@
     </button>
     <div *ngIf="isConnected" class="div-copy-wallet-mobile">
       <a
-        (click)="toggleWallet()"
         class="d-flex justify-content-center p-2 gap-4 btnDRP dropdown-toggle dropdown-toggle-content"
         id="drp"
-        data-flip="false"
-        data-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false"
+        routerLink="/socials"
       >
         <img
           class=""
@@ -421,7 +416,7 @@
           <a
             class="d-flex justify-content-center p-2 gap-4 btnDRP dropdown-toggle dropdown-toggle-content dropdown-toggle-content-wallet"
             id="drp"
-         routerLink="/socials"
+            routerLink="/socials"
           >
             <img
               class=""
