@@ -5,7 +5,7 @@
     // border-radius: 30px;
     // border-radius: 0px 0px 20px 20px;
     // box-shadow: 0px 4px 20px rgb(0 0 0 / 20%);
-    padding:5em 2em;
+    padding:1em 2em;
     position: relative;
     font-style: normal;
     color: #1f2337;
@@ -161,7 +161,7 @@
 @media (max-width: 767px) {
      :host {
         // margin: 1em auto;
-        padding: 5.5em 1em;
+        padding: 0.5em 1em;
 
     }
 }
