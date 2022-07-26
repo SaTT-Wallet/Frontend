@@ -58,8 +58,8 @@ export class DropdownCryptoNetworkComponent
       { network: 'ERC20' },
       { network: 'POLYGON' },
       { network: 'BTT' },
-      { network: 'BTC' },
-      { network: 'TRON' }
+      { network: 'BTC' }
+      // { network: 'TRON' }
     ];
   }
 
