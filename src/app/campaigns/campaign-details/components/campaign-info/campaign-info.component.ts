@@ -368,6 +368,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
           this.activeInfo = false;
         }
       });
+      
 
     this.getStatEarnings();
     
@@ -381,7 +382,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
         map(
           (res: any) =>
             res.data[
-              ['SATTPOLYGON', 'SATTBEP20'].includes(this.currencyName)
+              ['SATTPOLYGON', 'SATTBEP20', 'SATTBTT'].includes(this.currencyName)
                 ? 'SATT'
                 : this.currencyName
             ]
@@ -876,6 +877,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
     let bscan = environment.bscan;
     let etherscan = environment.etherscan;
     let polygonscan = environment.polygonscanAddr;
+    let bttscan = environment.bttscanAddr;
 
     this.CampaignService.getOneById(this.campaign.id)
       .pipe(
@@ -892,6 +894,8 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
             this.urlSmartContrat = bscan + data['transactionHash'];
           } else if (data['token']['type'] === 'POLYGON') {
             this.urlSmartContrat = polygonscan + data['transactionHash'];
+          }else if (data['token']['type'] === 'BTT') {
+            this.urlSmartContrat = bttscan + data['transactionHash'];
           }
           if (isPlatformBrowser(this.platformId)) {
             this.windowRefService.nativeWindow.open(
@@ -945,7 +949,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
           data: any;
         }) => {
          
-       
+     
           
           if (data !== null) {
             // let count = 0;
@@ -953,7 +957,8 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
             this.channelTwitter = data.twitter;
             this.channelFacebook = data.facebook;
             this.channelLinkedin = data.linkedin;
-            this.channelTikTok = data.tiktok;
+            this.channelTikTok = data.tikTok;
+            
             
           }
           else {

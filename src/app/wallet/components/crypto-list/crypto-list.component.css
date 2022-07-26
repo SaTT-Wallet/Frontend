@@ -674,6 +674,13 @@ a {
     /* Inside auto layout */
     flex: none;
     order: 0;
+    white-space: nowrap;
+
+    width: 25vw;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
 }
 
 .IconsMobile {
@@ -2676,7 +2683,9 @@ hr {
     background: #f6f6ff;
     color: #d6d6e8;
 }
-
+.disabled{
+  pointer-events: none
+}
 .envoi_reussi {
     margin-top: 2.1rem;
 }
@@ -3218,7 +3227,7 @@ color: white}
         font-size: 20px !important;
     }
     #cryptoListMobile {
-        margin-top: 79px !important;
+        margin-top: -165px!important;
         /* margin-top: -22px !important; */
     }
     table {

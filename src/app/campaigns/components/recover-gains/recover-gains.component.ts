@@ -61,11 +61,12 @@ export class RecoverGainsComponent implements OnInit {
       )
     ),
     concatMap((prom: Participation) => {
+
       return this.walletFacade.getCryptoPriceList().pipe(
         tap(() => {
           if (
             this.currencyName === 'SATTBEP20' ||
-            this.currencyName === 'SATTPOLYGON'
+            this.currencyName === 'SATTPOLYGON' || this.currencyName === 'SATTBTT'
           ) {
             this.currencyName = 'SATT';
           }
@@ -73,6 +74,9 @@ export class RecoverGainsComponent implements OnInit {
         map((response: any) => response.data),
         map((data: any) => data[this.currencyName]),
         tap((sattCrypto) => {
+          let fixed = this.currencyName == "BTT"? 10 : 3
+
+
           prom.totalToEarnInUSD = takeMath(
             this.formWeiToPipe.transform(
               prom.totalToEarn,
@@ -80,7 +84,7 @@ export class RecoverGainsComponent implements OnInit {
             )
           )
             .times(sattCrypto.price)
-            .toFixed(3);
+            .toFixed(fixed);
         }),
         mapTo(prom)
       );

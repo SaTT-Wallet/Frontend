@@ -67,6 +67,9 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MoonboyHelpComponent } from './components/moonboy-help/moonboy-help.component';
 import { WheelMouseDirective } from './directives/wheelMouse.directive';
+import { BuyGasComponent } from './components/buy-gas/buy-gas.component';
+import { QRCodeComponent } from './components/qr-code/qr-code.component';
+
 
 @NgModule({
   declarations: [
@@ -99,7 +102,9 @@ import { WheelMouseDirective } from './directives/wheelMouse.directive';
     FilterBynamePipe,
     DropdownCryptoNetworkComponent,
     MoonboyHelpComponent,
-    WheelMouseDirective
+    WheelMouseDirective,
+    BuyGasComponent,
+    QRCodeComponent
   ],
   exports: [
     //directives and components
@@ -173,7 +178,9 @@ import { WheelMouseDirective } from './directives/wheelMouse.directive';
     ShowNumbersRule,
     FooterSendReceiveBuyComponent,
     DropdownCryptoNetworkComponent,
-    TranslateModule
+    TranslateModule,
+    BuyGasComponent,
+    QRCodeComponent
   ],
   imports: [
     CommonModule,
@@ -183,7 +190,8 @@ import { WheelMouseDirective } from './directives/wheelMouse.directive';
     TranslateModule,
     RouterModule,
     NgxPaginationModule,
-    ChartsModule
+    ChartsModule,
+    ClipboardModule
   ],
   providers: [ConvertFromWei]
 })

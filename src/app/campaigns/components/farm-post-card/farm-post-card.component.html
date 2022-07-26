@@ -15,11 +15,7 @@
   />
 
   <div class="img-block" role="button" tabindex="0">
-    <a
-      [href]="prom.link"
-      target="_blank"
-      class="a_link d-flex justify-content-center"
-    >
+    <a (click)="getLink()" class="a_link d-flex justify-content-center">
       <img
         class=""
         alt=""
@@ -61,7 +57,6 @@
         [src]="prom.mediaUrl"
         onerror="this.src='/assets/Images/linkedin-card.svg'"
         class="cmp-img2"
-        [routerLink]="['/home/campaigns/campaign/', prom.campaign._id]"
       />
 
       <img
@@ -69,7 +64,6 @@
         [src]="prom.mediaUrl"
         onerror="this.src='/assets/Images/tiktoksign.svg'"
         class="cmp-img2"
-        [routerLink]="['/home/campaigns/campaign/', prom.campaign._id]"
       />
 
       <!-- <img *ngIf="prom.typeSN == 1" src="/assets/Images/campagne/facebook_cover_gain.svg" class="cmp-img2"> -->

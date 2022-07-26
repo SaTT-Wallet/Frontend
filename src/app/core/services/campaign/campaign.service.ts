@@ -4,7 +4,8 @@ import {
   sattUrl,
   campaignSmartContractERC20,
   campaignSmartContractBEP20,
-  campaignSmartContractPOLYGON
+  campaignSmartContractPOLYGON,
+  campaignSmartContractBTT
 } from '@config/atn.config';
 import { TokenStorageService } from '../tokenStorage/token-storage-service.service';
 import {
@@ -752,6 +753,18 @@ export class CampaignHttpApiService {
     );
   }
 
+  approveBTT(token: any) {
+    return this.http.post(
+      sattUrl + '/campaign/btt/approval',
+      {
+        tokenAddress: token.addr,
+        campaignAddress: campaignSmartContractBTT
+      },
+
+      { headers: this.tokenStorageService.getHeader() }
+    );
+  }
+
   allowERC20(erc20: any, password: any) {
     let amount = '999999999999999999999999999999999999999999999999999999999';
     return this.http.post(
@@ -789,6 +802,21 @@ export class CampaignHttpApiService {
       sattUrl + '/campaign/polygon/allow',
       {
         campaignAddress: campaignSmartContractPOLYGON,
+        amount: amount,
+        pass: password,
+        tokenAddress: token.addr
+      },
+      { headers: this.tokenStorageService.getHeader() }
+    );
+  }
+
+  allowBTT(token: any, password: any) {
+    let amount = '999999999999999999999999999999999999999999999999999999999';
+    // const BEP20 = ListTokens["SATTBEP20"].contract;
+    return this.http.post(
+      sattUrl + '/campaign/BTT/allow',
+      {
+        campaignAddress: campaignSmartContractBTT,
         amount: amount,
         pass: password,
         tokenAddress: token.addr

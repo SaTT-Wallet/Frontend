@@ -1,10 +1,6 @@
 <div *ngIf="!isLoading">
   <span id="span-top" class="span-top"></span>
-  <div
-    class="campaign-cover img-container"
-    id="campaign-cover"
-    *ngIf="!showInfoSpinner"
-  >
+  <div class="campaign-cover img-container" id="" *ngIf="!showInfoSpinner">
     <img
       class="campaign-img desktopClass"
       src="/assets/Images/img_placeholder.svg"
@@ -382,8 +378,21 @@
               tabindex="0"
               role="button"
               (click)="backClicked()"
+              *ngIf="this.campaign.isOwnedByUser && !campaign.isActive"
             >
               < Back to Campaign</a
+            >
+            <a
+              class="a-router"
+              tabindex="0"
+              role="button"
+              (click)="backClicked()"
+              *ngIf="
+                (!this.campaign.isOwnedByUser && campaign.isActive) ||
+                (this.campaign.isOwnedByUser && campaign.isActive)
+              "
+            >
+              < Back to List</a
             >
           </div>
           <button
@@ -529,6 +538,9 @@
   style="position: relative; background: white; min-height: 30vh"
 >
   <div *ngIf="showmoonboy" class="div-footer">
-    <app-moonboy-help [pageName]="'apply in'"></app-moonboy-help>
+    <app-footer-send-receive-buy
+      [pageName]="'apply in'"
+    ></app-footer-send-receive-buy>
+    <!--<app-moonboy-help [pageName]="'apply in'"></app-moonboy-help>-->
   </div>
 </div>

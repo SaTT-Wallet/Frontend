@@ -57,7 +57,9 @@ export class DropdownCryptoNetworkComponent
       { network: 'BEP20' },
       { network: 'ERC20' },
       { network: 'POLYGON' },
+      { network: 'BTT' },
       { network: 'BTC' }
+      // { network: 'TRON' }
     ];
   }
 
@@ -68,10 +70,10 @@ export class DropdownCryptoNetworkComponent
         if (p.id) {
           this.firstEmit = true;
           this.isCryptoRouter = true;
-          if (this.cryptoPicName = "SATTPOLYGON")
-          {this.cryptoPicName = "SATT"}
+          if ((this.cryptoPicName = 'SATTPOLYGON')) {
+            this.cryptoPicName = 'SATT';
+          }
 
-     
           this.cryptoSymbol = p.id;
           this.selectedNetworkValue = p.network;
           if (p.pic === 'false') {
@@ -271,6 +273,11 @@ export class DropdownCryptoNetworkComponent
       this.cryptoName = this.defaultcurr;
       this.cryptoPicName = this.defaultcurr;
       this.cryptoDetails = 'SATTPOLYGON';
+    } else if (network === 'BTT') {
+      this.cryptoSymbol = 'SATTBTT';
+      this.cryptoName = this.defaultcurr;
+      this.cryptoPicName = this.defaultcurr;
+      this.cryptoDetails = 'SATTBTT';
     }
     this.dataList.forEach((crypto: any) => {
       if (crypto.symbol === this.cryptoDetails) {

@@ -6,12 +6,15 @@ const walletUrl = 'http://localhost:4200/#/';
 const bscan = env.bscan;
 const etherscan = env.etherscan;
 const polygonscanAddr = env.polygonscanAddr;
+const bttscanAddr = env.bttscanAddr;
 const campaignSmartContractERC20 = env.addresses.smartContracts.campaignERC20;
 
 const campaignSmartContractBEP20 = env.addresses.smartContracts.campaignBEP20;
 
 const campaignSmartContractPOLYGON =
   env.addresses.smartContracts.campaignPOLYGON;
+
+const campaignSmartContractBTT = env.addresses.smartContracts.campaignBTT;
 
 const id_campaign_to_participate = '61139d487048d8251bf91401';
 
@@ -55,7 +58,11 @@ let cryptoList: { symbol: string; network: string; logo: string }[] = [
   { symbol: 'BTC', network: 'btc', logo: 'BTC.svg' },
   { symbol: 'DAI', network: 'erc20', logo: 'DAI.svg' },
   { symbol: 'BUSD', network: 'bep20', logo: 'BUSD.svg' },
-  { symbol: 'BNB', network: 'bep20', logo: 'BNB.svg' }
+  { symbol: 'BNB', network: 'bep20', logo: 'BNB.svg' },
+  { symbol: 'MATIC', network: 'polygon', logo: 'MATIC.svg' },
+  { symbol: 'MAKER', network: 'erc20', logo: 'MKR.svg' },
+  { symbol: 'TETHER', network: 'erc20', logo: 'USDT.svg' },
+  { symbol: 'CAKE', network: 'bep20', logo: 'CAKE.svg' }
 
   // { value: 'USDT', logo: 'USDT.svg' }
   //  {value :"BNB"},
@@ -145,6 +152,8 @@ cryptoNetwork['(smart chain)'] =
   cryptoNetwork['BUSD'] =
     'BEP20';
 cryptoNetwork['SATTPOLYGON'] = 'POLYGON';
+cryptoNetwork['SATTBTT'] = 'BTT';
+cryptoNetwork['BTT'] = 'BTT';
 
 var ListTokens: { [key: string]: { [key: string]: any } } = {
   SATT: {
@@ -171,6 +180,22 @@ var ListTokens: { [key: string]: { [key: string]: any } } = {
     type: 'POLYGON',
     symbole: 'SATTPOLYGON'
   },
+  SATTBTT: {
+    name: 'SATTBTT',
+    contract: env.addresses.smartContracts.SATT_TOKENBTT,
+    decimals: new Big('10').pow(18),
+    logo: 'SATT.svg',
+    type: 'BTT',
+    symbole: 'SATTBTT'
+  },
+  SATTTRON: {
+    name: 'SATTTRON',
+    contract: env.addresses.smartContracts.SATT_TOKENTRON,
+    decimals: new Big('10').pow(18),
+    logo: 'SATT.svg',
+    type: 'BTT',
+    symbole: 'SATTTRON'
+  },
   WSATT: {
     name: 'WSATT',
     contract: '0x70A6395650b47D94A77dE4cFEDF9629f6922e645',
@@ -186,6 +211,14 @@ var ListTokens: { [key: string]: { [key: string]: any } } = {
     logo: 'ETH.svg',
     type: 'erc20',
     symbole: 'ETH'
+  },
+  TRX: {
+    name: 'TRX',
+    contract: 'TNUC9Qb1rRpS5CbWLmNMxXBjyFoydXjWFR',
+    decimals: new Big('10').pow(6),
+    logo: 'TRON.svg',
+    type: 'TRON',
+    symbole: 'TRX'
   },
   BTC: {
     name: 'BTC',
@@ -220,14 +253,14 @@ var ListTokens: { [key: string]: { [key: string]: any } } = {
     symbole: 'OMG'
   },
 
-   USDC: {
-     name: "USDC",
-     contract: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-     decimals: new Big("10").pow(6),
-     logo: "USD.svg",
-     type: "erc20",
-     symbole: "USDC",
-   },
+  USDC: {
+    name: 'USDC',
+    contract: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+    decimals: new Big('10').pow(6),
+    logo: 'USD.svg',
+    type: 'erc20',
+    symbole: 'USDC'
+  },
   ZRX: {
     name: 'ZRX',
     contract: '0xe41d2489571d322189246dafa5ebde1f4699f498',
@@ -271,10 +304,18 @@ var ListTokens: { [key: string]: { [key: string]: any } } = {
   MATIC: {
     name: 'MATIC',
     contract: '0x0000000000000000000000000000000000001010',
-    decimals: new Big('18').pow(18),
+    decimals: new Big('10').pow(18),
     logo: 'MATIC.svg',
     type: 'POLYGON',
     symbole: 'MATIC'
+  },
+  BTT: {
+    name: 'BTT',
+    contract: 'BTT',
+    decimals: new Big('10').pow(18),
+    logo: 'BTT.svg',
+    type: 'BTT',
+    symbole: 'BTT'
   }
 };
 
@@ -830,6 +871,7 @@ export {
   campaignSmartContractERC20,
   campaignSmartContractBEP20,
   campaignSmartContractPOLYGON,
+  campaignSmartContractBTT,
   pattContact,
   pattEmail,
   pattNetwork,
@@ -852,6 +894,7 @@ export {
   bscan,
   etherscan,
   polygonscanAddr,
+  bttscanAddr,
   dataList,
   cryptoList
 };

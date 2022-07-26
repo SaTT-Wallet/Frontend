@@ -225,3 +225,147 @@
     </div>
   </div>
 </ng-template>
+<ng-template #createTronWalletModal>
+  <div class="modal-header modal-custom">
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="modal"
+      (click)="modalService.dismissAll(createTronWalletModal)"
+    ></button>
+  </div>
+  <div class="modal-body welcome-body modal-custom">
+    <div class="">
+      <img src="../../assets/Images/tron-icon.svg" />
+    </div>
+    <h3 class="textpwd">{{ 'Create your Tron wallet' | translate }}</h3>
+    <div class="d-flex justify-content-center welcome-paragraph">
+      <p>
+        {{
+          'You now have the possibility to create your Tron ​​wallet. You Need to just enter your transactional password to create it'
+            | translate
+        }}
+      </p>
+    </div>
+    <div
+      class="div-input-icon p-1"
+      [ngClass]="{
+        'border-error': wrongpassword
+      }"
+    >
+      <img class="" src="../../../assets/Images/Kep-password.svg" />
+      <input
+        autocomplete="off"
+        type="password"
+        [ngClass]="showPass ? 'input-password' : 'input-password pass-hide'"
+        [(ngModel)]="tronWalletPassword"
+        #password_field
+      />
+      <span
+        (click)="showPass = !showPass"
+        class="fa fa-fw cross_input_network align-self-center"
+        aria-hidden="true"
+        [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"
+      ></span>
+    </div>
+    <div class="d-flex flex-column justify-content-center align-items-center">
+      <div
+        class="d-flex align-items-center justify-content-center col-xl-6 col-lg-8 col-md-8 col-sm-8"
+      >
+        <button
+          class="btnModalError btn_fill_profile btn-blue"
+          (click)="createTronWallet()"
+        >
+          {{ 'Create wallet' | translate }}
+        </button>
+      </div>
+      <div
+        class="col-xl-6 col-lg-8 col-md-8 col-sm-8 d-flex flex-column justify-content-center align-items-center"
+      >
+        <button
+          class="btnModalError btn_later"
+          (click)="modalService.dismissAll(createTronWalletModal)"
+        >
+          {{ 'later' | translate }}
+        </button>
+      </div>
+    </div>
+    <div class="col-12 d-flex justify-content-start">
+      <div class="col-12">
+        <!-- <input type="checkbox" id="confirm" (click)="dontShowAgain()" /> -->
+        <!-- <label class="dont_show ms-2">{{
+          "don't_show_again" | translate
+        }}</label> -->
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #tronWalletCreatedSuccessModal>
+  <div class="modal-header modal-custom">
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="modal"
+      (click)="modalService.dismissAll(tronWalletCreatedSuccessModal)"
+    ></button>
+  </div>
+  <div class="modal-body welcome-body modal-custom">
+    <div class="">
+      <img src="../../assets/Images/tron-icon-green.svg" />
+    </div>
+    <h3 class="textpwd">{{ 'Success!' | translate }}</h3>
+    <div class="d-flex justify-content-center welcome-paragraph">
+      <p>
+        {{
+          'You have successfully changed your password.You can now copy your ID Wallet and make transactions with your Tron wallet'
+            | translate
+        }}
+      </p>
+    </div>
+    <div>
+      <span class="grey-label">{{ 'ID WALLET' }}</span>
+    </div>
+
+    <div
+      class="d-flex justify-content-center gap-1 wallet-address-wrapper"
+      *ngIf="tronWalletAddress !== ''"
+    >
+      <span class="wallet-address">
+        {{ tronWalletAddress }}
+      </span>
+
+      <a
+        href="{{ 'https://tronscan.org/#/address/' + tronWalletAddress }}"
+        target="_blank"
+        class="link-button"
+      >
+        <img src="../../assets/Images/campagne/view-white.png" alt="" />
+      </a>
+    </div>
+    <div *ngIf="tronWalletAddress === ''" class="error-wallet-exist">
+      You already have tron Wallet!!
+    </div>
+
+    <div class="d-flex flex-column justify-content-center align-items-center">
+      <div
+        class="col-xl-6 col-lg-8 col-md-8 col-sm-8 d-flex flex-column justify-content-center align-items-center"
+      >
+        <button
+          class="btn-blue"
+          (click)="modalService.dismissAll(tronWalletCreatedSuccessModal)"
+        >
+          {{ 'Great' | translate }}
+        </button>
+      </div>
+    </div>
+    <div class="col-12 d-flex justify-content-start">
+      <div class="col-12">
+        <!-- <input type="checkbox" id="confirm" (click)="dontShowAgain()" /> -->
+        <!-- <label class="dont_show ms-2">{{
+          "don't_show_again" | translate
+        }}</label> -->
+      </div>
+    </div>
+  </div>
+</ng-template>

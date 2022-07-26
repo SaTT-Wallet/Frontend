@@ -126,6 +126,13 @@ export class TokenStorageService {
     this.localStorage.removeItem(idWallet);
     this.localStorage.setItem(idWallet, adress);
   }
+  public saveTronWallet(address: string): void {
+    this.localStorage.removeItem('tron-wallet');
+    this.localStorage.setItem('tron-wallet', address);
+  }
+  public getTronWalletAddress() {
+    return this.localStorage.getItem('tron-wallet');
+  }
   public getIdWallet() {
     return this.localStorage.getItem(idWallet);
   }

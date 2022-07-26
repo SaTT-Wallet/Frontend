@@ -1,6 +1,11 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { bscan, etherscan, polygonscanAddr } from '@app/config/atn.config';
+import {
+  bscan,
+  bttscanAddr,
+  etherscan,
+  polygonscanAddr
+} from '@app/config/atn.config';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 
 import { CampaignHttpApiService } from '@app/core/services/campaign/campaign.service';
@@ -34,6 +39,8 @@ export class CopyTransactionHashComponent {
   ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges) {
+    
+
     if (changes) {
       if (this.networkWallet?.toLowerCase() === 'bep20') {
         this.tokenStorageService.removeItem('network');
@@ -47,6 +54,10 @@ export class CopyTransactionHashComponent {
         this.tokenStorageService.removeItem('network');
         this.tokenStorageService.setItem('network', this.networkWallet);
       }
+      if (this.networkWallet?.toLowerCase() === 'btt') {
+        this.tokenStorageService.removeItem('network');
+        this.tokenStorageService.setItem('network', this.networkWallet);
+      }
       if (this.tokenStorageService.getNetwork() === 'bep20') {
         this.networkWallet = bscan + this.transactionHash;
         //this.windowRefService.nativeWindow.open(this.networkWallet, '_blank');
@@ -55,6 +66,11 @@ export class CopyTransactionHashComponent {
         //this.windowRefService.nativeWindow.open(this.networkWallet, '_blank');
       } else if (this.tokenStorageService.getNetwork() === 'POLYGON') {
         this.networkWallet = polygonscanAddr + this.transactionHash;
+        //this.windowRefService.nativeWindow.open(this.networkWallet, '_blank');
+      } else if (this.tokenStorageService.getNetwork() === 'BTT') {
+       
+        this.networkWallet = bttscanAddr + this.transactionHash;
+   
         //this.windowRefService.nativeWindow.open(this.networkWallet, '_blank');
       }
     }
