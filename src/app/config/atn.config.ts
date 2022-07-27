@@ -206,7 +206,7 @@ var ListTokens: { [key: string]: { [key: string]: any } } = {
   },
   ETH: {
     name: 'ETH',
-    contract: '0xdac17f958d2ee523a2206206994597c13d831ec7',
+    contract: null,
     decimals: new Big('10').pow(18),
     logo: 'ETH.svg',
     type: 'erc20',
@@ -222,7 +222,7 @@ var ListTokens: { [key: string]: { [key: string]: any } } = {
   },
   BTC: {
     name: 'BTC',
-    contract: '0xdac17f958d2ee523a2206206994597c13d831ec7',
+    contract: null,
     decimals: new Big('10').pow(8),
     logo: 'BTC.svg',
     type: 'btc',
@@ -230,7 +230,7 @@ var ListTokens: { [key: string]: { [key: string]: any } } = {
   },
   BNB: {
     name: 'BNB',
-    contract: '0xdac17f958d2ee523a2206206994597c13d831ec7',
+    contract: null,
     decimals: new Big('10').pow(18),
     logo: 'BNB.svg',
     type: 'bep20',

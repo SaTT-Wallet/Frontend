@@ -187,14 +187,13 @@ export class ParticiperComponent implements OnInit {
   }
   goToBuy() {
     if (this.networkWallet === 'bep20') {
-      this.gazcurrency = 'BNB'
+      this.gazcurrency = 'BNB';
     } else if (this.networkWallet === 'erc20') {
-      this.gazcurrency = 'ETH'
+      this.gazcurrency = 'ETH';
     } else {
-      this.gazcurrency = 'MATIC'
+      this.gazcurrency = 'MATIC';
     }
     this.router.navigate(['/wallet/buy-token'], {
-      
       queryParams: {
         gaz: this.gazcurrency
       }
@@ -229,7 +228,7 @@ export class ParticiperComponent implements OnInit {
       '?redirect=' +
       this.router.url;
 
-      var linkTiktok: string =
+    var linkTiktok: string =
       sattUrl +
       '/profile/addChannel/tiktok/' +
       this.tokenStorageService.getIdUser() +
@@ -245,8 +244,7 @@ export class ParticiperComponent implements OnInit {
         window.location.href = linkTwitter;
       } else if (social === 'linkedin') {
         window.location.href = linkLinkedin;
-      }
-      else {
+      } else {
         window.location.href = linkTiktok;
       }
     }
@@ -917,6 +915,7 @@ export class ParticiperComponent implements OnInit {
       if (media.indexOf('https://youtu.be/') !== -1) {
         var parts = media.split('/');
         let videoId = parts[3];
+        this.idvideo = videoId;
         myApplication.idPost = videoId;
         myApplication.idUser = '0';
         myApplication.typeSN = 2;
@@ -1155,7 +1154,7 @@ export class ParticiperComponent implements OnInit {
               }
             }
           );
-          console.log("connectValue",this.connectValue)
+        // console.log("connectValue",this.connectValue)
       } else {
         this.spinner = false;
         this.error = 'oracle_not_exist';
