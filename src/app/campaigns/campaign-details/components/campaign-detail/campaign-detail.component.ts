@@ -3,7 +3,8 @@ import {
   Inject,
   OnInit,
   PLATFORM_ID,
-  Renderer2
+  Renderer2,
+  SimpleChanges
 } from '@angular/core';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
@@ -121,6 +122,7 @@ export class CampaignDetailComponent implements OnInit {
   showmoonboy = false;
   private isErnings = false;
   downloadKit = false;
+  editMode = false;
 
   constructor(
     public router: Router,
@@ -152,7 +154,10 @@ export class CampaignDetailComponent implements OnInit {
     this.budgetform = new FormGroup({
       cost: new FormControl(null, Validators.required)
     });
-
+    this.route.queryParams.subscribe((params) => {
+      !!params.mode && (this.editMode = true);
+    }
+    )
     this.campaignId = this.route.snapshot.params.id;
     if (isPlatformBrowser(this.platformId)) {
       this.router.events
@@ -231,6 +236,8 @@ export class CampaignDetailComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       this.getKits();
     }
+
+
     // this.getCampaignList();
   }
   openstat() {

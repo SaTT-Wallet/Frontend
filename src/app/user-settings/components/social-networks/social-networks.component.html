@@ -1022,7 +1022,9 @@
         <button
           class="linkedin-btn-cnx"
           (click)="onReditectSocial('linkedin')"
-        vn_c
+
+        *ngIf="channelLinkedin?.length === 0"
+
         >
           <img src="./assets/Images/linkedin-white.png" width="24px" />
           <span> {{ 'social_networks.add_linkedin' | translate }}</span>
