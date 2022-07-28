@@ -116,6 +116,7 @@ export class CampaignEditGuardService implements CanActivate {
           return of(false);
         } else if (data.data.address) {
           this.tokenStorageService.saveIdWallet(data.data.address);
+          this.tokenStorageService.saveTronWallet(data.data?.tronAddress);
           return this.handleIfCampaignOwner(route);
         } else if (this.dateNow > this.dateShouldExpireAt) {
           return this.handleIfCampaignOwner(route);
