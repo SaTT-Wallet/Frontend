@@ -206,6 +206,9 @@ export class TokenStorageService {
   public setItem(key: string, value: string) {
     return this.localStorage.setItem(key, value);
   }
+  public getItem(key: string) {
+    return this.localStorage.getItem(key);
+  }
   public removeItem(key: string) {
     this.localStorage.removeItem(key);
   }

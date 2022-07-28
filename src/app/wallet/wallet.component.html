@@ -262,7 +262,11 @@
         #password_field
       />
       <span
-        (click)="showPass = !showPass"
+        (click)="
+          showPass = !showPass;
+          password_field.type =
+            password_field.type === 'password' ? 'text' : 'password'
+        "
         class="fa fa-fw cross_input_network align-self-center"
         aria-hidden="true"
         [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"
@@ -290,13 +294,17 @@
         </button>
       </div>
     </div>
-    <div class="col-12 d-flex justify-content-start">
-      <div class="col-12">
-        <!-- <input type="checkbox" id="confirm" (click)="dontShowAgain()" /> -->
-        <!-- <label class="dont_show ms-2">{{
-          "don't_show_again" | translate
-        }}</label> -->
-      </div>
+
+    <div class="d-flex justify-content-center m-4 gap-2">
+      <input
+        type="checkbox"
+        class="chbx-default"
+        id="confirm"
+        (click)="dontShowAgain()"
+      />
+      <label class="dont_show m-0" for="confirm">{{
+        "don't_show_again" | translate
+      }}</label>
     </div>
   </div>
 </ng-template>
