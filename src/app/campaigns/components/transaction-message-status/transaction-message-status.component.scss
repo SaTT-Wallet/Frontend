@@ -14,7 +14,7 @@
   // text-align: center;
   .div-white-block {
     background: #ffffff;
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+    // box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
     border-radius: 30px;
     height: 100%;
     display: flex;
@@ -66,6 +66,8 @@
   //   white-space: nowrap;
   // }
   .btn-default {
+    font-family: 'Poppins';
+font-style: normal;
     background: #ffffff;
     box-shadow: 0px 2px 6px rgb(50 55 84 / 40%);
     border-radius: 56px;
@@ -80,6 +82,29 @@
     max-width: 300px;
     white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: 0.01em;
+
+  }
+  .btn-default-history{
+    font-family: 'Poppins';
+font-style: normal;
+    background: #4048FF;
+    box-shadow: 0px 2px 6px rgb(50 55 84 / 40%);
+    border-radius: 56px;
+    width: 100%;
+    padding: 0.8em;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 27px;
+    color: #ffffff !important;
+    border: 2px solid transparent;
+    cursor: pointer;
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    letter-spacing: 0.01em;
+
     text-overflow: ellipsis;
   }
   .btn-default * {

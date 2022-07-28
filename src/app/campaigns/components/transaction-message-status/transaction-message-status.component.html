@@ -37,7 +37,7 @@
 
     <div class="buttons-wrapper">
       <a
-        class="btn-default"
+        class="btn-default-history"
         *ngIf="isSuccessful"
         (click)="redirectTo(['home/notification'])"
         >{{ 'send.see_history_transac' | translate | capitalizePhrase }}</a
@@ -51,7 +51,7 @@
       >
 
       <a class="btn-default" (click)="goToCampaign()">{{
-        'send.return_to_campaign' | translate | capitalizePhrase
+        'send.return_to_camp' | translate | capitalizePhrase
       }}</a>
     </div>
   </div>
