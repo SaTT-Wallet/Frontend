@@ -95,6 +95,19 @@
         class="icon_oracle"
         [routerLink]="['/home/campaign/', prom.campaign._id]"
       />
+      <img
+      *ngIf="prom.typeSN === 5"
+      src="/assets/Images/campagne/linkedin_gain.svg"
+      class="icon_oracle"
+      [routerLink]="['/home/campaign/', prom.campaign._id]"
+    />
+    <img
+      *ngIf="prom.typeSN === 6"
+      src="/assets/Images/campagne/tiktok_gain.svg"
+      class="icon_oracle"
+      [routerLink]="['/home/campaign/', prom.campaign._id]"
+    />
+      
     </a>
   </div>
   <div class="details-block">

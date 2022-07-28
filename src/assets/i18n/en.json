@@ -171,6 +171,8 @@
   "send.back_to_wallet": "Back",
   "send.return_to_portfolio": "Back to wallet",
   "send.return_to_campaign": "Back to Adpools list",
+  "send.return_to_camp": "Return to campaign",
+
   "send.no_balance": "You don't have enough balance",
   "send.no_balance_crypto": "You don't have enough {{crypto}} in your balance",
   "send.must_select_devise": "You must select a currency",
