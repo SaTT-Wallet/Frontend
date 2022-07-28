@@ -20,19 +20,19 @@ a:hover {
 }
 .copy-to-clipboard-btn {
   cursor: pointer;
-  margin: 1em auto;
-  padding: 0.5em;
+  /* margin: 1em auto; */
+  margin: -0.1em 0em auto;  /* padding: 0.5em; */
   border: none;
   background-color: transparent;
   color: #4048ff;
+  width: 17px;
 }
 .span-wallet {
   display: block;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  width: 54%;
-  color: #4048ff;
+  max-width: 100px;  color: #4048ff;
   font-weight: 400;
 }
 
@@ -41,7 +41,7 @@ a:hover {
   width: 100px;*/
   overflow: hidden;
   display: inline-flex;
-  width: 52%;
+  max-width: 100px;
   justify-content: flex-end;
   color: #4048ff;
     font-weight: 400;
