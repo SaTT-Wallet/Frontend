@@ -41,7 +41,8 @@ import {
   mergeMap,
   tap,
   map,
-  catchError
+  catchError,
+  take
 } from 'rxjs/operators';
 import { DOCUMENT } from '@angular/common';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
@@ -912,6 +913,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   getDetails() {
     this.account$
       .pipe(
+        take(1),
         takeUntil(this.onDestoy$),
         filter((res) => res !== null),
         mergeMap((response: any) => {
@@ -954,6 +956,7 @@ export class WalletComponent implements OnInit, OnDestroy {
 
             //  let getFillMyProfil = this.tokenStorageService.getFillMyProfil();
             let showAgain = this.tokenStorageService.getShowPopUp();
+
             if (
               this.percentProfil < 60 &&
               showAgain === 'true' &&
@@ -968,6 +971,12 @@ export class WalletComponent implements OnInit, OnDestroy {
                 }
                 this.tokenStorageService.setFillMyProfil('false');
               }, 3000);
+            }
+            if (
+              this.tokenStorageService.getItem(
+                'mute-create-tron-wallet-popup'
+              ) !== 'true'
+            )
               setTimeout(() => {
                 if (
                   !this.tokenStorageService.getTronWalletAddress() ||
@@ -977,10 +986,8 @@ export class WalletComponent implements OnInit, OnDestroy {
                   this.openModal(this.createTronWalletModal);
                 }
               }, 4000);
-              return this.profileSettingsFacade.profilePic$;
-            }
           }
-          return of(null);
+          return this.profileSettingsFacade.profilePic$;
         })
       )
       .pipe(
@@ -1012,35 +1019,19 @@ export class WalletComponent implements OnInit, OnDestroy {
   dontShowAgain() {
     this.isChecked = !this.isChecked;
 
-    if (this.isChecked === true) {
-      let data_profile = {
-        toggle: false
-      };
-      this.profileSettingsFacade
-        .updateProfile(data_profile)
-        .pipe(takeUntil(this.onDestoy$))
-        .subscribe((data: any) => {
-          if (data.data.toogle === false) {
-            this.accountFacadeService.dispatchUpdatedAccount();
-            this.tokenStorageService.setShowPopUp('false');
-          }
-        });
-    }
-
-    if (this.isChecked === false) {
-      let data_profile = {
-        toggle: true
-      };
-      this.profileSettingsFacade
-        .updateProfile(data_profile)
-        .pipe(takeUntil(this.onDestoy$))
-        .subscribe((data: any) => {
-          if (data.data.toggle === true) {
-            this.accountFacadeService.dispatchUpdatedAccount();
-            this.tokenStorageService.setShowPopUp('true');
-          }
-        });
-    }
+    let data_profile = {
+      toggle: this.isChecked
+    };
+    this.profileSettingsFacade
+      .updateProfile(data_profile)
+      .pipe(takeUntil(this.onDestoy$))
+      .subscribe(() => {
+        this.accountFacadeService.dispatchUpdatedAccount();
+        this.tokenStorageService.setItem(
+          'mute-create-tron-wallet-popup',
+          this.isChecked.toString()
+        );
+      });
   }
   goToCampaign() {
     this.closeRedBloc();
