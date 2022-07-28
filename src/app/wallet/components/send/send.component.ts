@@ -411,9 +411,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       }
 
       tokenAddress = this.token ? this.token : ListTokens[currency].contract;
-      if (tokenAddress === 'BTT') {
-        tokenAddress = '0x0000000000000000000000000000000000001010';
-      }
       decimal = this.decimals
         ? new Big('10').pow(this.decimals)
         : ListTokens[currency].decimals;
