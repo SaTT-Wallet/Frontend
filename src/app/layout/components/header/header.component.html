@@ -74,9 +74,13 @@
     </button>
     <div *ngIf="isConnected" class="div-copy-wallet-mobile">
       <a
+        (click)="toggleWallet()"
         class="d-flex justify-content-center p-2 gap-4 btnDRP dropdown-toggle dropdown-toggle-content"
         id="drp"
-        routerLink="/socials"
+        data-flip="false"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
       >
         <img
           class=""
