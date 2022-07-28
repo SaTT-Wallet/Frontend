@@ -254,8 +254,16 @@
       }"
     >
       <img class="" src="../../../assets/Images/Kep-password.svg" />
+      <div style="display: none">
+        <input
+          type="text"
+          id="PreventChromeAutocomplete"
+          name="PreventChromeAutocomplete"
+          autocomplete="address-level4"
+        />
+      </div>
       <input
-        autocomplete="off"
+        autocomplete="new-password"
         type="password"
         [ngClass]="showPass ? 'input-password' : 'input-password pass-hide'"
         [(ngModel)]="tronWalletPassword"
