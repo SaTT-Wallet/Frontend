@@ -311,7 +311,7 @@ var ListTokens: { [key: string]: { [key: string]: any } } = {
   },
   BTT: {
     name: 'BTT',
-    contract: 'BTT',
+    contract: null,
     decimals: new Big('10').pow(18),
     logo: 'BTT.svg',
     type: 'BTT',
