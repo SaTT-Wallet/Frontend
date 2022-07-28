@@ -47,6 +47,7 @@ import {
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { DOCUMENT } from '@angular/common';
 import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
+import { Big } from 'big.js';
 enum ERemunerationType {
   Publication = 'publication',
   Performance = 'performance'
@@ -1046,6 +1047,9 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       ) {
         this.amountUsd = this.selectedCryptoDetails.price * sendamount;
         this.amountUsd = this.showNumbersRule.transform(this.amountUsd);
+        if(this.amountUsd<0.1) {
+          this.amountUsd= new Big(this.amountUsd).toFixed(8).toString();
+        }
         if (isNaN(this.amountUsd)) {
           this.amountUsd = '';
           this.amount = '';
