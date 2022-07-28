@@ -263,6 +263,7 @@
       />
       <span
         (click)="
+          showPass = !showPass;
           password_field.type =
             password_field.type === 'password' ? 'text' : 'password'
         "
