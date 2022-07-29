@@ -1258,21 +1258,21 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   ////display1////////
   generateCodeERC() {
     //@ts-ignore
-    let urlM1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=150x150&chco=4048FF`;
+    let urlM1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=219x219&chco=212121`;
     this.urlM1 = urlM1;
   }
   ////display2////////
   generateCodeFunction() {
-    let urlM2 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.btcCode}&chs=150x150&chco=4048FF`;
+    let urlM2 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.btcCode}&chs=219x219&chco=212121`;
     this.urlM2 = urlM2;
   }
   ////display1////////
   generateCodeERCDes() {
     //@ts-ignore
-    let url1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=150x150`;
+    let url1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=219x219`;
     this.url1 = url1;
     //@ts-ignore
-    let urlM1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=150x150`;
+    let urlM1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=219x219`;
     this.urlM1 = urlM1;
   }
   ////display2////////

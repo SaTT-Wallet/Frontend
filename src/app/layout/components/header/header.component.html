@@ -469,7 +469,7 @@
                   ></span
                 ></span>
               </div>
-              <div class="d-flex justify-content-center gap mt-1">
+              <div class="d-flex justify-content-center gap mt-2">
                 <div>
                   <img
                     class="logo"
@@ -769,84 +769,116 @@
   *ngIf="this.sidebarService.toggleWalletMobile.value "
   class="sidebarMoreMobile row "
 >
-  <div class="p-4 mobile mb-5">
-    <h4 class="Bep d-flex justify-content-center mb-4">Your ID Wallet</h4>
 
-    <div class="button-mobile d-flex justify-content-center gap mt-3">
-      <div class="logoMobile">
-        <img
-          class=""
-          (click)="goToEther(erc20)"
-          src="../../../../assets/Images/ethscan.png"
-        />
-      </div>
+<P class=" d-flex justify-content-center title">Your ID Wallet</P>
 
-      <div class="logoMobile">
-        <img
-          class=""
-          (click)="goToBscan(erc20)"
-          src="../../../../assets/Images/binanceLogo.png"
-        />
-      </div>
-    </div>
-    <div class="d-flex justify-content-center mt-3 pl-3">
-      <span class="span-text-wallet"
-        >{{ erc20.slice(0, 4) }}...{{ erc20.slice(-7) }}</span
-      >
-      <!-- <span class="span-wallet flex-start">{{ erc20 }}</span>
-            <span class="span-wallet2 flex-end">{{ erc20 }}</span> -->
-      <span class="pr-1 position-relative"
-        ><img
-          class="img-copied"
-          (click)="copiedHash()"
-          [cdkCopyToClipboard]="erc20"
-          src="/assets/Images/copiedIcon.png" />
-        <span *ngIf="isTransactionHashCopied" class="black-dialog">
-          Copied! </span
-        ><span *ngIf="isTransactionHashCopied" class="dialog-point"></span
-      ></span>
-    </div>
+  <div class="p-4 mobile mb-5 container"  >
+<div class="item">
+  
+  <P class=" d-flex justify-content-center title"> ERC / BSC / POLYGON / BTTC </P>
+  <div class="button-mobile d-flex justify-content-center flex-column">
+    
+      
+      <!-- <P class="TBC">  ERC / BSC /POLYGON / BTTC </P>
+      <img
+        class=""
+        (click)="goToEther(erc20)"
+        src="../../../../assets/Images/ethscan.png"
+      /> -->
+    
 
-    <div class="toggle d-flex justify-content-center mt-2">
-      <img [src]="urlM1" alt=" " id="qrr_img1 " />
-    </div>
+    
+      <!-- <img
+        class=""
+        (click)="goToBscan(erc20)"
+        src="../../../../assets/Images/binanceLogo.png"
+      /> -->
+    
+  </div>
+  
 
-    <hr class="line px-5" />
-    <!-- <h4 class="Bep d-flex justify-content-center mb-4">Wallet BTC</h4> -->
+  <div class="toggle d-flex justify-content-center mt-2">
+    <img [src]="urlM1" alt=" " id="qrr_img1 " />
+  </div>
+  <div class="d-flex justify-content-center mt-3 pl-3">
+    <button style="background: #FFFFFF;
+    box-shadow: 0px 2px 6px rgba(50, 55, 84, 0.4);
+    border-radius: 30px; ">
 
-    <div class="d-flex justify-content-center mt-2">
-      <div class="logoMobile">
-        <img
-          class=""
-          (click)="goToBtc()"
-          src="../../../../assets/Images/bitcoinLogo.png"
-        />
-      </div>
-    </div>
-    <div class="d-flex justify-content-center pl-2" *ngIf="btcCode">
-      <span class="span-text-wallet"
-        >{{ btcCode.slice(0, 4) }}...{{ btcCode.slice(-7) }}</span
-      >
-
-      <!-- <span class="span-wallet flex-start">{{ btcCode }}</span>
-            <span class="span-wallet2 flex-end">{{ btcCode }}</span> -->
-      <span class="pr-1 position-relative"
-        ><img
-          class="img-copied"
-          (click)="copiedHashbtc()"
-          [cdkCopyToClipboard]="btcCode"
-          src="/assets/Images/copiedIcon.png" />
-        <span *ngIf="isTransactionHashCopiedbtc" class="black-dialog">
-          Copied! </span
-        ><span *ngIf="isTransactionHashCopiedbtc" class="dialog-point"></span
-      ></span>
-    </div>
-
-    <div
-      class="d-flex justify-content-center mt-2"
-      style="margin-bottom: 5rem !important"
+    
+    <span class="span-text-wallet"
+      >{{ erc20.slice(0, 4) }}...{{ erc20.slice(-7) }}</span
     >
-      <img [src]="urlM2" alt=" " id="qrr_imgg1 " />
+  
+    <span class="pr-1 position-relative"
+      ><img
+        class="img-copied"
+        (click)="copiedHash()"
+        [cdkCopyToClipboard]="erc20"
+        src="/assets/Images/bleuCopie.svg" />
+      <span *ngIf="isTransactionHashCopied" class="black-dialog">
+        Copied! </span
+      ><span *ngIf="isTransactionHashCopied" class="dialog-point"></span
+    ></span>
+  </button>
+  <button class="btnNavigate">
+    <img src="/assets/Images/newEth.svg" alt="">
+    <img src="assets/Images/navigate.svg" alt="">
+  </button>
+  <button class="btnNavigate">
+    <img src="/assets/Images/newPoly.svg" alt="">
+    <img src="assets/Images/navigate.svg" alt="">
+  </button>
+  <button class="btnNavigate">
+    <img src="/assets/Images/Newbnp.svg" alt="">
+    <img src="assets/Images/navigate.svg" alt="">
+  </button>
+  
+  <button class="btnNavigate">
+    <img src="/assets/Images/newBttc.svg" alt="">
+    <img src="assets/Images/navigate.svg" alt="">
+  </button>
+  </div>
+</div>
+
+    <!-- <hr class="line px-5" />
+    <h4 class="Bep d-flex justify-content-center mb-4">Wallet BTC</h4> -->
+
+<div class="item">
+  <div class="d-flex justify-content-center mt-2">
+    <div class="logoMobile">
+      <img
+        class=""
+        (click)="goToBtc()"
+        src="../../../../assets/Images/bitcoinLogo.png"
+      />
     </div>
+  </div>
+  <div class="d-flex justify-content-center pl-2" *ngIf="btcCode">
+    <span class="span-text-wallet"
+      >{{ btcCode.slice(0, 4) }}...{{ btcCode.slice(-7) }}</span
+    >
+
+    <!-- <span class="span-wallet flex-start">{{ btcCode }}</span>
+          <span class="span-wallet2 flex-end">{{ btcCode }}</span> -->
+    <span class="pr-1 position-relative"
+      ><img
+        class="img-copied"
+        (click)="copiedHashbtc()"
+        [cdkCopyToClipboard]="btcCode"
+        src="/assets/Images/copiedIcon.png" />
+      <span *ngIf="isTransactionHashCopiedbtc" class="black-dialog">
+        Copied! </span
+      ><span *ngIf="isTransactionHashCopiedbtc" class="dialog-point"></span
+    ></span>
+  </div>
+
+  <div
+    class="d-flex justify-content-center mt-2"
+    style="margin-bottom: 5rem !important"
+  >
+    <img [src]="urlM2" alt=" " id="qrr_imgg1 " />
+  </div>
+</div>
   </div>
 </div>

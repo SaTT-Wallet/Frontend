@@ -260,6 +260,7 @@ a.click-to-top:hover span {
 
 .itemnotification {
   width: 100%;
+  
 }
 
 .itemnotification:hover {
@@ -1263,7 +1264,8 @@ button:focus {
 }
 
 .span-text-wallet {
-  color: #ffffff;
+  color: #4048FF;
+  ;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
@@ -1426,14 +1428,68 @@ bottom: 77.54% ; */
 .QR :active {
   background-color: aqua;
 }
+.container {
+  display: flex ;
+  gap : 40px ;
+  overflow-x: auto;
+}
 
+.container::-webkit-scrollbar{
+  width: 0;
+}
+
+
+.container .item{
+  height: 100%;
+  width: 100%;
+  text-align: center;
+}
+
+.TBC{
+  font-family: 'Poppins';
+font-style: normal;
+font-weight: 600;
+font-size: 18px;
+line-height: 25px;
+/* or 139% */
+
+display: flex;
+align-items: center;
+text-align: center;
+letter-spacing: 0.02em;
+
+color: #FFFFFF;
+}
+.title{
+/* MOBILE/Titles/H3 */
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 700;
+font-size: 20px;
+line-height: 28px;
+/* or 140% */
+
+display: flex;
+
+text-align: center;
+letter-spacing: 1px;
+
+color: #FFFFFF;
+}
+
+.btnNavigate{
+  background: #FFFFFF;
+border-radius: 32px;
+
+}
 .sidebarMoreMobile {
   display: flex;
-  flex-direction: column;
+  // flex-direction: column;
   padding: 0;
   width: 105%;
   max-height: -webkit-fill-available;
-  height: calc(var(--vh, 1vh) * 100);
+  // height: calc(var(--vh, 1vh) * 100);
   background: linear-gradient(
     180deg,
     #323754 38.54%,
