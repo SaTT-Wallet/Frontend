@@ -50,6 +50,8 @@ import { AuthService } from '@app/core/services/Auth/auth.service';
 import { IApiResponse } from '@app/core/types/rest-api-responses';
 import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.service';
 import { ReturnStatement } from '@angular/compiler';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { REPL_MODE_STRICT } from 'repl';
 const bscan = env.bscanaddr;
 const etherscan = env.etherscanaddr;
 @Component({
@@ -58,6 +60,7 @@ const etherscan = env.etherscanaddr;
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
+  currentScreenSize: string | undefined;
   query = '(max-width: 991.98px)';
   mediaQueryList?: MediaQueryList;
   query2 = '(width =   767.9px)';
@@ -143,7 +146,9 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   private isDestroyed$ = new Subject();
   isTransactionHashCopied = false;
   isTransactionHashCopiedbtc = false;
+  isLayoutDesktop = false;
   constructor(
+    breakpointObserver: BreakpointObserver,
     private accountFacadeService: AccountFacadeService,
     private NotificationService: NotificationService,
     public router: Router,
@@ -168,7 +173,32 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     private kycFacadeService: KycFacadeService,
     private route:ActivatedRoute,
     private hostElement: ElementRef
-  ) {
+  ){
+    breakpointObserver
+      .observe([
+        Breakpoints.Medium,
+        Breakpoints.Large,
+        Breakpoints.XLarge,
+      ])
+      .pipe(takeUntil(this.isDestroyed$))
+      .subscribe(result => {
+        console.log(result.matches,'1111111111111111')
+        this.isLayoutDesktop=result.matches;
+        console.log(this.isLayoutDesktop,'2222222222222')
+        // for (const query of Object.keys(result.breakpoints)) {
+        //   if (result.breakpoints[query]) {
+        //     result.matches;
+        //     console.log(result.matches,'-----------');
+                               
+            
+        //   }
+          
+          
+        // }
+        
+      });
+   
+  
     if (isPlatformBrowser(this.platformId)) {
       this.mediaQueryList = window.matchMedia(this.query);
       this.mediaQueryList2 = window.matchMedia(this.query2);
@@ -278,6 +308,12 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         this.hostElement.nativeElement.style.height = "64px;"
       }
     });
+  }
+
+  goToSocials() {
+    if(this.isLayoutDesktop) {
+      this.router.navigate(['socials'])
+    }
   }
 
   closeBalanceSection() {

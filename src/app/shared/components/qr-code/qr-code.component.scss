@@ -10,6 +10,26 @@
     
 }
 
+.qrcode-desktop{
+    display: none;
+   }
+
+
+@media (min-width: 769px) {
+    .qrcode-desktop {
+     display: block;
+    }
+  }
+
+.qrcode-mobile {
+    display: none;
+   }
+@media (max-width: 768px) {
+    .qrcode-mobile {
+     display: block;
+    }
+  }
+
 .bc{
 width: 100%;
 height: 21px;

@@ -72,8 +72,8 @@
         ></app-user-picture>
       </a>
     </button>
-    <div *ngIf="isConnected" class="div-copy-wallet-mobile">
-      <a
+    <div *ngIf="isConnected " class="div-copy-wallet-mobile">
+      <a 
         (click)="toggleWallet()"
         class="d-flex justify-content-center p-2 gap-4 btnDRP dropdown-toggle dropdown-toggle-content"
         id="drp"
@@ -90,7 +90,7 @@
       </a>
     </div>
     <button
-      *ngIf="isConnected"
+      *ngIf="isConnected "
       class="navbar-toggler three-points"
       type="button"
     >
@@ -414,7 +414,7 @@
             </ul>
           </button>
         </li>
-        <li class="ms-2">
+        <li class="ms-2" >
           <!--d-lg-block d-xl-block d-md-block d-sm-none-->
 
           <a
@@ -424,6 +424,7 @@
             data-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"
+            (click)="goToSocials()"
           >
             <img
               class=""
@@ -433,6 +434,8 @@
           </a>
 
           <ul
+          *ngIf="!isLayoutDesktop"
+
             class="dropdown-menu menudrp mt-2 me-3"
             (click)="$event.stopPropagation()"
             aria-labelledby="drp"
@@ -763,8 +766,8 @@
 </div> -->
 
 <div
-  *ngIf="this.sidebarService.toggleWalletMobile.value"
-  class="sidebarMoreMobile row d-lg-none d-xl-none"
+  *ngIf="this.sidebarService.toggleWalletMobile.value "
+  class="sidebarMoreMobile row "
 >
   <div class="p-4 mobile mb-5">
     <h4 class="Bep d-flex justify-content-center mb-4">Your ID Wallet</h4>

@@ -1,9 +1,10 @@
 
-import { PLATFORM_ID,Component, OnInit, Inject } from '@angular/core';
+import { PLATFORM_ID,Component, OnInit, Inject, NgModule } from '@angular/core';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { environment as env } from './../../../../environments/environment';
-import { takeUntil } from 'rxjs/operators';
+import { OwlOptions } from 'ngx-owl-carousel-o';
+
 
 const bscanaddr = env.bscanaddr;
 const etherscanaddr = env.etherscanaddr;
@@ -12,12 +13,42 @@ const polygonscanAddr = 'https://mumbai.polygonscan.com/address/';
 const bttscanAddr = 'https://testnet.bttcscan.com/address/';
 
 
+
 @Component({
   selector: 'app-qr-code',
   templateUrl: './qr-code.component.html',
   styleUrls: ['./qr-code.component.scss']
 })
+
+
+
 export class QRCodeComponent implements OnInit {
+  
+  customOptions: OwlOptions = {
+    loop: true,
+    mouseDrag: false,
+    touchDrag: true,
+    pullDrag: true,
+    dots: false,
+    navSpeed: 700,
+    navText: ['', ''],
+    responsive: {
+      0: {
+        items: 1
+      },
+      400: {
+        items: 2
+      },
+      740: {
+        items: 3
+      },
+      940: {
+        items: 4
+      }
+    },
+    nav: true
+  }
+  
   btcCode: string = '';
   eth: string = '';
   tronAddress: string = '';
@@ -34,11 +65,14 @@ export class QRCodeComponent implements OnInit {
   isTransactionHashCopiedbtc = false;
   isTransactionHashCopiedtron = false;
 
+  
+
 
   constructor(private walletFacade: WalletFacadeService,
     @Inject(PLATFORM_ID) private platformId: string) { }
 
   ngOnInit(): void {
+
     this.portfeuille();
   }
   portfeuille() {
