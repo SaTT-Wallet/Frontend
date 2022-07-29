@@ -146,6 +146,9 @@ export class PublicPagesGuard implements CanActivate {
           this.tokenStorageService.saveIdWallet(
             (data as IResponseWallet).data.address
           );
+          this.tokenStorageService.saveTronWallet(
+            (data as IResponseWallet).data?.tronAddress
+          );
           this.notificationService.triggerFireBaseNotifications.next(true);
           return of(true);
         } else if (this.dateNow > this.dateShouldExpireAt) {

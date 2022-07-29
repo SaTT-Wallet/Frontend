@@ -106,6 +106,7 @@ export class AuthGuardService implements CanActivate {
         }
         if (data.data.address) {
           this.tokenStorageService.saveIdWallet(data.data.address);
+          this.tokenStorageService.saveTronWallet(data.data?.tronAddress);
           setTimeout(() => {
             this.notificationService.triggerFireBaseNotifications.next(true);
           }, 4000);

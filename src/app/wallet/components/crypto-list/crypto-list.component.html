@@ -20,6 +20,14 @@
               style="border-bottom: 1px solid #f6f6ff"
             >
               <div class="d-flex justify-content-start" style="width: 91%">
+                <div style="display: none">
+                  <input
+                    type="text"
+                    id="PreventChromeAutocomplete"
+                    name="PreventChromeAutocomplete"
+                    autocomplete="address-level4"
+                  />
+                </div>
                 <div
                   class="col-2 d-flex align-items-center justify-content-start"
                 >
@@ -28,8 +36,7 @@
                     class="key d-flex search-input-wrapper mt-3"
                     type="text"
                     name="search"
-                    autocomplete="on"
-                    autocomplete="off"
+                    autocomplete="search-token"
                     placeholder="Search "
                     [(ngModel)]="search"
                     (ngModelChange)="onTextChange($event); clearInput()"
