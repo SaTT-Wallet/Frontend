@@ -54,6 +54,8 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { REPL_MODE_STRICT } from 'repl';
 const bscan = env.bscanaddr;
 const etherscan = env.etherscanaddr;
+const tronScanAddr = env.tronScanAddr;
+const polygonscanAddr = 'https://mumbai.polygonscan.com/address/';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -79,6 +81,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   showMenuNotif: boolean = false;
   showMenuProfil: boolean = false;
   isDropdownOpen: boolean = true;
+  tronAddress: string = '';
+  
   copyMsg: boolean = false;
   copyMsg1: boolean = false;
   isBitcoinAdress: boolean = false;
@@ -1230,6 +1234,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         if (!!data) {
           this.btcCode = data.data.btc;
           this.erc20 = data.data.address;
+          this.tronAddress = data.data.tronAddress;
           this.portfeuilleList = [
             { type: 'ERC20/BEP20', code: this.erc20 },
             { type: 'BTC', code: this.btcCode }
@@ -1291,7 +1296,17 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   goToBtc() {
     if (isPlatformBrowser(this.platformId))
-      window.open('https://www.blockchain.com', '_blank');
+     
+    window.open('https://www.blockchain.com', '_blank');
+  }
+  goToPolygonScan(erc20: any) {
+    if (isPlatformBrowser(this.platformId))
+      window.open(polygonscanAddr + erc20, '_blank');
+  }
+
+  goToTronScan(tronAddress: any) {
+    if (isPlatformBrowser(this.platformId))
+      window.open(tronScanAddr + tronAddress, '_blank');
   }
 
   checkMenu() {
