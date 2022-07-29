@@ -1435,7 +1435,8 @@ bottom: 77.54% ; */
 }
 
 .container::-webkit-scrollbar{
-  width: 0;
+  width: 0 !important;
+  height: 0 ;
 }
 
 
@@ -1470,7 +1471,7 @@ font-size: 20px;
 line-height: 28px;
 /* or 140% */
 
-display: flex;
+
 
 text-align: center;
 letter-spacing: 1px;
@@ -1506,6 +1507,7 @@ border-radius: 32px;
   top: 56px;
   /* margin-top: 59px; */
   min-height: 100vh;
+  flex-direction: column;
 }
 
 :host ::ng-deep .popover-body {
