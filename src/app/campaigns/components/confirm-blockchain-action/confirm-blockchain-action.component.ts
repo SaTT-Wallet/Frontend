@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BlockchainActionsService } from '@core/services/blockchain-actions.service';
@@ -28,6 +29,7 @@ export class ConfirmBlockchainActionComponent implements OnInit {
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((response) => {
         this.isLoading = false;
+ 
         // in case of success
         if (response.data && response.data.transactionHash) {
           this.service.setTrnxStatus({
@@ -38,12 +40,17 @@ export class ConfirmBlockchainActionComponent implements OnInit {
           });
           this.onSuccess.emit(response.data.transactionHash);
         }
+        // if (!response.data){
+        //   this.errorMessage = 'wrong_password';
 
+        // }
         // in case of error
+        if (response.error.length === 0) {
+          this.errorMessage = 'wrong_password';
+
+        }
         if (response.error) {
-          if (response.error === 'Wrong password') {
-            this.errorMessage = 'wrong_password';
-          } else if (
+       if (
             response.error ===
             'Rewards can be harvested only 24h after the last collect'
           ) {
@@ -66,7 +73,7 @@ export class ConfirmBlockchainActionComponent implements OnInit {
             this.errorMessage = '';
           }, 3000);
         }
-      });
+      })
   }
 
   get password() {
