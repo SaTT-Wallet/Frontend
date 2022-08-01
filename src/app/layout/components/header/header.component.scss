@@ -1433,7 +1433,9 @@ bottom: 77.54% ; */
   gap : 40px ;
   overflow-x: auto;
 }
-
+.adressBlock{
+  flex-direction: column;
+}
 .container::-webkit-scrollbar{
   width: 0 !important;
   height: 0 ;
@@ -1467,7 +1469,7 @@ color: #FFFFFF;
 font-family: 'Poppins';
 font-style: normal;
 font-weight: 700;
-font-size: 20px;
+font-size: 13px;
 line-height: 28px;
 /* or 140% */
 

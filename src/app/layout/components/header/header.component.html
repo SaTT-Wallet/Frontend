@@ -797,10 +797,11 @@
   </div>
   
 
-  <div class="toggle d-flex justify-content-center mt-2">
+  <div class="toggle d-flex justify-content-center ">
     <img [src]="urlM1" alt=" " id="qrr_img1 " />
   </div>
-  <div class="d-flex justify-content-center mt-3 pl-3">
+  <div class="d-flex adressBlock justify-content-center mt-3 pl-3">
+    <div>
     <button style="background: #FFFFFF;
     box-shadow: 0px 2px 6px rgba(50, 55, 84, 0.4);
     border-radius: 30px; ">
@@ -821,6 +822,9 @@
       ><span *ngIf="isTransactionHashCopied" class="dialog-point"></span
     ></span>
   </button>
+</div>
+<div>
+  <div>
   <button class="btnNavigate">
     <img src="/assets/Images/newEth.svg" alt="">
     <img src="assets/Images/navigate.svg" (click)="goToEther(erc20)">
@@ -829,6 +833,8 @@
     <img src="/assets/Images/newPoly.svg" alt="">
     <img src="assets/Images/navigate.svg" (click)="goToPolygonScan(erc20)">
   </button>
+</div>
+<div>
   <button class="btnNavigate">
     <img src="/assets/Images/Newbnp.svg" alt="">
     <img src="assets/Images/navigate.svg" (click)="goToBscan(erc20)">
@@ -838,6 +844,8 @@
     <img src="/assets/Images/newBttc.svg" alt="">
     <img src="assets/Images/navigate.svg" (click)="goToTronScan(tronAddress)" >
   </button>
+</div>
+</div>
   </div>
 </div>
 
@@ -845,40 +853,52 @@
     <h4 class="Bep d-flex justify-content-center mb-4">Wallet BTC</h4> -->
 
 <div class="item">
-  <div class="d-flex justify-content-center mt-2">
-    <div class="logoMobile">
-      <img
-        class=""
-        (click)="goToBtc()"
-        src="../../../../assets/Images/bitcoinLogo.png"
-      />
-    </div>
+  <div class="d-flex justify-content-center ">
+    
   </div>
   <div class="d-flex justify-content-center pl-2" *ngIf="btcCode">
-    <span class="span-text-wallet"
-      >{{ btcCode.slice(0, 4) }}...{{ btcCode.slice(-7) }}</span
-    >
+    <p class=" d-flex justify-content-center title">
+      BTC
+    </p>
+    
 
     <!-- <span class="span-wallet flex-start">{{ btcCode }}</span>
           <span class="span-wallet2 flex-end">{{ btcCode }}</span> -->
-    <span class="pr-1 position-relative"
-      ><img
-        class="img-copied"
-        (click)="copiedHashbtc()"
-        [cdkCopyToClipboard]="btcCode"
-        src="/assets/Images/copiedIcon.png" />
-      <span *ngIf="isTransactionHashCopiedbtc" class="black-dialog">
-        Copied! </span
-      ><span *ngIf="isTransactionHashCopiedbtc" class="dialog-point"></span
-    ></span>
+    
   </div>
 
   <div
-    class="d-flex justify-content-center mt-2"
+    class="d-flex justify-content-center "
     style="margin-bottom: 5rem !important"
   >
     <img [src]="urlM2" alt=" " id="qrr_imgg1 " />
   </div>
+  <div>
+    <button style="background: #FFFFFF;
+    box-shadow: 0px 2px 6px rgba(50, 55, 84, 0.4);
+    border-radius: 30px; ">
+
+<span class="span-text-wallet">{{ btcCode.slice(0, 4) }}...{{ btcCode.slice(-7) }}</span>
+    
+    
+
+  
+    <span class="pr-1 position-relative"
+      ><img
+        class="img-copied"
+        (click)="copiedHash()"
+        [cdkCopyToClipboard]="erc20"
+        src="/assets/Images/bleuCopie.svg" />
+      <span *ngIf="isTransactionHashCopied" class="black-dialog">
+        Copied! </span
+      ><span *ngIf="isTransactionHashCopied" class="dialog-point"></span
+    ></span>
+  </button>
+  </div>
+
 </div>
   </div>
 </div>
+
+
+
