@@ -11,7 +11,7 @@ const etherscanaddr = env.etherscanaddr;
 const tronScanAddr = env.tronScanAddr;
 const polygonscanAddr = 'https://mumbai.polygonscan.com/address/';
 const bttscanAddr = 'https://testnet.bttcscan.com/address/';
-
+const btcScanAddr ='https://www.blockchain.com/btc/address/';
 
 
 @Component({
@@ -135,6 +135,10 @@ export class QRCodeComponent implements OnInit {
   goToTronScan(tronAddress: any) {
     if (isPlatformBrowser(this.platformId))
       window.open(tronScanAddr + tronAddress, '_blank');
+  }
+  goToBtcScan(btcCode: any) {
+    if (isPlatformBrowser(this.platformId))
+      window.open(btcScanAddr + btcCode, '_blank');
   }
 
   

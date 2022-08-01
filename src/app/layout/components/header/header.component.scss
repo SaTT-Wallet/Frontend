@@ -1239,7 +1239,9 @@ button:focus {
 }
 
 .gap {
-  gap: 1rem;
+  gap: 2rem;
+  padding-left: 80px;
+  padding-right: 80px;
 }
 
 .span-wallet {
@@ -1432,9 +1434,12 @@ bottom: 77.54% ; */
   display: flex ;
   gap : 40px ;
   overflow-x: auto;
+  padding-right: 81px !important;
+  padding-left: 81px !important;
 }
 .adressBlock{
   flex-direction: column;
+  
 }
 .container::-webkit-scrollbar{
   width: 0 !important;
@@ -1473,6 +1478,12 @@ font-size: 13px;
 line-height: 28px;
 /* or 140% */
 
+.wallet-address{
+  text-overflow: ellipsis;
+  overflow: hidden;
+
+
+}
 
 
 text-align: center;
@@ -1485,7 +1496,11 @@ color: #FFFFFF;
   background: #FFFFFF;
 border-radius: 32px;
 
+
 }
+
+
+
 .sidebarMoreMobile {
   display: flex;
   // flex-direction: column;

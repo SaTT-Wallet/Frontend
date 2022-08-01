@@ -56,6 +56,7 @@ const bscan = env.bscanaddr;
 const etherscan = env.etherscanaddr;
 const tronScanAddr = env.tronScanAddr;
 const polygonscanAddr = 'https://mumbai.polygonscan.com/address/';
+const btcScanAddr ='https://www.blockchain.com/btc/address/';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -80,6 +81,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   showWallet: boolean = false;
   showMenuNotif: boolean = false;
   showMenuProfil: boolean = false;
+  isTransactionHashCopiedtron = false;
+
   isDropdownOpen: boolean = true;
   tronAddress: string = '';
   
@@ -107,6 +110,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   notif: any;
   url1: any;
   url2: any;
+  url3: any;
   urlM1: any;
   urlM2: any;
   picUserUpdated: boolean = false;
@@ -1235,12 +1239,20 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           this.btcCode = data.data.btc;
           this.erc20 = data.data.address;
           this.tronAddress = data.data.tronAddress;
+          this.url3 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.tronAddress}&chs=219x219&chco=212121&chld=m|1`;
           this.portfeuilleList = [
             { type: 'ERC20/BEP20', code: this.erc20 },
-            { type: 'BTC', code: this.btcCode }
+            { type: 'BTC', code: this.btcCode },
+            { type: 'tron', code: this.tronAddress}
           ];
         }
       });
+  }
+  copiedHashtron() {
+    this.isTransactionHashCopiedtron = true;
+    setTimeout(() => {
+      this.isTransactionHashCopiedtron = false;
+    }, 2000);
   }
   copiedHash() {
     this.isTransactionHashCopied = true;
@@ -1260,24 +1272,32 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   public copyBtc(code: any) {
     this.clipboard.copy(code);
   }
+  public copytron(code: any) {
+    this.clipboard.copy(code);
+  }
   ////display1////////
   generateCodeERC() {
     //@ts-ignore
-    let urlM1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=219x219&chco=212121`;
+    let urlM1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=219x219&chco=212121&chld=m|1`;
     this.urlM1 = urlM1;
   }
   ////display2////////
   generateCodeFunction() {
-    let urlM2 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.btcCode}&chs=219x219&chco=212121`;
+    let urlM2 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.btcCode}&chs=219x219&chco=212121&chld=m|1`;
     this.urlM2 = urlM2;
   }
+
+  // generateCodeTron(){
+  //   let url3 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.tronAddress}&chs=219x219&chco=212121&chld=m|1`;
+  //   this.url3 = url3;
+  // }
   ////display1////////
   generateCodeERCDes() {
     //@ts-ignore
-    let url1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=219x219`;
+    let url1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=219x219&chld=m|1`;
     this.url1 = url1;
     //@ts-ignore
-    let urlM1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=219x219`;
+    let urlM1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=219x219&chld=m|1`;
     this.urlM1 = urlM1;
   }
   ////display2////////
@@ -1286,6 +1306,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     let urll = `https://chart.apis.google.com/chart?cht=qr&chl=${this.btcCode}&chs=150x150`;
     this.url2 = urll;
   }
+
+  
   goToEther(erc20: any) {
     if (isPlatformBrowser(this.platformId))
       window.open(etherscan + erc20, '_blank');
@@ -1307,6 +1329,10 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   goToTronScan(tronAddress: any) {
     if (isPlatformBrowser(this.platformId))
       window.open(tronScanAddr + tronAddress, '_blank');
+  }
+  goToBtcScan(btcCode: any) {
+    if (isPlatformBrowser(this.platformId))
+      window.open(btcScanAddr + btcCode, '_blank');
   }
 
   checkMenu() {
