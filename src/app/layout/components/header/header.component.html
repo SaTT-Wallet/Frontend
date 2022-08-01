@@ -770,9 +770,9 @@
   class="sidebarMoreMobile row "
 >
 
-<P class=" d-flex justify-content-center titleIDW ">Your ID Wallet</P>
+<P class=" d-flex justify-content-center titleIDW " style="margin:0 ;">Your ID Wallet</P>
 
-  <div class="p-4 mobile mb-5 container"  >
+  <div class=" mobile container"  >
 <div class="item">
   
   <P class=" d-flex justify-content-center title"> ERC / BSC / POLYGON / BTTC </P>
@@ -804,7 +804,7 @@
     <div>
     <button style="background: #FFFFFF;
     box-shadow: 0px 2px 6px rgba(50, 55, 84, 0.4);
-    border-radius: 30px; width: 100%; ">
+    border-radius: 30px; width: 100%; border: 0; ">
 
     
     <span class="span-text-wallet"
@@ -824,7 +824,7 @@
   </button>
 </div>
 <div>
-  <div style="padding-top: 15px;">
+  <div class="tbutton" >
   <button class="btnNavigate">
     <img src="/assets/Images/newEth.svg" alt="">
     <img src="assets/Images/navigate.svg" (click)="goToEther(erc20)">
@@ -876,7 +876,7 @@
   <div>
     <button style="background: #FFFFFF;
     box-shadow: 0px 2px 6px rgba(50, 55, 84, 0.4);
-    border-radius: 30px; width: 100%; ">
+    border-radius: 30px; width: 100%; border: 0; ">
 
 <span class="span-text-wallet">{{ btcCode.slice(0, 2) }}...{{ btcCode.slice(-12) }}</span>
     
@@ -926,7 +926,7 @@
   <div>
     <button style="background: #FFFFFF;
     box-shadow: 0px 2px 6px rgba(50, 55, 84, 0.4); 
-    border-radius: 30px; width: 100%;">
+    border-radius: 30px; width: 100%; border: 0;">
 
 <span class="span-text-wallet">{{ tronAddress.slice(0, 2) }}...{{ tronAddress.slice(-12) }}</span>
     

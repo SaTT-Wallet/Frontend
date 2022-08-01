@@ -1468,26 +1468,30 @@ letter-spacing: 0.02em;
 
 color: #FFFFFF;
 }
+
+.wallet-address{
+  text-overflow: ellipsis;
+  overflow: hidden;
+ 
+
+
+}
+
 .title{
 /* MOBILE/Titles/H3 */
 
 font-family: 'Poppins';
 font-style: normal;
 font-weight: 700;
-font-size: 13px;
+font-size: 17px;
 line-height: 28px;
 /* or 140% */
 
-.wallet-address{
-  text-overflow: ellipsis;
-  overflow: hidden;
-
-
-}
 
 
 text-align: center;
 letter-spacing: 1px;
+white-space: nowrap;
 
 color: #FFFFFF;
 }
@@ -1495,11 +1499,20 @@ color: #FFFFFF;
 .btnNavigate{
   background: #FFFFFF;
 border-radius: 32px;
+border: 0;
 
 
 }
+.tbutton{
+  padding-top: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 1,5 em;
+}
 
 .titleIDW{
+  padding-top: 15px;
+  padding-bottom: -20px;
   font-family: 'Poppins';
 font-style: normal;
 font-weight: 700;
