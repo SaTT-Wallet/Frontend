@@ -598,6 +598,10 @@ label:active:after {
 }
 
 @media (max-width: 767.98px) {
+
+.social-accounts-table {
+  border-spacing: 0 !important;
+}
   .show-mobile {
     display: block !important;
   }
