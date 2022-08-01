@@ -770,7 +770,7 @@
   class="sidebarMoreMobile row "
 >
 
-<P class=" d-flex justify-content-center title">Your ID Wallet</P>
+<P class=" d-flex justify-content-center titleIDW ">Your ID Wallet</P>
 
   <div class="p-4 mobile mb-5 container"  >
 <div class="item">
@@ -804,7 +804,7 @@
     <div>
     <button style="background: #FFFFFF;
     box-shadow: 0px 2px 6px rgba(50, 55, 84, 0.4);
-    border-radius: 30px; ">
+    border-radius: 30px; width: 100%; ">
 
     
     <span class="span-text-wallet"
@@ -824,7 +824,7 @@
   </button>
 </div>
 <div>
-  <div>
+  <div style="padding-top: 15px;">
   <button class="btnNavigate">
     <img src="/assets/Images/newEth.svg" alt="">
     <img src="assets/Images/navigate.svg" (click)="goToEther(erc20)">
@@ -834,7 +834,7 @@
     <img src="assets/Images/navigate.svg" (click)="goToPolygonScan(erc20)">
   </button>
 </div>
-<div>
+<div style="padding-top: 15px;">
   <button class="btnNavigate">
     <img src="/assets/Images/Newbnp.svg" alt="">
     <img src="assets/Images/navigate.svg" (click)="goToBscan(erc20)">
@@ -869,14 +869,14 @@
 
   <div
     class="d-flex justify-content-center "
-    style="margin-bottom: 5rem !important"
+    style="margin-bottom: 1rem !important"
   >
     <img [src]="urlM2" alt=" " id="qrr_imgg1 " />
   </div>
   <div>
     <button style="background: #FFFFFF;
     box-shadow: 0px 2px 6px rgba(50, 55, 84, 0.4);
-    border-radius: 30px; ">
+    border-radius: 30px; width: 100%; ">
 
 <span class="span-text-wallet">{{ btcCode.slice(0, 2) }}...{{ btcCode.slice(-12) }}</span>
     
@@ -894,10 +894,12 @@
       ><span *ngIf="isTransactionHashCopiedbtc" class="dialog-point"></span
     ></span>
   </button>
-  <button class="btnNavigate">
+  <div style="padding-top: 15px;">
+  <button class="btnNavigate" >
     <img src="/assets/Images/btcLogo.svg" alt="">
     <img src="assets/Images/navigate.svg" (click)="goToBtcScan(btcCode)">
   </button>
+</div>
   </div>
 
 </div>
@@ -917,14 +919,14 @@
 
   <div
     class="d-flex justify-content-center "
-    style="margin-bottom: 5rem !important"
+    style="margin-bottom: 1rem !important"
   >
     <img [src]="url3" alt=" " id="qrr_imgg1 " />
   </div>
   <div>
     <button style="background: #FFFFFF;
-    box-shadow: 0px 2px 6px rgba(50, 55, 84, 0.4);
-    border-radius: 30px; ">
+    box-shadow: 0px 2px 6px rgba(50, 55, 84, 0.4); 
+    border-radius: 30px; width: 100%;">
 
 <span class="span-text-wallet">{{ tronAddress.slice(0, 2) }}...{{ tronAddress.slice(-12) }}</span>
     
@@ -942,10 +944,12 @@
       ><span *ngIf="isTransactionHashCopiedtron" class="dialog-point"></span
     ></span>
   </button>
-  <button class="btnNavigate">
+  <div style="padding-top: 15px;" >
+  <button class="btnNavigate" >
     <img src="/assets/Images/tronLogo.svg" alt="">
     <img src="assets/Images/navigate.svg" (click)="goToTronScan(tronAddress)">
   </button>
+</div>
   </div>
 
 </div>
