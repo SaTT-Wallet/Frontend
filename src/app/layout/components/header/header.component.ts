@@ -190,9 +190,9 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
       ])
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe(result => {
-        console.log(result.matches,'1111111111111111')
+       
         this.isLayoutDesktop=result.matches;
-        console.log(this.isLayoutDesktop,'2222222222222')
+        
         // for (const query of Object.keys(result.breakpoints)) {
         //   if (result.breakpoints[query]) {
         //     result.matches;

@@ -773,81 +773,7 @@
 <P class=" d-flex justify-content-center titleIDW " style="margin:0 ;">Your ID Wallet</P>
 
   <div class=" mobile container"  >
-<div class="item">
-  
-  <P class=" d-flex justify-content-center title"> ERC / BSC / POLYGON / BTTC </P>
-  <div class="button-mobile d-flex justify-content-center flex-column">
-    
-      
-      <!-- <P class="TBC">  ERC / BSC /POLYGON / BTTC </P>
-      <img
-        class=""
-        (click)="goToEther(erc20)"
-        src="../../../../assets/Images/ethscan.png"
-      /> -->
-    
 
-    
-      <!-- <img
-        class=""
-        (click)="goToBscan(erc20)"
-        src="../../../../assets/Images/binanceLogo.png"
-      /> -->
-    
-  </div>
-  
-
-  <div class="toggle d-flex justify-content-center ">
-    <img [src]="urlM1" alt=" " id="qrr_img1 " />
-  </div>
-  <div class="d-flex adressBlock justify-content-center mt-3 ">
-    <div>
-    <button style="background: #FFFFFF;
-    box-shadow: 0px 2px 6px rgba(50, 55, 84, 0.4);
-    border-radius: 30px; width: 100%; border: 0; ">
-
-    
-    <span class="span-text-wallet"
-      >{{ erc20.slice(0, 2) }}...{{ erc20.slice(-12) }}</span
-    >
-  
-    <span class="pr-1 position-relative"
-      ><img
-        class="img-copied"
-        (click)="copiedHash()"
-        [cdkCopyToClipboard]="erc20"
-        src="/assets/Images/bleuCopie.svg" />
-      <span *ngIf="isTransactionHashCopied" class="black-dialog">
-        Copied! </span
-      ><span *ngIf="isTransactionHashCopied" class="dialog-point"></span
-    ></span>
-  </button>
-</div>
-<div>
-  <div class="tbutton" >
-  <button class="btnNavigate">
-    <img src="/assets/Images/newEth.svg" alt="">
-    <img src="assets/Images/navigate.svg" (click)="goToEther(erc20)">
-  </button>
-  <button class="btnNavigate">
-    <img src="/assets/Images/newPoly.svg" alt="">
-    <img src="assets/Images/navigate.svg" (click)="goToPolygonScan(erc20)">
-  </button>
-</div>
-<div class="tbutton">
-  <button class="btnNavigate">
-    <img src="/assets/Images/Newbnp.svg" alt="">
-    <img src="assets/Images/navigate.svg" (click)="goToBscan(erc20)">
-  </button>
-  
-  <button class="btnNavigate">
-    <img src="/assets/Images/newBttc.svg" alt="">
-    <img src="assets/Images/navigate.svg" (click)="goToTronScan(tronAddress)" >
-  </button>
-</div>
-</div>
-  </div>
-</div>
 
     <!-- <hr class="line px-5" />
     <h4 class="Bep d-flex justify-content-center mb-4">Wallet BTC</h4> -->
@@ -903,6 +829,82 @@
   </div>
 
 </div>
+<div class="item">
+  
+  <P class=" d-flex justify-content-center title"> ERC / BSC / POLYGON / BTTC </P>
+  <div class="button-mobile d-flex justify-content-center flex-column">
+    
+      
+      <!-- <P class="TBC">  ERC / BSC /POLYGON / BTTC </P>
+      <img
+        class=""
+        (click)="goToEther(erc20)"
+        src="../../../../assets/Images/ethscan.png"
+      /> -->
+    
+
+    
+      <!-- <img
+        class=""
+        (click)="goToBscan(erc20)"
+        src="../../../../assets/Images/binanceLogo.png"
+      /> -->
+    
+  </div>
+  
+
+  <div class="toggle d-flex justify-content-center ">
+    <img [src]="urlM1" alt=" " id="qrr_img1 " />
+  </div>
+  <div class="d-flex adressBlock justify-content-center mt-3 ">
+    <div>
+    <button style="background: #FFFFFF;
+    box-shadow: 0px 2px 6px rgba(50, 55, 84, 0.4);
+    border-radius: 30px; width: 100%; border: 0; ">
+
+    
+    <span class="span-text-wallet"
+      >{{ erc20.slice(0, 2) }}...{{ erc20.slice(-12) }}</span
+    >
+  
+    <span class="pr-1 position-relative"
+      ><img
+        class="img-copied"
+        (click)="copiedHash()"
+        [cdkCopyToClipboard]="erc20"
+        src="/assets/Images/bleuCopie.svg" />
+      <span *ngIf="isTransactionHashCopied" class="black-dialog">
+        Copied! </span
+      ><span *ngIf="isTransactionHashCopied" class="dialog-point"></span
+    ></span>
+  </button>
+</div>
+<div>
+  <div class="tbutton" >
+  <button class="btnNavigate">
+    <img src="/assets/Images/newEth.svg" alt="" class="timg" >
+    <img src="assets/Images/navigate.svg" (click)="goToEther(erc20)">
+  </button>
+  <button class="btnNavigate">
+    <img src="/assets/Images/newPoly.svg" class="timg" alt="">
+    <img src="assets/Images/navigate.svg" (click)="goToPolygonScan(erc20)">
+  </button>
+</div>
+<div class="tbutton">
+  <button class="btnNavigate">
+    <img src="/assets/Images/Newbnp.svg" class="timg" alt="">
+    <img src="assets/Images/navigate.svg" (click)="goToBscan(erc20)">
+  </button>
+  
+  <button class="btnNavigate">
+    <img src="/assets/Images/newBttc.svg" class="timg" alt="">
+    <img src="assets/Images/navigate.svg" (click)="goToTronScan(tronAddress)" >
+  </button>
+</div>
+</div>
+  </div>
+</div>
+
 <div class="item">
   <div class="d-flex justify-content-center ">
     

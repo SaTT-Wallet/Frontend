@@ -72,6 +72,7 @@ export class QRCodeComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: string) { }
 
   ngOnInit(): void {
+    
 
     this.portfeuille();
   }
@@ -84,9 +85,9 @@ export class QRCodeComponent implements OnInit {
           this.btcCode = data.data.btc;
           this.eth = data.data.address;
           this.tronAddress = data.data.tronAddress;
-          this.url1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.eth}&chs=150x150`;
-          this.url2 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.btcCode}&chs=150x150`;
-          this.url3 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.tronAddress}&chs=150x150`;
+          this.url1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.eth}&chs=222x222`;
+          this.url2 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.btcCode}&chs=222x222`;
+          this.url3 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.tronAddress}&chs=222x222`;
 
 
           // assign qr code  uls
@@ -140,6 +141,8 @@ export class QRCodeComponent implements OnInit {
     if (isPlatformBrowser(this.platformId))
       window.open(btcScanAddr + btcCode, '_blank');
   }
+
+  
 
   
 

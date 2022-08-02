@@ -1,6 +1,6 @@
 <div  class="qrcode-desktop">
   <div class="globale mt-3 " *ngIf="!!eth">
-    <div class="container-QR-code">
+    <div class="container-QR-code" [ngStyle]="{'box-shadow': erc20Selected === true ? '0px 1px 11px #79A9FF' : '0px 8px 12px rgba(31, 35, 55, 0.3)'}" >
         <div class="logoCypto d-flex justify-content-between">
             <div class="d-flex">
               <div class="d-flex flex-wrap ">         
@@ -11,17 +11,17 @@
                 <img class="image"
                 src="../../../../assets/Images/symbol_crypto/MATIC.svg">
                 <img class="image"
-                src="../../../../assets/Images/symbol_crypto/BTT.svg">
+                src="../../../../assets/Images/BTTCLogo.svg">
               </div> 
               <div >        
-                <p class="bc">BEP20 / ERC20 / POLYGONE / BTT</p>
+                <p class="bc">BEP20 / ERC20 / POLYGONE / BTTC</p>
               </div>  
             </div>
             
                  
-            <div>
-                <img *ngIf="!erc20Selected" (click)="!!eth && erc20Selected = !erc20Selected" src="assets/Images/radio-off.svg" alt="">
-                <img *ngIf="erc20Selected" (click)="erc20Selected = !erc20Selected"  src="assets/Images/radio-on.png" alt="">
+            <div class="centreButton">
+                <img *ngIf="!erc20Selected" (click)="!!eth  ; btcSelected = false ; erc20Selected = !erc20Selected ; tronSelected = false " src="assets/Images/radio-off.svg" alt="">
+                <img *ngIf="erc20Selected" (click)="erc20Selected = !erc20Selected   "  src="assets/Images/radio-on.png" alt="">
               </div>
             
         </div>
@@ -47,10 +47,16 @@
               </span>
                 
               </div>
-                  <div class="btn-nav" (click)="goToBscan(eth)" >Go to BscScan <img class="ml-2" src="assets/Images/navigate.svg"  alt=""></div>
-                  <div class="btn-nav" (click)="goToEther(eth)">Go to Etherscan <img class="ml-2" src="assets/Images/navigate.svg"  alt=""></div>     
-                  <div class="btn-nav" (click)="goToPolygonScan(eth)" >Go to PolygonScan<img class="ml-2" src="assets/Images/navigate.svg" alt=""></div>            
-                  <div class="btn-nav" (click)="goToBttScan(eth)">Go to BttScan <img class="ml-2" src="assets/Images/navigate.svg"  alt=""></div>
+              <div class="FourButton col-12">
+                <div>
+                  <div class="btn-nav" (click)="goToBscan(eth)" > <div class="d-flex col-8 ml-3">Go to BscScan</div> <div class="d-flex col-3 mr-3 mb-2"><img class="ml-2" src="assets/Images/navigate.svg"  alt=""></div> </div>
+                  <div class="btn-nav" (click)="goToEther(eth)">  <div class="d-flex col-8 ml-3" style="white-space: nowrap;" > Go to Etherscan </div>  <div class="d-flex col-3 mr-3 mb-2"> <img class="ml-2" src="assets/Images/navigate.svg"  alt=""></div> </div>
+                </div>
+                <div>   
+                  <div class="btn-nav" (click)="goToPolygonScan(eth)" > <div class="d-flex col-8 ml-3" style="white-space: nowrap;"> Go to PolygonScan</div> <div class="d-flex col-3 mr-2 mb-2 "> <img class="ml-2 " src="assets/Images/navigate.svg" alt=""></div>     </div>       
+                  <div class="btn-nav" (click)="goToBttScan(eth)">  <div class="d-flex col-8 ml-3"> Go to BttScan </div> <div class="d-flex col-3 mr-3 mb-2 "> <img class="ml-2  " src="assets/Images/navigate.svg"  alt=""></div> </div>
+                </div> 
+                </div>
         
         </div>
         
@@ -58,7 +64,7 @@
     </div>
     </div>
     <div class="globale mt-3" *ngIf="!!btcCode">
-        <div class="container-QR-code">
+        <div class="container-QR-code" [ngStyle]="{'box-shadow': btcSelected === true ? '0px 1px 11px #79A9FF' : '0px 8px 12px rgba(31, 35, 55, 0.3)'}">
             
             <div class="logoCypto d-flex justify-content-between">
                 <div class="d-flex">
@@ -67,8 +73,8 @@
                
                 <p class="bc">BTC</p>      
             </div>       
-            <div>
-                <img *ngIf="!btcSelected" (click)=" btcSelected = !btcSelected" src="assets/Images/radio-off.svg" alt="">
+            <div class="centreButton">
+                <img *ngIf="!btcSelected" (click)=" btcSelected = !btcSelected ; erc20Selected = false; tronSelected = false " src="assets/Images/radio-off.svg" alt="">
                 <img *ngIf="btcSelected" (click)="btcSelected = !btcSelected"  src="assets/Images/radio-on.png" alt="">
             </div>
         </div>
@@ -98,7 +104,7 @@
                   </span>
                     
                   </div>
-                  <div class="btn-nav" (click)="goToBtcScan(btcCode)" >Go to btcScan <img class="ml-2" src="assets/Images/navigate.svg"  alt=""></div>
+                  <div class="btn-nav" (click)="goToBtcScan(btcCode)" > <div class="d-flex col-8 ml-3"> Go to BtcScan </div> <div class="d-flex col-3 mr-3 mb-2 "> <img class="ml-2  " src="assets/Images/navigate.svg"  alt=""></div>  </div>
                   
             </div>
         </div>
@@ -107,7 +113,7 @@
        
     
             <div class="globale mt-3" *ngIf="!!tronAddress">
-              <div class="container-QR-code">
+              <div class="container-QR-code" [ngStyle]="{'box-shadow': tronSelected === true ? '0px 1px 11px #79A9FF' : '0px 8px 12px rgba(31, 35, 55, 0.3)'}">
                   
                   <div class="logoCypto d-flex justify-content-between">
                       <div class="d-flex">
@@ -116,13 +122,13 @@
                      
                       <p class="bc">Tron</p>      
                   </div>       
-                  <div>
-                      <img *ngIf="!tronSelected" (click)=" tronSelected = !tronSelected" src="assets/Images/radio-off.svg" alt="">
+                  <div class="centreButton">
+                      <img *ngIf="!tronSelected" (click)=" tronSelected = !tronSelected ; erc20Selected = false ; btcSelected = false" src="assets/Images/radio-off.svg" alt="">
                       <img *ngIf="tronSelected" (click)="tronSelected = !tronSelected"  src="assets/Images/radio-on.png" alt="">
                   </div>
               </div>
                     
-                    <div *ngIf=" !!url3 && tronSelected ">
+                    <div *ngIf=" !!url3 && tronSelected " >
                       <div class="d-flex justify-content-center mt-4" *ngIf="!!url3">
                           <img [src]="url3" alt="" id="qr_img" />
                         </div>
@@ -145,9 +151,9 @@
                           
                         </div>
                         <!-- <div class="d-flex justify-content-center "> -->
-                      <div class="btn-nav" (click)="goToTronScan(tronAddress)" >Go to tronScan <img class="ml-2" src="assets/Images/navigate.svg"  alt=""></div>
+                      <div class="btn-nav" (click)="goToTronScan(tronAddress)" >  <div class="d-flex col-8 ml-3">  Go to tronScan</div> <div class="d-flex col-3 mr-3 mb-2 "> <img class="ml-2  " src="assets/Images/navigate.svg"  alt=""></div>  </div>
                       
-          
+                      
                     <!-- </div> -->
                   </div>
               </div>
