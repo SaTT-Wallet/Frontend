@@ -333,7 +333,7 @@ export class PasswordModalComponent implements OnInit {
     TokenOBj.addr = ListTokens[tokenSymbol].contract;
     campaign_info.currency = tokenSymbol;
     let LaunchCampaignObs: Observable<any>;
-    console.log(cryptoNetwork[token])
+
     if (cryptoNetwork[token] === 'BEP20') {
       LaunchCampaignObs = this.campaignService.approveBEP20(TokenOBj).pipe(
         map((response: any) => response.data),
@@ -421,8 +421,7 @@ export class PasswordModalComponent implements OnInit {
         })
       );
     } else if (cryptoNetwork[token] === 'BTT') {
-      debugger
-      if(TokenOBj.addr === 'BTT') TokenOBj.addr = "0xD6Cb96a00b312D5930FC2E8084A98ff2Daa5aD2e"
+      TokenOBj.addr = '0xD6Cb96a00b312D5930FC2E8084A98ff2Daa5aD2e';
       LaunchCampaignObs = this.campaignService.approveBTT(TokenOBj).pipe(
         map((response: any) => response.data),
         switchMap((response: any) => {
@@ -432,8 +431,8 @@ export class PasswordModalComponent implements OnInit {
               new Big(this.campaign.initialBudget)
             )
           ) {
-            if(campaign_info.tokenAddress === 'BTT') campaign_info.tokenAddress= "0xD6Cb96a00b312D5930FC2E8084A98ff2Daa5aD2e"
-
+            campaign_info.tokenAddress =
+              '0xD6Cb96a00b312D5930FC2E8084A98ff2Daa5aD2e';
 
             if (this.campaign.remuneration === 'performance') {
               //     confirmationContent

@@ -1612,7 +1612,13 @@ color: #FFFFFF;
  background: linear-gradient(180deg,#1f2337b3 27.82%,#1f233700 161.54%);
 }
 .navbar-wallet{
-  background: #4048FF;
+  background: rgb(40,46,114);
+  background: linear-gradient(180deg, rgba(40,46,114,1) 0%, rgba(40,46,114,1) 30%, rgba(64,72,255,1) 100%);
+
+
+
+
+
 }
 
 @media (min-width: 1024px) {
