@@ -64,7 +64,9 @@ const routes: Routes = [
   },
   {
     path: 'socials',
-    component: SocialsComponent
+    component: SocialsComponent,
+    canActivate: [AuthGuardService]
+
   }
 ];
 
