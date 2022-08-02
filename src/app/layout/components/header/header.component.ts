@@ -50,14 +50,20 @@ import { AuthService } from '@app/core/services/Auth/auth.service';
 import { IApiResponse } from '@app/core/types/rest-api-responses';
 import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.service';
 import { ReturnStatement } from '@angular/compiler';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { REPL_MODE_STRICT } from 'repl';
 const bscan = env.bscanaddr;
 const etherscan = env.etherscanaddr;
+const tronScanAddr = env.tronScanAddr;
+const polygonscanAddr = 'https://mumbai.polygonscan.com/address/';
+const btcScanAddr ='https://www.blockchain.com/btc/address/';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
+  currentScreenSize: string | undefined;
   query = '(max-width: 991.98px)';
   mediaQueryList?: MediaQueryList;
   query2 = '(width =   767.9px)';
@@ -75,7 +81,11 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   showWallet: boolean = false;
   showMenuNotif: boolean = false;
   showMenuProfil: boolean = false;
+  isTransactionHashCopiedtron = false;
+
   isDropdownOpen: boolean = true;
+  tronAddress: string = '';
+  
   copyMsg: boolean = false;
   copyMsg1: boolean = false;
   isBitcoinAdress: boolean = false;
@@ -100,6 +110,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   notif: any;
   url1: any;
   url2: any;
+  url3: any;
   urlM1: any;
   urlM2: any;
   picUserUpdated: boolean = false;
@@ -143,7 +154,9 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   private isDestroyed$ = new Subject();
   isTransactionHashCopied = false;
   isTransactionHashCopiedbtc = false;
+  isLayoutDesktop = false;
   constructor(
+    breakpointObserver: BreakpointObserver,
     private accountFacadeService: AccountFacadeService,
     private NotificationService: NotificationService,
     public router: Router,
@@ -168,7 +181,32 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     private kycFacadeService: KycFacadeService,
     private route:ActivatedRoute,
     private hostElement: ElementRef
-  ) {
+  ){
+    breakpointObserver
+      .observe([
+        Breakpoints.Medium,
+        Breakpoints.Large,
+        Breakpoints.XLarge,
+      ])
+      .pipe(takeUntil(this.isDestroyed$))
+      .subscribe(result => {
+       
+        this.isLayoutDesktop=result.matches;
+        
+        // for (const query of Object.keys(result.breakpoints)) {
+        //   if (result.breakpoints[query]) {
+        //     result.matches;
+        //     console.log(result.matches,'-----------');
+                               
+            
+        //   }
+          
+          
+        // }
+        
+      });
+   
+  
     if (isPlatformBrowser(this.platformId)) {
       this.mediaQueryList = window.matchMedia(this.query);
       this.mediaQueryList2 = window.matchMedia(this.query2);
@@ -278,6 +316,12 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         this.hostElement.nativeElement.style.height = "64px;"
       }
     });
+  }
+
+  goToSocials() {
+    if(this.isLayoutDesktop) {
+      this.router.navigate(['socials'])
+    }
   }
 
   closeBalanceSection() {
@@ -1194,12 +1238,21 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         if (!!data) {
           this.btcCode = data.data.btc;
           this.erc20 = data.data.address;
+          this.tronAddress = data.data.tronAddress;
+          this.url3 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.tronAddress}&chs=219x219&chco=212121&chld=m|1`;
           this.portfeuilleList = [
             { type: 'ERC20/BEP20', code: this.erc20 },
-            { type: 'BTC', code: this.btcCode }
+            { type: 'BTC', code: this.btcCode },
+            { type: 'tron', code: this.tronAddress}
           ];
         }
       });
+  }
+  copiedHashtron() {
+    this.isTransactionHashCopiedtron = true;
+    setTimeout(() => {
+      this.isTransactionHashCopiedtron = false;
+    }, 2000);
   }
   copiedHash() {
     this.isTransactionHashCopied = true;
@@ -1219,24 +1272,32 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   public copyBtc(code: any) {
     this.clipboard.copy(code);
   }
+  public copytron(code: any) {
+    this.clipboard.copy(code);
+  }
   ////display1////////
   generateCodeERC() {
     //@ts-ignore
-    let urlM1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=150x150&chco=4048FF`;
+    let urlM1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=219x219&chco=212121&chld=m|1`;
     this.urlM1 = urlM1;
   }
   ////display2////////
   generateCodeFunction() {
-    let urlM2 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.btcCode}&chs=150x150&chco=4048FF`;
+    let urlM2 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.btcCode}&chs=219x219&chco=212121&chld=m|1`;
     this.urlM2 = urlM2;
   }
+
+  // generateCodeTron(){
+  //   let url3 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.tronAddress}&chs=219x219&chco=212121&chld=m|1`;
+  //   this.url3 = url3;
+  // }
   ////display1////////
   generateCodeERCDes() {
     //@ts-ignore
-    let url1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=150x150`;
+    let url1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=219x219&chld=m|1`;
     this.url1 = url1;
     //@ts-ignore
-    let urlM1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=150x150`;
+    let urlM1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=219x219&chld=m|1`;
     this.urlM1 = urlM1;
   }
   ////display2////////
@@ -1245,6 +1306,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     let urll = `https://chart.apis.google.com/chart?cht=qr&chl=${this.btcCode}&chs=150x150`;
     this.url2 = urll;
   }
+
+  
   goToEther(erc20: any) {
     if (isPlatformBrowser(this.platformId))
       window.open(etherscan + erc20, '_blank');
@@ -1255,7 +1318,21 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   goToBtc() {
     if (isPlatformBrowser(this.platformId))
-      window.open('https://www.blockchain.com', '_blank');
+     
+    window.open('https://www.blockchain.com', '_blank');
+  }
+  goToPolygonScan(erc20: any) {
+    if (isPlatformBrowser(this.platformId))
+      window.open(polygonscanAddr + erc20, '_blank');
+  }
+
+  goToTronScan(tronAddress: any) {
+    if (isPlatformBrowser(this.platformId))
+      window.open(tronScanAddr + tronAddress, '_blank');
+  }
+  goToBtcScan(btcCode: any) {
+    if (isPlatformBrowser(this.platformId))
+      window.open(btcScanAddr + btcCode, '_blank');
   }
 
   checkMenu() {
