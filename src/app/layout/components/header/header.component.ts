@@ -56,7 +56,7 @@ const bscan = env.bscanaddr;
 const etherscan = env.etherscanaddr;
 const tronScanAddr = env.tronScanAddr;
 const polygonscanAddr = 'https://mumbai.polygonscan.com/address/';
-const btcScanAddr ='https://www.blockchain.com/btc/address/';
+const btcScanAddr = 'https://www.blockchain.com/btc/address/';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -85,7 +85,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   isDropdownOpen: boolean = true;
   tronAddress: string = '';
-  
+
   copyMsg: boolean = false;
   copyMsg1: boolean = false;
   isBitcoinAdress: boolean = false;
@@ -121,6 +121,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   menuFarmPost: boolean = false;
   menuHistory: boolean = false;
   menuHelp: boolean = false;
+  menuAbout: boolean = false;
+  menuBlog: boolean = false;
   menuWallet: boolean = false;
   menuCampaign: boolean = false;
   menuTokenInfo: boolean = false;
@@ -179,34 +181,25 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string,
     private kycFacadeService: KycFacadeService,
-    private route:ActivatedRoute,
+    private route: ActivatedRoute,
     private hostElement: ElementRef
-  ){
+  ) {
     breakpointObserver
-      .observe([
-        Breakpoints.Medium,
-        Breakpoints.Large,
-        Breakpoints.XLarge,
-      ])
+      .observe([Breakpoints.Medium, Breakpoints.Large, Breakpoints.XLarge])
       .pipe(takeUntil(this.isDestroyed$))
-      .subscribe(result => {
-       
-        this.isLayoutDesktop=result.matches;
-        
+      .subscribe((result) => {
+        this.isLayoutDesktop = result.matches;
+
         // for (const query of Object.keys(result.breakpoints)) {
         //   if (result.breakpoints[query]) {
         //     result.matches;
         //     console.log(result.matches,'-----------');
-                               
-            
+
         //   }
-          
-          
+
         // }
-        
       });
-   
-  
+
     if (isPlatformBrowser(this.platformId)) {
       this.mediaQueryList = window.matchMedia(this.query);
       this.mediaQueryList2 = window.matchMedia(this.query2);
@@ -216,8 +209,6 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         this.document.documentElement.style.setProperty('--vh', `${vh}px`);
       });
     }
-
-
 
     translate.addLangs(['en', 'fr']);
     if (this.tokenStorageService.getLocale()) {
@@ -293,34 +284,36 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   ngAfterViewInit(): void {
     // if(this.route.url)
-    this.route.url.subscribe((e) => {
-    
-    })
+    this.route.url.subscribe((e) => {});
     this.router.events
-    .pipe(
-      tap((e) => {
-        //  console.log(e)
-      }),
-      filter((e: any) => e instanceof NavigationEnd),
-      startWith({url: this.router.url})
-    )
-    .subscribe((e: any) => {
-    
-      if(['/home',  '/wallet'].includes(e.url) || e.url.includes('/campaign')) {
-        (this.headerNav as ElementRef).nativeElement.style.position = "absolute";
-        (this.headerNav as ElementRef).nativeElement.style.width = "100%";
-        this.hostElement.nativeElement.style.height = "inherit"
-      }else{
-        (this.headerNav as ElementRef).nativeElement.style.position = "inherit";
-        (this.headerNav as ElementRef).nativeElement.style.width = "inherit";
-        this.hostElement.nativeElement.style.height = "64px;"
-      }
-    });
+      .pipe(
+        tap((e) => {
+          //  console.log(e)
+        }),
+        filter((e: any) => e instanceof NavigationEnd),
+        startWith({ url: this.router.url })
+      )
+      .subscribe((e: any) => {
+        if (
+          ['/home', '/wallet'].includes(e.url) ||
+          e.url.includes('/campaign')
+        ) {
+          (this.headerNav as ElementRef).nativeElement.style.position =
+            'absolute';
+          (this.headerNav as ElementRef).nativeElement.style.width = '100%';
+          this.hostElement.nativeElement.style.height = 'inherit';
+        } else {
+          (this.headerNav as ElementRef).nativeElement.style.position =
+            'inherit';
+          (this.headerNav as ElementRef).nativeElement.style.width = 'inherit';
+          this.hostElement.nativeElement.style.height = '64px;';
+        }
+      });
   }
 
   goToSocials() {
-    if(this.isLayoutDesktop) {
-      this.router.navigate(['socials'])
+    if (this.isLayoutDesktop) {
+      this.router.navigate(['socials']);
     }
   }
 
@@ -1243,7 +1236,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           this.portfeuilleList = [
             { type: 'ERC20/BEP20', code: this.erc20 },
             { type: 'BTC', code: this.btcCode },
-            { type: 'tron', code: this.tronAddress}
+            { type: 'tron', code: this.tronAddress }
           ];
         }
       });
@@ -1307,7 +1300,6 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.url2 = urll;
   }
 
-  
   goToEther(erc20: any) {
     if (isPlatformBrowser(this.platformId))
       window.open(etherscan + erc20, '_blank');
@@ -1318,8 +1310,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   goToBtc() {
     if (isPlatformBrowser(this.platformId))
-     
-    window.open('https://www.blockchain.com', '_blank');
+      window.open('https://www.blockchain.com', '_blank');
   }
   goToPolygonScan(erc20: any) {
     if (isPlatformBrowser(this.platformId))
@@ -1350,6 +1341,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.menuHelp = false;
     this.menuBuyToken = false;
     this.menuTokenInfo = false;
+    this.menuAbout = false;
+    this.menuBlog = false;
   }
   checkMenuBuyToken() {
     this.menuWallet = false;
@@ -1359,10 +1352,23 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.menuHelp = false;
     this.menuBuyToken = true;
     this.menuTokenInfo = false;
+    this.menuAbout = false;
+    this.menuBlog = false;
   }
   checkMenuTokenInfo() {
     if (isPlatformBrowser(this.platformId))
-      window.open('https://satt-token.com/', '_blank');
+      window.open(
+        'https://testnet.satt.atayen.us/wallet/token-info?crypto=SATT',
+        '_blank'
+      );
+  }
+  checkMenuAbout() {
+    if (isPlatformBrowser(this.platformId))
+      window.open('https://satt-token.com', '_blank');
+  }
+  checkMenuBlog() {
+    if (isPlatformBrowser(this.platformId))
+      window.open('https://satt-token.com/blog/', '_blank');
   }
   checkMenuAdpool() {
     this.menuWallet = false;
@@ -1372,6 +1378,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.menuHelp = false;
     this.menuBuyToken = false;
     this.menuTokenInfo = false;
+    this.menuAbout = false;
+    this.menuBlog = false;
   }
   checkMenuHistory() {
     this.menuWallet = false;
@@ -1381,6 +1389,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.menuHelp = false;
     this.menuBuyToken = false;
     this.menuTokenInfo = false;
+    this.menuAbout = false;
+    this.menuBlog = false;
   }
   checkMenuHelp() {
     this.menuWallet = false;
@@ -1390,6 +1400,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.menuHelp = true;
     this.menuBuyToken = false;
     this.menuTokenInfo = false;
+    this.menuAbout = false;
+    this.menuBlog = false;
   }
   checkMenuWallet() {
     if (this.isConnected) {
@@ -1400,6 +1412,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
       this.menuHelp = false;
       this.menuBuyToken = false;
       this.menuTokenInfo = false;
+      this.menuAbout = false;
+      this.menuBlog = false;
       this.walletService.dismissPage.next(true);
     } else {
       this.checkMenuAdpool();
@@ -1508,5 +1522,4 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     //this.translate.onLangChange.unsubscribe();
   }
-  
 }
