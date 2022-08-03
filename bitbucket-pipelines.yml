@@ -27,7 +27,9 @@ pipelines:
             - echo ${SCP_PASSWORD_SATT}
             - echo 6GjBP86f
             
-            - ssh satt@92.243.9.233 <<< 6GjBP86f "cd /home/satt/wallet_satt/satt-wallet && npm install" 
+            -  ssh satt@92.243.9.233 <<< 6GjBP86f "cd /home/satt/wallet_satt/satt-wallet && npm install" 
+            -  ssh satt@92.243.9.233 <<< ${SCP_PASSWORD_SATT} "cd /home/satt/wallet_satt/satt-wallet && git stash"
+
             -  ssh satt@92.243.9.233 <<< ${SCP_PASSWORD_SATT} "cd /home/satt/wallet_satt/satt-wallet && git pull"
             -  ssh satt@92.243.9.233 <<< ${SCP_PASSWORD_SATT} " cd /home/satt/wallet_satt/satt-wallet && ng build  " 
             -  ssh satt@92.243.9.233 <<< ${SCP_PASSWORD_SATT} "cd /home/satt/wallet_satt/satt-wallet && ng run satt-token-atayen:server"
