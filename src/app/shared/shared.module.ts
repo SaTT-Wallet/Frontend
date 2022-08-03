@@ -191,7 +191,8 @@ import { QRCodeComponent } from './components/qr-code/qr-code.component';
     RouterModule,
     NgxPaginationModule,
     ChartsModule,
-    ClipboardModule
+    ClipboardModule,
+    CarouselModule
   ],
   providers: [ConvertFromWei]
 })
