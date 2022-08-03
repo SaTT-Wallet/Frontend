@@ -22,7 +22,9 @@ export const environment = {
       TETHER_TOKENERC20: '0x3B2243E3Aeb6d4A102061BCE6C5c233c2C08fF65',
       DAI: '0x7d6550Bb3946c0BB0701c75baBE2f679E01F3f3E',
       BUSD: '0xE6baB06eb943e9b6D475fB229E3E15F6E49a5461',
-      WTRX: 'TRpHXiD9PRoorNh9Lx4NeJUAP7NcG5zFwi'
+      WTRX: 'TNUC9Qb1rRpS5CbWLmNMxXBjyFoydXjWFR',
+      WBTT: '0xD6Cb96a00b312D5930FC2E8084A98ff2Daa5aD2e' //TODO must deploy  a WBTT token contract in mainnet <= invalid address
+
     }
   },
   domainName: 'https://dev.satt.atayen.us',
