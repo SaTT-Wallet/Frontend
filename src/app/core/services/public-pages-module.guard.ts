@@ -106,6 +106,9 @@ export class CanLoadPublicModule implements CanLoad {
           this.tokenStorageService.saveIdWallet(
             (data as IResponseWallet).data.address
           );
+          this.tokenStorageService.saveTronWallet(
+            (data as IResponseWallet).data?.tronAddress
+          );
           return of(true);
         } else if (this.dateNow > this.dateShouldExpireAt) {
           return of(true);

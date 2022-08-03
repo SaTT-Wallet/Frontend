@@ -260,6 +260,7 @@ a.click-to-top:hover span {
 
 .itemnotification {
   width: 100%;
+  
 }
 
 .itemnotification:hover {
@@ -1238,7 +1239,9 @@ button:focus {
 }
 
 .gap {
-  gap: 1rem;
+  gap: 2rem;
+  padding-left: 80px;
+  padding-right: 80px;
 }
 
 .span-wallet {
@@ -1263,7 +1266,8 @@ button:focus {
 }
 
 .span-text-wallet {
-  color: #ffffff;
+  color: #4048FF;
+  ;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
@@ -1426,14 +1430,119 @@ bottom: 77.54% ; */
 .QR :active {
   background-color: aqua;
 }
+.container {
+  display: flex ;
+  gap : 40px ;
+  overflow-x: auto;
+  padding-right: 81px !important;
+  padding-left: 81px !important;
+}
+.adressBlock{
+  flex-direction: column;
+  
+}
+.container::-webkit-scrollbar{
+  width: 0 !important;
+  height: 0 ;
+}
+
+
+.container .item{
+  height: 100%;
+  width: 100%;
+  text-align: center;
+}
+
+.TBC{
+  font-family: 'Poppins';
+font-style: normal;
+font-weight: 600;
+font-size: 18px;
+line-height: 25px;
+/* or 139% */
+
+display: flex;
+align-items: center;
+text-align: center;
+letter-spacing: 0.02em;
+
+color: #FFFFFF;
+}
+
+.wallet-address{
+  text-overflow: ellipsis;
+  overflow: hidden;
+ 
+
+
+}
+
+.title{
+/* MOBILE/Titles/H3 */
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 700;
+font-size: 17px;
+line-height: 28px;
+/* or 140% */
+
+
+
+text-align: center;
+letter-spacing: 1px;
+white-space: nowrap;
+
+color: #FFFFFF;
+}
+
+.btnNavigate{
+  background: #FFFFFF;
+border-radius: 32px;
+border: 0;
+
+
+}
+.tbutton{
+  padding-top: 15px;
+  
+display: flex;
+justify-content: center;
+gap: 22px;
+}
+
+.timg{
+  width: 30px;
+  height: 30px;
+}
+
+.titleIDW{
+  padding-top: 15px;
+  padding-bottom: -20px;
+  font-family: 'Poppins';
+font-style: normal;
+font-weight: 700;
+font-size: 20px;
+line-height: 28px;
+/* or 140% */
+
+display: flex;
+align-items: center;
+text-align: center;
+letter-spacing: 1px;
+
+color: #FFFFFF;
+}
+
+
 
 .sidebarMoreMobile {
   display: flex;
-  flex-direction: column;
+  // flex-direction: column;
   padding: 0;
   width: 105%;
   max-height: -webkit-fill-available;
-  height: calc(var(--vh, 1vh) * 100);
+  // height: calc(var(--vh, 1vh) * 100);
   background: linear-gradient(
     180deg,
     #323754 38.54%,
@@ -1450,6 +1559,7 @@ bottom: 77.54% ; */
   top: 56px;
   /* margin-top: 59px; */
   min-height: 100vh;
+  flex-direction: column;
 }
 
 :host ::ng-deep .popover-body {

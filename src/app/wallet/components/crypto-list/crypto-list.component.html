@@ -20,6 +20,14 @@
               style="border-bottom: 1px solid #f6f6ff"
             >
               <div class="d-flex justify-content-start" style="width: 91%">
+                <div style="display: none">
+                  <input
+                    type="text"
+                    id="PreventChromeAutocomplete"
+                    name="PreventChromeAutocomplete"
+                    autocomplete="address-level4"
+                  />
+                </div>
                 <div
                   class="col-2 d-flex align-items-center justify-content-start"
                 >
@@ -28,8 +36,7 @@
                     class="key d-flex search-input-wrapper mt-3"
                     type="text"
                     name="search"
-                    autocomplete="on"
-                    autocomplete="off"
+                    autocomplete="search-token"
                     placeholder="Search "
                     [(ngModel)]="search"
                     (ngModelChange)="onTextChange($event); clearInput()"
@@ -1074,7 +1081,7 @@
                     </div>
 
                     <!--------------------SATTPOLYGON-------------------------->
-                    <div
+                    <!-- <div
                       class="d-flex justify-content-start"
                       style="width: 90%"
                     >
@@ -1090,7 +1097,6 @@
                             <span class="Cryptoname cryptonameDetails ml-2">
                               POLYGON
                             </span>
-                            <!-- <div class="CryptoUNDERname pt-2">{{ crypto.typetab }}</div> -->
                           </div>
                         </div>
                       </div>
@@ -1107,14 +1113,7 @@
                               </span>
                             </ng-container>
                           </div>
-                          <!-- <div class="p-1 d-flex pri">
-                      <span
-                        class="indicatorfont ms-1"
-                        [ngStyle]="{ color: crypto.arrowColor }"
-                      >
-                        {{ crypto.arrow }} {{ crypto.variation }}%
-                      </span>
-                    </div> -->
+                          
                         </div>
                       </div>
                       <div
@@ -1129,7 +1128,6 @@
                                   | number: '.0-2' || ''
                               }}
                             </span>
-                            <!-- <span class="indicatorfont ms-1" >{{crypto.name}}</span> -->
                           </div>
                           <ng-template #spinner>
                             <div class="cryptoprice textalignEnd">
@@ -1152,11 +1150,7 @@
                               </span>
                             </ng-container>
                           </div>
-                          <!-- <div class="p-1 textalignEnd qte">
-                    <span class="indicatorfont">
-                      {{ crypto.quantity }} {{ crypto.symbol | translate }}
-                    </span>
-                    </div> -->
+                        
                           <ng-template #spinner>
                             <div class="cryptoprice p-1 mt-4 textalignEnd">
                               <img src="./../../../assets/Images/Spin.gif" />
@@ -1165,11 +1159,7 @@
                         </div>
                       </div>
 
-                      <!----------------------------------------------------------------------------------------------------------------->
-
-                      <!------------------------------------------------------------------------------------------------------------->
-
-                      <!------------------------------------------------------------------------------------------------------------->
+                 
                       <div
                         class="col-1 d-flex align-items-center justify-content-start"
                         style="background: #f6f6ff; box-shadow: 4px 0px #f6f6ff"
@@ -1242,16 +1232,7 @@
                                 ].includes(crypto.undername)
                               "
                             >
-                              <!-- <img
-                                class="buy-token border-0"
-                                src="/assets/Images/new-buy-token.svg"
-                                (click)="
-                                  goToBuy(
-                                    crypto.cryptoPOLYGON.symbol,
-                                    crypto.cryptoPOLYGON.network
-                                  )
-                                "
-                              /> -->
+                     
                               <img
                                 class="buy-token border-0"
                                 src="assets/Images/buyShape.png"
@@ -1263,9 +1244,7 @@
                               rel="noopener"
                             >
                               <div *ngIf="crypto.undername === 'WSATT'">
-                                <!-- <button class="background3 mt-4 ms-2 pt-2 border-0">
-                                <span class="icon-ins buyIcon"></span>
-                              </button> -->
+                           
                                 <img
                                   class="buy-token border-0"
                                   src="/assets/Images/new-buy-token.svg"
@@ -1286,13 +1265,7 @@
                                   !crypto.AddedToken
                                 "
                               >
-                                <!-- <button
-                                class="background3 mt-4 ms-2 pt-2 border-0"
-                                id="{{ crypto.symbol }}"
-                                (click)="buy(crypto.undername, changly)"
-                              >
-                                <span class="icon-ins buyIcon"></span>
-                              </button> -->
+                          
                                 <img
                                   (click)="buy(crypto.undername)"
                                   id="{{ crypto.symbol }}"
@@ -1319,7 +1292,7 @@
                           ></div>
                         </div>
                       </div>
-                    </div>
+                    </div> -->
                     <!------------SATTPOLYGON--------------------------->
                     <ng-template #supprimertoken>
                       <div class="modal-header modal-custom">
@@ -1393,7 +1366,7 @@
                     </ng-template>
                     <!----------------------------------------------------------------------------------------------------------------->
                     <!----------------------------sattbtt--------------------->
-                    <div
+                    <!-- <div
                       class="d-flex justify-content-start"
                       style="width: 90%"
                     >
@@ -1409,7 +1382,6 @@
                             <span class="Cryptoname cryptonameDetails ml-2">
                               BTT
                             </span>
-                            <!-- <div class="CryptoUNDERname pt-2">{{ crypto.typetab }}</div> -->
                           </div>
                         </div>
                       </div>
@@ -1426,14 +1398,7 @@
                               </span>
                             </ng-container>
                           </div>
-                          <!-- <div class="p-1 d-flex pri">
-<span
-  class="indicatorfont ms-1"
-  [ngStyle]="{ color: crypto.arrowColor }"
->
-  {{ crypto.arrow }} {{ crypto.variation }}%
-</span>
-</div> -->
+                        
                         </div>
                       </div>
                       <div
@@ -1448,7 +1413,6 @@
                                   | number: '.0-2' || ''
                               }}
                             </span>
-                            <!-- <span class="indicatorfont ms-1" >{{crypto.name}}</span> -->
                           </div>
                           <ng-template #spinner>
                             <div class="cryptoprice textalignEnd">
@@ -1471,11 +1435,7 @@
                               </span>
                             </ng-container>
                           </div>
-                          <!-- <div class="p-1 textalignEnd qte">
-<span class="indicatorfont">
-{{ crypto.quantity }} {{ crypto.symbol | translate }}
-</span>
-</div> -->
+                        
                           <ng-template #spinner>
                             <div class="cryptoprice p-1 mt-4 textalignEnd">
                               <img src="./../../../assets/Images/Spin.gif" />
@@ -1484,11 +1444,7 @@
                         </div>
                       </div>
 
-                      <!----------------------------------------------------------------------------------------------------------------->
-
-                      <!------------------------------------------------------------------------------------------------------------->
-
-                      <!------------------------------------------------------------------------------------------------------------->
+                   
                       <div
                         class="col-1 d-flex align-items-center justify-content-start"
                         style="background: #f6f6ff; box-shadow: 4px 0px #f6f6ff"
@@ -1561,16 +1517,7 @@
                                 ].includes(crypto.undername)
                               "
                             >
-                              <!-- <img
-          class="buy-token border-0"
-          src="/assets/Images/new-buy-token.svg"
-          (click)="
-            goToBuy(
-              crypto.cryptoPOLYGON.symbol,
-              crypto.cryptoPOLYGON.network
-            )
-          "
-        /> -->
+                       
                               <img
                                 class="buy-token border-0"
                                 src="assets/Images/buyShape.png"
@@ -1582,9 +1529,7 @@
                               rel="noopener"
                             >
                               <div *ngIf="crypto.undername === 'WSATT'">
-                                <!-- <button class="background3 mt-4 ms-2 pt-2 border-0">
-          <span class="icon-ins buyIcon"></span>
-        </button> -->
+                      
                                 <img
                                   class="buy-token border-0"
                                   src="/assets/Images/new-buy-token.svg"
@@ -1605,13 +1550,7 @@
                                   !crypto.AddedToken
                                 "
                               >
-                                <!-- <button
-          class="background3 mt-4 ms-2 pt-2 border-0"
-          id="{{ crypto.symbol }}"
-          (click)="buy(crypto.undername, changly)"
-        >
-          <span class="icon-ins buyIcon"></span>
-        </button> -->
+                         
                                 <img
                                   (click)="buy(crypto.undername)"
                                   id="{{ crypto.symbol }}"
@@ -1638,11 +1577,11 @@
                           ></div>
                         </div>
                       </div>
-                    </div>
+                    </div> -->
                     <!---------------------------sattbtt----------------------->
 
                     <!----------------------------sattTRON--------------------->
-                    <div
+                    <!-- <div
                       class="d-flex justify-content-start"
                       style="width: 90%"
                     >
@@ -1658,7 +1597,6 @@
                             <span class="Cryptoname cryptonameDetails ml-2">
                               TRON
                             </span>
-                            <!-- <div class="CryptoUNDERname pt-2">{{ crypto.typetab }}</div> -->
                           </div>
                         </div>
                       </div>
@@ -1675,14 +1613,7 @@
                               </span>
                             </ng-container>
                           </div>
-                          <!-- <div class="p-1 d-flex pri">
-  <span
-    class="indicatorfont ms-1"
-    [ngStyle]="{ color: crypto.arrowColor }"
-  >
-    {{ crypto.arrow }} {{ crypto.variation }}%
-  </span>
-  </div> -->
+                        
                         </div>
                       </div>
                       <div
@@ -1697,7 +1628,6 @@
                                   | number: '.0-2' || ''
                               }}
                             </span>
-                            <!-- <span class="indicatorfont ms-1" >{{crypto.name}}</span> -->
                           </div>
                           <ng-template #spinner>
                             <div class="cryptoprice textalignEnd">
@@ -1720,11 +1650,7 @@
                               </span>
                             </ng-container>
                           </div>
-                          <!-- <div class="p-1 textalignEnd qte">
-  <span class="indicatorfont">
-  {{ crypto.quantity }} {{ crypto.symbol | translate }}
-  </span>
-  </div> -->
+                       
                           <ng-template #spinner>
                             <div class="cryptoprice p-1 mt-4 textalignEnd">
                               <img src="./../../../assets/Images/Spin.gif" />
@@ -1733,11 +1659,7 @@
                         </div>
                       </div>
 
-                      <!----------------------------------------------------------------------------------------------------------------->
-
-                      <!------------------------------------------------------------------------------------------------------------->
-
-                      <!------------------------------------------------------------------------------------------------------------->
+                    
                       <div
                         class="col-1 d-flex align-items-center justify-content-start"
                         style="background: #f6f6ff; box-shadow: 4px 0px #f6f6ff"
@@ -1810,16 +1732,7 @@
                                 ].includes(crypto.undername)
                               "
                             >
-                              <!-- <img
-            class="buy-token border-0"
-            src="/assets/Images/new-buy-token.svg"
-            (click)="
-              goToBuy(
-                crypto.cryptoPOLYGON.symbol,
-                crypto.cryptoPOLYGON.network
-              )
-            "
-          /> -->
+                            
                               <img
                                 class="buy-token border-0"
                                 src="assets/Images/buyShape.png"
@@ -1831,9 +1744,7 @@
                               rel="noopener"
                             >
                               <div *ngIf="crypto.undername === 'WSATT'">
-                                <!-- <button class="background3 mt-4 ms-2 pt-2 border-0">
-            <span class="icon-ins buyIcon"></span>
-          </button> -->
+                          
                                 <img
                                   class="buy-token border-0"
                                   src="/assets/Images/new-buy-token.svg"
@@ -1854,13 +1765,7 @@
                                   !crypto.AddedToken
                                 "
                               >
-                                <!-- <button
-            class="background3 mt-4 ms-2 pt-2 border-0"
-            id="{{ crypto.symbol }}"
-            (click)="buy(crypto.undername, changly)"
-          >
-            <span class="icon-ins buyIcon"></span>
-          </button> -->
+                            
                                 <img
                                   (click)="buy(crypto.undername)"
                                   id="{{ crypto.symbol }}"
@@ -1887,7 +1792,7 @@
                           ></div>
                         </div>
                       </div>
-                    </div>
+                    </div> -->
                     <!---------------------------satttron----------------------->
                   </div>
                 </div>
@@ -2612,7 +2517,7 @@
                       </span>
                     </div>
                   </div>
-                  <div
+                  <!-- <div
                     (click)="toggle(crypto.cryptoPOLYGON); selectPolygon()"
                     class="d-flex w-100 justify-content-between align-items-center BottomBorder2 cryptoRowContainerMobile"
                     [ngClass]="{
@@ -2663,8 +2568,8 @@
                         }}
                       </span>
                     </div>
-                  </div>
-                  <div
+                  </div> -->
+                  <!-- <div
                     (click)="toggle(crypto.cryptoBTT); selectBtt()"
                     class="d-flex w-100 justify-content-between align-items-center BottomBorder2 cryptoRowContainerMobile"
                     [ngClass]="{
@@ -2715,9 +2620,9 @@
                         }}
                       </span>
                     </div>
-                  </div>
+                  </div> -->
 
-                  <div
+                  <!-- <div
                     (click)="toggle(crypto.cryptoTRON); selecttron()"
                     class="d-flex w-100 justify-content-between align-items-center BottomBorder2 cryptoRowContainerMobile"
                     [ngClass]="{
@@ -2768,7 +2673,7 @@
                         }}
                       </span>
                     </div>
-                  </div>
+                  </div> -->
                   <!--<div>
                     <a>
                       <div class="DisplayFlex d-flex">

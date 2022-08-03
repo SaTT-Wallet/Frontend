@@ -43,14 +43,12 @@
         [src]="prom.mediaUrl"
         onerror="this.src='/assets/Images/campagne/twitter_cover.svg'"
         class="cmp-img2"
-        [routerLink]="['/home/campaign/', prom.campaign._id]"
       />
       <img
         *ngIf="prom.typeSN === 3"
         [src]="prom.mediaUrl"
         onerror="this.src='/assets/Images/campagne/instagramm.svg'"
         class="cmp-img2"
-        [routerLink]="['/home/campaign/', prom.campaign._id]"
       />
       <img
         *ngIf="prom.typeSN === 5"
@@ -92,6 +90,18 @@
       <img
         *ngIf="prom.typeSN === 4"
         src="/assets/Images/campagne/twitter_gain.svg"
+        class="icon_oracle"
+        [routerLink]="['/home/campaign/', prom.campaign._id]"
+      />
+      <img
+        *ngIf="prom.typeSN === 5"
+        src="/assets/Images/campagne/linkedin_gain.svg"
+        class="icon_oracle"
+        [routerLink]="['/home/campaign/', prom.campaign._id]"
+      />
+      <img
+        *ngIf="prom.typeSN === 6"
+        src="/assets/Images/campagne/tiktok_gain.svg"
         class="icon_oracle"
         [routerLink]="['/home/campaign/', prom.campaign._id]"
       />

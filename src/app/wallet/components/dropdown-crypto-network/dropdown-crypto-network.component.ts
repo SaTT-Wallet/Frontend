@@ -30,6 +30,8 @@ export class DropdownCryptoNetworkComponent
   cryptoList$ = this.walletFacade.cryptoList$;
   dataList: any = [];
   defaultcurr: any;
+  defaultcurrbtt: any;
+
   defaultcurrbep: any;
   defaultcurrbtc: any;
   cryptoName: any;
@@ -46,6 +48,7 @@ export class DropdownCryptoNetworkComponent
   cryptoToDropdown: any;
   addedTokenNopic: boolean = false;
   private firstEmit = false;
+  cryptoList: any = [];
   defaultcurrpolygon: any;
   defaultcurrtron: any;
   constructor(
@@ -91,8 +94,9 @@ export class DropdownCryptoNetworkComponent
     this.defaultcurr = ListTokens['SATT'].name;
     this.defaultcurrbep = ListTokens['SATTBEP20'].name;
     this.defaultcurrbtc = ListTokens['BTC'].name;
-    this.defaultcurrpolygon = ListTokens['SATTPOLYGON'].name;
-    this.defaultcurrtron = ListTokens['SATTTRON'].name;
+     this.defaultcurrpolygon = ListTokens['MATIC'].name;
+     this.defaultcurrbtt= ListTokens['BTT'].name;
+     this.defaultcurrtron = ListTokens['TRX'].name;
 
   }
   //get list of crypto for user
@@ -105,6 +109,12 @@ export class DropdownCryptoNetworkComponent
       .subscribe((data: any) => {
         data = JSON.parse(JSON.stringify(data));
         this.dataList = data;
+        this.dataList = [
+          ...this.dataList.filter((data: any) => data.symbol !== 'SATTPOLYGON' &&  data.symbol !== 'SATTBTT' && data.symbol !== 'SATTTRON'
+          ),
+
+
+        ]
         /*----emit default cryto to receive compoent */
         this.dataList?.forEach((crypto: any) => {
           if (!this.cryptoFromDraft && !this.firstEmit) {
@@ -271,23 +281,25 @@ export class DropdownCryptoNetworkComponent
       this.cryptoName = this.defaultcurrbtc;
       this.cryptoPicName = this.defaultcurrbtc;
       this.cryptoDetails = 'BTC';
-    } else if (network === 'POLYGON') {
-      this.cryptoSymbol = 'SATTPOLYGON';
-      this.cryptoName = this.defaultcurr;
-      this.cryptoPicName = this.defaultcurr;
-      this.cryptoDetails = 'SATTPOLYGON';
-    } else if (network === 'BTT') {
-      this.cryptoSymbol = 'SATTBTT';
-      this.cryptoName = this.defaultcurr;
-      this.cryptoPicName = this.defaultcurr;
-      this.cryptoDetails = 'SATTBTT';
-    } else if (network === 'TRON') {
-      this.cryptoSymbol = 'SATTTRON';
-      this.cryptoName = this.defaultcurr;
-      this.cryptoPicName = this.defaultcurr;
-      this.cryptoDetails = 'SATTRON';
     }
-
+     else if (network === 'POLYGON') {
+      this.cryptoSymbol = 'MATIC';
+      this.cryptoName = this.defaultcurr;
+      this.cryptoPicName = this.defaultcurr;
+      this.cryptoDetails = 'MATIC';
+    }
+     else if (network === 'BTT') {
+      this.cryptoSymbol = 'BTT';
+      this.cryptoName = this.defaultcurrbtt;
+      this.cryptoPicName = this.defaultcurrbtt;
+      this.cryptoDetails = 'BTT';
+    }
+    else if (network === 'TRON') {
+      this.cryptoSymbol = 'TRX';
+      this.cryptoName = this.defaultcurrtron;
+      this.cryptoPicName = this.defaultcurrtron;
+      this.cryptoDetails = 'TRX';
+    }
     this.dataList.forEach((crypto: any) => {
       if (crypto.symbol === this.cryptoDetails) {
         this.selectedCrypto.emit(crypto);

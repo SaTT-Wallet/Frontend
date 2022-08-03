@@ -303,7 +303,7 @@ export class WalletFacadeService {
     if (digitalCurrency === 'TETHER') {
       digitalCurrency = 'USDT';
     }
-    if (digitalCurrency === 'Maker') {
+    if (digitalCurrency === 'MAKER') {
       digitalCurrency = 'MKR';
     }
     return this.cryptofetchServiceService.convertCrypto(
