@@ -1359,7 +1359,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     if (isPlatformBrowser(this.platformId))
       window.open(
         'https://testnet.satt.atayen.us/wallet/token-info?crypto=SATT',
-        '_blank'
+        '_self'
       );
   }
   checkMenuAbout() {
