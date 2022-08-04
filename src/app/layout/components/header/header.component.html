@@ -782,14 +782,14 @@
 </div> -->
 
 <div
-  *ngIf="this.sidebarService.toggleWalletMobile.value"
+  *ngIf="this.sidebarService.toggleWalletMobile.value && isLayoutDesktop ===false"
   class="sidebarMoreMobile row"
 >
   <P class="d-flex justify-content-center titleIDW" style="margin: 0"
     >Your ID Wallet</P
   >
 
-  <div class="mobile container">
+  <div class="mobile container" id="qr-container">
     <!-- <hr class="line px-5" />
     <h4 class="Bep d-flex justify-content-center mb-4">Wallet BTC</h4> -->
 
@@ -847,7 +847,7 @@
         </div>
       </div>
     </div>
-    <div class="item">
+    <div class="item" id="ercQrCode">
       <P class="d-flex justify-content-center title">
         ERC / BSC / POLYGON / BTTC
       </P>
