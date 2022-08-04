@@ -189,6 +189,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe((result) => {
         this.isLayoutDesktop = result.matches;
+        console.log(result.matches,'-----------');
 
         // for (const query of Object.keys(result.breakpoints)) {
         //   if (result.breakpoints[query]) {
@@ -283,6 +284,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
   ngAfterViewInit(): void {
+   
     // if(this.route.url)
     this.route.url.subscribe((e) => {});
     this.router.events
@@ -1156,6 +1158,16 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   toggleWallet() {
+    setTimeout(() => {
+      let elem = this.document.getElementById('ercQrCode')
+      elem?.scrollIntoView({
+        behavior: 'auto',
+        block: 'center',
+        inline: 'center'
+    });
+
+
+    }, 100)
     this.sidebarService.toggleFooterMobile.next(false);
     // this.showWallet = !this.showWallet;
     if (this.sidebarService.toggleWalletMobile.value) {
