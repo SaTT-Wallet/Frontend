@@ -166,7 +166,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     //, Validators.max(this.maxNumber)
     this.sendform = new FormGroup({
       contact: new FormControl(null, {
-        validators: [Validators.required, Validators.pattern(pattContact)]
+        validators: [Validators.required]
       }),
       Amount: new FormControl(0, Validators.compose([Validators.required])),
       AmountUsd: new FormControl(null),
