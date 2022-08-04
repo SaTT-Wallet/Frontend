@@ -270,7 +270,8 @@
           class="li-menu"
           [ngClass]="{ 'is-visited': menuBuyToken }"
           id="intro6"
-          style="position: relative; margin-right: 2rem"
+          style="position: relative; margin-right: 2rem;     width: 70px;
+          "
         >
           <a
             class="farmPost"
@@ -278,11 +279,7 @@
             (click)="checkMenuBuyToken()"
             >{{ 'menu_buyToken' | translate }}</a
           >
-          <img
-            class="visa-card"
-            src="../../../assets/Images/symbol_crypto/pay-creditcard-icon.svg"
-            alt=""
-          />
+
           <!-- <a
             *ngIf="!isConnected"
             class="farmPost"
