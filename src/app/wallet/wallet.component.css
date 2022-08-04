@@ -35,6 +35,10 @@ input:-webkit-autofill:active {
   width: 95%;
   border-radius: 15px;
 }
+.textpwd{
+  font-size: 22px !important;
+}
+
 
 .first_layer {
   z-index: 11;
@@ -1678,8 +1682,21 @@ table > th {
 }
 
 .welcome-paragraph {
-  max-width: 80%;
+  max-width: 56%;
   margin: 0 auto;
+  margin-top: -15px;
+}
+.paragragh{
+  font-family: 'Poppins' !important;
+font-style: normal !important;
+font-weight: 400 !important;
+font-size: 16px !important;
+line-height: 130% !important;
+color: #162746 !important;
+
+}
+p {
+  margin-top:  25px !important;
 }
 
 @media (max-width: 767px) {
@@ -1857,13 +1874,13 @@ table > th {
 }
 
 .welcome-body {
-  max-width: 600px;
+  max-width: 648px;
 }
 
 .div-input-icon {
   position: relative;
   width: 300px;
-  width: 374px;
+  width: 380px !important;
 
   height: 48px;
   display: flex;
@@ -1907,8 +1924,8 @@ table > th {
 .btn-blue {
   background: #4048ff !important;
   border-radius: 30px;
-  width: 165px;
-  height: 56px;
+  width: 217px !important;
+  height: 48px !important;
   font-style: normal;
   font-weight: 600 !important;
   font-size: 18px;
@@ -1916,9 +1933,39 @@ table > th {
   align-items: center;
   text-align: center;
   letter-spacing: 0.01em;
-  color: #f6f6ff !important;
+  color: #FFFFFF !important;
   border: none;
+  box-shadow: none !important;
   /* margin-right: 1.5rem; */
+}
+.btn-white {
+  width: 217px !important;
+  height: 48px !important;
+  font-family: 'Poppins';
+  box-shadow: 0px 2px 6px rgba(50, 55, 84, 0.4) !important;
+font-style: normal !important;
+font-weight: 600 !important;
+font-size: 18px !important;
+line-height: 27px !important;
+letter-spacing: 0.01em !important;
+align-items: center;
+text-align: center;
+color: #4048FF !important;
+}
+
+.trans{
+font-family: 'Poppins' !important;
+font-style: normal !important;
+font-weight: 600 !important;
+font-size: 14px !important;
+line-height: 130% !important;
+letter-spacing: 0.03em !important;
+text-transform: uppercase !important;
+color: #75758F !important;
+}
+.postition-trans{
+  position: relative;
+    right: 89px;
 }
 
 .modal-body.modal-custom {
