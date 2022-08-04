@@ -159,6 +159,8 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   polygonGaz: any;
   btt: any;
   bttGaz: any;
+  trx: any;
+  trxGaz: any;
   constructor(
     private service: DraftCampaignService,
     private convertFromWeiTo: ConvertFromWei,
@@ -713,7 +715,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       .subscribe((data: any) => {
         data = JSON.parse(JSON.stringify(data));
         this.dataList = data;
-        console.log("aa",this.dataList);
         Object.preventExtensions(this.dataList);
         this.cryptoQuantity = (
           this.dataList.find(
@@ -729,8 +730,9 @@ export class RemunerationComponent implements OnInit, OnDestroy {
           ...this.dataList.filter((data: any) => data.symbol === 'SATTPOLYGON'),
           ...this.dataList.filter((data: any) => data.symbol === 'MATIC'),
           ...this.dataList.filter((data: any) => data.symbol === 'SATTBTT'),
-          ...this.dataList.filter((data: any) => data.symbol === 'BTT')
-
+          ...this.dataList.filter((data: any) => data.symbol === 'BTT'),
+          ...this.dataList.filter((data: any) => data.symbol === 'SATTTRON'),
+          ...this.dataList.filter((data: any) => data.symbol === 'TRON')
         ];
       });
   }
@@ -743,15 +745,18 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         (this.bnb = data['BNB'].price),
           (this.eth = data['ETH'].price),
           (this.matic = data['MATIC'].price),
-          (this.btt = data['BTT'].price)
+          (this.btt = data['BTT'].price),
+          (this.trx = data['TRX'].price);
+
         return {
           bnb: this.bnb,
           Eth: this.eth,
           matic: this.matic,
-          btt: this.btt
+          btt: this.btt,
+          trx: this.trx
         };
       }),
-      switchMap(({ bnb, Eth, matic , btt }) => {
+      switchMap(({ bnb, Eth, matic, btt, trx }) => {
         return forkJoin([
           this.walletFacade.getEtherGaz().pipe(
             take(1),
@@ -804,6 +809,18 @@ export class RemunerationComponent implements OnInit, OnDestroy {
               this.bttGaz = (
                 ((price * GazConsumedByCampaign) / 1000000000) *
                 btt
+              ).toFixed(8);
+            })
+          ),
+          this.walletFacade.getTrxGaz().pipe(
+            take(1),
+            tap((gaz: any) => {
+              let price;
+              price = gaz.data.gasPrice;
+
+              this.trxGaz = (
+                ((price * GazConsumedByCampaign) / 1000000000) *
+                trx
               ).toFixed(8);
             })
           )
@@ -1179,9 +1196,11 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     } else if (this.networks === 'POLYGON') {
       this.gazcurrency = 'MATIC';
       // this.gazcurrency = 'ETH';
-    }
-    else if (this.networks === 'BTT') {
+    } else if (this.networks === 'BTT') {
       this.gazcurrency = 'BTT';
+      // this.gazcurrency = 'ETH';
+    } else if (this.networks === 'TRON') {
+      this.gazcurrency = 'TRX';
       // this.gazcurrency = 'ETH';
     }
     setTimeout(() => {
@@ -1197,6 +1216,10 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       }
       if (this.networks === 'BTT') {
         this.gazsend = this.bttGaz;
+      }
+
+      if (this.networks === 'TRON') {
+        this.gazsend = this.trxGaz;
       }
     }, 4000);
 
@@ -1265,12 +1288,13 @@ export class RemunerationComponent implements OnInit, OnDestroy {
           if (
             currency === 'ETH' ||
             currency === 'BNB' ||
-            currency === 'MATIC'           ) {
+            currency === 'MATIC'
+          ) {
             this.difference = crypto.total_balance - this.gazsend;
             this.newquantity = this.difference / crypto.price;
             let newqua = this.showNumbersRule.transform(this.newquantity);
             let quantit = this.showNumbersRule.transform(crypto.quantity);
-           
+
             if (this.difference < 0) {
               this.form.get('initialBudget')?.setValue(quantit),
                 this.form.get('initialBudgetInUSD')?.setValue('0');
@@ -1278,9 +1302,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
               setTimeout(() => {
                 this.gazproblem = false;
               }, 3000);
-
-             
-
             } else {
               this.form.get('initialBudget')?.setValue(newqua),
                 this.form
