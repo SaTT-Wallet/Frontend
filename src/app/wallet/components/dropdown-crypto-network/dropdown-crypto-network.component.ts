@@ -50,6 +50,7 @@ export class DropdownCryptoNetworkComponent
   private firstEmit = false;
   cryptoList: any = [];
   defaultcurrpolygon: any;
+  defaultcurrtron: any;
   constructor(
     private walletFacade: WalletFacadeService,
     private route: ActivatedRoute,
@@ -61,8 +62,8 @@ export class DropdownCryptoNetworkComponent
       { network: 'ERC20' },
       { network: 'POLYGON' },
       { network: 'BTT' },
-      { network: 'BTC' }
-      // { network: 'TRON' }
+      { network: 'BTC' },
+      { network: 'TRON' }
     ];
   }
 
@@ -94,7 +95,8 @@ export class DropdownCryptoNetworkComponent
     this.defaultcurrbep = ListTokens['SATTBEP20'].name;
     this.defaultcurrbtc = ListTokens['BTC'].name;
      this.defaultcurrpolygon = ListTokens['MATIC'].name;
-     this.defaultcurr= ListTokens['BTT'].name;
+     this.defaultcurrbtt= ListTokens['BTT'].name;
+     this.defaultcurrtron = ListTokens['TRX'].name;
 
   }
   //get list of crypto for user
@@ -110,8 +112,8 @@ export class DropdownCryptoNetworkComponent
         this.dataList = [
           ...this.dataList.filter((data: any) => data.symbol !== 'SATTPOLYGON' &&  data.symbol !== 'SATTBTT' && data.symbol !== 'SATTTRON'
           ),
-       
-          
+
+
         ]
         /*----emit default cryto to receive compoent */
         this.dataList?.forEach((crypto: any) => {
@@ -291,6 +293,12 @@ export class DropdownCryptoNetworkComponent
       this.cryptoName = this.defaultcurrbtt;
       this.cryptoPicName = this.defaultcurrbtt;
       this.cryptoDetails = 'BTT';
+    }
+    else if (network === 'TRON') {
+      this.cryptoSymbol = 'TRX';
+      this.cryptoName = this.defaultcurrtron;
+      this.cryptoPicName = this.defaultcurrtron;
+      this.cryptoDetails = 'TRX';
     }
     this.dataList.forEach((crypto: any) => {
       if (crypto.symbol === this.cryptoDetails) {

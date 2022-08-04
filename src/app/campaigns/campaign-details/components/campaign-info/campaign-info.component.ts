@@ -368,11 +368,11 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
           this.activeInfo = false;
         }
       });
-      
+
 
     this.getStatEarnings();
-    
-     
+
+
     this.walletFacade.loadCryptoList();
     // .getCryptoPriceList()
     this.budgetInUSD = this.walletFacade
@@ -878,6 +878,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
     let etherscan = environment.etherscan;
     let polygonscan = environment.polygonscanAddr;
     let bttscan = environment.bttscanAddr;
+    let tronscan = environment.tronScan;
 
     this.CampaignService.getOneById(this.campaign.id)
       .pipe(
@@ -897,6 +898,10 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
           }else if (data['token']['type'] === 'BTT') {
             this.urlSmartContrat = bttscan + data['transactionHash'];
           }
+          else if (data['token']['type'] === 'TRON') {
+            this.urlSmartContrat = tronscan + data['transactionHash'];
+          }
+
           if (isPlatformBrowser(this.platformId)) {
             this.windowRefService.nativeWindow.open(
               this.urlSmartContrat,
@@ -926,7 +931,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
     return kit?.link;
   }
   getSocialNetwork(): void {
-    
+
     this.socialAccount$
     .pipe(
       catchError(() => {
@@ -948,9 +953,9 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
           params: Params;
           data: any;
         }) => {
-         
-     
-          
+
+
+
           if (data !== null) {
             // let count = 0;
             this.channelGoogle = data.google;
@@ -958,17 +963,17 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
             this.channelFacebook = data.facebook;
             this.channelLinkedin = data.linkedin;
             this.channelTikTok = data.tikTok;
-            
-            
+
+
           }
           else {
-            
+
             this.channelGoogle = [];
             this.channelTwitter = [];
             this.channelFacebook = [];
             this.channelLinkedin = [];
             this.channelTikTok = [];
-           
+
           }
         }
       );
