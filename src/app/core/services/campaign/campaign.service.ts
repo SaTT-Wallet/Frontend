@@ -829,7 +829,7 @@ export class CampaignHttpApiService {
       sattUrl + '/campaign/tron/allow',
       {
         amount: amount,
-        privateKey: password,
+        pass: password,
         tokenAddress: tron.addr
       },
       { headers: this.tokenStorageService.getHeader() }
@@ -1038,15 +1038,12 @@ export class CampaignHttpApiService {
     });
     let walletId = this.tokenStorageService.getIdWallet();
 
-
     return this.http
       .get(sattUrl + '/campaign/filterLinks/' + walletId, {
         headers: header,
         params: campaignId ? queryParamsCamp : queryParams
       })
       .pipe(share());
-
-
   }
 
   allCampaigns2() {
