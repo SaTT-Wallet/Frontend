@@ -10,7 +10,8 @@ import {
   ListTokens,
   GazConsumedByCampaign,
   campaignSmartContractPOLYGON,
-  campaignSmartContractBTT, campaignSmartContractTRON
+  campaignSmartContractBTT,
+  campaignSmartContractTRON
 } from '@config/atn.config';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -334,7 +335,7 @@ export class PasswordModalComponent implements OnInit {
     this.loadingButton = true;
     let tokenSymbol =
       (token === 'BNB' && 'SATTBEP20') || this.campaign.currency.name;
-    TokenOBj.privateKey = campaign_info.pass;
+    TokenOBj.pass = campaign_info.pass;
     TokenOBj.walletaddr = this.tokenStorageService.getIdWallet();
     TokenOBj.addr = ListTokens[tokenSymbol].contract;
     campaign_info.currency = tokenSymbol;
@@ -426,7 +427,8 @@ export class PasswordModalComponent implements OnInit {
         })
       );
     } else if (cryptoNetwork[token] === 'TRON') {
-      if(TokenOBj.addr === 'TRX') TokenOBj.addr = environment.addresses.smartContracts.WTRX
+      if (TokenOBj.addr === 'TRX')
+        TokenOBj.addr = environment.addresses.smartContracts.WTRX;
       campaign_info.tokenAddress = TokenOBj.addr;
       LaunchCampaignObs = this.campaignService.approveTRON(TokenOBj).pipe(
         map((response: any) => response.data),
@@ -470,9 +472,7 @@ export class PasswordModalComponent implements OnInit {
             );
         })
       );
-    }
-
-    else if (cryptoNetwork[token] === 'BTT') {
+    } else if (cryptoNetwork[token] === 'BTT') {
       TokenOBj.addr = environment.addresses.smartContracts.WBTT;
       campaign_info.tokenAddress = TokenOBj.addr;
       LaunchCampaignObs = this.campaignService.approveBTT(TokenOBj).pipe(
@@ -484,7 +484,6 @@ export class PasswordModalComponent implements OnInit {
               new Big(this.campaign.initialBudget)
             )
           ) {
-
             if (this.campaign.remuneration === 'performance') {
               //     confirmationContent
               return this.launchCampaignWithPerPerformanceReward(campaign_info);
