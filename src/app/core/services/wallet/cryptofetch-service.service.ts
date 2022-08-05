@@ -60,6 +60,9 @@ export class CryptofetchServiceService {
   getBttGaz() {
     return this.http.get(sattUrl + '/wallet/BttGasPrice');
   }
+  getTrxGaz() {
+    return this.http.get(sattUrl + '/wallet/TrxGasPrice');
+  }
   getBnbGaz() {
     return this.http.get(sattUrl + '/wallet/Bep20GasPrice', {
       headers: this.tokenStorageService.getHeader()

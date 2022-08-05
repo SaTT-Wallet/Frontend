@@ -243,7 +243,8 @@
                               'MATIC',
                               'CAKE',
                               'MKR',
-                              'USDT'
+                              'USDT',
+                              
                             ].includes(crypto.undername)
                           "
                         >
@@ -268,73 +269,37 @@
                             />
                           </div>
                         </a>
-                        <!-- <a
-                          href="https://app.uniswap.org/#/swap?outputCurrency=0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2"
-                          target="_blank"
-                          rel="noopener"
-                        >
-                          <div *ngIf="crypto.undername === 'MKR'">
-
-                            <img
-                              class="buy-token border-0"
-                              src="/assets/Images/new-buy-token.svg"
-                            />
-                          </div>
-                        </a> -->
-                        <!-- <a
-                          href="https://app.uniswap.org/#/swap?outputCurrency=0xdac17f958d2ee523a2206206994597c13d831ec7 "
-                          target="_blank"
-                          rel="noopener"
-                        >
-                          <div *ngIf="crypto.undername === 'USDT'">
-
-                            <img
-                              class="buy-token border-0"
-                              src="/assets/Images/new-buy-token.svg"
-                            />
-                          </div>
-                        </a> -->
                         <a
-                          href="https://app.uniswap.org/#/swap?outputCurrency=0xe41d2489571d322189246dafa5ebde1f4699f498"
+                          href="https://app.uniswap.org/#/swap?outputCurrency=0xd26114cd6EE289AccF82350c8d8487fedB8A0C07&chain=mainnet"
                           target="_blank"
                           rel="noopener"
                         >
-                          <div *ngIf="crypto.undername === 'ZRX'">
+                          <div *ngIf="crypto.undername === 'OMG'">
                             <!-- <button class="background3 mt-4 ms-2 pt-2 border-0">
-                        <span class="icon-ins buyIcon"></span>
-                      </button> -->
+                              <span class="icon-ins buyIcon"></span>
+                            </button> -->
                             <img
                               class="buy-token border-0"
                               src="/assets/Images/new-buy-token.svg"
                             />
                           </div>
                         </a>
-                        <!-- <a
-                          href="https://pancakeswap.finance/swap#/swap?inputCurrency=USDT&outputCurrency=0x448bee2d93be708b54ee6353a7cc35c4933f1156"
+                        
+                        
+                        <a
+                          href="https://app.uniswap.org/#/swap?outputCurrency=0xe41d2489571d322189246dafa5ebde1f4699f498"
                           target="_blank"
                           rel="noopener"
                         >
-                          <div *ngIf="crypto.undername === 'CAKE'">
-
+                          <div *ngIf="crypto.undername === 'ZRX'">
+                            
                             <img
                               class="buy-token border-0"
                               src="/assets/Images/new-buy-token.svg"
                             />
                           </div>
-                        </a> -->
-                        <!-- <a
-                          href="https://quickswap.exchange/#/swap"
-                          target="_blank"
-                          rel="noopener"
-                        >
-                          <div *ngIf="crypto.undername === 'MATIC'">
-
-                            <img
-                              class="buy-token border-0"
-                              src="/assets/Images/new-buy-token.svg"
-                            />
-                          </div>
-                        </a> -->
+                        </a>
+                        
                         <a
                           href="https://sunswap.com/#/home"
                           target="_blank"
@@ -382,6 +347,7 @@
                             />
                           </div>
                         </a>
+                        
                         <a>
                           <div
                             *ngIf="
@@ -399,16 +365,11 @@
                               crypto.undername !== 'CAKE' &&
                               crypto.undername !== 'MATIC' &&
                               crypto.undername !== 'BTT' &&
+                              crypto.undername !== 'OMG' &&
                               !crypto.AddedToken
                             "
                           >
-                            <!-- <button
-                              class="background3 mt-4 ms-2 pt-2 border-0"
-                              id="{{ crypto.symbol }}"
-                              (click)="buy(crypto.undername, changly)"
-                            >
-                              <span class="icon-ins buyIcon"></span>
-                            </button> -->
+                            
                             <img
                               (click)="buy(crypto.undername)"
                               id="{{ crypto.symbol }}"
