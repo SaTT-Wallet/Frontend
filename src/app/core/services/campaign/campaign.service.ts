@@ -741,6 +741,18 @@ export class CampaignHttpApiService {
     );
   }
 
+  approveTRON(tron: any) {
+    return this.http.post(
+      sattUrl + '/campaign/tron/approval',
+      {
+        tokenAddress: tron.addr,
+        privateKey: tron.privateKey
+      },
+
+      { headers: this.tokenStorageService.getHeader() }
+    );
+  }
+
   approvePOLYGON(token: any) {
     return this.http.post(
       sattUrl + '/campaign/polygon/approval',
@@ -805,6 +817,20 @@ export class CampaignHttpApiService {
         amount: amount,
         pass: password,
         tokenAddress: token.addr
+      },
+      { headers: this.tokenStorageService.getHeader() }
+    );
+  }
+
+  allowTRON(tron: any, password: any) {
+    let amount = '999999999999999999999999999999999999999999999999999999999';
+    // const BEP20 = ListTokens["SATTBEP20"].contract;
+    return this.http.post(
+      sattUrl + '/campaign/tron/allow',
+      {
+        amount: amount,
+        pass: password,
+        tokenAddress: tron.addr
       },
       { headers: this.tokenStorageService.getHeader() }
     );

@@ -4,7 +4,7 @@ import {
   bscan,
   bttscanAddr,
   etherscan,
-  polygonscanAddr
+  polygonscanAddr, tronscanAddr
 } from '@app/config/atn.config';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 
@@ -39,39 +39,22 @@ export class CopyTransactionHashComponent {
   ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges) {
-    
+
 
     if (changes) {
-      if (this.networkWallet?.toLowerCase() === 'bep20') {
-        this.tokenStorageService.removeItem('network');
-        this.tokenStorageService.setItem('network', this.networkWallet);
-      }
-      if (this.networkWallet?.toLowerCase() === 'erc20') {
-        this.tokenStorageService.removeItem('network');
-        this.tokenStorageService.setItem('network', this.networkWallet);
-      }
-      if (this.networkWallet?.toLowerCase() === 'polygon') {
-        this.tokenStorageService.removeItem('network');
-        this.tokenStorageService.setItem('network', this.networkWallet);
-      }
-      if (this.networkWallet?.toLowerCase() === 'btt') {
-        this.tokenStorageService.removeItem('network');
-        this.tokenStorageService.setItem('network', this.networkWallet);
-      }
+      this.tokenStorageService.removeItem('network');
+      this.tokenStorageService.setItem('network', this.networkWallet);
       if (this.tokenStorageService.getNetwork() === 'bep20') {
         this.networkWallet = bscan + this.transactionHash;
-        //this.windowRefService.nativeWindow.open(this.networkWallet, '_blank');
       } else if (this.tokenStorageService.getNetwork() === 'erc20') {
         this.networkWallet = etherscan + this.transactionHash;
-        //this.windowRefService.nativeWindow.open(this.networkWallet, '_blank');
       } else if (this.tokenStorageService.getNetwork() === 'POLYGON') {
         this.networkWallet = polygonscanAddr + this.transactionHash;
-        //this.windowRefService.nativeWindow.open(this.networkWallet, '_blank');
       } else if (this.tokenStorageService.getNetwork() === 'BTT') {
-       
         this.networkWallet = bttscanAddr + this.transactionHash;
-   
-        //this.windowRefService.nativeWindow.open(this.networkWallet, '_blank');
+      }
+      else if (this.tokenStorageService.getNetwork() === 'TRON') {
+        this.networkWallet = tronscanAddr + this.transactionHash;
       }
     }
   }

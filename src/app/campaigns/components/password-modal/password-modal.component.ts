@@ -10,7 +10,7 @@ import {
   ListTokens,
   GazConsumedByCampaign,
   campaignSmartContractPOLYGON,
-  campaignSmartContractBTT
+  campaignSmartContractBTT, campaignSmartContractTRON
 } from '@config/atn.config';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -27,6 +27,7 @@ import { forkJoin, Observable, of, Subject } from 'rxjs';
 import { CampaignsStoreService } from '@campaigns/services/campaigns-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { DraftCampaignStoreService } from '@core/services/draft-campaign-store.service';
+import { environment } from '@environments/environment';
 enum EOraclesID {
   'facebook' = 1,
   'youtube',
@@ -161,6 +162,11 @@ export class PasswordModalComponent implements OnInit {
         case 'BTT': {
           _campaign.contract = campaignSmartContractBTT;
           _campaign.network = 'BTT';
+          break;
+        }
+        case 'TRON': {
+          _campaign.contract = campaignSmartContractTRON;
+          _campaign.network = 'TRON';
           break;
         }
       }
@@ -328,12 +334,11 @@ export class PasswordModalComponent implements OnInit {
     this.loadingButton = true;
     let tokenSymbol =
       (token === 'BNB' && 'SATTBEP20') || this.campaign.currency.name;
-
+    TokenOBj.privateKey = campaign_info.pass;
     TokenOBj.walletaddr = this.tokenStorageService.getIdWallet();
     TokenOBj.addr = ListTokens[tokenSymbol].contract;
     campaign_info.currency = tokenSymbol;
     let LaunchCampaignObs: Observable<any>;
-
     if (cryptoNetwork[token] === 'BEP20') {
       LaunchCampaignObs = this.campaignService.approveBEP20(TokenOBj).pipe(
         map((response: any) => response.data),
@@ -420,8 +425,56 @@ export class PasswordModalComponent implements OnInit {
             );
         })
       );
-    } else if (cryptoNetwork[token] === 'BTT') {
-      TokenOBj.addr = '0xD6Cb96a00b312D5930FC2E8084A98ff2Daa5aD2e';
+    } else if (cryptoNetwork[token] === 'TRON') {
+      if(TokenOBj.addr === 'TRX') TokenOBj.addr = environment.addresses.smartContracts.WTRX
+      campaign_info.tokenAddress = TokenOBj.addr;
+      LaunchCampaignObs = this.campaignService.approveTRON(TokenOBj).pipe(
+        map((response: any) => response.data),
+        switchMap((response: any) => {
+          this.passwordForm.reset();
+          if (
+            new Big(response.allowance.amount).gt(
+              new Big(this.campaign.initialBudget)
+            )
+          ) {
+            if (this.campaign.remuneration === 'performance') {
+              //     confirmationContent
+              return this.launchCampaignWithPerPerformanceReward(campaign_info);
+            } else if (this.campaign.remuneration === 'publication') {
+              //     confirmationContent
+              return this.launchCampaignWithPerPublicationReward(campaign_info);
+            }
+          }
+
+          return this.campaignService
+            .allowTRON(TokenOBj, campaign_info.pass)
+            .pipe(
+              tap((response: any) => {
+                if (response['error'] === 'Wrong password') {
+                  this.errorMessage = 'wrong_password';
+                }
+              }),
+              concatMap(() => {
+                if (this.campaign.remuneration === 'performance') {
+                  return this.launchCampaignWithPerPerformanceReward(
+                    campaign_info
+                  );
+                } else if (this.campaign.remuneration === 'publication') {
+                  return this.launchCampaignWithPerPublicationReward(
+                    campaign_info
+                  );
+                }
+                return of(null);
+              }),
+              takeUntil(this.isDestroyed)
+            );
+        })
+      );
+    }
+
+    else if (cryptoNetwork[token] === 'BTT') {
+      TokenOBj.addr = environment.addresses.smartContracts.WBTT;
+      campaign_info.tokenAddress = TokenOBj.addr;
       LaunchCampaignObs = this.campaignService.approveBTT(TokenOBj).pipe(
         map((response: any) => response.data),
         switchMap((response: any) => {
@@ -431,8 +484,6 @@ export class PasswordModalComponent implements OnInit {
               new Big(this.campaign.initialBudget)
             )
           ) {
-            campaign_info.tokenAddress =
-              '0xD6Cb96a00b312D5930FC2E8084A98ff2Daa5aD2e';
 
             if (this.campaign.remuneration === 'performance') {
               //     confirmationContent
