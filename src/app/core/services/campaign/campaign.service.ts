@@ -746,7 +746,7 @@ export class CampaignHttpApiService {
       sattUrl + '/campaign/tron/approval',
       {
         tokenAddress: tron.addr,
-        privateKey: tron.privateKey
+        pass: tron.pass
       },
 
       { headers: this.tokenStorageService.getHeader() }
