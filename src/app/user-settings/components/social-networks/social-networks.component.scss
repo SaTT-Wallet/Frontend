@@ -607,6 +607,11 @@ label:active:after {
   }
   .social-network-bloc .ch-name {
     font-size: 12px !important;
+    width: 59px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    position: relative;
   }
   .sa-subscribers-number {
     font-size: 12px !important;
