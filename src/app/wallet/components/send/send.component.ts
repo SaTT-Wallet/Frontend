@@ -122,6 +122,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   contactWallet: string = '';
   maxAmountNumber: number = 999999999;
   maxUsdAmountNumber: number = 9999999999999;
+  noTronWallet : boolean = false;
+ notValidAdressWallet : boolean = false;
 
   sattBalance: any;
 
@@ -266,7 +268,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         });
         this.showWalletSpinner = false;
 
-        // this.selectedCryptoDetails = this.dataList.find((crypto: any) => crypto.symbol === 'SATT');
+        this.selectedCryptoDetails = this.dataList.find((crypto: any) => crypto.symbol === 'SATT');
       });
   }
 
@@ -567,7 +569,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               error.error.error ===
                 'Returned error: execution reverted: BEP20: transfer amount exceeds balance' ||
               error.error.error ===
-                'Returned error: execution reverted: ERC20: transfer amount exceeds balance'
+                'Returned error: execution reverted: ERC20: transfer amount exceeds balance'  || 
+                            error.error.error ===
+                              'Returned error: execution reverted'
             ) {
               this.nobalance = true;
               setTimeout(() => {
@@ -578,7 +582,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
                 this.showPwdBloc = false;
               }, 2000);
               this.sendform.reset();
-            } else if (
+            } 
+            else if (
               error.error.error === 'No enough balance to perform withdraw !!'
             ) {
               this.nobalance = true;
@@ -602,6 +607,20 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               //   this.gazproblem = false;
               // }, 3000);
               this.sendform.reset();
+            }
+            else if ( error.error.error === "The account doesn't have a tron address !"  ){
+                          this.showErrorBloc = true;
+                          this.noTronWallet = true;
+                          this.showSuccessBloc = false;
+                          this.showAmountBloc = false;
+                          this.showPwdBloc = false;
+            }
+            else if ( error.error.error === "The recipient address is not a valid tron address !!"  ){
+                           this.showErrorBloc = true;
+                          this.notValidAdressWallet = true;
+                          this.showSuccessBloc = false;
+                          this.showAmountBloc = false;
+                           this.showPwdBloc = false;
             }
 
             this.showSpinner = false;

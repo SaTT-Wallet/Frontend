@@ -270,7 +270,7 @@
           class="li-menu"
           [ngClass]="{ 'is-visited': menuBuyToken }"
           id="intro6"
-          style="position: relative; margin-right: 2rem;     width: 70px;
+          style="position: relative; margin-right: 2rem;     width: 70px!important;
           "
         >
           <a
@@ -779,7 +779,9 @@
 </div> -->
 
 <div
-  *ngIf="this.sidebarService.toggleWalletMobile.value && isLayoutDesktop ===false"
+  *ngIf="
+    this.sidebarService.toggleWalletMobile.value && isLayoutDesktop === false
+  "
   class="sidebarMoreMobile row"
 >
   <P class="d-flex justify-content-center titleIDW" style="margin: 0"

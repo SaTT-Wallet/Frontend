@@ -631,6 +631,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
         '&fromDefault=usd&toDefault=usdt20&theme=default&payment_id=&v=3';
       this.buyIframSrc = this.dom.bypassSecurityTrustResourceUrl(url);
       this.showBigSpinner = false;
+    } else if (now === 'trx') {
     } else {
       this.isBitcoinAdress = false;
       this.isERC20Adress = true;
@@ -808,6 +809,9 @@ export class CryptoListComponent implements OnInit, OnDestroy {
                   'https://app.uniswap.org/#/swap?outputCurrency=0x70a6395650b47d94a77de4cfedf9629f6922e645',
                   '_blank'
                 );
+            } else if (crypto.symbol === 'TRX') {
+              if (isPlatformBrowser(this.platformId))
+                window.open('https://sunswap.com/#/home', '_blank');
             } else if (
               crypto.symbol === 'CAKE' ||
               crypto.symbol === 'MKR' ||
