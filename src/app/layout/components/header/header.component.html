@@ -782,7 +782,9 @@
 </div> -->
 
 <div
-  *ngIf="this.sidebarService.toggleWalletMobile.value && isLayoutDesktop ===false"
+  *ngIf="
+    this.sidebarService.toggleWalletMobile.value && isLayoutDesktop === false
+  "
   class="sidebarMoreMobile row"
 >
   <P class="d-flex justify-content-center titleIDW" style="margin: 0"
