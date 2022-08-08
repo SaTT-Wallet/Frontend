@@ -243,8 +243,7 @@
                               'MATIC',
                               'CAKE',
                               'MKR',
-                              'USDT',
-                              
+                              'USDT'
                             ].includes(crypto.undername)
                           "
                         >
@@ -284,22 +283,20 @@
                             />
                           </div>
                         </a>
-                        
-                        
+
                         <a
                           href="https://app.uniswap.org/#/swap?outputCurrency=0xe41d2489571d322189246dafa5ebde1f4699f498"
                           target="_blank"
                           rel="noopener"
                         >
                           <div *ngIf="crypto.undername === 'ZRX'">
-                            
                             <img
                               class="buy-token border-0"
                               src="/assets/Images/new-buy-token.svg"
                             />
                           </div>
                         </a>
-                        
+
                         <a
                           href="https://sunswap.com/#/home"
                           target="_blank"
@@ -347,7 +344,7 @@
                             />
                           </div>
                         </a>
-                        
+
                         <a>
                           <div
                             *ngIf="
@@ -366,10 +363,11 @@
                               crypto.undername !== 'MATIC' &&
                               crypto.undername !== 'BTT' &&
                               crypto.undername !== 'OMG' &&
+                              crypto.undername !== 'OMG' &&
+                              crypto.undername !== 'TRX' &&
                               !crypto.AddedToken
                             "
                           >
-                            
                             <img
                               (click)="buy(crypto.undername)"
                               id="{{ crypto.symbol }}"
@@ -378,6 +376,14 @@
                             />
                           </div>
                         </a>
+                        <a
+                          href="https://sunswap.com/#/home"
+                          target="_blank"
+                          *ngIf="crypto.undername === 'TRX'"
+                          ><img
+                            src="/assets/Images/new-buy-token.svg"
+                            alt="{{ 'buy ' + crypto.undername }}"
+                        /></a>
                       </div>
                       <div
                         class="col-1 d-flex justify-content-start align-items-center"
@@ -684,6 +690,7 @@
                                   crypto.undername !== 'BTC' &&
                                   crypto.undername !== 'DAI' &&
                                   crypto.undername !== 'BUSD' &&
+                                  crypto.undername !== 'TRX' &&
                                   !crypto.AddedToken
                                 "
                               >
@@ -1074,7 +1081,7 @@
                               </span>
                             </ng-container>
                           </div>
-                          
+
                         </div>
                       </div>
                       <div
@@ -1111,7 +1118,7 @@
                               </span>
                             </ng-container>
                           </div>
-                        
+
                           <ng-template #spinner>
                             <div class="cryptoprice p-1 mt-4 textalignEnd">
                               <img src="./../../../assets/Images/Spin.gif" />
@@ -1120,7 +1127,7 @@
                         </div>
                       </div>
 
-                 
+
                       <div
                         class="col-1 d-flex align-items-center justify-content-start"
                         style="background: #f6f6ff; box-shadow: 4px 0px #f6f6ff"
@@ -1193,7 +1200,7 @@
                                 ].includes(crypto.undername)
                               "
                             >
-                     
+
                               <img
                                 class="buy-token border-0"
                                 src="assets/Images/buyShape.png"
@@ -1205,7 +1212,7 @@
                               rel="noopener"
                             >
                               <div *ngIf="crypto.undername === 'WSATT'">
-                           
+
                                 <img
                                   class="buy-token border-0"
                                   src="/assets/Images/new-buy-token.svg"
@@ -1226,7 +1233,7 @@
                                   !crypto.AddedToken
                                 "
                               >
-                          
+
                                 <img
                                   (click)="buy(crypto.undername)"
                                   id="{{ crypto.symbol }}"
@@ -1359,7 +1366,7 @@
                               </span>
                             </ng-container>
                           </div>
-                        
+
                         </div>
                       </div>
                       <div
@@ -1396,7 +1403,7 @@
                               </span>
                             </ng-container>
                           </div>
-                        
+
                           <ng-template #spinner>
                             <div class="cryptoprice p-1 mt-4 textalignEnd">
                               <img src="./../../../assets/Images/Spin.gif" />
@@ -1405,7 +1412,7 @@
                         </div>
                       </div>
 
-                   
+
                       <div
                         class="col-1 d-flex align-items-center justify-content-start"
                         style="background: #f6f6ff; box-shadow: 4px 0px #f6f6ff"
@@ -1478,7 +1485,7 @@
                                 ].includes(crypto.undername)
                               "
                             >
-                       
+
                               <img
                                 class="buy-token border-0"
                                 src="assets/Images/buyShape.png"
@@ -1490,7 +1497,7 @@
                               rel="noopener"
                             >
                               <div *ngIf="crypto.undername === 'WSATT'">
-                      
+
                                 <img
                                   class="buy-token border-0"
                                   src="/assets/Images/new-buy-token.svg"
@@ -1511,7 +1518,7 @@
                                   !crypto.AddedToken
                                 "
                               >
-                         
+
                                 <img
                                   (click)="buy(crypto.undername)"
                                   id="{{ crypto.symbol }}"
@@ -1574,7 +1581,7 @@
                               </span>
                             </ng-container>
                           </div>
-                        
+
                         </div>
                       </div>
                       <div
@@ -1611,7 +1618,7 @@
                               </span>
                             </ng-container>
                           </div>
-                       
+
                           <ng-template #spinner>
                             <div class="cryptoprice p-1 mt-4 textalignEnd">
                               <img src="./../../../assets/Images/Spin.gif" />
@@ -1620,7 +1627,7 @@
                         </div>
                       </div>
 
-                    
+
                       <div
                         class="col-1 d-flex align-items-center justify-content-start"
                         style="background: #f6f6ff; box-shadow: 4px 0px #f6f6ff"
@@ -1693,7 +1700,7 @@
                                 ].includes(crypto.undername)
                               "
                             >
-                            
+
                               <img
                                 class="buy-token border-0"
                                 src="assets/Images/buyShape.png"
@@ -1705,7 +1712,7 @@
                               rel="noopener"
                             >
                               <div *ngIf="crypto.undername === 'WSATT'">
-                          
+
                                 <img
                                   class="buy-token border-0"
                                   src="/assets/Images/new-buy-token.svg"
@@ -1726,7 +1733,7 @@
                                   !crypto.AddedToken
                                 "
                               >
-                            
+
                                 <img
                                   (click)="buy(crypto.undername)"
                                   id="{{ crypto.symbol }}"
