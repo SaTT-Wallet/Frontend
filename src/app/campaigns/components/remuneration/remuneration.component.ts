@@ -732,7 +732,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
           ...this.dataList.filter((data: any) => data.symbol === 'SATTBTT'),
           ...this.dataList.filter((data: any) => data.symbol === 'BTT'),
           ...this.dataList.filter((data: any) => data.symbol === 'SATTTRON'),
-          ...this.dataList.filter((data: any) => data.symbol === 'TRON')
+          ...this.dataList.filter((data: any) => data.symbol === 'TRX')
         ];
       });
   }

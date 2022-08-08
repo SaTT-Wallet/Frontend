@@ -201,7 +201,7 @@ export class PasswordModalComponent implements OnInit {
       return Math.floor(
         date.setMinutes(
           this.campaign.startDate.getMinutes() +
-            60 +
+
             (30 - startDate.getMinutes())
         ) / 1000
       );
@@ -209,7 +209,7 @@ export class PasswordModalComponent implements OnInit {
       return Math.floor(
         date.setMinutes(
           this.campaign.startDate.getMinutes() +
-            60 +
+
             (60 - startDate.getMinutes())
         ) / 1000
       );
