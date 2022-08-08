@@ -334,6 +334,16 @@
         </p>
         <p>{{ 'Please-verify-your-informations' | translate }}</p>
       </div>
+      <div class="text-center mt-2" *ngIf="noTronWallet">
+         <p class="m-0">
+          {{ 'Create Tron Wallet' | translate }}
+         </p>
+       </div>
+        <div class="text-center mt-2" *ngIf="notValidAdressWallet">
+          <p class="m-0">
+          {{ 'Not Valid Tron Wallet' | translate }}
+        </p>
+        </div>
       <div *ngIf="gazproblem" class="text-center mt-2">
         <p>{{ 'send.To-complete-this-ransaction.gazfailed' | translate }}</p>
       </div>
