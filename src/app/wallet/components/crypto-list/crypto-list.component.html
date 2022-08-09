@@ -243,7 +243,8 @@
                               'MATIC',
                               'CAKE',
                               'MKR',
-                              'USDT'
+                              'USDT',
+                              'TRX'
                             ].includes(crypto.undername)
                           "
                         >
@@ -376,14 +377,6 @@
                             />
                           </div>
                         </a>
-                        <a
-                          href="https://sunswap.com/#/home"
-                          target="_blank"
-                          *ngIf="crypto.undername === 'TRX'"
-                          ><img
-                            src="/assets/Images/new-buy-token.svg"
-                            alt="{{ 'buy ' + crypto.undername }}"
-                        /></a>
                       </div>
                       <div
                         class="col-1 d-flex justify-content-start align-items-center"
