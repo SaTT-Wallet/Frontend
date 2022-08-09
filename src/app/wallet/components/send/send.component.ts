@@ -559,7 +559,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           (error) => {
             if (
               error.error.error ===
-              'Key derivation failed - possibly wrong password'
+              'Key derivation failed - possibly wrong password' ||  'Invalid private key provided'
             ) {
               this.wrongpassword = true;
               setTimeout(() => {
@@ -828,6 +828,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   convertcurrency(event: any, restrict?: boolean): void {
+    
     let allow: boolean = true;
     if (restrict !== undefined && restrict === false) {
       allow = false;
@@ -885,6 +886,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             crypto.symbol === currency
           ) {
             this.amount = sendusd / crypto.price;
+            console.log(this.amount)
             this.amount = this.showNumbersRule.transform(this.amount);
             if (
               sendamount === '0.00000000' ||
