@@ -217,6 +217,10 @@ export class WalletFacadeService {
     return this.cryptofetchServiceService.getBttGaz();
   }
 
+  getTrxGaz() {
+    return this.cryptofetchServiceService.getTrxGaz();
+  }
+
   loadBttGaz() {
     this.walletStoreService.getBttGaz();
   }
@@ -241,6 +245,10 @@ export class WalletFacadeService {
       }
       case 'polygon': {
         return this.getPolygonGaz();
+      }
+
+      case 'tron': {
+        return this.getTrxGaz();
       }
       default: {
         return this.getBnbGaz();
@@ -295,7 +303,7 @@ export class WalletFacadeService {
     if (digitalCurrency === 'TETHER') {
       digitalCurrency = 'USDT';
     }
-    if (digitalCurrency === 'Maker') {
+    if (digitalCurrency === 'MAKER') {
       digitalCurrency = 'MKR';
     }
     return this.cryptofetchServiceService.convertCrypto(

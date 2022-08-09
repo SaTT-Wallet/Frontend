@@ -1,15 +1,17 @@
 
-import { PLATFORM_ID,Component, OnInit, Inject } from '@angular/core';
+import { PLATFORM_ID,Component, OnInit, Inject, NgModule } from '@angular/core';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { environment as env } from './../../../../environments/environment';
-import { takeUntil } from 'rxjs/operators';
+import { OwlOptions } from 'ngx-owl-carousel-o';
+
 
 const bscanaddr = env.bscanaddr;
 const etherscanaddr = env.etherscanaddr;
 const tronScanAddr = env.tronScanAddr;
 const polygonscanAddr = 'https://mumbai.polygonscan.com/address/';
 const bttscanAddr = 'https://testnet.bttcscan.com/address/';
+const btcScanAddr ='https://www.blockchain.com/btc/address/';
 
 
 @Component({
@@ -17,7 +19,36 @@ const bttscanAddr = 'https://testnet.bttcscan.com/address/';
   templateUrl: './qr-code.component.html',
   styleUrls: ['./qr-code.component.scss']
 })
+
+
+
 export class QRCodeComponent implements OnInit {
+  
+  customOptions: OwlOptions = {
+    loop: true,
+    mouseDrag: false,
+    touchDrag: true,
+    pullDrag: true,
+    dots: false,
+    navSpeed: 700,
+    navText: ['', ''],
+    responsive: {
+      0: {
+        items: 1
+      },
+      400: {
+        items: 2
+      },
+      740: {
+        items: 3
+      },
+      940: {
+        items: 4
+      }
+    },
+    nav: true
+  }
+  
   btcCode: string = '';
   eth: string = '';
   tronAddress: string = '';
@@ -34,11 +65,15 @@ export class QRCodeComponent implements OnInit {
   isTransactionHashCopiedbtc = false;
   isTransactionHashCopiedtron = false;
 
+  
+
 
   constructor(private walletFacade: WalletFacadeService,
     @Inject(PLATFORM_ID) private platformId: string) { }
 
   ngOnInit(): void {
+    
+
     this.portfeuille();
   }
   portfeuille() {
@@ -50,9 +85,9 @@ export class QRCodeComponent implements OnInit {
           this.btcCode = data.data.btc;
           this.eth = data.data.address;
           this.tronAddress = data.data.tronAddress;
-          this.url1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.eth}&chs=150x150`;
-          this.url2 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.btcCode}&chs=150x150`;
-          this.url3 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.tronAddress}&chs=150x150`;
+          this.url1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.eth}&chs=222x222`;
+          this.url2 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.btcCode}&chs=222x222`;
+          this.url3 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.tronAddress}&chs=222x222`;
 
 
           // assign qr code  uls
@@ -102,6 +137,12 @@ export class QRCodeComponent implements OnInit {
     if (isPlatformBrowser(this.platformId))
       window.open(tronScanAddr + tronAddress, '_blank');
   }
+  goToBtcScan(btcCode: any) {
+    if (isPlatformBrowser(this.platformId))
+      window.open(btcScanAddr + btcCode, '_blank');
+  }
+
+  
 
   
 

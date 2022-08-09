@@ -1238,7 +1238,9 @@ button:focus {
 }
 
 .gap {
-  gap: 1rem;
+  gap: 2rem;
+  padding-left: 80px;
+  padding-right: 80px;
 }
 
 .span-wallet {
@@ -1263,7 +1265,7 @@ button:focus {
 }
 
 .span-text-wallet {
-  color: #ffffff;
+  color: #4048ff;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
@@ -1426,14 +1428,122 @@ bottom: 77.54% ; */
 .QR :active {
   background-color: aqua;
 }
+.container {
+  display: flex;
+  gap: 40px;
+  overflow-x: auto;
+  padding-right: 81px !important;
+  padding-left: 81px !important;
+}
+.adressBlock {
+  flex-direction: column;
+}
+.container::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0;
+}
+
+.container .item {
+  height: 100%;
+  width: 100%;
+  text-align: center;
+}
+
+.TBC {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 25px;
+  /* or 139% */
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.02em;
+
+  color: #ffffff;
+}
+.visa-card {
+  position: absolute;
+  left: 100px;
+  bottom: 5px;
+}
+@media (max-width: 1112px) {
+  .visa-card {
+    // transform: scale(0.6) !important;
+    // left: 90px;
+    display: none;
+  }
+}
+
+.wallet-address {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.title {
+  /* MOBILE/Titles/H3 */
+
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 28px;
+  /* or 140% */
+
+  text-align: center;
+  letter-spacing: 1px;
+  white-space: nowrap;
+
+  color: #ffffff;
+}
+
+.btnNavigate {
+  background: #ffffff;
+  border-radius: 32px;
+  border: 0;
+  width: 89px;
+  height: 49px;
+}
+.tbutton {
+  padding-top: 15px;
+
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+}
+
+// .timg {
+//   // width: 30px;
+//   // height: 30px;
+// }
+
+.titleIDW {
+  padding-top: 15px;
+  padding-bottom: -20px;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 28px;
+  /* or 140% */
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 1px;
+
+  color: #ffffff;
+}
 
 .sidebarMoreMobile {
   display: flex;
-  flex-direction: column;
+  // flex-direction: column;
   padding: 0;
   width: 105%;
   max-height: -webkit-fill-available;
-  height: calc(var(--vh, 1vh) * 100);
+  // height: calc(var(--vh, 1vh) * 100);
   background: linear-gradient(
     180deg,
     #323754 38.54%,
@@ -1450,6 +1560,7 @@ bottom: 77.54% ; */
   top: 56px;
   /* margin-top: 59px; */
   min-height: 100vh;
+  flex-direction: column;
 }
 
 :host ::ng-deep .popover-body {
@@ -1468,7 +1579,11 @@ bottom: 77.54% ; */
 }
 
 .navbar {
-  background: linear-gradient(180deg, rgba(31, 35, 55, 0.7) 17.18%, rgba(31, 35, 55, 0) 99.75%);
+  background: linear-gradient(
+    180deg,
+    rgba(31, 35, 55, 0.7) 17.18%,
+    rgba(31, 35, 55, 0) 99.75%
+  );
 
   /*background: rgb(31, 35, 55);
   /* background: rgba(31, 35, 55, 0.8); */
@@ -1482,9 +1597,9 @@ bottom: 77.54% ; */
   width: 100%;
   z-index: 999 !important;
   color: white;
-/*  position: fixed;*/
+  /*  position: fixed;*/
 }
-.header-absolute{
+.header-absolute {
   position: absolute;
 }
 .navbar-trans {
@@ -1493,22 +1608,25 @@ bottom: 77.54% ; */
     180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%);
    
     background: linear-gradient(180deg, rgba(31, 35, 55, 0.35) 17.22%, rgba(31, 35, 55, 0) 100%); */
-    background: linear-gradient(180deg, rgba(31, 35, 55, 0.7) 17.18%, rgba(31, 35, 55, 0) 99.75%);
-
-
+  background: linear-gradient(
+    180deg,
+    rgba(31, 35, 55, 0.7) 27.82%,
+    rgba(31, 35, 55, 0) 161.54%
+  );
 }
+
 .navbar-trans2 {
- /* background: linear-gradient(180deg,#1f2337b3 27.82%,#1f233700 161.54%)*/
- background: linear-gradient(180deg,#1f2337b3 27.82%,#1f233700 161.54%);
+  /* background: linear-gradient(180deg,#1f2337b3 27.82%,#1f233700 161.54%)*/
+  background: linear-gradient(180deg, #1f2337b3 27.82%, #1f233700 161.54%);
 }
-.navbar-wallet{
-  background: rgb(40,46,114);
-  background: linear-gradient(180deg, rgba(40,46,114,1) 0%, rgba(40,46,114,1) 30%, rgba(64,72,255,1) 100%);
-
-
-
-
-
+.navbar-wallet {
+  background: rgb(40, 46, 114);
+  background: linear-gradient(
+    180deg,
+    rgba(40, 46, 114, 1) 0%,
+    rgba(40, 46, 114, 1) 30%,
+    rgba(64, 72, 255, 1) 100%
+  );
 }
 
 @media (min-width: 1024px) {
@@ -1546,8 +1664,6 @@ bottom: 77.54% ; */
       rgba(31, 35, 55, 0.53) 0%,
       rgba(31, 35, 55, 0) 100%
     );*/
-  
-    
   }
   .navbar-dark-blue {
     background: linear-gradient(

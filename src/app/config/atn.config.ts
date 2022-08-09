@@ -7,6 +7,12 @@ const bscan = env.bscan;
 const etherscan = env.etherscan;
 const polygonscanAddr = env.polygonscanAddr;
 const bttscanAddr = env.bttscanAddr;
+const tronscanAddr = env.tronScanAddr;
+const tronScan = env.tronScan;
+
+
+
+
 const campaignSmartContractERC20 = env.addresses.smartContracts.campaignERC20;
 
 const campaignSmartContractBEP20 = env.addresses.smartContracts.campaignBEP20;
@@ -15,6 +21,7 @@ const campaignSmartContractPOLYGON =
   env.addresses.smartContracts.campaignPOLYGON;
 
 const campaignSmartContractBTT = env.addresses.smartContracts.campaignBTT;
+const campaignSmartContractTRON = env.addresses.smartContracts.campaignTRON;
 
 const id_campaign_to_participate = '61139d487048d8251bf91401';
 
@@ -154,6 +161,9 @@ cryptoNetwork['(smart chain)'] =
 cryptoNetwork['SATTPOLYGON'] = 'POLYGON';
 cryptoNetwork['SATTBTT'] = 'BTT';
 cryptoNetwork['BTT'] = 'BTT';
+cryptoNetwork['TRX'] = 'TRON';
+cryptoNetwork['SATTTRON'] = 'TRON';
+
 
 var ListTokens: { [key: string]: { [key: string]: any } } = {
   SATT: {
@@ -191,7 +201,7 @@ var ListTokens: { [key: string]: { [key: string]: any } } = {
   SATTTRON: {
     name: 'SATTTRON',
     contract: env.addresses.smartContracts.SATT_TOKENTRON,
-    decimals: new Big('10').pow(18),
+    decimals: new Big('10').pow(6),
     logo: 'SATT.svg',
     type: 'BTT',
     symbole: 'SATTTRON'
@@ -214,7 +224,7 @@ var ListTokens: { [key: string]: { [key: string]: any } } = {
   },
   TRX: {
     name: 'TRX',
-    contract: 'TNUC9Qb1rRpS5CbWLmNMxXBjyFoydXjWFR',
+    contract: 'TRX',
     decimals: new Big('10').pow(6),
     logo: 'TRON.svg',
     type: 'TRON',
@@ -311,7 +321,7 @@ var ListTokens: { [key: string]: { [key: string]: any } } = {
   },
   BTT: {
     name: 'BTT',
-    contract: 'BTT',
+    contract: null,
     decimals: new Big('10').pow(18),
     logo: 'BTT.svg',
     type: 'BTT',
@@ -872,6 +882,7 @@ export {
   campaignSmartContractBEP20,
   campaignSmartContractPOLYGON,
   campaignSmartContractBTT,
+  campaignSmartContractTRON,
   pattContact,
   pattEmail,
   pattNetwork,
@@ -896,5 +907,7 @@ export {
   polygonscanAddr,
   bttscanAddr,
   dataList,
-  cryptoList
+  cryptoList,
+  tronscanAddr,
+  tronScan
 };
