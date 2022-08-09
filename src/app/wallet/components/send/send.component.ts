@@ -864,12 +864,11 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           ) {
             this.amountUsd = crypto.price * sendamount;
             this.amountUsd = this.showNumbersRule.transform(this.amountUsd);
-
             if(this.amountUsd<0.1) {
               this.amountUsd= new Big(this.amountUsd).toFixed(8).toString();
             }
-
-
+          
+           
             if (isNaN(this.amountUsd)) {
               this.amountUsd = '';
               this.amount = '';

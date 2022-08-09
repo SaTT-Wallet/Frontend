@@ -47,7 +47,7 @@ import {
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { DOCUMENT } from '@angular/common';
 import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
-import Big from 'big.js';
+import { Big } from 'big.js';
 enum ERemunerationType {
   Publication = 'publication',
   Performance = 'performance'

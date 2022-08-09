@@ -2918,6 +2918,7 @@
   "cmp_candidate_insert_link": "Votre lien a été ajouter pour la campagne",
   "cmp_candidate_accepted": "Un nouveau lien a été ajouté à votre campagne",
   "cmp_candidate_rejected": "Votre candidature à la campagne a été rejetée",
+  "campaign_success": "Félicitations ! Votre campagne est maintenant prêt à être lancé.",
   "validate_kyc": "Votre identité a été confirmée, vous pouvez désormais envoyer des Tokens SaTT depuis votre portefeuille",
   "save_buy_satt_event": "Achat de crypto-monnaie",
   "transfer_satt_event": "Transefer de crypto-monnaie",
