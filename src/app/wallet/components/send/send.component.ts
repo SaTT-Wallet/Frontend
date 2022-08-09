@@ -42,8 +42,9 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Location } from '@angular/common';
 import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.service';
 import { BarcodeFormat } from '@zxing/library';
-import { Router } from '@angular/router';
+import {  Router } from '@angular/router';
 import { ITransferTokensRequestBody } from '@app/core/services/wallet/wallet.service';
+
 @Component({
   selector: 'app-send',
   templateUrl: './send.component.html',
@@ -167,7 +168,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     @Inject(PLATFORM_ID) private platformId: string,
     private _location: Location,
     private kycFacadeService: KycFacadeService,
-    private router: Router
+    private router: Router,
+    
   ) {
     //, Validators.max(this.maxNumber)
     this.sendform = new FormGroup({
@@ -199,6 +201,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   //get list of crypto for user
   getusercrypto() {
+
+    
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     let address = this.tokenStorageService.getIdWallet();
     this.showWalletSpinner = true;
@@ -264,11 +268,16 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           if (crypto.symbol === 'SATT') {
             this.sattBalance = crypto.total_balance;
             this.symbol = crypto.symbol;
-          }
+            console.log(this.symbol,"symbol")
+          
+          } 
+          
         });
         this.showWalletSpinner = false;
+        console.log(this.selectedCryptoDetails.symbol,"sumboool")
 
-        this.selectedCryptoDetails = this.dataList.find((crypto: any) => crypto.symbol === 'SATT');
+        //  this.selectedCryptoDetails = this.dataList.find((crypto: any) => crypto.symbol === 'SATT' ); 
+        
       });
   }
 
@@ -559,7 +568,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           (error) => {
             if (
               error.error.error ===
-              'Key derivation failed - possibly wrong password' ||  'Invalid private key provided'
+              'Key derivation failed - possibly wrong password' 
             ) {
               this.wrongpassword = true;
               setTimeout(() => {
@@ -593,7 +602,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             } else if (
               error.error.error === 'insufficient funds for gas' ||
               error.error.error ===
-                'Returned error: insufficient funds for gas * price + value'
+                'Returned error: insufficient funds for gas * price + value' 
             ) {
               this.showSuccessBloc = false;
               this.showAmountBloc = false;
@@ -615,13 +624,16 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
                           this.showAmountBloc = false;
                           this.showPwdBloc = false;
             }
-            else if ( error.error.error === "The recipient address is not a valid tron address !!"  ){
+            else if ( error.error.error === "The recipient address is not a valid tron address !!" ){
                            this.showErrorBloc = true;
                           this.notValidAdressWallet = true;
                           this.showSuccessBloc = false;
                           this.showAmountBloc = false;
                            this.showPwdBloc = false;
+                           this.wrongpassword = false;
+                           this.gazproblem = false;
             }
+            
 
             this.showSpinner = false;
             this.loadingButton = false;
@@ -948,6 +960,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
   linstingCrypto(event: any) {
+    
     // this.resetForm();
     this.sendform.controls.currency.reset();
     this.sendform.controls.Amount.reset();
@@ -955,11 +968,13 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.sendform.controls.password.reset();
     this.selectedCryptoDetails = event;
     this.sendform.get('currency')?.setValue(this.selectedCryptoDetails.symbol);
+
     this.sendform.get('Amount')?.reset();
     this.sendform.get('AmountUsd')?.reset();
     this.amountdefault = this.sendform.get('currency')?.value;
     this.selectedCryptoSend = event.symbol;
     this.symbol = event.symbol;
+    console.log(this.symbol,"symbol")
     this.networks = event.network;
     this.decimals = event.decimal;
     this.token = event.AddedToken;
