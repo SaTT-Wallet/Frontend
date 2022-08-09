@@ -394,6 +394,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         this.router.navigate(['/auth/login']);
       }
       this.tokenStorageService.setItem('wallet_btc', this.btcCode);
+      this.tokenStorageService.setItem('tron-wallet', this.tronAddress)
       this.generateCodeDes();
       this.generateCodeERCDes();
       this.generateCodeFunction();
