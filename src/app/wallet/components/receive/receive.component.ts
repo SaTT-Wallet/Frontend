@@ -242,6 +242,9 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
             if (crypto.symbol === currencyreceive) {
               this.amountUsd = crypto.price * receiveamount;
               this.amountUsd = this.showNumbersRule.transform(this.amountUsd);
+              if (this.amountUsd < 0.1) {
+                this.amountUsd = new Big(this.amountUsd).toFixed(8).toString();
+              }
               if (isNaN(this.amountUsd)) {
                 this.amountUsd = '';
                 this.amount = '';
@@ -261,6 +264,7 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
             if (crypto.symbol === currencyreceive) {
               this.amount = receiveusd / crypto.price;
               this.amount = this.showNumbersRule.transform(this.amount);
+
               if (
                 receiveamount === '0.00000000' ||
                 receiveusd === '' ||

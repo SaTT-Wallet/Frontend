@@ -8,6 +8,7 @@ const etherscan = env.etherscan;
 const polygonscanAddr = env.polygonscanAddr;
 const bttscanAddr = env.bttscanAddr;
 const tronscanAddr = env.tronScanAddr;
+const tronScan = env.tronScan;
 
 const campaignSmartContractERC20 = env.addresses.smartContracts.campaignERC20;
 
@@ -904,5 +905,6 @@ export {
   bttscanAddr,
   dataList,
   cryptoList,
-  tronscanAddr
+  tronscanAddr,
+  tronScan
 };

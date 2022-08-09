@@ -193,7 +193,7 @@
         <div class="">
           <div class="row ps-2 mb-2 text-center" *ngIf="!coinType">
             <label class="italic-text m-0"
-              >Fees : {{ gazsendether }} {{ gazcurrency }} ( ≈ $
+              >Fees : {{ gasCryptoQuantity }} {{ gazcurrency }} ( ≈ $
               {{ gazsend }})</label
             >
           </div>
@@ -229,6 +229,11 @@
             'Wallet.Wrong Password' | translate
           }}</span>
         </div>
+        <div class="text-start pt-2" *ngIf="notValidAdressWallet">
+          <span class="error_msg">
+            {{ 'Not Valid Tron Wallet' | translate }}
+          </span>
+        </div>
         <div class="text-start pt-2">
           <span class="error_msg" *ngIf="ownaddress">{{
             'Wallet.ownaddress' | translate
@@ -241,7 +246,13 @@
 
           <span class="error_msg" *ngIf="nobalance">{{
             'send.no_balance_crypto'
-              | translate: { crypto: this.selectedCryptoDetails.symbol }
+              | translate
+                : {
+                    crypto:
+                      this.selectedCryptoDetails.symbol === undefined
+                        ? 'SATT'
+                        : this.selectedCryptoDetails.symbol
+                  }
           }}</span>
         </div>
         <div class="text-center">
@@ -334,6 +345,12 @@
         </p>
         <p>{{ 'Please-verify-your-informations' | translate }}</p>
       </div>
+      <div class="text-center mt-2" *ngIf="noTronWallet">
+        <p class="m-0">
+          {{ 'Create Tron Wallet' | translate }}
+        </p>
+      </div>
+
       <div *ngIf="gazproblem" class="text-center mt-2">
         <p>{{ 'send.To-complete-this-ransaction.gazfailed' | translate }}</p>
       </div>

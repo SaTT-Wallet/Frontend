@@ -13,8 +13,8 @@ import {
 import { Big } from 'big.js';
 import {
   GazConsumedByCampaign,
-  pattContact,
-  ListTokens
+  ListTokens,
+  tronScan
 } from '@config/atn.config';
 
 import { SidebarService } from '@core/services/sidebar/sidebar.service';
@@ -42,6 +42,7 @@ import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.servic
 import { BarcodeFormat } from '@zxing/library';
 import { Router } from '@angular/router';
 import { ITransferTokensRequestBody } from '@app/core/services/wallet/wallet.service';
+
 @Component({
   selector: 'app-send',
   templateUrl: './send.component.html',
@@ -80,6 +81,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   eRC20Gaz: any;
   polygonGaz: any;
   bttGaz: any;
+  trxGaz: any;
 
   matic: any;
   defaultcurr: string = ListTokens['SATT'].name;
@@ -92,7 +94,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   showBigSpinner: boolean = false;
   showWalletSpinner: boolean = true;
   coinType: boolean = false;
-  gazsendether: any;
+  gasCryptoQuantity: any;
   currentUser: any;
   network: string = '';
   totalBalance$ = this.walletFacade.totalBalance$;
@@ -119,6 +121,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   contactWallet: string = '';
   maxAmountNumber: number = 999999999;
   maxUsdAmountNumber: number = 9999999999999;
+  noTronWallet: boolean = false;
+  notValidAdressWallet: boolean = false;
 
   sattBalance: any;
 
@@ -134,6 +138,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   query = '(max-width: 767.98px)';
   mediaQueryList?: MediaQueryList;
   btt: any;
+  trx: any;
 
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
@@ -250,7 +255,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           crypto.typetab = crypto.type;
           crypto.contrat = crypto.AddedToken || '';
           if (crypto.symbol === 'ETH') {
-            this.gazsendether = (this.gazsend / crypto.price).toFixed(8);
+            this.gasCryptoQuantity = (this.gazsend / crypto.price).toFixed(8);
           }
           if (crypto.symbol === 'BTC') {
             crypto.typetab = 'BTC';
@@ -262,7 +267,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         });
         this.showWalletSpinner = false;
 
-        // this.selectedCryptoDetails = this.dataList.find((crypto: any) => crypto.symbol === 'SATT');
+        //  this.selectedCryptoDetails = this.dataList.find((crypto: any) => crypto.symbol === 'SATT' );
       });
   }
 
@@ -494,6 +499,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
                 this.routertransHash = polygonscanAddr + this.hashtransaction;
               } else if (this.networks === 'BTT') {
                 this.routertransHash = bttscanAddr + this.hashtransaction;
+              } else if (this.networks === 'TRON') {
+                this.routertransHash = tronScan + this.hashtransaction;
               }
               this.showPwdBloc = false;
               this.showSuccessBloc = true;
@@ -561,7 +568,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               error.error.error ===
                 'Returned error: execution reverted: BEP20: transfer amount exceeds balance' ||
               error.error.error ===
-                'Returned error: execution reverted: ERC20: transfer amount exceeds balance'
+                'Returned error: execution reverted: ERC20: transfer amount exceeds balance' ||
+              error.error.error === 'Returned error: execution reverted'
             ) {
               this.nobalance = true;
               setTimeout(() => {
@@ -596,6 +604,25 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               //   this.gazproblem = false;
               // }, 3000);
               this.sendform.reset();
+            } else if (
+              error.error.error === "The account doesn't have a tron address !"
+            ) {
+              this.showErrorBloc = true;
+              this.noTronWallet = true;
+              this.showSuccessBloc = false;
+              this.showAmountBloc = false;
+              this.showPwdBloc = false;
+            } else if (
+              error.error.error ===
+              'The recipient address is not a valid tron address !!'
+            ) {
+              this.showErrorBloc = true;
+              this.notValidAdressWallet = true;
+              this.showSuccessBloc = false;
+              this.showAmountBloc = false;
+              this.showPwdBloc = false;
+              this.wrongpassword = false;
+              this.gazproblem = false;
             }
 
             this.showSpinner = false;
@@ -642,7 +669,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           if (
             currency === 'ETH' ||
             currency === 'BNB' ||
-            currency === 'MATIC'
+            currency === 'MATIC' ||
+            currency === 'BTT' ||
+            currency === 'TRX'
           ) {
             this.difference = crypto.total_balance - this.gazsend;
             this.newquantity = this.difference / crypto.price;
@@ -683,12 +712,14 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.eth = data['ETH'].price;
         this.matic = data['MATIC'].price;
         this.btt = data['BTT'].price;
+        this.trx = data['TRX'].price;
 
         return {
           bnb: this.bnb,
           Eth: this.eth,
           matic: this.matic,
-          btt: this.btt
+          btt: this.btt,
+          trx: this.trx
         };
       }),
       switchMap(({ bnb, Eth, matic, btt }) => {
@@ -752,6 +783,16 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
                 ((price * GazConsumedByCampaign) / 1000000000) *
                 btt
               ).toFixed(8);
+            })
+          ),
+          this.walletFacade.getTrxGaz().pipe(
+            take(1),
+            tap((energy: any) => {
+              this.showSpinner = false;
+              let price;
+              price = energy.data.gasPrice;
+
+              this.trxGaz = price * 280 * 10 ** -6;
             })
           )
         ]);
@@ -823,6 +864,10 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           ) {
             this.amountUsd = crypto.price * sendamount;
             this.amountUsd = this.showNumbersRule.transform(this.amountUsd);
+            if (this.amountUsd < 0.1) {
+              this.amountUsd = new Big(this.amountUsd).toFixed(8).toString();
+            }
+
             if (isNaN(this.amountUsd)) {
               this.amountUsd = '';
               this.amount = '';
@@ -908,11 +953,13 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.sendform.controls.password.reset();
     this.selectedCryptoDetails = event;
     this.sendform.get('currency')?.setValue(this.selectedCryptoDetails.symbol);
+
     this.sendform.get('Amount')?.reset();
     this.sendform.get('AmountUsd')?.reset();
     this.amountdefault = this.sendform.get('currency')?.value;
     this.selectedCryptoSend = event.symbol;
     this.symbol = event.symbol;
+
     this.networks = event.network;
     this.decimals = event.decimal;
     this.token = event.AddedToken;
@@ -934,6 +981,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     } else if (this.networks === 'BTT') {
       this.gazcurrency = 'BTT';
       // this.gazcurrency = 'ETH';
+    } else if (this.networks === 'TRON') {
+      this.gazcurrency = 'TRX';
+      // this.gazcurrency = 'ETH';
     }
     setTimeout(() => {
       if (this.networks === 'ERC20' || this.networks === 'BTC') {
@@ -949,31 +999,40 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       if (this.networks === 'BTT') {
         this.gazsend = this.bttGaz;
       }
+      if (this.networks === 'TRON') {
+        this.gazsend = this.trxGaz;
+      }
     }, 2000);
 
     this.dataList?.forEach((crypto: any) => {
       if (this.networks === 'ERC20' || this.networks === 'BTC') {
         this.gazsend = this.eRC20Gaz;
         if (crypto.symbol === 'ETH') {
-          this.gazsendether = (this.gazsend / crypto.price).toFixed(8);
+          this.gasCryptoQuantity = (this.gazsend / crypto.price).toFixed(8);
         }
       }
       if (this.networks === 'BEP20') {
         this.gazsend = this.bEPGaz;
         if (crypto.symbol === 'BNB') {
-          this.gazsendether = (this.gazsend / crypto.price).toFixed(8);
+          this.gasCryptoQuantity = (this.gazsend / crypto.price).toFixed(8);
         }
       }
       if (this.networks === 'POLYGON') {
         this.gazsend = this.polygonGaz;
         if (crypto.symbol === 'MATIC') {
-          this.gazsendether = (this.gazsend / crypto.price).toFixed(8);
+          this.gasCryptoQuantity = (this.gazsend / crypto.price).toFixed(8);
         }
       }
       if (this.networks === 'BTT') {
-        this.gazsend = this.polygonGaz;
+        this.gazsend = this.bttGaz;
         if (crypto.symbol === 'BTT') {
-          this.gazsendether = (this.gazsend / crypto.price).toFixed(8);
+          this.gasCryptoQuantity = (this.gazsend / crypto.price).toFixed(8);
+        }
+      }
+      if (this.networks === 'TRON') {
+        this.gazsend = this.trxGaz;
+        if (crypto.symbol === 'TRX') {
+          this.gasCryptoQuantity = (this.gazsend / crypto.price).toFixed(8);
         }
       }
     });
