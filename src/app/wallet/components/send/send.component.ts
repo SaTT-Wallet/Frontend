@@ -559,7 +559,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           (error) => {
             if (
               error.error.error ===
-              'Key derivation failed - possibly wrong password'
+              'Key derivation failed - possibly wrong password' ||  'Invalid private key provided'
             ) {
               this.wrongpassword = true;
               setTimeout(() => {
