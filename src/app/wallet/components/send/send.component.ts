@@ -202,7 +202,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   //get list of crypto for user
   getusercrypto() {
 
-    debugger
+    
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     let address = this.tokenStorageService.getIdWallet();
     this.showWalletSpinner = true;
@@ -568,7 +568,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           (error) => {
             if (
               error.error.error ===
-              'Key derivation failed - possibly wrong password' ||  'Invalid private key provided'
+              'Key derivation failed - possibly wrong password' 
             ) {
               this.wrongpassword = true;
               setTimeout(() => {
@@ -602,7 +602,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             } else if (
               error.error.error === 'insufficient funds for gas' ||
               error.error.error ===
-                'Returned error: insufficient funds for gas * price + value' || "Returned values aren't valid, did it run Out of Gas? You might also see this error if you are not using the correct ABI for the contract you are retrieving data from, requesting data from a block number that does not exist, or querying a node which is not fully synced."
+                'Returned error: insufficient funds for gas * price + value' 
             ) {
               this.showSuccessBloc = false;
               this.showAmountBloc = false;
@@ -624,13 +624,16 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
                           this.showAmountBloc = false;
                           this.showPwdBloc = false;
             }
-            else if ( error.error.error === "The recipient address is not a valid tron address !!"  ){
+            else if ( error.error.error === "The recipient address is not a valid tron address !!" ){
                            this.showErrorBloc = true;
                           this.notValidAdressWallet = true;
                           this.showSuccessBloc = false;
                           this.showAmountBloc = false;
                            this.showPwdBloc = false;
+                           this.wrongpassword = false;
+                           this.gazproblem = false;
             }
+            
 
             this.showSpinner = false;
             this.loadingButton = false;
