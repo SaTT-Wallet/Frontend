@@ -1,7 +1,7 @@
 :host {
   display: block;
   position: relative;
-  padding: 736px 0 0;
+  padding: 600px 0 0;
 }
 @media (max-width: 768px) {
   :host {
@@ -308,7 +308,7 @@
 @media (min-width: 768px) {
   .desktopClass {
     display: block;
-    height: 100vh;
+    
   }
   .mobileClass {
     display: none;
