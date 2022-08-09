@@ -26,6 +26,11 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import Big from 'big.js';
 import { ConvertFromWei } from '@app/shared/pipes/wei-to-sa-tt.pipe';
+import { HttpClient } from '@angular/common/http';
+import { sattUrl } from '@config/atn.config';
+import { shareReplay, switchMap } from 'rxjs/operators';
+import { CryptofetchServiceService } from '@app/core/services/wallet/cryptofetch-service.service';
+
 
 @Component({
   selector: 'app-farm-welcome',
@@ -62,8 +67,11 @@ export class FarmWelcomeComponent implements OnInit {
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string,
     private walletFacade: WalletFacadeService,
-    private convertFromWeiTo: ConvertFromWei
+    private convertFromWeiTo: ConvertFromWei,
+    private cryptoFetchService: CryptofetchServiceService
   ) {}
+
+
 
   ngOnInit(): void {
     if (window.innerWidth <= 768 && isPlatformBrowser(this.platformId)) {
@@ -194,8 +202,10 @@ export class FarmWelcomeComponent implements OnInit {
   loadStatistics() {
     this.campaignsHttpService
       .getWelcomePageStats()
-      .pipe(takeUntil(this.isDestroyed))
+      .pipe(
+        takeUntil(this.isDestroyed))
       .subscribe((res: any) => {
+        console.log(res)
         if (res.message === 'success' && res.code === 200) {
           this.marketCap = res.data.marketCap.toFixed(2);
           this.nbPools = res.data.nbPools;
@@ -204,6 +214,7 @@ export class FarmWelcomeComponent implements OnInit {
           this.sattPrice = res.data.sattPrice.toFixed(5);
           this.views = res.data.views;
           this.harvested = res.data.harvested;
+
           this.tvl = !!res.data.tvl ? res.data.tvl : 0;
           this.percentChange = !!res.data.percentChange
             ? res.data.percentChange >= 0
