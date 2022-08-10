@@ -745,6 +745,18 @@ getCookie(key: string){
             }
             return of(null);
           }),
+          // tap((response: any) => {
+          //   if (response.myWallet === null) {
+          //     console.log('res.response.data', response);
+
+          //     this.tokenStorageService.setSecureWallet(
+          //       'visited-completeProfile',
+          //       'true'
+          //     );
+          //     this.router.navigate(['social-registration/monetize-facebook']);
+          //     this.showBigSpinner = true;
+          //   }
+          // }),
           filter((res: any) => {
             if (!res) {
               return false;
