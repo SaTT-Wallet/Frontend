@@ -231,8 +231,8 @@
         </div>
         <div class="text-start pt-2" *ngIf="notValidAdressWallet">
           <span class="error_msg">
-          {{ 'Not Valid Tron Wallet' | translate }}
-        </span>
+            {{ 'Not Valid Tron Wallet' | translate }}
+          </span>
         </div>
         <div class="text-start pt-2">
           <span class="error_msg" *ngIf="ownaddress">{{
@@ -246,7 +246,13 @@
 
           <span class="error_msg" *ngIf="nobalance">{{
             'send.no_balance_crypto'
-              | translate: { crypto: this.selectedCryptoDetails.symbol === undefined ? "SATT" : this.selectedCryptoDetails.symbol  }
+              | translate
+                : {
+                    crypto:
+                      this.selectedCryptoDetails.symbol === undefined
+                        ? 'SATT'
+                        : this.selectedCryptoDetails.symbol
+                  }
           }}</span>
         </div>
         <div class="text-center">
@@ -340,11 +346,11 @@
         <p>{{ 'Please-verify-your-informations' | translate }}</p>
       </div>
       <div class="text-center mt-2" *ngIf="noTronWallet">
-         <p class="m-0">
+        <p class="m-0">
           {{ 'Create Tron Wallet' | translate }}
-         </p>
-       </div>
-       
+        </p>
+      </div>
+
       <div *ngIf="gazproblem" class="text-center mt-2">
         <p>{{ 'send.To-complete-this-ransaction.gazfailed' | translate }}</p>
       </div>

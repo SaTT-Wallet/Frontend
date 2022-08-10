@@ -274,7 +274,7 @@
           [(ngModel)]="tronWalletPassword"
           #password_field
         />
-  
+
         <span
           (click)="
             showPass = !showPass;
@@ -294,7 +294,8 @@
       >
         <button
           class="btnModalError btn_fill_profile btn-blue"
-          (click)="createTronWallet()" [disabled] ="tronWalletPassword.length <6"
+          (click)="createTronWallet()"
+          [disabled]="tronWalletPassword.length < 6"
         >
           {{ 'Create' | translate }}
         </button>

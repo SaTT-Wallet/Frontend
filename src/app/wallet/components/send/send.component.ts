@@ -13,7 +13,6 @@ import {
 import { Big } from 'big.js';
 import {
   GazConsumedByCampaign,
-  pattContact,
   ListTokens,
   tronScan
 } from '@config/atn.config';
@@ -34,15 +33,14 @@ import {
   bscan,
   etherscan,
   polygonscanAddr,
-  bttscanAddr,
-  tronscanAddr,
+  bttscanAddr
 } from '@app/config/atn.config';
 import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Location } from '@angular/common';
 import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.service';
 import { BarcodeFormat } from '@zxing/library';
-import {  Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ITransferTokensRequestBody } from '@app/core/services/wallet/wallet.service';
 
 @Component({
@@ -123,8 +121,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   contactWallet: string = '';
   maxAmountNumber: number = 999999999;
   maxUsdAmountNumber: number = 9999999999999;
-  noTronWallet : boolean = false;
- notValidAdressWallet : boolean = false;
+  noTronWallet: boolean = false;
+  notValidAdressWallet: boolean = false;
 
   sattBalance: any;
 
@@ -140,7 +138,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   query = '(max-width: 767.98px)';
   mediaQueryList?: MediaQueryList;
   btt: any;
-  trx: any
+  trx: any;
 
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
@@ -168,8 +166,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     @Inject(PLATFORM_ID) private platformId: string,
     private _location: Location,
     private kycFacadeService: KycFacadeService,
-    private router: Router,
-    
+    private router: Router
   ) {
     //, Validators.max(this.maxNumber)
     this.sendform = new FormGroup({
@@ -201,8 +198,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   //get list of crypto for user
   getusercrypto() {
-
-    
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     let address = this.tokenStorageService.getIdWallet();
     this.showWalletSpinner = true;
@@ -268,16 +263,11 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           if (crypto.symbol === 'SATT') {
             this.sattBalance = crypto.total_balance;
             this.symbol = crypto.symbol;
-            console.log(this.symbol,"symbol")
-          
-          } 
-          
+          }
         });
         this.showWalletSpinner = false;
-        console.log(this.selectedCryptoDetails.symbol,"sumboool")
 
-        //  this.selectedCryptoDetails = this.dataList.find((crypto: any) => crypto.symbol === 'SATT' ); 
-        
+        //  this.selectedCryptoDetails = this.dataList.find((crypto: any) => crypto.symbol === 'SATT' );
       });
   }
 
@@ -509,7 +499,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
                 this.routertransHash = polygonscanAddr + this.hashtransaction;
               } else if (this.networks === 'BTT') {
                 this.routertransHash = bttscanAddr + this.hashtransaction;
-              }else if (this.networks === 'TRON') {
+              } else if (this.networks === 'TRON') {
                 this.routertransHash = tronScan + this.hashtransaction;
               }
               this.showPwdBloc = false;
@@ -568,7 +558,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           (error) => {
             if (
               error.error.error ===
-              'Key derivation failed - possibly wrong password' 
+              'Key derivation failed - possibly wrong password'
             ) {
               this.wrongpassword = true;
               setTimeout(() => {
@@ -578,9 +568,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               error.error.error ===
                 'Returned error: execution reverted: BEP20: transfer amount exceeds balance' ||
               error.error.error ===
-                'Returned error: execution reverted: ERC20: transfer amount exceeds balance'  || 
-                            error.error.error ===
-                              'Returned error: execution reverted'
+                'Returned error: execution reverted: ERC20: transfer amount exceeds balance' ||
+              error.error.error === 'Returned error: execution reverted'
             ) {
               this.nobalance = true;
               setTimeout(() => {
@@ -591,8 +580,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
                 this.showPwdBloc = false;
               }, 2000);
               this.sendform.reset();
-            } 
-            else if (
+            } else if (
               error.error.error === 'No enough balance to perform withdraw !!'
             ) {
               this.nobalance = true;
@@ -602,7 +590,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             } else if (
               error.error.error === 'insufficient funds for gas' ||
               error.error.error ===
-                'Returned error: insufficient funds for gas * price + value' 
+                'Returned error: insufficient funds for gas * price + value'
             ) {
               this.showSuccessBloc = false;
               this.showAmountBloc = false;
@@ -616,24 +604,26 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               //   this.gazproblem = false;
               // }, 3000);
               this.sendform.reset();
+            } else if (
+              error.error.error === "The account doesn't have a tron address !"
+            ) {
+              this.showErrorBloc = true;
+              this.noTronWallet = true;
+              this.showSuccessBloc = false;
+              this.showAmountBloc = false;
+              this.showPwdBloc = false;
+            } else if (
+              error.error.error ===
+              'The recipient address is not a valid tron address !!'
+            ) {
+              this.showErrorBloc = true;
+              this.notValidAdressWallet = true;
+              this.showSuccessBloc = false;
+              this.showAmountBloc = false;
+              this.showPwdBloc = false;
+              this.wrongpassword = false;
+              this.gazproblem = false;
             }
-            else if ( error.error.error === "The account doesn't have a tron address !"  ){
-                          this.showErrorBloc = true;
-                          this.noTronWallet = true;
-                          this.showSuccessBloc = false;
-                          this.showAmountBloc = false;
-                          this.showPwdBloc = false;
-            }
-            else if ( error.error.error === "The recipient address is not a valid tron address !!" ){
-                           this.showErrorBloc = true;
-                          this.notValidAdressWallet = true;
-                          this.showSuccessBloc = false;
-                          this.showAmountBloc = false;
-                           this.showPwdBloc = false;
-                           this.wrongpassword = false;
-                           this.gazproblem = false;
-            }
-            
 
             this.showSpinner = false;
             this.loadingButton = false;
@@ -681,7 +671,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             currency === 'BNB' ||
             currency === 'MATIC' ||
             currency === 'BTT' ||
-            currency === 'TRX' 
+            currency === 'TRX'
           ) {
             this.difference = crypto.total_balance - this.gazsend;
             this.newquantity = this.difference / crypto.price;
@@ -724,7 +714,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.btt = data['BTT'].price;
         this.trx = data['TRX'].price;
 
-
         return {
           bnb: this.bnb,
           Eth: this.eth,
@@ -733,7 +722,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           trx: this.trx
         };
       }),
-      switchMap(({ bnb, Eth, matic, btt, trx }) => {
+      switchMap(({ bnb, Eth, matic, btt }) => {
         return forkJoin([
           this.walletFacade.getEtherGaz().pipe(
             take(1),
@@ -797,15 +786,15 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             })
           ),
           this.walletFacade.getTrxGaz().pipe(
-          take(1),
-          tap((energy: any) => {
-            this.showSpinner = false;
-            let price;
-            price = energy.data.gasPrice;
+            take(1),
+            tap((energy: any) => {
+              this.showSpinner = false;
+              let price;
+              price = energy.data.gasPrice;
 
-            this.trxGaz = price * 280 * 10**(-6);
-          })
-        )
+              this.trxGaz = price * 280 * 10 ** -6;
+            })
+          )
         ]);
       })
     );
@@ -840,7 +829,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   convertcurrency(event: any, restrict?: boolean): void {
-    
     let allow: boolean = true;
     if (restrict !== undefined && restrict === false) {
       allow = false;
@@ -876,11 +864,10 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           ) {
             this.amountUsd = crypto.price * sendamount;
             this.amountUsd = this.showNumbersRule.transform(this.amountUsd);
-            if(this.amountUsd<0.1) {
-              this.amountUsd= new Big(this.amountUsd).toFixed(8).toString();
+            if (this.amountUsd < 0.1) {
+              this.amountUsd = new Big(this.amountUsd).toFixed(8).toString();
             }
-          
-           
+
             if (isNaN(this.amountUsd)) {
               this.amountUsd = '';
               this.amount = '';
@@ -898,7 +885,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             crypto.symbol === currency
           ) {
             this.amount = sendusd / crypto.price;
-            console.log(this.amount)
             this.amount = this.showNumbersRule.transform(this.amount);
             if (
               sendamount === '0.00000000' ||
@@ -960,7 +946,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
   linstingCrypto(event: any) {
-    
     // this.resetForm();
     this.sendform.controls.currency.reset();
     this.sendform.controls.Amount.reset();
@@ -974,7 +959,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.amountdefault = this.sendform.get('currency')?.value;
     this.selectedCryptoSend = event.symbol;
     this.symbol = event.symbol;
-    console.log(this.symbol,"symbol")
+
     this.networks = event.network;
     this.decimals = event.decimal;
     this.token = event.AddedToken;
@@ -996,8 +981,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     } else if (this.networks === 'BTT') {
       this.gazcurrency = 'BTT';
       // this.gazcurrency = 'ETH';
-    }
-     else if (this.networks === 'TRON') {
+    } else if (this.networks === 'TRON') {
       this.gazcurrency = 'TRX';
       // this.gazcurrency = 'ETH';
     }

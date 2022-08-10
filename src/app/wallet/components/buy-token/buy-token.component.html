@@ -261,14 +261,14 @@
                     (selectedTargetCurrency === 'SATTBEP20'
                       ? 'SATT'
                       : selectedTargetCurrency)
-                      
                 }}
                 =
                 {{
                   (this.rateExchangePerRequestedCrypto$ | async)?.toFixed(8) +
                     ' ' +
-                    ([ 'SATTBEP20','SATTPOLYGON'].includes(requestedCrypto)  ? 'SATT'  : requestedCrypto)
-
+                    (['SATTBEP20', 'SATTPOLYGON'].includes(requestedCrypto)
+                      ? 'SATT'
+                      : requestedCrypto)
                 }}
               </ng-container>
               <ng-container
@@ -293,9 +293,10 @@
               ≈
               {{
                 (cryptoAmount.toString() | showNumbersRule) +
-
                   ' ' +
-                  ([ 'SATTBEP20','SATTPOLYGON'].includes(requestedCrypto)  ? 'SATT'  : requestedCrypto)
+                  (['SATTBEP20', 'SATTPOLYGON'].includes(requestedCrypto)
+                    ? 'SATT'
+                    : requestedCrypto)
               }}
             </p>
           </div>
@@ -387,23 +388,41 @@
                     </div>
                   </li>
                   <li
-                  class="li-select"
-                  (click)="toggleNetwork(eBlockchainNetwork.POLYGON)"
-                  *ngIf="
-                    selectedBlockchainNetwork !== eBlockchainNetwork.POLYGON
-                  "
-                >
-                  <div class="d-flex align-items-center gap-2">
-                    <img
-                    src="../../../assets/Images/symbol_crypto/polygon.svg"
-                      alt=""
-                      style="width: 26px"
-                    />
-                    <span class="li-select-text d-flex">
-                      {{ eBlockchainNetwork.POLYGON }}</span
-                    >
-                  </div>
-                </li>
+                    class="li-select"
+                    (click)="toggleNetwork(eBlockchainNetwork.POLYGON)"
+                    *ngIf="
+                      selectedBlockchainNetwork !== eBlockchainNetwork.POLYGON
+                    "
+                  >
+                    <div class="d-flex align-items-center gap-2">
+                      <img
+                        src="../../../assets/Images/symbol_crypto/polygon.svg"
+                        alt=""
+                        style="width: 26px"
+                      />
+                      <span class="li-select-text d-flex">
+                        {{ eBlockchainNetwork.POLYGON }}</span
+                      >
+                    </div>
+                  </li>
+                  <li
+                    class="li-select"
+                    (click)="toggleNetwork(eBlockchainNetwork.TRON)"
+                    *ngIf="
+                      selectedBlockchainNetwork !== eBlockchainNetwork.TRON
+                    "
+                  >
+                    <div class="d-flex align-items-center gap-2">
+                      <img
+                        src="../../../assets/Images/symbol_crypto/TRX.svg"
+                        alt=""
+                        style="width: 26px"
+                      />
+                      <span class="li-select-text d-flex">
+                        {{ eBlockchainNetwork.TRON }}</span
+                      >
+                    </div>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -427,8 +446,9 @@
                     />
                     <span class="dropdown-text2">
                       {{
-                        ([ 'SATTBEP20','SATTPOLYGON'].includes(requestedCrypto)  ? 'SATT'  : requestedCrypto)
-
+                        ['SATTBEP20', 'SATTPOLYGON'].includes(requestedCrypto)
+                          ? 'SATT'
+                          : requestedCrypto
                       }}
                     </span>
                   </div>
@@ -465,11 +485,10 @@
                         }}"
                       />
                       <span class="li-select-text">
-
                         {{
-                        
-                          ([ 'SATTBEP20','SATTPOLYGON'].includes(crypto.symbole)  ? 'SATT'  : crypto.symbole)
-
+                          ['SATTBEP20', 'SATTPOLYGON'].includes(crypto.symbole)
+                            ? 'SATT'
+                            : crypto.symbole
                         }}</span
                       >
                     </li>
@@ -546,7 +565,7 @@
                 selectedCurrencyType === eCurrencyType.BEP20 &&
                 selectedBlockchainNetwork === eBlockchainNetwork.BEP20
               "
-              (click)="CurrencyBnB()"
+              (click)="currencyBnB()"
               href="https://pancakeswap.finance/swap?outputCurrency={{
                 toSwapCrypto.contract
               }}&inputCurrency={{ fromSwapCrypto.contract }}"
@@ -565,7 +584,7 @@
 
             <a
               class="buy-swap-btn"
-              (click)="CurrencyETH()"
+              (click)="currencyETH()"
               *ngIf="
                 selectedCurrencyType === eCurrencyType.ERC20 &&
                 selectedBlockchainNetwork === eBlockchainNetwork.ERC20

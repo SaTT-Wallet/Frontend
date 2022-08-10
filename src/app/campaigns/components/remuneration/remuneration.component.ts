@@ -1036,6 +1036,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   }
 
   restrictZero(event: any) {
+    event;
     /*if (event.target.value.length === 0 && event.key === '0') {
       event.preventDefault();
     }*/
@@ -1064,8 +1065,8 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       ) {
         this.amountUsd = this.selectedCryptoDetails.price * sendamount;
         this.amountUsd = this.showNumbersRule.transform(this.amountUsd);
-        if(this.amountUsd<0.1) {
-          this.amountUsd= new Big(this.amountUsd).toFixed(8).toString();
+        if (this.amountUsd < 0.1) {
+          this.amountUsd = new Big(this.amountUsd).toFixed(8).toString();
         }
         if (isNaN(this.amountUsd)) {
           this.amountUsd = '';

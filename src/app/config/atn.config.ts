@@ -10,9 +10,6 @@ const bttscanAddr = env.bttscanAddr;
 const tronscanAddr = env.tronScanAddr;
 const tronScan = env.tronScan;
 
-
-
-
 const campaignSmartContractERC20 = env.addresses.smartContracts.campaignERC20;
 
 const campaignSmartContractBEP20 = env.addresses.smartContracts.campaignBEP20;
@@ -69,7 +66,8 @@ let cryptoList: { symbol: string; network: string; logo: string }[] = [
   { symbol: 'MATIC', network: 'polygon', logo: 'MATIC.svg' },
   { symbol: 'MAKER', network: 'erc20', logo: 'MKR.svg' },
   { symbol: 'TETHER', network: 'erc20', logo: 'USDT.svg' },
-  { symbol: 'CAKE', network: 'bep20', logo: 'CAKE.svg' }
+  { symbol: 'CAKE', network: 'bep20', logo: 'CAKE.svg' },
+  { symbol: 'TRX', network: 'tron', logo: 'TRX.svg' }
 
   // { value: 'USDT', logo: 'USDT.svg' }
   //  {value :"BNB"},
@@ -163,7 +161,6 @@ cryptoNetwork['SATTBTT'] = 'BTT';
 cryptoNetwork['BTT'] = 'BTT';
 cryptoNetwork['TRX'] = 'TRON';
 cryptoNetwork['SATTTRON'] = 'TRON';
-
 
 var ListTokens: { [key: string]: { [key: string]: any } } = {
   SATT: {
