@@ -809,9 +809,6 @@ export class CryptoListComponent implements OnInit, OnDestroy {
                   'https://app.uniswap.org/#/swap?outputCurrency=0x70a6395650b47d94a77de4cfedf9629f6922e645',
                   '_blank'
                 );
-            } else if (crypto.symbol === 'TRX') {
-              if (isPlatformBrowser(this.platformId))
-                window.open('https://sunswap.com/#/home', '_blank');
             } else if (
               crypto.symbol === 'CAKE' ||
               crypto.symbol === 'MKR' ||
@@ -823,10 +820,15 @@ export class CryptoListComponent implements OnInit, OnDestroy {
               this.buy(crypto.undername);
             } else if (
               crypto.symbol === 'SATTPOLYGON' ||
-              crypto.symbol === 'MATIC' ||
-              crypto.symbol === 'BTT'
+              crypto.symbol === 'MATIC'
             ) {
               this.router.navigate(['/wallet']);
+            } else if (crypto.symbol === 'BTT') {
+              if (isPlatformBrowser(this.platformId))
+                window.open(
+                  'https://sunswap.com/#/v2?lang=en-US&t0=TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t&t1=TAFjULxiVgT4qWk6UZwjqwZXTSaGaqnVp4&type=swap',
+                  '_blank'
+                );
             } else {
               this.goToBuy(crypto.symbol, crypto.network);
             }
