@@ -809,9 +809,6 @@ export class CryptoListComponent implements OnInit, OnDestroy {
                   'https://app.uniswap.org/#/swap?outputCurrency=0x70a6395650b47d94a77de4cfedf9629f6922e645',
                   '_blank'
                 );
-            } else if (crypto.symbol === 'TRX' || crypto.symbol === 'BTT') {
-              if (isPlatformBrowser(this.platformId))
-                window.open('https://sunswap.com/#/home', '_blank');
             } else if (
               crypto.symbol === 'CAKE' ||
               crypto.symbol === 'MKR' ||
