@@ -11,7 +11,7 @@ import { ContactService } from '@core/services/contact/contact.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 //import * as moment from 'moment';
 import _ from 'lodash';
-import { walletUrl, ListTokens } from '@config/atn.config';
+import { walletUrl, ListTokens, tronScan } from '@config/atn.config';
 import { isPlatformBrowser } from '@angular/common';
 import { bscan, etherscan } from '@app/config/atn.config';
 //import 'moment/locale/fr'
@@ -57,6 +57,7 @@ export class NotificationComponent implements OnInit {
   // tansfer:string='transfer_event_currency'
   bscan = 'https://bscscan.com/tx/';
   etherscan = 'https://etherscan.io/tx/';
+  tronScan= 'https://shasta.tronscan.org/#/transaction/';
   newNotification: boolean = false;
   errorMessagecode = '';
   constructor(
@@ -304,14 +305,16 @@ export class NotificationComponent implements OnInit {
             item._label['cryptoCurrency'] &&
             (item._label['cryptoCurrency'] === 'SATTBEP20' ||
               item._label['cryptoCurrency'] === 'SATTPOLYGON' ||
-              item._label['currency'] === 'SATTBTT'
+              item._label['currency'] === 'SATTBTT'||
+              item._label['currency'] === 'SATTTRON'
               )
               ? 'SATT'
               : item._label['cryptoCurrency'] ||
                 (item._label['currency'] &&
                   (item._label['currency'] === 'SATTBEP20' ||
                     item._label['currency'] === 'SATTPOLYGON' ||
-                    item._label['currency'] === 'SATTBTT'
+                    item._label['currency'] === 'SATTBTT'||
+                    item._label['currency'] === 'SATTTRON'
                     ))
               ? 'SATT'
               : item._label['currency'],
@@ -329,14 +332,16 @@ export class NotificationComponent implements OnInit {
             item._label['cryptoCurrency'] &&
             (item._label['cryptoCurrency'] === 'SATTBEP20' ||
               item._label['cryptoCurrency'] === 'SATTPOLYGON' ||
-              item._label['currency'] === 'SATTBTT'
+              item._label['currency'] === 'SATTBTT'||
+              item._label['currency'] === 'SATTTRON'
               )
               ? 'SATT'
               : item._label['cryptoCurrency'] ||
                 (item._label['currency'] &&
                   (item._label['currency'] === 'SATTBEP20' ||
                     item._label['currency'] === 'SATTPOLYGON' ||
-                    item._label['currency'] === 'SATTBTT'
+                    item._label['currency'] === 'SATTBTT'||
+                    item._label['currency'] === 'SATTTRON'
                     ))
               ? 'SATT'
               : item._label['currency'],
@@ -376,7 +381,8 @@ export class NotificationComponent implements OnInit {
             currency:
               item._label['currency'] === 'SATTBEP20' ||
               item._label['currency'] === 'SATTPOLYGON' || 
-              item._label['currency'] === 'SATTBTT'
+              item._label['currency'] === 'SATTBTT'||
+              item._label['currency'] === 'SATTTRON'
 
                 ? 'SATT'
                 : item.label['currency'],
@@ -415,7 +421,8 @@ export class NotificationComponent implements OnInit {
             currency:
               item._label['currency'] === 'SATTBEP20' ||
               item._label['currency'] === 'SATTPOLYGON' ||
-              item._label['currency'] === 'SATTBTT'
+              item._label['currency'] === 'SATTBTT'||
+              item._label['currency'] === 'SATTTRON'
 
                 ? 'SATT'
                 : item.label['currency'],
@@ -561,7 +568,8 @@ export class NotificationComponent implements OnInit {
           crypto:
             item._label['currency'] === 'SATTBEP20' ||
             item._label['currency'] === 'SATTPOLYGON' ||
-            item._label['currency'] === 'SATTBTT'
+            item._label['currency'] === 'SATTBTT'||
+            item._label['currency'] === 'SATTTRON'
 
               ? 'SATT'
               : item.label['currency'],
@@ -577,7 +585,8 @@ export class NotificationComponent implements OnInit {
           crypto:
             item._label['currency'] === 'SATTBEP20' ||
             item._label['currency'] === 'SATTPOLYGON' ||
-            item._label['currency'] === 'SATTBTT'
+            item._label['currency'] === 'SATTBTT'||
+            item._label['currency'] === 'SATTTRON'
 
               ? 'SATT'
               : item.label['currency'],
@@ -649,14 +658,19 @@ export class NotificationComponent implements OnInit {
   }
 
   hashLink(network: any, link: any) {
+    
     if (network === 'ERC20' && isPlatformBrowser(this.platformId)) {
       window.open(etherscan + link, '_blank');
     } else if (network === 'BEP20' && isPlatformBrowser(this.platformId)) {
       window.open(bscan + link, '_blank');
+    } else if (network === 'TRON' && isPlatformBrowser(this.platformId)) {
+      window.open(tronScan + link, '_blank');
     }
+    
   }
 
   redirect(notif: any, content: any): void {
+    console.log(notif)
     if (
       notif.type === 'join_on_social' ||
       notif.type === 'invite_friends' ||
@@ -711,12 +725,16 @@ export class NotificationComponent implements OnInit {
     }
 
     
-    if (notif.label.network === 'ERC20') {
+    if (notif.label.network === 'eth') {
       window.open(etherscan + notif.label.transactionHash, '_blank');
     }
-    if (notif.label.network === 'BEP20') {
+    if (notif.label.network === 'bsc') {
       window.open(bscan + notif.label.transactionHash, '_blank');
     }
+    if (notif.label.network === 'tron') {
+      window.open(tronScan + notif.label.transactionHash, '_blank');
+    }
+    
   }
 
   shareOnSocialMedias(content: any) {
