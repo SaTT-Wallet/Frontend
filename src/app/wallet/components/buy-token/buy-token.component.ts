@@ -827,6 +827,8 @@ export class BuyTokenComponent implements OnInit, OnChanges {
 
     if (this.requestedCrypto === 'BTC') {
       this.walletId = this.walletBtc;
+    } else if (this.requestedCrypto === 'TRX') {
+      this.walletId = this.tokenStorageService.getTronWalletAddress();
     }
 
     if (
