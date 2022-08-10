@@ -200,17 +200,13 @@ export class PasswordModalComponent implements OnInit {
     if (startDate.getMinutes() < 30) {
       return Math.floor(
         date.setMinutes(
-          this.campaign.startDate.getMinutes() +
-
-            (30 - startDate.getMinutes())
+          this.campaign.startDate.getMinutes() + (32 - startDate.getMinutes())
         ) / 1000
       );
     } else if (startDate.getMinutes() > 30) {
       return Math.floor(
         date.setMinutes(
-          this.campaign.startDate.getMinutes() +
-
-            (60 - startDate.getMinutes())
+          this.campaign.startDate.getMinutes() + (62 - startDate.getMinutes())
         ) / 1000
       );
     } else {
