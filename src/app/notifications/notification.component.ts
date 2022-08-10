@@ -659,11 +659,11 @@ export class NotificationComponent implements OnInit {
 
   hashLink(network: any, link: any) {
     
-    if (network === 'ERC20' && isPlatformBrowser(this.platformId)) {
+    if (network === 'eth' && isPlatformBrowser(this.platformId)) {
       window.open(etherscan + link, '_blank');
-    } else if (network === 'BEP20' && isPlatformBrowser(this.platformId)) {
+    } else if (network === 'bsc' && isPlatformBrowser(this.platformId)) {
       window.open(bscan + link, '_blank');
-    } else if (network === 'TRON' && isPlatformBrowser(this.platformId)) {
+    } else if (network === 'tron' && isPlatformBrowser(this.platformId)) {
       window.open(tronScan + link, '_blank');
     }
     
