@@ -26,6 +26,7 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import Big from 'big.js';
 import { ConvertFromWei } from '@app/shared/pipes/wei-to-sa-tt.pipe';
+import { CryptofetchServiceService } from '@app/core/services/wallet/cryptofetch-service.service';
 
 @Component({
   selector: 'app-farm-welcome',
@@ -62,7 +63,8 @@ export class FarmWelcomeComponent implements OnInit {
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string,
     private walletFacade: WalletFacadeService,
-    private convertFromWeiTo: ConvertFromWei
+    private convertFromWeiTo: ConvertFromWei,
+    private cryptoFetchService: CryptofetchServiceService
   ) {}
 
   ngOnInit(): void {
@@ -204,6 +206,7 @@ export class FarmWelcomeComponent implements OnInit {
           this.sattPrice = res.data.sattPrice.toFixed(5);
           this.views = res.data.views;
           this.harvested = res.data.harvested;
+
           this.tvl = !!res.data.tvl ? res.data.tvl : 0;
           this.percentChange = !!res.data.percentChange
             ? res.data.percentChange >= 0

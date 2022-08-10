@@ -372,6 +372,18 @@ export class RegistrationComponent implements OnInit {
         .pipe(takeUntil(this.onDestroy$))
         .subscribe(
           (data) => {
+            if (data.data.loggedIn) {
+              let param = {
+                access_token: data.data.access_token,
+                expires_in: data.data.expires_in,
+                token_type: 'bearer',
+                scope: 'user'
+              };
+              this.router.navigateByUrl(
+                '/auth/login?token=' + JSON.stringify(param)
+              );
+              return;
+            }
             if (data.code === 200 && data.message === 'success') {
               var result =
                 this.document.getElementById('dropdown-menu')?.className;
