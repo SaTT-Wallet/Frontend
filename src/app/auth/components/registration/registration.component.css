@@ -21,7 +21,7 @@ html {
     flex-direction: column;
 
     position: relative;
-   
+    -webkit-appearance: auto;
     
 }
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -1100,7 +1100,7 @@ a {
     bottom: 0px;
     right: 0;
     left: 0; */
-
+    -webkit-appearance: auto;
     }
     .social-media-show {
         display: none !important;
@@ -1353,6 +1353,7 @@ a {
         width: 100%;
         overflow-y: auto;
         overflow-x: hidden;
+        -webkit-appearance: auto;
     }
 }
 
