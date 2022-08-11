@@ -5,7 +5,7 @@
 
 .container-main {
     min-height: 100vh !important;
-    height: calc(100vh - 82px);
+    
     overflow-y: auto !important;
 }
 

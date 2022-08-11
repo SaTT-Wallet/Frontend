@@ -251,7 +251,10 @@
                     crypto:
                       this.selectedCryptoDetails.symbol === undefined
                         ? 'SATT'
-                        : this.selectedCryptoDetails.symbol
+                        : this.selectedCryptoDetails.symbol ||
+                        this.selectedCryptoDetails.symbol === 'SATTBEP20'
+                      ? 'SATT'
+                      : this.selectedCryptoDetails.symbol
                   }
           }}</span>
         </div>
