@@ -635,6 +635,14 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
   goToBuy() {
+    if (this.gazcurrency?.toUpperCase() === 'BTT') {
+      if (isPlatformBrowser(this.platformId))
+        window.open(
+          'https://sunswap.com/#/v2?lang=en-US&t0=TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t&t1=TAFjULxiVgT4qWk6UZwjqwZXTSaGaqnVp4&type=swap',
+          '_blank'
+        );
+      return;
+    }
     this.router.navigate(['/wallet/buy-token'], {
       queryParams: {
         gaz: this.gazcurrency
