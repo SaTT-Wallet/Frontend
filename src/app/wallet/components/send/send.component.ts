@@ -14,6 +14,8 @@ import { Big } from 'big.js';
 import {
   GazConsumedByCampaign,
   ListTokens,
+  pattContact,
+  tronPattContact,
   tronScan
 } from '@config/atn.config';
 
@@ -171,7 +173,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     //, Validators.max(this.maxNumber)
     this.sendform = new FormGroup({
       contact: new FormControl(null, {
-        validators: [Validators.required]
+        validators: [Validators.required, Validators.pattern(pattContact)]
       }),
       Amount: new FormControl(0, Validators.compose([Validators.required])),
       AmountUsd: new FormControl(null),
@@ -633,6 +635,14 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
   goToBuy() {
+    if (this.gazcurrency?.toUpperCase() === 'BTT') {
+      if (isPlatformBrowser(this.platformId))
+        window.open(
+          'https://sunswap.com/#/v2?lang=en-US&t0=TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t&t1=TAFjULxiVgT4qWk6UZwjqwZXTSaGaqnVp4&type=swap',
+          '_blank'
+        );
+      return;
+    }
     this.router.navigate(['/wallet/buy-token'], {
       queryParams: {
         gaz: this.gazcurrency
@@ -947,6 +957,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
   linstingCrypto(event: any) {
     // this.resetForm();
+    this.sendform
+      .get('contact')
+      ?.setValidators([Validators.required, Validators.pattern(pattContact)]);
     this.sendform.controls.currency.reset();
     this.sendform.controls.Amount.reset();
     this.sendform.controls.AmountUsd.reset();
@@ -1030,6 +1043,13 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
       }
       if (this.networks === 'TRON') {
+        //TODO
+        this.sendform
+          .get('contact')
+          ?.setValidators([
+            Validators.required,
+            Validators.pattern(tronPattContact)
+          ]);
         this.gazsend = this.trxGaz;
         if (crypto.symbol === 'TRX') {
           this.gasCryptoQuantity = (this.gazsend / crypto.price).toFixed(8);
