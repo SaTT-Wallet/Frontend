@@ -101,6 +101,7 @@
               [(ngModel)]="contactWallet"
               id="receive_contact"
               [placeholder]="emailPlaceholderText"
+              
             />
           </div>
         </div>
@@ -128,22 +129,24 @@
             (this.sendform.get('contact')?.errors?.required &&
               this.sendform.get('contact')?.dirty) ||
             (this.sendform.get('Amount')?.errors?.required &&
-              this.sendform.get('Amount')?.dirty)
+              this.sendform.get('Amount')?.dirty)    
+
           "
         >
-          <span class="error_msg">{{
+          <span class="error_msg" >{{
             'Wallet.field_required' | translate
           }}</span>
+
+    
+        
         </div>
-        <div class="text-center">
+        <div class="text-center" *ngIf =" this.sendform.controls.contact.errors?.pattern && this.sendform.get('contact')?.dirty ">
           <span
-            class="error_msg"
-            *ngIf="
-              this.sendform.get('contact')?.errors?.pattern &&
-              !this.sendform.get('contact')?.errors?.required
-            "
-            >{{ 'Wallet.Invalid address' | translate }}</span
-          >
+          class="error_msg"
+          
+        
+          >{{ 'Wallet.Invalid address' | translate }}</span
+        >
         </div>
         <div class="mt-3 text-center">
           <button
