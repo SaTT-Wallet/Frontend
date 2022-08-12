@@ -295,20 +295,20 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         startWith({ url: this.router.url })
       )
       .subscribe((e: any) => {
-        if (
-          ['/home', '/wallet'].includes(e.url) ||
-          e.url.includes('/campaign')
-        ) {
-          (this.headerNav as ElementRef).nativeElement.style.position =
-            'absolute';
-          (this.headerNav as ElementRef).nativeElement.style.width = '100%';
-          this.hostElement.nativeElement.style.height = 'inherit';
-        } else {
-          (this.headerNav as ElementRef).nativeElement.style.position =
-            'inherit';
-          (this.headerNav as ElementRef).nativeElement.style.width = 'inherit';
-          this.hostElement.nativeElement.style.height = '64px;';
-        }
+        // if (
+        //   ['/home', '/wallet'].includes(e.url) ||
+        //   e.url.includes('/campaign')
+        // ) {
+        //   (this.headerNav as ElementRef).nativeElement.style.position =
+        //     'absolute';
+        //   (this.headerNav as ElementRef).nativeElement.style.width = '100%';
+        //   this.hostElement.nativeElement.style.height = 'inherit';
+        // } else {
+        //   (this.headerNav as ElementRef).nativeElement.style.position =
+        //     'inherit';
+        //   (this.headerNav as ElementRef).nativeElement.style.width = 'inherit';
+        //   this.hostElement.nativeElement.style.height = '64px;';
+        // }
       });
   }
 

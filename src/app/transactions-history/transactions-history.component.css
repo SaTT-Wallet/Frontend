@@ -466,3 +466,7 @@ app-loading-logo {
     transform: translateX(-50%);
     z-index: 999;
 }
+
+.separator {
+  height: 65px;
+}

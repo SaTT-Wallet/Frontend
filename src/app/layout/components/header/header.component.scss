@@ -239,9 +239,9 @@ a.click-to-top:hover span {
 
 :host {
   display: block;
-  /* height: 82px; */
-  /* height: 68px; */
-  height: 62px;
+  min-height: 62px;
+  position: fixed;
+  width: 100%;
 }
 
 .atayan_logo {
@@ -461,7 +461,7 @@ a.click-to-top:hover span {
 }
 
 .navbar .sidebar-toggler-btn {
-  position: fixed;
+  position: relative;
   left: 236px;
   top: 30px;
   cursor: pointer;

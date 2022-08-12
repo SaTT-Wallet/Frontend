@@ -466,3 +466,7 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
     max-width: 300px;
     min-width: 150px;
 }
+
+.separator {
+  height: 65px;
+}
