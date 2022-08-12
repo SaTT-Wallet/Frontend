@@ -68,8 +68,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   showSpinner!: boolean;
   loadingButton!: boolean;
 
-
-
   wrongpassword: boolean = false;
   ownaddress: boolean = false;
 
@@ -191,7 +189,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.getProfileDetails();
     this.amountdefault = this.sendform.get('currency')?.value;
   }
-
 
   openqrcode(): void {
     this.showScanner = true;
@@ -564,11 +561,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           (error) => {
             if (
               error.error.error ===
-              'Key derivation failed - possibly wrong password'
-              ||
-              
-              error.error.error ===
-              'Invalid private key provided'
+                'Key derivation failed - possibly wrong password' ||
+              error.error.error === 'Invalid private key provided'
             ) {
               this.wrongpassword = true;
               setTimeout(() => {
@@ -973,13 +967,12 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.sendform.controls.AmountUsd.reset();
     this.sendform.controls.password.reset();
     this.selectedCryptoDetails = event;
-   // if(this.selectedCryptoDetails.symbol === "TRX"){
-     // this.sendform.get('contact')?.setValidators(Validators.pattern(pattContact))
-     // console.log("here");
-      // this.patternType="^x0[a-fA-F0-9]{40}$"
-  //  } 
+    // if(this.selectedCryptoDetails.symbol === "TRX"){
+    // this.sendform.get('contact')?.setValidators(Validators.pattern(pattContact))
+    // console.log("here");
+    // this.patternType="^x0[a-fA-F0-9]{40}$"
+    //  }
     this.sendform.get('currency')?.setValue(this.selectedCryptoDetails.symbol);
-    console.log(this.selectedCryptoDetails.symbol)
 
     this.sendform.get('Amount')?.reset();
     this.sendform.get('AmountUsd')?.reset();
