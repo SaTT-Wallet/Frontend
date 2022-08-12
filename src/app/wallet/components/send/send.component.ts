@@ -68,6 +68,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   showSpinner!: boolean;
   loadingButton!: boolean;
 
+
+
   wrongpassword: boolean = false;
   ownaddress: boolean = false;
 
@@ -141,7 +143,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   mediaQueryList?: MediaQueryList;
   btt: any;
   trx: any;
-
+  patternType:any="^0x[a-fA-F0-9]{40}$";
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
     if (isPlatformBrowser(this.platformId) && event) {
@@ -173,8 +175,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     //, Validators.max(this.maxNumber)
     this.sendform = new FormGroup({
       contact: new FormControl(null, {
-        validators: [Validators.required, Validators.pattern(pattContact)]
+        validators: [Validators.required, Validators.pattern("^0x[a-fA-F0-9]{40}$")]
       }),
+
       Amount: new FormControl(0, Validators.compose([Validators.required])),
       AmountUsd: new FormControl(null),
       currency: new FormControl(null),
@@ -188,6 +191,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.getProfileDetails();
     this.amountdefault = this.sendform.get('currency')?.value;
   }
+
 
   openqrcode(): void {
     this.showScanner = true;
@@ -965,7 +969,13 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.sendform.controls.AmountUsd.reset();
     this.sendform.controls.password.reset();
     this.selectedCryptoDetails = event;
+    if(this.selectedCryptoDetails.symbol === "TRX"){
+      this.sendform.get('contact')?.setValidators(Validators.pattern("^[T][1-9A-HJ-NP-Za-km-z]{30,40}$"))
+      console.log("here");
+      // this.patternType="^x0[a-fA-F0-9]{40}$"
+    } 
     this.sendform.get('currency')?.setValue(this.selectedCryptoDetails.symbol);
+    console.log(this.selectedCryptoDetails.symbol)
 
     this.sendform.get('Amount')?.reset();
     this.sendform.get('AmountUsd')?.reset();
