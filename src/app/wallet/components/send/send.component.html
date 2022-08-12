@@ -130,8 +130,8 @@
         <span
           class="error_msg"
           *ngIf="
-            this.sendform.get('contact')?.errors?.pattern &&
-            !this.sendform.get('contact')?.errors?.required
+            this.sendform.controls.contact.errors?.pattern &&
+            this.sendform.get('contact')?.dirty
           "
           >{{ 'Wallet.Invalid address' | translate }}</span
         >
@@ -241,6 +241,9 @@
               : {
                   crypto:
                     this.selectedCryptoDetails.symbol === undefined
+                      ? 'SATT'
+                      : this.selectedCryptoDetails.symbol ||
+                        this.selectedCryptoDetails.symbol === 'SATTBEP20'
                       ? 'SATT'
                       : this.selectedCryptoDetails.symbol
                 }

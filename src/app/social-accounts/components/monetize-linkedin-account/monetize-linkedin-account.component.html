@@ -104,8 +104,15 @@
             class="skip-page skip-page2"
             (click)="skipPage()"
             *ngIf="channelLinkedin?.length === 0"
-            >{{ 'skip-network' | translate: { network: 'Linkedin' } }} Pro</a
-          >
+            ><span *ngIf="channelLinkedin?.length === 0"
+              >{{
+                'skip-network' | translate: { network: 'Linkedin' }
+              }}
+              Pro</span
+            >
+
+            <span *ngIf="channelLinkedin.length > 0">{{ 'Next step' }}</span>
+          </a>
         </div>
       </div>
 

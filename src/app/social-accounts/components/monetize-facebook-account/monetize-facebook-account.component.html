@@ -103,8 +103,13 @@
             class="skip-page skip-page2"
             (click)="skipPage()"
             *ngIf="channelFacebook?.length === 0"
-            >{{ 'skip-network' | translate: { network: 'Facebook' } }}</a
           >
+            <span *ngIf="channelFacebook?.length === 0">{{
+              'skip-network' | translate: { network: 'Facebook' }
+            }}</span>
+
+            <span *ngIf="channelFacebook.length > 0">{{ 'Next step' }}</span>
+          </a>
           <!-- <a class="skip-page" (click)="skipPage()" *ngIf="channelFacebook?.length!==0">Skip ></a> -->
         </div>
       </div>

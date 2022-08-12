@@ -400,6 +400,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   picUserUpdated: boolean = false;
 
   private totalBalance$ = this.walletFacade.totalBalance$;
+  tronErrorMessage = '';
 
   selectTab(tabId: number) {
     this.staticTabs.tabs[tabId].active = true;
@@ -716,8 +717,17 @@ export class WalletComponent implements OnInit, OnDestroy {
       .createTronWallet(this.tronWalletPassword)
       .pipe(
         catchError((error) => {
-          return of(error.error);
-        })
+          if (
+            error.error.error ===
+            'Key derivation failed - possibly wrong password'
+          ) {
+            this.tronErrorMessage = 'Wrong password';
+          } else {
+            this.tronErrorMessage = error.error.error;
+          }
+          return of(null);
+        }),
+        filter((res) => res !== null)
       )
       .subscribe((response: any) => {
         this.closeModal(this.createTronWalletModal);
@@ -812,6 +822,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     }, 4000);
   }
   /*------------------------------------------------------------------------------------*/
+  wrongTronPassword = false;
   goToProfile(modal: any) {
     this.closeModal(modal);
     this.router.navigate(['home/settings/edit']);

@@ -1231,7 +1231,6 @@ export class ParticiperComponent implements OnInit {
     this.showButtonSend = false;
 
     this.applyPassword = true;
-
     this.CampaignService.applyLink(
       campaign,
       application,
@@ -1312,6 +1311,9 @@ export class ParticiperComponent implements OnInit {
                 this.success = '';
               } else if (this.networkWallet === 'erc20') {
                 this.error = 'out_of_gas_eth';
+                this.success = '';
+              } else if (this.networkWallet === 'BTT') {
+                this.error = 'out_of_gas_tron';
                 this.success = '';
               } else {
                 this.error = 'out_of_gas_matic';
