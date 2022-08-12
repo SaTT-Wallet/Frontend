@@ -39,7 +39,7 @@ export class MonetizeGoogleAccountComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     //this.tokenStorageService.setSecureWallet('visited-google', 'true');
     this.getSocialNetwork();
-    this.getUrlMsg();
+    //this.getUrlMsg();
     this.route.queryParams.subscribe((params: any) => {
       if (params.message === 'account_linked_with_success') {
         this.socialAccountsFacade.pageVisited(ESocialMediaNames.youtube);
@@ -124,6 +124,6 @@ export class MonetizeGoogleAccountComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.onDestoy$.next('');
     this.onDestoy$.complete();
-    this.routerSub.unsubscribe();
+    //this.routerSub.unsubscribe();
   }
 }
