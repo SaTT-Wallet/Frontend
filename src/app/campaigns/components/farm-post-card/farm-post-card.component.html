@@ -510,9 +510,12 @@
             <!-- <img class="hourglass" src="/assets/Images/cross-pink.svg" /> -->
             {{ 'link-rejected' | translate }}
           </span>
-          <span class="rejected-message text-pink hide-row-desktop">
+          <span
+            class="rejected-message text-pink hide-row-desktop"
+            *ngFor="let reason of prom.reason"
+          >
             <!-- <img class="hourglass" src="/assets/Images/cross-pink.svg" /> -->
-            " {{ 'link-rejected-description' | translate }}"
+            {{ reason }}
           </span>
           <img
             class="icon-reject-btn show-row-version-desktop"
