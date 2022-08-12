@@ -528,7 +528,7 @@ button:focus {
   background: none;
   position: relative !important;
   transform: none !important;
-  top: 0px !important;
+  top: 15px !important;
   padding: 5px !important;
   max-height: 200px;
   overflow-y: auto;
@@ -576,8 +576,8 @@ button:focus {
   font-size: 16px;
 }
 
-.chevrondown{
-  margin-right: 0.75rem
+.chevrondown {
+  margin-right: 0.75rem;
 }
 .chevron:before {
   font-family: 'FontAwesome';

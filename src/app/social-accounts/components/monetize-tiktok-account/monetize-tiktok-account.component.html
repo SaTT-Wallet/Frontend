@@ -61,8 +61,8 @@
               width="38px "
             />
             <span class="d-flex align-self-center white-text-span ms-3"
-              >{{ 'add_tiktok' | translate }} </span
-            >
+              >{{ 'add_tiktok' | translate }}
+            </span>
           </div>
         </div>
       </div>
@@ -107,7 +107,12 @@
             class="skip-page skip-page2"
             (click)="skipPage()"
             *ngIf="channelTiktok?.length === 0"
-            >{{ 'skip-network' | translate: { network: 'TikTok' } }}</a
+          >
+            <span *ngIf="channelTiktok?.length === 0">{{
+              'skip-network' | translate: { network: 'TikTok' }
+            }}</span>
+
+            <span *ngIf="channelTiktok.length > 0">{{ 'Next step' }}</span></a
           >
         </div>
       </div>
