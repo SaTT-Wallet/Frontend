@@ -25,8 +25,8 @@
         <input
           type="number"
           id=""
-          pattern="[+-]?([0-9]*[.])?[0-9]+"
           (keydown)="restrictZero($event)"
+          (keypress)="keyPressNumbersWithDecimal($event)"
           formControlName="initialBudget"
           input
           class="amount input-amount"
@@ -55,9 +55,10 @@
           <input
             type="number"
             class="input-number2-receive"
-            pattern="(\d{1,2}([\.,])?)*([\d{1,2}]?)*"
+          
             class="usd input-amount-usd"
             (keydown)="restrictZero($event)"
+            (keypress)="keyPressNumbersWithDecimal($event)"
             placeholder="0"
             formControlName="initialBudgetInUSD"
             (input)="convertcurrency('usd')"
