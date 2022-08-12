@@ -286,6 +286,9 @@
           [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"
         ></span>
       </div>
+      <div *ngIf="!!tronErrorMessage">
+        <span class="text-danger">{{ tronErrorMessage }}</span>
+      </div>
     </div>
 
     <div class="d-flex flex-column justify-content-center align-items-center">

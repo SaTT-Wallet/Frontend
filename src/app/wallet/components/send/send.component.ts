@@ -14,6 +14,8 @@ import { Big } from 'big.js';
 import {
   GazConsumedByCampaign,
   ListTokens,
+  pattContact,
+  tronPattContact,
   tronScan
 } from '@config/atn.config';
 
@@ -139,7 +141,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   mediaQueryList?: MediaQueryList;
   btt: any;
   trx: any;
-
+  //:any="^0x[a-fA-F0-9]{40}$";
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
     if (isPlatformBrowser(this.platformId) && event) {
@@ -171,8 +173,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     //, Validators.max(this.maxNumber)
     this.sendform = new FormGroup({
       contact: new FormControl(null, {
-        validators: [Validators.required]
+        validators: [Validators.required, Validators.pattern(pattContact)]
       }),
+
       Amount: new FormControl(0, Validators.compose([Validators.required])),
       AmountUsd: new FormControl(null),
       currency: new FormControl(null),
@@ -558,7 +561,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           (error) => {
             if (
               error.error.error ===
-              'Key derivation failed - possibly wrong password'
+                'Key derivation failed - possibly wrong password' ||
+              error.error.error === 'Invalid private key provided'
             ) {
               this.wrongpassword = true;
               setTimeout(() => {
@@ -955,11 +959,19 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
   linstingCrypto(event: any) {
     // this.resetForm();
+    this.sendform
+      .get('contact')
+      ?.setValidators([Validators.required, Validators.pattern(pattContact)]);
     this.sendform.controls.currency.reset();
     this.sendform.controls.Amount.reset();
     this.sendform.controls.AmountUsd.reset();
     this.sendform.controls.password.reset();
     this.selectedCryptoDetails = event;
+    // if(this.selectedCryptoDetails.symbol === "TRX"){
+    // this.sendform.get('contact')?.setValidators(Validators.pattern(pattContact))
+    // console.log("here");
+    // this.patternType="^x0[a-fA-F0-9]{40}$"
+    //  }
     this.sendform.get('currency')?.setValue(this.selectedCryptoDetails.symbol);
 
     this.sendform.get('Amount')?.reset();
@@ -1038,6 +1050,13 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
       }
       if (this.networks === 'TRON') {
+        //TODO
+        this.sendform
+          .get('contact')
+          ?.setValidators([
+            Validators.required,
+            Validators.pattern(tronPattContact)
+          ]);
         this.gazsend = this.trxGaz;
         if (crypto.symbol === 'TRX') {
           this.gasCryptoQuantity = (this.gazsend / crypto.price).toFixed(8);

@@ -1,388 +1,380 @@
-<div class="row flex-column">
-  <div>
-    <app-header-send-receive-buy
-      [title]="'Send'"
-      [ngClass]="{ error: showErrorBloc }"
-      class="send-component"
-      (clickedBack)="linstingBack($event)"
-    ></app-header-send-receive-buy>
-  </div>
-  <div class="row white-bloc justify-content-center flex-column">
-    <!--------------------AmountBloc----------------------------------->
+<app-header-send-receive-buy
+  [title]="'Send'"
+  [ngClass]="{ error: showErrorBloc }"
+  class="send-component"
+  (clickedBack)="linstingBack($event)"
+></app-header-send-receive-buy>
 
-    <!-- <zxing-scanner [formats]="allowedFormats"></zxing-scanner> -->
+<div class="white-bloc">
+  <!--------------------AmountBloc----------------------------------->
 
-    <div
-      class="div-content d-flex flex-column align-items-center"
-      *ngIf="showAmountBloc"
-    >
-      <form [formGroup]="sendform">
-        <div class="height-drop">
-          <app-dropdown-crypto-network
-            (selectedCrypto)="linstingCrypto($event)"
-            [cryptoFromComponent]="this.cryptoToDropdown"
-          ></app-dropdown-crypto-network>
-        </div>
-        <div class="">
+  <!-- <zxing-scanner [formats]="allowedFormats"></zxing-scanner> -->
+
+  <div
+    class="div-content d-flex flex-column align-items-center"
+    *ngIf="showAmountBloc"
+  >
+    <form [formGroup]="sendform">
+      <div class="height-drop">
+        <app-dropdown-crypto-network
+          (selectedCrypto)="linstingCrypto($event)"
+          [cryptoFromComponent]="this.cryptoToDropdown"
+        ></app-dropdown-crypto-network>
+      </div>
+      <div class="">
+        <input
+          type="number"
+          id=""
+          (focus)="goToSection('amount')"
+          pattern="^[1-9][0-9]*$"
+          (keydown)="restrictZero($event)"
+          formControlName="Amount"
+          input
+          class="amount input-amount"
+          placeholder="0"
+          [(ngModel)]="amount"
+          (input)="convertcurrency('amount')"
+        />
+      </div>
+      <div
+        class="div-use-max mt-3 text-center d-flex justify-content-center align-items-center flex-xl-row flex-lg-row flex-md-row flex-sm-column flex-xs-column gap-2"
+      >
+        <!-- <p class="hard-gray-text mb-0">Balance :{{ totalAmount }} USD</p> -->
+        <p *ngIf="this.selectedCryptoDetails" class="hard-gray-text mb-0">
+          Balance :${{ this.selectedCryptoDetails?.total_balance?.toFixed(2) }}
+        </p>
+        <p *ngIf="!this.selectedCryptoDetails" class="hard-gray-text mb-0">
+          Balance :${{ this.sattBalance }}
+        </p>
+        <span class="router-text" (click)="onClickAmount()">{{
+          'useMax' | translate
+        }}</span>
+      </div>
+      <div class="">
+        <div class="w-100 d-flex justify-content-center align-items-center">
+          <span class="amount-default-receive-usd">$</span>
           <input
             type="number"
-            id=""
-            (focus)="goToSection('amount')"
-            pattern="^[1-9][0-9]*$"
+            class="input-number2-receive"
+            (focus)="goToSection('usd')"
+            pattern="(\d{1,2}([\.,])?)*([\d{1,2}]?)*"
+            class="usd input-amount-usd"
             (keydown)="restrictZero($event)"
-            formControlName="Amount"
-            input
-            class="amount input-amount"
             placeholder="0"
-            [(ngModel)]="amount"
-            (input)="convertcurrency('amount')"
+            formControlName="AmountUsd"
+            [(ngModel)]="amountUsd"
+            #inputAmountUsd
+            (input)="convertcurrency('usd')"
           />
         </div>
+      </div>
+      <div class="d-flex justify-content-center">
         <div
-          class="div-use-max mt-3 text-center d-flex justify-content-center align-items-center flex-xl-row flex-lg-row flex-md-row flex-sm-column flex-xs-column gap-2"
+          class="mt-3 div-input-icon p-2"
+          [ngClass]="{
+            'border-error':
+              (this.sendform.get('contact')?.errors?.required &&
+                this.sendform.get('contact')?.dirty) ||
+              (this.sendform.get('contact')?.errors?.pattern &&
+                !this.sendform.get('contact')?.errors?.required)
+          }"
         >
-          <!-- <p class="hard-gray-text mb-0">Balance :{{ totalAmount }} USD</p> -->
-          <p *ngIf="this.selectedCryptoDetails" class="hard-gray-text mb-0">
-            Balance :${{
-              this.selectedCryptoDetails?.total_balance?.toFixed(2)
-            }}
-          </p>
-          <p *ngIf="!this.selectedCryptoDetails" class="hard-gray-text mb-0">
-            Balance :${{ this.sattBalance }}
-          </p>
-          <span class="router-text" (click)="onClickAmount()">{{
-            'useMax' | translate
-          }}</span>
+          <img class="wallet-icon" src="assets/Images/wallet-icon-black.svg" />
+          <img
+            class="qrcode"
+            src="assets/Images/qrcode-send.svg"
+            (click)="openqrcode()"
+          />
+
+          <input
+            formControlName="contact"
+            (focus)="goToSection('contact')"
+            class="contact input-icon ms-2"
+            type="text"
+            [(ngModel)]="contactWallet"
+            id="receive_contact"
+            [placeholder]="emailPlaceholderText"
+          />
         </div>
-        <div class="">
-          <div class="w-100 d-flex justify-content-center align-items-center">
-            <span class="amount-default-receive-usd">$</span>
-            <input
-              type="number"
-              class="input-number2-receive"
-              (focus)="goToSection('usd')"
-              pattern="(\d{1,2}([\.,])?)*([\d{1,2}]?)*"
-              class="usd input-amount-usd"
-              (keydown)="restrictZero($event)"
-              placeholder="0"
-              formControlName="AmountUsd"
-              [(ngModel)]="amountUsd"
-              #inputAmountUsd
-              (input)="convertcurrency('usd')"
-            />
-          </div>
+      </div>
+
+      <zxing-scanner
+        *ngIf="showScanner"
+        previewFitMode="cover"
+        (scanSuccess)="onCodeResult($event)"
+      ></zxing-scanner>
+
+      <div
+        class="text-center"
+        *ngIf="
+          this.sendform.get('contact')?.value ===
+            '0x655371C0622cACc22732E872a68034f38E04d6e5' &&
+          this.networks === 'BEP20'
+        "
+      >
+        <span class="error_msg">{{ 'Wallet.bridge-send' | translate }} </span>
+      </div>
+
+      <div
+        class="text-center"
+        *ngIf="
+          (this.sendform.get('contact')?.errors?.required &&
+            this.sendform.get('contact')?.dirty) ||
+          (this.sendform.get('Amount')?.errors?.required &&
+            this.sendform.get('Amount')?.dirty)
+        "
+      >
+        <span class="error_msg">{{ 'Wallet.field_required' | translate }}</span>
+      </div>
+      <div class="text-center">
+        <span
+          class="error_msg"
+          *ngIf="
+            this.sendform.controls.contact.errors?.pattern &&
+            this.sendform.get('contact')?.dirty
+          "
+          >{{ 'Wallet.Invalid address' | translate }}</span
+        >
+      </div>
+      <div class="mt-3 text-center">
+        <button
+          type="submit"
+          (click)="showNextBloc()"
+          class="blue-btn"
+          [disabled]="
+            (this.sendform.get('contact')?.value ===
+              '0x655371C0622cACc22732E872a68034f38E04d6e5' &&
+              this.networks === 'BEP20') ||
+            this.sendform.get('contact')?.errors?.required ||
+            this.sendform.controls.contact.errors?.pattern ||
+            this.sendform.controls.contact.errors?.invalid ||
+            this.sendform.get('Amount')?.errors?.required ||
+            this.sendform.value.Amount === 0 ||
+            this.sendform.value.Amount === '0.00000000'
+          "
+        >
+          {{ 'confirm_' | translate }}
+        </button>
+      </div>
+    </form>
+  </div>
+  <!--------------------passwordBloc----------------------------------->
+  <div
+    class="div-content d-flex flex-column align-items-center"
+    *ngIf="showPwdBloc"
+  >
+    <form [formGroup]="sendform" (ngSubmit)="onSubmitSendMoney($event)">
+      <div class="text-center">
+        <img src="assets/Images/moonboy/moonboy-send.svg" />
+      </div>
+      <div class="d-flex flex-column text-center mt-2">
+        <label class="requestion-text"
+          >{{ 'You-re-about-to-Send' | translate }}:</label
+        >
+        <h3 class="black mt-2">${{ amountUsd || 0 }}</h3>
+        <h3 *ngIf="this.selectedCryptoDetails" class="gary-amout hard-gray">
+          ≈ {{ amount || 0 }}
+          {{ this.selectedCryptoDetails.symbol | translate }}
+        </h3>
+        <h3 *ngIf="!this.selectedCryptoDetails" class="gary-amout hard-gray">
+          ≈ {{ amount || 0 }}
+          {{ this.symbol }}
+        </h3>
+      </div>
+      <div class="">
+        <div class="row ps-2 mb-2 text-center" *ngIf="!coinType">
+          <label class="italic-text m-0"
+            >Fees : {{ gasCryptoQuantity }} {{ gazcurrency }} ( ≈ $
+            {{ gazsend }})</label
+          >
         </div>
         <div class="d-flex justify-content-center">
           <div
-            class="mt-3 div-input-icon p-2"
+            class="div-input-icon p-1"
             [ngClass]="{
-              'border-error':
-                (this.sendform.get('contact')?.errors?.required &&
-                  this.sendform.get('contact')?.dirty) ||
-                (this.sendform.get('contact')?.errors?.pattern &&
-                  !this.sendform.get('contact')?.errors?.required)
+              'border-error': wrongpassword
             }"
           >
-            <img
-              class="wallet-icon"
-              src="assets/Images/wallet-icon-black.svg"
-            />
-            <img
-              class="qrcode"
-              src="assets/Images/qrcode-send.svg"
-              (click)="openqrcode()"
-            />
-
+            <img class="" src="../../../assets/Images/Kep-password.svg" />
             <input
-              formControlName="contact"
-              (focus)="goToSection('contact')"
-              class="contact input-icon ms-2"
+              autocomplete="off"
               type="text"
-              [(ngModel)]="contactWallet"
-              id="receive_contact"
-              [placeholder]="emailPlaceholderText"
+              [ngClass]="
+                showPass ? 'input-password' : 'input-password pass-hide'
+              "
+              formControlName="password"
+              #password_field
             />
+            <span
+              (click)="showPass = !showPass"
+              class="fa fa-fw cross_input_network align-self-center"
+              aria-hidden="true"
+              [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"
+            ></span>
           </div>
         </div>
+      </div>
 
-        <zxing-scanner
-          *ngIf="showScanner"
-          previewFitMode="cover"
-          (scanSuccess)="onCodeResult($event)"
-        ></zxing-scanner>
-
-        <div
-          class="text-center"
-          *ngIf="
-            this.sendform.get('contact')?.value ===
-              '0x655371C0622cACc22732E872a68034f38E04d6e5' &&
-            this.networks === 'BEP20'
-          "
-        >
-          <span class="error_msg">{{ 'Wallet.bridge-send' | translate }} </span>
-        </div>
-
-        <div
-          class="text-center"
-          *ngIf="
-            (this.sendform.get('contact')?.errors?.required &&
-              this.sendform.get('contact')?.dirty) ||
-            (this.sendform.get('Amount')?.errors?.required &&
-              this.sendform.get('Amount')?.dirty)
-          "
-        >
-          <span class="error_msg">{{
-            'Wallet.field_required' | translate
-          }}</span>
-        </div>
-        <div class="text-center">
-          <span
-            class="error_msg"
-            *ngIf="
-              this.sendform.get('contact')?.errors?.pattern &&
-              !this.sendform.get('contact')?.errors?.required
-            "
-            >{{ 'Wallet.Invalid address' | translate }}</span
-          >
-        </div>
-        <div class="mt-3 text-center">
-          <button
-            type="submit"
-            (click)="showNextBloc()"
-            class="blue-btn"
-            [disabled]="
-              (this.sendform.get('contact')?.value ===
-                '0x655371C0622cACc22732E872a68034f38E04d6e5' &&
-                this.networks === 'BEP20') ||
-              this.sendform.get('contact')?.errors?.required ||
-              this.sendform.controls.contact.errors?.pattern ||
-              this.sendform.controls.contact.errors?.invalid ||
-              this.sendform.get('Amount')?.errors?.required ||
-              this.sendform.value.Amount === 0 ||
-              this.sendform.value.Amount === '0.00000000'
-            "
-          >
-            {{ 'confirm_' | translate }}
-          </button>
-        </div>
-      </form>
-    </div>
-    <!--------------------passwordBloc----------------------------------->
-    <div
-      class="div-content d-flex flex-column align-items-center"
-      *ngIf="showPwdBloc"
-    >
-      <form [formGroup]="sendform" (ngSubmit)="onSubmitSendMoney($event)">
-        <div class="text-center">
-          <img src="assets/Images/moonboy/moonboy-send.svg" />
-        </div>
-        <div class="d-flex flex-column text-center mt-2">
-          <label class="requestion-text"
-            >{{ 'You-re-about-to-Send' | translate }}:</label
-          >
-          <h3 class="black mt-2">${{ amountUsd || 0 }}</h3>
-          <h3 *ngIf="this.selectedCryptoDetails" class="gary-amout hard-gray">
-            ≈ {{ amount || 0 }}
-            {{ this.selectedCryptoDetails.symbol | translate }}
-          </h3>
-          <h3 *ngIf="!this.selectedCryptoDetails" class="gary-amout hard-gray">
-            ≈ {{ amount || 0 }}
-            {{ this.symbol }}
-          </h3>
-        </div>
-        <div class="">
-          <div class="row ps-2 mb-2 text-center" *ngIf="!coinType">
-            <label class="italic-text m-0"
-              >Fees : {{ gasCryptoQuantity }} {{ gazcurrency }} ( ≈ $
-              {{ gazsend }})</label
-            >
-          </div>
-          <div class="d-flex justify-content-center">
-            <div
-              class="div-input-icon p-1"
-              [ngClass]="{
-                'border-error': wrongpassword
-              }"
-            >
-              <img class="" src="../../../assets/Images/Kep-password.svg" />
-              <input
-                autocomplete="off"
-                type="text"
-                [ngClass]="
-                  showPass ? 'input-password' : 'input-password pass-hide'
-                "
-                formControlName="password"
-                #password_field
-              />
-              <span
-                (click)="showPass = !showPass"
-                class="fa fa-fw cross_input_network align-self-center"
-                aria-hidden="true"
-                [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"
-              ></span>
-            </div>
-          </div>
-        </div>
-
-        <div class="text-start pt-2">
-          <span class="error_msg" *ngIf="wrongpassword">{{
-            'Wallet.Wrong Password' | translate
-          }}</span>
-        </div>
-        <div class="text-start pt-2" *ngIf="notValidAdressWallet">
-          <span class="error_msg">
-            {{ 'Not Valid Tron Wallet' | translate }}
-          </span>
-        </div>
-        <div class="text-start pt-2">
-          <span class="error_msg" *ngIf="ownaddress">{{
-            'Wallet.ownaddress' | translate
-          }}</span>
-        </div>
-        <div class="pt-2 text-start">
-          <span class="error_msg" *ngIf="gazproblem">{{
-            'send.no_gaz' | translate
-          }}</span>
-
-          <span class="error_msg" *ngIf="nobalance">{{
-            'send.no_balance_crypto'
-              | translate
-                : {
-                    crypto:
-                      this.selectedCryptoDetails.symbol === undefined
-                        ? 'SATT'
-                        : this.selectedCryptoDetails.symbol
-                  }
-          }}</span>
-        </div>
-        <div class="text-center">
-          <button
-            type="submit"
-            *ngIf="!loadingButton"
-            [disabled]="sendform.invalid"
-            class="blue-btn"
-          >
-            <span class="icon-arrow-1 icoBtn me-2"></span>
-            {{ 'Wallet.send' | translate }}
-          </button>
-          <button *ngIf="loadingButton" disabled class="blue-btn">
-            <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw fa-spinner"></i>
-          </button>
-        </div>
-      </form>
-    </div>
-    <!--------------------successfullyBloc-------------------------------->
-
-    <div
-      class="div-content d-flex flex-column align-items-center"
-      *ngIf="showSuccessBloc"
-    >
-      <div class="d-flex justify-content-center flex-column align-items-center">
-        <img src="assets/Images/moonboy/moonboy-success.svg" width="133px" />
-        <span class="blue-text title-text mt-3">{{
-          'campaign_details.transaction_completed_success' | translate
+      <div class="text-start pt-2">
+        <span class="error_msg" *ngIf="wrongpassword">{{
+          'Wallet.Wrong Password' | translate
         }}</span>
       </div>
-      <div class="tex-center mt-2">
-        <h3 class="black">
-          {{ amount || 0 }} {{ this.selectedCryptoDetails.symbol | translate }}
-          {{ 'Transactions.Send' | translate }}
-        </h3>
-      </div>
-      <div>
-        <div class="text-center mt-4">
-          <label class="trans-upper">{{ 'transacHash' | translate }}</label>
-          <div
-            class="d-flex text-center justify-content-center align-items-center"
-          >
-            <a
-              [href]="routertransHash"
-              target="_blank"
-              class="d-flex justify-content-center me-2"
-              ><span class="span-transacHash">{{
-                hashtransaction.slice(0, 12)
-              }}</span
-              >...<span class="span-transacHash">{{
-                hashtransaction.slice(-12)
-              }}</span></a
-            >
-            <img
-              class="cursor-pointer"
-              width="15px"
-              (click)="copyTransactionHash()"
-              src="/assets/Images/copy-clipboard.svg"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="mt-4 d-flex text-center flex-column gap-3">
-        <button type="submit" class="white-btn" (click)="sendAgain()">
-          {{ 'Send-again' | translate }}
-        </button>
-      </div>
-    </div>
-    <!--------------------errorBloc-------------------------------->
-
-    <div
-      class="div-content d-flex flex-column align-items-center"
-      *ngIf="showErrorBloc"
-    >
-      <div class="d-flex justify-content-center flex-column align-items-center">
-        <img src="assets/Images/moonboy/moonboy-error.svg" width="133px" />
-        <span class="pink-text title-text mt-2" *ngIf="!gazproblem"
-          >Oops !
+      <div class="text-start pt-2" *ngIf="notValidAdressWallet">
+        <span class="error_msg">
+          {{ 'Not Valid Tron Wallet' | translate }}
         </span>
-        <span class="pink-text title-text" *ngIf="!gazproblem">{{
-          'sth_went_wrong_title' | translate
+      </div>
+      <div class="text-start pt-2">
+        <span class="error_msg" *ngIf="ownaddress">{{
+          'Wallet.ownaddress' | translate
         }}</span>
-        <span class="pink-text title-text mt-2" *ngIf="gazproblem"
-          >Oops ! {{ 'send.gazfailed' | translate }}</span
-        >
       </div>
-      <div class="text-center mt-2" *ngIf="!gazproblem">
-        <p class="m-0">
-          {{ 'An-error-appeared-during-transaction' | translate }}
-        </p>
-        <p>{{ 'Please-verify-your-informations' | translate }}</p>
-      </div>
-      <div class="text-center mt-2" *ngIf="noTronWallet">
-        <p class="m-0">
-          {{ 'Create Tron Wallet' | translate }}
-        </p>
-      </div>
+      <div class="pt-2 text-start">
+        <span class="error_msg" *ngIf="gazproblem">{{
+          'send.no_gaz' | translate
+        }}</span>
 
-      <div *ngIf="gazproblem" class="text-center mt-2">
-        <p>{{ 'send.To-complete-this-ransaction.gazfailed' | translate }}</p>
+        <span class="error_msg" *ngIf="nobalance">{{
+          'send.no_balance_crypto'
+            | translate
+              : {
+                  crypto:
+                    this.selectedCryptoDetails.symbol === undefined
+                      ? 'SATT'
+                      : this.selectedCryptoDetails.symbol ||
+                        this.selectedCryptoDetails.symbol === 'SATTBEP20'
+                      ? 'SATT'
+                      : this.selectedCryptoDetails.symbol
+                }
+        }}</span>
       </div>
-      <div class="mt-3 d-flex text-center" *ngIf="!gazproblem">
-        <button type="submit" class="white-btn" (click)="sendAgain()">
-          {{ 'Send-again' | translate }}
-        </button>
-      </div>
-
-      <div class="mt-3 d-flex text-center" *ngIf="gazproblem">
+      <div class="text-center">
         <button
           type="submit"
-          class="white-btn"
-          [routerLink]="['/wallet/buy-token']"
-          (click)="goToBuy()"
+          *ngIf="!loadingButton"
+          [disabled]="sendform.invalid"
+          class="blue-btn"
         >
-          {{ 'buy_gas' | translate }}
+          <span class="icon-arrow-1 icoBtn me-2"></span>
+          {{ 'Wallet.send' | translate }}
+        </button>
+        <button *ngIf="loadingButton" disabled class="blue-btn">
+          <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw fa-spinner"></i>
         </button>
       </div>
-      <div class="mt-3 d-flex text-center">
-        <button
-          type="submit"
-          class="white-btn"
-          [routerLink]="['/FAQ']"
-          [fragment]="'support'"
+    </form>
+  </div>
+  <!--------------------successfullyBloc-------------------------------->
+
+  <div
+    class="div-content d-flex flex-column align-items-center"
+    *ngIf="showSuccessBloc"
+  >
+    <div class="d-flex justify-content-center flex-column align-items-center">
+      <img src="assets/Images/moonboy/moonboy-success.svg" width="133px" />
+      <span class="blue-text title-text mt-3">{{
+        'campaign_details.transaction_completed_success' | translate
+      }}</span>
+    </div>
+    <div class="tex-center mt-2">
+      <h3 class="black">
+        {{ amount || 0 }} {{ this.selectedCryptoDetails.symbol | translate }}
+        {{ 'Transactions.Send' | translate }}
+      </h3>
+    </div>
+    <div>
+      <div class="text-center mt-4">
+        <label class="trans-upper">{{ 'transacHash' | translate }}</label>
+        <div
+          class="d-flex text-center justify-content-center align-items-center"
         >
-          {{ 'support_contact' | translate }}
-        </button>
+          <a
+            [href]="routertransHash"
+            target="_blank"
+            class="d-flex justify-content-center me-2"
+            ><span class="span-transacHash">{{
+              hashtransaction.slice(0, 12)
+            }}</span
+            >...<span class="span-transacHash">{{
+              hashtransaction.slice(-12)
+            }}</span></a
+          >
+          <img
+            class="cursor-pointer"
+            width="15px"
+            (click)="copyTransactionHash()"
+            src="/assets/Images/copy-clipboard.svg"
+          />
+        </div>
       </div>
     </div>
-    <!--------------------footer mobile moonboy-------------------------------->
-    <!-- <div
+    <div class="mt-4 d-flex text-center flex-column gap-3">
+      <button type="submit" class="white-btn" (click)="sendAgain()">
+        {{ 'Send-again' | translate }}
+      </button>
+    </div>
+  </div>
+  <!--------------------errorBloc-------------------------------->
+
+  <div
+    class="div-content d-flex flex-column align-items-center"
+    *ngIf="showErrorBloc"
+  >
+    <div class="d-flex justify-content-center flex-column align-items-center">
+      <img src="assets/Images/moonboy/moonboy-error.svg" width="133px" />
+      <span class="pink-text title-text mt-2" *ngIf="!gazproblem">Oops ! </span>
+      <span class="pink-text title-text" *ngIf="!gazproblem">{{
+        'sth_went_wrong_title' | translate
+      }}</span>
+      <span class="pink-text title-text mt-2" *ngIf="gazproblem"
+        >Oops ! {{ 'send.gazfailed' | translate }}</span
+      >
+    </div>
+    <div class="text-center mt-2" *ngIf="!gazproblem">
+      <p class="m-0">
+        {{ 'An-error-appeared-during-transaction' | translate }}
+      </p>
+      <p>{{ 'Please-verify-your-informations' | translate }}</p>
+    </div>
+    <div class="text-center mt-2" *ngIf="noTronWallet">
+      <p class="m-0">
+        {{ 'Create Tron Wallet' | translate }}
+      </p>
+    </div>
+
+    <div *ngIf="gazproblem" class="text-center mt-2">
+      <p>{{ 'send.To-complete-this-ransaction.gazfailed' | translate }}</p>
+    </div>
+    <div class="mt-3 d-flex text-center" *ngIf="!gazproblem">
+      <button type="submit" class="white-btn" (click)="sendAgain()">
+        {{ 'Send-again' | translate }}
+      </button>
+    </div>
+
+    <div class="mt-3 d-flex text-center" *ngIf="gazproblem">
+      <button
+        type="submit"
+        class="white-btn"
+        [routerLink]="['/wallet/buy-token']"
+        (click)="goToBuy()"
+      >
+        {{ 'buy_gas' | translate }}
+      </button>
+    </div>
+    <div class="mt-3 d-flex text-center">
+      <button
+        type="submit"
+        class="white-btn"
+        [routerLink]="['/FAQ']"
+        [fragment]="'support'"
+      >
+        {{ 'support_contact' | translate }}
+      </button>
+    </div>
+  </div>
+  <!--------------------footer mobile moonboy-------------------------------->
+  <!-- <div
       class="showMobile div-footer-mobile d-none d-xl-none d-lg-none d-md-none d-sm-block d-xs-block p-0"
     >
       <div class="div-pic-text">
@@ -401,9 +393,8 @@
         />
       </div>
     </div> -->
-    <div class="div-footer">
-      <app-moonboy-help [pageName]="'Send'"></app-moonboy-help>
-    </div>
+  <div class="div-footer">
+    <app-moonboy-help [pageName]="'Send'"></app-moonboy-help>
   </div>
 </div>
 
