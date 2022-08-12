@@ -140,10 +140,10 @@
     
         
         </div>
-        <div class="text-center" *ngIf =" this.sendform.controls.contact.errors?.pattern && this.sendform.get('contact')?.dirty ">
+        <div class="text-center" >
           <span
           class="error_msg"
-          
+          *ngIf =" this.sendform.controls.contact.errors?.pattern && this.sendform.get('contact')?.dirty "
         
           >{{ 'Wallet.Invalid address' | translate }}</span
         >

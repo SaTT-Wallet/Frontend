@@ -143,7 +143,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   mediaQueryList?: MediaQueryList;
   btt: any;
   trx: any;
-  patternType:any="^0x[a-fA-F0-9]{40}$";
+  //:any="^0x[a-fA-F0-9]{40}$";
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
     if (isPlatformBrowser(this.platformId) && event) {
@@ -175,7 +175,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     //, Validators.max(this.maxNumber)
     this.sendform = new FormGroup({
       contact: new FormControl(null, {
-        validators: [Validators.required, Validators.pattern("^0x[a-fA-F0-9]{40}$")]
+        validators: [Validators.required, Validators.pattern(pattContact)]
       }),
 
       Amount: new FormControl(0, Validators.compose([Validators.required])),
@@ -973,11 +973,11 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.sendform.controls.AmountUsd.reset();
     this.sendform.controls.password.reset();
     this.selectedCryptoDetails = event;
-    if(this.selectedCryptoDetails.symbol === "TRX"){
-      this.sendform.get('contact')?.setValidators(Validators.pattern("^[T][1-9A-HJ-NP-Za-km-z]{30,40}$"))
-      console.log("here");
+   // if(this.selectedCryptoDetails.symbol === "TRX"){
+     // this.sendform.get('contact')?.setValidators(Validators.pattern(pattContact))
+     // console.log("here");
       // this.patternType="^x0[a-fA-F0-9]{40}$"
-    } 
+  //  } 
     this.sendform.get('currency')?.setValue(this.selectedCryptoDetails.symbol);
     console.log(this.selectedCryptoDetails.symbol)
 
