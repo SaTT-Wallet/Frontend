@@ -44,16 +44,13 @@ export class MonetizeTwitterAccountComponent implements OnInit, OnDestroy {
     this.getUrlMsg();
     this.route.queryParams.subscribe((params: any) => {
       if (params.message === 'account_linked_with_success') {
-        if (params.sn && params.sn === 'twitter') {
-          this.socialAccountsFacade.pageVisited(ESocialMediaNames.twitter);
-          this.skipPage();
-        }
+        this.socialAccountsFacade.pageVisited(ESocialMediaNames.twitter);
+        this.skipPage();
       }
     });
   }
 
   skipPage() {
-    this.socialAccountsFacade.pageVisited(ESocialMediaNames.twitter);
     this.router.navigate(['social-registration/monetize-linkedin']);
 
     // this.router.navigate(['social-registration/monetize-tiktok']);

@@ -39,13 +39,11 @@ export class MonetizeGoogleAccountComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     //this.tokenStorageService.setSecureWallet('visited-google', 'true');
     this.getSocialNetwork();
-    this.getUrlMsg();
+    //this.getUrlMsg();
     this.route.queryParams.subscribe((params: any) => {
       if (params.message === 'account_linked_with_success') {
-        if (params.sn && params.sn === 'google') {
-          this.socialAccountsFacade.pageVisited(ESocialMediaNames.youtube);
-          this.skipPage();
-        }
+        this.socialAccountsFacade.pageVisited(ESocialMediaNames.youtube);
+        this.skipPage();
       }
     });
   }
@@ -81,7 +79,6 @@ export class MonetizeGoogleAccountComponent implements OnInit, OnDestroy {
       });
   }
   skipPage() {
-    this.socialAccountsFacade.pageVisited(ESocialMediaNames.youtube);
     this.router.navigate(['social-registration/monetize-tiktok']);
   }
   skipAll() {
@@ -127,6 +124,6 @@ export class MonetizeGoogleAccountComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.onDestoy$.next('');
     this.onDestoy$.complete();
-    this.routerSub.unsubscribe();
+    //this.routerSub.unsubscribe();
   }
 }
