@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  //API_URL: 'https://api-preprod2.satt-token.com',
+  // API_URL: 'https://api-preprod2.satt-token.com',
   //https://api-preprod2.satt-token.com
   //API_URL:  'https://api2.satt-token.com',
 
