@@ -1,8 +1,9 @@
-<div class="col-12 background" *ngIf="title.startsWith('ad-pools')">
+<div class="col-12 background pt-5" *ngIf="title.startsWith('ad-pools')">
   <div class="d-flex justify-content-center">
     <img class="mt-5 img-fluid" src="../../../assets/Images/adpoolpic.svg" />
   </div>
 </div>
+<div class="separator" *ngIf="title.startsWith('farm-posts')"></div>
 <div class="container-fluid page-content">
   <header>
     <app-dashboard-header [title]="title"></app-dashboard-header>

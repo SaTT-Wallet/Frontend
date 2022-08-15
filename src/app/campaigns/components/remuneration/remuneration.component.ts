@@ -30,7 +30,7 @@ import {
   takeUntil,
   tap
 } from 'rxjs/operators';
-import { GazConsumedByCampaign } from '@app/config/atn.config';
+import { GazConsumedByCampaign} from '@app/config/atn.config';
 import { checkIfEnoughBalance } from '@helpers/form-validators';
 import { Campaign } from '@app/models/campaign.model';
 import { ConvertFromWei } from '@shared/pipes/wei-to-sa-tt.pipe';
@@ -1040,6 +1040,16 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     /*if (event.target.value.length === 0 && event.key === '0') {
       event.preventDefault();
     }*/
+    
+  }
+  keyPressNumbersWithDecimal(event :any) {
+    var charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode != 46 && charCode > 31
+      && (charCode < 48 || charCode > 57)) {
+      event.preventDefault();
+      return false;
+    }
+    return true;
   }
   convertcurrency(event: any): void {
     let currency = '';
