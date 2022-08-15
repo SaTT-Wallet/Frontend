@@ -4,11 +4,15 @@
 
 export const environment = {
   production: false,
+<<<<<<< HEAD
   // API_URL: 'https://api-preprod2.satt-token.com',
+=======
+  API_URL: 'https://api-preprod2.satt-token.com',
+>>>>>>> ecd7108bff4a52fb3353c8843aa6b58090d32e5b
   //https://api-preprod2.satt-token.com
   //API_URL:  'https://api2.satt-token.com',
 
-  API_URL: 'https://localhost:3015',
+  // API_URL: 'https://localhost:3015',
   //https://api-preprod.satt-token.com:3014
   addresses: {
     smartContracts: {

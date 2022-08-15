@@ -31,6 +31,7 @@ import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-ser
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-participer',
@@ -253,6 +254,9 @@ export class ParticiperComponent implements OnInit {
     this.sendform.reset();
     this.userfaceook = '';
     this.idinstagram = '';
+    this.idvideo = '';
+    this.idtiktok = '';
+    this.idlinkedin = '';
     this.validUrl = false;
     if (link === 'send_link') {
       // this.linked = false;
