@@ -35,16 +35,13 @@ export class MonetizeLinkedinAccountComponent implements OnInit, OnDestroy {
     this.getUrlMsg();
     this.route.queryParams.subscribe((params: any) => {
       if (params.message === 'account_linked_with_success') {
-        if (params.sn && params.sn === 'linkd') {
-          this.socialAccountsFacade.pageVisited(ESocialMediaNames.linkedIn);
-          this.skipPage();
-        }
+        this.socialAccountsFacade.pageVisited(ESocialMediaNames.linkedIn);
+        this.skipPage();
       }
     });
   }
 
   skipPage() {
-    this.socialAccountsFacade.pageVisited(ESocialMediaNames.linkedIn);
     this.router.navigate(['social-registration/monetize-google']);
   }
   skipAll() {
