@@ -67,9 +67,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   isSubmitting!: boolean;
   showSpinner!: boolean;
   loadingButton!: boolean;
-
-  wrongpassword: boolean = false;
   ownaddress: boolean = false;
+  wrongpassword: boolean = false;
 
   hashtransaction: string = '';
   amountUsd: any;
@@ -622,13 +621,20 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             ) {
               this.showErrorBloc = true;
               this.notValidAdressWallet = true;
-              this.showSuccessBloc = false;
+              this.ownaddress = false;
               this.showAmountBloc = false;
               this.showPwdBloc = false;
               this.wrongpassword = false;
               this.gazproblem = false;
+            } else if (
+              error.error.error ===
+              'you cant send to your own wallet address !!'
+            ) {
+              this.ownaddress = true;
+              setTimeout(() => {
+                this.ownaddress = false;
+              }, 5000);
             }
-
             this.showSpinner = false;
             this.loadingButton = false;
           }
