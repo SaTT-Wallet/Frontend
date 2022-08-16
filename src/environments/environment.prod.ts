@@ -11,7 +11,7 @@ export const environment = {
       campaignBEP20: '0x4074ec9dfd977a7af1ca93a708490966ef8120b9',
       campaignPOLYGON: '0xD6Cb96a00b312D5930FC2E8084A98ff2Daa5aD2e',
       campaignBTT: '0xd5A058eE756a0e3E1c4bCBADC2c70844a52B32f6',
-      campaignTRON: 'TF1ecCh2yNQbRhsFb4gj1LpNKTmBKnGY2j',
+      campaignTRON: 'THUD3VAxyTEmMCBEjd2AcSujzbgPSu39p9',
 
       SATT_TOKENERC20: '0x85e14cbe5856e74fff53107cf0aefd850d5f8808',
       SATT_TOKENBEP20: '0x6fAc729f346A46fC0093126f237b4A520c40eb89',
@@ -22,9 +22,8 @@ export const environment = {
       TETHER_TOKENERC20: '0x3B2243E3Aeb6d4A102061BCE6C5c233c2C08fF65',
       DAI: '0x7d6550Bb3946c0BB0701c75baBE2f679E01F3f3E',
       BUSD: '0xE6baB06eb943e9b6D475fB229E3E15F6E49a5461',
-      WTRX: 'TNUC9Qb1rRpS5CbWLmNMxXBjyFoydXjWFR',
-      WBTT: '0xD6Cb96a00b312D5930FC2E8084A98ff2Daa5aD2e' //TODO must deploy  a WBTT token contract in mainnet <= invalid address
-
+      WTRX: 'TRpHXiD9PRoorNh9Lx4NeJUAP7NcG5zFwi',
+      WBTT: '0xD6Cb96a00b312D5930FC2E8084A98ff2Daa5aD2e'
     }
   },
   domainName: 'https://dev.satt.atayen.us',
@@ -47,6 +46,7 @@ export const environment = {
   bttscanAddr: 'https://testnet.bttcscan.com/tx/',
   tronScanAddr: 'https://shasta.tronscan.org/#/address/',
   tronScan: 'https://shasta.tronscan.org/#/transaction/',
+
   etherscanaddr: 'https://ropsten.etherscan.io/address/',
   simplexUrl: 'https://sandbox.test-simplexcc.com/payments/new',
   gmtId: 'GTM-K2RMTJ3'
