@@ -9,7 +9,6 @@ import {
   OnDestroy,
   OnInit,
   PLATFORM_ID,
-  TemplateRef,
   ViewChild
 } from '@angular/core';
 // import { bscan, etherscan } from '@app/config/atn.config';
