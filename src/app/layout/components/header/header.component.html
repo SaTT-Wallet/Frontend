@@ -190,13 +190,15 @@
     </div>
     </ul> -->
     </button>
+
     <button
       type="button"
-      *ngIf="!isConnected"
+      *ngIf="isPlatformBrowser && !isConnected"
       class="d-md-block d-xl-none d-lg-none d-sm-block button-connect"
     >
       <a class="" [routerLink]="['/auth/login']">Connect</a>
     </button>
+
     <!-- end mdddd-->
     <!--start desktop  collapse navbar-collapse-->
     <div class="desktop-menu" id="navbarSupportedContent">
@@ -714,7 +716,10 @@
         </li>
       </ul>
 
-      <ul class="right_nav_side navbar-nav" *ngIf="!isConnected">
+      <ul
+        class="right_nav_side navbar-nav"
+        *ngIf="isPlatformBrowser && !isConnected"
+      >
         <button type="button" class="button-connect d-none d-md-block">
           <a class="" [routerLink]="['/auth/login']">Connect</a>
         </button>
