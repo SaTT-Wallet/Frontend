@@ -1,9 +1,10 @@
 export const environment = {
   production: false,
-  API_URL: 'https://api-preprod2.satt-token.com',
+  // API_URL: 'https://api-preprod2.satt-token.com',
   //https://api-preprod2.satt-token.com
-  //https://api2.satt-token.com
-  //API_URL: 'https://localhost:3015',
+  //API_URL:  'https://api2.satt-token.com',
+
+  API_URL: 'https://localhost:3015',
   //https://api-preprod.satt-token.com:3014
   addresses: {
     smartContracts: {
@@ -13,7 +14,7 @@ export const environment = {
       campaignBTT: '0xd5A058eE756a0e3E1c4bCBADC2c70844a52B32f6',
       campaignTRON: 'THUD3VAxyTEmMCBEjd2AcSujzbgPSu39p9',
 
-      SATT_TOKENERC20: '0x85e14cbe5856e74fff53107cf0aefd850d5f8808',
+      SATT_TOKENERC20: '0x2bef0d7531f0aae08adc26a0442ba8d0516590d0',
       SATT_TOKENBEP20: '0x6fAc729f346A46fC0093126f237b4A520c40eb89',
       SATT_TOKEN_TRON: 'TZ9mUjmxCtowj9h68NJq626qaGWiv61KWo',
       SATT_TOKENPOLYGON: '0x195DC8342D923D3dFe0167Dc902A33Eabd801653',
