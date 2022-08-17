@@ -31,12 +31,7 @@ import { forkJoin, Subject } from 'rxjs';
 import { WalletStoreService } from '@core/services/wallet-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
-import {
-  bscan,
-  etherscan,
-  polygonscan,
-  bttscan
-} from '@app/config/atn.config';
+import { bscan, etherscan, polygonscan, bttscan } from '@app/config/atn.config';
 import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Location } from '@angular/common';
@@ -395,6 +390,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       let currency = '';
       const pass = this.sendform.get('password')?.value;
       currency = this.sendform.get('currency')?.value;
+
+      this.selectedCryptoDetails = {};
+      this.selectedCryptoDetails.symbol = currency;
 
       // if (to === address) {
 
