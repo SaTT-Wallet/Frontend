@@ -34,8 +34,8 @@ import { AccountFacadeService } from '@app/core/facades/account-facade/account-f
 import {
   bscan,
   etherscan,
-  polygonscanAddr,
-  bttscanAddr
+  polygonscan,
+  bttscan
 } from '@app/config/atn.config';
 import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
@@ -503,9 +503,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               } else if (this.networks === 'ERC20') {
                 this.routertransHash = etherscan + this.hashtransaction;
               } else if (this.networks === 'POLYGON') {
-                this.routertransHash = polygonscanAddr + this.hashtransaction;
+                this.routertransHash = polygonscan + this.hashtransaction;
               } else if (this.networks === 'BTT') {
-                this.routertransHash = bttscanAddr + this.hashtransaction;
+                this.routertransHash = bttscan + this.hashtransaction;
               } else if (this.networks === 'TRON') {
                 this.routertransHash = tronScan + this.hashtransaction;
               }
