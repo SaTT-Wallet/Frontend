@@ -25,6 +25,7 @@ import { TokenStorageService } from '@app/core/services/tokenStorage/token-stora
 import { INotificationsResponse } from '@app/core/notifications-response.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment';
+import { environment } from '@environments/environment';
 
 @Component({
   selector: 'app-history',
@@ -55,9 +56,13 @@ export class NotificationComponent implements OnInit {
 
   offset: any;
   // tansfer:string='transfer_event_currency'
-  bscan = 'https://bscscan.com/tx/';
-  etherscan = 'https://etherscan.io/tx/';
-  tronScan= 'https://shasta.tronscan.org/#/transaction/';
+  bscan = environment.bscan;
+  etherscan = environment.etherscan;
+  tronScan= environment.tronScan;
+
+
+
+
   newNotification: boolean = false;
   errorMessagecode = '';
   constructor(

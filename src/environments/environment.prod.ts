@@ -83,13 +83,16 @@ export const environment = {
     appId: '1:284190209745:web:dc01085f6a6dabfcc837f0',
     measurementId: 'G-DSJK01CZ0X'
   },
-  fcmredirectUrl: 'http://localhost:4200/#/home',
-  bscan: 'https://testnet.bscscan.com/tx/',
-  etherscan: 'https://ropsten.etherscan.io/tx/',
-  bscanaddr: 'https://testnet.bscscan.com/address/',
+  fcmredirectUrl: 'https://satt.atayen.us/#/home',
+  bscan: 'https://bscscan.com/tx/',
+  etherscan: 'https://etherscan.io/tx/',
+  bscanaddr: 'https://bscscan.com/address/',
   polygonscanAddr: 'https://polygonscan.com/address/',
-  etherscanaddr: 'https://ropsten.etherscan.io/address/',
+  etherscanaddr: 'https://etherscan.io/address/',
+        tronScanAddr: 'https://tronscan.io/#/address/',
+  tronScan: 'https://tronscan.io/#/transaction/',
+
     bttscanAddr: 'https://bttcscan.com/address/',
 
-  simplexUrl: 'https://sandbox.test-simplexcc.com/payments/new'*/
+  simplexUrl: 'https://checkout.simplexcc.com/payments/new'*/
 };
