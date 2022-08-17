@@ -2,9 +2,9 @@ import { Component, Input, SimpleChanges } from '@angular/core';
 import { Clipboard } from '@angular/cdk/clipboard';
 import {
   bscan,
-  bttscanAddr,
+  bttscan,
   etherscan,
-  polygonscanAddr, tronscanAddr
+  polygonscan, tronScan
 } from '@app/config/atn.config';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 
@@ -49,12 +49,12 @@ export class CopyTransactionHashComponent {
       } else if (this.tokenStorageService.getNetwork() === 'erc20') {
         this.networkWallet = etherscan + this.transactionHash;
       } else if (this.tokenStorageService.getNetwork() === 'POLYGON') {
-        this.networkWallet = polygonscanAddr + this.transactionHash;
+        this.networkWallet = polygonscan + this.transactionHash;
       } else if (this.tokenStorageService.getNetwork() === 'BTT') {
-        this.networkWallet = bttscanAddr + this.transactionHash;
+        this.networkWallet = bttscan + this.transactionHash;
       }
       else if (this.tokenStorageService.getNetwork() === 'TRON') {
-        this.networkWallet = tronscanAddr + this.transactionHash;
+        this.networkWallet = tronScan + this.transactionHash;
       }
     }
   }
