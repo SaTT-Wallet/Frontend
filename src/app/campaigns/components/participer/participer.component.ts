@@ -31,6 +31,7 @@ import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-ser
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-participer',
@@ -187,14 +188,13 @@ export class ParticiperComponent implements OnInit {
   }
   goToBuy() {
     if (this.networkWallet === 'bep20') {
-      this.gazcurrency = 'BNB'
+      this.gazcurrency = 'BNB';
     } else if (this.networkWallet === 'erc20') {
-      this.gazcurrency = 'ETH'
+      this.gazcurrency = 'ETH';
     } else {
-      this.gazcurrency = 'MATIC'
+      this.gazcurrency = 'MATIC';
     }
     this.router.navigate(['/wallet/buy-token'], {
-      
       queryParams: {
         gaz: this.gazcurrency
       }
@@ -229,7 +229,7 @@ export class ParticiperComponent implements OnInit {
       '?redirect=' +
       this.router.url;
 
-      var linkTiktok: string =
+    var linkTiktok: string =
       sattUrl +
       '/profile/addChannel/tiktok/' +
       this.tokenStorageService.getIdUser() +
@@ -245,8 +245,7 @@ export class ParticiperComponent implements OnInit {
         window.location.href = linkTwitter;
       } else if (social === 'linkedin') {
         window.location.href = linkLinkedin;
-      }
-      else {
+      } else {
         window.location.href = linkTiktok;
       }
     }
@@ -255,6 +254,9 @@ export class ParticiperComponent implements OnInit {
     this.sendform.reset();
     this.userfaceook = '';
     this.idinstagram = '';
+    this.idvideo = '';
+    this.idtiktok = '';
+    this.idlinkedin = '';
     this.validUrl = false;
     if (link === 'send_link') {
       // this.linked = false;
@@ -917,6 +919,7 @@ export class ParticiperComponent implements OnInit {
       if (media.indexOf('https://youtu.be/') !== -1) {
         var parts = media.split('/');
         let videoId = parts[3];
+        this.idvideo = videoId;
         myApplication.idPost = videoId;
         myApplication.idUser = '0';
         myApplication.typeSN = 2;
@@ -1155,7 +1158,7 @@ export class ParticiperComponent implements OnInit {
               }
             }
           );
-          console.log("connectValue",this.connectValue)
+        // console.log("connectValue",this.connectValue)
       } else {
         this.spinner = false;
         this.error = 'oracle_not_exist';
@@ -1232,7 +1235,6 @@ export class ParticiperComponent implements OnInit {
     this.showButtonSend = false;
 
     this.applyPassword = true;
-
     this.CampaignService.applyLink(
       campaign,
       application,
@@ -1313,6 +1315,9 @@ export class ParticiperComponent implements OnInit {
                 this.success = '';
               } else if (this.networkWallet === 'erc20') {
                 this.error = 'out_of_gas_eth';
+                this.success = '';
+              } else if (this.networkWallet === 'BTT') {
+                this.error = 'out_of_gas_tron';
                 this.success = '';
               } else {
                 this.error = 'out_of_gas_matic';

@@ -17,7 +17,11 @@ export class AuthService {
     private http: HttpClient,
     private router: Router,
     private tokenStorageService: TokenStorageService
-  ) {}
+  ) {
+    if (this.tokenStorageService.getToken()) {
+      this.setIsAuthenticated(true);
+    }
+  }
 
   setIsAuthenticated(isAuth: boolean) {
     this.isAuthenticatedSubject.next(isAuth);

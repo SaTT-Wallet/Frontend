@@ -598,11 +598,20 @@ label:active:after {
 }
 
 @media (max-width: 767.98px) {
+
+.social-accounts-table {
+  border-spacing: 0 !important;
+}
   .show-mobile {
     display: block !important;
   }
   .social-network-bloc .ch-name {
     font-size: 12px !important;
+    width: 59px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    position: relative;
   }
   .sa-subscribers-number {
     font-size: 12px !important;

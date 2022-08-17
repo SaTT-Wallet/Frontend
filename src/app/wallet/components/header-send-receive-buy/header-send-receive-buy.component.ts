@@ -9,8 +9,7 @@ import { Router } from '@angular/router';
 export class HeaderSendReceiveBuyComponent implements OnInit {
   @Input() title: string = '';
   @Output() clickedBack: EventEmitter<boolean> = new EventEmitter();
-  constructor(  private router: Router,
-    ) {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {}
   back() {

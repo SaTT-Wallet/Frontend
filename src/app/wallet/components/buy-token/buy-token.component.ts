@@ -29,7 +29,8 @@ enum EBlockchainNetwork {
   ERC20 = 'ERC20',
   BEP20 = 'BEP20',
   BTC = 'BTC',
-  POLYGON = 'POLYGON'
+  POLYGON = 'POLYGON',
+  TRON = 'TRON'
 }
 enum ECurrencyType {
   FIAT = 'fiat',
@@ -108,13 +109,10 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   isDestroyedObs = this.isDestroyed.asObservable();
 
   position: any;
-
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  wallet_id: any = this.tokenStorageService.getIdWallet()
+  walletId: any = this.tokenStorageService.getIdWallet()
     ? this.tokenStorageService.getIdWallet()
     : '';
-    wallet_btc: any;
-
+  walletBtc: any;
 
   isConnected: boolean = false;
   sattprice = 0;
@@ -152,15 +150,14 @@ export class BuyTokenComponent implements OnInit, OnChanges {
         Validators.compose([Validators.required, Validators.min(0)])
       ),
       currency: new FormControl(this.selectedCurrencyValue),
-      walletId: new FormControl(this.wallet_id, {
+      walletId: new FormControl(this.walletId, {
         validators: [Validators.required, Validators.pattern(pattContact)]
       })
     });
   }
 
   ngOnInit(): void {
-
-    this.wallet_btc = this.tokenStorageService.getWalletBtc();
+    this.walletBtc = this.tokenStorageService.getWalletBtc();
 
     this.listenToInputAmountChange();
     // this.toggleCurrencyType(ECurrencyType.FIAT);
@@ -217,7 +214,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
           this.cryptoAmount = p.cryptoAmount;
           this.quoteId = p.quote_id;
           this.selectedtLogo = p.symbol;
-          this.wallet_id = p.wallet;
+          this.walletId = p.wallet;
           this.selectedTargetCurrency = p.currency;
         } else if (p.gaz === 'ETH') {
           this.toggleCurrencyType(ECurrencyType.FIAT);
@@ -237,7 +234,6 @@ export class BuyTokenComponent implements OnInit, OnChanges {
 
     this.convertCryptoUnitToUSD();
     if (!this.quoteIdParams) {
-
       this.convertCrypto();
     }
     this.listenToPressKeyOnCurrencySelect();
@@ -273,7 +269,6 @@ export class BuyTokenComponent implements OnInit, OnChanges {
     }
   }
   toggleNetwork(network: EBlockchainNetwork) {
-
     this.selectedBlockchainNetwork = network;
     if (network === EBlockchainNetwork.BTC) {
       this.sourceCryptoList = cryptoList
@@ -334,7 +329,6 @@ export class BuyTokenComponent implements OnInit, OnChanges {
     this.convertCrypto();
   }
   initToggleNetwork(network: EBlockchainNetwork) {
-
     this.selectedBlockchainNetwork = network;
     if (network === EBlockchainNetwork.BTC) {
       this.sourceCryptoList = cryptoList
@@ -391,10 +385,8 @@ export class BuyTokenComponent implements OnInit, OnChanges {
 
       this.switchTokensWhenIdentical();
     }
-
   }
   toggleCurrencyType(currencyType: ECurrencyType) {
-
     this.selectedCurrencyType = currencyType;
     if (currencyType === ECurrencyType.FIAT) {
       this.selectedTargetCurrency = 'USD';
@@ -449,7 +441,6 @@ export class BuyTokenComponent implements OnInit, OnChanges {
         crypto.name.includes('SATT') &&
         crypto.type.toUpperCase() === this.selectedBlockchainNetwork
     );
-
 
     this.switchTokensWhenIdentical();
 
@@ -466,7 +457,6 @@ export class BuyTokenComponent implements OnInit, OnChanges {
     this.convertCrypto();
   }
   initToggleCurrencyType(currencyType: ECurrencyType) {
-
     this.selectedCurrencyType = currencyType;
     if (currencyType === ECurrencyType.FIAT) {
       this.selectedTargetCurrency = 'USD';
@@ -521,7 +511,6 @@ export class BuyTokenComponent implements OnInit, OnChanges {
         crypto.name.includes('SATT') &&
         crypto.type.toUpperCase() === this.selectedBlockchainNetwork
     );
-
 
     this.switchTokensWhenIdentical();
 
@@ -636,7 +625,6 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       ).symbole;
 
       this.fromSwapCrypto = this.targetCurrencyList[0] as Crypto;
-
     }
   }
 
@@ -655,9 +643,10 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       return 'etherium-blockchain-icon.png';
     } else if (this.selectedBlockchainNetwork === EBlockchainNetwork.BTC) {
       return 'BTC.svg';
-
     } else if (this.selectedBlockchainNetwork === EBlockchainNetwork.POLYGON) {
       return 'polygon.svg';
+    } else if (this.selectedBlockchainNetwork === EBlockchainNetwork.TRON) {
+      return 'TRX.svg';
     } else {
       return 'bsc-black-icon.svg';
     }
@@ -684,20 +673,32 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       event.preventDefault();
     }
   }
-  CurrencyBnB(){
-    if (this.toSwapCrypto.contract === "0xdac17f958d2ee523a2206206994597c13d831ec7"){
-      this.toSwapCrypto.contract = "BNB"
+  currencyBnB() {
+    if (
+      this.toSwapCrypto.contract ===
+      '0xdac17f958d2ee523a2206206994597c13d831ec7'
+    ) {
+      this.toSwapCrypto.contract = 'BNB';
     }
-    if (this.fromSwapCrypto.contract === "0xdac17f958d2ee523a2206206994597c13d831ec7"){
-      this.fromSwapCrypto.contract = "BNB"
+    if (
+      this.fromSwapCrypto.contract ===
+      '0xdac17f958d2ee523a2206206994597c13d831ec7'
+    ) {
+      this.fromSwapCrypto.contract = 'BNB';
     }
   }
-  CurrencyETH(){
-    if (this.toSwapCrypto.contract == "0xdac17f958d2ee523a2206206994597c13d831ec7"){
-      this.toSwapCrypto.contract = "ETH"
+  currencyETH() {
+    if (
+      this.toSwapCrypto.contract ===
+      '0xdac17f958d2ee523a2206206994597c13d831ec7'
+    ) {
+      this.toSwapCrypto.contract = 'ETH';
     }
-    if (this.fromSwapCrypto.contract === "0xdac17f958d2ee523a2206206994597c13d831ec7"){
-      this.fromSwapCrypto.contract = "ETH"
+    if (
+      this.fromSwapCrypto.contract ===
+      '0xdac17f958d2ee523a2206206994597c13d831ec7'
+    ) {
+      this.fromSwapCrypto.contract = 'ETH';
     }
   }
   convertCryptoUnitToUSD() {
@@ -721,7 +722,6 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   }
 
   convertCrypto() {
-
     if (this.amount && this.selectedCurrencyType === ECurrencyType.FIAT) {
       this.walletFacade
         .convertCrypto(
@@ -822,11 +822,13 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   }
 
   onSumbit() {
-    this.wallet_id = this.convertform.get('walletId')?.value;
-    this.wallet_btc = this.tokenStorageService.getWalletBtc();
+    this.walletId = this.convertform.get('walletId')?.value;
+    this.walletBtc = this.tokenStorageService.getWalletBtc();
 
-    if (this.requestedCrypto==="BTC"){
-      this.wallet_id = this.wallet_btc
+    if (this.requestedCrypto === 'BTC') {
+      this.walletId = this.walletBtc;
+    } else if (this.requestedCrypto === 'TRX') {
+      this.walletId = this.tokenStorageService.getTronWalletAddress();
     }
 
     if (
@@ -837,7 +839,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       this.cryptoAmount &&
       this.quoteId &&
       this.selectedtLogo &&
-      this.wallet_id
+      this.walletId
     ) {
       this.router.navigate(['/wallet/summary'], {
         queryParams: {
@@ -849,7 +851,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
           cryptoAmount: this.cryptoAmount,
           quote_id: this.quoteId,
           symbol: this.selectedtLogo,
-          wallet: this.wallet_id
+          wallet: this.walletId
         }
       });
     }

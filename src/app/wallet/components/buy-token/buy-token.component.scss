@@ -383,7 +383,7 @@ input:-webkit-autofill:active {
     display: block !important;
   }
   .white-bloc {
-    margin-top: 125px;
+    margin-top: -25px;
     //position: fixed;
     width: 100%;
     margin-left: 0;
@@ -491,7 +491,7 @@ input:-webkit-autofill:active {
 }
 
 .dropdown-menu-buy {
-  max-height: 300px !important;
+  max-height: 100px !important;
   overflow: auto !important;
 }
 
@@ -528,7 +528,7 @@ button:focus {
   background: none;
   position: relative !important;
   transform: none !important;
-  top: 0px !important;
+  top: 15px !important;
   padding: 5px !important;
   max-height: 200px;
   overflow-y: auto;
@@ -576,6 +576,9 @@ button:focus {
   font-size: 16px;
 }
 
+.chevrondown {
+  margin-right: 0.75rem;
+}
 .chevron:before {
   font-family: 'FontAwesome';
   font-style: normal;

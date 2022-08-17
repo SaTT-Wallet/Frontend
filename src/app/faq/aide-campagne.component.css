@@ -700,3 +700,7 @@ a:hover {
 input::-webkit-input-placeholder {
     padding: 5px !important;
 }
+
+.separator {
+  height: 65px;
+}

@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   HostListener,
   Inject,
@@ -25,7 +26,7 @@ import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.servic
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.css']
 })
-export class LayoutComponent implements OnInit, OnDestroy {
+export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('useDesktopModal', { static: false })
   public useDesktopModal!: TemplateRef<any>;
   scrollTopChange: boolean = false;
@@ -45,16 +46,40 @@ export class LayoutComponent implements OnInit, OnDestroy {
     @Inject(PLATFORM_ID) private platformId: string,
     private kycFacadeService: KycFacadeService
   ) {
+  
+  }
+  ngAfterViewInit(): void {
+  
+    if(this.router.url == "/wallet" || this.router.url.includes('campaign') ){
+      let content = this.document.getElementById('center-content');
+      console.log('content', content)
+      content.classList.add('center-content-2');      
+    } else {
+      let content = this.document.getElementById('center-content');
+      console.log('content', content)
+      content.classList.remove('center-content-2');
+    }
+    
     this.router.events
-      .pipe(takeUntil(this.isDestroyed$))
-      .subscribe((event: any) => {
-        if (event instanceof NavigationEnd) {
-          let outlet = this.document.getElementsByClassName('outlet');
-          if (outlet.length > 0) {
-            outlet[0].scrollIntoView({ behavior: 'smooth' });
-          }
+    .pipe(takeUntil(this.isDestroyed$))
+    .subscribe((event: any) => {
+      if (event instanceof NavigationEnd) {
+        
+        let outlet = this.document.getElementsByClassName('outlet');
+        if (this.router.url !== '/wallet'  &&  !this.router.url.includes('campaign') ) {
+          let content = this.document.getElementById('center-content');
+          console.log('content', content)
+          content.classList.remove('center-content-2');         
+        } else {
+          let content = this.document.getElementById('center-content');
+          console.log('content', content)
+          content.classList.add('center-content-2'); 
         }
-      });
+        if (outlet.length > 0) {
+          outlet[0].scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    });
   }
   ngOnDestroy(): void {
     this.isDestroyed$.next('');
@@ -62,6 +87,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     this.isDestroyed$.unsubscribe();
   }
   ngOnInit(): void {
+  
     if (window.innerWidth <= 768 && isPlatformBrowser(this.platformId)) {
       this.smDevice = true;
     } else {
@@ -158,11 +184,10 @@ export class LayoutComponent implements OnInit, OnDestroy {
         let chart = this.document.getElementById('chart');
         let header = this.document.getElementById('navbar-id');
         let content = this.document.getElementById('center-content');
-        content.classList.add('center-content-2');
         header.style.background = '';
         header.classList.remove('navbar-trans2');
 
-        if (event.target.scrollTop > 250) {
+        if (event.target.scrollTop > 225) {
           header.classList.add('navbar-wallet');
         } else {
           header.classList.remove('navbar-wallet');
@@ -173,10 +198,10 @@ export class LayoutComponent implements OnInit, OnDestroy {
               chart.style.position = 'relative';
             }
             if (event.target.scrollTop < 68) {
-              chart.style.position = 'absolute';
+              chart.style.position = 'fixed';
             }
             if (event.target.scrollTop < 274) {
-              chart.style.position = 'absolute';
+              chart.style.position = 'fixed';
             }
           }
         }
@@ -195,10 +220,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
         let bluePic = this.document.getElementById('back-top-pic');
         let blueText = this.document.getElementById('back-top-text');
         let content = this.document.getElementById('center-content');
-        content.classList.add('center-content-2');
         header.style.background = '';
         header.classList.remove('navbar-trans2');
-
+        header.classList.remove('navbar-wallet');
         if (event.target.clientWidth < 1025) {
           header.classList.add('navbar-trans2');
           //header.style.background = '';
@@ -267,12 +291,13 @@ export class LayoutComponent implements OnInit, OnDestroy {
           'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%);';
         header.classList.add('navbar-trans2');
         let content = this.document.getElementById('center-content');
-        content.classList.remove('center-content-2');
+        header.classList.remove('navbar-wallet');
 
         if (event.target.scrollTop === 0) {
           header.style.background = '';
           header.classList.remove('navbar-trans2');
           header.classList.remove('navbar-trans');
+          header.classList.remove('navbar-wallet');
         }
       }
     }

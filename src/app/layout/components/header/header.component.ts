@@ -9,7 +9,6 @@ import {
   OnDestroy,
   OnInit,
   PLATFORM_ID,
-  TemplateRef,
   ViewChild
 } from '@angular/core';
 // import { bscan, etherscan } from '@app/config/atn.config';
@@ -50,14 +49,21 @@ import { AuthService } from '@app/core/services/Auth/auth.service';
 import { IApiResponse } from '@app/core/types/rest-api-responses';
 import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.service';
 import { ReturnStatement } from '@angular/compiler';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { REPL_MODE_STRICT } from 'repl';
 const bscan = env.bscanaddr;
 const etherscan = env.etherscanaddr;
+const tronScanAddr = env.tronScanAddr;
+const tronScan = env.tronScan;
+const polygonscanAddr = 'https://mumbai.polygonscan.com/address/';
+const btcScanAddr = 'https://www.blockchain.com/btc/address/';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
+  currentScreenSize: string | undefined;
   query = '(max-width: 991.98px)';
   mediaQueryList?: MediaQueryList;
   query2 = '(width =   767.9px)';
@@ -75,7 +81,11 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   showWallet: boolean = false;
   showMenuNotif: boolean = false;
   showMenuProfil: boolean = false;
+  isTransactionHashCopiedtron = false;
+
   isDropdownOpen: boolean = true;
+  tronAddress: string = '';
+
   copyMsg: boolean = false;
   copyMsg1: boolean = false;
   isBitcoinAdress: boolean = false;
@@ -100,6 +110,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   notif: any;
   url1: any;
   url2: any;
+  url3: any;
   urlM1: any;
   urlM2: any;
   picUserUpdated: boolean = false;
@@ -110,6 +121,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   menuFarmPost: boolean = false;
   menuHistory: boolean = false;
   menuHelp: boolean = false;
+  menuAbout: boolean = false;
+  menuBlog: boolean = false;
   menuWallet: boolean = false;
   menuCampaign: boolean = false;
   menuTokenInfo: boolean = false;
@@ -124,6 +137,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   allnotification: BehaviorSubject<Array<any>> = new BehaviorSubject([null]);
   message: any;
+
+  isPlatformBrowser = isPlatformBrowser(this.platformId);
 
   // elementType = NgxQrcodeElementTypes.URL;
   // correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
@@ -143,7 +158,9 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   private isDestroyed$ = new Subject();
   isTransactionHashCopied = false;
   isTransactionHashCopiedbtc = false;
+  isLayoutDesktop = false;
   constructor(
+    breakpointObserver: BreakpointObserver,
     private accountFacadeService: AccountFacadeService,
     private NotificationService: NotificationService,
     public router: Router,
@@ -166,9 +183,25 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string,
     private kycFacadeService: KycFacadeService,
-    private route:ActivatedRoute,
+    private route: ActivatedRoute,
     private hostElement: ElementRef
   ) {
+    breakpointObserver
+      .observe([Breakpoints.Medium, Breakpoints.Large, Breakpoints.XLarge])
+      .pipe(takeUntil(this.isDestroyed$))
+      .subscribe((result) => {
+        this.isLayoutDesktop = result.matches;
+
+        // for (const query of Object.keys(result.breakpoints)) {
+        //   if (result.breakpoints[query]) {
+        //     result.matches;
+        //     console.log(result.matches,'-----------');
+
+        //   }
+
+        // }
+      });
+
     if (isPlatformBrowser(this.platformId)) {
       this.mediaQueryList = window.matchMedia(this.query);
       this.mediaQueryList2 = window.matchMedia(this.query2);
@@ -178,8 +211,6 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         this.document.documentElement.style.setProperty('--vh', `${vh}px`);
       });
     }
-
-
 
     translate.addLangs(['en', 'fr']);
     if (this.tokenStorageService.getLocale()) {
@@ -255,29 +286,37 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   ngAfterViewInit(): void {
     // if(this.route.url)
-    this.route.url.subscribe((e) => {
-    
-    })
+    this.route.url.subscribe((e) => {});
     this.router.events
-    .pipe(
-      tap((e) => {
-        //  console.log(e)
-      }),
-      filter((e: any) => e instanceof NavigationEnd),
-      startWith({url: this.router.url})
-    )
-    .subscribe((e: any) => {
-    
-      if(['/home',  '/wallet'].includes(e.url) || e.url.includes('/campaign')) {
-        (this.headerNav as ElementRef).nativeElement.style.position = "absolute";
-        (this.headerNav as ElementRef).nativeElement.style.width = "100%";
-        this.hostElement.nativeElement.style.height = "inherit"
-      }else{
-        (this.headerNav as ElementRef).nativeElement.style.position = "inherit";
-        (this.headerNav as ElementRef).nativeElement.style.width = "inherit";
-        this.hostElement.nativeElement.style.height = "64px;"
-      }
-    });
+      .pipe(
+        tap((e) => {
+          //  console.log(e)
+        }),
+        filter((e: any) => e instanceof NavigationEnd),
+        startWith({ url: this.router.url })
+      )
+      .subscribe((e: any) => {
+        // if (
+        //   ['/home', '/wallet'].includes(e.url) ||
+        //   e.url.includes('/campaign')
+        // ) {
+        //   (this.headerNav as ElementRef).nativeElement.style.position =
+        //     'absolute';
+        //   (this.headerNav as ElementRef).nativeElement.style.width = '100%';
+        //   this.hostElement.nativeElement.style.height = 'inherit';
+        // } else {
+        //   (this.headerNav as ElementRef).nativeElement.style.position =
+        //     'inherit';
+        //   (this.headerNav as ElementRef).nativeElement.style.width = 'inherit';
+        //   this.hostElement.nativeElement.style.height = '64px;';
+        // }
+      });
+  }
+
+  goToSocials() {
+    if (this.isLayoutDesktop) {
+      this.router.navigate(['socials']);
+    }
   }
 
   closeBalanceSection() {
@@ -287,80 +326,83 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   ngOnInit(): void {
-    this.authService.isAuthenticated$
-      .pipe(takeUntil(this.isDestroyed$))
-      .subscribe((isAuth: boolean) => {
-        this.isConnected = isAuth;
-      });
-    this.fixMenuItemsWidth();
-    if (this.router.url.includes('welcome')) {
-      this.isWelcomePage = true;
-      this.menuAdpool = true;
-    }
-    if (this.router.url.includes('wallet')) {
-      this.menuWallet = true;
-    }
-    if (this.router.url.includes('notification')) {
-      this.menuHistory = true;
-    }
-    if (this.router.url.includes('FAQ')) {
-      this.menuHelp = true;
-    }
-    if (
-      this.router.url.includes('campaign') ||
-      this.router.url.includes('wallet') ||
-      this.router.url.includes('ad-pools')
-    ) {
-      this.menuCampaign = true;
-    } else {
-      this.menuCampaign = false;
-    }
     if (isPlatformBrowser(this.platformId)) {
-      this.oldHeight = window.innerHeight;
-      this.newHeight = this.oldHeight;
-    }
-    if (this.tokenStorageService.getToken()) {
-      this.isConnected = true;
-
-      this.getProfileDetails();
-      this.getNotifications();
-      // this.parentFunction();
-      this.portfeuille();
-      // this.showPopUp()
-
-      this.receiveMessage();
-
-      this.tokenStorageService.removeItem('visited-facebook');
-      this.tokenStorageService.removeItem('hasTwitter');
-      this.tokenStorageService.removeItem('visited-google');
-      this.tokenStorageService.removeItem('visited-twitter');
-      this.tokenStorageService.removeItem('visited-tiktok');
-      this.tokenStorageService.removeItem('visited-socialConfig');
-      this.tokenStorageService.removeItem('visited-transactionPwd');
-      this.tokenStorageService.removeItem('visited-pwd');
-      this.tokenStorageService.removeItem('visited-download');
-      this.tokenStorageService.removeItem('visited-activePass');
-      this.tokenStorageService.removeItem('visited-completeProfile');
-      this.tokenStorageService.removeItem('visited-key');
-      this.tokenStorageService.removeItem('enabled');
-      this.tokenStorageService.removeItem('visited-pass-phrase');
-
-      this.isClicked();
-      let date = new Date();
-      let expire = (date.getTime() * 1) / 1000;
-      // @ts-ignore
-      let compare = Math.floor(this.tokenStorageService.getExpire() * 1);
-      if (compare < expire) {
-        this.tokenStorageService.signOut();
-        this.router.navigate(['/auth/login']);
+      this.authService.isAuthenticated$
+        .pipe(takeUntil(this.isDestroyed$))
+        .subscribe((isAuth: boolean) => {
+          this.isConnected = isAuth;
+        });
+      this.fixMenuItemsWidth();
+      if (this.router.url.includes('welcome')) {
+        this.isWelcomePage = true;
+        this.menuAdpool = true;
       }
-      this.tokenStorageService.setItem('wallet_btc', this.btcCode);
-      this.generateCodeDes();
-      this.generateCodeERCDes();
-      this.generateCodeFunction();
-      this.generateCodeERC();
-    } else {
-      this.isConnected = false;
+      if (this.router.url.includes('wallet')) {
+        this.menuWallet = true;
+      }
+      if (this.router.url.includes('notification')) {
+        this.menuHistory = true;
+      }
+      if (this.router.url.includes('FAQ')) {
+        this.menuHelp = true;
+      }
+      if (
+        this.router.url.includes('campaign') ||
+        this.router.url.includes('wallet') ||
+        this.router.url.includes('ad-pools')
+      ) {
+        this.menuCampaign = true;
+      } else {
+        this.menuCampaign = false;
+      }
+      if (isPlatformBrowser(this.platformId)) {
+        this.oldHeight = window.innerHeight;
+        this.newHeight = this.oldHeight;
+      }
+      if (this.tokenStorageService.getToken()) {
+        this.isConnected = true;
+
+        this.getProfileDetails();
+        this.getNotifications();
+        // this.parentFunction();
+        this.portfeuille();
+        // this.showPopUp()
+
+        this.receiveMessage();
+
+        this.tokenStorageService.removeItem('visited-facebook');
+        this.tokenStorageService.removeItem('hasTwitter');
+        this.tokenStorageService.removeItem('visited-google');
+        this.tokenStorageService.removeItem('visited-twitter');
+        this.tokenStorageService.removeItem('visited-tiktok');
+        this.tokenStorageService.removeItem('visited-socialConfig');
+        this.tokenStorageService.removeItem('visited-transactionPwd');
+        this.tokenStorageService.removeItem('visited-pwd');
+        this.tokenStorageService.removeItem('visited-download');
+        this.tokenStorageService.removeItem('visited-activePass');
+        this.tokenStorageService.removeItem('visited-completeProfile');
+        this.tokenStorageService.removeItem('visited-key');
+        this.tokenStorageService.removeItem('enabled');
+        this.tokenStorageService.removeItem('visited-pass-phrase');
+
+        this.isClicked();
+        let date = new Date();
+        let expire = (date.getTime() * 1) / 1000;
+        // @ts-ignore
+        let compare = Math.floor(this.tokenStorageService.getExpire() * 1);
+        if (compare < expire) {
+          this.tokenStorageService.signOut();
+          this.router.navigate(['/auth/login']);
+        }
+        this.tokenStorageService.setItem('wallet_btc', this.btcCode);
+        this.tokenStorageService.setItem('tron-wallet', this.tronAddress);
+        this.generateCodeDes();
+        this.generateCodeERCDes();
+        this.generateCodeFunction();
+        this.generateCodeERC();
+      } else {
+        this.isConnected = false;
+      }
     }
   }
 
@@ -613,10 +655,12 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   hashLink(network: any, link: any) {
     if (isPlatformBrowser(this.platformId)) {
-      if (network === 'ERC20') {
+      if (network === 'eth') {
         window.open(etherscan + link, '_blank');
-      } else if (network === 'BEP20') {
+      } else if (network === 'bsc') {
         window.open(bscan + link, '_blank');
+      } else if (network === 'tron' && isPlatformBrowser(this.platformId)) {
+        window.open(tronScan + link, '_blank');
       }
     }
   }
@@ -770,12 +814,16 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           crypto:
             item._label['cryptoCurrency'] &&
             (item._label['cryptoCurrency'] === 'SATTBEP20' ||
-              item._label['cryptoCurrency'] === 'SATTPOLYGON')
+              item._label['cryptoCurrency'] === 'SATTPOLYGON' ||
+              item._label['currency'] === 'SATTBTT' ||
+              item._label['currency'] === 'SATTTRON')
               ? 'SATT'
               : item._label['cryptoCurrency'] ||
                 (item._label['currency'] &&
                   (item._label['currency'] === 'SATTBEP20' ||
-                    item._label['currency'] === 'SATTPOLYGON'))
+                    item._label['currency'] === 'SATTPOLYGON' ||
+                    item._label['currency'] === 'SATTBTT' ||
+                    item._label['currency'] === 'SATTTRON'))
               ? 'SATT'
               : item._label['currency'],
           // crypto: item._label['currency'],
@@ -791,12 +839,16 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           crypto:
             item._label['cryptoCurrency'] &&
             (item._label['cryptoCurrency'] === 'SATTBEP20' ||
-              item._label['cryptoCurrency'] === 'SATTPOLYGON')
+              item._label['cryptoCurrency'] === 'SATTPOLYGON' ||
+              item._label['currency'] === 'SATTBTT' ||
+              item._label['currency'] === 'SATTTRON')
               ? 'SATT'
               : item._label['cryptoCurrency'] ||
                 (item._label['currency'] &&
                   (item._label['currency'] === 'SATTBEP20' ||
-                    item._label['currency'] === 'SATTPOLYGON'))
+                    item._label['currency'] === 'SATTPOLYGON' ||
+                    item._label['currency'] === 'SATTBTT' ||
+                    item._label['currency'] === 'SATTTRON'))
               ? 'SATT'
               : item._label['currency'],
           name: item._label['name']
@@ -834,7 +886,9 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           item._params = {
             currency:
               item._label['currency'] === 'SATTBEP20' ||
-              item._label['currency'] === 'SATTPOLYGON'
+              item._label['currency'] === 'SATTPOLYGON' ||
+              item._label['currency'] === 'SATTBTT' ||
+              item._label['currency'] === 'SATTTRON'
                 ? 'SATT'
                 : item.label['currency'],
             nbr: Big(item._label['amount']).div(decimal),
@@ -871,7 +925,9 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
             nbr: Big(item._label['amount']).div(decimal),
             currency:
               item._label['currency'] === 'SATTBEP20' ||
-              item._label['currency'] === 'SATTPOLYGON'
+              item._label['currency'] === 'SATTPOLYGON' ||
+              item._label['currency'] === 'SATTBTT' ||
+              item._label['currency'] === 'SATTTRON'
                 ? 'SATT'
                 : item.label['currency'],
             from: item._label['from']
@@ -1017,7 +1073,9 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           nbr: item._label['amount'],
           crypto:
             item._label['currency'] === 'SATTBEP20' ||
-            item._label['currency'] === 'SATTPOLYGON'
+            item._label['currency'] === 'SATTPOLYGON' ||
+            item._label['currency'] === 'SATTBTT' ||
+            item._label['currency'] === 'SATTTRON'
               ? 'SATT'
               : item.label['currency'],
           email: item._label[2]
@@ -1031,7 +1089,9 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           nbr: item._label['amount'],
           crypto:
             item._label['currency'] === 'SATTBEP20' ||
-            item._label['currency'] === 'SATTPOLYGON'
+            item._label['currency'] === 'SATTPOLYGON' ||
+            item._label['currency'] === 'SATTBTT' ||
+            item._label['currency'] === 'SATTTRON'
               ? 'SATT'
               : item.label['currency'],
           email: item._label[2]
@@ -1119,6 +1179,14 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   toggleWallet() {
+    setTimeout(() => {
+      let elem = this.document.getElementById('ercQrCode');
+      elem?.scrollIntoView({
+        behavior: 'auto',
+        block: 'center',
+        inline: 'center'
+      });
+    }, 100);
     this.sidebarService.toggleFooterMobile.next(false);
     // this.showWallet = !this.showWallet;
     if (this.sidebarService.toggleWalletMobile.value) {
@@ -1194,12 +1262,21 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         if (!!data) {
           this.btcCode = data.data.btc;
           this.erc20 = data.data.address;
+          this.tronAddress = data.data.tronAddress;
+          this.url3 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.tronAddress}&chs=219x219&chco=212121&chld=m|1`;
           this.portfeuilleList = [
             { type: 'ERC20/BEP20', code: this.erc20 },
-            { type: 'BTC', code: this.btcCode }
+            { type: 'BTC', code: this.btcCode },
+            { type: 'tron', code: this.tronAddress }
           ];
         }
       });
+  }
+  copiedHashtron() {
+    this.isTransactionHashCopiedtron = true;
+    setTimeout(() => {
+      this.isTransactionHashCopiedtron = false;
+    }, 2000);
   }
   copiedHash() {
     this.isTransactionHashCopied = true;
@@ -1219,24 +1296,32 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   public copyBtc(code: any) {
     this.clipboard.copy(code);
   }
+  public copytron(code: any) {
+    this.clipboard.copy(code);
+  }
   ////display1////////
   generateCodeERC() {
     //@ts-ignore
-    let urlM1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=150x150&chco=4048FF`;
+    let urlM1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=219x219&chco=212121&chld=m|1`;
     this.urlM1 = urlM1;
   }
   ////display2////////
   generateCodeFunction() {
-    let urlM2 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.btcCode}&chs=150x150&chco=4048FF`;
+    let urlM2 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.btcCode}&chs=219x219&chco=212121&chld=m|1`;
     this.urlM2 = urlM2;
   }
+
+  // generateCodeTron(){
+  //   let url3 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.tronAddress}&chs=219x219&chco=212121&chld=m|1`;
+  //   this.url3 = url3;
+  // }
   ////display1////////
   generateCodeERCDes() {
     //@ts-ignore
-    let url1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=150x150`;
+    let url1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=219x219&chld=m|1`;
     this.url1 = url1;
     //@ts-ignore
-    let urlM1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=150x150`;
+    let urlM1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=219x219&chld=m|1`;
     this.urlM1 = urlM1;
   }
   ////display2////////
@@ -1245,6 +1330,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     let urll = `https://chart.apis.google.com/chart?cht=qr&chl=${this.btcCode}&chs=150x150`;
     this.url2 = urll;
   }
+
   goToEther(erc20: any) {
     if (isPlatformBrowser(this.platformId))
       window.open(etherscan + erc20, '_blank');
@@ -1256,6 +1342,19 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   goToBtc() {
     if (isPlatformBrowser(this.platformId))
       window.open('https://www.blockchain.com', '_blank');
+  }
+  goToPolygonScan(erc20: any) {
+    if (isPlatformBrowser(this.platformId))
+      window.open(polygonscanAddr + erc20, '_blank');
+  }
+
+  goToTronScan(tronAddress: any) {
+    if (isPlatformBrowser(this.platformId))
+      window.open(tronScanAddr + tronAddress, '_blank');
+  }
+  goToBtcScan(btcCode: any) {
+    if (isPlatformBrowser(this.platformId))
+      window.open(btcScanAddr + btcCode, '_blank');
   }
 
   checkMenu() {
@@ -1273,6 +1372,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.menuHelp = false;
     this.menuBuyToken = false;
     this.menuTokenInfo = false;
+    this.menuAbout = false;
+    this.menuBlog = false;
   }
   checkMenuBuyToken() {
     this.menuWallet = false;
@@ -1282,10 +1383,23 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.menuHelp = false;
     this.menuBuyToken = true;
     this.menuTokenInfo = false;
+    this.menuAbout = false;
+    this.menuBlog = false;
   }
   checkMenuTokenInfo() {
     if (isPlatformBrowser(this.platformId))
-      window.open('https://satt-token.com/', '_blank');
+      window.open(
+        'https://testnet.satt.atayen.us/wallet/token-info?crypto=SATT',
+        '_self'
+      );
+  }
+  checkMenuAbout() {
+    if (isPlatformBrowser(this.platformId))
+      window.open('https://satt-token.com', '_blank');
+  }
+  checkMenuBlog() {
+    if (isPlatformBrowser(this.platformId))
+      window.open('https://satt-token.com/blog/', '_blank');
   }
   checkMenuAdpool() {
     this.menuWallet = false;
@@ -1295,6 +1409,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.menuHelp = false;
     this.menuBuyToken = false;
     this.menuTokenInfo = false;
+    this.menuAbout = false;
+    this.menuBlog = false;
   }
   checkMenuHistory() {
     this.menuWallet = false;
@@ -1304,6 +1420,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.menuHelp = false;
     this.menuBuyToken = false;
     this.menuTokenInfo = false;
+    this.menuAbout = false;
+    this.menuBlog = false;
   }
   checkMenuHelp() {
     this.menuWallet = false;
@@ -1313,6 +1431,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.menuHelp = true;
     this.menuBuyToken = false;
     this.menuTokenInfo = false;
+    this.menuAbout = false;
+    this.menuBlog = false;
   }
   checkMenuWallet() {
     if (this.isConnected) {
@@ -1323,6 +1443,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
       this.menuHelp = false;
       this.menuBuyToken = false;
       this.menuTokenInfo = false;
+      this.menuAbout = false;
+      this.menuBlog = false;
       this.walletService.dismissPage.next(true);
     } else {
       this.checkMenuAdpool();
@@ -1431,5 +1553,4 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     //this.translate.onLangChange.unsubscribe();
   }
-  
 }

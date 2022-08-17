@@ -200,7 +200,7 @@
                             src="{{ ch.channelImage.default.url }}"
                             (error)="onImgError($event)"
                           />
-                          <span class="ch-name me-3">{{
+                          <span class="ch-name ">{{
                             ch.channelTitle
                           }}</span>
                         </div>
@@ -400,7 +400,7 @@
                             (error)="onImgError($event)"
                           />
                         </div>
-                        <span class="ch-name me-3">{{
+                        <span class="ch-name ">{{
                           ch['organization~'].localizedName
                         }}</span>
                       </div>
@@ -547,7 +547,7 @@
                           src="{{ ch.photos[0].value }}"
                           (error)="onImgError($event)"
                         />
-                        <span class="ch-name me-3">{{ ch.displayName }}</span>
+                        <span class="ch-name ">{{ ch.displayName }}</span>
                       </div>
                     </td>
                     <td class="text-center">
@@ -712,7 +712,7 @@
                           src="{{ ch.profileImage }}"
                           (error)="onImgError($event)"
                         />
-                        <span class="ch-name me-3">{{ ch.displayName }}</span>
+                        <span class="ch-name ">{{ ch.displayName }}</span>
                       </div>
                     </td>
                     <td class="text-center">
@@ -890,7 +890,7 @@
                           />
                         </div>
                         <div>
-                          <span class="ch-name me-3"
+                          <span class="ch-name "
                             >{{ ch.name }}
                             <img
                               src="./assets/Images/custom_icons/link.svg"
@@ -915,7 +915,7 @@
                             [src]="networkLogoFacebook"
                           />
                         </div>
-                        <span class="ch-name me-3"
+                        <span class="ch-name "
                           >{{ ch.name }}
                           <img
                             src="./assets/Images/custom_icons/link.svg"
@@ -1022,7 +1022,9 @@
         <button
           class="linkedin-btn-cnx"
           (click)="onReditectSocial('linkedin')"
-        vn_c
+
+        *ngIf="channelLinkedin?.length === 0"
+
         >
           <img src="./assets/Images/linkedin-white.png" width="24px" />
           <span> {{ 'social_networks.add_linkedin' | translate }}</span>
