@@ -48,7 +48,7 @@ export const environment = {
   etherscan: 'https://ropsten.etherscan.io/tx/',
   bscanaddr: 'https://testnet.bscscan.com/address/',
   polygonscanAddr: 'https://mumbai.polygonscan.com/tx/',
-  bttscanAddr: 'https://testnet.bttcscan.com/tx/',
+  bttscanAddr: 'https://testnet.bttcscan.com/address/',
   tronScanAddr: 'https://shasta.tronscan.org/#/address/',
   tronScan: 'https://shasta.tronscan.org/#/transaction/',
 
