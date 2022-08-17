@@ -2248,6 +2248,7 @@
   "pass_check2": " Lowercase letter",
   "pass_check3": " Number",
   "pass_check4": "  Special character",
+  "pass_check5": "No whitespaces",
   "pass_short": "Password too short (8 chars minimum)",
   "pass_wallet": "Password wallet:",
   "passport": "Passeport or CNI accepted.",

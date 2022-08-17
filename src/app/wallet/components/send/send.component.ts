@@ -418,6 +418,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       }
 
       tokenAddress = this.token ? this.token : ListTokens[currency].contract;
+      if (tokenAddress === 'BTT') {
+        tokenAddress = '0x0000000000000000000000000000000000001010';
+      }
       decimal = this.decimals
         ? new Big('10').pow(this.decimals)
         : ListTokens[currency].decimals;
@@ -687,9 +690,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           if (
             currency === 'ETH' ||
             currency === 'BNB' ||
-            currency === 'MATIC' ||
-            currency === 'BTT' ||
-            currency === 'TRX'
+            currency === 'MATIC'
           ) {
             this.difference = crypto.total_balance - this.gazsend;
             this.newquantity = this.difference / crypto.price;
@@ -736,8 +737,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           bnb: this.bnb,
           Eth: this.eth,
           matic: this.matic,
-          btt: this.btt,
-          trx: this.trx
+          btt: this.btt
         };
       }),
       switchMap(({ bnb, Eth, matic, btt }) => {
@@ -801,16 +801,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
                 ((price * GazConsumedByCampaign) / 1000000000) *
                 btt
               ).toFixed(8);
-            })
-          ),
-          this.walletFacade.getTrxGaz().pipe(
-            take(1),
-            tap((energy: any) => {
-              this.showSpinner = false;
-              let price;
-              price = energy.data.gasPrice;
-
-              this.trxGaz = price * 280 * 10 ** -6;
             })
           )
         ]);
@@ -1024,9 +1014,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       }
       if (this.networks === 'BTT') {
         this.gazsend = this.bttGaz;
-      }
-      if (this.networks === 'TRON') {
-        this.gazsend = this.trxGaz;
       }
     }, 2000);
 
