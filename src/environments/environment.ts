@@ -87,10 +87,13 @@ export const environment = {
   bscan: 'https://bscscan.com/tx/',
   etherscan: 'https://etherscan.io/tx/',
   bscanaddr: 'https://bscscan.com/address/',
-  etherscanaddr: 'https://etherscan.io/address/',
   polygonscanAddr: 'https://polygonscan.com/address/',
-  bttscanAddr: 'https://bttcscan.com/address/',
-  simplexUrl: 'https://checkout.simplexcc.com/payments/new',*/
+  etherscanaddr: 'https://etherscan.io/address/',
+    bttscanAddr: 'https://bttcscan.com/address/',
+      tronScanAddr: 'https://tronscan.io/#/address/',
+  tronScan: 'https://tronscan.io/#/transaction/',
+
+  simplexUrl: 'https://checkout.simplexcc.com/payments/new'*/
 };
 
 /*
