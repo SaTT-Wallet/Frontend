@@ -31,12 +31,7 @@ import { forkJoin, Subject } from 'rxjs';
 import { WalletStoreService } from '@core/services/wallet-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
-import {
-  bscan,
-  etherscan,
-  polygonscan,
-  bttscan
-} from '@app/config/atn.config';
+import { bscan, etherscan, polygonscan, bttscan } from '@app/config/atn.config';
 import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Location } from '@angular/common';
@@ -690,7 +685,10 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           if (
             currency === 'ETH' ||
             currency === 'BNB' ||
-            currency === 'MATIC'
+            currency === 'MATIC' ||
+            currency === 'SATTBEP20' ||
+            currency === 'SATTERC20' ||
+            currency === 'BTT'
           ) {
             this.difference = crypto.total_balance - this.gazsend;
             this.newquantity = this.difference / crypto.price;
