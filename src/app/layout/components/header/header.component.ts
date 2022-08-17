@@ -139,6 +139,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   allnotification: BehaviorSubject<Array<any>> = new BehaviorSubject([null]);
   message: any;
 
+  isPlatformBrowser = isPlatformBrowser(this.platformId);
+
   // elementType = NgxQrcodeElementTypes.URL;
   // correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
   // value = 'Techiediaries';
@@ -325,81 +327,83 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   ngOnInit(): void {
-    this.authService.isAuthenticated$
-      .pipe(takeUntil(this.isDestroyed$))
-      .subscribe((isAuth: boolean) => {
-        this.isConnected = isAuth;
-      });
-    this.fixMenuItemsWidth();
-    if (this.router.url.includes('welcome')) {
-      this.isWelcomePage = true;
-      this.menuAdpool = true;
-    }
-    if (this.router.url.includes('wallet')) {
-      this.menuWallet = true;
-    }
-    if (this.router.url.includes('notification')) {
-      this.menuHistory = true;
-    }
-    if (this.router.url.includes('FAQ')) {
-      this.menuHelp = true;
-    }
-    if (
-      this.router.url.includes('campaign') ||
-      this.router.url.includes('wallet') ||
-      this.router.url.includes('ad-pools')
-    ) {
-      this.menuCampaign = true;
-    } else {
-      this.menuCampaign = false;
-    }
     if (isPlatformBrowser(this.platformId)) {
-      this.oldHeight = window.innerHeight;
-      this.newHeight = this.oldHeight;
-    }
-    if (this.tokenStorageService.getToken()) {
-      this.isConnected = true;
-
-      this.getProfileDetails();
-      this.getNotifications();
-      // this.parentFunction();
-      this.portfeuille();
-      // this.showPopUp()
-
-      this.receiveMessage();
-
-      this.tokenStorageService.removeItem('visited-facebook');
-      this.tokenStorageService.removeItem('hasTwitter');
-      this.tokenStorageService.removeItem('visited-google');
-      this.tokenStorageService.removeItem('visited-twitter');
-      this.tokenStorageService.removeItem('visited-tiktok');
-      this.tokenStorageService.removeItem('visited-socialConfig');
-      this.tokenStorageService.removeItem('visited-transactionPwd');
-      this.tokenStorageService.removeItem('visited-pwd');
-      this.tokenStorageService.removeItem('visited-download');
-      this.tokenStorageService.removeItem('visited-activePass');
-      this.tokenStorageService.removeItem('visited-completeProfile');
-      this.tokenStorageService.removeItem('visited-key');
-      this.tokenStorageService.removeItem('enabled');
-      this.tokenStorageService.removeItem('visited-pass-phrase');
-
-      this.isClicked();
-      let date = new Date();
-      let expire = (date.getTime() * 1) / 1000;
-      // @ts-ignore
-      let compare = Math.floor(this.tokenStorageService.getExpire() * 1);
-      if (compare < expire) {
-        this.tokenStorageService.signOut();
-        this.router.navigate(['/auth/login']);
+      this.authService.isAuthenticated$
+        .pipe(takeUntil(this.isDestroyed$))
+        .subscribe((isAuth: boolean) => {
+          this.isConnected = isAuth;
+        });
+      this.fixMenuItemsWidth();
+      if (this.router.url.includes('welcome')) {
+        this.isWelcomePage = true;
+        this.menuAdpool = true;
       }
-      this.tokenStorageService.setItem('wallet_btc', this.btcCode);
-      this.tokenStorageService.setItem('tron-wallet', this.tronAddress);
-      this.generateCodeDes();
-      this.generateCodeERCDes();
-      this.generateCodeFunction();
-      this.generateCodeERC();
-    } else {
-      this.isConnected = false;
+      if (this.router.url.includes('wallet')) {
+        this.menuWallet = true;
+      }
+      if (this.router.url.includes('notification')) {
+        this.menuHistory = true;
+      }
+      if (this.router.url.includes('FAQ')) {
+        this.menuHelp = true;
+      }
+      if (
+        this.router.url.includes('campaign') ||
+        this.router.url.includes('wallet') ||
+        this.router.url.includes('ad-pools')
+      ) {
+        this.menuCampaign = true;
+      } else {
+        this.menuCampaign = false;
+      }
+      if (isPlatformBrowser(this.platformId)) {
+        this.oldHeight = window.innerHeight;
+        this.newHeight = this.oldHeight;
+      }
+      if (this.tokenStorageService.getToken()) {
+        this.isConnected = true;
+
+        this.getProfileDetails();
+        this.getNotifications();
+        // this.parentFunction();
+        this.portfeuille();
+        // this.showPopUp()
+
+        this.receiveMessage();
+
+        this.tokenStorageService.removeItem('visited-facebook');
+        this.tokenStorageService.removeItem('hasTwitter');
+        this.tokenStorageService.removeItem('visited-google');
+        this.tokenStorageService.removeItem('visited-twitter');
+        this.tokenStorageService.removeItem('visited-tiktok');
+        this.tokenStorageService.removeItem('visited-socialConfig');
+        this.tokenStorageService.removeItem('visited-transactionPwd');
+        this.tokenStorageService.removeItem('visited-pwd');
+        this.tokenStorageService.removeItem('visited-download');
+        this.tokenStorageService.removeItem('visited-activePass');
+        this.tokenStorageService.removeItem('visited-completeProfile');
+        this.tokenStorageService.removeItem('visited-key');
+        this.tokenStorageService.removeItem('enabled');
+        this.tokenStorageService.removeItem('visited-pass-phrase');
+
+        this.isClicked();
+        let date = new Date();
+        let expire = (date.getTime() * 1) / 1000;
+        // @ts-ignore
+        let compare = Math.floor(this.tokenStorageService.getExpire() * 1);
+        if (compare < expire) {
+          this.tokenStorageService.signOut();
+          this.router.navigate(['/auth/login']);
+        }
+        this.tokenStorageService.setItem('wallet_btc', this.btcCode);
+        this.tokenStorageService.setItem('tron-wallet', this.tronAddress);
+        this.generateCodeDes();
+        this.generateCodeERCDes();
+        this.generateCodeFunction();
+        this.generateCodeERC();
+      } else {
+        this.isConnected = false;
+      }
     }
   }
 
