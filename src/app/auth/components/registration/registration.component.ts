@@ -61,11 +61,12 @@ export class RegistrationComponent implements OnInit {
   cookieValue: string = this.cookie.get('satt_cookies');
   cookieExists: boolean = this.cookie.check('satt_cookies');
   isClicked!: boolean;
-  successUpper: boolean = false;
-  successLower: boolean = false;
-  successNumber: boolean = false;
-  successSpecial: boolean = false;
-  successLength: boolean = false;
+  successUpper = false;
+  successLower = false;
+  successNumber = false;
+  successSpecial = false;
+  successWhitespaces = false;
+  successLength = false;
   @ViewChild('passwordStrengthText') meter!: ElementRef;
   passwordStrengthMsg: string = '';
   passwordErrMsg: string = '';
@@ -219,6 +220,7 @@ export class RegistrationComponent implements OnInit {
         const regexLowerCase = /[a-z]/g;
         const regexNumber = /[0-9]+/g;
         const regexSpecial = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+        const regexWhitespaces = /\s/;
         if (pass.match(regex)) {
           let errMsg = this.document.getElementById('errMsgUpper');
           this.successUpper = true;
@@ -263,6 +265,17 @@ export class RegistrationComponent implements OnInit {
         } else {
           let errMsg = this.document.getElementById('errMsgSpecial');
           this.successSpecial = false;
+          //@ts-ignore
+          errMsg?.style.color = '#F52079';
+        }
+        if (!pass.match(regexWhitespaces)) {
+          let errMsg = this.document.getElementById('errMsgWhitespaces');
+          this.successWhitespaces = true;
+          //@ts-ignore
+          errMsg?.style.color = '#00CC9E';
+        } else {
+          let errMsg = this.document.getElementById('errMsgWhitespaces');
+          this.successWhitespaces = false;
           //@ts-ignore
           errMsg?.style.color = '#F52079';
         }

@@ -298,6 +298,26 @@
                   ></span>
                   {{ 'pass_check4' | translate }}</span
                 >
+                <br />
+                <span
+                  *ngIf="
+                    this.getControls.password.dirty &&
+                    this.getControls.password.errors?.pattern
+                  "
+                  class="mr-1"
+                  id="errMsgWhitespaces"
+                  #errMsgWhitespaces
+                >
+                  <span
+                    *ngIf="successWhitespaces"
+                    class="mr-3 fa fa-check field-icon-pass pass_sucess success-icon"
+                  ></span>
+                  <span
+                    *ngIf="!successWhitespaces"
+                    class="mr-2 fa fa-times close-error-icon"
+                  ></span>
+                  {{ 'pass_check5' | translate }}</span
+                >
                 <p
                   class="mr-1"
                   id="errLength"

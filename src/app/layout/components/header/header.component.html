@@ -190,13 +190,15 @@
     </div>
     </ul> -->
     </button>
+
     <button
       type="button"
-      *ngIf="!isConnected"
+      *ngIf="isPlatformBrowser && !isConnected"
       class="d-md-block d-xl-none d-lg-none d-sm-block button-connect"
     >
       <a class="" [routerLink]="['/auth/login']">Connect</a>
     </button>
+
     <!-- end mdddd-->
     <!--start desktop  collapse navbar-collapse-->
     <div class="desktop-menu" id="navbarSupportedContent">
@@ -270,7 +272,7 @@
           class="li-menu"
           [ngClass]="{ 'is-visited': menuBuyToken }"
           id="intro6"
-          style="position: relative; margin-right: 2rem; width: 70px !important"
+          
         >
           <a
             class="farmPost"
@@ -714,7 +716,10 @@
         </li>
       </ul>
 
-      <ul class="right_nav_side navbar-nav" *ngIf="!isConnected">
+      <ul
+        class="right_nav_side navbar-nav"
+        *ngIf="isPlatformBrowser && !isConnected"
+      >
         <button type="button" class="button-connect d-none d-md-block">
           <a class="" [routerLink]="['/auth/login']">Connect</a>
         </button>
@@ -924,7 +929,7 @@
               <img src="/assets/Images/newBttc.svg" class="timg" alt="" />
               <img
                 src="assets/Images/navigate.svg"
-                (click)="goToTronScan(tronAddress)"
+                (click)="goToBTTScan(erc20)"
               />
             </button>
           </div>

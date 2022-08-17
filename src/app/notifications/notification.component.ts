@@ -13,7 +13,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import _ from 'lodash';
 import { walletUrl, ListTokens, tronScan } from '@config/atn.config';
 import { isPlatformBrowser } from '@angular/common';
-import { bscan, etherscan } from '@app/config/atn.config';
+import { bscan, etherscan, polygonscan,bttscan } from '@app/config/atn.config';
 //import 'moment/locale/fr'
 
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
@@ -25,6 +25,7 @@ import { TokenStorageService } from '@app/core/services/tokenStorage/token-stora
 import { INotificationsResponse } from '@app/core/notifications-response.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment';
+import { environment } from '@environments/environment';
 
 @Component({
   selector: 'app-history',
@@ -55,9 +56,17 @@ export class NotificationComponent implements OnInit {
 
   offset: any;
   // tansfer:string='transfer_event_currency'
-  bscan = 'https://bscscan.com/tx/';
-  etherscan = 'https://etherscan.io/tx/';
-  tronScan= 'https://shasta.tronscan.org/#/transaction/';
+  bscan = environment.bscan;
+  etherscan = environment.etherscan;
+  tronScan= environment.tronScan;
+  polygonscan = environment.polygonscan;
+  bttscan= environment.bttscan;
+
+
+
+
+
+
   newNotification: boolean = false;
   errorMessagecode = '';
   constructor(
@@ -663,7 +672,14 @@ export class NotificationComponent implements OnInit {
       window.open(etherscan + link, '_blank');
     } else if (network === 'bsc' && isPlatformBrowser(this.platformId)) {
       window.open(bscan + link, '_blank');
-    } else if (network === 'tron' && isPlatformBrowser(this.platformId)) {
+    }
+    else if (network === 'BTTC' && isPlatformBrowser(this.platformId)) {
+      window.open(bttscan + link, '_blank');
+    } 
+    else if (network === 'polygon' && isPlatformBrowser(this.platformId)) {
+      window.open(polygonscan + link, '_blank');
+    } 
+     else if (network === 'tron' && isPlatformBrowser(this.platformId)) {
       window.open(tronScan + link, '_blank');
     }
     
@@ -730,6 +746,12 @@ export class NotificationComponent implements OnInit {
     }
     if (notif.label.network === 'bsc') {
       window.open(bscan + notif.label.transactionHash, '_blank');
+    }
+    if (notif.label.network === 'BTTC') {
+      window.open(bttscan + notif.label.transactionHash, '_blank');
+    }
+    if (notif.label.network === 'polygon') {
+      window.open(polygonscan + notif.label.transactionHash, '_blank');
     }
     if (notif.label.network === 'tron') {
       window.open(tronScan + notif.label.transactionHash, '_blank');
