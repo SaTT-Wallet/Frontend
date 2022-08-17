@@ -55,7 +55,7 @@ const bscan = env.bscanaddr;
 const etherscan = env.etherscanaddr;
 const tronScanAddr = env.tronScanAddr;
 const tronScan = env.tronScan;
-const polygonscanAddr = 'https://mumbai.polygonscan.com/address/';
+const polygonscanAddr = env.polygonscanAddr; 
 const btcScanAddr = 'https://www.blockchain.com/btc/address/';
 const bttscanAddr = env.bttscanAddr;
 @Component({
