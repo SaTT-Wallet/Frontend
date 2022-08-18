@@ -1,5 +1,6 @@
 :host {
   width: 100%;
+  margin: 50px 0 0 0!important;
 }
 
 *:focus {
@@ -12,10 +13,12 @@
   height: 100vh;
   margin: 0px auto;
   max-width: 1000px;
+
 }
 .modal-body {
   overflow-y: auto !important;
   margin-bottom: 20px !important ;
+
 }
 
 @font-face {
@@ -230,6 +233,7 @@ button:focus {
   border-radius: 20px;
   height: 100%;
   padding: 2rem;
+  margin:60px 0 0 0!important;
 }
 
 .label_input {
@@ -926,6 +930,7 @@ a {
   cursor: pointer;
   text-align: center;
   font-size: 25px;
+  margin-top: 30px;
 }
 
 .btn-back:hover {

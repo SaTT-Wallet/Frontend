@@ -27,7 +27,6 @@
           id=""
           (focus)="goToSection('amount')"
           pattern="^[1-9][0-9]*$"
-          (keydown)="restrictZero($event)"
           formControlName="Amount"
           input
           class="amount input-amount"
@@ -225,7 +224,7 @@
           {{ 'Not Valid Tron Wallet' | translate }}
         </span>
       </div>
-      <div class="text-start pt-2">
+      <div class="text-center">
         <span class="error_msg" *ngIf="ownaddress">{{
           'Wallet.ownaddress' | translate
         }}</span>

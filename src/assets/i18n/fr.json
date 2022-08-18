@@ -1232,6 +1232,7 @@
   "pass_check2": "Une lettre minuscule",
   "pass_check3": "Un nombre",
   "pass_check4": " Un caractére spécial",
+  "pass_check5": "Pas d'espaces",
   "pass_short": "Mot de passe trop court (8 caractères minimum)",
   "pass_wallet": "Mot de passe du portefeuille :",
   "pass_wrong": "Mot de passe incorrect",
