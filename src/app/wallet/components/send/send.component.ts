@@ -688,7 +688,10 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           if (
             currency === 'ETH' ||
             currency === 'BNB' ||
-            currency === 'MATIC'
+            currency === 'MATIC' ||
+            currency === 'SATTBEP20' ||
+            currency === 'SATTERC20' ||
+            currency === 'BTT'
           ) {
             this.difference = crypto.total_balance - this.gazsend;
             this.newquantity = this.difference / crypto.price;
@@ -996,6 +999,12 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.gazcurrency = 'BTT';
       // this.gazcurrency = 'ETH';
     } else if (this.networks === 'TRON') {
+      this.sendform
+        .get('contact')
+        ?.setValidators([
+          Validators.required,
+          Validators.pattern(tronPattContact)
+        ]);
       this.gazcurrency = 'TRX';
       // this.gazcurrency = 'ETH';
     }
