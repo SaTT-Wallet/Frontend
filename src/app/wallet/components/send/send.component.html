@@ -198,18 +198,23 @@
             <img class="" src="../../../assets/Images/Kep-password.svg" />
             <input
               autocomplete="off"
-              type="text"
-              [ngClass]="
-                showPass ? 'input-password' : 'input-password pass-hide'
-              "
+              type="password"
+              class="input-password"
               formControlName="password"
               #password_field
             />
             <span
-              (click)="showPass = !showPass"
+              (click)="
+                password_field.type =
+                  password_field.type === 'password' ? 'text' : 'password'
+              "
               class="fa fa-fw cross_input_network align-self-center"
               aria-hidden="true"
-              [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"
+              [ngClass]="
+                password_field.type === 'password'
+                  ? 'far fa-eye-slash '
+                  : 'far fa-eye'
+              "
             ></span>
           </div>
         </div>
