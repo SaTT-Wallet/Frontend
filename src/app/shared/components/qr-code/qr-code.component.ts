@@ -10,8 +10,8 @@ import { Subject } from 'rxjs';
 const bscanaddr = env.bscanaddr;
 const etherscanaddr = env.etherscanaddr;
 const tronScanAddr = env.tronScanAddr;
-const polygonscanAddr = 'https://mumbai.polygonscan.com/address/';
-const bttscanAddr = 'https://testnet.bttcscan.com/address/';
+const polygonscanAddr = env.polygonscanAddr;
+const bttscanAddr = env.bttscanAddr;
 const btcScanAddr = 'https://www.blockchain.com/btc/address/';
 
 @Component({

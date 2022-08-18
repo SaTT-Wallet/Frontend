@@ -31,12 +31,7 @@ import { forkJoin, Subject } from 'rxjs';
 import { WalletStoreService } from '@core/services/wallet-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
-import {
-  bscan,
-  etherscan,
-  polygonscanAddr,
-  bttscanAddr
-} from '@app/config/atn.config';
+import { bscan, etherscan, polygonscan, bttscan } from '@app/config/atn.config';
 import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Location } from '@angular/common';
@@ -396,6 +391,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       const pass = this.sendform.get('password')?.value;
       currency = this.sendform.get('currency')?.value;
 
+      this.selectedCryptoDetails = {};
+      this.selectedCryptoDetails.symbol = currency;
+
       // if (to === address) {
 
       //   this.ownaddress = true;
@@ -501,9 +499,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               } else if (this.networks === 'ERC20') {
                 this.routertransHash = etherscan + this.hashtransaction;
               } else if (this.networks === 'POLYGON') {
-                this.routertransHash = polygonscanAddr + this.hashtransaction;
+                this.routertransHash = polygonscan + this.hashtransaction;
               } else if (this.networks === 'BTT') {
-                this.routertransHash = bttscanAddr + this.hashtransaction;
+                this.routertransHash = bttscan + this.hashtransaction;
               } else if (this.networks === 'TRON') {
                 this.routertransHash = tronScan + this.hashtransaction;
               }
@@ -690,7 +688,10 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           if (
             currency === 'ETH' ||
             currency === 'BNB' ||
-            currency === 'MATIC'
+            currency === 'MATIC' ||
+            currency === 'SATTBEP20' ||
+            currency === 'SATTERC20' ||
+            currency === 'BTT'
           ) {
             this.difference = crypto.total_balance - this.gazsend;
             this.newquantity = this.difference / crypto.price;
@@ -998,6 +999,12 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.gazcurrency = 'BTT';
       // this.gazcurrency = 'ETH';
     } else if (this.networks === 'TRON') {
+      this.sendform
+        .get('contact')
+        ?.setValidators([
+          Validators.required,
+          Validators.pattern(tronPattContact)
+        ]);
       this.gazcurrency = 'TRX';
       // this.gazcurrency = 'ETH';
     }
