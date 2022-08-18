@@ -391,6 +391,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       const pass = this.sendform.get('password')?.value;
       currency = this.sendform.get('currency')?.value;
 
+      this.selectedCryptoDetails = {};
+      this.selectedCryptoDetails.symbol = currency;
+
       // if (to === address) {
 
       //   this.ownaddress = true;
