@@ -999,6 +999,12 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.gazcurrency = 'BTT';
       // this.gazcurrency = 'ETH';
     } else if (this.networks === 'TRON') {
+      this.sendform
+        .get('contact')
+        ?.setValidators([
+          Validators.required,
+          Validators.pattern(tronPattContact)
+        ]);
       this.gazcurrency = 'TRX';
       // this.gazcurrency = 'ETH';
     }
