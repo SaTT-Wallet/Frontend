@@ -58,7 +58,6 @@
             (focus)="goToSection('usd')"
             pattern="(\d{1,2}([\.,])?)*([\d{1,2}]?)*"
             class="usd input-amount-usd"
-            (keydown)="restrictZero($event)"
             placeholder="0"
             formControlName="AmountUsd"
             [(ngModel)]="amountUsd"
