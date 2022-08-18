@@ -1445,7 +1445,7 @@ bottom: 77.54% ; */
 
 .container .item {
   height: 100%;
-  width: 100%;
+  width: initial !important;
   text-align: center;
 }
 
@@ -1511,7 +1511,7 @@ bottom: 77.54% ; */
 
   display: flex;
   justify-content: center;
-  gap: 22px;
+  gap: 20px;
 }
 
 // .timg {
@@ -1961,4 +1961,9 @@ li.li-menu.is-visited a {
   position: absolute;
   bottom: -12px;
   right: 4px;
+}
+@media (max-width: 350px) {
+  .container .item {
+    width: initial !important;
+  }
 }
