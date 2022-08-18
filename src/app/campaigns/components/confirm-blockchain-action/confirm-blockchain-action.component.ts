@@ -52,10 +52,10 @@ export class ConfirmBlockchainActionComponent implements OnInit {
         if (response.error) {
        if (
             response.error ===
-            'Rewards can be harvested only 24h after the last collect'
+            'Harvest will be available only 24 hours after the link validation from the Ad Pool manager.'
           ) {
             this.errorMessage =
-              'Rewards can be harvested only 24h after the last collect';
+              'Harvest will be available only 24 hours after the link validation from the Ad Pool manager.';
           } else if (
             response.error ===
             'Returned error: insufficient funds for gas * price + value'
@@ -71,7 +71,7 @@ export class ConfirmBlockchainActionComponent implements OnInit {
 
           setTimeout(() => {
             this.errorMessage = '';
-          }, 3000);
+          }, 6000);
         }
       })
   }
