@@ -71,7 +71,7 @@ export class BlockchainActionsService {
                   "You didn't exceed the limits timing to harvest again"
                 ) {
                   this.errorMessage =
-                    'Rewards can be harvested only 24h after the last collect';
+                    'Harvest will be available only 24 hours after the link validation from the Ad Pool manager.';
                 }
                 return of(null);
               }),
