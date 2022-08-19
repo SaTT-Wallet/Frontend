@@ -1,5 +1,8 @@
 <div *ngIf="!isLoading">
   <span id="span-top" class="span-top"></span>
+  <div
+    style="position: absolute; top: 0; width: 100vw; height: 100vh; z-index: 1"
+  ></div>
   <div class="campaign-cover img-container" id="" *ngIf="!showInfoSpinner">
     <img
       class="campaign-img desktopClass"
@@ -388,8 +391,10 @@
               role="button"
               (click)="backClicked()"
               *ngIf="
-                (!this.campaign.isOwnedByUser && campaign.isActive && !editMode) ||
-                (this.campaign.isOwnedByUser  && !editMode)
+                (!this.campaign.isOwnedByUser &&
+                  campaign.isActive &&
+                  !editMode) ||
+                (this.campaign.isOwnedByUser && !editMode)
               "
             >
               < Back to List</a
