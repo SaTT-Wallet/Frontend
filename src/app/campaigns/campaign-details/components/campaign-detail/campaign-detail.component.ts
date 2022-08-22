@@ -3,8 +3,7 @@ import {
   Inject,
   OnInit,
   PLATFORM_ID,
-  Renderer2,
-  SimpleChanges
+  Renderer2
 } from '@angular/core';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
@@ -33,7 +32,7 @@ import { Big } from 'big.js';
 import { WindowRefService } from '@core/windowRefService';
 import * as FileSaver from 'file-saver';
 import JSZip from 'jszip';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
 
 declare var $: any;
 @Component({
@@ -124,6 +123,8 @@ export class CampaignDetailComponent implements OnInit {
   downloadKit = false;
   editMode = false;
 
+  isPlatformBrowser = isPlatformBrowser(this.platformId);
+
   constructor(
     public router: Router,
     public modalService: NgbModal,
@@ -156,8 +157,7 @@ export class CampaignDetailComponent implements OnInit {
     });
     this.route.queryParams.subscribe((params) => {
       !!params.mode && (this.editMode = true);
-    }
-    )
+    });
     this.campaignId = this.route.snapshot.params.id;
     if (isPlatformBrowser(this.platformId)) {
       this.router.events
@@ -236,7 +236,6 @@ export class CampaignDetailComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       this.getKits();
     }
-
 
     // this.getCampaignList();
   }
