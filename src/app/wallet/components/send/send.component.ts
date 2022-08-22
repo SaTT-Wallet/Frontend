@@ -423,9 +423,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       amount = new Big(amountdecimal).times(decimal).toFixed(30).split('.')[0];
       // symbole = this.symbol ? this.symbol : ListTokens[currency].symbole;
       tokenSymbol = this.sendform.get('currency')?.value;
-      if (this.network === 'btt') {
-        this.network = 'BTTC';
-      }
+      // if (this.network === 'btt') {
+      //   this.network = 'BTTC';
+      // }
 
       let network = this.networks
         ? this.networks.toLowerCase()
@@ -449,9 +449,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         tokenSymbol,
         network
       };
-      if (network === 'btt') {
-        network = 'BTTC';
-      }
+      // if (network === 'btt') {
+      //   network = 'BTTC';
+      // }
 
       this.sendform.get('password')?.reset();
       this.walletFacade
@@ -992,7 +992,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     } else if (this.networks === 'POLYGON') {
       this.gazcurrency = 'MATIC';
       // this.gazcurrency = 'ETH';
-    } else if (this.networks === 'BTT') {
+    } else if (this.networks === 'BTTC') {
       this.gazcurrency = 'BTT';
       // this.gazcurrency = 'ETH';
     } else if (this.networks === 'TRON') {
@@ -1010,7 +1010,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       if (this.networks === 'POLYGON') {
         this.gazsend = this.polygonGaz;
       }
-      if (this.networks === 'BTT') {
+      if (this.networks === 'BTTC') {
         this.gazsend = this.bttGaz;
       }
     }, 2000);
@@ -1034,7 +1034,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           this.gasCryptoQuantity = (this.gazsend / crypto.price).toFixed(8);
         }
       }
-      if (this.networks === 'BTT') {
+      if (this.networks === 'BTTC') {
         this.gazsend = this.bttGaz;
         if (crypto.symbol === 'BTT') {
           this.gasCryptoQuantity = (this.gazsend / crypto.price).toFixed(8);
