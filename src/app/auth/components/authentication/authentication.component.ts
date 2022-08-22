@@ -1182,7 +1182,7 @@ getCookie(key: string){
   changePwd() {
     let email = this.formL.get('email')?.value;
     this.router.navigate(['auth/resetpassword'], {
-      queryParams: { email }
+      queryParams: { email, code: this.formCode.get('code')?.value }
     });
   }
 
