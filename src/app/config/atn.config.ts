@@ -5,6 +5,9 @@ const sattUrl = env.API_URL;
 const walletUrl = 'http://localhost:4200/#/';
 const bscan = env.bscan;
 const etherscan = env.etherscan;
+const polygonscan = env.polygonscan;
+const bttscan= env.bttscan;
+
 const polygonscanAddr = env.polygonscanAddr;
 const bttscanAddr = env.bttscanAddr;
 const tronscanAddr = env.tronScanAddr;
@@ -52,7 +55,7 @@ let regexNetwork =
   'https?://(.*.)?[linkedin|twitter|facebook|instagram|tiktok|youtube].com/([A-z 0-9 _ - - . @ : % ? + ~ # = ]+)/?';
 let pattPassword =
   /* /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#-_])[A-Za-z\d@$!%*?&#]{0,}/;  */
-  /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@[$()!%*=+?&#^;,:.~/|<>{}-])[A-Za-z\d@[$()!%*=+?&#^;,:.~/|<>{}-]{0,}/;
+  /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)^(?!.* )(?=.*[@[$()!%*=+?&#^;,:.~/|<>{}-])[A-Za-z\d@[$()!%*=+?&#^;,:.~/|<>{}-]{0,}/;
 
 let cryptoNetwork: any = [];
 
@@ -902,6 +905,8 @@ export {
   id_campaign_to_participate,
   bscan,
   etherscan,
+  polygonscan,
+  bttscan,
   polygonscanAddr,
   bttscanAddr,
   dataList,

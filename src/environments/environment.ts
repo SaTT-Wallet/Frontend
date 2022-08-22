@@ -4,11 +4,11 @@
 
 export const environment = {
   production: false,
-  // API_URL: 'https://api-preprod2.satt-token.com',
+  API_URL: 'https://api-preprod2.satt-token.com',
   //https://api-preprod2.satt-token.com
   //API_URL:  'https://api2.satt-token.com',
 
-  API_URL: 'https://localhost:3015',
+  //API_URL: 'https://localhost:3015',
   //https://api-preprod.satt-token.com:3014
   addresses: {
     smartContracts: {
@@ -46,13 +46,16 @@ export const environment = {
   fcmredirectUrl: 'http://localhost:4200/#/home',
   bscan: 'https://testnet.bscscan.com/tx/',
   etherscan: 'https://ropsten.etherscan.io/tx/',
-  bscanaddr: 'https://testnet.bscscan.com/address/',
-  polygonscanAddr: 'https://mumbai.polygonscan.com/tx/',
-  bttscanAddr: 'https://testnet.bttcscan.com/tx/',
-  tronScanAddr: 'https://shasta.tronscan.org/#/address/',
+  polygonscan: 'https://mumbai.polygonscan.com/tx/',
+  bttscan: 'https://testnet.bttcscan.com/tx/',
   tronScan: 'https://shasta.tronscan.org/#/transaction/',
 
+  bscanaddr: 'https://testnet.bscscan.com/address/',
+  polygonscanAddr: 'https://mumbai.polygonscan.com/address/',  
+  bttscanAddr: 'https://testnet.bttcscan.com/address/',  
+  tronScanAddr: 'https://shasta.tronscan.org/#/address/',
   etherscanaddr: 'https://ropsten.etherscan.io/address/',
+
   simplexUrl: 'https://sandbox.test-simplexcc.com/payments/new',
   gmtId: 'GTM-K2RMTJ3'
 
@@ -86,11 +89,16 @@ export const environment = {
   fcmredirectUrl: 'https://satt.atayen.us/#/home',
   bscan: 'https://bscscan.com/tx/',
   etherscan: 'https://etherscan.io/tx/',
+  polygonscan: 'https://polygonscan.com/tx/',
+  bttscan: 'https://bttcscan.com/tx/',
+  tronScan: 'https://tronscan.org/#/transaction/',
+
   bscanaddr: 'https://bscscan.com/address/',
+  polygonscanAddr: 'https://polygonscan.com/address/',  
+  bttscanAddr: 'https://bttcscan.com/address/',  
+  tronScanAddr: 'https://tronscan.org/#/address/',
   etherscanaddr: 'https://etherscan.io/address/',
-  polygonscanAddr: 'https://polygonscan.com/address/',
-  bttscanAddr: 'https://bttcscan.com/address/',
-  simplexUrl: 'https://checkout.simplexcc.com/payments/new',*/
+  simplexUrl: 'https://checkout.simplexcc.com/payments/new'*/
 };
 
 /*
