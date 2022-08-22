@@ -812,16 +812,14 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   /*------------------------ */
 
   restrictZero(event: any) {
-    // if (event.target.value.length === 0 && event.key === '0') {
-    //   event.preventDefault();
-    // }
-    // if (event.keyCode === 54 && !event.shiftKey) {
-    //   event.preventDefault();
-    //   this.convertcurrency('', false);
-    // }
-    if (!this.isValidKeyCode(event.keyCode)) {
+    if (event.keyCode === 59 || event.keyCode === 16) {
+    } else if (
+      !this.isValidKeyCode(event.keyCode) ||
+      (event.keyCode >= 48 && event.keyCode <= 61)
+    ) {
       event.preventDefault();
       this.convertcurrency('', false);
+    } else {
     }
   }
   isValidKeyCode(code: number): boolean {
