@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import {
   Component,
-  OnInit,
   TemplateRef,
   ViewChild,
   HostListener,
@@ -18,7 +17,7 @@ import { MatchPasswordValidator } from '@helpers/form-validators';
 import { AuthService } from '@app/core/services/Auth/auth.service';
 import { ContactMessageService } from '@core/services/contactmessage/contact-message.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
-import { filter, mergeMap, takeUntil } from 'rxjs/operators';
+import { catchError, filter, mergeMap, takeUntil } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 
@@ -27,7 +26,7 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
   templateUrl: './reset-password.component.html',
   styleUrls: ['./reset-password.component.css']
 })
-export class ResetPasswordComponent implements OnInit {
+export class ResetPasswordComponent {
   // code:any
   // id:any
   // password:any
@@ -81,6 +80,7 @@ export class ResetPasswordComponent implements OnInit {
   expireFromUrl!: number;
   isQueryParam: boolean = false;
   private onDestroy$ = new Subject();
+  passwordResetSuccessful = false;
 
   constructor(
     private http: HttpClient,
@@ -127,8 +127,6 @@ export class ResetPasswordComponent implements OnInit {
     this.languageSelected = lang;
     this.translate.use(lang);
   }
-
-  ngOnInit() {}
 
   isOpen: boolean = false;
   openModal(content: TemplateRef<ElementRef>) {
@@ -190,12 +188,12 @@ export class ResetPasswordComponent implements OnInit {
   resetpwd() {
     return this.route.queryParams
       .pipe(
-        mergeMap((email) => {
-          email = email.email;
+        mergeMap(({ email, code }) => {
           this.showSpinner = true;
           if (this.resetPasswordForm.valid) {
             let data = {
-              email: email,
+              email,
+              code,
               newpass: this.resetPasswordForm.get('password')?.value
             };
             return this.authService.confirmResetPassword(data);
@@ -211,9 +209,21 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   resetPasswordAndOpenSuccessModal(modalRef: TemplateRef<ElementRef>) {
-    this.resetpwd().subscribe((response: any) => {
-      if (response.message === 'successfully') this.openModal(modalRef);
-    });
+    this.resetpwd()
+      .pipe(
+        catchError((error) => {
+          return of(error);
+        })
+      )
+      .subscribe((response: any) => {
+        if (response.message === 'successfully') {
+          this.passwordResetSuccessful = true;
+        } else if (response.code === 401) {
+          this.passwordResetSuccessful = false;
+        }
+
+        this.openModal(modalRef);
+      });
   }
   trackByLanguage(index: number, language: string) {
     return language;
