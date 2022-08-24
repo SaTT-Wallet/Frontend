@@ -55,7 +55,7 @@ const bscan = env.bscanaddr;
 const etherscan = env.etherscanaddr;
 const tronScanAddr = env.tronScanAddr;
 const tronScan = env.tronScan;
-const polygonscanAddr = env.polygonscanAddr; 
+const polygonscanAddr = env.polygonscanAddr;
 const btcScanAddr = 'https://www.blockchain.com/btc/address/';
 const bttscanAddr = env.bttscanAddr;
 @Component({
@@ -1393,10 +1393,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   checkMenuTokenInfo() {
     if (isPlatformBrowser(this.platformId))
-      window.open(
-        'https://satt.atayen.us/wallet/token-info?crypto=SATT',
-        '_self'
-      );
+      window.open(env.domainName + '/wallet/token-info?crypto=SATT', '_self');
   }
   checkMenuAbout() {
     if (isPlatformBrowser(this.platformId))

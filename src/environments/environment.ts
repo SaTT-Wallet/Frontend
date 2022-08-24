@@ -31,7 +31,7 @@ export const environment = {
       WBTT: '0xD6Cb96a00b312D5930FC2E8084A98ff2Daa5aD2e'
     }
   },
-  domainName: 'https://dev.satt.atayen.us',
+  domainName: 'https://testnet.satt.atayen.us',
   telegramBot: 'TestnetAtayenBot',
   firebase: {
     apiKey: 'AIzaSyAHfBKuneC6G0Uu9RKwI9hZKOjNiPQRd1U',
@@ -51,8 +51,8 @@ export const environment = {
   tronScan: 'https://shasta.tronscan.org/#/transaction/',
 
   bscanaddr: 'https://testnet.bscscan.com/address/',
-  polygonscanAddr: 'https://mumbai.polygonscan.com/address/',  
-  bttscanAddr: 'https://testnet.bttcscan.com/address/',  
+  polygonscanAddr: 'https://mumbai.polygonscan.com/address/',
+  bttscanAddr: 'https://testnet.bttcscan.com/address/',
   tronScanAddr: 'https://shasta.tronscan.org/#/address/',
   etherscanaddr: 'https://ropsten.etherscan.io/address/',
 
