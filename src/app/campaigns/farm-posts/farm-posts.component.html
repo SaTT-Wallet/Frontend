@@ -369,7 +369,7 @@
     </p>
   </div>
   <div class="spinner-wrapper">
-    <app-loading-logo></app-loading-logo>
+    <app-loading-logo *ngIf="showSpinner"></app-loading-logo>
   </div>
   <div
     class=""
@@ -564,6 +564,7 @@
       [fromRoot]="true"
       (onEndPageScroll)="onScroll()"
     >
+      <!-- <app-loading-logo *ngIf="showBigSpinner" [fullScreen]="true"></app-loading-logo> -->
       <ng-template appItemsList>
         <app-farm-post-card
           [id]="prom.hash"
