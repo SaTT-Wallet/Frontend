@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BlockchainActionsService } from '@core/services/blockchain-actions.service';
@@ -29,7 +28,7 @@ export class ConfirmBlockchainActionComponent implements OnInit {
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((response) => {
         this.isLoading = false;
- 
+
         // in case of success
         if (response.data && response.data.transactionHash) {
           this.service.setTrnxStatus({
@@ -47,15 +46,14 @@ export class ConfirmBlockchainActionComponent implements OnInit {
         // in case of error
         if (response.error.length === 0) {
           this.errorMessage = 'wrong_password';
-
         }
         if (response.error) {
-       if (
+          if (
             response.error ===
             'Rewards can be harvested only 24h after the last collect'
           ) {
             this.errorMessage =
-              'Rewards can be harvested only 24h after the last collect';
+              'Harvest will be available only 24 hours after the link validation from the Ad Pool manager';
           } else if (
             response.error ===
             'Returned error: insufficient funds for gas * price + value'
@@ -71,9 +69,9 @@ export class ConfirmBlockchainActionComponent implements OnInit {
 
           setTimeout(() => {
             this.errorMessage = '';
-          }, 3000);
+          }, 6000);
         }
-      })
+      });
   }
 
   get password() {

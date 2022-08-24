@@ -1,5 +1,8 @@
 <div *ngIf="!isLoading">
   <span id="span-top" class="span-top"></span>
+  <div
+    style="position: absolute; top: 0; width: 100vw; height: 100vh; z-index: 1"
+  ></div>
   <div class="campaign-cover img-container" id="" *ngIf="!showInfoSpinner">
     <img
       class="campaign-img desktopClass"
@@ -57,7 +60,9 @@
         type="button"
         class="top-bar-btn-apply btn-apply"
         (click)="goParticipate(campaign.id)"
-        *ngIf="!campaign.isOwnedByUser && campaign.isActive"
+        *ngIf="
+          !campaign.isOwnedByUser && campaign.isActive && isPlatformBrowser
+        "
       >
         {{ 'Apply Now' | translate }}
       </button>
@@ -388,8 +393,10 @@
               role="button"
               (click)="backClicked()"
               *ngIf="
-                (!this.campaign.isOwnedByUser && campaign.isActive && !editMode) ||
-                (this.campaign.isOwnedByUser  && !editMode)
+                (!this.campaign.isOwnedByUser &&
+                  campaign.isActive &&
+                  !editMode) ||
+                (this.campaign.isOwnedByUser && !editMode)
               "
             >
               < Back to List</a
@@ -418,7 +425,9 @@
             class="btn-apply btn-apply-desk"
             id="btn-apply"
             (click)="goParticipate(campaign.id)"
-            *ngIf="!campaign.isOwnedByUser && campaign.isActive"
+            *ngIf="
+              !campaign.isOwnedByUser && campaign.isActive && isPlatformBrowser
+            "
           >
             <span class="padding-16" *ngIf="!this.showSpinner">{{
               'Apply Now' | translate
