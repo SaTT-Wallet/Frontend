@@ -24,6 +24,10 @@
     margin: 0;
     width: 86%;
 }
+.spinner-wrapper {
+    position: relative;
+  
+}
 
 .title-case::first-letter {
     text-transform: uppercase;

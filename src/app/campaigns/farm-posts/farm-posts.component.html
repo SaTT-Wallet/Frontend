@@ -353,235 +353,238 @@
     ></app-toggle-style-host>
   </div>
 </div>
-<div *ngIf="showSpinner" class="spinner-wrapper">
-  <app-loading-logo></app-loading-logo>
-</div>
-<div class="row d-flex make-center">
-  <img
-    class="not-found"
-    *ngIf="this.listLinks.length === 0 && postsNumber !== 0"
-    src="/assets/Images/not-found.svg "
-  />
+<div>
+  <div class="row d-flex make-center">
+    <img
+      class="not-found"
+      *ngIf="this.listLinks.length === 0 && postsNumber !== 0"
+      src="/assets/Images/not-found.svg "
+    />
 
-  <p
-    class="result-found mt-3"
-    *ngIf="this.listLinks.length === 0 && postsNumber !== 0"
-  >
-    {{ 'No result found' | translate }}
-  </p>
-</div>
-<div
-  class=""
-  *ngIf="!showSpinner"
-  [ngClass]="{
-    'div-content': isStyleGrid,
-    'display-column':
-      !isStyleGrid && this.listLinks.length !== 0 && postsNumber !== 0
-  }"
->
-  <div
-    class="d-flex hide-mobile-tablette head-table"
-    *ngIf="!isStyleGrid && this.listLinks.length !== 0"
-  >
-    <div class="d-flex justify-content-start div-media">
-      <span class="gray-text">
-        {{ 'campaign_details.media' | translate }}
-      </span>
-      <span class="chevron-toggler">
-        <i
-          *ngIf="sortDownMedia"
-          (click)="sortMedia('down')"
-          class="chevron fa fa-fw"
-        ></i>
-        <i
-          *ngIf="!sortDownMedia"
-          (click)="sortMedia('up')"
-          class="chevron2 fa fa-fw"
-        ></i>
-      </span>
-    </div>
-
-    <div class="div-send-date justify-content-between">
-      <div class="d-flex px-3 gap-3">
-        <div class="d-flex gap-2">
-          <div
-            class="d-flex justify-content-start align-items-center div-send-by"
-          >
-            <span class="gray-text"> AdPool </span>
-            <span class="chevron-toggler">
-              <i
-                *ngIf="sortDownSendBy"
-                (click)="sortSendTitle('down')"
-                class="chevron fa fa-fw"
-              ></i>
-              <i
-                *ngIf="!sortDownSendBy"
-                (click)="sortSendTitle('up')"
-                class="chevron2 fa fa-fw"
-              ></i>
-            </span>
-          </div>
-          <div class="d-flex div-date justify-content-start align-items-center">
-            <span class="gray-text">{{ 'date' | translate }} </span>
-            <span class="chevron-toggler">
-              <i
-                *ngIf="sortDownDate"
-                (click)="sortDate('down')"
-                class="chevron fa fa-fw"
-              ></i>
-              <i
-                *ngIf="!sortDownDate"
-                (click)="sortDate('up')"
-                class="chevron2 fa fa-fw"
-              ></i>
-            </span>
-          </div>
-        </div>
-        <div class="d-flex div-ratio">
-          <div class="social-ratios">
-            <img src="/assets/Images/view-icon-gray.svg " width="19px" />
-            <span class="chevron-toggler">
-              <i
-                *ngIf="sortDownViews"
-                (click)="sortViews('down')"
-                class="chevron fa fa-fw"
-              ></i>
-              <i
-                *ngIf="!sortDownViews"
-                (click)="sortViews('up')"
-                class="chevron2 fa fa-fw"
-              ></i>
-            </span>
-          </div>
-          <div class="social-ratios">
-            <img src="/assets/Images/like-icon-gray.svg " width="17px" />
-            <span class="chevron-toggler">
-              <i
-                *ngIf="sortDownLikes"
-                (click)="sortLikes('down')"
-                class="chevron fa fa-fw"
-              ></i>
-              <i
-                *ngIf="!sortDownLikes"
-                (click)="sortLikes('up')"
-                class="chevron2 fa fa-fw"
-              ></i>
-            </span>
-          </div>
-          <div class="social-ratios">
-            <img src="/assets/Images/share-icon-gray.svg " width="17px" />
-            <span class="chevron-toggler">
-              <i
-                *ngIf="sortDownShares"
-                (click)="sortShares('down')"
-                class="chevron fa fa-fw"
-              ></i>
-              <i
-                *ngIf="!sortDownShares"
-                (click)="sortShares('up')"
-                class="chevron2 fa fa-fw"
-              ></i>
-            </span>
-          </div>
-          <div class="social-ratios">
-            <img
-              width="18px"
-              src="/assets/Images/icon-remun-publication-gray.svg"
-            />
-            <span class="chevron-toggler">
-              <i
-                *ngIf="sortDownAbosNumber"
-                (click)="sortAbosNumber('down')"
-                class="chevron fa fa-fw"
-              ></i>
-              <i
-                *ngIf="!sortDownAbosNumber"
-                (click)="sortAbosNumber('up')"
-                class="chevron2 fa fa-fw"
-              ></i>
-            </span>
-          </div>
-        </div>
-      </div>
-      <div class="d-flex div-earnings-harvest justify-content-end">
-        <div class="div-earnings d-flex align-items-center">
-          <span class="d-flex gray-text">{{
-            'campaign_details.earnings' | translate
-          }}</span>
-          <span class="chevron-toggler">
-            <i
-              *ngIf="sortDownEarnings"
-              (click)="sortEarnings('down')"
-              class="chevron fa fa-fw"
-            ></i>
-            <i
-              *ngIf="!sortDownEarnings"
-              (click)="sortEarnings('up')"
-              class="chevron2 fa fa-fw"
-            ></i>
-          </span>
-        </div>
-
-        <div class="div-rest d-flex justify-content-end align-items-center">
-          <span class="d-flex gray-text">{{
-            'Rest-to-Harvest' | translate
-          }}</span>
-          <span class="chevron-toggler">
-            <i
-              *ngIf="sortDownRestToClaim"
-              (click)="sortRestToClaim('down')"
-              class="chevron fa fa-fw"
-            ></i>
-            <i
-              *ngIf="!sortDownRestToClaim"
-              (click)="sortRestToClaim('up')"
-              class="chevron2 fa fa-fw"
-            ></i>
-          </span>
-        </div>
-      </div>
-    </div>
+    <p
+      class="result-found mt-3"
+      *ngIf="this.listLinks.length === 0 && postsNumber !== 0"
+    >
+      {{ 'No result found' | translate }}
+    </p>
   </div>
-  <ng-container
-    class="mt-2"
-    *ngIf="
-      this.listLinks.length === 0 &&
-      postsNumber === 0 &&
-      !showWelcome &&
-      showSpinner
-    "
+  <div class="spinner-wrapper">
+    <app-loading-logo></app-loading-logo>
+  </div>
+  <div
+    class=""
+    *ngIf="!showSpinner"
+    [ngClass]="{
+      'div-content': isStyleGrid,
+      'display-column':
+        !isStyleGrid && this.listLinks.length !== 0 && postsNumber !== 0
+    }"
   >
-    <app-campaigns-list-item-placeholder-ui
-      *ngFor="let card of [1, 2, 3]"
-    ></app-campaigns-list-item-placeholder-ui>
-  </ng-container>
+    <div
+      class="d-flex hide-mobile-tablette head-table"
+      *ngIf="!isStyleGrid && this.listLinks.length !== 0"
+    >
+      <div class="d-flex justify-content-start div-media">
+        <span class="gray-text">
+          {{ 'campaign_details.media' | translate }}
+        </span>
+        <span class="chevron-toggler">
+          <i
+            *ngIf="sortDownMedia"
+            (click)="sortMedia('down')"
+            class="chevron fa fa-fw"
+          ></i>
+          <i
+            *ngIf="!sortDownMedia"
+            (click)="sortMedia('up')"
+            class="chevron2 fa fa-fw"
+          ></i>
+        </span>
+      </div>
 
-  <app-list-items
-    [infiniteScrollContainer]="'.center-content'"
-    [fromRoot]="true"
-    (onEndPageScroll)="onScroll()"
-  >
-    <!-- <app-loading-logo *ngIf="showBigSpinner" [fullScreen]="true"></app-loading-logo> -->
-    <ng-template appItemsList>
-      <app-farm-post-card
-        [id]="prom.hash"
-        *ngFor="
-          let prom of listLinks | filter: searchData;
-          trackBy: trackByLinkId;
-          let i = index
-        "
-        [prom]="prom"
-        [isOwner]="false"
-        [formatGrid]="this.isStyleGrid"
-        [ngClass]="{
-          link: this.promHash === prom?.hash,
-          'display-row width-bloc-row': !isStyleGrid,
-          'fit-center': isStyleGrid,
-          'card-hilighted': !isStyleGrid && this.promHash === prom?.hash
-        }"
-      ></app-farm-post-card>
-    </ng-template>
-  </app-list-items>
+      <div class="div-send-date justify-content-between">
+        <div class="d-flex px-3 gap-3">
+          <div class="d-flex gap-2">
+            <div
+              class="d-flex justify-content-start align-items-center div-send-by"
+            >
+              <span class="gray-text"> AdPool </span>
+              <span class="chevron-toggler">
+                <i
+                  *ngIf="sortDownSendBy"
+                  (click)="sortSendTitle('down')"
+                  class="chevron fa fa-fw"
+                ></i>
+                <i
+                  *ngIf="!sortDownSendBy"
+                  (click)="sortSendTitle('up')"
+                  class="chevron2 fa fa-fw"
+                ></i>
+              </span>
+            </div>
+            <div
+              class="d-flex div-date justify-content-start align-items-center"
+            >
+              <span class="gray-text">{{ 'date' | translate }} </span>
+              <span class="chevron-toggler">
+                <i
+                  *ngIf="sortDownDate"
+                  (click)="sortDate('down')"
+                  class="chevron fa fa-fw"
+                ></i>
+                <i
+                  *ngIf="!sortDownDate"
+                  (click)="sortDate('up')"
+                  class="chevron2 fa fa-fw"
+                ></i>
+              </span>
+            </div>
+          </div>
+          <div class="d-flex div-ratio">
+            <div class="social-ratios">
+              <img src="/assets/Images/view-icon-gray.svg " width="19px" />
+              <span class="chevron-toggler">
+                <i
+                  *ngIf="sortDownViews"
+                  (click)="sortViews('down')"
+                  class="chevron fa fa-fw"
+                ></i>
+                <i
+                  *ngIf="!sortDownViews"
+                  (click)="sortViews('up')"
+                  class="chevron2 fa fa-fw"
+                ></i>
+              </span>
+            </div>
+            <div class="social-ratios">
+              <img src="/assets/Images/like-icon-gray.svg " width="17px" />
+              <span class="chevron-toggler">
+                <i
+                  *ngIf="sortDownLikes"
+                  (click)="sortLikes('down')"
+                  class="chevron fa fa-fw"
+                ></i>
+                <i
+                  *ngIf="!sortDownLikes"
+                  (click)="sortLikes('up')"
+                  class="chevron2 fa fa-fw"
+                ></i>
+              </span>
+            </div>
+            <div class="social-ratios">
+              <img src="/assets/Images/share-icon-gray.svg " width="17px" />
+              <span class="chevron-toggler">
+                <i
+                  *ngIf="sortDownShares"
+                  (click)="sortShares('down')"
+                  class="chevron fa fa-fw"
+                ></i>
+                <i
+                  *ngIf="!sortDownShares"
+                  (click)="sortShares('up')"
+                  class="chevron2 fa fa-fw"
+                ></i>
+              </span>
+            </div>
+            <div class="social-ratios">
+              <img
+                width="18px"
+                src="/assets/Images/icon-remun-publication-gray.svg"
+              />
+              <span class="chevron-toggler">
+                <i
+                  *ngIf="sortDownAbosNumber"
+                  (click)="sortAbosNumber('down')"
+                  class="chevron fa fa-fw"
+                ></i>
+                <i
+                  *ngIf="!sortDownAbosNumber"
+                  (click)="sortAbosNumber('up')"
+                  class="chevron2 fa fa-fw"
+                ></i>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex div-earnings-harvest justify-content-end">
+          <div class="div-earnings d-flex align-items-center">
+            <span class="d-flex gray-text">{{
+              'campaign_details.earnings' | translate
+            }}</span>
+            <span class="chevron-toggler">
+              <i
+                *ngIf="sortDownEarnings"
+                (click)="sortEarnings('down')"
+                class="chevron fa fa-fw"
+              ></i>
+              <i
+                *ngIf="!sortDownEarnings"
+                (click)="sortEarnings('up')"
+                class="chevron2 fa fa-fw"
+              ></i>
+            </span>
+          </div>
+
+          <div class="div-rest d-flex justify-content-end align-items-center">
+            <span class="d-flex gray-text">{{
+              'Rest-to-Harvest' | translate
+            }}</span>
+            <span class="chevron-toggler">
+              <i
+                *ngIf="sortDownRestToClaim"
+                (click)="sortRestToClaim('down')"
+                class="chevron fa fa-fw"
+              ></i>
+              <i
+                *ngIf="!sortDownRestToClaim"
+                (click)="sortRestToClaim('up')"
+                class="chevron2 fa fa-fw"
+              ></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-container
+      class="mt-2"
+      *ngIf="
+        this.listLinks.length === 0 &&
+        postsNumber === 0 &&
+        !showWelcome &&
+        showSpinner
+      "
+    >
+      <app-campaigns-list-item-placeholder-ui
+        *ngFor="let card of [1, 2, 3]"
+      ></app-campaigns-list-item-placeholder-ui>
+    </ng-container>
+
+    <app-list-items
+      [infiniteScrollContainer]="'.center-content'"
+      [fromRoot]="true"
+      (onEndPageScroll)="onScroll()"
+    >
+      <ng-template appItemsList>
+        <app-farm-post-card
+          [id]="prom.hash"
+          *ngFor="
+            let prom of listLinks | filter: searchData;
+            trackBy: trackByLinkId;
+            let i = index
+          "
+          [prom]="prom"
+          [isOwner]="false"
+          [formatGrid]="this.isStyleGrid"
+          [ngClass]="{
+            link: this.promHash === prom?.hash,
+            'display-row width-bloc-row': !isStyleGrid,
+            'fit-center': isStyleGrid,
+            'card-hilighted': !isStyleGrid && this.promHash === prom?.hash
+          }"
+        ></app-farm-post-card>
+      </ng-template>
+    </app-list-items>
+  </div>
+
+  <!-- <app-farm-welcome *ngIf="showWelcome && postsNumber ==0"> </app-farm-welcome> -->
 </div>
-
-<!-- <app-farm-welcome *ngIf="showWelcome && postsNumber ==0"> </app-farm-welcome> -->
