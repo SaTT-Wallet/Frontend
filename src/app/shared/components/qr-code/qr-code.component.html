@@ -3,10 +3,7 @@
     class="globale mt-3"
     *ngIf="!!eth"
     (click)="
-      (!!eth);
-      btcSelected = false;
-      erc20Selected = !erc20Selected;
-      tronSelected = false
+      (!!eth); btcSelected = false; erc20Selected = true; tronSelected = false
     "
   >
     <div
@@ -118,9 +115,7 @@
   <div
     class="globale mt-3"
     *ngIf="!!btcCode"
-    (click)="
-      btcSelected = !btcSelected; erc20Selected = false; tronSelected = false
-    "
+    (click)="btcSelected = true; erc20Selected = false; tronSelected = false"
   >
     <div
       class="container-QR-code"
@@ -189,9 +184,7 @@
   <div
     class="globale mt-3"
     *ngIf="!!tronAddress"
-    (click)="
-      tronSelected = !tronSelected; erc20Selected = false; btcSelected = false
-    "
+    (click)="tronSelected = true; erc20Selected = false; btcSelected = false"
   >
     <div
       class="container-QR-code"
