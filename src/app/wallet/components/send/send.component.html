@@ -28,7 +28,7 @@
           (focus)="goToSection('amount')"
           pattern="^[1-9][0-9]*$"
           formControlName="Amount"
-          input
+          (keydown)="restrictZero($event)"
           class="amount input-amount"
           placeholder="0"
           [(ngModel)]="amount"
@@ -57,6 +57,7 @@
             class="input-number2-receive"
             (focus)="goToSection('usd')"
             pattern="(\d{1,2}([\.,])?)*([\d{1,2}]?)*"
+            (keydown)="restrictZero($event)"
             class="usd input-amount-usd"
             placeholder="0"
             formControlName="AmountUsd"

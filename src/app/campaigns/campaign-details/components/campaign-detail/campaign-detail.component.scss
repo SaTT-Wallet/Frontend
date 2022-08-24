@@ -1,7 +1,7 @@
 :host {
   display: block;
   position: relative;
-  padding: 500px 0 0;
+  padding: 600px 0 0;
 }
 @media (max-width: 768px) {
   :host {
@@ -82,6 +82,7 @@
   // object-fit: cover;
   height: fit-content;
   position: fixed;
+  height: 100vh;
 }
 
 .date-wrapper {
