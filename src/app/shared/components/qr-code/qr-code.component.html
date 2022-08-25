@@ -1,13 +1,11 @@
 <div class="qrcode-desktop">
-  <div
-    class="globale mt-3"
-    *ngIf="!!eth"
-    (click)="
-      (!!eth); btcSelected = false; erc20Selected = true; tronSelected = false
-    "
-  >
+  <div class="globale mt-3">
     <div
       class="container-QR-code"
+      *ngIf="!!eth"
+      (click)="
+        (!!eth); btcSelected = false; erc20Selected = true; tronSelected = false
+      "
       [ngStyle]="{
         'box-shadow':
           erc20Selected === true
@@ -112,13 +110,11 @@
       </div>
     </div>
   </div>
-  <div
-    class="globale mt-3"
-    *ngIf="!!btcCode"
-    (click)="btcSelected = true; erc20Selected = false; tronSelected = false"
-  >
+  <div class="globale mt-3">
     <div
       class="container-QR-code"
+      *ngIf="!!btcCode"
+      (click)="btcSelected = true; erc20Selected = false; tronSelected = false"
       [ngStyle]="{
         'box-shadow':
           btcSelected === true
@@ -181,13 +177,11 @@
     </div>
   </div>
 
-  <div
-    class="globale mt-3"
-    *ngIf="!!tronAddress"
-    (click)="tronSelected = true; erc20Selected = false; btcSelected = false"
-  >
+  <div class="globale mt-3">
     <div
       class="container-QR-code"
+      *ngIf="!!tronAddress"
+      (click)="tronSelected = true; erc20Selected = false; btcSelected = false"
       [ngStyle]="{
         'box-shadow':
           tronSelected === true
