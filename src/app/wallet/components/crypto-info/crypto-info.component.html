@@ -4,7 +4,7 @@
   >
     <div
       class="d-md-none d-flex justify-content-end back-button"
-      routerLink="/"
+      [routerLink]="['/home']"
       style="cursor: pointer"
     >
       < Back
@@ -43,7 +43,11 @@
     <div
       class="bg-header-buttons flex-column align-items-end justify-content-end d-none d-md-flex"
     >
-      <div class="back-button mr-1" routerLink="/" style="cursor: pointer">
+      <div
+        class="back-button mr-1"
+        [routerLink]="['/home']"
+        style="cursor: pointer"
+      >
         < Back
       </div>
       <div class="buttons-container d-flex justify-content-end mt-5">
