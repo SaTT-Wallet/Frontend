@@ -669,9 +669,26 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   }
 
   restrictZero(event: any) {
-    if (event.target.value.length === 0 && event.key === '0') {
+    if (event.keyCode === 59 || event.keyCode === 16) {
+    } else if (
+      !this.isValidKeyCode(event.keyCode) ||
+      (event.keyCode >= 48 && event.keyCode <= 61)
+    ) {
       event.preventDefault();
+    } else {
     }
+  }
+  isValidKeyCode(code: number): boolean {
+    return (
+      (code >= 48 && code <= 57) ||
+      (code >= 96 && code <= 105) ||
+      code === 8 ||
+      code === 46 ||
+      code === 27 ||
+      code === 110 ||
+      code === 37 ||
+      code === 39
+    );
   }
   currencyBnB() {
     if (
