@@ -1,16 +1,16 @@
 :host {
   display: block;
   position: relative;
-  padding: 600px 0 0;
+  padding: 500px 0 0;
 }
 @media (max-width: 768px) {
   :host {
-    padding: 450px 0 0;
+    padding: 50% 0;
   }
 }
 @media (max-width: 425px) {
   :host {
-    padding: 150px 0 0;
+    padding: 50% 0;
   }
 }
 
@@ -579,6 +579,8 @@
   }
   .mobileClass {
     display: block;
+
+    height: inherit;
   }
   .div-footer-bar {
     display: flex !important;
