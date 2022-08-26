@@ -53,6 +53,7 @@ export class BlockchainActionsService {
   }
 
   performAction() {
+    
     return combineLatest([
       this.actionButtonClick$,
       this.confirmButtonClick$
@@ -73,6 +74,12 @@ export class BlockchainActionsService {
                   this.errorMessage =
                     'Harvest will be available only 24 hours after the link validation from the Ad Pool manager';
                 }
+                else if (
+                  error.error.error ===
+                  'Key derivation failed - possibly wrong password'
+                ) {
+                  this.errorMessage = 'Wrong password';
+                } 
                 return of(null);
               }),
               map((response: any) => {
