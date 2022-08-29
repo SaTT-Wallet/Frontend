@@ -422,7 +422,7 @@ getCookie(key: string){
           } else {
             if (
               // eslint-disable-next-line eqeqeq
-              response.completed === '0' ||
+              response.completed == '0' ||
               response.completed === false ||
               (response.completed && !response.enabled)
             ) {
