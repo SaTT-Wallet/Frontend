@@ -35,6 +35,7 @@ main {
     /* padding: 0px 20px 40px!important; */
     text-align: center;
     position: relative;
+    margin: 0!important;
 }
 
 meter[value='1'] {
@@ -1155,7 +1156,7 @@ a {
         font-size: 16px;
     }
     .modal-body.modal-customm {
-        padding: 0px 15px 205px !important;
+        /*padding: 0px 15px 205px !important;*/
     }
     .satt-modal-header-img {
         height: 80px;
