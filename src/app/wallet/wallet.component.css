@@ -1986,8 +1986,9 @@ text-transform: uppercase !important;
 color: #75758F !important;
 }
 .postition-trans{
-  position: relative;
+
     right: 89px;
+    text-align: center;
 }
 
 .modal-body.modal-custom {
