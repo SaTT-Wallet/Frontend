@@ -2823,6 +2823,7 @@
   "login_here": "Login here>",
   "congrats": "Say ‘hello’ to your new Wallet!",
   "account_already_used": "This Email/Account already exists,Please use Google Login",
+  "account_exists": "This Email/Account already exists",
   "wrong_password_error": "Wrong password !!",
   "get_my_earning_btn_text": "get my earning",
   "media_rejected_text": "This link was rejected!",

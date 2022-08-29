@@ -429,6 +429,13 @@ export class RegistrationComponent implements OnInit {
               this.errorMessage = 'account_already_used';
               setTimeout(() => (this.errorMessage = ''), 6000);
               this.showSpinner = false;
+            } else if (
+              err.error.error.message === 'account_exists' &&
+              err.error.code === 401
+            ) {
+              this.errorMessage = 'account_exists';
+              setTimeout(() => (this.errorMessage = ''), 6000);
+              this.showSpinner = false;
             }
             // else {
             //   this.errorMessage = 'server_error';
