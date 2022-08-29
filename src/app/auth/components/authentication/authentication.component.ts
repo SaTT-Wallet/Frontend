@@ -48,6 +48,7 @@ import { NotificationService } from '@core/services/notification/notification.se
 import { SocialAccountsFacade } from '@app/social-accounts/facade/social-accounts.facade';
 import { ESocialMediaNames } from '@app/core/enums';
 import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-facade/socialAcounts-facade.service';
+import jwt_decode from 'jwt-decode';
 
 // interface credantials {
 //   email: string;
@@ -348,6 +349,7 @@ getCookie(key: string){
             }
           }
           if (p.token) {
+            const user = jwt_decode(p.token);
             this.showBigSpinner = true;
             let token = JSON.parse(p.token);
             this.tokenStorageService.saveToken(token.access_token);
@@ -355,6 +357,12 @@ getCookie(key: string){
             this.accountFacadeService.dispatchUpdatedAccount();
             return this.account$.pipe(
               filter((res) => res !== null),
+              map((response) => {
+                return {
+                  response,
+                  user
+                };
+              }),
               takeUntil(this.onDestroy$)
             );
           } else {
@@ -371,7 +379,7 @@ getCookie(key: string){
           // }
           return of(null);
         }),
-        mergeMap((response: User) => {
+        mergeMap(({ response, user }) => {
           this.tokenStorageService.setHeader();
           this.tokenStorageService.saveUserId(response.idUser);
           this.tokenStorageService.saveIdSn(response.idSn?.toString());
@@ -402,6 +410,15 @@ getCookie(key: string){
             this.confirmCodeShow = true;
             this.loginshow = false;
             this.showBigSpinner = false;
+          } else if (response.enabled === 0) {
+            // this.errorMessage_validation="account_not_verified";
+            // tokenStorageService.clear();any
+            this.tokenStorageService.setItem('enabled', '0');
+            this.router.navigate(['/social-registration/activation-mail'], {
+              queryParams: {
+                email: user.email
+              }
+            });
           } else {
             if (
               // eslint-disable-next-line eqeqeq
