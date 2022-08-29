@@ -74,10 +74,12 @@ export const environment = {
       TETHER_TOKENERC20: '0xdac17f958d2ee523a2206206994597c13d831ec7',
       DAI: '0x6b175474e89094c44da98b954eedeac495271d0f',
       BUSD: '0xe9e7cea3dedca5984780bafc599bd69add087d56'
+      WTRX: 'TNUC9Qb1rRpS5CbWLmNMxXBjyFoydXjWFR',
+      WBTT: '0xD6Cb96a00b312D5930FC2E8084A98ff2Daa5aD2e'
     }
   },
-  domainName: 'https://dev.satt.atayen.us',
-  telegramBot: 'TestnetAtayenBot',
+  domainName: 'https://satt.atayen.us',
+  telegramBot: 'v2_satt_token_bot',
   firebase: {
     apiKey: 'AIzaSyAHfBKuneC6G0Uu9RKwI9hZKOjNiPQRd1U',
     authDomain: 'satt-token.firebaseapp.com',
