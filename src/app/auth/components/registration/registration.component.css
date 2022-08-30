@@ -1036,6 +1036,13 @@ a {
         width: 100%;
       
     }
+
+
+.modal-header.modal-custom {
+    height: 0px;
+    padding: 0px;
+}
+
     .form-check-input {
         background-color: transparent;
         border-color: #d6d6e8;

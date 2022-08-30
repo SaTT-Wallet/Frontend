@@ -585,12 +585,18 @@
       data-bs-dismiss="modal"
       (click)="closeModal(puzzle)"
     ></button>
-    <span style="margin-top: 20px">
+    <span style="margin-top: 20px" class="title-puzzle d-none d-md-block">
       {{ 'puzzle-verification' | translate }}
     </span>
   </div>
 
   <div class="modal-body modal-customm modal-custom d-flex flex-column">
+    <span
+      _ngcontent-satt-token-atayen-c379=""
+      class="title-puzzle pb-2 d-block d-md-none"
+    >
+      Security Verification
+    </span>
     <app-xfu-slide-control
       (onValueChanged)="onValueChanged($event, puzzle)"
     ></app-xfu-slide-control>
