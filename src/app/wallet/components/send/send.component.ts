@@ -813,10 +813,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   restrictZero(event: any) {
     if (event.keyCode === 59 || event.keyCode === 16) {
-    } else if (
-      !this.isValidKeyCode(event.keyCode) ||
-      (event.keyCode >= 48 && event.keyCode <= 61)
-    ) {
+    } else if (!this.isValidKeyCode(event.keyCode)) {
       event.preventDefault();
       this.convertcurrency('', false);
     } else {

@@ -171,10 +171,7 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
   //convert currency to usd
   restrictZero(event: any) {
     if (event.keyCode === 59 || event.keyCode === 16) {
-    } else if (
-      !this.isValidKeyCode(event.keyCode) ||
-      (event.keyCode >= 48 && event.keyCode <= 61)
-    ) {
+    } else if (!this.isValidKeyCode(event.keyCode)) {
       event.preventDefault();
     } else {
     }
