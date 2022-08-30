@@ -64,6 +64,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   loadingButton!: boolean;
   ownaddress: boolean = false;
   wrongpassword: boolean = false;
+  errorOwnAddress = false;
 
   hashtransaction: string = '';
   amountUsd: any;
@@ -135,6 +136,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   mediaQueryList?: MediaQueryList;
   btt: any;
   trx: any;
+  etcAddress: any;
+  btcAddress: any;
   //:any="^0x[a-fA-F0-9]{40}$";
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
@@ -162,7 +165,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     @Inject(PLATFORM_ID) private platformId: string,
     private _location: Location,
     private kycFacadeService: KycFacadeService,
-    private router: Router
+    private router: Router,
+    private localStorage: TokenStorageService
   ) {
     //, Validators.max(this.maxNumber)
     this.sendform = new FormGroup({
@@ -178,6 +182,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnInit(): void {
+    this.etcAddress = this.localStorage.getIdWallet();
+    this.btcAddress = this.localStorage.getWalletBtc();
     this.sendform.get('currency')?.setValue('SATT');
     this.getusercrypto();
     this.getProfileDetails();
@@ -411,6 +417,28 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.network = this.networks
         ? this.networks.toLowerCase()
         : ListTokens[currency].type;
+      if (this.network !== 'btc' && this.network !== 'tron') {
+        if (to === this.etcAddress) {
+          this.errorOwnAddress = true;
+          setTimeout(() => {
+            this.errorOwnAddress = false;
+          }, 4000);
+          this.sendform.reset();
+          this.loadingButton = false;
+          return;
+        }
+      } else if (this.network === 'btc') {
+        if (to === this.btcAddress) {
+          this.errorOwnAddress = true;
+          setTimeout(() => {
+            this.errorOwnAddress = false;
+          }, 4000);
+          this.sendform.reset();
+          this.loadingButton = false;
+
+          return;
+        }
+      }
       if (this.network === 'bep20' && currency === 'SATT') {
         currency = 'SATTBEP20';
       }
