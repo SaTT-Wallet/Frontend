@@ -59,19 +59,24 @@ export const environment = {
   simplexUrl: 'https://sandbox.test-simplexcc.com/payments/new',
   gmtId: 'GTM-K2RMTJ3'
 
-  /* API_URL: 'https://api2.satt-token.com:3016',
+  /* API_URL: 'https://api2.satt-token.com'
   addresses: {
     smartContracts: {
-   campaignERC20: '0xf961c85517fe86244cb60889afc4a928068d49ef',
+      campaignERC20: '0xf961c85517fe86244cb60889afc4a928068d49ef',
       campaignBEP20: '0xcef9b240c13f269354e5ae3d6808fecf9834bf10',
       campaignPOLYGON: '0xa01f80042512Cdf9355a66CBB1266240c0456513',
+      campaignBTT: '0xa01f80042512Cdf9355a66CBB1266240c0456513',
+      campaignTRON: 'TPeLf9WLzUD8tUoc7dtfGVqPUrnKGip2PN',
+
+
 
       SATT_TOKENERC20: '0xdf49c9f599a0a9049d97cff34d0c30e468987389',
-      SATT_TOKENBEP20: '0x448bee2d93be708b54ee6353a7cc35c4933f1156',
+      SATT_TOKENBEP20: '0x6fAc729f346A46fC0093126f237b4A520c40eb89',
       TETHER_TOKENERC20: '0xdac17f958d2ee523a2206206994597c13d831ec7',
-      SATT_TOKENPOLYGON: '0x4b6d775b7ea8e66499cb80777e65b895474f5c86',
       DAI: '0x6b175474e89094c44da98b954eedeac495271d0f',
       BUSD: '0xe9e7cea3dedca5984780bafc599bd69add087d56'
+      WTRX: 'TNUC9Qb1rRpS5CbWLmNMxXBjyFoydXjWFR',
+      WBTT: '0xD6Cb96a00b312D5930FC2E8084A98ff2Daa5aD2e'
     }
   },
   domainName: 'https://satt.atayen.us',
@@ -98,6 +103,7 @@ export const environment = {
   bttscanAddr: 'https://bttcscan.com/address/',  
   tronScanAddr: 'https://tronscan.org/#/address/',
   etherscanaddr: 'https://etherscan.io/address/',
+
   simplexUrl: 'https://checkout.simplexcc.com/payments/new'*/
 };
 

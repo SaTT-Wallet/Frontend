@@ -1,17 +1,17 @@
 :host {
   display: block;
   position: relative;
-  padding: 42% 0;
+  padding: 42% 0 0 0;
   overflow-y: auto !important;
 }
 @media (max-width: 768px) {
   :host {
-    padding: 57% 0;
+    padding: 57% 0 0 0;
   }
 }
 @media (max-width: 425px) {
   :host {
-    padding: 57% 0;
+    padding: 57% 0 0 0;
   }
 }
 
