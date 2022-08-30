@@ -125,6 +125,7 @@
   "send.no_balance_crypto": "Vous n'avez pas assez de {{crypto}} dans votre solde",
   "send.must_select_devise": "vous devez sélectionner une devise",
   "send.no_gaz": "Vous n'avez pas assez de gaz pour cette transaction",
+  "send.no_own_address": "Vous ne pouvez  pas envoyer de crypto à votre propre addresse ",
   "send.send_successfully": "Envoi réussi !",
   "send.convert_successfully": "Convert réussi !",
   "Receive_notif": "Réception reçu",

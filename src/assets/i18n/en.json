@@ -179,6 +179,8 @@
   "send.no_balance_crypto": "You don't have enough {{crypto}} in your balance",
   "send.must_select_devise": "You must select a currency",
   "send.no_gaz": "You need more gas to make this transaction",
+  "send.no_own_address": "You cannot send crypto to your own address",
+
   "send.send_successfully": "successfully sent!",
   "send.convert_successfully": "successfully convert!",
   "send.other_send": "Make another transaction",
