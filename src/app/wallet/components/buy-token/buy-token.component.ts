@@ -668,12 +668,28 @@ export class BuyTokenComponent implements OnInit, OnChanges {
     }
   }
 
+  // Forbidern(event:any){
+  //   console.log('testt')
+  //   //@ts-ignore
+  //   let amount = this.document.getElementById('amount1')?.value
+  //   console.log('amount', amount)
+
+  //   console.log((''+ amount)?.split(".").length)
+
+  //   if ((''+ amount)?.split(".").length>2)
+  //   {
+  //     let newAmount = this.setCharAt((''+ amount), (''+ amount).lastIndexOf('.'), '' )
+  //     console.log(newAmount)
+  //   }  }
+
+  //   setCharAt(str: string,index: number,chr: string) {
+  //     if(index > str.length-1) return str;
+  //     return str.substring(0,index) + chr + str.substring(index+1);
+  // }
+
   restrictZero(event: any) {
     if (event.keyCode === 59 || event.keyCode === 16) {
-    } else if (
-      !this.isValidKeyCode(event.keyCode) ||
-      (event.keyCode >= 48 && event.keyCode <= 61)
-    ) {
+    } else if (!this.isValidKeyCode(event.keyCode)) {
       event.preventDefault();
     } else {
     }
