@@ -249,6 +249,9 @@
                       : this.selectedCryptoDetails.symbol
                 }
         }}</span>
+        <span class="error_msg" *ngIf="errorOwnAddress">{{
+          'send.no_own_address' | translate
+        }}</span>
       </div>
       <div class="text-center">
         <button
