@@ -462,7 +462,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         ? this.networks.toLowerCase()
         : ListTokens[currency].type;
       if (network === 'btt') {
-        network = 'BTTC';
+        network = 'BTT';
       }
 
       if (network === 'bep20') {
@@ -1027,7 +1027,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     } else if (this.networks === 'POLYGON') {
       this.gazcurrency = 'MATIC';
       // this.gazcurrency = 'ETH';
-    } else if (this.networks === 'BTTC') {
+    } else if (this.networks === 'BTT') {
       this.gazcurrency = 'BTT';
       // this.gazcurrency = 'ETH';
     } else if (this.networks === 'TRON') {
