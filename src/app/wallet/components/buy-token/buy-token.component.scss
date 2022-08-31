@@ -28,7 +28,7 @@
 .white-bloc {
   width: 100%;
   //padding: 120px 1em 1em;
-  padding-top: 150px;
+  padding-top: 13px;
   background: white;
   //  border-radius: 30px !important ;
   border-collapse: collapse;
@@ -383,7 +383,7 @@ input:-webkit-autofill:active {
     display: block !important;
   }
   .white-bloc {
-    margin-top: 125px;
+    margin-top: -25px;
     //position: fixed;
     width: 100%;
     margin-left: 0;
@@ -528,7 +528,7 @@ button:focus {
   background: none;
   position: relative !important;
   transform: none !important;
-  top: 0px !important;
+  top: 15px !important;
   padding: 5px !important;
   max-height: 200px;
   overflow-y: auto;
@@ -576,8 +576,8 @@ button:focus {
   font-size: 16px;
 }
 
-.chevrondown{
-  margin-right: 0.75rem
+.chevrondown {
+  margin-right: 0.75rem;
 }
 .chevron:before {
   font-family: 'FontAwesome';

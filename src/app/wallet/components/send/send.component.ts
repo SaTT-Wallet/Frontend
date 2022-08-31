@@ -14,6 +14,8 @@ import { Big } from 'big.js';
 import {
   GazConsumedByCampaign,
   ListTokens,
+  pattContact,
+  tronPattContact,
   tronScan
 } from '@config/atn.config';
 
@@ -29,12 +31,7 @@ import { forkJoin, Subject } from 'rxjs';
 import { WalletStoreService } from '@core/services/wallet-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
-import {
-  bscan,
-  etherscan,
-  polygonscanAddr,
-  bttscanAddr
-} from '@app/config/atn.config';
+import { bscan, etherscan, polygonscan, bttscan } from '@app/config/atn.config';
 import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Location } from '@angular/common';
@@ -65,9 +62,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   isSubmitting!: boolean;
   showSpinner!: boolean;
   loadingButton!: boolean;
-
-  wrongpassword: boolean = false;
   ownaddress: boolean = false;
+  wrongpassword: boolean = false;
+  errorOwnAddress = false;
 
   hashtransaction: string = '';
   amountUsd: any;
@@ -139,7 +136,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   mediaQueryList?: MediaQueryList;
   btt: any;
   trx: any;
-
+  etcAddress: any;
+  btcAddress: any;
+  //:any="^0x[a-fA-F0-9]{40}$";
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
     if (isPlatformBrowser(this.platformId) && event) {
@@ -166,13 +165,15 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     @Inject(PLATFORM_ID) private platformId: string,
     private _location: Location,
     private kycFacadeService: KycFacadeService,
-    private router: Router
+    private router: Router,
+    private localStorage: TokenStorageService
   ) {
     //, Validators.max(this.maxNumber)
     this.sendform = new FormGroup({
       contact: new FormControl(null, {
-        validators: [Validators.required]
+        validators: [Validators.required, Validators.pattern(pattContact)]
       }),
+
       Amount: new FormControl(0, Validators.compose([Validators.required])),
       AmountUsd: new FormControl(null),
       currency: new FormControl(null),
@@ -181,6 +182,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnInit(): void {
+    this.etcAddress = this.localStorage.getIdWallet();
+    this.btcAddress = this.localStorage.getWalletBtc();
     this.sendform.get('currency')?.setValue('SATT');
     this.getusercrypto();
     this.getProfileDetails();
@@ -394,6 +397,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       const pass = this.sendform.get('password')?.value;
       currency = this.sendform.get('currency')?.value;
 
+      this.selectedCryptoDetails = {};
+      this.selectedCryptoDetails.symbol = currency;
+
       // if (to === address) {
 
       //   this.ownaddress = true;
@@ -411,11 +417,36 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.network = this.networks
         ? this.networks.toLowerCase()
         : ListTokens[currency].type;
+      if (this.network !== 'btc' && this.network !== 'tron') {
+        if (to === this.etcAddress) {
+          this.errorOwnAddress = true;
+          setTimeout(() => {
+            this.errorOwnAddress = false;
+          }, 4000);
+          this.sendform.reset();
+          this.loadingButton = false;
+          return;
+        }
+      } else if (this.network === 'btc') {
+        if (to === this.btcAddress) {
+          this.errorOwnAddress = true;
+          setTimeout(() => {
+            this.errorOwnAddress = false;
+          }, 4000);
+          this.sendform.reset();
+          this.loadingButton = false;
+
+          return;
+        }
+      }
       if (this.network === 'bep20' && currency === 'SATT') {
         currency = 'SATTBEP20';
       }
 
       tokenAddress = this.token ? this.token : ListTokens[currency].contract;
+      if (tokenAddress === 'BTT') {
+        tokenAddress = '0x0000000000000000000000000000000000001010';
+      }
       decimal = this.decimals
         ? new Big('10').pow(this.decimals)
         : ListTokens[currency].decimals;
@@ -423,15 +454,15 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       amount = new Big(amountdecimal).times(decimal).toFixed(30).split('.')[0];
       // symbole = this.symbol ? this.symbol : ListTokens[currency].symbole;
       tokenSymbol = this.sendform.get('currency')?.value;
-      if (this.network === 'btt') {
-        this.network = 'BTTC';
-      }
+      // if (this.network === 'btt') {
+      //   this.network = 'BTTC';
+      // }
 
       let network = this.networks
         ? this.networks.toLowerCase()
         : ListTokens[currency].type;
       if (network === 'btt') {
-        network = 'BTTC';
+        network = 'BTT';
       }
 
       if (network === 'bep20') {
@@ -449,9 +480,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         tokenSymbol,
         network
       };
-      if (network === 'btt') {
-        network = 'BTTC';
-      }
+      // if (network === 'btt') {
+      //   network = 'BTTC';
+      // }
 
       this.sendform.get('password')?.reset();
       this.walletFacade
@@ -496,9 +527,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               } else if (this.networks === 'ERC20') {
                 this.routertransHash = etherscan + this.hashtransaction;
               } else if (this.networks === 'POLYGON') {
-                this.routertransHash = polygonscanAddr + this.hashtransaction;
+                this.routertransHash = polygonscan + this.hashtransaction;
               } else if (this.networks === 'BTT') {
-                this.routertransHash = bttscanAddr + this.hashtransaction;
+                this.routertransHash = bttscan + this.hashtransaction;
               } else if (this.networks === 'TRON') {
                 this.routertransHash = tronScan + this.hashtransaction;
               }
@@ -558,7 +589,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           (error) => {
             if (
               error.error.error ===
-              'Key derivation failed - possibly wrong password'
+                'Key derivation failed - possibly wrong password' ||
+              error.error.error === 'Invalid private key provided'
             ) {
               this.wrongpassword = true;
               setTimeout(() => {
@@ -618,13 +650,20 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             ) {
               this.showErrorBloc = true;
               this.notValidAdressWallet = true;
-              this.showSuccessBloc = false;
+              this.ownaddress = false;
               this.showAmountBloc = false;
               this.showPwdBloc = false;
               this.wrongpassword = false;
               this.gazproblem = false;
+            } else if (
+              error.error.error ===
+              'you cant send to your own wallet address !!'
+            ) {
+              this.ownaddress = true;
+              setTimeout(() => {
+                this.ownaddress = false;
+              }, 5000);
             }
-
             this.showSpinner = false;
             this.loadingButton = false;
           }
@@ -633,6 +672,14 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
   goToBuy() {
+    if (this.gazcurrency?.toUpperCase() === 'BTT') {
+      if (isPlatformBrowser(this.platformId))
+        window.open(
+          'https://sunswap.com/#/v2?lang=en-US&t0=TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t&t1=TAFjULxiVgT4qWk6UZwjqwZXTSaGaqnVp4&type=swap',
+          '_blank'
+        );
+      return;
+    }
     this.router.navigate(['/wallet/buy-token'], {
       queryParams: {
         gaz: this.gazcurrency
@@ -670,8 +717,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             currency === 'ETH' ||
             currency === 'BNB' ||
             currency === 'MATIC' ||
-            currency === 'BTT' ||
-            currency === 'TRX'
+            currency === 'SATTBEP20' ||
+            currency === 'SATTERC20' ||
+            currency === 'BTT'
           ) {
             this.difference = crypto.total_balance - this.gazsend;
             this.newquantity = this.difference / crypto.price;
@@ -718,8 +766,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           bnb: this.bnb,
           Eth: this.eth,
           matic: this.matic,
-          btt: this.btt,
-          trx: this.trx
+          btt: this.btt
         };
       }),
       switchMap(({ bnb, Eth, matic, btt }) => {
@@ -784,16 +831,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
                 btt
               ).toFixed(8);
             })
-          ),
-          this.walletFacade.getTrxGaz().pipe(
-            take(1),
-            tap((energy: any) => {
-              this.showSpinner = false;
-              let price;
-              price = energy.data.gasPrice;
-
-              this.trxGaz = price * 280 * 10 ** -6;
-            })
           )
         ]);
       })
@@ -803,16 +840,20 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   /*------------------------ */
 
   restrictZero(event: any) {
-    // if (event.target.value.length === 0 && event.key === '0') {
-    //   event.preventDefault();
-    // }
-    // if (event.keyCode === 54 && !event.shiftKey) {
-    //   event.preventDefault();
-    //   this.convertcurrency('', false);
-    // }
-    if (!this.isValidKeyCode(event.keyCode)) {
+    // [a,2,4,21].includes(event.key)
+    if (
+      event.keyCode === 59 ||
+      event.keyCode === 16 ||
+      [48, 49, 50, 51, 52, 53, 54, 55, 56, 57].includes(event.wich)
+    ) {
+    } else if (
+      !this.isValidKeyCode(event.keyCode) ||
+      ([48, 49, 50, 51, 52, 53, 54, 55, 56, 57].includes(event.keyCode) &&
+        event.shiftKey === false)
+    ) {
       event.preventDefault();
       this.convertcurrency('', false);
+    } else {
     }
   }
   isValidKeyCode(code: number): boolean {
@@ -947,11 +988,19 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
   linstingCrypto(event: any) {
     // this.resetForm();
+    this.sendform
+      .get('contact')
+      ?.setValidators([Validators.required, Validators.pattern(pattContact)]);
     this.sendform.controls.currency.reset();
     this.sendform.controls.Amount.reset();
     this.sendform.controls.AmountUsd.reset();
     this.sendform.controls.password.reset();
     this.selectedCryptoDetails = event;
+    // if(this.selectedCryptoDetails.symbol === "TRX"){
+    // this.sendform.get('contact')?.setValidators(Validators.pattern(pattContact))
+    // console.log("here");
+    // this.patternType="^x0[a-fA-F0-9]{40}$"
+    //  }
     this.sendform.get('currency')?.setValue(this.selectedCryptoDetails.symbol);
 
     this.sendform.get('Amount')?.reset();
@@ -982,6 +1031,12 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.gazcurrency = 'BTT';
       // this.gazcurrency = 'ETH';
     } else if (this.networks === 'TRON') {
+      this.sendform
+        .get('contact')
+        ?.setValidators([
+          Validators.required,
+          Validators.pattern(tronPattContact)
+        ]);
       this.gazcurrency = 'TRX';
       // this.gazcurrency = 'ETH';
     }
@@ -996,11 +1051,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       if (this.networks === 'POLYGON') {
         this.gazsend = this.polygonGaz;
       }
-      if (this.networks === 'BTT') {
+      if (this.networks === 'BTTC') {
         this.gazsend = this.bttGaz;
-      }
-      if (this.networks === 'TRON') {
-        this.gazsend = this.trxGaz;
       }
     }, 2000);
 
@@ -1023,13 +1075,20 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           this.gasCryptoQuantity = (this.gazsend / crypto.price).toFixed(8);
         }
       }
-      if (this.networks === 'BTT') {
+      if (this.networks === 'BTTC') {
         this.gazsend = this.bttGaz;
         if (crypto.symbol === 'BTT') {
           this.gasCryptoQuantity = (this.gazsend / crypto.price).toFixed(8);
         }
       }
       if (this.networks === 'TRON') {
+        //TODO
+        this.sendform
+          .get('contact')
+          ?.setValidators([
+            Validators.required,
+            Validators.pattern(tronPattContact)
+          ]);
         this.gazsend = this.trxGaz;
         if (crypto.symbol === 'TRX') {
           this.gasCryptoQuantity = (this.gazsend / crypto.price).toFixed(8);

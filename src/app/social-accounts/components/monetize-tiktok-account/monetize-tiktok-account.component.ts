@@ -36,17 +36,14 @@ export class MonetizeTiktokAccountComponent implements OnInit {
     this.tokenStorageService.setSecureWallet('visited-tiktok', 'true');
     this.route.queryParams.subscribe((params: any) => {
       if (params.message === 'account_linked_with_success') {
-        if (params.sn && params.sn === 'tiktok') {
-          this.socialAccountsFacade.pageVisited(ESocialMediaNames.tiktok);
-          this.skipPage();
-        }
+        this.socialAccountsFacade.pageVisited(ESocialMediaNames.tiktok);
+        this.skipPage();
       }
     });
     //this.getSocialNetwork();
-    this.getUrlMsg();
+    //this.getUrlMsg();
   }
   skipPage() {
-    this.socialAccountsFacade.pageVisited(ESocialMediaNames.tiktok);
     this.router.navigate(['social-registration/socialConfig']);
   }
   linkAccount() {

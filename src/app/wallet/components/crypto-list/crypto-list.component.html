@@ -37,7 +37,7 @@
                     type="text"
                     name="search"
                     autocomplete="search-token"
-                    placeholder="Search "
+                    placeholder="Search token "
                     [(ngModel)]="search"
                     (ngModelChange)="onTextChange($event); clearInput()"
                   />
@@ -1887,6 +1887,7 @@
                             />
                           </div>
                           <div
+                            *ngIf="errorMsg == ''"
                             class="mt-3 d-flex justify-content-center flex-column"
                             style="width: 80%"
                           >
@@ -1928,6 +1929,7 @@
                             </div>
                           </div>
                           <div
+                            *ngIf="errorMsg == ''"
                             class="mt-3 d-flex justify-content-center flex-column"
                             style="width: 80%"
                           >
@@ -1942,6 +1944,7 @@
                             />
                           </div>
                           <div
+                            *ngIf="errorMsg == ''"
                             class="mt-3 d-flex justify-content-center flex-column"
                             style="width: 80%"
                           >
@@ -2132,7 +2135,7 @@
                 type="text"
                 name="search"
                 autocomplete="off"
-                placeholder="Search"
+                placeholder="Search token or paste address"
                 [(ngModel)]="search"
                 (ngModelChange)="onTextChange($event)"
               />

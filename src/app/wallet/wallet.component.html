@@ -242,7 +242,7 @@
     <div class="d-flex justify-content-center welcome-paragraph">
       <p class="paragragh">
         {{
-          'You now have the possibility to create your Tron ​​wallet. You Need to just enter your transactional password to create it'
+          'Now you have the possibility to create your Tron ​​wallet. You Need to just enter your transactional password to create it '
             | translate
         }}
       </p>
@@ -285,6 +285,9 @@
           aria-hidden="true"
           [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"
         ></span>
+      </div>
+      <div *ngIf="!!tronErrorMessage">
+        <span class="text-danger">{{ tronErrorMessage }}</span>
       </div>
     </div>
 
@@ -343,7 +346,7 @@
     <div class="d-flex justify-content-center welcome-paragraph">
       <p>
         {{
-          'You have successfully changed your password.You can now copy your ID Wallet and make transactions with your Tron wallet'
+          'You have successfully created your Tron Wallet.You can now copy your ID Wallet and make transactions with your Tron wallet'
             | translate
         }}
       </p>

@@ -35,7 +35,7 @@
 @media (min-width: 768px) {
   .white-bloc {
     width: 100%;
-    padding-top: 180px;
+    padding-top: 20px;
     // margin-top: 80px;
     background: white;
     border-top-left-radius: 30px;
@@ -654,7 +654,7 @@ input:-webkit-autofill:active {
   }
   .white-bloc {
     background-color: #ffffff;
-    margin-top: 125px;
+    margin-top: -25px;
     // position: fixed;
     width: 100%;
     margin-left: 0;
@@ -711,7 +711,7 @@ input:-webkit-autofill:active {
 }
 
 .modal-body.modal-customm input[type='text'],
-input[type='password'] {
+.modal-body.modal-customm input[type='password'] {
   height: 3rem;
   background: #ffffff00;
   border: 1px solid #d6d6e8;

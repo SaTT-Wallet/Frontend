@@ -170,22 +170,12 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
   //convert currency to usd
   restrictZero(event: any) {
-    // if (event.target.value.length === 0 && event.key === '0') {
-    //   event.preventDefault();
-    // }
-
-    // console.log(event, event.keyCode);
-    // if (event.keyCode === 54) {
-    //   event.preventDefault();
-    //   this.convertcurrency('', false);
-    // }
-    if (!this.isValidKeyCode(event.keyCode)) {
+    if (event.keyCode === 59 || event.keyCode === 16) {
+    } else if (!this.isValidKeyCode(event.keyCode)) {
       event.preventDefault();
-      this.convertcurrency('', false);
+    } else {
     }
   }
-
-  //inputAmountUsd
   isValidKeyCode(code: number): boolean {
     return (
       (code >= 48 && code <= 57) ||

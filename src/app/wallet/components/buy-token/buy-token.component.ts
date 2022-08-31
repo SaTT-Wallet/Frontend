@@ -668,10 +668,43 @@ export class BuyTokenComponent implements OnInit, OnChanges {
     }
   }
 
+  // Forbidern(event:any){
+  //   console.log('testt')
+  //   //@ts-ignore
+  //   let amount = this.document.getElementById('amount1')?.value
+  //   console.log('amount', amount)
+
+  //   console.log((''+ amount)?.split(".").length)
+
+  //   if ((''+ amount)?.split(".").length>2)
+  //   {
+  //     let newAmount = this.setCharAt((''+ amount), (''+ amount).lastIndexOf('.'), '' )
+  //     console.log(newAmount)
+  //   }  }
+
+  //   setCharAt(str: string,index: number,chr: string) {
+  //     if(index > str.length-1) return str;
+  //     return str.substring(0,index) + chr + str.substring(index+1);
+  // }
+
   restrictZero(event: any) {
-    if (event.target.value.length === 0 && event.key === '0') {
+    if (event.keyCode === 59 || event.keyCode === 16) {
+    } else if (!this.isValidKeyCode(event.keyCode)) {
       event.preventDefault();
+    } else {
     }
+  }
+  isValidKeyCode(code: number): boolean {
+    return (
+      (code >= 48 && code <= 57) ||
+      (code >= 96 && code <= 105) ||
+      code === 8 ||
+      code === 46 ||
+      code === 27 ||
+      code === 110 ||
+      code === 37 ||
+      code === 39
+    );
   }
   currencyBnB() {
     if (

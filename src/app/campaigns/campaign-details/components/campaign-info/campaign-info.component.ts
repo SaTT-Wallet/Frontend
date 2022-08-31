@@ -876,8 +876,8 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
   getUrlSmartContart() {
     let bscan = environment.bscan;
     let etherscan = environment.etherscan;
-    let polygonscan = environment.polygonscanAddr;
-    let bttscan = environment.bttscanAddr;
+    let polygonscan = environment.polygonscan;
+    let bttscan = environment.bttscan;
     let tronscan = environment.tronScan;
 
     this.CampaignService.getOneById(this.campaign.id)

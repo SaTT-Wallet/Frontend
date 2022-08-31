@@ -239,9 +239,9 @@ a.click-to-top:hover span {
 
 :host {
   display: block;
-  /* height: 82px; */
-  /* height: 68px; */
-  height: 62px;
+  min-height: 62px;
+  position: fixed;
+  width: 100%;
 }
 
 .atayan_logo {
@@ -461,7 +461,7 @@ a.click-to-top:hover span {
 }
 
 .navbar .sidebar-toggler-btn {
-  position: fixed;
+  position: relative;
   left: 236px;
   top: 30px;
   cursor: pointer;
@@ -1445,7 +1445,7 @@ bottom: 77.54% ; */
 
 .container .item {
   height: 100%;
-  width: 100%;
+  width: initial !important;
   text-align: center;
 }
 
@@ -1503,15 +1503,15 @@ bottom: 77.54% ; */
   background: #ffffff;
   border-radius: 32px;
   border: 0;
-  width: 89px;
-  height: 49px;
+  // width: 89px;
+  // height: 49px;
 }
 .tbutton {
   padding-top: 15px;
 
   display: flex;
   justify-content: center;
-  gap: 22px;
+  gap: 20px;
 }
 
 // .timg {
@@ -1961,4 +1961,9 @@ li.li-menu.is-visited a {
   position: absolute;
   bottom: -12px;
   right: 4px;
+}
+@media (max-width: 350px) {
+  .container .item {
+    width: initial !important;
+  }
 }

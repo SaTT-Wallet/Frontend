@@ -5,6 +5,9 @@ const sattUrl = env.API_URL;
 const walletUrl = 'http://localhost:4200/#/';
 const bscan = env.bscan;
 const etherscan = env.etherscan;
+const polygonscan = env.polygonscan;
+const bttscan= env.bttscan;
+
 const polygonscanAddr = env.polygonscanAddr;
 const bttscanAddr = env.bttscanAddr;
 const tronscanAddr = env.tronScanAddr;
@@ -23,6 +26,7 @@ const campaignSmartContractTRON = env.addresses.smartContracts.campaignTRON;
 const id_campaign_to_participate = '61139d487048d8251bf91401';
 
 let pattContact = /^0x[a-fA-F0-9]{40}$|^(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,39}$/;
+let tronPattContact = /T[A-Za-z1-9]{33}$/;
 let pattEmail =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 let pattNetwork =
@@ -51,7 +55,7 @@ let regexNetwork =
   'https?://(.*.)?[linkedin|twitter|facebook|instagram|tiktok|youtube].com/([A-z 0-9 _ - - . @ : % ? + ~ # = ]+)/?';
 let pattPassword =
   /* /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#-_])[A-Za-z\d@$!%*?&#]{0,}/;  */
-  /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@[$()!%*=+?&#^;,:.~/|<>{}-])[A-Za-z\d@[$()!%*=+?&#^;,:.~/|<>{}-]{0,}/;
+  /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)^(?!.* )(?=.*[@[$()!%*=+?&#^;,:.~/|<>{}-])[A-Za-z\d@[$()!%*=+?&#^;,:.~/|<>{}-]{0,}/;
 
 let cryptoNetwork: any = [];
 
@@ -901,10 +905,13 @@ export {
   id_campaign_to_participate,
   bscan,
   etherscan,
+  polygonscan,
+  bttscan,
   polygonscanAddr,
   bttscanAddr,
   dataList,
   cryptoList,
   tronscanAddr,
-  tronScan
+  tronScan,
+  tronPattContact
 };

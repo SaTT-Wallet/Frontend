@@ -101,12 +101,13 @@
         <div
           class="col-xl-8 col-lg-10 col-md-11 col-sm-8 top-10 make-center text-center"
         >
-          <a
-            class="skip-page skip-page2"
-            (click)="skipPage()"
-            *ngIf="channelGoogle?.length === 0"
-            >{{ 'skip-network' | translate: { network: 'Youtube' } }}</a
-          >
+          <a class="skip-page skip-page2" (click)="skipPage()">
+            <span *ngIf="channelGoogle?.length === 0">{{
+              'skip-network' | translate: { network: 'Youtube' }
+            }}</span>
+
+            <span *ngIf="channelGoogle?.length > 0">{{ 'Next step' }}</span>
+          </a>
         </div>
       </div>
 

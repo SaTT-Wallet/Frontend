@@ -18,7 +18,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { Campaign } from '@app/models/campaign.model';
 import { compare } from '@helpers/utils/math';
-import { EButtonActions } from '@app/core/enums';
+
 
 import { ConvertFromWei } from '@app/shared/pipes/wei-to-sa-tt.pipe';
 import { ConvertToWeiPipe } from '@app/shared/pipes/convert-to-wei.pipe';
@@ -236,17 +236,6 @@ export class CampaignDetailGainsComponent implements OnInit {
     let timeDiff = Math.abs(Date.now() - new Date(birthday).getTime());
     let age: number = Math.floor(timeDiff / (1000 * 3600 * 24) / 365.25);
     return age;
-  }
-
-  getMyGains(prom: any) {
-    this.blockchainActions.onActionButtonClick({
-      data: { prom, bounty: !!this.campaign.bounties.length },
-      action: EButtonActions.GET_MY_GAINS
-    });
-    this.router.navigate(['recover-my-gains'], {
-      queryParams: { prom_hash: prom.id, id: this.campaign.id },
-      relativeTo: this.activatedRoute
-    });
   }
 
   trackById(index: number, prom: any) {

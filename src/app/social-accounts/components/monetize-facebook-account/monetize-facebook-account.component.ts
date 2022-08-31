@@ -46,15 +46,12 @@ export class MonetizeFacebookAccountComponent implements OnInit, OnDestroy {
     this.userId = this.tokenStorageService.getIdUser();
     this.route.queryParams.subscribe((params: any) => {
       if (params.message === 'account_linked_with_success') {
-        if (params.sn && params.sn === 'fb') {
-          this.socialAccountsFacade.pageVisited(ESocialMediaNames.linkedIn);
-          this.skipPage();
-        }
+        this.socialAccountsFacade.pageVisited(ESocialMediaNames.linkedIn);
+        this.skipPage();
       }
     });
   }
   skipPage() {
-    this.socialAccountsFacade.pageVisited(ESocialMediaNames.facebook);
     this.router.navigate(['social-registration/monetize-twitter']);
   }
   skipAll() {

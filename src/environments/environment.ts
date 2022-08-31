@@ -7,6 +7,7 @@ export const environment = {
   API_URL: 'https://api-preprod2.satt-token.com',
   //https://api-preprod2.satt-token.com
   //API_URL:  'https://api2.satt-token.com',
+
   //API_URL: 'https://localhost:3015',
   //https://api-preprod.satt-token.com:3014
   addresses: {
@@ -17,7 +18,7 @@ export const environment = {
       campaignBTT: '0xd5A058eE756a0e3E1c4bCBADC2c70844a52B32f6',
       campaignTRON: 'THUD3VAxyTEmMCBEjd2AcSujzbgPSu39p9',
 
-      SATT_TOKENERC20: '0x85e14cbe5856e74fff53107cf0aefd850d5f8808',
+      SATT_TOKENERC20: '0x2bef0d7531f0aae08adc26a0442ba8d0516590d0',
       SATT_TOKENBEP20: '0x6fAc729f346A46fC0093126f237b4A520c40eb89',
       SATT_TOKEN_TRON: 'TZ9mUjmxCtowj9h68NJq626qaGWiv61KWo',
       SATT_TOKENPOLYGON: '0x195DC8342D923D3dFe0167Dc902A33Eabd801653',
@@ -30,7 +31,7 @@ export const environment = {
       WBTT: '0xD6Cb96a00b312D5930FC2E8084A98ff2Daa5aD2e'
     }
   },
-  domainName: 'https://dev.satt.atayen.us',
+  domainName: 'https://testnet.satt.atayen.us',
   telegramBot: 'TestnetAtayenBot',
   firebase: {
     apiKey: 'AIzaSyAHfBKuneC6G0Uu9RKwI9hZKOjNiPQRd1U',
@@ -45,29 +46,39 @@ export const environment = {
   fcmredirectUrl: 'http://localhost:4200/#/home',
   bscan: 'https://testnet.bscscan.com/tx/',
   etherscan: 'https://ropsten.etherscan.io/tx/',
-  bscanaddr: 'https://testnet.bscscan.com/address/',
-  polygonscanAddr: 'https://mumbai.polygonscan.com/tx/',
-  bttscanAddr: 'https://testnet.bttcscan.com/tx/',
-  tronScanAddr: 'https://shasta.tronscan.org/#/address/',
+  polygonscan: 'https://mumbai.polygonscan.com/tx/',
+  bttscan: 'https://testnet.bttcscan.com/tx/',
   tronScan: 'https://shasta.tronscan.org/#/transaction/',
 
+  bscanaddr: 'https://testnet.bscscan.com/address/',
+  polygonscanAddr: 'https://mumbai.polygonscan.com/address/',
+  bttscanAddr: 'https://testnet.bttcscan.com/address/',
+  tronScanAddr: 'https://shasta.tronscan.org/#/address/',
   etherscanaddr: 'https://ropsten.etherscan.io/address/',
+
   simplexUrl: 'https://sandbox.test-simplexcc.com/payments/new',
   gmtId: 'GTM-K2RMTJ3'
 
-  /* API_URL: 'https://api2.satt-token.com:3016',
+  /*  API_URL: 'https://api2.satt-token.com',
   addresses: {
     smartContracts: {
-   campaignERC20: '0xf961c85517fe86244cb60889afc4a928068d49ef',
+      campaignERC20: '0xf961c85517fe86244cb60889afc4a928068d49ef',
       campaignBEP20: '0xcef9b240c13f269354e5ae3d6808fecf9834bf10',
       campaignPOLYGON: '0xa01f80042512Cdf9355a66CBB1266240c0456513',
+      campaignBTT: '0xa01f80042512Cdf9355a66CBB1266240c0456513',
+      campaignTRON: 'TPeLf9WLzUD8tUoc7dtfGVqPUrnKGip2PN',
 
       SATT_TOKENERC20: '0xdf49c9f599a0a9049d97cff34d0c30e468987389',
       SATT_TOKENBEP20: '0x448bee2d93be708b54ee6353a7cc35c4933f1156',
-      TETHER_TOKENERC20: '0xdac17f958d2ee523a2206206994597c13d831ec7',
+      SATT_TOKEN_TRON: 'TZ9mUjmxCtowj9h68NJq626qaGWiv61KWo', // testnet
       SATT_TOKENPOLYGON: '0x4b6d775b7ea8e66499cb80777e65b895474f5c86',
+      SATT_TOKENBTT: '0xaabda8813dF0fDc254B3aeD3d901E3838f0CCfCF', //testnet
+      SATT_TOKENTRON: 'TZ9mUjmxCtowj9h68NJq626qaGWiv61KWo',
+      TETHER_TOKENERC20: '0xdac17f958d2ee523a2206206994597c13d831ec7',
       DAI: '0x6b175474e89094c44da98b954eedeac495271d0f',
-      BUSD: '0xe9e7cea3dedca5984780bafc599bd69add087d56'
+      BUSD: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
+      WTRX: 'TNUC9Qb1rRpS5CbWLmNMxXBjyFoydXjWFR',
+      WBTT: '0x0000000000000000000000000000000000001010'
     }
   },
   domainName: 'https://satt.atayen.us',
@@ -87,9 +98,13 @@ export const environment = {
   etherscan: 'https://etherscan.io/tx/',
   bscanaddr: 'https://bscscan.com/address/',
   etherscanaddr: 'https://etherscan.io/address/',
+  polygonscan: 'https://polygonscan.com/tx/',
   polygonscanAddr: 'https://polygonscan.com/address/',
+  simplexUrl: 'https://checkout.simplexcc.com/payments/new',
+  bttscan: 'https://bttcscan.com/tx/',
   bttscanAddr: 'https://bttcscan.com/address/',
-  simplexUrl: 'https://checkout.simplexcc.com/payments/new',*/
+  tronScanAddr: 'https://tronscan.org/#/address/',
+  tronScan: 'https://tronscan.org/#/transaction/',
 };
 
 /*
@@ -100,3 +115,4 @@ export const environment = {
  * on performance if an error is thrown.
  */
 // import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+};

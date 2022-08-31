@@ -6,6 +6,8 @@ import { catchError, retry, share, switchMap, map, tap } from 'rxjs/operators';
 import { IBlockchainActionEvent } from '@app/models/blockchain-action-event.interface';
 import { ParticipationListStoreService } from '@campaigns/services/participation-list-store.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { TokenStorageService } from './tokenStorage/token-storage-service.service';
+import { data } from 'jquery';
 
 export interface ITransactionStatus {
   status: 'succeeded' | 'failed' | null;
@@ -41,11 +43,13 @@ export class BlockchainActionsService {
 
   constructor(
     private campaignService: CampaignHttpApiService,
-    private participationListService: ParticipationListStoreService
+    private participationListService: ParticipationListStoreService,
+    private localStorageService: TokenStorageService
   ) {}
 
   onActionButtonClick(e: IBlockchainActionEvent<any, EButtonActions>) {
     this.actionButtonClickSubject.next(e);
+    this.localStorageService.setItem('data', JSON.stringify(e));
   }
 
   onConfirmButtonClick(password: string) {
@@ -53,15 +57,18 @@ export class BlockchainActionsService {
   }
 
   performAction() {
+    
     return combineLatest([
       this.actionButtonClick$,
       this.confirmButtonClick$
     ]).pipe(
       switchMap(([event, password]) => {
-        let idProm = event.data.prom.hash;
-        let hash = event.data.prom.campaignHash;
+        let idProm = event.data.prom?.hash ? event.data.prom.hash : JSON.parse(this.localStorageService.getItem('data') as string).data.prom.hash ;
+        let hash = event.data.prom?.campaignHash ? event.data.prom.campaignHash : JSON.parse(this.localStorageService.getItem('data') as string).data.prom.campaignHash ;
 
-        if (event.action === EButtonActions.GET_MY_GAINS) {
+        let action = event.action ? event.action : JSON.parse(this.localStorageService.getItem('data') as string).action
+
+        if (action === EButtonActions.GET_MY_GAINS) {
           return this.campaignService
             .recoverEarnings(password, idProm, hash)
             .pipe(
@@ -71,8 +78,14 @@ export class BlockchainActionsService {
                   "You didn't exceed the limits timing to harvest again"
                 ) {
                   this.errorMessage =
-                    'Rewards can be harvested only 24h after the last collect';
+                    'Harvest will be available only 24 hours after the link validation from the Ad Pool manager';
                 }
+                else if (
+                  error.error.error ===
+                  'Key derivation failed - possibly wrong password'
+                ) {
+                  this.errorMessage = 'Wrong password';
+                } 
                 return of(null);
               }),
               map((response: any) => {
@@ -86,7 +99,7 @@ export class BlockchainActionsService {
               })
             );
         }
-        if (event.action === EButtonActions.VALIDATE_LINK) {
+        if (action === EButtonActions.VALIDATE_LINK) {
           return this.campaignService
             .validateLinks(event.data.prom, password, event.data.campaignId)
             .pipe(

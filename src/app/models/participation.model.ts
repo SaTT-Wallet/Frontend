@@ -6,6 +6,7 @@ export class Participation {
   oracle: string;
   username: number | null;
   status: boolean | string;
+  reason: any;
   //wallet: string;
   postId: string;
   campaignHash: string;
@@ -44,10 +45,11 @@ export class Participation {
     this.oracle = data?.oracle || '';
     this.username = data?.userId || data?.idUser || null;
     this.status = data?.status ?? '';
+    this.reason = data?.reason;
     this.postId = data?.idPost || '';
     this.idPost = data?.idPost || '';
     this.campaignHash = data?.id_campaign || '';
-    this.applyDate = getDateObjectFrom(data?.appliedDate)
+    this.applyDate = getDateObjectFrom(data?.appliedDate);
     this.appliedDate = data?.appliedDate || '';
     this.isPayed = data?.isPayed ?? 'eezee';
 
