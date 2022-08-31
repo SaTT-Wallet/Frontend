@@ -85,7 +85,13 @@
         >
           {{ 'create_campaign_form.give_description' | translate }}
         </label>
-        <div class="editor">
+        <div
+          class="editor"
+          height="400"
+          minheight="200"
+          width="400"
+          minWidth="400"
+        >
           <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
           </ngx-editor-menu>
           <ngx-editor
