@@ -161,9 +161,10 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     // console.log('event.target.clientWidth', event.target.clientWidth);
     // visible height + pixel scrolled >= total height
     if (isPlatformBrowser(this.platformId)) {
+
       if (
         event.target.offsetHeight + event.target.scrollTop >=
-        event.target.scrollHeight
+        event.target.scrollHeight - 5
       ) {
         if (this.router.url.startsWith('/ad-pools')) {
           this.campaignService.loadDataAddPoolWhenEndScroll.next(true);
@@ -172,6 +173,7 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
           this.campaignService.loadDataPostFarmWhenEndScroll.next(true);
         }
         if (this.router.url.startsWith('/campaign/')) {
+          console.log('scrolled')
           this.campaignService.loadDataEarningsWhenEndScroll.next(true);
         }
         if (this.router.url.startsWith('/welcome') && this.smDevice) {
