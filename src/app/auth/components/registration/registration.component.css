@@ -391,9 +391,10 @@ meter[value='4'] {
 }
 
 .btn-close {
-    font-size: 11px;
+    font-size: 18px;
     right: -11px !important;
-    top: 4px !important;
+    top: 10px !important;
+    opacity: 1;
 }
 
 .tgm {
