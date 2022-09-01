@@ -1643,6 +1643,6 @@ app-header-register {
 .NgxEditor__Content{
     overflow-y: scroll;
     position: relative;
-    z-index: 100000000000;
+    z-index: 1;
     max-height: 200px;
 }
