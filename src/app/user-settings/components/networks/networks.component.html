@@ -136,7 +136,7 @@
         "
         *ngIf="!user?.idOnSn3"
       >
-        <div class="telegram_log">
+        <div class="telegram_log" (click)="convertToScript()">
           <a [routerLink]="" class="m-width">
             <div class="d-flex justify-content-center m-width">
               <div

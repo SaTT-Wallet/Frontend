@@ -481,6 +481,7 @@ export class NetworksComponent implements OnInit, OnDestroy {
 
   //script connexion to telegram
   convertToScript() {
+    
     if (isPlatformBrowser(this.platformId)) {
       const element = this.script?.nativeElement;
       const script = this.document.createElement('script');
