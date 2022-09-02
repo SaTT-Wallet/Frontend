@@ -137,7 +137,9 @@
         *ngIf="!user?.idOnSn3"
       >
         <div class="telegram_log" (click)="convertToScript()">
+          
           <a [routerLink]="" class="m-width">
+            <span class="tgm2"> {{ 'continuer_avec_tgm' | translate }}</span>
             <div class="d-flex justify-content-center m-width">
               <div
                 #script
@@ -154,7 +156,7 @@
               </div>
             </div>
           </a>
-          <span class="tgm2"> {{ 'continuer_avec_tgm' | translate }}</span>
+          
         </div>
       </div>
 

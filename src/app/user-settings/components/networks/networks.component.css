@@ -854,7 +854,8 @@ a {
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
-    /* top: 15px; */
+    color:white;
+    top: 11px;
 }
 
 img.facebook_icon {
