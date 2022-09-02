@@ -219,6 +219,15 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         takeUntil(this.isDestroyed)
       )
       .subscribe((data: any) => {
+        if (!!this.selectedCryptoDetails) {
+          this.selectedCryptoDetails = {
+            ...this.selectedCryptoDetails,
+            total_balance: data.filter(
+              (element: any) =>
+                element.symbol === this.selectedCryptoDetails.symbol
+            )[0].total_balance
+          };
+        }
         this.walletFacade.hideWalletSpinner();
         this.showWalletSpinner = false;
         data = JSON.parse(JSON.stringify(data));
@@ -1114,6 +1123,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.showSuccessBloc = false;
     this.showAmountBloc = true;
     this.amount = '';
+    this.linstingCrypto(this.selectedCryptoDetails);
+    this.cryptoToDropdown = this.selectedCryptoDetails;
   }
   ngOnDestroy(): void {
     if (!!this.routeEventSubscription$) {
