@@ -107,6 +107,7 @@ export class DropdownCryptoNetworkComponent
         takeUntil(this.onDestoy$)
       )
       .subscribe((data: any) => {
+        debugger
         data = JSON.parse(JSON.stringify(data));
         this.dataList = data;
         this.dataList = [
@@ -131,6 +132,8 @@ export class DropdownCryptoNetworkComponent
           ) {
             this.cryptoFromComponent = [crypto];
             this.cryptoSymbol = this.cryptoFromComponent[0].symbol;
+            console.log(this.cryptoFromComponent);
+            
             this.selectedNetworkValue = this.cryptoFromComponent[0].network;
             if (this.cryptoFromComponent[0].AddedToken) {
               this.cryptoPicName = this.cryptoFromComponent[0].picUrl;
@@ -313,6 +316,7 @@ export class DropdownCryptoNetworkComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    debugger
     if (changes.cryptoFromDraft && this.router.url.includes('edit')) {
       if (this.cryptoFromDraft) {
         this.dataList.forEach((crypto: any) => {

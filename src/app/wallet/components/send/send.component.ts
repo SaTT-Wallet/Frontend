@@ -228,6 +228,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             )[0].total_balance
           };
         }
+
         this.walletFacade.hideWalletSpinner();
         this.showWalletSpinner = false;
         data = JSON.parse(JSON.stringify(data));
@@ -1011,13 +1012,11 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     // this.patternType="^x0[a-fA-F0-9]{40}$"
     //  }
     this.sendform.get('currency')?.setValue(this.selectedCryptoDetails.symbol);
-
     this.sendform.get('Amount')?.reset();
     this.sendform.get('AmountUsd')?.reset();
     this.amountdefault = this.sendform.get('currency')?.value;
     this.selectedCryptoSend = event.symbol;
     this.symbol = event.symbol;
-
     this.networks = event.network;
     this.decimals = event.decimal;
     this.token = event.AddedToken;
@@ -1124,7 +1123,10 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.showAmountBloc = true;
     this.amount = '';
     this.linstingCrypto(this.selectedCryptoDetails);
-    this.cryptoToDropdown = this.selectedCryptoDetails;
+    this.walletFacade.cryptoList$.subscribe((res) => {
+      this.cryptoToDropdown =  res.filter(elem => elem.symbol === this.selectedCryptoDetails.symbol)[0]
+    }) 
+    
   }
   ngOnDestroy(): void {
     if (!!this.routeEventSubscription$) {
