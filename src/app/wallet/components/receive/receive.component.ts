@@ -179,7 +179,7 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
     } else if (
       !this.isValidKeyCode(event.keyCode) ||
       ([48, 49, 50, 51, 52, 53, 54, 55, 56, 57].includes(event.keyCode) &&
-        event.shiftKey === false)
+        event.shiftKey === false && event.key===!1)
     ) {
       event.preventDefault();
       this.convertcurrency('', false);
