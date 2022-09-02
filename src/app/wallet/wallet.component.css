@@ -24,7 +24,13 @@ input:-webkit-autofill:active {
 .welcome-body {
   max-width: 600px;
 }
-
+.scroll-fix{
+  position: absolute;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+}
 @media (max-width: 767.98px) {
   .modal-customm {
     z-index: 99999 !important;
@@ -839,6 +845,7 @@ textarea::placeholder {
   padding: 0;
   overflow: hidden;
   /* overflow: scroll !important; */
+  height: 275px;
 }
 
 .blockk {
@@ -846,6 +853,9 @@ textarea::placeholder {
   min-height: 280px;
   min-width: 320px;
   padding-top: 2.5rem;
+  position: fixed;
+  width: 100%;
+  height: 50px;
 }
 .blockk-3 {
   min-height: 300px;
@@ -2035,4 +2045,10 @@ color: #75758F !important;
 
 .error-wallet-exist {
   color: #f52079;
+}
+@media only screen and (max-width:960px){
+  .positon-mobile {
+   
+    height: 308px;
+}
 }
