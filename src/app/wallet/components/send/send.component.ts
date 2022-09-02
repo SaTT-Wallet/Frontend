@@ -844,7 +844,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     if (
       event.keyCode === 59 ||
       event.keyCode === 16 ||
-      [48, 49, 50, 51, 52, 53, 54, 55, 56, 57,97].includes(event.wich)
+      [48, 49, 50, 51, 52, 53, 54, 55, 56, 57,97].includes(event.wich)||
+      (event.keyCode === 190 && event.shiftKey === true) ||
+      (event.keyCode === 190 ) 
     ) {
 
 
