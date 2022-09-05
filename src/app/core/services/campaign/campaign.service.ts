@@ -943,10 +943,13 @@ export class CampaignHttpApiService {
     });
   }
 
-  videoDescription(idPost: any) {
-    return this.http.get(
-      `https://www.youtube.com/oembed?url=https%3A//youtube.com/watch%3Fv%3D${idPost}&format=json`
-    );
+  videoDescription(idPost: any, oracle?: any) {
+    if (oracle === 'youtube ') {
+      return this.http.get(
+        `https://www.youtube.com/oembed?url=https%3A//youtube.com/watch%3Fv%3D${idPost}&format=json`
+      );
+    }
+    return of({});
   }
   // twitterDescription(idPost: any) {
   //   let header = new HttpHeaders({

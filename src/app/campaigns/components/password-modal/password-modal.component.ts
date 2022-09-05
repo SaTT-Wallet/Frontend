@@ -197,23 +197,17 @@ export class PasswordModalComponent implements OnInit {
 
   calculateStartDate(startDate: any) {
     let date = new Date();
-    if (startDate.getMinutes() < 30) {
-      return Math.floor(
-        date.setMinutes(
-          this.campaign.startDate.getMinutes() + (30 - startDate.getMinutes())
-        ) / 1000
-      );
-    } else if (startDate.getMinutes() > 30) {
-      return Math.floor(
-        date.setMinutes(
-          this.campaign.startDate.getMinutes() + (60 - startDate.getMinutes())
-        ) / 1000
-      );
-    } else {
-      return Math.floor(
-        date.setMinutes(this.campaign.startDate.getMinutes() + 62) / 1000
-      );
+    if (startDate.getMinutes() > 0 && startDate.getMinutes() < 30) {
+      date.setMinutes(30);
+    } else if (startDate.getMinutes() >= 30 || startDate.getMinutes() === 0) {
+      date.setMinutes(60);
     }
+
+    date.setSeconds(0);
+
+    let dateInSeconds = Math.floor(date.getTime() / 1000);
+
+    return dateInSeconds;
   }
 
   erc20Fee() {

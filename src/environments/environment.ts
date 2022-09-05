@@ -8,7 +8,7 @@ export const environment = {
   //https://api-preprod2.satt-token.com
   //API_URL:  'https://api2.satt-token.com',
 
-  //API_URL: 'https://localhost:3015',
+  // API_URL: 'https://localhost:3015',
   //https://api-preprod.satt-token.com:3014
   addresses: {
     smartContracts: {
@@ -114,5 +114,5 @@ export const environment = {
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+  // import 'zone.js/dist/zone-error';  // Included with Angular CLI.
 };
