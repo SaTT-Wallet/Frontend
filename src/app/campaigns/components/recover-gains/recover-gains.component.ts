@@ -11,13 +11,12 @@ import {
   concatMap,
   map,
   mapTo,
-  mergeMap,
   switchMap,
   take,
   takeUntil,
   tap
 } from 'rxjs/operators';
- import { take as takeMath } from '@helpers/utils/math';
+import { take as takeMath } from '@helpers/utils/math';
 import { ConvertFromWei } from '@shared/pipes/wei-to-sa-tt.pipe';
 import {
   BlockchainActionsService,
@@ -44,11 +43,12 @@ export class RecoverGainsComponent implements OnInit {
   eRC20Gaz: any;
   bEPGaz: any;
   bnb: any;
-  polygonGaz:any
+  polygonGaz: any;
   eth: any;
   gazsend: any;
   queryParams$ = this.route.queryParams;
   currencyName: any;
+
   promData$: Observable<Participation> = this.queryParams$.pipe(
     takeUntil(this.isDestroyedSubject),
     map((params) => params['prom_hash']),
@@ -61,12 +61,12 @@ export class RecoverGainsComponent implements OnInit {
       )
     ),
     concatMap((prom: Participation) => {
-
       return this.walletFacade.getCryptoPriceList().pipe(
         tap(() => {
           if (
             this.currencyName === 'SATTBEP20' ||
-            this.currencyName === 'SATTPOLYGON' || this.currencyName === 'SATTBTT'
+            this.currencyName === 'SATTPOLYGON' ||
+            this.currencyName === 'SATTBTT'
           ) {
             this.currencyName = 'SATT';
           }
@@ -74,8 +74,7 @@ export class RecoverGainsComponent implements OnInit {
         map((response: any) => response.data),
         map((data: any) => data[this.currencyName]),
         tap((sattCrypto) => {
-          let fixed = this.currencyName == "BTT"? 10 : 3
-
+          let fixed = this.currencyName === 'BTT' ? 10 : 3;
 
           prom.totalToEarnInUSD = takeMath(
             this.formWeiToPipe.transform(
@@ -125,7 +124,7 @@ export class RecoverGainsComponent implements OnInit {
   videoDescription$: Observable<any> = this.promData$.pipe(
     takeUntil(this.isDestroyedSubject),
     switchMap((prom) =>
-      this.campaignsService.videoDescription(prom.postId).pipe(
+      this.campaignsService.videoDescription(prom.postId, prom.oracle).pipe(
         catchError(() => {
           return of({});
         })
@@ -221,8 +220,7 @@ export class RecoverGainsComponent implements OnInit {
           });
         }
       });
-      this.parentFunction().subscribe();
-
+    this.parentFunction().subscribe();
   }
 
   ngOnDestroy(): void {
@@ -241,24 +239,21 @@ export class RecoverGainsComponent implements OnInit {
     this.router.navigate(['/home/campaign/' + this.campaignId]);
   }
 
-  
-
   parentFunction() {
     return this.walletFacade.getCryptoPriceList().pipe(
       map((response: any) => response.data),
       take(1),
       map((data: any) => {
-        console.log("data",data)
         this.bnb = data['BNB'].price;
         this.eth = data['ETH'].price;
         this.matic = data['MATIC'].price;
         return {
           bnb: this.bnb,
           Eth: this.eth,
-          matic : this.matic
+          matic: this.matic
         };
       }),
-      switchMap(({ bnb, Eth , matic }) => {
+      switchMap(({ bnb, Eth, matic }) => {
         return forkJoin([
           this.walletFacade.getEtherGaz().pipe(
             tap((gaz: any) => {
@@ -269,7 +264,6 @@ export class RecoverGainsComponent implements OnInit {
                 Eth
               ).toFixed(2);
               this.eRC20Gaz = this.gazsend;
-              console.log("this.eRC20Gaz",this.eRC20Gaz)
             })
           ),
           this.walletFacade.getBnbGaz().pipe(
@@ -295,7 +289,6 @@ export class RecoverGainsComponent implements OnInit {
             tap((gaz: any) => {
               let price;
               price = gaz.data.gasPrice;
-            
 
               this.polygonGaz = (
                 ((price * GazConsumedByCampaign) / 1000000000) *
@@ -307,7 +300,4 @@ export class RecoverGainsComponent implements OnInit {
       })
     );
   }
-
-
-
 }

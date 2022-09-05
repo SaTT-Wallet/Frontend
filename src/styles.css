@@ -1640,3 +1640,9 @@ app-header-register {
   height: 50px;
 }
 /* ------------ End Custom Scrollbar -------------------- */
+.NgxEditor__Content{
+    overflow-y: scroll;
+    position: relative;
+    z-index: 1;
+    max-height: 200px;
+}
