@@ -692,14 +692,15 @@ export class BuyTokenComponent implements OnInit, OnChanges {
     if (
       event.keyCode === 59 ||
       event.keyCode === 16 ||
-      [48, 49, 50, 51, 52, 53, 54, 55, 56, 57].includes(event.wich)||
+      [48, 49, 50, 51, 52, 53, 54, 55, 56, 57].includes(event.wich) ||
       (event.keyCode === 190 && event.shiftKey === true) ||
-      (event.keyCode === 190 ) 
+      event.keyCode === 190
     ) {
     } else if (
       !this.isValidKeyCode(event.keyCode) ||
       ([48, 49, 50, 51, 52, 53, 54, 55, 56, 57].includes(event.keyCode) &&
-        event.shiftKey === false && event.key===!1)
+        event.shiftKey === false &&
+        event.key === !1)
     ) {
       event.preventDefault();
     } else {

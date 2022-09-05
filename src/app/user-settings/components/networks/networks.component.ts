@@ -499,7 +499,7 @@ export class NetworksComponent implements OnInit, OnDestroy {
       script.setAttribute('data-userpic', 'false');
       script.setAttribute('data-radius', '15');
       // Callback function in global scope
-      const parentElement = element?.parentElement
+      const parentElement = element?.parentElement;
       parentElement.replaceChild(script, element);
     }
   }
