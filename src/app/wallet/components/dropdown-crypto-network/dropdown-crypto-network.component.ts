@@ -131,6 +131,7 @@ export class DropdownCryptoNetworkComponent
           ) {
             this.cryptoFromComponent = [crypto];
             this.cryptoSymbol = this.cryptoFromComponent[0].symbol;
+            
             this.selectedNetworkValue = this.cryptoFromComponent[0].network;
             if (this.cryptoFromComponent[0].AddedToken) {
               this.cryptoPicName = this.cryptoFromComponent[0].picUrl;
