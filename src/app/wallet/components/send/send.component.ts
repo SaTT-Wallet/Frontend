@@ -473,14 +473,14 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         ? this.networks.toLowerCase()
         : ListTokens[currency].type;
       if (network === 'btt') {
-        network = 'BTT';
+        network = 'BTTC';
       }
 
       if (network === 'bep20') {
-        network = 'bsc';
+        network = 'BEP20';
       }
       if (network === 'erc20') {
-        network = 'eth';
+        network = 'ERC20';
       }
       const send: ITransferTokensRequestBody = {
         from: this.tokenStorageService.getIdWallet() as string,
