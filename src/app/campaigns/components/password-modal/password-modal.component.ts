@@ -147,12 +147,12 @@ export class PasswordModalComponent implements OnInit {
       switch (ListTokens[this.campaign.currency.name].type) {
         case 'bep20': {
           _campaign.contract = campaignSmartContractBEP20;
-          _campaign.network = 'bep20';
+          _campaign.network = 'BEP20';
           break;
         }
         case 'erc20': {
           _campaign.contract = campaignSmartContractERC20;
-          _campaign.network = 'erc20';
+          _campaign.network = 'ERC20';
           break;
         }
         case 'POLYGON': {
@@ -162,7 +162,7 @@ export class PasswordModalComponent implements OnInit {
         }
         case 'BTT': {
           _campaign.contract = campaignSmartContractBTT;
-          _campaign.network = 'BTT';
+          _campaign.network = 'BTTC';
           break;
         }
         case 'TRON': {
