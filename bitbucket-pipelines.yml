@@ -32,8 +32,8 @@ pipelines:
             -  ssh satt@92.243.9.233 <<< ${SCP_PASSWORD_SATT} "cd /home/satt/wallet_satt/satt-wallet && ng config -g cli.warnings.versionMismatch false"
 
             -  ssh satt@92.243.9.233 <<< ${SCP_PASSWORD_SATT} "cd /home/satt/wallet_satt/satt-wallet && git pull"
-            -  ssh satt@92.243.9.233 <<< ${SCP_PASSWORD_SATT} " cd /home/satt/wallet_satt/satt-wallet && ng build  --configuration  dev-ssr " 
-            -  ssh satt@92.243.9.233 <<< ${SCP_PASSWORD_SATT} "cd /home/satt/wallet_satt/satt-wallet && ng run satt-token-atayen:server  --configuration  dev-ssr "
+            -  ssh satt@92.243.9.233 <<< ${SCP_PASSWORD_SATT} " cd /home/satt/wallet_satt/satt-wallet && ng build --configuration  dev-ssr  " 
+            -  ssh satt@92.243.9.233 <<< ${SCP_PASSWORD_SATT} "cd /home/satt/wallet_satt/satt-wallet  && ng run satt-token-atayen:server --configuration dev-ssr" 
             -  ssh satt@92.243.9.233 <<< ${SCP_PASSWORD_SATT} "cd /home/satt/wallet_satt/satt-wallet && pm2 restart 0 "
     feature/*:
       - step:
