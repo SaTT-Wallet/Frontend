@@ -167,7 +167,7 @@ export class NetworksComponent implements OnInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    // this.convertToScript();
+    this.convertToScript();
   }
 
   //get errors from url
