@@ -126,7 +126,7 @@ export class NetworksComponent implements OnInit, OnDestroy {
     this.getUrlError();
     this.getDetails();
     this.getLang();
-
+    this.convertToScript();
     //put exist link in input link
     this.formAddNetwork
       .get('type')
