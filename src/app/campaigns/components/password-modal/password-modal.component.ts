@@ -147,12 +147,12 @@ export class PasswordModalComponent implements OnInit {
       switch (ListTokens[this.campaign.currency.name].type) {
         case 'bep20': {
           _campaign.contract = campaignSmartContractBEP20;
-          _campaign.network = 'bep20';
+          _campaign.network = 'BEP20';
           break;
         }
         case 'erc20': {
           _campaign.contract = campaignSmartContractERC20;
-          _campaign.network = 'erc20';
+          _campaign.network = 'ERC20';
           break;
         }
         case 'POLYGON': {
@@ -162,7 +162,7 @@ export class PasswordModalComponent implements OnInit {
         }
         case 'BTT': {
           _campaign.contract = campaignSmartContractBTT;
-          _campaign.network = 'BTT';
+          _campaign.network = 'BTTC';
           break;
         }
         case 'TRON': {
@@ -197,23 +197,17 @@ export class PasswordModalComponent implements OnInit {
 
   calculateStartDate(startDate: any) {
     let date = new Date();
-    if (startDate.getMinutes() < 30) {
-      return Math.floor(
-        date.setMinutes(
-          this.campaign.startDate.getMinutes() + (30 - startDate.getMinutes())
-        ) / 1000
-      );
-    } else if (startDate.getMinutes() > 30) {
-      return Math.floor(
-        date.setMinutes(
-          this.campaign.startDate.getMinutes() + (60 - startDate.getMinutes())
-        ) / 1000
-      );
-    } else {
-      return Math.floor(
-        date.setMinutes(this.campaign.startDate.getMinutes() + 62) / 1000
-      );
+    if (startDate.getMinutes() > 0 && startDate.getMinutes() < 30) {
+      date.setMinutes(30);
+    } else if (startDate.getMinutes() >= 30 || startDate.getMinutes() === 0) {
+      date.setMinutes(60);
     }
+
+    date.setSeconds(0);
+
+    let dateInSeconds = Math.floor(date.getTime() / 1000);
+
+    return dateInSeconds;
   }
 
   erc20Fee() {

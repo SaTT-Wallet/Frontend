@@ -126,7 +126,7 @@ export class NetworksComponent implements OnInit, OnDestroy {
     this.getUrlError();
     this.getDetails();
     this.getLang();
-
+    this.convertToScript();
     //put exist link in input link
     this.formAddNetwork
       .get('type')
@@ -167,7 +167,7 @@ export class NetworksComponent implements OnInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    // this.convertToScript();
+    this.convertToScript();
   }
 
   //get errors from url
@@ -500,7 +500,7 @@ export class NetworksComponent implements OnInit, OnDestroy {
       script.setAttribute('data-userpic', 'false');
       script.setAttribute('data-radius', '15');
       // Callback function in global scope
-      const parentElement = element?.parentElement
+      const parentElement = element?.parentElement;
       parentElement.replaceChild(script, element);
     }
   }

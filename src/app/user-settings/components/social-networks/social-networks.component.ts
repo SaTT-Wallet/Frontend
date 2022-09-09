@@ -273,8 +273,10 @@ export class SocialNetworksComponent implements OnInit {
       } else if (network === 'linkedin') {
         window.open('https://www.linkedin.com/company/' + userName, '_blank');
       } else if (network === 'tiktok') {
-        window.open('https://www.tiktok.com/@' + userName.replace(/\s/g, ''));
+        window.open('https://www.tiktok.com/' + userName.replace(/\s/g, ''));
       }
+
+
     }
   }
   toggelGoogleBlock() {
