@@ -2731,7 +2731,8 @@
   "out_of_gas_bnb": "Vous n'avez pas assez de gaz BNB",
   "out_of_gas_eth": "Vous n'avez pas assez de gaz ETH",
   "out_of_gas_matic": "Vous n'avez pas assez de gaz MATIC",
-  "out_of_gas_tron": "Vous n'avez pas assez de gaz BTT",
+  "out_of_gas_tron": "Vous n'avez pas assez de gaz TRON ",
+  "out_of_gas_btt": "Vous n'avez pas assez de gaz BTT ",
 
   "wrong_password_error": "Mot de passe incorrect !!",
   "get_my_earning_btn_text": "obtenir mon revenu",

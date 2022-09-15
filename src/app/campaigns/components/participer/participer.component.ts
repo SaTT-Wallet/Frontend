@@ -187,11 +187,14 @@ export class ParticiperComponent implements OnInit {
       window.open('https://www.youtube.com/watch?v=tAZHZwrZh0o', '_blank');
   }
   goToBuy() {
-    if (this.networkWallet === 'bep20') {
+    if (this.networkWallet === 'BEP20') {
       this.gazcurrency = 'BNB';
-    } else if (this.networkWallet === 'erc20') {
+    } else if (this.networkWallet === 'ERC20') {
       this.gazcurrency = 'ETH';
-    } else {
+    }else if (this.networkWallet === 'TRON') {
+      this.gazcurrency = 'TRX';
+    } 
+     else {
       this.gazcurrency = 'MATIC';
     }
     this.router.navigate(['/wallet/buy-token'], {
@@ -1301,7 +1304,8 @@ export class ParticiperComponent implements OnInit {
               error.error.error ===
                 'Returned error: insufficient funds for gas * price + value' ||
               error.error.error ===
-                'Returned error: replacement transaction underpriced'
+                'Returned error: replacement transaction underpriced' ||
+                 'Account resource insufficient error.'
             ) {
               this.gazproblem = true;
               // this.error = "out_of_gas_error";
@@ -1310,16 +1314,21 @@ export class ParticiperComponent implements OnInit {
                   errorMessage: 'error'
                 }
               });
-              if (this.networkWallet === 'bep20') {
+              if (this.networkWallet === 'BEP20') {
                 this.error = 'out_of_gas_bnb';
                 this.success = '';
-              } else if (this.networkWallet === 'erc20') {
+              } else if (this.networkWallet === 'ERC20') {
                 this.error = 'out_of_gas_eth';
                 this.success = '';
-              } else if (this.networkWallet === 'BTT') {
+              } else if (this.networkWallet === 'BTTC') {
+                this.error = 'out_of_gas_btt';
+                this.success = '';
+              } 
+              else if (this.networkWallet === 'TRON') {
                 this.error = 'out_of_gas_tron';
                 this.success = '';
-              } else {
+              } 
+              else {
                 this.error = 'out_of_gas_matic';
                 this.success = '';
               }
