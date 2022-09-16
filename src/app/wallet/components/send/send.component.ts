@@ -37,7 +37,7 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Location } from '@angular/common';
 import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.service';
 import { BarcodeFormat } from '@zxing/library';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ITransferTokensRequestBody } from '@app/core/services/wallet/wallet.service';
 
 @Component({
@@ -166,7 +166,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     private _location: Location,
     private kycFacadeService: KycFacadeService,
     private router: Router,
-    private localStorage: TokenStorageService
+    private localStorage: TokenStorageService,
+    private activeRoute: ActivatedRoute
   ) {
     //, Validators.max(this.maxNumber)
     this.sendform = new FormGroup({
@@ -390,7 +391,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   //send crypto
 
   public sendMoney() {
-    
     let tokenAddress: any;
     if (this.sendform.valid) {
       this.showSpinner = true;
@@ -472,16 +472,16 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       let network = this.networks
         ? this.networks.toLowerCase()
         : ListTokens[currency].type;
-        if (network === 'btt') {
-          network = 'BTTC';
-        }
-  
-        if (network === 'bep20') {
-          network = 'BEP20';
-        }
-        if (network === 'erc20') {
-          network = 'ERC20';
-        }
+      if (network === 'btt') {
+        network = 'BTTC';
+      }
+
+      if (network === 'bep20') {
+        network = 'BEP20';
+      }
+      if (network === 'erc20') {
+        network = 'ERC20';
+      }
       const send: ITransferTokensRequestBody = {
         from: this.tokenStorageService.getIdWallet() as string,
         tokenAddress,
@@ -778,10 +778,10 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           Eth: this.eth,
           matic: this.matic,
           btt: this.btt,
-          trx :this.trx
+          trx: this.trx
         };
       }),
-      switchMap(({ bnb, Eth, matic, btt,trx }) => {
+      switchMap(({ bnb, Eth, matic, btt, trx }) => {
         return forkJoin([
           this.walletFacade.getEtherGaz().pipe(
             take(1),
@@ -1085,46 +1085,92 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       }
     }, 2000);
 
-    this.dataList?.forEach((crypto: any) => {
-      if (this.networks === 'ERC20' || this.networks === 'BTC') {
-        this.gazsend = this.eRC20Gaz;
-        if (crypto.symbol === 'ETH') {
-          this.gasCryptoQuantity = (this.gazsend / crypto.price).toFixed(8);
+    if (this.dataList.length) {
+      this.dataList?.forEach((crypto: any) => {
+        if (this.networks === 'ERC20' || this.networks === 'BTC') {
+          this.gazsend = this.eRC20Gaz;
+          if (crypto.symbol === 'ETH') {
+            this.gasCryptoQuantity = (this.gazsend / crypto.price).toFixed(8);
+          }
         }
-      }
-      if (this.networks === 'BEP20') {
-        this.gazsend = this.bEPGaz;
-        if (crypto.symbol === 'BNB') {
-          this.gasCryptoQuantity = (this.gazsend / crypto.price).toFixed(8);
+        if (this.networks === 'BEP20') {
+          this.gazsend = this.bEPGaz;
+          if (crypto.symbol === 'BNB') {
+            this.gasCryptoQuantity = (this.gazsend / crypto.price).toFixed(8);
+          }
         }
-      }
-      if (this.networks === 'POLYGON') {
-        this.gazsend = this.polygonGaz;
-        if (crypto.symbol === 'MATIC') {
-          this.gasCryptoQuantity = (this.gazsend / crypto.price).toFixed(8);
+        if (this.networks === 'POLYGON') {
+          this.gazsend = this.polygonGaz;
+          if (crypto.symbol === 'MATIC') {
+            this.gasCryptoQuantity = (this.gazsend / crypto.price).toFixed(8);
+          }
         }
-      }
-      if (this.networks === 'BTTC') {
-        this.gazsend = this.bttGaz;
-        if (crypto.symbol === 'BTT') {
-          this.gasCryptoQuantity = (this.gazsend / crypto.price).toFixed(8);
+        if (this.networks === 'BTTC') {
+          this.gazsend = this.bttGaz;
+          if (crypto.symbol === 'BTT') {
+            this.gasCryptoQuantity = (this.gazsend / crypto.price).toFixed(8);
+          }
         }
-      }
-      if (this.networks === 'TRON') {
-        //TODO
-        this.sendform
-          .get('contact')
-          ?.setValidators([
-            Validators.required,
-            Validators.pattern(tronPattContact)
-          ]);
-        this.gazsend = this.trxGaz;
-        if (crypto.symbol === 'TRX') {
-          console.log(this.gazsend,"this.gazsend")
-          this.gasCryptoQuantity = (this.gazsend / crypto.price).toFixed(8);
+        if (this.networks === 'TRON') {
+          //TODO
+          this.sendform
+            .get('contact')
+            ?.setValidators([
+              Validators.required,
+              Validators.pattern(tronPattContact)
+            ]);
+          this.gazsend = this.trxGaz;
+          if (crypto.symbol === 'TRX') {
+            this.gasCryptoQuantity = (this.gazsend / crypto.price).toFixed(8);
+          }
         }
-      }
-    });
+      });
+    } else {
+      this.parentFunction().subscribe(() => {
+        this.activeRoute.queryParams.subscribe((selectedCrypto: any) => {
+          if (
+            selectedCrypto.network === 'ERC20' ||
+            selectedCrypto.network === 'BTC'
+          ) {
+            this.gazsend = this.eRC20Gaz;
+            if (selectedCrypto.id === 'ETH') {
+              this.gasCryptoQuantity = (this.gazsend / this.eth).toFixed(8);
+            }
+          }
+          if (selectedCrypto.network === 'BEP20') {
+            this.gazsend = this.bEPGaz;
+            if (selectedCrypto.id === 'BNB') {
+              this.gasCryptoQuantity = (this.gazsend / this.bnb).toFixed(8);
+            }
+          }
+          if (selectedCrypto.network === 'POLYGON') {
+            this.gazsend = this.polygonGaz;
+            if (selectedCrypto.id === 'MATIC') {
+              this.gasCryptoQuantity = (this.gazsend / this.matic).toFixed(8);
+            }
+          }
+          if (selectedCrypto.network === 'BTTC') {
+            this.gazsend = this.bttGaz;
+            if (selectedCrypto.id === 'BTT') {
+              this.gasCryptoQuantity = (this.gazsend / this.btt).toFixed(8);
+            }
+          }
+          if (selectedCrypto.network === 'TRON') {
+            //TODO
+            this.sendform
+              .get('contact')
+              ?.setValidators([
+                Validators.required,
+                Validators.pattern(tronPattContact)
+              ]);
+            this.gazsend = this.trxGaz;
+            if (selectedCrypto.network === 'TRON') {
+              this.gasCryptoQuantity = (this.gazsend / this.trx).toFixed(8);
+            }
+          }
+        });
+      });
+    }
   }
 
   showNextBloc() {
@@ -1146,9 +1192,10 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.amount = '';
     this.linstingCrypto(this.selectedCryptoDetails);
     this.walletFacade.cryptoList$.subscribe((res) => {
-      this.cryptoToDropdown =  res.filter(elem => elem.symbol === this.selectedCryptoDetails.symbol)[0]
-    }) 
-    
+      this.cryptoToDropdown = res.filter(
+        (elem) => elem.symbol === this.selectedCryptoDetails.symbol
+      )[0];
+    });
   }
   ngOnDestroy(): void {
     if (!!this.routeEventSubscription$) {
