@@ -141,3 +141,6 @@ dist
 /documentation/
 
 .angular/
+
+# pipeline
+bitbucket-pipelines.yml
