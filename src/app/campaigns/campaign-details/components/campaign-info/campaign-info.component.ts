@@ -889,13 +889,13 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
         if (data['transactionHash'] === undefined) {
           this.noTransactionHash = true;
         } else {
-          if (data['token']['type'] === 'erc20') {
+          if (data['token']['type'] === 'ERC20') {
             this.urlSmartContrat = etherscan + data['transactionHash'];
-          } else if (data['token']['type'] === 'bep20') {
+          } else if (data['token']['type'] === 'BEP20') {
             this.urlSmartContrat = bscan + data['transactionHash'];
           } else if (data['token']['type'] === 'POLYGON') {
             this.urlSmartContrat = polygonscan + data['transactionHash'];
-          }else if (data['token']['type'] === 'BTT') {
+          }else if (data['token']['type'] === 'BTTC') {
             this.urlSmartContrat = bttscan + data['transactionHash'];
           }
           else if (data['token']['type'] === 'TRON') {

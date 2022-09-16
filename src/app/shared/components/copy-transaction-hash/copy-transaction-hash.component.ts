@@ -44,13 +44,13 @@ export class CopyTransactionHashComponent {
     if (changes) {
       this.tokenStorageService.removeItem('network');
       this.tokenStorageService.setItem('network', this.networkWallet);
-      if (this.tokenStorageService.getNetwork() === 'bep20') {
+      if (this.tokenStorageService.getNetwork() === 'BEP20') {
         this.networkWallet = bscan + this.transactionHash;
-      } else if (this.tokenStorageService.getNetwork() === 'erc20') {
+      } else if (this.tokenStorageService.getNetwork() === 'ERC20') {
         this.networkWallet = etherscan + this.transactionHash;
       } else if (this.tokenStorageService.getNetwork() === 'POLYGON') {
         this.networkWallet = polygonscan + this.transactionHash;
-      } else if (this.tokenStorageService.getNetwork() === 'BTT') {
+      } else if (this.tokenStorageService.getNetwork() === 'BTTC') {
         this.networkWallet = bttscan + this.transactionHash;
       }
       else if (this.tokenStorageService.getNetwork() === 'TRON') {
