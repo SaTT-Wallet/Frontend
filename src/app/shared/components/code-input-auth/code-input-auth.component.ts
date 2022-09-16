@@ -38,12 +38,11 @@ export class CodeInputAuthComponent implements OnInit, OnChanges {
     }
   }
   onCodeChanged(event: string) {
+    
     let codeNum = event;
     if (codeNum.length === 6) {
       this.codeCompleted.emit(codeNum);
-    } else {
-      this.codeCompleted.emit('');
-    }
+    } 
   }
   onCodeCompleted() {
     //this.codeCompleted.emit(code);
