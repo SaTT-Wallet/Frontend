@@ -2,11 +2,11 @@ image: atayen/atayen:v2
 clone:
   depth: full
 pipelines:
-   #default:
-   #   - step:
-   #       name: mirroring github with bitbucket 
-   #       script:
-   #         - git push --all git@github.com:SaTT-Wallet/Satt-Wallet.git
+   default:
+      - step:
+          name: mirroring github with bitbucket 
+          script:
+            - git push --all git@github.com:SaTT-Wallet/Frontend.git
    branches:
     release/*:
       - step:
