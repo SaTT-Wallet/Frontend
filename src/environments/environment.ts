@@ -15,7 +15,7 @@ export const environment = {
       campaignERC20: '0x477C93E935DcBFd330c7aE1A8BA128232eA87AC7',
       campaignBEP20: '0x4074ec9dfd977a7af1ca93a708490966ef8120b9',
       campaignPOLYGON: '0xD6Cb96a00b312D5930FC2E8084A98ff2Daa5aD2e',
-      campaignBTT: '0xd5A058eE756a0e3E1c4bCBADC2c70844a52B32f6',
+      campaignBTT: '0x261491739e36090FC80fF1569B7E5FFe26070d77',
       campaignTRON: 'THUD3VAxyTEmMCBEjd2AcSujzbgPSu39p9',
 
       SATT_TOKENERC20: '0x2bef0d7531f0aae08adc26a0442ba8d0516590d0',
