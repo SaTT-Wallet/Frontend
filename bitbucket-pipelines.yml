@@ -6,7 +6,7 @@ pipelines:
       - step:
           name: mirroring github with bitbucket 
           script:
-            - git push --all git@github.com:SaTT-Wallet/Frontend.git
+            - git push git@github.com:SaTT-Wallet/Frontend.git master
    branches:
     release/*:
       - step:
