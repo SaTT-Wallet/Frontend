@@ -6,7 +6,7 @@ const walletUrl = 'http://localhost:4200/#/';
 const bscan = env.bscan;
 const etherscan = env.etherscan;
 const polygonscan = env.polygonscan;
-const bttscan= env.bttscan;
+const bttscan = env.bttscan;
 
 const polygonscanAddr = env.polygonscanAddr;
 const bttscanAddr = env.bttscanAddr;
@@ -314,7 +314,7 @@ var ListTokens: { [key: string]: { [key: string]: any } } = {
   },
   MATIC: {
     name: 'MATIC',
-    contract: '0x0000000000000000000000000000000000001010',
+    contract: null,
     decimals: new Big('10').pow(18),
     logo: 'MATIC.svg',
     type: 'POLYGON',
