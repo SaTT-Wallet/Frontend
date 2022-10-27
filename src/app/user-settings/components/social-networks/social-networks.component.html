@@ -86,7 +86,7 @@
           <span>
             {{ 'social_networks.add_tiktok' | translate }}
           </span>
-        </button>
+        </button> 
       </div>
     </div>
 
@@ -723,6 +723,18 @@
                           }}<span *ngIf="">s</span>
                         </span>
                       </span> -->
+
+                      <!-- ============ -->
+                      <span class="sa-subscribers-number"
+                          >
+                          {{ ch.followers | transfomNumber }}
+                          <span class="desktop">
+                            {{ 'social_networks.follower' | translate
+                            }}<span *ngIf="ch.subscribers !== 1">s</span>
+                          </span>
+                        </span>
+                        <!-- ============== -->
+
                     </td>
                     <td class="text-center">
                       <div class="action">
