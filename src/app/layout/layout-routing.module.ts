@@ -76,7 +76,7 @@ const routes: Routes = [
       },
       { path: 'help', component: AideCampagneComponent },
 
-      { path: 'home', redirectTo: 'wallet', pathMatch: 'full' }
+      { path: 'home', redirectTo: 'ad-pools', pathMatch: 'full' }
     ]
   }
 ];
