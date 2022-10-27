@@ -23,7 +23,7 @@ export class WelcomePageGuardService implements CanActivate {
         this.tokenStorageService.signOut();
         this.router.navigate(['auth/login']);
       } else {
-        this.router.navigate(['/wallet']);
+        this.router.navigate(['/ad-pools']);
       }
       return of(false);
     }
