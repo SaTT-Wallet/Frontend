@@ -1467,10 +1467,10 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
        }else if(network === "POLYGON"){
           protocolrPrice = data['MATIC'].price;
           networkProtocol = env.Network.MATIC
-       }else if( network === "BTT"){
+       }else if( network === "BTTC"){
          protocolrPrice = data['BTT'].price;
           networkProtocol = env.Network.BTT
-          console.log(protocolrPrice)
+          
        }else if( network === "TRON"){
         protocolrPrice = data['TRX'].price;
          networkProtocol =  env.Network.TRX
@@ -1479,27 +1479,20 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
       }),
       
       switchMap(({protocolrPrice, networkProtocol}) => {
-        if(network ==="BTT") network = "bttc"
-        ///
         return this.walletFacade.getGas(network).pipe(
           take(1),
           tap((res: any) => {
-            console.log('res: ', res)
             let price;
                 price = res.data.gasPrice;
                 this.networkProtocol = networkProtocol;
 
-                console.log('this.networkProtocol: ', this.networkProtocol)
 
                 this.gazsend = (
                   ((price * GazConsumedByCampaign) / 1000000000) *
                   protocolrPrice
                 );
                 this.networkGas = this.showNumbersRule.transform(this.gazsend + '', true)
-                console.log('price: ', price)
-                console.log('GazConsumedByCampaign: ', GazConsumedByCampaign)
-                console.log('protocolrPrice: ', protocolrPrice)
-                console.log("networkGas",this.networkGas)
+                
 
 
                
