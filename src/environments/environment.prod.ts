@@ -34,6 +34,8 @@ export const environment = {
     appId: '1:284190209745:web:dc01085f6a6dabfcc837f0',
     measurementId: 'G-DSJK01CZ0X'
   },
+  gmtId: 'GTM-5XW23QX',
+
   fcmredirectUrl: 'https://satt.atayen.us/#/home',
   bscan: 'https://bscscan.com/tx/',
   etherscan: 'https://etherscan.io/tx/',
