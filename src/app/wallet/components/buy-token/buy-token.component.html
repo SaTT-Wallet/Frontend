@@ -238,7 +238,8 @@
           class="input-amount"
           placeholder="0 {{ selectedTargetCurrency }}"
           [(ngModel)]="amount"
-          (input)="inputAmount$.next('')"
+          (input)="maxAmount('amount')"
+          (blur)="emptyInput()"
         />
       </div>
       <div class="mb-1 mt-1 d-flex justify-content-center" *ngIf="errMsg">
@@ -448,6 +449,8 @@
                 alt=""
               />
             </button>
+   
+            
             <ul
               class="dropdown-menu custom-dropdown-menu"
               aria-labelledby="dropdownButton2"
@@ -545,10 +548,12 @@
             'Pay by Credit Card' | translate
           }}</span>
         </button>
+       
         <a
           class="buy-swap-btn"
           *ngIf="
-            selectedCurrencyType === eCurrencyType.BEP20 &&
+          selectedCurrencyType === eCurrencyType.TRON ||
+                      selectedCurrencyType === eCurrencyType.BEP20 &&
             selectedBlockchainNetwork === eBlockchainNetwork.BEP20
           "
           (click)="currencyBnB()"
@@ -575,6 +580,7 @@
             selectedCurrencyType === eCurrencyType.ERC20 &&
             selectedBlockchainNetwork === eBlockchainNetwork.ERC20
           "
+          
           href="https://app.uniswap.org/#/swap"
           href="https://app.uniswap.org/#/swap?outputCurrency={{
             toSwapCrypto.contract
@@ -591,6 +597,28 @@
             'Swap with uniswap' | translate
           }}</span>
         </a>
+
+        <a
+        class="buy-swap-btn"
+       
+        *ngIf="
+        (selectedCurrencyType === eCurrencyType.ERC20  ||  selectedCurrencyType === eCurrencyType.BEP20) && 
+          selectedBlockchainNetwork === eBlockchainNetwork.TRON
+        "
+        target="_blank"
+        href="https://sunswap.com/#/home" 
+      
+      >
+        <img
+          src="../../../assets/Images/symbol_crypto/Uniswap.svg"
+          alt=""
+          class="img-width-32 ms-2"
+        />
+
+        <span class="purshase-btn-text pt-1">{{
+          'Swap with Sunswap' | translate
+        }}</span>
+      </a>
       </div>
     </form>
   </div>

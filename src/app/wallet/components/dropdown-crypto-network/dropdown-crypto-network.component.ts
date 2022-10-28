@@ -304,7 +304,7 @@ export class DropdownCryptoNetworkComponent
         this.selectedCrypto.emit(crypto);
       }
     });
-    this.cdref.detectChanges();
+    this.cdref.detectChanges(); 
   }
   ngOnDestroy() {
     this.onDestoy$.next('');
