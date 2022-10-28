@@ -61,7 +61,7 @@ export const environment = {
   etherscanaddr: 'https://ropsten.etherscan.io/address/',
 
   simplexUrl: 'https://sandbox.test-simplexcc.com/payments/new',
-  gmtId: 'GTM-K2RMTJ3',
+  gmtId: 'GTM-5XW23QX',
 
   SWAPLINK:
     'https://sunswap.com/#/v2?lang=en-US&t0=TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t&t1=TAFjULxiVgT4qWk6UZwjqwZXTSaGaqnVp4&type=swap',
