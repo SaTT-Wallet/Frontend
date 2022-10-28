@@ -125,7 +125,7 @@ export class SocialNetworksComponent implements OnInit {
           this.channelFacebook = data.facebook;
           this.channelLinkedin = data.linkedin;
           this.channelTiktok = data.tikTok;
-
+ 
           this.setUrlMsg(params, data);
 
           if (this.channelGoogle?.length !== 0) {

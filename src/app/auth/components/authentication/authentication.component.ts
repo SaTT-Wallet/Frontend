@@ -525,7 +525,7 @@ getCookie(key: string){
                 this.tokenStorageService.saveTronWallet(
                   res.myWallet.data?.tronAddress
                 );
-                this.router.navigateByUrl('/wallet');
+                this.router.navigateByUrl('/ad-pools');
                 this.showBigSpinner = true;
                 this.backgroundImage = '';
                 this.backgroundColor = '';
@@ -536,7 +536,7 @@ getCookie(key: string){
               this.tokenStorageService.saveTronWallet(
                 res.myWallet.data?.tronAddress
               );
-              this.router.navigateByUrl('/wallet');
+              this.router.navigateByUrl('/ad-pools');
               this.onDestroy$.next('');
               this.showBigSpinner = true;
               this.backgroundImage = '';

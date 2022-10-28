@@ -295,17 +295,17 @@ export class NotificationComponent implements OnInit {
       case 'buy_some_gas':
         item._label = 'buy_some_gas';
         item.img = receive_satt_pic;
-
+        item.content = "gas_notif"
         break;
       case 'invite_friends':
         item._label = 'invite_friends';
         item.img = receive_satt_pic;
-
+        item.content = "invite_notif"
         break;
       case 'join_on_social':
         item._label = 'join_on_social';
         item.img = receive_satt_pic;
-
+        item.content = "network_notif"
         break;
       case 'send_demande_satt_event':
         item._params = {
