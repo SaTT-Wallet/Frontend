@@ -99,8 +99,8 @@ export class ProfileSettingsFacadeService {
   deleteAllSocialNetworksLinkedin() {
     return this.profileService.deleteAllSocialNetworksLinkedin();
   }
-  deleteOneSocialNetworksLinkedin(organization: string) {
-    return this.profileService.deleteOneSocialNetworksLinkedin(organization);
+  deleteOneSocialNetworksLinkedin(organization: string,linkedinId:any) {
+    return this.profileService.deleteOneSocialNetworksLinkedin(organization,linkedinId);
   }
   updateProfile(body: any) {
     return this.profileService.updateprofile(body);

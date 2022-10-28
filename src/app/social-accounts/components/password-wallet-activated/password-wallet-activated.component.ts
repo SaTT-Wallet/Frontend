@@ -18,7 +18,7 @@ export class PasswordWalletActivatedComponent implements OnInit {
     this.tokenStorageService.setSecureWallet('visited-activePass', 'true');
   }
   goToWallet() {
-    this.router.navigate(['/home']);
+    this.router.navigate(['/home/wallet']);
   }
   goToEditProfile() {
     this.router.navigate(['home/settings/edit']);

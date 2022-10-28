@@ -125,7 +125,7 @@ export class SocialNetworksComponent implements OnInit {
           this.channelFacebook = data.facebook;
           this.channelLinkedin = data.linkedin;
           this.channelTiktok = data.tikTok;
-
+ 
           this.setUrlMsg(params, data);
 
           if (this.channelGoogle?.length !== 0) {
@@ -295,7 +295,7 @@ export class SocialNetworksComponent implements OnInit {
     this.showTiktokList = !this.showTiktokList;
   }
 
-  deleteAccount(id: string, network: string) {
+  deleteAccount(id: string, network: string,linkedinId : string ="") {
     if (network === 'google') {
       this.socialAccountFacadeService
         .deleteOneSocialNetworksGoogle(id)
@@ -331,7 +331,7 @@ export class SocialNetworksComponent implements OnInit {
         });
     } else if (network === 'linkedin') {
       this.socialAccountFacadeService
-        .deleteOneSocialNetworksLinkedin(id)
+        .deleteOneSocialNetworksLinkedin(id,linkedinId)
         .pipe(takeUntil(this.isDestroyed))
         .subscribe((response: any) => {
           if (response.message === 'deleted successfully') {
