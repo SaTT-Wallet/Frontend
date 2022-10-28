@@ -1053,7 +1053,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     } else if (this.networks === 'POLYGON') {
       this.gazcurrency = 'MATIC';
       // this.gazcurrency = 'ETH';
-    } else if (this.networks === 'BTT') {
+    } else if (this.networks === 'BTTC') {
       this.gazcurrency = 'BTT';
       // this.gazcurrency = 'ETH';
     } else if (this.networks === 'TRON') {
