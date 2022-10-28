@@ -50,14 +50,17 @@
           <input style="display: none" type="password" />
           <div class="row input_link">
             <input
+              [ngModel]="urlFromInput"
               autocomplete="false"
               placeholder="https://"
               name="hidden"
               type="text"
               class="link linkk"
               type="url"
+              (ngModelChange)="shortUrlChanger($event)"
               formControlName="url"
               id="url"
+              (blur)="CheckPrivacy()"
               [ngClass]="{
                 success:
                   sendform.controls['url'].valid &&
@@ -66,7 +69,7 @@
                   linkNetorwkMutch &&
                   linked,
                 error:
-                  (sendform.controls['url'].invalid || !validUrl) &&
+                  (urlTronsformed?.invalid || !validUrl) &&
                   (sendform.controls['url'].dirty ||
                     sendform.controls['url'].touched),
                 fbLinkSpinner:
@@ -134,19 +137,25 @@
                     .get('url')
                     ?.value?.indexOf('https://www.linkedin.com/') === 0,
                 tiktokLink:
-                  !spinner &&
+                  (!spinner &&
+                    sendform
+                      .get('url')
+                      ?.value?.indexOf(urlTiktok) === 0) ||
                   sendform
                     .get('url')
-                    ?.value?.indexOf('https://www.tiktok.com/') === 0,
-
+                    ?.value?.indexOf('https://vm.tiktok.com/') === 0,
                 tiktokLinkSpinner:
                   spinner &&
-                  sendform
+                  (sendform
                     .get('url')
-                    ?.value?.indexOf('https://www.tiktok.com/') === 0
+                    ?.value?.indexOf(urlTiktok) === 0 ||
+                    sendform
+                      .get('url')
+                      ?.value?.indexOf(urlTiktok) === 0)
               }"
             />
-
+            
+              <!-- <p>{{tiktokProfilePrivacy}}</p> -->
             <!-- <div class="Alert d-flex mt-2" >
               <p class="m-0 p-2">
                 {{
@@ -155,7 +164,7 @@
                 }}
               </p>
             </div> -->
-            <div class="orangeAlert d-flex p-2 mt-2" *ngIf="idtiktok === 0">
+            <!-- <div class="orangeAlert d-flex p-2 mt-2" *ngIf="idtiktok === 0">
               <img
                 src="/assets/Images/exclam-attente.svg"
                 class="ps-2 pe-4 icon-warning"
@@ -163,7 +172,7 @@
                 'Unfortunately a short link is not supported yet. please open your short link on a browser then copy the full link and try again.'
                   | translate
               }}
-            </div>
+            </div> -->
             <div
               *ngIf="
                 (sendform.controls['url'].invalid || !validUrl) &&
@@ -173,7 +182,7 @@
             >
               <div
                 *ngIf="
-                  sendform.get('url')?.errors?.required &&
+                  urlTronsformed?.errors?.required &&
                   sendform.controls['url'].touched
                 "
                 class="errors"
@@ -182,8 +191,8 @@
               </div>
               <div
                 *ngIf="
-                  (sendform.get('url')?.errors?.pattern || !validUrl) &&
-                  !sendform.get('url')?.errors?.required
+                  (urlTronsformed?.errors?.pattern || !validUrl) &&
+                  !urlTronsformed?.errors?.required
                 "
                 class="errors"
               >
@@ -448,16 +457,25 @@
             >
               <ngx-tweet
                 #tweetId
-                class="tweet-class me-3"
+                class="tweet-class "
                 tweetId="{{ this.idstatus }}"
                 style="
-                  width: -webkit-calc(100% - 2px);
+                  width: 80%;
                   text-align: -webkit-center;
+                  overflow: hidden;
+                  display: block;
+                 
                 "
               ></ngx-tweet>
             </div>
-
+            <div>
             <span class="titre_pass"> {{ 'ur_pass' | translate }} </span>
+            <span class="titre_pass"
+              >
+              &nbsp;&nbsp;(Gas fees : ${{ networkGas }})
+          </span>
+        </div>
+         
             <div class="div_input position-relative mt-1">
               <img class="ps-1" src="/assets/Images/Kep-password.svg" />
               <input
@@ -572,10 +590,12 @@
   <div class="envoyer_lien error_page">
     <div class="success-link">
       <img src="/assets/Images/error-info.svg" class="img-style mt-5" />
-
+      
       <h3 class="error-title text-break mt-2">{{ error | translate }}</h3>
-
-      <!--  <p class="error-text">{{"paragraph_erreur"|translate}}</p> -->
+    <div *ngIf="(TiktokPrivate)&&(oracleType === 'tiktok')">
+      <h3 class="error-text" > Check the privcay of your Tiktok profil or the ownership of this video </h3>
+    </div>
+       <p class="error-text">{{"paragraph_erreur"|translate}}</p>
       <button
         *ngIf="error === 'Not_your_link'"
         class="btn-info me-2 mt-5 mb-2"

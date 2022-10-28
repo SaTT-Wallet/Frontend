@@ -5,18 +5,32 @@ import {
   ViewChild,
   Inject,
   Renderer2,
-  PLATFORM_ID
+  PLATFORM_ID,
+  ChangeDetectorRef,
+  AfterContentChecked,
+  Input
 } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
   FormGroup,
   ValidatorFn,
-  Validators
-} from '@angular/forms';
+  Validators,
 
-import { forkJoin, of, Subject } from 'rxjs';
-import { catchError, map, mergeMap, takeUntil } from 'rxjs/operators';
+} from '@angular/forms';
+import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
+
+import { of, Subject , forkJoin} from 'rxjs';
+import {
+  catchError,
+  map,
+  mergeMap,
+  takeUntil,
+  take,
+  tap,
+  switchMap,
+  
+} from 'rxjs/operators';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
@@ -31,14 +45,16 @@ import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-ser
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { environment as env } from '../../../../environments/environment';
+import { ProfileService } from '@app/core/services/profile/profile.service';
+import { environment } from '@environments/environment.prod';
 
 @Component({
   selector: 'app-participer',
   templateUrl: './participer.component.html',
   styleUrls: ['./participer.component.css']
 })
-export class ParticiperComponent implements OnInit {
+export class ParticiperComponent implements OnInit, AfterContentChecked {
   msg2: string = '';
   values: Array<any> = [];
   value: any = {};
@@ -83,9 +99,20 @@ export class ParticiperComponent implements OnInit {
   idfaceook: any;
   idinstagram: any;
   idlinkedin: any;
+  urlTronsformed: any;
   idtiktok: any;
+  shortUrl: boolean = false;
   sharedid: any;
+  network: string = '';
+  networkProtocol: any;
+  networkGas: any;
   accountDeactivatedError = false;
+  tiktokProfilePrivacy = '';
+  TiktokPrivate: boolean = false;
+  tokenName : string = '';
+  urlFromInput : any;
+  
+  urlTiktok : string = env.urlSocialMedia.urlTiktok;
   // @ViewChild('draggable') private draggableElement: ElementRef | undefined;
   // @ViewChild('draggableinsta') private draggableinstaElement:
   // | ElementRef
@@ -107,8 +134,12 @@ export class ParticiperComponent implements OnInit {
   isGoogleUrl: boolean = false;
   gazproblem: boolean = false;
   embedTiktokVideo: any;
+  privacy: string='public';
   constructor(
+    private profilService: ProfileService,
     private router: Router,
+    private showNumbersRule: ShowNumbersRule,
+
     public CampaignService: CampaignHttpApiService,
     private campaignStore: CampaignsStoreService,
     private ActivatedRoute: ActivatedRoute,
@@ -116,6 +147,7 @@ export class ParticiperComponent implements OnInit {
     private Fetchservice: CryptofetchServiceService,
     private walletFacade: WalletFacadeService,
     private sanitizer: DomSanitizer,
+    private changeDetector: ChangeDetectorRef,
     private renderer: Renderer2,
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string
@@ -132,10 +164,19 @@ export class ParticiperComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.profilService.getTiktokProfilPrivcay().subscribe((res:any)=>
+    {
+
+      this.tiktokProfilePrivacy = res.data;
+     this.CheckPrivacy();
+
+    }
+    )
     this.sendform
       .get('url')
       ?.valueChanges.pipe(takeUntil(this.isDestroyedSubject))
       .subscribe((value: any) => {
+        this.urlTronsformed = value;
         if (value !== '') {
           this.linkNetorwkMutch = true;
           this.linked = false;
@@ -146,10 +187,11 @@ export class ParticiperComponent implements OnInit {
 
         setTimeout(() => {
           this.spinner = false;
+         
           this.sendLink();
         }, 1000);
       });
-    this.parentFunction();
+    
     this.showLinkedMessage();
     this.ActivatedRoute.params
       .pipe(
@@ -161,12 +203,21 @@ export class ParticiperComponent implements OnInit {
       )
       .subscribe((data: any) => {
         this.campaigndata = data.data;
+        console.log(this.campaigndata,"dataaaaaaaa campaign")
         this.networkWallet = data.data.token.type;
+        this.tokenName = data.data.token.name
         let performance = this.campaigndata.ratios[0]?.oracle;
         if (performance?.length > 1 && performance === 'twitter') {
           this.ratioLink = true;
         }
+        this.parentFunction(this.networkWallet).subscribe();
       });
+
+     
+  }
+
+  ngAfterContentChecked(): void {
+    this.changeDetector.detectChanges();
   }
 
   matchLinkType(): ValidatorFn {
@@ -187,21 +238,49 @@ export class ParticiperComponent implements OnInit {
       window.open('https://www.youtube.com/watch?v=tAZHZwrZh0o', '_blank');
   }
   goToBuy() {
+
+    if(this.error === 'out_of_gas_btt'){
+      window.open('https://sunswap.com/#/v2?lang=en-US&t0=TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t&t1=TAFjULxiVgT4qWk6UZwjqwZXTSaGaqnVp4&type=swap', '_blank');
+      return
+   }
+
+
     if (this.networkWallet === 'BEP20') {
-      this.gazcurrency = 'BNB';
+      this.tokenName = 'BNB';
+    
     } else if (this.networkWallet === 'ERC20') {
-      this.gazcurrency = 'ETH';
-    }else if (this.networkWallet === 'TRON') {
-      this.gazcurrency = 'TRX';
-    } 
-     else {
-      this.gazcurrency = 'MATIC';
+      this.tokenName = 'ETH';
     }
+    
+    else if (this.networkWallet === 'TRON') {
+      this.tokenName = 'TRX';
+    } else if (this.networkWallet === 'MATIC') {
+      this.tokenName = 'MATIC';
+      this.networkWallet = 'POLYGON'
+    } else if (this.networkWallet === 'BTTC') {
+      this.tokenName = '';
+    }
+
     this.router.navigate(['/wallet/buy-token'], {
+      
       queryParams: {
-        gaz: this.gazcurrency
-      }
+        id:  this.tokenName,
+        network: this.networkWallet
+      },
+      relativeTo: this.ActivatedRoute
     });
+  }
+  shortUrlChanger(normalUrl: string) {
+    const testTiktok = normalUrl.search('vm.tiktok.com');
+    const testYoutube = normalUrl.search('youtu.be');
+
+
+    if ((testTiktok > -1) || (testYoutube > -1)) {
+      this.CampaignService.expandUrl(normalUrl).subscribe((res: any) => {
+        this.urlFromInput = res.data;
+        
+      });
+    }
   }
   connect(social: any) {
     var linkFacebook: string =
@@ -282,6 +361,7 @@ export class ParticiperComponent implements OnInit {
   }
 
   sendLink(): void {
+    
     this.connectValue = '';
     let performance = this.campaigndata?.ratios?.length
       ? this.campaigndata?.ratios
@@ -291,10 +371,14 @@ export class ParticiperComponent implements OnInit {
     this.showButtonSend = false;
     let myApplication: any = {};
 
-    const media = this.sendform.get('url')?.value || '';
+    let media = this.sendform.get('url')?.value || '';
+
     if (
-      media?.indexOf('https://www.facebook.com/') !== -1 &&
-      media?.indexOf('posts') !== -1
+      (media?.indexOf(env.FACEBOOK_URL) !== -1 &&
+        (media?.indexOf('posts') !== -1 ||
+          media?.indexOf('photos') !== -1 ||
+          media?.indexOf('videos') !== -1)) ||
+      media.search('vm.tiktok.com') !== -1
     ) {
       this.validUrl = true;
       let parts = media?.split('/');
@@ -312,7 +396,7 @@ export class ParticiperComponent implements OnInit {
         this.renderer.setAttribute(
           this.myIframe?.nativeElement,
           'src',
-          'https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F' +
+          env.FACEBOOK_POST_URL +
             this.userfaceook +
             '%2Fposts%2F' +
             this.idfaceook +
@@ -329,7 +413,7 @@ export class ParticiperComponent implements OnInit {
             this.renderer.setAttribute(
               embed,
               'src',
-              'https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F' +
+              env.FACEBOOK_POST_URL +
                 this.userfaceook +
                 '%2Fposts%2F' +
                 this.idfaceook +
@@ -905,11 +989,11 @@ export class ParticiperComponent implements OnInit {
         }
       }
     } else if (
-      media.indexOf('youtube.com/watch') !== -1 ||
-      media.indexOf('https://youtu.be/') !== -1 ||
-      media.indexOf('https://www.youtube.com/embed/') !== -1
+      media.indexOf(env.YOUTUBE_WATCH_LINK) !== -1 ||
+      media.indexOf(env.YOUTUBE_SHORTEN_LINK) !== -1 ||
+      media.indexOf(env.YOUTUBE_EMBED_LINK) !== -1
     ) {
-      if (media.indexOf('youtube.com/watch') !== -1) {
+      if (media.indexOf(env.YOUTUBE_WATCH_LINK) !== -1) {
         this.validUrl = true;
         var parts = media.split('=');
         var videos = parts[1].split('&');
@@ -917,9 +1001,10 @@ export class ParticiperComponent implements OnInit {
         myApplication.idPost = videoId;
         this.idvideo = videoId;
         myApplication.idUser = '0';
-        myApplication.typeSN = 2;
+        myApplication.typeSN = env.typeSN.youtube;
+        this.oracleType = env.oracleType.youtube;
       }
-      if (media.indexOf('https://youtu.be/') !== -1) {
+      if (media.indexOf(env.YOUTUBE_SHORTEN_LINK) !== -1) {
         var parts = media.split('/');
         let videoId = parts[3];
         this.idvideo = videoId;
@@ -927,7 +1012,7 @@ export class ParticiperComponent implements OnInit {
         myApplication.idUser = '0';
         myApplication.typeSN = 2;
       }
-      if (media.indexOf('https://www.youtube.com/embed/') !== -1) {
+      if (media.indexOf(env.YOUTUBE_EMBED_LINK) !== -1) {
         var parts = media.split('/');
         let videoId = parts[4];
         myApplication.idPost = videoId;
@@ -1061,8 +1146,12 @@ export class ParticiperComponent implements OnInit {
         this.success = '';
         this.loadingButton = false;
       }
-    } else if (media.indexOf('www.tiktok.com') !== -1) {
+    } else if (
+      media.indexOf(env.TIKTOK_URL) !== -1 ||
+      media.search('vm.tiktok.com') !== -1
+    ) {
       this.idtiktok = media.split('video/')[1].split('?')[0];
+      
       this.embedTiktokVideo = this.sanitizer.bypassSecurityTrustHtml(`
         <iframe
           src="https://www.tiktok.com/embed/v2/${this.idtiktok}"
@@ -1072,7 +1161,6 @@ export class ParticiperComponent implements OnInit {
           allowfullscreen
         >
         </iframe>`);
-
       myApplication.idPost = this.idtiktok;
       myApplication.idUser = this.tokenStorageService.getUserId();
       myApplication.typeSN = 6;
@@ -1186,9 +1274,16 @@ export class ParticiperComponent implements OnInit {
   //     )
   //   )
   // );
+  CheckPrivacy(){
+    
+    if(this.tiktokProfilePrivacy==="private"){
 
+    this.privacy="private";
+    this.TiktokPrivate=true;
+  }
+  }
   getdatavideo() {
-    this.CampaignService.videoDescription(this.idvideo)
+    this.CampaignService.videoDescription(this.idvideo, this.oracleType)
       .pipe(takeUntil(this.isDestroyedSubject))
       .subscribe((datavideo: any) => {
         this.imagevideo = datavideo.thumbnail_url;
@@ -1220,6 +1315,7 @@ export class ParticiperComponent implements OnInit {
   //}
 
   applyCampaign(): void {
+    
     let application = this.application;
     if (!application) {
       application = {};
@@ -1256,7 +1352,6 @@ export class ParticiperComponent implements OnInit {
           // this.sendform.get('password')?.clearValidators();
           this.loadingButton = false;
           this.showButtonSend = true;
-
           // if (data['error']) {
           //   this.balanceNotEnough = false;
 
@@ -1301,14 +1396,13 @@ export class ParticiperComponent implements OnInit {
             }
           } else if (error.error.code === 402) {
             if (
+              error.error.error === 'Account resource insufficient error.' ||
+              error.error.error === "Contract validate error : account does not exist" ||
               error.error.error ===
-                'Returned error: insufficient funds for gas * price + value' ||
-              error.error.error ===
-                'Returned error: replacement transaction underpriced' ||
-                 'Account resource insufficient error.'
+                'Returned error: replacement transaction underpriced' || error.error.error === "Returned error: insufficient funds for gas * price + value"
             ) {
               this.gazproblem = true;
-              // this.error = "out_of_gas_error";
+              this.error = "out_of_gas_error";
               this.router.navigate([], {
                 queryParams: {
                   errorMessage: 'error'
@@ -1323,13 +1417,14 @@ export class ParticiperComponent implements OnInit {
               } else if (this.networkWallet === 'BTTC') {
                 this.error = 'out_of_gas_btt';
                 this.success = '';
-              } 
-              else if (this.networkWallet === 'TRON') {
+              } else if (this.networkWallet === 'TRON') {
                 this.error = 'out_of_gas_tron';
                 this.success = '';
-              } 
-              else {
+              } else if (this.networkWallet === 'MATIC') {
                 this.error = 'out_of_gas_matic';
+                this.success = '';
+              } else if (this.networkWallet === 'BTTC') {
+                this.error = 'out of gas';
                 this.success = '';
               }
             }
@@ -1351,38 +1446,62 @@ export class ParticiperComponent implements OnInit {
       );
   }
 
-  parentFunction() {
-    this.walletFacade
-      .getCryptoPriceList()
-      .pipe(
-        map((response: any) => response.data),
-        mergeMap((data: any) => {
-          this.bnb = data['BNB'].price;
-          this.eth = data['ETH'].price;
-          let arrayOfObs = [];
-          arrayOfObs.push(this.walletFacade.etherGaz$);
-          arrayOfObs.push(this.walletFacade.bnbGaz$);
-          return forkJoin(arrayOfObs);
-        }),
-        takeUntil(this.isDestroyedSubject)
-      )
-      .subscribe((resArray) => {
-        let priceEther;
-        const gazEther = resArray[0];
-        priceEther = gazEther.data.gasPrice;
-        this.gazsend = (
-          ((priceEther * GazConsumedByCampaign) / 1000000000) *
-          this.eth
-        ).toFixed(2);
-        this.eRC20Gaz = this.gazsend;
-        ////
-        const gazBnb = resArray[1];
-        let priceBnb = gazBnb.data.gasPrice;
-        this.bEPGaz = (
-          ((priceBnb * GazConsumedByCampaign) / 1000000000) *
-          this.bnb
-        ).toFixed(2);
-      });
+  parentFunction(network:any) {
+    
+
+    return this.walletFacade.getCryptoPriceList().pipe(
+    
+      map((response: any) => response.data),
+      take(1),
+      map((data: any) => {
+        console.log(network)
+        console.log(data)
+        let protocolrPrice;
+        let networkProtocol;
+        if(network === "BEP20"){
+          protocolrPrice = data['BNB'].price;
+          networkProtocol = env.Network.BNB
+       } else if(network === "ERC20"){
+          protocolrPrice = data['ETH'].price;
+          networkProtocol = env.Network.ETH
+       }else if(network === "POLYGON"){
+          protocolrPrice = data['MATIC'].price;
+          networkProtocol = env.Network.MATIC
+       }else if( network === "BTTC"){
+         protocolrPrice = data['BTT'].price;
+          networkProtocol = env.Network.BTT
+          
+       }else if( network === "TRON"){
+        protocolrPrice = data['TRX'].price;
+         networkProtocol =  env.Network.TRX
+      }
+        return {protocolrPrice, networkProtocol};
+      }),
+      
+      switchMap(({protocolrPrice, networkProtocol}) => {
+        return this.walletFacade.getGas(network).pipe(
+          take(1),
+          tap((res: any) => {
+            let price;
+                price = res.data.gasPrice;
+                this.networkProtocol = networkProtocol;
+
+
+                this.gazsend = (
+                  ((price * GazConsumedByCampaign) / 1000000000) *
+                  protocolrPrice
+                );
+                this.networkGas = this.showNumbersRule.transform(this.gazsend + '', true)
+                
+
+
+               
+            }
+          )
+        );
+      })
+   
+    );
   }
 
   notifyLink(idProm: string): void {

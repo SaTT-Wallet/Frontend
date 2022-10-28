@@ -197,6 +197,8 @@ export class WalletFacadeService {
     return this.cryptofetchServiceService.getEtherGaz();
   }
 
+ 
+
   loadEtherGaz() {
     this.walletStoreService.getEtherGaz();
   }
@@ -230,6 +232,9 @@ export class WalletFacadeService {
   getBnbGaz() {
     return this.cryptofetchServiceService.getBnbGaz();
   }
+  getGas(network:any){
+      return this.cryptofetchServiceService.getGas(network)
+  }
 
   getGazByNetwork(network: string) {
     network = network.toLowerCase();
@@ -240,7 +245,7 @@ export class WalletFacadeService {
       case 'erc20': {
         return this.getEtherGaz();
       }
-      case 'btt': {
+      case 'BTT': {
         return this.getBttGaz();
       }
       case 'polygon': {

@@ -99,7 +99,7 @@ export class ProfileSettingsFacadeService {
   deleteAllSocialNetworksLinkedin() {
     return this.profileService.deleteAllSocialNetworksLinkedin();
   }
-  deleteOneSocialNetworksLinkedin(organization: string,linkedinId:any) {
+  deleteOneSocialNetworksLinkedin(organization: string,linkedinId: string) {
     return this.profileService.deleteOneSocialNetworksLinkedin(organization,linkedinId);
   }
   updateProfile(body: any) {
@@ -118,6 +118,10 @@ export class ProfileSettingsFacadeService {
 
   exportProfileData(password: string) {
     return this.profileService.exportProfileData(password);
+  }
+
+  exportTronKeystore(password: string) {
+    return this.profileService.exportTronKeystore(password);
   }
 
   exportProfileDataBTC(password: string) {
