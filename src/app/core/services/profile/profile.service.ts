@@ -96,14 +96,14 @@ export class ProfileService {
       headers: header
     });
   }
-  deleteOneSocialNetworksLinkedin(organization: string) {
+  deleteOneSocialNetworksLinkedin(organization: string,linkedinId:string) {
     let header = new HttpHeaders({
       'Cache-Control': 'no-store',
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
     return this.http.delete(
-      sattUrl + '/profile/RemoveLinkedInChannel/' + organization,
+      sattUrl + '/profile/remove/'+ linkedinId+'/linkedInChannel/'+ organization,
       {
         headers: header
       }

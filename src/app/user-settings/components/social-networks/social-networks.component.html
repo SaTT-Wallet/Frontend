@@ -424,7 +424,7 @@
                               'linkedin',
                               ch.organization,
                               'linkedin',
-                              ch['organization~'].localizedName
+                              ch.linkedinId
                             )
                           "
                         >
@@ -1122,7 +1122,7 @@
         <div class="row d-flex justify-content-center">
           <div class="col-lg-12 justify-content-center mb-2">
             <button
-              (click)="deleteAccount(this.channelId, networkName)"
+              (click)="deleteAccount(this.channelId, networkName,this.channelName)"
               type="button"
               class="btn delete"
               data-dismiss="modal"
