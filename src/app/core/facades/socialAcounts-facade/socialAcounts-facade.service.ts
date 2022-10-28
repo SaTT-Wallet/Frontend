@@ -61,8 +61,8 @@ export class SocialAccountFacadeService {
   deleteOneSocialNetworksFb(id: string) {
     return this.profileService.deleteOneSocialNetworksFb(id);
   }
-  deleteOneSocialNetworksLinkedin(organization: string) {
-    return this.profileService.deleteOneSocialNetworksLinkedin(organization);
+  deleteOneSocialNetworksLinkedin(organization: string,linkedinId:string) {
+    return this.profileService.deleteOneSocialNetworksLinkedin(organization,linkedinId);
   }
   deleteTiktokChannel(tiktokProfileId: string) {
     return this.profileService.deleteTiktokChannel(tiktokProfileId);
