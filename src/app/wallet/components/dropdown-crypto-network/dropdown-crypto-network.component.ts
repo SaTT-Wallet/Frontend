@@ -61,7 +61,7 @@ export class DropdownCryptoNetworkComponent
       { network: 'BEP20' },
       { network: 'ERC20' },
       { network: 'POLYGON' },
-      { network: 'BTT' },
+      { network: 'BTTC' },
       { network: 'BTC' },
       { network: 'TRON' }
     ];
@@ -289,7 +289,7 @@ export class DropdownCryptoNetworkComponent
       this.cryptoPicName = this.defaultcurr;
       this.cryptoDetails = 'MATIC';
     }
-     else if (network === 'BTT') {
+     else if (network === 'BTTC') {
       this.cryptoSymbol = 'BTT';
       this.cryptoName = this.defaultcurrbtt;
       this.cryptoPicName = this.defaultcurrbtt;
