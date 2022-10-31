@@ -243,7 +243,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
       window.open('https://sunswap.com/#/v2?lang=en-US&t0=TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t&t1=TAFjULxiVgT4qWk6UZwjqwZXTSaGaqnVp4&type=swap', '_blank');
       return
    }
-
+ 
 
     if (this.networkWallet === 'BEP20') {
       this.tokenName = 'BNB';
