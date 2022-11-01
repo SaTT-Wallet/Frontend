@@ -388,8 +388,30 @@ export class RegistrationComponent implements OnInit {
         .pipe(takeUntil(this.onDestroy$))
         .subscribe(
           (data) => {
-            console.log('data.data.loggedIn: ', data.data.loggedIn)
-            if (data.data.loggedIn) {
+            if(!data.data.loggedIn) {
+              if (data.code === 200 && data.message === 'success') {
+                var result =
+                  this.document.getElementById('dropdown-menu')?.className;
+                let newClass = result + ' show';
+                this.document
+                  .getElementById('dropdown-menu')
+                  ?.setAttribute('class', newClass);
+                this.exist = true;
+                this.tokenStorageService.saveToken(data.data.access_token);
+                this.tokenStorageService.saveExpire(data.data.expires_in);
+                this.tokenStorageService.setUserSn('0');
+                this.tokenStorageService.setEnabled('0');
+                this.accountFacadeService.dispatchUpdatedAccount();
+                this.tokenStorageService.setShowPopUp('false');
+                // this.modalService.open(this.confirmModal);
+                this.showSpinner = false;
+                this.router.navigate(['/social-registration/activation-mail'], { 
+                  queryParams: { email: this.authForm.get('email')?.value }
+                });  
+              }
+
+            }
+            else {
               let param = {
                 access_token: data.data.access_token,
                 expires_in: data.data.expires_in,
@@ -420,29 +442,31 @@ export class RegistrationComponent implements OnInit {
                 // this.tokenStorageService.setItem('isAuthenticated', 'true');
               // this.router.navigateByUrl('/home')
               // return;
-            }
-            if (data.code === 200 && data.message === 'success') {
-              var result =
-                this.document.getElementById('dropdown-menu')?.className;
-              let newClass = result + ' show';
-              this.document
-                .getElementById('dropdown-menu')
-                ?.setAttribute('class', newClass);
-              this.exist = true;
-              this.tokenStorageService.saveToken(data.data.access_token);
-              this.tokenStorageService.saveExpire(data.data.expires_in);
-              this.tokenStorageService.setUserSn('0');
-              this.tokenStorageService.setEnabled('0');
-              this.accountFacadeService.dispatchUpdatedAccount();
-              this.tokenStorageService.setShowPopUp('false');
-              // this.modalService.open(this.confirmModal);
-              this.showSpinner = false;
-              this.router.navigate(['/social-registration/activation-mail'], {
-                queryParams: { email: this.authForm.get('email')?.value }
-              });
               this.router.navigateByUrl('/home')
-
             }
+
+            // if (data.code === 200 && data.message === 'success') {
+            //   var result =
+            //     this.document.getElementById('dropdown-menu')?.className;
+            //   let newClass = result + ' show';
+            //   this.document
+            //     .getElementById('dropdown-menu')
+            //     ?.setAttribute('class', newClass);
+            //   this.exist = true;
+            //   this.tokenStorageService.saveToken(data.data.access_token);
+            //   this.tokenStorageService.saveExpire(data.data.expires_in);
+            //   this.tokenStorageService.setUserSn('0');
+            //   this.tokenStorageService.setEnabled('0');
+            //   this.accountFacadeService.dispatchUpdatedAccount();
+            //   this.tokenStorageService.setShowPopUp('false');
+            //   // this.modalService.open(this.confirmModal);
+            //   this.showSpinner = false;
+            //   this.router.navigate(['/social-registration/activation-mail'], {
+            //     queryParams: { email: this.authForm.get('email')?.value }
+            //   });
+            //   // this.router.navigateByUrl('/home')
+
+            // }
           },
           (err) => {
             if (err.error.error.message === 'connect_with_form') {
