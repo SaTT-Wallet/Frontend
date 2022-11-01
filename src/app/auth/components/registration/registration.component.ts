@@ -396,9 +396,6 @@ export class RegistrationComponent implements OnInit {
                 token_type: 'bearer',
                 scope: 'user'
               };
-              console.log('access_token: ', data.data.access_token)
-              console.log('expires_in: ', data.data.expires_in)
-
               
               // this.router.navigateByUrl(
               //     '/auth/login?token=' + JSON.stringify(param)
