@@ -40,7 +40,7 @@
       >
         <!-- <p class="hard-gray-text mb-0">Balance :{{ totalAmount }} USD</p> -->
         <p *ngIf="this.selectedCryptoDetails" class="hard-gray-text mb-0">
-          Balance :${{ this.selectedCryptoDetails?.total_balance?.toFixed(2) }}
+          Balance :${{ this.selectedCryptoDetails?.total_balance?.toFixed(2)  }}
         </p>
         <p *ngIf="!this.selectedCryptoDetails" class="hard-gray-text mb-0">
           Balance :${{ this.sattBalance }}
