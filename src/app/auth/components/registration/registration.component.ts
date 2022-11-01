@@ -17,12 +17,12 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { sattUrl, pattEmail, pattPassword } from '@app/config/atn.config';
 import { CookieService } from 'ngx-cookie-service';
-import { debounceTime, map, takeUntil } from 'rxjs/operators';
+import { debounceTime, filter, map, mergeMap, take, takeUntil } from 'rxjs/operators';
 import { AuthService } from '@app/core/services/Auth/auth.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { environment } from '@environments/environment';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
-import { Subject, Subscription } from 'rxjs';
+import { of, Subject, Subscription } from 'rxjs';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { AuthFacadeService } from '@app/core/facades/auth-facade/auth-facade.service';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
@@ -61,6 +61,9 @@ export class RegistrationComponent implements OnInit {
   cookieValue: string = this.cookie.get('satt_cookies');
   cookieExists: boolean = this.cookie.check('satt_cookies');
   isClicked!: boolean;
+  expiresToken!: number;
+  private account$ = this.accountFacadeService.account$;
+
   successUpper = false;
   successLower = false;
   successNumber = false;
@@ -385,38 +388,85 @@ export class RegistrationComponent implements OnInit {
         .pipe(takeUntil(this.onDestroy$))
         .subscribe(
           (data) => {
-            if (data.data.loggedIn) {
+            if(!data.data.loggedIn) {
+              if (data.code === 200 && data.message === 'success') {
+                var result =
+                  this.document.getElementById('dropdown-menu')?.className;
+                let newClass = result + ' show';
+                this.document
+                  .getElementById('dropdown-menu')
+                  ?.setAttribute('class', newClass);
+                this.exist = true;
+                this.tokenStorageService.saveToken(data.data.access_token);
+                this.tokenStorageService.saveExpire(data.data.expires_in);
+                this.tokenStorageService.setUserSn('0');
+                this.tokenStorageService.setEnabled('0');
+                this.accountFacadeService.dispatchUpdatedAccount();
+                this.tokenStorageService.setShowPopUp('false');
+                // this.modalService.open(this.confirmModal);
+                this.showSpinner = false;
+                this.router.navigate(['/social-registration/activation-mail'], { 
+                  queryParams: { email: this.authForm.get('email')?.value }
+                });  
+              }
+
+            }
+            else {
               let param = {
                 access_token: data.data.access_token,
                 expires_in: data.data.expires_in,
                 token_type: 'bearer',
                 scope: 'user'
               };
-              this.router.navigateByUrl(
-                '/auth/login?token=' + JSON.stringify(param)
-              );
-              return;
+              
+              // this.router.navigateByUrl(
+              //     '/auth/login?token=' + JSON.stringify(param)
+              //   );
+                if (data?.data.access_token !== undefined) {
+                  this.tokenStorageService.setItem(
+                    'access_token',
+                    data.data.access_token
+                  );
+                  this.tokenStorageService.saveExpire(data.data.expires_in);
+                  this.expiresToken = data.data.expires_in;
+                  this.accountFacadeService.dispatchUserAccount();
+                  // return this.account$.pipe(
+                  //   filter((response) => response !== null),
+                  //   map((response) => {
+                  //     return { data, response };
+                  //   }),
+                  //   take(1)
+                  // );
+                }
+                // return of(null);
+                // this.tokenStorageService.setItem('isAuthenticated', 'true');
+              // this.router.navigateByUrl('/home')
+              // return;
+              this.router.navigateByUrl('/home')
             }
-            if (data.code === 200 && data.message === 'success') {
-              var result =
-                this.document.getElementById('dropdown-menu')?.className;
-              let newClass = result + ' show';
-              this.document
-                .getElementById('dropdown-menu')
-                ?.setAttribute('class', newClass);
-              this.exist = true;
-              this.tokenStorageService.saveToken(data.data.access_token);
-              this.tokenStorageService.saveExpire(data.data.expires_in);
-              this.tokenStorageService.setUserSn('0');
-              this.tokenStorageService.setEnabled('0');
-              this.accountFacadeService.dispatchUpdatedAccount();
-              this.tokenStorageService.setShowPopUp('false');
-              // this.modalService.open(this.confirmModal);
-              this.showSpinner = false;
-              this.router.navigate(['/social-registration/activation-mail'], {
-                queryParams: { email: this.authForm.get('email')?.value }
-              });
-            }
+
+            // if (data.code === 200 && data.message === 'success') {
+            //   var result =
+            //     this.document.getElementById('dropdown-menu')?.className;
+            //   let newClass = result + ' show';
+            //   this.document
+            //     .getElementById('dropdown-menu')
+            //     ?.setAttribute('class', newClass);
+            //   this.exist = true;
+            //   this.tokenStorageService.saveToken(data.data.access_token);
+            //   this.tokenStorageService.saveExpire(data.data.expires_in);
+            //   this.tokenStorageService.setUserSn('0');
+            //   this.tokenStorageService.setEnabled('0');
+            //   this.accountFacadeService.dispatchUpdatedAccount();
+            //   this.tokenStorageService.setShowPopUp('false');
+            //   // this.modalService.open(this.confirmModal);
+            //   this.showSpinner = false;
+            //   this.router.navigate(['/social-registration/activation-mail'], {
+            //     queryParams: { email: this.authForm.get('email')?.value }
+            //   });
+            //   // this.router.navigateByUrl('/home')
+
+            // }
           },
           (err) => {
             if (err.error.error.message === 'connect_with_form') {
@@ -442,7 +492,8 @@ export class RegistrationComponent implements OnInit {
             //   this.showSpinner = false;
             // }
           }
-        );
+        )
+        
     } else {
       this.showSpinner = false;
     }
