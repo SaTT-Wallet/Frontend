@@ -130,7 +130,7 @@ export class MonetizeStepsComponent implements OnInit, OnDestroy {
           this.visitedLinkedin = true;
           this.visitedTwitter = true;
           this.visitedGoogle = true;
-          this.visitedGoogle = true;
+          this.visitedTiktok = true;
           this.visitedPwd = true;
           this.visitedConfig = true;
           this.visitedActivePass = true;
