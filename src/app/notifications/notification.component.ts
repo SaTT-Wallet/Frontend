@@ -69,6 +69,7 @@ export class NotificationComponent implements OnInit {
 
   newNotification: boolean = false;
   errorMessagecode = '';
+  modalReference: any;
   constructor(
     private eRef: ElementRef,
     private _changeDetectorRef: ChangeDetectorRef,
@@ -686,11 +687,11 @@ export class NotificationComponent implements OnInit {
   }
 
   redirect(notif: any, content: any): void {
-    console.log(notif)
+    console.log(content)
     if (
       notif.type === 'join_on_social'
     ) {
-      this.modalService.open(content);
+      this.modalReference = this.modalService.open(content);
     }
     if (notif.type === 'buy_some_gas' || notif.type === 'invite_friends') {
       this.router.navigateByUrl('/wallet/buy-token');
