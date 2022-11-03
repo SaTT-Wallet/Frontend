@@ -687,14 +687,17 @@ export class NotificationComponent implements OnInit {
   }
 
   redirect(notif: any, content: any): void {
-    console.log(content)
     if (
       notif.type === 'join_on_social'
     ) {
       this.modalReference = this.modalService.open(content);
     }
-    if (notif.type === 'buy_some_gas' || notif.type === 'invite_friends') {
+    if (notif.type === 'invite_friends') {
       this.router.navigateByUrl('/wallet/buy-token');
+    }
+
+    if (notif.type === 'buy_some_gas') {
+      this.router.navigate(['/wallet/buy-token'],{ queryParams: {id: 'BNB', network: "BEP20"}});
     }
 
     if (notif?.label?.cmp_hash) {
