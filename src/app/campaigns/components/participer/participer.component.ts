@@ -271,8 +271,8 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
     });
   }
   shortUrlChanger(normalUrl: string) {
-    const testTiktok = normalUrl.search('vm.tiktok.com');
-    const testYoutube = normalUrl.search('youtu.be');
+    const testTiktok = normalUrl?.search('vm.tiktok.com');
+    const testYoutube = normalUrl?.search('youtu.be');
 
 
     if ((testTiktok > -1) || (testYoutube > -1)) {
