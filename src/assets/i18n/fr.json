@@ -308,6 +308,7 @@
   "buy": "Acheter",
   "buy_gas": "Acheter de Gas",
   "buy_satt_notify": "Vous avez acheté {{quantity}} SaTT  pour un montant de ${{amount}}",
+  "buy_satt": "Acheter SaTT",
   "confirm_legal_kyc_identity": "Vous avez ajouter votre  Vérification d’identité",
   "confirm_legal_kyc_proof": "Vous avez ajouter votre Justificatif de domicile",
   "buy_token": "Achetez des tokens dès maintenant",
