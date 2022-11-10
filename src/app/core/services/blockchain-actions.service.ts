@@ -88,7 +88,9 @@ export class BlockchainActionsService {
                   'Key derivation failed - possibly wrong password'
                 ) {
                   this.errorMessage = 'Wrong password';
-                } 
+                } else if(error.error.error ==="Returned error: insufficient funds for gas * price + value" || error.error.error === "Contract validate error : account does not exist"){
+                  this.errorMessage = "Returned error: insufficient funds for gas * price + value"
+                }
                 return of(null);
               }),
               map((response: any) => {
