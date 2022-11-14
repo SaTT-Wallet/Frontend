@@ -39,6 +39,7 @@ import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-faca
 enum ExportType {
   eth = 'export',
   btc = 'exportbtc',
+  tron = 'exportTron',
   mnemo = 'printseed'
 }
 @Component({
@@ -97,6 +98,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
   kycPendingReject: boolean = false;
   private kyc$ = this.kycFacadeService.kyc$;
   private socialAccount$ = this.socialAccountFacadeService.socialAccount$;
+  showSpinnerTRON = false;
 
   constructor(
     private accountFacadeService: AccountFacadeService,
@@ -298,20 +300,19 @@ export class SecurityComponent implements OnInit, OnDestroy {
               this.errorMsg = 'wrong_pass';
             }
             return of(null);
-          }),
+          })
         )
         .subscribe((response: any) => {
           if (response && response.message === 'account deleted') {
             // this.tokenStorageService.signOut();
-            // if (isPlatformBrowser(this.platformId)) 
+            // if (isPlatformBrowser(this.platformId))
             // this.router.navigate(['/auth/registration']);
             //window.location.reload();
-
 
             this.tokenStorageService.logout().subscribe(
               () => {
                 this.tokenStorageService.clear();
-        
+
                 this.AuthService.setIsAuthenticated(false);
                 this.campaignFacade.clearLinksListStore();
                 this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
@@ -345,8 +346,6 @@ export class SecurityComponent implements OnInit, OnDestroy {
                 this.router.navigate(['/auth/registration']);
               }
             );
-
-            
           }
         });
     }
@@ -383,12 +382,27 @@ export class SecurityComponent implements OnInit, OnDestroy {
     }
   }
 
+  openModalAndCheckTRON(exportModal: any, checkModal: any) {
+    this.showSpinnerTRON = true;
+    if (this.domicileValid && this.identityValid) {
+      this.modalService.open(exportModal);
+    } else {
+      if (this.dataLegalIdentity && this.dataLegalDomicile) {
+        this.kycPendingReject = true;
+      } else {
+        this.kycPendingReject = false;
+      }
+      this.modalService.open(checkModal);
+    }
+  }
+
   closeModal(content: any) {
     this.modalService.dismissAll(content);
     this.formExportData.reset();
     this.formExportDataBTC.reset();
     this.showSpinnerBTC = false;
     this.showSpinnerETH = false;
+    this.showSpinnerTRON = false;
     this.showSpinner = false;
   }
   isValidPwdExport(controlName: any) {
@@ -464,61 +478,65 @@ export class SecurityComponent implements OnInit, OnDestroy {
     this.showSpinner = true;
     //this.formExportData.reset()
     //this.formExportData.updateValueAndValidity();
+    let exportObs = this.profileSettingsFacade.exportProfileData(password);
     let fileName: string = '';
     if (this.exportType === this.eExportType.eth) {
       fileName = 'keystore.json';
     } else if (this.exportType === this.eExportType.btc) {
       fileName = 'wallet.bip38';
+    } else if (this.exportType === this.eExportType.tron) {
+      fileName = 'keystore.json';
+      exportObs = this.profileSettingsFacade.exportTronKeystore(password);
     } else if (this.exportType === this.eExportType.mnemo) {
       fileName = 'wallet.txt';
     }
     this.formExportDataSubmitted = true;
+
     if (this.formExportData.valid) {
-      this.profileSettingsFacade
-        .exportProfileData(password)
-        .pipe(takeUntil(this.onDestroy$))
-        .subscribe(
-          (res: any) => {
-            // if (res.message === 'success' && res.code === 200) {
-            this.formExportDataSubmitted = false;
-            const file = new Blob([JSON.stringify(res)], {
-              type: 'application/octet-stream'
-            });
+      exportObs.pipe(takeUntil(this.onDestroy$)).subscribe(
+        (res: any) => {
+          // if (res.message === 'success' && res.code === 200) {
+          this.formExportDataSubmitted = false;
+          const file = new Blob([JSON.stringify(res)], {
+            type: 'application/octet-stream'
+          });
 
-            const href = URL.createObjectURL(file);
-            const a = this.document.createElement('A');
-            a.setAttribute('href', href);
-            a.setAttribute('download', fileName);
-            this.document.body.appendChild(a);
-            a.click();
-            this.document.body.removeChild(a);
-            this.formExportData.reset();
-            this.modalService.dismissAll();
-            this.showSpinnerBTC = false;
-            this.showSpinnerETH = false;
-            //  }
+          const href = URL.createObjectURL(file);
+          const a = this.document.createElement('A');
+          a.setAttribute('href', href);
+          a.setAttribute('download', fileName);
+          this.document.body.appendChild(a);
+          a.click();
+          this.document.body.removeChild(a);
+          this.formExportData.reset();
+          this.modalService.dismissAll();
+          this.showSpinnerBTC = false;
+          this.showSpinnerETH = false;
+          this.showSpinnerTRON = false;
+          this.showSpinner = false;
+          //  }
 
-            // }
-          },
-          (err) => {
-            if (
-              err.error.error ===
-                'Key derivation failed - possibly wrong password' &&
-              err.error.code === 500
-            ) {
-              this.formExportData
-                .get('password')
-                ?.setErrors({ checkPassword: true });
-            } else if (
-              err.error.error === 'wrong password' &&
-              err.error.code === 401
-            ) {
-              this.formExportData
-                .get('password')
-                ?.setErrors({ checkPassword: true });
-            }
+          // }
+        },
+        (err) => {
+          if (
+            err.error.error ===
+              'Key derivation failed - possibly wrong password' &&
+            err.error.code === 500
+          ) {
+            this.formExportData
+              .get('password')
+              ?.setErrors({ checkPassword: true });
+          } else if (
+            err.error.error === 'wrong password' &&
+            err.error.code === 401
+          ) {
+            this.formExportData
+              .get('password')
+              ?.setErrors({ checkPassword: true });
           }
-        );
+        }
+      );
     }
   }
   confirmExportBTC(password: any) {
@@ -762,7 +780,6 @@ export class SecurityComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     // this.onDestroy$.next('');
     // this.onDestroy$.complete();
-
     // this.modalService.dismissAll();
   }
 }
