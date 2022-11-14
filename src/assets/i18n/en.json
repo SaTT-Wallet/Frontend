@@ -3166,5 +3166,6 @@
   "back_toAdPools": "Back to AdPool",
   "Your_link_is_now_submitted": "Your link is now submitted.",
   "campaign_validation.description1": "It will be online at",
-  "campaign_validation.description2": "You can modify some informations or add more budget at any time"
+  "campaign_validation.description2": "You can modify some informations or add more budget at any time",
+  "security.download-key-TRON": "Download the TRON key "
 }
