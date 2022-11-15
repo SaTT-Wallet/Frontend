@@ -6,9 +6,10 @@ export const environment = {
   production: false,
   API_URL: 'https://api-preprod2.satt-token.com',
   //https://api-preprod2.satt-token.com
+
   //API_URL:  'https://api2.satt-token.com',
 
-  //API_URL: 'https://localhost:3015',
+  // API_URL: 'https://localhost:3015',
   //https://api-preprod.satt-token.com:3014
   addresses: {
     smartContracts: {
@@ -18,10 +19,13 @@ export const environment = {
       campaignBTT: '0x261491739e36090FC80fF1569B7E5FFe26070d77',
       campaignTRON: 'THUD3VAxyTEmMCBEjd2AcSujzbgPSu39p9',
 
+      // SATT_TOKENERC20: '0x3e233F049DAfB2ed8aaf324F67Dd98bc8FDdF6dA',
       SATT_TOKENERC20: '0x2bef0d7531f0aae08adc26a0442ba8d0516590d0',
+      
       SATT_TOKENBEP20: '0x6fAc729f346A46fC0093126f237b4A520c40eb89',
       SATT_TOKEN_TRON: 'TZ9mUjmxCtowj9h68NJq626qaGWiv61KWo',
       SATT_TOKENPOLYGON: '0x195DC8342D923D3dFe0167Dc902A33Eabd801653',
+
       SATT_TOKENBTT: '0xaabda8813dF0fDc254B3aeD3d901E3838f0CCfCF',
       SATT_TOKENTRON: 'TZ9mUjmxCtowj9h68NJq626qaGWiv61KWo',
       TETHER_TOKENERC20: '0x3B2243E3Aeb6d4A102061BCE6C5c233c2C08fF65',
@@ -57,7 +61,50 @@ export const environment = {
   etherscanaddr: 'https://ropsten.etherscan.io/address/',
 
   simplexUrl: 'https://sandbox.test-simplexcc.com/payments/new',
-  gmtId: 'GTM-K2RMTJ3'
+  gmtId: 'GTM-5XW23QX',
+
+  SWAPLINK:
+    'https://sunswap.com/#/v2?lang=en-US&t0=TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t&t1=TAFjULxiVgT4qWk6UZwjqwZXTSaGaqnVp4&type=swap',
+  YOUTUBE_OEMBED_LINK:
+    'https://www.youtube.com/oembed?url=https%3A//youtube.com/watch%3Fv%3D',
+  YOUTUBE_WATCH_LINK: 'youtube.com/watch',
+  YOUTUBE_SHORTEN_LINK: 'https://youtu.be/',
+  YOUTUBE_EMBED_LINK: 'https://www.youtube.com/embed/',
+  FACEBOOK_URL: 'https://www.facebook.com/',
+  TIKTOK_URL: 'https://www.tiktok.com/',
+  FACEBOOK_POST_URL:
+    'https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F',
+  Network: {
+    BNB: 'BNB',
+    WSAT: 'WSATT',
+    ETH: 'ETH',
+    BTC: 'BITCOIN',
+    SATT: 'SATT',
+    SATTBEP20: 'SATTBEP20',
+    TRX: 'tron',
+    MATIC: 'MATIC',
+    BTT: 'BTT'
+  },
+  typeSN: {
+    facebook: 1,
+    youtube: 2,
+    instagram: 3,
+    twitter: 4,
+    linkedin: 5,
+    tiktok: 6
+  },
+  oracleType: {
+    facebook: 'facebook',
+    youtube: 'youtube',
+    instagram: 'instagram',
+    twitter: 'twitter',
+    linkedin: 'linkedin',
+    tiktok: 'tiktok'
+  },
+  urlSocialMedia: {
+    urlTiktok: 'https://www.tiktok.com/'
+  },
+  // gmtId: 'GTM-5XW23QX'
 
   /*  API_URL: 'https://api2.satt-token.com',
   addresses: {

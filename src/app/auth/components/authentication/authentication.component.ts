@@ -404,6 +404,9 @@ getCookie(key: string){
           if (response.visitedYoutube) {
             this.tokenStorageService.setSecureWallet('visited-google', 'true');
           }
+          if (response.visitedTiktok) {
+            this.tokenStorageService.setSecureWallet('visited-tiktok', 'true');
+          }
 
           if (response.is2FA === true) {
             this.tokenStorageService.setItem('valid2FA', 'false');
@@ -525,7 +528,7 @@ getCookie(key: string){
                 this.tokenStorageService.saveTronWallet(
                   res.myWallet.data?.tronAddress
                 );
-                this.router.navigateByUrl('/wallet');
+                this.router.navigateByUrl('/ad-pools');
                 this.showBigSpinner = true;
                 this.backgroundImage = '';
                 this.backgroundColor = '';
@@ -536,7 +539,7 @@ getCookie(key: string){
               this.tokenStorageService.saveTronWallet(
                 res.myWallet.data?.tronAddress
               );
-              this.router.navigateByUrl('/wallet');
+              this.router.navigateByUrl('/ad-pools');
               this.onDestroy$.next('');
               this.showBigSpinner = true;
               this.backgroundImage = '';
@@ -713,6 +716,12 @@ getCookie(key: string){
                 'true'
               );
             }
+            if (response.visitedTiktok) {
+              this.tokenStorageService.setSecureWallet(
+                'visited-tiktok',
+                'true'
+              );
+            }
 
             if (response.is2FA === true) {
               this.tokenStorageService.setItem('valid2FA', 'false');
@@ -883,8 +892,8 @@ getCookie(key: string){
           },
           (error: HttpErrorResponse) => {
             if (
-              error.error.error === 'Wallet not found' &&
-              error.error.code === 404
+              error?.error?.error === 'Wallet not found' &&
+              error?.error?.code === 404
             ) {
               this.tokenStorageService.setSecureWallet(
                 'visited-completeProfile',
@@ -901,19 +910,19 @@ getCookie(key: string){
   }
   socialAcountCheck(data: any) {
     this.tokenStorageService.setSecureWallet('visited-completeProfile', 'true');
-    if (data.facebook.length === 0) {
+    if (data?.facebook?.length === 0) {
       this.router.navigate(['social-registration/monetize-facebook']);
-    } else if (data.twitter.length === 0) {
+    } else if (data?.twitter?.length === 0) {
       this.tokenStorageService.setSecureWallet('visited-facebook', 'true');
       this.socialAccountsFacade.pageVisited(ESocialMediaNames.facebook);
       this.router.navigate(['social-registration/monetize-twitter']);
-    } else if (data.linkedin.length === 0) {
+    } else if (data?.linkedin?.length === 0) {
       this.socialAccountsFacade.pageVisited(ESocialMediaNames.twitter);
       this.socialAccountsFacade.pageVisited(ESocialMediaNames.facebook);
       this.tokenStorageService.setSecureWallet('visited-facebook', 'true');
       this.tokenStorageService.setSecureWallet('visited-twitter', 'true');
       this.router.navigate(['social-registration/monetize-linkedin']);
-    } else if (data.google.length === 0) {
+    } else if (data?.google?.length === 0) {
       this.socialAccountsFacade.pageVisited(ESocialMediaNames.twitter);
       this.socialAccountsFacade.pageVisited(ESocialMediaNames.facebook);
       this.socialAccountsFacade.pageVisited(ESocialMediaNames.linkedIn);
@@ -927,6 +936,7 @@ getCookie(key: string){
       this.tokenStorageService.setSecureWallet('visited-twitter', 'true');
       this.tokenStorageService.setSecureWallet('visited-linkedin', 'true');
       this.tokenStorageService.setSecureWallet('visited-google', 'true');
+      this.tokenStorageService.setSecureWallet('visited-tiktok', 'true');
       this.tokenStorageService.setSecureWallet('visited-socialConfig', 'true');
       this.tokenStorageService.setSecureWallet(
         'visited-transactionPwd',

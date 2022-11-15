@@ -45,9 +45,6 @@ export class ConfirmBlockchainActionComponent implements OnInit {
 
         // }
         // in case of error
-        if (response.error.length === 0) {
-          this.errorMessage = 'wrong_password';
-        }
         if (response.error) {
           if (
             response.error ===
