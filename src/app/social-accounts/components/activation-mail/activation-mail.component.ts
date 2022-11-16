@@ -22,6 +22,8 @@ export class ActivationMailComponent implements OnInit {
   successMsg = '';
   user!: User;
   codesms: boolean = false;
+  codeTimer: boolean = false;
+  // idInterval: any = 0;
   email: any;
   codeData: any;
   userId: any;
@@ -175,6 +177,16 @@ export class ActivationMailComponent implements OnInit {
             this.codesms = false;
             this.formCode.reset();
           }
+          // this.idInterval = setInterval(() => {
+          //   console.log('heeere!!!')
+          //   this.codesms = true
+          // }, 5000)
+
+          this.codeTimer = true;
+          setTimeout(() => {
+            // console.log("can't resend before 15 seconds!")
+            this.codeTimer = false;
+          }, 15000);
         },
         (err) => {
           this.successMsg = '';
@@ -187,5 +199,8 @@ export class ActivationMailComponent implements OnInit {
   ngOnDestroy(): void {
     this.isDestroyed.next('');
     this.isDestroyed.unsubscribe();
+    // if (this.idInterval) {
+    //   clearInterval(this.idInterval);
+    // }
   }
 }

@@ -129,7 +129,12 @@
           </p>
         </div>
         <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8">
-          <button type="submit" class="btn-white" (click)="resendCode()">
+          <button
+            type="submit"
+            class="btn-white"
+            [disabled]="this.codeTimer"
+            (click)="resendCode()"
+          >
             {{ 'send_code' | translate }}
           </button>
         </div>
