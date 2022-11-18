@@ -5,6 +5,8 @@
 export const environment = {
   production: false,
   API_URL: 'https://api-preprod2.satt-token.com',
+  //url:"http://localhost:4200/",
+  url: 'https://testnet.satt.atayen.us/',
   //https://api-preprod2.satt-token.com
 
   //API_URL:  'https://api2.satt-token.com',
