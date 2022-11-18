@@ -124,9 +124,9 @@
           <p class="error" *ngIf="this.errorMessagecode === 'user not found'">
             User not found
           </p>
-          <p class="success-code" *ngIf="this.successMsg === 'Email sent'">
+          <!-- <p class="success-code" *ngIf="this.successMsg === 'Email sent'">
             Email sent
-          </p>
+          </p> -->
         </div>
         <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8">
           <button
@@ -138,6 +138,31 @@
             {{ 'send_code' | translate }}
           </button>
         </div>
+
+        <!-- *ngIf="this.codeTimer" -->
+        <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8 mt-3" *ngIf="this.codeTimer">
+            <!-- class="d-flex justify-content-center" -->
+            <div
+                *ngIf="this.errorMessagecode !== ''"
+                >
+                <!-- <span
+                  class="danger_error p-2"
+                  >
+                  <img src="assets/Images/false.svg" class="me-2" />
+                  <span> {{ this.errorMessagecode | translate }}, Please try again after 
+                    {{ this.timeLeft }} seconds</span>
+                </span> -->
+                <a style="color: red;">
+                  {{ this.errorMessagecode | translate }}, Please try again after 
+                    {{ this.timeLeft }} seconds
+                </a>
+              </div>
+        </div>
+
+      <!-- <button (click)="startTimer()">
+        {{ this.timeLeft }}
+      </button> -->
+
       </div>
     </div>
   </div>

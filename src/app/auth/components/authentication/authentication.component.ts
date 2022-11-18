@@ -142,6 +142,8 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
   forgotpassword: boolean = true;
   recoverpassword: boolean = false;
   loggedrs!: boolean;
+  showResendLink: boolean = false;
+  timeLeft: number = 15;
   private onDestroy$ = new Subject();
   private account$ = this.accountFacadeService.account$;
   private socialAccount$ = this.socialAccountFacadeService.socialAccount$;
@@ -1242,6 +1244,26 @@ getCookie(key: string){
           // }
 
           this.isCollapsed = false;
+
+          // Decompteur
+          setTimeout(() => {
+            // console.log("can't resend before 15 seconds!")
+          this.showResendLink = true;
+          }, 15000);
+          // this.showResendLink = false;
+
+          var timer = setInterval(() => {
+            this.showResendLink = false;
+            if (this.timeLeft > 0) {
+              this.timeLeft--;
+            } else {
+              this.timeLeft = 15;
+              clearInterval(timer)
+              this.showResendLink = true;
+            }
+          }, 1000);
+
+          console.log('this.showResendLink: ', this.showResendLink)
         },
         (error) => {
           if (error.error.error === 'connect_with_gplus') {
