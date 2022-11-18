@@ -24,6 +24,8 @@ export class ActivationMailComponent implements OnInit {
   codesms: boolean = false;
   codeTimer: boolean = false;
   // idInterval: any = 0;
+  timeLeft: number = 15;
+  countDown: any;
   email: any;
   codeData: any;
   userId: any;
@@ -173,7 +175,8 @@ export class ActivationMailComponent implements OnInit {
         (response: any) => {
           if (response.message === 'Email sent' && response.code === 200) {
             this.successMsg = 'Email sent';
-            this.errorMessagecode = '';
+            // this.errorMessagecode = '';
+            this.errorMessagecode = 'Email sent';
             this.codesms = false;
             this.formCode.reset();
           }
@@ -187,6 +190,31 @@ export class ActivationMailComponent implements OnInit {
             // console.log("can't resend before 15 seconds!")
             this.codeTimer = false;
           }, 15000);
+
+          var timer = setInterval(() => {
+            // this.codeTimer = false;
+            if (this.timeLeft > 0) {
+              this.timeLeft--;
+            } else {
+              this.timeLeft = 15;
+              clearInterval(timer)
+            }
+          }, 1000);
+
+          // //120 Seconds timer...
+          // var timeleft = 120;
+          // var countDown
+          // setInterval(() => {
+          //   if (timeleft <= 0) {
+          //     clearInterval(timeleft);
+          //     // document.getElementById("countdown").innerHTML = "Finished";
+          //     countDown = "Finished"
+          //   } else {
+          //     countDown = timeleft + " seconds remaining";
+          //   }
+          //   timeleft -= 1;
+          // }, 1000);
+
         },
         (err) => {
           this.successMsg = '';
@@ -196,6 +224,19 @@ export class ActivationMailComponent implements OnInit {
         }
       );
   }
+
+
+  // startTimer() {
+  //   var timer = setInterval(() => {
+  //     if (this.timeLeft > 1) {
+  //       this.timeLeft--;
+  //     } else {
+  //       this.timeLeft = 5;
+  //       clearInterval(timer)
+  //     }
+  //   }, 1000);
+  // }
+
   ngOnDestroy(): void {
     this.isDestroyed.next('');
     this.isDestroyed.unsubscribe();
