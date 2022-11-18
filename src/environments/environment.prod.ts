@@ -1,7 +1,11 @@
 export const environment = {
   production: true,
-  API_URL: 'https://api2.satt-token.com',
-  url: 'https://dapp.satt.com/',
+  API_URL: 'https://api2.satt-token.com',  
+  url:"https://dapp.satt.com/",
+
+  url_subgraph_bsc: 'https://api.thegraph.com/subgraphs/name/atayen/satt--bsc-mainnet',
+  url_subgraph_ether: 'https://api.thegraph.com/subgraphs/name/atayen/satt-ether-mainnet',
+
   addresses: {
     smartContracts: {
       campaignERC20: '0xf961c85517fe86244cb60889afc4a928068d49ef',

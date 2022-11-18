@@ -26,6 +26,7 @@ import {
 } from '@app/core/campaigns-list-response.interface';
 import { IApiResponse } from '@app/core/types/rest-api-responses';
 import { environment as env } from '../../../../environments/environment';
+import axios from 'axios'
 
 @Injectable({
   providedIn: 'root'
@@ -1153,6 +1154,37 @@ export class CampaignHttpApiService {
       headers: header
     });
   }
+
+  getWalletsCount() {
+    let header = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+    return this.http
+    .get(sattUrl + '/wallet/countWallets', {headers: header})
+  }
+  
+  // trial fetch from subgraph
+  getTransactionsCount() {
+    console.log('5555')
+    return axios.get('https://api.github.com/users/mapbox')
+  .then((response) => {
+    console.log(response.data);
+    console.log(response.status);
+    console.log(response.statusText);
+    console.log(response.headers);
+    console.log(response.config);
+  });
+    // let header = new HttpHeaders({
+    //   'Cache-Control': 'no-store',
+    //   'Content-Type': 'application/json',
+    //   Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    // })
+    // console.log("graph: ", this.http.get('https://api.thegraph.com/subgraphs/name/atayen/satt-testnet-ether', {headers: header}))
+    // return this.http.get('https://api.thegraph.com/subgraphs/name/atayen/satt-testnet-ether', {headers: header})
+  }
+
   ngOnDestroy(): void {
     this.isDestroyed.next('');
     this.isDestroyed.unsubscribe();
