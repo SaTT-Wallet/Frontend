@@ -138,6 +138,18 @@ input[type='search']::-webkit-search-cancel-button {
     /* margin-right: 50px; */
 }
 
+.label_avatar_title {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 16px;
+    letter-spacing: 0.03em;
+    color: #1f2337;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    /* margin-right: 50px; */
+}
+
 .label_time_notif {
     font-style: normal;
     font-weight: normal;
@@ -380,6 +392,11 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
         margin-left: 3px;
     } */
     .label_avatar_notif {
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    .label_avatar_title {
         text-overflow: ellipsis;
         overflow: hidden;
     }

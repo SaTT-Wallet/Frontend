@@ -184,7 +184,8 @@ export class CampaignDetailComponent implements OnInit {
     }
   }
   backClicked() {
-    this._location.back();
+    // this._location.back();
+    this.router.navigate(['home/ad-pools']);
   }
   ngOnInit(): void {
     this.CampaignService.isLoading.subscribe((res) => {

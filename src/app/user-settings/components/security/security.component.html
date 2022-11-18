@@ -93,6 +93,24 @@
                   <span class="sr-only">Loading...</span>
                 </div>
               </button>
+              <button
+              class="btn-export"
+              (click)="
+                this.exportType = eExportType.tron;
+                openModalAndCheckTRON(exportDataModal, checkUserLegalKYCModal)
+              "
+            >
+              <span *ngIf="!this.showSpinnerTRON">{{
+                'security.download-key-TRON' | translate
+              }}</span>
+              <div
+                *ngIf="this.showSpinnerTRON"
+                class="spinner-border"
+                role="status"
+              >
+                <span class="sr-only">Loading...</span>
+              </div>
+            </button>
             </div>
           </div>
         </div>

@@ -1020,6 +1020,7 @@
   "buy": "Buy",
   "buy_gas": "Buy Gas",
   "buy_satt_notify": "You bought {{quantity}} SaTT  with the value of ${{amount}}",
+  "buy_satt": "Buy SaTT",
   "confirm_legal_kyc_identity": "You have added your Identity verification",
   "confirm_legal_kyc_proof": "You have added your Proof of address",
   "buy_token": "Buy tokens now",
@@ -3156,11 +3157,15 @@
   "pictures": "Pictures",
   "Retry-again": "Retry again",
   "Apply Now": "Apply now",
-  "buy_some_gas": "Buy some gas",
-  "invite_friends": "Invite your friends",
-  "join_on_social": "Join us on our social networks",
+  "buy_some_gas": "Buy some BNB gas",
+  "gas_notif" : "BNB is necessary if you want to make some actions like send tokens and create or apply AdPools !",
+  "invite_friends": "Buy your first SaTT",
+  "invite_notif" : "Start hodling SaTT buy with credit card or crypto easily.",
+  "join_on_social": "Join us on social networks",
+  "network_notif":"Never miss lastest Hot News about SaTT. Follow us on social medias and let’s have a talk !",
   "back_toAdPools": "Back to AdPool",
   "Your_link_is_now_submitted": "Your link is now submitted.",
   "campaign_validation.description1": "It will be online at",
-  "campaign_validation.description2": "You can modify some informations or add more budget at any time"
+  "campaign_validation.description2": "You can modify some informations or add more budget at any time",
+  "security.download-key-TRON": "Download the TRON key "
 }

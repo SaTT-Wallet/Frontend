@@ -35,6 +35,8 @@ export const environment = {
     appId: '1:284190209745:web:dc01085f6a6dabfcc837f0',
     measurementId: 'G-DSJK01CZ0X'
   },
+  gmtId: 'GTM-5XW23QX',
+
   fcmredirectUrl: 'https://satt.atayen.us/#/home',
   bscan: 'https://bscscan.com/tx/',
   etherscan: 'https://etherscan.io/tx/',
@@ -46,7 +48,7 @@ export const environment = {
   bttscan: 'https://bttcscan.com/tx/',
   bttscanAddr: 'https://bttcscan.com/address/',
   tronScanAddr: 'https://tronscan.org/#/address/',
-  tronScan: 'https://tronscan.org/#/transaction/'
+  tronScan: 'https://tronscan.org/#/transaction/',
   /*
   DEV-ENV
 */
@@ -87,4 +89,52 @@ export const environment = {
   polygonscanAddr: 'https://mumbai.polygonscan.com/tx/',
   etherscanaddr: 'https://ropsten.etherscan.io/address/',
   simplexUrl: 'https://sandbox.test-simplexcc.com/payments/new'*/
+  urlSocialMedia: {
+    urlTiktok: 'https://www.tiktok.com/'
+  },
+  FACEBOOK_URL: 'https://www.facebook.com/',
+
+  FACEBOOK_POST_URL:
+    'https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F',
+
+  YOUTUBE_WATCH_LINK: 'youtube.com/watch',
+
+  YOUTUBE_SHORTEN_LINK: 'https://youtu.be/',
+
+  YOUTUBE_EMBED_LINK: 'https://www.youtube.com/embed/',
+
+  typeSN: {
+    facebook: 1,
+    youtube: 2,
+    instagram: 3,
+    twitter: 4,
+    linkedin: 5,
+    tiktok: 6
+  },
+
+  oracleType: {
+    facebook: 'facebook',
+    youtube: 'youtube',
+    instagram: 'instagram',
+    twitter: 'twitter',
+    linkedin: 'linkedin',
+    tiktok: 'tiktok'
+  },
+
+  TIKTOK_URL: 'https://www.tiktok.com/',
+
+  Network: {
+    BNB: 'BNB',
+    WSAT: 'WSATT',
+    ETH: 'ETH',
+    BTC: 'BITCOIN',
+    SATT: 'SATT',
+    SATTBEP20: 'SATTBEP20',
+    TRX: 'tron',
+    MATIC: 'MATIC',
+    BTT: 'BTT'
+  },
+
+  YOUTUBE_OEMBED_LINK:
+    'https://www.youtube.com/oembed?url=https%3A//youtube.com/watch%3Fv%3D'
 };

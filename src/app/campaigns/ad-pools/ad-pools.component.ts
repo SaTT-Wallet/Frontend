@@ -325,7 +325,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
         );
     }
     this.campaignService.loadDataAddPoolWhenEndScroll
-      .pipe(debounceTime(1000), takeUntil(this.onDestoy$))
+      .pipe(debounceTime(450), takeUntil(this.onDestoy$))
       .subscribe(() => {
         this.campaignsListStoreService.emitPageScroll();
       });

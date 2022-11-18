@@ -81,15 +81,15 @@ export class MonetizeLinkedinAccountComponent implements OnInit, OnDestroy {
       this.router.url;
   }
   deleteLink() {
-    this.socialAccountFacadeService
-      .deleteOneSocialNetworksLinkedin(this.channelLinkedin[0].organization)
-      .pipe(takeUntil(this.onDestoy$))
-      .subscribe((response: any) => {
-        if (response.message === 'deleted successfully') {
-          this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
-          this.ngOnInit();
-        }
-      });
+    // this.socialAccountFacadeService
+    //   .deleteOneSocialNetworksLinkedin(this.channelLinkedin[0].organization)
+    //   .pipe(takeUntil(this.onDestoy$))
+    //   .subscribe((response: any) => {
+    //     if (response.message === 'deleted successfully') {
+    //       this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
+    //       this.ngOnInit();
+    //     }
+    //   });
   }
 
   getUrlMsg() {

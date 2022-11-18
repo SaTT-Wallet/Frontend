@@ -35,19 +35,25 @@ export class SocialConfigComponent implements OnInit {
       .subscribe((data: any) => {
         if (data) {
           let count2 = 0;
-          if (data.facebook.length !== 0 && data.facebook.instagram_username) {
+          if (
+            data.facebook?.length !== 0 &&
+            data.facebook?.instagram_username
+          ) {
             count2++;
           }
-          if (data.facebook.length !== 0 && !data.facebook.instagram_username) {
+          if (
+            data.facebook?.length !== 0 &&
+            !data.facebook?.instagram_username
+          ) {
             count2++;
           }
-          if (data.google.length !== 0) {
+          if (data.google?.length !== 0) {
             count2++;
           }
-          if (data.twitter.length !== 0) {
+          if (data.twitter?.length !== 0) {
             count2++;
           }
-          if (data.linkedin.length !== 0) {
+          if (data.linkedin?.length !== 0) {
             count2++;
           }
           this.percentNet = (count2 * 100) / 5;
