@@ -1,6 +1,7 @@
 export const environment = {
   production: true,
   API_URL: 'https://api2.satt-token.com',
+  url: 'https://dapp.satt.com/',
   addresses: {
     smartContracts: {
       campaignERC20: '0xf961c85517fe86244cb60889afc4a928068d49ef',
@@ -45,7 +46,7 @@ export const environment = {
   bttscan: 'https://bttcscan.com/tx/',
   bttscanAddr: 'https://bttcscan.com/address/',
   tronScanAddr: 'https://tronscan.org/#/address/',
-  tronScan: 'https://tronscan.org/#/transaction/',
+  tronScan: 'https://tronscan.org/#/transaction/'
   /*
   DEV-ENV
 */
