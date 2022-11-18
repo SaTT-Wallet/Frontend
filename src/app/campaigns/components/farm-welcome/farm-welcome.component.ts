@@ -27,6 +27,9 @@ import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import Big from 'big.js';
 import { ConvertFromWei } from '@app/shared/pipes/wei-to-sa-tt.pipe';
 import { CryptofetchServiceService } from '@app/core/services/wallet/cryptofetch-service.service';
+import axios from 'axios'
+import { environment as env } from '../../../../environments/environment';
+
 
 @Component({
   selector: 'app-farm-welcome',
@@ -39,6 +42,9 @@ export class FarmWelcomeComponent implements OnInit {
   isLoading = true;
   campaignsList: Campaign[] = [];
   campaignsList2: Campaign[] = [];
+  nbrWallet: any;
+  nbr_tx_mainnet: any;
+  nbrTransactions: any;
   marketCap: any;
   nbPools: any;
   posts: any;
@@ -64,7 +70,7 @@ export class FarmWelcomeComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: string,
     private walletFacade: WalletFacadeService,
     private convertFromWeiTo: ConvertFromWei,
-    private cryptoFetchService: CryptofetchServiceService
+    private cryptoFetchService: CryptofetchServiceService,
   ) {}
 
   ngOnInit(): void {
@@ -74,6 +80,9 @@ export class FarmWelcomeComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       this.loadCampaigns();
       this.loadStatistics();
+      this.loadNbrWallets()
+      this.loadNbrTransactions()
+
     }
     if (this.tokenStorageService.getToken()) {
       this.isConnected = true;
@@ -215,6 +224,82 @@ export class FarmWelcomeComponent implements OnInit {
             : 0;
         }
       });
+  }
+
+  loadNbrWallets() {
+    this.campaignsHttpService
+      .getWalletsCount()
+      .pipe(takeUntil(this.isDestroyed))
+      .subscribe((res: any) => {
+        if (res.message === 'success' && res.code === 200) {
+          this.nbrWallet = res.data
+        }
+        // console.log('this.nbrWallets: ', this.nbrWallet)
+      });
+  }
+
+  // this.nbr_tx_mainnet = Number(loadNbrTransactions_bsc_mainnet())
+
+  async loadNbrTransactions() {
+    
+    let x = axios.post(env.url_subgraph_bsc, {
+      query: `
+      {
+        counts(id:"tx") {
+          id
+         count
+        }
+       }
+      `
+    })
+  // .then((response) => {
+  //   nb_tx_bsc_mainnet = response.data.data.counts.count
+  //   console.log("nb_tx_bsc_mainnet: ", nb_tx_bsc_mainnet);
+  // });
+
+  let y = axios.post(env.url_subgraph_ether, {
+      query: `
+      {
+        counts(id:"tx") {
+          id
+         count
+        }
+       }
+      `
+    })
+
+    var [nb_tx_bsc_mainnet, nb_tx_ether_mainnet] = await Promise.all([x, y])
+
+    // console.log(nb_tx_bsc_mainnet.data.data.counts.count, nb_tx_ether_mainnet.data.data.counts.count)
+    this.nbr_tx_mainnet = +nb_tx_bsc_mainnet.data.data.counts.count + +nb_tx_ether_mainnet.data.data.counts.count
+    // console.log("nb_tx: ", this.nbr_tx_mainnet)
+
+    return this.nbr_tx_mainnet
+
+  // .then((response) => {
+  //   nb_tx_ether_mainnet = response.data.data.counts.count
+  //   console.log("nb_tx_ether_mainnet: ", nb_tx_ether_mainnet);
+  // });
+  // nb_tx = nb_tx_bsc_mainnet
+  // console.log("nb_tx: ", nb_tx)
+
+    // this.campaignsHttpService
+    //   .getTransactionsCount()
+    //   .pipe(takeUntil(this.isDestroyed))
+    //   .subscribe((res: any) => {
+    //     // if (res.message === 'success' && res.code === 200) {
+    //     //   this.nbrWallet = res.data
+    //     //   console.log("object")
+    //     // }
+    //     console.log('this.nbrTransactions: ', res)
+    //   });
+    // this.apollo.watchQuery({
+    //   query: NB_OF_TRANSACTIONS
+    // })
+    // .valueChanges.subscribe((result: any) => {
+    //   console.log('result**: ', result)
+    // })
+    // // .valueChanges.pipe(map(result => console.log('result**: ', result)))
   }
 
   loadMore() {
