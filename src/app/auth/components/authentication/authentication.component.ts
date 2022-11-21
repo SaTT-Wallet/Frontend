@@ -143,7 +143,7 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
   recoverpassword: boolean = false;
   loggedrs!: boolean;
   showResendLink: boolean = false;
-  timeLeft: number = 15;
+  timeLeft: number = 60;
   private onDestroy$ = new Subject();
   private account$ = this.accountFacadeService.account$;
   private socialAccount$ = this.socialAccountFacadeService.socialAccount$;
@@ -1249,7 +1249,7 @@ getCookie(key: string){
           setTimeout(() => {
             // console.log("can't resend before 15 seconds!")
           this.showResendLink = true;
-          }, 15000);
+          }, 60000);
           // this.showResendLink = false;
 
           var timer = setInterval(() => {
@@ -1257,7 +1257,7 @@ getCookie(key: string){
             if (this.timeLeft > 0) {
               this.timeLeft--;
             } else {
-              this.timeLeft = 15;
+              this.timeLeft = 60;
               clearInterval(timer)
               this.showResendLink = true;
             }

@@ -24,7 +24,7 @@ export class ActivationMailComponent implements OnInit {
   codesms: boolean = false;
   codeTimer: boolean = false;
   // idInterval: any = 0;
-  timeLeft: number = 15;
+  timeLeft: number = 60;
   countDown: any;
   email: any;
   codeData: any;
@@ -189,14 +189,14 @@ export class ActivationMailComponent implements OnInit {
           setTimeout(() => {
             // console.log("can't resend before 15 seconds!")
             this.codeTimer = false;
-          }, 15000);
+          }, 60000);
 
           var timer = setInterval(() => {
             // this.codeTimer = false;
             if (this.timeLeft > 0) {
               this.timeLeft--;
             } else {
-              this.timeLeft = 15;
+              this.timeLeft = 60;
               clearInterval(timer)
             }
           }, 1000);
