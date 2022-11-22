@@ -29,7 +29,7 @@ import { ConvertFromWei } from '@app/shared/pipes/wei-to-sa-tt.pipe';
 import { CryptofetchServiceService } from '@app/core/services/wallet/cryptofetch-service.service';
 import axios from 'axios'
 import { environment as env } from '../../../../environments/environment';
-
+import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
 
 @Component({
   selector: 'app-farm-welcome',
@@ -71,6 +71,7 @@ export class FarmWelcomeComponent implements OnInit {
     private walletFacade: WalletFacadeService,
     private convertFromWeiTo: ConvertFromWei,
     private cryptoFetchService: CryptofetchServiceService,
+    private showNumbersRule: ShowNumbersRule,
   ) {}
 
   ngOnInit(): void {
@@ -208,13 +209,13 @@ export class FarmWelcomeComponent implements OnInit {
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((res: any) => {
         if (res.message === 'success' && res.code === 200) {
-          this.marketCap = res.data.marketCap.toFixed(2);
-          this.nbPools = res.data.nbPools;
-          this.posts = res.data.posts;
-          this.reach = res.data.reach;
-          this.sattPrice = res.data.sattPrice.toFixed(5);
-          this.views = res.data.views;
-          this.harvested = res.data.harvested;
+          this.marketCap = this.showNumbersRule.transform(res.data.marketCap.toFixed(2) + '', true);
+          this.nbPools = this.showNumbersRule.transform(res.data.nbPools + '', true);
+          this.posts = this.showNumbersRule.transform(res.data.posts + '', true);
+          this.reach = this.showNumbersRule.transform(res.data.reach + '', true);
+          this.sattPrice = this.showNumbersRule.transform(res.data.sattPrice.toFixed(5) + '', true);
+          this.views = this.showNumbersRule.transform(res.data.views + '', true);
+          this.harvested = this.showNumbersRule.transform(res.data.harvested + '', true);
 
           this.tvl = !!res.data.tvl ? res.data.tvl : 0;
           this.percentChange = !!res.data.percentChange
@@ -232,7 +233,7 @@ export class FarmWelcomeComponent implements OnInit {
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((res: any) => {
         if (res.message === 'success' && res.code === 200) {
-          this.nbrWallet = res.data
+          this.nbrWallet = this.showNumbersRule.transform(res.data + '', true)
         }
         // console.log('this.nbrWallets: ', this.nbrWallet)
       });
@@ -241,7 +242,7 @@ export class FarmWelcomeComponent implements OnInit {
   // this.nbr_tx_mainnet = Number(loadNbrTransactions_bsc_mainnet())
 
   async loadNbrTransactions() {
-    
+    var sum
     let x = axios.post(env.url_subgraph_bsc, {
       query: `
       {
@@ -271,8 +272,8 @@ export class FarmWelcomeComponent implements OnInit {
     var [nb_tx_bsc_mainnet, nb_tx_ether_mainnet] = await Promise.all([x, y])
 
     // console.log(nb_tx_bsc_mainnet.data.data.counts.count, nb_tx_ether_mainnet.data.data.counts.count)
-    this.nbr_tx_mainnet = +nb_tx_bsc_mainnet.data.data.counts.count + +nb_tx_ether_mainnet.data.data.counts.count
-    // console.log("nb_tx: ", this.nbr_tx_mainnet)
+    sum = +nb_tx_bsc_mainnet.data.data.counts.count + +nb_tx_ether_mainnet.data.data.counts.count
+    this.nbr_tx_mainnet = this.showNumbersRule.transform(sum + '', true)
 
     return this.nbr_tx_mainnet
 
