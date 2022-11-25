@@ -721,7 +721,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
             embed.setAttribute('id', 'instagram-embed-0');
             embed.setAttribute('height', '541px');
 
-            this.renderer.appendChild(this.instaDiv?.nativeElement, embed);
+            this.renderer?.appendChild(this.instaDiv?.nativeElement, embed);
           }, 1000);
         }
 
@@ -742,7 +742,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
             .subscribe(
               (data: any) => {
                 if (
-                  (data.message =
+                  (data.message ===
                     'success' && data.code === 200 && data.data !== 'false')
                 ) {
                   this.linked = true;
