@@ -186,9 +186,9 @@ export class CampaignHttpApiService {
     );
   }
 
-  getOneById(id: string): Observable<IApiResponse<ICampaignResponse>> {
+  getOneById(id: string,projection : string =''): Observable<IApiResponse<ICampaignResponse>> {
     return this.http.get<IApiResponse<ICampaignResponse>>(
-      sattUrl + '/campaign/details/' + id,
+      sattUrl + '/campaign/details/' + id + `?projection=${projection}`,
       {
         headers: this.tokenStorageService.getHeader()
       }
