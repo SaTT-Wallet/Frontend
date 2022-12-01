@@ -93,6 +93,7 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       this.tokenStorageService.getSecureWallet('visited-passPhrase') === 'false'
     ) {
       this.router.navigate(['social-registration/pass-phrase']);
+      // window.location.reload()
     }
     if (this.tokenStorageService.getToken()) {
       if (isPlatformBrowser(this.platformId)) {
