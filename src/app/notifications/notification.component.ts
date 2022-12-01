@@ -69,6 +69,7 @@ export class NotificationComponent implements OnInit {
 
   newNotification: boolean = false;
   errorMessagecode = '';
+  modalReference: any;
   constructor(
     private eRef: ElementRef,
     private _changeDetectorRef: ChangeDetectorRef,
@@ -686,17 +687,19 @@ export class NotificationComponent implements OnInit {
   }
 
   redirect(notif: any, content: any): void {
-    console.log(notif)
     if (
-      notif.type === 'join_on_social' ||
-      notif.type === 'invite_friends' ||
       notif.type === 'join_on_social'
     ) {
-      this.modalService.open(content);
+      this.modalReference = this.modalService.open(content);
     }
-    if (notif.type === 'buy_some_gas') {
+    if (notif.type === 'invite_friends') {
       this.router.navigateByUrl('/wallet/buy-token');
     }
+
+    if (notif.type === 'buy_some_gas') {
+      this.router.navigate(['/wallet/buy-token'],{ queryParams: {id: 'BNB', network: "BEP20"}});
+    }
+
     if (notif?.label?.cmp_hash) {
       this.router.navigate(['home/campaign', notif.label.cmp_hash], {
         fragment: notif.label.cmp_hash

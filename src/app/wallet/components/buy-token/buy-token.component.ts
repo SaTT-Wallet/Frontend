@@ -24,6 +24,7 @@ import {
 import { Location } from '@angular/common';
 
 import * as _ from 'lodash';
+import { Console } from 'console';
 
 enum EBlockchainNetwork {
   ERC20 = 'ERC20',
@@ -31,8 +32,10 @@ enum EBlockchainNetwork {
   BTC = 'BTC',
   POLYGON = 'POLYGON',
   TRON = 'TRON',
-  SATTBEP20='SATTBEP20'
+  SATTBEP20='SATTBEP20',
+  FIAT = 'fiat',
 }
+let {WSATT,...cryptoData} = ListTokens
 enum ECurrencyType {
   FIAT = 'fiat',
   BEP20 = 'bep20',
@@ -80,7 +83,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   selectedGenderValue: any;
   selectedCurrencyValue = 'USD';
   selectedtLogo = '$';
-  cryptoList: Crypto[] = _.values(ListTokens) as Crypto[];
+  cryptoList: Crypto[] = _.values(cryptoData) as Crypto[];
   requestedCrypto = 'SATT';
   fiatCurrency = 'USD';
   fiatLogo = 'SATTBEP20.svg';
@@ -124,7 +127,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   eBlockchainNetwork = EBlockchainNetwork;
   eCurrencyType = ECurrencyType;
   selectedBlockchainNetwork = EBlockchainNetwork.BEP20;
-  selectedCurrencyType = ECurrencyType.FIAT;
+  selectedCurrencyType = ECurrencyType.FIAT; 
   selectedTargetCurrency = 'SATT (BEP20)';
   targetCurrencyList: ({ value: string; symbol: string } | Crypto)[] = [];
   sourceCryptoList: Crypto[] = [];
@@ -444,7 +447,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
         this.selectedBlockchainNetwork = EBlockchainNetwork.BEP20;
         this.selectedTargetCurrency = EBlockchainNetwork.SATTBEP20;
       } else if (currencyType === ECurrencyType.ERC20) {
-        this.selectedTargetCurrency = 'SATT';
+        this.selectedTargetCurrency = 'ETH';
         this.selectedBlockchainNetwork = EBlockchainNetwork.ERC20;
       } else if (currencyType === ECurrencyType.TRON) {
         this.selectedTargetCurrency = EBlockchainNetwork.TRON;
@@ -453,7 +456,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
 
       this.sourceCryptoList = this.cryptoList.filter(
         (crypto: Crypto) =>
-          crypto.type.toUpperCase() === this.selectedBlockchainNetwork
+          crypto.type.toUpperCase() === this.selectedBlockchainNetwork //selectedBlockchainNetwork
       );
 
       this.requestedCrypto = this.sourceCryptoList.find(
@@ -467,6 +470,21 @@ export class BuyTokenComponent implements OnInit, OnChanges {
         crypto.name.includes('SATT') &&
         crypto.type.toUpperCase() === this.selectedBlockchainNetwork
     );
+      
+    if(this.selectedCurrencyType === "erc20" && this.selectedBlockchainNetwork === "ERC20") {
+      delete this.targetCurrencyList[0];
+      this.targetCurrencyList = this.targetCurrencyList.filter(Boolean)
+      console.log(this.targetCurrencyList);
+      this.selectedTargetCurrency = 'ETH';
+      (this.requestedCrypto="DAI")
+      this.toSwapCrypto = cryptoData['DAI']
+       this.sourceCryptoList.forEach((elem,i)=>{
+        if(elem.name ==='SATT'){
+          this.sourceCryptoList.splice(i,1)
+        i--
+        }
+      })
+    }
 
     this.switchTokensWhenIdentical();
 
@@ -648,12 +666,12 @@ export class BuyTokenComponent implements OnInit, OnChanges {
           );
         }
       );
-
       this.selectedTargetCurrency = (
         this.targetCurrencyList[0] as Crypto
       ).symbole;
 
       this.fromSwapCrypto = this.targetCurrencyList[0] as Crypto;
+      
     }
   }
 
@@ -1059,4 +1077,3 @@ export class BuyTokenComponent implements OnInit, OnChanges {
     this.isDestroyed.unsubscribe();
   }
 }
-

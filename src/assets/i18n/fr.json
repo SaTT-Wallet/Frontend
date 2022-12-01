@@ -308,6 +308,7 @@
   "buy": "Acheter",
   "buy_gas": "Acheter de Gas",
   "buy_satt_notify": "Vous avez acheté {{quantity}} SaTT  pour un montant de ${{amount}}",
+  "buy_satt": "Acheter SaTT",
   "confirm_legal_kyc_identity": "Vous avez ajouter votre  Vérification d’identité",
   "confirm_legal_kyc_proof": "Vous avez ajouter votre Justificatif de domicile",
   "buy_token": "Achetez des tokens dès maintenant",
@@ -3016,6 +3017,6 @@
   "campaign_validation.description2": "Vous pouvez modifier certaines informations ou ajouter plus de budget à tout moment",
   "invite_notif" : "Invitez 5 amis et gagnez 100 SaTT ! Découvrez plus de surprises sur notre plateforme.",
   "gas_notif" : "Le gaz est nécessaire si vous souhaitez effectuer des actions telles que l'envoi de jetons et la création ou l'application d'AdPools !",
-  "network_notif":"Vous souhaitez en savoir plus sur notre projet ? Suivez-nous sur les réseaux sociaux et parlons-en !"
-
+  "network_notif":"Vous souhaitez en savoir plus sur notre projet ? Suivez-nous sur les réseaux sociaux et parlons-en !",
+  "security.download-key-TRON": "Télécharger la clé TRON"
 }
