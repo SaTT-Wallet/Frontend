@@ -227,7 +227,7 @@ var ListTokens: { [key: string]: { [key: string]: any } } = {
     name: 'TRX',
     contract: 'TRX',
     decimals: new Big('10').pow(6),
-    logo: 'TRON.svg',
+    logo: 'TRX.svg',
     type: 'TRON',
     symbole: 'TRX'
   },

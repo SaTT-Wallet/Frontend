@@ -14,6 +14,7 @@ import { SocialConfigComponent } from './components/social-config/social-config.
 import { PassWalletComponent } from './components/pass-wallet/pass-wallet.component';
 import { IsCompletedService } from '@core/services/is-completed.service';
 import { HasIdWalletService } from '@core/services/has-id-wallet.service';
+import { PassWalletCheckedGuard } from '@app/core/services/create-wallet.auth';
 import { CompleteProfileComponent } from './components/complete-profile/complete-profile.component';
 import { checkStepsService } from '../core/services/checkSteps.service';
 import { MonetizeTwitterAccountComponent } from './components/monetize-twitter-account/monetize-twitter-account.component';
@@ -101,7 +102,11 @@ const routes: Routes = [
       {
         path: 'password_wallet',
         component: PassWalletComponent,
-        canActivate: [HasIdWalletService, checkStepsService]
+        canActivate: [
+          HasIdWalletService,
+          checkStepsService,
+          PassWalletCheckedGuard
+        ]
       },
       {
         path: 'completeProfile',

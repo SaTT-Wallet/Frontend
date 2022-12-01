@@ -61,7 +61,7 @@ export class DropdownCryptoNetworkComponent
       { network: 'BEP20' },
       { network: 'ERC20' },
       { network: 'POLYGON' },
-      { network: 'BTT' },
+      { network: 'BTTC' },
       { network: 'BTC' },
       { network: 'TRON' }
     ];
@@ -94,10 +94,9 @@ export class DropdownCryptoNetworkComponent
     this.defaultcurr = ListTokens['SATT'].name;
     this.defaultcurrbep = ListTokens['SATTBEP20'].name;
     this.defaultcurrbtc = ListTokens['BTC'].name;
-     this.defaultcurrpolygon = ListTokens['MATIC'].name;
-     this.defaultcurrbtt= ListTokens['BTT'].name;
-     this.defaultcurrtron = ListTokens['TRX'].name;
-
+    this.defaultcurrpolygon = ListTokens['MATIC'].name;
+    this.defaultcurrbtt = ListTokens['BTT'].name;
+    this.defaultcurrtron = ListTokens['TRX'].name;
   }
   //get list of crypto for user
   getusercrypto() {
@@ -110,11 +109,13 @@ export class DropdownCryptoNetworkComponent
         data = JSON.parse(JSON.stringify(data));
         this.dataList = data;
         this.dataList = [
-          ...this.dataList.filter((data: any) => data.symbol !== 'SATTPOLYGON' &&  data.symbol !== 'SATTBTT' && data.symbol !== 'SATTTRON'
-          ),
-
-
-        ]
+          ...this.dataList.filter(
+            (data: any) =>
+              data.symbol !== 'SATTPOLYGON' &&
+              data.symbol !== 'SATTBTT' &&
+              data.symbol !== 'SATTTRON'
+          )
+        ];
         /*----emit default cryto to receive compoent */
         this.dataList?.forEach((crypto: any) => {
           if (!this.cryptoFromDraft && !this.firstEmit) {
@@ -131,7 +132,7 @@ export class DropdownCryptoNetworkComponent
           ) {
             this.cryptoFromComponent = [crypto];
             this.cryptoSymbol = this.cryptoFromComponent[0].symbol;
-            
+
             this.selectedNetworkValue = this.cryptoFromComponent[0].network;
             if (this.cryptoFromComponent[0].AddedToken) {
               this.cryptoPicName = this.cryptoFromComponent[0].picUrl;
@@ -282,20 +283,17 @@ export class DropdownCryptoNetworkComponent
       this.cryptoName = this.defaultcurrbtc;
       this.cryptoPicName = this.defaultcurrbtc;
       this.cryptoDetails = 'BTC';
-    }
-     else if (network === 'POLYGON') {
+    } else if (network === 'POLYGON') {
       this.cryptoSymbol = 'MATIC';
       this.cryptoName = this.defaultcurr;
       this.cryptoPicName = this.defaultcurr;
       this.cryptoDetails = 'MATIC';
-    }
-     else if (network === 'BTT') {
+    } else if (network === 'BTTC') {
       this.cryptoSymbol = 'BTT';
       this.cryptoName = this.defaultcurrbtt;
       this.cryptoPicName = this.defaultcurrbtt;
       this.cryptoDetails = 'BTT';
-    }
-    else if (network === 'TRON') {
+    } else if (network === 'TRON') {
       this.cryptoSymbol = 'TRX';
       this.cryptoName = this.defaultcurrtron;
       this.cryptoPicName = this.defaultcurrtron;
@@ -306,7 +304,7 @@ export class DropdownCryptoNetworkComponent
         this.selectedCrypto.emit(crypto);
       }
     });
-    this.cdref.detectChanges();
+    this.cdref.detectChanges(); 
   }
   ngOnDestroy() {
     this.onDestoy$.next('');

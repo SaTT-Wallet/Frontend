@@ -392,6 +392,28 @@
             'Swap with Sunswap' | translate
             }}</span>
         </a>
+
+        <a
+        class="buy-swap-btn"
+       
+        *ngIf="
+        (selectedCurrencyType === eCurrencyType.ERC20  ||  selectedCurrencyType === eCurrencyType.BEP20) && 
+          selectedBlockchainNetwork === eBlockchainNetwork.TRON
+        "
+        target="_blank"
+        href="https://sunswap.com/#/home" 
+      
+      >
+        <img
+          src="../../../assets/Images/symbol_crypto/Uniswap.svg"
+          alt=""
+          class="img-width-32 ms-2"
+        />
+
+        <span class="purshase-btn-text pt-1">{{
+          'Swap with Sunswap' | translate
+        }}</span>
+      </a>
       </div>
     </form>
   </div>

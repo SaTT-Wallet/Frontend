@@ -345,6 +345,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
     this.convertCrypto();
   }
   initToggleNetwork(network: EBlockchainNetwork) {
+    
     this.selectedBlockchainNetwork = network;
     if (network === EBlockchainNetwork.BTC) {
       this.sourceCryptoList = cryptoList

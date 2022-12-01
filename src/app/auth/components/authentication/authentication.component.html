@@ -445,12 +445,17 @@
           </button>
         </div>
         <a
+          *ngIf="this.showResendLink"
           [routerLink]=""
           (click)="resetPassword()"
           rel="noopener"
           class="resend"
-          >{{ 'resend' | translate }}</a
-        >
+          >
+          {{ 'resend' | translate }}
+        </a> 
+        <a *ngIf="!this.showResendLink" style="color: red;">
+          Email sent, Please try again after {{ this.timeLeft }} seconds
+        </a>
       </form>
     </div>
   </div>

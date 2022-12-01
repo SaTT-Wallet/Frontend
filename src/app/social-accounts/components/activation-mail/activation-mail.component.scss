@@ -142,12 +142,14 @@
   .blue_email {
     color: white !important;
   }
+
   .btn-green {
     width: 214px !important;
     height: 40px !important;
     font-size: 16px !important;
     font-weight: 600;
   }
+
   .btn-green:disabled {
     background: #f6f6ff !important;
     color: #adadc8 !important;
@@ -244,24 +246,6 @@
   /* dark grey */
 
   color: #323754;
-}
-
-.btn-white {
-  background: #ffffff;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 18px;
-  line-height: 22px;
-  align-items: center;
-  text-align: center;
-  letter-spacing: 0.03em;
-  border-radius: 30px;
-  color: #4048ff;
-  border: none;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  height: 52px;
-  width: 300px;
-  cursor: pointer;
 }
 
 .btn-blue:hover {
@@ -369,4 +353,43 @@
   background: #f6f6ff;
   color: #adadc8;
   border: 1px solid #d6d6e8 !important;
+}
+
+.btn-white:disabled {
+  background: #f6f6ff;
+  color: #adadc8;
+  border: 1px solid #d6d6e8 !important;
+}
+
+.btn-white {
+  background: #ffffff;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 22px;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.03em;
+  border-radius: 30px;
+  color: #4048ff;
+  border: none;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  height: 52px;
+  width: 300px;
+  cursor: pointer;
+}
+
+.danger_error {
+  vertical-align: middle;
+  background: rgba(245, 32, 121, 0.2);
+  border-radius: 30px;
+  color: #f52079;
+  border: none;
+  width: 302px !important;
+  min-height: 40px;
+  font-weight: 600;
+  font-size: 12px;
+  // display: flex;
+  align-items: center;
+  /* justify-content: center; */
 }

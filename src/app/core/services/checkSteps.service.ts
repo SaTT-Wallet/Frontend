@@ -112,6 +112,13 @@ export class checkStepsService implements CanActivate {
       if (
         this.tokenStorageService.getSecureWallet('visited-google') === 'true'
       ) {
+        if (
+          this.tokenStorageService.getSecureWallet('visited-tiktok') === 'true'
+        ) {
+          return this.router.createUrlTree([
+            '/social-registration/socialConfig'
+          ]);
+        }
         return true;
       } else {
         return false;

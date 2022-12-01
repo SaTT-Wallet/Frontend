@@ -68,6 +68,12 @@ export class CryptofetchServiceService {
       headers: this.tokenStorageService.getHeader()
     });
   }
+  getGas(network: any){
+      return this.http.get(sattUrl + '/wallet/gasPrice/' + network , 
+      {
+         headers: this.tokenStorageService.getHeader()
+     } )
+   }
 
   getBalanceCrypto() {
     const headers = new HttpHeaders({
