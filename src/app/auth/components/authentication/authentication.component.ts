@@ -854,7 +854,10 @@ getCookie(key: string){
               return;
             }
             if (res.myWallet.data.address) {
-              if (res.response.data?.new) {
+              if (!res.response.passphrase) {          
+                this.router.navigate(['/social-registration/pass-phrase']);
+              } 
+              else if (res.response.data?.new) {
                 if (!res.response.data.passphrase) {
                   this.router.navigate(['/social-registration/pass-phrase']);
                 } else {

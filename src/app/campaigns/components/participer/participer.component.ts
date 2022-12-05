@@ -164,6 +164,27 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit(): void {
+    this.ActivatedRoute.params
+    .pipe(
+      mergeMap((params) => {
+        this.campaignId = params['campaign_id'];
+        return this.CampaignService.getOneById(this.campaignId,'projection');
+      }),
+      takeUntil(this.isDestroyedSubject)
+    )
+    .subscribe((data: any) => {
+      this.campaigndata = data.data;
+      this.networkWallet = data.data.token.type;
+      this.tokenName = data.data.token.name
+      let performance = this.campaigndata.ratios[0]?.oracle;
+      if (performance?.length > 1 && performance === 'twitter') {
+        this.ratioLink = true;
+      }
+      this.parentFunction(this.networkWallet).subscribe();
+    });
+
+
+
     this.profilService.getTiktokProfilPrivcay().subscribe((res:any)=>
     {
 
@@ -193,26 +214,6 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
       });
     
     this.showLinkedMessage();
-    this.ActivatedRoute.params
-      .pipe(
-        mergeMap((params) => {
-          this.campaignId = params['campaign_id'];
-          return this.CampaignService.getOneById(this.campaignId);
-        }),
-        takeUntil(this.isDestroyedSubject)
-      )
-      .subscribe((data: any) => {
-        this.campaigndata = data.data;
-        console.log(this.campaigndata,"dataaaaaaaa campaign")
-        this.networkWallet = data.data.token.type;
-        this.tokenName = data.data.token.name
-        let performance = this.campaigndata.ratios[0]?.oracle;
-        if (performance?.length > 1 && performance === 'twitter') {
-          this.ratioLink = true;
-        }
-        this.parentFunction(this.networkWallet).subscribe();
-      });
-
      
   }
 
@@ -1250,7 +1251,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
               }
             }
           );
-        // console.log("connectValue",this.connectValue)
+       
       } else {
         this.spinner = false;
         this.error = 'oracle_not_exist';
@@ -1455,8 +1456,6 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
       map((response: any) => response.data),
       take(1),
       map((data: any) => {
-        console.log(network)
-        console.log(data)
         let protocolrPrice;
         let networkProtocol;
         if(network === "BEP20"){
