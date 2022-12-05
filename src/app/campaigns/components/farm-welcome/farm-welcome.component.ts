@@ -215,7 +215,8 @@ export class FarmWelcomeComponent implements OnInit {
           this.reach = this.showNumbersRule.transform(res.data.reach + '', true);
           this.sattPrice = this.showNumbersRule.transform(res.data.sattPrice.toFixed(5) + '', true);
           this.views = this.showNumbersRule.transform(res.data.views + '', true);
-          this.harvested = this.showNumbersRule.transform(res.data.harvested + '', true);
+          // this.harvested = this.showNumbersRule.transform(res.data.harvested + '', true);
+          this.harvested = res.data.harvested
 
           this.tvl = !!res.data.tvl ? res.data.tvl : 0;
           this.percentChange = !!res.data.percentChange
