@@ -135,7 +135,8 @@
     <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
       <div class="info-box d-flex justify-content-between align-items-center">
         <span class="info-name">Harvested</span>
-        <span class="info-value"> {{ harvested | currency: 'USD' }} </span>
+        <!-- <span class="info-value"> {{ harvested | currency: 'USD' }} </span> -->
+        <span class="info-value">$ {{ harvested | number }} </span>
       </div>
     </div>
   </div>
