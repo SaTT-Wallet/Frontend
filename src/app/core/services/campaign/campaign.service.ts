@@ -534,7 +534,8 @@ export class CampaignHttpApiService {
         idUser: application.idUser,
         title,
         pass: password,
-        hash
+        hash,
+        linkedinId : application.linkedinId
       },
       { headers: header }
     );

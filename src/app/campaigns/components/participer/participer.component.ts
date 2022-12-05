@@ -921,6 +921,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
             .subscribe(
               (data: any) => {
                 if (data.message === 'success' && data.code === 200) {
+                  this.application.linkedinId = data.id
                   this.linked = true;
                   this.loadingButton = false;
                 } else if (data.data === 'false' && data.code === 200) {
