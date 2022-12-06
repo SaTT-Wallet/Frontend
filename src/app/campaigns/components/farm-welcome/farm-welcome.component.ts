@@ -213,7 +213,7 @@ export class FarmWelcomeComponent implements OnInit {
           this.nbPools = this.showNumbersRule.transform(res.data.nbPools + '', true);
           this.posts = this.showNumbersRule.transform(res.data.posts + '', true);
           this.reach = this.showNumbersRule.transform(res.data.reach + '', true);
-          this.sattPrice = this.showNumbersRule.transform(res.data.sattPrice.toFixed(5) + '', true);
+          this.sattPrice = parseFloat(this.showNumbersRule.transform(res.data.sattPrice.toFixed(5) + '', true)).toFixed(5);
           this.views = this.showNumbersRule.transform(res.data.views + '', true);
           // this.harvested = this.showNumbersRule.transform(res.data.harvested + '', true);
           this.harvested = res.data.harvested
