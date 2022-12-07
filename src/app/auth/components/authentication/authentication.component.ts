@@ -854,10 +854,7 @@ getCookie(key: string){
               return;
             }
             if (res.myWallet.data.address) {
-              if (!res.response.passphrase) {          
-                this.router.navigate(['/social-registration/pass-phrase']);
-              } 
-              else if (res.response.data?.new) {
+              if (res.response.data?.new) {
                 if (!res.response.data.passphrase) {
                   this.router.navigate(['/social-registration/pass-phrase']);
                 } else {
@@ -1251,7 +1248,7 @@ getCookie(key: string){
           // Decompteur
           setTimeout(() => {
             // console.log("can't resend before 15 seconds!")
-          this.showResendLink = true;
+            this.showResendLink = true;
           }, 60000);
           // this.showResendLink = false;
 
@@ -1261,12 +1258,10 @@ getCookie(key: string){
               this.timeLeft--;
             } else {
               this.timeLeft = 60;
-              clearInterval(timer)
+              clearInterval(timer);
               this.showResendLink = true;
             }
           }, 1000);
-
-          console.log('this.showResendLink: ', this.showResendLink)
         },
         (error) => {
           if (error.error.error === 'connect_with_gplus') {

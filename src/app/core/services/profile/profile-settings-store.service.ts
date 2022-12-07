@@ -46,10 +46,8 @@ export class ProfileSettingsStoreService {
 
   hydrateLocalStorage() {
     this.authService.verifyAccount().subscribe((data: any) => {
-      if (data.data.passphrase) {
+      if (data.passphrase) {
         this.localStorageService.setSecureWallet('visited-passPhrase', 'true');
-      } else {
-        this.router.navigate(['social-registration/pass-phrase']);
       }
     });
   }
