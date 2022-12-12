@@ -432,7 +432,7 @@ getCookie(key: string){
               (response.completed && !response.enabled)
             ) {
               this.router.navigateByUrl('/social-registration/completeProfile');
-              this.showBigSpinner = false;
+              // this.showBigSpinner = false;
               // this.spinner.hide();
             } else {
               return this.walletFacade.getUserWallet().pipe(
