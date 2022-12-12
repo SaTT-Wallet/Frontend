@@ -769,7 +769,7 @@ a {
 ::ng-deep #telegram-login-v2_satt_token_bot {
   height: 40px !important;
   width: 100% !important;
-  opacity: 0 !important;
+  opacity: 0.001 !important;
   z-index: 3 !important;
 }
 
