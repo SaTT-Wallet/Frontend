@@ -111,7 +111,7 @@ export class CompleteProfileComponent implements OnInit, OnDestroy {
     let data_profile = {
       firstName: this.completeProfileForm.get('firstName')?.value,
       lastName: this.completeProfileForm.get('lastName')?.value,
-      email: this.completeProfileForm.get('email')?.value,
+      email: this.completeProfileForm.get('email')?.value.toLowerCase(),
       completed: true
       //     password: this.completeProfileForm.get("password")?.value,
     };
