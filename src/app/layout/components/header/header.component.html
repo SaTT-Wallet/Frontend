@@ -20,9 +20,9 @@
   <div class="container-fluid height-fluid">
     <a class="navbar-brand d-none d-lg-block" [routerLink]="['welcome']">
       <img
-        class="atayan_logo"
-        src="assets/Images/logo-versions/logo_blanc.svg"
+        src="assets/Images/logo-versions/Group 12199.png"
         (click)="checkMenuWallet()"
+        style="width: 150px; height: 55px"
       />
     </a>
 
@@ -30,7 +30,7 @@
       <i class="navbar-brand">
         <img
           (click)="toggleMoreMobile()"
-          src="assets/Images/satt_logo_responsive.svg"
+          src="assets/Images/Group 12195.png"
           width="42"
           height="42"
           class="ms-1 width-logo-mobile"
@@ -203,6 +203,24 @@
     <!--start desktop  collapse navbar-collapse-->
     <div class="desktop-menu" id="navbarSupportedContent">
       <ul class="d-flex ul-left-side">
+        <!-- <li
+          class="li-menu"
+          [ngClass]="{ 'is-visited': menuWallet }"
+          id="introo"
+        >
+          <a
+            *ngIf="isConnected"
+            class="wallet"
+             (click)="checkMenuWallet()"
+            ><span>SaTT</span></a
+          >
+          <a
+            *ngIf="!isConnected"
+            class="wallet"
+             >SaTT</a
+          >
+        </li> -->
+
         <li
           class="li-menu"
           [ngClass]="{ 'is-visited': menuWallet }"
