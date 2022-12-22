@@ -470,7 +470,7 @@ export class ParticipationListStoreService {
     } else if (post.typeSN === 2) {
       return 'https://www.youtube.com/watch?v=' + post.idPost.split('&')[0];
     } else if (post.typeSN === 6) {
-      console.log(post)
+      // console.log(post)
       return 'https://www.tiktok.com/embed/'+post.idPost  ;
     } else {
       return `https://www.linkedin.com/feed/update/urn:li:${post.typeURL}:${post.idPost}/`;

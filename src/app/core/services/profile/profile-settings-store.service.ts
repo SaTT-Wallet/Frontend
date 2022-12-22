@@ -4,6 +4,7 @@ import { ProfileService } from '@core/services/profile/profile.service';
 import { filter, tap } from 'rxjs/operators';
 import { AuthService } from '../Auth/auth.service';
 import { TokenStorageService } from '../tokenStorage/token-storage-service.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class ProfileSettingsStoreService {
     .pipe(filter((pic) => pic !== null));
 
   constructor(
+    public router: Router,
     private profileService: ProfileService,
     private authService: AuthService,
     private localStorageService: TokenStorageService

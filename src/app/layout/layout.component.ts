@@ -52,11 +52,9 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   
     if(this.router.url == "/wallet" || this.router.url.includes('campaign') ){
       let content = this.document.getElementById('center-content');
-      console.log('content', content)
       content.classList.add('center-content-2');      
     } else {
       let content = this.document.getElementById('center-content');
-      console.log('content', content)
       content.classList.remove('center-content-2');
     }
     
@@ -68,11 +66,9 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
         let outlet = this.document.getElementsByClassName('outlet');
         if (this.router.url !== '/wallet'  &&  !this.router.url.includes('campaign') ) {
           let content = this.document.getElementById('center-content');
-          console.log('content', content)
           content.classList.remove('center-content-2');         
         } else {
           let content = this.document.getElementById('center-content');
-          console.log('content', content)
           content.classList.add('center-content-2'); 
         }
         if (outlet.length > 0) {
@@ -97,6 +93,7 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       this.tokenStorageService.getSecureWallet('visited-passPhrase') === 'false'
     ) {
       this.router.navigate(['social-registration/pass-phrase']);
+      // window.location.reload()
     }
     if (this.tokenStorageService.getToken()) {
       if (isPlatformBrowser(this.platformId)) {
@@ -173,7 +170,7 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
           this.campaignService.loadDataPostFarmWhenEndScroll.next(true);
         }
         if (this.router.url.startsWith('/campaign/')) {
-          console.log('scrolled')
+
           this.campaignService.loadDataEarningsWhenEndScroll.next(true);
         }
         if (this.router.url.startsWith('/welcome') && this.smDevice) {

@@ -220,15 +220,15 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         takeUntil(this.isDestroyed)
       )
       .subscribe((data: any) => {
-        if (!!this.selectedCryptoDetails) {
-          this.selectedCryptoDetails = {
-            ...this.selectedCryptoDetails,
-            total_balance: data.filter(
-              (element: any) =>
-                element.symbol === this.selectedCryptoDetails.symbol
-            )[0].total_balance
-          };
-        }
+        // if (!!this.selectedCryptoDetails) {
+        //   this.selectedCryptoDetails = {
+        //     ...this.selectedCryptoDetails,
+        //     total_balance: data.filter(
+        //       (element: any) =>
+        //         element.symbol === this.selectedCryptoDetails.symbol
+        //     )[0].total_balance
+        //   };
+        // }
 
         this.walletFacade.hideWalletSpinner();
         this.showWalletSpinner = false;
@@ -281,7 +281,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         });
         this.showWalletSpinner = false;
 
-        //  this.selectedCryptoDetails = this.dataList.find((crypto: any) => crypto.symbol === 'SATT' );
       });
   }
 
@@ -1053,7 +1052,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     } else if (this.networks === 'POLYGON') {
       this.gazcurrency = 'MATIC';
       // this.gazcurrency = 'ETH';
-    } else if (this.networks === 'BTT') {
+    } else if (this.networks === 'BTTC') {
       this.gazcurrency = 'BTT';
       // this.gazcurrency = 'ETH';
     } else if (this.networks === 'TRON') {
@@ -1171,6 +1170,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         });
       });
     }
+
   }
 
   showNextBloc() {

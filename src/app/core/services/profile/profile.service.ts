@@ -96,14 +96,14 @@ export class ProfileService {
       headers: header
     });
   }
-  deleteOneSocialNetworksLinkedin(organization: string) {
+  deleteOneSocialNetworksLinkedin(organization: string,linkedinId:string) {
     let header = new HttpHeaders({
       'Cache-Control': 'no-store',
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
     return this.http.delete(
-      sattUrl + '/profile/RemoveLinkedInChannel/' + organization,
+      sattUrl + '/profile/remove/'+ linkedinId+'/linkedInChannel/'+ organization,
       {
         headers: header
       }
@@ -196,6 +196,18 @@ export class ProfileService {
     });
   }
 
+  exportTronKeystore(password: string) {
+    let headers = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+    let body = { pass: password };
+    return this.http.post(sattUrl + '/wallet/exportTron', body, {
+      headers: headers
+    });
+  }
+
   exportProfileDataBTC(password: string) {
     let headers = new HttpHeaders({
       'Cache-Control': 'no-store',
@@ -207,6 +219,19 @@ export class ProfileService {
       headers: headers
     });
   }
+
+  getTiktokProfilPrivcay() {
+    let headers = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+    
+    return this.http.get(sattUrl + '/profile/Tiktok/ProfilPrivacy', {
+      headers: headers
+    });
+  }
+
 
   getUserProfilePic() {
     let headers = new HttpHeaders({

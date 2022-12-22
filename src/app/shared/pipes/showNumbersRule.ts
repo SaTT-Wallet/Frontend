@@ -27,14 +27,15 @@ export class ShowNumbersRule implements PipeTransform {
   transform(value: string, modeCryptoList?: boolean): string {
     if (value) {
       let valueToReturn: any;
-      let bigValue = new Big(value);
+      // isNaN(+value) && console.log(value)
+      let bigValue = isNaN(+value) ? new Big(0) : new Big(value) ;
       if (bigValue.div(1).toNumber() === 0) {
         return '0';
       } else if (bigValue.gte(0) && bigValue.lte(0.1)) {
         valueToReturn = bigValue.toFixed(8);
-        if (valueToReturn % 1 !== 0) {
-          return parseFloat(valueToReturn + '') + '';
-        }
+        // if (valueToReturn % 1 !== 0) {
+        //   return parseFloat(valueToReturn + '') + '';
+        // }
         return valueToReturn;
       } else if (bigValue.gte(0.1) && bigValue.lte(1.9)) {
         valueToReturn = bigValue.toFixed(6);
@@ -78,7 +79,7 @@ export class ShowNumbersRule implements PipeTransform {
           );
           if (bigValue.toNumber() % 1 !== 0) {
             val = parseFloat(bigValue.toNumber() + '');
-            return formatNumber(val, this.locale, '0.0-2');
+            return formatNumber(val, this.locale, '0.0-2'); 
           }
           return val;
         }

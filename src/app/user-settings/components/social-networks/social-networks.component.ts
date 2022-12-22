@@ -76,6 +76,15 @@ export class SocialNetworksComponent implements OnInit {
   ngOnInit(): void {
     this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
     this.getSocialNetwork();
+
+    // this.profilService.getTiktokProfilPrivcay().subscribe((res:any)=>
+    // {
+
+    //   this.tiktokProfilePrivacy = res.data;
+    //  this.CheckPrivacy();
+
+    // }
+    // )
   }
   openModalDeleteOne(
     content: any,
@@ -99,7 +108,13 @@ export class SocialNetworksComponent implements OnInit {
     this.modalService.dismissAll(content);
     this.networkName = '';
   }
+  // numberTiktok(){
+  //   this.profile.getTicTokNbFollowers(3871).subscribe((data)=>{
+  //     console.log({data});
 
+  //     // this.tiktokFollowers=data.data
+  //   })
+  // }
   getSocialNetwork(): void {
     this.showSpinner = true;
     this.socialAccount$
@@ -124,6 +139,7 @@ export class SocialNetworksComponent implements OnInit {
           this.channelTwitter = data.twitter;
           this.channelFacebook = data.facebook;
           this.channelLinkedin = data.linkedin;
+
           this.channelTiktok = data.tikTok;
 
           this.setUrlMsg(params, data);
@@ -194,13 +210,13 @@ export class SocialNetworksComponent implements OnInit {
         setTimeout(() => {
           this.errorMessage = '';
           this.router.navigate(['/home/settings/social-networks']);
-        }, 6000);
+        }, 3000);
       } else if (p.message === 'channel obligatoire') {
         this.errorMessage = 'no_channel_found';
         setTimeout(() => {
           this.errorMessage = '';
           this.router.navigate(['/home/settings/social-networks']);
-        }, 6000);
+        }, 3000);
       } else if (
         p.message === 'account_linked_with_success' ||
         p.message === 'account_linked_with_success_facebook' ||
@@ -210,31 +226,33 @@ export class SocialNetworksComponent implements OnInit {
         if (p.sn === 'fb' && data.facebook.length === 0) {
           this.errorMessage = 'no_page_selected';
         } else {
+          this.router.navigate(['/home/settings/social-networks']);
           this.successMessage = 'account_linked_with_success';
         }
         setTimeout(() => {
           this.successMessage = '';
           this.router.navigate(['/home/settings/social-networks']);
-        }, 6000);
+        }, 3000);
       } else if (p.message === 'account exist') {
+        this.router.navigate(['/home/settings/social-networks']);
         this.errorMessage = 'account_linked_other_account';
         setTimeout(() => {
           this.errorMessage = '';
           this.router.navigate(['/home/settings/social-networks']);
-        }, 6000);
+        }, 3000);
       } else if (p.message === 'external_account') {
         this.errorMessage = 'Your facebook page ';
         setTimeout(() => {
           this.errorMessage = 'account_linked_other_account';
           this.router.navigate(['/home/settings/social-networks']);
-        }, 6000);
+        }, 3000);
       } else if (p.message === 'page already exists') {
         this.errorMessage = 'page already exists';
         setTimeout(() => {
           // this.ngOnInit();
           this.errorMessage = '';
           this.router.navigate(['/home/settings/social-networks']);
-        }, 6000);
+        }, 3000);
       }
     }
   }
@@ -275,8 +293,6 @@ export class SocialNetworksComponent implements OnInit {
       } else if (network === 'tiktok') {
         window.open('https://www.tiktok.com/' + userName.replace(/\s/g, ''));
       }
-
-
     }
   }
   toggelGoogleBlock() {
@@ -295,7 +311,7 @@ export class SocialNetworksComponent implements OnInit {
     this.showTiktokList = !this.showTiktokList;
   }
 
-  deleteAccount(id: string, network: string) {
+  deleteAccount(id: string, network: string,linkedinId : string ="") {
     if (network === 'google') {
       this.socialAccountFacadeService
         .deleteOneSocialNetworksGoogle(id)
@@ -331,7 +347,7 @@ export class SocialNetworksComponent implements OnInit {
         });
     } else if (network === 'linkedin') {
       this.socialAccountFacadeService
-        .deleteOneSocialNetworksLinkedin(id)
+        .deleteOneSocialNetworksLinkedin(id,linkedinId)
         .pipe(takeUntil(this.isDestroyed))
         .subscribe((response: any) => {
           if (response.message === 'deleted successfully') {

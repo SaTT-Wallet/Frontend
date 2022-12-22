@@ -1,6 +1,11 @@
 export const environment = {
   production: true,
-  API_URL: 'https://api2.satt-token.com',
+  API_URL: 'https://api2.satt-token.com',  
+  url:"https://dapp.satt.com/",
+
+  url_subgraph_bsc: 'https://api.thegraph.com/subgraphs/name/atayen/satt--bsc-mainnet',
+  url_subgraph_ether: 'https://api.thegraph.com/subgraphs/name/atayen/satt-ether-mainnet',
+
   addresses: {
     smartContracts: {
       campaignERC20: '0xf961c85517fe86244cb60889afc4a928068d49ef',
@@ -34,6 +39,8 @@ export const environment = {
     appId: '1:284190209745:web:dc01085f6a6dabfcc837f0',
     measurementId: 'G-DSJK01CZ0X'
   },
+  gmtId: 'GTM-5XW23QX',
+
   fcmredirectUrl: 'https://satt.atayen.us/#/home',
   bscan: 'https://bscscan.com/tx/',
   etherscan: 'https://etherscan.io/tx/',
@@ -86,4 +93,52 @@ export const environment = {
   polygonscanAddr: 'https://mumbai.polygonscan.com/tx/',
   etherscanaddr: 'https://ropsten.etherscan.io/address/',
   simplexUrl: 'https://sandbox.test-simplexcc.com/payments/new'*/
+  urlSocialMedia: {
+    urlTiktok: 'https://www.tiktok.com/'
+  },
+  FACEBOOK_URL: 'https://www.facebook.com/',
+
+  FACEBOOK_POST_URL:
+    'https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F',
+
+  YOUTUBE_WATCH_LINK: 'youtube.com/watch',
+
+  YOUTUBE_SHORTEN_LINK: 'https://youtu.be/',
+
+  YOUTUBE_EMBED_LINK: 'https://www.youtube.com/embed/',
+
+  typeSN: {
+    facebook: 1,
+    youtube: 2,
+    instagram: 3,
+    twitter: 4,
+    linkedin: 5,
+    tiktok: 6
+  },
+
+  oracleType: {
+    facebook: 'facebook',
+    youtube: 'youtube',
+    instagram: 'instagram',
+    twitter: 'twitter',
+    linkedin: 'linkedin',
+    tiktok: 'tiktok'
+  },
+
+  TIKTOK_URL: 'https://www.tiktok.com/',
+
+  Network: {
+    BNB: 'BNB',
+    WSAT: 'WSATT',
+    ETH: 'ETH',
+    BTC: 'BITCOIN',
+    SATT: 'SATT',
+    SATTBEP20: 'SATTBEP20',
+    TRX: 'tron',
+    MATIC: 'MATIC',
+    BTT: 'BTT'
+  },
+
+  YOUTUBE_OEMBED_LINK:
+    'https://www.youtube.com/oembed?url=https%3A//youtube.com/watch%3Fv%3D'
 };

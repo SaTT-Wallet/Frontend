@@ -10,7 +10,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
-import { dataList, pattContact } from '@config/atn.config';
+import { cryptoNetwork, dataList, pattContact } from '@config/atn.config';
 import { cryptoList, ListTokens } from '@config/atn.config';
 import { Observable, of, Subject, zip } from 'rxjs';
 import {
@@ -24,18 +24,23 @@ import {
 import { Location } from '@angular/common';
 
 import * as _ from 'lodash';
+import { Console } from 'console';
 
 enum EBlockchainNetwork {
   ERC20 = 'ERC20',
   BEP20 = 'BEP20',
   BTC = 'BTC',
   POLYGON = 'POLYGON',
-  TRON = 'TRON'
+  TRON = 'TRON',
+  SATTBEP20='SATTBEP20',
+  FIAT = 'fiat',
 }
+let {WSATT,...cryptoData} = ListTokens
 enum ECurrencyType {
   FIAT = 'fiat',
   BEP20 = 'bep20',
-  ERC20 = 'erc20'
+  ERC20 = 'erc20',
+  TRON= 'tron'
 }
 
 type Crypto = {
@@ -78,7 +83,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   selectedGenderValue: any;
   selectedCurrencyValue = 'USD';
   selectedtLogo = '$';
-  cryptoList: Crypto[] = _.values(ListTokens) as Crypto[];
+  cryptoList: Crypto[] = _.values(cryptoData) as Crypto[];
   requestedCrypto = 'SATT';
   fiatCurrency = 'USD';
   fiatLogo = 'SATTBEP20.svg';
@@ -86,6 +91,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   errMsg = '';
   errorMsg = '';
   quoteId: any;
+  points: any[] = [];
   cryptoList$ = this.walletFacade.getCryptoPriceList().pipe(
     map((cryptoPrices: any) => {
       let arr: CryptoListItem[] = [];
@@ -121,7 +127,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   eBlockchainNetwork = EBlockchainNetwork;
   eCurrencyType = ECurrencyType;
   selectedBlockchainNetwork = EBlockchainNetwork.BEP20;
-  selectedCurrencyType = ECurrencyType.FIAT;
+  selectedCurrencyType = ECurrencyType.FIAT; 
   selectedTargetCurrency = 'SATT (BEP20)';
   targetCurrencyList: ({ value: string; symbol: string } | Crypto)[] = [];
   sourceCryptoList: Crypto[] = [];
@@ -133,6 +139,8 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   fromSwapCrypto: any;
   quoteIdParams: boolean = false;
   inputAmount$ = new Subject();
+  maxAmountNumber: number = 9999999999999;
+  EBlockchainNetwork: any;
 
   constructor(
     private walletFacade: WalletFacadeService,
@@ -176,6 +184,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
           this.quoteIdParams = true;
         }
         if (p.id) {
+
           // this.toggleCurrencyType(ECurrencyType.FIAT);
           // this.toggleNetwork(p.network);
           this.selectedCurrencyType = p.currency;
@@ -188,9 +197,10 @@ export class BuyTokenComponent implements OnInit, OnChanges {
             this.fiatLogo = 'SATTBEP20.svg';
           } else if (p.id === 'SATT-ERC20') {
             this.fiatLogo = 'SATT2.svg';
-          } else if (p.id === 'SATTBEP20') {
-            this.selectedCurrencyLogo === 'SATTBEP20';
-          } else {
+          } else if (p.id === EBlockchainNetwork.SATTBEP20) {
+            this.selectedCurrencyLogo === EBlockchainNetwork.SATTBEP20;
+          } else if (p.id === EBlockchainNetwork.TRON) {
+            this.selectedCurrencyLogo === EBlockchainNetwork.SATTBEP20;}else {
             this.fiatLogo = p.id + '.svg';
             this.requestedCrypto = p.id;
           }
@@ -202,7 +212,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
             this.fiatLogo = 'SATTBEP20.svg';
           } else if (p.crypto === 'SATT-ERC20') {
             this.fiatLogo = 'SATT2.svg';
-          } else {
+          }  else {
             this.fiatLogo = p.id + '.svg';
           }
           this.isCryptoRouter = true;
@@ -226,9 +236,13 @@ export class BuyTokenComponent implements OnInit, OnChanges {
           this.toggleNetwork(EBlockchainNetwork.BEP20);
           this.requestedCrypto = 'BNB';
           // this.selectedTargetCurrency = 'SATT';
-        } else {
+          
+        }
+       
+       else {
           this.toggleCurrencyType(ECurrencyType.FIAT);
           this.toggleNetwork(EBlockchainNetwork.BEP20);
+        //  this.toggleNetwork(EBlockchainNetwork.TRON);
         }
       });
 
@@ -306,20 +320,22 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       )?.symbole as string;
     } else {
       if (network === EBlockchainNetwork.BEP20) {
-        // this.selectedCurrencyType = ECurrencyType.BEP20;
-        this.toggleCurrencyType(ECurrencyType.BEP20);
+        
+         this.selectedCurrencyType = ECurrencyType.BEP20;
+       // this.toggleCurrencyType(ECurrencyType.BEP20);
       } else if (network === EBlockchainNetwork.ERC20) {
         this.toggleCurrencyType(ECurrencyType.ERC20);
 
         // this.selectedCurrencyType = ECurrencyType.ERC20;
-      }
+  
+      } 
       this.sourceCryptoList = this.cryptoList.filter(
         (crypto: Crypto) => crypto.type.toUpperCase() === network
       );
 
       this.requestedCrypto = this.sourceCryptoList.find(
         (crypto: Crypto) =>
-          crypto.name.includes('SATT') &&
+          // crypto.name.includes('SATT') &&
           crypto.type.toUpperCase() === this.selectedBlockchainNetwork
       )?.symbole as string;
 
@@ -329,6 +345,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
     this.convertCrypto();
   }
   initToggleNetwork(network: EBlockchainNetwork) {
+    
     this.selectedBlockchainNetwork = network;
     if (network === EBlockchainNetwork.BTC) {
       this.sourceCryptoList = cryptoList
@@ -373,9 +390,18 @@ export class BuyTokenComponent implements OnInit, OnChanges {
 
         // this.selectedCurrencyType = ECurrencyType.ERC20;
       }
-      this.sourceCryptoList = this.cryptoList.filter(
-        (crypto: Crypto) => crypto.type.toUpperCase() === network
-      );
+      this.sourceCryptoList = cryptoList
+      .map((crypto: { symbol: string; network: string; logo: string }) => {
+        return {
+          name: crypto.symbol,
+          contract: '',
+          decimals: '0',
+          logo: crypto.logo,
+          type: crypto.network,
+          symbole: crypto.symbol
+        } as Crypto;
+      })
+      .filter((crypto: Crypto) => crypto.type.toUpperCase() === network);
 
       this.requestedCrypto = this.sourceCryptoList.find(
         (crypto: Crypto) =>
@@ -419,15 +445,18 @@ export class BuyTokenComponent implements OnInit, OnChanges {
 
       if (currencyType === ECurrencyType.BEP20) {
         this.selectedBlockchainNetwork = EBlockchainNetwork.BEP20;
-        this.selectedTargetCurrency = 'SATTBEP20';
+        this.selectedTargetCurrency = EBlockchainNetwork.SATTBEP20;
       } else if (currencyType === ECurrencyType.ERC20) {
-        this.selectedTargetCurrency = 'SATT';
+        this.selectedTargetCurrency = 'ETH';
         this.selectedBlockchainNetwork = EBlockchainNetwork.ERC20;
+      } else if (currencyType === ECurrencyType.TRON) {
+        this.selectedTargetCurrency = EBlockchainNetwork.TRON;
+        this.selectedBlockchainNetwork = EBlockchainNetwork.TRON;
       }
 
       this.sourceCryptoList = this.cryptoList.filter(
         (crypto: Crypto) =>
-          crypto.type.toUpperCase() === this.selectedBlockchainNetwork
+          crypto.type.toUpperCase() === this.selectedBlockchainNetwork //selectedBlockchainNetwork
       );
 
       this.requestedCrypto = this.sourceCryptoList.find(
@@ -441,6 +470,21 @@ export class BuyTokenComponent implements OnInit, OnChanges {
         crypto.name.includes('SATT') &&
         crypto.type.toUpperCase() === this.selectedBlockchainNetwork
     );
+      
+    if(this.selectedCurrencyType === "erc20" && this.selectedBlockchainNetwork === "ERC20") {
+      delete this.targetCurrencyList[0];
+      this.targetCurrencyList = this.targetCurrencyList.filter(Boolean)
+      console.log(this.targetCurrencyList);
+      this.selectedTargetCurrency = 'ETH';
+      (this.requestedCrypto="DAI")
+      this.toSwapCrypto = cryptoData['DAI']
+       this.sourceCryptoList.forEach((elem,i)=>{
+        if(elem.name ==='SATT'){
+          this.sourceCryptoList.splice(i,1)
+        i--
+        }
+      })
+    }
 
     this.switchTokensWhenIdentical();
 
@@ -457,6 +501,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
     this.convertCrypto();
   }
   initToggleCurrencyType(currencyType: ECurrencyType) {
+    
     this.selectedCurrencyType = currencyType;
     if (currencyType === ECurrencyType.FIAT) {
       this.selectedTargetCurrency = 'USD';
@@ -489,7 +534,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
 
       if (currencyType === ECurrencyType.BEP20) {
         this.selectedBlockchainNetwork = EBlockchainNetwork.BEP20;
-        this.selectedTargetCurrency = 'SATTBEP20';
+        this.selectedTargetCurrency = EBlockchainNetwork.SATTBEP20;
       } else if (currencyType === ECurrencyType.ERC20) {
         this.selectedTargetCurrency = 'SATT';
         this.selectedBlockchainNetwork = EBlockchainNetwork.ERC20;
@@ -527,6 +572,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   }
 
   get selectedCryptoLogo() {
+
     return this.sourceCryptoList.find(
       (crypto: Crypto) => crypto.symbole === this.requestedCrypto
     )?.logo;
@@ -578,6 +624,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
     }
   }
   onSelectCrypto(cryptoSymbol: string, logo: any, crypto?: any) {
+   
     this.toSwapCrypto = crypto;
     if (this.isCryptoRouter) {
       this.isCryptoRouter = false;
@@ -619,12 +666,12 @@ export class BuyTokenComponent implements OnInit, OnChanges {
           );
         }
       );
-
       this.selectedTargetCurrency = (
         this.targetCurrencyList[0] as Crypto
       ).symbole;
 
       this.fromSwapCrypto = this.targetCurrencyList[0] as Crypto;
+      
     }
   }
 
@@ -633,6 +680,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       return 'bsc-black-icon.svg';
     } else if (this.selectedCurrencyType === ECurrencyType.FIAT) {
       return 'bank-icon-black.svg';
+      
     } else {
       return 'etherium-blockchain-icon.png';
     }
@@ -653,13 +701,17 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   }
 
   set targetCurrency(currency: { value: string; symbol: string } | Crypto) {
+    
     if (
       this.selectedCurrencyType === ECurrencyType.BEP20 ||
-      this.selectedCurrencyType === ECurrencyType.ERC20
+      this.selectedCurrencyType === ECurrencyType.ERC20 
+  
     ) {
       this.selectedTargetCurrency = (currency as Crypto).symbole;
       if ((currency as Crypto).symbole === 'SATT') {
         this.selectedTargetCurrency = 'SATT';
+      } else if ((currency as Crypto).symbole === EBlockchainNetwork.TRON) {
+        this.selectedTargetCurrency = 'TRX';
       }
     } else {
       this.selectedTargetCurrency = (
@@ -668,42 +720,49 @@ export class BuyTokenComponent implements OnInit, OnChanges {
     }
   }
 
-  // Forbidern(event:any){
-  //   console.log('testt')
-  //   //@ts-ignore
-  //   let amount = this.document.getElementById('amount1')?.value
-  //   console.log('amount', amount)
-
-  //   console.log((''+ amount)?.split(".").length)
-
-  //   if ((''+ amount)?.split(".").length>2)
-  //   {
-  //     let newAmount = this.setCharAt((''+ amount), (''+ amount).lastIndexOf('.'), '' )
-  //     console.log(newAmount)
-  //   }  }
-
-  //   setCharAt(str: string,index: number,chr: string) {
-  //     if(index > str.length-1) return str;
-  //     return str.substring(0,index) + chr + str.substring(index+1);
-  // }
+  emptyInput() {
+    if (!this.amount || isNaN(this.amount)) this.amount = 0;
+  }
+  maxAmount(event: any) {
+    this.inputAmount$.next('');
+    var getamount: any = this.convertform.get('Amount')?.value;
+    let convertamount = getamount?.toString();
+    if (event === 'amount' && Number(convertamount) > this.maxAmountNumber) {
+      convertamount = convertamount.slice(0, 13);
+      this.convertform.get('Amount')?.setValue(convertamount);
+    }
+  }
 
   restrictZero(event: any) {
-    // [a,2,4,21].includes(event.key)
     if (
-      event.keyCode === 59 ||
-      event.keyCode === 16 ||
-      [48, 49, 50, 51, 52, 53, 54, 55, 56, 57].includes(event.wich) ||
-      (event.keyCode === 190 && event.shiftKey === true) ||
-      event.keyCode === 190
+      event.key === '1' ||
+      event.key === '2' ||
+      event.key === '3' ||
+      event.key === '4' ||
+      event.key === '5' ||
+      event.key === '6' ||
+      event.key === '7' ||
+      event.key === '8' ||
+      event.key === '9' ||
+      event.key === '0' ||
+      event.key === '.' ||
+      event.keyCode === 8 ||
+      event.keyCode === 46 ||
+      event.keyCode === 37 ||
+      event.keyCode === 39
     ) {
-    } else if (
-      !this.isValidKeyCode(event.keyCode) ||
-      ([48, 49, 50, 51, 52, 53, 54, 55, 56, 57].includes(event.keyCode) &&
-        event.shiftKey === false &&
-        event.key === !1)
-    ) {
-      event.preventDefault();
     } else {
+      event.preventDefault();
+    }
+
+    if (event.key === '.') {
+      if (('' + this.amount)?.split('.').length === 1 || !this.amount) {
+        this.points = [];
+      }
+      this.points.push('.');
+      if (this.points.length > 1) {
+        event.preventDefault();
+      }
     }
   }
   isValidKeyCode(code: number): boolean {
@@ -718,6 +777,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       code === 39
     );
   }
+  
   currencyBnB() {
     if (
       this.toSwapCrypto.contract ===
@@ -873,6 +933,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
     if (this.requestedCrypto === 'BTC') {
       this.walletId = this.walletBtc;
     } else if (this.requestedCrypto === 'TRX') {
+  
       this.walletId = this.tokenStorageService.getTronWalletAddress();
     }
 
