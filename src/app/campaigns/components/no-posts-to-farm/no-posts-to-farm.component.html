@@ -1,4 +1,7 @@
-<div class="row d-flex justify-content-center new_user white-background-mobile">
+<div
+  class="row d-flex justify-content-center new_user white-background-mobile"
+  style="padding-top: 9vh !important"
+>
   <div
     class="col-lg-7 col-md-10 col-sm-12 d-flex justify-content-center welcome"
   >
@@ -18,13 +21,7 @@
   </div>
   <div class="row btn_row p-0">
     <div
-      class="
-        d-flex
-        align-items-center
-        justify-content-center
-        col-xl-6 col-lg-8 col-md-12 col-sm-12
-        p-0
-      "
+      class="d-flex align-items-center justify-content-center col-xl-6 col-lg-8 col-md-12 col-sm-12 p-0"
     >
       <button class="btnStart" (click)="goToFarmPosts()">
         <span *ngIf="!this.showSpinnerJoin">{{ 'Join' | translate }}</span>
@@ -38,15 +35,7 @@
       </button>
     </div>
     <div
-      class="
-        col-xl-6 col-lg-8 col-md-12 col-sm-12
-        d-flex
-        flex-column
-        justify-content-center
-        align-items-center
-        p-0
-        show-desktop
-      "
+      class="col-xl-6 col-lg-8 col-md-12 col-sm-12 d-flex flex-column justify-content-center align-items-center p-0 show-desktop"
     >
       <button class="btnInfo" (click)="redirectqueryparam()">
         <span *ngIf="!this.showSpinnerInfo">{{ 'more_info' | translate }}</span>
