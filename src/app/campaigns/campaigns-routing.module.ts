@@ -44,8 +44,8 @@ const routes: Routes = [
   },
   {
     path: 'welcome',
-    component: FarmWelcomeComponent,
-    canActivate: [WelcomePageGuardService]
+    component: FarmWelcomeComponent
+    // canActivate: [WelcomePageGuardService]
   },
   {
     path: 'part/:campaign_id',
@@ -66,7 +66,6 @@ const routes: Routes = [
     path: 'socials',
     component: SocialsComponent,
     canActivate: [AuthGuardService]
-
   }
 ];
 
