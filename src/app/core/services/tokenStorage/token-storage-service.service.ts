@@ -218,7 +218,8 @@ export class TokenStorageService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.localStorage.getItem('access_token')
     });
-    return this.http.get(sattUrl + '/auth/logout', {
+    let idUser = this.localStorage.getItem('userId');
+    return this.http.get(sattUrl + '/auth/logout/' + idUser, {
       headers: header
     });
   }
