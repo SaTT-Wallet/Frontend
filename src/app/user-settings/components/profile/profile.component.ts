@@ -151,23 +151,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
           window.location.reload();
         }
         this.router.navigate(['/auth/login']);
-      },
-      () => {
-        this.authService.setIsAuthenticated(false);
-        this.campaignFacade.clearLinksListStore();
-        this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
-        this.ParticipationListStoreService.clearDataFarming();
-        this.walletFacade.dispatchLogout(); //clear totalBalance and cryptoList
-        this.accountFacadeService.dispatchLogoutAccount(); //clear account user
-        this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
-        this.ParticipationListStoreService.nextPage.pageNumber = 0;
-        this.profileSettingsFacade.clearProfilePicStore();
-        this.kycFacadeService.dispatchLogoutKyc();
-        this.tokenStorageService.clear();
-        if (isPlatformBrowser(this.platformId)) {
-          window.location.reload();
-        }
-        this.router.navigate(['/auth/login']);
       }
     );
     // this.authService.setIsAuthenticated(false);
