@@ -51,7 +51,7 @@ export class AccountEffects {
                 error.error = data.message;
                 this.tokenStorageService.signOut();
                 this.router.navigate(['/auth/login']);
-                return loadAccountLogout();
+                //return loadAccountLogout();
               }
               return loadAccountSuccess({ data: new User(data.data) });
             }),
