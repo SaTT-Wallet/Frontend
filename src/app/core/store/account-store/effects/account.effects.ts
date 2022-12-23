@@ -6,6 +6,7 @@ import { AuthService } from '@app/core/services/Auth/auth.service';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 import { User } from '@app/models/User';
 import { Actions, createEffect, ofType, concatLatestFrom } from '@ngrx/effects';
+import { env } from 'process';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import {
@@ -29,7 +30,17 @@ export class AccountEffects {
       ofType(loadAccount, loadUpdatedAccount),
       concatLatestFrom(() => this.accountFacadeService.account$),
       mergeMap(([action, account]) => {
-        if (account === null || action.type === loadUpdatedAccount.type) {
+        if (
+          Number(localStorage.getItem('expires_in')) <
+          Math.floor(Date.now() / 1000)
+        ) {
+          console.log('expiredexpiredexpiredexpired');
+          localStorage.clear();
+          window.open('welcome' , '_self');
+        } else if (
+          account === null ||
+          action.type === loadUpdatedAccount.type
+        ) {
           return this.authService.verifyAccount().pipe(
             map((data: IresponseAccount | any) => {
               if (
