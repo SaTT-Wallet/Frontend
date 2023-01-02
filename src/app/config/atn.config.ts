@@ -183,14 +183,14 @@ var ListTokens: { [key: string]: { [key: string]: any } } = {
     type: 'bep20',
     symbole: 'SATTBEP20'
   },
-  SATTPOLYGON: {
-    name: 'SATTPOLYGON',
-    contract: env.addresses.smartContracts.SATT_TOKENPOLYGON,
-    decimals: new Big('10').pow(18),
-    logo: 'SATT.svg',
-    type: 'POLYGON',
-    symbole: 'SATTPOLYGON'
-  },
+  // SATTPOLYGON: {
+  //   name: 'SATTPOLYGON',
+  //   contract: env.addresses.smartContracts.SATT_TOKENPOLYGON,
+  //   decimals: new Big('10').pow(18),
+  //   logo: 'SATT.svg',
+  //   type: 'POLYGON',
+  //   symbole: 'SATTPOLYGON'
+  // },
   SATTBTT: {
     name: 'SATTBTT',
     contract: env.addresses.smartContracts.SATT_TOKENBTT,
