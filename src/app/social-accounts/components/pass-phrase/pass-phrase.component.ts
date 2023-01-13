@@ -76,7 +76,7 @@ export class PassPhraseComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.isDestroyed))
       .subscribe(() => {
         this.accountFacadeService.dispatchUpdatedAccount();
-        this.router.navigate(['social-registration/downaldJSON']);
+        this.router.navigate(['social-registration/downloadjson']);
         // route to next page
       });
   }
@@ -200,7 +200,7 @@ export class PassPhraseComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.isDestroyed))
       .subscribe(() => {
         this.accountFacadeService.dispatchUpdatedAccount();
-        this.router.navigate(['social-registration/downaldJSON']);
+        this.router.navigate(['social-registration/downloadjson']);
         // route to next page
       });
   }
