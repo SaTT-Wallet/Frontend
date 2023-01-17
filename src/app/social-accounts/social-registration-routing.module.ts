@@ -85,7 +85,7 @@ const routes: Routes = [
         canActivate: [HasIdWalletService, checkStepsService]
       },
       {
-        path: 'downaldJSON',
+        path: 'downloadjson',
         component: DownaldJSONFileComponent,
         canActivate: [checkStepsService]
       },
