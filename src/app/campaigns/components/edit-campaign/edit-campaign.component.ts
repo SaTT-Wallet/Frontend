@@ -106,6 +106,7 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
   checked: boolean = false;
   isLoading = true;
   constructor(
+    
     private _formBuilder: FormBuilder,
     private CampaignService: CampaignHttpApiService,
     private sanitizer: DomSanitizer,
@@ -204,6 +205,9 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
     }
   }
   saveAndLaunchCampaign() {
+    this.getCampaignData();
+   
+    
     this.checkValidation();
     if (
       this.validFormParam &&
@@ -212,6 +216,8 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
       this.validFormMissionFromRemuToEdit &&
       this.validFormPicture
     ) {
+      console.log("here");
+      
       this.alertRequired = false;
       this.router.navigate(['home/check-password'], {
         queryParams: { id: this.draftId }
@@ -310,13 +316,19 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
   }
 
   listenForPresenationChange(event: any) {
+    
+    
     this.validFormPresentation = event;
   }
 
   listenForBudgetRemunChange(event: any) {
+    
+
     this.validFormBudgetRemun = event;
+    console.log("im here",this.validFormBudgetRemun)
   }
   listenForMissionChange(event: any) {
+
     this.validFormMissionFromRemuToEdit = event;
   }
   listenForPictureChange(event: any) {
@@ -364,7 +376,8 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
           campaign.ownedByUser =
             Number(campaign.ownerId) ===
             Number(this.localeStorageService.getIdUser());
-
+          
+          
           return campaign;
         }),
         takeUntil(this.isDestroyed$)

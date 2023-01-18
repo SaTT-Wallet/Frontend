@@ -687,6 +687,7 @@ export class CampaignHttpApiService {
     values: any,
     id: string
   ): Observable<IApiResponse<ICampaignResponse> | null> {
+    
     return this.http
       .put<IApiResponse<ICampaignResponse>>(
         `${sattUrl}/campaign/update/${id}`,
@@ -1168,7 +1169,6 @@ export class CampaignHttpApiService {
   
   // trial fetch from subgraph
   getTransactionsCount() {
-    console.log('5555')
     return axios.get('https://api.github.com/users/mapbox')
   .then((response) => {
     console.log(response.data);

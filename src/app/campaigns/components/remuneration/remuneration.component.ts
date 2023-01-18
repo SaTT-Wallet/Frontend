@@ -48,6 +48,8 @@ import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { DOCUMENT } from '@angular/common';
 import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
 import { Big } from 'big.js';
+import { CampaignHttpApiService } from '@app/core/services/campaign/campaign.service';
+import { CampaignsStoreService } from '@app/campaigns/services/campaigns-store.service';
 enum ERemunerationType {
   Publication = 'publication',
   Performance = 'performance'
@@ -84,6 +86,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   @Input() notValidMissionFromEdit: any;
   @Output() validFormBudgetRemun = new EventEmitter();
   @Output() validFormMissionFromRemuToEdit = new EventEmitter();
+  
   closedOracle: string = '';
   sendErrorToMission: any;
   form = new FormGroup({
@@ -168,6 +171,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     private walletStore: WalletStoreService,
     private cdref: ChangeDetectorRef,
     private walletFacade: WalletFacadeService,
+    private campaignsStoreService: CampaignsStoreService,
     private showNumbersRule: ShowNumbersRule,
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string
@@ -211,13 +215,17 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    
+    
+    
     this.cdref.markForCheck();
     this.parentFunction().subscribe();
     this.getUserCrypto();
-    // this.campaign$ = this.campaignsStoreService.updateOneById;
-    // this.campaign$.pipe().subscribe((campaign) => {
+    //this.campaign = 
+  //  this.campaignsStoreService.updateOneById({ cost: "5000" });
+    //  this.campaign$.pipe().subscribe((campaign) => {
     //   this.campaign = campaign;
-    // });
+    //  });
     this.checkValidForm();
     this.saveForm();
     // this.cryptoSymbol = 'SATT';
@@ -227,6 +235,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    
     if (changes.draftData && changes.draftData.currentValue) {
       /*
       this.form?.patchValue(this.draftData, { emitEvent: false });
@@ -288,6 +297,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       //this.form.updateValueAndValidity();
     }
   }
+
   listenForOracleMissionChange(event: any) {
     if (event.oracle === 'youtube') {
       this.isSelectedYoutube = !this.isSelectedYoutube;
@@ -383,19 +393,21 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       }
     }
   }
-
+  listenForBudgetValidation(value:boolean){
+    console.log("**********////*******",this.form);
+    this.validFormBudgetRemun.emit(value)
+  }
   listenForMissionValidation(value: boolean) {
     this.sendErrorToMission = value;
     this.validFormMissionFromRemuToEdit.emit(value);
   }
   saveForm() {
-    this.form.valueChanges
-      .pipe(
+    this.form.valueChanges.pipe(
         tap(() => {
           // this.notValidBudgetRemun = false;
           if (!this.service.isSavingStarted) {
             this.service.setSaveFormStatus('saving');
-            this.service.isSavingStarted = true;
+            this.service.isSavingStarted = true;            
           }
         }),
         debounceTime(500),
@@ -405,12 +417,10 @@ export class RemunerationComponent implements OnInit, OnDestroy {
           } else {
             this.validFormBudgetRemun.emit(false);
           }
-
           var arrayControl = this.form.get('ratios') as FormArray;
           const lengthRatios = arrayControl.length;
           var arrayControlBounties = this.form.get('bounties') as FormArray;
           const lengthBounties = arrayControlBounties.length;
-
           if (
             this.form.get('remuneration')?.value ===
             this.eRemunerationType.Performance
@@ -424,7 +434,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
               this.sendErrorToMission = false;
             }
           }
-
           if (
             this.form.get('remuneration')?.value ===
             this.eRemunerationType.Publication
@@ -439,8 +448,14 @@ export class RemunerationComponent implements OnInit, OnDestroy {
             }
           }
           if (this.draftData.id) {
+            console.log("here");
+            
             this.validFormMissionFromRemuToEdit.emit(true);
+            this.validFormBudgetRemun.emit(true);
+
             this.sendErrorToMission = false;
+            console.log("valuuuues:", values);
+            
             this.service.autoSaveFormOnValueChanges({
               formData: values,
               id: this.id
@@ -449,7 +464,8 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         }),
         takeUntil(this.isDestroyed$)
       )
-      .subscribe();
+      .subscribe(()=>{ console.log(this.form.value)});
+      ;
   }
   selectRemunerateType(type: ERemunerationType) {
     if (
@@ -743,67 +759,74 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       map((response: any) => response.data),
       take(1),
       map((data: any) => {
-        (this.bnb = data['BNB'].price),
-          (this.eth = data['ETH'].price),
-          (this.matic = data['MATIC'].price),
-          (this.btt = data['BTT'].price),
-          (this.trx = data['TRX'].price);
+        this.bnb = data['BNB'].price;
+        this.eth = data['ETH'].price;
+        this.matic = data['MATIC'].price;
+        this.btt = data['BTT'].price;
+        this.trx = data['TRX'].price;
 
         return {
           bnb: this.bnb,
           Eth: this.eth,
           matic: this.matic,
           btt: this.btt,
-          trx: this.trx
+          trx :this.trx
         };
       }),
-      switchMap(({ bnb, Eth, matic, btt, trx }) => {
+      switchMap(({ bnb, Eth, matic, btt,trx }) => {
         return forkJoin([
-          this.walletFacade.getEtherGaz().pipe(
+          this.walletFacade.getGas('erc20').pipe(
             take(1),
             tap((gaz: any) => {
+              
               let price;
               price = gaz.data.gasPrice;
               this.gazsend = (
                 ((price * GazConsumedByCampaign) / 1000000000) *
                 Eth
               ).toFixed(2);
-              this.currency = this.gazsend;
+              this.eRC20Gaz = this.gazsend;
             })
           ),
-          this.walletFacade.getBnbGaz().pipe(
+          this.walletFacade.getGas('bep20').pipe(
             take(1),
             tap((gaz: any) => {
+             
               let price = gaz.data.gasPrice;
-              this.bnbGaz = (
+              this.bEPGaz = (
                 ((price * GazConsumedByCampaign) / 1000000000) *
                 bnb
               ).toFixed(2);
 
               if (this.gazsend === 'NaN') {
                 this.gazsend = '';
+                // this.showSpinner=true;
                 let price = gaz.data.gasPrice;
-                this.bnbGaz = (
+                this.bEPGaz = (
                   ((price * GazConsumedByCampaign) / 1000000000) *
                   this.bnb
                 ).toFixed(2);
               }
             })
           ),
-          this.walletFacade.getPolygonGaz().pipe(
+          this.walletFacade.getGas('polygon').pipe(
             take(1),
             tap((gaz: any) => {
+           
               let price;
               price = gaz.data.gasPrice;
+
               this.polygonGaz = (
                 ((price * GazConsumedByCampaign) / 1000000000) *
                 matic
               ).toFixed(8);
             })
           ),
-          this.walletFacade.getBttGaz().pipe(
+
+          this.walletFacade.getGas('bttc').pipe(
             take(1),
             tap((gaz: any) => {
+           
               let price;
               price = gaz.data.gasPrice;
 
@@ -813,9 +836,10 @@ export class RemunerationComponent implements OnInit, OnDestroy {
               ).toFixed(8);
             })
           ),
-          this.walletFacade.getTrxGaz().pipe(
+          this.walletFacade.getGas('tron').pipe(
             take(1),
             tap((gaz: any) => {
+             
               let price;
               price = gaz.data.gasPrice;
 
@@ -1043,6 +1067,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     
   }
   keyPressNumbersWithDecimal(event :any) {
+    
     var charCode = (event.which) ? event.which : event.keyCode;
     if (charCode != 46 && charCode > 31
       && (charCode < 48 || charCode > 57)) {
@@ -1191,6 +1216,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     }
     this.selectedCryptoDetails = event;
     this.form.get('currency')?.setValue(this.selectedCryptoDetails.symbol);
+    console.log({event})
 
     this.amountdefault = this.form.get('currency')?.value;
     this.selectedCryptoSend = event.symbol;

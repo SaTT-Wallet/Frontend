@@ -55,10 +55,10 @@
           <input
             type="number"
             class="input-number2-receive"
-          
             class="usd input-amount-usd"
             (keydown)="restrictZero($event)"
             (keypress)="keyPressNumbersWithDecimal($event)"
+            onchange="saveForm()"
             placeholder="0"
             formControlName="initialBudgetInUSD"
             (input)="convertcurrency('usd')"
