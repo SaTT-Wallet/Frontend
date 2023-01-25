@@ -24,7 +24,6 @@ export class ConfirmBlockchainActionComponent implements OnInit {
   constructor(private service: BlockchainActionsService) {}
 
   ngOnInit(): void {
-    
     this.actionResults$
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((response) => {
@@ -48,23 +47,24 @@ export class ConfirmBlockchainActionComponent implements OnInit {
         if (response.error) {
           if (
             response.error ===
-            "Harvest will be available only 24 hours after the link validation from the Ad Pool manager"
+            'Harvest will be available only 24 hours after the link validation from the Ad Pool manager'
           ) {
             this.errorMessage =
               'Harvest will be available only 24 hours after the link validation from the Ad Pool manager';
           } else if (
             response.error ===
-            'Wrong password'
+            'Harvest will be available only 5min after the link validation from the Ad Pool manager'
           ) {
+            this.errorMessage =
+              'Harvest will be available only 5min after the link validation from the Ad Pool manager';
+          } else if (response.error === 'Wrong password') {
             this.errorMessage = 'Wrong password';
-          }
-          else if (
+          } else if (
             response.error ===
             'Returned error: insufficient funds for gas * price + value'
           ) {
             this.errorMessage = 'out_of_gas_error';
-          }
-           else {
+          } else {
             this.service.setTrnxStatus({
               status: 'failed',
               message: response.error
