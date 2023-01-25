@@ -79,6 +79,12 @@ export class BlockchainActionsService {
                 ) {
                   this.errorMessage =
                     'Harvest will be available only 24 hours after the link validation from the Ad Pool manager';
+                } else if (
+                  error.error.error ===
+                  "You didn't exceed the limits timing to harvest between 24H"
+                ) {
+                  this.errorMessage =
+                    'Harvest will be available only 5min after the link validation from the Ad Pool manager';
                 }
                 else if(error.error.error ==="Returned error: insufficient funds for gas * price + value" || error.error.error === "Contract validate error : account does not exist"){
                   this.errorMessage = "Returned error: insufficient funds for gas * price + value"
