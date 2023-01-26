@@ -1,6 +1,11 @@
 <div class="style-grid mt-4" *ngIf="this.tokenStorageService.getIsAuth()">
-  <!-- <div class="block-create-campaign">
-    <div class="block-title-create-campaign text-center">
+  <div class="block-create-campaign">
+    <img
+      src="/assets/Images/bg-create-adPool.png"
+      width="70px"
+      class="create-campaign-bg"
+    />
+    <!-- <div class="block-title-create-campaign text-center">
       <h2 class="title-budget">
         {{ 'AllCampains.budget' | translate }}
       </h2>
@@ -11,20 +16,20 @@
         ( {{ 'AllCampains.soit' | translate }}
         {{ (totalBudgetInvestedInUSD$ | async) || '0' }} $ )
       </h5>
-    </div>
+    </div> -->
     <div class="" (click)="createNewDraftCampaign()">
-      <img
+      <!-- <img
         src="/assets/Images/newImages/Mask-Group.svg"
         width="70px"
         class="pic-btn-create-campaign"
-      />
-      <button type="button" class="btn-create-campaign">
+      /> -->
+      <button type="button" class="btn-create-new-campaign">
         <span class="text-btn-create-campaign">{{
           'confirm_btc' | translate
         }}</span>
       </button>
     </div>
-  </div> -->
+  </div>
 </div>
 <div class="row filter-container">
   <!-- <app-ad-pool-filter

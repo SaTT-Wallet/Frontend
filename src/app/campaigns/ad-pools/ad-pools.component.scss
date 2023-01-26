@@ -28,6 +28,13 @@
     bottom: 16px;
     left: 18px;
   }
+  .create-campaign-bg {
+    position: absolute;
+    width: 348px;
+    height: 392px;
+    left: 0px;
+    top: 0px;
+  }
   .title-budget {
     font-style: normal;
     font-weight: 700;
@@ -47,6 +54,17 @@
     display: flex;
     justify-content: center;
   }
+  .btn-create-new-campaign {
+    position: absolute;
+    bottom: 0;
+    background: #f6f6ff;
+    height: 65px;
+    width: 100%;
+    right: 0px;
+    border: none;
+    display: flex;
+    justify-content: center;
+  }
   .text-btn-create-campaign {
     font-style: normal;
     font-weight: 600;
@@ -54,7 +72,7 @@
     line-height: 27px;
     text-align: center;
     letter-spacing: 0.01em;
-    color: #ffffff;
+    color: #75758f;
     border: none;
     display: flex;
     align-self: center;
