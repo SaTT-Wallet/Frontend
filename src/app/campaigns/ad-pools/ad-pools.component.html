@@ -59,10 +59,7 @@
     (onEndPageScroll)="onScroll()"
   >
     <ng-template appItemsList>
-      <div
-        class="block-create-campaign"
-        *ngIf="this.tokenStorageService.getIsAuth()"
-      >
+      <div class="block-create-campaign">
         <img
           src="/assets/Images/bg-create-adPool.png"
           width="70px"
