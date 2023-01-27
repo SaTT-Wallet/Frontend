@@ -74,7 +74,7 @@ export class RecoverGainsComponent implements OnInit {
         map((response: any) => response.data),
         map((data: any) => data[this.currencyName]),
         tap((sattCrypto) => {
-          let fixed = this.currencyName === 'BTT' ? 10 : 3;
+          let fixed = this.currencyName === 'BTT' ? 10 : 9;
 
           prom.totalToEarnInUSD = takeMath(
             this.formWeiToPipe.transform(
