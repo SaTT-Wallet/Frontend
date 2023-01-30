@@ -25,6 +25,13 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil, tap } from 'rxjs/operators';
+import {
+  DataUrl,
+  DOC_ORIENTATION,
+  NgxImageCompressService,
+  UploadResponse,
+} from 'ngx-image-compress';
+
 declare var $: any;
 @Component({
   selector: 'app-draft-picture',
@@ -102,7 +109,19 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
   coverUploadWidthError: boolean = false;
   coverUploadWidthErrorMsg: string = '';
   scaleMob: number = 1;
+
+  compressFileMobile = 25
+  compressFileTablette = 50
+
+  imgResultBeforeCompress: DataUrl = '';
+  imgResultAfterCompress: DataUrl = '';
+  imgResultAfterResize: DataUrl = '';
+  imgResultUpload: DataUrl = '';
+  imgResultAfterResizeMax: DataUrl = '';
+  imgResultMultiple: UploadResponse[] = [];
+
   constructor(
+    private imageCompress: NgxImageCompressService,
     private modalService: NgbModal,
     private service: DraftCampaignService,
     private CampaignService: CampaignHttpApiService,
@@ -291,7 +310,12 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
       this.readAsBase64(this.srcFile).then((data) => {
         if ((data.result.length * 6) / 8 < 2 * 10 ** 7) {
           this.sizeErrorCover = false;
-          this.form.get('cover')?.setValue(data.result);
+         // this.imageCompress
+        //   .compressFile(data.result, -2, 50, 50)
+        //   .then((result: DataUrl) => {console.log("result 100%: ", result)
+         this.form.get('cover')?.setValue(data.result);
+        // })
+          
         } else {
           this.isConformCover = false;
           this.sizeErrorCover = true;
@@ -312,8 +336,20 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
       this.readAsBase64(this.srcFileMobile).then((data) => {
         if ((data.result.length * 6) / 8 < 2 * 10 ** 7) {
           // we add  594455 byte , because readAsBase64 add some size ( approximately 594455 byte ) to original size of the image
+   
+          this.imageCompress
+          .compressFile(data.result, -2, 50, 25)
+          .then((result: DataUrl) => {console.log({result})
+        
+          console.log("data.result: ", result)
+          // this.imageChangedEventMobile = event;
+          // this.isConformCoverMobile = true;
+          // this.showImageMobile = true;
           this.sizeErrorCoverMobile = false;
-          this.form.get('coverMobile')?.setValue(data.result);
+          this.form.get('coverMobile')?.setValue(result);
+          }).catch(e=> {console.log(e)})
+// this.sizeErrorCoverMobile = false;
+          // this.form.g          et('coverMobile')?.setValue(data.result);
         } else {
           this.isConformCoverMobile = false;
           this.sizeErrorCoverMobile = true;
@@ -323,6 +359,37 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
       return this.srcFileMobile;
     }
   }
+
+  // Image upload and compress
+  compressFile() {
+    return this.imageCompress
+      .uploadFile()
+      .then(({ image, orientation, fileName }: UploadResponse) => {
+        this.imgResultBeforeCompress = image;
+        console.warn('File Name:', fileName);
+        console.warn(
+          `Original: ${image.substring(0, 50)}... (${image.length} characters)`
+        );
+        console.warn('Size in bytes was:', this.imageCompress.byteCount(image));
+
+        this.imageCompress
+          .compressFile(image, orientation, 50, 25)
+          .then((result: DataUrl) => {
+            console.log("result: ", result)
+            this.imgResultAfterCompress = result;
+            console.warn(
+              `Compressed: ${result.substring(0, 50)}... (${
+                result.length
+              } characters)`
+            );
+            console.warn(
+              'Size in bytes is now:',
+              this.imageCompress.byteCount(result)
+            );
+          });
+      });
+  }
+
   // Cropper
   fileChangeEvent(event: any, type: string): void {
     // console.log('eveeent', event.target.files[0]);
@@ -333,6 +400,22 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
       this.picName = null;
       this.showImage = false;
       let fileUploaded = event.target.files[0];
+      console.log("fileUploaded: ", fileUploaded)
+      /*this.imageCompress
+          .compressFile(fileUploaded, -2, 50, 25)
+          .then((result: DataUrl) => {
+            console.log("result: ", result)
+            this.imgResultAfterCompress = result;*/
+            /*console.warn(
+              `Compressed: ${result.substring(0, 50)}... (${
+                result.length
+              } characters)`
+            );
+            console.warn(
+              'Size in bytes is now:',
+              this.imageCompress.byteCount(result)
+            );
+          });*/
       let imgExtensions: Array<string> = [
         'image/png',
         'image/jpeg',
@@ -350,16 +433,21 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
         this.extensionErrorCover = false;
         this.inputCover.nativeElement.value = '';
       } else {
+        
         this.extensionErrorCover = false;
         this.picName = fileUploaded.name;
         this.showImage = true;
+        
         this.readAsBase64(fileUploaded).then((data) => {
           if (data.result.length < 2000000 + 594455) {
-            this.imageChangedEvent = event;
-            this.isConformCover = true;
-            this.sizeErrorCover = false;
-            this.form.get('cover')?.setValue(data);
-            this.form.get('coverSrc')?.setValue(data.result);
+            //this.imageCompress
+         this.imageChangedEvent = event;
+          
+        this.isConformCover = true;
+        this.sizeErrorCover = false;
+            this.form.get('cover')?.setValue(data.result);
+          this.form.get('coverSrc')?.setValue(data.result);
+      
           } else {
             this.isConformCover = false;
             this.imageChangedEvent = null;
@@ -397,12 +485,19 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
         this.readAsBase64(fileUploaded).then((data) => {
           if (data.result.length < 2000000 + 594455) {
             // we add  594455 byte , because readAsBase64 add some size ( approximately 594455 byte ) to original size of the image
-            this.imageChangedEventMobile = event;
-            this.isConformCoverMobile = true;
-            this.showImageMobile = true;
-            this.sizeErrorCoverMobile = false;
-            this.form.get('coverMobile')?.setValue(data);
-            this.form.get('coverSrcMobile')?.setValue(data.result);
+            // compress to 25% size (mobile)
+            this.imageCompress
+          .compressFile(data.result, -2, 50, 25)
+          .then((result: DataUrl) => {console.log({result})
+        
+          console.log("data.result: ", result)
+          this.imageChangedEventMobile = event;
+          this.isConformCoverMobile = true;
+          this.showImageMobile = true;
+          this.sizeErrorCoverMobile = false;
+          this.form.get('coverMobile')?.setValue(result);
+          this.form.get('coverSrcMobile')?.setValue(result);
+          }).catch(e=> {console.log(e)})
           } else {
             this.imageChangedEvent = null;
             this.isConformCoverMobile = false;
@@ -436,6 +531,11 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
         reject(e);
       }
     });
+    // this.imageCompress
+    //       .compressFile(fileValue, -2, 50, 25)
+    //       .then((result: DataUrl) => {
+
+    //       })
     return fileValue;
   }
   logoCropped(event: ImageCroppedEvent) {
