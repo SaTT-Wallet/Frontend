@@ -75,6 +75,10 @@ export class WalletFacadeService {
     return this.walletStoreService.cryptoAmount$;
   }
 
+  public get allWallet$() {
+    return this.walletStoreService.allWallet$;
+  }
+
   public get totalBalance$() {
     return this.store.select(selectTotaleBalance);
   }
@@ -120,6 +124,10 @@ export class WalletFacadeService {
 
   getUserWallet() {
     return this.walletStoreService.getWallet();
+  }
+
+  getAllWallet(){
+    return this.walletStoreService.getAllWallet();
   }
 
   initWallet() {

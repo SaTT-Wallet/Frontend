@@ -79,6 +79,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   token: any;
   symbol: any;
   totalBalance$ = this.walletFacade.totalBalance$;
+  allWallet$ = this.walletFacade.allWallet$;
   cryptoList$ = this.walletFacade.cryptoList$;
   txtValue: string = '';
   searched: boolean = false;
@@ -369,6 +370,9 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   //     this.cryptoList = this.cryptoStorage;
   //   }
   // }
+  selectedAccounts = localStorage.getItem('wallet_id');
+
+
   goTosend(id: any, network: any, pic: any) {
     if (id === 'SATT' && network === 'BEP20') {
       id = 'SATTBEP20';
@@ -415,6 +419,22 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   closeModal(content: any) {
     this.modalService.dismissAll(content);
   }
+
+ allWallet() {
+  this.walletFacade.getAllWallet()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((data: any) => {
+        if(this.tokenStorageService.getIdWallet() === data.data.address )
+        {this.tokenStorageService.saveIdWallet(data.data.addressV2)
+        this.tokenStorageService.saveTronWallet(data.data.tronAddressV2)
+        this.tokenStorageService.saveWalletBtc(data.data.btcAddressV2)}
+        else {this.tokenStorageService.saveIdWallet(data.data.address)
+          this.tokenStorageService.saveTronWallet(data.data.tronAddress)
+          this.tokenStorageService.saveWalletBtc(data.data.btcAddress)}
+
+        console.log("resultresultresult",data)})
+ }
+
   portfeuille() {
     this.walletFacade.wallet$
       .pipe(takeUntil(this.onDestroy$))

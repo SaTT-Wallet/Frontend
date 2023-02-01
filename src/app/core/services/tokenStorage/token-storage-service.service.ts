@@ -122,7 +122,7 @@ export class TokenStorageService {
   public getNetwork() {
     return this.localStorage.getItem(network);
   }
-  public saveIdWallet(adress: string): void {
+  public saveIdWallet(adress: string ): void {
     this.localStorage.removeItem(idWallet);
     this.localStorage.setItem(idWallet, adress);
   }
@@ -288,6 +288,10 @@ export class TokenStorageService {
   }
   public getWalletBtc() {
     return this.localStorage.getItem('wallet_btc');
+  }
+  public saveWalletBtc(adress: string ): void {
+    this.localStorage.removeItem('wallet_btc');
+    this.localStorage.setItem('wallet_btc', adress);
   }
   public getCryptoClic() {
     return this.localStorage.getItem('cryptoClic');

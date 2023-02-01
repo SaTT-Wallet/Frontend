@@ -44,6 +44,20 @@ export class WalletService {
       .pipe(share());
   }
 
+  public getAllWallet(): Observable<IResponseWallet> {
+    const headers = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+    return this.http
+      .get<IResponseWallet>(sattUrl + '/wallet/allwallets', {
+        headers: headers
+      })
+      .pipe(share());
+  }
+
+  
   public sendAmount(send: any) {
     const headers = new HttpHeaders({
       'Cache-Control': 'no-store',
@@ -125,6 +139,8 @@ export class WalletService {
       { headers: httpHeaders }
     );
   }
+
+
 
   chartjs() {
     const headers = new HttpHeaders({
