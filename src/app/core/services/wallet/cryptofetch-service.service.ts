@@ -47,8 +47,13 @@ export class CryptofetchServiceService {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     var idwallet = id_wallet || this.tokenStorageService.getIdWallet();
     return this.http
-      .get(sattUrl + '/wallet/totalBalance', { headers: headers })
-      .pipe(shareReplay(1));
+      .post(sattUrl + '/wallet/totalBalance',
+      {
+        walletbsc: this.tokenStorageService?.getIdWallet(),
+        wallettron: this.tokenStorageService?.getTronWalletAddress(),
+        walletbtc : this.tokenStorageService?.getWalletBtc(),
+      },
+      { headers: headers })
   }
 
   getEtherGaz() {
@@ -81,9 +86,25 @@ export class CryptofetchServiceService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
+
+    const wallets: { walletbsc: string; wallettron: string; walletbtc: string;  }[] = [
+      { walletbsc: this.tokenStorageService?.getIdWallet() || '',
+        wallettron: this.tokenStorageService?.getTronWalletAddress() || ''
+        ,walletbtc: this.tokenStorageService?.getWalletBtc() || ''},
+    ];
+
+
+
+
     return this.http
-      .get(sattUrl + '/wallet/userBalance', { headers: headers })
-      .pipe(shareReplay(1));
+      .post(sattUrl + '/wallet/userBalance',
+      {
+        walletbsc: this.tokenStorageService?.getIdWallet(),
+        wallettron: this.tokenStorageService?.getTronWalletAddress(),
+        walletbtc : this.tokenStorageService?.getWalletBtc(),
+      },
+      { headers: headers })
+      
   }
   convertcrypto(send: any) {
     const headers = new HttpHeaders({

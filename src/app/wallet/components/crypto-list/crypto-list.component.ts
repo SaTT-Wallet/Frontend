@@ -420,20 +420,26 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     this.modalService.dismissAll(content);
   }
 
- allWallet() {
-  this.walletFacade.getAllWallet()
+  allWallet() {
+    this.walletFacade.getAllWallet()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((data: any) => {
-        if(this.tokenStorageService.getIdWallet() === data.data.address )
-        {this.tokenStorageService.saveIdWallet(data.data.addressV2)
-        this.tokenStorageService.saveTronWallet(data.data.tronAddressV2)
-        this.tokenStorageService.saveWalletBtc(data.data.btcAddressV2)}
-        else {this.tokenStorageService.saveIdWallet(data.data.address)
+        if (this.tokenStorageService.getIdWallet() === data.data.address) {
+          this.tokenStorageService.saveIdWallet(data.data.addressV2)
+          this.tokenStorageService.saveTronWallet(data.data.tronAddressV2)
+          this.tokenStorageService.saveWalletBtc(data.data.btcAddressV2)
+        }
+        else {
+          this.tokenStorageService.saveIdWallet(data.data.address)
           this.tokenStorageService.saveTronWallet(data.data.tronAddress)
-          this.tokenStorageService.saveWalletBtc(data.data.btcAddress)}
+          this.tokenStorageService.saveWalletBtc(data.data.btcAddress)
+        }
 
-        console.log("resultresultresult",data)})
- }
+        this.walletStoreService.getCryptoList();
+        this.walletStoreService.getTotalBalance();
+        console.log("resultresultresult", data)
+      })
+  }
 
   portfeuille() {
     this.walletFacade.wallet$
@@ -765,7 +771,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
       if (
         value.indexOf('0x') >= 0 &&
         this.filterByNamePipe.transform(this.listToken, this.search).length ===
-          0
+        0
       ) {
         this.importManually = true;
       } else {
@@ -1010,7 +1016,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     return crypto.symbol;
   }
 
-  private getCryptoToImport() {}
+  private getCryptoToImport() { }
 
   alreadyAdded(token: any): boolean {
     if (
