@@ -161,6 +161,7 @@
     "ngx-facebook": "^3.0.0-0",
     "ngx-filesaver": "^13.0.0",
     "ngx-i18n-country-select": "^2.2.1",
+    "ngx-image-compress": "^13.1.14",
     "ngx-image-cropper": "^6.1.0",
     "ngx-infinite-scroll": "^10.0.1",
     "ngx-intl-tel-input": "^3.1.3",
