@@ -9,6 +9,7 @@
 
 <!-- <div class="wallet container-fluid"> -->
 <div class="wallet">
+
   <!--red bloc:desktop and tablette-->
   <!-- <div class="mb-2 showDesktop" role="button">
         <div class=" div_red" id="red-bloc" *ngIf="!this.sidebarService.toggleSidebar.value && hideRedBloc=='false'">
@@ -29,6 +30,7 @@
       <div class="blockk mb-4">
         <!--portfolio estimation-->
         <!-- <div class="d-flex justify-content-center">-->
+
         <div class="currentbalance">
           <h3 class="walletEstim d-flex justify-content-center">
             {{ 'Wallet.Your_total_portfolio_is_estimated_at' | translate }}
@@ -44,6 +46,11 @@
                         </div> -->
             </div>
           </div>
+          <button class="btn btn-secondary dropdown-toggle" 
+          (click)="allWallet()"
+          type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Switch Account 
+          </button>
         </div>
         <!--</div>-->
 
@@ -122,7 +129,9 @@
   </div>
 
   <div class="showDesktop">
+
     <div class="scroll-page" id="page-2">
+
       <app-crypto-list
         (hidePortfolio)="togglePortfolio($event)"
         (onMakeAnimation)="triggerAnimation($event)"

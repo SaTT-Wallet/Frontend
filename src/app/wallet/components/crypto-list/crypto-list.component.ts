@@ -420,33 +420,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     this.modalService.dismissAll(content);
   }
 
-  allWallet() {
-    this.walletFacade.getAllWallet()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((data: any) => {
-        console.log("this.tokenStorageService.getIdWallet() === data.data.address",
-        this.tokenStorageService.getWalletVersion() === "v2")
-        if (
-          this.tokenStorageService.getWalletVersion() === "v2") {
-          this.tokenStorageService.saveWalletVersion("v1")
-          this.tokenStorageService.saveIdWallet(data.data.address)
-          this.tokenStorageService.saveTronWallet(data.data.tronAddress)
-          this.tokenStorageService.saveWalletBtc(data.data.btcAddress)
-
-        }
-        else {
-          this.tokenStorageService.saveWalletVersion("v2")
-          this.tokenStorageService.saveIdWallet(data.data.addressV2)
-          this.tokenStorageService.saveTronWallet(data.data.tronAddressV2)
-          this.tokenStorageService.saveWalletBtc(data.data.btcAddressV2)
-        }
-
-        this.walletStoreService.getCryptoList();
-        this.walletStoreService.getTotalBalance();
-        console.log("resultresultresult", data)
-      })
-  }
-
+ 
   portfeuille() {
     this.walletFacade.wallet$
       .pipe(takeUntil(this.onDestroy$))

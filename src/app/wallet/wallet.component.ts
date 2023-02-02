@@ -14,6 +14,8 @@ import {
 import { ChartDataSets, ChartType } from 'chart.js';
 // @ts-ignore
 import { Big } from 'big.js';
+import { WalletStoreService } from '@core/services/wallet-store.service';
+
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   pattContact,
@@ -76,6 +78,8 @@ export class WalletComponent implements OnInit, OnDestroy {
   showPass: boolean = false;
   tronWalletPassword = '';
   tronWalletAddress = '';
+  onDestroy$ = new Subject();
+
 
   lineChartDataMonth: ChartDataSets[] = [
     {
@@ -466,6 +470,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     private accountFacadeService: AccountFacadeService,
     private tokenStorageService: TokenStorageService,
     private profileSettingsFacade: ProfileSettingsFacadeService,
+    private walletStoreService: WalletStoreService,
     private authStoreService: AuthStoreService,
     public sidebarService: SidebarService,
     public modalService: NgbModal,
@@ -759,6 +764,35 @@ export class WalletComponent implements OnInit, OnDestroy {
         });
     }
   }
+
+  allWallet() {
+    this.walletFacade.getAllWallet()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((data: any) => {
+        console.log("this.tokenStorageService.getIdWallet() === data.data.address",
+        this.tokenStorageService.getWalletVersion() === "v2")
+        if (
+          this.tokenStorageService.getWalletVersion() === "v2") {
+          this.tokenStorageService.saveWalletVersion("v1")
+          this.tokenStorageService.saveIdWallet(data.data.address)
+          this.tokenStorageService.saveTronWallet(data.data.tronAddress)
+          this.tokenStorageService.saveWalletBtc(data.data.btcAddress)
+
+        }
+        else {
+          this.tokenStorageService.saveWalletVersion("v2")
+          this.tokenStorageService.saveIdWallet(data.data.addressV2)
+          this.tokenStorageService.saveTronWallet(data.data.tronAddressV2)
+          this.tokenStorageService.saveWalletBtc(data.data.btcAddressV2)
+        }
+
+        this.walletStoreService.getCryptoList();
+        this.walletStoreService.getTotalBalance();
+        console.log("resultresultresult", data)
+      })
+  }
+
+
 
   public makeAnimation(key: string): void {
     this.onMakeAnimation.emit(key);
