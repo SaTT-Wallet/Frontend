@@ -6,7 +6,6 @@ import { OwlOptions } from 'ngx-owl-carousel-o';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 
 const bscanaddr = env.bscanaddr;
 const etherscanaddr = env.etherscanaddr;
@@ -68,8 +67,6 @@ export class QRCodeComponent implements OnInit {
 
   constructor(
     private walletFacade: WalletFacadeService,
-    private tokenStorageService: TokenStorageService,
-
     @Inject(PLATFORM_ID) private platformId: string,
     @Inject(DOCUMENT) private document: Document,
     breakpointObserver: BreakpointObserver
@@ -99,10 +96,10 @@ export class QRCodeComponent implements OnInit {
     this.walletFacade.loadUserWallet();
     this.walletFacade.wallet$.subscribe((data: any) => {
       if (!!data) {
-        console.log("datadatadatadata",data)
-        this.btcCode = (this.tokenStorageService.getIdWallet() === data.data.address) ? data.data.btc : this.tokenStorageService.getWalletBtc();
-        this.eth = (this.tokenStorageService.getIdWallet() === data.data.address) ? data.data.address  : this.tokenStorageService.getIdWallet() ;
-        this.tronAddress = (this.tokenStorageService.getIdWallet() === data.data.address) ? data.data.tronAddress :this.tokenStorageService.getTronWalletAddress();
+        console.log("dataaaaaaaaaaaaaa",data)
+        this.btcCode = data.data.btc;
+        this.eth = data.data.address;
+        this.tronAddress = data.data.tronAddress;
         this.url1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.eth}&chs=222x222`;
         this.url2 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.btcCode}&chs=222x222`;
         this.url3 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.tronAddress}&chs=222x222`;

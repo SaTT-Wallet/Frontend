@@ -38,10 +38,11 @@ export class WalletService {
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
     return this.http
-      .get<IResponseWallet>(sattUrl + '/wallet/mywallet', {
-        headers: headers
-      })
-      .pipe(share());
+      .post<IResponseWallet>(sattUrl + '/wallet/mywallet',   
+      { version: this.tokenStorageService?.getWalletVersion()
+      },
+      { headers: headers })
+
   }
 
   public getAllWallet(): Observable<IResponseWallet> {

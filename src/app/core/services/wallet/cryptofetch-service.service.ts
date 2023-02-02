@@ -49,9 +49,8 @@ export class CryptofetchServiceService {
     return this.http
       .post(sattUrl + '/wallet/totalBalance',
       {
-        walletbsc: this.tokenStorageService?.getIdWallet(),
-        wallettron: this.tokenStorageService?.getTronWalletAddress(),
-        walletbtc : this.tokenStorageService?.getWalletBtc(),
+        version: this.tokenStorageService?.getWalletVersion(),
+
       },
       { headers: headers })
   }
@@ -87,21 +86,9 @@ export class CryptofetchServiceService {
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
 
-    const wallets: { walletbsc: string; wallettron: string; walletbtc: string;  }[] = [
-      { walletbsc: this.tokenStorageService?.getIdWallet() || '',
-        wallettron: this.tokenStorageService?.getTronWalletAddress() || ''
-        ,walletbtc: this.tokenStorageService?.getWalletBtc() || ''},
-    ];
-
-
-
-
     return this.http
       .post(sattUrl + '/wallet/userBalance',
-      {
-        walletbsc: this.tokenStorageService?.getIdWallet(),
-        wallettron: this.tokenStorageService?.getTronWalletAddress(),
-        walletbtc : this.tokenStorageService?.getWalletBtc(),
+      { version: this.tokenStorageService?.getWalletVersion()
       },
       { headers: headers })
       

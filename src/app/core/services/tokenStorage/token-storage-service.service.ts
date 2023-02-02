@@ -92,6 +92,15 @@ export class TokenStorageService {
   public getUrlCampaign() {
     return this.localStorage.getItem(url);
   }
+
+  public saveWalletVersion(version: any) {
+    this.localStorage.setItem('wallet_version', version);
+  }
+
+  public getWalletVersion() {
+    return this.localStorage.getItem('wallet_version');
+  }
+
   public setUsernew() {
     this.localStorage.setItem('newUSer', 'false');
   }
