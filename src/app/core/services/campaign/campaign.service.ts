@@ -1068,10 +1068,10 @@ export class CampaignHttpApiService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    let walletId = this.tokenStorageService.getIdWallet();
+    let idUser = this.tokenStorageService.getUserId();
 
     return this.http
-      .get(sattUrl + '/campaign/filterLinks/' + walletId, {
+      .get(sattUrl + '/campaign/filterLinks/' + idUser, {
         headers: header,
         params: campaignId ? queryParamsCamp : queryParams
       })
