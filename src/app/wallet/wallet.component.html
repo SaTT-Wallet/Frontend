@@ -9,7 +9,6 @@
 
 <!-- <div class="wallet container-fluid"> -->
 <div class="wallet">
-
   <!--red bloc:desktop and tablette-->
   <!-- <div class="mb-2 showDesktop" role="button">
         <div class=" div_red" id="red-bloc" *ngIf="!this.sidebarService.toggleSidebar.value && hideRedBloc=='false'">
@@ -40,17 +39,22 @@
               <div class="d-flex first_layer" id="totalAmount1">
                 $ {{ totalAmount | number: '1.0-2' || '' }}
               </div>
+              <div class="d-flex justify-content-center">
+                <p class="echnage" (click)="allWallet()" type="button">
+                  <span
+                    ><img
+                      src="../../assets/Images/custom_icons/bi_arrow-repeat.svg"
+                  /></span>
+                  Go to {{ version_txt }}
+                </p>
+              </div>
+
               <!-- <div class="d-flex justify-content-center">
 
                             <h1 class="indicatorfont " [ngStyle]="{ color: arrowColor }"> {{arrowvar }} {{variationamount}} % </h1>
                         </div> -->
             </div>
           </div>
-          <button class="btn btn-secondary dropdown-toggle" 
-          (click)="allWallet()"
-          type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Switch Account 
-          </button>
         </div>
         <!--</div>-->
 
@@ -129,9 +133,7 @@
   </div>
 
   <div class="showDesktop">
-
     <div class="scroll-page" id="page-2">
-
       <app-crypto-list
         (hidePortfolio)="togglePortfolio($event)"
         (onMakeAnimation)="triggerAnimation($event)"

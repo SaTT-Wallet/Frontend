@@ -45,6 +45,21 @@ input:-webkit-autofill:active {
   font-size: 22px !important;
 }
 
+.echnage{
+  position: absolute;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  /* line-height: 99%; */
+  display: flex;
+  align-items: flex-end;
+  letter-spacing: 0.03em;
+  color: #FFFFFF;
+  white-space: break-spaces;
+  width: max-content;
+}
+
 
 .first_layer {
   z-index: 11;
@@ -879,7 +894,7 @@ textarea::placeholder {
     top: 0;
   }
   .wallet {
-    padding: 0px !important;
+    padding: 0px 0px 55px 0px !important;
     /* overflow-x: hidden;*/
     overflow-y: auto;
   }
