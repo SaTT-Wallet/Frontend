@@ -7,7 +7,7 @@ import { IBlockchainActionEvent } from '@app/models/blockchain-action-event.inte
 import { ParticipationListStoreService } from '@campaigns/services/participation-list-store.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TokenStorageService } from './tokenStorage/token-storage-service.service';
-import { data } from 'jquery';
+// import { data } from 'jquery';
 
 export interface ITransactionStatus {
   status: 'succeeded' | 'failed' | null;
@@ -57,16 +57,24 @@ export class BlockchainActionsService {
   }
 
   performAction() {
-    
     return combineLatest([
       this.actionButtonClick$,
       this.confirmButtonClick$
     ]).pipe(
       switchMap(([event, password]) => {
-        let idProm = event.data.prom?.hash ? event.data.prom.hash : JSON.parse(this.localStorageService.getItem('data') as string).data.prom.hash ;
-        let hash = event.data.prom?.campaignHash ? event.data.prom.campaignHash : JSON.parse(this.localStorageService.getItem('data') as string).data.prom.campaignHash ;
+        let idProm = event.data.prom?.hash
+          ? event.data.prom.hash
+          : JSON.parse(this.localStorageService.getItem('data') as string).data
+              .prom.hash;
+        let hash = event.data.prom?.campaignHash
+          ? event.data.prom.campaignHash
+          : JSON.parse(this.localStorageService.getItem('data') as string).data
+              .prom.campaignHash;
 
-        let action = event.action ? event.action : JSON.parse(this.localStorageService.getItem('data') as string).action
+        let action = event.action
+          ? event.action
+          : JSON.parse(this.localStorageService.getItem('data') as string)
+              .action;
 
         if (action === EButtonActions.GET_MY_GAINS) {
           return this.campaignService
@@ -84,18 +92,28 @@ export class BlockchainActionsService {
                   "You didn't exceed the limits timing to harvest between 24H"
                 ) {
                   this.errorMessage =
-                    'Harvest will be available only 5min after the link validation from the Ad Pool manager';
-                }
-                else if(error.error.error ==="Returned error: insufficient funds for gas * price + value" || error.error.error === "Contract validate error : account does not exist"){
-                  this.errorMessage = "Returned error: insufficient funds for gas * price + value"
-                }
-                else if (
+                    'Harvest will be available only 24 hours after the last get gains';
+                } else if (
+                  error.error.error ===
+                    'Returned error: insufficient funds for gas * price + value' ||
+                  error.error.error ===
+                    'Contract validate error : account does not exist'
+                ) {
+                  this.errorMessage =
+                    'Returned error: insufficient funds for gas * price + value';
+                } else if (
                   error.error.error ===
                   'Key derivation failed - possibly wrong password'
                 ) {
                   this.errorMessage = 'Wrong password';
-                } else if(error.error.error ==="Returned error: insufficient funds for gas * price + value" || error.error.error === "Contract validate error : account does not exist"){
-                  this.errorMessage = "Returned error: insufficient funds for gas * price + value"
+                } else if (
+                  error.error.error ===
+                    'Returned error: insufficient funds for gas * price + value' ||
+                  error.error.error ===
+                    'Contract validate error : account does not exist'
+                ) {
+                  this.errorMessage =
+                    'Returned error: insufficient funds for gas * price + value';
                 }
                 return of(null);
               }),
