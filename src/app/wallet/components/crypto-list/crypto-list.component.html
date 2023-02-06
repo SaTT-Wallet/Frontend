@@ -5,7 +5,6 @@
     <app-send-receive-block></app-send-receive-block>
   </div>
 
-
   <div class="d-flex justify-content-center">
     <div class="d-flex align-items-start flex-column cryptoListContainer">
       <!-- </div> -->
@@ -256,6 +255,7 @@
                             (click)="goToBuy(crypto.symbol, crypto.network)"
                           />
                         </div>
+
                         <a
                           href="https://app.uniswap.org/#/swap?outputCurrency=0x70a6395650b47d94a77de4cfedf9629f6922e645 "
                           target="_blank"
@@ -406,6 +406,18 @@
                         class="col-2 d-flex justify-content-start align-items-center"
                         style="width: fit-content; cursor: pointer"
                         details.hidden="true"
+                        *ngIf="details.hidden && crypto.undername !== 'SATT'"
+                        (click)="details.hidden = false"
+                      >
+                        <img
+                          src="./../../../assets/Images/custom_icons/clarity_error-standard-line_mobile.svg"
+                          style="font-size: 13px; cursor: pointer"
+                        />
+                      </div>
+                      <div
+                        class="col-2 d-flex justify-content-start align-items-center"
+                        style="width: fit-content; cursor: pointer"
+                        details.hidden="true"
                         *ngIf="!details.hidden && crypto.undername === 'SATT'"
                         (click)="details.hidden = true"
                       >
@@ -538,6 +550,7 @@
                       </div> -->
                         </div>
                       </div>
+
                       <div
                         class="col-2 d-flex align-items-center justify-content-start"
                         style="background: #f6f6ff"
@@ -606,6 +619,7 @@
                           </span>
                         </div>
                       </div>
+
                       <div class="col-4">
                         <div class="row h-100">
                           <div
@@ -619,6 +633,7 @@
                               />
                             </a>
                           </div>
+
                           <div
                             class="col-2 d-flex justify-content-center align-items-center"
                             style="background: #f6f6ff"
@@ -635,6 +650,7 @@
                               />
                             </a>
                           </div>
+
                           <div
                             class="col-2 d-flex justify-content-start align-items-center"
                             style="background: #f6f6ff"
@@ -705,6 +721,23 @@
                               </div>
                             </a>
                           </div>
+
+                          <div
+                            class="col-2 d-flex justify-content-start align-items-center"
+                            style="width: fit-content; cursor: pointer;    background: #f6f6ff;"
+                            details.hidden="true"
+                            (click)="details.hidden = false"
+                          >
+                            <img
+                              src="./../../../assets/Images/custom_icons/clarity_error-standard-line_mobile.svg"
+                              style="
+                                font-size: 13px;
+                                cursor: pointer;
+                                margin-left: 28px;
+                              "
+                            />
+                          </div>
+
                           <div
                             class="col-1 d-flex justify-content-start align-items-center"
                             style="background: #f6f6ff"
@@ -716,10 +749,7 @@
                               src="./../../../assets/Images/new-delete.svg"
                             />
                           </div>
-                          <div
-                            class="col-2 d-flex justify-content-start align-items-center"
-                            style="width: fit-content; background: #f6f6ff"
-                          ></div>
+
                         </div>
                       </div>
                     </div>
@@ -1024,6 +1054,22 @@
                               </div>
                             </a>
                           </div>
+
+                          <div
+                          class="col-2 d-flex justify-content-start align-items-center"
+                          style="width: fit-content; cursor: pointer;    background: #f6f6ff;"
+                          details.hidden="true"
+                          (click)="details.hidden = false"
+                        >
+                          <img
+                            src="./../../../assets/Images/custom_icons/clarity_error-standard-line_mobile.svg"
+                            style="
+                              font-size: 13px;
+                              cursor: pointer;
+                              margin-left: 28px;
+                            "
+                          />
+                        </div>
                           <div
                             class="col-1 d-flex justify-content-start align-items-center"
                             style="background: #f6f6ff"
@@ -1035,10 +1081,7 @@
                               src="./../../../assets/Images/new-delete.svg"
                             />
                           </div>
-                          <div
-                            class="col-2 d-flex justify-content-start align-items-center"
-                            style="width: fit-content; background: #f6f6ff"
-                          ></div>
+
                         </div>
                       </div>
                     </div>

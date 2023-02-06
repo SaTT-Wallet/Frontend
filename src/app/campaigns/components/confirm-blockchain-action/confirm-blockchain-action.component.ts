@@ -53,10 +53,10 @@ export class ConfirmBlockchainActionComponent implements OnInit {
               'Harvest will be available only 24 hours after the link validation from the Ad Pool manager';
           } else if (
             response.error ===
-            'Harvest will be available only 5min after the link validation from the Ad Pool manager'
+            'Harvest will be available only 24 hours after the last get gains'
           ) {
             this.errorMessage =
-              'Harvest will be available only 5min after the link validation from  the Ad Pool manager';
+              'Harvest will be available only 24 hours after the last get gains';
           } else if (response.error === 'Wrong password') {
             this.errorMessage = 'Wrong password';
           } else if (
