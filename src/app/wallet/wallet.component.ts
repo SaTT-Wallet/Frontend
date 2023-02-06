@@ -411,6 +411,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   private totalBalance$ = this.walletFacade.totalBalance$;
   tronErrorMessage = '';
   height: any = '250px';
+  walletV2ErrorMessage = '';
 
   selectTab(tabId: number) {
     this.staticTabs.tabs[tabId].active = true;
@@ -684,7 +685,7 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.verifyOnBoarding();
-    this.verifyUserWalletV2();
+
     // this.dontShowAgain();
     // let data_profile = {
     //   onBoarding: false
@@ -715,7 +716,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     this.getSecure();
     this.getDetails();
     this.totalbalancewallet();
-
+    this.verifyUserWalletV2();
     var c = <HTMLCanvasElement>this.document.getElementById('myCanvas');
     var ctx = c?.getContext('2d');
     var my_gradient = ctx?.createLinearGradient(0, 0, 0, 170);
@@ -723,6 +724,53 @@ export class WalletComponent implements OnInit, OnDestroy {
     my_gradient?.addColorStop(1, 'white');
     //ctx.fillStyle = my_gradient;
     ctx?.fillRect(20, 20, 150, 100);
+  }
+
+  //Create WALLET V2
+  createWalletV2() {
+    this.walletV2ErrorMessage = '';
+    this.walletFacade
+      .createNewWalletV2(this.walletPassword)
+      .pipe(
+        catchError((err) => {
+          if (err.error.error === 'Wallet already exist') {
+            this.walletV2ErrorMessage = 'Wallet already exist';
+          } else {
+            this.walletV2ErrorMessage =
+              'Something went wrong please try again!';
+          }
+
+          return of(null);
+        })
+      )
+      /*.pipe(
+        catchError((err) => {
+          if(err.err.err === 'Key derivation failed - possibly wrong password') {
+            this.walletV2ErrorMessage = 'Wrong password';
+          } else {
+            this.walletV2ErrorMessage = err.err.err
+          }
+          return of(null);
+    }), filter(res => res !== null))*/
+      .subscribe((response: any) => {
+        if (response?.data?.error) {
+          this.walletV2ErrorMessage =
+            response?.data?.error ===
+            'Key derivation failed - possibly wrong password'
+              ? 'Wrong password'
+              : response?.data?.error;
+        } else {
+          if (
+            response?.data?.address &&
+            response?.data?.btcAddress &&
+            response?.data?.tronAddress
+          ) {
+            //success
+          } else {
+            //wrong
+          }
+        }
+      });
   }
 
   createTronWallet() {
@@ -965,9 +1013,6 @@ export class WalletComponent implements OnInit, OnDestroy {
         this.getDetails();
       });
   }
-
-  //Create WALLET V2
-  createWalletV2() {}
 
   test() {}
 

@@ -2,6 +2,18 @@
   width: 100vw;
   min-width: 379px;
 }
+.stepper{
+  text-align: center;
+  width: 500px;
+}
+
+.stepper img {
+  height: 100%;
+  width: 100%;
+}
+
+
+
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -20,6 +32,7 @@ input:-webkit-autofill:active {
   z-index: -1 !important;
   opacity: 0 !important;
 }
+
 
 .welcome-body {
   max-width: 600px;
