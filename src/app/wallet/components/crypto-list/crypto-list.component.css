@@ -182,6 +182,7 @@ picture-moonboy {
 .deletettoken {
     background-color: transparent !important;
     cursor: pointer;
+    margin-left: -15px;
 }
 
 div.li-Clickedd2 {
