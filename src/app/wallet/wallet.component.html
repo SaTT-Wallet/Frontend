@@ -360,9 +360,6 @@
     data-backdrop="static"
     id="createWalletV2Modal"
   >
-    <div class="stepper">
-      <img src="../../assets/Images/Stepper.svg" class="stepper-img" />
-    </div>
     <div class="">
       <img src="../../assets/Images/create-wallet-v2.svg" />
     </div>
@@ -427,9 +424,18 @@
         <button
           class="btnModalError btn_fill_profile btn-blue"
           (click)="createWalletV2()"
-          [disabled]="walletPassword.length < 6"
+          [disabled]="walletPassword.length < 6 || buttonClick"
         >
-          {{ 'Next Step' | translate }}
+          <div
+            *ngIf="buttonClick"
+            class="spinner-border text-grey"
+            role="status"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+          <div *ngIf="!buttonClick">
+            {{ 'Next Step' | translate }}
+          </div>
         </button>
       </div>
       <div

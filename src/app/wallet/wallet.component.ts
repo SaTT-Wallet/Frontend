@@ -85,6 +85,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   tronWalletAddress = '';
   onDestroy$ = new Subject();
   myModal: any;
+  buttonClick: Boolean = false;
 
   lineChartDataMonth: ChartDataSets[] = [
     {
@@ -729,10 +730,12 @@ export class WalletComponent implements OnInit, OnDestroy {
   //Create WALLET V2
   createWalletV2() {
     this.walletV2ErrorMessage = '';
+    this.buttonClick = true;
     this.walletFacade
       .createNewWalletV2(this.walletPassword)
       .pipe(
         catchError((err) => {
+          this.buttonClick = false;
           if (err.error.error === 'Wallet already exist') {
             this.walletV2ErrorMessage = 'Wallet already exist';
           } else {
@@ -753,6 +756,7 @@ export class WalletComponent implements OnInit, OnDestroy {
           return of(null);
     }), filter(res => res !== null))*/
       .subscribe((response: any) => {
+        this.buttonClick = false;
         if (response?.data?.error) {
           this.walletV2ErrorMessage =
             response?.data?.error ===
