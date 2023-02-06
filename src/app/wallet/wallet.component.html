@@ -35,9 +35,9 @@
           <h3 class="walletEstim d-flex justify-content-center">
             {{ 'Wallet.Your_total_portfolio_is_estimated_at' | translate }}
           </h3>
-          <div class="d-flex justify-content-center" >
+          <div class="d-flex justify-content-center">
             <div class="walletTotal d-block">
-              <div class="d-flex first_layer" id="totalAmount1" >
+              <div class="d-flex first_layer" id="totalAmount1">
                 $ {{ totalAmount | number: '1.0-2' || '' }}
               </div>
               <div class="d-flex justify-content-center">
@@ -49,17 +49,18 @@
                   Go to {{ versionText }}
                 </p>
               </div>
-              <div class="divbtn d-flex justify-content-center"  *ngIf="version_txt === 'New Wallet'" >
-
+              <div
+                class="divbtn d-flex justify-content-center"
+                *ngIf="versionText === 'New Wallet'"
+              >
                 <button class="migratebtn" type="button">
                   <span
-                  ><img
-                    src="../../assets/Images/custom_icons/clarity_error-standard-line.svg"
-                /></span>
+                    ><img
+                      src="../../assets/Images/custom_icons/clarity_error-standard-line.svg"
+                  /></span>
                   Migrate my tokens
                 </button>
               </div>
-
 
               <!-- <div class="d-flex justify-content-center">
 
@@ -67,18 +68,6 @@
                         </div> -->
             </div>
           </div>
-
-          <button
-            class="btn btn-secondary dropdown-toggle"
-            (click)="allWallet()"
-            type="button"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            Switch Account
-          </button>
-          ======= >>>>>>> cc7e619708cdbd801b50a19e8b8af5d5031824a2
         </div>
         <!--</div>-->
 
