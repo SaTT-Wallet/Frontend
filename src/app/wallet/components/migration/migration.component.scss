@@ -1,0 +1,27 @@
+.content {
+  position: relative;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1.57vw;
+  line-height: 2vw;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.07vw;
+  color: #f52079;
+}
+.title {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 130%;
+  text-align: center;
+  letter-spacing: 0.03em;
+  color: #212529;
+}
+
+li.active {
+  border-bottom: 4px solid #4048ff;
+  padding-bottom: 0.7vh;
+}
