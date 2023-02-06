@@ -1,27 +1,48 @@
-.textecenter{
-    text-align: center;
-    padding-top:12vh;
-    font-family: 'Poppins';
-font-style: normal;
-font-weight: 700;
-font-size: 36px;
-line-height: 120%;
-/* or 43px */
+.textecenter {
+  text-align: center;
+  padding-top: 12vh;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 120%;
+  /* or 43px */
 
-// display: flex;
-align-items: center;
-text-align: center;
-letter-spacing: 1px;
+  // display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 1px;
 
-color: #323754;
-padding-bottom: 47px;
+  color: #323754;
+  padding-bottom: 47px;
 }
 
-.globale{
-padding: 0px 15px; 
-background-color: #f6f6ff; 
+.globale {
+  padding: 0px 15px;
+  background-color: #f6f6ff;
 }
-.qrcode-desktop{
-    background-color: #f6f6ff;
+.qrcode-desktop {
+  background-color: #f6f6ff;
 }
 
+#subtitle-wallet-id {
+  padding-top: 0px;
+}
+.textecenter2 {
+  text-align: center;
+  padding-top: 12vh;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 120%;
+  /* or 43px */
+
+  // display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 1px;
+
+  color: #323754;
+  padding-bottom: 47px;
+}
