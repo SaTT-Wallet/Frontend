@@ -71,15 +71,19 @@ export class WalletComponent implements OnInit, OnDestroy {
   @ViewChild('createTronWalletModal', { static: false })
   private createTronWalletModal!: TemplateRef<any>;
 
+  @ViewChild('createWalletV2Modal', { static: false })
+  private createWalletV2Modal!: TemplateRef<any>;
+
   @ViewChild('tronWalletCreatedSuccessModal', { static: false })
   private tronWalletCreatedSuccessModal!: TemplateRef<any>;
 
   showModal: Boolean = false;
   showPass: boolean = false;
   tronWalletPassword = '';
+  walletPassword = '';
   tronWalletAddress = '';
   onDestroy$ = new Subject();
-
+  myModal: any;
 
   lineChartDataMonth: ChartDataSets[] = [
     {
@@ -675,8 +679,10 @@ export class WalletComponent implements OnInit, OnDestroy {
       }
     }
   }
+
   ngOnInit(): void {
     this.verifyOnBoarding();
+    this.verifyUserWalletV2();
     // this.dontShowAgain();
     // let data_profile = {
     //   onBoarding: false
@@ -766,33 +772,26 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
 
   allWallet() {
-    this.walletFacade.getAllWallet()
+    this.walletFacade
+      .getAllWallet()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((data: any) => {
-        console.log("this.tokenStorageService.getIdWallet() === data.data.address",
-        this.tokenStorageService.getWalletVersion() === "v2")
-        if (
-          this.tokenStorageService.getWalletVersion() === "v2") {
-          this.tokenStorageService.saveWalletVersion("v1")
-          this.tokenStorageService.saveIdWallet(data.data.address)
-          this.tokenStorageService.saveTronWallet(data.data.tronAddress)
-          this.tokenStorageService.saveWalletBtc(data.data.btcAddress)
-
-        }
-        else {
-          this.tokenStorageService.saveWalletVersion("v2")
-          this.tokenStorageService.saveIdWallet(data.data.addressV2)
-          this.tokenStorageService.saveTronWallet(data.data.tronAddressV2)
-          this.tokenStorageService.saveWalletBtc(data.data.btcAddressV2)
+        if (this.tokenStorageService.getWalletVersion() === 'v2') {
+          this.tokenStorageService.saveWalletVersion('v1');
+          this.tokenStorageService.saveIdWallet(data.data.address);
+          this.tokenStorageService.saveTronWallet(data.data.tronAddress);
+          this.tokenStorageService.saveWalletBtc(data.data.btcAddress);
+        } else {
+          this.tokenStorageService.saveWalletVersion('v2');
+          this.tokenStorageService.saveIdWallet(data.data.addressV2);
+          this.tokenStorageService.saveTronWallet(data.data.tronAddressV2);
+          this.tokenStorageService.saveWalletBtc(data.data.btcAddressV2);
         }
 
         this.walletStoreService.getCryptoList();
         this.walletStoreService.getTotalBalance();
-        console.log("resultresultresult", data)
-      })
+      });
   }
-
-
 
   public makeAnimation(key: string): void {
     this.onMakeAnimation.emit(key);
@@ -953,6 +952,20 @@ export class WalletComponent implements OnInit, OnDestroy {
         this.showModal = !this.showModal;
         this.getDetails();
       });
+  }
+
+  //Create WALLET V2
+  createWalletV2() {}
+
+  test() {}
+
+  verifyUserWalletV2() {
+    setTimeout(() => {
+      this.modalService.open(this.createWalletV2Modal, {
+        backdrop: 'static',
+        keyboard: false
+      });
+    }, 3000);
   }
 
   getDetails() {

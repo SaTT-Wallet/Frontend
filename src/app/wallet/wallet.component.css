@@ -23,6 +23,7 @@ input:-webkit-autofill:active {
 
 .welcome-body {
   max-width: 600px;
+ 
 }
 .scroll-fix{
   position: absolute;
@@ -1989,16 +1990,17 @@ color: #4048FF !important;
 font-family: 'Poppins' !important;
 font-style: normal !important;
 font-weight: 600 !important;
-font-size: 14px !important;
+font-size: 12px !important;
 line-height: 130% !important;
 letter-spacing: 0.03em !important;
 text-transform: uppercase !important;
 color: #75758F !important;
+
 }
 .postition-trans{
 
-    right: 89px;
-    text-align: center;
+    margin-left: 21%;
+    text-align: left;
 }
 
 .modal-body.modal-custom {
