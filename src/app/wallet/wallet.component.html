@@ -39,12 +39,23 @@
               <div class="d-flex first_layer" id="totalAmount1">
                 $ {{ totalAmount | number: '1.0-2' || '' }}
               </div>
+              <div class="d-flex justify-content-center">
+                <p class="echnage" (click)="allWallet()" type="button">
+                  <span
+                    ><img
+                      src="../../assets/Images/custom_icons/bi_arrow-repeat.svg"
+                  /></span>
+                  Go to {{ version_txt }}
+                </p>
+              </div>
+
               <!-- <div class="d-flex justify-content-center">
 
                             <h1 class="indicatorfont " [ngStyle]="{ color: arrowColor }"> {{arrowvar }} {{variationamount}} % </h1>
                         </div> -->
             </div>
           </div>
+          <<<<<<< HEAD
           <button
             class="btn btn-secondary dropdown-toggle"
             (click)="allWallet()"
@@ -55,6 +66,7 @@
           >
             Switch Account
           </button>
+          ======= >>>>>>> cc7e619708cdbd801b50a19e8b8af5d5031824a2
         </div>
         <!--</div>-->
 
