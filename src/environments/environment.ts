@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  //API_URL: 'https://api-preprod2.satt-token.com',
+ // API_URL: 'https://api-preprod2.satt-token.com',
   //url:"http://localhost:4200/",
   url: 'https://testnet.satt.atayen.us/',
   //https://api-preprod2.satt-token.com
@@ -16,8 +16,7 @@ export const environment = {
   url_subgraph_ether:
     'https://api.thegraph.com/subgraphs/name/atayen/satt-testnet-ether',
 
-  API_URL: 
-   'https://localhost:3015',
+  API_URL: 'https://localhost:3015',
   // 'https://api-preprod.satt-token.com:3014',
   addresses: {
     smartContracts: {

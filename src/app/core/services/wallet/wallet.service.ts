@@ -37,8 +37,21 @@ export class WalletService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
+    return this.http.post<IResponseWallet>(
+      sattUrl + '/wallet/mywallet',
+      { version: this.tokenStorageService?.getWalletVersion() },
+      { headers: headers }
+    );
+  }
+
+  public getAllWallet(): Observable<IResponseWallet> {
+    const headers = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
     return this.http
-      .get<IResponseWallet>(sattUrl + '/wallet/mywallet', {
+      .get<IResponseWallet>(sattUrl + '/wallet/allwallets', {
         headers: headers
       })
       .pipe(share());
@@ -121,6 +134,20 @@ export class WalletService {
 
     return this.http.post(
       `${sattUrl}/wallet/add-tron-wallet`,
+      { pass: password },
+      { headers: httpHeaders }
+    );
+  }
+
+  createNewWalletV2(password: string) {
+    let httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-store',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+
+    return this.http.post(
+      `${sattUrl}/wallet/create/v2`,
       { pass: password },
       { headers: httpHeaders }
     );
