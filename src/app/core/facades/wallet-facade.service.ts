@@ -126,7 +126,7 @@ export class WalletFacadeService {
     return this.walletStoreService.getWallet();
   }
 
-  getAllWallet(){
+  getAllWallet() {
     return this.walletStoreService.getAllWallet();
   }
 
@@ -205,8 +205,6 @@ export class WalletFacadeService {
     return this.cryptofetchServiceService.getEtherGaz();
   }
 
- 
-
   loadEtherGaz() {
     this.walletStoreService.getEtherGaz();
   }
@@ -240,8 +238,8 @@ export class WalletFacadeService {
   getBnbGaz() {
     return this.cryptofetchServiceService.getBnbGaz();
   }
-  getGas(network:any){
-      return this.cryptofetchServiceService.getGas(network)
+  getGas(network: any) {
+    return this.cryptofetchServiceService.getGas(network);
   }
 
   getGazByNetwork(network: string) {
@@ -369,5 +367,10 @@ export class WalletFacadeService {
 
   createTronWallet(password: string) {
     return this.walletService.createTronWallet(password);
+  }
+
+  // CREATE NEW WALLET
+  createNewWalletV2(password: string) {
+    return this.walletService.createNewWalletV2(password);
   }
 }
