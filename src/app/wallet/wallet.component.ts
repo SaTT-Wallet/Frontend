@@ -61,7 +61,8 @@ import { ToastrService } from 'ngx-toastr';
 export class WalletComponent implements OnInit, OnDestroy {
   hideRedBloc: any;
   percentProfil: any;
-  version_txt: any = "Old Wallet";
+  version_txt: String = "Old Wallet";
+  height : String ="250px"
 
   @ViewChild('myCanvas1') canvas1!: ElementRef;
   @ViewChild('myCanvas2') canvas2!: ElementRef;
@@ -766,6 +767,10 @@ export class WalletComponent implements OnInit, OnDestroy {
     }
   }
 
+  getHeight()
+  {return this.height }
+
+
   allWallet() {
     this.walletFacade.getAllWallet()
       .pipe(takeUntil(this.onDestroy$))
@@ -775,6 +780,7 @@ export class WalletComponent implements OnInit, OnDestroy {
         if (
           this.tokenStorageService.getWalletVersion() === "v2") {
             this.version_txt = "New Wallet"
+            this.height = "300px"
           this.tokenStorageService.saveWalletVersion("v1")
           this.tokenStorageService.saveIdWallet(data.data.address)
           this.tokenStorageService.saveTronWallet(data.data.tronAddress)
@@ -783,7 +789,7 @@ export class WalletComponent implements OnInit, OnDestroy {
         }
         else {
           this.version_txt = "Old Wallet"
-          
+          this.height = "250px"
           this.tokenStorageService.saveWalletVersion("v2")
           this.tokenStorageService.saveIdWallet(data.data.addressV2)
           this.tokenStorageService.saveTronWallet(data.data.tronAddressV2)

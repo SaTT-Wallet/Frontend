@@ -31,6 +31,74 @@ input:-webkit-autofill:active {
     height: 100vh;
     z-index: 1;
 }
+
+.echnage{
+  position: absolute;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  top: 2vh;
+  padding-left: 16px;
+  /* line-height: 99%; */
+  display: flex;
+  align-items: flex-end;
+  letter-spacing: 0.03em;
+  color: #FFFFFF;
+  white-space: break-spaces;
+  width: max-content;
+}
+.migratebtn{
+    /* display: flex; */
+    flex-direction: row;
+    justify-content: center;
+    /* align-items: center; */
+    padding: 4px 16px;
+    gap: 8px;
+    /* position: absolute; */
+    left: 17.57%;
+    right: 16.83%;
+    top: 33.74%;
+    bottom: 60.34%;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+    border-radius: 30px;
+    /* width: 174px; */
+    /* height: 27px; */
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 27px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.01em;
+    color: #FFA318;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+    border: thin;
+}
+
+.walletTotal {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 50px;
+  color: #ffffff;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  top: 10px;
+  font-family: 'Poppins';
+  letter-spacing: 1px;
+}
+
+
+.divbtn{
+  padding-top: 5vh;
+}
+
 @media (max-width: 767.98px) {
   .modal-customm {
     z-index: 99999 !important;
@@ -45,26 +113,11 @@ input:-webkit-autofill:active {
   font-size: 22px !important;
 }
 
-.echnage{
-  position: absolute;
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 13px;
-  /* line-height: 99%; */
-  display: flex;
-  align-items: flex-end;
-  letter-spacing: 0.03em;
-  color: #FFFFFF;
-  white-space: break-spaces;
-  width: max-content;
-}
-
 
 .first_layer {
   z-index: 11;
   position: relative;
-}
+  flex-direction: column-reverse;}
 
 .indicatorfont {
   font-style: normal;
@@ -263,7 +316,7 @@ select option {
 
 .currentbalance {
   position: relative;
-  top: 90px;
+  top: 60px;
   /* top: 113px; */
   z-index: 1;
 }
@@ -860,12 +913,11 @@ textarea::placeholder {
   padding: 0;
   overflow: hidden;
   /* overflow: scroll !important; */
-  height: 275px;
 }
 
 .blockk {
   border-radius: 0px !important;
-  min-height: 280px;
+  min-height: 309.5px;
   min-width: 320px;
   padding-top: 2.5rem;
   position: fixed;
@@ -949,7 +1001,7 @@ textarea::placeholder {
   .walletEstim {
     font-style: normal;
     font-weight: 600;
-    font-size: 4vw;
+    font-size: 20px;
     line-height: 30px;
     display: flex;
     align-items: center;
@@ -957,26 +1009,14 @@ textarea::placeholder {
     letter-spacing: 0.02em;
     color: #ffffff;
     position: relative;
-    top: 23px;
+    top: 7px;
   }
   .maxbutton {
     float: right;
     /* margin-top: -25px; */
     width: 10vw;
   }
-  .walletTotal {
-    font-style: normal;
-    font-weight: 700;
-    font-size: 36px;
-    line-height: 50px;
-    color: #ffffff;
-    align-items: center;
-    text-align: center;
-    position: relative;
-    top: 10px;
-    font-family: 'Poppins';
-    letter-spacing: 1px;
-  }
+
   .indicatorfont {
     font-size: 14px;
   }
@@ -1384,7 +1424,7 @@ table > th {
     width: 122% !important;
   }
   .walletEstim {
-    font-size: 13px;
+    font-size: 20px;
   }
   /* .indicatorfont{
     font-size: 1.3vw;
@@ -1840,9 +1880,7 @@ p {
     z-index: 30;
   }
 
-  .walletTotal {
-    font-size: 19px;
-  }
+
   .walletEstim {
     margin-left: -2rem;
   }
@@ -2065,5 +2103,10 @@ color: #75758F !important;
   .positon-mobile {
    
     height: 308px;
+}
+.currentbalance{
+  position: relative;
+    top: 28px;
+    z-index: 1;
 }
 }

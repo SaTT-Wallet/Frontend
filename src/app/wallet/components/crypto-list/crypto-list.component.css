@@ -588,7 +588,7 @@ a {
     width: 100%;
     height: auto;
     /* margin-bottom: 5rem; */
-    margin-top: -65px;
+    margin-top: -35px;
     position: relative;
     /* position: absolute; */
     /* margin-left: -1px; */
@@ -3232,7 +3232,7 @@ color: white}
         font-size: 20px !important;
     }
     #cryptoListMobile {
-        margin-top: -165px!important;
+        margin-top: -90px!important;
         /* margin-top: -22px !important; */
     }
     table {
