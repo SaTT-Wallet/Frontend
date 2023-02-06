@@ -22,6 +22,7 @@
   <div
     *ngIf="hidePortfolio"
     class="row mb-2 positon-mobile"
+    [style.height]="getHeight()"
     id="chart"
     style="position: absolute"
   >
@@ -48,6 +49,18 @@
                   Go to {{ versionText }}
                 </p>
               </div>
+              <div
+                class="divbtn d-flex justify-content-center"
+                *ngIf="versionText === 'New Wallet'"
+              >
+                <button class="migratebtn" type="button">
+                  <span
+                    ><img
+                      src="../../assets/Images/custom_icons/clarity_error-standard-line.svg"
+                  /></span>
+                  Migrate my tokens
+                </button>
+              </div>
 
               <!-- <div class="d-flex justify-content-center">
 
@@ -55,17 +68,6 @@
                         </div> -->
             </div>
           </div>
-
-          <button
-            class="btn btn-secondary dropdown-toggle"
-            (click)="allWallet()"
-            type="button"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            Switch Account
-          </button>
         </div>
         <!--</div>-->
 

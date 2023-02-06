@@ -410,6 +410,7 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   private totalBalance$ = this.walletFacade.totalBalance$;
   tronErrorMessage = '';
+  height: any = '250px';
   walletV2ErrorMessage = '';
 
   selectTab(tabId: number) {
@@ -806,18 +807,26 @@ export class WalletComponent implements OnInit, OnDestroy {
     }
   }
 
+  getHeight() {
+    return this.height;
+  }
+
   allWallet() {
     this.walletFacade
       .getAllWallet()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((data: any) => {
         if (this.tokenStorageService.getWalletVersion() === 'v2') {
+          this.versionText = 'New Wallet';
+          this.height = '300px';
+
           this.tokenStorageService.saveWalletVersion('v1');
           this.tokenStorageService.saveIdWallet(data.data.address);
           this.tokenStorageService.saveTronWallet(data.data.tronAddress);
           this.tokenStorageService.saveWalletBtc(data.data.btcAddress);
         } else {
           this.versionText = 'Old Wallet';
+          this.height = '250px';
 
           this.tokenStorageService.saveWalletVersion('v2');
           this.tokenStorageService.saveIdWallet(data.data.addressV2);
