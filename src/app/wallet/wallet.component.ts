@@ -685,7 +685,7 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.verifyOnBoarding();
-    this.verifyUserWalletV2();
+
     // this.dontShowAgain();
     // let data_profile = {
     //   onBoarding: false
@@ -716,7 +716,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     this.getSecure();
     this.getDetails();
     this.totalbalancewallet();
-
+    this.verifyUserWalletV2();
     var c = <HTMLCanvasElement>this.document.getElementById('myCanvas');
     var ctx = c?.getContext('2d');
     var my_gradient = ctx?.createLinearGradient(0, 0, 0, 170);
@@ -728,9 +728,21 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   //Create WALLET V2
   createWalletV2() {
-    this.walletPassword;
+    this.walletV2ErrorMessage = '';
     this.walletFacade
       .createNewWalletV2(this.walletPassword)
+      .pipe(
+        catchError((err) => {
+          if (err.error.error === 'Wallet already exist') {
+            this.walletV2ErrorMessage = 'Wallet already exist';
+          } else {
+            this.walletV2ErrorMessage =
+              'Something went wrong please try again!';
+          }
+
+          return of(null);
+        })
+      )
       /*.pipe(
         catchError((err) => {
           if(err.err.err === 'Key derivation failed - possibly wrong password') {
@@ -753,7 +765,9 @@ export class WalletComponent implements OnInit, OnDestroy {
             response?.data?.btcAddress &&
             response?.data?.tronAddress
           ) {
+            //success
           } else {
+            //wrong
           }
         }
       });
