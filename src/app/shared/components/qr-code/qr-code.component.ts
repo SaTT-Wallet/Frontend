@@ -96,6 +96,7 @@ export class QRCodeComponent implements OnInit {
     this.walletFacade.loadUserWallet();
     this.walletFacade.wallet$.subscribe((data: any) => {
       if (!!data) {
+        console.log("dataaaaaaaaaaaaaa",data)
         this.btcCode = data.data.btc;
         this.eth = data.data.address;
         this.tronAddress = data.data.tronAddress;

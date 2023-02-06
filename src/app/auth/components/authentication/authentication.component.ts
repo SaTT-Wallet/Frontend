@@ -622,6 +622,7 @@ getCookie(key: string){
    * Authenticate user
    */
   login() {
+    this.tokenStorageService?.saveWalletVersion('v1')
     this.isSubmitting = true;
     this.showSpinner = true;
     this.loggedrs = false;

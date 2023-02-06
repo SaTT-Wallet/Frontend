@@ -79,6 +79,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   token: any;
   symbol: any;
   totalBalance$ = this.walletFacade.totalBalance$;
+  allWallet$ = this.walletFacade.allWallet$;
   cryptoList$ = this.walletFacade.cryptoList$;
   txtValue: string = '';
   searched: boolean = false;
@@ -369,6 +370,9 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   //     this.cryptoList = this.cryptoStorage;
   //   }
   // }
+  selectedAccounts = localStorage.getItem('wallet_id');
+
+
   goTosend(id: any, network: any, pic: any) {
     if (id === 'SATT' && network === 'BEP20') {
       id = 'SATTBEP20';
@@ -415,6 +419,8 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   closeModal(content: any) {
     this.modalService.dismissAll(content);
   }
+
+ 
   portfeuille() {
     this.walletFacade.wallet$
       .pipe(takeUntil(this.onDestroy$))
@@ -745,7 +751,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
       if (
         value.indexOf('0x') >= 0 &&
         this.filterByNamePipe.transform(this.listToken, this.search).length ===
-          0
+        0
       ) {
         this.importManually = true;
       } else {
@@ -990,7 +996,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     return crypto.symbol;
   }
 
-  private getCryptoToImport() {}
+  private getCryptoToImport() { }
 
   alreadyAdded(token: any): boolean {
     if (

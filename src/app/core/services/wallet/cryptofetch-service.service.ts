@@ -47,8 +47,12 @@ export class CryptofetchServiceService {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     var idwallet = id_wallet || this.tokenStorageService.getIdWallet();
     return this.http
-      .get(sattUrl + '/wallet/totalBalance', { headers: headers })
-      .pipe(shareReplay(1));
+      .post(sattUrl + '/wallet/totalBalance',
+      {
+        version: this.tokenStorageService?.getWalletVersion(),
+
+      },
+      { headers: headers })
   }
 
   getEtherGaz() {
@@ -81,9 +85,13 @@ export class CryptofetchServiceService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
+
     return this.http
-      .get(sattUrl + '/wallet/userBalance', { headers: headers })
-      .pipe(shareReplay(1));
+      .post(sattUrl + '/wallet/userBalance',
+      { version: this.tokenStorageService?.getWalletVersion()
+      },
+      { headers: headers })
+      
   }
   convertcrypto(send: any) {
     const headers = new HttpHeaders({

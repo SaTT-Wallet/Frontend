@@ -43,7 +43,9 @@ export class WalletStoreService {
     new BehaviorSubject<string | null>(null);
   readonly paymentId$ = this._paymentIdSubject.asObservable();
   private _cryptoAmount = new BehaviorSubject<any>('');
+  private _allWallet = new BehaviorSubject<any>('');
   readonly cryptoAmount$ = this._cryptoAmount.asObservable();
+  readonly allWallet$ = this._allWallet.asObservable();
 
   constructor(
     private cryptoService: CryptofetchServiceService,
@@ -140,6 +142,20 @@ export class WalletStoreService {
         // console.log(res);
       })
     );
+  }
+
+  getAllWallet() {
+    return this.walletService.getAllWallet().pipe(
+      tap((res: any) => {
+        console.log("this._walletthis._walletthis._wallet",res)
+
+        this._allWallet.next(res);
+        // console.log(res);
+      })
+    );
+
+ 
+
   }
 
   getEtherGaz() {
