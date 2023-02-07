@@ -738,6 +738,9 @@ export class WalletComponent implements OnInit, OnDestroy {
           this.buttonClick = false;
           if (err.error.error === 'Wallet already exist') {
             this.walletV2ErrorMessage = 'Wallet already exist';
+            setTimeout(() => {
+              this.closeModal(this.createWalletV2Modal);
+            }, 2000);
           } else {
             this.walletV2ErrorMessage =
               'Something went wrong please try again!';
@@ -769,9 +772,10 @@ export class WalletComponent implements OnInit, OnDestroy {
             response?.data?.btcAddress &&
             response?.data?.tronAddress
           ) {
-            //success
+            this.closeModal(this.createWalletV2Modal);
           } else {
             //wrong
+            //this.closeModal(this.createWalletV2Modal)
           }
         }
       });
