@@ -66,13 +66,16 @@ export class SecurityComponent implements OnInit, OnDestroy {
   qrCode: any;
   desactivate: boolean = false;
   errorMsg = '';
+  errorMsgBTCV2 = "";
   domicileValid!: boolean;
   identityValid!: boolean;
   formExportData: FormGroup;
   formExportDataBTC: FormGroup;
+  formExportDataBTCV2: FormGroup;
   agreeBox!: boolean;
   formExportDataSubmitted: boolean = false;
   formExportDataBTCSubmitted: boolean = false;
+  formExportDataBTCSubmittedV2: boolean = false;
   formUpdatePassword: FormGroup;
   password: any;
   passwordWrong: string = '';
@@ -84,6 +87,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
   readonlyInput: boolean = true;
   showSpinner!: boolean;
   showSpinnerBTC!: boolean;
+  showSpinnerBTCV2!: boolean;
   showSpinnerETH!: boolean;
   selectedReasonName: string = '';
   showPass: boolean = false;
@@ -153,6 +157,9 @@ export class SecurityComponent implements OnInit, OnDestroy {
     this.formExportDataBTC = new FormGroup({
       password: new FormControl(null, Validators.required)
     });
+    this.formExportDataBTCV2 = new FormGroup({
+      password: new FormControl(null, Validators.required)
+    })
 
     this.form = new FormGroup({
       name: new FormControl(null, Validators.required)
@@ -354,6 +361,12 @@ export class SecurityComponent implements OnInit, OnDestroy {
     this.modalService.open(content);
     this.showSpinner = true;
   }
+
+
+
+
+
+
   openModalAndCheckBTC(exportModal: any, checkModal: any) {
     this.showSpinnerBTC = true;
     if (this.domicileValid && this.identityValid) {
@@ -367,6 +380,23 @@ export class SecurityComponent implements OnInit, OnDestroy {
       this.modalService.open(checkModal);
     }
   }
+
+  // V2
+  openModalAndCheckBTCV2(exportModal: any, checkModal: any) {
+    this.showSpinnerBTCV2 = true;
+    if (this.domicileValid && this.identityValid) {
+      this.modalService.open(exportModal);
+    } else {
+      if (this.dataLegalIdentity && this.dataLegalDomicile) {
+        this.kycPendingReject = true;
+      } else {
+        this.kycPendingReject = false;
+      }
+      this.modalService.open(checkModal);
+    }
+  }
+
+
 
   openModalAndCheckETH(exportModal: any, checkModal: any) {
     this.showSpinnerETH = true;
@@ -403,6 +433,8 @@ export class SecurityComponent implements OnInit, OnDestroy {
     this.showSpinnerBTC = false;
     this.showSpinnerETH = false;
     this.showSpinnerTRON = false;
+    this.showSpinnerBTCV2 = false;
+    this.errorMsgBTCV2 = "";
     this.showSpinner = false;
   }
   isValidPwdExport(controlName: any) {
@@ -593,6 +625,73 @@ export class SecurityComponent implements OnInit, OnDestroy {
         );
     }
   }
+
+  confirmExportBTCV2(password: any) {
+    this.errorMsgBTCV2 = "";
+    this.showSpinner = true;
+    //this.formExportData.reset()
+    //this.formExportData.updateValueAndValidity();
+    let fileName: string = '';
+
+    fileName = 'wallet.bip38';
+    this.formExportDataBTCSubmittedV2 = true;
+    if (this.formExportDataBTCV2.valid) {
+      this.profileSettingsFacade
+        .exportProfileDataBTCV2(password)
+        .pipe(takeUntil(this.onDestroy$))
+        .subscribe(
+          (res: any) => {
+            //   if (res.message === 'success' && res.code === 200) {
+            this.showSpinner = false;
+            console.log(res);
+            // if (res.error === 'Wrong password') {
+            //   this.formExportDataBTC
+            //     .get('password')
+            //     ?.setErrors({ checkPassword: true });
+            // } else {
+            this.formExportDataBTCSubmittedV2 = false;
+            const file = new Blob([JSON.stringify(res)], {
+              type: 'application/octet-stream'
+            });
+
+            const href = URL.createObjectURL(file);
+            const a = this.document.createElement('A');
+            a.setAttribute('href', href);
+            a.setAttribute('download', fileName);
+            this.document.body.appendChild(a);
+            a.click();
+            this.document.body.removeChild(a);
+            this.formExportDataBTCV2.reset();
+            this.modalService.dismissAll();
+            this.showSpinnerBTCV2 = false;
+            // --- this.showSpinnerBTC = false;
+            // --- this.showSpinnerETH = false;
+
+            // }
+            //}
+          },
+          (err) => {
+            console.log({err})
+            this.showSpinner = false;
+            this.formExportDataBTCV2.reset();
+            if (
+              err.error.error ===
+                'Key derivation failed - possibly wrong password' &&
+              err.error.code === 500
+            ) {
+              this.formExportDataBTCV2
+                .get('password')
+                ?.setErrors({ checkPassword: true });
+            }
+            if(err.error.text === "Wallet v2 not found") {
+              this.errorMsgBTCV2 = "Wallet v2 not found"
+            }
+          }
+        );
+    }
+  }
+
+
   loadUserLegal() {
     this.kyc$.pipe(takeUntil(this.onDestroy$)).subscribe((response) => {
       if (response !== null && response !== undefined) {

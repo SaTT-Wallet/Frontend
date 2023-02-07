@@ -128,6 +128,10 @@ export class ProfileSettingsFacadeService {
     return this.profileService.exportProfileDataBTC(password);
   }
 
+  exportProfileDataBTCV2(password: string) {
+    return this.profileService.exportProfileDataBTCV2(password);
+  }
+
   getUserProfilePic() {
     return this.profileSettingsStoreService.getProfilePic();
   }

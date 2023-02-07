@@ -220,6 +220,18 @@ export class ProfileService {
     });
   }
 
+  exportProfileDataBTCV2(password: string) {
+    let headers = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+    let body = { pass: password };
+    return this.http.post(sattUrl + '/wallet/exportBtcV2', body, {
+      headers: headers
+    });
+  }
+
   getTiktokProfilPrivcay() {
     let headers = new HttpHeaders({
       'Cache-Control': 'no-store',
