@@ -67,6 +67,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
   desactivate: boolean = false;
   errorMsg = '';
   errorMsgBTCV2 = "";
+  errorMsgETHV2 = "";
   domicileValid!: boolean;
   identityValid!: boolean;
   formExportData: FormGroup;
@@ -89,6 +90,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
   showSpinnerBTC!: boolean;
   showSpinnerBTCV2!: boolean;
   showSpinnerETH!: boolean;
+  showSpinnerETHV2!: boolean;
   selectedReasonName: string = '';
   showPass: boolean = false;
   reasonList: any;
@@ -412,6 +414,22 @@ export class SecurityComponent implements OnInit, OnDestroy {
     }
   }
 
+  openModalAndCheckETHV2(exportModal: any, checkModal: any) {
+    this.showSpinnerETHV2 = true;
+    if (this.domicileValid && this.identityValid) {
+      this.modalService.open(exportModal);
+      this.showSpinnerETHV2 = false;
+    } else {
+      this.showSpinnerETHV2 = false;
+      if (this.dataLegalIdentity && this.dataLegalDomicile) {
+        this.kycPendingReject = true;
+      } else {
+        this.kycPendingReject = false;
+      }
+      this.modalService.open(checkModal);
+    }
+  }
+
   openModalAndCheckTRON(exportModal: any, checkModal: any) {
     this.showSpinnerTRON = true;
     if (this.domicileValid && this.identityValid) {
@@ -430,11 +448,13 @@ export class SecurityComponent implements OnInit, OnDestroy {
     this.modalService.dismissAll(content);
     this.formExportData.reset();
     this.formExportDataBTC.reset();
+    this.formExportDataBTCV2.reset();
     this.showSpinnerBTC = false;
     this.showSpinnerETH = false;
     this.showSpinnerTRON = false;
     this.showSpinnerBTCV2 = false;
     this.errorMsgBTCV2 = "";
+    this.showSpinnerETHV2 = false;
     this.showSpinner = false;
   }
   isValidPwdExport(controlName: any) {
@@ -571,7 +591,81 @@ export class SecurityComponent implements OnInit, OnDestroy {
       );
     }
   }
+
+  confirmExportV2(password: any) {
+    this.showSpinner = true;
+    //this.formExportData.reset()
+    //this.formExportData.updateValueAndValidity();
+    let exportObs = this.profileSettingsFacade.exportProfileDataV2(password);
+    let fileName: string = '';
+    if (this.exportType === this.eExportType.eth) {
+      fileName = 'keystore.json';
+    } else if (this.exportType === this.eExportType.btc) {
+      fileName = 'wallet.bip38';
+    } else if (this.exportType === this.eExportType.tron) {
+      fileName = 'keystore.json';
+      exportObs = this.profileSettingsFacade.exportTronKeystore(password);
+    } else if (this.exportType === this.eExportType.mnemo) {
+      fileName = 'wallet.txt';
+    }
+    this.formExportDataSubmitted = true;
+
+    if (this.formExportData.valid) {
+      exportObs.pipe(takeUntil(this.onDestroy$)).subscribe(
+        (res: any) => {
+          
+          // if (res.message === 'success' && res.code === 200) {
+          this.formExportDataSubmitted = false;
+          const file = new Blob([JSON.stringify(res)], {
+            type: 'application/octet-stream'
+          });
+
+          const href = URL.createObjectURL(file);
+          const a = this.document.createElement('A');
+          a.setAttribute('href', href);
+          a.setAttribute('download', fileName);
+          this.document.body.appendChild(a);
+          a.click();
+          this.document.body.removeChild(a);
+          this.formExportData.reset();
+          this.modalService.dismissAll();
+          this.showSpinnerBTC = false;
+          this.showSpinnerETH = false;
+          this.showSpinnerTRON = false;
+          this.showSpinnerBTCV2 = false;
+          this.showSpinnerETHV2 = false;
+          this.showSpinner = false;
+          //  }
+
+          // }
+        },
+        (err) => {
+          this.showSpinner = false;
+          
+          if (
+            err.error.error ===
+              'Key derivation failed - possibly wrong password' &&
+            err.error.code === 500
+          ) {
+            this.formExportData
+              .get('password')
+              ?.setErrors({ checkPassword: true });
+          } else if (
+            err.error.error === 'wrong password' &&
+            err.error.code === 401
+          ) {
+            this.formExportData
+              .get('password')
+              ?.setErrors({ checkPassword: true });
+          } else if(err.error.text === "Wallet V2 not found") {
+            this.errorMsgETHV2 = "Wallet v2 not found"
+          }
+        }
+      );
+    }
+  }
   confirmExportBTC(password: any) {
+    this.errorMsgETHV2 = "";
     this.showSpinner = true;
     //this.formExportData.reset()
     //this.formExportData.updateValueAndValidity();
@@ -612,6 +706,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
             //}
           },
           (err) => {
+            this.showSpinner = false;
             if (
               err.error.error ===
                 'Key derivation failed - possibly wrong password' &&
@@ -621,6 +716,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
                 .get('password')
                 ?.setErrors({ checkPassword: true });
             }
+            
           }
         );
     }

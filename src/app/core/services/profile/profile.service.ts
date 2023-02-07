@@ -196,6 +196,18 @@ export class ProfileService {
     });
   }
 
+  exportProfileDataV2(password: string) {
+    let headers = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+    let body = { pass: password };
+    return this.http.post(sattUrl + '/wallet/exportETHV2', body, {
+      headers: headers
+    });
+  }
+
   exportTronKeystore(password: string) {
     let headers = new HttpHeaders({
       'Cache-Control': 'no-store',

@@ -120,6 +120,10 @@ export class ProfileSettingsFacadeService {
     return this.profileService.exportProfileData(password);
   }
 
+  exportProfileDataV2(password: string) {
+    return this.profileService.exportProfileDataV2(password);
+  }
+
   exportTronKeystore(password: string) {
     return this.profileService.exportTronKeystore(password);
   }

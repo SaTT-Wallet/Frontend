@@ -82,14 +82,14 @@
                 class="btn-export"
                 (click)="
                   this.exportType = eExportType.eth;
-                  openModalAndCheckETH(exportDataModal, checkUserLegalKYCModal)
+                  openModalAndCheckETHV2(exportDataModalV2, checkUserLegalKYCModal)
                 "
               >
-                <span *ngIf="!this.showSpinnerETH">{{
+                <span *ngIf="!this.showSpinnerETHV2">{{
                   'security.download-key-ETH' | translate
                 }}</span>
                 <div
-                  *ngIf="this.showSpinnerETH"
+                  *ngIf="this.showSpinnerETHV2"
                   class="spinner-border"
                   role="status"
                 >
@@ -912,6 +912,9 @@
   
   <!-------------------- pwd-block -------------------------------->
 
+
+
+
   <!-- exportdata modal -->
   <ng-template #exportDataModal>
     <div class="modal-header modal-custom">
@@ -1019,6 +1022,134 @@
       </div>
     </div>
   </ng-template>
+
+
+
+  <ng-template #exportDataModalV2>
+    <div class="modal-header modal-custom">
+      <button
+        type="button"
+        class="btn-close pull-right close"
+        (click)="closeModal(exportDataModalV2)"
+        aria-label="Close"
+      ></button>
+    </div>
+    <div class="modal-body pt-0 d-flex align-items-center">
+      <div
+        class="col-sm-12 error d-flex justify-content-center body-content padding-desktop"
+      >
+        <form [formGroup]="formExportData">
+          <div class="text-center">
+            <img
+              src="assets/Images/moonboy-exportjson.svg"
+              class="moonboy-mobile"
+            />
+          </div>
+          <div class="row d-flex justify-content-center mt-2">
+            <h3 class="d-flex justify-content-center textpwd">
+              {{ 'Profil.export_account' | translate }}
+            </h3>
+          </div>
+          <div class="row d-flex justify-content-center mt-2">
+            <span class="text-center dark-grey-text mb-0">{{
+              'Profil.export_info_security' | translate
+            }}</span>
+          </div>
+          <div
+            class="col-10 custom-label transaction-password mt-3"
+            style="margin: 0 auto"
+          >
+            <label
+              [ngClass]="{
+                labelError:
+                  this.formExportData.get('password')?.errors?.checkPassword
+              }"
+              class="label_input"
+              >{{ 'transaction-password' | translate }}:</label
+            >
+          </div>
+          <div class="row d-flex justify-content-center">
+            <div class="col-10">
+              <div
+                class="div_input_add position-relative"
+                [ngClass]="{
+                  errorMsg:
+                    this.formExportData.get('password')?.errors?.checkPassword
+                }"
+              >
+                <img
+                  src="/assets/Images/input_password_logo.svg"
+                  width="46px"
+                  alt=""
+                />
+                <input
+                  autocomplete="off"
+                  type="text"
+                  name="password"
+                  formControlName="password"
+                  class="input_oeil"
+                  #password_field
+                  [ngClass]="{
+                    errorMsg2:
+                      this.formExportData.get('password')?.errors
+                        ?.checkPassword,
+                    'pass-hide': !showPass
+                  }"
+                />
+                <span
+                  (click)="showPass = !showPass"
+                  class="fa fa-fw cross_input_network align-self-center"
+                  aria-hidden="true"
+                  [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"
+                ></span>
+              </div>
+            </div>
+            <div class="col-12 d-flex justify-content-center pt-2">
+              <!-- <span class="error-msg" *ngIf=" (this.formExportData.get('password')?.touched && this.formExportData.get('password')?.errors?.required)"> {{ 'Profil.field_required' | translate }}</span>-->
+              <span
+                class="error-msg"
+                *ngIf="
+                  this.formExportData.get('password')?.errors?.checkPassword
+                "
+                >{{ 'Profil.pass_wrong' | translate }}</span
+              >
+              <span
+                class="error-msg"
+                *ngIf="
+                  this.errorMsgETHV2.length > 0
+                "
+                >{{ errorMsgETHV2}}</span
+              >
+            </div>
+            <div class="mt-4 d-flex justify-content-center mb-5">
+              <button
+                type="submit"
+                class="btn-blue cursor_pntr max-width"
+                [disabled]="this.formExportData.invalid"
+                (click)="
+                  confirmExportV2(this.formExportData.get('password')?.value)
+                "
+              >
+              <div
+                  *ngIf="this.showSpinner"
+                  class="spinner-border text-white"
+                  role="status"
+                >
+                  <span class="sr-only">Loading...</span>
+                </div>
+                <div *ngIf="!this.showSpinner">
+                  {{ 'confirm_' | translate }}
+                </div>
+               
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </ng-template>
+
+
 
 
   <ng-template #exportDataModalBTCV2>
@@ -1148,6 +1279,8 @@
       </div>
     </div>
   </ng-template>
+
+
 
 
 
