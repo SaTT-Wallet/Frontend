@@ -118,6 +118,7 @@ export class WalletService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
+
     return this.http.post<IApiResponse<ITransferTokensResponse>>(
       `${sattUrl}/wallet/transferTokens`,
       body,

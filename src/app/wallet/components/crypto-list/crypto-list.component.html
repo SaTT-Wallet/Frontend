@@ -406,8 +406,17 @@
                         class="col-2 d-flex justify-content-start align-items-center"
                         style="width: fit-content; cursor: pointer"
                         details.hidden="true"
-                        *ngIf="details.hidden && crypto.undername !== 'SATT'"
-                        (click)="details.hidden = false"
+                        *ngIf="details.hidden && crypto.undername !== 'SATT' && crypto.quantity!=0"
+
+                        (click)="
+                        goMigrate(
+                          crypto.symbol,
+                          crypto.network,
+                          crypto.picUrl,
+                          crypto.quantity,
+                          crypto.price
+                        )"
+
                       >
                         <img
                           src="./../../../assets/Images/custom_icons/clarity_error-standard-line_mobile.svg"
@@ -724,16 +733,28 @@
 
                           <div
                             class="col-2 d-flex justify-content-start align-items-center"
-                            style="width: fit-content; cursor: pointer;    background: #f6f6ff;"
+                            style="
+                              width: fit-content;
+                              cursor: pointer;
+                              background: #f6f6ff;
+                            "
                             details.hidden="true"
-                            (click)="details.hidden = false"
-                          >
+                            (click)="
+                            goMigrate(
+                              crypto.symbol,
+                              crypto.network,
+                              crypto.picUrl,
+                              crypto.quantity,
+                              crypto.price
+                            )"                          >
                             <img
                               src="./../../../assets/Images/custom_icons/clarity_error-standard-line_mobile.svg"
+                              *ngIf=" crypto.quantity!=0"
+
                               style="
                                 font-size: 13px;
                                 cursor: pointer;
-                                margin-left: 28px;
+                                margin-left: 24px;
                               "
                             />
                           </div>
@@ -749,7 +770,6 @@
                               src="./../../../assets/Images/new-delete.svg"
                             />
                           </div>
-
                         </div>
                       </div>
                     </div>
@@ -1055,21 +1075,40 @@
                             </a>
                           </div>
 
+
+
                           <div
-                          class="col-2 d-flex justify-content-start align-items-center"
-                          style="width: fit-content; cursor: pointer;    background: #f6f6ff;"
-                          details.hidden="true"
-                          (click)="details.hidden = false"
-                        >
-                          <img
-                            src="./../../../assets/Images/custom_icons/clarity_error-standard-line_mobile.svg"
+                            class="col-2 d-flex justify-content-start align-items-center"
                             style="
-                              font-size: 13px;
+                              width: fit-content;
                               cursor: pointer;
-                              margin-left: 28px;
+                              background: #f6f6ff;
                             "
-                          />
-                        </div>
+                            details.hidden="true"
+                            (click)="
+                            goMigrate(
+                              crypto.symbol,
+                              crypto.network,
+                              crypto.picUrl,
+                              crypto.quantity,
+                              crypto.price
+                            )"                          >
+                            <img
+                              src="./../../../assets/Images/custom_icons/clarity_error-standard-line_mobile.svg"
+                              *ngIf=" crypto.quantity!=0"
+                             style="
+                                font-size: 13px;
+                                cursor: pointer;
+                                margin-left: 24px;
+                              "
+                            />
+                          </div>
+
+
+
+
+
+
                           <div
                             class="col-1 d-flex justify-content-start align-items-center"
                             style="background: #f6f6ff"
@@ -1081,7 +1120,6 @@
                               src="./../../../assets/Images/new-delete.svg"
                             />
                           </div>
-
                         </div>
                       </div>
                     </div>
