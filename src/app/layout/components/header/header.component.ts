@@ -101,6 +101,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   newNotification: boolean = false;
   isSeen: number = 0;
   btcCode: string = '';
+  btcCodeV2: string = '';
   erc20: string = '';
   portfeuilleList: Array<{ type: any; code: any }> = [];
   generateCode: boolean = false;
@@ -114,6 +115,12 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   url3: any;
   urlM1: any;
   urlM2: any;
+  urlM4: any;
+  urlM5: any;
+  url4: any;
+  url5: any;
+  url6: any;
+
   picUserUpdated: boolean = false;
   oldHeight: any;
   newHeight: any;
@@ -160,6 +167,11 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   isTransactionHashCopied = false;
   isTransactionHashCopiedbtc = false;
   isLayoutDesktop = false;
+  erc20V2: any;
+  tronAddressV2: any;
+  displayNew= "block";
+  displayOld= "none";
+
   constructor(
     breakpointObserver: BreakpointObserver,
     private accountFacadeService: AccountFacadeService,
@@ -396,15 +408,25 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           this.router.navigate(['/auth/login']);
         }
         this.tokenStorageService.setItem('wallet_btc', this.btcCode);
+        this.tokenStorageService.setItem('wallet_btc_v2', this.btcCodeV2);
         this.tokenStorageService.setItem('tron-wallet', this.tronAddress);
-        this.generateCodeDes();
-        this.generateCodeERCDes();
-        this.generateCodeFunction();
-        this.generateCodeERC();
+        this.tokenStorageService.setItem('tron-wallet_v2', this.tronAddressV2);
+
       } else {
         this.isConnected = false;
       }
     }
+  }
+
+  isDisplayNew(){
+    this.displayNew= "block"
+    this.displayOld= "none"
+    console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjj")
+  }
+
+  isDisplayOld(){
+    this.displayNew= "none"
+    this.displayOld= "block"
   }
 
   getProfileDetails() {
@@ -1257,18 +1279,32 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
       window.location.href = 'https://old.satt.atayen.us/';
   }
   portfeuille() {
-    this.walletFacade.wallet$
+    this.walletFacade.getAllWallet()
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe((data: any) => {
+        console.log("datadata",data.data.btcAddress)
         if (!!data) {
-          this.btcCode = data.data.btc;
+          this.btcCode = data.data.btcAddress;
+          this.btcCodeV2 = data.data.btcAddressV2;
           this.erc20 = data.data.address;
+          this.erc20V2 = data.data.addressV2;
+          this.tronAddressV2 = data.data.tronAddressV2;
           this.tronAddress = data.data.tronAddress;
+
           this.url3 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.tronAddress}&chs=219x219&chco=212121&chld=m|1`;
+          this.url6 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.tronAddressV2}&chs=219x219&chco=212121&chld=m|1`;
+          this.urlM4 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20V2}&chs=219x219&chco=212121&chld=m|1`;
+          this.urlM1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=219x219&chco=212121&chld=m|1`;
+          this.urlM2 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.btcCode}&chs=219x219&chco=212121&chld=m|1`;
+          this.urlM5 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.btcCodeV2}&chs=219x219&chco=212121&chld=m|1`;
+
           this.portfeuilleList = [
             { type: 'ERC20/BEP20', code: this.erc20 },
             { type: 'BTC', code: this.btcCode },
-            { type: 'tron', code: this.tronAddress }
+            { type: 'tron', code: this.tronAddress },
+            { type: 'ERC20/BEP20V2', code: this.erc20V2 },
+            { type: 'BTCV2', code: this.btcCodeV2 },
+            { type: 'tronv2', code: this.tronAddressV2 }
           ];
         }
       });
@@ -1300,37 +1336,14 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   public copytron(code: any) {
     this.clipboard.copy(code);
   }
-  ////display1////////
-  generateCodeERC() {
-    //@ts-ignore
-    let urlM1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=219x219&chco=212121&chld=m|1`;
-    this.urlM1 = urlM1;
-  }
-  ////display2////////
-  generateCodeFunction() {
-    let urlM2 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.btcCode}&chs=219x219&chco=212121&chld=m|1`;
-    this.urlM2 = urlM2;
-  }
 
-  // generateCodeTron(){
-  //   let url3 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.tronAddress}&chs=219x219&chco=212121&chld=m|1`;
-  //   this.url3 = url3;
-  // }
-  ////display1////////
-  generateCodeERCDes() {
-    //@ts-ignore
-    let url1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=219x219&chld=m|1`;
-    this.url1 = url1;
-    //@ts-ignore
-    let urlM1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=219x219&chld=m|1`;
-    this.urlM1 = urlM1;
-  }
+
+
   ////display2////////
   notifSize = 10;
-  generateCodeDes() {
-    let urll = `https://chart.apis.google.com/chart?cht=qr&chl=${this.btcCode}&chs=150x150`;
-    this.url2 = urll;
-  }
+
+
+
 
   goToEther(erc20: any) {
     if (isPlatformBrowser(this.platformId))
