@@ -5,20 +5,19 @@
 >
   <div class="row show-mobile mb-2">
     <div class="col-md-12 col-lg-12 col-xs-12">
-      <button type="button" class="btn-back" [routerLink]="['/home/settings/']">
-        
-      </button>
+      <button
+        type="button"
+        class="btn-back"
+        [routerLink]="['/home/settings/']"
+      ></button>
     </div>
   </div>
   <div class="div_block">
-
-
-
     <!------- Collapse retrieve data ----------->
     <div
       class="collapsed panel-heading row"
       data-toggle="collapse"
-      href="#collapse1"
+      href="#collapse10"
       aria-expanded="false"
       aria-controls="collapse1"
     >
@@ -43,7 +42,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="collapse" id="collapse1">
+      <div class="collapse" id="collapse10">
         <div class="row d-flex align-items-center collapse">
           <div class="row">
             <div class="col-12 d-flex justify-content-start mt-2">
@@ -82,7 +81,10 @@
                 class="btn-export"
                 (click)="
                   this.exportType = eExportType.eth;
-                  openModalAndCheckETHV2(exportDataModalV2, checkUserLegalKYCModal)
+                  openModalAndCheckETHV2(
+                    exportDataModalV2,
+                    checkUserLegalKYCModal
+                  )
                 "
               >
                 <span *ngIf="!this.showSpinnerETHV2">{{
@@ -97,23 +99,26 @@
                 </div>
               </button>
               <button
-              class="btn-export"
-              (click)="
-                this.exportType = eExportType.tron;
-                openModalAndCheckTRONV2(exportDataModalV2, checkUserLegalKYCModal)
-              "
-            >
-              <span *ngIf="!this.showSpinnerTRONV2">{{
-                'security.download-key-TRON' | translate
-              }}</span>
-              <div
-                *ngIf="this.showSpinnerTRONV2"
-                class="spinner-border"
-                role="status"
+                class="btn-export"
+                (click)="
+                  this.exportType = eExportType.tron;
+                  openModalAndCheckTRONV2(
+                    exportDataModalV2,
+                    checkUserLegalKYCModal
+                  )
+                "
               >
-                <span class="sr-only">Loading...</span>
-              </div>
-            </button>
+                <span *ngIf="!this.showSpinnerTRONV2">{{
+                  'security.download-key-TRON' | translate
+                }}</span>
+                <div
+                  *ngIf="this.showSpinnerTRONV2"
+                  class="spinner-border"
+                  role="status"
+                >
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </button>
             </div>
           </div>
         </div>
@@ -882,38 +887,34 @@
                 </div>
               </button>
               <button
-              class="btn-export"
-              (click)="
-                this.exportType = eExportType.tron;
-                openModalAndCheckTRON(exportDataModal, checkUserLegalKYCModal)
-              "
-            >
-              <span *ngIf="!this.showSpinnerTRON">{{
-                'security.download-key-TRON' | translate
-              }}</span>
-              <div
-                *ngIf="this.showSpinnerTRON"
-                class="spinner-border"
-                role="status"
+                class="btn-export"
+                (click)="
+                  this.exportType = eExportType.tron;
+                  openModalAndCheckTRON(exportDataModal, checkUserLegalKYCModal)
+                "
               >
-                <span class="sr-only">Loading...</span>
-              </div>
-            </button>
+                <span *ngIf="!this.showSpinnerTRON">{{
+                  'security.download-key-TRON' | translate
+                }}</span>
+                <div
+                  *ngIf="this.showSpinnerTRON"
+                  class="spinner-border"
+                  role="status"
+                >
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
     <!------------End Collapse retrieve data -->
-   
+
     <!------------End Collapse rdelete account -->
   </div>
 
-  
   <!-------------------- pwd-block -------------------------------->
-
-
-
 
   <!-- exportdata modal -->
   <ng-template #exportDataModal>
@@ -1023,8 +1024,6 @@
     </div>
   </ng-template>
 
-
-
   <ng-template #exportDataModalV2>
     <div class="modal-header modal-custom">
       <button
@@ -1116,9 +1115,14 @@
               <span
                 class="error-msg"
                 *ngIf="
-                  this.errorMsgETHV2.length > 0 || this.errorMsgTronV2.length > 0
+                  this.errorMsgETHV2.length > 0 ||
+                  this.errorMsgTronV2.length > 0
                 "
-                >{{ this.exportType == eExportType.tron ? errorMsgTronV2 : errorMsgETHV2}}</span
+                >{{
+                  this.exportType == eExportType.tron
+                    ? errorMsgTronV2
+                    : errorMsgETHV2
+                }}</span
               >
             </div>
             <div class="mt-4 d-flex justify-content-center mb-5">
@@ -1130,7 +1134,7 @@
                   confirmExportV2(this.formExportData.get('password')?.value)
                 "
               >
-              <div
+                <div
                   *ngIf="this.showSpinner"
                   class="spinner-border text-white"
                   role="status"
@@ -1140,7 +1144,6 @@
                 <div *ngIf="!this.showSpinner">
                   {{ 'confirm_' | translate }}
                 </div>
-               
               </button>
             </div>
           </div>
@@ -1148,9 +1151,6 @@
       </div>
     </div>
   </ng-template>
-
-
-
 
   <ng-template #exportDataModalBTCV2>
     <div class="modal-header modal-custom">
@@ -1189,7 +1189,8 @@
             <label
               [ngClass]="{
                 labelError:
-                  this.formExportDataBTCV2.get('password')?.errors?.checkPassword
+                  this.formExportDataBTCV2.get('password')?.errors
+                    ?.checkPassword
               }"
               class="label_input"
               >{{ 'transaction-password' | translate }}:</label
@@ -1237,31 +1238,29 @@
               <span
                 class="error-msg"
                 *ngIf="
-                  this.formExportDataBTCV2.get('password')?.errors?.checkPassword
+                  this.formExportDataBTCV2.get('password')?.errors
+                    ?.checkPassword
                 "
                 >{{ 'Profil.pass_wrong' | translate }}</span
               >
-              <span
-                class="error-msg"
-                *ngIf="
-                  this.errorMsgBTCV2.length > 0
-                "
-                >{{ errorMsgBTCV2 }}</span
-              >
+              <span class="error-msg" *ngIf="this.errorMsgBTCV2.length > 0">{{
+                errorMsgBTCV2
+              }}</span>
             </div>
             <div class="mt-4 d-flex justify-content-center mb-5">
               <button
                 type="submit"
-                
                 class="btn-blue cursor_pntr max-width"
-                [disabled]="this.formExportDataBTCV2.invalid || this.showSpinner"
+                [disabled]="
+                  this.formExportDataBTCV2.invalid || this.showSpinner
+                "
                 (click)="
-                confirmExportBTCV2(
+                  confirmExportBTCV2(
                     this.formExportDataBTCV2.get('password')?.value
                   )
                 "
               >
-              <div
+                <div
                   *ngIf="this.showSpinner"
                   class="spinner-border text-white"
                   role="status"
@@ -1271,7 +1270,6 @@
                 <div *ngIf="!this.showSpinner">
                   {{ 'confirm_' | translate }}
                 </div>
-                
               </button>
             </div>
           </div>
@@ -1279,10 +1277,6 @@
       </div>
     </div>
   </ng-template>
-
-
-
-
 
   <ng-template #exportDataModalBTC>
     <div class="modal-header modal-custom">
