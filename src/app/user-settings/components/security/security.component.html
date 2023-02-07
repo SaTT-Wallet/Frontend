@@ -100,14 +100,14 @@
               class="btn-export"
               (click)="
                 this.exportType = eExportType.tron;
-                openModalAndCheckTRON(exportDataModal, checkUserLegalKYCModal)
+                openModalAndCheckTRONV2(exportDataModalV2, checkUserLegalKYCModal)
               "
             >
-              <span *ngIf="!this.showSpinnerTRON">{{
+              <span *ngIf="!this.showSpinnerTRONV2">{{
                 'security.download-key-TRON' | translate
               }}</span>
               <div
-                *ngIf="this.showSpinnerTRON"
+                *ngIf="this.showSpinnerTRONV2"
                 class="spinner-border"
                 role="status"
               >
@@ -1116,9 +1116,9 @@
               <span
                 class="error-msg"
                 *ngIf="
-                  this.errorMsgETHV2.length > 0
+                  this.errorMsgETHV2.length > 0 || this.errorMsgTronV2.length > 0
                 "
-                >{{ errorMsgETHV2}}</span
+                >{{ this.exportType == eExportType.tron ? errorMsgTronV2 : errorMsgETHV2}}</span
               >
             </div>
             <div class="mt-4 d-flex justify-content-center mb-5">

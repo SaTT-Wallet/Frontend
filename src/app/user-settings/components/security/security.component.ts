@@ -68,6 +68,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
   errorMsg = '';
   errorMsgBTCV2 = "";
   errorMsgETHV2 = "";
+  errorMsgTronV2 = "";
   domicileValid!: boolean;
   identityValid!: boolean;
   formExportData: FormGroup;
@@ -105,6 +106,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
   private kyc$ = this.kycFacadeService.kyc$;
   private socialAccount$ = this.socialAccountFacadeService.socialAccount$;
   showSpinnerTRON = false;
+  showSpinnerTRONV2 = false;
 
   constructor(
     private accountFacadeService: AccountFacadeService,
@@ -388,7 +390,9 @@ export class SecurityComponent implements OnInit, OnDestroy {
     this.showSpinnerBTCV2 = true;
     if (this.domicileValid && this.identityValid) {
       this.modalService.open(exportModal);
+      this.showSpinnerBTCV2 = false;
     } else {
+      this.showSpinnerBTCV2 = false;
       if (this.dataLegalIdentity && this.dataLegalDomicile) {
         this.kycPendingReject = true;
       } else {
@@ -416,6 +420,8 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
   openModalAndCheckETHV2(exportModal: any, checkModal: any) {
     this.showSpinnerETHV2 = true;
+    this.showSpinner = false;
+    this.errorMsgETHV2 = "";
     if (this.domicileValid && this.identityValid) {
       this.modalService.open(exportModal);
       this.showSpinnerETHV2 = false;
@@ -432,6 +438,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
   openModalAndCheckTRON(exportModal: any, checkModal: any) {
     this.showSpinnerTRON = true;
+    this.showSpinner = false;
     if (this.domicileValid && this.identityValid) {
       this.modalService.open(exportModal);
     } else {
@@ -443,6 +450,24 @@ export class SecurityComponent implements OnInit, OnDestroy {
       this.modalService.open(checkModal);
     }
   }
+
+  openModalAndCheckTRONV2(exportModal: any, checkModal: any) {
+    this.showSpinner = false;
+    this.showSpinnerTRONV2 = false;
+    this.errorMsgTronV2 = "";
+    if (this.domicileValid && this.identityValid) {
+      this.modalService.open(exportModal);
+    } else {
+      if (this.dataLegalIdentity && this.dataLegalDomicile) {
+        this.kycPendingReject = true;
+      } else {
+        this.kycPendingReject = false;
+      }
+      this.modalService.open(checkModal);
+    }
+  }
+
+  
 
   closeModal(content: any) {
     this.modalService.dismissAll(content);
@@ -604,17 +629,25 @@ export class SecurityComponent implements OnInit, OnDestroy {
       fileName = 'wallet.bip38';
     } else if (this.exportType === this.eExportType.tron) {
       fileName = 'keystore.json';
-      exportObs = this.profileSettingsFacade.exportTronKeystore(password);
+      exportObs = this.profileSettingsFacade.exportTronKeystoreV2(password);
     } else if (this.exportType === this.eExportType.mnemo) {
       fileName = 'wallet.txt';
     }
     this.formExportDataSubmitted = true;
-
+   
     if (this.formExportData.valid) {
+      
       exportObs.pipe(takeUntil(this.onDestroy$)).subscribe(
         (res: any) => {
+          console.log(res);
           
-          // if (res.message === 'success' && res.code === 200) {
+          if(this.exportType === this.eExportType.tron && res.error && res.error === "Invalid Tron password") {
+            this.showSpinner = false;
+            this.formExportData
+              .get('password')
+              ?.setErrors({ checkPassword: true });
+          } else {
+            // if (res.message === 'success' && res.code === 200) {
           this.formExportDataSubmitted = false;
           const file = new Blob([JSON.stringify(res)], {
             type: 'application/octet-stream'
@@ -635,13 +668,15 @@ export class SecurityComponent implements OnInit, OnDestroy {
           this.showSpinnerBTCV2 = false;
           this.showSpinnerETHV2 = false;
           this.showSpinner = false;
+          }
+          
           //  }
 
           // }
         },
         (err) => {
           this.showSpinner = false;
-          
+         
           if (
             err.error.error ===
               'Key derivation failed - possibly wrong password' &&
@@ -657,8 +692,14 @@ export class SecurityComponent implements OnInit, OnDestroy {
             this.formExportData
               .get('password')
               ?.setErrors({ checkPassword: true });
-          } else if(err.error.text === "Wallet V2 not found") {
-            this.errorMsgETHV2 = "Wallet v2 not found"
+          } else if(err.error.text === "Wallet V2 not found" || err.error.text === "Wallet v2 not found") {
+            console.log("test")
+            if(this.exportType === this.eExportType.tron) {
+              console.log("test 2")
+              this.errorMsgTronV2 = "Wallet v2 not found"
+            } else {
+              this.errorMsgETHV2 = "Wallet v2 not found";
+            }
           }
         }
       );

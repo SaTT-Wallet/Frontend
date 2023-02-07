@@ -128,6 +128,10 @@ export class ProfileSettingsFacadeService {
     return this.profileService.exportTronKeystore(password);
   }
 
+  exportTronKeystoreV2(password: string) {
+    return this.profileService.exportTronKeystoreV2(password);
+  }
+
   exportProfileDataBTC(password: string) {
     return this.profileService.exportProfileDataBTC(password);
   }
