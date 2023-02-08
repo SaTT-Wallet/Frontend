@@ -369,6 +369,11 @@ export class WalletFacadeService {
     return this.walletService.createTronWallet(password);
   }
 
+  // CHECK USER HAVE ALREADY WALLET V2 
+  checkUserWalletV2() {
+    return this.walletService.checkUserWalletV2();
+  }
+
   // CREATE NEW WALLET
   createNewWalletV2(password: string) {
     return this.walletService.createNewWalletV2(password);
