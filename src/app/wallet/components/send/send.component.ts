@@ -1131,28 +1131,52 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             selectedCrypto.network === 'ERC20' ||
             selectedCrypto.network === 'BTC'
           ) {
+            
             this.gazsend = this.eRC20Gaz;
+            this.amount= this.showNumbersRule.transform((selectedCrypto.quantity -this.eRC20Gaz).toString())
             if (selectedCrypto.id === 'ETH') {
               this.gasCryptoQuantity = (this.gazsend / this.eth).toFixed(8);
+              this.amount= this.showNumbersRule.transform((selectedCrypto.quantity -this.gasCryptoQuantity).toString()) 
+            console.log("this.amountthis.amount",this.amount)
+  
             }
+            this.contactWallet= selectedCrypto.sendTo
+            this.amountUsd = this.showNumbersRule.transform((selectedCrypto.price *  this.amount).toString());
+
           }
           if (selectedCrypto.network === 'BEP20') {
+            
             this.gazsend = this.bEPGaz;
+            this.amount= selectedCrypto.quantity - (this.gazsend / this.bnb)
             if (selectedCrypto.id === 'BNB') {
               this.gasCryptoQuantity = (this.gazsend / this.bnb).toFixed(8);
+              this.amount= (selectedCrypto.quantity - (this.gazsend / this.bnb)).toString();
+
+
+          
             }
+            this.amountUsd = this.showNumbersRule.transform((selectedCrypto.price *  this.amount).toString());
+            this.contactWallet= selectedCrypto.sendTo
           }
           if (selectedCrypto.network === 'POLYGON') {
             this.gazsend = this.polygonGaz;
+            this.amount= this.showNumbersRule.transform((selectedCrypto.quantity - this.polygonGaz).toString())
             if (selectedCrypto.id === 'MATIC') {
               this.gasCryptoQuantity = (this.gazsend / this.matic).toFixed(8);
+              this.amount= this.showNumbersRule.transform((selectedCrypto.quantity - this.gasCryptoQuantity).toString())
             }
+            this.amountUsd = this.showNumbersRule.transform((selectedCrypto.price *  this.amount).toString());
+            this.contactWallet= selectedCrypto.sendTo
           }
           if (selectedCrypto.network === 'BTTC') {
             this.gazsend = this.bttGaz;
+            this.amount= this.showNumbersRule.transform((selectedCrypto.quantity -this.bttGaz).toString())
             if (selectedCrypto.id === 'BTT') {
               this.gasCryptoQuantity = (this.gazsend / this.btt).toFixed(8);
+              this.amount= this.showNumbersRule.transform((selectedCrypto.quantity -this.gasCryptoQuantity).toString())
             }
+            this.amountUsd = this.showNumbersRule.transform((selectedCrypto.price *  this.amount).toString());
+            this.contactWallet= selectedCrypto.sendTo
           }
           if (selectedCrypto.network === 'TRON') {
             //TODO
@@ -1163,9 +1187,13 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
                 Validators.pattern(tronPattContact)
               ]);
             this.gazsend = this.trxGaz;
+            this.amount= this.showNumbersRule.transform((selectedCrypto.quantity-this.trxGaz).toString())
             if (selectedCrypto.network === 'TRON') {
               this.gasCryptoQuantity = (this.gazsend / this.trx).toFixed(8);
+              this.amount= this.showNumbersRule.transform((selectedCrypto.quantity-this.gasCryptoQuantity).toString())
             }
+            this.amountUsd = this.showNumbersRule.transform((selectedCrypto.price *  this.amount).toString());
+            this.contactWallet= selectedCrypto.sendTo
           }
         });
       });
