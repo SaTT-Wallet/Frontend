@@ -425,6 +425,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   showSpinner!: boolean;
   dropDownSection: any = [];
   hidePortfolio: boolean = true;
+  hasWalletV2: boolean = false;
   @Output() onMakeAnimation: EventEmitter<string> = new EventEmitter();
   arrow: string = '';
   arrowColor: string = '';
@@ -685,7 +686,10 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.verifyOnBoarding();
+    this.hasWalletV2 = false;
+    this.verifyUserWalletV2();
+    
+    
 
     // this.dontShowAgain();
     // let data_profile = {
@@ -715,9 +719,9 @@ export class WalletComponent implements OnInit, OnDestroy {
         this.findMaxBalances(data);
       });
     this.getSecure();
-    this.getDetails();
+    
     this.totalbalancewallet();
-    this.verifyUserWalletV2();
+    
     var c = <HTMLCanvasElement>this.document.getElementById('myCanvas');
     var ctx = c?.getContext('2d');
     var my_gradient = ctx?.createLinearGradient(0, 0, 0, 170);
@@ -725,6 +729,8 @@ export class WalletComponent implements OnInit, OnDestroy {
     my_gradient?.addColorStop(1, 'white');
     //ctx.fillStyle = my_gradient;
     ctx?.fillRect(20, 20, 150, 100);
+    if(this.hasWalletV2) this.verifyOnBoarding();
+    this.getDetails();
   }
 
   //Create WALLET V2
@@ -738,6 +744,9 @@ export class WalletComponent implements OnInit, OnDestroy {
           this.buttonClick = false;
           if (err.error.error === 'Wallet already exist') {
             this.walletV2ErrorMessage = 'Wallet already exist';
+            setTimeout(() => {
+              this.closeModal(this.createWalletV2Modal);
+            }, 2000);
           } else {
             this.walletV2ErrorMessage =
               'Something went wrong please try again!';
@@ -769,9 +778,10 @@ export class WalletComponent implements OnInit, OnDestroy {
             response?.data?.btcAddress &&
             response?.data?.tronAddress
           ) {
-            //success
+            this.closeModal(this.createWalletV2Modal);
           } else {
             //wrong
+            //this.closeModal(this.createWalletV2Modal)
           }
         }
       });
@@ -1021,12 +1031,28 @@ export class WalletComponent implements OnInit, OnDestroy {
   test() {}
 
   verifyUserWalletV2() {
-    setTimeout(() => {
-      this.modalService.open(this.createWalletV2Modal, {
-        backdrop: 'static',
-        keyboard: false
-      });
-    }, 3000);
+    this.walletFacade
+    .checkUserWalletV2()
+    .pipe(takeUntil(this.onDestoy$))
+    .subscribe(
+      (res: any) => {
+        
+        if(!res.data) {
+          this.hasWalletV2 = false;
+          this.modalService.open(this.createWalletV2Modal, {
+            backdrop: 'static',
+            keyboard: false
+          });
+        } else {
+          this.hasWalletV2 = true;
+        }
+      },
+      (err) => {
+        this.hasWalletV2 = false;
+        console.log(err)
+      }
+    )
+    
   }
 
   getDetails() {
@@ -1084,7 +1110,7 @@ export class WalletComponent implements OnInit, OnDestroy {
               setTimeout(() => {
                 if (
                   this.tokenStorageService.getFillMyProfil() !== 'false' &&
-                  this.tokenStorageService.getToken()
+                  this.tokenStorageService.getToken() && this.hasWalletV2
                 ) {
                   this.openModal(this.welcomeModal);
                 }
@@ -1097,13 +1123,16 @@ export class WalletComponent implements OnInit, OnDestroy {
               ) !== 'true'
             )
               setTimeout(() => {
-                if (
-                  !this.tokenStorageService.getTronWalletAddress() ||
-                  this.tokenStorageService.getTronWalletAddress() ===
-                    'undefined'
-                ) {
-                  this.openModal(this.createTronWalletModal);
+                if(this.hasWalletV2) {
+                  if (
+                    !this.tokenStorageService.getTronWalletAddress() ||
+                    this.tokenStorageService.getTronWalletAddress() ===
+                      'undefined' 
+                  ) {
+                    this.openModal(this.createTronWalletModal);
+                  }
                 }
+                
               }, 4000);
           }
           return this.profileSettingsFacade.profilePic$;
