@@ -356,29 +356,36 @@
 
 <ng-template #createWalletV2Modal>
   <div
-    class="modal-body welcome-body modal-custom"
+    class="modal-body welcome-body2 modal-custom"
     data-backdrop="static"
     id="createWalletV2Modal"
   >
-    <div class="">
-      <img src="../../assets/Images/create-wallet-v2.svg" />
+    <div id="stepper-v2">
+      <img src="../../assets/Images/stepper-v2.svg" />
     </div>
-    <h3 class="textpwd">{{ 'Update your wallet' | translate }}</h3>
-    <div class="d-flex justify-content-center welcome-paragraph">
-      <p class="paragragh">
+    <div class="">
+      <img src="../../assets/Images/create-wallet-v2.svg" height="150vh" />
+    </div>
+    <p class="textpwd" id="title">{{ 'Update your wallet' | translate }}</p>
+    <div
+      class="d-flex justify-content-center welcome-paragraph"
+      id="welcome-paragraph"
+    >
+      <p class="paragragh" id="paragraph">
         {{
-          "For security reasons, we update our user's wallets.Please enter your password, then transfer your tokens to the updated version."
+          "For security reasons, we update our user's wallets. Please enter your password, then transfer your tokens to the updated version."
             | translate
         }}
       </p>
     </div>
 
-    <div>
+    <div class="input-div">
       <div class="postition-trans">
         <h6 class="trans">{{ 'Transaction password' | translate }}</h6>
       </div>
       <div
-        class="div-input-icon p-1"
+        class="div-input-icon p-1 welcome-input"
+        id="welcome-input"
         [ngClass]="{
           'border-error': wrongpassword
         }"
@@ -433,7 +440,7 @@
           >
             <span class="sr-only">Loading...</span>
           </div>
-          <div *ngIf="!buttonClick">
+          <div *ngIf="!buttonClick" id="next-step">
             {{ 'Next Step' | translate }}
           </div>
         </button>
