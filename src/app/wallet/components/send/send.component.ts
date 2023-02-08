@@ -1127,7 +1127,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     } else {
       this.parentFunction().subscribe(() => {
         this.activeRoute.queryParams.subscribe((selectedCrypto: any) => {
-          console.log("selectedCrypto.sendToselectedCrypto.sendTo",selectedCrypto.sendTo)
           if (
             selectedCrypto.network === 'ERC20' ||
             selectedCrypto.network === 'BTC'
@@ -1138,20 +1137,23 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             if (selectedCrypto.id === 'ETH') {
               this.gasCryptoQuantity = (this.gazsend / this.eth).toFixed(8);
               this.amount= this.showNumbersRule.transform((selectedCrypto.quantity -this.gasCryptoQuantity).toString()) 
-              this.contactWallet= selectedCrypto.sendTo
+            console.log("this.amountthis.amount",this.amount)
+  
             }
-
+            this.contactWallet= selectedCrypto.sendTo
             this.amountUsd = this.showNumbersRule.transform((selectedCrypto.price *  this.amount).toString());
 
           }
           if (selectedCrypto.network === 'BEP20') {
             
-
             this.gazsend = this.bEPGaz;
-            this.amount= selectedCrypto.quantity - this.bEPGaz;
+            this.amount= selectedCrypto.quantity - (this.gazsend / this.bnb)
             if (selectedCrypto.id === 'BNB') {
               this.gasCryptoQuantity = (this.gazsend / this.bnb).toFixed(8);
-              this.amount= this.showNumbersRule.transform((selectedCrypto.quantity - this.gasCryptoQuantity).toString());
+              this.amount= (selectedCrypto.quantity - (this.gazsend / this.bnb)).toString();
+
+
+          
             }
             this.amountUsd = this.showNumbersRule.transform((selectedCrypto.price *  this.amount).toString());
             this.contactWallet= selectedCrypto.sendTo

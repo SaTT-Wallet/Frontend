@@ -109,6 +109,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   btcAddressV2: any;
   tronAddressV2: any;
   address: any;
+  version:any;
   constructor(
     private Fetchservice: CryptofetchServiceService,
     public sidebarService: SidebarService,
@@ -151,6 +152,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   @Output() hidePortfolio: EventEmitter<any> = new EventEmitter();
 
   ngOnInit(): void {
+
     this.portfeuille();
     this.getTotalBalance();
     this.getusercrypto();
@@ -168,6 +170,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   }
   ngAfterContentInit() {
     this.cdref.detectChanges();
+
   }
   checkLi() {
     if (this.liClicked === false) {
@@ -206,7 +209,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
         filter((data: any) => data?.data?.length !== 0),
         takeUntil(this.onDestroy$),
         mergeMap((data: any) => {
-          console.log("daaaaaaaaaaaaata",data)
+          this.version = localStorage.getItem('wallet_version')
           this.walletFacade.hideWalletSpinner();
           this.showWalletSpinner === false;
           this.dataList = data;
@@ -378,6 +381,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
       .subscribe((totalBalance: any) => {
         this.totalAmount = parseFloat(totalBalance);
       });
+  
   }
   // hideBalances(event: any): void {
   //   if (event.target.checked === true) {
