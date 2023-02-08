@@ -169,8 +169,10 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   isLayoutDesktop = false;
   erc20V2: any;
   tronAddressV2: any;
-  displayNew= "block";
-  displayOld= "none";
+  displayNew: any;
+  displayOld: any;
+  title: any= "Your ID Wallet ";
+
 
   constructor(
     breakpointObserver: BreakpointObserver,
@@ -299,7 +301,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   ngAfterViewInit(): void {
     // if(this.route.url)
-    this.route.url.subscribe((e) => {});
+    this.route.url.subscribe((e) => { });
     this.router.events
       .pipe(
         tap((e) => {
@@ -418,16 +420,28 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  isDisplayNew(){
-    this.displayNew= "block"
-    this.displayOld= "none"
-    console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjj")
+  isDisplayNew() {
+    debugger
+    console.log("ldldldl")
+    this.displayNew=localStorage.getItem("display")?.toString()
+
+    if (this.displayNew === "none") {
+      
+      this.displayNew = "block"
+      this.displayOld = "none"
+      localStorage.setItem("display",this.displayNew)
+      this.title = "Your New Wallet "
+      
+    }
+    else {
+      this.displayNew = "none"
+      this.displayOld = "block"
+      localStorage.setItem("display",this.displayNew)
+      this.title = "Your ID Wallet "
+
+    }
   }
 
-  isDisplayOld(){
-    this.displayNew= "none"
-    this.displayOld= "block"
-  }
 
   getProfileDetails() {
     this.account$
@@ -494,7 +508,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         concatMap((payload) =>
           timer(3000).pipe(
             takeUntil(this.isDestroyed$),
-            tap((v) => {}),
+            tap((v) => { }),
             mapTo(payload)
           )
         ),
@@ -836,10 +850,10 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           nbr: item._label['price'],
           crypto:
             item._label['cryptoCurrency'] &&
-            (item._label['cryptoCurrency'] === 'SATTBEP20' ||
-              item._label['cryptoCurrency'] === 'SATTPOLYGON' ||
-              item._label['currency'] === 'SATTBTT' ||
-              item._label['currency'] === 'SATTTRON')
+              (item._label['cryptoCurrency'] === 'SATTBEP20' ||
+                item._label['cryptoCurrency'] === 'SATTPOLYGON' ||
+                item._label['currency'] === 'SATTBTT' ||
+                item._label['currency'] === 'SATTTRON')
               ? 'SATT'
               : item._label['cryptoCurrency'] ||
                 (item._label['currency'] &&
@@ -847,8 +861,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
                     item._label['currency'] === 'SATTPOLYGON' ||
                     item._label['currency'] === 'SATTBTT' ||
                     item._label['currency'] === 'SATTTRON'))
-              ? 'SATT'
-              : item._label['currency'],
+                ? 'SATT'
+                : item._label['currency'],
           // crypto: item._label['currency'],
           name: item._label['name']
         };
@@ -861,10 +875,10 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           nbr: item._label['price'],
           crypto:
             item._label['cryptoCurrency'] &&
-            (item._label['cryptoCurrency'] === 'SATTBEP20' ||
-              item._label['cryptoCurrency'] === 'SATTPOLYGON' ||
-              item._label['currency'] === 'SATTBTT' ||
-              item._label['currency'] === 'SATTTRON')
+              (item._label['cryptoCurrency'] === 'SATTBEP20' ||
+                item._label['cryptoCurrency'] === 'SATTPOLYGON' ||
+                item._label['currency'] === 'SATTBTT' ||
+                item._label['currency'] === 'SATTTRON')
               ? 'SATT'
               : item._label['cryptoCurrency'] ||
                 (item._label['currency'] &&
@@ -872,8 +886,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
                     item._label['currency'] === 'SATTPOLYGON' ||
                     item._label['currency'] === 'SATTBTT' ||
                     item._label['currency'] === 'SATTTRON'))
-              ? 'SATT'
-              : item._label['currency'],
+                ? 'SATT'
+                : item._label['currency'],
           name: item._label['name']
         };
         item._label = 'asked_cryptoCurrency';
@@ -909,9 +923,9 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           item._params = {
             currency:
               item._label['currency'] === 'SATTBEP20' ||
-              item._label['currency'] === 'SATTPOLYGON' ||
-              item._label['currency'] === 'SATTBTT' ||
-              item._label['currency'] === 'SATTTRON'
+                item._label['currency'] === 'SATTPOLYGON' ||
+                item._label['currency'] === 'SATTBTT' ||
+                item._label['currency'] === 'SATTTRON'
                 ? 'SATT'
                 : item.label['currency'],
             nbr: Big(item._label['amount']).div(decimal),
@@ -948,9 +962,9 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
             nbr: Big(item._label['amount']).div(decimal),
             currency:
               item._label['currency'] === 'SATTBEP20' ||
-              item._label['currency'] === 'SATTPOLYGON' ||
-              item._label['currency'] === 'SATTBTT' ||
-              item._label['currency'] === 'SATTTRON'
+                item._label['currency'] === 'SATTPOLYGON' ||
+                item._label['currency'] === 'SATTBTT' ||
+                item._label['currency'] === 'SATTTRON'
                 ? 'SATT'
                 : item.label['currency'],
             from: item._label['from']
@@ -1096,9 +1110,9 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           nbr: item._label['amount'],
           crypto:
             item._label['currency'] === 'SATTBEP20' ||
-            item._label['currency'] === 'SATTPOLYGON' ||
-            item._label['currency'] === 'SATTBTT' ||
-            item._label['currency'] === 'SATTTRON'
+              item._label['currency'] === 'SATTPOLYGON' ||
+              item._label['currency'] === 'SATTBTT' ||
+              item._label['currency'] === 'SATTTRON'
               ? 'SATT'
               : item.label['currency'],
           email: item._label[2]
@@ -1112,9 +1126,9 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           nbr: item._label['amount'],
           crypto:
             item._label['currency'] === 'SATTBEP20' ||
-            item._label['currency'] === 'SATTPOLYGON' ||
-            item._label['currency'] === 'SATTBTT' ||
-            item._label['currency'] === 'SATTTRON'
+              item._label['currency'] === 'SATTPOLYGON' ||
+              item._label['currency'] === 'SATTBTT' ||
+              item._label['currency'] === 'SATTTRON'
               ? 'SATT'
               : item.label['currency'],
           email: item._label[2]
@@ -1282,7 +1296,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.walletFacade.getAllWallet()
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe((data: any) => {
-        console.log("datadata",data.data.btcAddress)
+        console.log("datadata", data.data.btcAddress)
         if (!!data) {
           this.btcCode = data.data.btcAddress;
           this.btcCodeV2 = data.data.btcAddressV2;
