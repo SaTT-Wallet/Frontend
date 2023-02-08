@@ -2000,6 +2000,20 @@ p {
   max-width: 648px;
 }
 
+.div-input-icon-tron {
+  position: relative;
+  
+  width: 60% !important;
+
+  height: 48px;
+  display: flex;
+  border: 1px solid #d6d6e8;
+  border-radius: 30px;
+  align-items: center;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
 .div-input-icon {
   position: relative;
   width: 300px;
@@ -2127,7 +2141,11 @@ color: #75758F !important;
     
     text-align: left;
 }
+.postition-trans-tron{
 
+    
+  text-align: center;
+}
 .modal-body.modal-custom {
   margin-top: 0;
   overflow-y: auto;

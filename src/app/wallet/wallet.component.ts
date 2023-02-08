@@ -1117,23 +1117,6 @@ export class WalletComponent implements OnInit, OnDestroy {
                 this.tokenStorageService.setFillMyProfil('false');
               }, 3000);
             }
-            if (
-              this.tokenStorageService.getItem(
-                'mute-create-tron-wallet-popup'
-              ) !== 'true'
-            )
-              setTimeout(() => {
-                if(this.hasWalletV2) {
-                  if (
-                    !this.tokenStorageService.getTronWalletAddress() ||
-                    this.tokenStorageService.getTronWalletAddress() ===
-                      'undefined' 
-                  ) {
-                    this.openModal(this.createTronWalletModal);
-                  }
-                }
-                
-              }, 4000);
           }
           return this.profileSettingsFacade.profilePic$;
         })
