@@ -13,6 +13,11 @@
 }
 
 
+#stepper-v2 {
+  padding-bottom: 2.5vh;
+}
+
+
 
 
 input:-webkit-autofill,
@@ -37,6 +42,13 @@ input:-webkit-autofill:active {
 .welcome-body {
   max-width: 600px;
  
+}
+
+
+
+
+#createWalletV2Modal {
+  width: 80%;
 }
 .scroll-fix{
   position: absolute;
@@ -123,8 +135,42 @@ input:-webkit-autofill:active {
   width: 95%;
   border-radius: 15px;
 }
-.textpwd{
+.textpwd {
   font-size: 22px !important;
+  font-family: 'Poppins';
+  color: #F52079;
+}
+
+
+#title {
+  font-size: 22px !important;
+  font-family: 'Poppins';
+  color: #F52079;
+  padding-top: 0.5vh;
+  padding-bottom: 1vh;
+}
+
+#welcome-paragraph {
+  padding: 0;
+  max-width: 90%;
+  padding-bottom: 3vh;
+}
+
+
+#paragraph {
+  text-align: center;
+  font-size: medium;
+}
+
+#welcome-input {
+  margin-left: 0px;
+  margin-right: 0px;
+  width: 100%;
+}
+
+.input-div {
+  margin-left: 20%;
+  margin-right: 20%;
 }
 
 
@@ -1957,7 +2003,7 @@ p {
 .div-input-icon {
   position: relative;
   width: 300px;
-  width: 380px !important;
+  width: 100% !important;
 
   height: 48px;
   display: flex;
@@ -1970,7 +2016,7 @@ p {
 
 @media (max-width: 424px) {
   .div-input-icon {
-    width: 300px !important;
+    width: 100% !important;
   }
 }
 
@@ -1998,25 +2044,36 @@ p {
   font-size: 17px;
 }
 
-.btn-blue {
-  background: #4048ff !important;
-  border-radius: 30px;
-  width: 217px !important;
-  height: 48px !important;
-  font-style: normal;
+
+#next-step {
+font-style: normal;
   font-weight: 600 !important;
-  font-size: 18px;
-  line-height: 27px;
+  font-size: 80%;
   align-items: center;
   text-align: center;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.005em;
+}
+.btn-blue {
+  margin-bottom: 2vh;
+  background: #4048ff !important;
+  line-height: 27px;
+  letter-spacing: 0.005em;
   color: #FFFFFF !important;
-  border: none;
   box-shadow: none !important;
+  
+  border-radius: 30px;
+  width: 60% !important;
+  font-style: normal;
+  font-weight: 600 !important;
+  font-size: 80%;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.005em;
+  border: none;
   /* margin-right: 1.5rem; */
 }
 .btn-blue:disabled {
-
+  margin-bottom: 2vh;
   background: #f6f6ff!important;
     color: #adadc8!important;
     border: 1px solid #d6d6e8!important;
@@ -2024,15 +2081,15 @@ p {
 
 
   border-radius: 30px;
-  width: 217px !important;
-  height: 48px !important;
+  width: 60% !important;
+  
   font-style: normal;
   font-weight: 600 !important;
-  font-size: 18px;
-  line-height: 27px;
+  font-size: 80%;
+  
   align-items: center;
   text-align: center;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.005em;
   border: none;
 
   /* margin-right: 1.5rem; */
@@ -2063,9 +2120,11 @@ text-transform: uppercase !important;
 color: #75758F !important;
 
 }
+
+
 .postition-trans{
 
-    margin-left: 21%;
+    
     text-align: left;
 }
 
