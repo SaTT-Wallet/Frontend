@@ -1,0 +1,151 @@
+<div class="container" *ngIf="!passWallet">
+  <div class="row">
+    <p class="content">Migrate your tokens to the new wallet</p>
+    <p class="title" style="margin-top: 2vh">
+      Your tokens are still on the old version of the wallet.<br />To secure
+      them, please transfer them to the new one.<br />
+      <span style="font-weight: bold">
+        Make sure you have enough gas to perform the migration.</span
+      >
+    </p>
+  </div>
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-1 col-1" *ngFor="let crypto of listCrypto; index as i">
+      <input
+        type="radio"
+        name="tabs"
+        id="tab-{{ i }}"
+        (click)="setState(crypto.network)"
+        [checked]="crypto.network === cryptoChecked"
+      />
+      <label for="tab-{{ i }}">
+        <img
+          src="assets/Images/symbol_crypto/{{ crypto.name }}.svg"
+          class="image-size"
+        />
+      </label>
+    </div>
+  </div>
+  <div class="row justify-content-center mt-3">
+    <div *ngIf="cryptobyNetwork.length !== 0">
+      <div
+        class="row justify-content-center"
+        *ngFor="let element of cryptobyNetwork; index as i"
+      >
+        <div class="col-md-6 col-6 mt-2">
+          <label for="checkbox{{ i }}" class="d-flex">
+            <img
+              src="assets/Images/symbol_crypto/{{ element.symbol }}.svg"
+              class="image-size"
+            />
+            <p class="title ms-2" style="text-align: left; font-size: 13px">
+              {{ element.name }}<br />
+              <span style="font-weight: bold"> {{ element.quantity }}</span>
+            </p>
+          </label>
+          <input
+            type="checkbox"
+            name="checkbox{{ i }}"
+            id="checkbox{{ i }}"
+            class="checkbox-style"
+            (click)="addCrypto(element)"
+          />
+        </div>
+      </div>
+    </div>
+    <div *ngIf="cryptobyNetwork.length === 0" class="empty-message-style">
+      You don't have any crypto to migrate on this network
+    </div>
+    <div class="row justify-content-center mt-3" *ngIf="hash">
+      <div class="col-md-6" class="success-div">
+        <img src="assets/Images/custom_icons/icon_alert_success.svg" />
+        <p class="text-success-migration">
+          Tokens migrated successfully<br />
+          <span class="underline"> Check your wallet: </span>
+
+          <a href="{{ hash }}" class="success-color">
+            {{ walletId?.slice(0, 8) }}...{{ walletId?.slice(-8) }}</a
+          >
+        </p>
+      </div>
+    </div>
+
+    <div
+      class="row justify-content-center"
+      *ngIf="arrayToMigrate.length > 0"
+    >
+      <p class="gas-fees-style" *ngIf="cryptobyNetwork.length !== 0">
+        Gas fees : 0.0156 ETH
+      </p>
+      <div class="col-md-6 d-flex flex-column">
+        <span class="span-migrate">
+          To migrate, please enter your wallet password</span
+        >
+        <p class="txn-pass-style">Transaction Password</p>
+        <div
+          class="div-input-icon p-1"
+          [ngClass]="{
+            'border-error': wrongpassword
+          }"
+        >
+          <img class="" src="../../../assets/Images/Kep-password.svg" />
+          <div style="display: none">
+            <input
+              type="text"
+              id="PreventChromeAutocomplete"
+              name="PreventChromeAutocomplete"
+              autocomplete="address-level4"
+            />
+          </div>
+          <input
+            autocomplete="new-password"
+            type="password"
+            [ngClass]="showPass ? 'input-password' : 'input-password pass-hide'"
+            [(ngModel)]="walletPassword"
+            #password_field
+          />
+
+          <span
+            (click)="
+              showPass = !showPass;
+              password_field.type =
+                password_field.type === 'password' ? 'text' : 'password'
+            "
+            class="fa fa-fw cross_input_network align-self-center"
+            aria-hidden="true"
+            [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"
+          ></span>
+        </div>
+        <button
+          class="next-step mt-4"
+          (click)="next()"
+          style="margin: 0 auto"
+          [disabled]="spinner"
+        >
+          <div *ngIf="spinner" class="spinner-border text-grey" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+          <span *ngIf="!spinner">Migrate Tokens</span>
+        </button>
+      </div>
+    </div>
+
+    <div
+      class="row justify-content-center"
+      *ngIf="arrayToMigrate.length === 0"
+    >
+      <div class="col-md-6 d-flex flex-column">
+        <button
+          class="next-step mt-4"
+          (click)="nextStep()"
+          style="margin: 0 auto"
+        >
+          Next step
+        </button>
+      </div>
+    </div>
+    <p class="later-message-style" (click)="sendMigrationStatus()">
+      Do it later >
+    </p>
+  </div>
+</div>

@@ -474,6 +474,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   intro4: string = '';
   // intro5: string = "";
   button: string = '';
+  migrate: string = '';
   private account$ = this.accountFacadeService.account$;
   private onDestoy$ = new Subject();
   constructor(
@@ -687,6 +688,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.migrate = 'open';
     this.hasWalletV2 = false;
     this.verifyUserWalletV2();
     this.walletFacade
@@ -699,7 +701,6 @@ export class WalletComponent implements OnInit, OnDestroy {
       
       }
 
-      console.log("this.existV1this.existV1",this.existV1)
       
       })
     
@@ -732,9 +733,9 @@ export class WalletComponent implements OnInit, OnDestroy {
         this.findMaxBalances(data);
       });
     this.getSecure();
-    
+
     this.totalbalancewallet();
-    
+
     var c = <HTMLCanvasElement>this.document.getElementById('myCanvas');
     var ctx = c?.getContext('2d');
     var my_gradient = ctx?.createLinearGradient(0, 0, 0, 170);
@@ -742,7 +743,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     my_gradient?.addColorStop(1, 'white');
     //ctx.fillStyle = my_gradient;
     ctx?.fillRect(20, 20, 150, 100);
-    if(this.hasWalletV2) this.verifyOnBoarding();
+    if (this.hasWalletV2) this.verifyOnBoarding();
     this.getDetails();
   }
 
@@ -799,7 +800,9 @@ export class WalletComponent implements OnInit, OnDestroy {
         }
       });
   }
-
+  getMigrationStatus($event: any) {
+    this.migrate = $event;
+  }
   createTronWallet() {
     this.walletFacade
       .createTronWallet(this.tronWalletPassword)
@@ -1050,27 +1053,25 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   verifyUserWalletV2() {
     this.walletFacade
-    .checkUserWalletV2()
-    .pipe(takeUntil(this.onDestoy$))
-    .subscribe(
-      (res: any) => {
-        
-        if(!res.data) {
+      .checkUserWalletV2()
+      .pipe(takeUntil(this.onDestoy$))
+      .subscribe(
+        (res: any) => {
+          if (!res.data) {
+            this.hasWalletV2 = false;
+            this.modalService.open(this.createWalletV2Modal, {
+              backdrop: 'static',
+              keyboard: false
+            });
+          } else {
+            this.hasWalletV2 = true;
+          }
+        },
+        (err) => {
           this.hasWalletV2 = false;
-          this.modalService.open(this.createWalletV2Modal, {
-            backdrop: 'static',
-            keyboard: false
-          });
-        } else {
-          this.hasWalletV2 = true;
+          console.log(err);
         }
-      },
-      (err) => {
-        this.hasWalletV2 = false;
-        console.log(err)
-      }
-    )
-    
+      );
   }
 
   getDetails() {
@@ -1128,7 +1129,8 @@ export class WalletComponent implements OnInit, OnDestroy {
               setTimeout(() => {
                 if (
                   this.tokenStorageService.getFillMyProfil() !== 'false' &&
-                  this.tokenStorageService.getToken() && this.hasWalletV2
+                  this.tokenStorageService.getToken() &&
+                  this.hasWalletV2
                 ) {
                   this.openModal(this.welcomeModal);
                 }
