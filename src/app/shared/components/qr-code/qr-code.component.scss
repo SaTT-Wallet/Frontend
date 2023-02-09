@@ -9,9 +9,32 @@
   cursor: pointer;
 }
 
+.textecenter{
+  height: 37px;
+
+  top: 181px;
+  
+  /* DESKTOP/Titles/H3 */
+  
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 28px;
+  /* or 127% */
+  
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 1px;
+  
+  color: #323754;
+
+}
+
 .qrcode-desktop {
   display: block;
-  padding-bottom: 300px;
+  padding-bottom: 100px;
 }
 
 .qrcode-mobile {

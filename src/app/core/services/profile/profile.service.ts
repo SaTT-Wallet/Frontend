@@ -196,6 +196,18 @@ export class ProfileService {
     });
   }
 
+  exportProfileDataV2(password: string) {
+    let headers = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+    let body = { pass: password };
+    return this.http.post(sattUrl + '/wallet/exportETHV2', body, {
+      headers: headers
+    });
+  }
+
   exportTronKeystore(password: string) {
     let headers = new HttpHeaders({
       'Cache-Control': 'no-store',
@@ -208,6 +220,19 @@ export class ProfileService {
     });
   }
 
+
+  exportTronKeystoreV2(password: string) {
+    let headers = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+    let body = { pass: password };
+    return this.http.post(sattUrl + '/wallet/exportTronV2', body, {
+      headers: headers
+    });
+  }
+
   exportProfileDataBTC(password: string) {
     let headers = new HttpHeaders({
       'Cache-Control': 'no-store',
@@ -216,6 +241,18 @@ export class ProfileService {
     });
     let body = { pass: password };
     return this.http.post(sattUrl + '/wallet/exportBtc', body, {
+      headers: headers
+    });
+  }
+
+  exportProfileDataBTCV2(password: string) {
+    let headers = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+    let body = { pass: password };
+    return this.http.post(sattUrl + '/wallet/exportBtcV2', body, {
       headers: headers
     });
   }

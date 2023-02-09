@@ -20,7 +20,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { Clipboard } from '@angular/cdk/clipboard';
 
-import { filter, map, mergeMap, take, takeUntil } from 'rxjs/operators';
+import { filter, map, mergeMap, take, takeUntil, tap } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
 
 import { ActivatedRoute, Router } from '@angular/router';
@@ -34,6 +34,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { pattContact } from '@config/atn.config';
 import { environment } from '@environments/environment';
 import { FilterBynamePipe } from '@shared/pipes/filter-byname.pipe';
+import { ITransferTokensRequestBody } from '@app/core/services/wallet/wallet.service';
 // import { data } from 'jquery';
 declare var $: any;
 @Component({
@@ -104,6 +105,11 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   isLoading = false;
   isSubmited = false;
   showAddBtn = false;
+  addressV2: any;
+  btcAddressV2: any;
+  tronAddressV2: any;
+  address: any;
+  version:any;
   constructor(
     private Fetchservice: CryptofetchServiceService,
     public sidebarService: SidebarService,
@@ -146,9 +152,11 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   @Output() hidePortfolio: EventEmitter<any> = new EventEmitter();
 
   ngOnInit(): void {
+
     this.portfeuille();
     this.getTotalBalance();
     this.getusercrypto();
+    this.migrateTo();
     this.formToken.valueChanges.subscribe((values: any) => {
       if (values.tokenAdress !== null) {
         this.disabled = false;
@@ -162,6 +170,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   }
   ngAfterContentInit() {
     this.cdref.detectChanges();
+
   }
   checkLi() {
     if (this.liClicked === false) {
@@ -169,6 +178,17 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     } else if (this.liClicked === true) {
       this.liClicked = false;
     }
+  }
+
+
+  migrateTo() {
+
+    this.walletFacade.getAllWallet().subscribe((data: any) => {
+      this.addressV2 = data.data.addressV2
+      this.btcAddressV2 = data.data.btcAddressV2
+      this.tronAddressV2 = data.data.tronAddressV2
+  })
+
   }
   parseStringToInt(ch: string) {
     return parseFloat(ch).toFixed(3);
@@ -189,6 +209,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
         filter((data: any) => data?.data?.length !== 0),
         takeUntil(this.onDestroy$),
         mergeMap((data: any) => {
+          this.version = localStorage.getItem('wallet_version')
           this.walletFacade.hideWalletSpinner();
           this.showWalletSpinner === false;
           this.dataList = data;
@@ -360,6 +381,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
       .subscribe((totalBalance: any) => {
         this.totalAmount = parseFloat(totalBalance);
       });
+  
   }
   // hideBalances(event: any): void {
   //   if (event.target.checked === true) {
@@ -379,6 +401,23 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     }
     this.router.navigate(['/wallet/send'], {
       queryParams: { id: id, network: network, pic: pic },
+      relativeTo: this.activatedRoute
+    });
+  }
+
+  goMigrate(id: any, network: any, pic: any, quantity:any, price:any) {
+    if (id === 'SATT' && network === 'BEP20') {
+      id = 'SATTBEP20';
+    }
+
+    if(network === 'BEP20' || 'ERC20')  this.address = this.addressV2
+    if(network === 'TRON')  this.address = this.tronAddressV2
+    if(network === 'BTC')  this.address = this.btcAddressV2
+
+
+console.log("this.address this.address this.address ",this.address )
+    this.router.navigate(['/wallet/send'], {
+      queryParams: { id: id, network: network, pic: pic, quantity: quantity, price:price,sendTo:this.address },
       relativeTo: this.activatedRoute
     });
   }

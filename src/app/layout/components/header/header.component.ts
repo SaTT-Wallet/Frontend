@@ -101,6 +101,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   newNotification: boolean = false;
   isSeen: number = 0;
   btcCode: string = '';
+  btcCodeV2: string = '';
   erc20: string = '';
   portfeuilleList: Array<{ type: any; code: any }> = [];
   generateCode: boolean = false;
@@ -114,6 +115,12 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   url3: any;
   urlM1: any;
   urlM2: any;
+  urlM4: any;
+  urlM5: any;
+  url4: any;
+  url5: any;
+  url6: any;
+
   picUserUpdated: boolean = false;
   oldHeight: any;
   newHeight: any;
@@ -160,6 +167,13 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   isTransactionHashCopied = false;
   isTransactionHashCopiedbtc = false;
   isLayoutDesktop = false;
+  erc20V2: any;
+  tronAddressV2: any;
+  displayNew: any;
+  displayOld: any;
+  title: any= "Your ID Wallet ";
+
+
   constructor(
     breakpointObserver: BreakpointObserver,
     private accountFacadeService: AccountFacadeService,
@@ -287,7 +301,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   ngAfterViewInit(): void {
     // if(this.route.url)
-    this.route.url.subscribe((e) => {});
+    this.route.url.subscribe((e) => { });
     this.router.events
       .pipe(
         tap((e) => {
@@ -396,16 +410,38 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           this.router.navigate(['/auth/login']);
         }
         this.tokenStorageService.setItem('wallet_btc', this.btcCode);
+        this.tokenStorageService.setItem('wallet_btc_v2', this.btcCodeV2);
         this.tokenStorageService.setItem('tron-wallet', this.tronAddress);
-        this.generateCodeDes();
-        this.generateCodeERCDes();
-        this.generateCodeFunction();
-        this.generateCodeERC();
+        this.tokenStorageService.setItem('tron-wallet_v2', this.tronAddressV2);
+
       } else {
         this.isConnected = false;
       }
     }
   }
+
+  isDisplayNew() {
+    debugger
+    console.log("ldldldl")
+    this.displayNew=localStorage.getItem("display")?.toString()
+
+    if (this.displayNew === "none") {
+      
+      this.displayNew = "block"
+      this.displayOld = "none"
+      localStorage.setItem("display",this.displayNew)
+      this.title = "Your New Wallet "
+      
+    }
+    else {
+      this.displayNew = "none"
+      this.displayOld = "block"
+      localStorage.setItem("display",this.displayNew)
+      this.title = "Your ID Wallet "
+
+    }
+  }
+
 
   getProfileDetails() {
     this.account$
@@ -472,7 +508,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         concatMap((payload) =>
           timer(3000).pipe(
             takeUntil(this.isDestroyed$),
-            tap((v) => {}),
+            tap((v) => { }),
             mapTo(payload)
           )
         ),
@@ -814,10 +850,10 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           nbr: item._label['price'],
           crypto:
             item._label['cryptoCurrency'] &&
-            (item._label['cryptoCurrency'] === 'SATTBEP20' ||
-              item._label['cryptoCurrency'] === 'SATTPOLYGON' ||
-              item._label['currency'] === 'SATTBTT' ||
-              item._label['currency'] === 'SATTTRON')
+              (item._label['cryptoCurrency'] === 'SATTBEP20' ||
+                item._label['cryptoCurrency'] === 'SATTPOLYGON' ||
+                item._label['currency'] === 'SATTBTT' ||
+                item._label['currency'] === 'SATTTRON')
               ? 'SATT'
               : item._label['cryptoCurrency'] ||
                 (item._label['currency'] &&
@@ -825,8 +861,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
                     item._label['currency'] === 'SATTPOLYGON' ||
                     item._label['currency'] === 'SATTBTT' ||
                     item._label['currency'] === 'SATTTRON'))
-              ? 'SATT'
-              : item._label['currency'],
+                ? 'SATT'
+                : item._label['currency'],
           // crypto: item._label['currency'],
           name: item._label['name']
         };
@@ -839,10 +875,10 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           nbr: item._label['price'],
           crypto:
             item._label['cryptoCurrency'] &&
-            (item._label['cryptoCurrency'] === 'SATTBEP20' ||
-              item._label['cryptoCurrency'] === 'SATTPOLYGON' ||
-              item._label['currency'] === 'SATTBTT' ||
-              item._label['currency'] === 'SATTTRON')
+              (item._label['cryptoCurrency'] === 'SATTBEP20' ||
+                item._label['cryptoCurrency'] === 'SATTPOLYGON' ||
+                item._label['currency'] === 'SATTBTT' ||
+                item._label['currency'] === 'SATTTRON')
               ? 'SATT'
               : item._label['cryptoCurrency'] ||
                 (item._label['currency'] &&
@@ -850,8 +886,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
                     item._label['currency'] === 'SATTPOLYGON' ||
                     item._label['currency'] === 'SATTBTT' ||
                     item._label['currency'] === 'SATTTRON'))
-              ? 'SATT'
-              : item._label['currency'],
+                ? 'SATT'
+                : item._label['currency'],
           name: item._label['name']
         };
         item._label = 'asked_cryptoCurrency';
@@ -887,9 +923,9 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           item._params = {
             currency:
               item._label['currency'] === 'SATTBEP20' ||
-              item._label['currency'] === 'SATTPOLYGON' ||
-              item._label['currency'] === 'SATTBTT' ||
-              item._label['currency'] === 'SATTTRON'
+                item._label['currency'] === 'SATTPOLYGON' ||
+                item._label['currency'] === 'SATTBTT' ||
+                item._label['currency'] === 'SATTTRON'
                 ? 'SATT'
                 : item.label['currency'],
             nbr: Big(item._label['amount']).div(decimal),
@@ -926,9 +962,9 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
             nbr: Big(item._label['amount']).div(decimal),
             currency:
               item._label['currency'] === 'SATTBEP20' ||
-              item._label['currency'] === 'SATTPOLYGON' ||
-              item._label['currency'] === 'SATTBTT' ||
-              item._label['currency'] === 'SATTTRON'
+                item._label['currency'] === 'SATTPOLYGON' ||
+                item._label['currency'] === 'SATTBTT' ||
+                item._label['currency'] === 'SATTTRON'
                 ? 'SATT'
                 : item.label['currency'],
             from: item._label['from']
@@ -1074,9 +1110,9 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           nbr: item._label['amount'],
           crypto:
             item._label['currency'] === 'SATTBEP20' ||
-            item._label['currency'] === 'SATTPOLYGON' ||
-            item._label['currency'] === 'SATTBTT' ||
-            item._label['currency'] === 'SATTTRON'
+              item._label['currency'] === 'SATTPOLYGON' ||
+              item._label['currency'] === 'SATTBTT' ||
+              item._label['currency'] === 'SATTTRON'
               ? 'SATT'
               : item.label['currency'],
           email: item._label[2]
@@ -1090,9 +1126,9 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           nbr: item._label['amount'],
           crypto:
             item._label['currency'] === 'SATTBEP20' ||
-            item._label['currency'] === 'SATTPOLYGON' ||
-            item._label['currency'] === 'SATTBTT' ||
-            item._label['currency'] === 'SATTTRON'
+              item._label['currency'] === 'SATTPOLYGON' ||
+              item._label['currency'] === 'SATTBTT' ||
+              item._label['currency'] === 'SATTTRON'
               ? 'SATT'
               : item.label['currency'],
           email: item._label[2]
@@ -1257,18 +1293,32 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
       window.location.href = 'https://old.satt.atayen.us/';
   }
   portfeuille() {
-    this.walletFacade.wallet$
+    this.walletFacade.getAllWallet()
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe((data: any) => {
+        console.log("datadata", data.data.btcAddress)
         if (!!data) {
-          this.btcCode = data.data.btc;
+          this.btcCode = data.data.btcAddress;
+          this.btcCodeV2 = data.data.btcAddressV2;
           this.erc20 = data.data.address;
+          this.erc20V2 = data.data.addressV2;
+          this.tronAddressV2 = data.data.tronAddressV2;
           this.tronAddress = data.data.tronAddress;
+
           this.url3 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.tronAddress}&chs=219x219&chco=212121&chld=m|1`;
+          this.url6 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.tronAddressV2}&chs=219x219&chco=212121&chld=m|1`;
+          this.urlM4 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20V2}&chs=219x219&chco=212121&chld=m|1`;
+          this.urlM1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=219x219&chco=212121&chld=m|1`;
+          this.urlM2 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.btcCode}&chs=219x219&chco=212121&chld=m|1`;
+          this.urlM5 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.btcCodeV2}&chs=219x219&chco=212121&chld=m|1`;
+
           this.portfeuilleList = [
             { type: 'ERC20/BEP20', code: this.erc20 },
             { type: 'BTC', code: this.btcCode },
-            { type: 'tron', code: this.tronAddress }
+            { type: 'tron', code: this.tronAddress },
+            { type: 'ERC20/BEP20V2', code: this.erc20V2 },
+            { type: 'BTCV2', code: this.btcCodeV2 },
+            { type: 'tronv2', code: this.tronAddressV2 }
           ];
         }
       });
@@ -1300,37 +1350,14 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   public copytron(code: any) {
     this.clipboard.copy(code);
   }
-  ////display1////////
-  generateCodeERC() {
-    //@ts-ignore
-    let urlM1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=219x219&chco=212121&chld=m|1`;
-    this.urlM1 = urlM1;
-  }
-  ////display2////////
-  generateCodeFunction() {
-    let urlM2 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.btcCode}&chs=219x219&chco=212121&chld=m|1`;
-    this.urlM2 = urlM2;
-  }
 
-  // generateCodeTron(){
-  //   let url3 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.tronAddress}&chs=219x219&chco=212121&chld=m|1`;
-  //   this.url3 = url3;
-  // }
-  ////display1////////
-  generateCodeERCDes() {
-    //@ts-ignore
-    let url1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=219x219&chld=m|1`;
-    this.url1 = url1;
-    //@ts-ignore
-    let urlM1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=219x219&chld=m|1`;
-    this.urlM1 = urlM1;
-  }
+
+
   ////display2////////
   notifSize = 10;
-  generateCodeDes() {
-    let urll = `https://chart.apis.google.com/chart?cht=qr&chl=${this.btcCode}&chs=150x150`;
-    this.url2 = urll;
-  }
+
+
+
 
   goToEther(erc20: any) {
     if (isPlatformBrowser(this.platformId))

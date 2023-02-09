@@ -118,6 +118,7 @@ export class WalletService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
+
     return this.http.post<IApiResponse<ITransferTokensResponse>>(
       `${sattUrl}/wallet/transferTokens`,
       body,
@@ -135,6 +136,20 @@ export class WalletService {
     return this.http.post(
       `${sattUrl}/wallet/add-tron-wallet`,
       { pass: password },
+      { headers: httpHeaders }
+    );
+  }
+
+
+  checkUserWalletV2() {
+    let httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-store',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+
+    return this.http.get(
+      `${sattUrl}/wallet/checkUserWalletV2`,
       { headers: httpHeaders }
     );
   }
