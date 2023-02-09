@@ -688,6 +688,13 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    if (this.tokenStorageService.getWalletVersion() === 'v2') {
+      this.versionText = 'Old Wallet';
+      this.height = '250px';
+}
+      else {      this.versionText = 'New Wallet';
+      this.height = '300px';}
+
     this.migrate = 'open';
     this.hasWalletV2 = false;
     this.verifyUserWalletV2();
