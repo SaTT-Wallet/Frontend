@@ -172,6 +172,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   displayNew: any;
   displayOld: any;
   title: any= "Your ID Wallet ";
+  existV1: any;
 
 
   constructor(
@@ -421,11 +422,10 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   isDisplayNew() {
-    debugger
     console.log("ldldldl")
     this.displayNew=localStorage.getItem("display")?.toString()
-
-    if (this.displayNew === "none") {
+if(this.existV1)
+{    if (this.displayNew === "none") {
       
       this.displayNew = "block"
       this.displayOld = "none"
@@ -439,7 +439,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
       localStorage.setItem("display",this.displayNew)
       this.title = "Your ID Wallet "
 
-    }
+    }}
   }
 
 
@@ -1296,15 +1296,19 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.walletFacade.getAllWallet()
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe((data: any) => {
-        console.log("datadata", data.data.btcAddress)
+        this.existV1= data?.data?.address
+
+        console.log("datadata", data?.data?.btcAddress)
         if (!!data) {
-          this.btcCode = data.data.btcAddress;
+
           this.btcCodeV2 = data.data.btcAddressV2;
-          this.erc20 = data.data.address;
           this.erc20V2 = data.data.addressV2;
           this.tronAddressV2 = data.data.tronAddressV2;
-          this.tronAddress = data.data.tronAddress;
-
+          if(this.existV1)
+          {this.btcCode = data?.data?.btcAddress;
+          this.erc20 = data?.data?.address;
+          this.tronAddress = data?.data?.tronAddress;
+}
           this.url3 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.tronAddress}&chs=219x219&chco=212121&chld=m|1`;
           this.url6 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.tronAddressV2}&chs=219x219&chco=212121&chld=m|1`;
           this.urlM4 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20V2}&chs=219x219&chco=212121&chld=m|1`;

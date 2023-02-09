@@ -38,7 +38,7 @@
         <!--portfolio estimation-->
         <!-- <div class="d-flex justify-content-center">-->
 
-        <div class="currentbalance">
+        <div class="currentbalance" >
           <h3 class="walletEstim d-flex justify-content-center">
             {{ 'Wallet.Your_total_portfolio_is_estimated_at' | translate }}
           </h3>
@@ -47,7 +47,7 @@
               <div class="d-flex first_layer" id="totalAmount1">
                 $ {{ totalAmount | number: '1.0-2' || '' }}
               </div>
-              <div class="d-flex justify-content-center">
+              <div class="d-flex justify-content-center" *ngIf="existV1">
                 <p class="echnage" (click)="allWallet()" type="button">
                   <span
                     ><img
@@ -58,7 +58,7 @@
               </div>
               <div
                 class="divbtn d-flex justify-content-center"
-                *ngIf="versionText === 'New Wallet'"
+                *ngIf="versionText === 'New Wallet' && existV1"
               >
                 <button class="migratebtn" type="button">
                   <span
