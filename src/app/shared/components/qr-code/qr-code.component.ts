@@ -73,6 +73,7 @@ export class QRCodeComponent implements OnInit {
   ethv2: any;
   btcv2Code: any;
   tronv2Address: any;
+  existV1: any;
  
 
   constructor(
@@ -105,7 +106,12 @@ export class QRCodeComponent implements OnInit {
   portfeuille() {
     this.walletFacade.getAllWallet()
     this.walletFacade.getAllWallet().subscribe((data: any) => {
+
+      this.existV1= data.data.address
+      
       if (!!data) {
+
+
         this.btcCode = data.data.btcAddress;
         this.eth = data.data.address;
         this.tronAddress = data.data.tronAddress ;
