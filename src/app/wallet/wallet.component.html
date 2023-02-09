@@ -8,7 +8,12 @@
 </div> -->
 
 <!-- <div class="wallet container-fluid"> -->
-<app-migration class="migration"></app-migration>
+<app-migration
+  class="migration"
+  *ngIf="migrate === 'open'"
+  [migrate]="migrate"
+  (migrateEvent)="getMigrationStatus($event)"
+></app-migration>
 
 <div class="wallet">
   <!--red bloc:desktop and tablette-->

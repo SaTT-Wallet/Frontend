@@ -471,6 +471,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   intro4: string = '';
   // intro5: string = "";
   button: string = '';
+  migrate: string = '';
   private account$ = this.accountFacadeService.account$;
   private onDestoy$ = new Subject();
   constructor(
@@ -684,6 +685,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.migrate = 'open';
     this.verifyOnBoarding();
 
     // this.dontShowAgain();
@@ -716,7 +718,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     this.getSecure();
     this.getDetails();
     this.totalbalancewallet();
-    this.verifyUserWalletV2();
+    // this.verifyUserWalletV2();
     var c = <HTMLCanvasElement>this.document.getElementById('myCanvas');
     var ctx = c?.getContext('2d');
     var my_gradient = ctx?.createLinearGradient(0, 0, 0, 170);
@@ -772,7 +774,9 @@ export class WalletComponent implements OnInit, OnDestroy {
         }
       });
   }
-
+  getMigrationStatus($event: any) {
+    this.migrate = $event;
+  }
   createTronWallet() {
     this.walletFacade
       .createTronWallet(this.tronWalletPassword)

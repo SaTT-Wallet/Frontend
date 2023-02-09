@@ -16,8 +16,8 @@ export const environment = {
   url_subgraph_ether:
     'https://api.thegraph.com/subgraphs/name/atayen/satt-testnet-ether',
 
-  API_URL: 'https://localhost:3015',
-  // 'https://api-preprod.satt-token.com:3014',
+  // API_URL: 'https://localhost:3015',
+  API_URL: 'https://api-preprod2.satt-token.com',
   addresses: {
     smartContracts: {
       campaignERC20: '0x477C93E935DcBFd330c7aE1A8BA128232eA87AC7',
@@ -26,8 +26,8 @@ export const environment = {
       campaignBTT: '0x261491739e36090FC80fF1569B7E5FFe26070d77',
       campaignTRON: 'THUD3VAxyTEmMCBEjd2AcSujzbgPSu39p9',
 
-      // SATT_TOKENERC20: '0x3e233F049DAfB2ed8aaf324F67Dd98bc8FDdF6dA',
-      SATT_TOKENERC20: '0x2bef0d7531f0aae08adc26a0442ba8d0516590d0',
+      SATT_TOKENERC20: '0x3e233F049DAfB2ed8aaf324F67Dd98bc8FDdF6dA',
+      //SATT_TOKENERC20: '0x2bef0d7531f0aae08adc26a0442ba8d0516590d0',
 
       SATT_TOKENBEP20: '0x6fAc729f346A46fC0093126f237b4A520c40eb89',
       SATT_TOKEN_TRON: 'TZ9mUjmxCtowj9h68NJq626qaGWiv61KWo',
