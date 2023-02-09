@@ -107,6 +107,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
   private socialAccount$ = this.socialAccountFacadeService.socialAccount$;
   showSpinnerTRON = false;
   showSpinnerTRONV2 = false;
+  userIsNew: boolean = false;
 
   constructor(
     private accountFacadeService: AccountFacadeService,
@@ -203,6 +204,16 @@ export class SecurityComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.userIsNew  = false;
+    this.walletFacade
+    .checkUserIsNew()
+    .subscribe((res: any) => {
+      this.userIsNew = res.data;
+    },
+    (err: any) => {
+      console.log(err)
+    }
+    )
     this.getProfileDetails();
     this.formUpdatePassword.controls['password'].disable();
     this.formUpdatePassword.controls['confirmPassword'].disable();

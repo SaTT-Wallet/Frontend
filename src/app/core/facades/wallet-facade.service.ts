@@ -378,4 +378,9 @@ export class WalletFacadeService {
   createNewWalletV2(password: string) {
     return this.walletService.createNewWalletV2(password);
   }
+
+
+  checkUserIsNew() {
+    return this.walletService.checkUserIsNew();
+  }
 }
