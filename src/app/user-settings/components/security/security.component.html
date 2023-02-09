@@ -801,7 +801,7 @@
         </div>
       </div>
     </div>
-    <div class="col-12 p-0">
+    <div class="col-12 p-0" *ngIf="!userIsNew">
       <hr />
     </div>
     <!------- Collapse retrieve data ----------->
@@ -811,6 +811,7 @@
       href="#collapse1"
       aria-expanded="false"
       aria-controls="collapse1"
+      *ngIf="!userIsNew"
     >
       <!-- <div class="d-flex justify-content-between cursor_pntr">
                     <div>

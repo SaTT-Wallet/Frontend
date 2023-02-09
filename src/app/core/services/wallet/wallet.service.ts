@@ -168,6 +168,19 @@ export class WalletService {
     );
   }
 
+  checkUserIsNew() {
+    let httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-store',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+
+    return this.http.get(
+      `${sattUrl}/wallet/checkIsNewUser`,
+      { headers: httpHeaders }
+    );
+  }
+
   chartjs() {
     const headers = new HttpHeaders({
       'Cache-Control': 'no-store',
