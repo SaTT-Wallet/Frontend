@@ -417,7 +417,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
 
 
     this.router.navigate(['/wallet/send'], {
-      queryParams: { id: id, network: network, pic: pic, quantity: quantity, price:price,sendTo:this.address },
+      queryParams: { id: id, network: network, pic: pic,sendTo:this.address },
       relativeTo: this.activatedRoute
     });
   }

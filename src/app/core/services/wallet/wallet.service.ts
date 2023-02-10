@@ -11,6 +11,7 @@ import {
 } from '@app/core/types/rest-api-responses';
 
 export interface ITransferTokensRequestBody {
+  
   from: string;
   to: string;
   amount: string;
@@ -18,6 +19,7 @@ export interface ITransferTokensRequestBody {
   network: string;
   tokenSymbol: string;
   tokenAddress: string;
+
 }
 
 @Injectable({
@@ -111,7 +113,8 @@ export class WalletService {
   }
 
   transferTokens(
-    body: ITransferTokensRequestBody
+    body: ITransferTokensRequestBody,
+    max:any,
   ): Observable<IApiResponse<ITransferTokensResponse>> {
     const headers = new HttpHeaders({
       'Cache-Control': 'no-store',
@@ -120,7 +123,7 @@ export class WalletService {
     });
 
     return this.http.post<IApiResponse<ITransferTokensResponse>>(
-      `${sattUrl}/wallet/transferTokens`,
+      `${sattUrl}/wallet/transferTokens?max=${max}`,
       body,
       { headers }
     );
