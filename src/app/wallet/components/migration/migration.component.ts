@@ -70,7 +70,12 @@ export class MigrationComponent implements OnInit {
     let element = this.cryptobyNetwork.find(
       (e: any) => e.symbol === this.network.name
     );
-    this.network.balance = element?.quantity;
+
+    if (element) this.network.balance = element?.quantity;
+    else {
+      this.network.balance = '';
+      this.outOfGas = true;
+    }
   }
   next() {
     this.spinner = true;
@@ -82,7 +87,6 @@ export class MigrationComponent implements OnInit {
       )
       .subscribe(
         (data: any) => {
-          console.log({ data });
 
           this.arrayToMigrate = [];
           this.spinner = false;
@@ -124,8 +128,10 @@ export class MigrationComponent implements OnInit {
     }
 
     this.gasToDisplay = filterAmount(this.gas.div(10 ** 18).toString());
-
-    if (Big(this.gasToDisplay).gt(Big(this.network.balance)))
+    if (
+      this.network.balance === '' ||
+      Big(this.gasToDisplay).gt(Big(this.network.balance))
+    )
       this.outOfGas = true;
     else this.outOfGas = false;
   }
