@@ -56,7 +56,7 @@ export const environment = {
   },
   fcmredirectUrl: 'http://localhost:4200/#/home',
   bscan: 'https://testnet.bscscan.com/tx/',
-  etherscan: 'https://ropsten.etherscan.io/tx/',
+  etherscan: 'https://goerli.etherscan.io/tx/',
   polygonscan: 'https://mumbai.polygonscan.com/tx/',
   bttscan: 'https://testnet.bttcscan.com/tx/',
   tronScan: 'https://shasta.tronscan.org/#/transaction/',
@@ -65,7 +65,7 @@ export const environment = {
   polygonscanAddr: 'https://mumbai.polygonscan.com/address/',
   bttscanAddr: 'https://testnet.bttcscan.com/address/',
   tronScanAddr: 'https://shasta.tronscan.org/#/address/',
-  etherscanaddr: 'https://ropsten.etherscan.io/address/',
+  etherscanaddr: 'https://goerli.etherscan.io/address/',
 
   simplexUrl: 'https://sandbox.test-simplexcc.com/payments/new',
   gmtId: 'GTM-5XW23QX',
