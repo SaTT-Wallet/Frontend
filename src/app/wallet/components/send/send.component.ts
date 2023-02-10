@@ -716,19 +716,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
     if (currency) {
       this.dataList?.forEach((crypto: any) => {
-        let quantity
         if (crypto.symbol === currency) {
-          if (crypto.network === 'BEP20') 
-          {quantity= crypto.quantity - (this.bEPGaz / this.bnb)
-           }
-         else if (crypto.network === 'ETH') 
-            {quantity= crypto.quantity - (this.eRC20Gaz / this.eth)}
-            else if (crypto.network === 'POLYGON') 
-            {quantity= crypto.quantity - (this.polygonGaz / this.matic)}
-            else if (crypto.network === 'BTTC') 
-            {quantity= crypto.quantity - (this.bttGaz / this.btt)}
-            else if (crypto.network === 'TRON') 
-            {quantity= crypto.quantity - (this.trxGaz / this.trx)}
+          let quantity = this.showNumbersRule.transform(crypto.quantity);
           //  let totalBal = this.showNumbersRule.transform(crypto.total_balance);
           //    crypto.total_balance = parseFloat(crypto.total_balance + '');
           //  crypto.total_balance = crypto?.total_balance?.toFixed(2);
@@ -1214,7 +1203,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             this.gasCryptoQuantityDisplay = this.gasCryptoQuantity.toFixed(8)
 
             if (selectedCrypto.network === 'TRON') {
-              this.amount= (selectedCrypto.quantity-this.gasCryptoQuantity).toString()
+              this.amount= (selectedCrypto.quantity-this.trx).toString()
+
             }
             this.amountUsd = this.showNumbersRule.transform((selectedCrypto.price *  this.amount).toString());
             this.contactWallet= selectedCrypto.sendTo
