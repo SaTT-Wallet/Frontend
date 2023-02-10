@@ -70,14 +70,11 @@
       </div>
     </div>
 
-    <div
-      class="row justify-content-center"
-      *ngIf="arrayToMigrate.length > 0"
-    >
+    <div class="row justify-content-center" *ngIf="arrayToMigrate.length > 0">
       <p class="gas-fees-style" *ngIf="cryptobyNetwork.length !== 0">
-        Gas fees : 0.0156 ETH
+        Gas fees : {{ gasToDisplay }} {{ network.name }}
       </p>
-      <div class="col-md-6 d-flex flex-column">
+      <div class="col-md-6 d-flex flex-column" *ngIf="!outOfGas">
         <span class="span-migrate">
           To migrate, please enter your wallet password</span
         >
@@ -128,12 +125,14 @@
           <span *ngIf="!spinner">Migrate Tokens</span>
         </button>
       </div>
+      <div class="col-md-6 d-flex flex-column" *ngIf="outOfGas">
+        <button class="next-step mt-4" style="margin: 0 auto">
+          <span>Buy Gas</span>
+        </button>
+      </div>
     </div>
 
-    <div
-      class="row justify-content-center"
-      *ngIf="arrayToMigrate.length === 0"
-    >
+    <div class="row justify-content-center" *ngIf="arrayToMigrate.length === 0">
       <div class="col-md-6 d-flex flex-column">
         <button
           class="next-step mt-4"
