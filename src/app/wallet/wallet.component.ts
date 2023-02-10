@@ -61,7 +61,7 @@ import { ToastrService } from 'ngx-toastr';
 export class WalletComponent implements OnInit, OnDestroy {
   hideRedBloc: any;
   percentProfil: any;
-  versionText: any = 'Old Wallet';
+  versionText: any = 'New Wallet';
 
   @ViewChild('myCanvas1') canvas1!: ElementRef;
   @ViewChild('myCanvas2') canvas2!: ElementRef;
@@ -411,8 +411,9 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   private totalBalance$ = this.walletFacade.totalBalance$;
   tronErrorMessage = '';
-  height: any = '250px';
+  height: any = '300px';
   walletV2ErrorMessage = '';
+  existV1: any;
 
   selectTab(tabId: number) {
     this.staticTabs.tabs[tabId].active = true;
@@ -687,9 +688,26 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    if (this.tokenStorageService.getWalletVersion() === 'v2') {
+      this.versionText = 'Old Wallet';
+      this.height = '250px';
+    } else {
+      this.versionText = 'New Wallet';
+      this.height = '300px';
+    }
+
     this.migrate = 'open';
     this.hasWalletV2 = false;
     this.verifyUserWalletV2();
+    this.walletFacade
+      .getAllWallet()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((data: any) => {
+        this.existV1 = data.data.address;
+        if (this.existV1 === null) {
+          this.height = '250px';
+        }
+      });
 
     // this.dontShowAgain();
     // let data_profile = {
@@ -842,31 +860,35 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
 
   allWallet() {
-    this.walletFacade
-      .getAllWallet()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((data: any) => {
-        if (this.tokenStorageService.getWalletVersion() === 'v2') {
-          this.versionText = 'New Wallet';
-          this.height = '300px';
+    try {
+      this.walletFacade
+        .getAllWallet()
+        .pipe(takeUntil(this.onDestroy$))
+        .subscribe((data: any) => {
+          if (this.tokenStorageService.getWalletVersion() === 'v2') {
+            this.versionText = 'New Wallet';
+            this.height = '300px';
 
-          this.tokenStorageService.saveWalletVersion('v1');
-          this.tokenStorageService.saveIdWallet(data.data.address);
-          this.tokenStorageService.saveTronWallet(data.data.tronAddress);
-          this.tokenStorageService.saveWalletBtc(data.data.btcAddress);
-        } else {
-          this.versionText = 'Old Wallet';
-          this.height = '250px';
+            this.tokenStorageService.saveWalletVersion('v1');
+            this.tokenStorageService.saveIdWallet(data.data.address);
+            this.tokenStorageService.saveTronWallet(data.data.tronAddress);
+            this.tokenStorageService.saveWalletBtc(data.data.btcAddress);
+          } else {
+            this.versionText = 'Old Wallet';
+            this.height = '250px';
 
-          this.tokenStorageService.saveWalletVersion('v2');
-          this.tokenStorageService.saveIdWallet(data.data.addressV2);
-          this.tokenStorageService.saveTronWallet(data.data.tronAddressV2);
-          this.tokenStorageService.saveWalletBtc(data.data.btcAddressV2);
-        }
+            this.tokenStorageService.saveWalletVersion('v2');
+            this.tokenStorageService.saveIdWallet(data.data.addressV2);
+            this.tokenStorageService.saveTronWallet(data.data.tronAddressV2);
+            this.tokenStorageService.saveWalletBtc(data.data.btcAddressV2);
+          }
 
-        this.walletStoreService.getCryptoList();
-        this.walletStoreService.getTotalBalance();
-      });
+          this.walletStoreService.getCryptoList();
+          this.walletStoreService.getTotalBalance();
+        });
+    } catch (error) {
+      console.log('errrorororr', error);
+    }
   }
 
   public makeAnimation(key: string): void {

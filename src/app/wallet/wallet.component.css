@@ -376,9 +376,8 @@ select option {
 
 .currentbalance {
   position: relative;
-  top: 60px;
-  /* top: 113px; */
-  z-index: 1;
+   top: 60px;
+      z-index: 1;
 }
 
 .blockk {

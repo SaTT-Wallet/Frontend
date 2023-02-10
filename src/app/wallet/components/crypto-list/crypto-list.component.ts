@@ -410,14 +410,14 @@ export class CryptoListComponent implements OnInit, OnDestroy {
       id = 'SATTBEP20';
     }
 
+
     if(network === 'BEP20' || 'ERC20')  this.address = this.addressV2
     if(network === 'TRON')  this.address = this.tronAddressV2
     if(network === 'BTC')  this.address = this.btcAddressV2
 
 
-console.log("this.address this.address this.address ",this.address )
     this.router.navigate(['/wallet/send'], {
-      queryParams: { id: id, network: network, pic: pic, quantity: quantity, price:price,sendTo:this.address },
+      queryParams: { id: id, network: network, pic: pic,sendTo:this.address },
       relativeTo: this.activatedRoute
     });
   }

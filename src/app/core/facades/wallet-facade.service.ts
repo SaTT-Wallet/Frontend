@@ -152,8 +152,8 @@ export class WalletFacadeService {
     return this.walletService.sendAmount(send);
   }
 
-  transferTokens(body: ITransferTokensRequestBody) {
-    return this.walletService.transferTokens(body);
+  transferTokens(body: ITransferTokensRequestBody,max:any) {
+    return this.walletService.transferTokens(body,max);
   }
 
   getBalanceChart() {
@@ -377,5 +377,10 @@ export class WalletFacadeService {
   // CREATE NEW WALLET
   createNewWalletV2(password: string) {
     return this.walletService.createNewWalletV2(password);
+  }
+
+
+  checkUserIsNew() {
+    return this.walletService.checkUserIsNew();
   }
 }
