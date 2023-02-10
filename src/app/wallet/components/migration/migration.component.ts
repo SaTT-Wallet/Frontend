@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { CryptofetchServiceService } from '@app/core/services/wallet/cryptofetch-service.service';
+import { filterAmount } from '@app/helpers/utils/common';
+import Big from 'big.js';
 
 @Component({
   selector: 'app-migration',
@@ -16,9 +18,12 @@ export class MigrationComponent implements OnInit {
     { name: 'BTT', network: 'BTTC' },
     { name: 'TRX', network: 'TRON' }
   ];
+  gas = Big(0);
+  gasToDisplay: any;
   arrayToMigrate: any[] = [];
   cryptobyNetwork: any;
   cryptoChecked = 'ERC20';
+  network = { name: '', balance: '' };
   cryptoList$ = this.walletFacade.cryptoList$;
   passWallet = false;
   showPass: boolean = false;
@@ -27,6 +32,7 @@ export class MigrationComponent implements OnInit {
   hash = '';
   walletId = localStorage.getItem('wallet_id');
   spinner = false;
+  outOfGas = false;
   @Input() migrate: any;
   @Output() migrateEvent = new EventEmitter<String>();
 
@@ -36,6 +42,7 @@ export class MigrationComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.getCryptoList();
+    this.network.name = 'ETH';
   }
 
   getCryptoList() {
@@ -46,12 +53,24 @@ export class MigrationComponent implements OnInit {
           !isNaN(Number(element.quantity)) &&
           element.network === this.cryptoChecked
       );
+
+      let balances = data.filter(
+        (element: any) => element.symbol === this.network.name
+      );
+      this.network.balance = balances[0]?.quantity;
     });
   }
   setState(crypto: string) {
     this.arrayToMigrate = [];
+    this.gas = Big(0);
     this.cryptoChecked = crypto;
+    const index = this.listCrypto.findIndex((e) => e.network === crypto);
     this.getCryptoList();
+    this.network.name = this.listCrypto[index]?.name;
+    let element = this.cryptobyNetwork.find(
+      (e: any) => e.symbol === this.network.name
+    );
+    this.network.balance = element?.quantity;
   }
   next() {
     this.spinner = true;
@@ -82,11 +101,33 @@ export class MigrationComponent implements OnInit {
   }
 
   addCrypto(element: any) {
+    let gasLimit =
+      element.network === 'BEP20' ||
+      element.symbol === 'ETH' ||
+      element.network === 'POLYGON' ||
+      element.network === 'BTTC'
+        ? 21000
+        : element.network === 'ERC20'
+        ? 65000
+        : 0;
+    let gasPrice = 10000000000;
     const index = this.arrayToMigrate.findIndex(
       (e) => e.symbol === element.symbol
     );
-    if (index !== -1) this.arrayToMigrate.splice(index, 1);
-    else this.arrayToMigrate.push(element);
+    if (index !== -1) {
+      this.gas = this.gas.minus(Big(gasLimit).times(Big(gasPrice)));
+
+      this.arrayToMigrate.splice(index, 1);
+    } else {
+      this.gas = this.gas.plus(Big(gasLimit).times(Big(gasPrice)));
+      this.arrayToMigrate.push(element);
+    }
+
+    this.gasToDisplay = filterAmount(this.gas.div(10 ** 18).toString());
+
+    if (Big(this.gasToDisplay).gt(Big(this.network.balance)))
+      this.outOfGas = true;
+    else this.outOfGas = false;
   }
   nextStep() {
     this.arrayToMigrate = [];
