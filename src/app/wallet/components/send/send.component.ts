@@ -99,7 +99,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   quantitysatt: any;
   gazproblem: boolean = false;
   nobalance: boolean = false;
-  networks: any;
+  networks: string = 'ERC20';
   decimals: any;
   token: any;
   symbol: any;
@@ -280,7 +280,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           }
         });
         this.showWalletSpinner = false;
-
       });
   }
 
