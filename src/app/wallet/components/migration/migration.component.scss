@@ -14,7 +14,7 @@
 .title {
   font-family: 'Poppins';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 16px;
   line-height: 130%;
   text-align: center;
@@ -79,9 +79,16 @@
 // }
 .col-md-1 > input:checked + label {
   border-bottom: 4px solid #4048ff;
-  padding-bottom: 0.7vh;
+  // padding-bottom: 0.7vh;
+  padding: 0 1.2vw 0.7vh 1.2vw;
+  width: 100%;
 }
-
+.col-md-1 > input + label {
+  border-bottom: 2px solid #d6d6e8;
+  // padding-bottom: 0.7vh;
+  padding: 0 1.2vw 0.7vh 1.2vw;
+  width: 100%;
+}
 // .tabs > div {
 //   width: 100%;
 //   opacity: 0;
@@ -106,6 +113,7 @@
   border-radius: 30px;
   width: 14.7vw;
   height: 5.3vh;
+  border: 0;
   font-family: 'Poppins';
   font-style: normal;
   font-weight: 600;
@@ -194,7 +202,7 @@
   color: #212529;
 }
 .txn-pass-style {
-  margin: 0.6vh 0px;
+  margin: 1.2vh 0px;
   font-family: 'Raleway';
   font-style: normal;
   font-weight: 600;
@@ -219,4 +227,39 @@
   margin: 10px 0px;
   cursor: pointer;
   color: #4048ff;
+}
+.span-migrate {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 130%;
+  /* identical to box height, or 21px */
+
+  text-align: center;
+  letter-spacing: 0.03em;
+
+  /* bs-dark */
+
+  color: #212529;
+}
+
+
+.warning-buy-gas{
+  display: flex;
+  background: #fffaea;
+  border-radius: 5px;
+  padding: 0.2vh 0.5vw;
+}
+.warning-txt{
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 130%;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.03em;
+  color: #ffa318;
+  margin-top: 2vh;
 }
