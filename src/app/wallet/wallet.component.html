@@ -10,7 +10,7 @@
 <!-- <div class="wallet container-fluid"> -->
 <app-migration
   class="migration"
-  *ngIf="migrate === 'open'"
+  *ngIf="migrate === 'open' && totalAmount > '0'"
   [migrate]="migrate"
   (migrateEvent)="getMigrationStatus($event)"
 ></app-migration>
@@ -38,7 +38,7 @@
         <!--portfolio estimation-->
         <!-- <div class="d-flex justify-content-center">-->
 
-        <div class="currentbalance" >
+        <div class="currentbalance">
           <h3 class="walletEstim d-flex justify-content-center">
             {{ 'Wallet.Your_total_portfolio_is_estimated_at' | translate }}
           </h3>
