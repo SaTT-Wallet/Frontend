@@ -535,7 +535,8 @@ export class CampaignHttpApiService {
         title,
         pass: password,
         hash,
-        linkedinId : application.linkedinId
+        linkedinId : application.linkedinId,
+        version:localStorage.getItem('wallet_version')
       },
       { headers: header }
     );
@@ -777,7 +778,8 @@ export class CampaignHttpApiService {
       sattUrl + '/campaign/tron/approval',
       {
         tokenAddress: tron.addr,
-        pass: tron.pass
+        pass: tron.pass,
+        version : localStorage.getItem('wallet_version')
       },
 
       { headers: this.tokenStorageService.getHeader() }

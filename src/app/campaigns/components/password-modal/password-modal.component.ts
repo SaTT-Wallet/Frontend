@@ -420,6 +420,7 @@ export class PasswordModalComponent implements OnInit {
       if (TokenOBj.addr === 'TRX')
         TokenOBj.addr = environment.addresses.smartContracts.WTRX;
       campaign_info.tokenAddress = TokenOBj.addr;
+      campaign_info.version = localStorage.getItem('wallet_version')
       LaunchCampaignObs = this.campaignService.approveTRON(TokenOBj).pipe(
         map((response: any) => response.data),
         switchMap((response: any) => {
