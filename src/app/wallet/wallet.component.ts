@@ -86,7 +86,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   onDestroy$ = new Subject();
   myModal: any;
   buttonClick: Boolean = false;
-
+  show = false;
   lineChartDataMonth: ChartDataSets[] = [
     {
       data: [
@@ -920,6 +920,11 @@ export class WalletComponent implements OnInit, OnDestroy {
       )
       .subscribe((data: any) => {
         this.totalAmount = data;
+        this.show =
+          Number(this.totalAmount) > 0 &&
+          localStorage.getItem('wallet_version') === 'v1'
+            ? true
+            : false;
         this.variationamount = data?.variation?.toFixed(2);
         if (this.variationamount < 0) {
           this.arrowvar = '';

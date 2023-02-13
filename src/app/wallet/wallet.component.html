@@ -10,7 +10,7 @@
 <!-- <div class="wallet container-fluid"> -->
 <app-migration
   class="migration"
-  *ngIf="migrate === 'open' && totalAmount > '0'"
+  *ngIf="migrate === 'open' && show"
   [migrate]="migrate"
   (migrateEvent)="getMigrationStatus($event)"
 ></app-migration>
