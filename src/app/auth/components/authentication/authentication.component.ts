@@ -585,6 +585,8 @@ getCookie(key: string){
   }
 
   snlogin(social: string) {
+    this.tokenStorageService?.saveWalletVersion('v1')
+
     this.scale = true;
     this.loggedrs = true;
     if (this.cookie.get('satt_cookies') === 'pass') {
