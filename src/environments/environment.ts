@@ -4,11 +4,7 @@
 
 export const environment = {
   production: false,
-<<<<<<< HEAD
  API_URL: 'https://api-preprod2.satt-token.com',
-=======
-API_URL: 'https://api-preprod2.satt-token.com',
->>>>>>> 2544f91c0809ab6b8d04c0076df8f394f0669943
   //url:"http://localhost:4200/",
   url: 'https://testnet.satt.atayen.us/',
   //https://api-preprod2.satt-token.com
