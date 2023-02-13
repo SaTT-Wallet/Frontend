@@ -187,7 +187,13 @@ export class CampaignDetailComponent implements OnInit {
     // this._location.back();
     this.router.navigate(['home/ad-pools']);
   }
+
+  getRefunds(id: any) {
+    console.log(id);
+  }
+
   ngOnInit(): void {
+    
     this.CampaignService.isLoading.subscribe((res) => {
       if (res === false) {
         // setTimeout(() => {
