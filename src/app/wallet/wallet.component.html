@@ -10,7 +10,7 @@
 <!-- <div class="wallet container-fluid"> -->
 <app-migration
   class="migration"
-  *ngIf="migrate === 'open'"
+  *ngIf="migrate === 'open' && show"
   [migrate]="migrate"
   (migrateEvent)="getMigrationStatus($event)"
 ></app-migration>
@@ -38,7 +38,7 @@
         <!--portfolio estimation-->
         <!-- <div class="d-flex justify-content-center">-->
 
-        <div class="currentbalance" >
+        <div class="currentbalance">
           <h3 class="walletEstim d-flex justify-content-center">
             {{ 'Wallet.Your_total_portfolio_is_estimated_at' | translate }}
           </h3>
@@ -58,9 +58,13 @@
               </div>
               <div
                 class="divbtn d-flex justify-content-center"
-                *ngIf="versionText === 'New Wallet' && existV1"
+                *ngIf="versionText === 'New Wallet' && existV1 && show"
               >
-                <button class="migratebtn" type="button">
+                <button
+                  class="migratebtn"
+                  type="button"
+                  (click)="this.migrate = 'open'"
+                >
                   <span
                     ><img
                       src="../../assets/Images/custom_icons/clarity_error-standard-line.svg"
