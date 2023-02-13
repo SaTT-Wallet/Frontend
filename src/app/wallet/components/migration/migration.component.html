@@ -9,7 +9,7 @@
       >
     </p>
   </div>
-  <div class="row justify-content-center mt-5">
+  <div class="row justify-content-center mt-5 no-gutters">
     <div class="col-md-1 col-1" *ngFor="let crypto of listCrypto; index as i">
       <input
         type="radio"
@@ -40,7 +40,7 @@
             />
             <p class="title ms-2" style="text-align: left; font-size: 13px">
               {{ element.name }}<br />
-              <span style="font-weight: bold"> {{ element.quantity }}</span>
+              <span> {{ element.quantity }}</span>
             </p>
           </label>
           <input
@@ -126,7 +126,18 @@
         </button>
       </div>
       <div class="col-md-6 d-flex flex-column" *ngIf="outOfGas">
-        <button class="next-step mt-4" style="margin: 0 auto">
+        <div class="warning-buy-gas">
+          <img src="assets/Images/icon_alert_warning-add-token.svg" />
+          <p class="warning-txt">
+            You don't have enough gaz to perform this transaction. Buy gaz
+            before you can perform the migration.
+          </p>
+        </div>
+        <button
+          class="next-step mt-4"
+          style="margin: 0 auto"
+          [routerLink]="'/wallet/buy-token'"
+        >
           <span>Buy Gas</span>
         </button>
       </div>
@@ -139,7 +150,8 @@
           (click)="nextStep()"
           style="margin: 0 auto"
         >
-          Next step
+          <span *ngIf="cryptoChecked !== 'TRON'">Next step</span>
+          <span *ngIf="cryptoChecked === 'TRON'">Go to my wallet</span>
         </button>
       </div>
     </div>

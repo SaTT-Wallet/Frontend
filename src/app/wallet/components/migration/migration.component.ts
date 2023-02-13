@@ -38,7 +38,7 @@ export class MigrationComponent implements OnInit {
 
   constructor(
     private service: CryptofetchServiceService,
-    private walletFacade: WalletFacadeService
+    private walletFacade: WalletFacadeService,
   ) {}
   ngOnInit(): void {
     this.getCryptoList();
@@ -87,7 +87,6 @@ export class MigrationComponent implements OnInit {
       )
       .subscribe(
         (data: any) => {
-
           this.arrayToMigrate = [];
           this.spinner = false;
           let network =
@@ -138,12 +137,15 @@ export class MigrationComponent implements OnInit {
   nextStep() {
     this.arrayToMigrate = [];
     this.hash = '';
-    const index = this.listCrypto.findIndex((object: any) => {
-      return object.network === this.cryptoChecked;
-    });
-    if (index < this.listCrypto.length - 1) {
-      this.cryptoChecked = this.listCrypto[index + 1].network;
-      this.getCryptoList();
+    if (this.cryptoChecked === 'TRON') this.sendMigrationStatus();
+    else {
+      const index = this.listCrypto.findIndex((object: any) => {
+        return object.network === this.cryptoChecked;
+      });
+      if (index < this.listCrypto.length - 1) {
+        this.cryptoChecked = this.listCrypto[index + 1].network;
+        this.getCryptoList();
+      }
     }
   }
 
