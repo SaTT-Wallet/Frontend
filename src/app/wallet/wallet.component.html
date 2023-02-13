@@ -58,9 +58,13 @@
               </div>
               <div
                 class="divbtn d-flex justify-content-center"
-                *ngIf="versionText === 'New Wallet' && existV1"
+                *ngIf="versionText === 'New Wallet' && existV1 && show"
               >
-                <button class="migratebtn" type="button">
+                <button
+                  class="migratebtn"
+                  type="button"
+                  (click)="this.migrate = 'open'"
+                >
                   <span
                     ><img
                       src="../../assets/Images/custom_icons/clarity_error-standard-line.svg"
