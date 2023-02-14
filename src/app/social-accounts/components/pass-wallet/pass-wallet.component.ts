@@ -190,7 +190,8 @@ export class PassWalletComponent implements OnInit, OnDestroy {
           this.tokenStorageService.saveIdWallet(response.data.address);
           this.tokenStorageService.saveTronWallet(response.data?.tronAddress);
           this.tokenStorageService.setSecureWallet('visited-pwd', 'true');
-          this.router.navigate(['social-registration/pass-phrase']);
+          this.tokenStorageService.setSecureWallet('visited-passPhrase', 'true');
+          this.router.navigate(['social-registration/downloadjson']);
           this.showBigSpinner = false;
           this.spinner.hide();
           this.showSpinner = false;
