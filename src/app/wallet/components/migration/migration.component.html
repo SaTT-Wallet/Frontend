@@ -51,6 +51,7 @@
             name="checkbox{{ i }}"
             id="checkbox{{ i }}"
             class="checkbox-style"
+            
             (click)="addCrypto(element)"
           />
         </div>
@@ -116,6 +117,7 @@
             [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"
           ></span>
         </div>
+        <span *ngIf='errorMessage' style="text-align: center;padding-top:2vh;color:red">Wrong password</span>
         <button
           class="next-step mt-4"
           (click)="next()"

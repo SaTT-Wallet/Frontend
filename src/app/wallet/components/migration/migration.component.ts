@@ -19,6 +19,7 @@ export class MigrationComponent implements OnInit {
     { name: 'TRX', network: 'TRON' }
   ];
   gas = Big(0);
+  errorMessage :boolean =false;
   gasToDisplay: any;
   arrayToMigrate: any[] = [];
   cryptobyNetwork: any;
@@ -61,7 +62,9 @@ export class MigrationComponent implements OnInit {
           !isNaN(Number(element.quantity)) &&
           element.network === this.cryptoChecked
       );
-
+      console.log(this.cryptobyNetwork)
+      //this.cryptobyNetwork.length === 1 && (this.arrayToMigrate = this.cryptobyNetwork.slice())
+    
       let balances = data.filter(
         (element: any) => element.symbol === this.network.name
       );
@@ -88,6 +91,7 @@ export class MigrationComponent implements OnInit {
     }
   }
   next() {
+    console.log(this.cryptoChecked)
     this.spinner = true;
     this.service
       .migrateTokens(
@@ -106,8 +110,11 @@ export class MigrationComponent implements OnInit {
           this.hash = network + this.walletId;
         },
         (err: any) => {
-          console.log({ err });
-
+          console.log(err.error.error);
+          err.error.error === "Key derivation failed - possibly wrong password" && (this.errorMessage= true);
+          setTimeout(() => {
+            this.errorMessage = false;
+          }, 3000);
           this.spinner = false;
         }
       );
@@ -147,12 +154,14 @@ export class MigrationComponent implements OnInit {
   nextStep() {
     this.arrayToMigrate = [];
     this.hash = '';
+
     if (this.cryptoChecked === 'TRON') this.sendMigrationStatus();
     else {
       const index = this.listCrypto.findIndex((object: any) => {
         return object.network === this.cryptoChecked;
       });
-      if (index < this.listCrypto.length - 1) {
+      if (index !== -1) {
+        this.network.name = this.listCrypto[index+1]?.name
         this.cryptoChecked = this.listCrypto[index + 1].network;
         this.getCryptoList();
       }
