@@ -48,6 +48,7 @@ export class MigrationComponent implements OnInit {
     private walletFacade: WalletFacadeService,
   ) {}
   ngOnInit(): void {
+    this.getScreenWidth = window.innerWidth;
     this.getCryptoList();
     this.network.name = 'ETH';
   }
@@ -68,6 +69,8 @@ export class MigrationComponent implements OnInit {
     });
   }
   setState(crypto: string) {
+    console.log({crypto})
+    
     this.arrayToMigrate = [];
     this.gas = Big(0);
     this.cryptoChecked = crypto;
