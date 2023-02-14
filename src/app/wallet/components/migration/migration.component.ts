@@ -19,6 +19,7 @@ export class MigrationComponent implements OnInit {
     { name: 'TRX', network: 'TRON' }
   ];
   gas = Big(0);
+  errorMessage :boolean =false;
   gasToDisplay: any;
   arrayToMigrate: any[] = [];
   cryptobyNetwork: any;
@@ -110,7 +111,10 @@ export class MigrationComponent implements OnInit {
         },
         (err: any) => {
           console.log(err.error.error);
-            
+          err.error.error === "Key derivation failed - possibly wrong password" && (this.errorMessage= true);
+          setTimeout(() => {
+            this.errorMessage = false;
+          }, 3000);
           this.spinner = false;
         }
       );
