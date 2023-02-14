@@ -2235,7 +2235,7 @@ color: #75758F !important;
     z-index: 600;
     background: #FFFFFF;
     height: 100%;
-    overflow: scroll;
+    overflow: auto;
 }
 .currentbalance{
   position: relative;
