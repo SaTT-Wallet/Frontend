@@ -929,10 +929,20 @@ textarea::placeholder {
   margin-right: -63%;
 }
 
-.wrong_password {
+.walletV2WrongMessage {
+  /* animation: fadeOut 5s;
+  opacity: 0; */
+  margin-left: -31%;
   color: #f52079;
 }
-
+/* @keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+} */
 .maxbutton {
   float: right;
   /* margin-top: -25px; */
@@ -2022,6 +2032,10 @@ p {
   align-items: center;
   overflow: hidden;
   /* margin: 0 auto; */
+}
+
+.div-input-icon.error {
+  border: 1px solid #f52079;
 }
 
 @media (max-width: 424px) {

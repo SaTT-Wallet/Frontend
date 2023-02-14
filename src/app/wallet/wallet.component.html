@@ -380,10 +380,10 @@
     >
       <p class="paragragh" id="paragraph">
         For security reasons, we update our users' wallets. <br />
-        <span
-          >Please enter your password, then transfer your tokens to the updated
-          version.</span
-        >
+        <span>
+          Please enter your password, then transfer your tokens to the updated
+          version.
+        </span>
       </p>
     </div>
 
@@ -395,10 +395,19 @@
         class="div-input-icon p-1 welcome-input"
         id="welcome-input"
         [ngClass]="{
-          'border-error': wrongpassword
+          error: wrongpassword
         }"
       >
-        <img class="" src="../../../assets/Images/Kep-password.svg" />
+        <ng-container *ngIf="!wrongpassword; else wrongPasswordImg">
+          <img
+            *ngIf="!wrongpassword"
+            class=""
+            src="../../../assets/Images/Kep-password.svg"
+          />
+        </ng-container>
+        <ng-template #wrongPasswordImg>
+          <img class="" src="../../../assets/Images/Kep-passwordFalse.svg" />
+        </ng-template>
         <div style="display: none">
           <input
             type="text"
@@ -428,7 +437,7 @@
       </div>
 
       <div *ngIf="!!walletV2ErrorMessage">
-        <span class="text-danger">{{ walletV2ErrorMessage }}</span>
+        <span class="walletV2WrongMessage">{{ walletV2ErrorMessage }}</span>
       </div>
     </div>
 
