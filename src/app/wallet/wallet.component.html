@@ -10,7 +10,7 @@
 <!-- <div class="wallet container-fluid"> -->
 <app-migration
   class="migration"
-  *ngIf="migrate === 'open' && show"
+  *ngIf="migrate === 'open'"
   [migrate]="migrate"
   (migrateEvent)="getMigrationStatus($event)"
 ></app-migration>
@@ -58,13 +58,9 @@
               </div>
               <div
                 class="divbtn d-flex justify-content-center"
-                *ngIf="versionText === 'New Wallet' && existV1 && show"
+                *ngIf="versionText === 'New Wallet' && existV1"
               >
-                <button
-                  class="migratebtn"
-                  type="button"
-                  (click)="this.migrate = 'open'"
-                >
+                <button class="migratebtn" type="button">
                   <span
                     ><img
                       src="../../assets/Images/custom_icons/clarity_error-standard-line.svg"
@@ -371,9 +367,6 @@
     data-backdrop="static"
     id="createWalletV2Modal"
   >
-    <div id="stepper-v2">
-      <img src="../../assets/Images/stepper-v2.svg" />
-    </div>
     <div class="">
       <img src="../../assets/Images/create-wallet-v2.svg" height="150vh" />
     </div>
@@ -384,7 +377,7 @@
     >
       <p class="paragragh" id="paragraph">
         {{
-          "For security reasons, we update our user's wallets. Please enter your password, then transfer your tokens to the updated version."
+          "For security reasons, we update our users' wallets. Please enter your password, then transfer your tokens to the updated version."
             | translate
         }}
       </p>
