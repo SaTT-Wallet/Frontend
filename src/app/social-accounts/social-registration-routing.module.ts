@@ -118,11 +118,11 @@ const routes: Routes = [
         component: ActivationMailComponent,
         canActivate: [checkStepsService]
       },
-      {
+      /*{
         path: 'pass-phrase',
         component: PassPhraseComponent
         //canActivate: [checkStepsService]
-      }
+      }*/
     ]
   }
 ];
