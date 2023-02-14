@@ -263,3 +263,94 @@
   color: #ffa318;
   margin-top: 2vh;
 }
+
+
+
+@media (max-width: 960px) {
+  .content {
+    font-size: x-large;
+    line-height: 1.2em;
+  }
+
+  .container {
+    height: 100%;
+    width: 100%;
+  }
+
+  .title {
+    font-size: 13px;
+    padding-left: 7.5%;
+    padding-right: 7.5%;
+    text-align: center;
+    }
+
+    .title2 {
+      margin-bottom: 10%;
+    }
+
+    .next-step {
+      height: 75%;
+      width: 50%;
+      margin-bottom: 10%;
+      font-size: 14px;
+      padding-right: 0px;
+      padding-left: 0px;
+      padding-top: 0px;
+      padding-bottom: 0px;
+    }
+
+    .list-network {
+      margin: 0;
+    }
+
+    .image-size {
+      height: 50%;
+      width: 50%;
+      margin-left: 20%;
+      margin-bottom: 5%;
+    }
+
+    .image-size2 {
+      height: 10%;
+      width: 10%;
+      justify-content: center;
+    }
+
+    .empty-message-style {
+      margin-top: 10%;
+      margin-bottom: 10%;
+    }
+
+    .later-message-style {
+      margin-top: 10%;
+    }
+
+    .span-migrate {
+      font-size: 12px;
+    }
+
+    .gas-fees-style {
+      font-size: 12px;
+    }
+
+    .next-step span {
+      font-size: 12px;
+    }
+
+    .txn-pass-style {
+      font-size: 10px;
+      margin-top: 10%;
+      margin-bottom: 2px;
+    }
+
+
+    .div-input-icon img{
+      height: 70px;
+      width: 25px;
+    }
+    .text-success-migration {
+      font-size: 12px;
+    }
+
+    
+}
