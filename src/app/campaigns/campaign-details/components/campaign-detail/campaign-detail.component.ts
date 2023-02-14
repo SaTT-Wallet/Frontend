@@ -122,6 +122,7 @@ export class CampaignDetailComponent implements OnInit {
   private isErnings = false;
   downloadKit = false;
   editMode = false;
+  
 
   isPlatformBrowser = isPlatformBrowser(this.platformId);
 
@@ -190,6 +191,16 @@ export class CampaignDetailComponent implements OnInit {
 
   getRefunds(id: any) {
     console.log(id);
+    
+    console.log(this.campaign.endDate);
+    
+   
+  
+    
+    var theDate = new Date(Date.now());
+    console.log({theDate})
+    
+
   }
 
   ngOnInit(): void {
