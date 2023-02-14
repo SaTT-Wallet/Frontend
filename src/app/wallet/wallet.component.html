@@ -367,8 +367,11 @@
     data-backdrop="static"
     id="createWalletV2Modal"
   >
-    <div class="">
-      <img src="../../assets/Images/create-wallet-v2.svg" height="150vh" />
+    <div id="stepper-v2">
+      <img src="../../assets/Images/stepper-v2.svg" />
+    </div>
+    <div class="img-update">
+      <img src="../../assets/Images/create-wallet-v2.svg" />
     </div>
     <p class="textpwd" id="title">{{ 'Update your wallet' | translate }}</p>
     <div
@@ -376,10 +379,11 @@
       id="welcome-paragraph"
     >
       <p class="paragragh" id="paragraph">
-        {{
-          "For security reasons, we update our users' wallets. Please enter your password, then transfer your tokens to the updated version."
-            | translate
-        }}
+        For security reasons, we update our users' wallets. <br />
+        <span
+          >Please enter your password, then transfer your tokens to the updated
+          version.</span
+        >
       </p>
     </div>
 
