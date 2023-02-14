@@ -730,8 +730,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             currency === 'ETH' ||
             currency === 'BNB' ||
             currency === 'MATIC' ||
-            currency === 'SATTBEP20' ||
-            currency === 'SATTERC20' ||
             currency === 'BTT'
           ) {
             this.difference = crypto.total_balance - this.gazsend;

@@ -17,7 +17,7 @@ const routes: Routes = [
   {
     path: '',
     component: WalletComponent,
-    canActivate: [AuthGuardService, PassphraseCheckedGuard]
+    canActivate: [AuthGuardService]
   },
   {
     path: 'add-token',

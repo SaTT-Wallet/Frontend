@@ -2,15 +2,18 @@
   <div class="row">
     <p class="content">Migrate your tokens to the new wallet</p>
     <p class="title" style="margin-top: 2vh">
-      Your tokens are still on the old version of the wallet.<br />To secure
-      them, please transfer them to the new one.<br />
-      <span style="font-weight: bold">
-        Make sure you have enough gas to perform the migration.</span
-      >
+      For security reasons, we invite you to migrate your tokens to a new wallet. It’s very simple just we need a few minutes of your time. Follow the steps outlined in our application to safely complete the migration.
+      
+     
+    </p>
+    
+
+    <p style="font-weight: bold" class="title title2"> 
+      Make sure you have enough gas to perform the migration.
     </p>
   </div>
-  <div class="row justify-content-center mt-5 no-gutters">
-    <div class="col-md-1 col-1" *ngFor="let crypto of listCrypto; index as i">
+  <div [className]="getScreenWidth > 960 ? 'row justify-content-center mt-5 no-gutters': 'row justify-content-center mt-0 no-gutters' ">
+    <div [className]="getScreenWidth > 960 ? 'col-md-1 col-1' : 'col-md-1 col-2'" *ngFor="let crypto of listCrypto; index as i">
       <input
         type="radio"
         name="tabs"
@@ -21,22 +24,22 @@
       <label for="tab-{{ i }}">
         <img
           src="assets/Images/symbol_crypto/{{ crypto.name }}.svg"
-          class="image-size"
+          [className]="crypto.network === cryptoChecked ? 'image-size-selected' : 'image-size'"
         />
       </label>
     </div>
   </div>
   <div class="row justify-content-center mt-3">
-    <div *ngIf="cryptobyNetwork.length !== 0">
+    <div *ngIf="cryptobyNetwork.length !== 0" style="padding-left: 0px; padding-right: 0px;">
       <div
-        class="row justify-content-center"
+        class="row justify-content-center list-network"
         *ngFor="let element of cryptobyNetwork; index as i"
       >
-        <div class="col-md-6 col-6 mt-2">
+        <div [className]="getScreenWidth > 960 ? 'col-md-6 col-6 mt-2' :  'col-md-6 col-9 mt-2'">
           <label for="checkbox{{ i }}" class="d-flex">
             <img
               src="assets/Images/symbol_crypto/{{ element.symbol }}.svg"
-              class="image-size"
+              [className]="getScreenWidth > 960 ? 'image-size-crypto' : 'image-size2'"
             />
             <p class="title ms-2" style="text-align: left; font-size: 13px">
               {{ element.name }}<br />
@@ -117,7 +120,7 @@
         <button
           class="next-step mt-4"
           (click)="next()"
-          style="margin: 0 auto"
+          style="margin: 0 auto; height: 35px;"
           [disabled]="spinner"
         >
           <div *ngIf="spinner" class="spinner-border text-grey" role="status">

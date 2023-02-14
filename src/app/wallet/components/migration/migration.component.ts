@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { CryptofetchServiceService } from '@app/core/services/wallet/cryptofetch-service.service';
 import { filterAmount } from '@app/helpers/utils/common';
@@ -29,18 +29,26 @@ export class MigrationComponent implements OnInit {
   showPass: boolean = false;
   walletPassword = '';
   wrongpassword: boolean = false;
+  public getScreenWidth: any;
+  public getScreenHeight: any;
   hash = '';
   walletId = localStorage.getItem('wallet_id');
   spinner = false;
   outOfGas = false;
   @Input() migrate: any;
   @Output() migrateEvent = new EventEmitter<String>();
-
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.getScreenHeight = event.target.innerHeight;
+    this.getScreenWidth = event.target.innerWidth;
+    event.target.innerHeight
+  }
   constructor(
     private service: CryptofetchServiceService,
     private walletFacade: WalletFacadeService,
   ) {}
   ngOnInit(): void {
+    this.getScreenWidth = window.innerWidth;
     this.getCryptoList();
     this.network.name = 'ETH';
   }
@@ -63,6 +71,8 @@ export class MigrationComponent implements OnInit {
     });
   }
   setState(crypto: string) {
+    console.log({crypto})
+    
     this.arrayToMigrate = [];
     this.gas = Big(0);
     this.cryptoChecked = crypto;
