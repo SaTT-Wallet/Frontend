@@ -128,15 +128,28 @@
 .image-size {
   width: 2.8vw;
   height: 3.6vh;
+  opacity: 0.3;
 }
+.image-size-selected {
+  width: 2.8vw;
+  height: 3.6vh;
+  
+}
+
 .checkbox-style {
   position: absolute;
   top: 1.6vh;
   right: 3vw;
   background: #7a7fff;
-  border: 2px solid #7a7fff;
-  border-radius: 5px;
+  border: 10px solid #7a7fff;
+  border-radius: 10px;
+  transform: scale(1.75);
 }
+
+.checkbox-style:checked {
+  content: '✓';
+}
+
 .empty-message-style {
   font-family: 'Poppins';
   font-style: normal;
@@ -266,6 +279,8 @@
 
 
 
+
+
 @media (max-width: 960px) {
   .content {
     font-size: x-large;
@@ -304,9 +319,16 @@
     }
 
     .image-size {
-      height: 50%;
-      width: 50%;
-      margin-left: 20%;
+      height: 70%;
+      width: 70%;
+      margin-left: 12%;
+      margin-bottom: 5%;
+    }
+
+    .image-size-selected {
+      height: 70%;
+      width: 70%;
+      margin-left: 12%;
       margin-bottom: 5%;
     }
 
@@ -350,6 +372,11 @@
     }
     .text-success-migration {
       font-size: 12px;
+    }
+
+    .checkbox-style {
+      top:1vh;
+      font-size: 8px;
     }
 
     

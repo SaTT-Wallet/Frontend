@@ -700,8 +700,9 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.getScreenHeight = window.innerHeight;
-    console.log({h : this.getScreenHeight})
+    //this.getScreenHeight = window.innerHeight;
+    console.log({h : window.innerWidth})
+    this.getScreenWidth = window.innerWidth;
     if (this.tokenStorageService.getWalletVersion() === 'v2') {
       this.versionText = 'Old Wallet';
       this.height = '250px';
