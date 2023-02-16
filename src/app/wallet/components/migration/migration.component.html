@@ -2,18 +2,26 @@
   <div class="row">
     <p class="content">Migrate your tokens to the new wallet</p>
     <p class="title" style="margin-top: 2vh">
-      For security reasons, we invite you to migrate your tokens to a new wallet. It’s very simple just we need a few minutes of your time. Follow the steps outlined in our application to safely complete the migration.
-      
-     
+      For security reasons, we invite you to migrate your tokens to a new
+      wallet. It’s very simple just we need a few minutes of your time. Follow
+      the steps outlined in our application to safely complete the migration.
     </p>
-    
 
-    <p style="font-weight: bold" class="title title2"> 
+    <p style="font-weight: bold" class="title title2">
       Make sure you have enough gas to perform the migration.
     </p>
   </div>
-  <div [className]="getScreenWidth > 960 ? 'row justify-content-center mt-5 no-gutters': 'row justify-content-center mt-0 no-gutters' ">
-    <div [className]="getScreenWidth > 960 ? 'col-md-1 col-1' : 'col-md-1 col-2'" *ngFor="let crypto of listCrypto; index as i">
+  <div
+    [className]="
+      getScreenWidth > 960
+        ? 'row justify-content-center mt-5 no-gutters'
+        : 'row justify-content-center mt-0 no-gutters'
+    "
+  >
+    <div
+      [className]="getScreenWidth > 960 ? 'col-md-1 col-1' : 'col-md-1 col-2'"
+      *ngFor="let crypto of listCrypto; index as i"
+    >
       <input
         type="radio"
         name="tabs"
@@ -24,22 +32,35 @@
       <label for="tab-{{ i }}">
         <img
           src="assets/Images/symbol_crypto/{{ crypto.name }}.svg"
-          [className]="crypto.network === cryptoChecked ? 'image-size-selected' : 'image-size'"
+          [className]="
+            crypto.network === cryptoChecked
+              ? 'image-size-selected'
+              : 'image-size'
+          "
         />
       </label>
     </div>
   </div>
   <div class="row justify-content-center mt-3">
-    <div *ngIf="cryptobyNetwork.length !== 0" style="padding-left: 0px; padding-right: 0px;">
+    <div
+      *ngIf="cryptobyNetwork.length !== 0"
+      style="padding-left: 0px; padding-right: 0px"
+    >
       <div
         class="row justify-content-center list-network"
         *ngFor="let element of cryptobyNetwork; index as i"
       >
-        <div [className]="getScreenWidth > 960 ? 'col-md-6 col-6 mt-2' :  'col-md-6 col-9 mt-2'">
+        <div
+          [className]="
+            getScreenWidth > 960 ? 'col-md-6 col-6 mt-2' : 'col-md-6 col-9 mt-2'
+          "
+        >
           <label for="checkbox{{ i }}" class="d-flex">
             <img
               src="assets/Images/symbol_crypto/{{ element.symbol }}.svg"
-              [className]="getScreenWidth > 960 ? 'image-size-crypto' : 'image-size2'"
+              [className]="
+                getScreenWidth > 960 ? 'image-size-crypto' : 'image-size2'
+              "
             />
             <p class="title ms-2" style="text-align: left; font-size: 13px">
               {{ element.name }}<br />
@@ -51,7 +72,6 @@
             name="checkbox{{ i }}"
             id="checkbox{{ i }}"
             class="checkbox-style"
-            
             (click)="addCrypto(element)"
           />
         </div>
@@ -84,7 +104,9 @@
         >
         <p class="txn-pass-style">Transaction Password</p>
         <div
-          class="div-input-icon p-1"
+          [className]="
+            errorMessage ? 'div-input-icon-err p-1' : 'div-input-icon p-1'
+          "
           [ngClass]="{
             'border-error': wrongpassword
           }"
@@ -117,11 +139,21 @@
             [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"
           ></span>
         </div>
-        <span *ngIf='errorMessage' style="text-align: center;padding-top:2vh;color:red">Wrong password</span>
+        <span
+          *ngIf="errorMessage"
+          style="
+            text-align: center;
+            padding-top: 0.5vh;
+            color: #f52079;
+            font-family: 'Poppins';
+            font-weight: 500;
+          "
+          >wrong password, please try again</span
+        >
         <button
           class="next-step mt-4"
           (click)="next()"
-          style="margin: 0 auto; height: 35px;"
+          style="margin: 0 auto; height: 35px"
           [disabled]="spinner"
         >
           <div *ngIf="spinner" class="spinner-border text-grey" role="status">

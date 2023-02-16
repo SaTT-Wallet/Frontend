@@ -31,6 +31,21 @@
   align-items: center;
   overflow: hidden;
 }
+
+.div-input-icon-err {
+  position: relative;
+  width: 100%;
+  height: 48px;
+  display: flex;
+  border: 1px solid #f52079;
+  border-radius: 30px;
+  align-items: center;
+  overflow: hidden;
+}
+
+.img-error {
+  color: #f52079;
+}
 .input-password {
   // width: 74%;
   width: 85%;
@@ -133,7 +148,6 @@
 .image-size-selected {
   width: 2.8vw;
   height: 3.6vh;
-  
 }
 
 .checkbox-style {
@@ -257,14 +271,13 @@
   color: #212529;
 }
 
-
-.warning-buy-gas{
+.warning-buy-gas {
   display: flex;
   background: #fffaea;
   border-radius: 5px;
   padding: 0.2vh 0.5vw;
 }
-.warning-txt{
+.warning-txt {
   font-family: 'Poppins';
   font-style: normal;
   font-weight: 400;
@@ -280,12 +293,7 @@
 .image-size-crypto {
   width: 2.8vw;
   height: 3.6vh;
-
-} 
-
-
-
-
+}
 
 @media (max-width: 960px) {
   .content {
@@ -303,87 +311,84 @@
     padding-left: 7.5%;
     padding-right: 7.5%;
     text-align: center;
-    }
+  }
 
-    .title2 {
-      margin-bottom: 10%;
-    }
+  .title2 {
+    margin-bottom: 10%;
+  }
 
-    .next-step {
-      height: 75%;
-      width: 50%;
-      margin-bottom: 10%;
-      font-size: 14px;
-      padding-right: 0px;
-      padding-left: 0px;
-      padding-top: 0px;
-      padding-bottom: 0px;
-    }
+  .next-step {
+    height: 75%;
+    width: 50%;
+    margin-bottom: 10%;
+    font-size: 14px;
+    padding-right: 0px;
+    padding-left: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
 
-    .list-network {
-      margin: 0;
-    }
+  .list-network {
+    margin: 0;
+  }
 
-    .image-size {
-      height: 70%;
-      width: 70%;
-      margin-left: 12%;
-      margin-bottom: 5%;
-    }
+  .image-size {
+    height: 70%;
+    width: 70%;
+    margin-left: 12%;
+    margin-bottom: 5%;
+  }
 
-    .image-size-selected {
-      height: 70%;
-      width: 70%;
-      margin-left: 12%;
-      margin-bottom: 5%;
-    }
+  .image-size-selected {
+    height: 70%;
+    width: 70%;
+    margin-left: 12%;
+    margin-bottom: 5%;
+  }
 
-    .image-size2 {
-      height: 10%;
-      width: 10%;
-      justify-content: center;
-    }
+  .image-size2 {
+    height: 10%;
+    width: 10%;
+    justify-content: center;
+  }
 
-    .empty-message-style {
-      margin-top: 10%;
-      margin-bottom: 10%;
-    }
+  .empty-message-style {
+    margin-top: 10%;
+    margin-bottom: 10%;
+  }
 
-    .later-message-style {
-      margin-top: 10%;
-    }
+  .later-message-style {
+    margin-top: 10%;
+  }
 
-    .span-migrate {
-      font-size: 12px;
-    }
+  .span-migrate {
+    font-size: 12px;
+  }
 
-    .gas-fees-style {
-      font-size: 12px;
-    }
+  .gas-fees-style {
+    font-size: 12px;
+  }
 
-    .next-step span {
-      font-size: 12px;
-    }
+  .next-step span {
+    font-size: 12px;
+  }
 
-    .txn-pass-style {
-      font-size: 10px;
-      margin-top: 10%;
-      margin-bottom: 2px;
-    }
+  .txn-pass-style {
+    font-size: 10px;
+    margin-top: 10%;
+    margin-bottom: 2px;
+  }
 
+  .div-input-icon img {
+    height: 70px;
+    width: 25px;
+  }
+  .text-success-migration {
+    font-size: 12px;
+  }
 
-    .div-input-icon img{
-      height: 70px;
-      width: 25px;
-    }
-    .text-success-migration {
-      font-size: 12px;
-    }
-
-    .checkbox-style {
-      top:1vh;
-      font-size: 8px;
-    }
-
-    
+  .checkbox-style {
+    top: 1vh;
+    font-size: 8px;
+  }
 }
