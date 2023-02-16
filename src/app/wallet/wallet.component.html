@@ -8,9 +8,9 @@
 </div> -->
 
 <!-- <div class="wallet container-fluid"> -->
-<app-migration
-  class="migration"
-  *ngIf="migrate === 'open'"
+<app-migration  
+  [className]="getScreenWidth > 960 ? 'migration' : 'migration-mobile'"
+  *ngIf="migrate === 'open' && show"
   [migrate]="migrate"
   (migrateEvent)="getMigrationStatus($event)"
 ></app-migration>

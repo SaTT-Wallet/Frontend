@@ -8,7 +8,8 @@ import {
   EventEmitter,
   TemplateRef,
   OnDestroy,
-  Inject
+  Inject,
+  HostListener
 } from '@angular/core';
 ('@angular/core');
 import { ChartDataSets, ChartType } from 'chart.js';
@@ -409,6 +410,9 @@ export class WalletComponent implements OnInit, OnDestroy {
   isChecked: boolean = false;
   picUserUpdated: boolean = false;
 
+  public getScreenWidth: any;
+  public getScreenHeight: any;
+
   private totalBalance$ = this.walletFacade.totalBalance$;
   tronErrorMessage = '';
   height: any = '300px';
@@ -477,6 +481,14 @@ export class WalletComponent implements OnInit, OnDestroy {
   migrate: string = '';
   private account$ = this.accountFacadeService.account$;
   private onDestoy$ = new Subject();
+
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.getScreenHeight = event.target.innerHeight;
+    this.getScreenWidth = event.target.innerWidth;
+    event.target.innerHeight
+  }
   constructor(
     private accountFacadeService: AccountFacadeService,
     private tokenStorageService: TokenStorageService,
@@ -688,6 +700,9 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    //this.getScreenHeight = window.innerHeight;
+    console.log({h : window.innerWidth})
+    this.getScreenWidth = window.innerWidth;
     if (this.tokenStorageService.getWalletVersion() === 'v2') {
       this.versionText = 'Old Wallet';
       this.height = '250px';

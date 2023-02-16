@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { CryptofetchServiceService } from '@app/core/services/wallet/cryptofetch-service.service';
 import { filterAmount } from '@app/helpers/utils/common';
@@ -19,6 +19,7 @@ export class MigrationComponent implements OnInit {
     { name: 'TRX', network: 'TRON' }
   ];
   gas = Big(0);
+  errorMessage :boolean =false;
   gasToDisplay: any;
   arrayToMigrate: any[] = [];
   cryptobyNetwork: any;
@@ -29,18 +30,26 @@ export class MigrationComponent implements OnInit {
   showPass: boolean = false;
   walletPassword = '';
   wrongpassword: boolean = false;
+  public getScreenWidth: any;
+  public getScreenHeight: any;
   hash = '';
   walletId = localStorage.getItem('wallet_id');
   spinner = false;
   outOfGas = false;
   @Input() migrate: any;
   @Output() migrateEvent = new EventEmitter<String>();
-
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.getScreenHeight = event.target.innerHeight;
+    this.getScreenWidth = event.target.innerWidth;
+    event.target.innerHeight
+  }
   constructor(
     private service: CryptofetchServiceService,
-    private walletFacade: WalletFacadeService
+    private walletFacade: WalletFacadeService,
   ) {}
   ngOnInit(): void {
+    this.getScreenWidth = window.innerWidth;
     this.getCryptoList();
     this.network.name = 'ETH';
   }
@@ -53,7 +62,9 @@ export class MigrationComponent implements OnInit {
           !isNaN(Number(element.quantity)) &&
           element.network === this.cryptoChecked
       );
-
+      console.log(this.cryptobyNetwork)
+      //this.cryptobyNetwork.length === 1 && (this.arrayToMigrate = this.cryptobyNetwork.slice())
+    
       let balances = data.filter(
         (element: any) => element.symbol === this.network.name
       );
@@ -61,6 +72,8 @@ export class MigrationComponent implements OnInit {
     });
   }
   setState(crypto: string) {
+    console.log({crypto})
+    
     this.arrayToMigrate = [];
     this.gas = Big(0);
     this.cryptoChecked = crypto;
@@ -78,6 +91,7 @@ export class MigrationComponent implements OnInit {
     }
   }
   next() {
+    console.log(this.cryptoChecked)
     this.spinner = true;
     this.service
       .migrateTokens(
@@ -87,7 +101,6 @@ export class MigrationComponent implements OnInit {
       )
       .subscribe(
         (data: any) => {
-
           this.arrayToMigrate = [];
           this.spinner = false;
           let network =
@@ -97,8 +110,11 @@ export class MigrationComponent implements OnInit {
           this.hash = network + this.walletId;
         },
         (err: any) => {
-          console.log({ err });
-
+          console.log(err.error.error);
+          err.error.error === "Key derivation failed - possibly wrong password" && (this.errorMessage= true);
+          setTimeout(() => {
+            this.errorMessage = false;
+          }, 3000);
           this.spinner = false;
         }
       );
@@ -138,12 +154,17 @@ export class MigrationComponent implements OnInit {
   nextStep() {
     this.arrayToMigrate = [];
     this.hash = '';
-    const index = this.listCrypto.findIndex((object: any) => {
-      return object.network === this.cryptoChecked;
-    });
-    if (index < this.listCrypto.length - 1) {
-      this.cryptoChecked = this.listCrypto[index + 1].network;
-      this.getCryptoList();
+
+    if (this.cryptoChecked === 'TRON') this.sendMigrationStatus();
+    else {
+      const index = this.listCrypto.findIndex((object: any) => {
+        return object.network === this.cryptoChecked;
+      });
+      if (index !== -1) {
+        this.network.name = this.listCrypto[index+1]?.name
+        this.cryptoChecked = this.listCrypto[index + 1].network;
+        this.getCryptoList();
+      }
     }
   }
 
