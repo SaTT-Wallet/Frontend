@@ -84,14 +84,15 @@ export class MigrationComponent implements OnInit {
         this.gas = Big(gasLimit).times(Big(gasPrice));
         this.gasToDisplay = filterAmount(this.gas.div(10 ** 18).toString());
       }
-
+      if (this.network.name === '') this.network.name = 'ETH';
       let balances = data.filter(
         (element: any) => element.symbol === this.network.name
       );
-      this.network.balance = balances[0]?.quantity;
+      if (balances.length > 0) this.network.balance = balances[0]?.quantity;
     });
   }
   setState(crypto: string) {
+    this.outOfGas = false;
     this.hash = '';
     this.arrayToMigrate = [];
     this.gas = Big(0);
@@ -110,6 +111,7 @@ export class MigrationComponent implements OnInit {
     }
   }
   next() {
+    this.outOfGas = false;
     this.spinner = true;
     this.hash = '';
     this.service
