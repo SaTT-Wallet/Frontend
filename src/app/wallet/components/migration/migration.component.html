@@ -111,7 +111,17 @@
             'border-error': wrongpassword
           }"
         >
-          <img class="" src="../../../assets/Images/Kep-password.svg" />
+          <img
+            *ngIf="errorMessage"
+            class=""
+            src="../../../assets/Images/Kep-passwordFalse.svg"
+            style="height: 25px"
+          />
+          <img
+            *ngIf="!errorMessage"
+            class=""
+            src="../../../assets/Images/Kep-password.svg"
+          />
           <div style="display: none">
             <input
               type="text"
