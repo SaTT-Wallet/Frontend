@@ -77,18 +77,25 @@ export class MigrationComponent implements OnInit {
           !isNaN(Number(element.quantity)) &&
           element.network === this.cryptoChecked
       );
+      if (this.network.name === '') this.network.name = 'ETH';
+      let balances = data.filter(
+        (element: any) => element.symbol === this.network.name
+      );
+      if (balances.length > 0) this.network.balance = balances[0]?.quantity;
       if (this.cryptobyNetwork.length === 1) {
         this.arrayToMigrate = this.cryptobyNetwork.slice();
         let gasLimit = this.getGasPrice(this.arrayToMigrate[0]);
         let gasPrice = 10000000000;
         this.gas = Big(gasLimit).times(Big(gasPrice));
         this.gasToDisplay = filterAmount(this.gas.div(10 ** 18).toString());
+
+        if (
+          this.network.balance === '' ||
+          Big(this.gasToDisplay).gt(Big(this.network.balance))
+        )
+          this.outOfGas = true;
+        else this.outOfGas = false;
       }
-      if (this.network.name === '') this.network.name = 'ETH';
-      let balances = data.filter(
-        (element: any) => element.symbol === this.network.name
-      );
-      if (balances.length > 0) this.network.balance = balances[0]?.quantity;
     });
   }
   setState(crypto: string) {
