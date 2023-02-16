@@ -375,20 +375,47 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
     let media = this.sendform.get('url')?.value || '';
 
     if (
+      
       (media?.indexOf(env.FACEBOOK_URL) !== -1 &&
         (media?.indexOf('posts') !== -1 ||
           media?.indexOf('photos') !== -1 ||
           media?.indexOf('videos') !== -1)) ||
+        media?.indexOf(env.M_FaCEBOOK_URL) !==-1 ||
       media.search('vm.tiktok.com') !== -1
-    ) {
+    ) { 
+      debugger
       this.validUrl = true;
       let parts = media?.split('/');
       if (parts[3] !== '' && parts[5] !== '') {
-        myApplication.idUser = parts[3].replace(pattLinks, '');
+        if(media.indexOf(env.M_FaCEBOOK_URL) !== -1){
+          let mfacebooklink = media?.replaceAll('&','=');
+          let parts1 = mfacebooklink?.split('=')
+        
+          console.log("parts3",parts1[3]);
+       let test =   this.CampaignService.getFbUserName(parts1[3]).pipe(
+        takeUntil(this.isDestroyedSubject)
+    
+      )
+      .subscribe(
+        (data: any) => {
+                    console.log("dataaa", data.data);
+                    
+myApplication.idUser = data.data;
+myApplication.idPost =parts1[1];
+        },
+        (err) => {console.log("noooo");
+        })
+          console.log("tatatatata",test);
+
+
+        }
+         else {  myApplication.idUser = parts[3].replace(pattLinks, '');
         this.userfaceook = myApplication.idUser;
-        myApplication.idPost = parts[5].split('?')[0].replace(pattLinks, '');
-        this.idfaceook = myApplication.idPost;
         myApplication.typeSN = 1;
+        myApplication.idPost = parts[5].split('?')[0].replace(pattLinks, '');}
+
+        this.idfaceook = myApplication.idPost;
+  
         this.application = myApplication;
         this.idinstagram = '';
         this.idstatus = '';

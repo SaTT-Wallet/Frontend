@@ -511,6 +511,21 @@ export class CampaignHttpApiService {
     );
   }
 
+  getFbUserName(linkApplication: any) {
+    console.log("linkapplication", linkApplication);
+    
+    return this.http.get(
+      sattUrl +
+        '/profile/link/verify/fbUserName/' +
+        linkApplication,
+      {
+        headers: {
+          Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+        }
+      }
+    );
+  }
+
   applyLink(
     campaign: any,
     application: any,
