@@ -482,12 +482,11 @@ export class WalletComponent implements OnInit, OnDestroy {
   private account$ = this.accountFacadeService.account$;
   private onDestoy$ = new Subject();
 
-
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.getScreenHeight = event.target.innerHeight;
     this.getScreenWidth = event.target.innerWidth;
-    event.target.innerHeight
+    event.target.innerHeight;
   }
   constructor(
     private accountFacadeService: AccountFacadeService,
@@ -701,7 +700,6 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     //this.getScreenHeight = window.innerHeight;
-    console.log({h : window.innerWidth})
     this.getScreenWidth = window.innerWidth;
     if (this.tokenStorageService.getWalletVersion() === 'v2') {
       this.versionText = 'Old Wallet';
@@ -830,6 +828,10 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
   getMigrationStatus($event: any) {
     this.migrate = $event;
+    this.versionText =
+      this.tokenStorageService.getWalletVersion() === 'v2'
+        ? 'Old Wallet'
+        : 'New Wallet';
   }
   createTronWallet() {
     this.walletFacade

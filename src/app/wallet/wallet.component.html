@@ -8,7 +8,7 @@
 </div> -->
 
 <!-- <div class="wallet container-fluid"> -->
-<app-migration  
+<app-migration
   [className]="getScreenWidth > 960 ? 'migration' : 'migration-mobile'"
   *ngIf="migrate === 'open' && show"
   [migrate]="migrate"
@@ -58,9 +58,13 @@
               </div>
               <div
                 class="divbtn d-flex justify-content-center"
-                *ngIf="versionText === 'New Wallet' && existV1"
+                *ngIf="versionText === 'New Wallet' && existV1 && show"
               >
-                <button class="migratebtn" type="button">
+                <button
+                  class="migratebtn"
+                  type="button"
+                  (click)="this.migrate = 'open'"
+                >
                   <span
                     ><img
                       src="../../assets/Images/custom_icons/clarity_error-standard-line.svg"
