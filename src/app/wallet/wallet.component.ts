@@ -700,7 +700,6 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     //this.getScreenHeight = window.innerHeight;
-
     this.getScreenWidth = window.innerWidth;
     if (this.tokenStorageService.getWalletVersion() === 'v2') {
       this.versionText = 'Old Wallet';
@@ -830,6 +829,10 @@ export class WalletComponent implements OnInit, OnDestroy {
   getMigrationStatus($event: any) {
     this.tokenStorageService.setModaleMigrate($event);
     this.migrate = $event;
+    this.versionText =
+      this.tokenStorageService.getWalletVersion() === 'v2'
+        ? 'Old Wallet'
+        : 'New Wallet';
   }
   createTronWallet() {
     this.walletFacade
