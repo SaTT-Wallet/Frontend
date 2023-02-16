@@ -800,11 +800,20 @@ export class WalletComponent implements OnInit, OnDestroy {
       .subscribe((response: any) => {
         this.buttonClick = false;
         if (response?.data?.error) {
+          this.wrongpassword = true;
           this.walletV2ErrorMessage =
             response?.data?.error ===
             'Key derivation failed - possibly wrong password'
-              ? 'Wrong password'
+              ? 'Wrong password, please try again'
               : response?.data?.error;
+          setTimeout(
+            () => (
+              (this.walletV2ErrorMessage = ''),
+              (this.walletPassword = ''),
+              (this.wrongpassword = false)
+            ),
+            3000
+          );
         } else {
           if (
             response?.data?.address &&
