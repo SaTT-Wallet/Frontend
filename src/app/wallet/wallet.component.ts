@@ -700,6 +700,7 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     //this.getScreenHeight = window.innerHeight;
+    this.migrate = "";
     this.getScreenWidth = window.innerWidth;
     if (this.tokenStorageService.getWalletVersion() === 'v2') {
       this.versionText = 'Old Wallet';
@@ -709,7 +710,7 @@ export class WalletComponent implements OnInit, OnDestroy {
       this.height = '300px';
     }
 
-    this.migrate = this.tokenStorageService.getModaleMigrate();
+    
     this.hasWalletV2 = false;
     this.verifyUserWalletV2();
     this.walletFacade
@@ -767,6 +768,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   //Create WALLET V2
   createWalletV2() {
     this.walletV2ErrorMessage = '';
+    this.migrate = "";
     this.buttonClick = true;
     this.walletFacade
       .createNewWalletV2(this.walletPassword)
@@ -775,12 +777,15 @@ export class WalletComponent implements OnInit, OnDestroy {
           this.buttonClick = false;
           if (err.error.error === 'Wallet already exist') {
             this.walletV2ErrorMessage = 'Wallet already exist';
+            
             setTimeout(() => {
               this.closeModal(this.createWalletV2Modal);
             }, 2000);
+            this.migrate = "open"
           } else {
             this.walletV2ErrorMessage =
               'Something went wrong please try again!';
+              
           }
 
           return of(null);
@@ -812,6 +817,7 @@ export class WalletComponent implements OnInit, OnDestroy {
             ),
             3000
           );
+          this.migrate = "";
         } else {
           if (
             response?.data?.address &&
@@ -819,6 +825,7 @@ export class WalletComponent implements OnInit, OnDestroy {
             response?.data?.tronAddress
           ) {
             this.closeModal(this.createWalletV2Modal);
+            this.migrate = "open";
           } else {
             //wrong
             //this.closeModal(this.createWalletV2Modal)
@@ -1092,16 +1099,19 @@ export class WalletComponent implements OnInit, OnDestroy {
         (res: any) => {
           if (!res.data) {
             this.hasWalletV2 = false;
+            this.migrate = "";
             this.modalService.open(this.createWalletV2Modal, {
               backdrop: 'static',
               keyboard: false
             });
           } else {
             this.hasWalletV2 = true;
+            this.migrate = "open";
           }
         },
         () => {
           this.hasWalletV2 = false;
+          this.migrate = ""
         }
       );
   }
