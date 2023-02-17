@@ -183,8 +183,9 @@
         <button
           class="next-step mt-4"
           style="margin: 0 auto"
-          [routerLink]="'/wallet/buy-token'"
+          (click)="goToBuy(cryptobyNetwork[0].symbol,cryptobyNetwork[0].network, cryptobyNetwork)"
         >
+
           <span>Buy Gas</span>
         </button>
       </div>
