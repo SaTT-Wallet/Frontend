@@ -11,8 +11,17 @@
       Make sure you have enough gas to perform the migration.
     </p>
   </div>
-  <div [className]="getScreenWidth > 960 ? 'row justify-content-center mt-5 no-gutters': 'row justify-content-center mt-0 no-gutters' ">
-    <div [className]="getScreenWidth > 960 ? 'col-md-1 col-1' : 'col-md-1 col-2'" *ngFor="let crypto of listCrypto; index as i">
+  <div
+    [className]="
+      getScreenWidth > 960
+        ? 'row justify-content-center mt-5 no-gutters'
+        : 'row justify-content-center mt-0 no-gutters'
+    "
+  >
+    <div
+      [className]="getScreenWidth > 960 ? 'col-md-1 col-1' : 'col-md-1 col-2'"
+      *ngFor="let crypto of listCrypto; index as i"
+    >
       <input
         type="radio"
         name="tabs"
@@ -23,22 +32,35 @@
       <label for="tab-{{ i }}">
         <img
           src="assets/Images/symbol_crypto/{{ crypto.name }}.svg"
-          [className]="crypto.network === cryptoChecked ? 'image-size-selected' : 'image-size'"
+          [className]="
+            crypto.network === cryptoChecked
+              ? 'image-size-selected'
+              : 'image-size'
+          "
         />
       </label>
     </div>
   </div>
   <div class="row justify-content-center mt-3">
-    <div *ngIf="cryptobyNetwork.length !== 0" style="padding-left: 0px; padding-right: 0px;">
+    <div
+      *ngIf="cryptobyNetwork.length !== 0"
+      style="padding-left: 0px; padding-right: 0px"
+    >
       <div
         class="row justify-content-center list-network"
         *ngFor="let element of cryptobyNetwork; index as i"
       >
-        <div [className]="getScreenWidth > 960 ? 'col-md-6 col-6 mt-2' :  'col-md-6 col-9 mt-2'">
+        <div
+          [className]="
+            getScreenWidth > 960 ? 'col-md-6 col-6 mt-2' : 'col-md-6 col-9 mt-2'
+          "
+        >
           <label for="checkbox{{ i }}" class="d-flex">
             <img
               src="assets/Images/symbol_crypto/{{ element.symbol }}.svg"
-              [className]="getScreenWidth > 960 ? 'image-size-crypto' : 'image-size2'"
+              [className]="
+                getScreenWidth > 960 ? 'image-size-crypto' : 'image-size2'
+              "
             />
             <p class="title ms-2" style="text-align: left; font-size: 13px">
               {{ element.name }}<br />
@@ -66,7 +88,7 @@
           Tokens migrated successfully<br />
           <span class="underline"> Check your wallet: </span>
 
-          <a href="{{ hash }}" class="success-color">
+          <a href="{{ hash }}" target="_blank" class="success-color">
             {{ walletId?.slice(0, 8) }}...{{ walletId?.slice(-8) }}</a
           >
         </p>
@@ -92,9 +114,8 @@
         >
           <img
             *ngIf="errorMessage"
-            
             src="../../../assets/Images/Kep-passwordFalse.svg"
-            [ngStyle]="{'height': getScreenWidth > 900 ? '40px' : '25px' }"
+            [ngStyle]="{ height: getScreenWidth > 900 ? '40px' : '25px' }"
           />
           <img
             *ngIf="!errorMessage"
