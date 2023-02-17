@@ -14,7 +14,7 @@
 
 <app-migration  
 [className]="getScreenWidth > 960 ? 'migration' : 'migration-mobile'"
-*ngIf="migrate === 'open' && show" 
+*ngIf="migrate === 'open' && show && hasWalletV2" 
 [migrate]="migrate"
 (migrateEvent)="getMigrationStatus($event)"
 
@@ -64,7 +64,7 @@
               </div>
               <div
                 class="divbtn d-flex justify-content-center"
-                *ngIf="versionText === 'New Wallet' && existV1 && show"
+                *ngIf="versionText === 'New Wallet' && existV1 && show && existV2"
               >
                 <button
                   class="migratebtn"

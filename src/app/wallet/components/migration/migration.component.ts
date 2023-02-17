@@ -14,6 +14,7 @@ import { WalletStoreService } from '@core/services/wallet-store.service';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { environment } from '@environments/environment';
 
 @Component({
   selector: 'app-migration',
@@ -22,12 +23,16 @@ import { Subject } from 'rxjs';
 })
 export class MigrationComponent implements OnInit {
   listCrypto: any[] = [
-    { name: 'ETH', network: 'ERC20' },
-    { name: 'BNB', network: 'BEP20' },
-    { name: 'BTC', network: 'BTC' },
-    { name: 'MATIC', network: 'POLYGON' },
-    { name: 'BTT', network: 'BTTC' },
-    { name: 'TRX', network: 'TRON' }
+    { name: 'ETH', network: 'ERC20', explorer: environment.etherscanaddr },
+    { name: 'BNB', network: 'BEP20', explorer: environment.bscanaddr },
+    { name: 'BTC', network: 'BTC', explorer: environment.bttscanAddr },
+    {
+      name: 'MATIC',
+      network: 'POLYGON',
+      explorer: environment.polygonscanAddr
+    },
+    { name: 'BTT', network: 'BTTC', explorer: environment.bttscanAddr },
+    { name: 'TRX', network: 'TRON', explorer: environment.tronScanAddr }
   ];
   gas = Big(0);
   errorMessage: boolean = false;
@@ -35,7 +40,7 @@ export class MigrationComponent implements OnInit {
   arrayToMigrate: any[] = [];
   cryptobyNetwork: any;
   cryptoChecked = 'ERC20';
-  network = { name: '', balance: '' };
+  network = { name: 'ETH', balance: '' };
   cryptoList$ = this.walletFacade.cryptoList$;
   passWallet = false;
   showPass: boolean = false;
@@ -121,9 +126,11 @@ export class MigrationComponent implements OnInit {
     let element = this.cryptobyNetwork.find(
       (e: any) => e.symbol === this.network.name
     );
-    crypto === "TRON" && (this.gasToDisplay= "0.0268")
-    if (element) this.network.balance = element?.quantity;
-    else {
+    crypto === 'TRON' && (this.gasToDisplay = '0.0268');
+    if (element) {
+      this.outOfGas = false;
+      this.network.balance = element?.quantity;
+    } else {
       this.network.balance = '';
       this.outOfGas = true;
     }
@@ -142,11 +149,11 @@ export class MigrationComponent implements OnInit {
         (data: any) => {
           this.arrayToMigrate = [];
           this.spinner = false;
-          let network =
-            this.cryptoChecked === 'BEP20'
-              ? 'https://testnet.bscscan.com/address/'
-              : 'https://goerli.etherscan.io/address/';
-          this.hash = network + this.walletId;
+          const index = this.listCrypto.findIndex(
+            (e) => e.network === this.cryptoChecked
+          );
+          let network = this.listCrypto[index].explorer;
+          this.hash = network + data.data[0].from;
           this.walletStoreService.getCryptoList();
         },
         (err: any) => {

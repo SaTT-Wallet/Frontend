@@ -110,6 +110,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   tronAddressV2: any;
   address: any;
   version:any;
+  existV2: any;
   constructor(
     private Fetchservice: CryptofetchServiceService,
     public sidebarService: SidebarService,
@@ -157,6 +158,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     this.getTotalBalance();
     this.getusercrypto();
     this.migrateTo();
+    this.existV2 = localStorage.getItem('existV2')
     this.formToken.valueChanges.subscribe((values: any) => {
       if (values.tokenAdress !== null) {
         this.disabled = false;

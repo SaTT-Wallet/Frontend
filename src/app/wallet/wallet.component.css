@@ -24,16 +24,15 @@ input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
-::ng-deep iframe {
+/* ::ng-deep iframe {
   opacity: 0.001;
   z-index: -1 !important;
-}
+} */
 
-::ng-deep #fc_frame,
+ ::ng-deep #fc_frame,
 #fc_frame.fc-widget-normal {
-  z-index: -1 !important;
-  opacity: 0 !important;
-}
+  bottom: 64px!important;
+} 
 
 .welcome-body {
   max-width: 600px;
