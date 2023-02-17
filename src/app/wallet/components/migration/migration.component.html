@@ -92,9 +92,9 @@
         >
           <img
             *ngIf="errorMessage"
-            class=""
+            
             src="../../../assets/Images/Kep-passwordFalse.svg"
-            style="height: 25px"
+            [ngStyle]="{'height': getScreenWidth > 900 ? '40px' : '25px' }"
           />
           <img
             *ngIf="!errorMessage"
