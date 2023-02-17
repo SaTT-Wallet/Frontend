@@ -1,7 +1,7 @@
 <div class="container" *ngIf="!passWallet">
   <div class="row">
     <p class="content">Migrate your tokens to the new wallet</p>
-    <p class="title" style="margin-top: 2vh">
+    <p class="title" style="margin-top: 2vh; padding-right: 5%; padding-left: 5%;">
       For security reasons, we invite you to migrate your tokens to a new
       wallet. It’s very simple just we need a few minutes of your time. Follow
       the steps outlined in our application to safely complete the migration.
@@ -52,7 +52,7 @@
       >
         <div
           [className]="
-            getScreenWidth > 960 ? 'col-md-6 col-6 mt-2' : 'col-md-6 col-9 mt-2'
+            getScreenWidth > 960 ? 'col-md-6 col-6 mt-2 ml-4' : 'col-md-6 col-9 mt-2'
           "
         >
           <label for="checkbox{{ i }}" class="d-flex">

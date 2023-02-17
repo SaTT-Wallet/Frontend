@@ -2224,17 +2224,16 @@ p {
   background: #FFFFFF;
   box-shadow: 0px 3px 10px rgb(0 0 0 / 25%);
   border-radius: 30px;
-  top: 14.7vh;
-  left: 16.9vw;
+  
 }
 
 .migration-mobile {
-  position: fixed;
+  
     width: 100%;
     height: 100vh;
-    z-index: 600;
+    
     background: #FFFFFF;
-    overflow-y: hidden;
+    overflow: scroll;
     
    
     
