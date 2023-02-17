@@ -725,6 +725,7 @@ export class WalletComponent implements OnInit, OnDestroy {
         }
 
         this.existV2 =data.data.addressV2;
+        
 
        });
 
@@ -1099,30 +1100,32 @@ export class WalletComponent implements OnInit, OnDestroy {
   test() {}
 
   verifyUserWalletV2() {
-    console.log("reeeeeeeeeeeeeees")
 
     this.walletFacade
       .checkUserWalletV2()
       .pipe(takeUntil(this.onDestoy$))
       .subscribe(
         (res: any) => {
-          console.log("reeeeeeeeeeeeeees",res)
           if (!res.data) {
 
             this.hasWalletV2 = false;
-            this.migrate = "";
+            localStorage.setItem("existV2","false")
+           this.height = '250px';
             this.modalService.open(this.createWalletV2Modal, {
               backdrop: 'static',
               keyboard: false
             });
           } else {
             this.hasWalletV2 = true;
-            this.migrate = "open";
+            localStorage.setItem("existV2","true")
           }
+
+          this.existV2
         },
         () => {
           this.hasWalletV2 = false;
-          this.migrate = ""
+          
+
         }
       );
   }
