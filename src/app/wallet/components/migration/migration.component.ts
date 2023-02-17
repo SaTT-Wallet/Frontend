@@ -40,7 +40,7 @@ export class MigrationComponent implements OnInit {
   arrayToMigrate: any[] = [];
   cryptobyNetwork: any;
   cryptoChecked = 'ERC20';
-  network = { name: '', balance: '' };
+  network = { name: 'ETH', balance: '' };
   cryptoList$ = this.walletFacade.cryptoList$;
   passWallet = false;
   showPass: boolean = false;
@@ -120,8 +120,10 @@ export class MigrationComponent implements OnInit {
       (e: any) => e.symbol === this.network.name
     );
     crypto === 'TRON' && (this.gasToDisplay = '0.0268');
-    if (element) this.network.balance = element?.quantity;
-    else {
+    if (element) {
+      this.outOfGas = false;
+      this.network.balance = element?.quantity;
+    } else {
       this.network.balance = '';
       this.outOfGas = true;
     }
