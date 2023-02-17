@@ -406,7 +406,7 @@
                         class="col-2 d-flex justify-content-start align-items-center"
                         style="width: fit-content; cursor: pointer"
                         details.hidden="true"
-                        *ngIf="details.hidden && crypto.undername !== 'SATT' && crypto.quantity!=0 && this.version != 'v2' && existV2 === 'ture'"
+                        *ngIf="details.hidden && crypto.undername !== 'SATT' && crypto.quantity!=0 && this.version != 'v2' && existV2 === 'true'"
 
                         (click)="
                         goMigrate(
@@ -749,7 +749,7 @@
                             )"                          >
                             <img
                               src="./../../../assets/Images/custom_icons/clarity_error-standard-line_mobile.svg"
-                              *ngIf=" crypto.quantity!=0 && this.version != 'v2' && existV2 === 'ture'"
+                              *ngIf=" crypto.quantity!=0 && this.version != 'v2' && existV2 === 'true'"
 
                               style="
                                 font-size: 13px;
@@ -1096,7 +1096,7 @@
                             )"                          >
                             <img
                               src="./../../../assets/Images/custom_icons/clarity_error-standard-line_mobile.svg"
-                              *ngIf=" crypto.cryptoBEP20.quantity!=0 && this.version !='v2' && existV2 === 'ture'"
+                              *ngIf=" crypto.cryptoBEP20.quantity!=0 && this.version !='v2' && existV2 === 'true'"
                              style="
                                 font-size: 13px;
                                 cursor: pointer;
