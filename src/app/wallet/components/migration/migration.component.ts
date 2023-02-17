@@ -77,18 +77,29 @@ export class MigrationComponent implements OnInit {
           !isNaN(Number(element.quantity)) &&
           element.network === this.cryptoChecked
       );
+      if (this.network.name === '') this.network.name = 'ETH';
+      let balances = data.filter(
+        (element: any) => element.symbol === this.network.name
+      );
+      if (balances.length > 0) this.network.balance = balances[0]?.quantity;
       if (this.cryptobyNetwork.length === 1) {
         this.arrayToMigrate = this.cryptobyNetwork.slice();
         let gasLimit = this.getGasPrice(this.arrayToMigrate[0]);
         let gasPrice = 10000000000;
         this.gas = Big(gasLimit).times(Big(gasPrice));
         this.gasToDisplay = filterAmount(this.gas.div(10 ** 18).toString());
+        if (this.network.name === '') this.network.name = 'ETH';
+        let balances = data.filter(
+          (element: any) => element.symbol === this.network.name
+        );
+        if (balances.length > 0) this.network.balance = balances[0]?.quantity;
+        if (
+          this.network.balance === '' ||
+          Big(this.gasToDisplay).gt(Big(this.network.balance))
+        )
+          this.outOfGas = true;
+        else this.outOfGas = false;
       }
-      if (this.network.name === '') this.network.name = 'ETH';
-      let balances = data.filter(
-        (element: any) => element.symbol === this.network.name
-      );
-      if (balances.length > 0) this.network.balance = balances[0]?.quantity;
     });
   }
   setState(crypto: string) {
@@ -103,7 +114,7 @@ export class MigrationComponent implements OnInit {
     let element = this.cryptobyNetwork.find(
       (e: any) => e.symbol === this.network.name
     );
-
+    crypto === "TRON" && (this.gasToDisplay= "0.0268")
     if (element) this.network.balance = element?.quantity;
     else {
       this.network.balance = '';
@@ -158,7 +169,6 @@ export class MigrationComponent implements OnInit {
       this.gas = this.gas.plus(Big(gasLimit).times(Big(gasPrice)));
       this.arrayToMigrate.push(element);
     }
-
     this.gasToDisplay = filterAmount(this.gas.div(10 ** 18).toString());
     if (
       this.network.balance === '' ||
