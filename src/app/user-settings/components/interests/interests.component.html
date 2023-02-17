@@ -1,4 +1,7 @@
-<div class="container-fluid page-content wallet-page">
+<div
+  class="container-fluid page-content wallet-page"
+  [style]="'margin-top: 4%!important; '"
+>
   <div class="row show-mobile mb-2">
     <div class="col-md-12 col-lg-12 col-xs-12">
       <button type="button" class="btn-back" [routerLink]="['/home/settings/']">
@@ -31,16 +34,11 @@
                   this.interestsPercent === undefined
                     ? 0
                     : this.interestsPercent
-                }}%              </span>
+                }}%
+              </span>
             </div>
             <div
-              class="
-                col-md-12 col-lg-12 col-xs-12
-                d-flex
-                flex-row
-                padding-x
-                pt-3
-              "
+              class="col-md-12 col-lg-12 col-xs-12 d-flex flex-row padding-x pt-3"
             >
               <div class="col">
                 <label
