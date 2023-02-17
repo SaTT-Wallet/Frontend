@@ -29,10 +29,10 @@ input:-webkit-autofill:active {
   z-index: -1 !important;
 } */
 
- ::ng-deep #fc_frame,
+::ng-deep #fc_frame,
 #fc_frame.fc-widget-normal {
-  bottom: 64px!important;
-} 
+  bottom: 64px !important;
+}
 
 .welcome-body {
   max-width: 600px;
@@ -42,6 +42,42 @@ input:-webkit-autofill:active {
   width: 938px;
   margin-top: -2%;
 }
+
+@media only screen and (max-width: 768px) {
+  #createWalletV2Modal {
+    width: 100%;
+    background: #ffffff;
+    height: 100%;
+  }
+
+  .postition-trans {
+    width: 100% !important;
+    text-align: left !important;
+    margin-left: 40px !important;
+  }
+  .input-div {
+    width: auto !important;
+    margin: auto;
+  }
+
+  #welcome-input {
+    margin: auto !important;
+  }
+  #next-step {
+    font-size: 14px !important;
+  }
+  .img-update {
+    margin-top: 30% !important;
+    width: 50% !important;
+  }
+}
+
+/* @media only screen and (max-width: 400px) {
+  .btn-blue {
+    width: 40% !important;
+  }
+} */
+
 .scroll-fix {
   position: absolute;
   top: 0;
@@ -2085,7 +2121,7 @@ p {
   box-shadow: none !important;
 
   border-radius: 30px;
-  width: 35% !important;
+  width: 40% !important;
 
   font-style: normal;
   font-weight: 600 !important;
@@ -2207,8 +2243,7 @@ p {
   }
 }
 
-
-@media (max-width : 960px) {
+@media (max-width: 960px) {
   .migration {
     height: 100%;
     width: 100%;
@@ -2217,8 +2252,8 @@ p {
     z-index: 101;
     min-height: 70vh;
     height: auto;
-    background: #FFFFFF;
-    
+    background: #ffffff;
+
     top: 0;
     left: 0;
     right: 0;
@@ -2226,13 +2261,13 @@ p {
   }
 }
 
-.migration{
+.migration {
   position: absolute;
   width: 66.13vw;
   z-index: 101;
   min-height: 70vh;
   height: auto;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 3px 10px rgb(0 0 0 / 25%);
   border-radius: 30px;
   top: 14.7vh;
@@ -2241,14 +2276,14 @@ p {
 
 .migration-mobile {
   position: absolute;
-    width: 100%;
-    z-index: 600;
-    background: #FFFFFF;
-    height: 100%;
-    overflow: auto;
+  width: 100%;
+  z-index: 600;
+  background: #ffffff;
+  height: 100%;
+  overflow: auto;
 }
-.currentbalance{
+.currentbalance {
   position: relative;
-    top: 28px;
-    z-index: 1;
+  top: 28px;
+  z-index: 1;
 }
