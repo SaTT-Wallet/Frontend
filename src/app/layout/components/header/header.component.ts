@@ -430,14 +430,14 @@ if(this.existV1)
       this.displayNew = "block"
       this.displayOld = "none"
       localStorage.setItem("display",this.displayNew)
-      this.title = "Your New Wallet "
+      this.title = "Your ID Wallet"
       
     }
     else {
       this.displayNew = "none"
       this.displayOld = "block"
       localStorage.setItem("display",this.displayNew)
-      this.title = "Your ID Wallet "
+      this.title = "Your Old Wallet "
 
     }}
   }

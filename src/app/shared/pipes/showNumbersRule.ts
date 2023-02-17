@@ -44,11 +44,11 @@ export class ShowNumbersRule implements PipeTransform {
         }
         return bigValue.toFixed(6);
       } else if (bigValue.gte(2) && bigValue.lte(9.9999)) {
-        valueToReturn = bigValue.toFixed(4);
+        valueToReturn = bigValue.toFixed(5);
         if (valueToReturn % 1 !== 0) {
           return parseFloat(valueToReturn + '') + '';
         }
-        return bigValue.toFixed(4);
+        return bigValue.toFixed(5);
       } else if (bigValue.gte(10) && bigValue.lte(9999.99)) {
         if (modeCryptoList) {
           valueToReturn = Number(bigValue.toFixed(2));
