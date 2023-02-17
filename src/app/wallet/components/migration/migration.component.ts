@@ -114,7 +114,7 @@ export class MigrationComponent implements OnInit {
     let element = this.cryptobyNetwork.find(
       (e: any) => e.symbol === this.network.name
     );
-
+    crypto === "TRON" && (this.gasToDisplay= "0.0268")
     if (element) this.network.balance = element?.quantity;
     else {
       this.network.balance = '';
@@ -169,7 +169,6 @@ export class MigrationComponent implements OnInit {
       this.gas = this.gas.plus(Big(gasLimit).times(Big(gasPrice)));
       this.arrayToMigrate.push(element);
     }
-
     this.gasToDisplay = filterAmount(this.gas.div(10 ** 18).toString());
     if (
       this.network.balance === '' ||
