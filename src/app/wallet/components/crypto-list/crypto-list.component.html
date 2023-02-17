@@ -406,17 +406,22 @@
                         class="col-2 d-flex justify-content-start align-items-center"
                         style="width: fit-content; cursor: pointer"
                         details.hidden="true"
-                        *ngIf="details.hidden && crypto.undername !== 'SATT' && crypto.quantity!=0 && this.version != 'v2' && existV2 === 'ture'"
-
+                        *ngIf="
+                          details.hidden &&
+                          crypto.undername !== 'SATT' &&
+                          crypto.quantity != 0 &&
+                          this.version != 'v2' &&
+                          existV2 === 'true'
+                        "
                         (click)="
-                        goMigrate(
-                          crypto.symbol,
-                          crypto.network,
-                          crypto.picUrl,
-                          crypto.quantity,
-                          crypto.price
-                        )"
-
+                          goMigrate(
+                            crypto.symbol,
+                            crypto.network,
+                            crypto.picUrl,
+                            crypto.quantity,
+                            crypto.price
+                          )
+                        "
                       >
                         <img
                           src="./../../../assets/Images/custom_icons/clarity_error-standard-line_mobile.svg"
@@ -740,17 +745,22 @@
                             "
                             details.hidden="true"
                             (click)="
-                            goMigrate(
-                              crypto.symbol,
-                              crypto.network,
-                              crypto.picUrl,
-                              crypto.quantity,
-                              crypto.price
-                            )"                          >
+                              goMigrate(
+                                crypto.symbol,
+                                crypto.network,
+                                crypto.picUrl,
+                                crypto.quantity,
+                                crypto.price
+                              )
+                            "
+                          >
                             <img
                               src="./../../../assets/Images/custom_icons/clarity_error-standard-line_mobile.svg"
-                              *ngIf=" crypto.quantity!=0 && this.version != 'v2' && existV2 === 'ture'"
-
+                              *ngIf="
+                                crypto.quantity != 0 &&
+                                this.version != 'v2' &&
+                                existV2 === 'true'
+                              "
                               style="
                                 font-size: 13px;
                                 cursor: pointer;
@@ -1075,8 +1085,6 @@
                             </a>
                           </div>
 
-
-
                           <div
                             class="col-2 d-flex justify-content-start align-items-center"
                             style="
@@ -1086,29 +1094,29 @@
                             "
                             details.hidden="true"
                             (click)="
-                            goMigrate(
-                              
-                              crypto.cryptoBEP20.symbol,
-                              crypto.cryptoBEP20.network,
-                              crypto.cryptoBEP20.picUrl,
-                              crypto.cryptoBEP20.quantity,
-                              crypto.cryptoBEP20.price
-                            )"                          >
+                              goMigrate(
+                                crypto.cryptoBEP20.symbol,
+                                crypto.cryptoBEP20.network,
+                                crypto.cryptoBEP20.picUrl,
+                                crypto.cryptoBEP20.quantity,
+                                crypto.cryptoBEP20.price
+                              )
+                            "
+                          >
                             <img
                               src="./../../../assets/Images/custom_icons/clarity_error-standard-line_mobile.svg"
-                              *ngIf=" crypto.cryptoBEP20.quantity!=0 && this.version !='v2' && existV2 === 'ture'"
-                             style="
+                              *ngIf="
+                                crypto.cryptoBEP20.quantity != 0 &&
+                                this.version != 'v2' &&
+                                existV2 === 'true'
+                              "
+                              style="
                                 font-size: 13px;
                                 cursor: pointer;
                                 margin-left: 24px;
                               "
                             />
                           </div>
-
-
-
-
-
 
                           <div
                             class="col-1 d-flex justify-content-start align-items-center"
