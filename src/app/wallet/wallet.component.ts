@@ -79,6 +79,12 @@ export class WalletComponent implements OnInit, OnDestroy {
   @ViewChild('tronWalletCreatedSuccessModal', { static: false })
   private tronWalletCreatedSuccessModal!: TemplateRef<any>;
 
+
+
+
+  
+  
+
   showModal: Boolean = false;
   showPass: boolean = false;
   tronWalletPassword = '';
@@ -487,7 +493,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   onResize(event: any) {
     this.getScreenHeight = event.target.innerHeight;
     this.getScreenWidth = event.target.innerWidth;
-    event.target.innerHeight;
+    
   }
   constructor(
     private accountFacadeService: AccountFacadeService,
@@ -769,7 +775,11 @@ export class WalletComponent implements OnInit, OnDestroy {
     if (this.hasWalletV2) this.verifyOnBoarding();
     this.getDetails();
   }
-
+  migrateButton() : void {
+    this.migrate = "open"
+   
+    
+  }
   //Create WALLET V2
   createWalletV2() {
     this.walletV2ErrorMessage = '';
@@ -787,6 +797,8 @@ export class WalletComponent implements OnInit, OnDestroy {
               this.closeModal(this.createWalletV2Modal);
             }, 2000);
             this.migrate = "open"
+            
+            
           } else {
             this.walletV2ErrorMessage =
               'Something went wrong please try again!';
@@ -831,6 +843,7 @@ export class WalletComponent implements OnInit, OnDestroy {
           ) {
             this.closeModal(this.createWalletV2Modal);
             this.migrate = "open";
+            
           } else {
             //wrong
             //this.closeModal(this.createWalletV2Modal)
@@ -841,6 +854,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   getMigrationStatus($event: any) {
     this.tokenStorageService.setModaleMigrate($event);
     this.migrate = $event;
+    
     this.versionText =
       this.tokenStorageService.getWalletVersion() === 'v2'
         ? 'Old Wallet'
@@ -1118,6 +1132,8 @@ export class WalletComponent implements OnInit, OnDestroy {
           } else {
             this.hasWalletV2 = true;
             this.migrate = "open";
+            
+            
           }
         },
         () => {

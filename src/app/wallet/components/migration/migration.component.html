@@ -11,7 +11,7 @@
       Make sure you have enough gas to perform the migration.
     </p>
   </div>
-  <div [className]="getScreenWidth > 960 ? 'row justify-content-center mt-5 no-gutters': 'row justify-content-center mt-0 no-gutters' ">
+  <div [className]="getScreenWidth > 960 ? 'row justify-content-center mt-5 no-gutters': 'row justify-content-center mt-0 ml-1 mr-1 no-gutters' ">
     <div [className]="getScreenWidth > 960 ? 'col-md-1 col-1' : 'col-md-1 col-2'" *ngFor="let crypto of listCrypto; index as i">
       <input
         type="radio"
@@ -28,19 +28,19 @@
       </label>
     </div>
   </div>
-  <div class="row justify-content-center mt-3">
+  <div [className]="getScreenWidth > 960 ? 'row justify-content-center mt-3 ml-1' : 'row justify-content-left mt-3 ml-1'">
     <div *ngIf="cryptobyNetwork.length !== 0" style="padding-left: 0px; padding-right: 0px;">
       <div
-        class="row justify-content-center list-network"
+        [className]="getScreenWidth > 960 ? 'row justify-content-center list-network' : 'row justify-content-left list-network crypto'"
         *ngFor="let element of cryptobyNetwork; index as i"
       >
-        <div [className]="getScreenWidth > 960 ? 'col-md-6 col-6 mt-2' :  'col-md-6 col-9 mt-2'">
+        <div [className]="getScreenWidth > 960 ? 'col-md-6 col-6 mt-2 ml-2' :  'col-md-6 col-9 mt-2 '">
           <label for="checkbox{{ i }}" class="d-flex">
             <img
               src="assets/Images/symbol_crypto/{{ element.symbol }}.svg"
               [className]="getScreenWidth > 960 ? 'image-size-crypto' : 'image-size2'"
             />
-            <p class="title ms-2" style="text-align: left; font-size: 13px">
+            <p [className]="getScreenWidth > 960 ? 'title ms-2' : 'title ms-2 crypto-title'" style="text-align: left; font-size: 11px">
               {{ element.name }}<br />
               <span> {{ element.quantity }}</span>
             </p>
@@ -81,7 +81,7 @@
         <span class="span-migrate">
           To migrate, please enter your wallet password</span
         >
-        <p class="txn-pass-style">Transaction Password</p>
+        <p class="txn-pass-style" style="font-size: 12px; padding-bottom: 3px;">Transaction Password</p>
         <div
           [className]="
             errorMessage ? 'div-input-icon-err p-1' : 'div-input-icon p-1'
@@ -131,7 +131,7 @@
         <span
           *ngIf="errorMessage"
           style="
-            text-align: center;
+            text-align: left;
             padding-top: 0.5vh;
             color: #f52079;
             font-family: 'Poppins';
@@ -142,11 +142,11 @@
         <button
           class="next-step mt-4"
           (click)="next()"
-          style="margin: 0 auto; height: 35px"
+          style="margin: 0 auto; height: 35px"    
           [disabled]="spinner"
         >
           <div *ngIf="spinner" class="spinner-border text-grey" role="status">
-            <span class="sr-only">Loading...</span>
+            <span class="sr-only" style="color: #ADADC8;">Loading...</span>
           </div>
           <span *ngIf="!spinner">Migrate Tokens</span>
         </button>

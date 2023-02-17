@@ -51,12 +51,18 @@ export class MigrationComponent implements OnInit {
   onDestroy$ = new Subject();
 
   @Output() migrateEvent = new EventEmitter<String>();
+
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.getScreenHeight = event.target.innerHeight;
     this.getScreenWidth = event.target.innerWidth;
     event.target.innerHeight;
   }
+
+
+  
+
+
   constructor(
     private service: CryptofetchServiceService,
     private walletFacade: WalletFacadeService,
@@ -64,6 +70,7 @@ export class MigrationComponent implements OnInit {
     private tokenStorageService: TokenStorageService
   ) {}
   ngOnInit(): void {
+    
     this.getScreenWidth = window.innerWidth;
     this.getCryptoList();
     this.network.name = 'ETH';
@@ -143,9 +150,13 @@ export class MigrationComponent implements OnInit {
           this.walletStoreService.getCryptoList();
         },
         (err: any) => {
-          err.error.error ===
-            'Key derivation failed - possibly wrong password' &&
-            (this.errorMessage = true);
+          if
+          (err.error.error ===
+            'Key derivation failed - possibly wrong password' ) {
+              this.errorMessage = true;
+              this.walletPassword = "";
+            }
+            
           setTimeout(() => {
             this.errorMessage = false;
           }, 3000);
