@@ -478,7 +478,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   intro4: string = '';
   // intro5: string = "";
   button: string = '';
-  migrate: string = '';
+  migrate: any;
   private account$ = this.accountFacadeService.account$;
   private onDestoy$ = new Subject();
 
@@ -709,7 +709,7 @@ export class WalletComponent implements OnInit, OnDestroy {
       this.height = '300px';
     }
 
-    this.migrate = 'open';
+    this.migrate = this.tokenStorageService.getModaleMigrate();
     this.hasWalletV2 = false;
     this.verifyUserWalletV2();
     this.walletFacade
@@ -827,6 +827,7 @@ export class WalletComponent implements OnInit, OnDestroy {
       });
   }
   getMigrationStatus($event: any) {
+    this.tokenStorageService.setModaleMigrate($event);
     this.migrate = $event;
     this.versionText =
       this.tokenStorageService.getWalletVersion() === 'v2'
@@ -912,9 +913,7 @@ export class WalletComponent implements OnInit, OnDestroy {
           this.walletStoreService.getCryptoList();
           this.walletStoreService.getTotalBalance();
         });
-    } catch (error) {
-      console.log('errrorororr', error);
-    }
+    } catch (error) {}
   }
 
   public makeAnimation(key: string): void {
@@ -1101,9 +1100,8 @@ export class WalletComponent implements OnInit, OnDestroy {
             this.hasWalletV2 = true;
           }
         },
-        (err) => {
+        () => {
           this.hasWalletV2 = false;
-          console.log(err);
         }
       );
   }
