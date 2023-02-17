@@ -125,8 +125,10 @@ export class MigrationComponent implements OnInit {
       (e: any) => e.symbol === this.network.name
     );
     crypto === 'TRON' && (this.gasToDisplay = '0.0268');
-    if (element) this.network.balance = element?.quantity;
-    else {
+    if (element) {
+      this.outOfGas = false;
+      this.network.balance = element?.quantity;
+    } else {
       this.network.balance = '';
       this.outOfGas = true;
     }
