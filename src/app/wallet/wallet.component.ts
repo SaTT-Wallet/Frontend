@@ -418,6 +418,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   height: any = '300px';
   walletV2ErrorMessage = '';
   existV1: any;
+  existV2: any;
 
   selectTab(tabId: number) {
     this.staticTabs.tabs[tabId].active = true;
@@ -716,11 +717,15 @@ export class WalletComponent implements OnInit, OnDestroy {
       .getAllWallet()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((data: any) => {
+        console.log("datadatatatata",data)
         this.existV1 = data.data.address;
         if (this.existV1 === null) {
           this.height = '250px';
         }
-      });
+
+        this.existV2 =data.data.addressV2;
+
+       });
 
     // this.dontShowAgain();
     // let data_profile = {
@@ -950,6 +955,8 @@ export class WalletComponent implements OnInit, OnDestroy {
           localStorage.getItem('wallet_version') === 'v1'
             ? true
             : false;
+
+            if(this.show === false) {this.height = '250px';}
         this.variationamount = data?.variation?.toFixed(2);
         if (this.variationamount < 0) {
           this.arrowvar = '';
@@ -1085,12 +1092,16 @@ export class WalletComponent implements OnInit, OnDestroy {
   test() {}
 
   verifyUserWalletV2() {
+    console.log("reeeeeeeeeeeeeees")
+
     this.walletFacade
       .checkUserWalletV2()
       .pipe(takeUntil(this.onDestoy$))
       .subscribe(
         (res: any) => {
+          console.log("reeeeeeeeeeeeeees",res)
           if (!res.data) {
+
             this.hasWalletV2 = false;
             this.modalService.open(this.createWalletV2Modal, {
               backdrop: 'static',
