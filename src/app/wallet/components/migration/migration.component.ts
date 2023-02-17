@@ -15,6 +15,7 @@ import { TokenStorageService } from '@app/core/services/tokenStorage/token-stora
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { environment } from '@environments/environment';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-migration',
@@ -40,6 +41,8 @@ export class MigrationComponent implements OnInit {
   arrayToMigrate: any[] = [];
   cryptobyNetwork: any;
   cryptoChecked = 'ERC20';
+  activatedRoute: ActivatedRoute | null | undefined;
+
   network = { name: '', balance: '' };
   cryptoList$ = this.walletFacade.cryptoList$;
   passWallet = false;
@@ -66,7 +69,9 @@ export class MigrationComponent implements OnInit {
     private service: CryptofetchServiceService,
     private walletFacade: WalletFacadeService,
     private walletStoreService: WalletStoreService,
-    private tokenStorageService: TokenStorageService
+    private tokenStorageService: TokenStorageService,
+    private router: Router,
+
   ) {}
   ngOnInit(): void {
     this.getScreenWidth = window.innerWidth;
@@ -126,6 +131,29 @@ export class MigrationComponent implements OnInit {
       this.outOfGas = true;
     }
   }
+
+
+  goToBuy(id: any, network: any, cryptobyNetwork:any) {
+    console.log("iididiidid",cryptobyNetwork);
+    console.log("networknetwork",network);
+
+    if (network === 'ERC20') {
+      id = 'ETH';
+    }
+    if ( network === 'BEP20') {
+      id = 'BNB';
+    }
+    if ( network === 'TRON') {
+      id = 'TRX';
+    }
+    this.router.navigate(['/wallet/buy-token'], {
+      queryParams: { id: id, network: network },
+      relativeTo: this.activatedRoute
+    });
+  }
+
+
+
   next() {
     this.outOfGas = false;
     this.spinner = true;
