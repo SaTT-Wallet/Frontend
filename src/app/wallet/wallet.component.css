@@ -43,6 +43,7 @@ input:-webkit-autofill:active {
   margin-top: -2%;
 }
 
+/* sk */
 @media only screen and (max-width: 768px) {
   #createWalletV2Modal {
     width: 100%;
@@ -52,6 +53,13 @@ input:-webkit-autofill:active {
     touch-action: none;
   }
 
+  /* responsive text */
+  .walletV2WrongMessage {
+    text-align: left;
+    margin-left: -35% !important;
+    /* margin-left: ; */
+    position: absolute;
+  }
   .postition-trans {
     width: 100% !important;
     text-align: left !important;
