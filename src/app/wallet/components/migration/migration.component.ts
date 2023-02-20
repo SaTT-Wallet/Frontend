@@ -59,7 +59,6 @@ export class MigrationComponent implements OnInit {
   onDestroy$ = new Subject();
 
   @Output() migrateEvent = new EventEmitter<String>();
-  valueInput: any= "i m here";
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
