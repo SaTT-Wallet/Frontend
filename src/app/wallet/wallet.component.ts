@@ -776,8 +776,12 @@ export class WalletComponent implements OnInit, OnDestroy {
     //ctx.fillStyle = my_gradient;
     ctx?.fillRect(20, 20, 150, 100);
     console.log(this.migrate)
+    //this.verifyOnBoarding();
+    this.verifyOnBoarding();
+    setTimeout(() => {
+      if (this.hasWalletV2 && this.migrate === "close") this.getDetails();
+    }, 5500)
     
-    this.getDetails();
     if(!this.loadingPopUp) {
       setTimeout(() => {
       
@@ -940,6 +944,10 @@ export class WalletComponent implements OnInit, OnDestroy {
   allWallet() {
     try {
       if(this.loadingPopUp) {
+        console.log(this.versionText) 
+        if(this.versionText === "Old Wallet") {
+          this.verifyOnBoarding();
+        } 
         this.tokenStorageService.setModaleMigrate("close");
       this.walletFacade
         .getAllWallet()
@@ -1237,7 +1245,10 @@ export class WalletComponent implements OnInit, OnDestroy {
                   this.tokenStorageService.getToken() &&
                   this.hasWalletV2
                 ) {
-                  this.openModal(this.welcomeModal);
+                  
+                    
+                    this.openModal(this.welcomeModal);
+                
                 }
                 this.tokenStorageService.setFillMyProfil('false');
               }, 3000);
