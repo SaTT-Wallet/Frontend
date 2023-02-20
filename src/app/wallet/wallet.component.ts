@@ -822,7 +822,7 @@ export class WalletComponent implements OnInit, OnDestroy {
               (this.walletPassword = ''),
               (this.wrongpassword = false)
             ),
-            3000
+            99999
           );
         } else {
           if (
