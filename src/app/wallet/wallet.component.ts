@@ -775,13 +775,17 @@ export class WalletComponent implements OnInit, OnDestroy {
     my_gradient?.addColorStop(1, 'white');
     //ctx.fillStyle = my_gradient;
     ctx?.fillRect(20, 20, 150, 100);
-    if (this.hasWalletV2 && this.migrate === "close") this.verifyOnBoarding();
+    console.log(this.migrate)
+    
     this.getDetails();
     if(!this.loadingPopUp) {
       setTimeout(() => {
       
         if(this.hasWalletV2 && this.migrate === "open" && this.show) {
-          this.openModal(this.migration) 
+          this.modalService.open(this.migration, {
+            backdrop: 'static',
+            keyboard: false
+          });
           this.loadingPopUp = true;
         } else {
           this.loadingPopUp = true;
@@ -795,7 +799,10 @@ export class WalletComponent implements OnInit, OnDestroy {
   migrateButton(): void {
     if(this.loadingPopUp) {
       this.migrate = 'open';
-      this.openModal(this.migration);
+      this.modalService.open(this.migration, {
+        backdrop: 'static',
+        keyboard: false
+      });
     }
     
     
@@ -856,7 +863,10 @@ export class WalletComponent implements OnInit, OnDestroy {
             response?.data?.tronAddress
           ) {
             this.closeModal(this.createWalletV2Modal);
-            this.openModal(this.migration);
+            this.modalService.open(this.migration, {
+              backdrop: 'static',
+              keyboard: false
+            });
           } else {
             //wrong
             //this.closeModal(this.createWalletV2Modal)
@@ -929,7 +939,8 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   allWallet() {
     try {
-      this.tokenStorageService.setModaleMigrate("close");
+      if(this.loadingPopUp) {
+        this.tokenStorageService.setModaleMigrate("close");
       this.walletFacade
         .getAllWallet()
         .pipe(takeUntil(this.onDestroy$))
@@ -956,6 +967,8 @@ export class WalletComponent implements OnInit, OnDestroy {
           this.walletStoreService.getCryptoList();
           this.walletStoreService.getTotalBalance();
         });
+      }
+      
     } catch (error) {}
   }
 
@@ -1291,6 +1304,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     }
   }
   ngOnDestroy() {
+    console.log("test")
     this.onDestoy$.next('');
     this.onDestoy$.complete();
   }
