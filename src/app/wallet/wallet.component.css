@@ -2233,7 +2233,7 @@ p {
     height: 100vh;
     
     background: #FFFFFF;
-    overflow: hidden;
+    overflow-x: hidden;
     
     
    
