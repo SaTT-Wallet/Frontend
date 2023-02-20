@@ -45,7 +45,8 @@ import {
   tap,
   map,
   catchError,
-  take
+  take,
+  shareReplay
 } from 'rxjs/operators';
 import { DOCUMENT } from '@angular/common';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
@@ -63,6 +64,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   hideRedBloc: any;
   percentProfil: any;
   versionText: any = 'New Wallet';
+  loadingPopUp: boolean = false;
 
   @ViewChild('myCanvas1') canvas1!: ElementRef;
   @ViewChild('myCanvas2') canvas2!: ElementRef;
@@ -84,6 +86,7 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   showModal: Boolean = false;
   showPass: boolean = false;
+  subscription: any; 
   tronWalletPassword = '';
   walletPassword = '';
   tronWalletAddress = '';
@@ -701,9 +704,16 @@ export class WalletComponent implements OnInit, OnDestroy {
     }
   }
 
+  
+
   ngOnInit(): void {
-    //this.getScreenHeight = window.innerHeight;
+    this.loadingPopUp = false;
     this.migrate = this.tokenStorageService.getModaleMigrate();
+    //this.getScreenHeight = window.innerHeight;
+    this.hasWalletV2 = false;
+    this.verifyUserWalletV2();
+    this.totalbalancewallet();
+    
     this.getScreenWidth = window.innerWidth;
     if (this.tokenStorageService.getWalletVersion() === 'v2') {
       this.versionText = 'Old Wallet';
@@ -713,8 +723,8 @@ export class WalletComponent implements OnInit, OnDestroy {
       this.height = '300px';
     }
 
-    this.hasWalletV2 = false;
-    this.verifyUserWalletV2();
+    
+    //this.verifyUserWalletV2();
     this.walletFacade
       .getAllWallet()
       .pipe(takeUntil(this.onDestroy$))
@@ -756,7 +766,7 @@ export class WalletComponent implements OnInit, OnDestroy {
       });
     this.getSecure();
 
-    this.totalbalancewallet();
+    
 
     var c = <HTMLCanvasElement>this.document.getElementById('myCanvas');
     var ctx = c?.getContext('2d');
@@ -765,15 +775,30 @@ export class WalletComponent implements OnInit, OnDestroy {
     my_gradient?.addColorStop(1, 'white');
     //ctx.fillStyle = my_gradient;
     ctx?.fillRect(20, 20, 150, 100);
-    if (this.hasWalletV2) this.verifyOnBoarding();
+    if (this.hasWalletV2 && this.migrate === "close") this.verifyOnBoarding();
     this.getDetails();
-    // console.log({ migrate: this.migrate });
-    // console.log({ wallet: this.hasWalletV2 });
-    // console.log({ show: this.show });
+    if(!this.loadingPopUp) {
+      setTimeout(() => {
+      
+        if(this.hasWalletV2 && this.migrate === "open" && this.show) {
+          this.openModal(this.migration) 
+          this.loadingPopUp = true;
+        } else {
+          this.loadingPopUp = true;
+        }
+      }, 5500);
+    }
+    
+    
+    
   }
   migrateButton(): void {
-    this.migrate = 'open';
-    this.openModal(this.migration);
+    if(this.loadingPopUp) {
+      this.migrate = 'open';
+      this.openModal(this.migration);
+    }
+    
+    
   }
   //Create WALLET V2
   createWalletV2() {
@@ -904,10 +929,12 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   allWallet() {
     try {
+      this.tokenStorageService.setModaleMigrate("close");
       this.walletFacade
         .getAllWallet()
         .pipe(takeUntil(this.onDestroy$))
         .subscribe((data: any) => {
+          
           if (this.tokenStorageService.getWalletVersion() === 'v2') {
             this.versionText = 'New Wallet';
             this.height = '300px';
@@ -953,11 +980,14 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   /*------------------------------------------------------------------------------------*/
 
-  totalbalancewallet() {
-    this.totalBalance$
+ totalbalancewallet() {
+  
+   this.totalBalance$
       .pipe(
         filter((res) => Object.keys(res).length !== 0),
-        takeUntil(this.onDestoy$)
+        
+        takeUntil(this.onDestoy$),
+        //takeUntil(this.onDestoy$)
       )
       .subscribe((data: any) => {
         this.totalAmount = data;
@@ -966,9 +996,12 @@ export class WalletComponent implements OnInit, OnDestroy {
           localStorage.getItem('wallet_version') === 'v1'
             ? true
             : false;
-        if (this.show && this.hasWalletV2 && this.migrate === 'open') {
+            console.log("show ", this.show, "has wallet ", this.hasWalletV2, "migrate ", this.migrate)
+        /*if (this.show && this.hasWalletV2 && this.migrate === 'open') {
+          
           this.openModal(this.migration);
-        }
+        }*/
+        
         if (this.show === false) {
           this.height = '250px';
         }
@@ -1106,8 +1139,8 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   test() {}
 
-  verifyUserWalletV2() {
-    this.walletFacade
+ verifyUserWalletV2() {
+     this.walletFacade
       .checkUserWalletV2()
       .pipe(takeUntil(this.onDestoy$))
       .subscribe(
