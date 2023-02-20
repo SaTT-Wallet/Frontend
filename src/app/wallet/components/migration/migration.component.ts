@@ -229,6 +229,7 @@ export class MigrationComponent implements OnInit {
   nextStep() {
     this.arrayToMigrate = [];
     this.hash = '';
+    this.walletPassword="";
 
     if (this.cryptoChecked === 'TRON') {
       this.walletFacade
