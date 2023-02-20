@@ -73,7 +73,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   @ViewChild('createTronWalletModal', { static: false })
   private createTronWalletModal!: TemplateRef<any>;
 
-  @ViewChild('createWalletV2Modal', { static: true })
+  @ViewChild('createWalletV2Modal', { static: false })
   private createWalletV2Modal!: TemplateRef<any>;
 
   @ViewChild('tronWalletCreatedSuccessModal', { static: false })
@@ -1099,10 +1099,6 @@ export class WalletComponent implements OnInit, OnDestroy {
   test() {}
 
   verifyUserWalletV2() {
-    this.modalService.open(this.createWalletV2Modal, {
-      backdrop: 'static',
-      keyboard: false
-    });
     this.walletFacade
       .checkUserWalletV2()
       .pipe(takeUntil(this.onDestoy$))
@@ -1112,6 +1108,10 @@ export class WalletComponent implements OnInit, OnDestroy {
             this.hasWalletV2 = false;
             localStorage.setItem('existV2', 'false');
             this.height = '250px';
+            this.modalService.open(this.createWalletV2Modal, {
+              backdrop: 'static',
+              keyboard: false
+            });
           } else {
             this.hasWalletV2 = true;
             localStorage.setItem('existV2', 'true');

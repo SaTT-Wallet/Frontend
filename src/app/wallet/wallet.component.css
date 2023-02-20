@@ -48,6 +48,8 @@ input:-webkit-autofill:active {
     width: 100%;
     background: #ffffff;
     height: 100%;
+    z-index: 5;
+    touch-action: none;
   }
 
   .postition-trans {
@@ -67,7 +69,7 @@ input:-webkit-autofill:active {
     font-size: 14px !important;
   }
   .img-update {
-    margin-top: 30% !important;
+    /* margin-top: 10% !important; */
     width: 50% !important;
   }
 }
@@ -2143,7 +2145,7 @@ p {
   box-shadow: none !important;
 
   border-radius: 30px;
-  width: 35% !important;
+  width: 40% !important;
 
   font-style: normal;
   font-weight: 600 !important;
