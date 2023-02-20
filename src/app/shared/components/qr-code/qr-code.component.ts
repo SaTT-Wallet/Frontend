@@ -74,6 +74,7 @@ export class QRCodeComponent implements OnInit {
   btcv2Code: any;
   tronv2Address: any;
   existV1: any;
+  existV2: any;
  
 
   constructor(
@@ -97,6 +98,8 @@ export class QRCodeComponent implements OnInit {
 
   ngOnInit(): void {
     this.portfeuille();
+
+    this.existV2 = localStorage.getItem('existV2')
   }
   toogleDropDownQr() {
     let elem = this.document.getElementsByClassName('toggle-qr');
