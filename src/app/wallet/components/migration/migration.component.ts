@@ -105,6 +105,8 @@ export class MigrationComponent implements OnInit {
         let gasPrice = 10000000000;
         this.gas = Big(gasLimit).times(Big(gasPrice));
         this.gasToDisplay = filterAmount(this.gas.div(10 ** 18).toString());
+        this.cryptoChecked === 'TRON' && (this.gasToDisplay = '0.0268');
+
         if (this.network.name === '') this.network.name = 'ETH';
         let balances = data.filter(
           (element: any) => element.symbol === this.network.name
@@ -126,19 +128,18 @@ export class MigrationComponent implements OnInit {
     this.gas = Big(0);
     this.cryptoChecked = crypto;
     const index = this.listCrypto.findIndex((e) => e.network === crypto);
-    this.getCryptoList();
     this.network.name = this.listCrypto[index]?.name;
     let element = this.cryptobyNetwork.find(
       (e: any) => e.symbol === this.network.name
     );
-    crypto === 'TRON' && (this.gasToDisplay = '0.0268');
     if (element) {
-      this.outOfGas = false;
+      // this.outOfGas = false;
       this.network.balance = element?.quantity;
     } else {
       this.network.balance = '';
       this.outOfGas = true;
     }
+    this.getCryptoList();
   }
 
 
@@ -174,14 +175,9 @@ export class MigrationComponent implements OnInit {
       )
       .subscribe(
         (data: any) => {
-          this.arrayToMigrate = [];
-          this.spinner = false;
-          const index = this.listCrypto.findIndex(
-            (e) => e.network === this.cryptoChecked
-          );
-          let network = this.listCrypto[index].explorer;
-          this.hash = network + data.data[0].from;
-          this.walletStoreService.getCryptoList();
+          if (this.cryptoChecked === 'TRON')
+            setTimeout(() => this.displaySuccessMessage(data), 100000);
+          else this.displaySuccessMessage(data);
         },
         (err: any) => {
           if
@@ -268,5 +264,16 @@ export class MigrationComponent implements OnInit {
   ngOnDestroy() {
     this.onDestroy$.next('');
     this.onDestroy$.complete();
+  }
+
+  displaySuccessMessage(data: any) {
+    this.arrayToMigrate = [];
+    this.spinner = false;
+    const index = this.listCrypto.findIndex(
+      (e) => e.network === this.cryptoChecked
+    );
+    let network = this.listCrypto[index].explorer;
+    this.hash = network + data.data[0].from;
+    this.walletStoreService.getCryptoList();
   }
 }
