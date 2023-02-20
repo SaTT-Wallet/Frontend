@@ -410,7 +410,7 @@
                         *ngIf="
                           details.hidden &&
                           crypto.undername !== 'SATT' &&
-                          crypto.quantity !== 0 &&
+                          crypto.quantity != 0 &&
                           this.version !== 'v2' &&
                           existV2 === 'true'
                         "
