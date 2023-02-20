@@ -59,6 +59,7 @@ export class MigrationComponent implements OnInit {
   onDestroy$ = new Subject();
 
   @Output() migrateEvent = new EventEmitter<String>();
+  valueInput: any= "i m here";
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
@@ -85,6 +86,7 @@ export class MigrationComponent implements OnInit {
     this.getCryptoList();
     this.network.name = 'ETH';
   }
+
 
   getCryptoList() {
     this.cryptoList$.subscribe((data: any) => {
@@ -130,6 +132,7 @@ export class MigrationComponent implements OnInit {
     this.cryptoChecked = crypto;
     const index = this.listCrypto.findIndex((e) => e.network === crypto);
     this.network.name = this.listCrypto[index]?.name;
+    this.walletPassword=""
     let element = this.cryptobyNetwork.find(
       (e: any) => e.symbol === this.network.name
     );
