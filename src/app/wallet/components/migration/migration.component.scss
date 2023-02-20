@@ -12,7 +12,9 @@
   margin-top: 8vh;
 }
 
-
+.crypto {
+  width: 120%;
+}
 
 .title {
   font-family: 'Poppins';
@@ -125,6 +127,10 @@
 //   opacity: 1;
 //   transform: rotateX(0deg);
 // }
+.crypto-title {
+  padding-top: 1%;
+}
+
 
 .next-step {
   background: #4048ff;
@@ -141,6 +147,23 @@
   letter-spacing: 0.01em;
   color: #ffffff;
   margin-bottom: 2vh;
+}
+.next-step:disabled {
+  background: #F6F6FF  ;
+  border-radius: 30px;
+  width: 14.7vw;
+  height: 5.3vh;
+  border: 0;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 27px;
+  align-items: center;
+  letter-spacing: 0.01em;
+  color: #ADADC8;
+  margin-bottom: 2vh;
+  width: 50%;
 }
 
 .image-size {
@@ -160,7 +183,7 @@
   background: #7a7fff;
   border: 10px solid #7a7fff;
   border-radius: 10px;
-  transform: scale(1.75);
+  transform: scale(1.5);
 }
 
 .checkbox-style:checked {
@@ -233,7 +256,7 @@
 }
 .txn-pass-style {
   margin: 1.2vh 0px;
-  font-family: 'Raleway';
+  font-family: 'Poppins';
   font-style: normal;
   font-weight: 600;
   font-size: 12px;
@@ -322,7 +345,7 @@
 
   .next-step {
     height: 75%;
-    width: 50%;
+    width: 40%;
     margin-bottom: 10%;
     font-size: 14px;
     padding-right: 0px;
@@ -350,8 +373,8 @@
   }
 
   .image-size2 {
-    height: 13%;
-    width: 13%;
+    height: 12%;
+    width: 12%;
     justify-content: center;
   }
 

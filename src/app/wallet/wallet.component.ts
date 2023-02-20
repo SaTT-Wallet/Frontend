@@ -79,6 +79,9 @@ export class WalletComponent implements OnInit, OnDestroy {
   @ViewChild('tronWalletCreatedSuccessModal', { static: false })
   private tronWalletCreatedSuccessModal!: TemplateRef<any>;
 
+  @ViewChild('migration', { static: false })
+  private migration!: TemplateRef<any>;
+
   showModal: Boolean = false;
   showPass: boolean = false;
   tronWalletPassword = '';
@@ -487,7 +490,6 @@ export class WalletComponent implements OnInit, OnDestroy {
   onResize(event: any) {
     this.getScreenHeight = event.target.innerHeight;
     this.getScreenWidth = event.target.innerWidth;
-    event.target.innerHeight;
   }
   constructor(
     private accountFacadeService: AccountFacadeService,
@@ -700,9 +702,8 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.getScreenHeight = window.innerHeight;
-    this.getScreenHeight = window.innerWidth;
-    this.migrate = '';
+    //this.getScreenHeight = window.innerHeight;
+    this.migrate = this.tokenStorageService.getModaleMigrate();
     this.getScreenWidth = window.innerWidth;
     if (this.tokenStorageService.getWalletVersion() === 'v2') {
       this.versionText = 'Old Wallet';
@@ -718,7 +719,6 @@ export class WalletComponent implements OnInit, OnDestroy {
       .getAllWallet()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((data: any) => {
-        // console.log('datadatatatata', data);
         this.existV1 = data.data.address;
         if (this.existV1 === null) {
           this.height = '250px';
@@ -767,12 +767,17 @@ export class WalletComponent implements OnInit, OnDestroy {
     ctx?.fillRect(20, 20, 150, 100);
     if (this.hasWalletV2) this.verifyOnBoarding();
     this.getDetails();
+    // console.log({ migrate: this.migrate });
+    // console.log({ wallet: this.hasWalletV2 });
+    // console.log({ show: this.show });
   }
-
+  migrateButton(): void {
+    this.migrate = 'open';
+    this.openModal(this.migration);
+  }
   //Create WALLET V2
   createWalletV2() {
     this.walletV2ErrorMessage = '';
-    this.migrate = '';
     this.buttonClick = true;
     this.walletFacade
       .createNewWalletV2(this.walletPassword)
@@ -785,7 +790,6 @@ export class WalletComponent implements OnInit, OnDestroy {
             setTimeout(() => {
               this.closeModal(this.createWalletV2Modal);
             }, 2000);
-            this.migrate = 'open';
           } else {
             this.walletV2ErrorMessage =
               'Something went wrong please try again!';
@@ -820,7 +824,6 @@ export class WalletComponent implements OnInit, OnDestroy {
             ),
             3000
           );
-          this.migrate = '';
         } else {
           if (
             response?.data?.address &&
@@ -828,7 +831,7 @@ export class WalletComponent implements OnInit, OnDestroy {
             response?.data?.tronAddress
           ) {
             this.closeModal(this.createWalletV2Modal);
-            this.migrate = 'open';
+            this.openModal(this.migration);
           } else {
             //wrong
             //this.closeModal(this.createWalletV2Modal)
@@ -839,6 +842,9 @@ export class WalletComponent implements OnInit, OnDestroy {
   getMigrationStatus($event: any) {
     this.tokenStorageService.setModaleMigrate($event);
     this.migrate = $event;
+    if ($event == 'close') {
+      this.closeModal(this.migration);
+    }
     this.versionText =
       this.tokenStorageService.getWalletVersion() === 'v2'
         ? 'Old Wallet'
@@ -960,7 +966,9 @@ export class WalletComponent implements OnInit, OnDestroy {
           localStorage.getItem('wallet_version') === 'v1'
             ? true
             : false;
-
+        if (this.show && this.hasWalletV2 && this.migrate === 'open') {
+          this.openModal(this.migration);
+        }
         if (this.show === false) {
           this.height = '250px';
         }
