@@ -109,7 +109,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   btcAddressV2: any;
   tronAddressV2: any;
   address: any;
-  version:any;
+  version: any;
   existV2: any;
   constructor(
     private Fetchservice: CryptofetchServiceService,
@@ -153,12 +153,11 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   @Output() hidePortfolio: EventEmitter<any> = new EventEmitter();
 
   ngOnInit(): void {
-
     this.portfeuille();
     this.getTotalBalance();
     this.getusercrypto();
     this.migrateTo();
-    this.existV2 = localStorage.getItem('existV2')
+    this.existV2 = localStorage.getItem('existV2');
     this.formToken.valueChanges.subscribe((values: any) => {
       if (values.tokenAdress !== null) {
         this.disabled = false;
@@ -172,7 +171,6 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   }
   ngAfterContentInit() {
     this.cdref.detectChanges();
-
   }
   checkLi() {
     if (this.liClicked === false) {
@@ -182,15 +180,12 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     }
   }
 
-
   migrateTo() {
-
     this.walletFacade.getAllWallet().subscribe((data: any) => {
-      this.addressV2 = data.data.addressV2
-      this.btcAddressV2 = data.data.btcAddressV2
-      this.tronAddressV2 = data.data.tronAddressV2
-  })
-
+      this.addressV2 = data.data.addressV2;
+      this.btcAddressV2 = data.data.btcAddressV2;
+      this.tronAddressV2 = data.data.tronAddressV2;
+    });
   }
   parseStringToInt(ch: string) {
     return parseFloat(ch).toFixed(3);
@@ -211,7 +206,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
         filter((data: any) => data?.data?.length !== 0),
         takeUntil(this.onDestroy$),
         mergeMap((data: any) => {
-          this.version = localStorage.getItem('wallet_version')
+          this.version = localStorage.getItem('wallet_version');
           this.walletFacade.hideWalletSpinner();
           this.showWalletSpinner === false;
           this.dataList = data;
@@ -293,6 +288,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
           this.cryptoList.forEach((crypto: any) => {
             crypto.selected = false;
           });
+
 
           this.dataList?.forEach((crypto: any) => {
             crypto.price = this.filterAmount(crypto.price + '');
@@ -383,7 +379,6 @@ export class CryptoListComponent implements OnInit, OnDestroy {
       .subscribe((totalBalance: any) => {
         this.totalAmount = parseFloat(totalBalance);
       });
-  
   }
   // hideBalances(event: any): void {
   //   if (event.target.checked === true) {
@@ -396,7 +391,6 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   // }
   selectedAccounts = localStorage.getItem('wallet_id');
 
-
   goTosend(id: any, network: any, pic: any) {
     if (id === 'SATT' && network === 'BEP20') {
       id = 'SATTBEP20';
@@ -407,19 +401,17 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     });
   }
 
-  goMigrate(id: any, network: any, pic: any, quantity:any, price:any) {
+  goMigrate(id: any, network: any, pic: any, quantity: any, price: any) {
     if (id === 'SATT' && network === 'BEP20') {
       id = 'SATTBEP20';
     }
 
-
-    if(network === 'BEP20' || 'ERC20')  this.address = this.addressV2
-    if(network === 'TRON')  this.address = this.tronAddressV2
-    if(network === 'BTC')  this.address = this.btcAddressV2
-
+    if (network === 'BEP20' || 'ERC20') this.address = this.addressV2;
+    if (network === 'TRON') this.address = this.tronAddressV2;
+    if (network === 'BTC') this.address = this.btcAddressV2;
 
     this.router.navigate(['/wallet/send'], {
-      queryParams: { id: id, network: network, pic: pic,sendTo:this.address },
+      queryParams: { id: id, network: network, pic: pic, sendTo: this.address },
       relativeTo: this.activatedRoute
     });
   }
@@ -461,7 +453,6 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     this.modalService.dismissAll(content);
   }
 
- 
   portfeuille() {
     this.walletFacade.wallet$
       .pipe(takeUntil(this.onDestroy$))
@@ -786,13 +777,14 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   }
 
   onTextChange(value: any) {
+    this.document.getElementById('key')?.setAttribute('type', 'search');
     this.txtValue = value;
     if (this.txtValue !== '') {
       this.searched = true;
       if (
         value.indexOf('0x') >= 0 &&
         this.filterByNamePipe.transform(this.listToken, this.search).length ===
-        0
+          0
       ) {
         this.importManually = true;
       } else {
@@ -1037,7 +1029,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     return crypto.symbol;
   }
 
-  private getCryptoToImport() { }
+  private getCryptoToImport() {}
 
   alreadyAdded(token: any): boolean {
     if (

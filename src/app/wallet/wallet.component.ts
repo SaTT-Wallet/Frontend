@@ -79,15 +79,8 @@ export class WalletComponent implements OnInit, OnDestroy {
   @ViewChild('tronWalletCreatedSuccessModal', { static: false })
   private tronWalletCreatedSuccessModal!: TemplateRef<any>;
 
-
   @ViewChild('migration', { static: false })
   private migration!: TemplateRef<any>;
-
-
-
-
-  
-  
 
   showModal: Boolean = false;
   showPass: boolean = false;
@@ -497,7 +490,6 @@ export class WalletComponent implements OnInit, OnDestroy {
   onResize(event: any) {
     this.getScreenHeight = event.target.innerHeight;
     this.getScreenWidth = event.target.innerWidth;
-    
   }
   constructor(
     private accountFacadeService: AccountFacadeService,
@@ -775,16 +767,13 @@ export class WalletComponent implements OnInit, OnDestroy {
     ctx?.fillRect(20, 20, 150, 100);
     if (this.hasWalletV2) this.verifyOnBoarding();
     this.getDetails();
-    console.log({migrate: this.migrate})
-    console.log({wallet: this.hasWalletV2})
-    console.log({show: this.show})
-    
+    // console.log({ migrate: this.migrate });
+    // console.log({ wallet: this.hasWalletV2 });
+    // console.log({ show: this.show });
   }
-  migrateButton() : void {
-    this.migrate = "open"
+  migrateButton(): void {
+    this.migrate = 'open';
     this.openModal(this.migration);
-   
-    
   }
   //Create WALLET V2
   createWalletV2() {
@@ -853,7 +842,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   getMigrationStatus($event: any) {
     this.tokenStorageService.setModaleMigrate($event);
     this.migrate = $event;
-    if($event == "close") {
+    if ($event == 'close') {
       this.closeModal(this.migration);
     }
     this.versionText =
@@ -977,8 +966,8 @@ export class WalletComponent implements OnInit, OnDestroy {
           localStorage.getItem('wallet_version') === 'v1'
             ? true
             : false;
-        if(this.show && this.hasWalletV2 && this.migrate === "open") {
-          this.openModal(this.migration)
+        if (this.show && this.hasWalletV2 && this.migrate === 'open') {
+          this.openModal(this.migration);
         }
         if (this.show === false) {
           this.height = '250px';
@@ -1132,7 +1121,6 @@ export class WalletComponent implements OnInit, OnDestroy {
               keyboard: false
             });
           } else {
-            
             this.hasWalletV2 = true;
             localStorage.setItem('existV2', 'true');
           }
