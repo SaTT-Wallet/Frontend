@@ -86,7 +86,7 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   showModal: Boolean = false;
   showPass: boolean = false;
-  subscription: any; 
+  subscription: any;
   tronWalletPassword = '';
   walletPassword = '';
   tronWalletAddress = '';
@@ -704,8 +704,6 @@ export class WalletComponent implements OnInit, OnDestroy {
     }
   }
 
-  
-
   ngOnInit(): void {
     this.loadingPopUp = false;
     this.migrate = this.tokenStorageService.getModaleMigrate();
@@ -713,7 +711,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     this.hasWalletV2 = false;
     this.verifyUserWalletV2();
     this.totalbalancewallet();
-    
+
     this.getScreenWidth = window.innerWidth;
     if (this.tokenStorageService.getWalletVersion() === 'v2') {
       this.versionText = 'Old Wallet';
@@ -723,7 +721,6 @@ export class WalletComponent implements OnInit, OnDestroy {
       this.height = '300px';
     }
 
-    
     //this.verifyUserWalletV2();
     this.walletFacade
       .getAllWallet()
@@ -766,8 +763,6 @@ export class WalletComponent implements OnInit, OnDestroy {
       });
     this.getSecure();
 
-    
-
     var c = <HTMLCanvasElement>this.document.getElementById('myCanvas');
     var ctx = c?.getContext('2d');
     var my_gradient = ctx?.createLinearGradient(0, 0, 0, 170);
@@ -775,13 +770,15 @@ export class WalletComponent implements OnInit, OnDestroy {
     my_gradient?.addColorStop(1, 'white');
     //ctx.fillStyle = my_gradient;
     ctx?.fillRect(20, 20, 150, 100);
-    console.log(this.migrate)
-    
-    this.getDetails();
-    if(!this.loadingPopUp) {
+    //this.verifyOnBoarding();
+    this.verifyOnBoarding();
+    setTimeout(() => {
+      if (this.hasWalletV2 && this.migrate === 'close') this.getDetails();
+    }, 5500);
+
+    if (!this.loadingPopUp) {
       setTimeout(() => {
-      
-        if(this.hasWalletV2 && this.migrate === "open" && this.show) {
+        if (this.hasWalletV2 && this.migrate === 'open' && this.show) {
           this.modalService.open(this.migration, {
             backdrop: 'static',
             keyboard: false
@@ -792,20 +789,15 @@ export class WalletComponent implements OnInit, OnDestroy {
         }
       }, 5500);
     }
-    
-    
-    
   }
   migrateButton(): void {
-    if(this.loadingPopUp) {
+    if (this.loadingPopUp) {
       this.migrate = 'open';
       this.modalService.open(this.migration, {
         backdrop: 'static',
         keyboard: false
       });
     }
-    
-    
   }
   //Create WALLET V2
   createWalletV2() {
@@ -939,36 +931,34 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   allWallet() {
     try {
-      if(this.loadingPopUp) {
-        this.tokenStorageService.setModaleMigrate("close");
-      this.walletFacade
-        .getAllWallet()
-        .pipe(takeUntil(this.onDestroy$))
-        .subscribe((data: any) => {
-          
-          if (this.tokenStorageService.getWalletVersion() === 'v2') {
-            this.versionText = 'New Wallet';
-            this.height = '300px';
+      if (this.loadingPopUp) {
+        this.tokenStorageService.setModaleMigrate('close');
+        this.walletFacade
+          .getAllWallet()
+          .pipe(takeUntil(this.onDestroy$))
+          .subscribe((data: any) => {
+            if (this.tokenStorageService.getWalletVersion() === 'v2') {
+              this.versionText = 'New Wallet';
+              this.height = '300px';
 
-            this.tokenStorageService.saveWalletVersion('v1');
-            this.tokenStorageService.saveIdWallet(data.data.address);
-            this.tokenStorageService.saveTronWallet(data.data.tronAddress);
-            this.tokenStorageService.saveWalletBtc(data.data.btcAddress);
-          } else {
-            this.versionText = 'Old Wallet';
-            this.height = '250px';
+              this.tokenStorageService.saveWalletVersion('v1');
+              this.tokenStorageService.saveIdWallet(data.data.address);
+              this.tokenStorageService.saveTronWallet(data.data.tronAddress);
+              this.tokenStorageService.saveWalletBtc(data.data.btcAddress);
+            } else {
+              this.versionText = 'Old Wallet';
+              this.height = '250px';
 
-            this.tokenStorageService.saveWalletVersion('v2');
-            this.tokenStorageService.saveIdWallet(data.data.addressV2);
-            this.tokenStorageService.saveTronWallet(data.data.tronAddressV2);
-            this.tokenStorageService.saveWalletBtc(data.data.btcAddressV2);
-          }
+              this.tokenStorageService.saveWalletVersion('v2');
+              this.tokenStorageService.saveIdWallet(data.data.addressV2);
+              this.tokenStorageService.saveTronWallet(data.data.tronAddressV2);
+              this.tokenStorageService.saveWalletBtc(data.data.btcAddressV2);
+            }
 
-          this.walletStoreService.getCryptoList();
-          this.walletStoreService.getTotalBalance();
-        });
+            this.walletStoreService.getCryptoList();
+            this.walletStoreService.getTotalBalance();
+          });
       }
-      
     } catch (error) {}
   }
 
@@ -993,13 +983,12 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   /*------------------------------------------------------------------------------------*/
 
- totalbalancewallet() {
-  
-   this.totalBalance$
+  totalbalancewallet() {
+    this.totalBalance$
       .pipe(
         filter((res) => Object.keys(res).length !== 0),
-        
-        takeUntil(this.onDestoy$),
+
+        takeUntil(this.onDestoy$)
         //takeUntil(this.onDestoy$)
       )
       .subscribe((data: any) => {
@@ -1009,12 +998,19 @@ export class WalletComponent implements OnInit, OnDestroy {
           localStorage.getItem('wallet_version') === 'v1'
             ? true
             : false;
-            console.log("show ", this.show, "has wallet ", this.hasWalletV2, "migrate ", this.migrate)
+        console.log(
+          'show ',
+          this.show,
+          'has wallet ',
+          this.hasWalletV2,
+          'migrate ',
+          this.migrate
+        );
         /*if (this.show && this.hasWalletV2 && this.migrate === 'open') {
           
           this.openModal(this.migration);
         }*/
-        
+
         if (this.show === false) {
           this.height = '250px';
         }
@@ -1152,8 +1148,8 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   test() {}
 
- verifyUserWalletV2() {
-     this.walletFacade
+  verifyUserWalletV2() {
+    this.walletFacade
       .checkUserWalletV2()
       .pipe(takeUntil(this.onDestoy$))
       .subscribe(
@@ -1304,7 +1300,6 @@ export class WalletComponent implements OnInit, OnDestroy {
     }
   }
   ngOnDestroy() {
-    console.log("test")
     this.onDestoy$.next('');
     this.onDestoy$.complete();
   }
