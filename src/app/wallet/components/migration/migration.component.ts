@@ -122,6 +122,7 @@ export class MigrationComponent implements OnInit {
     });
   }
   setState(crypto: string) {
+
     this.outOfGas = false;
     this.hash = '';
     this.arrayToMigrate = [];
@@ -145,7 +146,12 @@ export class MigrationComponent implements OnInit {
 
   goToBuy(id: any, network: any, cryptobyNetwork:any) {
     this.sendMigrationStatus()
+   
 
+    if( network === "BTTC"){
+      window.open('https://sunswap.com/#/v2?lang=en-US&t0=TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t&t1=TAFjULxiVgT4qWk6UZwjqwZXTSaGaqnVp4&type=swap', '_blank');
+    
+   } else {
     if (network === 'ERC20') {
       id = 'ETH';
     }
@@ -159,6 +165,7 @@ export class MigrationComponent implements OnInit {
       queryParams: { id: id, network: network },
       relativeTo: this.activatedRoute
     });
+  }
   }
 
 
