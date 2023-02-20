@@ -86,6 +86,7 @@ export class MigrationComponent implements OnInit {
     this.network.name = 'ETH';
   }
 
+
   getCryptoList() {
     this.cryptoList$.subscribe((data: any) => {
       this.cryptobyNetwork = data.filter(
@@ -122,6 +123,7 @@ export class MigrationComponent implements OnInit {
     });
   }
   setState(crypto: string) {
+
     this.outOfGas = false;
     this.hash = '';
     this.arrayToMigrate = [];
@@ -129,6 +131,7 @@ export class MigrationComponent implements OnInit {
     this.cryptoChecked = crypto;
     const index = this.listCrypto.findIndex((e) => e.network === crypto);
     this.network.name = this.listCrypto[index]?.name;
+    this.walletPassword=""
     let element = this.cryptobyNetwork.find(
       (e: any) => e.symbol === this.network.name
     );
@@ -146,6 +149,10 @@ export class MigrationComponent implements OnInit {
   goToBuy(id: any, network: any, cryptobyNetwork:any) {
     this.sendMigrationStatus()
 
+    if( network === "BTTC"){
+      window.open('https://sunswap.com/#/v2?lang=en-US&t0=TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t&t1=TAFjULxiVgT4qWk6UZwjqwZXTSaGaqnVp4&type=swap', '_blank');
+    
+   } else {
     if (network === 'ERC20') {
       id = 'ETH';
     }
@@ -159,6 +166,7 @@ export class MigrationComponent implements OnInit {
       queryParams: { id: id, network: network },
       relativeTo: this.activatedRoute
     });
+  }
   }
 
 
