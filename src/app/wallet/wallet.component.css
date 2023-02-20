@@ -2228,12 +2228,13 @@ p {
 }
 
 .migration-mobile {
-  
+
     width: 100%;
     height: 100vh;
     
     background: #FFFFFF;
-    overflow: scroll;
+    overflow: hidden;
+    
     
    
     
