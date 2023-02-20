@@ -37,7 +37,7 @@
                     class="key d-flex search-input-wrapper mt-3"
                     type="text"
                     name="search"
-                    autocomplete="search-token"
+                    autocomplete="off"
                     placeholder="Search token "
                     [(ngModel)]="search"
                     (ngModelChange)="onTextChange($event); clearInput()"
@@ -406,13 +406,8 @@
                         class="col-2 d-flex justify-content-start align-items-center"
                         style="width: fit-content; cursor: pointer"
                         details.hidden="true"
-                        *ngIf="
-                          details.hidden &&
-                          crypto.undername !== 'SATT' &&
-                          crypto.quantity != 0 &&
-                          this.version != 'v2' &&
-                          existV2 === 'true'
-                        "
+                        *ngIf="details.hidden && crypto.undername !== 'SATT' && crypto.quantity!=0 && this.version != 'v2' && existV2 === 'true'"
+
                         (click)="
                           goMigrate(
                             crypto.symbol,
@@ -756,11 +751,8 @@
                           >
                             <img
                               src="./../../../assets/Images/custom_icons/clarity_error-standard-line_mobile.svg"
-                              *ngIf="
-                                crypto.quantity != 0 &&
-                                this.version != 'v2' &&
-                                existV2 === 'true'
-                              "
+                              *ngIf=" crypto.quantity!=0 && this.version != 'v2' && existV2 === 'true'"
+
                               style="
                                 font-size: 13px;
                                 cursor: pointer;
@@ -1105,12 +1097,8 @@
                           >
                             <img
                               src="./../../../assets/Images/custom_icons/clarity_error-standard-line_mobile.svg"
-                              *ngIf="
-                                crypto.cryptoBEP20.quantity != 0 &&
-                                this.version != 'v2' &&
-                                existV2 === 'true'
-                              "
-                              style="
+                              *ngIf=" crypto.cryptoBEP20.quantity!=0 && this.version !='v2' && existV2 === 'true'"
+                             style="
                                 font-size: 13px;
                                 cursor: pointer;
                                 margin-left: 24px;

@@ -15,6 +15,7 @@ import { TokenStorageService } from '@app/core/services/tokenStorage/token-stora
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { environment } from '@environments/environment';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-migration',
@@ -40,7 +41,9 @@ export class MigrationComponent implements OnInit {
   arrayToMigrate: any[] = [];
   cryptobyNetwork: any;
   cryptoChecked = 'ERC20';
-  network = { name: 'ETH', balance: '' };
+  activatedRoute: ActivatedRoute | null | undefined;
+
+  network = { name: '', balance: '' };
   cryptoList$ = this.walletFacade.cryptoList$;
   passWallet = false;
   showPass: boolean = false;
@@ -56,19 +59,28 @@ export class MigrationComponent implements OnInit {
   onDestroy$ = new Subject();
 
   @Output() migrateEvent = new EventEmitter<String>();
+
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.getScreenHeight = event.target.innerHeight;
     this.getScreenWidth = event.target.innerWidth;
     event.target.innerHeight;
   }
+
+
+  
+
+
   constructor(
     private service: CryptofetchServiceService,
     private walletFacade: WalletFacadeService,
     private walletStoreService: WalletStoreService,
-    private tokenStorageService: TokenStorageService
+    private tokenStorageService: TokenStorageService,
+    private router: Router,
+
   ) {}
   ngOnInit(): void {
+    
     this.getScreenWidth = window.innerWidth;
     this.getCryptoList();
     this.network.name = 'ETH';
@@ -129,6 +141,28 @@ export class MigrationComponent implements OnInit {
     }
     this.getCryptoList();
   }
+
+
+  goToBuy(id: any, network: any, cryptobyNetwork:any) {
+    this.sendMigrationStatus()
+
+    if (network === 'ERC20') {
+      id = 'ETH';
+    }
+    if ( network === 'BEP20') {
+      id = 'BNB';
+    }
+    if ( network === 'TRON') {
+      id = 'TRX';
+    }
+    this.router.navigate(['/wallet/buy-token'], {
+      queryParams: { id: id, network: network },
+      relativeTo: this.activatedRoute
+    });
+  }
+
+
+
   next() {
     this.outOfGas = false;
     this.spinner = true;
@@ -146,9 +180,13 @@ export class MigrationComponent implements OnInit {
           else this.displaySuccessMessage(data);
         },
         (err: any) => {
-          err.error.error ===
-            'Key derivation failed - possibly wrong password' &&
-            (this.errorMessage = true);
+          if
+          (err.error.error ===
+            'Key derivation failed - possibly wrong password' ) {
+              this.errorMessage = true;
+              this.walletPassword = "";
+            }
+            
           setTimeout(() => {
             this.errorMessage = false;
           }, 3000);

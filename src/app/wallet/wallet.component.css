@@ -1017,6 +1017,9 @@ textarea::placeholder {
     padding: 0px 0px 55px 0px !important;
     /* overflow-x: hidden;*/
     overflow-y: auto;
+   
+    
+    
   }
   /* .blockk {
         border-radius: 0px !important;
@@ -1946,6 +1949,8 @@ p {
     z-index: 30;
   }
 
+  
+
   .walletEstim {
     margin-left: -2rem;
   }
@@ -2208,23 +2213,7 @@ p {
 }
 
 
-@media (max-width : 960px) {
-  .migration {
-    height: 100%;
-    width: 100%;
-    position: relative;
-    width: 66.13vw;
-    z-index: 101;
-    min-height: 70vh;
-    height: auto;
-    background: #FFFFFF;
-    
-    top: 0;
-    left: 0;
-    right: 0;
-    left: 0;
-  }
-}
+
 
 .migration{
   position: absolute;
@@ -2235,17 +2224,21 @@ p {
   background: #FFFFFF;
   box-shadow: 0px 3px 10px rgb(0 0 0 / 25%);
   border-radius: 30px;
-  top: 14.7vh;
-  left: 16.9vw;
+  
 }
 
 .migration-mobile {
-  position: absolute;
+
     width: 100%;
-    z-index: 600;
+    height: 100vh;
+    
     background: #FFFFFF;
-    height: 100%;
-    overflow: auto;
+    overflow-x: hidden;
+    
+    
+   
+    
+    
 }
 .currentbalance{
   position: relative;

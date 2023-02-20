@@ -8,12 +8,20 @@
 </div> -->
 
 <!-- <div class="wallet container-fluid"> -->
-<app-migration
-  [className]="getScreenWidth > 960 ? 'migration' : 'migration-mobile'"
-  *ngIf="migrate === 'open' && show && hasWalletV2"
-  [migrate]="migrate"
-  (migrateEvent)="getMigrationStatus($event)"
+
+<ng-template #migration>
+  <app-migration  
+[className]="getScreenWidth > 740 ? 'migration' : 'migration-mobile'"
+*ngIf="migrate === 'open' && show && hasWalletV2" 
+[migrate]="migrate"
+(migrateEvent)="getMigrationStatus($event)"
+
 ></app-migration>
+</ng-template>
+
+
+
+
 
 <div class="wallet">
   <!--red bloc:desktop and tablette-->
@@ -63,7 +71,7 @@
                 <button
                   class="migratebtn"
                   type="button"
-                  (click)="this.migrate = 'open'"
+                  (click)="migrateButton()"
                 >
                   <span
                     ><img

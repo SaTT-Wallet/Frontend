@@ -148,6 +148,7 @@ export class WalletStoreService {
     return this.walletService.getAllWallet().pipe(
       tap((res: any) => {
         console.log("this._walletthis._walletthis._wallet",res)
+        if(res.data.addressV2){localStorage.setItem('existV2','true')}
 
         this._allWallet.next(res);
         // console.log(res);
