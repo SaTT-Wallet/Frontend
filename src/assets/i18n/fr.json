@@ -1798,7 +1798,7 @@
   "Profil.modify_info": "Modifier mes informations",
   "Profil.Choix du réseau": "Choix du réseau",
   "Profil.retreive_data_portfolio": "Exporter ma clé Blockchain",
-  "Profil.retreive_data_old_portfolio": "Exporter ma  ancienne  clé Blockchain",
+  "Profil.retreive_data_old_portfolio": "Exporter m'ancienne clé Blockchain",
   "Profil.JSON-file": "Téléchargez votre fichier keystore .JSON. Ce fichier, protégé par votre mot de passe de transaction, est strictement confidentiel. Enregistrez-le dans un endroit sécurisé. Vous ne devez le communiquer à personne.",
   "Profil.download": "Télécharger",
   "Profil.sec-1": "Permet d’ajouter un niveau de sécurité supplémentaire lorsque vous vous connectez à votre portefeuille. Vous devrez insérer, en plus de votre mot de passe de connexion, un code de sécurité à usage unique. Ce code est généré par une application sécurisée.",
