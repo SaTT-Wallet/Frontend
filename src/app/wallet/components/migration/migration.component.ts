@@ -143,8 +143,7 @@ export class MigrationComponent implements OnInit {
 
 
   goToBuy(id: any, network: any, cryptobyNetwork:any) {
-    console.log("iididiidid",cryptobyNetwork);
-    console.log("networknetwork",network);
+    this.sendMigrationStatus()
 
     if (network === 'ERC20') {
       id = 'ETH';
