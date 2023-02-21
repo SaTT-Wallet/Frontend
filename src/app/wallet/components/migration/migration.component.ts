@@ -190,7 +190,7 @@ export class MigrationComponent implements OnInit {
         (err: any) => {
           if
           (err.error.error ===
-            'Key derivation failed - possibly wrong password' ) {
+            'Key derivation failed - possibly wrong password' || err.error.error === "Invalid private key provided") {
               this.errorMessage = true;
               this.walletPassword = "";
             }
