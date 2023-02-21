@@ -801,6 +801,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
   //Create WALLET V2
   createWalletV2() {
+    
     this.walletV2ErrorMessage = '';
     this.buttonClick = true;
     this.walletFacade
@@ -854,6 +855,7 @@ export class WalletComponent implements OnInit, OnDestroy {
             response?.data?.btcAddress &&
             response?.data?.tronAddress
           ) {
+            this.ngOnInit()
             this.closeModal(this.createWalletV2Modal);
             this.modalService.open(this.migration, {
               backdrop: 'static',
@@ -865,6 +867,7 @@ export class WalletComponent implements OnInit, OnDestroy {
           }
         }
       });
+
   }
   getMigrationStatus($event: any) {
     this.tokenStorageService.setModaleMigrate($event);
