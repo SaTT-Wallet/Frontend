@@ -284,5 +284,6 @@ export class MigrationComponent implements OnInit {
     let network = this.listCrypto[index].explorer;
     this.hash = network + data.data[0].from;
     this.walletStoreService.getCryptoList();
+    this.walletStoreService.getTotalBalance();
   }
 }
