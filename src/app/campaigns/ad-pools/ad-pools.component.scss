@@ -10,15 +10,14 @@
     box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 20px;
     margin-bottom: 20px;
     border-radius: 30px;
-    width: 100%;
 
     max-width: 350px;
     position: relative;
     overflow: hidden;
-    @media (min-width: 1200px) {
-      width: 348.13px !important;
-      height: 391.12px !important;
-    }
+    // @media (min-width: 1200px) {
+    //   width: 348.13px !important;
+    //   height: 391.12px !important;
+    // }
     // justify-content: center;
     // align-items: center;
   }
@@ -32,7 +31,6 @@
     left: 18px;
   }
   .create-campaign-bg {
-    position: absolute;
     width: 348px;
     height: 392px;
     left: 0px;
@@ -131,10 +129,10 @@ img.not-found {
 //   z-index: -1 !important;
 // }
 
- ::ng-deep #fc_frame,
- #fc_frame.fc-widget-normal {
-  bottom: 64px!important;
- }
+::ng-deep #fc_frame,
+#fc_frame.fc-widget-normal {
+  bottom: 64px !important;
+}
 
 // .modal-dialog {
 //   height: 100vh;
