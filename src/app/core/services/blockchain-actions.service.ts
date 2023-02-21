@@ -92,7 +92,7 @@ export class BlockchainActionsService {
                   "You didn't exceed the limits timing to harvest between 24H"
                 ) {
                   this.errorMessage =
-                    'Harvest will be available only 24 hours after the link validation from the Ad Pool manager';
+                    'Harvest will be available only 24 hours after the last get gains';
                 } else if (
                   error.error.error ===
                     'Returned error: insufficient funds for gas * price + value' ||

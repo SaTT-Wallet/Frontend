@@ -1196,6 +1196,22 @@ button:focus {
   border: none;
   /* margin-right: 1.5rem; */
 }
+.btn-grey {
+  background: "grey" !important;
+  border-radius: 30px;
+  width: 165px;
+  height: 56px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 27px;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.01em;
+  color: #f6f6ff !important;
+  border: none;
+  /* margin-right: 1.5rem; */
+}
 
 .btn-blue:hover:enabled {
   background: linear-gradient(84.45deg, #f52079 -28.09%, #4048ff 78.5%);

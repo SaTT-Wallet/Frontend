@@ -535,7 +535,8 @@ export class CampaignHttpApiService {
         title,
         pass: password,
         hash,
-        linkedinId : application.linkedinId
+        linkedinId : application.linkedinId,
+        version:localStorage.getItem('wallet_version')
       },
       { headers: header }
     );
@@ -777,7 +778,8 @@ export class CampaignHttpApiService {
       sattUrl + '/campaign/tron/approval',
       {
         tokenAddress: tron.addr,
-        pass: tron.pass
+        pass: tron.pass,
+        version : localStorage.getItem('wallet_version')
       },
 
       { headers: this.tokenStorageService.getHeader() }
@@ -1068,10 +1070,10 @@ export class CampaignHttpApiService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    let walletId = this.tokenStorageService.getIdWallet();
+    let idUser = this.tokenStorageService.getUserId();
 
     return this.http
-      .get(sattUrl + '/campaign/filterLinks/' + walletId, {
+      .get(sattUrl + '/campaign/filterLinks/' + idUser, {
         headers: header,
         params: campaignId ? queryParamsCamp : queryParams
       })

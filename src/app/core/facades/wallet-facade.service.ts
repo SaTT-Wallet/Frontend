@@ -75,6 +75,10 @@ export class WalletFacadeService {
     return this.walletStoreService.cryptoAmount$;
   }
 
+  public get allWallet$() {
+    return this.walletStoreService.allWallet$;
+  }
+
   public get totalBalance$() {
     return this.store.select(selectTotaleBalance);
   }
@@ -122,6 +126,10 @@ export class WalletFacadeService {
     return this.walletStoreService.getWallet();
   }
 
+  getAllWallet() {
+    return this.walletStoreService.getAllWallet();
+  }
+
   initWallet() {
     this.walletStoreService.init();
   }
@@ -144,8 +152,8 @@ export class WalletFacadeService {
     return this.walletService.sendAmount(send);
   }
 
-  transferTokens(body: ITransferTokensRequestBody) {
-    return this.walletService.transferTokens(body);
+  transferTokens(body: ITransferTokensRequestBody,max:any) {
+    return this.walletService.transferTokens(body,max);
   }
 
   getBalanceChart() {
@@ -197,8 +205,6 @@ export class WalletFacadeService {
     return this.cryptofetchServiceService.getEtherGaz();
   }
 
- 
-
   loadEtherGaz() {
     this.walletStoreService.getEtherGaz();
   }
@@ -232,8 +238,8 @@ export class WalletFacadeService {
   getBnbGaz() {
     return this.cryptofetchServiceService.getBnbGaz();
   }
-  getGas(network:any){
-      return this.cryptofetchServiceService.getGas(network)
+  getGas(network: any) {
+    return this.cryptofetchServiceService.getGas(network);
   }
 
   getGazByNetwork(network: string) {
@@ -361,5 +367,20 @@ export class WalletFacadeService {
 
   createTronWallet(password: string) {
     return this.walletService.createTronWallet(password);
+  }
+
+  // CHECK USER HAVE ALREADY WALLET V2 
+  checkUserWalletV2() {
+    return this.walletService.checkUserWalletV2();
+  }
+
+  // CREATE NEW WALLET
+  createNewWalletV2(password: string) {
+    return this.walletService.createNewWalletV2(password);
+  }
+
+
+  checkUserIsNew() {
+    return this.walletService.checkUserIsNew();
   }
 }

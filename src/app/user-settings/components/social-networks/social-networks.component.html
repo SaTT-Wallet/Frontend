@@ -1,4 +1,8 @@
-<div class="container-fluid page-content" *ngIf="!showSpinner">
+<div
+  class="container-fluid page-content"
+  [style]="'margin-top: 4%!important; '"
+  *ngIf="!showSpinner"
+>
   <div class="show-mobile">
     <div class="col-md-12 col-lg-12 col-xs-12 mb-3 px-0">
       <button type="button" class="btn-back" [routerLink]="['/home/settings/']">
@@ -81,12 +85,16 @@
           <img src="./assets/Images/linkedin-white.png" width="24px" />
           <span> {{ 'social_networks.add_linkedin' | translate }}</span>
         </button>
-        <button class="tiktok-btn-cnx" (click)="onReditectSocial('tiktok')"   *ngIf="channelTiktok?.length === 0"> 
+        <button
+          class="tiktok-btn-cnx"
+          (click)="onReditectSocial('tiktok')"
+          *ngIf="channelTiktok?.length === 0"
+        >
           <img src="./assets/Images/tiktok-white.svg" width="20px" />
           <span>
             {{ 'social_networks.add_tiktok' | translate }}
           </span>
-        </button> 
+        </button>
       </div>
     </div>
 
@@ -130,7 +138,10 @@
             style="border: none"
             class="col-1 col-md-1 delete-account-bloc cursor-pointer mobile"
           >
-            <i class="fa fa-trash-o pinkTrash" aria-hidden="true"             (click)="openModalDeleteAll(deleteAllModal, 'google')"
+            <i
+              class="fa fa-trash-o pinkTrash"
+              aria-hidden="true"
+              (click)="openModalDeleteAll(deleteAllModal, 'google')"
             ></i>
           </button>
           <!-- (click)="toggelGoogleBlock()" -->
@@ -200,9 +211,7 @@
                             src="{{ ch.channelImage.default.url }}"
                             (error)="onImgError($event)"
                           />
-                          <span class="ch-name ">{{
-                            ch.channelTitle
-                          }}</span>
+                          <span class="ch-name">{{ ch.channelTitle }}</span>
                         </div>
                       </td>
                       <td class="text-center">
@@ -342,9 +351,12 @@
           <button
             style="border: none"
             class="col-1 col-md-1 delete-account-bloc cursor-pointer mobile"
-           
           >
-            <i  (click)="openModalDeleteAll(deleteAllModal, 'linkedin')" class="fa fa-trash-o pinkTrash" aria-hidden="true"></i>
+            <i
+              (click)="openModalDeleteAll(deleteAllModal, 'linkedin')"
+              class="fa fa-trash-o pinkTrash"
+              aria-hidden="true"
+            ></i>
           </button>
           <!-- (click)="toggelLinkedinBlock()" -->
           <div class="col-1 col-md-1 chev-down cursor_pntr">
@@ -400,7 +412,7 @@
                             (error)="onImgError($event)"
                           />
                         </div>
-                        <span class="ch-name ">{{
+                        <span class="ch-name">{{
                           ch['organization~'].localizedName
                         }}</span>
                       </div>
@@ -482,9 +494,12 @@
           <button
             style="border: none"
             class="col-1 col-md-1 delete-account-bloc cursor-pointer mobile"
-            
           >
-            <i (click)="openModalDeleteAll(deleteAllModal, 'twitter')" class="fa fa-trash-o pinkTrash" aria-hidden="true"></i>
+            <i
+              (click)="openModalDeleteAll(deleteAllModal, 'twitter')"
+              class="fa fa-trash-o pinkTrash"
+              aria-hidden="true"
+            ></i>
           </button>
           <!-- (click)="toggelTwitterBlock()" -->
           <div class="col-1 col-md-1 chev-down">
@@ -547,7 +562,7 @@
                           src="{{ ch.photos[0].value }}"
                           (error)="onImgError($event)"
                         />
-                        <span class="ch-name ">{{ ch.displayName }}</span>
+                        <span class="ch-name">{{ ch.displayName }}</span>
                       </div>
                     </td>
                     <td class="text-center">
@@ -647,9 +662,12 @@
           <button
             style="border: none"
             class="col-1 col-md-1 delete-account-bloc cursor-pointer mobile"
-          
           >
-            <i   (click)="openModalDeleteAll(deleteAllModal, 'tiktok')" class="fa fa-trash-o pinkTrash" aria-hidden="true"></i>
+            <i
+              (click)="openModalDeleteAll(deleteAllModal, 'tiktok')"
+              class="fa fa-trash-o pinkTrash"
+              aria-hidden="true"
+            ></i>
           </button>
           <!-- (click)="toggelTwitterBlock()" -->
           <div class="col-1 col-md-1 chev-down">
@@ -712,7 +730,7 @@
                           src="{{ ch.profileImage }}"
                           (error)="onImgError($event)"
                         />
-                        <span class="ch-name ">{{ ch.displayName }}</span>
+                        <span class="ch-name">{{ ch.displayName }}</span>
                       </div>
                     </td>
                     <td class="text-center">
@@ -725,16 +743,14 @@
                       </span> -->
 
                       <!-- ============ -->
-                      <span class="sa-subscribers-number"
-                          >
-                          {{ ch.followers | transfomNumber }}
-                          <span class="desktop">
-                            {{ 'social_networks.follower' | translate
-                            }}<span *ngIf="ch.subscribers !== 1">s</span>
-                          </span>
+                      <span class="sa-subscribers-number">
+                        {{ ch.followers | transfomNumber }}
+                        <span class="desktop">
+                          {{ 'social_networks.follower' | translate
+                          }}<span *ngIf="ch.subscribers !== 1">s</span>
                         </span>
-                        <!-- ============== -->
-
+                      </span>
+                      <!-- ============== -->
                     </td>
                     <td class="text-center">
                       <div class="action">
@@ -826,9 +842,12 @@
           <button
             style="border: none"
             class="col-1 col-md-1 delete-account-bloc cursor-pointer mobile"
-          
           >
-            <i   (click)="openModalDeleteAll(deleteAllModal, 'facebook')" class="fa fa-trash-o pinkTrash" aria-hidden="true"></i>
+            <i
+              (click)="openModalDeleteAll(deleteAllModal, 'facebook')"
+              class="fa fa-trash-o pinkTrash"
+              aria-hidden="true"
+            ></i>
           </button>
           <!-- (click)="toggelFacebookBlock()" -->
           <div class="col-1 col-md-1 chev-down">
@@ -902,7 +921,7 @@
                           />
                         </div>
                         <div>
-                          <span class="ch-name "
+                          <span class="ch-name"
                             >{{ ch.name }}
                             <img
                               src="./assets/Images/custom_icons/link.svg"
@@ -927,7 +946,7 @@
                             [src]="networkLogoFacebook"
                           />
                         </div>
-                        <span class="ch-name "
+                        <span class="ch-name"
                           >{{ ch.name }}
                           <img
                             src="./assets/Images/custom_icons/link.svg"
@@ -1034,14 +1053,16 @@
         <button
           class="linkedin-btn-cnx"
           (click)="onReditectSocial('linkedin')"
-
-        *ngIf="channelLinkedin?.length === 0"
-
+          *ngIf="channelLinkedin?.length === 0"
         >
           <img src="./assets/Images/linkedin-white.png" width="24px" />
           <span> {{ 'social_networks.add_linkedin' | translate }}</span>
         </button>
-        <button class="tiktok-btn-cnx" (click)="onReditectSocial('tiktok')" *ngIf="channelTiktok?.length === 0">
+        <button
+          class="tiktok-btn-cnx"
+          (click)="onReditectSocial('tiktok')"
+          *ngIf="channelTiktok?.length === 0"
+        >
           <img src="./assets/Images/tiktok-white.svg" width="20px" />
           <span> {{ 'social_networks.add_tiktok' | translate }}</span>
         </button>
@@ -1122,7 +1143,9 @@
         <div class="row d-flex justify-content-center">
           <div class="col-lg-12 justify-content-center mb-2">
             <button
-              (click)="deleteAccount(this.channelId, networkName,this.channelName)"
+              (click)="
+                deleteAccount(this.channelId, networkName, this.channelName)
+              "
               type="button"
               class="btn delete"
               data-dismiss="modal"

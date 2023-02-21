@@ -6,10 +6,137 @@
   //   text-align: -webkit-center;
   // }
 }
+.bg-imag-cover {
+  background-image: url('/assets/Images/bgAddPool.png');
+  background-size: cover;
+  background-position: center;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 426px;
+  margin-top: -5vh;
+}
+.bloc-cover {
+  margin-top: 14vh;
+  right: 40%;
+}
+.title-cover {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 120%;
 
+  display: flex;
+  letter-spacing: 1px;
+  padding-left: 3%;
+  margin-bottom: 1%;
+  color: #ffffff;
+}
+.description-cover {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 21px;
+  line-height: 120%;
+
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.03em;
+  padding-right: 66%;
+  padding-left: 3%;
+  color: #ffffff;
+  margin-bottom: 1%;
+}
+.button-cover {
+  color: white;
+
+  position: relative;
+
+  left: 3%;
+  right: 4.4%;
+  font-size: 14px;
+  bottom: 0%;
+  width: 140px;
+  height: 32px;
+  background: #f52079;
+  border-radius: 30px;
+  letter-spacing: 0.01em;
+  align-items: center;
+  text-align: center;
+  border: 0px;
+}
+@media (min-width: 1900px) {
+  .description-cover {
+    padding-right: 73%;
+  }
+}
+@media screen and (max-width: 1800px) and (min-width: 320px) {
+  .bg-imag-cover {
+    margin-top: -12vh;
+  }
+}
+@media (max-width: 992px) {
+  .bloc-cover {
+    margin-top: 15vh;
+  }
+  .bg-imag-cover {
+    background-image: url('/assets/Images/bgAddPool992.png');
+    margin-top: -6vh;
+  }
+}
 @media (max-width: 786.98px) {
   :host {
     padding-bottom: 100px !important;
+  }
+  .bloc-cover {
+    margin-top: 15vh;
+  }
+  .bg-imag-cover {
+    background-image: url('/assets/Images/bgAddPool576.png');
+  }
+}
+@media (max-width: 576px) {
+  .bloc-cover {
+    margin-top: 15vh;
+  }
+  .bg-imag-cover {
+    background-image: url('/assets/Images/bgAddPool576.png');
+  }
+  .title-cover {
+    font-size: 28px;
+  }
+  .description-cover {
+    font-size: 21px;
+  }
+}
+@media (max-width: 500px) {
+  .bg-imag-cover {
+    background-image: url('/assets/Images/bgAddPool320.png');
+    height: 468px;
+    margin-top: -8vh;
+  }
+  .bloc-cover {
+    margin-top: 43vh;
+    margin-left: 20%;
+  }
+  .title-cover {
+    left: 5%;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 120%;
+    align-items: center;
+  }
+  .description-cover {
+    font-weight: 400;
+    padding-right: 40%;
+    font-size: 14px;
+    line-height: 130%;
+    padding-right: 10%;
+  }
+  .button-cover {
+    left: 17%;
+    margin-bottom: 1%;
   }
 }
 .background {
@@ -19,3 +146,53 @@
 .separator {
   height: 65px;
 }
+@media (min-height: 780px) and (max-height: 950px) and (max-width: 450px) {
+  .bloc-cover {
+    margin-top: 38vh;
+  }
+}
+// $small-width: 480px;
+// $medium-width: 768px;
+// $large-width: 1024px;
+
+// @mixin extra-small {
+//   @media (max-width: #{$small-width - 1px}) {
+//     @content;
+//   }
+// }
+
+// @mixin small-down {
+//   @media (max-width: #{$medium-width - 1px}) {
+//     @content;
+//   }
+// }
+
+// @mixin small-only {
+//   @media (min-width: #{$small-width}) and (max-width: #{$medium-width - 1px}) {
+//     @content;
+//   }
+// }
+
+// @mixin small-up {
+//   @media (min-width: #{$small-width}) {
+//     @content;
+//   }
+// }
+
+// @mixin medium-only {
+//   @media (min-width: #{$medium-width}) and (max-width: #{$large-width - 1px}) {
+//     @content;
+//   }
+// }
+
+// @mixin medium-up {
+//   @media (min-width: #{$medium-width}) {
+//     @content;
+//   }
+// }
+
+// @mixin large {
+//   @media (min-width: #{$large-width}) {
+//     @content;
+//   }
+// }

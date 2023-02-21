@@ -103,12 +103,12 @@ export class CanLoadPublicModule implements CanLoad {
       }),
       switchMap((data: IResponseWallet | boolean) => {
         if ((data as IResponseWallet).data.address) {
-          this.tokenStorageService.saveIdWallet(
-            (data as IResponseWallet).data.address
-          );
-          this.tokenStorageService.saveTronWallet(
-            (data as IResponseWallet).data?.tronAddress
-          );
+          // this.tokenStorageService.saveIdWallet(
+          //   (data as IResponseWallet).data.address
+          // );
+          // this.tokenStorageService.saveTronWallet(
+          //   (data as IResponseWallet).data?.tronAddress
+          // );
           return of(true);
         } else if (this.dateNow > this.dateShouldExpireAt) {
           return of(true);

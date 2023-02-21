@@ -1,6 +1,6 @@
 <div class="col-12 background pt-5" *ngIf="title.startsWith('ad-pools')">
   <div class="d-flex justify-content-center">
-    <img
+    <!-- <img
       class="d-block d-sm-none"
       src="../../../assets/Images/bgAddPool320.png"
       style="object-fit: cover; width: 100%; margin-top: -3rem !important"
@@ -26,10 +26,21 @@
       class="d-none d-xl-block"
       src="../../../assets/Images/bgAddPool.png"
       style="object-fit: cover; width: 100%; margin-top: -3rem !important"
-    />
-
+    /> -->
+    <div class="bg-imag-cover">
+      <div class="bloc-cover">
+        <div class="title-cover">Wallet updated</div>
+        <div class="description-cover">
+          For security reasons, we invite you to migrate your tokens to a new
+          wallet.
+        </div>
+        <div>
+          <button class="button-cover" routerLink="wallet">Migrate now</button>
+        </div>
+      </div>
+    </div>
     <!--1400-->
-    <p
+    <!-- <p
       class="d-none d-xl-block"
       style="
         position: absolute;
@@ -112,10 +123,10 @@
         "
         >Buy SaTT</span
       >
-    </button>
+    </button> -->
 
     <!--1200-->
-    <p
+    <!-- <p
       class="d-none d-lg-block d-xl-none"
       style="
         position: absolute;
@@ -164,9 +175,9 @@
     >
       Farm Your Social Networks & Earn <br />
       Crypto With Social Media
-    </p>
+    </p> -->
 
-    <button
+    <!-- <button
       class="d-none d-lg-block d-xl-none"
       type="button"
       routerLink="wallet/buy-token"
@@ -198,10 +209,10 @@
         "
         >Buy SaTT</span
       >
-    </button>
+    </button> -->
 
     <!--576-->
-    <p
+    <!-- <p
       class="d-none d-md-block d-lg-none"
       style="
         position: absolute;
@@ -309,10 +320,10 @@
         "
         >Buy SaTT</span
       >
-    </button>
+    </button> -->
 
     <!--320-->
-    <p
+    <!-- <p
       class="d-none d-sm-block d-md-none"
       style="
         position: absolute;
@@ -419,10 +430,10 @@
         "
         >Buy SaTT</span
       >
-    </button>
+    </button> -->
 
     <!--inf 320-->
-    <p
+    <!-- <p
       class="d-block d-sm-none"
       style="
         position: absolute;
@@ -529,7 +540,7 @@
         "
         >Buy SaTT</span
       >
-    </button>
+    </button> -->
   </div>
 </div>
 <div class="separator" *ngIf="title.startsWith('farm-posts')"></div>
@@ -985,3 +996,4 @@
     </div>
   </div>
 </div>
+

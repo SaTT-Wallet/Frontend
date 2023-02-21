@@ -92,6 +92,15 @@ export class TokenStorageService {
   public getUrlCampaign() {
     return this.localStorage.getItem(url);
   }
+
+  public saveWalletVersion(version: any) {
+    this.localStorage.setItem('wallet_version', version);
+  }
+
+  public getWalletVersion() {
+    return this.localStorage.getItem('wallet_version');
+  }
+
   public setUsernew() {
     this.localStorage.setItem('newUSer', 'false');
   }
@@ -156,6 +165,14 @@ export class TokenStorageService {
   public setCookies(value: string) {
     return this.localStorage.setItem('Cookies', value);
   }
+  public getModaleMigrate() {
+    return this.localStorage.getItem('Migration');
+  }
+
+  public setModaleMigrate(value: string) {
+    return this.localStorage.setItem('Migration', value);
+  }
+
   public setStateVisited(value: string) {
     return this.localStorage.setItem('visited', value);
   }
@@ -288,6 +305,10 @@ export class TokenStorageService {
   }
   public getWalletBtc() {
     return this.localStorage.getItem('wallet_btc');
+  }
+  public saveWalletBtc(adress: string): void {
+    this.localStorage.removeItem('wallet_btc');
+    this.localStorage.setItem('wallet_btc', adress);
   }
   public getCryptoClic() {
     return this.localStorage.getItem('cryptoClic');

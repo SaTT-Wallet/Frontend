@@ -79,7 +79,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   polygonGaz: any;
   bttGaz: any;
   trxGaz: any;
-
+  max = false;
   matic: any;
   defaultcurr: string = ListTokens['SATT'].name;
   private isDestroyed = new Subject();
@@ -99,7 +99,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   quantitysatt: any;
   gazproblem: boolean = false;
   nobalance: boolean = false;
-  networks: any;
+  networks: string = 'ERC20';
   decimals: any;
   token: any;
   symbol: any;
@@ -280,7 +280,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           }
         });
         this.showWalletSpinner = false;
-
       });
   }
 
@@ -496,7 +495,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
 
       this.sendform.get('password')?.reset();
       this.walletFacade
-        .transferTokens(send)
+        .transferTokens(send, this.max)
         .pipe(
           tap(() => {
             // after sending amount we update total balance and crypto list state
@@ -697,6 +696,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     });
   }
   onClickAmount(): void {
+    this.max = true;
     let currency = '';
     this.selectedCryptoSend = currency;
 
@@ -716,6 +716,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.dataList?.forEach((crypto: any) => {
         if (crypto.symbol === currency) {
           let quantity = this.showNumbersRule.transform(crypto.quantity);
+
           //  let totalBal = this.showNumbersRule.transform(crypto.total_balance);
           //    crypto.total_balance = parseFloat(crypto.total_balance + '');
           //  crypto.total_balance = crypto?.total_balance?.toFixed(2);
@@ -727,8 +728,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             currency === 'ETH' ||
             currency === 'BNB' ||
             currency === 'MATIC' ||
-            currency === 'SATTBEP20' ||
-            currency === 'SATTERC20' ||
             currency === 'BTT'
           ) {
             this.difference = crypto.total_balance - this.gazsend;
@@ -897,6 +896,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   convertcurrency(event: any, restrict?: boolean): void {
+    this.max = false;
     let allow: boolean = true;
     if (restrict !== undefined && restrict === false) {
       allow = false;
@@ -1135,11 +1135,20 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             if (selectedCrypto.id === 'ETH') {
               this.gasCryptoQuantity = (this.gazsend / this.eth).toFixed(8);
             }
+
+            if (selectedCrypto.sendTo) {
+              this.onClickAmount();
+              this.contactWallet = selectedCrypto.sendTo;
+            }
           }
           if (selectedCrypto.network === 'BEP20') {
             this.gazsend = this.bEPGaz;
             if (selectedCrypto.id === 'BNB') {
               this.gasCryptoQuantity = (this.gazsend / this.bnb).toFixed(8);
+            }
+            if (selectedCrypto.sendTo) {
+              this.onClickAmount();
+              this.contactWallet = selectedCrypto.sendTo;
             }
           }
           if (selectedCrypto.network === 'POLYGON') {
@@ -1147,11 +1156,19 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             if (selectedCrypto.id === 'MATIC') {
               this.gasCryptoQuantity = (this.gazsend / this.matic).toFixed(8);
             }
+            if (selectedCrypto.sendTo) {
+              this.onClickAmount();
+              this.contactWallet = selectedCrypto.sendTo;
+            }
           }
           if (selectedCrypto.network === 'BTTC') {
             this.gazsend = this.bttGaz;
             if (selectedCrypto.id === 'BTT') {
               this.gasCryptoQuantity = (this.gazsend / this.btt).toFixed(8);
+            }
+            if (selectedCrypto.sendTo) {
+              this.onClickAmount();
+              this.contactWallet = selectedCrypto.sendTo;
             }
           }
           if (selectedCrypto.network === 'TRON') {
@@ -1166,11 +1183,14 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             if (selectedCrypto.network === 'TRON') {
               this.gasCryptoQuantity = (this.gazsend / this.trx).toFixed(8);
             }
+            if (selectedCrypto.sendTo) {
+              this.onClickAmount();
+              this.contactWallet = selectedCrypto.sendTo;
+            }
           }
         });
       });
     }
-
   }
 
   showNextBloc() {

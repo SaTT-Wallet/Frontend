@@ -19,6 +19,7 @@ import { ChartModule } from 'angular-highcharts';
 import { CryptoInfoComponent } from './components/crypto-info/crypto-info.component';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { FilterBynamePipe } from '@shared/pipes/filter-byname.pipe';
+import { MigrationComponent } from './components/migration/migration.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { FilterBynamePipe } from '@shared/pipes/filter-byname.pipe';
     ReceiveComponent,
     ConvertComponent,
     HeaderSendReceiveBuyComponent,
-    CryptoInfoComponent
+    CryptoInfoComponent,
+    MigrationComponent
   ],
   imports: [
     SharedModule,

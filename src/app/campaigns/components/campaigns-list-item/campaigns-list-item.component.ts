@@ -158,7 +158,28 @@ export class CampaignsListItemComponent implements OnInit {
   get localId(): string {
     return this.tokenStorageService.getLocale() || 'en';
   }
+  get isNewCampaign(): boolean {
+    let createdDate = new Date(this.campaign.createdAt);
 
+    let today = new Date();
+
+    if (
+      createdDate.setDate(createdDate.getDate() + 15) >=
+      today.setHours(0, 0, 0, 0)
+    ) {
+      return true;
+    } else return false;
+  }
+  get isPerformance(): boolean {
+    if (this.campaign.remuneration === 'performance') {
+      return true;
+    } else return false;
+  }
+  get isPublication(): boolean {
+    if (this.campaign.remuneration === 'publication') {
+      return true;
+    } else return false;
+  }
   getCurrencyName(campaign: any) {
     const currencyName = campaign.currency.name;
     if (currencyName === ' SATTBEP20') {

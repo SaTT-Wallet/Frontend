@@ -8,6 +8,17 @@
 </div> -->
 
 <!-- <div class="wallet container-fluid"> -->
+
+<ng-template #migration>
+  <app-migration  
+[className]="getScreenWidth > 740 ? 'migration' : 'migration-mobile'"
+
+[migrate]="migrate"
+(migrateEvent)="getMigrationStatus($event)"
+
+></app-migration>
+</ng-template>
+
 <div class="wallet">
   <!--red bloc:desktop and tablette-->
   <!-- <div class="mb-2 showDesktop" role="button">
@@ -22,6 +33,7 @@
   <div
     *ngIf="hidePortfolio"
     class="row mb-2 positon-mobile"
+    [style.height]="getHeight()"
     id="chart"
     style="position: absolute"
   >
@@ -29,6 +41,7 @@
       <div class="blockk mb-4">
         <!--portfolio estimation-->
         <!-- <div class="d-flex justify-content-center">-->
+
         <div class="currentbalance">
           <h3 class="walletEstim d-flex justify-content-center">
             {{ 'Wallet.Your_total_portfolio_is_estimated_at' | translate }}
@@ -38,6 +51,37 @@
               <div class="d-flex first_layer" id="totalAmount1">
                 $ {{ totalAmount | number: '1.0-2' || '' }}
               </div>
+              <div
+                class="d-flex justify-content-center"
+                *ngIf="existV1 && existV2"
+              >
+                <p class="echnage" (click)="allWallet()" type="button">
+                  <span
+                    ><img
+                      src="../../assets/Images/custom_icons/bi_arrow-repeat.svg"
+                  /></span>
+                  Go to {{ versionText }}
+                </p>
+              </div>
+              <div
+                class="divbtn d-flex justify-content-center"
+                *ngIf="
+                  versionText === 'New Wallet' && existV1 && show && existV2
+                "
+              >
+                <button
+                  class="migratebtn"
+                  type="button"
+                  (click)="migrateButton()"
+                >
+                  <span
+                    ><img
+                      src="../../assets/Images/custom_icons/clarity_error-standard-line.svg"
+                  /></span>
+                  Migrate my tokens
+                </button>
+              </div>
+
               <!-- <div class="d-flex justify-content-center">
 
                             <h1 class="indicatorfont " [ngStyle]="{ color: arrowColor }"> {{arrowvar }} {{variationamount}} % </h1>
@@ -225,6 +269,7 @@
     </div>
   </div>
 </ng-template>
+
 <ng-template #createTronWalletModal>
   <div class="modal-header modal-custom">
     <button
@@ -249,11 +294,11 @@
     </div>
 
     <div>
-      <div class="postition-trans">
+      <div class="postition-trans-tron">
         <h6 class="trans">{{ 'Transaction password' | translate }}</h6>
       </div>
       <div
-        class="div-input-icon p-1"
+        class="div-input-icon-tron p-1"
         [ngClass]="{
           'border-error': wrongpassword
         }"
@@ -325,6 +370,115 @@
       <label class="dont_show m-0" for="confirm">{{
         "don't_show_again" | translate
       }}</label>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #createWalletV2Modal>
+  <div
+    class="modal-body welcome-body2 modal-custom"
+    data-backdrop="static"
+    id="createWalletV2Modal"
+  >
+    <div id="stepper-v2">
+      <img src="../../assets/Images/stepper-v2.svg" />
+    </div>
+    <div class="img-update">
+      <img src="../../assets/Images/create-wallet-v2.svg" />
+    </div>
+    <p class="textpwd" id="title">{{ 'Update your wallet' | translate }}</p>
+    <div
+      class="d-flex justify-content-center welcome-paragraph"
+      id="welcome-paragraph"
+    >
+      <p class="paragragh" id="paragraph">
+        For security reasons, we update our users' wallets.
+        <br *ngIf="getScreenWidth > 960" />
+        <span>
+          Please enter your password, then transfer your tokens to the updated
+          version.
+        </span>
+      </p>
+    </div>
+
+    <div class="input-div">
+      <div class="postition-trans">
+        <h6 class="trans">{{ 'Transaction password' | translate }}</h6>
+      </div>
+      <div
+        class="div-input-icon p-1 welcome-input"
+        id="welcome-input"
+        [ngClass]="{
+          error: wrongpassword
+        }"
+      >
+        <ng-container *ngIf="!wrongpassword; else wrongPasswordImg">
+          <img
+            *ngIf="!wrongpassword"
+            class=""
+            src="../../../assets/Images/Kep-password.svg"
+          />
+        </ng-container>
+        <ng-template #wrongPasswordImg>
+          <img class="" src="../../../assets/Images/Kep-passwordFalse.svg" />
+        </ng-template>
+        <div style="display: none">
+          <input
+            type="text"
+            id="PreventChromeAutocomplete"
+            name="PreventChromeAutocomplete"
+            autocomplete="address-level4"
+          />
+        </div>
+        <input
+          autocomplete="new-password"
+          type="password"
+          [ngClass]="showPass ? 'input-password' : 'input-password pass-hide'"
+          [(ngModel)]="walletPassword"
+          #password_field
+        />
+
+        <span
+          (click)="
+            showPass = !showPass;
+            password_field.type =
+              password_field.type === 'password' ? 'text' : 'password'
+          "
+          class="fa fa-fw cross_input_network align-self-center"
+          aria-hidden="true"
+          [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"
+        ></span>
+      </div>
+
+      <div *ngIf="!!walletV2ErrorMessage">
+        <span class="walletV2WrongMessage">{{ walletV2ErrorMessage }}</span>
+      </div>
+    </div>
+
+    <div class="d-flex flex-column justify-content-center align-items-center">
+      <div
+        class="d-flex align-items-center justify-content-center col-xl-6 col-lg-8 col-md-8 col-sm-8"
+      >
+        <button
+          class="btnModalError btn_fill_profile btn-blue"
+          (click)="createWalletV2()"
+          [disabled]="walletPassword.length < 6 || buttonClick"
+        >
+          <div
+            *ngIf="buttonClick"
+            class="spinner-border text-grey"
+            role="status"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+          <div *ngIf="!buttonClick" id="next-step">
+            {{ 'Next Step' | translate }}
+          </div>
+        </button>
+      </div>
+      <div
+        class="col-xl-6 col-lg-8 col-md-8 col-sm-8 d-flex flex-column justify-content-center align-items-center"
+      ></div>
     </div>
   </div>
 </ng-template>

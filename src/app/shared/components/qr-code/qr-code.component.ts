@@ -52,10 +52,16 @@ export class QRCodeComponent implements OnInit {
   url1: any;
   url2: any;
   url3: any;
+  url4: any;
+  url5: any;
+  url6: any;
   urlM1: any;
   erc20Selected = false;
   btcSelected = false;
   tronSelected = false;
+  erc20V2Selected = false;
+  btcV2Selected = false;
+  tronV2Selected = false;
 
   isTransactionHashCopied = false;
   isTransactionHashCopiedbtc = false;
@@ -64,6 +70,12 @@ export class QRCodeComponent implements OnInit {
   i = 0;
 
   private isDestroyed$ = new Subject();
+  ethv2: any;
+  btcv2Code: any;
+  tronv2Address: any;
+  existV1: any;
+  existV2: any ;
+ 
 
   constructor(
     private walletFacade: WalletFacadeService,
@@ -86,6 +98,7 @@ export class QRCodeComponent implements OnInit {
 
   ngOnInit(): void {
     this.portfeuille();
+
   }
   toogleDropDownQr() {
     let elem = this.document.getElementsByClassName('toggle-qr');
@@ -93,15 +106,31 @@ export class QRCodeComponent implements OnInit {
     elem[0]?.click();
   }
   portfeuille() {
-    this.walletFacade.loadUserWallet();
-    this.walletFacade.wallet$.subscribe((data: any) => {
+    this.walletFacade.getAllWallet()
+    this.walletFacade.getAllWallet().subscribe((data: any) => {
+
+      this.existV1= data.data.address
+      
       if (!!data) {
-        this.btcCode = data.data.btc;
+
+       if(data.data.addressV2 != null){    this.existV2 = true      }
+       else {this.existV2 = false   }
+        this.btcCode = data.data.btcAddress;
         this.eth = data.data.address;
-        this.tronAddress = data.data.tronAddress;
+        this.tronAddress = data.data.tronAddress ;
+
+        this.ethv2 = data.data.addressV2 ;
+        this.btcv2Code = data.data.btcAddressV2;
+        this.tronv2Address = data.data.tronAddressV2;
+
+
         this.url1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.eth}&chs=222x222`;
         this.url2 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.btcCode}&chs=222x222`;
         this.url3 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.tronAddress}&chs=222x222`;
+
+        this.url4 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.ethv2}&chs=222x222`;
+        this.url5 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.btcv2Code}&chs=222x222`;
+        this.url6 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.tronv2Address}&chs=222x222`;
 
         // assign qr code  uls
       }

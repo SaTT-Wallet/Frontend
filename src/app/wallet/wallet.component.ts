@@ -8,12 +8,15 @@ import {
   EventEmitter,
   TemplateRef,
   OnDestroy,
-  Inject
+  Inject,
+  HostListener
 } from '@angular/core';
 ('@angular/core');
 import { ChartDataSets, ChartType } from 'chart.js';
 // @ts-ignore
 import { Big } from 'big.js';
+import { WalletStoreService } from '@core/services/wallet-store.service';
+
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   pattContact,
@@ -42,7 +45,8 @@ import {
   tap,
   map,
   catchError,
-  take
+  take,
+  shareReplay
 } from 'rxjs/operators';
 import { DOCUMENT } from '@angular/common';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
@@ -59,6 +63,8 @@ import { ToastrService } from 'ngx-toastr';
 export class WalletComponent implements OnInit, OnDestroy {
   hideRedBloc: any;
   percentProfil: any;
+  versionText: any = 'New Wallet';
+  loadingPopUp: boolean = false;
 
   @ViewChild('myCanvas1') canvas1!: ElementRef;
   @ViewChild('myCanvas2') canvas2!: ElementRef;
@@ -69,14 +75,25 @@ export class WalletComponent implements OnInit, OnDestroy {
   @ViewChild('createTronWalletModal', { static: false })
   private createTronWalletModal!: TemplateRef<any>;
 
+  @ViewChild('createWalletV2Modal', { static: false })
+  private createWalletV2Modal!: TemplateRef<any>;
+
   @ViewChild('tronWalletCreatedSuccessModal', { static: false })
   private tronWalletCreatedSuccessModal!: TemplateRef<any>;
 
+  @ViewChild('migration', { static: false })
+  private migration!: TemplateRef<any>;
+
   showModal: Boolean = false;
   showPass: boolean = false;
+  subscription: any;
   tronWalletPassword = '';
+  walletPassword = '';
   tronWalletAddress = '';
-
+  onDestroy$ = new Subject();
+  myModal: any;
+  buttonClick: Boolean = false;
+  show = false;
   lineChartDataMonth: ChartDataSets[] = [
     {
       data: [
@@ -399,8 +416,15 @@ export class WalletComponent implements OnInit, OnDestroy {
   isChecked: boolean = false;
   picUserUpdated: boolean = false;
 
+  public getScreenWidth: any;
+  public getScreenHeight: any;
+
   private totalBalance$ = this.walletFacade.totalBalance$;
   tronErrorMessage = '';
+  height: any = '300px';
+  walletV2ErrorMessage = '';
+  existV1: any;
+  existV2: any;
 
   selectTab(tabId: number) {
     this.staticTabs.tabs[tabId].active = true;
@@ -413,6 +437,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   showSpinner!: boolean;
   dropDownSection: any = [];
   hidePortfolio: boolean = true;
+  hasWalletV2: boolean = false;
   @Output() onMakeAnimation: EventEmitter<string> = new EventEmitter();
   arrow: string = '';
   arrowColor: string = '';
@@ -460,12 +485,20 @@ export class WalletComponent implements OnInit, OnDestroy {
   intro4: string = '';
   // intro5: string = "";
   button: string = '';
+  migrate: any;
   private account$ = this.accountFacadeService.account$;
   private onDestoy$ = new Subject();
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.getScreenHeight = event.target.innerHeight;
+    this.getScreenWidth = event.target.innerWidth;
+  }
   constructor(
     private accountFacadeService: AccountFacadeService,
     private tokenStorageService: TokenStorageService,
     private profileSettingsFacade: ProfileSettingsFacadeService,
+    private walletStoreService: WalletStoreService,
     private authStoreService: AuthStoreService,
     public sidebarService: SidebarService,
     public modalService: NgbModal,
@@ -670,8 +703,37 @@ export class WalletComponent implements OnInit, OnDestroy {
       }
     }
   }
+
   ngOnInit(): void {
-    this.verifyOnBoarding();
+    this.loadingPopUp = false;
+    this.migrate = this.tokenStorageService.getModaleMigrate();
+    //this.getScreenHeight = window.innerHeight;
+    this.hasWalletV2 = false;
+    this.verifyUserWalletV2();
+    this.totalbalancewallet();
+
+    this.getScreenWidth = window.innerWidth;
+    if (this.tokenStorageService.getWalletVersion() === 'v2') {
+      this.versionText = 'Old Wallet';
+      this.height = '250px';
+    } else {
+      this.versionText = 'New Wallet';
+      this.height = '300px';
+    }
+
+    //this.verifyUserWalletV2();
+    this.walletFacade
+      .getAllWallet()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((data: any) => {
+        this.existV1 = data.data.address;
+        if (this.existV1 === null) {
+          this.height = '250px';
+        }
+
+        this.existV2 = data.data.addressV2;
+      });
+
     // this.dontShowAgain();
     // let data_profile = {
     //   onBoarding: false
@@ -700,8 +762,6 @@ export class WalletComponent implements OnInit, OnDestroy {
         this.findMaxBalances(data);
       });
     this.getSecure();
-    this.getDetails();
-    this.totalbalancewallet();
 
     var c = <HTMLCanvasElement>this.document.getElementById('myCanvas');
     var ctx = c?.getContext('2d');
@@ -710,8 +770,113 @@ export class WalletComponent implements OnInit, OnDestroy {
     my_gradient?.addColorStop(1, 'white');
     //ctx.fillStyle = my_gradient;
     ctx?.fillRect(20, 20, 150, 100);
-  }
+    //this.verifyOnBoarding();
+    this.verifyOnBoarding();
+    setTimeout(() => {
+      if (this.hasWalletV2 && this.migrate === 'close') this.getDetails();
+    }, 5500);
 
+    if (!this.loadingPopUp) {
+      setTimeout(() => {
+        if (this.hasWalletV2 && this.migrate === 'open' && this.show) {
+          this.modalService.open(this.migration, {
+            backdrop: 'static',
+            keyboard: false
+          });
+          this.loadingPopUp = true;
+        } else {
+          this.loadingPopUp = true;
+        }
+      }, 5500);
+    }
+  }
+  migrateButton(): void {
+    if (this.loadingPopUp) {
+      this.migrate = 'open';
+      this.modalService.open(this.migration, {
+        backdrop: 'static',
+        keyboard: false
+      });
+    }
+  }
+  //Create WALLET V2
+  createWalletV2() {
+    this.walletV2ErrorMessage = '';
+    this.buttonClick = true;
+    this.walletFacade
+      .createNewWalletV2(this.walletPassword)
+      .pipe(
+        catchError((err) => {
+          this.buttonClick = false;
+          if (err.error.error === 'Wallet already exist') {
+            this.walletV2ErrorMessage = 'Wallet already exist';
+
+            setTimeout(() => {
+              this.closeModal(this.createWalletV2Modal);
+            }, 2000);
+          } else {
+            this.walletV2ErrorMessage =
+              'Something went wrong please try again!';
+          }
+
+          return of(null);
+        })
+      )
+      /*.pipe(
+        catchError((err) => {
+          if(err.err.err === 'Key derivation failed - possibly wrong password') {
+            this.walletV2ErrorMessage = 'Wrong password';
+          } else {
+            this.walletV2ErrorMessage = err.err.err
+          }
+          return of(null);
+    }), filter(res => res !== null))*/
+      .subscribe((response: any) => {
+        this.buttonClick = false;
+        if (response?.data?.error) {
+          this.wrongpassword = true;
+          this.walletV2ErrorMessage =
+            response?.data?.error ===
+            'Key derivation failed - possibly wrong password'
+              ? 'Wrong password, please try again'
+              : response?.data?.error;
+          setTimeout(
+            () => (
+              (this.walletV2ErrorMessage = ''),
+              (this.walletPassword = ''),
+              (this.wrongpassword = false)
+            ),
+            3000
+          );
+        } else {
+          if (
+            response?.data?.address &&
+            response?.data?.btcAddress &&
+            response?.data?.tronAddress
+          ) {
+            this.closeModal(this.createWalletV2Modal);
+            this.modalService.open(this.migration, {
+              backdrop: 'static',
+              keyboard: false
+            });
+          } else {
+            //wrong
+            //this.closeModal(this.createWalletV2Modal)
+          }
+        }
+      });
+  }
+  getMigrationStatus($event: any) {
+    this.tokenStorageService.setModaleMigrate($event);
+    this.migrate = $event;
+    if ($event == 'close') {
+      this.closeModal(this.migration);
+    }
+    this.versionText =
+      this.tokenStorageService.getWalletVersion() === 'v2'
+        ? 'Old Wallet'
+        : 'New Wallet';
+  }
   createTronWallet() {
     this.walletFacade
       .createTronWallet(this.tronWalletPassword)
@@ -760,6 +925,43 @@ export class WalletComponent implements OnInit, OnDestroy {
     }
   }
 
+  getHeight() {
+    return this.height;
+  }
+
+  allWallet() {
+    try {
+      if (this.loadingPopUp) {
+        this.tokenStorageService.setModaleMigrate('close');
+        this.walletFacade
+          .getAllWallet()
+          .pipe(takeUntil(this.onDestroy$))
+          .subscribe((data: any) => {
+            if (this.tokenStorageService.getWalletVersion() === 'v2') {
+              this.versionText = 'New Wallet';
+              this.height = '300px';
+
+              this.tokenStorageService.saveWalletVersion('v1');
+              this.tokenStorageService.saveIdWallet(data.data.address);
+              this.tokenStorageService.saveTronWallet(data.data.tronAddress);
+              this.tokenStorageService.saveWalletBtc(data.data.btcAddress);
+            } else {
+              this.versionText = 'Old Wallet';
+              this.height = '250px';
+
+              this.tokenStorageService.saveWalletVersion('v2');
+              this.tokenStorageService.saveIdWallet(data.data.addressV2);
+              this.tokenStorageService.saveTronWallet(data.data.tronAddressV2);
+              this.tokenStorageService.saveWalletBtc(data.data.btcAddressV2);
+            }
+
+            this.walletStoreService.getCryptoList();
+            this.walletStoreService.getTotalBalance();
+          });
+      }
+    } catch (error) {}
+  }
+
   public makeAnimation(key: string): void {
     this.onMakeAnimation.emit(key);
   }
@@ -785,10 +987,33 @@ export class WalletComponent implements OnInit, OnDestroy {
     this.totalBalance$
       .pipe(
         filter((res) => Object.keys(res).length !== 0),
+
         takeUntil(this.onDestoy$)
+        //takeUntil(this.onDestoy$)
       )
       .subscribe((data: any) => {
         this.totalAmount = data;
+        this.show =
+          Number(this.totalAmount) > 0 &&
+          localStorage.getItem('wallet_version') === 'v1'
+            ? true
+            : false;
+        console.log(
+          'show ',
+          this.show,
+          'has wallet ',
+          this.hasWalletV2,
+          'migrate ',
+          this.migrate
+        );
+        /*if (this.show && this.hasWalletV2 && this.migrate === 'open') {
+          
+          this.openModal(this.migration);
+        }*/
+
+        if (this.show === false) {
+          this.height = '250px';
+        }
         this.variationamount = data?.variation?.toFixed(2);
         if (this.variationamount < 0) {
           this.arrowvar = '';
@@ -921,6 +1146,35 @@ export class WalletComponent implements OnInit, OnDestroy {
       });
   }
 
+  test() {}
+
+  verifyUserWalletV2() {
+    this.walletFacade
+      .checkUserWalletV2()
+      .pipe(takeUntil(this.onDestoy$))
+      .subscribe(
+        (res: any) => {
+          if (!res.data) {
+            this.hasWalletV2 = false;
+            localStorage.setItem('existV2', 'false');
+            this.height = '250px';
+            this.modalService.open(this.createWalletV2Modal, {
+              backdrop: 'static',
+              keyboard: false
+            });
+          } else {
+            this.hasWalletV2 = true;
+            localStorage.setItem('existV2', 'true');
+          }
+
+          this.existV2;
+        },
+        () => {
+          this.hasWalletV2 = false;
+        }
+      );
+  }
+
   getDetails() {
     this.account$
       .pipe(
@@ -976,27 +1230,14 @@ export class WalletComponent implements OnInit, OnDestroy {
               setTimeout(() => {
                 if (
                   this.tokenStorageService.getFillMyProfil() !== 'false' &&
-                  this.tokenStorageService.getToken()
+                  this.tokenStorageService.getToken() &&
+                  this.hasWalletV2
                 ) {
                   this.openModal(this.welcomeModal);
                 }
                 this.tokenStorageService.setFillMyProfil('false');
               }, 3000);
             }
-            if (
-              this.tokenStorageService.getItem(
-                'mute-create-tron-wallet-popup'
-              ) !== 'true'
-            )
-              setTimeout(() => {
-                if (
-                  !this.tokenStorageService.getTronWalletAddress() ||
-                  this.tokenStorageService.getTronWalletAddress() ===
-                    'undefined'
-                ) {
-                  this.openModal(this.createTronWalletModal);
-                }
-              }, 4000);
           }
           return this.profileSettingsFacade.profilePic$;
         })

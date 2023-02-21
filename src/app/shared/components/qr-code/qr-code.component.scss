@@ -9,9 +9,65 @@
   cursor: pointer;
 }
 
+
+.migratebtn {
+  /* display: flex; */
+  flex-direction: row;
+  justify-content: center;
+  /* align-items: center; */
+  padding: 4px 16px;
+  gap: 8px;
+  /* position: absolute; */
+  left: 17.57%;
+  right: 16.83%;
+  top: 33.74%;
+  bottom: 60.34%;
+  background: #ffffff;
+  box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+  border-radius: 30px;
+  /* width: 174px; */
+  /* height: 27px; */
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 27px;
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.01em;
+  color: #ffa318;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+  border: thin;
+}
+
+.textecenter{
+  height: 37px;
+
+  top: 181px;
+  
+  /* DESKTOP/Titles/H3 */
+  
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 28px;
+  /* or 127% */
+  
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 1px;
+  
+  color: #323754;
+
+}
+
 .qrcode-desktop {
   display: block;
-  padding-bottom: 300px;
+  padding-bottom: 100px;
 }
 
 .qrcode-mobile {

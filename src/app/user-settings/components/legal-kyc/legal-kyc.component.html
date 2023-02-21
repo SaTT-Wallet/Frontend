@@ -1,4 +1,7 @@
-<div class="container-fluid page-content position-relative">
+<div
+  class="container-fluid page-content position-relative"
+  [style]="'margin-top: 3%!important; '"
+>
   <div class="row show-mobile mb-2">
     <div class="col-md-12 col-lg-12 col-xs-12">
       <button type="button" class="btn-back" [routerLink]="['/home/settings/']">
@@ -26,11 +29,7 @@
             </div>
             <div class="row mt-2 d-flex justify-content-center height-70">
               <div
-                class="
-                  col-xl-9 col-lg-9 col-md-9 col-sm-11
-                  d-flex
-                  justify-content-center
-                "
+                class="col-xl-9 col-lg-9 col-md-9 col-sm-11 d-flex justify-content-center"
               >
                 <span class="notice-upload text-start">
                   {{ 'Profil.notice_identite1' | translate }}
@@ -178,11 +177,7 @@
             </div>
             <div class="row mt-2 d-flex justify-content-center height-70">
               <div
-                class="
-                  col-xl-9 col-lg-9 col-md-9 col-sm-11
-                  d-flex
-                  justify-content-center
-                "
+                class="col-xl-9 col-lg-9 col-md-9 col-sm-11 d-flex justify-content-center"
               >
                 <span class="notice-upload text-start">{{
                   'Profil.notice_justif1' | translate

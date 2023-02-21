@@ -375,7 +375,6 @@ getCookie(key: string){
           return response !== null;
         }),
         catchError(() => {
-          // console.log(error);
           // if (error.error.text === 'Invalid Access Token') {
           //   this.tokenStorageService.signOut();
           // }
@@ -585,6 +584,8 @@ getCookie(key: string){
   }
 
   snlogin(social: string) {
+    this.tokenStorageService?.saveWalletVersion('v1');
+    this.tokenStorageService?.setModaleMigrate('open');
     this.scale = true;
     this.loggedrs = true;
     if (this.cookie.get('satt_cookies') === 'pass') {
@@ -622,6 +623,8 @@ getCookie(key: string){
    * Authenticate user
    */
   login() {
+    this.tokenStorageService?.setModaleMigrate('open');
+    this.tokenStorageService?.saveWalletVersion('v1');
     this.isSubmitting = true;
     this.showSpinner = true;
     this.loggedrs = false;
@@ -681,7 +684,6 @@ getCookie(key: string){
             return response !== null && data !== null;
           }),
           catchError(() => {
-            // console.log(error);
             // if (error.error.text === 'Invalid Access Token') {
             //   this.tokenStorageService.signOut();
             // }
@@ -775,7 +777,6 @@ getCookie(key: string){
           }),
           // tap((response: any) => {
           //   if (response.myWallet === null) {
-          //     console.log('res.response.data', response);
 
           //     this.tokenStorageService.setSecureWallet(
           //       'visited-completeProfile',
@@ -1247,7 +1248,6 @@ getCookie(key: string){
 
           // Decompteur
           setTimeout(() => {
-            // console.log("can't resend before 15 seconds!")
             this.showResendLink = true;
           }, 60000);
           // this.showResendLink = false;
