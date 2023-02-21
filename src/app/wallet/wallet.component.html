@@ -10,12 +10,13 @@
 <!-- <div class="wallet container-fluid"> -->
 
 <ng-template #migration>
-  <app-migration
-    [className]="getScreenWidth > 740 ? 'migration' : 'migration-mobile'"
-    *ngIf="migrate === 'open' && show && hasWalletV2"
-    [migrate]="migrate"
-    (migrateEvent)="getMigrationStatus($event)"
-  ></app-migration>
+  <app-migration  
+[className]="getScreenWidth > 740 ? 'migration' : 'migration-mobile'"
+
+[migrate]="migrate"
+(migrateEvent)="getMigrationStatus($event)"
+
+></app-migration>
 </ng-template>
 
 <div class="wallet">
