@@ -58,6 +58,12 @@ export class CampaignDetailComponent implements OnInit {
   allCountries: any = arrayCountries.slice();
   pendingCampaign: any;
   influencer: any;
+  refundButtonDisable: boolean = true;
+  loadingData: boolean = true;
+  dateRefund: any;
+  dateRefundDays: any;
+  dateRefundHours: any;
+  dateRefundMinutes: any;
   socialMediaIcons = socialMedia;
   campaignProms: any;
   rejectedProms: any;
@@ -188,6 +194,8 @@ export class CampaignDetailComponent implements OnInit {
     this.router.navigate(['home/ad-pools']);
   }
   ngOnInit(): void {
+    this.refundButtonDisable = true;
+    this.loadingData = true;
     this.CampaignService.isLoading.subscribe((res) => {
       if (res === false) {
         // setTimeout(() => {
@@ -237,12 +245,57 @@ export class CampaignDetailComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       this.getKits();
     }
+    
+    setTimeout(() => {
+      // WHEN YOU GET REFUNDS ( AFTER 15 DAYS )
+      this.dateRefund = new Date(((this.campaign.endDate.getTime() / 1000) + 1296000 ) * 1000)
+      
+      if((this.dateRefund.getTime() - Date.now()) > 0) {
+        this.refundButtonDisable = true;
+      } else {
+        this.refundButtonDisable = false;
+      }
+      // CALCULATE THE DAYS : 
+      this.dateRefundDays = Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ));
 
-    // this.getCampaignList();
+
+      // CALCULATE THE HOURS :
+      this.dateRefundHours = Math.floor(((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - this.dateRefundDays ) * 24 )
+
+
+      // CALCULATE MINUTES : 
+      this.dateRefundMinutes = Math.floor(((((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - this.dateRefundDays ) * 24) - this.dateRefundHours) * 60)
+      this.loadingData = false;
+    }, 3000)
+  
+    
   }
   openstat() {
     this.CampaignService.stat.next(true);
   }
+
+
+
+  getRefunds(id:string) {
+    console.log(this.campaign.hash);
+    console.log(this.campaign.id)
+    this.CampaignService.getRefunds(this.campaign.hash).subscribe(
+      (res) => {
+        console.log(res)
+      },
+      (err) => {
+        console.log(err)
+      }
+    )
+    /*if(!this.refundButtonDisable) {
+      console.log(id);
+    }*/
+  }
+
+
+  
+
+
   ngOnDestroy(): void {
     this.isDestroyed.next('');
     this.isDestroyed.unsubscribe();

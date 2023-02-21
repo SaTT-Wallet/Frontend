@@ -63,6 +63,58 @@
   box-shadow: 0px 4px 20px 0px #00000033;
 }
 
+.btn-edit-refunds-pool {
+  justify-content: center;
+  border: none;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+  text-align: center;
+  align-items: center;
+  letter-spacing: 0.03em;
+  height: 48px;
+  /* width: 169px; */
+  width: 300px;
+  border-radius: 30px;
+  background-color: #4048ff;
+  color: white;
+  box-shadow: 0px 4px 20px 0px #00000033;
+}
+.btn-edit-refunds-pool p {
+  margin-bottom: 0px;
+}
+.btn-edit-refunds-pool-disabled p {
+  margin-bottom: 0px;
+}
+.btn-edit-refunds-pool-disabled p img{
+  margin-right: 10px;
+}
+.btn-edit-refunds-pool p img{
+  margin-right: 10px;
+}
+
+.btn-edit-refunds-pool-disabled {
+  justify-content: center;
+  border: none;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+  text-align: center;
+  align-items: center;
+  letter-spacing: 0.03em;
+  height: 48px;
+  /* width: 169px; */
+  width: 350px;
+  border-radius: 30px ;
+  background-color: #F6F6FF;
+  color: #ADADC8;
+  font-family: 'Poppins';
+  border: 1px solid #ADADC8;
+}
+
+
 .img-container {
   /* box-shadow: 0px 4px 20px rgb(0 0 0 / 20%);
   margin-top: 1em;
