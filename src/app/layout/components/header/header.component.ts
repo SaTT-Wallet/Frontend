@@ -84,6 +84,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   showMenuProfil: boolean = false;
   isTransactionHashCopiedtron = false;
 
+  existV2: any ;
+
   isDropdownOpen: boolean = true;
   tronAddress: string = '';
 
@@ -339,6 +341,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   ngOnInit(): void {
+
+    
     if (isPlatformBrowser(this.platformId)) {
       this.authService.isAuthenticated$
         .pipe(takeUntil(this.isDestroyed$))
@@ -1293,8 +1297,13 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         if (data?.data?.address === null) {
           this.tokenStorageService.saveWalletVersion('v2');
         }
+        if(data.data.addressV2 === null) {this.existV2 = false
+          this.displayOld = 'none';}
+        else {this.existV2 = true}
 
         if (!!data) {
+
+          
           this.btcCodeV2 = data.data.btcAddressV2;
           this.erc20V2 = data.data.addressV2;
           this.tronAddressV2 = data.data.tronAddressV2;

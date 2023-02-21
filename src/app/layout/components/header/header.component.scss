@@ -1433,7 +1433,7 @@ bottom: 77.54% ; */
   gap: 40px;
   overflow-x: auto;
   padding-right: 81px !important;
-  padding-left: 81px !important;
+  padding-left: 51px !important;
 }
 .adressBlock {
   flex-direction: column;
@@ -1563,6 +1563,39 @@ bottom: 77.54% ; */
   /* margin-top: 59px; */
   min-height: 100vh;
   flex-direction: column;
+}
+.migratebtn {
+  /* display: flex; */
+  flex-direction: row;
+  justify-content: center;
+  /* align-items: center; */
+  padding: 4px 16px;
+  gap: 8px;
+  /* position: absolute; */
+  left: 17.57%;
+  right: 16.83%;
+  top: 33.74%;
+  bottom: 60.34%;
+  background: #ffffff;
+  box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+  border-radius: 30px;
+  /* width: 174px; */
+  /* height: 27px; */
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 27px;
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.01em;
+  color: #ffa318;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+  border: thin;
+  text-align: -webkit-center;
+  margin-top: 20px;
 }
 
 .sidebarMoreMobile2 {

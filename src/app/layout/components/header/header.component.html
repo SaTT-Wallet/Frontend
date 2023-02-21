@@ -766,16 +766,29 @@
   >
     <button
       class="d-flex justify-content-center titleIDW"
-      style="margin-top: 30px;"
+      style="margin-top: 30px"
       (click)="isDisplayNew()"
     >
-      <span style="margin-right: 8px;"
+      <span style="margin-right: 8px"
         ><img src="../../assets/Images/custom_icons/bi_arrow-repeat.svg"
       /></span>
       {{ title }}
     </button>
     <div [style.display]="this.displayNew">
-      <div class="mobile container" id="qr-container">
+      <div style="text-align: -webkit-center;"><button
+        *ngIf="existV2 === false "
+        class="migratebtn"
+        type="button"
+        routerLink="/wallet"
+      >
+        <span
+          ><img
+            src="../../assets/Images/custom_icons/clarity_error-standard-line.svg"
+        /></span>
+        Create a new wallet
+      </button></div>
+
+      <div class="mobile container" id="qr-container" *ngIf="existV2 === true">
         <div class="item">
           <div class="d-flex justify-content-center"></div>
           <div class="d-flex justify-content-center pl-2" *ngIf="btcCodeV2">
@@ -784,7 +797,7 @@
 
           <div
             class="d-flex justify-content-center"
-            style="margin-bottom: 1rem !important ;margin-top: 30px;"
+            style="margin-bottom: 1rem !important ; margin-top: 30px"
           >
             <img [src]="urlM5" alt=" " id="qrr_imgg1 " />
           </div>
@@ -799,7 +812,9 @@
               "
             >
               <span class="span-text-wallet"
-                >{{ btcCodeV2?.slice(0, 2) }}...{{ btcCodeV2?.slice(-12) }}</span
+                >{{ btcCodeV2?.slice(0, 2) }}...{{
+                  btcCodeV2?.slice(-12)
+                }}</span
               >
 
               <span class="pr-1 position-relative"
@@ -828,14 +843,17 @@
           </div>
         </div>
         <div class="item" id="ercQrCode">
-          <P class="d-flex justify-content-center title" >
+          <P class="d-flex justify-content-center title">
             ERC / BSC / POLYGON / BTTC
           </P>
           <div
             class="button-mobile d-flex justify-content-center flex-column"
           ></div>
 
-          <div class="toggle d-flex justify-content-center" style="margin-top: 30px;">
+          <div
+            class="toggle d-flex justify-content-center"
+            style="margin-top: 30px"
+          >
             <img [src]="urlM4" alt=" " id="qrr_img1 " />
           </div>
           <div class="d-flex adressBlock justify-content-center mt-3">
@@ -914,7 +932,7 @@
 
           <div
             class="d-flex justify-content-center"
-            style="margin-bottom: 1rem !important; margin-top: 30px;"
+            style="margin-bottom: 1rem !important; margin-top: 30px"
           >
             <img [src]="url6" alt=" " id="qrr_imgg1 " />
           </div>
@@ -972,7 +990,7 @@
 
           <div
             class="d-flex justify-content-center"
-            style="margin-bottom: 1rem !important; margin-top: 30px;"
+            style="margin-bottom: 1rem !important; margin-top: 30px"
           >
             <img [src]="urlM2" alt=" " id="qrr_imgg1 " />
           </div>
@@ -1023,7 +1041,10 @@
             class="button-mobile d-flex justify-content-center flex-column"
           ></div>
 
-          <div class="toggle d-flex justify-content-center" style="margin-top: 30px;">
+          <div
+            class="toggle d-flex justify-content-center"
+            style="margin-top: 30px"
+          >
             <img [src]="urlM1" alt=" " id="qrr_img1 " />
           </div>
           <div class="d-flex adressBlock justify-content-center mt-3">
@@ -1102,7 +1123,7 @@
 
           <div
             class="d-flex justify-content-center"
-            style="margin-bottom: 1rem !important ;margin-top: 30px;"
+            style="margin-bottom: 1rem !important ; margin-top: 30px"
           >
             <img [src]="url3" alt=" " id="qrr_imgg1 " />
           </div>

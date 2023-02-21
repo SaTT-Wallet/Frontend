@@ -1,8 +1,27 @@
 <div class="qrcode-desktop">
 
-  <div class="d-flex justify-content-center textecenter">Your wallet ID</div>
+  <div class="d-flex justify-content-center textecenter">Your wallet ID </div>
+
+
 
   <div class="globale mt-3">
+
+    
+    <button
+    *ngIf="existV2 ===false"
+    class="migratebtn"
+    type="button"
+    routerLink="/wallet" 
+    
+  >
+    <span
+      ><img
+        src="../../assets/Images/custom_icons/clarity_error-standard-line.svg"
+    /></span>
+    Create a new wallet
+  </button>
+
+  
     <div
       class="container-QR-code"
       *ngIf="!!ethv2"
