@@ -45,7 +45,7 @@ const routes: Routes = [
   {
     path: 'welcome',
     component: FarmWelcomeComponent,
-  //  canActivate: [WelcomePageGuardService]
+    canActivate: [WelcomePageGuardService]
   },
   {
     path: 'part/:campaign_id',
