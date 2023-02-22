@@ -305,20 +305,6 @@ export class CampaignDetailComponent implements OnInit {
     if(!this.refundButtonDisable) {
       this.openModal(this.transactionPassword);
     }
-    
-    /*console.log(this.campaign.hash);
-    console.log(this.campaign.id)
-    this.CampaignService.getRefunds(this.campaign.hash).subscribe(
-      (res) => {
-        console.log(res)
-      },
-      (err) => {
-        console.log(err)
-      }
-    )
-    /*if(!this.refundButtonDisable) {
-      console.log(id);
-    }*/
   }
 
 
