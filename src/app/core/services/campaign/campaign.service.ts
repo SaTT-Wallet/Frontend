@@ -89,10 +89,10 @@ export class CampaignHttpApiService {
     );
   }
 
-  getRefunds(hash: any) {
+  getRefunds(hash: any, password: string, network: string) {
     return this.http.post(
       sattUrl + '/campaign/remaining',
-      { hash: hash },
+      { hash: hash, pass: password, network: network },
       { headers: this.tokenStorageService.getHeader() }
     );
   }

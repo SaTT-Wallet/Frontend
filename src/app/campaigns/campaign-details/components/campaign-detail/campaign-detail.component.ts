@@ -1,16 +1,19 @@
 import {
   Component,
+  HostListener,
   Inject,
   OnInit,
   PLATFORM_ID,
-  Renderer2
+  Renderer2,
+  TemplateRef,
+  ViewChild
 } from '@angular/core';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { arrayCountries, socialMedia } from '@config/atn.config';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DOCUMENT, isPlatformBrowser, ViewportScroller } from '@angular/common';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -41,7 +44,13 @@ declare var $: any;
   styleUrls: ['./campaign-detail.component.scss']
 })
 export class CampaignDetailComponent implements OnInit {
+
+
+  @ViewChild('transactionPassword', { static: false })
+  public transactionPassword!: TemplateRef<any>;
   scrolling = false;
+  successMessage: string = '';
+  loadingButton: boolean = false;
   inTop = true;
   downloadFilsClick: boolean = false;
   imageBlobUrl!: string | ArrayBuffer | null;
@@ -86,7 +95,7 @@ export class CampaignDetailComponent implements OnInit {
     share: 0,
     share_satt: 0
   };
-
+  public getScreenWidth: any;
   proms: any = [];
   share: any;
   like: any;
@@ -128,11 +137,21 @@ export class CampaignDetailComponent implements OnInit {
   private isErnings = false;
   downloadKit = false;
   editMode = false;
+  passwordForm = new FormGroup({});
+  errorMessage: string = '';
+
+  
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.getScreenWidth = event.target.innerWidth;
+  }
+
 
   isPlatformBrowser = isPlatformBrowser(this.platformId);
 
   constructor(
     public router: Router,
+    private _formBuilder: FormBuilder,
     public modalService: NgbModal,
     public CampaignService: CampaignHttpApiService,
     private route: ActivatedRoute,
@@ -194,6 +213,7 @@ export class CampaignDetailComponent implements OnInit {
     this.router.navigate(['home/ad-pools']);
   }
   ngOnInit(): void {
+    this.getScreenWidth = window.innerWidth;
     this.refundButtonDisable = true;
     this.loadingData = true;
     this.CampaignService.isLoading.subscribe((res) => {
@@ -277,7 +297,16 @@ export class CampaignDetailComponent implements OnInit {
 
 
   getRefunds(id:string) {
-    console.log(this.campaign.hash);
+    this.passwordForm = this._formBuilder.group({
+      password: ['', Validators.required]
+    });
+    this.loadingButton = false;
+    this.successMessage = '';
+    if(!this.refundButtonDisable) {
+      this.openModal(this.transactionPassword);
+    }
+    
+    /*console.log(this.campaign.hash);
     console.log(this.campaign.id)
     this.CampaignService.getRefunds(this.campaign.hash).subscribe(
       (res) => {
@@ -290,6 +319,46 @@ export class CampaignDetailComponent implements OnInit {
     /*if(!this.refundButtonDisable) {
       console.log(id);
     }*/
+  }
+
+
+  callRemaining() {
+    console.log(this.campaign.currency.type);
+    console.log(this.passwordForm.value.password);
+    this.errorMessage = '';
+    this.successMessage = '';
+    if(this.passwordForm.value.password.length > 0) {
+      this.loadingButton = true;
+      this.CampaignService.getRefunds(this.campaign.hash, this.passwordForm.value.password, this.campaign.currency.type).subscribe(
+        (res: any) => {
+          console.log({res})
+          if(res.code === 200 && res.message === "budget retrieved") {
+            this.loadingButton = false;
+            this.successMessage = "Budget retrieved";
+            setTimeout( _ => {
+              this.closeModal(this.transactionPassword)
+            }, 3000)
+          }
+        },
+        (err) => {
+          console.log({err : err.error.error})
+          if(err.error.error === "Key derivation failed - possibly wrong password") {
+            this.errorMessage = "wrong password, please try again"
+            this.passwordForm.reset();
+            this.loadingButton = false;
+          } else {
+            this.errorMessage = "Something went wrong please try again";
+            this.passwordForm.reset();
+            this.loadingButton = false;
+          }
+  
+          setTimeout(() => {
+            this.errorMessage = ''
+          }, 2000)
+        }
+      )
+    } 
+    
   }
 
 
