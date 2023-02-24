@@ -83,6 +83,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
   password: any;
   passwordWrong: string = '';
   transactionPasswordWrong: string = '';
+  transactionPasswordSuccess: string = '';
   user!: User;
   dataLegal: any;
   dataLegalIdentity: any;
@@ -226,7 +227,6 @@ export class SecurityComponent implements OnInit, OnDestroy {
     this.walletFacade
     .checkUserIsNew()
     .subscribe((res: any) => {
-      console.log({res})
       this.userIsNew = res.data;
     },
     (err: any) => {
@@ -237,7 +237,6 @@ export class SecurityComponent implements OnInit, OnDestroy {
     this.walletFacade
     .checkWalletV2Exist()
     .subscribe((res: any) => {
-      console.log({res})
       this.walletV2Exist = res.data;
     },
     (err: any) => {
@@ -584,8 +583,9 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
 
   updateTransactionPassword() {
-    console.log(this.formUpdateTransactionPassword);
     this.showSpinnerTransactionPassword = true;
+    this.transactionPasswordWrong = '';
+    this.transactionPasswordSuccess = '';
     let oldpass = this.formUpdateTransactionPassword.get('old_password')?.value;
     let newpass = this.formUpdateTransactionPassword.get('password')?.value;
 
@@ -599,6 +599,34 @@ export class SecurityComponent implements OnInit, OnDestroy {
           this.transactionPasswordWrong = '';
         }, 3000);
       } else {
+        this.walletFacade.resetTransactionPassword(oldpass, newpass)
+        .subscribe(
+          (res: any) => {
+            this.showSpinnerTransactionPassword = false;
+            if(res.code == 200 && res.message === "success") {
+              this.transactionPasswordSuccess = "you have successfully changed your password";
+              setTimeout(() => {
+                this.transactionPasswordSuccess = "";
+              }, 2000)
+            }
+            
+          },
+          (err: any) => {
+            this.showSpinnerTransactionPassword = false;
+            if(err.error.error === "Key derivation failed - possibly wrong password") {
+              this.transactionPasswordWrong = "Wrong password"
+              setTimeout(() => {
+                this.transactionPasswordWrong = ''
+              }, 2000)
+            } else {
+              this.transactionPasswordWrong = "Something went wrong please try again!"
+              setTimeout(() => {
+                this.transactionPasswordWrong = ''
+              }, 2000)
+            }
+            
+          }
+        )
         /*this.AuthService.updatePassword(oldpass, newpass)
           .pipe(
             catchError((HttpError: HttpErrorResponse) => {
