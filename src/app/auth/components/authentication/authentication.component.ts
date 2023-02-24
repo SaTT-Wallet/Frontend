@@ -520,21 +520,19 @@ getCookie(key: string){
           }
           if (res.myWallet.data.address) {
             if (res.response?.new) {
-              if (!res.response.passphrase) {
-                this.router.navigate(['/social-registration/pass-phrase']);
-              } else {
-                this.tokenStorageService.saveIdWallet(
-                  res.myWallet.data.address
-                );
-                this.tokenStorageService.saveTronWallet(
-                  res.myWallet.data?.tronAddress
-                );
-                this.router.navigateByUrl('/ad-pools');
-                this.showBigSpinner = true;
-                this.backgroundImage = '';
-                this.backgroundColor = '';
-                this.onDestroy$.next('');
-              }
+              // if (!res.response.passphrase) {
+              //   this.router.navigate(['/social-registration/pass-phrase']);
+              // } else {
+              this.tokenStorageService.saveIdWallet(res.myWallet.data.address);
+              this.tokenStorageService.saveTronWallet(
+                res.myWallet.data?.tronAddress
+              );
+              this.router.navigateByUrl('/ad-pools');
+              this.showBigSpinner = true;
+              this.backgroundImage = '';
+              this.backgroundColor = '';
+              this.onDestroy$.next('');
+              // }
             } else {
               this.tokenStorageService.saveIdWallet(res.myWallet.data.address);
               this.tokenStorageService.saveTronWallet(
@@ -596,6 +594,9 @@ getCookie(key: string){
       } else if (social === 'google') {
         this.loginNet = 'google';
         window.location.href = this.authGoogle;
+      } else if (social === 'telegram') {
+        this.loginNet = 'telegram';
+        window.location.href = this.authTelegram;
       }
     }
   }
@@ -856,23 +857,23 @@ getCookie(key: string){
             }
             if (res.myWallet.data.address) {
               if (res.response.data?.new) {
-                if (!res.response.data.passphrase) {
-                  this.router.navigate(['/social-registration/pass-phrase']);
-                } else {
-                  this.tokenStorageService.saveIdWallet(
-                    res.myWallet.data.address
-                  );
-                  this.tokenStorageService.saveTronWallet(
-                    res.myWallet.data?.tronAddress
-                  );
-                  this.notificationService.triggerFireBaseNotifications.next(
-                    true
-                  );
-                  this.router.navigate(['']);
-                  this.showBigSpinner = true;
-                  this.backgroundImage = '';
-                  this.backgroundColor = '';
-                }
+                // if (!res.response.data.passphrase) {
+                //   this.router.navigate(['/social-registration/pass-phrase']);
+                // } else {
+                this.tokenStorageService.saveIdWallet(
+                  res.myWallet.data.address
+                );
+                this.tokenStorageService.saveTronWallet(
+                  res.myWallet.data?.tronAddress
+                );
+                this.notificationService.triggerFireBaseNotifications.next(
+                  true
+                );
+                this.router.navigate(['']);
+                this.showBigSpinner = true;
+                this.backgroundImage = '';
+                this.backgroundColor = '';
+                // }
               } else {
                 this.tokenStorageService.saveIdWallet(
                   res.myWallet.data.address
