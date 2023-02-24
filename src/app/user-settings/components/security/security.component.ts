@@ -54,7 +54,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
   public showme: boolean = false;
   public buttonName: any = 'Show';
   public secret: any = '';
-
+  showSpinnerTransactionPassword: boolean = false;
   eExportType = ExportType;
   exportType!: string;
   formL: FormGroup;
@@ -79,6 +79,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
   formExportDataBTCSubmitted: boolean = false;
   formExportDataBTCSubmittedV2: boolean = false;
   formUpdatePassword: FormGroup;
+  formUpdateTransactionPassword: FormGroup;
   password: any;
   passwordWrong: string = '';
   user!: User;
@@ -142,6 +143,20 @@ export class SecurityComponent implements OnInit, OnDestroy {
     ];
 
     this.formUpdatePassword = new FormGroup(
+      {
+        old_password: new FormControl(null, Validators.required),
+        password: new FormControl(null, {
+          validators: [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.pattern(pattPassword)
+          ]
+        }),
+        confirmPassword: new FormControl(null, [Validators.required])
+      },
+      { validators: MatchPasswordValidator() }
+    );
+    this.formUpdateTransactionPassword = new FormGroup(
       {
         old_password: new FormControl(null, Validators.required),
         password: new FormControl(null, {
@@ -246,6 +261,41 @@ export class SecurityComponent implements OnInit, OnDestroy {
           this.formUpdatePassword.controls['confirmPassword'].enable();
         }
       });
+
+
+
+      this.formUpdateTransactionPassword.controls['password'].disable();
+    this.formUpdateTransactionPassword.controls['confirmPassword'].disable();
+    this.formUpdateTransactionPassword
+      .get('old_password')
+      ?.valueChanges.pipe(takeUntil(this.onDestroy$))
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((values) => {
+        if (values === '') {
+          this.formUpdateTransactionPassword.get('password')?.reset();
+          this.formUpdateTransactionPassword.controls['password'].disable();
+          // $("#newPassword").removeAttr('disabled');
+        } else {
+          //$("#newPassword").attr('disabled', 'disabled')
+          this.formUpdateTransactionPassword.controls['password'].enable();
+        }
+      });
+    this.formUpdateTransactionPassword
+      .get('password')
+      ?.valueChanges.pipe(takeUntil(this.onDestroy$))
+      .subscribe((values2) => {
+        if (
+          values2 === '' ||
+          values2 == null ||
+          this.formUpdateTransactionPassword.get('password')?.invalid
+        ) {
+          this.formUpdateTransactionPassword.get('confirmPassword')?.reset();
+          this.formUpdateTransactionPassword.controls['confirmPassword'].disable();
+        } else {
+          this.formUpdateTransactionPassword.controls['confirmPassword'].enable();
+        }
+      });
+
 
     this.idSn = this.tokenStorageService.getTypeSN();
 
@@ -515,6 +565,15 @@ export class SecurityComponent implements OnInit, OnDestroy {
     this.passwordWrong = '';
     this.errorMsg = '';
   }
+
+
+  updateTransactionPassword() {
+    console.log(this.formUpdateTransactionPassword);
+    this.showSpinnerTransactionPassword = true;
+  }
+
+
+
   updatePassword() {
     //this.showSpinner=true;
 
@@ -556,6 +615,11 @@ export class SecurityComponent implements OnInit, OnDestroy {
       }
     }
   }
+
+
+
+
+
   get f() {
     return this.formExportData.controls;
   }
