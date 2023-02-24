@@ -82,6 +82,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
   formUpdateTransactionPassword: FormGroup;
   password: any;
   passwordWrong: string = '';
+  transactionPasswordWrong: string = '';
   user!: User;
   dataLegal: any;
   dataLegalIdentity: any;
@@ -570,6 +571,45 @@ export class SecurityComponent implements OnInit, OnDestroy {
   updateTransactionPassword() {
     console.log(this.formUpdateTransactionPassword);
     this.showSpinnerTransactionPassword = true;
+    let oldpass = this.formUpdateTransactionPassword.get('old_password')?.value;
+    let newpass = this.formUpdateTransactionPassword.get('password')?.value;
+
+
+
+    if (this.formUpdateTransactionPassword.valid) {
+      if (oldpass === newpass) {
+        this.transactionPasswordWrong = 'profile.newPass';
+        this.showSpinnerTransactionPassword = false;
+        setTimeout(() => {
+          this.transactionPasswordWrong = '';
+        }, 3000);
+      } else {
+        /*this.AuthService.updatePassword(oldpass, newpass)
+          .pipe(
+            catchError((HttpError: HttpErrorResponse) => {
+              return of(HttpError.error);
+            }),
+            takeUntil(this.onDestroy$)
+          )
+          .subscribe((res: IApiResponse<any>) => {
+            if (res.code === 200) {
+              this.showSpinner = false;
+              let msg: string = '';
+              this.translate
+                .get('profile.password_change')
+                .pipe(takeUntil(this.onDestroy$))
+                .subscribe((data1: any) => {
+                  msg = data1;
+                });
+              this.toastr.success(msg);
+              this.formUpdatePassword.reset();
+            } else if (res.code === 401) {
+              this.passwordWrong = 'profile.old_pass_wrong';
+              this.formUpdatePassword.get('old_password')?.reset();
+            }
+          });*/
+      }
+    }
   }
 
 
