@@ -854,7 +854,7 @@ export class WalletComponent implements OnInit, OnDestroy {
             response?.data?.btcAddress &&
             response?.data?.tronAddress
           ) {
-            this.ngOnInit()
+            this.ngOnInit();
             this.closeModal(this.createWalletV2Modal);
             this.modalService.open(this.migration, {
               backdrop: 'static',
@@ -1012,8 +1012,12 @@ export class WalletComponent implements OnInit, OnDestroy {
           this.openModal(this.migration);
         }*/
 
-        if (this.show === false) {
+        if (Number(this.totalAmount) === 0) {
           this.height = '250px';
+        } else {
+          if (this.show === false) {
+            this.height = '250px';
+          }
         }
         this.variationamount = data?.variation?.toFixed(2);
         if (this.variationamount < 0) {
