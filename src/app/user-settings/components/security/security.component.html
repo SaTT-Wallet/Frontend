@@ -288,7 +288,7 @@
 
     <!------- Collapse update transaction password password ----------->
     <div class="collapsed panel-heading row" data-toggle="collapse" href="#collapse-pwd" aria-expanded="false"
-      aria-controls="collapse-pwd">
+      aria-controls="collapse-pwd" *ngIf="walletV2Exist">
       <div class="d-flex justify-content-between cursor_pntr">
         <div class="d-flex align-self-center">
           <h1 class="data cursor_pntr">
@@ -298,7 +298,7 @@
         <div class="px-3"><i class="chevron fa fa-fw"></i></div>
       </div>
     </div>
-    <div class="row collapse" id="collapse-pwd">
+    <div class="row collapse" id="collapse-pwd" *ngIf="walletV2Exist">
       <div class="row">
         <form [formGroup]="formUpdateTransactionPassword" id="formUpdateTransactionPassword">
           <div class="d-flex justify-content-start mt-2">
@@ -469,7 +469,7 @@ this.formUpdateTransactionPassword.dirty
     </div>
 
     <!-------End Collapse update transaction password ----------->
-    <div class="col-12 p-0">
+    <div class="col-12 p-0" *ngIf="walletV2Exist">
       <hr />
     </div>
 

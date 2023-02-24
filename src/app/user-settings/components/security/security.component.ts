@@ -110,6 +110,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
   showSpinnerTRON = false;
   showSpinnerTRONV2 = false;
   userIsNew: boolean = false;
+  walletV2Exist: boolean = false;
 
   constructor(
     private accountFacadeService: AccountFacadeService,
@@ -221,13 +222,27 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userIsNew  = false;
+    this.walletV2Exist = false;
     this.walletFacade
     .checkUserIsNew()
     .subscribe((res: any) => {
+      console.log({res})
       this.userIsNew = res.data;
     },
     (err: any) => {
       console.log(err)
+    }
+    )
+
+    this.walletFacade
+    .checkWalletV2Exist()
+    .subscribe((res: any) => {
+      console.log({res})
+      this.walletV2Exist = res.data;
+    },
+    (err: any) => {
+      console.log(err)
+      this.walletV2Exist = false;
     }
     )
     this.getProfileDetails();

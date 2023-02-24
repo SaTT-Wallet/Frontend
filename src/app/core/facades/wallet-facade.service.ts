@@ -383,4 +383,8 @@ export class WalletFacadeService {
   checkUserIsNew() {
     return this.walletService.checkUserIsNew();
   }
+
+  checkWalletV2Exist() {
+    return this.walletService.checkWalletV2Exist();
+  }
 }
