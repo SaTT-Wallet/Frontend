@@ -1734,6 +1734,7 @@ table > th {
 }
 
 .modal-header.modal-customm .btn-close {
+  background: transparent;
   border: none !important;
   position: absolute;
   margin: 0px;
