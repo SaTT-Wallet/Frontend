@@ -1,27 +1,14 @@
-<div
-  class="container-fluid page-content"
-  [style]="'margin-top: 0.5%!important; '"
-  xmlns="http://www.w3.org/1999/html"
-  xmlns="http://www.w3.org/1999/html"
->
+<div class="container-fluid page-content" [style]="'margin-top: 0.5%!important; '" xmlns="http://www.w3.org/1999/html"
+  xmlns="http://www.w3.org/1999/html">
   <div class="row show-mobile mb-2">
     <div class="col-md-12 col-lg-12 col-xs-12">
-      <button
-        type="button"
-        class="btn-back"
-        [routerLink]="['/home/settings/']"
-      ></button>
+      <button type="button" class="btn-back" [routerLink]="['/home/settings/']"></button>
     </div>
   </div>
   <div class="div_block">
     <!------- Collapse retrieve data ----------->
-    <div
-      class="collapsed panel-heading row"
-      data-toggle="collapse"
-      href="#collapse10"
-      aria-expanded="false"
-      aria-controls="collapse1"
-    >
+    <div class="collapsed panel-heading row" data-toggle="collapse" href="#collapse10" aria-expanded="false"
+      aria-controls="collapse1">
       <!-- <div class="d-flex justify-content-between cursor_pntr">
                     <div>
                         <h1 class="data cursor_pntr">
@@ -53,70 +40,47 @@
             </div>
           </div>
           <div class="row">
-            <div
-              class="col-xl-11 col-lg-11 col-md-12 col-sm-12 div-buttons-export"
-            >
-              <button
-                class="btn-export mb-1"
-                (click)="
+            <div class="col-xl-11 col-lg-11 col-md-12 col-sm-12 div-buttons-export">
+              <button class="btn-export mb-1" (click)="
                   this.exportType = eExportType.btc;
                   openModalAndCheckBTCV2(
                     exportDataModalBTCV2,
                     checkUserLegalKYCModal
                   )
-                "
-              >
+                ">
                 <span *ngIf="!this.showSpinnerBTCV2">{{
                   'security.download-key-BTC' | translate
-                }}</span>
-                <div
-                  *ngIf="this.showSpinnerBTCV2"
-                  class="spinner-border"
-                  role="status"
-                >
+                  }}</span>
+                <div *ngIf="this.showSpinnerBTCV2" class="spinner-border" role="status">
                   <span class="sr-only">Loading...</span>
                 </div>
               </button>
 
-              <button
-                class="btn-export"
-                (click)="
+              <button class="btn-export" (click)="
                   this.exportType = eExportType.eth;
                   openModalAndCheckETHV2(
                     exportDataModalV2,
                     checkUserLegalKYCModal
                   )
-                "
-              >
+                ">
                 <span *ngIf="!this.showSpinnerETHV2">{{
                   'security.download-key-ETH' | translate
-                }}</span>
-                <div
-                  *ngIf="this.showSpinnerETHV2"
-                  class="spinner-border"
-                  role="status"
-                >
+                  }}</span>
+                <div *ngIf="this.showSpinnerETHV2" class="spinner-border" role="status">
                   <span class="sr-only">Loading...</span>
                 </div>
               </button>
-              <button
-                class="btn-export"
-                (click)="
+              <button class="btn-export" (click)="
                   this.exportType = eExportType.tron;
                   openModalAndCheckTRONV2(
                     exportDataModalV2,
                     checkUserLegalKYCModal
                   )
-                "
-              >
+                ">
                 <span *ngIf="!this.showSpinnerTRONV2">{{
                   'security.download-key-TRON' | translate
-                }}</span>
-                <div
-                  *ngIf="this.showSpinnerTRONV2"
-                  class="spinner-border"
-                  role="status"
-                >
+                  }}</span>
+                <div *ngIf="this.showSpinnerTRONV2" class="spinner-border" role="status">
                   <span class="sr-only">Loading...</span>
                 </div>
               </button>
@@ -130,14 +94,10 @@
       <hr />
     </div>
 
+
     <!------- Collapse update password ----------->
-    <div
-      class="collapsed panel-heading row"
-      data-toggle="collapse"
-      href="#collapse3"
-      aria-expanded="false"
-      aria-controls="collapse3"
-    >
+    <div class="collapsed panel-heading row" data-toggle="collapse" href="#collapse3" aria-expanded="false"
+      aria-controls="collapse3">
       <div class="d-flex justify-content-between cursor_pntr">
         <div class="d-flex align-self-center">
           <h1 class="data cursor_pntr">
@@ -154,10 +114,9 @@
             <p class="d-flex flex-column">
               <span class="dark-grey-text">{{
                 'security.you_can_change_pwd' | translate
-              }}</span>
+                }}</span>
               <span class="orange-text pt-2">
-                {{ 'security.alert_change_pwd' | translate }}</span
-              >
+                {{ 'security.alert_change_pwd' | translate }}</span>
             </p>
           </div>
 
@@ -166,7 +125,7 @@
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
               <label class="label_input">{{
                 'Profil.current_password' | translate
-              }}</label>
+                }}</label>
             </div>
           </div>
 
@@ -175,31 +134,18 @@
           <div class="row">
             <div class="col-sm-10 col-md-10 col-lg-7 col-xl-6 col-xxl-4">
               <div class="div_input_add position-relative">
-                <input
-                  autocomplete="on"
-                  type="password"
-                  (focusin)="removeMessage()"
-                  name="old_password"
-                  id="old_password"
-                  formControlName="old_password"
-                  class="input_oeil"
-                  #old_password_field
-                />
-                <span
-                  (click)="
+                <input autocomplete="on" type="password" (focusin)="removeMessage()" name="old_password"
+                  id="old_password" formControlName="old_password" class="input_oeil" #old_password_field />
+                <span (click)="
                     old_password_field.type =
                       old_password_field.type == 'password'
                         ? 'text'
                         : 'password'
-                  "
-                  class="fa fa-fw cross_input_network align-self-center"
-                  aria-hidden="true"
-                  [ngClass]="
+                  " class="fa fa-fw cross_input_network align-self-center" aria-hidden="true" [ngClass]="
                     old_password_field.type === 'password'
                       ? ' fa-eye-slash '
                       : ' fa-eye'
-                  "
-                ></span>
+                  "></span>
               </div>
             </div>
           </div>
@@ -208,89 +154,57 @@
           <!-- Input , label and error msg new password-->
           <div class="row pt-4">
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-              <label
-                class="label_input"
-                [ngClass]="{
+              <label class="label_input" [ngClass]="{
                   labelError:
                     this.formUpdatePassword.get('password')?.invalid &&
                     !this.formUpdatePassword.get('password')?.errors?.required
-                }"
-              >
-                {{ 'Profil.new_password' | translate }}</label
-              >
+                }">
+                {{ 'Profil.new_password' | translate }}</label>
             </div>
           </div>
           <div class="row">
             <div class="col-sm-10 col-md-10 col-lg-7 col-xl-6 col-xxl-4">
-              <div
-                class="div_input_add position-relative"
-                [ngClass]="{
+              <div class="div_input_add position-relative" [ngClass]="{
                   errorMsg:
                     this.formUpdatePassword.get('password')?.invalid &&
                     !this.formUpdatePassword.get('password')?.errors?.required,
                   success: this.formUpdatePassword.get('password')?.valid
-                }"
-              >
-                <input
-                  autocomplete="on"
-                  type="password"
-                  name="password"
-                  formControlName="password"
-                  id="newPassword"
-                  class="input_oeil"
-                  #password
-                  [ngClass]="{
+                }">
+                <input autocomplete="on" type="password" name="password" formControlName="password" id="newPassword"
+                  class="input_oeil" #password [ngClass]="{
                     errorMsg2:
                       this.formUpdatePassword.get('password')?.invalid &&
                       !this.formUpdatePassword.get('password')?.errors?.required
-                  }"
-                />
-                <span
-                  (click)="
+                  }" />
+                <span (click)="
                     password.type =
                       password.type == 'password' ? 'text' : 'password'
-                  "
-                  class="fa fa-fw cross_input_network align-self-center"
-                  aria-hidden="true"
-                  [ngClass]="
+                  " class="fa fa-fw cross_input_network align-self-center" aria-hidden="true" [ngClass]="
                     password.type === 'password' ? ' fa-eye-slash ' : ' fa-eye'
-                  "
-                ></span>
+                  "></span>
               </div>
             </div>
           </div>
           <div class="row pt-1">
-            <div
-              class="row"
-              *ngIf="
+            <div class="row" *ngIf="
                 this.formUpdatePassword.get('password')?.invalid &&
                 !this.formUpdatePassword.get('password')?.errors?.required
-              "
-            >
+              ">
               <div class="row">
-                <span class="error_input"
-                  >{{ 'Profil.password_minlength_eight_chars' | translate }}
+                <span class="error_input">{{ 'Profil.password_minlength_eight_chars' | translate }}
                 </span>
               </div>
               <div class="row">
-                <span class="error_input"
-                  >-{{ 'Profil.password_uppercase' | translate }}</span
-                >
+                <span class="error_input">-{{ 'Profil.password_uppercase' | translate }}</span>
               </div>
               <div class="row">
-                <span class="error_input"
-                  >-{{ 'Profil.password_lowercase' | translate }}</span
-                >
+                <span class="error_input">-{{ 'Profil.password_lowercase' | translate }}</span>
               </div>
               <div class="row">
-                <span class="error_input"
-                  >-{{ 'Profil.password_number' | translate }}</span
-                >
+                <span class="error_input">-{{ 'Profil.password_number' | translate }}</span>
               </div>
               <div class="row">
-                <span class="error_input"
-                  >-{{ 'Profil.password_special_character' | translate }}</span
-                >
+                <span class="error_input">-{{ 'Profil.password_special_character' | translate }}</span>
               </div>
             </div>
           </div>
@@ -298,64 +212,41 @@
           <!-- Input , label and error msg confirmation password-->
           <div class="row mt-3">
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-              <label
-                class="label_input"
-                [ngClass]="{
+              <label class="label_input" [ngClass]="{
                   labelError: this.formUpdatePassword.errors?.mustMatch
-                }"
-              >
-                {{ 'Profil.confirm_new_password' | translate }}</label
-              >
+                }">
+                {{ 'Profil.confirm_new_password' | translate }}</label>
             </div>
           </div>
           <div class="row">
             <div class="col-sm-10 col-md-10 col-lg-7 col-xl-6 col-xxl-4">
-              <div
-                class="div_input_add position-relative"
-                [ngClass]="{
+              <div class="div_input_add position-relative" [ngClass]="{
                   errorMsg: this.formUpdatePassword.errors?.mustMatch,
                   success:
                     !this.formUpdatePassword.errors?.mustMatch &&
                     this.formUpdatePassword.get('confirmPassword')?.valid
-                }"
-              >
-                <input
-                  autocomplete="on"
-                  type="password"
-                  #confirmPassword
-                  name="confirmPassword"
-                  id="confirmPassword"
-                  formControlName="confirmPassword"
-                  class="input_oeil"
-                  [ngClass]="{
+                }">
+                <input autocomplete="on" type="password" #confirmPassword name="confirmPassword" id="confirmPassword"
+                  formControlName="confirmPassword" class="input_oeil" [ngClass]="{
                     errorMsg2: this.formUpdatePassword.errors?.mustMatch
-                  }"
-                />
-                <span
-                  (click)="
+                  }" />
+                <span (click)="
                     confirmPassword.type =
                       confirmPassword.type == 'password' ? 'text' : 'password'
-                  "
-                  class="fa fa-fw cross_input_network align-self-center"
-                  aria-hidden="true"
-                  [ngClass]="
+                  " class="fa fa-fw cross_input_network align-self-center" aria-hidden="true" [ngClass]="
                     confirmPassword.type === 'password'
                       ? ' fa-eye-slash '
                       : ' fa-eye'
-                  "
-                ></span>
+                  "></span>
               </div>
             </div>
           </div>
 
           <div class="row pt-1">
-            <span
-              class="error_input"
-              *ngIf="
+            <span class="error_input" *ngIf="
                 this.formUpdatePassword.errors?.mustMatch &&
                 this.formUpdatePassword.dirty
-              "
-            >
+              ">
               {{ 'Profil.password_must_match_error' | translate }}
             </span>
           </div>
@@ -374,20 +265,11 @@
 
       <div class="row">
         <div class="col-sm-10 col-md-10 col-lg-6 col-xl-5 col-xxl-4 mt-3">
-          <button
-            type="submit"
-            class="btn-green"
-            (click)="updatePassword()"
-            [disabled]="formUpdatePassword.invalid"
-          >
+          <button type="submit" class="btn-green" (click)="updatePassword()" [disabled]="formUpdatePassword.invalid">
             <span *ngIf="!this.showSpinner">{{
               'Profil.save' | translate
-            }}</span>
-            <div
-              *ngIf="this.showSpinner"
-              class="spinner-border text-light"
-              role="status"
-            >
+              }}</span>
+            <div *ngIf="this.showSpinner" class="spinner-border text-light" role="status">
               <span class="sr-only">Loading...</span>
             </div>
           </button>
@@ -400,14 +282,222 @@
       <hr />
     </div>
 
+
+
+
+
+    <!------- Collapse update transaction password password ----------->
+    <div class="collapsed panel-heading row" data-toggle="collapse" href="#collapse-pwd" aria-expanded="false"
+      aria-controls="collapse-pwd" *ngIf="walletV2Exist">
+      <div class="d-flex justify-content-between cursor_pntr">
+        <div class="d-flex align-self-center">
+          <h1 class="data cursor_pntr">
+            {{ 'Profil.update_transaction_pwd_connexion' | translate }}
+          </h1>
+        </div>
+        <div class="px-3"><i class="chevron fa fa-fw"></i></div>
+      </div>
+    </div>
+    <div class="row collapse" id="collapse-pwd" *ngIf="walletV2Exist">
+      <div class="row">
+        <form [formGroup]="formUpdateTransactionPassword" id="formUpdateTransactionPassword">
+          <div class="d-flex justify-content-start mt-2">
+            <p class="d-flex flex-column">
+              <span class="dark-grey-text">{{
+                'security.you_can_change_transaction_pwd' | translate
+                }}</span>
+              <span class="orange-text pt-2">
+                {{ 'security.alert_change_transaction_pwd' | translate }}</span>
+            </p>
+          </div>
+
+          <!-- Input , label and error msg Old password-->
+          <div class="row mt-2">
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+              <label class="label_input">{{
+                'Profil.current_password' | translate
+                }}</label>
+            </div>
+          </div>
+
+          <!-- [ngClass]="{errorMsg: !this.formUpdatePassword.get('old_password')?.valid &&
+this.formUpdatePassword.get('old_password')?.touched && this.formUpdatePassword.get('old_password')?.errors?.required}" -->
+          <div class="row">
+            <div class="col-sm-10 col-md-10 col-lg-7 col-xl-6 col-xxl-4">
+              <div class="div_input_add position-relative">
+                <input autocomplete="on" type="password" (focusin)="removeMessage()" name="old_password"
+                  id="old_password" formControlName="old_password" class="input_oeil" #old_password_field />
+                <span (click)="
+old_password_field.type =
+old_password_field.type == 'password'
+? 'text'
+: 'password'
+" class="fa fa-fw cross_input_network align-self-center" aria-hidden="true" [ngClass]="
+old_password_field.type === 'password'
+? ' fa-eye-slash '
+: ' fa-eye'
+"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- End Input , label and error msg Old password-->
+          <!-- Input , label and error msg new password-->
+          <div class="row pt-4">
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+              <label class="label_input" [ngClass]="{
+labelError:
+this.formUpdateTransactionPassword.get('password')?.invalid &&
+!this.formUpdateTransactionPassword.get('password')?.errors?.required
+}">
+                {{ 'Profil.new_password' | translate }}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-10 col-md-10 col-lg-7 col-xl-6 col-xxl-4">
+              <div class="div_input_add position-relative" [ngClass]="{
+errorMsg:
+this.formUpdateTransactionPassword.get('password')?.invalid &&
+!this.formUpdateTransactionPassword.get('password')?.errors?.required,
+success: this.formUpdateTransactionPassword.get('password')?.valid
+}">
+                <input autocomplete="on" type="password" name="password" formControlName="password" id="newPassword"
+                  class="input_oeil" #password [ngClass]="{
+errorMsg2:
+this.formUpdateTransactionPassword.get('password')?.invalid &&
+!this.formUpdateTransactionPassword.get('password')?.errors?.required
+}" />
+                <span (click)="
+password.type =
+password.type == 'password' ? 'text' : 'password'
+" class="fa fa-fw cross_input_network align-self-center" aria-hidden="true" [ngClass]="
+password.type === 'password' ? ' fa-eye-slash ' : ' fa-eye'
+"></span>
+              </div>
+            </div>
+          </div>
+          <div class="row pt-1">
+            <div class="row" *ngIf="
+this.formUpdateTransactionPassword.get('password')?.invalid &&
+!this.formUpdateTransactionPassword.get('password')?.errors?.required
+">
+              <div class="row">
+                <span class="error_input">{{ 'Profil.password_minlength_eight_chars' | translate }}
+                </span>
+              </div>
+              <div class="row">
+                <span class="error_input">-{{ 'Profil.password_uppercase' | translate }}</span>
+              </div>
+              <div class="row">
+                <span class="error_input">-{{ 'Profil.password_lowercase' | translate }}</span>
+              </div>
+              <div class="row">
+                <span class="error_input">-{{ 'Profil.password_number' | translate }}</span>
+              </div>
+              <div class="row">
+                <span class="error_input">-{{ 'Profil.password_special_character' | translate }}</span>
+              </div>
+            </div>
+          </div>
+          <!-- End Input , label and error msg new password-->
+          <!-- Input , label and error msg confirmation password-->
+          <div class="row mt-3">
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+              <label class="label_input" [ngClass]="{
+labelError: this.formUpdateTransactionPassword.errors?.mustMatch
+}">
+                {{ 'Profil.confirm_new_password' | translate }}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-10 col-md-10 col-lg-7 col-xl-6 col-xxl-4">
+              <div class="div_input_add position-relative" [ngClass]="{
+errorMsg: this.formUpdateTransactionPassword.errors?.mustMatch,
+success:
+!this.formUpdateTransactionPassword.errors?.mustMatch &&
+this.formUpdateTransactionPassword.get('confirmPassword')?.valid
+}">
+                <input autocomplete="on" type="password" #confirmPassword name="confirmPassword" id="confirmPassword"
+                  formControlName="confirmPassword" class="input_oeil" [ngClass]="{
+errorMsg2: this.formUpdateTransactionPassword.errors?.mustMatch
+}" />
+                <span (click)="
+confirmPassword.type =
+confirmPassword.type == 'password' ? 'text' : 'password'
+" class="fa fa-fw cross_input_network align-self-center" aria-hidden="true" [ngClass]="
+confirmPassword.type === 'password'
+? ' fa-eye-slash '
+: ' fa-eye'
+"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row pt-1">
+            <span class="error_input" *ngIf="
+this.formUpdateTransactionPassword.errors?.mustMatch &&
+this.formUpdateTransactionPassword.dirty
+">
+              {{ 'Profil.password_must_match_error' | translate }}
+            </span>
+          </div>
+          <!-- End Input , label and error msg confirmation password-->
+          <!-- error msg: wrong old password-->
+          <div class="row pt-1" *ngIf="transactionPasswordWrong.length > 0">
+            <div class="col-sm-10 col-md-10 col-lg-6 col-xl-5 col-xxl-4 d-flex">
+              <label class="error_input">
+                {{ transactionPasswordWrong | translate }}
+              </label>
+            </div>
+          </div>
+          <div class="row pt-1" *ngIf="transactionPasswordSuccess.length > 0">
+            <div class="col-sm-10 col-md-10 col-lg-6 col-xl-5 col-xxl-4 d-flex">
+              <label class="success_input">
+                {{ transactionPasswordSuccess | translate }}
+              </label>
+            </div>
+          </div>
+          <!-- end error msg: wrong old password-->
+        </form>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-10 col-md-10 col-lg-6 col-xl-5 col-xxl-4 mt-3">
+          <button type="submit" class="btn-green" (click)="updateTransactionPassword()" [disabled]="formUpdateTransactionPassword.invalid">
+            <span *ngIf="!showSpinnerTransactionPassword">{{
+              'Profil.save' | translate
+              }}</span>
+            <div *ngIf="showSpinnerTransactionPassword" class="spinner-border text-light" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-------End Collapse update transaction password ----------->
+    <div class="col-12 p-0" *ngIf="walletV2Exist">
+      <hr />
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!------- Collapse linkAccounts ----------->
-    <div
-      class="collapsed panel-heading row"
-      data-toggle="collapse"
-      href="#linkAccounts"
-      aria-expanded="false"
-      aria-controls="linkAccounts"
-    >
+    <div class="collapsed panel-heading row" data-toggle="collapse" href="#linkAccounts" aria-expanded="false"
+      aria-controls="linkAccounts">
       <div class="d-flex justify-content-between cursor_pntr">
         <div class="d-flex align-self-center">
           <h1 class="data cursor_pntr">
@@ -423,8 +513,7 @@
         <p class="d-flex flex-column">
           <span class="title">{{ 'Liez_vos_réseaux' | translate }}</span>
           <span class="dark-grey-text">
-            {{ 'Liez_votre_compte' | translate }} :</span
-          >
+            {{ 'Liez_votre_compte' | translate }} :</span>
         </p>
 
         <div class="row">
@@ -438,13 +527,8 @@
       <hr />
     </div>
     <!------- Collapse activate 2 step ----------->
-    <div
-      class="collapsed panel-heading two-way-auth-wrapper row"
-      data-toggle="collapse"
-      href="#collapse2fa"
-      aria-expanded="false"
-      aria-controls="collapse2fa"
-    >
+    <div class="collapsed panel-heading two-way-auth-wrapper row" data-toggle="collapse" href="#collapse2fa"
+      aria-expanded="false" aria-controls="collapse2fa">
       <div class="d-flex justify-content-between cursor_pntr">
         <div class="d-flex align-self-center two-way-auth">
           <h1 class="data cursor_pntr">
@@ -460,17 +544,10 @@
     <div class="row collapse" id="collapse2fa">
       <div class="d-flex flex-row justify-content-start">
         <span class="pe-3 black-text d-flex align-self-center">
-          {{ 'security.activate-auth-2Steps' | translate }}</span
-        >
+          {{ 'security.activate-auth-2Steps' | translate }}</span>
         <!-- you have to add at ui-switch (click)="toggle()"  [disabled]="true"  -->
-        <ui-switch
-          *ngIf="!is2FAactivated"
-          class="d-flex align-self-center"
-          [checked]="is2FAactivated"
-          id="toggle"
-          (change)="onToggle2FAChange($event)"
-          size="small"
-        ></ui-switch>
+        <ui-switch *ngIf="!is2FAactivated" class="d-flex align-self-center" [checked]="is2FAactivated" id="toggle"
+          (change)="onToggle2FAChange($event)" size="small"></ui-switch>
       </div>
 
       <div class="row mt-2">
@@ -482,7 +559,7 @@
         <div>
           <p class="active2steps">
             <img style="margin-right: 10px" src="./assets/Images/tik.svg" />{{
-              'Profil.validateblock' | translate
+            'Profil.validateblock' | translate
             }}
           </p>
           <!-- <button class=" btn btn_step2 ">{{"Profil.Configure" | translate}}</button> -->
@@ -493,8 +570,7 @@
           <!--  *ngIf="show"-->
           <div class="row">
             <div class="col-12">
-              <span class="black-text"
-                >{{ 'Profil.Configure' | translate }}
+              <span class="black-text">{{ 'Profil.Configure' | translate }}
               </span>
             </div>
           </div>
@@ -504,50 +580,27 @@
                 {{ 'Profil.defwork' | translate }}
               </p>
               <a class="span-link" target="_blank">
-                {{ 'Profil.downloadauth' | translate }}</a
-              >
+                {{ 'Profil.downloadauth' | translate }}</a>
             </div>
             <div class="col-lg-10 col-xl-10 col-md-10 col-sm-12 mt-2 mb-2">
-              <a
-                href="https://apps.apple.com/us/app/google-authenticator/id388497605"
-                target="_blank"
-              >
-                <img
-                  class="me-lg-3 mac-app"
-                  src="/assets/Images/app-store-dl.png"
-                  alt="app store logo"
-                />
+              <a href="https://apps.apple.com/us/app/google-authenticator/id388497605" target="_blank">
+                <img class="me-lg-3 mac-app" src="/assets/Images/app-store-dl.png" alt="app store logo" />
               </a>
-              <a
-                href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=fr&gl=US"
-                target="_blank"
-              >
-                <img
-                  class="iconDownload"
-                  src="/assets/Images/google--app.png"
-                  alt="google store logo"
-                />
+              <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=fr&gl=US"
+                target="_blank">
+                <img class="iconDownload" src="/assets/Images/google--app.png" alt="google store logo" />
               </a>
             </div>
           </div>
-          <div
-            class="gray_block mt-2 col-lg-10 col-xl-10 col-md-12 col-sm-12 d-flex justify-content-center flex-column"
-            *ngIf="showQrCode"
-          >
+          <div class="gray_block mt-2 col-lg-10 col-xl-10 col-md-12 col-sm-12 d-flex justify-content-center flex-column"
+            *ngIf="showQrCode">
             <!-- <div class="row pt-1">
                             <span class="black-text"> {{'Profil.step' |translate}}1</span>
                         </div> -->
-            <div
-              class="row d-flex flex-xl-row flex-lg-row flex-md-column flex-sm-column mt-2"
-            >
-              <div
-                class="col-xl-9 col-lg-9 col-md-12 col-sm-12 d-flex flex-column"
-              >
-                <div
-                  class="col-xl-10 col-lg-9 col-md-12 col-sm-12 d-flex flex-column"
-                >
-                  <span class="black-text"
-                    >{{ 'Profil.step' | translate }}1
+            <div class="row d-flex flex-xl-row flex-lg-row flex-md-column flex-sm-column mt-2">
+              <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 d-flex flex-column">
+                <div class="col-xl-10 col-lg-9 col-md-12 col-sm-12 d-flex flex-column">
+                  <span class="black-text">{{ 'Profil.step' | translate }}1
                   </span>
                 </div>
                 <div class="col-xl-7 col-lg-10 col-md-12 col-sm-12 mt-2">
@@ -555,19 +608,11 @@
                 </div>
                 <span class="subtitle">{{ 'key' | translate }}</span>
                 <div class="col-xl-7 col-lg-10 col-md-12 col-sm-12">
-                  <div
-                    class="div_secret_key d-flex flex-row align-items-center"
-                  >
+                  <div class="div_secret_key d-flex flex-row align-items-center">
                     <span class="qr-code">{{ secret }}</span>
-                    <label
-                      class="copy-code px-2 d-flex align-items-center justify-content-center"
-                      (click)="copyCode(secret)"
-                      type="button"
-                      ngbPopover="Copied"
-                      popoverTitle=""
-                      [openDelay]="100"
-                      [closeDelay]="100"
-                    >
+                    <label class="copy-code px-2 d-flex align-items-center justify-content-center"
+                      (click)="copyCode(secret)" type="button" ngbPopover="Copied" popoverTitle="" [openDelay]="100"
+                      [closeDelay]="100">
                       <img src="/assets/Images/copy-white.svg" class="" />
                     </label>
                   </div>
@@ -581,96 +626,57 @@
                 <span></span>
               </div>
               <div
-                class="col-xl-2 col-lg-3 col-md-12 col-sm-12 d-flex justify-conten-end align-self-center make-center margin-top"
-              >
-                <img
-                  width="120 px"
-                  height="120 px"
-                  class="margin-top"
-                  [src]="qrCode"
-                />
+                class="col-xl-2 col-lg-3 col-md-12 col-sm-12 d-flex justify-conten-end align-self-center make-center margin-top">
+                <img width="120 px" height="120 px" class="margin-top" [src]="qrCode" />
               </div>
             </div>
 
             <!---------------------- block steps----->
           </div>
-          <div
-            class="gray_block mt-2 col-lg-10 col-xl-10 col-md-12 col-sm-12 d-flex justify-content-center flex-column"
-            *ngIf="show || desactivate"
-          >
+          <div class="gray_block mt-2 col-lg-10 col-xl-10 col-md-12 col-sm-12 d-flex justify-content-center flex-column"
+            *ngIf="show || desactivate">
             <form [formGroup]="formCode">
-              <div
-                class="col-xl-10 col-lg-9 col-md-12 col-sm-12 d-flex flex-column"
-              >
+              <div class="col-xl-10 col-lg-9 col-md-12 col-sm-12 d-flex flex-column">
                 <span class="black-text">
-                  {{ 'Profil.step' | translate }}2</span
-                >
+                  {{ 'Profil.step' | translate }}2</span>
               </div>
               <div class="col-xl-7 col-lg-10 col-md-12 col-sm-12 mt-2">
                 <span class="text-step">
-                  {{ 'Profil.6chiffres' | translate }}</span
-                >
+                  {{ 'Profil.6chiffres' | translate }}</span>
               </div>
 
-              <div
-                class="col-xl-7 col-lg-10 col-md-12 col-sm-12 d-flex flex-row flex-direction-column-mobile mt-2"
-              >
+              <div class="col-xl-7 col-lg-10 col-md-12 col-sm-12 d-flex flex-row flex-direction-column-mobile mt-2">
                 <div class="align-self-center make-center padding-right">
                   <!-- <code-input class="codeinput" type="number" [codeLength]="6" name="code" ngDefaultControl formControlName="code" #codeInput (codeCompleted)="onCodeCompleted($event)">
                                             </code-input> -->
-                  <app-code-input-auth
-                    (codeCompleted)="listenForCodeChange($event)"
-                    [ngClass]="{
+                  <app-code-input-auth (codeCompleted)="listenForCodeChange($event)" [ngClass]="{
                       'success-code': this.errorMessage === 'code correct',
                       'danger-code': this.errorMessage === 'code incorrect'
-                    }"
-                  ></app-code-input-auth>
-                  <span
-                    class="error_input code-status"
-                    *ngIf="this.errorMessage"
-                    [ngClass]="{
+                    }"></app-code-input-auth>
+                  <span class="error_input code-status" *ngIf="this.errorMessage" [ngClass]="{
                       'success-code': this.errorMessage === 'code correct',
                       'danger-code': this.errorMessage === 'code incorrect'
-                    }"
-                  >
+                    }">
                     {{ errorMessage | translate }}
                   </span>
                 </div>
 
                 <div class="d-flex align-self-center margin-top div-width-100">
-                  <button
-                    type="submit"
-                    class="btn-blue"
-                    [disabled]="formCode.controls.valid.value === false"
-                    (click)="confirmUpdate(true)"
-                    *ngIf="!is2FAactivated"
-                  >
+                  <button type="submit" class="btn-blue" [disabled]="formCode.controls.valid.value === false"
+                    (click)="confirmUpdate(true)" *ngIf="!is2FAactivated">
                     <span *ngIf="!this.showSpinner">{{
                       'Profil.campaign_password.confirm' | translate
-                    }}</span>
-                    <div
-                      *ngIf="this.showSpinner"
-                      class="spinner-border text-light"
-                      role="status"
-                    >
+                      }}</span>
+                    <div *ngIf="this.showSpinner" class="spinner-border text-light" role="status">
                       <span class="sr-only">Loading...</span>
                     </div>
                   </button>
-                  <button
-                    type="submit"
-                    class="btn-blue"
-                    [disabled]="formCode.controls.valid.value === false"
-                    (click)="confirmUpdate(false)"
-                    *ngIf="is2FAactivated"
-                  >
+                  <button type="submit" class="btn-blue" [disabled]="formCode.controls.valid.value === false"
+                    (click)="confirmUpdate(false)" *ngIf="is2FAactivated">
                     <span *ngIf="!this.showSpinner">{{
                       'Deactivate' | translate
-                    }}</span>
-                    <div
-                      *ngIf="this.showSpinner"
-                      class="spinner-border text-light"
-                      role="status"
-                    >
+                      }}</span>
+                    <div *ngIf="this.showSpinner" class="spinner-border text-light" role="status">
                       <span class="sr-only">Loading...</span>
                     </div>
                   </button>
@@ -688,13 +694,8 @@
       <hr />
     </div>
     <!------- Collapse delete account --------->
-    <div
-      class="collapsed panel-heading row"
-      data-toggle="collapse"
-      href="#collapse4"
-      aria-expanded="false"
-      aria-controls="collapse4"
-    >
+    <div class="collapsed panel-heading row" data-toggle="collapse" href="#collapse4" aria-expanded="false"
+      aria-controls="collapse4">
       <div class="d-flex justify-content-between cursor_pntr">
         <div class="d-flex align-self-center">
           <h1 class="data cursor_pntr">
@@ -711,10 +712,8 @@
         <div class="row d-flex align-items-center collapse">
           <div class="col-12 mt-3">
             <div class="orangeAlert d-flex p-2">
-              <img
-                src="/assets/Images/exclam-attente.svg"
-                class="ps-2 pe-4 icon-warning"
-              />{{ 'security.alert_text' | translate }}
+              <img src="/assets/Images/exclam-attente.svg" class="ps-2 pe-4 icon-warning" />{{ 'security.alert_text' |
+              translate }}
             </div>
           </div>
 
@@ -727,33 +726,23 @@
           <form [formGroup]="deleteForm">
             <div class="col-12 d-flex justify-content-start mt-27">
               <div class="dropdown">
-                <button
-                  class="btn btntoggle dropdown-toggle fltr"
-                  type="button"
-                  id="dropdownMenuButton"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
+                <button class="btn btntoggle dropdown-toggle fltr" type="button" id="dropdownMenuButton"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <span class="span-ellipsis pt-1">
                     <span class="text-align-left ellipsis ps-2">{{
                       selectedReasonName | translate
-                    }}</span>
+                      }}</span>
                   </span>
                   <i class="chevron2 fa fa-fw"></i>
                 </button>
 
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <li
-                    class="li-select"
-                    *ngFor="let reason of reasonList; trackBy: trackById"
-                    #reason
-                    (click)="selectedReason(reason.name)"
-                  >
+                  <li class="li-select" *ngFor="let reason of reasonList; trackBy: trackById" #reason
+                    (click)="selectedReason(reason.name)">
                     <ng-container *ngIf="reason.name !== selectedReasonName">
                       <span class="dark-grey-text">{{
                         reason.name | translate
-                      }}</span>
+                        }}</span>
                     </ng-container>
                   </li>
                 </ul>
@@ -762,39 +751,20 @@
 
             <div class="col-12 d-flex justify-content-start mt-4">
               <div class="col-12 input-checkbox">
-                <input
-                  type="checkbox"
-                  value="confirm"
-                  id="confirm"
-                  tabindex="0"
-                  aria-checked="false"
-                  aria-invalid="false"
-                  formControlName="agreeBox"
-                  name="agreeBox"
-                  (change)="onCheckboxChange($event, 'agreeBox')"
-                />
+                <input type="checkbox" value="confirm" id="confirm" tabindex="0" aria-checked="false"
+                  aria-invalid="false" formControlName="agreeBox" name="agreeBox"
+                  (change)="onCheckboxChange($event, 'agreeBox')" />
                 <label class="span_interests ms-2" for="confirm">{{
                   'security.confirm_delete_account' | translate
-                }}</label>
+                  }}</label>
               </div>
             </div>
-            <div
-              class="col-12 d-flex justify-content-start mt-3 mb-4 make-center"
-            >
-              <button
-                type="submit"
-                class="pink_btn"
-                [disabled]="deleteForm.invalid"
-                (click)="openModal(pwdModal)"
-              >
+            <div class="col-12 d-flex justify-content-start mt-3 mb-4 make-center">
+              <button type="submit" class="pink_btn" [disabled]="deleteForm.invalid" (click)="openModal(pwdModal)">
                 <span *ngIf="!this.showSpinner">{{
                   'security.delete_account' | translate
-                }}</span>
-                <div
-                  *ngIf="this.showSpinner"
-                  class="spinner-border text-light"
-                  role="status"
-                >
+                  }}</span>
+                <div *ngIf="this.showSpinner" class="spinner-border text-light" role="status">
                   <span class="sr-only">Loading...</span>
                 </div>
               </button>
@@ -807,14 +777,8 @@
       <hr />
     </div>
     <!------- Collapse retrieve data ----------->
-    <div
-      class="collapsed panel-heading row"
-      data-toggle="collapse"
-      href="#collapse1"
-      aria-expanded="false"
-      aria-controls="collapse1"
-      *ngIf="!userIsNew"
-    >
+    <div class="collapsed panel-heading row" data-toggle="collapse" href="#collapse1" aria-expanded="false"
+      aria-controls="collapse1" *ngIf="!userIsNew">
       <!-- <div class="d-flex justify-content-between cursor_pntr">
                     <div>
                         <h1 class="data cursor_pntr">
@@ -846,64 +810,41 @@
             </div>
           </div>
           <div class="row">
-            <div
-              class="col-xl-11 col-lg-11 col-md-12 col-sm-12 div-buttons-export"
-            >
-              <button
-                class="btn-export mb-1"
-                (click)="
+            <div class="col-xl-11 col-lg-11 col-md-12 col-sm-12 div-buttons-export">
+              <button class="btn-export mb-1" (click)="
                   this.exportType = eExportType.btc;
                   openModalAndCheckBTC(
                     exportDataModalBTC,
                     checkUserLegalKYCModal
                   )
-                "
-              >
+                ">
                 <span *ngIf="!this.showSpinnerBTC">{{
                   'security.download-key-BTC' | translate
-                }}</span>
-                <div
-                  *ngIf="this.showSpinnerBTC"
-                  class="spinner-border"
-                  role="status"
-                >
+                  }}</span>
+                <div *ngIf="this.showSpinnerBTC" class="spinner-border" role="status">
                   <span class="sr-only">Loading...</span>
                 </div>
               </button>
 
-              <button
-                class="btn-export"
-                (click)="
+              <button class="btn-export" (click)="
                   this.exportType = eExportType.eth;
                   openModalAndCheckETH(exportDataModal, checkUserLegalKYCModal)
-                "
-              >
+                ">
                 <span *ngIf="!this.showSpinnerETH">{{
                   'security.download-key-ETH' | translate
-                }}</span>
-                <div
-                  *ngIf="this.showSpinnerETH"
-                  class="spinner-border"
-                  role="status"
-                >
+                  }}</span>
+                <div *ngIf="this.showSpinnerETH" class="spinner-border" role="status">
                   <span class="sr-only">Loading...</span>
                 </div>
               </button>
-              <button
-                class="btn-export"
-                (click)="
+              <button class="btn-export" (click)="
                   this.exportType = eExportType.tron;
                   openModalAndCheckTRON(exportDataModal, checkUserLegalKYCModal)
-                "
-              >
+                ">
                 <span *ngIf="!this.showSpinnerTRON">{{
                   'security.download-key-TRON' | translate
-                }}</span>
-                <div
-                  *ngIf="this.showSpinnerTRON"
-                  class="spinner-border"
-                  role="status"
-                >
+                  }}</span>
+                <div *ngIf="this.showSpinnerTRON" class="spinner-border" role="status">
                   <span class="sr-only">Loading...</span>
                 </div>
               </button>
@@ -922,23 +863,14 @@
   <!-- exportdata modal -->
   <ng-template #exportDataModal>
     <div class="modal-header modal-custom">
-      <button
-        type="button"
-        class="btn-close pull-right close"
-        (click)="closeModal(exportDataModal)"
-        aria-label="Close"
-      ></button>
+      <button type="button" class="btn-close pull-right close" (click)="closeModal(exportDataModal)"
+        aria-label="Close"></button>
     </div>
     <div class="modal-body pt-0 d-flex align-items-center">
-      <div
-        class="col-sm-12 error d-flex justify-content-center body-content padding-desktop"
-      >
+      <div class="col-sm-12 error d-flex justify-content-center body-content padding-desktop">
         <form [formGroup]="formExportData">
           <div class="text-center">
-            <img
-              src="assets/Images/moonboy-exportjson.svg"
-              class="moonboy-mobile"
-            />
+            <img src="assets/Images/moonboy-exportjson.svg" class="moonboy-mobile" />
           </div>
           <div class="row d-flex justify-content-center mt-2">
             <h3 class="d-flex justify-content-center textpwd">
@@ -948,76 +880,43 @@
           <div class="row d-flex justify-content-center mt-2">
             <span class="text-center dark-grey-text mb-0">{{
               'Profil.export_info_security' | translate
-            }}</span>
+              }}</span>
           </div>
-          <div
-            class="col-10 custom-label transaction-password mt-3"
-            style="margin: 0 auto"
-          >
-            <label
-              [ngClass]="{
+          <div class="col-10 custom-label transaction-password mt-3" style="margin: 0 auto">
+            <label [ngClass]="{
                 labelError:
                   this.formExportData.get('password')?.errors?.checkPassword
-              }"
-              class="label_input"
-              >{{ 'transaction-password' | translate }}:</label
-            >
+              }" class="label_input">{{ 'transaction-password' | translate }}:</label>
           </div>
           <div class="row d-flex justify-content-center">
             <div class="col-10">
-              <div
-                class="div_input_add position-relative"
-                [ngClass]="{
+              <div class="div_input_add position-relative" [ngClass]="{
                   errorMsg:
                     this.formExportData.get('password')?.errors?.checkPassword
-                }"
-              >
-                <img
-                  src="/assets/Images/input_password_logo.svg"
-                  width="46px"
-                  alt=""
-                />
-                <input
-                  autocomplete="off"
-                  type="text"
-                  name="password"
-                  formControlName="password"
-                  class="input_oeil"
-                  #password_field
-                  [ngClass]="{
+                }">
+                <img src="/assets/Images/input_password_logo.svg" width="46px" alt="" />
+                <input autocomplete="off" type="text" name="password" formControlName="password" class="input_oeil"
+                  #password_field [ngClass]="{
                     errorMsg2:
                       this.formExportData.get('password')?.errors
                         ?.checkPassword,
                     'pass-hide': !showPass
-                  }"
-                />
-                <span
-                  (click)="showPass = !showPass"
-                  class="fa fa-fw cross_input_network align-self-center"
-                  aria-hidden="true"
-                  [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"
-                ></span>
+                  }" />
+                <span (click)="showPass = !showPass" class="fa fa-fw cross_input_network align-self-center"
+                  aria-hidden="true" [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"></span>
               </div>
             </div>
             <div class="col-12 d-flex justify-content-start pt-2">
               <!-- <span class="error-msg" *ngIf=" (this.formExportData.get('password')?.touched && this.formExportData.get('password')?.errors?.required)"> {{ 'Profil.field_required' | translate }}</span>-->
-              <span
-                class="error-msg"
-                *ngIf="
+              <span class="error-msg" *ngIf="
                   this.formExportData.get('password')?.errors?.checkPassword
-                "
-                >{{ 'Profil.pass_wrong' | translate }}</span
-              >
+                ">{{ 'Profil.pass_wrong' | translate }}</span>
             </div>
             <div class="mt-4 d-flex justify-content-center mb-5">
-              <button
-                type="submit"
-                class="btn-blue cursor_pntr max-width"
-                [disabled]="this.formExportData.invalid"
+              <button type="submit" class="btn-blue cursor_pntr max-width" [disabled]="this.formExportData.invalid"
                 (click)="
                   confirmExport(this.formExportData.get('password')?.value)
-                "
-              >
+                ">
                 {{ 'confirm_' | translate }}
               </button>
             </div>
@@ -1029,23 +928,14 @@
 
   <ng-template #exportDataModalV2>
     <div class="modal-header modal-custom">
-      <button
-        type="button"
-        class="btn-close pull-right close"
-        (click)="closeModal(exportDataModalV2)"
-        aria-label="Close"
-      ></button>
+      <button type="button" class="btn-close pull-right close" (click)="closeModal(exportDataModalV2)"
+        aria-label="Close"></button>
     </div>
     <div class="modal-body pt-0 d-flex align-items-center">
-      <div
-        class="col-sm-12 error d-flex justify-content-center body-content padding-desktop"
-      >
+      <div class="col-sm-12 error d-flex justify-content-center body-content padding-desktop">
         <form [formGroup]="formExportData">
           <div class="text-center">
-            <img
-              src="assets/Images/moonboy-exportjson.svg"
-              class="moonboy-mobile"
-            />
+            <img src="assets/Images/moonboy-exportjson.svg" class="moonboy-mobile" />
           </div>
           <div class="row d-flex justify-content-center mt-2">
             <h3 class="d-flex justify-content-center textpwd">
@@ -1055,93 +945,52 @@
           <div class="row d-flex justify-content-center mt-2">
             <span class="text-center dark-grey-text mb-0">{{
               'Profil.export_info_security' | translate
-            }}</span>
+              }}</span>
           </div>
-          <div
-            class="col-10 custom-label transaction-password mt-3"
-            style="margin: 0 auto"
-          >
-            <label
-              [ngClass]="{
+          <div class="col-10 custom-label transaction-password mt-3" style="margin: 0 auto">
+            <label [ngClass]="{
                 labelError:
                   this.formExportData.get('password')?.errors?.checkPassword
-              }"
-              class="label_input"
-              >{{ 'transaction-password' | translate }}:</label
-            >
+              }" class="label_input">{{ 'transaction-password' | translate }}:</label>
           </div>
           <div class="row d-flex justify-content-center">
             <div class="col-10">
-              <div
-                class="div_input_add position-relative"
-                [ngClass]="{
+              <div class="div_input_add position-relative" [ngClass]="{
                   errorMsg:
                     this.formExportData.get('password')?.errors?.checkPassword
-                }"
-              >
-                <img
-                  src="/assets/Images/input_password_logo.svg"
-                  width="46px"
-                  alt=""
-                />
-                <input
-                  autocomplete="off"
-                  type="text"
-                  name="password"
-                  formControlName="password"
-                  class="input_oeil"
-                  #password_field
-                  [ngClass]="{
+                }">
+                <img src="/assets/Images/input_password_logo.svg" width="46px" alt="" />
+                <input autocomplete="off" type="text" name="password" formControlName="password" class="input_oeil"
+                  #password_field [ngClass]="{
                     errorMsg2:
                       this.formExportData.get('password')?.errors
                         ?.checkPassword,
                     'pass-hide': !showPass
-                  }"
-                />
-                <span
-                  (click)="showPass = !showPass"
-                  class="fa fa-fw cross_input_network align-self-center"
-                  aria-hidden="true"
-                  [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"
-                ></span>
+                  }" />
+                <span (click)="showPass = !showPass" class="fa fa-fw cross_input_network align-self-center"
+                  aria-hidden="true" [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"></span>
               </div>
             </div>
             <div class="col-12 d-flex justify-content-center pt-2">
               <!-- <span class="error-msg" *ngIf=" (this.formExportData.get('password')?.touched && this.formExportData.get('password')?.errors?.required)"> {{ 'Profil.field_required' | translate }}</span>-->
-              <span
-                class="error-msg"
-                *ngIf="
+              <span class="error-msg" *ngIf="
                   this.formExportData.get('password')?.errors?.checkPassword
-                "
-                >{{ 'Profil.pass_wrong' | translate }}</span
-              >
-              <span
-                class="error-msg"
-                *ngIf="
+                ">{{ 'Profil.pass_wrong' | translate }}</span>
+              <span class="error-msg" *ngIf="
                   this.errorMsgETHV2.length > 0 ||
                   this.errorMsgTronV2.length > 0
-                "
-                >{{
-                  this.exportType == eExportType.tron
-                    ? errorMsgTronV2
-                    : errorMsgETHV2
-                }}</span
-              >
+                ">{{
+                this.exportType == eExportType.tron
+                ? errorMsgTronV2
+                : errorMsgETHV2
+                }}</span>
             </div>
             <div class="mt-4 d-flex justify-content-center mb-5">
-              <button
-                type="submit"
-                class="btn-blue cursor_pntr max-width"
-                [disabled]="this.formExportData.invalid"
+              <button type="submit" class="btn-blue cursor_pntr max-width" [disabled]="this.formExportData.invalid"
                 (click)="
                   confirmExportV2(this.formExportData.get('password')?.value)
-                "
-              >
-                <div
-                  *ngIf="this.showSpinner"
-                  class="spinner-border text-white"
-                  role="status"
-                >
+                ">
+                <div *ngIf="this.showSpinner" class="spinner-border text-white" role="status">
                   <span class="sr-only">Loading...</span>
                 </div>
                 <div *ngIf="!this.showSpinner">
@@ -1157,23 +1006,14 @@
 
   <ng-template #exportDataModalBTCV2>
     <div class="modal-header modal-custom">
-      <button
-        type="button"
-        class="btn-close pull-right close"
-        (click)="closeModal(exportDataModalBTCV2)"
-        aria-label="Close"
-      ></button>
+      <button type="button" class="btn-close pull-right close" (click)="closeModal(exportDataModalBTCV2)"
+        aria-label="Close"></button>
     </div>
     <div class="modal-body pt-0 d-flex align-items-center">
-      <div
-        class="col-sm-12 error d-flex justify-content-center body-content padding-desktop"
-      >
+      <div class="col-sm-12 error d-flex justify-content-center body-content padding-desktop">
         <form [formGroup]="formExportDataBTCV2">
           <div class="text-center">
-            <img
-              src="assets/Images/moonboy-exportjson.svg"
-              class="moonboy-mobile"
-            />
+            <img src="assets/Images/moonboy-exportjson.svg" class="moonboy-mobile" />
           </div>
           <div class="row d-flex justify-content-center mt-2">
             <h3 class="d-flex justify-content-center textpwd">
@@ -1183,91 +1023,53 @@
           <div class="row d-flex justify-content-center mt-2">
             <span class="text-center dark-grey-text mb-0">{{
               'Profil.export_info_security' | translate
-            }}</span>
+              }}</span>
           </div>
-          <div
-            class="col-10 custom-label transaction-password mt-3"
-            style="margin: 0 auto"
-          >
-            <label
-              [ngClass]="{
+          <div class="col-10 custom-label transaction-password mt-3" style="margin: 0 auto">
+            <label [ngClass]="{
                 labelError:
                   this.formExportDataBTCV2.get('password')?.errors
                     ?.checkPassword
-              }"
-              class="label_input"
-              >{{ 'transaction-password' | translate }}:</label
-            >
+              }" class="label_input">{{ 'transaction-password' | translate }}:</label>
           </div>
           <div class="row d-flex justify-content-center">
             <div class="col-10">
-              <div
-                class="div_input_add position-relative"
-                [ngClass]="{
+              <div class="div_input_add position-relative" [ngClass]="{
                   errorMsg:
                     this.formExportDataBTCV2.get('password')?.errors
                       ?.checkPassword
-                }"
-              >
-                <img
-                  src="/assets/Images/input_password_logo.svg"
-                  width="46px"
-                  alt=""
-                />
-                <input
-                  autocomplete="off"
-                  type="text"
-                  name="password"
-                  formControlName="password"
-                  class="input_oeil"
-                  #password_field
-                  [ngClass]="{
+                }">
+                <img src="/assets/Images/input_password_logo.svg" width="46px" alt="" />
+                <input autocomplete="off" type="text" name="password" formControlName="password" class="input_oeil"
+                  #password_field [ngClass]="{
                     errorMsg2:
                       this.formExportData.get('password')?.errors
                         ?.checkPassword,
                     'pass-hide': !showPass
-                  }"
-                />
-                <span
-                  (click)="showPass = !showPass"
-                  class="fa fa-fw cross_input_network align-self-center"
-                  aria-hidden="true"
-                  [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"
-                ></span>
+                  }" />
+                <span (click)="showPass = !showPass" class="fa fa-fw cross_input_network align-self-center"
+                  aria-hidden="true" [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"></span>
               </div>
             </div>
             <div class="col-12 d-flex justify-content-center pt-2">
               <!-- <span class="error-msg" *ngIf=" (this.formExportData.get('password')?.touched && this.formExportData.get('password')?.errors?.required)"> {{ 'Profil.field_required' | translate }}</span>-->
-              <span
-                class="error-msg"
-                *ngIf="
+              <span class="error-msg" *ngIf="
                   this.formExportDataBTCV2.get('password')?.errors
                     ?.checkPassword
-                "
-                >{{ 'Profil.pass_wrong' | translate }}</span
-              >
+                ">{{ 'Profil.pass_wrong' | translate }}</span>
               <span class="error-msg" *ngIf="this.errorMsgBTCV2.length > 0">{{
                 errorMsgBTCV2
-              }}</span>
+                }}</span>
             </div>
             <div class="mt-4 d-flex justify-content-center mb-5">
-              <button
-                type="submit"
-                class="btn-blue cursor_pntr max-width"
-                [disabled]="
+              <button type="submit" class="btn-blue cursor_pntr max-width" [disabled]="
                   this.formExportDataBTCV2.invalid || this.showSpinner
-                "
-                (click)="
+                " (click)="
                   confirmExportBTCV2(
                     this.formExportDataBTCV2.get('password')?.value
                   )
-                "
-              >
-                <div
-                  *ngIf="this.showSpinner"
-                  class="spinner-border text-white"
-                  role="status"
-                >
+                ">
+                <div *ngIf="this.showSpinner" class="spinner-border text-white" role="status">
                   <span class="sr-only">Loading...</span>
                 </div>
                 <div *ngIf="!this.showSpinner">
@@ -1283,23 +1085,14 @@
 
   <ng-template #exportDataModalBTC>
     <div class="modal-header modal-custom">
-      <button
-        type="button"
-        class="btn-close pull-right close"
-        (click)="closeModal(exportDataModalBTC)"
-        aria-label="Close"
-      ></button>
+      <button type="button" class="btn-close pull-right close" (click)="closeModal(exportDataModalBTC)"
+        aria-label="Close"></button>
     </div>
     <div class="modal-body pt-0 d-flex align-items-center">
-      <div
-        class="col-sm-12 error d-flex justify-content-center body-content padding-desktop"
-      >
+      <div class="col-sm-12 error d-flex justify-content-center body-content padding-desktop">
         <form [formGroup]="formExportDataBTC">
           <div class="text-center">
-            <img
-              src="assets/Images/moonboy-exportjson.svg"
-              class="moonboy-mobile"
-            />
+            <img src="assets/Images/moonboy-exportjson.svg" class="moonboy-mobile" />
           </div>
           <div class="row d-flex justify-content-center mt-2">
             <h3 class="d-flex justify-content-center textpwd">
@@ -1309,79 +1102,46 @@
           <div class="row d-flex justify-content-center mt-2">
             <span class="text-center dark-grey-text mb-0">{{
               'Profil.export_info_security' | translate
-            }}</span>
+              }}</span>
           </div>
-          <div
-            class="col-10 custom-label transaction-password mt-3"
-            style="margin: 0 auto"
-          >
-            <label
-              [ngClass]="{
+          <div class="col-10 custom-label transaction-password mt-3" style="margin: 0 auto">
+            <label [ngClass]="{
                 labelError:
                   this.formExportDataBTC.get('password')?.errors?.checkPassword
-              }"
-              class="label_input"
-              >{{ 'transaction-password' | translate }}:</label
-            >
+              }" class="label_input">{{ 'transaction-password' | translate }}:</label>
           </div>
           <div class="row d-flex justify-content-center">
             <div class="col-10">
-              <div
-                class="div_input_add position-relative"
-                [ngClass]="{
+              <div class="div_input_add position-relative" [ngClass]="{
                   errorMsg:
                     this.formExportDataBTC.get('password')?.errors
                       ?.checkPassword
-                }"
-              >
-                <img
-                  src="/assets/Images/input_password_logo.svg"
-                  width="46px"
-                  alt=""
-                />
-                <input
-                  autocomplete="off"
-                  type="text"
-                  name="password"
-                  formControlName="password"
-                  class="input_oeil"
-                  #password_field
-                  [ngClass]="{
+                }">
+                <img src="/assets/Images/input_password_logo.svg" width="46px" alt="" />
+                <input autocomplete="off" type="text" name="password" formControlName="password" class="input_oeil"
+                  #password_field [ngClass]="{
                     errorMsg2:
                       this.formExportData.get('password')?.errors
                         ?.checkPassword,
                     'pass-hide': !showPass
-                  }"
-                />
-                <span
-                  (click)="showPass = !showPass"
-                  class="fa fa-fw cross_input_network align-self-center"
-                  aria-hidden="true"
-                  [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"
-                ></span>
+                  }" />
+                <span (click)="showPass = !showPass" class="fa fa-fw cross_input_network align-self-center"
+                  aria-hidden="true" [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"></span>
               </div>
             </div>
             <div class="col-12 d-flex justify-content-start pt-2">
               <!-- <span class="error-msg" *ngIf=" (this.formExportData.get('password')?.touched && this.formExportData.get('password')?.errors?.required)"> {{ 'Profil.field_required' | translate }}</span>-->
-              <span
-                class="error-msg"
-                *ngIf="
+              <span class="error-msg" *ngIf="
                   this.formExportDataBTC.get('password')?.errors?.checkPassword
-                "
-                >{{ 'Profil.pass_wrong' | translate }}</span
-              >
+                ">{{ 'Profil.pass_wrong' | translate }}</span>
             </div>
             <div class="mt-4 d-flex justify-content-center mb-5">
-              <button
-                type="submit"
-                class="btn-blue cursor_pntr max-width"
-                [disabled]="this.formExportDataBTC.invalid"
+              <button type="submit" class="btn-blue cursor_pntr max-width" [disabled]="this.formExportDataBTC.invalid"
                 (click)="
                   confirmExportBTC(
                     this.formExportDataBTC.get('password')?.value
                   )
-                "
-              >
+                ">
                 {{ 'confirm_' | translate }}
               </button>
             </div>
@@ -1395,12 +1155,8 @@
 <!-- modal alert to add KYC-->
 <ng-template #checkUserLegalKYCModal>
   <div class="modal-header modal-custom">
-    <button
-      type="button"
-      class="btn-close"
-      data-bs-dismiss="modal"
-      (click)="closeModal(checkUserLegalKYCModal)"
-    ></button>
+    <button type="button" class="btn-close" data-bs-dismiss="modal"
+      (click)="closeModal(checkUserLegalKYCModal)"></button>
   </div>
   <div class="modal-body modal-custom mb-3 kyc-modal-body">
     <div class="text-center">
@@ -1423,15 +1179,9 @@
     >
       {{ 'Profil.userLegal_notice_btn' | translate }}
     </a> -->
-    <div
-      class="d-flex align-self-center justify-content-center margin-top div-width-100"
-    >
-      <button
-        type="submit"
-        class="btn-blue btn-blue-kyc cursor_pntr max-width"
-        routerLink="/home/settings/Legal_KYC"
-        (click)="this.modalService.dismissAll()"
-      >
+    <div class="d-flex align-self-center justify-content-center margin-top div-width-100">
+      <button type="submit" class="btn-blue btn-blue-kyc cursor_pntr max-width" routerLink="/home/settings/Legal_KYC"
+        (click)="this.modalService.dismissAll()">
         KYC
       </button>
     </div>
@@ -1446,12 +1196,7 @@
 <ng-template #pwdModal>
   <div class="modal-content-auth">
     <div class="modal-header modal-customm">
-      <button
-        type="button"
-        class="btn-close"
-        data-bs-dismiss="modal"
-        (click)="closeModal(pwdModal)"
-      ></button>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="closeModal(pwdModal)"></button>
     </div>
     <div class="modal-body modal-customm">
       <img class="satt-modal-header-img" src="./assets/Images/sadMoonboy.svg" />
@@ -1465,116 +1210,68 @@
       </div>
       <form [formGroup]="formL" class="col-10" style="margin: 0 auto">
         <div class="col-12 d-flex justify-content-start mt-2">
-          <label class="label_input" [ngClass]="{ labelError: errorMsg !== '' }"
-            >{{ 'info_password_title' | translate }}
+          <label class="label_input" [ngClass]="{ labelError: errorMsg !== '' }">{{ 'info_password_title' | translate }}
           </label>
         </div>
         <div class="col-12">
-          <div
-            class="div_input_add position-relative"
-            [ngClass]="{ errorMsg: errorMsg !== '' }"
-          >
-            <input
-              autocomplete="on"
-              type="password"
-              #password_field_
-              formControlName="password"
-              (focusin)="removeMessage()"
-              name="password"
-              class="input_lpwd"
-              ngModel
-              [ngClass]="{ errorMsg2: errorMsg !== '' }"
-            />
-            <span
-              (click)="
+          <div class="div_input_add position-relative" [ngClass]="{ errorMsg: errorMsg !== '' }">
+            <input autocomplete="on" type="password" #password_field_ formControlName="password"
+              (focusin)="removeMessage()" name="password" class="input_lpwd" ngModel
+              [ngClass]="{ errorMsg2: errorMsg !== '' }" />
+            <span (click)="
                 password_field_.type =
                   password_field_.type == 'password' ? 'text' : 'password'
-              "
-              class="fa fa-fw cross_input_network align-self-center"
-              [ngClass]="
+              " class="fa fa-fw cross_input_network align-self-center" [ngClass]="
                 password_field_.type === 'password'
                   ? ' fa-eye-slash '
                   : ' fa-eye'
-              "
-            ></span>
+              "></span>
           </div>
         </div>
 
         <div class="col-12 d-flex justify-content-start mt-3">
-          <label
-            class="label_input"
-            [ngClass]="{ labelError: this.formL.errors?.mustMatch }"
-            >{{ 'confirm_pass_word' | translate }}</label
-          >
+          <label class="label_input" [ngClass]="{ labelError: this.formL.errors?.mustMatch }">{{ 'confirm_pass_word' |
+            translate }}</label>
         </div>
 
         <div class="col-12">
-          <div
-            class="div_input_add position-relative"
-            [ngClass]="{
+          <div class="div_input_add position-relative" [ngClass]="{
               errorMsg: this.formL.errors?.mustMatch,
               success:
                 !this.formL.errors?.mustMatch &&
                 this.formL.valid &&
                 errorMsg === ''
-            }"
-          >
-            <input
-              autocomplete="on"
-              type="password"
-              #confirm_password_field
-              formControlName="confirmPassword"
-              (focusin)="removeMessage()"
-              name="confirmPassword"
-              class="input_lpwd"
-              ngModel
-              [ngClass]="{ errorMsg2: this.formL.errors?.mustMatch }"
-            />
-            <span
-              (click)="
+            }">
+            <input autocomplete="on" type="password" #confirm_password_field formControlName="confirmPassword"
+              (focusin)="removeMessage()" name="confirmPassword" class="input_lpwd" ngModel
+              [ngClass]="{ errorMsg2: this.formL.errors?.mustMatch }" />
+            <span (click)="
                 confirm_password_field.type =
                   confirm_password_field.type == 'password'
                     ? 'text'
                     : 'password'
-              "
-              class="fa fa-fw cross_input_network align-self-center"
-              [ngClass]="
+              " class="fa fa-fw cross_input_network align-self-center" [ngClass]="
                 confirm_password_field.type === 'password'
                   ? ' fa-eye-slash '
                   : ' fa-eye'
-              "
-            ></span>
+              "></span>
           </div>
         </div>
-        <span
-          class="error_input ms-4"
-          *ngIf="this.formL.errors?.mustMatch && this.formL.dirty"
-          >{{ 'Profil.password_must_match_error' | translate }}</span
-        >
+        <span class="error_input ms-4" *ngIf="this.formL.errors?.mustMatch && this.formL.dirty">{{
+          'Profil.password_must_match_error' | translate }}</span>
 
-        <span
-          class="error_input ms-4"
-          *ngIf="this.isSub && formF.confirmPassword.errors?.required"
-          >{{ 'field_required' | translate }}</span
-        >
+        <span class="error_input ms-4" *ngIf="this.isSub && formF.confirmPassword.errors?.required">{{ 'field_required'
+          | translate }}</span>
         <span class="error_input ms-4" *ngIf="errorMsg">{{
           errorMsg | translate
-        }}</span>
+          }}</span>
 
         <div class="row row-btn mb-3 px-1 d-flex justify-content-center">
-          <button
-            type="submit"
-            class="btn-reset-passwd mt-2 me-2"
-            [disabled]="this.formL.invalid"
-            (click)="deleteAccount()"
-          >
+          <button type="submit" class="btn-reset-passwd mt-2 me-2" [disabled]="this.formL.invalid"
+            (click)="deleteAccount()">
             {{ 'security.delete_account_btn' | translate }}
           </button>
-          <button
-            type="submit"
-            class="btn-reset-cnl mt-2"
-            (click)="closeModal(pwdModal)"
-          >
+          <button type="submit" class="btn-reset-cnl mt-2" (click)="closeModal(pwdModal)">
             {{ 'Cancel' | translate }}
           </button>
         </div>

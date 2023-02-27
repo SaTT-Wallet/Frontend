@@ -89,6 +89,14 @@ export class CampaignHttpApiService {
     );
   }
 
+  getRefunds(hash: any, password: string, network: string) {
+    return this.http.post(
+      sattUrl + '/campaign/remaining',
+      { hash: hash, pass: password, network: network },
+      { headers: this.tokenStorageService.getHeader() }
+    );
+  }
+
   /*
 	@url : /campaign/totalSpent/:owner
 	@description: fetching total spending of the user in USD
