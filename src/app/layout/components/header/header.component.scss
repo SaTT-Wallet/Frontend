@@ -1,3 +1,63 @@
+//sk
+.div1 {
+  padding-top: 5px;
+  //height: 65px;
+  background-color: #f6f6ff;
+  width: 100%;
+}
+
+.div1-mobile {
+  display: flex;
+  padding-top: 5px;
+  //height: 65px;
+  background-color: #f6f6ff;
+}
+
+.div2 {
+  margin: 0px 4px 1px 5px;
+  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.25);
+  border-radius: 9px;
+  height: 57px;
+  width: 50%;
+  margin: auto;
+  background-color: #f6f6ff;
+}
+
+.cross-mobile {
+  justify-content: center;
+}
+
+.title-modal {
+  width: 752px;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-size: 14px;
+  line-height: 130%;
+  /* identical to box height, or 18px */
+
+  letter-spacing: 0.03em;
+}
+
+.title-modal.warning {
+  color: #f52079;
+}
+
+.title-modal.warning-bold {
+  font-weight: 700;
+}
+
+.box-size {
+  width: 15px;
+}
+
+#cross {
+  // float: right;
+  position: absolute;
+  right: 0;
+  top: 1.5em;
+  margin-right: 3%;
+}
+//sk
 :host-context(.fromWallet) {
   @media (max-width: 960px) {
     .ul-left-side {
@@ -12,6 +72,11 @@
   }
 }
 
+.testWar {
+  background-color: lightgrey;
+  // width: 300px;
+  height: 56px;
+}
 .icohead {
   font-size: 20px;
   color: white;
