@@ -78,6 +78,10 @@ export class WalletComponent implements OnInit, OnDestroy {
   @ViewChild('createWalletV2Modal', { static: false })
   private createWalletV2Modal!: TemplateRef<any>;
 
+  @ViewChild('modalMaintenance', { static: true })
+  private modalMaintenance!: TemplateRef<any>;
+  
+  
   @ViewChild('tronWalletCreatedSuccessModal', { static: false })
   private tronWalletCreatedSuccessModal!: TemplateRef<any>;
 
@@ -705,11 +709,19 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
+    //creation modal maintenance
+    this.modalService.open(this.modalMaintenance, {
+      backdrop: 'static',
+      keyboard: false
+    });
+
+    // creation modal maintenance
     this.loadingPopUp = false;
     this.migrate = this.tokenStorageService.getModaleMigrate();
     //this.getScreenHeight = window.innerHeight;
     this.hasWalletV2 = false;
-    this.verifyUserWalletV2();
+    // this.verifyUserWalletV2();
     this.totalbalancewallet();
 
     this.getScreenWidth = window.innerWidth;
@@ -773,12 +785,16 @@ export class WalletComponent implements OnInit, OnDestroy {
     //this.verifyOnBoarding();
     this.verifyOnBoarding();
     setTimeout(() => {
-      if (this.hasWalletV2 && this.migrate === 'close') this.getDetails();
+      if (this.hasWalletV2 
+        // && this.migrate === 'close'
+        ) this.getDetails();
     }, 5500);
 
     if (!this.loadingPopUp) {
       setTimeout(() => {
-        if (this.hasWalletV2 && this.migrate === 'open' && this.show) {
+        if (this.hasWalletV2 &&
+          //  this.migrate === 'open' &&
+            this.show) {
           this.modalService.open(this.migration, {
             backdrop: 'static',
             keyboard: false
@@ -798,6 +814,10 @@ export class WalletComponent implements OnInit, OnDestroy {
         keyboard: false
       });
     }
+  }
+  closeModaleMaintenace(){
+    this.closeModal(this.modalMaintenance)
+
   }
   //Create WALLET V2
   createWalletV2() {
@@ -856,10 +876,10 @@ export class WalletComponent implements OnInit, OnDestroy {
           ) {
             this.ngOnInit();
             this.closeModal(this.createWalletV2Modal);
-            this.modalService.open(this.migration, {
-              backdrop: 'static',
-              keyboard: false
-            });
+            // this.modalService.open(this.migration, {
+            //   backdrop: 'static',
+            //   keyboard: false
+            // });
           } else {
             //wrong
             //this.closeModal(this.createWalletV2Modal)
@@ -999,14 +1019,7 @@ export class WalletComponent implements OnInit, OnDestroy {
           localStorage.getItem('wallet_version') === 'v1'
             ? true
             : false;
-        console.log(
-          'show ',
-          this.show,
-          'has wallet ',
-          this.hasWalletV2,
-          'migrate ',
-          this.migrate
-        );
+    
         /*if (this.show && this.hasWalletV2 && this.migrate === 'open') {
           
           this.openModal(this.migration);

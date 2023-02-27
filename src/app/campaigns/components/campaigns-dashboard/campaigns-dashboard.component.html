@@ -544,12 +544,456 @@
   </div>
 </div>
 <div class="separator" *ngIf="title.startsWith('farm-posts')"></div>
-<div class="container-fluid page-content">
-  <header>
-    <app-dashboard-header [title]="title"></app-dashboard-header>
-  </header>
-  <main class="content">
-    <router-outlet></router-outlet>
-  </main>
+<div>
+  <div class="container-fluid page-content">
+    <header>
+      <app-dashboard-header [title]="title"></app-dashboard-header>
+    </header>
+    <main class="content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+  <div
+    class="background pt-3"
+    style="
+      position: relative;
+      box-shadow: 0px -16px 135px rgb(0 0 0 / 18%);
+      top: 0%;
+      width: 100%;
+      left: 0% !important;
+      bottom: -6vh;
+    "
+    *ngIf="title.startsWith('ad-pools')"
+  >
+    <div class="d-flex justify-content-center">
+      <img
+        class="d-block d-sm-none"
+        src="../../../assets/Images/footerAdPooolI320.png"
+        style="object-fit: cover; width: 100%"
+      />
+      <img
+        class="d-none d-sm-block d-md-none"
+        src="../../../assets/Images/footerAdPoool320.png"
+        style="object-fit: cover; width: 100%"
+      />
+
+      <img
+        class="d-none d-md-block d-lg-none"
+        src="../../../assets/Images/footerAdPoool576.png"
+        style="object-fit: cover; width: 100%"
+      />
+
+      <img
+        class="d-none d-lg-block d-xl-none"
+        src="../../../assets/Images/footerAdPoool1200.png"
+        style="object-fit: cover; width: 100%"
+      />
+      <img
+        class="d-none d-xl-block"
+        src="../../../assets/Images/footerAdPoool.png"
+        style="object-fit: cover; width: 100%; margin-top: -1%"
+      />
+
+      <!--1400-->
+      <p
+        class="d-none d-xl-block"
+        style="
+          position: absolute;
+          left: 3%;
+          top: 17.45%;
+          bottom: 70.36%;
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 700;
+          font-size: 40px;
+          line-height: 110%;
+          display: flex;
+          align-items: center;
+          color: #f52079;
+        "
+      >
+        Launch your AdPool now !
+      </p>
+      <p
+        class="d-none d-xl-block"
+        style="
+          position: absolute;
+          left: 3%;
+          right: 34.5%;
+          top: 34.9%;
+          bottom: 25.21%;
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 400;
+          font-size: 20px;
+          line-height: 120%;
+          display: flex;
+          align-items: center;
+          letter-spacing: 0.03em;
+
+          color: #1f2337;
+        "
+      >
+        Adpool SaTT is an innovative tool that allows you to maximize the impact
+        of their marketing campaigns. It allows you to advertise influencers to
+        talk about your brand or product, using blockchain technology. <br />
+        By requesting the creation of an Adpool, our experienced team will
+        contact you and help you set up your campaign. <br />
+        Trust SaTT for a successfulmarketing campaign!
+      </p>
+
+      <button
+        class="d-none d-xl-block"
+        type="button"
+        onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLScmtK5oh0fWi_S-yG2LGtUFZ_pQPESd2rgcBbtgXLV830H7pQ/viewform');"
+        style="
+          position: absolute;
+          left: 3%;
+          right: 0%;
+          top: 19.8vw;
+          color: white;
+          width: 133.87px;
+          height: 32px;
+          background: #f52079;
+          border-radius: 30px;
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 600;
+          font-size: 14px;
+          line-height: 21px;
+          display: flex;
+          align-items: center;
+          text-align: center;
+          letter-spacing: 0.01em;
+          border: 0px;
+        "
+      >
+        Apply to launch
+      </button>
+
+      <!--1200-->
+      <p
+        class="d-none d-lg-block d-xl-none"
+        style="
+          position: absolute;
+          left: 3%;
+          right: 53.58%;
+          top: 7.4%;
+          bottom: 73.41%;
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 700;
+          font-size: 32px;
+          line-height: 110%;
+          display: flex;
+          align-items: center;
+          text-align: center;
+          color: #f52079;
+        "
+      >
+        Launch your AdPool now !
+      </p>
+      <p
+        class="d-none d-lg-block d-xl-none"
+        style="
+          position: absolute;
+          left: 3%;
+          right: 28.08%;
+          top: 20.86%;
+          bottom: 28.25%;
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 400;
+          font-size: 17px;
+          line-height: 120%;
+          display: flex;
+          align-items: center;
+          letter-spacing: 0.03em;
+          color: balck;
+        "
+      >
+        Adpool SaTT is an innovative tool that allows you to maximize the impact
+        of their marketing campaigns. It allows you to advertise influencers to
+        talk about your brand or product, using blockchain technology.<br />
+        By requesting the creation of an Adpool, our experienced team will
+        contact you and help you set up your campaign.<br />
+        Trust SaTT for a successful marketing campaign!
+      </p>
+      <button
+        class="d-none d-lg-block d-xl-none"
+        onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLScmtK5oh0fWi_S-yG2LGtUFZ_pQPESd2rgcBbtgXLV830H7pQ/viewform');"
+        type="button"
+        style="
+          position: absolute;
+          left: 3%;
+          right: 0%;
+          top: 19vw;
+          bottom: 0%;
+          color: white;
+          width: 133.87px;
+          height: 32px;
+          background: #f52079;
+          border-radius: 30px;
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 600;
+          font-size: 14px;
+          line-height: 21px;
+          display: flex;
+          align-items: center;
+          text-align: center;
+          letter-spacing: 0.01em;
+          border: 0px;
+        "
+      >
+        Apply to launch
+      </button>
+
+      <!--576-->
+      <p
+        class="d-none d-md-block d-lg-none"
+        style="
+          position: absolute;
+          left: 4.4%;
+          top: 13.85%;
+          bottom: 76.73%;
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 700;
+          font-size: 28px;
+          line-height: 120%;
+          display: flex;
+          letter-spacing: 1px;
+          color: #f52079;
+        "
+      >
+        Launch your AdPool now !
+      </p>
+
+      <p
+        class="d-none d-md-block d-lg-none"
+        style="
+          position: absolute;
+          left: 5.38%;
+          right: 42.36%;
+          top: 28.53%;
+          bottom: 27.98%;
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 400;
+          font-size: 15px;
+          line-height: 120%;
+          /* or 18px */
+          display: flex;
+          letter-spacing: 0.03em;
+          text-transform: uppercase;
+          color: balck;
+        "
+      >
+        Adpool SaTT is an innovative tool that allows you to maximize the impact
+        of their marketing campaigns. It allows you to advertise influencers to
+        talk about your brand or product, using blockchain technology.<br />
+        By requesting the creation of an Adpool, our experienced team will
+        contact you and help you set up your campaign. <br />
+        Trust SaTT for a successful marketing campaign!
+      </p>
+
+      <button
+        class="d-none d-md-block d-lg-none"
+        type="button"
+        onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLScmtK5oh0fWi_S-yG2LGtUFZ_pQPESd2rgcBbtgXLV830H7pQ/viewform');"
+        style="
+          position: absolute;
+          left: 4.4%;
+          right: 4.4%;
+          top: 39.8vw;
+          color: white;
+          width: 133.87px;
+          height: 32px;
+          background: #f52079;
+          border-radius: 30px;
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 600;
+          font-size: 14px;
+          line-height: 21px;
+          display: flex;
+          align-items: center;
+          text-align: center;
+          letter-spacing: 0.01em;
+          border: 0px;
+        "
+      >
+        Apply to launch
+      </button>
+
+      <!--320-->
+      <p
+        class="d-none d-sm-block d-md-none"
+        style="
+          position: absolute;
+          width: 376px;
+          height: 34px;
+          left: 25px;
+          top: 27px;
+          /* MOBILE/Titles/H2 */
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 700;
+          font-size: 28px;
+          line-height: 120%;
+          /* identical to box height, or 34px */
+          display: flex;
+          align-items: center;
+          text-align: center;
+          letter-spacing: 1px;
+          color: #f52079;
+        "
+      >
+        Launch your AdPool now !
+      </p>
+      <p
+        class="d-none d-sm-block d-md-none"
+        style="
+          position: absolute;
+          width: 400px;
+          height: 195px;
+          left: 15px;
+          top: 76px;
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 500;
+          font-size: 15px;
+          line-height: 130%;
+          display: flex;
+          align-items: center;
+          letter-spacing: 0.03em;
+
+          padding-left: 3%;
+          color: balck;
+        "
+      >
+        Adpool SaTT is an innovative tool that allows you to maximize the impact
+        of their marketing campaigns. It allows you to advertise influencers to
+        talk about your brand or product, using blockchain technology.<br />
+        By requesting the creation of an Adpool, our experienced team will
+        contact you and help you set up your campaign. <br />Trust SaTT for a
+        successful marketing campaign!
+      </p>
+
+      <button
+        class="d-none d-sm-block d-md-none"
+        type="button"
+        onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLScmtK5oh0fWi_S-yG2LGtUFZ_pQPESd2rgcBbtgXLV830H7pQ/viewform');"
+        style="
+          position: absolute;
+          left: 33%;
+          right: 0%;
+          top: 52.8vw;
+          color: white;
+          width: 133.87px;
+          height: 32px;
+          background: #f52079;
+          border-radius: 30px;
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 600;
+          font-size: 14px;
+          line-height: 21px;
+          display: flex;
+          align-items: center;
+          text-align: center;
+          letter-spacing: 0.01em;
+          border: 0px;
+        "
+      >
+        Apply to launch
+      </button>
+
+      <!--inf 320-->
+      <p
+        class="d-block d-sm-none"
+        style="
+          position: absolute;
+          width: 258px;
+          height: 68px;
+          left: 4, 4%;
+          top: 38px;
+          /* MOBILE/Titles/H2 */
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 700;
+          font-size: 28px;
+          line-height: 120%;
+          /* identical to box height, or 34px */
+          display: flex;
+          align-items: center;
+          text-align: center;
+          letter-spacing: 1px;
+          color: #f52079;
+        "
+      >
+        Launch your AdPool now !
+      </p>
+      <p
+        class="d-block d-sm-none"
+        style="
+          position: absolute;
+          width: 357px;
+          height: 215px;
+          left: 4, 4%;
+          top: 114px;
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 500;
+          font-size: 15px;
+          line-height: 130%;
+          display: flex;
+          align-items: center;
+          text-align: center;
+          letter-spacing: 0.03em;
+
+          padding-left: 3%;
+          color: balck;
+        "
+      >
+        Adpool SaTT is an innovative tool that allows you to maximize the impact
+        of their marketing campaigns. It allows you to advertise influencers to
+        talk about your brand or product, using blockchain technology.<br />
+        By requesting the creation of an Adpool, our experienced team will
+        contact you and help you set up your campaign. <br />Trust SaTT for a
+        successful marketing campaign!
+      </p>
+
+      <button
+        class="d-block d-sm-none"
+        type="button"
+        onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLScmtK5oh0fWi_S-yG2LGtUFZ_pQPESd2rgcBbtgXLV830H7pQ/viewform');"
+        style="
+          position: absolute;
+          left: 33%;
+          right: 0%;
+          top: 101.8vw;
+          color: white;
+          width: 133.87px;
+          height: 32px;
+          background: #f52079;
+          border-radius: 30px;
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 600;
+          font-size: 14px;
+          line-height: 21px;
+          display: flex;
+          align-items: center;
+          text-align: center;
+          letter-spacing: 0.01em;
+          border: 0px;
+        "
+      >
+        Apply to launch
+      </button>
+    </div>
+  </div>
 </div>
 
