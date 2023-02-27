@@ -9,13 +9,15 @@
     border: 1px solid rgb(218, 218, 218);
     box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 20px;
     margin-bottom: 20px;
-    cursor: pointer;
     border-radius: 30px;
-    width: 100%;
-    height: 350px;
+
     max-width: 350px;
     position: relative;
     overflow: hidden;
+    // @media (min-width: 1200px) {
+    //   width: 348.13px !important;
+    //   height: 391.12px !important;
+    // }
     // justify-content: center;
     // align-items: center;
   }
@@ -27,6 +29,12 @@
     z-index: 1;
     bottom: 16px;
     left: 18px;
+  }
+  .create-campaign-bg {
+    width: 348px;
+    height: 392px;
+    left: 0px;
+    top: 0px;
   }
   .title-budget {
     font-style: normal;
@@ -47,6 +55,17 @@
     display: flex;
     justify-content: center;
   }
+  .btn-create-new-campaign {
+    position: absolute;
+    bottom: 0;
+    background: #f6f6ff;
+    height: 65px;
+    width: 100%;
+    right: 0px;
+    border: none;
+    display: flex;
+    justify-content: center;
+  }
   .text-btn-create-campaign {
     font-style: normal;
     font-weight: 600;
@@ -54,7 +73,7 @@
     line-height: 27px;
     text-align: center;
     letter-spacing: 0.01em;
-    color: #ffffff;
+    color: #75758f;
     border: none;
     display: flex;
     align-self: center;
@@ -110,10 +129,10 @@ img.not-found {
 //   z-index: -1 !important;
 // }
 
- ::ng-deep #fc_frame,
- #fc_frame.fc-widget-normal {
-  bottom: 64px!important;
- }
+::ng-deep #fc_frame,
+#fc_frame.fc-widget-normal {
+  bottom: 64px !important;
+}
 
 // .modal-dialog {
 //   height: 100vh;
