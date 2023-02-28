@@ -5,7 +5,10 @@
 <!--***********************************************************************************-->
 <!--  [ngClass]="{ 'navbar-dark-blue': !menuCampaign }"-->
 <ng-container *ngIf="!phishingVisibility">
-  <div [className]="getScreenWidth > 960 ? 'div1' : 'div1-mobile'">
+  <div
+    class="d-flex justify-content-center"
+    [className]="getScreenWidth > 960 ? 'div1' : 'div1-mobile'"
+  >
     <!-- <img
       src="assets/Images/moon-boy-warning.svg"
       alt=""
@@ -19,8 +22,8 @@
     <div [className]="getScreenWidth > 960 ? 'div2' : 'div2-mobile'">
       <div class="div2-content">
         <span class="title-modal" [ngClass]="'warning'">Phishing warning:</span>
-        <span color="#BDC2C4" font-size="16px" class="warning-text"
-          >please make sure you're visiting
+        <span class="title-modal"
+          >&nbsp; Please make sure you're visiting
         </span>
         <span class="title-modal" [ngClass]="'warning-bold'">
           <a href="https://dapp.satt.com"></a> https://dapp.satt.com</span
