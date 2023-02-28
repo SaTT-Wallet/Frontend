@@ -1515,7 +1515,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-    console.log(this.getScreenWidth);
+    // console.log(this.getScreenWidth);
     this.getScreenWidth = event.target.innerWidth;
     if (isPlatformBrowser(this.platformId)) {
       let element0 = this.document.getElementById('introo');

@@ -6,23 +6,29 @@
 <!--  [ngClass]="{ 'navbar-dark-blue': !menuCampaign }"-->
 <ng-container *ngIf="!phishingVisibility">
   <div [className]="getScreenWidth > 960 ? 'div1' : 'div1-mobile'">
-    <img
+    <!-- <img
       src="assets/Images/moon-boy-warning.svg"
       alt=""
       *ngIf="getScreenWidth < 960"
+    /> -->
+    <img
+      src="assets/Images/moon-boy-warning.svg"
+      alt=""
+      *ngIf="getScreenWidth > 960"
     />
     <div [className]="getScreenWidth > 960 ? 'div2' : 'div2-mobile'">
-      <img
-        src="assets/Images/moon-boy-warning.svg"
-        alt=""
-        *ngIf="getScreenWidth > 960"
-      />
-      <span class="title-modal" [ngClass]="'warning'">Phishing warning: </span
-      ><span color="#BDC2C4" font-size="16px" class="warning-text"
-        >please make sure you're visiting </span
-      ><span class="title-modal" [ngClass]="'warning-bold'">
-        <a href="https://dapp.satt.com"></a> https://dapp.satt.com</span
-      ><span class="title-modal"> - check the URL carefully.</span>
+      <div class="div2-content">
+        <span class="title-modal" [ngClass]="'warning'"
+          >Phishing warning:
+        </span>
+        <span color="#BDC2C4" font-size="16px" class="warning-text"
+          >please make sure you're visiting
+        </span>
+        <span class="title-modal" [ngClass]="'warning-bold'">
+          <a href="https://dapp.satt.com"></a> https://dapp.satt.com</span
+        >
+        <span class="title-modal"> - check the URL carefully</span>
+      </div>
 
       <!-- <div class="close-modale">
         <img src="assets/Images/closeModal.svg" alt="" />
