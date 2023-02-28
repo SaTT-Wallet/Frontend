@@ -43,7 +43,7 @@
   display: flex;
   align-items: center;
   letter-spacing: 0.03em;
-  padding-right: 66%;
+  padding-right: 58%;
   padding-left: 3%;
   color: #ffffff;
   margin-bottom: 1%;
@@ -114,15 +114,16 @@
   .bg-imag-cover {
     background-image: url('/assets/Images/bgAddPool320.png');
     height: 100%;
+    text-align: center;
   }
   .bloc-cover {
     margin-top: 43vh;
-    margin-left: 20%;
+    padding-bottom: 1vh;
   }
   .title-cover {
     left: 5%;
     font-weight: 700;
-    font-size: 28px;
+    font-size: 25px;
     line-height: 120%;
     align-items: center;
   }
