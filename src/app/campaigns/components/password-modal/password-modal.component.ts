@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { Big } from 'big.js';
@@ -46,7 +46,7 @@ export class PasswordModalComponent implements OnInit {
   @Input() campaign = new Campaign();
   gasError = false;
 
-  passwordForm = new FormGroup({});
+  passwordForm = new UntypedFormGroup({});
   date = new Date();
   userbalanceInfo: any;
   cryptodata: any;
@@ -74,7 +74,7 @@ export class PasswordModalComponent implements OnInit {
   idcamp: any;
   private onDestoy$ = new Subject();
   constructor(
-    private _formBuilder: FormBuilder,
+    private _formBuilder: UntypedFormBuilder,
     private campaignService: CampaignHttpApiService,
     public router: Router,
     private draftStore: DraftCampaignStoreService,

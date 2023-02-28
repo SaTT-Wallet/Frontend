@@ -9,7 +9,7 @@ import {
   Renderer2
 } from '@angular/core';
 import { IOption } from '@shared/components/multi-select/multi-select.component';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { ParticipationListStoreService } from '@campaigns/services/participation-list-store.service';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { CampaignsListStoreService } from '@campaigns/services/campaigns-list-store.service';
@@ -118,7 +118,7 @@ export class AdPoolFilterComponent implements OnInit {
   private isDestroyed = new Subject();
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private campaignsListStoreService: CampaignsListStoreService,
     private modalService: NgbModal,
     private campaignsFacade: CampaignsService,

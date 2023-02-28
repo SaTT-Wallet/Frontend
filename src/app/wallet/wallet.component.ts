@@ -17,7 +17,7 @@ import { ChartDataSets, ChartType } from 'chart.js';
 import { Big } from 'big.js';
 import { WalletStoreService } from '@core/services/wallet-store.service';
 
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import {
   pattContact,
   pattEmail,
@@ -430,8 +430,8 @@ export class WalletComponent implements OnInit, OnDestroy {
     this.staticTabs.tabs[tabId].active = true;
   }
   @ViewChild('checkUserLegalKYCModal') checkUserLegalKYCModal!: ElementRef;
-  form: FormGroup;
-  sendform: FormGroup;
+  form: UntypedFormGroup;
+  sendform: UntypedFormGroup;
 
   public hasAnimation: string = '';
   showSpinner!: boolean;
@@ -513,27 +513,27 @@ export class WalletComponent implements OnInit, OnDestroy {
     @Inject(DOCUMENT) private document: any
   ) {
     matcher: MediaQueryList;
-    this.form = new FormGroup({
-      contact: new FormControl(null, {
+    this.form = new UntypedFormGroup({
+      contact: new UntypedFormControl(null, {
         validators: [Validators.required, Validators.pattern(pattEmail)]
       }),
-      Amount: new FormControl(
+      Amount: new UntypedFormControl(
         null,
         Validators.compose([Validators.required, Validators.min(0)])
       ),
-      currency: new FormControl(null, Validators.required),
-      message: new FormControl(null)
+      currency: new UntypedFormControl(null, Validators.required),
+      message: new UntypedFormControl(null)
     });
-    this.sendform = new FormGroup({
-      contact: new FormControl(null, {
+    this.sendform = new UntypedFormGroup({
+      contact: new UntypedFormControl(null, {
         validators: [Validators.required, Validators.pattern(pattContact)]
       }),
-      Amount: new FormControl(
+      Amount: new UntypedFormControl(
         null,
         Validators.compose([Validators.required, Validators.min(0)])
       ),
-      currency: new FormControl(null, Validators.required),
-      password: new FormControl(null, Validators.required)
+      currency: new UntypedFormControl(null, Validators.required),
+      password: new UntypedFormControl(null, Validators.required)
     });
   }
 

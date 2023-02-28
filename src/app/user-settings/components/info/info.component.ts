@@ -9,8 +9,8 @@ import { Router } from '@angular/router';
 
 import { arrayCountries, pattEmail } from '@config/atn.config';
 import {
-  FormControl,
-  FormGroup,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
   FormGroupDirective,
   NgForm
@@ -49,7 +49,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 declare var $: any;
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
-    control: FormControl | null,
+    control: UntypedFormControl | null,
     form: FormGroupDirective | NgForm | null
   ): boolean {
     const isSubmitted = form && form.submitted;
@@ -96,9 +96,9 @@ export class InfoComponent implements OnInit, OnDestroy {
   srcFile: any;
   errorMessage = '';
   picName: string = '';
-  formProfile: FormGroup;
-  formUploadPic: FormGroup;
-  formL: FormGroup;
+  formProfile: UntypedFormGroup;
+  formUploadPic: UntypedFormGroup;
+  formL: UntypedFormGroup;
   isSub = false;
   errorMessagePwd = '';
   isCollapsed: any = true;
@@ -127,7 +127,7 @@ export class InfoComponent implements OnInit, OnDestroy {
   langchoosen: any;
   pic: any;
   picUserUpdated: boolean = false;
-  formEmail: FormGroup;
+  formEmail: UntypedFormGroup;
   errorMsg!: string;
   emailInputShow: boolean = false;
   confirmEmailShow: boolean = false;
@@ -137,7 +137,7 @@ export class InfoComponent implements OnInit, OnDestroy {
   public code: any;
 
   message!: String;
-  formCode: FormGroup;
+  formCode: UntypedFormGroup;
   codesms: any;
   matcher = new MyErrorStateMatcher();
   valideDate: boolean = true;
@@ -183,39 +183,39 @@ export class InfoComponent implements OnInit, OnDestroy {
       this.languageSelected = 'en';
       translate.setDefaultLang('en');
     }
-    this.formL = new FormGroup({
-      email: new FormControl(null, [Validators.required, Validators.email])
+    this.formL = new UntypedFormGroup({
+      email: new UntypedFormControl(null, [Validators.required, Validators.email])
     });
 
-    this.formProfile = new FormGroup({
-      firstName: new FormControl(null, Validators.required),
-      lastName: new FormControl(null, Validators.required),
-      email: new FormControl(null, [
+    this.formProfile = new UntypedFormGroup({
+      firstName: new UntypedFormControl(null, Validators.required),
+      lastName: new UntypedFormControl(null, Validators.required),
+      email: new UntypedFormControl(null, [
         Validators.required,
         Validators.pattern(pattEmail)
       ]),
-      gender: new FormControl(),
-      country: new FormControl(),
-      phone: new FormControl(null, Validators.pattern('[- +()0-9]+')),
-      address: new FormControl(),
-      birthday: new FormControl(),
-      zipCode: new FormControl(),
-      city: new FormControl()
+      gender: new UntypedFormControl(),
+      country: new UntypedFormControl(),
+      phone: new UntypedFormControl(null, Validators.pattern('[- +()0-9]+')),
+      address: new UntypedFormControl(),
+      birthday: new UntypedFormControl(),
+      zipCode: new UntypedFormControl(),
+      city: new UntypedFormControl()
     }); //underEighteen()
 
-    this.formEmail = new FormGroup({
-      email: new FormControl(null, [
+    this.formEmail = new UntypedFormGroup({
+      email: new UntypedFormControl(null, [
         Validators.required,
         Validators.pattern(pattEmail)
       ]),
-      password: new FormControl(null, [Validators.required])
+      password: new UntypedFormControl(null, [Validators.required])
     });
-    this.formCode = new FormGroup({
-      code: new FormControl(null, [Validators.required])
+    this.formCode = new UntypedFormGroup({
+      code: new UntypedFormControl(null, [Validators.required])
     });
 
-    this.formUploadPic = new FormGroup({
-      file: new FormControl(null, Validators.required)
+    this.formUploadPic = new UntypedFormGroup({
+      file: new UntypedFormControl(null, Validators.required)
     });
     this.genderList = [
       { name: 'Profil.campaign_list.genre_masculin', value: 'male' },

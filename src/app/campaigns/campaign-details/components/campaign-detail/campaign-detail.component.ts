@@ -13,7 +13,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { arrayCountries, socialMedia } from '@config/atn.config';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DOCUMENT, isPlatformBrowser, ViewportScroller } from '@angular/common';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -57,7 +57,7 @@ export class CampaignDetailComponent implements OnInit {
   updateCoverResponseMsg: any;
   showPasswordModal: boolean = false;
   meta: any;
-  budgetform: FormGroup;
+  budgetform: UntypedFormGroup;
   passwordBlockChain: any;
   applyButton: boolean = false;
   campaignId = '';
@@ -106,7 +106,7 @@ export class CampaignDetailComponent implements OnInit {
   facebook: any = 0;
   instagram: any = 0;
   linkModal: boolean = false;
-  sendform: FormGroup;
+  sendform: UntypedFormGroup;
   acceptedEproms: any = [];
   applyPassword: boolean = false;
   exactDate = new Date().getTime() / 1000;
@@ -137,7 +137,7 @@ export class CampaignDetailComponent implements OnInit {
   private isErnings = false;
   downloadKit = false;
   editMode = false;
-  passwordForm = new FormGroup({});
+  passwordForm = new UntypedFormGroup({});
   errorMessage: string = '';
 
   
@@ -151,7 +151,7 @@ export class CampaignDetailComponent implements OnInit {
 
   constructor(
     public router: Router,
-    private _formBuilder: FormBuilder,
+    private _formBuilder: UntypedFormBuilder,
     public modalService: NgbModal,
     public CampaignService: CampaignHttpApiService,
     private route: ActivatedRoute,
@@ -173,12 +173,12 @@ export class CampaignDetailComponent implements OnInit {
     private campaignsHttpService: CampaignHttpApiService,
     private _location: Location
   ) {
-    this.sendform = new FormGroup({
-      url: new FormControl(null, Validators.required)
+    this.sendform = new UntypedFormGroup({
+      url: new UntypedFormControl(null, Validators.required)
     });
 
-    this.budgetform = new FormGroup({
-      cost: new FormControl(null, Validators.required)
+    this.budgetform = new UntypedFormGroup({
+      cost: new UntypedFormControl(null, Validators.required)
     });
     this.route.queryParams.subscribe((params) => {
       !!params.mode && (this.editMode = true);

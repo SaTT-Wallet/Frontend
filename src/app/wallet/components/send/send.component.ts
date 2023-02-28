@@ -25,7 +25,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { TranslateService } from '@ngx-translate/core';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { filter, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { forkJoin, Subject } from 'rxjs';
 import { WalletStoreService } from '@core/services/wallet-store.service';
@@ -48,7 +48,7 @@ import { ITransferTokensRequestBody } from '@app/core/services/wallet/wallet.ser
 export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('inputAmountUsd') inputAmountUsd?: ElementRef;
   emailPlaceholderText = 'Id wallet';
-  sendform: FormGroup;
+  sendform: UntypedFormGroup;
   typetab: string = '';
   btcCode: string = '';
   selectedValue: any;
@@ -170,15 +170,15 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     private activeRoute: ActivatedRoute
   ) {
     //, Validators.max(this.maxNumber)
-    this.sendform = new FormGroup({
-      contact: new FormControl(null, {
+    this.sendform = new UntypedFormGroup({
+      contact: new UntypedFormControl(null, {
         validators: [Validators.required, Validators.pattern(pattContact)]
       }),
 
-      Amount: new FormControl(0, Validators.compose([Validators.required])),
-      AmountUsd: new FormControl(null),
-      currency: new FormControl(null),
-      password: new FormControl(null, Validators.required)
+      Amount: new UntypedFormControl(0, Validators.compose([Validators.required])),
+      AmountUsd: new UntypedFormControl(null),
+      currency: new UntypedFormControl(null),
+      password: new UntypedFormControl(null, Validators.required)
     });
   }
 

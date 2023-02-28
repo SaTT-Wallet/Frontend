@@ -13,7 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { sattUrl, pattEmail, pattPassword } from '@app/config/atn.config';
 import { CookieService } from 'ngx-cookie-service';
@@ -50,7 +50,7 @@ export class RegistrationComponent implements OnInit {
   isSubmitting: boolean = false;
   routerSub!: Subscription;
   errorMessage = '';
-  authForm: FormGroup;
+  authForm: UntypedFormGroup;
   languageSelected: string = 'en';
   showSpinner: boolean = false;
   authFacebook: string = sattUrl + '/auth/signup/facebook';
@@ -120,12 +120,12 @@ export class RegistrationComponent implements OnInit {
           this.english = false;
         }
       });
-    this.authForm = new FormGroup({
-      email: new FormControl(null, [
+    this.authForm = new UntypedFormGroup({
+      email: new UntypedFormControl(null, [
         Validators.required,
         Validators.pattern(pattEmail)
       ]),
-      password: new FormControl('', {
+      password: new UntypedFormControl('', {
         validators: [
           WhiteSpaceValidator.noWhiteSpace,
           Validators.required,
@@ -134,8 +134,8 @@ export class RegistrationComponent implements OnInit {
           // Validators.pattern(pattUppercase)
         ]
       }),
-      agreeBox: new FormControl('', [Validators.required]),
-      newsLetterBox: new FormControl(false)
+      agreeBox: new UntypedFormControl('', [Validators.required]),
+      newsLetterBox: new UntypedFormControl(false)
     });
   }
 

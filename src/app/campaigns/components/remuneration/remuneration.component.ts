@@ -15,9 +15,9 @@ import {
 } from '@angular/core';
 import {
   AbstractControl,
-  FormArray,
-  FormControl,
-  FormGroup,
+  UntypedFormArray,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators
 } from '@angular/forms';
 import { forkJoin, Observable, Subject } from 'rxjs';
@@ -89,8 +89,8 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   
   closedOracle: string = '';
   sendErrorToMission: any;
-  form = new FormGroup({
-    ratios: new FormArray([], [Validators.required])
+  form = new UntypedFormGroup({
+    ratios: new UntypedFormArray([], [Validators.required])
   });
 
   @ViewChild('initialBudgetElement')
@@ -176,24 +176,24 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string
   ) {
-    this.form = new FormGroup(
+    this.form = new UntypedFormGroup(
       {
-        initialBudget: new FormControl('', {
+        initialBudget: new UntypedFormControl('', {
           validators: Validators.compose([Validators.required])
         }),
-        initialBudgetInUSD: new FormControl('', {
+        initialBudgetInUSD: new UntypedFormControl('', {
           validators: Validators.compose([Validators.required])
         }),
-        currency: new FormControl(null, {
+        currency: new UntypedFormControl(null, {
           validators: Validators.required
         }),
         // remuneration: new FormControl({
         //   text: eRemunerationType.Performance,
         //   value: eRemunerationType.Performance,
         // }),
-        remuneration: new FormControl(this.eRemunerationType.Performance),
-        ratios: new FormArray([]),
-        bounties: new FormArray([])
+        remuneration: new UntypedFormControl(this.eRemunerationType.Performance),
+        ratios: new UntypedFormArray([]),
+        bounties: new UntypedFormArray([])
       },
       {
         validators: [
@@ -330,18 +330,18 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     }
   }
   toggleOracle(oracle: string, checked?: boolean) {
-    let group = new FormGroup({});
+    let group = new UntypedFormGroup({});
     if (this.f.remuneration.value === this.eRemunerationType.Performance) {
       if (
         !this.ratios.value.map((res: any) => res.oracle).includes(oracle) &&
         checked
       ) {
-        group = new FormGroup(
+        group = new UntypedFormGroup(
           {
-            oracle: new FormControl(oracle),
-            view: new FormControl(null, [Validators.required]),
-            like: new FormControl(null, [Validators.required]),
-            share: new FormControl(null, [Validators.required])
+            oracle: new UntypedFormControl(oracle),
+            view: new UntypedFormControl(null, [Validators.required]),
+            like: new UntypedFormControl(null, [Validators.required]),
+            share: new UntypedFormControl(null, [Validators.required])
           },
           customValidateRatios()
         );
@@ -350,7 +350,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         if (this.isReachLimitActivated) {
           group.setControl(
             'reachLimit',
-            new FormControl(null, [Validators.required])
+            new UntypedFormControl(null, [Validators.required])
           );
           group.get('reachLimit')?.setValidators([
             Validators.required,
@@ -417,9 +417,9 @@ export class RemunerationComponent implements OnInit, OnDestroy {
           } else {
             this.validFormBudgetRemun.emit(false);
           }
-          var arrayControl = this.form.get('ratios') as FormArray;
+          var arrayControl = this.form.get('ratios') as UntypedFormArray;
           const lengthRatios = arrayControl.length;
-          var arrayControlBounties = this.form.get('bounties') as FormArray;
+          var arrayControlBounties = this.form.get('bounties') as UntypedFormArray;
           const lengthBounties = arrayControlBounties.length;
           if (
             this.form.get('remuneration')?.value ===
@@ -613,15 +613,15 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   }
 
   get ratios() {
-    return this.form.get('ratios') as FormArray;
+    return this.form.get('ratios') as UntypedFormArray;
   }
 
   get bounties() {
-    return this.form.get('bounties') as FormArray;
+    return this.form.get('bounties') as UntypedFormArray;
   }
 
   getCategories(index: number) {
-    return this.bounties.at(index).get('categories') as FormArray;
+    return this.bounties.at(index).get('categories') as UntypedFormArray;
   }
 
   isFieldValid(form: AbstractControl, field: string) {
@@ -632,7 +632,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     return this.form?.get(controlName)?.invalid && this.validation;
   }
 
-  populateRatiosFormArray(ratios: any[]): FormArray {
+  populateRatiosFormArray(ratios: any[]): UntypedFormArray {
     ratios = ratios.filter(
       (ratio: any) =>
         this.draftData.missions
@@ -641,24 +641,24 @@ export class RemunerationComponent implements OnInit, OnDestroy {
           .indexOf(ratio.oracle) >= 0
     );
     const controls = ratios.map((ratio) => {
-      const group = new FormGroup(
+      const group = new UntypedFormGroup(
         {
-          oracle: new FormControl(ratio.oracle),
-          view: new FormControl(
+          oracle: new UntypedFormControl(ratio.oracle),
+          view: new UntypedFormControl(
             this.convertFromWeiTo.transform(
               ratio.view,
               this.draftData.currency.name
             ),
             [Validators.required]
           ),
-          like: new FormControl(
+          like: new UntypedFormControl(
             this.convertFromWeiTo.transform(
               ratio.like,
               this.draftData.currency.name
             ),
             [Validators.required]
           ),
-          share: new FormControl(
+          share: new UntypedFormControl(
             this.convertFromWeiTo.transform(
               ratio.share,
               this.draftData.currency.name
@@ -673,13 +673,13 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         this.isReachLimitActivated = true;
         group.addControl(
           'reachLimit',
-          new FormControl(ratio.reachLimit, Validators.required)
+          new UntypedFormControl(ratio.reachLimit, Validators.required)
         );
       }
 
       return group;
     });
-    return new FormArray(controls);
+    return new UntypedFormArray(controls);
   }
 
   populateBountiesFormArray(bounties: any[]) {
@@ -692,21 +692,21 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       );
     });
     const controls = bounties.map((bounty) => {
-      const group = new FormGroup({
-        oracle: new FormControl(bounty.oracle),
-        categories: new FormArray(
+      const group = new UntypedFormGroup({
+        oracle: new UntypedFormControl(bounty.oracle),
+        categories: new UntypedFormArray(
           bounty.categories.map((category: any) => {
-            return new FormGroup(
+            return new UntypedFormGroup(
               {
-                minFollowers: new FormControl(
+                minFollowers: new UntypedFormControl(
                   category.minFollowers,
                   Validators.required
                 ),
-                maxFollowers: new FormControl(
+                maxFollowers: new UntypedFormControl(
                   category.maxFollowers,
                   Validators.required
                 ),
-                reward: new FormControl(
+                reward: new UntypedFormControl(
                   this.convertFromWeiTo.transform(
                     category.reward,
                     this.draftData.currency.name
@@ -723,7 +723,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
 
       return group;
     });
-    return new FormArray(controls);
+    return new UntypedFormArray(controls);
   }
 
   getUserCrypto() {
@@ -869,8 +869,8 @@ export class RemunerationComponent implements OnInit, OnDestroy {
 
     if (this.isReachLimitActivated) {
       this.ratios.controls.forEach((control: AbstractControl) => {
-        (control as FormGroup).setControl('reachLimit', new FormControl(''));
-        (control as FormGroup).get('reachLimit')?.setValidators([
+        (control as UntypedFormGroup).setControl('reachLimit', new UntypedFormControl(''));
+        (control as UntypedFormGroup).get('reachLimit')?.setValidators([
           Validators.required
           //  Validators.min(0),
           //alidators.max(100),
@@ -878,7 +878,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       });
     } else {
       this.ratios.controls.forEach((control: AbstractControl) => {
-        (control as FormGroup).removeControl('reachLimit');
+        (control as UntypedFormGroup).removeControl('reachLimit');
       });
     }
   }
@@ -950,22 +950,22 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       });
   }
 
-  addNewBounty(oracle?: string): FormGroup {
-    return new FormGroup({
-      oracle: new FormControl(oracle),
-      categories: new FormArray(
+  addNewBounty(oracle?: string): UntypedFormGroup {
+    return new UntypedFormGroup({
+      oracle: new UntypedFormControl(oracle),
+      categories: new UntypedFormArray(
         [this.newRewardCategory()],
         customValidateMaxMin()
       )
     });
   }
 
-  newRewardCategory(): FormGroup {
-    return new FormGroup(
+  newRewardCategory(): UntypedFormGroup {
+    return new UntypedFormGroup(
       {
-        minFollowers: new FormControl(null, [Validators.required]),
-        maxFollowers: new FormControl(null, [Validators.required]),
-        reward: new FormControl(null, [Validators.required])
+        minFollowers: new UntypedFormControl(null, [Validators.required]),
+        maxFollowers: new UntypedFormControl(null, [Validators.required]),
+        reward: new UntypedFormControl(null, [Validators.required])
       },
       customValidateBounties()
     );
@@ -974,7 +974,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   addRemunerationCategory(bountyIndex: number): void {
     const categories = this.bounties.controls[bountyIndex].get(
       'categories'
-    ) as FormArray;
+    ) as UntypedFormArray;
     categories.push(this.newRewardCategory());
   }
 
@@ -985,7 +985,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   ) {
     const categories = this.bounties.controls[bountyIndex].get(
       'categories'
-    ) as FormArray;
+    ) as UntypedFormArray;
     if (categories.controls.length === 1) {
       this.closedOracle = oracle;
       this.bounties.removeAt(bountyIndex);

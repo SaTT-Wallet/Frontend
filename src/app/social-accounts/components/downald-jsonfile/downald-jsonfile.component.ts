@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { Router } from '@angular/router';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
@@ -16,7 +16,7 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
   styleUrls: ['./downald-jsonfile.component.css']
 })
 export class DownaldJSONFileComponent implements OnInit {
-  formExportData: FormGroup;
+  formExportData: UntypedFormGroup;
   showSpinner: boolean = false;
   private isDestroyed = new Subject();
 
@@ -28,8 +28,8 @@ export class DownaldJSONFileComponent implements OnInit {
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string
   ) {
-    this.formExportData = new FormGroup({
-      password: new FormControl(null, Validators.required)
+    this.formExportData = new UntypedFormGroup({
+      password: new UntypedFormControl(null, Validators.required)
     });
   }
 

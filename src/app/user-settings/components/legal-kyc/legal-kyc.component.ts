@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { sattUrl } from '@config/atn.config';
 import { User } from '../../../models/User';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -14,8 +14,8 @@ import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.servic
   styleUrls: ['./legal-kyc.component.css']
 })
 export class LegalKYCComponent implements OnInit {
-  formUploadProofID: FormGroup;
-  formUploadProofDomicile: FormGroup;
+  formUploadProofID: UntypedFormGroup;
+  formUploadProofDomicile: UntypedFormGroup;
   dataLegalIdentity: any;
   dataLegalDomicile: any;
   srcFileIdentity: any;
@@ -47,11 +47,11 @@ export class LegalKYCComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: string,
     private kycFacadeService: KycFacadeService
   ) {
-    this.formUploadProofID = new FormGroup({
-      proofId: new FormControl(null, Validators.required)
+    this.formUploadProofID = new UntypedFormGroup({
+      proofId: new UntypedFormControl(null, Validators.required)
     });
-    this.formUploadProofDomicile = new FormGroup({
-      proofDomicile: new FormControl(null, Validators.required)
+    this.formUploadProofDomicile = new UntypedFormGroup({
+      proofDomicile: new UntypedFormControl(null, Validators.required)
     });
   }
   ngOnInit(): void {

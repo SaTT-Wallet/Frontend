@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
 import { CapitalizePhrasePipe } from '@shared/pipes/capitalize-phrase.pipe';
@@ -20,7 +20,7 @@ describe('CampaignInfoComponent', () => {
         TranslatePipe
       ],
       imports: [HttpClientTestingModule, RouterTestingModule, TranslateModule],
-      providers: [FormBuilder]
+      providers: [UntypedFormBuilder]
     }).compileComponents();
   });
 

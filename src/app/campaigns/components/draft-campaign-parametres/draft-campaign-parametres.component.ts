@@ -14,8 +14,8 @@ import {
 } from '@angular/core';
 import {
   AbstractControl,
-  FormControl,
-  FormGroup,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators
 } from '@angular/forms';
 import { Editor } from 'ngx-editor';
@@ -57,7 +57,7 @@ export class DraftCampaignParametresComponent implements OnInit {
     itemsShowLimit: 20,
     allowSearchFilter: true
   };
-  form = new FormGroup({});
+  form = new UntypedFormGroup({});
   editor = new Editor();
   showOptions: boolean = false;
   selectedAttributes = [];
@@ -105,11 +105,11 @@ export class DraftCampaignParametresComponent implements OnInit {
       item.checked = false;
     });
 
-    this.form = new FormGroup(
+    this.form = new UntypedFormGroup(
       {
-        startDate: new FormControl('', Validators.required),
-        endDate: new FormControl('', Validators.required),
-        tags: new FormControl([], Validators.required)
+        startDate: new UntypedFormControl('', Validators.required),
+        endDate: new UntypedFormControl('', Validators.required),
+        tags: new UntypedFormControl([], Validators.required)
       },
       [DateValidator]
     );
@@ -130,11 +130,11 @@ export class DraftCampaignParametresComponent implements OnInit {
   }
 
   get startDate() {
-    return this.form.get('startDate') as FormControl;
+    return this.form.get('startDate') as UntypedFormControl;
   }
 
   get endDate() {
-    return this.form.get('endDate') as FormControl;
+    return this.form.get('endDate') as UntypedFormControl;
   }
   ngAfterViewInit(): void {
     setTimeout(() => {

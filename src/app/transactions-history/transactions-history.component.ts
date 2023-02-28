@@ -13,7 +13,7 @@ import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-ser
 import moment from 'moment';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl } from '@angular/forms';
 import { merge, Observable, Subject } from 'rxjs';
 import { startWith, takeUntil } from 'rxjs/operators';
 import { formatDate, isPlatformBrowser } from '@angular/common';
@@ -75,20 +75,20 @@ export class TransactionsHistoryComponent implements OnInit {
   currentLang!: string;
   pa: number = 1;
 
-  campaignBlockchainType: FormControl;
+  campaignBlockchainType: UntypedFormControl;
   campaignBlockchainTypeOptions: IDropdownFilterOptions[] = [];
   values!: Observable<any>;
 
-  sendReceiveType: FormControl;
+  sendReceiveType: UntypedFormControl;
   sendReceiveTypeTypeOptions: IDropdownFilterOptions[] = [];
 
-  tokenType: FormControl;
+  tokenType: UntypedFormControl;
   tokenTypeOptions: IDropdownFilterOptions[] = [];
   tokenTypeOptionsERC20: IDropdownFilterOptions[] = [];
   tokenTypeOptionsBEP20: IDropdownFilterOptions[] = [];
   tokenTypeOptionsALL: IDropdownFilterOptions[] = [];
-  startDateType: FormControl;
-  endDateType: FormControl;
+  startDateType: UntypedFormControl;
+  endDateType: UntypedFormControl;
 
   checked = 'Send & Receive';
   checkedBlockchain = 'all';
@@ -112,7 +112,7 @@ export class TransactionsHistoryComponent implements OnInit {
     private _changeDetectorRef: ChangeDetectorRef,
     private translate: TranslateService,
     private tokenStorageService: TokenStorageService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private walletfacade: WalletFacadeService,
     @Inject(PLATFORM_ID) private platformId: string
   ) {

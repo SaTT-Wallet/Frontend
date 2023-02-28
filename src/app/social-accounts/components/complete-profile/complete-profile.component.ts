@@ -9,7 +9,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { pattEmail } from '@app/config/atn.config';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '@app/core/services/Auth/auth.service';
@@ -36,7 +36,7 @@ import { isPlatformBrowser } from '@angular/common';
   styleUrls: ['./complete-profile.component.css']
 })
 export class CompleteProfileComponent implements OnInit, OnDestroy {
-  completeProfileForm: FormGroup;
+  completeProfileForm: UntypedFormGroup;
   show: boolean = false;
   languageSelected: string = 'en';
   duplicateEmail: boolean = false;
@@ -62,13 +62,13 @@ export class CompleteProfileComponent implements OnInit, OnDestroy {
     private tokenStorageService: TokenStorageService,
     @Inject(PLATFORM_ID) private platformId: string
   ) {
-    this.completeProfileForm = new FormGroup({
-      email: new FormControl(null, [
+    this.completeProfileForm = new UntypedFormGroup({
+      email: new UntypedFormControl(null, [
         Validators.required,
         Validators.pattern(pattEmail)
       ]),
-      firstName: new FormControl(null, [Validators.required]),
-      lastName: new FormControl(null, [Validators.required])
+      firstName: new UntypedFormControl(null, [Validators.required]),
+      lastName: new UntypedFormControl(null, [Validators.required])
     });
   }
 

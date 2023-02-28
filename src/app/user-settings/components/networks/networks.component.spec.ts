@@ -4,7 +4,7 @@ import { NetworksComponent } from './networks.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {TranslateModule} from '@ngx-translate/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
 
 describe('NetworksComponent', () => {
@@ -15,7 +15,7 @@ describe('NetworksComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ NetworksComponent ],
       imports: [ HttpClientTestingModule,RouterTestingModule,TranslateModule.forRoot() ],
-      providers :[ { provide: ToastrService, useValue: ToastrService },FormBuilder]
+      providers :[ { provide: ToastrService, useValue: ToastrService },UntypedFormBuilder]
     })
     .compileComponents();
   });

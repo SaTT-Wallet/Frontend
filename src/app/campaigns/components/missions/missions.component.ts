@@ -6,7 +6,7 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { DraftCampaignService } from '@app/campaigns/services/draft-campaign.service';
 import { arrayLength } from '@app/helpers/form-validators';
 import { Campaign } from '@app/models/campaign.model';
@@ -38,31 +38,31 @@ export class MissionsComponent implements OnInit {
   disableBtn!: boolean;
   @Input() draftData!: Campaign;
   campaignMissionsOracl: string[] = [];
-  form: FormGroup = new FormGroup({
-    missions: new FormArray([
-      new FormGroup({
-        oracle: new FormControl('facebook'),
-        sub_missions: new FormArray([], Validators.max(5))
+  form: UntypedFormGroup = new UntypedFormGroup({
+    missions: new UntypedFormArray([
+      new UntypedFormGroup({
+        oracle: new UntypedFormControl('facebook'),
+        sub_missions: new UntypedFormArray([], Validators.max(5))
       }),
-      new FormGroup({
-        oracle: new FormControl('twitter'),
-        sub_missions: new FormArray([])
+      new UntypedFormGroup({
+        oracle: new UntypedFormControl('twitter'),
+        sub_missions: new UntypedFormArray([])
       }),
-      new FormGroup({
-        oracle: new FormControl('linkedin'),
-        sub_missions: new FormArray([])
+      new UntypedFormGroup({
+        oracle: new UntypedFormControl('linkedin'),
+        sub_missions: new UntypedFormArray([])
       }),
-      new FormGroup({
-        oracle: new FormControl('youtube'),
-        sub_missions: new FormArray([])
+      new UntypedFormGroup({
+        oracle: new UntypedFormControl('youtube'),
+        sub_missions: new UntypedFormArray([])
       }),
-      new FormGroup({
-        oracle: new FormControl('instagram'),
-        sub_missions: new FormArray([])
+      new UntypedFormGroup({
+        oracle: new UntypedFormControl('instagram'),
+        sub_missions: new UntypedFormArray([])
       }),
-      new FormGroup({
-        oracle: new FormControl('tiktok'),
-        sub_missions: new FormArray([])
+      new UntypedFormGroup({
+        oracle: new UntypedFormControl('tiktok'),
+        sub_missions: new UntypedFormArray([])
       })
       // new FormGroup({
       //   oracle: new FormControl('googleAnalytics'),
@@ -151,7 +151,7 @@ export class MissionsComponent implements OnInit {
     return this.form.controls;
   }
   get missions() {
-    return this.form.get('missions') as FormArray;
+    return this.form.get('missions') as UntypedFormArray;
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.draftData && changes.draftData.currentValue) {
@@ -186,19 +186,19 @@ export class MissionsComponent implements OnInit {
     }
     if (changes.closeOracle) {
       if (this.closeOracle === 'facebook') {
-        (this.missions.at(0).get('sub_missions') as FormArray).clear();
+        (this.missions.at(0).get('sub_missions') as UntypedFormArray).clear();
       } else if (this.closeOracle === 'twitter') {
-        (this.missions.at(1).get('sub_missions') as FormArray).clear();
+        (this.missions.at(1).get('sub_missions') as UntypedFormArray).clear();
       } else if (this.closeOracle === 'youtube') {
-        (this.missions.at(3).get('sub_missions') as FormArray).clear();
+        (this.missions.at(3).get('sub_missions') as UntypedFormArray).clear();
       } else if (this.closeOracle === 'linkedin') {
-        (this.missions.at(2).get('sub_missions') as FormArray).clear();
+        (this.missions.at(2).get('sub_missions') as UntypedFormArray).clear();
       } else if (this.closeOracle === 'instagram') {
-        (this.missions.at(4).get('sub_missions') as FormArray).clear();
+        (this.missions.at(4).get('sub_missions') as UntypedFormArray).clear();
       } else if (this.closeOracle === 'tiktok') {
-        (this.missions.at(5).get('sub_missions') as FormArray).clear();
+        (this.missions.at(5).get('sub_missions') as UntypedFormArray).clear();
       } else if (this.closeOracle === 'googleAnalytics') {
-        (this.missions.at(6).get('sub_missions') as FormArray).clear();
+        (this.missions.at(6).get('sub_missions') as UntypedFormArray).clear();
       }
       this.campaignMissionsOracl = this.campaignMissionsOracl.filter(
         (oracle) => {
@@ -225,13 +225,13 @@ export class MissionsComponent implements OnInit {
       });
 
       const controls = newArray.map((mission) => {
-        const group = new FormGroup({
-          oracle: new FormControl(mission.oracle),
-          sub_missions: new FormArray(
+        const group = new UntypedFormGroup({
+          oracle: new UntypedFormControl(mission.oracle),
+          sub_missions: new UntypedFormArray(
             mission.sub_missions.map((sub_mission: any) => {
-              return new FormGroup(
+              return new UntypedFormGroup(
                 {
-                  mission: new FormControl(
+                  mission: new UntypedFormControl(
                     sub_mission.mission ? sub_mission.mission : sub_mission
                   )
                 },
@@ -244,7 +244,7 @@ export class MissionsComponent implements OnInit {
         return group;
       });
 
-      this.form.setControl('missions', new FormArray(controls));
+      this.form.setControl('missions', new UntypedFormArray(controls));
     }
   }
   isIncludeOracle(oracle: string) {
@@ -253,13 +253,13 @@ export class MissionsComponent implements OnInit {
   prePopulateInputs(missions: any[]) {
     if (missions) {
       const controls = missions.map((mission) => {
-        const group = new FormGroup({
-          oracle: new FormControl(mission.oracle),
-          sub_missions: new FormArray(
+        const group = new UntypedFormGroup({
+          oracle: new UntypedFormControl(mission.oracle),
+          sub_missions: new UntypedFormArray(
             mission.sub_missions.map((sub_mission: string) => {
-              return new FormGroup(
+              return new UntypedFormGroup(
                 {
-                  mission: new FormControl(sub_mission)
+                  mission: new UntypedFormControl(sub_mission)
                 },
                 Validators.required
               );
@@ -270,30 +270,30 @@ export class MissionsComponent implements OnInit {
         return group;
       });
 
-      this.form.setControl('missions', new FormArray(controls));
+      this.form.setControl('missions', new UntypedFormArray(controls));
     }
   }
   removeValue(missionIndex: number, index: number) {
     const subMissions = this.missions
       .at(missionIndex)
-      .get('sub_missions') as FormArray;
+      .get('sub_missions') as UntypedFormArray;
     subMissions.removeAt(index);
   }
 
   getSubMissions(index: number) {
-    return this.missions.at(index).get('sub_missions') as FormArray;
+    return this.missions.at(index).get('sub_missions') as UntypedFormArray;
   }
 
   addSubMissions(missionIndex: number): void {
     const subMissions = this.missions
       .at(missionIndex)
-      .get('sub_missions') as FormArray;
+      .get('sub_missions') as UntypedFormArray;
     subMissions.push(this.newMission());
   }
 
-  newMission(): FormGroup {
-    return new FormGroup({
-      mission: new FormControl(null)
+  newMission(): UntypedFormGroup {
+    return new UntypedFormGroup({
+      mission: new UntypedFormControl(null)
     });
   }
   saveForm() {
@@ -331,15 +331,15 @@ export class MissionsComponent implements OnInit {
     if (event) {
       this.prePopulateOneInputs(index, oracle);
     } else {
-      (this.missions.at(index).get('sub_missions') as FormArray).clear();
+      (this.missions.at(index).get('sub_missions') as UntypedFormArray).clear();
     }
   }
   prePopulateOneInputs(index: number, oracle: string) {
     let miss = this.missionsExamples.find((elem) => elem.oracle === oracle);
     miss?.sub_missions.forEach((sub_mission: string) => {
-      (this.missions.at(index).get('sub_missions') as FormArray).push(
-        new FormGroup({
-          mission: new FormControl(sub_mission)
+      (this.missions.at(index).get('sub_missions') as UntypedFormArray).push(
+        new UntypedFormGroup({
+          mission: new UntypedFormControl(sub_mission)
         })
       );
     });
