@@ -124,7 +124,6 @@
     "font-awesome": "^4.7.0",
     "font-family": "^0.2.0",
     "fs": "0.0.1-security",
-    "g": "^2.0.1",
     "glob-parent": "^5.1.2",
     "glyphicons": "^0.2.0",
     "google-libphonenumber": "^3.2.27",
