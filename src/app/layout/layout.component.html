@@ -63,7 +63,7 @@
 >
   <app-sidebar></app-sidebar>
   <div
-    class="center-content"
+    [className]="phishingVisibility ? 'center-content' : 'center-content2'"
     id="center-content"
     (scroll)="onScroll($event)"
     (window:resize)="onResize($event)"
