@@ -217,7 +217,8 @@
 
               "sourceMap": true,
 
-              "extractLicenses": false
+              "extractLicenses": false,
+              "vendorChunk": true
 
             },
             "dev-ssr": {
