@@ -4,6 +4,7 @@ import { ngExpressEngine } from '@nguniversal/express-engine';
 import * as express from 'express';
 import { join } from 'path';
 const fs = require('fs');
+const helmet = require('helmet');
 const domino = require('domino');
 const Blob = require('blob-polyfill').Blob;
 
@@ -47,7 +48,7 @@ export function app(): express.Express {
       bootstrap: AppServerModule
     })
   );
-
+  server.use(helmet.noSniff());
   server.set('view engine', 'html');
   server.set('views', distFolder);
 
