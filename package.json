@@ -206,7 +206,6 @@
     "@angular-eslint/eslint-plugin-template": "13.1.0",
     "@angular-eslint/schematics": "13.1.0",
     "@angular-eslint/template-parser": "13.1.0",
-    "@angular/cli": "^12.1.4",
     "@angular/compiler-cli": "~12.1.0",
     "@angular/localize": "^13.2.2",
     "@compodoc/compodoc": "^1.1.18",
