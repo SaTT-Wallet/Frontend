@@ -4,56 +4,7 @@
 <!--                                                                                   -->
 <!--***********************************************************************************-->
 <!--  [ngClass]="{ 'navbar-dark-blue': !menuCampaign }"-->
-<ng-container *ngIf="!phishingVisibility">
-  <div
-    class="d-flex justify-content-center"
-    [className]="getScreenWidth > 960 ? 'div1' : 'div1-mobile'"
-  >
-    <!-- <img
-      src="assets/Images/moon-boy-warning.svg"
-      alt=""
-      *ngIf="getScreenWidth < 960"
-    /> -->
-    <img
-      src="assets/Images/moon-boy-warning.svg"
-      alt=""
-      *ngIf="getScreenWidth > 960"
-    />
-    <div [className]="getScreenWidth > 960 ? 'div2' : 'div2-mobile'">
-      <div class="div2-content">
-        <span class="title-modal" [ngClass]="'warning'">Phishing warning:</span>
-        <span class="title-modal"
-          >&nbsp; Please make sure you're visiting
-        </span>
-        <span class="title-modal" [ngClass]="'warning-bold'">
-          <a href="https://dapp.satt.com"></a> https://dapp.satt.com</span
-        >
-        <span class="title-modal"> - check the URL carefully</span>
-      </div>
 
-      <!-- <div class="close-modale">
-        <img src="assets/Images/closeModal.svg" alt="" />
-      </div> -->
-
-      <span *ngIf="getScreenWidth > 960">
-        <img
-          id="cross"
-          src="assets/Images/closeModal.svg"
-          alt=""
-          (click)="close()"
-        />
-      </span>
-    </div>
-    <div *ngIf="getScreenWidth < 960" class="cross-mobile">
-      <img
-        id="cross-mobile"
-        src="assets/Images/closeModal.svg"
-        alt=""
-        (click)="close()"
-      />
-    </div>
-  </div>
-</ng-container>
 <nav
   id="navbar-id"
   class="navbar navbar-expand-lg"
