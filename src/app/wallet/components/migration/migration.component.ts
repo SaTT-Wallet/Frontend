@@ -14,6 +14,8 @@ import { WalletStoreService } from '@core/services/wallet-store.service';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { environment } from '@environments/environment';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-migration',
@@ -22,12 +24,16 @@ import { Subject } from 'rxjs';
 })
 export class MigrationComponent implements OnInit {
   listCrypto: any[] = [
-    { name: 'ETH', network: 'ERC20' },
-    { name: 'BNB', network: 'BEP20' },
-    { name: 'BTC', network: 'BTC' },
-    { name: 'MATIC', network: 'POLYGON' },
-    { name: 'BTT', network: 'BTTC' },
-    { name: 'TRX', network: 'TRON' }
+    { name: 'ETH', network: 'ERC20', explorer: environment.etherscanaddr },
+    { name: 'BNB', network: 'BEP20', explorer: environment.bscanaddr },
+    { name: 'BTC', network: 'BTC', explorer: environment.bttscanAddr },
+    {
+      name: 'MATIC',
+      network: 'POLYGON',
+      explorer: environment.polygonscanAddr
+    },
+    { name: 'BTT', network: 'BTTC', explorer: environment.bttscanAddr },
+    { name: 'TRX', network: 'TRON', explorer: environment.tronScanAddr }
   ];
   gas = Big(0);
   errorMessage: boolean = false;
@@ -35,6 +41,8 @@ export class MigrationComponent implements OnInit {
   arrayToMigrate: any[] = [];
   cryptobyNetwork: any;
   cryptoChecked = 'ERC20';
+  activatedRoute: ActivatedRoute | null | undefined;
+
   network = { name: '', balance: '' };
   cryptoList$ = this.walletFacade.cryptoList$;
   passWallet = false;
@@ -51,19 +59,28 @@ export class MigrationComponent implements OnInit {
   onDestroy$ = new Subject();
 
   @Output() migrateEvent = new EventEmitter<String>();
+
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.getScreenHeight = event.target.innerHeight;
     this.getScreenWidth = event.target.innerWidth;
     event.target.innerHeight;
   }
+
+
+  
+
+
   constructor(
     private service: CryptofetchServiceService,
     private walletFacade: WalletFacadeService,
     private walletStoreService: WalletStoreService,
-    private tokenStorageService: TokenStorageService
+    private tokenStorageService: TokenStorageService,
+    private router: Router,
+
   ) {}
   ngOnInit(): void {
+    
     this.getScreenWidth = window.innerWidth;
     this.getCryptoList();
     this.network.name = 'ETH';
@@ -88,6 +105,8 @@ export class MigrationComponent implements OnInit {
         let gasPrice = 10000000000;
         this.gas = Big(gasLimit).times(Big(gasPrice));
         this.gasToDisplay = filterAmount(this.gas.div(10 ** 18).toString());
+        this.cryptoChecked === 'TRON' && (this.gasToDisplay = '0.0268');
+
         if (this.network.name === '') this.network.name = 'ETH';
         let balances = data.filter(
           (element: any) => element.symbol === this.network.name
@@ -103,24 +122,54 @@ export class MigrationComponent implements OnInit {
     });
   }
   setState(crypto: string) {
+
     this.outOfGas = false;
     this.hash = '';
     this.arrayToMigrate = [];
     this.gas = Big(0);
     this.cryptoChecked = crypto;
     const index = this.listCrypto.findIndex((e) => e.network === crypto);
-    this.getCryptoList();
     this.network.name = this.listCrypto[index]?.name;
     let element = this.cryptobyNetwork.find(
       (e: any) => e.symbol === this.network.name
     );
-    crypto === "TRON" && (this.gasToDisplay= "0.0268")
-    if (element) this.network.balance = element?.quantity;
-    else {
+    if (element) {
+      // this.outOfGas = false;
+      this.network.balance = element?.quantity;
+    } else {
       this.network.balance = '';
       this.outOfGas = true;
     }
+    this.getCryptoList();
   }
+
+
+  goToBuy(id: any, network: any, cryptobyNetwork:any) {
+    this.sendMigrationStatus()
+   
+
+    if( network === "BTTC"){
+      window.open('https://sunswap.com/#/v2?lang=en-US&t0=TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t&t1=TAFjULxiVgT4qWk6UZwjqwZXTSaGaqnVp4&type=swap', '_blank');
+    
+   } else {
+    if (network === 'ERC20') {
+      id = 'ETH';
+    }
+    if ( network === 'BEP20') {
+      id = 'BNB';
+    }
+    if ( network === 'TRON') {
+      id = 'TRX';
+    }
+    this.router.navigate(['/wallet/buy-token'], {
+      queryParams: { id: id, network: network },
+      relativeTo: this.activatedRoute
+    });
+  }
+  }
+
+
+
   next() {
     this.outOfGas = false;
     this.spinner = true;
@@ -133,19 +182,18 @@ export class MigrationComponent implements OnInit {
       )
       .subscribe(
         (data: any) => {
-          this.arrayToMigrate = [];
-          this.spinner = false;
-          let network =
-            this.cryptoChecked === 'BEP20'
-              ? 'https://testnet.bscscan.com/address/'
-              : 'https://goerli.etherscan.io/address/';
-          this.hash = network + this.walletId;
-          this.walletStoreService.getCryptoList();
+          if (this.cryptoChecked === 'TRON')
+            setTimeout(() => this.displaySuccessMessage(data), 100000);
+          else this.displaySuccessMessage(data);
         },
         (err: any) => {
-          err.error.error ===
-            'Key derivation failed - possibly wrong password' &&
-            (this.errorMessage = true);
+          if
+          (err.error.error ===
+            'Key derivation failed - possibly wrong password' ) {
+              this.errorMessage = true;
+              this.walletPassword = "";
+            }
+            
           setTimeout(() => {
             this.errorMessage = false;
           }, 3000);
@@ -223,5 +271,16 @@ export class MigrationComponent implements OnInit {
   ngOnDestroy() {
     this.onDestroy$.next('');
     this.onDestroy$.complete();
+  }
+
+  displaySuccessMessage(data: any) {
+    this.arrayToMigrate = [];
+    this.spinner = false;
+    const index = this.listCrypto.findIndex(
+      (e) => e.network === this.cryptoChecked
+    );
+    let network = this.listCrypto[index].explorer;
+    this.hash = network + data.data[0].from;
+    this.walletStoreService.getCryptoList();
   }
 }

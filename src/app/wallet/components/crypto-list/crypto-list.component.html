@@ -32,12 +32,13 @@
                 <div
                   class="col-2 d-flex align-items-center justify-content-start"
                 >
+                  <!-- the type should be search but to avoid a little bug we change the type  -->
                   <input
                     id="key"
                     class="key d-flex search-input-wrapper mt-3"
-                    type="text"
+                    type="password"
                     name="search"
-                    autocomplete="search-token"
+                    autocomplete="new-password"
                     placeholder="Search token "
                     [(ngModel)]="search"
                     (ngModelChange)="onTextChange($event); clearInput()"
@@ -406,17 +407,22 @@
                         class="col-2 d-flex justify-content-start align-items-center"
                         style="width: fit-content; cursor: pointer"
                         details.hidden="true"
-                        *ngIf="details.hidden && crypto.undername !== 'SATT' && crypto.quantity!=0 && this.version != 'v2'"
-
+                        *ngIf="
+                          details.hidden &&
+                          crypto.undername !== 'SATT' &&
+                          crypto.quantity !== 0 &&
+                          this.version !== 'v2' &&
+                          existV2 === 'true'
+                        "
                         (click)="
-                        goMigrate(
-                          crypto.symbol,
-                          crypto.network,
-                          crypto.picUrl,
-                          crypto.quantity,
-                          crypto.price
-                        )"
-
+                          goMigrate(
+                            crypto.symbol,
+                            crypto.network,
+                            crypto.picUrl,
+                            crypto.quantity,
+                            crypto.price
+                          )
+                        "
                       >
                         <img
                           src="./../../../assets/Images/custom_icons/clarity_error-standard-line_mobile.svg"
@@ -740,17 +746,22 @@
                             "
                             details.hidden="true"
                             (click)="
-                            goMigrate(
-                              crypto.symbol,
-                              crypto.network,
-                              crypto.picUrl,
-                              crypto.quantity,
-                              crypto.price
-                            )"                          >
+                              goMigrate(
+                                crypto.symbol,
+                                crypto.network,
+                                crypto.picUrl,
+                                crypto.quantity,
+                                crypto.price
+                              )
+                            "
+                          >
                             <img
                               src="./../../../assets/Images/custom_icons/clarity_error-standard-line_mobile.svg"
-                              *ngIf=" crypto.quantity!=0 && this.version != 'v2'"
-
+                              *ngIf="
+                                crypto.quantity != 0 &&
+                                this.version !== 'v2' &&
+                                existV2 === 'true'
+                              "
                               style="
                                 font-size: 13px;
                                 cursor: pointer;
@@ -1075,8 +1086,6 @@
                             </a>
                           </div>
 
-
-
                           <div
                             class="col-2 d-flex justify-content-start align-items-center"
                             style="
@@ -1086,29 +1095,29 @@
                             "
                             details.hidden="true"
                             (click)="
-                            goMigrate(
-                              
-                              crypto.cryptoBEP20.symbol,
-                              crypto.cryptoBEP20.network,
-                              crypto.cryptoBEP20.picUrl,
-                              crypto.cryptoBEP20.quantity,
-                              crypto.cryptoBEP20.price
-                            )"                          >
+                              goMigrate(
+                                crypto.cryptoBEP20.symbol,
+                                crypto.cryptoBEP20.network,
+                                crypto.cryptoBEP20.picUrl,
+                                crypto.cryptoBEP20.quantity,
+                                crypto.cryptoBEP20.price
+                              )
+                            "
+                          >
                             <img
                               src="./../../../assets/Images/custom_icons/clarity_error-standard-line_mobile.svg"
-                              *ngIf=" crypto.cryptoBEP20.quantity!=0 && this.version !='v2'"
-                             style="
+                              *ngIf="
+                                crypto.cryptoBEP20.quantity != 0 &&
+                                this.version !== 'v2' &&
+                                existV2 === 'true'
+                              "
+                              style="
                                 font-size: 13px;
                                 cursor: pointer;
                                 margin-left: 24px;
                               "
                             />
                           </div>
-
-
-
-
-
 
                           <div
                             class="col-1 d-flex justify-content-start align-items-center"
@@ -1971,7 +1980,7 @@
                             />
                           </div>
                           <div
-                            *ngIf="errorMsg == ''"
+                            *ngIf="errorMsg === ''"
                             class="mt-3 d-flex justify-content-center flex-column"
                             style="width: 80%"
                           >

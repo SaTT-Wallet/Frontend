@@ -8,12 +8,20 @@
 </div> -->
 
 <!-- <div class="wallet container-fluid"> -->
-<app-migration
-  [className]="getScreenWidth > 960 ? 'migration' : 'migration-mobile'"
-  *ngIf="migrate === 'open' && show"
-  [migrate]="migrate"
-  (migrateEvent)="getMigrationStatus($event)"
+
+<ng-template #migration>
+  <app-migration  
+[className]="getScreenWidth > 740 ? 'migration' : 'migration-mobile'"
+*ngIf="migrate === 'open' && show && hasWalletV2" 
+[migrate]="migrate"
+(migrateEvent)="getMigrationStatus($event)"
+
 ></app-migration>
+</ng-template>
+
+
+
+
 
 <div class="wallet">
   <!--red bloc:desktop and tablette-->
@@ -47,7 +55,10 @@
               <div class="d-flex first_layer" id="totalAmount1">
                 $ {{ totalAmount | number: '1.0-2' || '' }}
               </div>
-              <div class="d-flex justify-content-center" *ngIf="existV1">
+              <div
+                class="d-flex justify-content-center"
+                *ngIf="existV1 && existV2"
+              >
                 <p class="echnage" (click)="allWallet()" type="button">
                   <span
                     ><img
@@ -58,12 +69,14 @@
               </div>
               <div
                 class="divbtn d-flex justify-content-center"
-                *ngIf="versionText === 'New Wallet' && existV1 && show"
+                *ngIf="
+                  versionText === 'New Wallet' && existV1 && show && existV2
+                "
               >
                 <button
                   class="migratebtn"
                   type="button"
-                  (click)="this.migrate = 'open'"
+                  (click)="migrateButton()"
                 >
                   <span
                     ><img
@@ -383,7 +396,8 @@
       id="welcome-paragraph"
     >
       <p class="paragragh" id="paragraph">
-        For security reasons, we update our users' wallets. <br />
+        For security reasons, we update our users' wallets.
+        <br *ngIf="getScreenWidth > 960" />
         <span>
           Please enter your password, then transfer your tokens to the updated
           version.

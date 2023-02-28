@@ -1,7 +1,10 @@
 <div class="container" *ngIf="!passWallet">
   <div class="row">
     <p class="content">Migrate your tokens to the new wallet</p>
-    <p class="title" style="margin-top: 2vh">
+    <p
+      class="title"
+      style="margin-top: 2vh; padding-right: 5%; padding-left: 5%"
+    >
       For security reasons, we invite you to migrate your tokens to a new
       wallet. It’s very simple just we need a few minutes of your time. Follow
       the steps outlined in our application to safely complete the migration.
@@ -47,12 +50,18 @@
       style="padding-left: 0px; padding-right: 0px"
     >
       <div
-        class="row justify-content-center list-network"
+        [className]="
+          getScreenWidth > 960
+            ? 'row justify-content-center list-network'
+            : 'row justify-content-left list-network crypto'
+        "
         *ngFor="let element of cryptobyNetwork; index as i"
       >
         <div
           [className]="
-            getScreenWidth > 960 ? 'col-md-6 col-6 mt-2' : 'col-md-6 col-9 mt-2'
+            getScreenWidth > 960
+              ? 'col-md-6 col-6 mt-2 ml-4'
+              : 'col-md-6 col-9 mt-2'
           "
         >
           <label for="checkbox{{ i }}" class="d-flex">
@@ -62,7 +71,12 @@
                 getScreenWidth > 960 ? 'image-size-crypto' : 'image-size2'
               "
             />
-            <p class="title ms-2" style="text-align: left; font-size: 13px">
+            <p
+              [className]="
+                getScreenWidth > 960 ? 'title ms-2' : 'title ms-2 crypto-title'
+              "
+              style="text-align: left; font-size: 11px"
+            >
               {{ element.name }}<br />
               <span> {{ element.quantity }}</span>
             </p>
@@ -88,7 +102,7 @@
           Tokens migrated successfully<br />
           <span class="underline"> Check your wallet: </span>
 
-          <a href="{{ hash }}" class="success-color">
+          <a href="{{ hash }}" target="_blank" class="success-color">
             {{ walletId?.slice(0, 8) }}...{{ walletId?.slice(-8) }}</a
           >
         </p>
@@ -103,14 +117,27 @@
         <span class="span-migrate">
           To migrate, please enter your wallet password</span
         >
-        <p class="txn-pass-style">Transaction Password</p>
+        <p class="txn-pass-style" style="font-size: 12px; padding-bottom: 3px">
+          Transaction Password
+        </p>
         <div
-          class="div-input-icon p-1"
+          [className]="
+            errorMessage ? 'div-input-icon-err p-1' : 'div-input-icon p-1'
+          "
           [ngClass]="{
             'border-error': wrongpassword
           }"
         >
-          <img class="" src="../../../assets/Images/Kep-password.svg" />
+          <img
+            *ngIf="errorMessage"
+            src="../../../assets/Images/Kep-passwordFalse.svg"
+            [ngStyle]="{ height: getScreenWidth > 900 ? '40px' : '25px' }"
+          />
+          <img
+            *ngIf="!errorMessage"
+            class=""
+            src="../../../assets/Images/Kep-password.svg"
+          />
           <div style="display: none">
             <input
               type="text"
@@ -140,8 +167,14 @@
         </div>
         <span
           *ngIf="errorMessage"
-          style="text-align: center; padding-top: 2vh; color: red"
-          >Wrong password</span
+          style="
+            text-align: left;
+            padding-top: 0.5vh;
+            color: #f52079;
+            font-family: 'Poppins';
+            font-weight: 500;
+          "
+          >wrong password, please try again</span
         >
         <button
           class="next-step mt-4"
@@ -150,7 +183,7 @@
           [disabled]="spinner"
         >
           <div *ngIf="spinner" class="spinner-border text-grey" role="status">
-            <span class="sr-only">Loading...</span>
+            <span class="sr-only" style="color: #adadc8">Loading...</span>
           </div>
           <span *ngIf="!spinner">Migrate Tokens</span>
         </button>
@@ -159,14 +192,20 @@
         <div class="warning-buy-gas">
           <img src="assets/Images/icon_alert_warning-add-token.svg" />
           <p class="warning-txt">
-            You don't have enough gaz to perform this transaction. Buy gaz
+            You don't have enough gas to perform this transaction. Buy gas
             before you can perform the migration.
           </p>
         </div>
         <button
           class="next-step mt-4"
           style="margin: 0 auto"
-          [routerLink]="'/wallet/buy-token'"
+          (click)="
+            goToBuy(
+              cryptobyNetwork[0].symbol,
+              cryptobyNetwork[0].network,
+              cryptobyNetwork
+            )
+          "
         >
           <span>Buy Gas</span>
         </button>

@@ -131,7 +131,7 @@ export class TokenStorageService {
   public getNetwork() {
     return this.localStorage.getItem(network);
   }
-  public saveIdWallet(adress: string ): void {
+  public saveIdWallet(adress: string): void {
     this.localStorage.removeItem(idWallet);
     this.localStorage.setItem(idWallet, adress);
   }
@@ -165,6 +165,14 @@ export class TokenStorageService {
   public setCookies(value: string) {
     return this.localStorage.setItem('Cookies', value);
   }
+  public getModaleMigrate() {
+    return this.localStorage.getItem('Migration');
+  }
+
+  public setModaleMigrate(value: string) {
+    return this.localStorage.setItem('Migration', value);
+  }
+
   public setStateVisited(value: string) {
     return this.localStorage.setItem('visited', value);
   }
@@ -298,7 +306,7 @@ export class TokenStorageService {
   public getWalletBtc() {
     return this.localStorage.getItem('wallet_btc');
   }
-  public saveWalletBtc(adress: string ): void {
+  public saveWalletBtc(adress: string): void {
     this.localStorage.removeItem('wallet_btc');
     this.localStorage.setItem('wallet_btc', adress);
   }

@@ -171,9 +171,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   tronAddressV2: any;
   displayNew: any;
   displayOld: any;
-  title: any= "Your ID Wallet ";
+  title: any = 'Your ID Wallet ';
   existV1: any;
-
 
   constructor(
     breakpointObserver: BreakpointObserver,
@@ -302,12 +301,10 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   ngAfterViewInit(): void {
     // if(this.route.url)
-    this.route.url.subscribe((e) => { });
+    this.route.url.subscribe((e) => {});
     this.router.events
       .pipe(
-        tap((e) => {
-          //  console.log(e)
-        }),
+        tap((e) => {}),
         filter((e: any) => e instanceof NavigationEnd),
         startWith({ url: this.router.url })
       )
@@ -414,7 +411,6 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         this.tokenStorageService.setItem('wallet_btc_v2', this.btcCodeV2);
         this.tokenStorageService.setItem('tron-wallet', this.tronAddress);
         this.tokenStorageService.setItem('tron-wallet_v2', this.tronAddressV2);
-
       } else {
         this.isConnected = false;
       }
@@ -422,26 +418,21 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   isDisplayNew() {
-    console.log("ldldldl")
-    this.displayNew=localStorage.getItem("display")?.toString()
-if(this.existV1)
-{    if (this.displayNew === "none") {
-      
-      this.displayNew = "block"
-      this.displayOld = "none"
-      localStorage.setItem("display",this.displayNew)
-      this.title = "Your ID Wallet"
-      
+    this.displayNew = localStorage.getItem('display')?.toString();
+    if (this.existV1) {
+      if (this.displayNew === 'none') {
+        this.displayNew = 'block';
+        this.displayOld = 'none';
+        localStorage.setItem('display', this.displayNew);
+        this.title = 'Your ID Wallet';
+      } else {
+        this.displayNew = 'none';
+        this.displayOld = 'block';
+        localStorage.setItem('display', this.displayNew);
+        this.title = 'Your Old Wallet ';
+      }
     }
-    else {
-      this.displayNew = "none"
-      this.displayOld = "block"
-      localStorage.setItem("display",this.displayNew)
-      this.title = "Your Old Wallet "
-
-    }}
   }
-
 
   getProfileDetails() {
     this.account$
@@ -508,7 +499,7 @@ if(this.existV1)
         concatMap((payload) =>
           timer(3000).pipe(
             takeUntil(this.isDestroyed$),
-            tap((v) => { }),
+            tap((v) => {}),
             mapTo(payload)
           )
         ),
@@ -850,10 +841,10 @@ if(this.existV1)
           nbr: item._label['price'],
           crypto:
             item._label['cryptoCurrency'] &&
-              (item._label['cryptoCurrency'] === 'SATTBEP20' ||
-                item._label['cryptoCurrency'] === 'SATTPOLYGON' ||
-                item._label['currency'] === 'SATTBTT' ||
-                item._label['currency'] === 'SATTTRON')
+            (item._label['cryptoCurrency'] === 'SATTBEP20' ||
+              item._label['cryptoCurrency'] === 'SATTPOLYGON' ||
+              item._label['currency'] === 'SATTBTT' ||
+              item._label['currency'] === 'SATTTRON')
               ? 'SATT'
               : item._label['cryptoCurrency'] ||
                 (item._label['currency'] &&
@@ -861,8 +852,8 @@ if(this.existV1)
                     item._label['currency'] === 'SATTPOLYGON' ||
                     item._label['currency'] === 'SATTBTT' ||
                     item._label['currency'] === 'SATTTRON'))
-                ? 'SATT'
-                : item._label['currency'],
+              ? 'SATT'
+              : item._label['currency'],
           // crypto: item._label['currency'],
           name: item._label['name']
         };
@@ -875,10 +866,10 @@ if(this.existV1)
           nbr: item._label['price'],
           crypto:
             item._label['cryptoCurrency'] &&
-              (item._label['cryptoCurrency'] === 'SATTBEP20' ||
-                item._label['cryptoCurrency'] === 'SATTPOLYGON' ||
-                item._label['currency'] === 'SATTBTT' ||
-                item._label['currency'] === 'SATTTRON')
+            (item._label['cryptoCurrency'] === 'SATTBEP20' ||
+              item._label['cryptoCurrency'] === 'SATTPOLYGON' ||
+              item._label['currency'] === 'SATTBTT' ||
+              item._label['currency'] === 'SATTTRON')
               ? 'SATT'
               : item._label['cryptoCurrency'] ||
                 (item._label['currency'] &&
@@ -886,8 +877,8 @@ if(this.existV1)
                     item._label['currency'] === 'SATTPOLYGON' ||
                     item._label['currency'] === 'SATTBTT' ||
                     item._label['currency'] === 'SATTTRON'))
-                ? 'SATT'
-                : item._label['currency'],
+              ? 'SATT'
+              : item._label['currency'],
           name: item._label['name']
         };
         item._label = 'asked_cryptoCurrency';
@@ -923,9 +914,9 @@ if(this.existV1)
           item._params = {
             currency:
               item._label['currency'] === 'SATTBEP20' ||
-                item._label['currency'] === 'SATTPOLYGON' ||
-                item._label['currency'] === 'SATTBTT' ||
-                item._label['currency'] === 'SATTTRON'
+              item._label['currency'] === 'SATTPOLYGON' ||
+              item._label['currency'] === 'SATTBTT' ||
+              item._label['currency'] === 'SATTTRON'
                 ? 'SATT'
                 : item.label['currency'],
             nbr: Big(item._label['amount']).div(decimal),
@@ -962,9 +953,9 @@ if(this.existV1)
             nbr: Big(item._label['amount']).div(decimal),
             currency:
               item._label['currency'] === 'SATTBEP20' ||
-                item._label['currency'] === 'SATTPOLYGON' ||
-                item._label['currency'] === 'SATTBTT' ||
-                item._label['currency'] === 'SATTTRON'
+              item._label['currency'] === 'SATTPOLYGON' ||
+              item._label['currency'] === 'SATTBTT' ||
+              item._label['currency'] === 'SATTTRON'
                 ? 'SATT'
                 : item.label['currency'],
             from: item._label['from']
@@ -1110,9 +1101,9 @@ if(this.existV1)
           nbr: item._label['amount'],
           crypto:
             item._label['currency'] === 'SATTBEP20' ||
-              item._label['currency'] === 'SATTPOLYGON' ||
-              item._label['currency'] === 'SATTBTT' ||
-              item._label['currency'] === 'SATTTRON'
+            item._label['currency'] === 'SATTPOLYGON' ||
+            item._label['currency'] === 'SATTBTT' ||
+            item._label['currency'] === 'SATTTRON'
               ? 'SATT'
               : item.label['currency'],
           email: item._label[2]
@@ -1126,9 +1117,9 @@ if(this.existV1)
           nbr: item._label['amount'],
           crypto:
             item._label['currency'] === 'SATTBEP20' ||
-              item._label['currency'] === 'SATTPOLYGON' ||
-              item._label['currency'] === 'SATTBTT' ||
-              item._label['currency'] === 'SATTTRON'
+            item._label['currency'] === 'SATTPOLYGON' ||
+            item._label['currency'] === 'SATTBTT' ||
+            item._label['currency'] === 'SATTTRON'
               ? 'SATT'
               : item.label['currency'],
           email: item._label[2]
@@ -1293,22 +1284,25 @@ if(this.existV1)
       window.location.href = 'https://old.satt.atayen.us/';
   }
   portfeuille() {
-    this.walletFacade.getAllWallet()
+    this.walletFacade
+      .getAllWallet()
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe((data: any) => {
-        this.existV1= data?.data?.address
+        this.existV1 = data?.data?.address;
 
-        console.log("datadata", data?.data?.btcAddress)
+        if (data?.data?.address === null) {
+          this.tokenStorageService.saveWalletVersion('v2');
+        }
+
         if (!!data) {
-
           this.btcCodeV2 = data.data.btcAddressV2;
           this.erc20V2 = data.data.addressV2;
           this.tronAddressV2 = data.data.tronAddressV2;
-          if(this.existV1)
-          {this.btcCode = data?.data?.btcAddress;
-          this.erc20 = data?.data?.address;
-          this.tronAddress = data?.data?.tronAddress;
-}
+          if (this.existV1) {
+            this.btcCode = data?.data?.btcAddress;
+            this.erc20 = data?.data?.address;
+            this.tronAddress = data?.data?.tronAddress;
+          }
           this.url3 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.tronAddress}&chs=219x219&chco=212121&chld=m|1`;
           this.url6 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.tronAddressV2}&chs=219x219&chco=212121&chld=m|1`;
           this.urlM4 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20V2}&chs=219x219&chco=212121&chld=m|1`;
@@ -1355,13 +1349,8 @@ if(this.existV1)
     this.clipboard.copy(code);
   }
 
-
-
   ////display2////////
   notifSize = 10;
-
-
-
 
   goToEther(erc20: any) {
     if (isPlatformBrowser(this.platformId))

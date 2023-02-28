@@ -7,7 +7,8 @@ import {
   OnDestroy,
   Inject,
   PLATFORM_ID,
-  HostListener
+  HostListener,
+  Renderer2
 } from '@angular/core';
 
 import { Big } from 'big.js';
@@ -167,7 +168,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     private kycFacadeService: KycFacadeService,
     private router: Router,
     private localStorage: TokenStorageService,
-    private activeRoute: ActivatedRoute
+    private activeRoute: ActivatedRoute,
+    private renderer: Renderer2
   ) {
     //, Validators.max(this.maxNumber)
     this.sendform = new FormGroup({
@@ -389,7 +391,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   //send crypto
 
   public sendMoney() {
-    
     let tokenAddress: any;
     if (this.sendform.valid) {
       this.showSpinner = true;
@@ -599,7 +600,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           (error) => {
             if (
               error.error.error ===
-              'Key derivation failed - possibly wrong password' ||
+                'Key derivation failed - possibly wrong password' ||
               error.error.error === 'Invalid private key provided'
             ) {
               this.wrongpassword = true;
@@ -608,9 +609,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               }, 2000);
             } else if (
               error.error.error ===
-              'Returned error: execution reverted: BEP20: transfer amount exceeds balance' ||
+                'Returned error: execution reverted: BEP20: transfer amount exceeds balance' ||
               error.error.error ===
-              'Returned error: execution reverted: ERC20: transfer amount exceeds balance' ||
+                'Returned error: execution reverted: ERC20: transfer amount exceeds balance' ||
               error.error.error === 'Returned error: execution reverted'
             ) {
               this.nobalance = true;
@@ -632,7 +633,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             } else if (
               error.error.error === 'insufficient funds for gas' ||
               error.error.error ===
-              'Returned error: insufficient funds for gas * price + value'
+                'Returned error: insufficient funds for gas * price + value'
             ) {
               this.showSuccessBloc = false;
               this.showAmountBloc = false;
@@ -697,7 +698,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     });
   }
   onClickAmount(): void {
-    debugger
     this.max = true;
     let currency = '';
     this.selectedCryptoSend = currency;
@@ -718,7 +718,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.dataList?.forEach((crypto: any) => {
         if (crypto.symbol === currency) {
           let quantity = this.showNumbersRule.transform(crypto.quantity);
-          
+
           //  let totalBal = this.showNumbersRule.transform(crypto.total_balance);
           //    crypto.total_balance = parseFloat(crypto.total_balance + '');
           //  crypto.total_balance = crypto?.total_balance?.toFixed(2);
@@ -1016,7 +1016,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
   linstingCrypto(event: any) {
-        // this.resetForm();
+    // this.resetForm();
     this.sendform
       .get('contact')
       ?.setValidators([Validators.required, Validators.pattern(pattContact)]);
@@ -1139,106 +1139,103 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             }
 
             if (selectedCrypto.sendTo) {
-              this.onClickAmount()
-              this.contactWallet = selectedCrypto.sendTo
+              this.onClickAmount();
+              this.contactWallet = selectedCrypto.sendTo;
             }
-          
-
-        }
+          }
           if (selectedCrypto.network === 'BEP20') {
-          this.gazsend = this.bEPGaz;
-          if (selectedCrypto.id === 'BNB') {
-            this.gasCryptoQuantity = (this.gazsend / this.bnb).toFixed(8);
+            this.gazsend = this.bEPGaz;
+            if (selectedCrypto.id === 'BNB') {
+              this.gasCryptoQuantity = (this.gazsend / this.bnb).toFixed(8);
+            }
+            if (selectedCrypto.sendTo) {
+              this.onClickAmount();
+              this.contactWallet = selectedCrypto.sendTo;
+            }
           }
-          if (selectedCrypto.sendTo) {
-            this.onClickAmount()
-            this.contactWallet = selectedCrypto.sendTo
+          if (selectedCrypto.network === 'POLYGON') {
+            this.gazsend = this.polygonGaz;
+            if (selectedCrypto.id === 'MATIC') {
+              this.gasCryptoQuantity = (this.gazsend / this.matic).toFixed(8);
+            }
+            if (selectedCrypto.sendTo) {
+              this.onClickAmount();
+              this.contactWallet = selectedCrypto.sendTo;
+            }
           }
-        }
-        if (selectedCrypto.network === 'POLYGON') {
-          this.gazsend = this.polygonGaz;
-          if (selectedCrypto.id === 'MATIC') {
-            this.gasCryptoQuantity = (this.gazsend / this.matic).toFixed(8);
+          if (selectedCrypto.network === 'BTTC') {
+            this.gazsend = this.bttGaz;
+            if (selectedCrypto.id === 'BTT') {
+              this.gasCryptoQuantity = (this.gazsend / this.btt).toFixed(8);
+            }
+            if (selectedCrypto.sendTo) {
+              this.onClickAmount();
+              this.contactWallet = selectedCrypto.sendTo;
+            }
           }
-          if (selectedCrypto.sendTo) {
-            this.onClickAmount()
-            this.contactWallet = selectedCrypto.sendTo
-          }
-        }
-        if (selectedCrypto.network === 'BTTC') {
-          this.gazsend = this.bttGaz;
-          if (selectedCrypto.id === 'BTT') {
-            this.gasCryptoQuantity = (this.gazsend / this.btt).toFixed(8);
-          }
-          if (selectedCrypto.sendTo) {
-            this.onClickAmount()
-            this.contactWallet = selectedCrypto.sendTo
-          }
-        }
-        if (selectedCrypto.network === 'TRON') {
-          //TODO
-          this.sendform
-            .get('contact')
-            ?.setValidators([
-              Validators.required,
-              Validators.pattern(tronPattContact)
-            ]);
-          this.gazsend = this.trxGaz;
           if (selectedCrypto.network === 'TRON') {
-            this.gasCryptoQuantity = (this.gazsend / this.trx).toFixed(8);
+            //TODO
+            this.sendform
+              .get('contact')
+              ?.setValidators([
+                Validators.required,
+                Validators.pattern(tronPattContact)
+              ]);
+            this.gazsend = this.trxGaz;
+            if (selectedCrypto.network === 'TRON') {
+              this.gasCryptoQuantity = (this.gazsend / this.trx).toFixed(8);
+            }
+            if (selectedCrypto.sendTo) {
+              this.onClickAmount();
+              this.contactWallet = selectedCrypto.sendTo;
+            }
           }
-          if (selectedCrypto.sendTo) {
-            this.onClickAmount()
-            this.contactWallet = selectedCrypto.sendTo
-          }
-        }
+        });
       });
-    });
-  }
-
-}
-
-showNextBloc() {
-  this.showAmountBloc = false;
-  this.showPwdBloc = true;
-  this.showSuccessBloc = false;
-}
-sendAgain() {
-  setTimeout(() => {
-    this.sendform.get('contact')?.setValue('');
-  }, 100);
-
-  this.amountUsd = '';
-  this.sendform.reset();
-  this.showPwdBloc = false;
-  this.showErrorBloc = false;
-  this.showSuccessBloc = false;
-  this.showAmountBloc = true;
-  this.amount = '';
-  this.linstingCrypto(this.selectedCryptoDetails);
-  this.walletFacade.cryptoList$.subscribe((res) => {
-    this.cryptoToDropdown = res.filter(
-      (elem) => elem.symbol === this.selectedCryptoDetails.symbol
-    )[0];
-  });
-}
-ngOnDestroy(): void {
-  if(!!this.routeEventSubscription$) {
-  this.routeEventSubscription$.next('');
-  this.routeEventSubscription$.complete();
-}
-this.isDestroyed.next('');
-this.isDestroyed.unsubscribe();
-  }
-copyTransactionHash() {
-  this.clipboard.copy(this.hashtransaction);
-}
-goToSection(id: string) {
-  if (isPlatformBrowser(this.platformId) && window.innerWidth <= 768) {
-    const classElement = this.document.getElementsByClassName(id);
-    if (classElement.length > 0) {
-      classElement[0].scrollIntoView({ behavior: 'smooth' });
     }
   }
-}
+
+  showNextBloc() {
+    this.showAmountBloc = false;
+    this.showPwdBloc = true;
+    this.showSuccessBloc = false;
+  }
+  sendAgain() {
+    setTimeout(() => {
+      this.sendform.get('contact')?.setValue('');
+    }, 100);
+
+    this.amountUsd = '';
+    this.sendform.reset();
+    this.showPwdBloc = false;
+    this.showErrorBloc = false;
+    this.showSuccessBloc = false;
+    this.showAmountBloc = true;
+    this.amount = '';
+    this.linstingCrypto(this.selectedCryptoDetails);
+    this.walletFacade.cryptoList$.subscribe((res) => {
+      this.cryptoToDropdown = res.filter(
+        (elem) => elem.symbol === this.selectedCryptoDetails.symbol
+      )[0];
+    });
+  }
+  ngOnDestroy(): void {
+    if (!!this.routeEventSubscription$) {
+      this.routeEventSubscription$.next('');
+      this.routeEventSubscription$.complete();
+    }
+    this.isDestroyed.next('');
+    this.isDestroyed.unsubscribe();
+  }
+  copyTransactionHash() {
+    this.clipboard.copy(this.hashtransaction);
+  }
+  goToSection(id: string) {
+    if (isPlatformBrowser(this.platformId) && window.innerWidth <= 768) {
+      const classElement = this.document.getElementsByClassName(id);
+      if (classElement.length > 0) {
+        classElement[0].scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }
 }
