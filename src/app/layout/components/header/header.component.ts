@@ -142,8 +142,6 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   // errorPart: boolean = false;
   sucess: any = false;
 
-  phishingVisibility: boolean = false;
-
   @ViewChild('qrbtnERCM', { static: false }) qrbtnERCM?: ElementRef;
   @ViewChild('header', { static: false }) header?: ElementRef;
   @ViewChild('headerNav') headerNav?: ElementRef;
@@ -1515,7 +1513,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-    console.log(this.getScreenWidth);
+    // console.log(this.getScreenWidth);
     this.getScreenWidth = event.target.innerWidth;
     if (isPlatformBrowser(this.platformId)) {
       let element0 = this.document.getElementById('introo');
@@ -1544,10 +1542,6 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   navigateToWelcomePage() {
     this.router.navigate(['/']);
-  }
-
-  close() {
-    this.phishingVisibility = true;
   }
 
   signOut() {
