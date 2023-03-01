@@ -174,7 +174,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   tronAddressV2: any;
   displayNew: any;
   displayOld: any;
-  title: any = 'Your ID Wallet ';
+  title: any = '';
+  titleWallet: any = '';
   existV1: any;
 
   constructor(
@@ -343,16 +344,16 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   ngOnInit(): void {
     this.getScreenWidth = window.innerWidth;
-    // switch (localStorage.getItem('wallet_version')) {
-    //   case 'v2':
-    //     this.title = 'Go to old wallet';
-    //     this.titleWallet = 'Your wallet ID';
-    //     break;
-    //   case 'v1':
-    //     this.title = 'Go to new wallet';
-    //     this.titleWallet = 'Your old wallet';
-    //     break;
-    // }
+    switch (localStorage.getItem('wallet_version')) {
+      case 'v2':
+        this.title = 'Go to old wallet';
+        this.titleWallet = 'Your wallet ID';
+        break;
+      case 'v1':
+        this.title = 'Go to new wallet';
+        this.titleWallet = 'Your old wallet';
+        break;
+    }
 
     if (isPlatformBrowser(this.platformId)) {
       this.authService.isAuthenticated$
@@ -434,17 +435,21 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   isDisplayNew() {
     this.displayNew = localStorage.getItem('display')?.toString();
+  
+    
     if (this.existV1) {
       if (this.displayNew === 'none') {
         this.displayNew = 'block';
         this.displayOld = 'none';
         localStorage.setItem('display', this.displayNew);
-        this.title = 'Your ID Wallet';
+        this.titleWallet = 'Your wallet ID';
+        this.title = 'Go to old wallet';
       } else {
         this.displayNew = 'none';
         this.displayOld = 'block';
         localStorage.setItem('display', this.displayNew);
-        this.title = 'Your Old Wallet ';
+        this.titleWallet = 'Your old wallet';
+        this.title = 'Go to new wallet ';
       }
     }
   }
@@ -1304,6 +1309,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe((data: any) => {
         this.existV1 = data?.data?.address;
+
 
         if (data?.data?.address === null) {
           this.tokenStorageService.saveWalletVersion('v2');

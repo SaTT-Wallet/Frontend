@@ -11,6 +11,15 @@
     }
   }
 }
+#title_wallet {
+  position: absolute;
+  top: 2%;
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+
+
 
 .testWar {
   background-color: lightgrey;
@@ -1489,7 +1498,7 @@ bottom: 77.54% ; */
 
 .title {
   /* MOBILE/Titles/H3 */
-
+  margin-top: 17.2vh;
   font-family: 'Poppins';
   font-style: normal;
   font-weight: 700;
