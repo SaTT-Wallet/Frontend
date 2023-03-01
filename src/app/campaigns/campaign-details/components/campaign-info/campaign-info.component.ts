@@ -756,16 +756,6 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
       );
   }
 
-  // scrollRight(): void {
-  // this.divUploadedFiles?.nativeElement.scrollTo({
-  // left: this.divUploadedFiles.nativeElement.scrollLeft + 150,
-  // behavior: 'smooth'
-  // });
-  // }
-  // scrollLeft() {
-  // this.divUploadedFiles.nativeElement.scrollLeft -= 150;
-  // }
-
   checkPassword() {
     this.showPasswordModal.emit('');
   }
@@ -776,27 +766,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
       this.router.navigate(['auth/login']);
     }
   }
-  // zoomin(id: any) {
-  // let kit = this.kits[id]._id;
 
-  // var myImg = document.getElementById('imagekit' + id);
-  // var width = myImg?.clientWidth;
-
-  // //@ts-ignore
-  // myImg.style.width = width + 200 + 'px';
-
-  // //@ts-ignore
-  // myImg.style.height = width + 200 + 'px';
-
-  // //@ts-ignore
-  // myImg.style.marginRight = '24px';
-
-  // // //@ts-ignore
-  // // myImg2.style.display = "none"
-
-  // this.zoomIn = false;
-  // this.zoomOut = true;
-  // }
   customOptions: OwlOptions = {
     loop: false,
     mouseDrag: true,

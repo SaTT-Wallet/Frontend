@@ -10,6 +10,7 @@ import {
   OnInit,
   Output,
   PLATFORM_ID,
+  Renderer2,
   SimpleChanges,
   ViewChild
 } from '@angular/core';
@@ -173,6 +174,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     private walletFacade: WalletFacadeService,
     private campaignsStoreService: CampaignsStoreService,
     private showNumbersRule: ShowNumbersRule,
+    private renderer: Renderer2,
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string
   ) {
@@ -860,7 +862,8 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     this.f.initialBudgetInUSD.reset();
     let el = this.initialBudgetElement?.nativeElement;
     // var width = parseInt(el.style.width);
-    el.style.width = (el.value.length + 1) * 12 + 'px';
+    this.renderer.setStyle(el,'width', (el.value.length + 1) * 12 + 'px');
+     //el.style.width = (el.value.length + 1) * 12 + 'px';
     this.defaultAmount = this.f.currency.value;
   }
 
@@ -1195,12 +1198,14 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     let elementinputusd = this.inputAmountUsd?.nativeElement;
     //  elementinputusd.style.width = 40 + 'px';
     if (elementinputusd)
-      elementinputusd.style.width = elementinputusd.value.length + 1.2 + 'ch';
+    this.renderer.setStyle(elementinputusd,'width', elementinputusd.value.length + 1.2 + 'ch');
+      //elementinputusd.style.width = elementinputusd.value.length + 1.2 + 'ch';
   }
   ngAfterViewChecked(): void {
     let elementinputusd = this.inputAmountUsd?.nativeElement;
     if (elementinputusd)
-      elementinputusd.style.width = elementinputusd.value.length + 1.2 + 'ch';
+    this.renderer.setStyle(elementinputusd,'width', elementinputusd.value.length + 1.2 + 'ch');
+    //elementinputusd.style.width = elementinputusd.value.length + 1.2 + 'ch';
   }
   resetForm() {
     this.form.reset();

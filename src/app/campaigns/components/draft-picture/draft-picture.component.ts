@@ -14,7 +14,8 @@ import {
   RendererFactory2,
   SimpleChanges,
   TemplateRef,
-  ViewChild
+  ViewChild,
+  Renderer2
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -126,6 +127,7 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
     private service: DraftCampaignService,
     private CampaignService: CampaignHttpApiService,
     private sanitizer: DomSanitizer,
+    private renderer: Renderer2,
     rendererFactory: RendererFactory2,
     @Inject(PLATFORM_ID) private platformId: string
   ) {
@@ -319,7 +321,7 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
         } else {
           this.isConformCover = false;
           this.sizeErrorCover = true;
-          this.inputCover.nativeElement.value = '';
+          this.renderer.setProperty(this.inputCover.nativeElement,"value" , '');
         }
       });
       return this.srcFile;
@@ -353,7 +355,8 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
         } else {
           this.isConformCoverMobile = false;
           this.sizeErrorCoverMobile = true;
-          this.inputCover.nativeElement.value = '';
+          // this.inputCover.nativeElement.value = '';
+          this.renderer.setProperty(this.inputCover.nativeElement,"value" , '');
         }
       });
       return this.srcFileMobile;
@@ -423,15 +426,18 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
       ];
       if (!imgExtensions.includes(fileUploaded.type)) {
         this.extensionErrorCover = true;
-        this.inputCover.nativeElement.value = '';
+        //this.inputCover.nativeElement.value = '';
+        this.renderer.setProperty(this.inputCover.nativeElement,"value" , '');
       } else if (fileUploaded.size > 2000000 + 594455) {
         this.isConformCover = false;
         this.extensionErrorCover = false;
         this.sizeErrorCover = true;
-        this.inputCover.nativeElement.value = '';
+        //this.inputCover.nativeElement.value = '';
+        this.renderer.setProperty(this.inputCover.nativeElement,"value" , '');
       } else if (this.coverUploadWidthError) {
         this.extensionErrorCover = false;
-        this.inputCover.nativeElement.value = '';
+        //this.inputCover.nativeElement.value = '';
+        this.renderer.setProperty(this.inputCover.nativeElement,"value" , '');
       } else {
         
         this.extensionErrorCover = false;
@@ -452,7 +458,8 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
             this.isConformCover = false;
             this.imageChangedEvent = null;
             this.sizeErrorCover = true;
-            this.inputCover.nativeElement.value = '';
+            //this.inputCover.nativeElement.value = '';
+            this.renderer.setProperty(this.inputCover.nativeElement,"value" , '');
           }
         });
       }
@@ -469,16 +476,19 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
       ];
       if (!imgExtensions.includes(fileUploaded.type)) {
         this.extensionErrorCoverMobile = true;
-        this.coverInputMobile.nativeElement.value = '';
+        //this.coverInputMobile.nativeElement.value = '';
+        this.renderer.setProperty(this.coverInputMobile.nativeElement,"value" , '');
       } else if (fileUploaded.size > 2000000 + 594455) {
         // we add  594455 byte , because readAsBase64 add some size ( approximately 594455 byte ) to original size of the image
         this.isConformCoverMobile = false;
         this.extensionErrorCoverMobile = false;
         this.sizeErrorCoverMobile = true;
-        this.coverInputMobile.nativeElement.value = '';
+        //this.coverInputMobile.nativeElement.value = '';
+        this.renderer.setProperty(this.coverInputMobile.nativeElement,"value" , '');
       } else if (this.coverUploadWidthError) {
         this.extensionErrorCoverMobile = false;
-        this.coverInputMobile.nativeElement.value = '';
+        //this.coverInputMobile.nativeElement.value = '';
+        this.renderer.setProperty(this.coverInputMobile.nativeElement,"value" , '');
       } else {
         this.picNameMobile = fileUploaded.name;
         this.extensionErrorCoverMobile = false;
@@ -502,7 +512,8 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
             this.imageChangedEvent = null;
             this.isConformCoverMobile = false;
             this.sizeErrorCoverMobile = true;
-            this.coverInputMobile.nativeElement.value = '';
+            //this.coverInputMobile.nativeElement.value = '';
+            this.renderer.setProperty(this.coverInputMobile.nativeElement,"value" , '');
           }
         });
       }

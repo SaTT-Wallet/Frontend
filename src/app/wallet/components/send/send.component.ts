@@ -7,7 +7,8 @@ import {
   OnDestroy,
   Inject,
   PLATFORM_ID,
-  HostListener
+  HostListener,
+  Renderer2
 } from '@angular/core';
 
 import { Big } from 'big.js';
@@ -167,7 +168,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     private kycFacadeService: KycFacadeService,
     private router: Router,
     private localStorage: TokenStorageService,
-    private activeRoute: ActivatedRoute
+    private activeRoute: ActivatedRoute,
+    private renderer: Renderer2
   ) {
     //, Validators.max(this.maxNumber)
     this.sendform = new UntypedFormGroup({
@@ -978,13 +980,15 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   ngAfterViewChecked(): void {
     let elementinputusd = this.inputAmountUsd?.nativeElement;
     if (elementinputusd)
-      elementinputusd.style.width = elementinputusd.value.length + 1.2 + 'ch';
+    this.renderer.setStyle(elementinputusd,"width", elementinputusd.value.length + 1.2 + 'ch')
+      //elementinputusd.style.width = elementinputusd.value.length + 1.2 + 'ch';
   }
   editwidthInput() {
     let elementinputusd = this.inputAmountUsd?.nativeElement;
     //  elementinputusd.style.width = 40 + 'px';
     if (elementinputusd)
-      elementinputusd.style.width = elementinputusd.value.length + 1.2 + 'ch';
+    this.renderer.setStyle(elementinputusd,"width", elementinputusd.value.length + 1.2 + 'ch')
+      //elementinputusd.style.width = elementinputusd.value.length + 1.2 + 'ch';
   }
   linstingBack(event: any) {
     if (event === true) {

@@ -552,37 +552,6 @@ export class DraftCampaignKitComponent implements OnInit {
     }
   }
 
-  // scrollRight(): void {
-  //   this.divUploadedFiles?.nativeElement.scrollTo({
-  //     left: this.divUploadedFiles.nativeElement.scrollLeft + 150,
-  //     behavior: 'smooth'
-  //   });
-  //   this.scrollright = true;
-  //   this.scrollrightdisable = false;
-
-  //   if (
-  //     this.divUploadedFiles?.nativeElement.scrollLeft ===
-  //     this.divUploadedFiles?.nativeElement.scrollWidth -
-  //       this.divUploadedFiles?.nativeElement.clientWidth
-  //   ) {
-  //     this.scrollleft = false;
-  //     this.scrollleftdisable = true;
-  //   }
-  // }
-
-  // scrollLeft() {
-  //   this.divUploadedFiles.nativeElement.scrollLeft -= 150;
-  //   this.scrollleft = true;
-  //   this.scrollleftdisable = false;
-
-  //   if (
-  //     this.divUploadedFiles?.nativeElement.scrollLeft === 0 ||
-  //     this.divUploadedFiles?.nativeElement.scrollLeft === 'false'
-  //   ) {
-  //     this.scrollright = false;
-  //     this.scrollrightdisable = true;
-  //   }
-  // }
 
   zoomin(id: any) {
     if (isPlatformBrowser(this.platformId)) {
