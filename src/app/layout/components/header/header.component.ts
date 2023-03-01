@@ -7,6 +7,7 @@ import {
   HostListener,
   Inject,
   OnDestroy,
+  Renderer2,
   OnInit,
   PLATFORM_ID,
   ViewChild
@@ -189,6 +190,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     private ParticipationListStoreService: ParticipationListStoreService,
     private toastr: ToastrService,
     private walletFacade: WalletFacadeService,
+    private renderer : Renderer2,
     private walletService: WalletService,
     private campaignFacade: CampaignsService,
     private profileSettingsFacade: ProfileSettingsFacadeService,
@@ -286,15 +288,14 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           this.router.url.includes('edit')
         ) {
           //@ts-ignore
-          this.header?.nativeElement.style.background =
-            'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)';
+          // this.header?.nativeElement.style.background =
+          //   'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)';
+            this.renderer.setStyle(this.header?.nativeElement,'background','linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)');
           this.isWelcomePage = false;
           this.menuBuyToken = true;
         }
         if (!this.isWelcomePage) {
-          //@ts-ignore
-          this.header?.nativeElement.style.background =
-            'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)';
+          this.renderer.setStyle(this.header?.nativeElement,'background','linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)');
         }
       }
     });
@@ -308,22 +309,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         filter((e: any) => e instanceof NavigationEnd),
         startWith({ url: this.router.url })
       )
-      .subscribe((e: any) => {
-        // if (
-        //   ['/home', '/wallet'].includes(e.url) ||
-        //   e.url.includes('/campaign')
-        // ) {
-        //   (this.headerNav as ElementRef).nativeElement.style.position =
-        //     'absolute';
-        //   (this.headerNav as ElementRef).nativeElement.style.width = '100%';
-        //   this.hostElement.nativeElement.style.height = 'inherit';
-        // } else {
-        //   (this.headerNav as ElementRef).nativeElement.style.position =
-        //     'inherit';
-        //   (this.headerNav as ElementRef).nativeElement.style.width = 'inherit';
-        //   this.hostElement.nativeElement.style.height = '64px;';
-        // }
-      });
+      .subscribe((e: any) => {});
   }
 
   goToSocials() {
