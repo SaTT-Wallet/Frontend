@@ -8,20 +8,16 @@
 </div> -->
 
 <!-- <div class="wallet container-fluid"> -->
-
+<!-- 
 <ng-template #migration>
   <app-migration  
 [className]="getScreenWidth > 740 ? 'migration' : 'migration-mobile'"
-*ngIf="migrate === 'open' && show && hasWalletV2" 
+
 [migrate]="migrate"
 (migrateEvent)="getMigrationStatus($event)"
 
 ></app-migration>
-</ng-template>
-
-
-
-
+</ng-template> -->
 
 <div class="wallet">
   <!--red bloc:desktop and tablette-->
@@ -67,7 +63,7 @@
                   Go to {{ versionText }}
                 </p>
               </div>
-              <div
+              <!-- <div
                 class="divbtn d-flex justify-content-center"
                 *ngIf="
                   versionText === 'New Wallet' && existV1 && show && existV2
@@ -84,7 +80,7 @@
                   /></span>
                   Migrate my tokens
                 </button>
-              </div>
+              </div> -->
 
               <!-- <div class="d-flex justify-content-center">
 
@@ -377,7 +373,7 @@
     </div>
   </div>
 </ng-template>
-
+<!-- 
 <ng-template #createWalletV2Modal>
   <div
     class="modal-body welcome-body2 modal-custom"
@@ -484,6 +480,87 @@
         class="col-xl-6 col-lg-8 col-md-8 col-sm-8 d-flex flex-column justify-content-center align-items-center"
       ></div>
     </div>
+  </div>
+</ng-template> -->
+
+ <!-- modal maintenance -->
+
+<ng-template #modalMaintenance>
+  <div
+    class="modal-body welcome-body2 modal-custom"
+    data-backdrop="static"
+    id="modalMaintenance"
+  >
+  <div class="modal-header modal-customm">
+    <button
+      type="button"
+      class="btn-close"
+      (click)="closeModaleMaintenace()"
+    
+    ><img src="../../assets/Images/custom_icons/close.svg"/></button>
+  </div>
+    
+    <div class="img-update">
+      <img src="../../assets/Images/maintenance.png" />
+    </div>
+    <div class="textpwd col mt-4 " id="title" > <strong>Temporary Maintenance in Progress</strong> </div>
+
+    <div
+      class="d-flex justify-content-center welcome-paragraph"
+      id="welcome-paragraph"
+    >
+      <p class="paragragh col" id="paragraph">
+        Our site is currently undergoing maintenance to ensure the security of your wallet funds. 
+Please follow these essential steps to safeguard your assets. We apologies for the inconvenience
+       
+      </p>
+    </div>
+
+    <div class="container">
+      <div class="row ">
+        <div class="col-4  mb-3 text-right">
+          <img src="../../assets/Images/custom_icons/1-circle-fill.svg"/>
+        </div>
+          <div class="col-6  text-left">
+          Log in to your wallet and 
+         <a href="/settings/security">export</a> 
+           your wallet key.
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4  mb-3 text-right">
+          <img src="../../assets/Images/custom_icons/2-circle-fill.svg"/>
+        </div>
+        <div class="col-6 text-left">
+         
+          Import your <strong>wallet key</strong>  into Metamask or Trust Wallet.
+        </div>
+      
+      </div>
+      <div class="row">
+        <div class="col-4  mb-3 text-right">
+          <img src="../../assets/Images/custom_icons/3-circle-fill.svg"/>
+        </div>
+        <div class="col-6 text-left">
+          <strong>Transfert</strong>  your token from Metamsak/trustwallet 
+          to anther wallet.
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4  mb-3 text-right">
+          <img src="../../assets/Images/custom_icons/4-circle-fill.svg"/>
+        </div>
+        <div class="col-6 text-left">
+        
+          It is important to always check the
+          <strong>email </strong>  associated with your wallet for any <strong>urgent updates</strong> .
+        </div>
+      
+      </div>
+      
+    </div>
+
+  
   </div>
 </ng-template>
 

@@ -489,6 +489,16 @@ button:focus {
   max-height: 3em;
 }
 
+.success_input {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0.03em;
+  color: #00CC9E;
+  max-height: 3em;
+}
+
 .error {
   text-align: left;
 }

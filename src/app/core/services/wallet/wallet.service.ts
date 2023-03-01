@@ -184,6 +184,36 @@ export class WalletService {
     );
   }
 
+  checkWalletV2Exist() {
+    let httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-store',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+
+    return this.http.get(
+      `${sattUrl}/wallet/checkUserWalletV2`,
+      { headers: httpHeaders }
+    );
+  }
+
+  resetTransactionPassword(password: string, newPassword: string) {
+    let header = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+
+    return this.http.post(
+      `${sattUrl}/wallet/resetpassword`,
+      {
+        oldPass: password,
+        newPass: newPassword
+      },
+      { headers: header }
+    );
+  }
+
   chartjs() {
     const headers = new HttpHeaders({
       'Cache-Control': 'no-store',
