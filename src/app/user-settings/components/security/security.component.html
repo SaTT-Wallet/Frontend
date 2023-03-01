@@ -1096,7 +1096,7 @@ this.formUpdatePassword.get('old_password')?.touched && this.formUpdatePassword.
         </div>
       </div>
     </div>
-    <div class="col-12 p-0" *ngIf="walletV2Exist">
+    <div class="col-12 p-0" *ngIf="!userIsNew && walletV2Exist">
       <hr />
     </div>
     <!------- Collapse retrieve data ----------->
@@ -1106,7 +1106,7 @@ this.formUpdatePassword.get('old_password')?.touched && this.formUpdatePassword.
       href="#collapse1"
       aria-expanded="false"
       aria-controls="collapse1"
-      *ngIf="walletV2Exist"
+      *ngIf="!userIsNew && walletV2Exist"
     >
       <!-- <div class="d-flex justify-content-between cursor_pntr">
                     <div>
