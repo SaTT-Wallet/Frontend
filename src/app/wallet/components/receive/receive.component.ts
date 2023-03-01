@@ -7,7 +7,8 @@ import {
   AfterViewChecked,
   OnDestroy,
   Inject,
-  PLATFORM_ID
+  PLATFORM_ID,
+  Renderer2
 } from '@angular/core';
 import { pattEmail, ListTokens } from '@config/atn.config';
 import { SidebarService } from '@core/services/sidebar/sidebar.service';
@@ -32,7 +33,7 @@ import { Location } from '@angular/common';
 })
 export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('inputAmountUsd') inputAmountUsd?: ElementRef;
-  @ViewChild('inputAmount') inputAmount?: ElementRef;
+  //@ViewChild('inputAmount') inputAmount?: ElementRef;
   @Output() title: string = 'receive.receive_token';
   dataList: any = [];
   totalAmount: any;
@@ -74,6 +75,7 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
     private router: Router,
     private showNumbersRule: ShowNumbersRule,
     private tokenStorageService: TokenStorageService,
+    private renderer : Renderer2,
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string,
     private _location: Location
@@ -209,6 +211,7 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
     } else {
       allow = true;
     }
+
     if (allow) {
       let currency = '';
       let currencyreceive = '';
@@ -300,10 +303,15 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
     );
   }
   ngAfterViewChecked(): void {
+
     let elementinputusd = this.inputAmountUsd?.nativeElement;
     //let inputAmount = this.inputAmount?.nativeElement;
     if (elementinputusd)
-      elementinputusd.style.width = elementinputusd.value.length + 1 + 'ch';
+    this.renderer.setStyle(elementinputusd,'width',elementinputusd.value.length + 1 + 'ch')
+
+    console.log("ngAfterViewChecked")
+
+      //elementinputusd.style.width = elementinputusd.value.length + 1 + 'ch';
     // if (inputAmount)
     //   inputAmount.style.width = elementinputusd.value.length + 1 + 'ch';
   }
@@ -311,7 +319,9 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
     let elementinputusd = this.inputAmountUsd?.nativeElement;
     // let inputAmount = this.inputAmount?.nativeElement;
     if (elementinputusd)
-      elementinputusd.style.width = elementinputusd.value.length + 1 + 'ch';
+    this.renderer.setStyle(elementinputusd,'width',elementinputusd.value.length + 1 + 'ch')
+    console.log("editwidthInput")
+      //elementinputusd.style.width = elementinputusd.value.length + 1 + 'ch';
     // if (inputAmount)
     //   inputAmount.style.width = elementinputusd.value.length + 1 + 'ch';
   }

@@ -8,7 +8,8 @@ import {
   Output,
   QueryList,
   ViewChild,
-  ViewChildren
+  ViewChildren,
+  Renderer2,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { values } from 'lodash';
@@ -47,18 +48,13 @@ export class FlatSelectComponent implements OnInit, ControlValueAccessor {
   onChange!: (_: any) => {};
   onTouched!: () => {};
 
-  constructor() {}
+  constructor(private renderer: Renderer2) {}
 
   ngOnInit(): void {
     this.selectedOption = this.options[0];
   }
 
-  /**
-   * Close dropdown after option selected
-   */
-  onCheckboxChange() {
-    // this.isDropdownOpen = !this.isDropdownOpen;
-  }
+
 
   /**
    * Implementation of ControlValueAccessor interface
@@ -68,13 +64,14 @@ export class FlatSelectComponent implements OnInit, ControlValueAccessor {
     if (this.multiOptions) {
       this.selectedOptions = {};
       this.checkboxes?.forEach((element) => {
-        element.nativeElement.checked = false;
+       this.renderer.setProperty(element.nativeElement,'checked',false) //.checked = false;
       });
     } else if (this.multiOptionsCond) {
       this.selectedOptionsCondtion = [];
       // this.selectedOptionsCondtion = new Set();
       this.checkboxes?.forEach((element) => {
-        element.nativeElement.checked = false;
+        //element.nativeElement.checked = false;
+        this.renderer.setProperty(element.nativeElement,'checked',false)
       });
     } else {
       this.selectedOption = value;
