@@ -396,12 +396,12 @@
     </div>
 
     <!-------End Collapse update password ----------->
-    <div class="col-12 p-0">
+    <!-- <div class="col-12 p-0">
       <hr />
-    </div>
+    </div> -->
 
     <!------- Collapse update transaction password password ----------->
-    <div
+    <!-- <div
       class="collapsed panel-heading row"
       data-toggle="collapse"
       href="#collapse-pwd"
@@ -433,20 +433,20 @@
                 {{ 'security.alert_change_transaction_pwd' | translate }}</span
               >
             </p>
-          </div>
+          </div> -->
 
-          <!-- Input , label and error msg Old password-->
-          <div class="row mt-2">
+    <!-- Input , label and error msg Old password-->
+    <!-- <div class="row mt-2">
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
               <label class="label_input">{{
                 'Profil.current_password' | translate
               }}</label>
             </div>
-          </div>
+          </div> -->
 
-          <!-- [ngClass]="{errorMsg: !this.formUpdatePassword.get('old_password')?.valid &&
+    <!-- [ngClass]="{errorMsg: !this.formUpdatePassword.get('old_password')?.valid &&
 this.formUpdatePassword.get('old_password')?.touched && this.formUpdatePassword.get('old_password')?.errors?.required}" -->
-          <div class="row">
+    <!-- <div class="row">
             <div class="col-sm-10 col-md-10 col-lg-7 col-xl-6 col-xxl-4">
               <div class="div_input_add position-relative">
                 <input
@@ -476,11 +476,11 @@ this.formUpdatePassword.get('old_password')?.touched && this.formUpdatePassword.
                 ></span>
               </div>
             </div>
-          </div>
+          </div> -->
 
-          <!-- End Input , label and error msg Old password-->
-          <!-- Input , label and error msg new password-->
-          <div class="row pt-4">
+    <!-- End Input , label and error msg Old password-->
+    <!-- Input , label and error msg new password-->
+    <!-- <div class="row pt-4">
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
               <label
                 class="label_input"
@@ -575,10 +575,10 @@ this.formUpdatePassword.get('old_password')?.touched && this.formUpdatePassword.
                 >
               </div>
             </div>
-          </div>
-          <!-- End Input , label and error msg new password-->
-          <!-- Input , label and error msg confirmation password-->
-          <div class="row mt-3">
+          </div> -->
+    <!-- End Input , label and error msg new password-->
+    <!-- Input , label and error msg confirmation password-->
+    <!-- <div class="row mt-3">
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
               <label
                 class="label_input"
@@ -644,10 +644,10 @@ this.formUpdatePassword.get('old_password')?.touched && this.formUpdatePassword.
             >
               {{ 'Profil.password_must_match_error' | translate }}
             </span>
-          </div>
-          <!-- End Input , label and error msg confirmation password-->
-          <!-- error msg: wrong old password-->
-          <div class="row pt-1" *ngIf="transactionPasswordWrong.length > 0">
+          </div> -->
+    <!-- End Input , label and error msg confirmation password-->
+    <!-- error msg: wrong old password-->
+    <!-- <div class="row pt-1" *ngIf="transactionPasswordWrong.length > 0">
             <div class="col-sm-10 col-md-10 col-lg-6 col-xl-5 col-xxl-4 d-flex">
               <label class="error_input">
                 {{ transactionPasswordWrong | translate }}
@@ -660,12 +660,12 @@ this.formUpdatePassword.get('old_password')?.touched && this.formUpdatePassword.
                 {{ transactionPasswordSuccess | translate }}
               </label>
             </div>
-          </div>
-          <!-- end error msg: wrong old password-->
-        </form>
-      </div>
+          </div> -->
+    <!-- end error msg: wrong old password-->
+    <!-- </form>
+      </div> -->
 
-      <div class="row">
+    <!-- <div class="row">
         <div class="col-sm-10 col-md-10 col-lg-6 col-xl-5 col-xxl-4 mt-3">
           <button
             type="submit"
@@ -686,7 +686,7 @@ this.formUpdatePassword.get('old_password')?.touched && this.formUpdatePassword.
           </button>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-------End Collapse update transaction password ----------->
     <div class="col-12 p-0" *ngIf="walletV2Exist">
