@@ -4,6 +4,7 @@
 <!--                                                                                   -->
 <!--***********************************************************************************-->
 <!--  [ngClass]="{ 'navbar-dark-blue': !menuCampaign }"-->
+
 <nav
   id="navbar-id"
   class="navbar navbar-expand-lg"
@@ -775,7 +776,8 @@
       {{ title }}
     </button>
     <div [style.display]="this.displayNew">
-      <div style="text-align: -webkit-center;"><button
+      <!-- <div style="text-align: -webkit-center;">
+        <button
         *ngIf="existV2 === false "
         class="migratebtn"
         type="button"
@@ -786,7 +788,7 @@
             src="../../assets/Images/custom_icons/clarity_error-standard-line.svg"
         /></span>
         Create a new wallet
-      </button></div>
+      </button></div> -->
 
       <div class="mobile container" id="qr-container" *ngIf="existV2 === true">
         <div class="item">

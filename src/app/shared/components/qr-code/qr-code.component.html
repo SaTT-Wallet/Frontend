@@ -1,12 +1,9 @@
 <div class="qrcode-desktop">
+  <div *ngIf="existV2">
+    <div class="d-flex justify-content-center textecenter">Your wallet ID</div>
 
-  <div class="d-flex justify-content-center textecenter">Your wallet ID </div>
-
-
-
-  <div class="globale mt-3">
-
-    
+    <div class="globale mt-3">
+      <!--     
     <button
     *ngIf="existV2 ===false"
     class="migratebtn"
@@ -19,517 +16,565 @@
         src="../../assets/Images/custom_icons/clarity_error-standard-line.svg"
     /></span>
     Create a new wallet
-  </button>
+  </button> -->
 
-  
-    <div
-      class="container-QR-code"
-      *ngIf="!!ethv2"
-      (click)="
-        (!!ethv2); btcV2Selected = false; erc20V2Selected = true; tronV2Selected = false;
-        btcSelected = false; erc20Selected = false; tronSelected = false
-      "
-      [ngStyle]="{
-        'box-shadow':
-        erc20V2Selected === true
-            ? '0px 1px 11px #79A9FF'
-            : '0px 8px 12px rgba(31, 35, 55, 0.3)'
-      }"
-    >
-      <div class="logoCypto d-flex justify-content-between">
-        <div class="d-flex">
-          <div class="d-flex flex-wrap">
-            <img
-              class="image"
-              src="../../../../assets/Images/symbol_crypto/BNB.svg"
-            />
-            <img
-              class="image"
-              src="../../../../assets/Images/symbol_crypto/ETH.svg"
-            />
-            <img
-              class="image"
-              src="../../../../assets/Images/symbol_crypto/MATIC.svg"
-            />
-            <img class="image" src="../../../../assets/Images/BTTCLogo.svg" />
+      <div
+        class="container-QR-code"
+        *ngIf="!!ethv2"
+        (click)="
+          (!!ethv2);
+          btcV2Selected = false;
+          erc20V2Selected = true;
+          tronV2Selected = false;
+          btcSelected = false;
+          erc20Selected = false;
+          tronSelected = false
+        "
+        [ngStyle]="{
+          'box-shadow':
+            erc20V2Selected === true
+              ? '0px 1px 11px #79A9FF'
+              : '0px 8px 12px rgba(31, 35, 55, 0.3)'
+        }"
+      >
+        <div class="logoCypto d-flex justify-content-between">
+          <div class="d-flex">
+            <div class="d-flex flex-wrap">
+              <img
+                class="image"
+                src="../../../../assets/Images/symbol_crypto/BNB.svg"
+              />
+              <img
+                class="image"
+                src="../../../../assets/Images/symbol_crypto/ETH.svg"
+              />
+              <img
+                class="image"
+                src="../../../../assets/Images/symbol_crypto/MATIC.svg"
+              />
+              <img class="image" src="../../../../assets/Images/BTTCLogo.svg" />
+            </div>
+            <div>
+              <p class="bc">BEP20 / ERC20 / POLYGON / BTTC</p>
+            </div>
           </div>
-          <div>
-            <p class="bc">BEP20 / ERC20 / POLYGON / BTTC</p>
-          </div>
-        </div>
 
-        <div class="centreButton">
-          <img
-            *ngIf="!erc20V2Selected"
-            src="assets/Images/radio-off.svg"
-            alt=""
-          />
-          <img
-            *ngIf="erc20V2Selected"
-            (click)="erc20V2Selected = !erc20V2Selected"
-            src="assets/Images/radio-on.png"
-            alt=""
-          />
-        </div>
-      </div>
-      <div *ngIf="!!url4 && erc20V2Selected">
-        <div class="d-flex justify-content-center mt-4">
-          <img [src]="url4" alt="" id="qr_img" />
-        </div>
-        <div class="wallet-title w-100 d-flex justify-content-center mt-3">
-          WALLET ADDRESS
-        </div>
-        <div
-          class="wallet-address-wraaper w-100 d-flex justify-content-center mt-3"
-        >
-          <span class="wallet-address"> {{ ethv2 }} </span>
-          <span class="pr-1 position-relative">
+          <div class="centreButton">
             <img
-              class="copy ml-2"
-              src="assets/Images/copy.svg"
+              *ngIf="!erc20V2Selected"
+              src="assets/Images/radio-off.svg"
               alt=""
-              (click)="copiedHash()"
-              [cdkCopyToClipboard]="ethv2"
             />
-            <span *ngIf="isTransactionHashCopied" class="black-dialog">
-              Copied! </span
-            ><span *ngIf="isTransactionHashCopied" class="dialog-point"> </span>
-          </span>
-        </div>
-        <div class="FourButton col-12">
-          <div>
-            <div class="btn-nav" (click)="goToBscan(ethv2)">
-              <div class="d-flex col-8 ml-3">Go to BscScan</div>
-              <div class="d-flex col-3 mr-3 mb-2">
-                <img class="ml-2" src="assets/Images/navigate.svg" alt="" />
-              </div>
-            </div>
-            <div class="btn-nav" (click)="goToEther(ethv2)">
-              <div class="d-flex col-8 ml-3" style="white-space: nowrap">
-                Go to Etherscan
-              </div>
-              <div class="d-flex col-3 mr-3 mb-2">
-                <img class="ml-2" src="assets/Images/navigate.svg" alt="" />
-              </div>
-            </div>
-          </div>
-          <div>
-            <div class="btn-nav" (click)="goToPolygonScan(ethv2)">
-              <div class="d-flex col-8 ml-3" style="white-space: nowrap">
-                Go to PolygonScan
-              </div>
-              <div class="d-flex col-3 mr-2 mb-2">
-                <img class="ml-2" src="assets/Images/navigate.svg" alt="" />
-              </div>
-            </div>
-            <div class="btn-nav" (click)="goToBttScan(ethv2)">
-              <div class="d-flex col-8 ml-3">Go to BttScan</div>
-              <div class="d-flex col-3 mr-3 mb-2">
-                <img class="ml-2" src="assets/Images/navigate.svg" alt="" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="globale mt-3">
-    <div
-      class="container-QR-code"
-      *ngIf="!!btcv2Code"
-      (click)="btcV2Selected = true; erc20V2Selected = false; tronV2Selected = false;
-      btcSelected = false; erc20Selected = false; tronSelected = false; 
-      "
-      [ngStyle]="{
-        'box-shadow':
-        btcV2Selected === true
-            ? '0px 1px 11px #79A9FF'
-            : '0px 8px 12px rgba(31, 35, 55, 0.3)'
-      }"
-    >
-      <div class="logoCypto d-flex justify-content-between">
-        <div class="d-flex">
-          <img
-            class="image"
-            src="../../../../assets/Images/symbol_crypto/BTC.svg"
-          />
-
-          <p class="bc">BTC</p>
-        </div>
-        <div class="centreButton">
-          <img *ngIf="!btcV2Selected" src="assets/Images/radio-off.svg" alt="" />
-          <img
-            *ngIf="btcV2Selected"
-            (click)="btcV2Selected = !btcV2Selected"
-            src="assets/Images/radio-on.png"
-            alt=""
-          />
-        </div>
-      </div>
-
-      <div *ngIf="!!5 && btcV2Selected">
-        <div class="d-flex justify-content-center mt-4" *ngIf="!!url5">
-          <img [src]="url5" alt="" id="qr_img" />
-        </div>
-        <div class="wallet-title w-100 d-flex justify-content-center mt-3">
-          WALLET ADDRESS
-        </div>
-        <div
-          class="wallet-address-wraaper w-100 d-flex justify-content-center mt-3"
-        >
-          <span class="wallet-address"> {{ btcv2Code }} </span>
-          <span class="pr-1 position-relative">
             <img
-              class="copy ml-2"
-              (click)="copiedHashbtc()"
-              [cdkCopyToClipboard]="btcv2Code"
-              src="assets/Images/copy.svg"
-            />
-
-            <span *ngIf="isTransactionHashCopiedbtc" class="black-dialog">
-              Copied! </span
-            ><span *ngIf="isTransactionHashCopiedbtc" class="dialog-point">
-            </span>
-          </span>
-        </div>
-        <div class="btn-nav" (click)="goToBtcScan(btcv2Code)">
-          <div class="d-flex col-8 ml-3">Go to BtcScan</div>
-          <div class="d-flex col-3 mr-3 mb-2">
-            <img class="ml-2" src="assets/Images/navigate.svg" alt="" />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="globale mt-3">
-    <div
-      class="container-QR-code"
-      *ngIf="!!tronv2Address"
-      (click)="tronV2Selected = true; erc20V2Selected = false; btcV2Selected = false;
-      tronSelected = false; erc20Selected = false; btcSelected = false;"
-      [ngStyle]="{
-        'box-shadow':
-        tronV2Selected === true
-            ? '0px 1px 11px #79A9FF'
-            : '0px 8px 12px rgba(31, 35, 55, 0.3)'
-      }"
-    >
-      <div class="logoCypto d-flex justify-content-between">
-        <div class="d-flex">
-          <img class="image" src="../../../../assets/Images/tronLogo.svg" />
-
-          <p class="bc">Tron</p>
-        </div>
-        <div class="centreButton">
-          <img *ngIf="!tronV2Selected" src="assets/Images/radio-off.svg" alt="" />
-          <img
-            *ngIf="tronV2Selected"
-            (click)="tronV2Selected = !tronV2Selected"
-            src="assets/Images/radio-on.png"
-            alt=""
-          />
-        </div>
-      </div>
-
-      <div *ngIf="!!url6 && tronV2Selected">
-        <div class="d-flex justify-content-center mt-4" *ngIf="!!url6">
-          <img [src]="url6" alt="" id="qr_img" />
-        </div>
-        <div class="wallet-title w-100 d-flex justify-content-center mt-3">
-          WALLET ADDRESS
-        </div>
-        <div
-          class="wallet-address-wraaper w-100 d-flex justify-content-center mt-3"
-        >
-          <span class="wallet-address"> {{ tronv2Address }} </span>
-          <span class="pr-1 position-relative">
-            <img
-              class="copy ml-2"
-              src="assets/Images/copy.svg"
+              *ngIf="erc20V2Selected"
+              (click)="erc20V2Selected = !erc20V2Selected"
+              src="assets/Images/radio-on.png"
               alt=""
-              (click)="copiedHashtron()"
-              [cdkCopyToClipboard]="tronv2Address"
             />
-            <span *ngIf="isTransactionHashCopiedtron" class="black-dialog">
-              Copied! </span
-            ><span *ngIf="isTransactionHashCopiedtron" class="dialog-point">
-            </span>
-          </span>
-        </div>
-        <!-- <div class="d-flex justify-content-center "> -->
-        <div class="btn-nav" (click)="goToTronScan(tronv2Address)">
-          <div class="d-flex col-8 ml-3">Go to tronScan</div>
-          <div class="d-flex col-3 mr-3 mb-2">
-            <img class="ml-2" src="assets/Images/navigate.svg" alt="" />
           </div>
         </div>
-
-        <!-- </div> -->
+        <div *ngIf="!!url4 && erc20V2Selected">
+          <div class="d-flex justify-content-center mt-4">
+            <img [src]="url4" alt="" id="qr_img" />
+          </div>
+          <div class="wallet-title w-100 d-flex justify-content-center mt-3">
+            WALLET ADDRESS
+          </div>
+          <div
+            class="wallet-address-wraaper w-100 d-flex justify-content-center mt-3"
+          >
+            <span class="wallet-address"> {{ ethv2 }} </span>
+            <span class="pr-1 position-relative">
+              <img
+                class="copy ml-2"
+                src="assets/Images/copy.svg"
+                alt=""
+                (click)="copiedHash()"
+                [cdkCopyToClipboard]="ethv2"
+              />
+              <span *ngIf="isTransactionHashCopied" class="black-dialog">
+                Copied! </span
+              ><span *ngIf="isTransactionHashCopied" class="dialog-point">
+              </span>
+            </span>
+          </div>
+          <div class="FourButton col-12">
+            <div>
+              <div class="btn-nav" (click)="goToBscan(ethv2)">
+                <div class="d-flex col-8 ml-3">Go to BscScan</div>
+                <div class="d-flex col-3 mr-3 mb-2">
+                  <img class="ml-2" src="assets/Images/navigate.svg" alt="" />
+                </div>
+              </div>
+              <div class="btn-nav" (click)="goToEther(ethv2)">
+                <div class="d-flex col-8 ml-3" style="white-space: nowrap">
+                  Go to Etherscan
+                </div>
+                <div class="d-flex col-3 mr-3 mb-2">
+                  <img class="ml-2" src="assets/Images/navigate.svg" alt="" />
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="btn-nav" (click)="goToPolygonScan(ethv2)">
+                <div class="d-flex col-8 ml-3" style="white-space: nowrap">
+                  Go to PolygonScan
+                </div>
+                <div class="d-flex col-3 mr-2 mb-2">
+                  <img class="ml-2" src="assets/Images/navigate.svg" alt="" />
+                </div>
+              </div>
+              <div class="btn-nav" (click)="goToBttScan(ethv2)">
+                <div class="d-flex col-8 ml-3">Go to BttScan</div>
+                <div class="d-flex col-3 mr-3 mb-2">
+                  <img class="ml-2" src="assets/Images/navigate.svg" alt="" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-
-
-
-
-
-
-
-
-
-
-  <div class=" d-flex justify-content-center textecenter" *ngIf="existV1" >Your old wallet </div>
-
-
-  <div class="globale mt-3">
-    <div
-      class="container-QR-code"
-      *ngIf="!!eth"
-      (click)="
-        (!!eth); btcSelected = false; erc20Selected = true; tronSelected = false;
-        btcV2Selected = false; erc20V2Selected = false; tronV2Selected = false;
-
-      "
-      [ngStyle]="{
-        'box-shadow':
-          erc20Selected === true
-            ? '0px 1px 11px #79A9FF'
-            : '0px 8px 12px rgba(31, 35, 55, 0.3)'
-      }"
-    >
-      <div class="logoCypto d-flex justify-content-between">
-        <div class="d-flex">
-          <div class="d-flex flex-wrap">
+    <div class="globale mt-3">
+      <div
+        class="container-QR-code"
+        *ngIf="!!btcv2Code"
+        (click)="
+          btcV2Selected = true;
+          erc20V2Selected = false;
+          tronV2Selected = false;
+          btcSelected = false;
+          erc20Selected = false;
+          tronSelected = false
+        "
+        [ngStyle]="{
+          'box-shadow':
+            btcV2Selected === true
+              ? '0px 1px 11px #79A9FF'
+              : '0px 8px 12px rgba(31, 35, 55, 0.3)'
+        }"
+      >
+        <div class="logoCypto d-flex justify-content-between">
+          <div class="d-flex">
             <img
               class="image"
-              src="../../../../assets/Images/symbol_crypto/BNB.svg"
+              src="../../../../assets/Images/symbol_crypto/BTC.svg"
             />
+
+            <p class="bc">BTC</p>
+          </div>
+          <div class="centreButton">
+            <img
+              *ngIf="!btcV2Selected"
+              src="assets/Images/radio-off.svg"
+              alt=""
+            />
+            <img
+              *ngIf="btcV2Selected"
+              (click)="btcV2Selected = !btcV2Selected"
+              src="assets/Images/radio-on.png"
+              alt=""
+            />
+          </div>
+        </div>
+
+        <div *ngIf="!!5 && btcV2Selected">
+          <div class="d-flex justify-content-center mt-4" *ngIf="!!url5">
+            <img [src]="url5" alt="" id="qr_img" />
+          </div>
+          <div class="wallet-title w-100 d-flex justify-content-center mt-3">
+            WALLET ADDRESS
+          </div>
+          <div
+            class="wallet-address-wraaper w-100 d-flex justify-content-center mt-3"
+          >
+            <span class="wallet-address"> {{ btcv2Code }} </span>
+            <span class="pr-1 position-relative">
+              <img
+                class="copy ml-2"
+                (click)="copiedHashbtc()"
+                [cdkCopyToClipboard]="btcv2Code"
+                src="assets/Images/copy.svg"
+              />
+
+              <span *ngIf="isTransactionHashCopiedbtc" class="black-dialog">
+                Copied! </span
+              ><span *ngIf="isTransactionHashCopiedbtc" class="dialog-point">
+              </span>
+            </span>
+          </div>
+          <div class="btn-nav" (click)="goToBtcScan(btcv2Code)">
+            <div class="d-flex col-8 ml-3">Go to BtcScan</div>
+            <div class="d-flex col-3 mr-3 mb-2">
+              <img class="ml-2" src="assets/Images/navigate.svg" alt="" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="globale mt-3">
+      <div
+        class="container-QR-code"
+        *ngIf="!!tronv2Address"
+        (click)="
+          tronV2Selected = true;
+          erc20V2Selected = false;
+          btcV2Selected = false;
+          tronSelected = false;
+          erc20Selected = false;
+          btcSelected = false
+        "
+        [ngStyle]="{
+          'box-shadow':
+            tronV2Selected === true
+              ? '0px 1px 11px #79A9FF'
+              : '0px 8px 12px rgba(31, 35, 55, 0.3)'
+        }"
+      >
+        <div class="logoCypto d-flex justify-content-between">
+          <div class="d-flex">
+            <img class="image" src="../../../../assets/Images/tronLogo.svg" />
+
+            <p class="bc">Tron</p>
+          </div>
+          <div class="centreButton">
+            <img
+              *ngIf="!tronV2Selected"
+              src="assets/Images/radio-off.svg"
+              alt=""
+            />
+            <img
+              *ngIf="tronV2Selected"
+              (click)="tronV2Selected = !tronV2Selected"
+              src="assets/Images/radio-on.png"
+              alt=""
+            />
+          </div>
+        </div>
+
+        <div *ngIf="!!url6 && tronV2Selected">
+          <div class="d-flex justify-content-center mt-4" *ngIf="!!url6">
+            <img [src]="url6" alt="" id="qr_img" />
+          </div>
+          <div class="wallet-title w-100 d-flex justify-content-center mt-3">
+            WALLET ADDRESS
+          </div>
+          <div
+            class="wallet-address-wraaper w-100 d-flex justify-content-center mt-3"
+          >
+            <span class="wallet-address"> {{ tronv2Address }} </span>
+            <span class="pr-1 position-relative">
+              <img
+                class="copy ml-2"
+                src="assets/Images/copy.svg"
+                alt=""
+                (click)="copiedHashtron()"
+                [cdkCopyToClipboard]="tronv2Address"
+              />
+              <span *ngIf="isTransactionHashCopiedtron" class="black-dialog">
+                Copied! </span
+              ><span *ngIf="isTransactionHashCopiedtron" class="dialog-point">
+              </span>
+            </span>
+          </div>
+          <!-- <div class="d-flex justify-content-center "> -->
+          <div class="btn-nav" (click)="goToTronScan(tronv2Address)">
+            <div class="d-flex col-8 ml-3">Go to tronScan</div>
+            <div class="d-flex col-3 mr-3 mb-2">
+              <img class="ml-2" src="assets/Images/navigate.svg" alt="" />
+            </div>
+          </div>
+
+          <!-- </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="existV1">
+    <div
+      class="d-flex justify-content-center textecenter"
+      *ngIf="existV1 && existV2"
+    >
+      Your old wallet
+    </div>
+
+    <div class="d-flex justify-content-center textecenter" *ngIf="!existV2">
+      Your wallet ID
+    </div>
+    <div class="globale mt-3">
+      <div
+        class="container-QR-code"
+        *ngIf="!!eth"
+        (click)="
+          (!!eth);
+          btcSelected = false;
+          erc20Selected = true;
+          tronSelected = false;
+          btcV2Selected = false;
+          erc20V2Selected = false;
+          tronV2Selected = false
+        "
+        [ngStyle]="{
+          'box-shadow':
+            erc20Selected === true
+              ? '0px 1px 11px #79A9FF'
+              : '0px 8px 12px rgba(31, 35, 55, 0.3)'
+        }"
+      >
+        <div class="logoCypto d-flex justify-content-between">
+          <div class="d-flex">
+            <div class="d-flex flex-wrap">
+              <img
+                class="image"
+                src="../../../../assets/Images/symbol_crypto/BNB.svg"
+              />
+              <img
+                class="image"
+                src="../../../../assets/Images/symbol_crypto/ETH.svg"
+              />
+              <img
+                class="image"
+                src="../../../../assets/Images/symbol_crypto/MATIC.svg"
+              />
+              <img class="image" src="../../../../assets/Images/BTTCLogo.svg" />
+            </div>
+            <div>
+              <p class="bc">BEP20 / ERC20 / POLYGON / BTTC</p>
+            </div>
+          </div>
+
+          <div class="centreButton">
+            <img
+              *ngIf="!erc20Selected"
+              src="assets/Images/radio-off.svg"
+              alt=""
+            />
+            <img
+              *ngIf="erc20Selected"
+              (click)="erc20Selected = !erc20Selected"
+              src="assets/Images/radio-on.png"
+              alt=""
+            />
+          </div>
+        </div>
+        <div *ngIf="!!url1 && erc20Selected">
+          <div class="d-flex justify-content-center mt-4">
+            <img [src]="url1" alt="" id="qr_img" />
+          </div>
+          <div class="wallet-title w-100 d-flex justify-content-center mt-3">
+            WALLET ADDRESS
+          </div>
+          <div
+            class="wallet-address-wraaper w-100 d-flex justify-content-center mt-3"
+          >
+            <span class="wallet-address"> {{ eth }} </span>
+            <span class="pr-1 position-relative">
+              <img
+                class="copy ml-2"
+                src="assets/Images/copy.svg"
+                alt=""
+                (click)="copiedHash()"
+                [cdkCopyToClipboard]="eth"
+              />
+              <span *ngIf="isTransactionHashCopied" class="black-dialog">
+                Copied! </span
+              ><span *ngIf="isTransactionHashCopied" class="dialog-point">
+              </span>
+            </span>
+          </div>
+          <div class="FourButton col-12">
+            <div>
+              <div class="btn-nav" (click)="goToBscan(eth)">
+                <div class="d-flex col-8 ml-3">Go to BscScan</div>
+                <div class="d-flex col-3 mr-3 mb-2">
+                  <img class="ml-2" src="assets/Images/navigate.svg" alt="" />
+                </div>
+              </div>
+              <div class="btn-nav" (click)="goToEther(eth)">
+                <div class="d-flex col-8 ml-3" style="white-space: nowrap">
+                  Go to Etherscan
+                </div>
+                <div class="d-flex col-3 mr-3 mb-2">
+                  <img class="ml-2" src="assets/Images/navigate.svg" alt="" />
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="btn-nav" (click)="goToPolygonScan(eth)">
+                <div class="d-flex col-8 ml-3" style="white-space: nowrap">
+                  Go to PolygonScan
+                </div>
+                <div class="d-flex col-3 mr-2 mb-2">
+                  <img class="ml-2" src="assets/Images/navigate.svg" alt="" />
+                </div>
+              </div>
+              <div class="btn-nav" (click)="goToBttScan(eth)">
+                <div class="d-flex col-8 ml-3">Go to BttScan</div>
+                <div class="d-flex col-3 mr-3 mb-2">
+                  <img class="ml-2" src="assets/Images/navigate.svg" alt="" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="globale mt-3">
+      <div
+        class="container-QR-code"
+        *ngIf="!!btcCode"
+        (click)="
+          btcSelected = true;
+          erc20Selected = false;
+          tronSelected = false;
+          btcV2Selected = false;
+          erc20V2Selected = false;
+          tronV2Selected = false
+        "
+        [ngStyle]="{
+          'box-shadow':
+            btcSelected === true
+              ? '0px 1px 11px #79A9FF'
+              : '0px 8px 12px rgba(31, 35, 55, 0.3)'
+        }"
+      >
+        <div class="logoCypto d-flex justify-content-between">
+          <div class="d-flex">
             <img
               class="image"
-              src="../../../../assets/Images/symbol_crypto/ETH.svg"
+              src="../../../../assets/Images/symbol_crypto/BTC.svg"
             />
-            <img
-              class="image"
-              src="../../../../assets/Images/symbol_crypto/MATIC.svg"
-            />
-            <img class="image" src="../../../../assets/Images/BTTCLogo.svg" />
-          </div>
-          <div>
-            <p class="bc">BEP20 / ERC20 / POLYGON / BTTC</p>
-          </div>
-        </div>
 
-        <div class="centreButton">
-          <img
-            *ngIf="!erc20Selected"
-            src="assets/Images/radio-off.svg"
-            alt=""
-          />
-          <img
-            *ngIf="erc20Selected"
-            (click)="erc20Selected = !erc20Selected"
-            src="assets/Images/radio-on.png"
-            alt=""
-          />
-        </div>
-      </div>
-      <div *ngIf="!!url1 && erc20Selected">
-        <div class="d-flex justify-content-center mt-4">
-          <img [src]="url1" alt="" id="qr_img" />
-        </div>
-        <div class="wallet-title w-100 d-flex justify-content-center mt-3">
-          WALLET ADDRESS
-        </div>
-        <div
-          class="wallet-address-wraaper w-100 d-flex justify-content-center mt-3"
-        >
-          <span class="wallet-address"> {{ eth }} </span>
-          <span class="pr-1 position-relative">
+            <p class="bc">BTC</p>
+          </div>
+          <div class="centreButton">
             <img
-              class="copy ml-2"
-              src="assets/Images/copy.svg"
+              *ngIf="!btcSelected"
+              src="assets/Images/radio-off.svg"
               alt=""
-              (click)="copiedHash()"
-              [cdkCopyToClipboard]="eth"
             />
-            <span *ngIf="isTransactionHashCopied" class="black-dialog">
-              Copied! </span
-            ><span *ngIf="isTransactionHashCopied" class="dialog-point"> </span>
-          </span>
-        </div>
-        <div class="FourButton col-12">
-          <div>
-            <div class="btn-nav" (click)="goToBscan(eth)">
-              <div class="d-flex col-8 ml-3">Go to BscScan</div>
-              <div class="d-flex col-3 mr-3 mb-2">
-                <img class="ml-2" src="assets/Images/navigate.svg" alt="" />
-              </div>
-            </div>
-            <div class="btn-nav" (click)="goToEther(eth)">
-              <div class="d-flex col-8 ml-3" style="white-space: nowrap">
-                Go to Etherscan
-              </div>
-              <div class="d-flex col-3 mr-3 mb-2">
-                <img class="ml-2" src="assets/Images/navigate.svg" alt="" />
-              </div>
-            </div>
-          </div>
-          <div>
-            <div class="btn-nav" (click)="goToPolygonScan(eth)">
-              <div class="d-flex col-8 ml-3" style="white-space: nowrap">
-                Go to PolygonScan
-              </div>
-              <div class="d-flex col-3 mr-2 mb-2">
-                <img class="ml-2" src="assets/Images/navigate.svg" alt="" />
-              </div>
-            </div>
-            <div class="btn-nav" (click)="goToBttScan(eth)">
-              <div class="d-flex col-8 ml-3">Go to BttScan</div>
-              <div class="d-flex col-3 mr-3 mb-2">
-                <img class="ml-2" src="assets/Images/navigate.svg" alt="" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="globale mt-3">
-    <div
-      class="container-QR-code"
-      *ngIf="!!btcCode"
-      (click)="btcSelected = true; erc20Selected = false; tronSelected = false; 
-      btcV2Selected = false; erc20V2Selected = false; tronV2Selected = false"
-      [ngStyle]="{
-        'box-shadow':
-          btcSelected === true
-            ? '0px 1px 11px #79A9FF'
-            : '0px 8px 12px rgba(31, 35, 55, 0.3)'
-      }"
-    >
-      <div class="logoCypto d-flex justify-content-between">
-        <div class="d-flex">
-          <img
-            class="image"
-            src="../../../../assets/Images/symbol_crypto/BTC.svg"
-          />
-
-          <p class="bc">BTC</p>
-        </div>
-        <div class="centreButton">
-          <img *ngIf="!btcSelected" src="assets/Images/radio-off.svg" alt="" />
-          <img
-            *ngIf="btcSelected"
-            (click)="btcSelected = !btcSelected"
-            src="assets/Images/radio-on.png"
-            alt=""
-          />
-        </div>
-      </div>
-
-      <div *ngIf="!!url2 && btcSelected">
-        <div class="d-flex justify-content-center mt-4" *ngIf="!!url2">
-          <img [src]="url2" alt="" id="qr_img" />
-        </div>
-        <div class="wallet-title w-100 d-flex justify-content-center mt-3">
-          WALLET ADDRESS
-        </div>
-        <div
-          class="wallet-address-wraaper w-100 d-flex justify-content-center mt-3"
-        >
-          <span class="wallet-address"> {{ btcCode }} </span>
-          <span class="pr-1 position-relative">
             <img
-              class="copy ml-2"
-              (click)="copiedHashbtc()"
-              [cdkCopyToClipboard]="btcCode"
-              src="assets/Images/copy.svg"
-            />
-
-            <span *ngIf="isTransactionHashCopiedbtc" class="black-dialog">
-              Copied! </span
-            ><span *ngIf="isTransactionHashCopiedbtc" class="dialog-point">
-            </span>
-          </span>
-        </div>
-        <div class="btn-nav" (click)="goToBtcScan(btcCode)">
-          <div class="d-flex col-8 ml-3">Go to BtcScan</div>
-          <div class="d-flex col-3 mr-3 mb-2">
-            <img class="ml-2" src="assets/Images/navigate.svg" alt="" />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="globale mt-3">
-    <div
-      class="container-QR-code"
-      *ngIf="!!tronAddress"
-      (click)="tronSelected = true; erc20Selected = false; btcSelected = false;
-      tronV2Selected = false; erc20V2Selected = false; btcV2Selected = false"
-      [ngStyle]="{
-        'box-shadow':
-          tronSelected === true
-            ? '0px 1px 11px #79A9FF'
-            : '0px 8px 12px rgba(31, 35, 55, 0.3)'
-      }"
-    >
-      <div class="logoCypto d-flex justify-content-between">
-        <div class="d-flex">
-          <img class="image" src="../../../../assets/Images/tronLogo.svg" />
-
-          <p class="bc">Tron</p>
-        </div>
-        <div class="centreButton">
-          <img *ngIf="!tronSelected" src="assets/Images/radio-off.svg" alt="" />
-          <img
-            *ngIf="tronSelected"
-            (click)="tronSelected = !tronSelected"
-            src="assets/Images/radio-on.png"
-            alt=""
-          />
-        </div>
-      </div>
-
-      <div *ngIf="!!url3 && tronSelected">
-        <div class="d-flex justify-content-center mt-4" *ngIf="!!url3">
-          <img [src]="url3" alt="" id="qr_img" />
-        </div>
-        <div class="wallet-title w-100 d-flex justify-content-center mt-3">
-          WALLET ADDRESS
-        </div>
-        <div
-          class="wallet-address-wraaper w-100 d-flex justify-content-center mt-3"
-        >
-          <span class="wallet-address"> {{ tronAddress }} </span>
-          <span class="pr-1 position-relative">
-            <img
-              class="copy ml-2"
-              src="assets/Images/copy.svg"
+              *ngIf="btcSelected"
+              (click)="btcSelected = !btcSelected"
+              src="assets/Images/radio-on.png"
               alt=""
-              (click)="copiedHashtron()"
-              [cdkCopyToClipboard]="tronAddress"
             />
-            <span *ngIf="isTransactionHashCopiedtron" class="black-dialog">
-              Copied! </span
-            ><span *ngIf="isTransactionHashCopiedtron" class="dialog-point">
-            </span>
-          </span>
-        </div>
-        <!-- <div class="d-flex justify-content-center "> -->
-        <div class="btn-nav" (click)="goToTronScan(tronAddress)">
-          <div class="d-flex col-8 ml-3">Go to tronScan</div>
-          <div class="d-flex col-3 mr-3 mb-2">
-            <img class="ml-2" src="assets/Images/navigate.svg" alt="" />
           </div>
         </div>
 
-        <!-- </div> -->
+        <div *ngIf="!!url2 && btcSelected">
+          <div class="d-flex justify-content-center mt-4" *ngIf="!!url2">
+            <img [src]="url2" alt="" id="qr_img" />
+          </div>
+          <div class="wallet-title w-100 d-flex justify-content-center mt-3">
+            WALLET ADDRESS
+          </div>
+          <div
+            class="wallet-address-wraaper w-100 d-flex justify-content-center mt-3"
+          >
+            <span class="wallet-address"> {{ btcCode }} </span>
+            <span class="pr-1 position-relative">
+              <img
+                class="copy ml-2"
+                (click)="copiedHashbtc()"
+                [cdkCopyToClipboard]="btcCode"
+                src="assets/Images/copy.svg"
+              />
+
+              <span *ngIf="isTransactionHashCopiedbtc" class="black-dialog">
+                Copied! </span
+              ><span *ngIf="isTransactionHashCopiedbtc" class="dialog-point">
+              </span>
+            </span>
+          </div>
+          <div class="btn-nav" (click)="goToBtcScan(btcCode)">
+            <div class="d-flex col-8 ml-3">Go to BtcScan</div>
+            <div class="d-flex col-3 mr-3 mb-2">
+              <img class="ml-2" src="assets/Images/navigate.svg" alt="" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="globale mt-3">
+      <div
+        class="container-QR-code"
+        *ngIf="!!tronAddress"
+        (click)="
+          tronSelected = true;
+          erc20Selected = false;
+          btcSelected = false;
+          tronV2Selected = false;
+          erc20V2Selected = false;
+          btcV2Selected = false
+        "
+        [ngStyle]="{
+          'box-shadow':
+            tronSelected === true
+              ? '0px 1px 11px #79A9FF'
+              : '0px 8px 12px rgba(31, 35, 55, 0.3)'
+        }"
+      >
+        <div class="logoCypto d-flex justify-content-between">
+          <div class="d-flex">
+            <img class="image" src="../../../../assets/Images/tronLogo.svg" />
+
+            <p class="bc">Tron</p>
+          </div>
+          <div class="centreButton">
+            <img
+              *ngIf="!tronSelected"
+              src="assets/Images/radio-off.svg"
+              alt=""
+            />
+            <img
+              *ngIf="tronSelected"
+              (click)="tronSelected = !tronSelected"
+              src="assets/Images/radio-on.png"
+              alt=""
+            />
+          </div>
+        </div>
+
+        <div *ngIf="!!url3 && tronSelected">
+          <div class="d-flex justify-content-center mt-4" *ngIf="!!url3">
+            <img [src]="url3" alt="" id="qr_img" />
+          </div>
+          <div class="wallet-title w-100 d-flex justify-content-center mt-3">
+            WALLET ADDRESS
+          </div>
+          <div
+            class="wallet-address-wraaper w-100 d-flex justify-content-center mt-3"
+          >
+            <span class="wallet-address"> {{ tronAddress }} </span>
+            <span class="pr-1 position-relative">
+              <img
+                class="copy ml-2"
+                src="assets/Images/copy.svg"
+                alt=""
+                (click)="copiedHashtron()"
+                [cdkCopyToClipboard]="tronAddress"
+              />
+              <span *ngIf="isTransactionHashCopiedtron" class="black-dialog">
+                Copied! </span
+              ><span *ngIf="isTransactionHashCopiedtron" class="dialog-point">
+              </span>
+            </span>
+          </div>
+          <!-- <div class="d-flex justify-content-center "> -->
+          <div class="btn-nav" (click)="goToTronScan(tronAddress)">
+            <div class="d-flex col-8 ml-3">Go to tronScan</div>
+            <div class="d-flex col-3 mr-3 mb-2">
+              <img class="ml-2" src="assets/Images/navigate.svg" alt="" />
+            </div>
+          </div>
+
+          <!-- </div> -->
+        </div>
       </div>
     </div>
   </div>
-
-
 </div>

@@ -4,7 +4,7 @@
 
   <head>
     <!-- Google Tag Manager -->
-    <script>
+    <!-- <script>
       (function (w, d, s, l, i) {
         w[l] = w[l] || [];
         w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
@@ -15,7 +15,7 @@
         j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
         f.parentNode.insertBefore(j, f);
       })(window, document, 'script', 'dataLayer', 'GTM-K2RMTJ3');
-    </script>
+    </script> -->
     <!-- End Google Tag Manager -->
     <meta charset="utf-8" />
     <!-- Chrome, Firefox OS and Opera -->
@@ -71,9 +71,9 @@
       rel="stylesheet"
     />
     <link
-    href="https://fonts.googleapis.com/css?family=Raleway"
-    rel="stylesheet"
-  />
+      href="https://fonts.googleapis.com/css?family=Raleway"
+      rel="stylesheet"
+    />
     <!-- CSS only -->
     <link
       rel="stylesheet preload prefetch"
@@ -103,13 +103,13 @@
       crossorigin="anonymous"
     ></script>
 
-    <script
+    <!-- <script
       async
       defer
       crossorigin="anonymous"
       src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v12.0&appId=214777317448706&autoLogAppEvents=1"
       nonce="VJcD5NCc"
-    ></script>
+    ></script> -->
     <script
       type="text/javascript"
       src="https://s3.tradingview.com/tv.js"
@@ -174,22 +174,30 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
     <script async defer src="https://apis.google.com/js/api.js"></script>
     <script src="assets/js/alert.js"></script>
-    <script src="https://wchat.freshchat.com/js/widget.js"></script> 
-     <script>
-        function initFreshChat() {
-            window.fcWidget.init({
-                token: "3eb3163a-3811-4574-a1ae-55076129404e",
-                host: "https://wchat.eu.freshchat.com"
-            });
-        }
-        function initialize(i, t) {
-            var e;
-            i.getElementById(t) ? initFreshChat() : ((e = i.createElement("script")).id = t, e.async = !0, e.src = "https://wchat.eu.freshchat.com/js/widget.js", e.onload = initFreshChat, i.head.appendChild(e))
-        }
-        function initiateCall() {
-            initialize(document, "Freshchat-js-sdk")
-        }
-        window.addEventListener ? window.addEventListener("load", initiateCall, !1) : window.attachEvent("load", initiateCall, !1);
-    </script> 
+    <script src="https://wchat.freshchat.com/js/widget.js"></script>
+    <script>
+      function initFreshChat() {
+        window.fcWidget.init({
+          token: '3eb3163a-3811-4574-a1ae-55076129404e',
+          host: 'https://wchat.eu.freshchat.com'
+        });
+      }
+      function initialize(i, t) {
+        var e;
+        i.getElementById(t)
+          ? initFreshChat()
+          : (((e = i.createElement('script')).id = t),
+            (e.async = !0),
+            (e.src = 'https://wchat.eu.freshchat.com/js/widget.js'),
+            (e.onload = initFreshChat),
+            i.head.appendChild(e));
+      }
+      function initiateCall() {
+        initialize(document, 'Freshchat-js-sdk');
+      }
+      window.addEventListener
+        ? window.addEventListener('load', initiateCall, !1)
+        : window.attachEvent('load', initiateCall, !1);
+    </script>
   </body>
 </html>
