@@ -85,7 +85,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   showMenuProfil: boolean = false;
   isTransactionHashCopiedtron = false;
 
-  existV2: any ;
+  existV2: any;
 
   isDropdownOpen: boolean = true;
   tronAddress: string = '';
@@ -138,6 +138,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   menuCampaign: boolean = false;
   menuTokenInfo: boolean = false;
   menuBuyToken: boolean = false;
+  getScreenWidth: any;
   // successPart: boolean = false;
   // errorPart: boolean = false;
   sucess: any = false;
@@ -327,8 +328,18 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   ngOnInit(): void {
+    this.getScreenWidth = window.innerWidth;
+    // switch (localStorage.getItem('wallet_version')) {
+    //   case 'v2':
+    //     this.title = 'Go to old wallet';
+    //     this.titleWallet = 'Your wallet ID';
+    //     break;
+    //   case 'v1':
+    //     this.title = 'Go to new wallet';
+    //     this.titleWallet = 'Your old wallet';
+    //     break;
+    // }
 
-    
     if (isPlatformBrowser(this.platformId)) {
       this.authService.isAuthenticated$
         .pipe(takeUntil(this.isDestroyed$))
@@ -1283,13 +1294,14 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         if (data?.data?.address === null) {
           this.tokenStorageService.saveWalletVersion('v2');
         }
-        if(data.data.addressV2 === null) {this.existV2 = false
-          this.displayOld = 'none';}
-        else {this.existV2 = true}
+        if (data.data.addressV2 === null) {
+          this.existV2 = false;
+          this.displayOld = 'none';
+        } else {
+          this.existV2 = true;
+        }
 
         if (!!data) {
-
-          
           this.btcCodeV2 = data.data.btcAddressV2;
           this.erc20V2 = data.data.addressV2;
           this.tronAddressV2 = data.data.tronAddressV2;
@@ -1487,6 +1499,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
+    // console.log(this.getScreenWidth);
+    this.getScreenWidth = event.target.innerWidth;
     if (isPlatformBrowser(this.platformId)) {
       let element0 = this.document.getElementById('introo');
       if (element0) element0.style.removeProperty('width');
