@@ -105,7 +105,7 @@
                                  />    -->
 
                   <img
-                    [src]="user?.userPicture"
+                    [src]="user.userPicture"
                     (error)="onImgError($event)"
                     class="avatar"
                   />
@@ -939,7 +939,7 @@
             class="input_lpwd"
             placeholder="   {{ 'Entrez votre mail' | translate }} "
             ngModel
-            [ngClass]="{ error: this.isSub && formF.email?.errors }"
+            [ngClass]="{ error: this.isSub && formF.email.errors }"
           />
         </div>
 

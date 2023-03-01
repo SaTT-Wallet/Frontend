@@ -111,7 +111,7 @@
                 formControlName="email"
                 class="input_login"
                 required
-                [ngClass]="{ error: this.f.email.dirty && f.email?.errors }"
+                [ngClass]="{ error: this.f.email.dirty && f.email.errors }"
               />
 
               <span
@@ -147,7 +147,7 @@
                 required
                 #password_field
                 [ngClass]="{
-                  error: this.f.password.dirty && f.password?.errors
+                  error: this.f.password.dirty && f.password.errors
                 }"
               />
               <span
@@ -358,7 +358,7 @@
             name="email"
             class="input_lpwd"
             ngModel
-            [ngClass]="{ error: this.isSub && formF.email?.errors }"
+            [ngClass]="{ error: this.isSub && formF.email.errors }"
           />
         </div>
 

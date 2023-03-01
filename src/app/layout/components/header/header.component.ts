@@ -288,15 +288,15 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           this.router.url.includes('edit')
         ) {
           //@ts-ignore
-          this.header?.nativeElement.style.background =
-            'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)';
-          this.isWelcomePage = false;
+          // this.header?.nativeElement.style.background =
+          //   'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)';
+           this.isWelcomePage = false;
           this.menuBuyToken = true;
         }
         if (!this.isWelcomePage) {
           //@ts-ignore
-          this.header?.nativeElement.style.background =
-            'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)';
+          // this.header?.nativeElement.style.background =
+          //   'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)';
         }
       }
     });

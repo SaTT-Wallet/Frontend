@@ -214,7 +214,7 @@ export class FarmPostCardComponent implements OnInit {
       }
     });
     let filterdArray = arrayReason.filter((ele: any) => ele !== null);
-    if (filterdArray !== []) {
+    if (filterdArray.length !== 0) {
       this.campaignService
         .rejectLinks(
           this.prom,

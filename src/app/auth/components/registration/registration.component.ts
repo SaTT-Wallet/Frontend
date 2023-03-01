@@ -63,7 +63,7 @@ export class RegistrationComponent implements OnInit {
   isClicked!: boolean;
   expiresToken!: number;
   private account$ = this.accountFacadeService.account$;
-
+  color:any;
   successUpper = false;
   successLower = false;
   successNumber = false;
@@ -218,75 +218,64 @@ export class RegistrationComponent implements OnInit {
     this.authForm
       .get('password')
       ?.valueChanges.pipe(takeUntil(this.onDestroy$))
-      .subscribe((pass) => {
+      .subscribe((pass: string) => {
         const regex = /[A-Z]/g;
         const regexLowerCase = /[a-z]/g;
         const regexNumber = /[0-9]+/g;
         const regexSpecial = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
         const regexWhitespaces = /\s/;
         if (pass.match(regex)) {
-          let errMsg = this.document.getElementById('errMsgUpper');
           this.successUpper = true;
           //@ts-ignore
-          errMsg?.style.color = '#00CC9E';
+          this.color = '#00CC9E';
         } else {
-          let errMsg = this.document.getElementById('errMsgUpper');
           this.successUpper = false;
           //@ts-ignore
-          errMsg?.style.color = '#F52079';
+           this.color = '#F52079';
         }
 
         if (pass.match(regexLowerCase)) {
-          let errMsg = this.document.getElementById('errMsgLower');
           this.successLower = true;
           //@ts-ignore
-          errMsg?.style.color = '#00CC9E';
+          this.color = '#00CC9E';
         } else {
-          let errMsg = this.document.getElementById('errMsgLower');
           this.successLower = false;
           //@ts-ignore
-          errMsg?.style.color = '#F52079';
+          this.color =  '#F52079';
         }
 
         if (pass.match(regexNumber)) {
-          let errMsg = this.document.getElementById('errMsgNumber');
           this.successNumber = true;
           //@ts-ignore
-          errMsg?.style.color = '#00CC9E';
+          this.color = '#00CC9E';
         } else {
-          let errMsg = this.document.getElementById('errMsgNumber');
           this.successNumber = false;
           //@ts-ignore
-          errMsg?.style.color = '#F52079';
+          this.color =  '#F52079';
         }
 
         if (pass.match(regexSpecial)) {
-          let errMsg = this.document.getElementById('errMsgSpecial');
           this.successSpecial = true;
           //@ts-ignore
-          errMsg?.style.color = '#00CC9E';
+          this.color =  '#00CC9E';
         } else {
-          let errMsg = this.document.getElementById('errMsgSpecial');
           this.successSpecial = false;
           //@ts-ignore
-          errMsg?.style.color = '#F52079';
+          this.color =  '#F52079';
         }
         if (!pass.match(regexWhitespaces)) {
-          let errMsg = this.document.getElementById('errMsgWhitespaces');
           this.successWhitespaces = true;
           //@ts-ignore
-          errMsg?.style.color = '#00CC9E';
+       this.color = '#00CC9E';
         } else {
-          let errMsg = this.document.getElementById('errMsgWhitespaces');
           this.successWhitespaces = false;
           //@ts-ignore
-          errMsg?.style.color = '#F52079';
+          this.color = '#F52079';
         }
         if (this.getControls.password.errors?.minlength) {
-          let errMsg = this.document.getElementById('errLength');
           this.successLength = false;
           //@ts-ignore
-          errMsg?.style.color = '#F52079';
+          this.color =  '#F52079';
         } else {
           let errMsg = this.document.getElementById('errLength');
           this.successLength = true;
