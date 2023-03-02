@@ -4,6 +4,7 @@
 <!--                                                                                   -->
 <!--***********************************************************************************-->
 <!--  [ngClass]="{ 'navbar-dark-blue': !menuCampaign }"-->
+
 <nav
   id="navbar-id"
   class="navbar navbar-expand-lg"
@@ -764,17 +765,27 @@
     "
     class="sidebarMoreMobile row"
   >
+    <p
+      class="d-flex justify-content-center titleIDW"
+      *ngIf="!existV1 || !existV2"
+      id="title_wallet"
+    >
+      Your wallet ID
+    </p>
+    <!-- <p class="d-flex justify-content-center titleIDW" *ngIf= "!existV1 && existV2" id="title_wallet">Your wallet ID</p> -->
     <button
       class="d-flex justify-content-center titleIDW"
       style="margin-top: 30px"
       (click)="isDisplayNew()"
+      *ngIf="existV1 && existV2"
     >
+      <p id="title_wallet">{{ titleWallet }}</p>
       <span style="margin-right: 8px"
         ><img src="../../assets/Images/custom_icons/bi_arrow-repeat.svg"
       /></span>
       {{ title }}
     </button>
-    <div [style.display]="this.displayNew">
+    <div [style.display]="this.displayNew" class="container-qr">
       <!-- <div style="text-align: -webkit-center;">
         <button
         *ngIf="existV2 === false "
@@ -981,7 +992,7 @@
       </div>
     </div>
 
-    <div [style.display]="this.displayOld">
+    <div *ngIf="existV1" class="container-qr">
       <div class="mobile container" id="qr-container">
         <div class="item">
           <div class="d-flex justify-content-center"></div>

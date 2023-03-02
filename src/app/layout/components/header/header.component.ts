@@ -7,6 +7,7 @@ import {
   HostListener,
   Inject,
   OnDestroy,
+  Renderer2,
   OnInit,
   PLATFORM_ID,
   ViewChild
@@ -84,7 +85,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   showMenuProfil: boolean = false;
   isTransactionHashCopiedtron = false;
 
-  existV2: any ;
+  existV2: any;
 
   isDropdownOpen: boolean = true;
   tronAddress: string = '';
@@ -137,6 +138,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   menuCampaign: boolean = false;
   menuTokenInfo: boolean = false;
   menuBuyToken: boolean = false;
+  getScreenWidth: any;
   // successPart: boolean = false;
   // errorPart: boolean = false;
   sucess: any = false;
@@ -173,7 +175,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   tronAddressV2: any;
   displayNew: any;
   displayOld: any;
-  title: any = 'Your ID Wallet ';
+  title: any = '';
+  titleWallet: any = '';
   existV1: any;
 
   constructor(
@@ -191,6 +194,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     private ParticipationListStoreService: ParticipationListStoreService,
     private toastr: ToastrService,
     private walletFacade: WalletFacadeService,
+    private renderer : Renderer2,
     private walletService: WalletService,
     private campaignFacade: CampaignsService,
     private profileSettingsFacade: ProfileSettingsFacadeService,
@@ -288,15 +292,14 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           this.router.url.includes('edit')
         ) {
           //@ts-ignore
-          this.header?.nativeElement.style.background =
-            'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)';
+          // this.header?.nativeElement.style.background =
+          //   'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)';
+            this.renderer.setStyle(this.header?.nativeElement,'background','linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)');
           this.isWelcomePage = false;
           this.menuBuyToken = true;
         }
         if (!this.isWelcomePage) {
-          //@ts-ignore
-          this.header?.nativeElement.style.background =
-            'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)';
+          this.renderer.setStyle(this.header?.nativeElement,'background','linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)');
         }
       }
     });
@@ -310,22 +313,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         filter((e: any) => e instanceof NavigationEnd),
         startWith({ url: this.router.url })
       )
-      .subscribe((e: any) => {
-        // if (
-        //   ['/home', '/wallet'].includes(e.url) ||
-        //   e.url.includes('/campaign')
-        // ) {
-        //   (this.headerNav as ElementRef).nativeElement.style.position =
-        //     'absolute';
-        //   (this.headerNav as ElementRef).nativeElement.style.width = '100%';
-        //   this.hostElement.nativeElement.style.height = 'inherit';
-        // } else {
-        //   (this.headerNav as ElementRef).nativeElement.style.position =
-        //     'inherit';
-        //   (this.headerNav as ElementRef).nativeElement.style.width = 'inherit';
-        //   this.hostElement.nativeElement.style.height = '64px;';
-        // }
-      });
+      .subscribe((e: any) => {});
   }
 
   goToSocials() {
@@ -341,8 +329,18 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   ngOnInit(): void {
+    this.getScreenWidth = window.innerWidth;
+    switch (localStorage.getItem('wallet_version')) {
+      case 'v2':
+        this.title = 'Go to old wallet';
+        this.titleWallet = 'Your wallet ID';
+        break;
+      case 'v1':
+        this.title = 'Go to new wallet';
+        this.titleWallet = 'Your old wallet';
+        break;
+    }
 
-    
     if (isPlatformBrowser(this.platformId)) {
       this.authService.isAuthenticated$
         .pipe(takeUntil(this.isDestroyed$))
@@ -423,17 +421,21 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   isDisplayNew() {
     this.displayNew = localStorage.getItem('display')?.toString();
+  
+    
     if (this.existV1) {
       if (this.displayNew === 'none') {
         this.displayNew = 'block';
         this.displayOld = 'none';
         localStorage.setItem('display', this.displayNew);
-        this.title = 'Your ID Wallet';
+        this.titleWallet = 'Your wallet ID';
+        this.title = 'Go to old wallet';
       } else {
         this.displayNew = 'none';
         this.displayOld = 'block';
         localStorage.setItem('display', this.displayNew);
-        this.title = 'Your Old Wallet ';
+        this.titleWallet = 'Your old wallet';
+        this.title = 'Go to new wallet ';
       }
     }
   }
@@ -1294,16 +1296,18 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe((data: any) => {
         this.existV1 = data?.data?.address;
 
+
         if (data?.data?.address === null) {
           this.tokenStorageService.saveWalletVersion('v2');
         }
-        if(data.data.addressV2 === null) {this.existV2 = false
-          this.displayOld = 'none';}
-        else {this.existV2 = true}
+        if (data.data.addressV2 === null) {
+          this.existV2 = false;
+          this.displayOld = 'none';
+        } else {
+          this.existV2 = true;
+        }
 
         if (!!data) {
-
-          
           this.btcCodeV2 = data.data.btcAddressV2;
           this.erc20V2 = data.data.addressV2;
           this.tronAddressV2 = data.data.tronAddressV2;
@@ -1501,6 +1505,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
+    // console.log(this.getScreenWidth);
+    this.getScreenWidth = event.target.innerWidth;
     if (isPlatformBrowser(this.platformId)) {
       let element0 = this.document.getElementById('introo');
       if (element0) element0.style.removeProperty('width');

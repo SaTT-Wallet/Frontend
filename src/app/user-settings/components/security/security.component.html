@@ -1413,7 +1413,7 @@ this.formUpdatePassword.get('old_password')?.touched && this.formUpdatePassword.
                   this.errorMsgTronV2.length > 0
                 "
                 >{{
-                  this.exportType == eExportType.tron
+                  this.exportType === eExportType.tron
                     ? errorMsgTronV2
                     : errorMsgETHV2
                 }}</span
