@@ -18,9 +18,11 @@
   font-size: 20px;
   letter-spacing: 1px;
 }
-
-
-
+@media (max-height: 780px) {
+  .container-qr {
+    margin-top: -16vh;
+  }
+}
 .testWar {
   background-color: lightgrey;
   // width: 300px;
@@ -1534,7 +1536,26 @@ bottom: 77.54% ; */
 // }
 
 .titleIDW {
-  padding-top: 15px;
+  padding-top: 4vh;
+  padding-bottom: -20px;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 28px;
+  background-color: transparent;
+  border: 0px;
+  /* or 140% */
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 1px;
+
+  color: #ffffff;
+}
+.titleID-Wallet {
+  padding-top: 9vh;
   padding-bottom: -20px;
   font-family: 'Poppins';
   font-style: normal;
