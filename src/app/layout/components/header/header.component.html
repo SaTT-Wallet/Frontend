@@ -773,18 +773,31 @@
       Your wallet ID
     </p>
     <!-- <p class="d-flex justify-content-center titleIDW" *ngIf= "!existV1 && existV2" id="title_wallet">Your wallet ID</p> -->
-    <button
-      class="d-flex justify-content-center titleIDW"
-      style="margin-top: 30px"
-      (click)="isDisplayNew()"
+    <div class="col-12" id="change-wallet-title" *ngIf="existV1 && existV2">
+      <div class="row justify-content-center d-flex">{{ titleWallet }}</div>
+      <div class="row d-flex">
+        <img
+          class="col-2 offset-1 align-self-center mr-2 change-wallet-img"
+          (click)="isDisplayNew()"
+          src="../../assets/Images/custom_icons/bi_arrow-repeat.svg"
+        />
+        <div class="col align-self-center justify-content-center">
+          {{ title }}
+        </div>
+      </div>
+    </div>
+    <!-- <div
+      class=" justify-content-center titleIDW  col-12"
+    
       *ngIf="existV1 && existV2"
-    >
-      <p id="title_wallet">{{ titleWallet }}</p>
-      <span style="margin-right: 8px"
-        ><img src="../../assets/Images/custom_icons/bi_arrow-repeat.svg"
-      /></span>
-      {{ title }}
-    </button>
+    > 
+    
+      <div  class = "row-12 align-content-center" id="title_wallet" style="color: red;">{{ titleWallet }}</div>
+    <div class="row-12"> <img class="col-1"  id="biarrow-repeat-icon" (click)="isDisplayNew()" src="../../assets/Images/custom_icons/bi_arrow-repeat.svg"
+      />
+     <div class="col"> {{ title }}</div>
+     </div>
+    </div> -->
     <div [style.display]="this.displayNew" class="container-qr">
       <!-- <div style="text-align: -webkit-center;">
         <button
