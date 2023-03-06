@@ -33,6 +33,11 @@ a {
   height: 50px;
 }
 
+.btn-back {
+  margin-top: 15.5%;
+}
+/* sk */
+
 @media (max-width: 767.98px) {
   .iti__country-list {
     max-height: 9em;
