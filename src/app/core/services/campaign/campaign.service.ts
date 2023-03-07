@@ -26,7 +26,7 @@ import {
 } from '@app/core/campaigns-list-response.interface';
 import { IApiResponse } from '@app/core/types/rest-api-responses';
 import { environment as env } from '../../../../environments/environment';
-import axios from 'axios'
+import axios from 'axios';
 
 @Injectable({
   providedIn: 'root'
@@ -194,7 +194,10 @@ export class CampaignHttpApiService {
     );
   }
 
-  getOneById(id: string,projection : string =''): Observable<IApiResponse<ICampaignResponse>> {
+  getOneById(
+    id: string,
+    projection: string = ''
+  ): Observable<IApiResponse<ICampaignResponse>> {
     return this.http.get<IApiResponse<ICampaignResponse>>(
       sattUrl + '/campaign/details/' + id + `?projection=${projection}`,
       {
@@ -543,8 +546,8 @@ export class CampaignHttpApiService {
         title,
         pass: password,
         hash,
-        linkedinId : application.linkedinId,
-        version:localStorage.getItem('wallet_version')
+        linkedinId: application.linkedinId,
+        version: localStorage.getItem('wallet_version')
       },
       { headers: header }
     );
@@ -696,7 +699,6 @@ export class CampaignHttpApiService {
     values: any,
     id: string
   ): Observable<IApiResponse<ICampaignResponse> | null> {
-    
     return this.http
       .put<IApiResponse<ICampaignResponse>>(
         `${sattUrl}/campaign/update/${id}`,
@@ -787,7 +789,7 @@ export class CampaignHttpApiService {
       {
         tokenAddress: tron.addr,
         pass: tron.pass,
-        version : localStorage.getItem('wallet_version')
+        version: localStorage.getItem('wallet_version')
       },
 
       { headers: this.tokenStorageService.getHeader() }
@@ -942,6 +944,7 @@ export class CampaignHttpApiService {
         idProm: prom.hash,
         link: prom.link,
         email: prom.meta.email,
+        idLink: prom.id,
         idUser: prom.meta._id,
         pass: Password,
         lang: this.tokenStorageService.getLocalLang()
@@ -1100,7 +1103,6 @@ export class CampaignHttpApiService {
     size = 10,
     queryParams: HttpParams = new HttpParams()
   ): Observable<ICampaignsListResponse> {
-
     const walletId = !!this.tokenStorageService.getToken()
       ? (this.tokenStorageService.getIdWallet() as string)
       : '';
@@ -1122,15 +1124,13 @@ export class CampaignHttpApiService {
     // }).pipe(share()).subscribe((res) => {
     //   // console.log('res: ', res.data.campaigns.sort((a, b) => Number(a.startDate) - Number(b.startDate)))
     // });
-    
-
 
     return this.http
       .get<ICampaignsListResponse>(` ${sattUrl}/campaign/campaigns`, {
         headers: header2,
         params: queryParams2
       })
-      .pipe(share())
+      .pipe(share());
 
     // }
   }
@@ -1173,20 +1173,18 @@ export class CampaignHttpApiService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http
-    .get(sattUrl + '/wallet/countWallets', {headers: header})
+    return this.http.get(sattUrl + '/wallet/countWallets', { headers: header });
   }
-  
+
   // trial fetch from subgraph
   getTransactionsCount() {
-    return axios.get('https://api.github.com/users/mapbox')
-  .then((response) => {
-    console.log(response.data);
-    console.log(response.status);
-    console.log(response.statusText);
-    console.log(response.headers);
-    console.log(response.config);
-  });
+    return axios.get('https://api.github.com/users/mapbox').then((response) => {
+      console.log(response.data);
+      console.log(response.status);
+      console.log(response.statusText);
+      console.log(response.headers);
+      console.log(response.config);
+    });
     // let header = new HttpHeaders({
     //   'Cache-Control': 'no-store',
     //   'Content-Type': 'application/json',
