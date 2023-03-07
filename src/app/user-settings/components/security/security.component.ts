@@ -803,7 +803,6 @@ export class SecurityComponent implements OnInit, OnDestroy {
               .get('password')
               ?.setErrors({ checkPassword: true });
           } else {
-            // if (res.message === 'success' && res.code === 200) {
           this.formExportDataSubmitted = false;
           const file = new Blob([JSON.stringify(res)], {
             type: 'application/octet-stream'
