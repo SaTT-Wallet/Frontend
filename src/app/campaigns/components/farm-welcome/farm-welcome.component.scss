@@ -397,6 +397,9 @@
   .margin-top-farm {
     margin-top: 18rem !important;
   }
+  .bg-title {
+    padding-top: 3%;
+  }
   @media not all and (min-resolution: 0.001dpcm) {
     @supports (-webkit-appearance: none) {
       .margin-top {
@@ -473,6 +476,7 @@
     margin-top: -7rem;
   }
   .bg-title {
+    padding-top: 2%;
     font-size: 28px;
   }
   .bg-subtitle {
@@ -496,6 +500,7 @@
     margin-top: -7rem;
   }
   .bg-title {
+    padding-top: 2%;
     font-size: 28px;
   }
   .bg-subtitle {
@@ -538,4 +543,25 @@
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: #ffffff;
+}
+
+// huawai
+@media only screen and (max-height: 600px) {
+  .bg-container {
+    height: 90vh;
+  }
+  .bg-title {
+    padding-top: 4%;
+    font-size: 32px;
+  }
+}
+
+@media only screen and (max-width: 375px) and (max-height: 579px) {
+  .bg-container {
+    height: 90vh;
+  }
+  .bg-title {
+    padding-top: 4%;
+    font-size: 32px;
+  }
 }

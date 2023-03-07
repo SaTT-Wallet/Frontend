@@ -86,6 +86,7 @@ export class MigrationComponent implements OnInit {
     this.network.name = 'ETH';
   }
 
+
   getCryptoList() {
     this.cryptoList$.subscribe((data: any) => {
       this.cryptobyNetwork = data.filter(
@@ -130,6 +131,7 @@ export class MigrationComponent implements OnInit {
     this.cryptoChecked = crypto;
     const index = this.listCrypto.findIndex((e) => e.network === crypto);
     this.network.name = this.listCrypto[index]?.name;
+    this.walletPassword=""
     let element = this.cryptobyNetwork.find(
       (e: any) => e.symbol === this.network.name
     );
@@ -146,7 +148,6 @@ export class MigrationComponent implements OnInit {
 
   goToBuy(id: any, network: any, cryptobyNetwork:any) {
     this.sendMigrationStatus()
-   
 
     if( network === "BTTC"){
       window.open('https://sunswap.com/#/v2?lang=en-US&t0=TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t&t1=TAFjULxiVgT4qWk6UZwjqwZXTSaGaqnVp4&type=swap', '_blank');
@@ -189,7 +190,7 @@ export class MigrationComponent implements OnInit {
         (err: any) => {
           if
           (err.error.error ===
-            'Key derivation failed - possibly wrong password' ) {
+            'Key derivation failed - possibly wrong password' || err.error.error === "Invalid private key provided") {
               this.errorMessage = true;
               this.walletPassword = "";
             }
@@ -228,6 +229,7 @@ export class MigrationComponent implements OnInit {
   nextStep() {
     this.arrayToMigrate = [];
     this.hash = '';
+    this.walletPassword="";
 
     if (this.cryptoChecked === 'TRON') {
       this.walletFacade
@@ -282,5 +284,6 @@ export class MigrationComponent implements OnInit {
     let network = this.listCrypto[index].explorer;
     this.hash = network + data.data[0].from;
     this.walletStoreService.getCryptoList();
+    this.walletStoreService.getTotalBalance();
   }
 }

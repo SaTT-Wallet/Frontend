@@ -1358,12 +1358,13 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
           //   this.balanceNotEnough = false;
 
           // } else {
-          this.notifyLink(data.data.idProm);
-          this.error = '';
-          this.success = data.data.transactionHash;
-          this.loadingButton = false;
-          if (data.data['transactionHash']) {
-            this.transactionHash = data.data['transactionHash'];
+         
+          if (data?.data?.applyerSignature?.signature) {
+            this.transactionHash = data?.data?.applyerSignature?.signature;
+            this.notifyLink(data?.data?.applyerSignature?.signature);
+            this.error = '';
+            this.success = data?.data?.applyerSignature?.signature;
+            this.loadingButton = false;
           }
           this.router.navigate([], {
             queryParams: {
@@ -1440,6 +1441,11 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
                   errorMessage: 'error'
                 }
               });
+            } else if(error.error.error === 'Wallet v2 not found')
+            {
+              this.error = 'wallet not found';
+              this.success = '';
+              this.loadingButton = false;
             }
           } else {
             this.error = 'error-message';

@@ -289,6 +289,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
             crypto.selected = false;
           });
 
+
           this.dataList?.forEach((crypto: any) => {
             crypto.price = this.filterAmount(crypto.price + '');
             crypto.variation = parseFloat(crypto.variation + '');

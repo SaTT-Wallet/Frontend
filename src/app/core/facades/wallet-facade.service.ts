@@ -383,4 +383,12 @@ export class WalletFacadeService {
   checkUserIsNew() {
     return this.walletService.checkUserIsNew();
   }
+
+  checkWalletV2Exist() {
+    return this.walletService.checkWalletV2Exist();
+  }
+
+  resetTransactionPassword(password: string, newPassword: string) {
+    return this.walletService.resetTransactionPassword(password, newPassword);
+  }
 }
