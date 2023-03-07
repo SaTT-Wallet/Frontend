@@ -6,11 +6,9 @@
 >
   <div class="row show-mobile mb-2">
     <div class="col-md-12 col-lg-12 col-xs-12">
-      <button
-        type="button"
-        class="btn-back"
-        [routerLink]="['/home/settings/']"
-      ></button>
+      <button type="button" class="btn-back" [routerLink]="['/home/settings/']">
+        <
+      </button>
     </div>
   </div>
   <div class="div_block">
@@ -1106,7 +1104,7 @@ this.formUpdatePassword.get('old_password')?.touched && this.formUpdatePassword.
       href="#collapse1"
       aria-expanded="false"
       aria-controls="collapse1"
-      *ngIf="walletV2Exist"
+      *ngIf="!userIsNew"
     >
       <!-- <div class="d-flex justify-content-between cursor_pntr">
                     <div>

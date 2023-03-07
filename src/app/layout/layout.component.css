@@ -44,12 +44,13 @@
 .div1 {
   padding-top: 3px;
   padding-bottom: 3px;
-  height: 65px;
+  height: 8vh;
   background-color: #f6f6ff;
   width: 100%;
   text-align: center;
   position: fixed;
   z-index: 101;
+  padding-top: 1vh;
 }
 
 .div2 {
@@ -59,7 +60,7 @@
   border-radius: 9px;
   height: 57px;
   display: inline-block;
-  padding-top: 17px;
+  padding-top: 2vh;
 }
 
 .title-modal {
@@ -67,8 +68,7 @@
   font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-size: 14px;
-  line-height: 130%;
-  letter-spacing: 0.03em;
+  line-height: 110%;
 }
 
 .title-modal.warning {
@@ -88,7 +88,7 @@
 #cross {
   position: absolute;
   right: 0;
-  top: 1.5em;
+  top: 3vh;
   margin-right: 3%;
 }
 
@@ -96,6 +96,10 @@
   margin: auto;
   height: 50%;
   justify-content: center;
+}
+
+#img-moon-warning {
+  margin-top: -5px;
 }
 
 /* sk */

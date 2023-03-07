@@ -980,13 +980,15 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   ngAfterViewChecked(): void {
     let elementinputusd = this.inputAmountUsd?.nativeElement;
     if (elementinputusd)
-      elementinputusd.style.width = elementinputusd.value.length + 1.2 + 'ch';
+    this.renderer.setStyle(elementinputusd,"width", elementinputusd.value.length + 1.2 + 'ch')
+      //elementinputusd.style.width = elementinputusd.value.length + 1.2 + 'ch';
   }
   editwidthInput() {
     let elementinputusd = this.inputAmountUsd?.nativeElement;
     //  elementinputusd.style.width = 40 + 'px';
     if (elementinputusd)
-      elementinputusd.style.width = elementinputusd.value.length + 1.2 + 'ch';
+    this.renderer.setStyle(elementinputusd,"width", elementinputusd.value.length + 1.2 + 'ch')
+      //elementinputusd.style.width = elementinputusd.value.length + 1.2 + 'ch';
   }
   linstingBack(event: any) {
     if (event === true) {

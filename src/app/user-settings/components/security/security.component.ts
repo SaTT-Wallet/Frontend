@@ -3,7 +3,8 @@ import {
   Inject,
   OnDestroy,
   OnInit,
-  PLATFORM_ID
+  PLATFORM_ID,
+  Renderer2
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -119,7 +120,6 @@ export class SecurityComponent implements OnInit, OnDestroy {
     public modalService: NgbModal,
     private AuthService: AuthService,
     private profileSettingsFacade: ProfileSettingsFacadeService,
-    private authStoreService: AuthStoreService,
     private clipboard: Clipboard,
     private router: Router,
     private toastr: ToastrService,

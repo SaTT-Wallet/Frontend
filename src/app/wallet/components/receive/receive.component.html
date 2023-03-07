@@ -25,7 +25,6 @@
           type="number"
           id="amount1"
           (focus)="goToSection('amountreceive')"
-          #inputAmount
           pattern="(\d{1,2}([\.,])?)*([\d{1,2}]?)*"
           formControlName="Amount"
           (keydown)="restrictZero($event)"
