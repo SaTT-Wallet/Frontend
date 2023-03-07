@@ -7,7 +7,8 @@ import {
   OnDestroy,
   Inject,
   PLATFORM_ID,
-  HostListener
+  HostListener,
+  Renderer2
 } from '@angular/core';
 
 import { Big } from 'big.js';
@@ -167,7 +168,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     private kycFacadeService: KycFacadeService,
     private router: Router,
     private localStorage: TokenStorageService,
-    private activeRoute: ActivatedRoute
+    private activeRoute: ActivatedRoute,
+    private renderer: Renderer2
   ) {
     //, Validators.max(this.maxNumber)
     this.sendform = new FormGroup({
