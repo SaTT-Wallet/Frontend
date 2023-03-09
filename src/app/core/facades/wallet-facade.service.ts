@@ -388,7 +388,5 @@ export class WalletFacadeService {
     return this.walletService.checkWalletV2Exist();
   }
 
-  resetTransactionPassword(password: string, newPassword: string) {
-    return this.walletService.resetTransactionPassword(password, newPassword);
-  }
+  
 }
