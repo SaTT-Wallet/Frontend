@@ -2167,6 +2167,9 @@ p {
 
   /* margin-right: 1.5rem; */
 }
+.label_input {
+  font-size: 14px !important;
+}
 .btn-white {
   width: 217px !important;
   height: 48px !important;
