@@ -1,45 +1,54 @@
 import 'zone.js/dist/zone-node';
-
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import express from 'express';
 import { join } from 'path';
-import { apiProxy } from './proxy';
 import { existsSync } from 'fs';
 import { InjectionToken } from '@angular/core';
 import { readFileSync } from 'fs';
-import { JSDOM } from 'jsdom';
+const cheerio = require('cheerio');
 
 import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
 
-// The Express app is exported so that it can be used by serverless Functions.
+
 export function app(): express.Express {
   const server = express();
   const distFolder = join(process.cwd(), 'dist/satt-token-atayen/browser');
   const template = readFileSync(join(distFolder, 'index.html')).toString();
-  const dom = new JSDOM(template);
-  global['window'] = dom.window as unknown as Window & typeof globalThis;
-  global['document'] = dom.window.document;
-  global['navigator'] = dom.window.navigator;
-  global['Event'] = dom.window.Event;
-  global['MouseEvent'] = dom.window.MouseEvent;
-  global['KeyboardEvent'] = dom.window.KeyboardEvent;
-  global['FocusEvent'] = dom.window.FocusEvent;
-  global['PointerEvent'] = dom.window.PointerEvent;
+  const loadedData = cheerio.load(template);
+  const $ = loadedData('body');
+
+  const fakeWindow = {
+    navigator: {},
+    document: $.html(),
+    Event: {},
+    MouseEvent: {},
+    KeyboardEvent: {},
+    FocusEvent: {},
+    PointerEvent: {}
+  };
+
+
 
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
   server.engine(
     'html',
     ngExpressEngine({
-      bootstrap: AppServerModule
+      bootstrap: AppServerModule,
+      providers: [
+        { provide: 'document', useValue: fakeWindow.document },
+      ],
     })
   );
+
   server.set('view engine', 'html');
   server.set('views', distFolder);
-  server.use('/api', apiProxy);
 
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });
+
+
+
   // Serve static files from /browser
   server.get(
     '*.*',
@@ -62,10 +71,13 @@ export function app(): express.Express {
     });
   });
 
+
   server.get('*', getStaticFiles);
 
   return server;
 }
+
+
 
 function run(): void {
   const port = process.env.PORT || 4000;
