@@ -667,7 +667,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
     //this.formExportData.reset()
     //this.formExportData.updateValueAndValidity();
 
-    let exportObs = localStorage.getItem("wallet_version") === "v1" && this.profileSettingsFacade.exportProfileData(password) || this.profileSettingsFacade.exportProfileDataV2(password);
+    let exportObs = !this.walletV2Exist ? this.profileSettingsFacade.exportProfileData(password) : this.profileSettingsFacade.exportProfileDataV2(password);
     let fileName: string = '';
     if (this.exportType === this.eExportType.eth) {
       fileName = 'keystore.json';
