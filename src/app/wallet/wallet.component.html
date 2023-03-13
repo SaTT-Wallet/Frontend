@@ -8,7 +8,7 @@
 </div> -->
 
 <!-- <div class="wallet container-fluid"> -->
-<!-- 
+
 <ng-template #migration>
   <app-migration  
 [className]="getScreenWidth > 740 ? 'migration' : 'migration-mobile'"
@@ -17,7 +17,7 @@
 (migrateEvent)="getMigrationStatus($event)"
 
 ></app-migration>
-</ng-template> -->
+</ng-template>
 
 <div class="wallet">
   <!--red bloc:desktop and tablette-->
@@ -590,12 +590,14 @@
       <form
         [formGroup]="formUpdateTransactionPassword"
         id="formUpdateTransactionPassword"
+        style="position: relative;width: 60%; left: 5%;"
       >
 
-        <div class="row pt-4">
-          <div class="col-10">
+        <div class="row pt-4 ">
+          <div class="postition-trans">
             <label
-              class="label_input"
+            style="display: block ruby ;"
+              class=" trans"
               [ngClass]="{
                 labelError:
                   this.formUpdateTransactionPassword.get('password')
@@ -639,6 +641,7 @@
                 formControlName="password"
                 id="newPassword"
                 class="input_oeil"
+                style="border: none;"
                 #password
                 [ngClass]="{
                   errorMsg2:
@@ -701,9 +704,10 @@
         <!-- End Input , label and error msg new password-->
         <!-- Input , label and error msg confirmation password-->
         <div class="row mt-3">
-          <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+          <div class="postition-trans">
             <label
-              class="label_input"
+            style="display: block ruby ;"
+              class="trans"
               [ngClass]="{
                 labelError:
                   this.formUpdateTransactionPassword.errors?.mustMatch
@@ -716,7 +720,7 @@
         <div class="row">
           <div class="col-10">
             <div
-              class="div-input-icon position-relative"
+              class="div-input-icon"
               [ngClass]="{
                 errorMsg:
                   this.formUpdateTransactionPassword.errors?.mustMatch,
@@ -744,6 +748,7 @@
                 id="confirmPassword"
                 formControlName="confirmPassword"
                 class="input_oeil"
+                style="border:none  !important;"
                 [ngClass]="{
                   errorMsg2:
                     this.formUpdateTransactionPassword.errors?.mustMatch
@@ -798,14 +803,14 @@
     </div>
 
 
-<div class="row   justify-align-center">
+<div class="row   justify-align-center mt-5 mb-3">
    <input
             type="checkbox"
             name="checkbox"
             id="checkbox"
   style="height: 28px;"
-            class="checkbox-style col-1 offset-3 "
-           
+            class="checkbox-style col-1 offset-2 "
+            [(ngModel)]="isChecked"
           />
           <div class="col-6 mr-4 "
           >
@@ -815,8 +820,19 @@
 </div>
     <div class="row justify-content-center ">
       <div class="col-3  justify-align-center">
+      
         <button type="submit"
-        class="btn-green" (click)="testfn()">Next Step</button>
+        class="btn-green" (click)="testfn()" [disabled]="!isChecked"><span *ngIf="!showSpinnerTransactionPassword">
+          {{ 'Next Step' | translate }}
+       </span>
+        <div
+          *ngIf="showSpinnerTransactionPassword"
+          class="spinner-border text-light"
+          role="status"
+        >
+          <span class="sr-only">Loading...</span>
+        </div></button>
+    
         <!-- <button
           type="submit"
           class="btn-green"

@@ -855,10 +855,10 @@ this.formUpdateTransactionPassword
         if (this.hasWalletV2 &&
           //  this.migrate === 'open' &&
             this.show) {
-              this.modalService.open(this.setPwdTransactionModal, {
-            backdrop: 'static',
-            keyboard: false
-          });
+          //     this.modalService.open(this.setPwdTransactionModal, {
+          //   backdrop: 'static',
+          //   keyboard: false
+          // });
           // this.modalService.open(this.migration, {
           //   backdrop: 'static',
           //   keyboard: false
@@ -1380,7 +1380,15 @@ this.formUpdateTransactionPassword
     this.tokenStorageService.setItem('hideRedBloc', 'true');
     this.hideRedBloc = this.tokenStorageService.getHideRedBloc();
   }
+  closebtn(){
+    this.closeModal(this.setPwdTransactionModal);
+    //         this.modalService.open(this.migration, {
+    //    backdrop: 'static',
+    //    keyboard: false
+    //  });
+  }
   testfn(){
+    debugger
     this.showSpinnerTransactionPassword = true;
     this.transactionPasswordWrong = '';
     this.transactionPasswordSuccess = '';
@@ -1390,7 +1398,7 @@ this.formUpdateTransactionPassword
 
 
 
-    if (this.formUpdateTransactionPassword.valid) {
+    if (this.formUpdateTransactionPassword) {
       if (oldpass === newpass) {
         this.transactionPasswordWrong = 'profile.newPass';
         this.showSpinnerTransactionPassword = false;
@@ -1404,12 +1412,15 @@ this.formUpdateTransactionPassword
             this.showSpinnerTransactionPassword = false;
             if(res.code == 200 && res.message === "success") {
               this.transactionPasswordSuccess = "you have successfully changed your password";
+        
               setTimeout(() => {
                 this.transactionPasswordSuccess = "";
-                  this.modalService.open(this.migration, {
-            backdrop: 'static',
-            keyboard: false
-          });
+                this.closeModal(this.setPwdTransactionModal);
+               
+                this.modalService.open(this.migration, {
+          backdrop: 'static',
+          keyboard: false
+        });
               } 
               , 2000)
             }
@@ -1484,8 +1495,14 @@ this.formUpdateTransactionPassword
             this.showSpinnerTransactionPassword = false;
             if(res.code == 200 && res.message === "success") {
               this.transactionPasswordSuccess = "you have successfully changed your password";
+              this.closeModal(this.setPwdTransactionModal);
+      //         this.modalService.open(this.migration, {
+      //    backdrop: 'static',
+      //    keyboard: false
+      //  });
               setTimeout(() => {
                 this.transactionPasswordSuccess = "";
+            
               }, 2000)
             }
             
@@ -1537,6 +1554,7 @@ this.formUpdateTransactionPassword
     this.passwordWrong = '';
     this.errorMsg = '';
   }
+
 
   getSecure() {
     if (this.tokenStorageService.getSecure() === 'true') {
