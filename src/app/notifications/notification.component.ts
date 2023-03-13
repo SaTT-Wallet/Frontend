@@ -416,10 +416,10 @@ export class NotificationComponent implements OnInit {
         if (item._label['currency']) {
           let decimal = item._label['decimal']
             ? new Big('10').pow(item._label['decimal'])
-            : ListTokens[item._label.currency].decimals;
+            : ListTokens[item._label.currency]?.decimals;
 
           item._params = {
-            nbr: Big(item._label['amount']).div(decimal),
+            nbr: Big(item._label['amount']).div(decimal ?? 18),
             currency:
               item._label['currency'] === 'SATTBEP20' ||
               item._label['currency'] === 'SATTPOLYGON' ||

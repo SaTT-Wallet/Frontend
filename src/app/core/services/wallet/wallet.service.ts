@@ -197,22 +197,7 @@ export class WalletService {
     );
   }
 
-  resetTransactionPassword(password: string, newPassword: string) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
-    return this.http.post(
-      `${sattUrl}/wallet/resetpassword`,
-      {
-        oldPass: password,
-        newPass: newPassword
-      },
-      { headers: header }
-    );
-  }
+ 
 
   chartjs() {
     const headers = new HttpHeaders({
