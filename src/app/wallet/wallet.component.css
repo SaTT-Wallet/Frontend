@@ -69,7 +69,23 @@ input:-webkit-autofill:active {
     width: auto !important;
     margin: auto;
   }
-
+  .error_input {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0.03em;
+    color: #f52079;
+    max-height: 3em;
+  }
+  .label_input {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 125.9%;
+    letter-spacing: 0.03em;
+    color: #6c768c;
+  }
   #welcome-input {
     margin: auto !important;
   }

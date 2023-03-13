@@ -586,289 +586,7 @@
         For security reasons. You will need to enter a new transaction password. Write it down carefully and keep it in a safe place!
       </p>
     </div>
-    
-    <!-- <div class="row">
-      <div class="d-flex justify-content-center mt-4">
-        <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8 padding-x">
-          <form
-            [formGroup]="formPWD"
-            class="set-password-from"
-            (ngSubmit)="onSubmit()"
-          >
-            <div class="row">
-              <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8 mt-2">
-                <span class="gray-text-span">{{
-                  'Choisissez votre mot de passe de transaction' | translate
-                }}</span>
-              </div>
-            </div>
-            <div class="row d-flex justify-content-start px-2">
-              <div
-                class="div_input position-relative col-xl-8 col-lg-8 col-md-7 col-sm-12"
-              >
-                <img
-                  class="ps-1 position-absolute align-self-center"
-                  src="/assets/Images/Kep-password.svg"
-                />
-                <input
-                  type="text"
-                  #passwordInput
-                  autocomplete="off"
-                  appBlockCopyPaste
-                  formControlName="passwordTransaction"
-                  [ngClass]="showPass ? 'input_oeil' : 'input_oeil pass-hide'"
-                />
-                <span
-                  (click)="showPass = !showPass"
-                  class="fa fa-fw cross_input_network align-self-center"
-                  aria-hidden="true"
-                  [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"
-                ></span>
-              </div>
-              <div class="error-message">
-                <p
-                  *ngIf="
-                    this.f.password.errors?.pattern && this.f.password.dirty
-                  "
-                >
-                  {{ 'password_pattern_error_msg' | translate }}
-                </p>
-              </div>
-            </div>
-            <div class="row d-flex justify-content-start">
-              <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8 mt-2">
-                <span class="gray-text-span">{{
-                  'Profil.campaign_password.confirm' | translate
-                }}</span>
-              </div>
-            </div>
-
-            <div class="row mb-3 mt-2 px-2">
-              <div
-                class="div_input position-relative col-xl-8 col-lg-8 col-md-7 col-sm-12"
-              >
-                <img
-                  class="ps-1 position-absolute align-self-center"
-                  src="/assets/Images/Kep-password.svg"
-                />
-                <input
-                  #confirmPasswordInput
-                  appBlockCopyPaste
-                  type="text"
-                  autocomplete="off"
-                  name="confirmPassword"
-                  id="confirmPassword"
-                  formControlName="confirmPassword"
-                  [ngClass]="
-                    showPass2 ? 'input_oeil' : 'input_oeil pass-hide'
-                  "
-                />
-                <span
-                  (click)="showPass2 = !showPass2"
-                  class="fa fa-fw cross_input_network align-self-center"
-                  aria-hidden="true"
-                  [ngClass]="showPass2 ? ' fa-eye ' : ' fa-eye-slash'"
-                ></span>
-              </div>
-
-              <div class="error-message" *ngIf="this.formPWD.errors?.mustMatch">
-                <p *ngIf="this.formPWD.errors?.mustMatch && this.formPWD.dirty">
-                  {{ 'Profil.password_must_match_error' | translate }}
-                </p>
-              </div>
-              <div
-                class="error-message d-flex mt-1"
-                *ngIf="this.erreuur === true"
-              >
-                <i class="fa fa-info-circle pe-2"></i>
-                <p>{{ 'same_pass' | translate }}</p>
-              </div>
-            </div>
-
-            <div
-              class="row d-flex justify-content-center"
-              *ngIf="f.password.value !== null"
-            >
-              <div
-                class="password-meter"
-                [ngClass]="{ hidden: this.passwordStrengthMsg === '' }"
-              >
-                <p #passwordStrengthText class="password-meter-text d-flex">
-                  <i class="fa fa-info-circle pt-2 pe-2"></i>
-                  <span class="pt-1">{{
-                    passwordStrengthMsg | translate
-                  }}</span>
-                </p>
-              </div>
-            </div>
-            <div class="row">
-              <div
-                class="col-xl-8 col-lg-8 col-md-9 col-sm-8 top-10 display-flex mt-5"
-              >
-                <button
-                  type="submit"
-                  class="btn-green"
-                  [disabled]="!this.formPWD.valid"
-                >
-                  <span *ngIf="!this.showSpinner">{{
-                    'sign_up_continue' | translate
-                  }}</span>
-                  <div
-                    *ngIf="this.showSpinner"
-                    class="spinner-border text-light"
-                    role="status"
-                  >
-                    <span class="sr-only">Loading...</span>
-                  </div>
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div> -->
-    
-
-    <!--  la  1er-->
-    <!-- <div class="input-div">
-      <div class="postition-trans">
-        <h6 class="trans">Choose a new password</h6>
-      </div>
-      <div
-        class="div-input-icon p-1 welcome-input"
-        id="welcome-input"
-        [ngClass]="{
-          error: wrongpassword
-        }"
-      >
-        <ng-container *ngIf="!wrongpassword; else wrongPasswordImg">
-          <img
-            *ngIf="!wrongpassword"
-            class=""
-            src="../../../assets/Images/Kep-password.svg"
-          />
-        </ng-container>
-        <ng-template #wrongPasswordImg>
-          <img class="" src="../../../assets/Images/Kep-passwordFalse.svg" />
-        </ng-template>
-        <div style="display: none">
-          <input
-            type="text"
-            id="PreventChromeAutocomplete"
-            name="PreventChromeAutocomplete"
-            autocomplete="address-level4"
-          />
-        </div>
-        <input
-          autocomplete="new-password"
-          type="text"
-          [ngClass]="showPass ? 'input-password' : 'input-password pass-hide'"
-          [(ngModel)]="walletPassword"
-          #password_field
-        />
-
-        <span
-          (click)="
-            showPass = !showPass;
-            password_field.type =
-              password_field.type === 'password' ? 'text' : 'password'
-          "
-          class="fa fa-fw cross_input_network align-self-center"
-          aria-hidden="true"
-          [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"
-        ></span>
-      </div>
-
-      <div *ngIf="!!walletV2ErrorMessage">
-        <span class="walletV2WrongMessage">{{ walletV2ErrorMessage }}</span>
-      </div>
-    </div> -->
-    <!-- <div class="input-div">
-      <div class="postition-trans">
-        <h6 class="trans">confirm</h6>
-      </div>
-      <div
-        class="div-input-icon p-1 welcome-input"
-        id="welcome-input"
-        [ngClass]="{
-          error: wrongpassword
-        }"
-      >
-        <ng-container *ngIf="!wrongpassword; else wrongPasswordImg">
-          <img
-            *ngIf="!wrongpassword"
-            class=""
-            src="../../../assets/Images/Kep-password.svg"
-          />
-        </ng-container>
-        <ng-template #wrongPasswordImg>
-          <img class="" src="../../../assets/Images/Kep-passwordFalse.svg" />
-        </ng-template>
-        <div style="display: none">
-          <input
-            type="text"
-            id="PreventChromeAutocomplete"
-            name="PreventChromeAutocomplete"
-            autocomplete="address-level4"
-          />
-        </div>
-        <input
-          autocomplete="new-password"
-          type="password"
-          [ngClass]="showPass ? 'input-password' : 'input-password pass-hide'"
-          [(ngModel)]="walletPassword"
-          #password_field
-        />
-
-        <span
-          (click)="
-            showPass = !showPass;
-            password_field.type =
-              password_field.type === 'password' ? 'text' : 'password'
-          "
-          class="fa fa-fw cross_input_network align-self-center"
-          aria-hidden="true"
-          [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"
-        ></span>
-      </div>
-
-    </div> -->
-
-<!-- 
-    <div class="row justify-content-center justify-align-center mt-5  "> 
-       <input
-      type="checkbox"
-      name="checkboxname"
-style="height: 18px;"
-      class="checkbox-style  col-1 justify-content-left   justify-align-center "
-     
-    /> <div class="col-7 justify-align-center justify-content-left ">I understand that tech support cannot help me recover a lost password.</div></div>
-    <div class="d-flex flex-column justify-content-center align-items-center">
-      <div
-        class="d-flex align-items-center justify-content-center col-xl-6 col-lg-8 col-md-8 col-sm-8"
-      >
-        <button
-          class="btnModalError btn_fill_profile btn-blue"
-          (click)="createWalletV2()"
-          [disabled]="walletPassword.length < 6 || buttonClick"
-        >
-          <div
-            *ngIf="buttonClick"
-            class="spinner-border text-grey"
-            role="status"
-          >
-            <span class="sr-only">Loading...</span>
-          </div>
-          <div *ngIf="!buttonClick" id="next-step">
-            {{ 'Next Step' | translate }}
-          </div>
-        </button>
-      </div>
-      <div
-        class="col-xl-6 col-lg-8 col-md-8 col-sm-8 d-flex flex-column justify-content-center align-items-center"
-      ></div>
-    </div> -->
-    <div class="row">
+  <div class="row">
       <form
         [formGroup]="formUpdateTransactionPassword"
         id="formUpdateTransactionPassword"
@@ -893,7 +611,7 @@ style="height: 18px;"
         <div class="row">
           <div class="col-10">
             <div
-              class="div_input_add position-relative"
+              class="div-input-icon  position-relative"
               [ngClass]="{
                 errorMsg:
                   this.formUpdateTransactionPassword.get('password')
@@ -903,7 +621,17 @@ style="height: 18px;"
                 success:
                   this.formUpdateTransactionPassword.get('password')?.valid
               }"
-            >
+            > 
+            <ng-container *ngIf="!wrongpassword; else wrongPasswordImg">
+              <img
+                *ngIf="!wrongpassword"
+                class=""
+                src="../../../assets/Images/Kep-password.svg"
+              />
+            </ng-container>
+            <ng-template #wrongPasswordImg>
+              <img class="" src="../../../assets/Images/Kep-passwordFalse.svg" />
+            </ng-template>
               <input
                 autocomplete="on"
                 type="password"
@@ -988,7 +716,7 @@ style="height: 18px;"
         <div class="row">
           <div class="col-10">
             <div
-              class="div_input_add position-relative"
+              class="div-input-icon position-relative"
               [ngClass]="{
                 errorMsg:
                   this.formUpdateTransactionPassword.errors?.mustMatch,
@@ -998,6 +726,16 @@ style="height: 18px;"
                     ?.valid
               }"
             >
+            <ng-container *ngIf="!wrongpassword; else wrongPasswordImg">
+              <img
+                *ngIf="!wrongpassword"
+                class=""
+                src="../../../assets/Images/Kep-password.svg"
+              />
+            </ng-container>
+            <ng-template #wrongPasswordImg>
+              <img class="" src="../../../assets/Images/Kep-passwordFalse.svg" />
+            </ng-template>
               <input
                 autocomplete="on"
                 type="password"
@@ -1077,7 +815,9 @@ style="height: 18px;"
 </div>
     <div class="row justify-content-center ">
       <div class="col-3  justify-align-center">
-        <button
+        <button type="submit"
+        class="btn-green" (click)="testfn()">Next Step</button>
+        <!-- <button
           type="submit"
           class="btn-green"
           (click)="updateTransactionPassword()"
@@ -1093,7 +833,7 @@ style="height: 18px;"
           >
             <span class="sr-only">Loading...</span>
           </div>
-        </button>
+        </button> -->
       </div>
     </div>
   </div>

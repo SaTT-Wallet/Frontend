@@ -668,10 +668,10 @@ this.formUpdatePassword.get('old_password')?.touched && this.formUpdatePassword.
           <button
             type="submit"
             class="btn-green"
-            (click)="updateTransactionPassword()"
-            [disabled]="formUpdateTransactionPassword.invalid"
-          >
-            <span *ngIf="!showSpinnerTransactionPassword">{{
+            (click)="updateTransactionPassword()"></button>
+            <!-- [disabled]="formUpdateTransactionPassword.invalid" -->
+          
+            <!-- <span *ngIf="!showSpinnerTransactionPassword">{{
               'Profil.save' | translate
             }}</span>
             <div
@@ -681,7 +681,7 @@ this.formUpdatePassword.get('old_password')?.touched && this.formUpdatePassword.
             >
               <span class="sr-only">Loading...</span>
             </div>
-          </button>
+          </button> -->
         </div>
       </div>
     </div>
