@@ -10,7 +10,8 @@ import {
   Renderer2,
   OnInit,
   PLATFORM_ID,
-  ViewChild
+  ViewChild,
+  Input
 } from '@angular/core';
 // import { bscan, etherscan } from '@app/config/atn.config';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
@@ -155,7 +156,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   // elementType = NgxQrcodeElementTypes.URL;
   // correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
   // value = 'Techiediaries';
-
+  @Input() phishingClosing: boolean = false;
   issendfire: number = 0;
   private notifItemSize = 111;
   notifListSize = 0;
@@ -175,7 +176,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   tronAddressV2: any;
   displayNew: any;
   displayOld: any;
-  title: any = 'Your ID Wallet ';
+  title: any = '';
+  titleWallet: any = '';
   existV1: any;
 
   constructor(
@@ -193,7 +195,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     private ParticipationListStoreService: ParticipationListStoreService,
     private toastr: ToastrService,
     private walletFacade: WalletFacadeService,
-    private renderer : Renderer2,
+    private renderer: Renderer2,
     private walletService: WalletService,
     private campaignFacade: CampaignsService,
     private profileSettingsFacade: ProfileSettingsFacadeService,
@@ -293,12 +295,20 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           //@ts-ignore
           // this.header?.nativeElement.style.background =
           //   'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)';
-            this.renderer.setStyle(this.header?.nativeElement,'background','linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)');
+          this.renderer.setStyle(
+            this.header?.nativeElement,
+            'background',
+            'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)'
+          );
           this.isWelcomePage = false;
           this.menuBuyToken = true;
         }
         if (!this.isWelcomePage) {
-          this.renderer.setStyle(this.header?.nativeElement,'background','linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)');
+          this.renderer.setStyle(
+            this.header?.nativeElement,
+            'background',
+            'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)'
+          );
         }
       }
     });
@@ -329,16 +339,16 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   ngOnInit(): void {
     this.getScreenWidth = window.innerWidth;
-    // switch (localStorage.getItem('wallet_version')) {
-    //   case 'v2':
-    //     this.title = 'Go to old wallet';
-    //     this.titleWallet = 'Your wallet ID';
-    //     break;
-    //   case 'v1':
-    //     this.title = 'Go to new wallet';
-    //     this.titleWallet = 'Your old wallet';
-    //     break;
-    // }
+    switch (localStorage.getItem('wallet_version')) {
+      case 'v2':
+        this.title = 'Go to old wallet';
+        this.titleWallet = 'Your wallet ID';
+        break;
+      case 'v1':
+        this.title = 'Go to new wallet';
+        this.titleWallet = 'Your old wallet';
+        break;
+    }
 
     if (isPlatformBrowser(this.platformId)) {
       this.authService.isAuthenticated$
@@ -420,17 +430,20 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   isDisplayNew() {
     this.displayNew = localStorage.getItem('display')?.toString();
+
     if (this.existV1) {
       if (this.displayNew === 'none') {
         this.displayNew = 'block';
         this.displayOld = 'none';
         localStorage.setItem('display', this.displayNew);
-        this.title = 'Your ID Wallet';
+        this.titleWallet = 'Your wallet ID';
+        this.title = 'Go to old wallet';
       } else {
         this.displayNew = 'none';
         this.displayOld = 'block';
         localStorage.setItem('display', this.displayNew);
-        this.title = 'Your Old Wallet ';
+        this.titleWallet = 'Your old wallet';
+        this.title = 'Go to new wallet ';
       }
     }
   }

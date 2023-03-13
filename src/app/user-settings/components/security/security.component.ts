@@ -80,7 +80,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
   formExportDataBTCSubmitted: boolean = false;
   formExportDataBTCSubmittedV2: boolean = false;
   formUpdatePassword: UntypedFormGroup;
-  formUpdateTransactionPassword: UntypedFormGroup;
+  formUpdateTransactionPassword: UntypedFormGroup | undefined;
   password: any;
   passwordWrong: string = '';
   transactionPasswordWrong: string = '';
@@ -159,20 +159,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
       },
       { validators: MatchPasswordValidator() }
     );
-    this.formUpdateTransactionPassword = new UntypedFormGroup(
-      {
-        old_password: new UntypedFormControl(null, Validators.required),
-        password: new UntypedFormControl(null, {
-          validators: [
-            Validators.required,
-            Validators.minLength(8),
-            Validators.pattern(pattPassword)
-          ]
-        }),
-        confirmPassword: new UntypedFormControl(null, [Validators.required])
-      },
-      { validators: MatchPasswordValidator() }
-    );
+    
 
     this.formExportData = new UntypedFormGroup({
       password: new UntypedFormControl(null, Validators.required)
@@ -279,37 +266,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
 
 
-      this.formUpdateTransactionPassword.controls['password'].disable();
-    this.formUpdateTransactionPassword.controls['confirmPassword'].disable();
-    this.formUpdateTransactionPassword
-      .get('old_password')
-      ?.valueChanges.pipe(takeUntil(this.onDestroy$))
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((values) => {
-        if (values === '') {
-          this.formUpdateTransactionPassword.get('password')?.reset();
-          this.formUpdateTransactionPassword.controls['password'].disable();
-          // $("#newPassword").removeAttr('disabled');
-        } else {
-          //$("#newPassword").attr('disabled', 'disabled')
-          this.formUpdateTransactionPassword.controls['password'].enable();
-        }
-      });
-    this.formUpdateTransactionPassword
-      .get('password')
-      ?.valueChanges.pipe(takeUntil(this.onDestroy$))
-      .subscribe((values2) => {
-        if (
-          values2 === '' ||
-          values2 == null ||
-          this.formUpdateTransactionPassword.get('password')?.invalid
-        ) {
-          this.formUpdateTransactionPassword.get('confirmPassword')?.reset();
-          this.formUpdateTransactionPassword.controls['confirmPassword'].disable();
-        } else {
-          this.formUpdateTransactionPassword.controls['confirmPassword'].enable();
-        }
-      });
+      
 
 
     this.idSn = this.tokenStorageService.getTypeSN();
@@ -582,79 +539,6 @@ export class SecurityComponent implements OnInit, OnDestroy {
   }
 
 
-  updateTransactionPassword() {
-    this.showSpinnerTransactionPassword = true;
-    this.transactionPasswordWrong = '';
-    this.transactionPasswordSuccess = '';
-    let oldpass = this.formUpdateTransactionPassword.get('old_password')?.value;
-    let newpass = this.formUpdateTransactionPassword.get('password')?.value;
-
-
-
-    if (this.formUpdateTransactionPassword.valid) {
-      if (oldpass === newpass) {
-        this.transactionPasswordWrong = 'profile.newPass';
-        this.showSpinnerTransactionPassword = false;
-        setTimeout(() => {
-          this.transactionPasswordWrong = '';
-        }, 3000);
-      } else {
-        this.walletFacade.resetTransactionPassword(oldpass, newpass)
-        .subscribe(
-          (res: any) => {
-            this.showSpinnerTransactionPassword = false;
-            if(res.code == 200 && res.message === "success") {
-              this.transactionPasswordSuccess = "you have successfully changed your password";
-              setTimeout(() => {
-                this.transactionPasswordSuccess = "";
-              }, 2000)
-            }
-            
-          },
-          (err: any) => {
-            this.showSpinnerTransactionPassword = false;
-            if(err.error.error === "Key derivation failed - possibly wrong password") {
-              this.transactionPasswordWrong = "Wrong password"
-              setTimeout(() => {
-                this.transactionPasswordWrong = ''
-              }, 2000)
-            } else {
-              this.transactionPasswordWrong = "Something went wrong please try again!"
-              setTimeout(() => {
-                this.transactionPasswordWrong = ''
-              }, 2000)
-            }
-            
-          }
-        )
-        /*this.AuthService.updatePassword(oldpass, newpass)
-          .pipe(
-            catchError((HttpError: HttpErrorResponse) => {
-              return of(HttpError.error);
-            }),
-            takeUntil(this.onDestroy$)
-          )
-          .subscribe((res: IApiResponse<any>) => {
-            if (res.code === 200) {
-              this.showSpinner = false;
-              let msg: string = '';
-              this.translate
-                .get('profile.password_change')
-                .pipe(takeUntil(this.onDestroy$))
-                .subscribe((data1: any) => {
-                  msg = data1;
-                });
-              this.toastr.success(msg);
-              this.formUpdatePassword.reset();
-            } else if (res.code === 401) {
-              this.passwordWrong = 'profile.old_pass_wrong';
-              this.formUpdatePassword.get('old_password')?.reset();
-            }
-          });*/
-      }
-    }
-  }
-
 
 
   updatePassword() {
@@ -777,9 +661,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
   confirmExportV2(password: any) {
     this.showSpinner = true;
-    //this.formExportData.reset()
-    //this.formExportData.updateValueAndValidity();
-    let exportObs = this.profileSettingsFacade.exportProfileDataV2(password);
+    let exportObs = localStorage.getItem("wallet_version") === "v1" && this.profileSettingsFacade.exportProfileData(password) || this.profileSettingsFacade.exportProfileDataV2(password);
     let fileName: string = '';
     if (this.exportType === this.eExportType.eth) {
       fileName = 'keystore.json';
@@ -805,7 +687,6 @@ export class SecurityComponent implements OnInit, OnDestroy {
               .get('password')
               ?.setErrors({ checkPassword: true });
           } else {
-            // if (res.message === 'success' && res.code === 200) {
           this.formExportDataSubmitted = false;
           const file = new Blob([JSON.stringify(res)], {
             type: 'application/octet-stream'

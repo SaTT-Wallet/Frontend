@@ -6,11 +6,9 @@
 >
   <div class="row show-mobile mb-2">
     <div class="col-md-12 col-lg-12 col-xs-12">
-      <button
-        type="button"
-        class="btn-back"
-        [routerLink]="['/home/settings/']"
-      ></button>
+      <button type="button" class="btn-back" [routerLink]="['/home/settings/']">
+        <
+      </button>
     </div>
   </div>
   <div class="div_block">
@@ -396,302 +394,11 @@
     </div>
 
     <!-------End Collapse update password ----------->
-    <!-- <div class="col-12 p-0">
-      <hr />
-    </div> -->
-
-    <!------- Collapse update transaction password password ----------->
-    <!-- <div
-      class="collapsed panel-heading row"
-      data-toggle="collapse"
-      href="#collapse-pwd"
-      aria-expanded="false"
-      aria-controls="collapse-pwd"
-      *ngIf="walletV2Exist"
-    >
-      <div class="d-flex justify-content-between cursor_pntr">
-        <div class="d-flex align-self-center">
-          <h1 class="data cursor_pntr">
-            {{ 'Profil.update_transaction_pwd_connexion' | translate }}
-          </h1>
-        </div>
-        <div class="px-3"><i class="chevron fa fa-fw"></i></div>
-      </div>
-    </div>
-    <div class="row collapse" id="collapse-pwd" *ngIf="walletV2Exist">
-      <div class="row">
-        <form
-          [formGroup]="formUpdateTransactionPassword"
-          id="formUpdateTransactionPassword"
-        >
-          <div class="d-flex justify-content-start mt-2">
-            <p class="d-flex flex-column">
-              <span class="dark-grey-text">{{
-                'security.you_can_change_transaction_pwd' | translate
-              }}</span>
-              <span class="orange-text pt-2">
-                {{ 'security.alert_change_transaction_pwd' | translate }}</span
-              >
-            </p>
-          </div> -->
-
-    <!-- Input , label and error msg Old password-->
-    <!-- <div class="row mt-2">
-            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-              <label class="label_input">{{
-                'Profil.current_password' | translate
-              }}</label>
-            </div>
-          </div> -->
-
-    <!-- [ngClass]="{errorMsg: !this.formUpdatePassword.get('old_password')?.valid &&
-this.formUpdatePassword.get('old_password')?.touched && this.formUpdatePassword.get('old_password')?.errors?.required}" -->
-    <!-- <div class="row">
-            <div class="col-sm-10 col-md-10 col-lg-7 col-xl-6 col-xxl-4">
-              <div class="div_input_add position-relative">
-                <input
-                  autocomplete="on"
-                  type="password"
-                  (focusin)="removeMessage()"
-                  name="old_password"
-                  id="old_password"
-                  formControlName="old_password"
-                  class="input_oeil"
-                  #old_password_field
-                />
-                <span
-                  (click)="
-                    old_password_field.type =
-                      old_password_field.type == 'password'
-                        ? 'text'
-                        : 'password'
-                  "
-                  class="fa fa-fw cross_input_network align-self-center"
-                  aria-hidden="true"
-                  [ngClass]="
-                    old_password_field.type === 'password'
-                      ? ' fa-eye-slash '
-                      : ' fa-eye'
-                  "
-                ></span>
-              </div>
-            </div>
-          </div> -->
-
-    <!-- End Input , label and error msg Old password-->
-    <!-- Input , label and error msg new password-->
-    <!-- <div class="row pt-4">
-            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-              <label
-                class="label_input"
-                [ngClass]="{
-                  labelError:
-                    this.formUpdateTransactionPassword.get('password')
-                      ?.invalid &&
-                    !this.formUpdateTransactionPassword.get('password')?.errors
-                      ?.required
-                }"
-              >
-                {{ 'Profil.new_password' | translate }}</label
-              >
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-10 col-md-10 col-lg-7 col-xl-6 col-xxl-4">
-              <div
-                class="div_input_add position-relative"
-                [ngClass]="{
-                  errorMsg:
-                    this.formUpdateTransactionPassword.get('password')
-                      ?.invalid &&
-                    !this.formUpdateTransactionPassword.get('password')?.errors
-                      ?.required,
-                  success:
-                    this.formUpdateTransactionPassword.get('password')?.valid
-                }"
-              >
-                <input
-                  autocomplete="on"
-                  type="password"
-                  name="password"
-                  formControlName="password"
-                  id="newPassword"
-                  class="input_oeil"
-                  #password
-                  [ngClass]="{
-                    errorMsg2:
-                      this.formUpdateTransactionPassword.get('password')
-                        ?.invalid &&
-                      !this.formUpdateTransactionPassword.get('password')
-                        ?.errors?.required
-                  }"
-                />
-                <span
-                  (click)="
-                    password.type =
-                      password.type == 'password' ? 'text' : 'password'
-                  "
-                  class="fa fa-fw cross_input_network align-self-center"
-                  aria-hidden="true"
-                  [ngClass]="
-                    password.type === 'password' ? ' fa-eye-slash ' : ' fa-eye'
-                  "
-                ></span>
-              </div>
-            </div>
-          </div>
-          <div class="row pt-1">
-            <div
-              class="row"
-              *ngIf="
-                this.formUpdateTransactionPassword.get('password')?.invalid &&
-                !this.formUpdateTransactionPassword.get('password')?.errors
-                  ?.required
-              "
-            >
-              <div class="row">
-                <span class="error_input"
-                  >{{ 'Profil.password_minlength_eight_chars' | translate }}
-                </span>
-              </div>
-              <div class="row">
-                <span class="error_input"
-                  >-{{ 'Profil.password_uppercase' | translate }}</span
-                >
-              </div>
-              <div class="row">
-                <span class="error_input"
-                  >-{{ 'Profil.password_lowercase' | translate }}</span
-                >
-              </div>
-              <div class="row">
-                <span class="error_input"
-                  >-{{ 'Profil.password_number' | translate }}</span
-                >
-              </div>
-              <div class="row">
-                <span class="error_input"
-                  >-{{ 'Profil.password_special_character' | translate }}</span
-                >
-              </div>
-            </div>
-          </div> -->
-    <!-- End Input , label and error msg new password-->
-    <!-- Input , label and error msg confirmation password-->
-    <!-- <div class="row mt-3">
-            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-              <label
-                class="label_input"
-                [ngClass]="{
-                  labelError:
-                    this.formUpdateTransactionPassword.errors?.mustMatch
-                }"
-              >
-                {{ 'Profil.confirm_new_password' | translate }}</label
-              >
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-10 col-md-10 col-lg-7 col-xl-6 col-xxl-4">
-              <div
-                class="div_input_add position-relative"
-                [ngClass]="{
-                  errorMsg:
-                    this.formUpdateTransactionPassword.errors?.mustMatch,
-                  success:
-                    !this.formUpdateTransactionPassword.errors?.mustMatch &&
-                    this.formUpdateTransactionPassword.get('confirmPassword')
-                      ?.valid
-                }"
-              >
-                <input
-                  autocomplete="on"
-                  type="password"
-                  #confirmPassword
-                  name="confirmPassword"
-                  id="confirmPassword"
-                  formControlName="confirmPassword"
-                  class="input_oeil"
-                  [ngClass]="{
-                    errorMsg2:
-                      this.formUpdateTransactionPassword.errors?.mustMatch
-                  }"
-                />
-                <span
-                  (click)="
-                    confirmPassword.type =
-                      confirmPassword.type == 'password' ? 'text' : 'password'
-                  "
-                  class="fa fa-fw cross_input_network align-self-center"
-                  aria-hidden="true"
-                  [ngClass]="
-                    confirmPassword.type === 'password'
-                      ? ' fa-eye-slash '
-                      : ' fa-eye'
-                  "
-                ></span>
-              </div>
-            </div>
-          </div>
-
-          <div class="row pt-1">
-            <span
-              class="error_input"
-              *ngIf="
-                this.formUpdateTransactionPassword.errors?.mustMatch &&
-                this.formUpdateTransactionPassword.dirty
-              "
-            >
-              {{ 'Profil.password_must_match_error' | translate }}
-            </span>
-          </div> -->
-    <!-- End Input , label and error msg confirmation password-->
-    <!-- error msg: wrong old password-->
-    <!-- <div class="row pt-1" *ngIf="transactionPasswordWrong.length > 0">
-            <div class="col-sm-10 col-md-10 col-lg-6 col-xl-5 col-xxl-4 d-flex">
-              <label class="error_input">
-                {{ transactionPasswordWrong | translate }}
-              </label>
-            </div>
-          </div>
-          <div class="row pt-1" *ngIf="transactionPasswordSuccess.length > 0">
-            <div class="col-sm-10 col-md-10 col-lg-6 col-xl-5 col-xxl-4 d-flex">
-              <label class="success_input">
-                {{ transactionPasswordSuccess | translate }}
-              </label>
-            </div>
-          </div> -->
-    <!-- end error msg: wrong old password-->
-    <!-- </form>
-      </div> -->
-
-    <!-- <div class="row">
-        <div class="col-sm-10 col-md-10 col-lg-6 col-xl-5 col-xxl-4 mt-3">
-          <button
-            type="submit"
-            class="btn-green"
-            (click)="updateTransactionPassword()"
-            [disabled]="formUpdateTransactionPassword.invalid"
-          >
-            <span *ngIf="!showSpinnerTransactionPassword">{{
-              'Profil.save' | translate
-            }}</span>
-            <div
-              *ngIf="showSpinnerTransactionPassword"
-              class="spinner-border text-light"
-              role="status"
-            >
-              <span class="sr-only">Loading...</span>
-            </div>
-          </button>
-        </div>
-      </div>
-    </div> -->
-
-    <!-------End Collapse update transaction password ----------->
     <div class="col-12 p-0">
       <hr />
     </div>
+
+   
 
     <!------- Collapse linkAccounts ----------->
     <div
@@ -1096,7 +803,7 @@ this.formUpdatePassword.get('old_password')?.touched && this.formUpdatePassword.
         </div>
       </div>
     </div>
-    <div class="col-12 p-0" *ngIf="!userIsNew && walletV2Exist">
+    <div class="col-12 p-0" *ngIf="!userIsNew">
       <hr />
     </div>
     <!------- Collapse retrieve data ----------->
@@ -1106,7 +813,7 @@ this.formUpdatePassword.get('old_password')?.touched && this.formUpdatePassword.
       href="#collapse1"
       aria-expanded="false"
       aria-controls="collapse1"
-      *ngIf="!userIsNew && walletV2Exist"
+      *ngIf="!userIsNew"
     >
       <!-- <div class="d-flex justify-content-between cursor_pntr">
                     <div>
@@ -1415,7 +1122,7 @@ this.formUpdatePassword.get('old_password')?.touched && this.formUpdatePassword.
                   this.errorMsgTronV2.length > 0
                 "
                 >{{
-                  this.exportType == eExportType.tron
+                  this.exportType === eExportType.tron
                     ? errorMsgTronV2
                     : errorMsgETHV2
                 }}</span
@@ -1429,28 +1136,6 @@ this.formUpdatePassword.get('old_password')?.touched && this.formUpdatePassword.
                 (click)="
                   confirmExportV2(this.formExportData.get('password')?.value)
                 "
-                *ngIf="walletV2Exist"
-              >
-                <div
-                  *ngIf="this.showSpinner"
-                  class="spinner-border text-white"
-                  role="status"
-                >
-                  <span class="sr-only">Loading...</span>
-                </div>
-                <div *ngIf="!this.showSpinner">
-                  {{ 'confirm_' | translate }}
-                </div>
-              </button>
-
-              <button
-                type="submit"
-                class="btn-blue cursor_pntr max-width"
-                [disabled]="this.formExportData.invalid"
-                (click)="
-                  confirmExport(this.formExportData.get('password')?.value)
-                "
-                *ngIf="!walletV2Exist"
               >
                 <div
                   *ngIf="this.showSpinner"
@@ -1577,32 +1262,6 @@ this.formUpdatePassword.get('old_password')?.touched && this.formUpdatePassword.
                     this.formExportDataBTCV2.get('password')?.value
                   )
                 "
-                *ngIf="walletV2Exist"
-              >
-                <div
-                  *ngIf="this.showSpinner"
-                  class="spinner-border text-white"
-                  role="status"
-                >
-                  <span class="sr-only">Loading...</span>
-                </div>
-                <div *ngIf="!this.showSpinner">
-                  {{ 'confirm_' | translate }}
-                </div>
-              </button>
-
-              <button
-                type="submit"
-                class="btn-blue cursor_pntr max-width"
-                [disabled]="
-                  this.formExportDataBTCV2.invalid || this.showSpinner
-                "
-                (click)="
-                  confirmExportBTC(
-                    this.formExportDataBTCV2.get('password')?.value
-                  )
-                "
-                *ngIf="!walletV2Exist"
               >
                 <div
                   *ngIf="this.showSpinner"

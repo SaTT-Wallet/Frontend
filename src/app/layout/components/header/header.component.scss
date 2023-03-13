@@ -11,7 +11,43 @@
     }
   }
 }
+#title_wallet {
+  // position: absolute;
+  // top: 10%;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 28px;
+  position: absolute;
+  margin-top: 11%;
+  color: #ffffff;
+  letter-spacing: 1px;
+}
+#biarrow-repeat-icon {
+  position: absolute;
+  top: 10%;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 28px;
 
+  color: #ffffff;
+  letter-spacing: 1px;
+}
+@media (max-height: 780px) {
+  .container-qr {
+    margin-top: -5vh;
+  }
+  #title_wallet {
+    // position: initial;
+    top: 2%;
+  }
+  #change-wallet-title {
+    margin-top: 5% !important;
+  }
+}
 .testWar {
   background-color: lightgrey;
   // width: 300px;
@@ -1277,7 +1313,33 @@ button:focus {
   text-align: center;
   text-decoration: underline;
 }
-
+#change-wallet-title-phishing-show {
+  position: absolute;
+  top: 8vh;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 28px;
+  color: #ffffff;
+  letter-spacing: 1px;
+}
+#change-wallet-title {
+  position: absolute;
+  top: 4vh;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 28px;
+  color: #ffffff;
+  letter-spacing: 1px;
+}
+.change-wallet-img {
+  height: 21px;
+  left: 7%;
+  cursor: pointer;
+}
 .img-copied {
   cursor: pointer;
 }
@@ -1489,7 +1551,10 @@ bottom: 77.54% ; */
 
 .title {
   /* MOBILE/Titles/H3 */
-
+  position: relative;
+  top: 5vh;
+  margin-bottom: 22px;
+  margin-top: 17.2vh;
   font-family: 'Poppins';
   font-style: normal;
   font-weight: 700;
@@ -1525,7 +1590,26 @@ bottom: 77.54% ; */
 // }
 
 .titleIDW {
-  padding-top: 15px;
+  // padding-top: 4vh;
+  // padding-bottom: -20px;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 28px;
+  background-color: transparent;
+  border: 0px;
+  /* or 140% */
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 1px;
+
+  color: #ffffff;
+}
+.titleID-Wallet {
+  padding-top: 9vh;
   padding-bottom: -20px;
   font-family: 'Poppins';
   font-style: normal;
