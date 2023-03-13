@@ -42,7 +42,23 @@ input:-webkit-autofill:active {
   width: 938px;
   margin-top: -2%;
 }
-
+.error_input {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0.03em;
+  color: #f52079;
+  max-height: 3em;
+}
+.label_input {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 125.9%;
+  letter-spacing: 0.03em;
+  color: #6c768c;
+}
 /* sk */
 @media only screen and (max-width: 768px) {
   #createWalletV2Modal {
@@ -60,15 +76,25 @@ input:-webkit-autofill:active {
     /* margin-left: ; */
     position: absolute;
   }
+
+  .success_input {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0.03em;
+    color: #00CC9E;
+    max-height: 3em;
+  }
   .postition-trans {
     width: 100% !important;
     text-align: left !important;
-    margin-left: 40px !important;
   }
   .input-div {
-    width: auto !important;
+    width: 60%;
     margin: auto;
   }
+
 
   #welcome-input {
     margin: auto !important;
@@ -214,7 +240,7 @@ input:-webkit-autofill:active {
 }
 
 .input-div {
-  width: 60%;
+  width: 50%;
   margin: auto;
 }
 
@@ -2167,6 +2193,9 @@ p {
 
   /* margin-right: 1.5rem; */
 }
+.label_input {
+  font-size: 14px !important;
+}
 .btn-white {
   width: 217px !important;
   height: 48px !important;
@@ -2197,15 +2226,14 @@ p {
 }
 
 .postition-trans {
-  width: 32%;
-  margin-left: 9%;
+  text-align-last: left;
 }
 .postition-trans-tron {
   text-align: center;
 }
 .modal-body.modal-custom {
   margin-top: 0;
-  overflow-y: auto;
+  /* overflow-y: auto; */
 }
 
 .link-button {
