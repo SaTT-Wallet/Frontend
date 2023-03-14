@@ -46,7 +46,7 @@ export class DownaldJSONFileComponent implements OnInit {
 
     if (this.formExportData.valid && isPlatformBrowser(this.platformId)) {
       this.profileSettingsFacade
-        .exportProfileData(password)
+        .exportProfileDataV2(password)
         .pipe(takeUntil(this.isDestroyed))
         .subscribe(
           (data) => {
