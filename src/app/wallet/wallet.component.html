@@ -642,6 +642,7 @@
                 id="newPassword"
                 class="input_oeil"
                 style="border: none; background: transparent;"
+                [(ngModel)]="WalletPasswordTransaction"
                 #password
                 [ngClass]="{
                   errorMsg2:
@@ -819,11 +820,11 @@
       <div class="w-50 p-3  justify-align-center">
       
         <button type="submit"
-        class="btnModalError btn_fill_profile btn-blue" (click)="createWalletV2()" [disabled]="!isChecked"><span *ngIf="!showSpinnerTransactionPassword">
+        class="btnModalError btn_fill_profile btn-blue" (click)="createWalletV2()" [disabled]="!isChecked || this.formUpdateTransactionPassword.errors?.mustMatch "><span *ngIf="!showSpinnerTransactionPassword">
           {{ 'Next Step' | translate }}
        </span>
         <div
-          *ngIf="showSpinnerTransactionPassword"
+          *ngIf="buttonClick"
           class="spinner-border text-light"
           role="status"
         >

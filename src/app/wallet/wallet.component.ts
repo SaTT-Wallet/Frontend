@@ -99,6 +99,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   subscription: any;
   tronWalletPassword = '';
   walletPassword = '';
+  WalletPasswordTransaction=''
   errorMsg = '';
   passwordWrong: string = '';
    transactionPasswordWrong: string = '';
@@ -741,20 +742,7 @@ export class WalletComponent implements OnInit, OnDestroy {
 //  this.openModal(this.setPwdTransactionModal);
 // this.formUpdateTransactionPassword.controls['password'].disable();
 this.formUpdateTransactionPassword.controls['confirmPassword'].disable();
-// this.formUpdateTransactionPassword
-//   .get('old_password')
-//   ?.valueChanges.pipe(takeUntil(this.onDestroy$))
-//   .pipe(takeUntil(this.onDestroy$))
-//   .subscribe((values) => {
-//     if (values === '') {
-//       this.formUpdateTransactionPassword.get('password')?.reset();
-//       this.formUpdateTransactionPassword.controls['password'].disable();
-//       // $("#newPassword").removeAttr('disabled');
-//     } else {
-//       //$("#newPassword").attr('disabled', 'disabled')
-//       this.formUpdateTransactionPassword.controls['password'].enable();
-//     }
-//   });
+
 this.formUpdateTransactionPassword
   .get('password')
   ?.valueChanges.pipe(takeUntil(this.onDestroy$))
@@ -888,7 +876,7 @@ this.formUpdateTransactionPassword
     this.walletV2ErrorMessage = '';
     this.buttonClick = true;
     this.walletFacade
-      .createNewWalletV2(this.walletPassword)
+      .createNewWalletV2(this.WalletPasswordTransaction)
       .pipe(
         catchError((err) => {
           this.buttonClick = false;
@@ -899,7 +887,12 @@ this.formUpdateTransactionPassword
               this.closeModal(this.createWalletV2Modal);
             
             }, 2000);
-          } else {
+          }  else if(err.error.error === 'same Transaction  password') {
+            this.walletV2ErrorMessage = 'Same Transaction  password';
+          } else if(err.error.error === 'same  password'){
+            this.walletV2ErrorMessage = 'Same password';
+          }
+          else {
             this.walletV2ErrorMessage =
               'Something went wrong please try again!';
           }
@@ -907,15 +900,6 @@ this.formUpdateTransactionPassword
           return of(null);
         })
       )
-      /*.pipe(
-        catchError((err) => {
-          if(err.err.err === 'Key derivation failed - possibly wrong password') {
-            this.walletV2ErrorMessage = 'Wrong password';
-          } else {
-            this.walletV2ErrorMessage = err.err.err
-          }
-          return of(null);
-    }), filter(res => res !== null))*/
       .subscribe((response: any) => {
         this.buttonClick = false;
         if (response?.data?.error) {
@@ -928,7 +912,7 @@ this.formUpdateTransactionPassword
           setTimeout(
             () => (
               (this.walletV2ErrorMessage = ''),
-              (this.walletPassword = ''),
+              (this.WalletPasswordTransaction = ''),
               (this.wrongpassword = false)
             ),
             3000
@@ -945,7 +929,7 @@ this.formUpdateTransactionPassword
                 backdrop: 'static',
                 keyboard: false
               })
-              localStorage.setItem('oldPasss', this.walletPassword)
+             
             // this.modalService.open(this.migration, {
             //   backdrop: 'static',
             //   keyboard: false
@@ -1412,175 +1396,169 @@ this.formUpdateTransactionPassword
     this.tokenStorageService.setItem('hideRedBloc', 'true');
     this.hideRedBloc = this.tokenStorageService.getHideRedBloc();
   }
-  closebtn(){
-    this.closeModal(this.setPwdTransactionModal);
-    //         this.modalService.open(this.migration, {
-    //    backdrop: 'static',
-    //    keyboard: false
-    //  });
-  }
-  testfn(){
-    this.showSpinnerTransactionPassword = true;
-    this.transactionPasswordWrong = '';
-    this.transactionPasswordSuccess = '';
- let local = localStorage.getItem('oldPasss')
-    let oldpass = local || ''
-    let newpass = this.formUpdateTransactionPassword.get('password')?.value;
+
+//   testfn(){
+//     this.showSpinnerTransactionPassword = true;
+//     this.transactionPasswordWrong = '';
+//     this.transactionPasswordSuccess = '';
+//  let local = localStorage.getItem('oldPasss')
+//     let oldpass = local || ''
+//     let newpass = this.formUpdateTransactionPassword.get('password')?.value;
 
 
 
-    if (this.formUpdateTransactionPassword) {
-      if (oldpass === newpass) {
-        this.transactionPasswordWrong = 'profile.newPass';
-        this.showSpinnerTransactionPassword = false;
-        setTimeout(() => {
-          this.transactionPasswordWrong = '';
-        }, 3000);
-      } else {
-        this.walletFacade.resetTransactionPassword(oldpass, newpass)
-        .subscribe(
-          (res: any) => {
-            this.showSpinnerTransactionPassword = false;
-            if(res.code == 200 && res.message === "success") {
-              this.transactionPasswordSuccess = "you have successfully changed your password";
+//     if (this.formUpdateTransactionPassword) {
+//       if (oldpass === newpass) {
+//         this.transactionPasswordWrong = 'profile.newPass';
+//         this.showSpinnerTransactionPassword = false;
+//         setTimeout(() => {
+//           this.transactionPasswordWrong = '';
+//         }, 3000);
+//       } else {
+//         this.walletFacade.resetTransactionPassword(oldpass, newpass)
+//         .subscribe(
+//           (res: any) => {
+//             this.showSpinnerTransactionPassword = false;
+//             if(res.code == 200 && res.message === "success") {
+//               this.transactionPasswordSuccess = "you have successfully changed your password";
         
-              setTimeout(() => {
-                this.transactionPasswordSuccess = "";
-                this.closeModal(this.setPwdTransactionModal);
+//               setTimeout(() => {
+//                 this.transactionPasswordSuccess = "";
+//                 this.closeModal(this.setPwdTransactionModal);
                
-                this.modalService.open(this.migration, {
-          backdrop: 'static',
-          keyboard: false
-        });
-              } 
-              , 2000)
-            }
+//                 this.modalService.open(this.migration, {
+//           backdrop: 'static',
+//           keyboard: false
+//         });
+//               } 
+//               , 2000)
+//             }
             
-          },
-          (err: any) => {
-            this.showSpinnerTransactionPassword = false;
-            if(err.error.error === "Key derivation failed - possibly wrong password") {
-              this.transactionPasswordWrong = "Wrong password"
-              setTimeout(() => {
-                this.transactionPasswordWrong = ''
-              }, 2000)
-            } else {
-              this.transactionPasswordWrong = "Something went wrong please try again!"
-              setTimeout(() => {
-                this.transactionPasswordWrong = ''
-              }, 2000)
-            }
+//           },
+//           (err: any) => {
+//             this.showSpinnerTransactionPassword = false;
+//             if(err.error.error === "Key derivation failed - possibly wrong password") {
+//               this.transactionPasswordWrong = "Wrong password"
+//               setTimeout(() => {
+//                 this.transactionPasswordWrong = ''
+//               }, 2000)
+//             } else {
+//               this.transactionPasswordWrong = "Something went wrong please try again!"
+//               setTimeout(() => {
+//                 this.transactionPasswordWrong = ''
+//               }, 2000)
+//             }
             
-          }
-        )
-        /*this.AuthService.updatePassword(oldpass, newpass)
-          .pipe(
-            catchError((HttpError: HttpErrorResponse) => {
-              return of(HttpError.error);
-            }),
-            takeUntil(this.onDestroy$)
-          )
-          .subscribe((res: IApiResponse<any>) => {
-            if (res.code === 200) {
-              this.showSpinner = false;
-              let msg: string = '';
-              this.translate
-                .get('profile.password_change')
-                .pipe(takeUntil(this.onDestroy$))
-                .subscribe((data1: any) => {
-                  msg = data1;
-                });
-              this.toastr.success(msg);
-              this.formUpdatePassword.reset();
-            } else if (res.code === 401) {
-              this.passwordWrong = 'profile.old_pass_wrong';
-              this.formUpdatePassword.get('old_password')?.reset();
-            }
-          });*/
-      }
-    }
-  }
-  updateTransactionPassword() {
-    console.log('hii here')
-    debugger
-    this.showSpinnerTransactionPassword = true;
-    this.transactionPasswordWrong = '';
-    this.transactionPasswordSuccess = '';
- let local = localStorage.getItem('oldPasss')
-    let oldpass = local || ''
-    let newpass = this.formUpdateTransactionPassword.get('password')?.value;
+//           }
+//         )
+//         /*this.AuthService.updatePassword(oldpass, newpass)
+//           .pipe(
+//             catchError((HttpError: HttpErrorResponse) => {
+//               return of(HttpError.error);
+//             }),
+//             takeUntil(this.onDestroy$)
+//           )
+//           .subscribe((res: IApiResponse<any>) => {
+//             if (res.code === 200) {
+//               this.showSpinner = false;
+//               let msg: string = '';
+//               this.translate
+//                 .get('profile.password_change')
+//                 .pipe(takeUntil(this.onDestroy$))
+//                 .subscribe((data1: any) => {
+//                   msg = data1;
+//                 });
+//               this.toastr.success(msg);
+//               this.formUpdatePassword.reset();
+//             } else if (res.code === 401) {
+//               this.passwordWrong = 'profile.old_pass_wrong';
+//               this.formUpdatePassword.get('old_password')?.reset();
+//             }
+//           });*/
+//       }
+//     }
+//   }
+//   updateTransactionPassword() {
+//     console.log('hii here')
+//     debugger
+//     this.showSpinnerTransactionPassword = true;
+//     this.transactionPasswordWrong = '';
+//     this.transactionPasswordSuccess = '';
+//  let local = localStorage.getItem('oldPasss')
+//     let oldpass = local || ''
+//     let newpass = this.formUpdateTransactionPassword.get('password')?.value;
 
 
 
-    if (this.formUpdateTransactionPassword.valid) {
-      if (oldpass === newpass) {
-        this.transactionPasswordWrong = 'profile.newPass';
-        this.showSpinnerTransactionPassword = false;
-        setTimeout(() => {
-          this.transactionPasswordWrong = '';
-        }, 3000);
-      } else {
-        this.walletFacade.resetTransactionPassword(oldpass, newpass)
-        .subscribe(
-          (res: any) => {
-            this.showSpinnerTransactionPassword = false;
-            if(res.code == 200 && res.message === "success") {
-              this.transactionPasswordSuccess = "you have successfully changed your password";
-              this.closeModal(this.setPwdTransactionModal);
-      //         this.modalService.open(this.migration, {
-      //    backdrop: 'static',
-      //    keyboard: false
-      //  });
-              setTimeout(() => {
-                this.transactionPasswordSuccess = "";
+//     if (this.formUpdateTransactionPassword.valid) {
+//       if (oldpass === newpass) {
+//         this.transactionPasswordWrong = 'profile.newPass';
+//         this.showSpinnerTransactionPassword = false;
+//         setTimeout(() => {
+//           this.transactionPasswordWrong = '';
+//         }, 3000);
+//       } else {
+//         this.walletFacade.resetTransactionPassword(oldpass, newpass)
+//         .subscribe(
+//           (res: any) => {
+//             this.showSpinnerTransactionPassword = false;
+//             if(res.code == 200 && res.message === "success") {
+//               this.transactionPasswordSuccess = "you have successfully changed your password";
+//               this.closeModal(this.setPwdTransactionModal);
+//       //         this.modalService.open(this.migration, {
+//       //    backdrop: 'static',
+//       //    keyboard: false
+//       //  });
+//               setTimeout(() => {
+//                 this.transactionPasswordSuccess = "";
             
-              }, 2000)
-            }
+//               }, 2000)
+//             }
             
-          },
-          (err: any) => {
-            this.showSpinnerTransactionPassword = false;
-            if(err.error.error === "Key derivation failed - possibly wrong password") {
-              this.transactionPasswordWrong = "Wrong password"
-              setTimeout(() => {
-                this.transactionPasswordWrong = ''
-              }, 2000)
-            } else {
-              this.transactionPasswordWrong = "Something went wrong please try again!"
-              setTimeout(() => {
-                this.transactionPasswordWrong = ''
-              }, 2000)
-            }
+//           },
+//           (err: any) => {
+//             this.showSpinnerTransactionPassword = false;
+//             if(err.error.error === "Key derivation failed - possibly wrong password") {
+//               this.transactionPasswordWrong = "Wrong password"
+//               setTimeout(() => {
+//                 this.transactionPasswordWrong = ''
+//               }, 2000)
+//             } else {
+//               this.transactionPasswordWrong = "Something went wrong please try again!"
+//               setTimeout(() => {
+//                 this.transactionPasswordWrong = ''
+//               }, 2000)
+//             }
             
-          }
-        )
-        /*this.AuthService.updatePassword(oldpass, newpass)
-          .pipe(
-            catchError((HttpError: HttpErrorResponse) => {
-              return of(HttpError.error);
-            }),
-            takeUntil(this.onDestroy$)
-          )
-          .subscribe((res: IApiResponse<any>) => {
-            if (res.code === 200) {
-              this.showSpinner = false;
-              let msg: string = '';
-              this.translate
-                .get('profile.password_change')
-                .pipe(takeUntil(this.onDestroy$))
-                .subscribe((data1: any) => {
-                  msg = data1;
-                });
-              this.toastr.success(msg);
-              this.formUpdatePassword.reset();
-            } else if (res.code === 401) {
-              this.passwordWrong = 'profile.old_pass_wrong';
-              this.formUpdatePassword.get('old_password')?.reset();
-            }
-          });*/
-      }
-    }
-  }
+//           }
+//         )
+//         /*this.AuthService.updatePassword(oldpass, newpass)
+//           .pipe(
+//             catchError((HttpError: HttpErrorResponse) => {
+//               return of(HttpError.error);
+//             }),
+//             takeUntil(this.onDestroy$)
+//           )
+//           .subscribe((res: IApiResponse<any>) => {
+//             if (res.code === 200) {
+//               this.showSpinner = false;
+//               let msg: string = '';
+//               this.translate
+//                 .get('profile.password_change')
+//                 .pipe(takeUntil(this.onDestroy$))
+//                 .subscribe((data1: any) => {
+//                   msg = data1;
+//                 });
+//               this.toastr.success(msg);
+//               this.formUpdatePassword.reset();
+//             } else if (res.code === 401) {
+//               this.passwordWrong = 'profile.old_pass_wrong';
+//               this.formUpdatePassword.get('old_password')?.reset();
+//             }
+//           });*/
+//       }
+//     }
+//   }
   removeMessage() {
     this.passwordWrong = '';
     this.errorMsg = '';
