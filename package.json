@@ -116,7 +116,7 @@
     "chokidar": "^3.5.3",
     "country-list": "^2.2.0",
     "currency-symbol-map": "^5.0.1",
-    "express": "^4.17.3",
+    "express": "^4.18.1",
     "fast-copy": "^2.1.1",
     "file-saver": "^2.0.5",
     "firebase": "^9.6.6",
