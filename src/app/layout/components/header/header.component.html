@@ -773,7 +773,15 @@
       Your wallet ID
     </p>
     <!-- <p class="d-flex justify-content-center titleIDW" *ngIf= "!existV1 && existV2" id="title_wallet">Your wallet ID</p> -->
-    <div class="col-12" id="change-wallet-title" *ngIf="existV1 && existV2">
+    <div
+      class="col-12"
+      [id]="
+        !phishingClosing
+          ? 'change-wallet-title-phishing-show'
+          : 'change-wallet-title'
+      "
+      *ngIf="existV1 && existV2"
+    >
       <div class="row justify-content-center d-flex">{{ titleWallet }}</div>
       <div class="row d-flex">
         <img

@@ -10,7 +10,8 @@ import {
   Renderer2,
   OnInit,
   PLATFORM_ID,
-  ViewChild
+  ViewChild,
+  Input
 } from '@angular/core';
 // import { bscan, etherscan } from '@app/config/atn.config';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
@@ -155,7 +156,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   // elementType = NgxQrcodeElementTypes.URL;
   // correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
   // value = 'Techiediaries';
-
+  @Input() phishingClosing: boolean = false;
   issendfire: number = 0;
   private notifItemSize = 111;
   notifListSize = 0;
@@ -194,7 +195,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     private ParticipationListStoreService: ParticipationListStoreService,
     private toastr: ToastrService,
     private walletFacade: WalletFacadeService,
-    private renderer : Renderer2,
+    private renderer: Renderer2,
     private walletService: WalletService,
     private campaignFacade: CampaignsService,
     private profileSettingsFacade: ProfileSettingsFacadeService,
@@ -294,12 +295,20 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           //@ts-ignore
           // this.header?.nativeElement.style.background =
           //   'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)';
-            this.renderer.setStyle(this.header?.nativeElement,'background','linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)');
+          this.renderer.setStyle(
+            this.header?.nativeElement,
+            'background',
+            'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)'
+          );
           this.isWelcomePage = false;
           this.menuBuyToken = true;
         }
         if (!this.isWelcomePage) {
-          this.renderer.setStyle(this.header?.nativeElement,'background','linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)');
+          this.renderer.setStyle(
+            this.header?.nativeElement,
+            'background',
+            'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)'
+          );
         }
       }
     });
@@ -421,8 +430,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   isDisplayNew() {
     this.displayNew = localStorage.getItem('display')?.toString();
-  
-    
+
     if (this.existV1) {
       if (this.displayNew === 'none') {
         this.displayNew = 'block';
@@ -1295,7 +1303,6 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe((data: any) => {
         this.existV1 = data?.data?.address;
-
 
         if (data?.data?.address === null) {
           this.tokenStorageService.saveWalletVersion('v2');
