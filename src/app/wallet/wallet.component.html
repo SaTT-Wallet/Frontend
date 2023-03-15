@@ -590,7 +590,7 @@
       <form
         [formGroup]="formUpdateTransactionPassword"
         id="formUpdateTransactionPassword"
-        style="position: relative;width: 60%; left: 5%;"
+        class="form_transaction_password"
       >
 
         <div class="row pt-4 ">
@@ -642,6 +642,7 @@
                 id="newPassword"
                 class="input_oeil"
                 style="border: none; background: transparent;"
+                [(ngModel)]="WalletPasswordTransaction"
                 #password
                 [ngClass]="{
                   errorMsg2:
@@ -721,7 +722,7 @@
           <div class="col-10">
             <div
               class="div-input-icon"
-              [ngClass]="{
+              [ngClass]="{'incorrect-password': wrongpassword ,
                 errorMsg:
                   this.formUpdateTransactionPassword.errors?.mustMatch,
                 success:
@@ -747,6 +748,7 @@
                 name="confirmPassword"
                 id="confirmPassword"
                 formControlName="confirmPassword"
+                
                 class="input_oeil"
                 style="border:none; background: transparent;"
                 [ngClass]="{
@@ -784,10 +786,10 @@
         </div>
         <!-- End Input , label and error msg confirmation password-->
         <!-- error msg: wrong old password-->
-        <div class="row pt-1" *ngIf="transactionPasswordWrong.length > 0">
+        <div class="row pt-1" *ngIf="!!walletV2ErrorMessage">
           <div class="col-sm-10 col-md-10 col-lg-6 col-xl-5 col-xxl-4 d-flex">
-            <label class="error_input">
-              {{ transactionPasswordWrong | translate }}
+            <label class="error_input" style="position: fixed;">
+              {{ walletV2ErrorMessage }}
             </label>
           </div>
         </div>
@@ -803,7 +805,7 @@
     </div>
 
 
-<div class="mt-4">
+<div class="mt-4" class="input-checkbox">
    <input
             type="checkbox"
             name="checkbox"
@@ -811,15 +813,15 @@
             [(ngModel)]="isChecked"
           />
 
-          I understand that tech support cannot help me <br />
-            <span>  recover a lost password.</span>
+          I understand that tech support cannot help me 
+              recover a lost password.
 
 </div>
     <div class="row justify-content-center ">
       <div class="w-50 p-3  justify-align-center">
       
         <button type="submit"
-        class="btnModalError btn_fill_profile btn-blue" (click)="createWalletV2()" [disabled]="!isChecked"><span *ngIf="!showSpinnerTransactionPassword">
+        class="btnModalError btn_fill_profile btn-blue" (click)="createWalletV2()" [disabled]="!isChecked ||  this.formUpdateTransactionPassword.errors?.mustMatch"><span *ngIf="!showSpinnerTransactionPassword">
           {{ 'Next Step' | translate }}
        </span>
         <div

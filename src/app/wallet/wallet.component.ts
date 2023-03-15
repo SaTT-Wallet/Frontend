@@ -99,6 +99,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   subscription: any;
   tronWalletPassword = '';
   walletPassword = '';
+  WalletPasswordTransaction='';
   errorMsg = '';
   passwordWrong: string = '';
    transactionPasswordWrong: string = '';
@@ -885,14 +886,35 @@ this.formUpdateTransactionPassword
   }
   //Create WALLET V2
   createWalletV2() {
+    debugger
     this.walletV2ErrorMessage = '';
     this.buttonClick = true;
     this.walletFacade
-      .createNewWalletV2(this.walletPassword)
+      .createNewWalletV2(this.WalletPasswordTransaction)
       .pipe(
         catchError((err) => {
           this.buttonClick = false;
-          if (err.error.error === 'Wallet already exist') {
+          console.log("errrrr",err.error.error);
+          if (err.error.error === 'same transaction pass ') {
+            this.walletV2ErrorMessage = 'Do not use the same old transaction password';
+            this.wrongpassword = true
+            setTimeout(() => {
+              this.WalletPasswordTransaction = '';
+              this.walletV2ErrorMessage='';
+              this.wrongpassword = false
+            
+            }, 2000);
+          } else if (err.error.error === 'same password') {
+            this.walletV2ErrorMessage = 'Do not use the login password';
+            this.wrongpassword = true
+            setTimeout(() => {
+              this.WalletPasswordTransaction = '';
+              this.walletV2ErrorMessage='';
+              this.wrongpassword = false
+            
+            }, 2000);
+          }
+        else  if (err.error.error === 'Wallet already exist') {
             this.walletV2ErrorMessage = 'Wallet already exist';
 
             setTimeout(() => {
@@ -928,7 +950,7 @@ this.formUpdateTransactionPassword
           setTimeout(
             () => (
               (this.walletV2ErrorMessage = ''),
-              (this.walletPassword = ''),
+              (this.WalletPasswordTransaction = ''),
               (this.wrongpassword = false)
             ),
             3000
@@ -940,12 +962,12 @@ this.formUpdateTransactionPassword
             response?.data?.tronAddress
           ) {
             this.ngOnInit();
-            this.closeModal(this.createWalletV2Modal);
-             this.modalService.open(this.setPwdTransactionModal, {
+            this.closeModal(this.setPwdTransactionModal);
+             this.modalService.open(this.migration, {
                 backdrop: 'static',
                 keyboard: false
               })
-              localStorage.setItem('oldPasss', this.walletPassword)
+              // localStorage.setItem('oldPasss', this.walletPassword)
             // this.modalService.open(this.migration, {
             //   backdrop: 'static',
             //   keyboard: false
