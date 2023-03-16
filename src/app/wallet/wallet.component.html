@@ -627,12 +627,12 @@
             <ng-container *ngIf="!wrongpassword; else wrongPasswordImg">
               <img
                 *ngIf="!wrongpassword"
-                class=""
+                class="Kep-password-image"
                 src="../../../assets/Images/Kep-password.svg"
               />
             </ng-container>
             <ng-template #wrongPasswordImg>
-              <img class="" src="../../../assets/Images/Kep-passwordFalse.svg" />
+              <img class="Kep-password-image" src="../../../assets/Images/Kep-passwordFalse.svg" />
             </ng-template>
               <input
                 autocomplete="on"
@@ -734,12 +734,12 @@
             <ng-container *ngIf="!wrongpassword; else wrongPasswordImg">
               <img
                 *ngIf="!wrongpassword"
-                class=""
+                class="Kep-password-image"
                 src="../../../assets/Images/Kep-password.svg"
               />
             </ng-container>
             <ng-template #wrongPasswordImg>
-              <img class="" src="../../../assets/Images/Kep-passwordFalse.svg" />
+              <img class="Kep-password-image" src="../../../assets/Images/Kep-passwordFalse.svg" />
             </ng-template>
               <input
                 autocomplete="on"
@@ -796,7 +796,7 @@
         <div class="row pt-1" *ngIf="transactionPasswordSuccess.length > 0">
           <div class="col-sm-10 col-md-10 col-lg-6 col-xl-5 col-xxl-4 d-flex">
             <label class="success_input">
-              {{ transactionPasswordSuccess | translate }}
+              Passwords don't match. Please verify!
             </label>
           </div>
         </div>
@@ -825,7 +825,7 @@
           {{ 'Next Step' | translate }}
        </span>
         <div
-          *ngIf="showSpinnerTransactionPassword"
+          *ngIf="buttonClick"
           class="spinner-border text-light"
           role="status"
         >

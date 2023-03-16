@@ -735,12 +735,6 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-//changePWDTransaction
-
-
- 
-//  this.openModal(this.setPwdTransactionModal);
-// this.formUpdateTransactionPassword.controls['password'].disable();
 this.formUpdateTransactionPassword.controls['confirmPassword'].disable();
 
 this.formUpdateTransactionPassword
@@ -786,6 +780,7 @@ this.formUpdateTransactionPassword
       .getAllWallet()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((data: any) => {
+  
         this.existV1 = data.data.address;
         if (this.existV1 === null) {
           this.height = '250px';
@@ -840,8 +835,9 @@ this.formUpdateTransactionPassword
 
     if (!this.loadingPopUp) {
       setTimeout(() => {
+       
         if (this.hasWalletV2 &&
-          //  this.migrate === 'open' &&
+           this.migrate === 'open' &&
             this.show) {
           //     this.modalService.open(this.setPwdTransactionModal, {
           //   backdrop: 'static',
@@ -948,7 +944,7 @@ this.formUpdateTransactionPassword
             response?.data?.btcAddress &&
             response?.data?.tronAddress
           ) {
-            this.ngOnInit();
+            // this.ngOnInit();
             this.closeModal(this.setPwdTransactionModal);
              this.modalService.open(this.migration, {
                 backdrop: 'static',
@@ -988,7 +984,7 @@ this.formUpdateTransactionPassword
           if (
             response?.code === 200 
           ) {
-            //this.ngOnInit();
+            // this.ngOnInit();
             this.closeModal(this.createWalletV2Modal);
              this.modalService.open(this.setPwdTransactionModal, {
                 backdrop: 'static',
@@ -1064,7 +1060,7 @@ this.formUpdateTransactionPassword
   allWallet() {
     try {
       if (this.loadingPopUp) {
-        this.tokenStorageService.setModaleMigrate('close');
+        this.tokenStorageService.setModaleMigrate('open');
         this.walletFacade
           .getAllWallet()
           .pipe(takeUntil(this.onDestroy$))
@@ -1276,6 +1272,7 @@ this.formUpdateTransactionPassword
   }
 
   verifyUserWalletV2() {
+ 
     this.walletFacade
       .checkUserWalletV2()
       .pipe(takeUntil(this.onDestoy$))
@@ -1291,14 +1288,15 @@ this.formUpdateTransactionPassword
             });
           } else {
             this.hasWalletV2 = true;
+            
             localStorage.setItem('existV2', 'true');
           }
 
-          this.existV2;
+          this.existV2 =res.data ;
         },
-        () => {
-          this.hasWalletV2 = false;
-        }
+        // () => {
+        //   this.hasWalletV2 = false;
+        // }
       );
   }
 
