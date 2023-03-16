@@ -50,7 +50,12 @@ input:-webkit-autofill:active {
   letter-spacing: 0.03em;
   color: #f52079;
   max-height: 3em;
+ 
 }
+.form_transaction_password{
+  position: relative;width: 60% !important; left: 5%;
+}
+
 .label_input {
   font-style: normal;
   font-weight: bold;
@@ -191,6 +196,11 @@ input:-webkit-autofill:active {
 @media (max-width: 767.98px) {
   .modal-customm {
     z-index: 99999 !important;
+  }
+  .form_transaction_password{
+    
+    width: 100% !important;
+    left: 10%;
   }
 }
 
@@ -478,8 +488,14 @@ select option {
   .positon-mobile {
     margin: 0 !important;
   }
-}
 
+}
+@media (min-width: 1300px){
+  .input-checkbox{
+    padding-left: 25% !important;
+padding-right: 25% !important;
+  }
+}
 #home-tab {
   background-position: 23%;
   background-image: url('assets/Images/Arrow_up1.svg');
@@ -1349,7 +1365,10 @@ table > th {
     margin-right: 60px;
   }
 }
-
+@media (max-width: 420px) {.form_transaction_password{
+    
+  margin-top: -12%;
+}}
 @media (min-width: 320px) and (max-width: 425px) {
   .indicatorfont {
     font-size: 4vw;
@@ -1908,6 +1927,9 @@ p {
   .modal-body.modal-customm h3 {
     font-size: 27px !important;
   }
+  .modal-body.modal-custom{
+    background-color: #ffffff;
+  }
   .modal-body.modal-customm p {
     font-size: 12px !important;
     margin-bottom: 6px !important;
@@ -2114,6 +2136,9 @@ p {
   .div-input-icon {
     width: 100% !important;
   }
+  /* .btn-blue{
+    width: ;
+  } */
 }
 
 .input-password {
@@ -2158,7 +2183,7 @@ p {
   box-shadow: none !important;
 
   border-radius: 30px;
-  width: 40% !important;
+  width: 137px !important;
 
   font-style: normal;
   font-weight: 600 !important;
@@ -2180,7 +2205,7 @@ p {
   box-shadow: none !important;
 
   border-radius: 30px;
-  width: 40% !important;
+  width: 137px !important;
 
   font-style: normal;
   font-weight: 600 !important;
