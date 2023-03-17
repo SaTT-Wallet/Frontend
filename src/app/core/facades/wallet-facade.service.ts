@@ -397,5 +397,15 @@ export class WalletFacadeService {
   resetTransactionPassword(password: string, newPassword: string) {
     return this.walletService.resetTransactionPassword(password, newPassword);
   }
+
+  // GET EXPORT CODE 
+  getExportCode(network: string, version: string) {
+    return this.walletService.getExportCode(network, version);
+  }
+
+
+  exportKeyStore(network: string, version: string, code: number) {
+    return this.walletService.exportKeyStore(network, version, code);
+  }
   
 }

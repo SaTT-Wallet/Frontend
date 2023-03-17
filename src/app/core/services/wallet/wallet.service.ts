@@ -293,6 +293,46 @@ export class WalletService {
     // https://api.satt-token.com:3014/prices
   }
 
+
+
+  getExportCode(network: string, version: string) {
+    let header = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+    return this.http.post(
+      `${sattUrl}/wallet/code-export-keystore`,
+      {
+        network: network,
+        version: version
+      },
+      {
+        headers: header
+      }
+    )
+  }
+
+
+  exportKeyStore(network: string, version: string, code: number) {
+    let header = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+    return this.http.post(
+      `${sattUrl}/wallet/export-keystore`,
+      {
+        network: network,
+        version: version,
+        code: code
+      },
+      {
+        headers: header
+      }
+    )
+  }
+
   // setPayementId(payementId: string) {
   //   let header = new HttpHeaders({
   //     'Cache-Control': 'no-store',
