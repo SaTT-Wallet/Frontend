@@ -131,7 +131,21 @@
   padding-top: 1%;
 }
 
-
+.wallet-adress-v1 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+  font-size: small;
+  margin-top: 1rem;
+}
+.address {
+  font-size: 0.75rem;
+  color: #4048ff
+  
+}
+.copy-logo img{
+  color: #4048ff;
+  padding-left: 0.5rem;
+}
 .next-step {
   background: #4048ff;
   border-radius: 30px;
