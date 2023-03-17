@@ -42,7 +42,28 @@ input:-webkit-autofill:active {
   width: 938px;
   margin-top: -2%;
 }
+.error_input {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0.03em;
+  color: #f52079;
+  max-height: 3em;
+ 
+}
+.form_transaction_password{
+  position: relative;width: 60% !important; left: 5%;
+}
 
+.label_input {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 125.9%;
+  letter-spacing: 0.03em;
+  color: #6c768c;
+}
 /* sk */
 @media only screen and (max-width: 768px) {
   #createWalletV2Modal {
@@ -60,15 +81,25 @@ input:-webkit-autofill:active {
     /* margin-left: ; */
     position: absolute;
   }
+
+  .success_input {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0.03em;
+    color: #00CC9E;
+    max-height: 3em;
+  }
   .postition-trans {
     width: 100% !important;
     text-align: left !important;
-    margin-left: 40px !important;
   }
   .input-div {
-    width: auto !important;
+    width: 60%;
     margin: auto;
   }
+
 
   #welcome-input {
     margin: auto !important;
@@ -166,6 +197,11 @@ input:-webkit-autofill:active {
   .modal-customm {
     z-index: 99999 !important;
   }
+  .form_transaction_password{
+    
+    width: 100% !important;
+    left: 10%;
+  }
 }
 
 .white-bloc {
@@ -214,7 +250,7 @@ input:-webkit-autofill:active {
 }
 
 .input-div {
-  width: 60%;
+  width: 50%;
   margin: auto;
 }
 
@@ -452,8 +488,14 @@ select option {
   .positon-mobile {
     margin: 0 !important;
   }
-}
 
+}
+@media (min-width: 1300px){
+  .input-checkbox{
+    padding-left: 25% !important;
+padding-right: 25% !important;
+  }
+}
 #home-tab {
   background-position: 23%;
   background-image: url('assets/Images/Arrow_up1.svg');
@@ -1323,7 +1365,10 @@ table > th {
     margin-right: 60px;
   }
 }
-
+@media (max-width: 420px) {.form_transaction_password{
+    
+  margin-top: -12%;
+}}
 @media (min-width: 320px) and (max-width: 425px) {
   .indicatorfont {
     font-size: 4vw;
@@ -1882,6 +1927,9 @@ p {
   .modal-body.modal-customm h3 {
     font-size: 27px !important;
   }
+  .modal-body.modal-custom{
+    background-color: #ffffff;
+  }
   .modal-body.modal-customm p {
     font-size: 12px !important;
     margin-bottom: 6px !important;
@@ -2088,6 +2136,9 @@ p {
   .div-input-icon {
     width: 100% !important;
   }
+  /* .btn-blue{
+    width: ;
+  } */
 }
 
 .input-password {
@@ -2132,7 +2183,7 @@ p {
   box-shadow: none !important;
 
   border-radius: 30px;
-  width: 40% !important;
+  width: 137px !important;
 
   font-style: normal;
   font-weight: 600 !important;
@@ -2154,7 +2205,7 @@ p {
   box-shadow: none !important;
 
   border-radius: 30px;
-  width: 40% !important;
+  width: 137px !important;
 
   font-style: normal;
   font-weight: 600 !important;
@@ -2166,6 +2217,9 @@ p {
   border: none;
 
   /* margin-right: 1.5rem; */
+}
+.label_input {
+  font-size: 14px !important;
 }
 .btn-white {
   width: 217px !important;
@@ -2197,15 +2251,14 @@ p {
 }
 
 .postition-trans {
-  width: 32%;
-  margin-left: 9%;
+  text-align-last: left;
 }
 .postition-trans-tron {
   text-align: center;
 }
 .modal-body.modal-custom {
   margin-top: 0;
-  overflow-y: auto;
+  /* overflow-y: auto; */
 }
 
 .link-button {

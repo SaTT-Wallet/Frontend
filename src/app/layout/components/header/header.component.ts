@@ -430,7 +430,6 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   isDisplayNew() {
     this.displayNew = localStorage.getItem('display')?.toString();
-
     if (this.existV1) {
       if (this.displayNew === 'none') {
         this.displayNew = 'block';
@@ -1303,6 +1302,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe((data: any) => {
         this.existV1 = data?.data?.address;
+
 
         if (data?.data?.address === null) {
           this.tokenStorageService.saveWalletVersion('v2');

@@ -6,6 +6,10 @@ import { existsSync } from 'fs';
 import { InjectionToken } from '@angular/core';
 import { readFileSync } from 'fs';
 const cheerio = require('cheerio');
+const fs = require('fs');
+const helmet = require('helmet');
+const domino = require('domino');
+const Blob = require('blob-polyfill').Blob;
 
 import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
@@ -40,7 +44,7 @@ export function app(): express.Express {
       ],
     })
   );
-
+  server.use(helmet.noSniff());
   server.set('view engine', 'html');
   server.set('views', distFolder);
 

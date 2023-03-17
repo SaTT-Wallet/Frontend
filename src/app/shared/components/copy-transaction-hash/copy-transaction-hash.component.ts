@@ -4,7 +4,8 @@ import {
   bscan,
   bttscan,
   etherscan,
-  polygonscan, tronScan
+  polygonscan,
+  tronScan
 } from '@app/config/atn.config';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 
@@ -20,7 +21,7 @@ export class CopyTransactionHashComponent {
   @Input() network: any;
   @Input() networkWallet: any = '';
   @Input() transactionHash: any;
-
+  @Input() type: any;
   noTransactionHash!: boolean;
   urlSmartContrat!: string;
 
@@ -39,8 +40,6 @@ export class CopyTransactionHashComponent {
   ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges) {
-
-
     if (changes) {
       this.tokenStorageService.removeItem('network');
       this.tokenStorageService.setItem('network', this.networkWallet);
@@ -52,8 +51,7 @@ export class CopyTransactionHashComponent {
         this.networkWallet = polygonscan + this.transactionHash;
       } else if (this.tokenStorageService.getNetwork() === 'BTTC') {
         this.networkWallet = bttscan + this.transactionHash;
-      }
-      else if (this.tokenStorageService.getNetwork() === 'TRON') {
+      } else if (this.tokenStorageService.getNetwork() === 'TRON') {
         this.networkWallet = tronScan + this.transactionHash;
       }
     }

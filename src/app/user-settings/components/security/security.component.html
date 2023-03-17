@@ -803,7 +803,7 @@
         </div>
       </div>
     </div>
-    <div class="col-12 p-0" *ngIf="!userIsNew">
+    <div class="col-12 p-0" *ngIf="walletV2Exist && !userIsNew">
       <hr />
     </div>
     <!------- Collapse retrieve data ----------->
@@ -1025,7 +1025,36 @@
         </form>
       </div>
     </div>
+    
+    <button
+                type="submit"
+                class="btn rounded-pill confirm-export"
+                disabled="true"
+                (click)="
+                  exportKeyStore()
+                "
+              >
+                {{ 'confirm_' | translate }}
+              </button>
+
+
+              <button
+              type="submit"
+              class=" btn  resend-code rounded-pill"
+              
+              (click)="
+                resendCode()
+              "
+            >
+              {{ 'send_code' | translate }}
+            </button>         
+ 
   </ng-template>
+
+
+
+
+
 
   <ng-template #exportDataModalV2>
     <div class="modal-header modal-custom">
