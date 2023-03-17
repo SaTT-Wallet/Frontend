@@ -582,8 +582,8 @@ getCookie(key: string){
   }
 
   snlogin(social: string) {
-    this.tokenStorageService?.saveWalletVersion('v2');
-    this.tokenStorageService?.setModaleMigrate('close');
+    this.tokenStorageService?.saveWalletVersion('v1');
+    this.tokenStorageService?.setModaleMigrate('open');
     this.scale = true;
     this.loggedrs = true;
     if (this.cookie.get('satt_cookies') === 'pass') {
@@ -624,8 +624,8 @@ getCookie(key: string){
    * Authenticate user
    */
   login() {
-    this.tokenStorageService?.setModaleMigrate('close');
-    this.tokenStorageService?.saveWalletVersion('v2');
+    this.tokenStorageService?.setModaleMigrate('open');
+    this.tokenStorageService?.saveWalletVersion('v1');
     this.isSubmitting = true;
     this.showSpinner = true;
     this.loggedrs = false;
