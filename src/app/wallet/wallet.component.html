@@ -10,13 +10,11 @@
 <!-- <div class="wallet container-fluid"> -->
 
 <ng-template #migration>
-  <app-migration  
-[className]="getScreenWidth > 740 ? 'migration' : 'migration-mobile'"
-
-[migrate]="migrate"
-(migrateEvent)="getMigrationStatus($event)"
-
-></app-migration>
+  <app-migration
+    [className]="getScreenWidth > 740 ? 'migration' : 'migration-mobile'"
+    [migrate]="migrate"
+    (migrateEvent)="getMigrationStatus($event)"
+  ></app-migration>
 </ng-template>
 
 <div class="wallet">
@@ -210,7 +208,6 @@
 <div class="loader" *ngIf="showSpinner"></div>
 <!-- End div spinner -->
 
-
 <!-- Welcome modal -->
 <ng-template #welcomeModal>
   <div class="modal-header modal-customm">
@@ -270,7 +267,6 @@
     </div>
   </div>
 </ng-template>
-
 
 <!-- modal create Tron wallet-->
 <ng-template #createTronWalletModal>
@@ -377,7 +373,6 @@
   </div>
 </ng-template>
 
-
 <!-- modal created Tron wallet Success-->
 <ng-template #tronWalletCreatedSuccessModal>
   <div class="modal-header modal-custom">
@@ -448,8 +443,6 @@
   </div>
 </ng-template>
 
-
-
 <!-- modal create wallet V2-->
 <ng-template #createWalletV2Modal>
   <div
@@ -483,7 +476,7 @@
         <h6 class="trans">{{ 'Transaction password' | translate }}</h6>
       </div>
       <div
-        class="div-input-icon p-1 "
+        class="div-input-icon p-1"
         [ngClass]="{
           error: wrongpassword
         }"
@@ -559,13 +552,10 @@
   </div>
 </ng-template>
 
-
 <!-- modal maintenance -->
-
 
 <!-- modal set pwd transation -->
 <ng-template #setPwdTransactionModal>
-  
   <div
     class="modal-body welcome-body2 modal-custom"
     data-backdrop="static"
@@ -577,31 +567,32 @@
     <div class="img-update">
       <img src="../../assets/Images/ILLU_MOD_security.svg" />
     </div>
-    <p class="textpwd" id="title">{{ 'set your transaction password' | translate }}</p>
+    <p class="textpwd" id="title">
+      {{ 'set your transaction password' | translate }}
+    </p>
     <div
       class="d-flex justify-content-center welcome-paragraph"
       id="welcome-paragraph"
     >
       <p class="paragragh" id="paragraph">
-        For security reasons. You will need to enter a new transaction password. Write it down carefully and keep it in a safe place!
+        For security reasons. You will need to enter a new transaction password.
+        Write it down carefully and keep it in a safe place!
       </p>
     </div>
-  <div class="row">
+    <div class="row">
       <form
         [formGroup]="formUpdateTransactionPassword"
         id="formUpdateTransactionPassword"
         class="form_transaction_password"
       >
-
-        <div class="row pt-4 ">
+        <div class="row pt-4">
           <div class="postition-trans">
             <label
-            style="display: block ruby ;"
-              class=" trans"
+              style="display: block ruby"
+              class="trans"
               [ngClass]="{
                 labelError:
-                  this.formUpdateTransactionPassword.get('password')
-                    ?.invalid &&
+                  this.formUpdateTransactionPassword.get('password')?.invalid &&
                   !this.formUpdateTransactionPassword.get('password')?.errors
                     ?.required
               }"
@@ -613,27 +604,41 @@
         <div class="row">
           <div class="col-10">
             <div
-              class="div-input-icon  position-relative"
+              class="div-input-icon position-relative"
               [ngClass]="{
                 errorMsg:
-                  this.formUpdateTransactionPassword.get('password')
-                    ?.invalid &&
+                  this.formUpdateTransactionPassword.get('password')?.invalid &&
                   !this.formUpdateTransactionPassword.get('password')?.errors
                     ?.required,
                 success:
                   this.formUpdateTransactionPassword.get('password')?.valid
               }"
-            > 
-            <ng-container *ngIf="!wrongpassword; else wrongPasswordImg">
-              <img
-                *ngIf="!wrongpassword"
-                class="Kep-password-image"
-                src="../../../assets/Images/Kep-password.svg"
-              />
-            </ng-container>
-            <ng-template #wrongPasswordImg>
-              <img class="Kep-password-image" src="../../../assets/Images/Kep-passwordFalse.svg" />
-            </ng-template>
+              [ngStyle]="
+                !wrongpassword &&
+                !this.formUpdateTransactionPassword.errors?.mustMatch
+                  ? { border: '1px solid #ffa318' }
+                  : { border: '1px solid #f52079' }
+              "
+            >
+              <ng-container
+                *ngIf="
+                  !wrongpassword &&
+                    !this.formUpdateTransactionPassword.errors?.mustMatch;
+                  else wrongPasswordImg
+                "
+              >
+                <img
+                  *ngIf="!wrongpassword"
+                  class="Kep-password-image"
+                  src="../../../assets/Images/Kep-password.svg"
+                />
+              </ng-container>
+              <ng-template #wrongPasswordImg>
+                <img
+                  class="Kep-password-image"
+                  src="../../../assets/Images/Kep-passwordFalse.svg"
+                />
+              </ng-template>
               <input
                 autocomplete="on"
                 type="password"
@@ -641,15 +646,15 @@
                 formControlName="password"
                 id="newPassword"
                 class="input_oeil"
-                style="border: none; background: transparent;"
+                style="border: none; background: transparent"
                 [(ngModel)]="WalletPasswordTransaction"
                 #password
                 [ngClass]="{
                   errorMsg2:
                     this.formUpdateTransactionPassword.get('password')
                       ?.invalid &&
-                    !this.formUpdateTransactionPassword.get('password')
-                      ?.errors?.required
+                    !this.formUpdateTransactionPassword.get('password')?.errors
+                      ?.required
                 }"
               />
               <span
@@ -707,11 +712,10 @@
         <div class="row mt-3">
           <div class="postition-trans">
             <label
-            style="display: block ruby ;"
+              style="display: block ruby"
               class="trans"
               [ngClass]="{
-                labelError:
-                  this.formUpdateTransactionPassword.errors?.mustMatch
+                labelError: this.formUpdateTransactionPassword.errors?.mustMatch
               }"
             >
               {{ 'Profil.confirm_new_password' | translate }}</label
@@ -722,25 +726,40 @@
           <div class="col-10">
             <div
               class="div-input-icon"
-              [ngClass]="{'incorrect-password': wrongpassword ,
-                errorMsg:
-                  this.formUpdateTransactionPassword.errors?.mustMatch,
+              [ngClass]="{
+                'incorrect-password': wrongpassword,
+                errorMsg: this.formUpdateTransactionPassword.errors?.mustMatch,
                 success:
                   !this.formUpdateTransactionPassword.errors?.mustMatch &&
                   this.formUpdateTransactionPassword.get('confirmPassword')
                     ?.valid
               }"
+              [ngStyle]="
+                !wrongpassword &&
+                !this.formUpdateTransactionPassword.errors?.mustMatch
+                  ? { border: '1px solid #ffa318' }
+                  : { border: '1px solid #f52079' }
+              "
             >
-            <ng-container *ngIf="!wrongpassword; else wrongPasswordImg">
-              <img
-                *ngIf="!wrongpassword"
-                class="Kep-password-image"
-                src="../../../assets/Images/Kep-password.svg"
-              />
-            </ng-container>
-            <ng-template #wrongPasswordImg>
-              <img class="Kep-password-image" src="../../../assets/Images/Kep-passwordFalse.svg" />
-            </ng-template>
+              <ng-container
+                *ngIf="
+                  !wrongpassword &&
+                    !this.formUpdateTransactionPassword.errors?.mustMatch;
+                  else wrongPasswordImg
+                "
+              >
+                <img
+                  *ngIf="!wrongpassword"
+                  class="Kep-password-image"
+                  src="../../../assets/Images/Kep-password.svg"
+                />
+              </ng-container>
+              <ng-template #wrongPasswordImg>
+                <img
+                  class="Kep-password-image"
+                  src="../../../assets/Images/Kep-passwordFalse.svg"
+                />
+              </ng-template>
               <input
                 autocomplete="on"
                 type="password"
@@ -748,9 +767,8 @@
                 name="confirmPassword"
                 id="confirmPassword"
                 formControlName="confirmPassword"
-                
                 class="input_oeil"
-                style="border:none; background: transparent;"
+                style="border: none; background: transparent"
                 [ngClass]="{
                   errorMsg2:
                     this.formUpdateTransactionPassword.errors?.mustMatch
@@ -781,14 +799,14 @@
               this.formUpdateTransactionPassword.dirty
             "
           >
-            {{ 'Profil.password_must_match_error' | translate }}
+            Passwords don't match. Please verify!
           </span>
         </div>
         <!-- End Input , label and error msg confirmation password-->
         <!-- error msg: wrong old password-->
         <div class="row pt-1" *ngIf="!!walletV2ErrorMessage">
           <div class="col-sm-10 col-md-10 col-lg-6 col-xl-5 col-xxl-4 d-flex">
-            <label class="error_input" style="position: fixed;">
+            <label class="error_input" style="position: fixed">
               {{ walletV2ErrorMessage }}
             </label>
           </div>
@@ -804,34 +822,38 @@
       </form>
     </div>
 
+    <div class="mt-4" class="input-checkbox">
+      <input
+        type="checkbox"
+        name="checkbox"
+        id="checkbox"
+        [(ngModel)]="isChecked"
+      />
 
-<div class="mt-4" class="input-checkbox">
-   <input
-            type="checkbox"
-            name="checkbox"
-            id="checkbox"
-            [(ngModel)]="isChecked"
-          />
-
-          I understand that tech support cannot help me 
-              recover a lost password.
-
-</div>
-    <div class="row justify-content-center ">
-      <div class="w-50 p-3  justify-align-center">
-      
-        <button type="submit"
-        class="btnModalError btn_fill_profile btn-blue" (click)="createWalletV2()" [disabled]="!isChecked ||  this.formUpdateTransactionPassword.errors?.mustMatch"><span *ngIf="!showSpinnerTransactionPassword">
-          {{ 'Next Step' | translate }}
-       </span>
-        <div
-          *ngIf="buttonClick"
-          class="spinner-border text-light"
-          role="status"
+      I understand that tech support cannot help me recover a lost password.
+    </div>
+    <div class="row justify-content-center">
+      <div class="w-50 p-3 justify-align-center">
+        <button
+          type="submit"
+          class="btnModalError btn_fill_profile btn-blue"
+          (click)="createWalletV2()"
+          [disabled]="
+            !isChecked || this.formUpdateTransactionPassword.errors?.mustMatch
+          "
         >
-          <span class="sr-only">Loading...</span>
-        </div></button>
-    
+          <span *ngIf="!showSpinnerTransactionPassword">
+            {{ 'Next Step' | translate }}
+          </span>
+          <div
+            *ngIf="buttonClick"
+            class="spinner-border text-light"
+            role="status"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+        </button>
+
         <!-- <button
           type="submit"
           class="btn-green"
@@ -853,8 +875,6 @@
     </div>
   </div>
 </ng-template>
-
-
 
 <!-- modal maintenance -->
 <!-- <ng-template #modalMaintenance>
@@ -930,6 +950,3 @@
   </div>
 </ng-template>
  -->
-
-
-
