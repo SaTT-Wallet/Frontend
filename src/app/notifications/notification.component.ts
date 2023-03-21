@@ -376,6 +376,7 @@ export class NotificationComponent implements OnInit {
 
       case 'transfer_event':
         if (item._label['currency']) {
+          item._label['currency'] === "SATTPOLYGON" && (item._label['decimal'] = 18)
           let decimal = item._label['decimal']
             ? new Big('10').pow(item._label['decimal'])
             : ListTokens[item._label.currency].decimals;
@@ -414,6 +415,9 @@ export class NotificationComponent implements OnInit {
 
       case 'receive_transfer_event':
         if (item._label['currency']) {
+
+          item._label['currency'] === "SATTPOLYGON" && (item._label['decimal'] = 18)
+          console.log(item._label['decimal'])
           let decimal = item._label['decimal']
             ? new Big('10').pow(item._label['decimal'])
             : ListTokens[item._label.currency].decimals;

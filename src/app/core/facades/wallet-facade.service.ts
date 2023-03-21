@@ -380,6 +380,12 @@ export class WalletFacadeService {
   }
 
 
+    // VERIFY SIGN
+    verifySign(password: string) {
+      return this.walletService.verifySign(password);
+    }
+  
+
   checkUserIsNew() {
     return this.walletService.checkUserIsNew();
   }
@@ -391,4 +397,5 @@ export class WalletFacadeService {
   resetTransactionPassword(password: string, newPassword: string) {
     return this.walletService.resetTransactionPassword(password, newPassword);
   }
+  
 }

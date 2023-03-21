@@ -157,6 +157,24 @@ export class WalletService {
     );
   }
 
+  resetTransactionPassword(password: string, newPassword: string) {
+    let header = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+
+    return this.http.post(
+      `${sattUrl}/wallet/resetpassword`,
+      {
+        oldPass: password,
+        newPass: newPassword
+      },
+      { headers: header }
+    );
+  }
+
+
   createNewWalletV2(password: string) {
     let httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -170,6 +188,21 @@ export class WalletService {
       { headers: httpHeaders }
     );
   }
+  verifySign(password: string) {
+    let httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-store',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+
+    return this.http.post(
+      `${sattUrl}/wallet/verifySign`,
+      { pass: password },
+      { headers: httpHeaders }
+    );
+  }
+
+
 
   checkUserIsNew() {
     let httpHeaders = new HttpHeaders({
@@ -197,22 +230,7 @@ export class WalletService {
     );
   }
 
-  resetTransactionPassword(password: string, newPassword: string) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
-    return this.http.post(
-      `${sattUrl}/wallet/resetpassword`,
-      {
-        oldPass: password,
-        newPass: newPassword
-      },
-      { headers: header }
-    );
-  }
+  
 
   chartjs() {
     const headers = new HttpHeaders({
