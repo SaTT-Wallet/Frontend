@@ -1132,7 +1132,6 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
 
   exportKeyStore() {
-    console.log('clicked')
     this.walletFacade.exportKeyStore(this.network, this.version, this.codeExportKeyStore)
     .pipe(
       catchError((HttpError: HttpErrorResponse) => {
