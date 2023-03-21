@@ -1127,7 +1127,6 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
   onCodeCompleted(event:any) {
     this.codeExportKeyStore = Number(event);
-    // this.exportKeyStore();
     
   }
 
