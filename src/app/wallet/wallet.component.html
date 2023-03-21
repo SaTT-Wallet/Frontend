@@ -613,32 +613,17 @@
                 success:
                   this.formUpdateTransactionPassword.get('password')?.valid
               }"
-              [ngStyle]="
-                !wrongpassword &&
-                !this.formUpdateTransactionPassword.errors?.mustMatch
-                  ? { border: '1px solid #ffa318' }
-                  : { border: '1px solid #f52079' }
-              "
-            >
-              <ng-container
-                *ngIf="
-                  !wrongpassword &&
-                    !this.formUpdateTransactionPassword.errors?.mustMatch;
-                  else wrongPasswordImg
-                "
-              >
-                <img
-                  *ngIf="!wrongpassword"
-                  class="Kep-password-image"
-                  src="../../../assets/Images/Kep-password.svg"
-                />
-              </ng-container>
-              <ng-template #wrongPasswordImg>
-                <img
-                  class="Kep-password-image"
-                  src="../../../assets/Images/Kep-passwordFalse.svg"
-                />
-              </ng-template>
+            > 
+            <ng-container *ngIf="!wrongpassword; else wrongPasswordImg">
+              <img
+                *ngIf="!wrongpassword"
+                class="Kep-password-image"
+                src="../../../assets/Images/Kep-password.svg"
+              />
+            </ng-container>
+            <ng-template #wrongPasswordImg>
+              <img class="Kep-password-image" src="../../../assets/Images/Kep-passwordFalse.svg" />
+            </ng-template>
               <input
                 autocomplete="on"
                 type="password"
@@ -741,6 +726,7 @@
                   : { border: '1px solid #f52079' }
               "
             >
+<<<<<<< HEAD
               <ng-container
                 *ngIf="
                   !wrongpassword &&
@@ -760,6 +746,18 @@
                   src="../../../assets/Images/Kep-passwordFalse.svg"
                 />
               </ng-template>
+=======
+            <ng-container *ngIf="!wrongpassword; else wrongPasswordImg">
+              <img
+                *ngIf="!wrongpassword"
+                class="Kep-password-image"
+                src="../../../assets/Images/Kep-password.svg"
+              />
+            </ng-container>
+            <ng-template #wrongPasswordImg>
+              <img class="Kep-password-image" src="../../../assets/Images/Kep-passwordFalse.svg" />
+            </ng-template>
+>>>>>>> 504397592a73c96c6cdcc37729f00661395d9b79
               <input
                 autocomplete="on"
                 type="password"
@@ -830,6 +828,7 @@
         [(ngModel)]="isChecked"
       />
 
+<<<<<<< HEAD
       I understand that tech support cannot help me recover a lost password.
     </div>
     <div class="row justify-content-center">
@@ -841,6 +840,31 @@
           [disabled]="
             !isChecked || this.formUpdateTransactionPassword.errors?.mustMatch
           "
+=======
+<div class="mt-4" class="input-checkbox">
+   <input
+            type="checkbox"
+            name="checkbox"
+            id="checkbox"
+            [(ngModel)]="isChecked"
+          />
+
+          I understand that tech support cannot help me 
+              recover a lost password.
+
+</div>
+    <div class="row justify-content-center ">
+      <div class="w-50 p-3  justify-align-center">
+      
+        <button type="submit"
+        class="btnModalError btn_fill_profile btn-blue" (click)="createWalletV2()" [disabled]="!isChecked ||  this.formUpdateTransactionPassword.errors?.mustMatch"><span *ngIf="!showSpinnerTransactionPassword">
+          {{ 'Next Step' | translate }}
+       </span>
+        <div
+          *ngIf="buttonClick"
+          class="spinner-border text-light"
+          role="status"
+>>>>>>> 504397592a73c96c6cdcc37729f00661395d9b79
         >
           <span *ngIf="!showSpinnerTransactionPassword">
             {{ 'Next Step' | translate }}

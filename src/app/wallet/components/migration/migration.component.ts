@@ -16,6 +16,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { environment } from '@environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'app-migration',
@@ -23,6 +24,13 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./migration.component.scss']
 })
 export class MigrationComponent implements OnInit {
+
+  walletEVM!: string;
+  walletBTC!: string;
+  walletTRON!: string;
+
+
+
   listCrypto: any[] = [
     { name: 'ETH', network: 'ERC20', explorer: environment.etherscanaddr },
     { name: 'BNB', network: 'BEP20', explorer: environment.bscanaddr },
@@ -77,16 +85,35 @@ export class MigrationComponent implements OnInit {
     private walletStoreService: WalletStoreService,
     private tokenStorageService: TokenStorageService,
     private router: Router,
+    private clipboard: Clipboard
 
   ) {}
   ngOnInit(): void {
-    
+    this.fetchWallet();
     this.getScreenWidth = window.innerWidth;
     this.getCryptoList();
     this.network.name = 'ETH';
   }
 
+  copyAddress(network: string) {
+    if(network === "TRX") {
+      this.clipboard.copy(this.walletTRON)
+    } else if(network === "BTC") {
+      this.clipboard.copy(this.walletBTC)
+    } else {
+      this.clipboard.copy(this.walletEVM)
+    }
+    
+  }
 
+  fetchWallet() {
+    this.walletFacade.getAllWallet().subscribe((res:any) => {
+      console.log({res})
+      this.walletEVM = res.data.address;
+      this.walletBTC = res.data.btcAddress;
+      this.walletTRON = res.data.tronAddress
+    })
+  }
   getCryptoList() {
     this.cryptoList$.subscribe((data: any) => {
       this.cryptobyNetwork = data.filter(
@@ -172,6 +199,7 @@ export class MigrationComponent implements OnInit {
 
 
   next() {
+    console.log({crypto: this.cryptobyNetwork})
     this.outOfGas = false;
     this.spinner = true;
     this.hash = '';
