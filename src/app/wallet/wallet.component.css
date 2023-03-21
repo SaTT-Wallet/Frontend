@@ -50,7 +50,12 @@ input:-webkit-autofill:active {
   letter-spacing: 0.03em;
   color: #f52079;
   max-height: 3em;
+ 
 }
+.form_transaction_password{
+  position: relative;width: 60% !important; left: 5%;
+}
+
 .label_input {
   font-style: normal;
   font-weight: bold;
@@ -191,6 +196,11 @@ input:-webkit-autofill:active {
 @media (max-width: 767.98px) {
   .modal-customm {
     z-index: 99999 !important;
+  }
+  .form_transaction_password{
+    
+    width: 100% !important;
+    left: 10%;
   }
 }
 
@@ -351,7 +361,9 @@ input:-webkit-autofill:active {
 .wallet-flex {
   padding-left: 36px;
 }
-
+.input-checkbox{
+  margin-top: 10%;
+}
 #legend {
   z-index: 1;
   position: absolute;
@@ -477,6 +489,13 @@ select option {
   }
   .positon-mobile {
     margin: 0 !important;
+  }
+
+}
+@media (min-width: 1300px){
+  .input-checkbox{
+    padding-left: 25% !important;
+padding-right: 25% !important;
   }
 }
 
@@ -1349,7 +1368,10 @@ table > th {
     margin-right: 60px;
   }
 }
-
+@media (max-width: 420px) {.form_transaction_password{
+    
+  margin-top: -12%;
+}}
 @media (min-width: 320px) and (max-width: 425px) {
   .indicatorfont {
     font-size: 4vw;
@@ -1790,6 +1812,7 @@ table > th {
 
 .modal-content {
   position: absolute;
+  
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -1907,6 +1930,9 @@ p {
 @media (max-width: 767px) {
   .modal-body.modal-customm h3 {
     font-size: 27px !important;
+  }
+  .modal-body.modal-custom{
+    background-color: #ffffff;
   }
   .modal-body.modal-customm p {
     font-size: 12px !important;
@@ -2114,6 +2140,9 @@ p {
   .div-input-icon {
     width: 100% !important;
   }
+  /* .btn-blue{
+    width: ;
+  } */
 }
 
 .input-password {
@@ -2158,7 +2187,7 @@ p {
   box-shadow: none !important;
 
   border-radius: 30px;
-  width: 40% !important;
+  width: 137px !important;
 
   font-style: normal;
   font-weight: 600 !important;
@@ -2180,7 +2209,7 @@ p {
   box-shadow: none !important;
 
   border-radius: 30px;
-  width: 40% !important;
+  width: 137px !important;
 
   font-style: normal;
   font-weight: 600 !important;
@@ -2210,7 +2239,10 @@ p {
   text-align: center;
   color: #4048ff !important;
 }
-
+.Kep-password-image{
+  padding-left: 1%;
+  padding-bottom: 2px;
+}
 .trans {
   /* font-family: 'Poppins' !important; */
   font-family: 'Raleway', sans-serif !important;

@@ -1826,7 +1826,7 @@
   "Profil.password_wrong": "Mot de passe incorrect",
   "Profil.profile.btn_update_password": "Modifier",
   "Profil.export_account": "Exporter mon portefeuille",
-  "Profil.export_info_security": "Entrez votre mot de passe pour exporter votre compte au format keystore JSON",
+  "Profil.export_info_security": "Veuillez copier le code que nous vous avons envoyé par e-mail pour exporter votre compte au format JSON keystore",
   "Profil.password": "Mot de passe",
   "Profil.pass_wrong": "Mot de passe incorrect",
   "Profil.export": "Exporter",
