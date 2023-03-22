@@ -869,7 +869,7 @@ getCookie(key: string){
                 this.notificationService.triggerFireBaseNotifications.next(
                   true
                 );
-                this.router.navigate(['']);
+                this.router.navigate(['/ad-pools']);
                 this.showBigSpinner = true;
                 this.backgroundImage = '';
                 this.backgroundColor = '';
@@ -885,7 +885,7 @@ getCookie(key: string){
                   true
                 );
 
-                this.router.navigate(['']);
+                this.router.navigate(['/ad-pools']);
                 this.showBigSpinner = true;
                 this.backgroundImage = '';
                 this.backgroundColor = '';

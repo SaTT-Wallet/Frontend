@@ -500,7 +500,7 @@ button:focus {
   
 }
 
-.confirm-export {
+.confirm-export:disabled {
   font-family: 'Poppins', sans-serif;
   font-size: 1rem;
   border: 1px solid #ADADC8;
@@ -510,6 +510,18 @@ button:focus {
   padding-left: 2rem;
   padding-right: 2rem;
   background-color: #F6F6FF;
+}
+
+.confirm-export {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  border: 1px solid #4048ff;
+  color: white;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  background-color: #4048ff;
 }
 
 .resend-code {

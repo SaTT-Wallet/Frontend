@@ -1029,7 +1029,7 @@
     <button
                 type="submit"
                 class="btn rounded-pill confirm-export"
-                disabled="true"
+                [disabled]="!codeExportKeyStore"
                 (click)="
                   exportKeyStore()
                 "
