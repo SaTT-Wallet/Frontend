@@ -81,7 +81,6 @@ export class CampaignsListItemComponent implements OnInit {
   }
 
   goToEditPage(id: string) {
-    //this.router.navigate(['home/campaign', id, 'edit']);
     this.walletFacade
       .getAllWallet()
       .pipe(takeUntil(this.onDestroy$))
