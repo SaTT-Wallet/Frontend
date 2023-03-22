@@ -14,8 +14,10 @@ import { Campaign } from '@app/models/campaign.model';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { CampaignsStoreService } from '@campaigns/services/campaigns-store.service';
 import { CampaignsListStoreService } from '@campaigns/services/campaigns-list-store.service';
-import { mergeMap } from 'rxjs/operators';
+import { mergeMap, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
+import { WalletStoreService } from '@app/core/services/wallet-store.service';
 // TODO: missing budget property in the data sent by backend /v2/campaigns
 
 @Component({
@@ -25,6 +27,8 @@ import { Subject } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CampaignsListItemComponent implements OnInit {
+  onDestroy$ = new Subject();
+
   @Input() campaign = new Campaign();
   @Output() deleted = new EventEmitter();
   showSpinner = false;
@@ -40,7 +44,9 @@ export class CampaignsListItemComponent implements OnInit {
     private campaignListStoreService: CampaignsListStoreService,
     private translate: TranslateService,
     private toastr: ToastrService,
-    private tokenStorageService: TokenStorageService
+    private tokenStorageService: TokenStorageService,
+    private walletFacade: WalletFacadeService,
+    private walletStoreService: WalletStoreService
   ) {}
 
   ngOnInit(): void {
@@ -75,7 +81,19 @@ export class CampaignsListItemComponent implements OnInit {
   }
 
   goToEditPage(id: string) {
-    this.router.navigate(['home/campaign', id, 'edit']);
+    //this.router.navigate(['home/campaign', id, 'edit']);
+    this.walletFacade
+      .getAllWallet()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((data: any) => {
+        this.tokenStorageService.saveWalletVersion('v2');
+        this.tokenStorageService.saveIdWallet(data.data.addressV2);
+        this.tokenStorageService.saveTronWallet(data.data.tronAddressV2);
+        this.tokenStorageService.saveWalletBtc(data.data.btcAddressV2);
+        this.walletStoreService.getCryptoList();
+        this.walletStoreService.getTotalBalance();
+        this.router.navigate(['home/campaign', id, 'edit']);
+      });
   }
 
   convertUnixToDate(x: any) {
