@@ -217,7 +217,7 @@ input:-webkit-autofill:active {
 #title {
   font-size: 22px !important;
   font-family: 'Poppins';
-  color: #f52079;
+  color: #00CC9E;
   padding-top: 0.5vh;
   padding-bottom: 1vh;
 }
@@ -364,6 +364,14 @@ input:-webkit-autofill:active {
 .input-checkbox{
   margin-top: 10%;
 }
+input[type=checkbox]:checked {
+  background-color: #a77e2d !important;
+  color: #ffffff !important;
+}
+/* .input-checkbox input:checked ~ .checkmark {
+  background-color:  #00CC9E;
+} */
+
 #legend {
   z-index: 1;
   position: absolute;

@@ -877,7 +877,7 @@ this.formUpdateTransactionPassword
       .pipe(
         catchError((err) => {
           this.buttonClick = false;
-          console.log("errrrr",err.error.error);
+          
           if (err.error.error === 'same transaction pass ') {
             this.walletV2ErrorMessage = 'Do not use the same old transaction password';
             this.wrongpassword = true
@@ -930,6 +930,7 @@ this.formUpdateTransactionPassword
             'Key derivation failed - possibly wrong password'
               ? 'Wrong password, please try again'
               : response?.data?.error;
+              this.wrongpassword = true;
           setTimeout(
             () => (
               (this.walletV2ErrorMessage = ''),
