@@ -869,7 +869,6 @@ this.formUpdateTransactionPassword
   }
   //Create WALLET V2
   createWalletV2() {
- console.log("createWalletV2")
     this.walletV2ErrorMessage = '';
     this.buttonClick = true;
     this.walletFacade
