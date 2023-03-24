@@ -481,16 +481,13 @@
           error: wrongpassword
         }"
       >
-        <ng-container *ngIf="!wrongpassword; else wrongPasswordImg">
+        <ng-container>
           <img
-            *ngIf="!wrongpassword"
             class=""
-            src="../../../assets/Images/Kep-password.svg"
+            [src]="imageFun()"
           />
         </ng-container>
-        <ng-template #wrongPasswordImg>
-          <img class="" src="../../../assets/Images/Kep-passwordFalse.svg" />
-        </ng-template>
+          
         <div style="display: none">
           <input
             type="text"

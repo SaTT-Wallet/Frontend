@@ -869,7 +869,7 @@ this.formUpdateTransactionPassword
   }
   //Create WALLET V2
   createWalletV2() {
- 
+ console.log("createWalletV2")
     this.walletV2ErrorMessage = '';
     this.buttonClick = true;
     this.walletFacade
@@ -877,7 +877,6 @@ this.formUpdateTransactionPassword
       .pipe(
         catchError((err) => {
           this.buttonClick = false;
-          
           if (err.error.error === 'same transaction pass ') {
             this.walletV2ErrorMessage = 'Do not use the same old transaction password';
             this.wrongpassword = true
@@ -904,7 +903,22 @@ this.formUpdateTransactionPassword
               this.closeModal(this.createWalletV2Modal);
             
             }, 2000);
-          } else {
+          } 
+
+          /*else if (err.error.error === 'Key derivation failed - possibly wrong password'){
+            this.wrongpassword = true;
+            this.walletV2ErrorMessage ='Wrong password, please try again';
+            setTimeout(
+              () => (
+                (this.walletV2ErrorMessage = ''),
+                (this.WalletPasswordTransaction = ''),
+                ( this.wrongpassword = false)
+              ),
+              3000
+            );
+            
+          }*/
+          else {
             this.walletV2ErrorMessage =
               'Something went wrong please try again!';
           }
@@ -930,12 +944,11 @@ this.formUpdateTransactionPassword
             'Key derivation failed - possibly wrong password'
               ? 'Wrong password, please try again'
               : response?.data?.error;
-              this.wrongpassword = true;
           setTimeout(
             () => (
               (this.walletV2ErrorMessage = ''),
               (this.WalletPasswordTransaction = ''),
-              (this.wrongpassword = false)
+              ( this.wrongpassword = false)
             ),
             3000
           );
@@ -945,17 +958,11 @@ this.formUpdateTransactionPassword
             response?.data?.btcAddress &&
             response?.data?.tronAddress
           ) {
-            // this.ngOnInit();
             this.closeModal(this.setPwdTransactionModal);
              this.modalService.open(this.migration, {
                 backdrop: 'static',
                 keyboard: false
               })
-              // localStorage.setItem('oldPasss', this.walletPassword)
-            // this.modalService.open(this.migration, {
-            //   backdrop: 'static',
-            //   keyboard: false
-            // });
           } else {
             //wrong
             // this.closeModal(this.createWalletV2Modal)
@@ -964,7 +971,10 @@ this.formUpdateTransactionPassword
       });
   }
 
-
+imageFun(){
+ return  !this.wrongpassword && '../../../assets/Images/Kep-password.svg' || '../../../assets/Images/Kep-passwordFalse.svg';
+   
+}
 
   verifysign() {
     this.walletV2ErrorMessage = '';
@@ -976,7 +986,15 @@ this.formUpdateTransactionPassword
           this.buttonClick = false;
 
             this.walletV2ErrorMessage =
-              'Something went wrong please try again!';
+            'Wrong password, please try again';
+            this.wrongpassword = true;
+            setTimeout(
+              () => (
+                (this.walletV2ErrorMessage = ''),
+                ( this.wrongpassword = false)
+              ),
+              3000
+            );
           return of(null);
         })
       )
