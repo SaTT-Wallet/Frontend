@@ -225,7 +225,6 @@ input:-webkit-autofill:active {
 #welcome-paragraph {
   padding: 0;
   max-width: 90%;
-  padding-bottom: 3vh;
 }
 
 #paragraph {
@@ -2187,7 +2186,7 @@ p {
 }
 .btn-blue {
   margin-top: 10%;
-  margin-bottom: 2vh;
+  /* margin-bottom: 2vh; */
   background: #4048ff !important;
   line-height: 27px;
   letter-spacing: 0.005em;
@@ -2208,7 +2207,7 @@ p {
   /* margin-right: 1.5rem; */
 }
 .btn-blue:disabled {
-  margin-bottom: 2vh;
+  /* margin-bottom: 2vh; */
   background: #f6f6ff !important;
   line-height: 27px;
   letter-spacing: 0.005em;
