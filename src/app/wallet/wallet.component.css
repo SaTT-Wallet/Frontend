@@ -217,7 +217,7 @@ input:-webkit-autofill:active {
 #title {
   font-size: 22px !important;
   font-family: 'Poppins';
-  color: #f52079;
+  color: #00CC9E;
   padding-top: 0.5vh;
   padding-bottom: 1vh;
 }
@@ -361,6 +361,16 @@ input:-webkit-autofill:active {
 .wallet-flex {
   padding-left: 36px;
 }
+.input-checkbox{
+  margin-top: 10%;
+}
+input[type=checkbox]:checked {
+  background-color: #a77e2d !important;
+  color: #ffffff !important;
+}
+/* .input-checkbox input:checked ~ .checkmark {
+  background-color:  #00CC9E;
+} */
 
 #legend {
   z-index: 1;
@@ -496,6 +506,7 @@ select option {
 padding-right: 25% !important;
   }
 }
+
 #home-tab {
   background-position: 23%;
   background-image: url('assets/Images/Arrow_up1.svg');
@@ -1809,6 +1820,7 @@ table > th {
 
 .modal-content {
   position: absolute;
+  
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -2235,7 +2247,10 @@ p {
   text-align: center;
   color: #4048ff !important;
 }
-
+.Kep-password-image{
+  padding-left: 1%;
+  padding-bottom: 2px;
+}
 .trans {
   /* font-family: 'Poppins' !important; */
   font-family: 'Raleway', sans-serif !important;

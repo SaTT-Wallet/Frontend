@@ -20,16 +20,7 @@
       aria-expanded="false"
       aria-controls="collapse1"
     >
-      <!-- <div class="d-flex justify-content-between cursor_pntr">
-                    <div>
-                        <h1 class="data cursor_pntr">
-                            {{'Profil.retreive_data_portfolio' | translate}}
-                        </h1>
-                    </div>
-                    <div class="px-3 pt-2 cursor_pntr">
-                        <i class="chevron fa fa-fw"></i>
-                    </div>
-                </div> -->
+     
 
       <div class="d-flex justify-content-between cursor_pntr">
         <div class="d-flex align-self-center">
@@ -54,15 +45,21 @@
             <div
               class="col-xl-11 col-lg-11 col-md-12 col-sm-12 div-buttons-export"
             >
-              <button
-                class="btn-export mb-1"
-                (click)="
+            <!--
+
+              (click)="
                   this.exportType = eExportType.btc;
                   openModalAndCheckBTCV2(
                     exportDataModalBTCV2,
                     checkUserLegalKYCModal
                   )
                 "
+
+            -->
+              <button
+                class="btn-export mb-1"
+                (click)="getCodeExport('btc', walletV2Exist ? '2' : '1' ,exportDataModal)"
+                
               >
                 <span *ngIf="!this.showSpinnerBTCV2">{{
                   'security.download-key-BTC' | translate
@@ -76,8 +73,8 @@
                 </div>
               </button>
 
-              <button
-                class="btn-export"
+              <!--
+
                 (click)="
                   this.exportType = eExportType.eth;
                   openModalAndCheckETHV2(
@@ -85,6 +82,11 @@
                     checkUserLegalKYCModal
                   )
                 "
+
+              -->
+              <button
+                class="btn-export"
+                (click)="getCodeExport('eth', walletV2Exist ? '2' : '1' ,exportDataModal)"
               >
                 <span *ngIf="!this.showSpinnerETHV2">{{
                   'security.download-key-ETH' | translate
@@ -97,8 +99,9 @@
                   <span class="sr-only">Loading...</span>
                 </div>
               </button>
-              <button
-                class="btn-export"
+
+              <!--
+
                 (click)="
                   this.exportType = eExportType.tron;
                   openModalAndCheckTRONV2(
@@ -106,6 +109,12 @@
                     checkUserLegalKYCModal
                   )
                 "
+
+              -->
+              <button
+                class="btn-export-disbaled"
+                disabled="true"
+                (click)="getCodeExport('tron', walletV2Exist ? '2' : '1' ,exportDataModal)"
               >
                 <span *ngIf="!this.showSpinnerTRONV2">{{
                   'security.download-key-TRON' | translate
@@ -815,16 +824,7 @@
       aria-controls="collapse1"
       *ngIf="walletV2Exist && !userIsNew"
     >
-      <!-- <div class="d-flex justify-content-between cursor_pntr">
-                    <div>
-                        <h1 class="data cursor_pntr">
-                            {{'Profil.retreive_data_portfolio' | translate}}
-                        </h1>
-                    </div>
-                    <div class="px-3 pt-2 cursor_pntr">
-                        <i class="chevron fa fa-fw"></i>
-                    </div>
-                </div> -->
+      
 
       <div class="d-flex justify-content-between cursor_pntr">
         <div class="d-flex align-self-center">
@@ -849,15 +849,21 @@
             <div
               class="col-xl-11 col-lg-11 col-md-12 col-sm-12 div-buttons-export"
             >
-              <button
-                class="btn-export mb-1"
-                (click)="
+            <!-- 
+
+
+              (click)="
                   this.exportType = eExportType.btc;
                   openModalAndCheckBTC(
                     exportDataModalBTC,
                     checkUserLegalKYCModal
                   )
                 "
+
+            -->
+              <button
+                class="btn-export mb-1"
+                (click)="getCodeExport('btc', '1',exportDataModal)"
               >
                 <span *ngIf="!this.showSpinnerBTC">{{
                   'security.download-key-BTC' | translate
@@ -870,13 +876,17 @@
                   <span class="sr-only">Loading...</span>
                 </div>
               </button>
+              <!--
 
-              <button
-                class="btn-export"
                 (click)="
                   this.exportType = eExportType.eth;
                   openModalAndCheckETH(exportDataModal, checkUserLegalKYCModal)
                 "
+
+              -->
+              <button
+                class="btn-export"
+                (click)="getCodeExport('eth', '1',exportDataModal)"
               >
                 <span *ngIf="!this.showSpinnerETH">{{
                   'security.download-key-ETH' | translate
@@ -889,12 +899,18 @@
                   <span class="sr-only">Loading...</span>
                 </div>
               </button>
-              <button
-                class="btn-export"
+
+              <!--
                 (click)="
                   this.exportType = eExportType.tron;
                   openModalAndCheckTRON(exportDataModal, checkUserLegalKYCModal)
                 "
+
+              -->
+              <button
+                class="btn-export-disbaled"
+                disabled="true"
+                (click)="getCodeExport('tron', '1', exportDataModal)"
               >
                 <span *ngIf="!this.showSpinnerTRON">{{
                   'security.download-key-TRON' | translate
@@ -929,103 +945,106 @@
         aria-label="Close"
       ></button>
     </div>
-    <div class="modal-body pt-0 d-flex align-items-center">
-      <div
-        class="col-sm-12 error d-flex justify-content-center body-content padding-desktop"
-      >
-        <form [formGroup]="formExportData">
-          <div class="text-center">
-            <img
+    <img
               src="assets/Images/moonboy-exportjson.svg"
               class="moonboy-mobile"
             />
-          </div>
-          <div class="row d-flex justify-content-center mt-2">
-            <h3 class="d-flex justify-content-center textpwd">
-              {{ 'Profil.export_account' | translate }}
-            </h3>
-          </div>
-          <div class="row d-flex justify-content-center mt-2">
-            <span class="text-center dark-grey-text mb-0">{{
-              'Profil.export_info_security' | translate
-            }}</span>
-          </div>
-          <div
-            class="col-10 custom-label transaction-password mt-3"
-            style="margin: 0 auto"
+            <div class="row d-flex justify-content-center mt-2">
+              <h3 class="d-flex justify-content-center textpwd">
+                {{ 'Profil.export_account' | translate }}
+              </h3>
+            </div>
+            <div class="row d-flex justify-content-center mt-2">
+              <span class="text-center dark-grey-text mb-0">{{
+                'Profil.export_info_security' | translate
+              }}</span>
+            </div>
+    <div class="confirm-code">
+       
+      <div>
+        <form>
+          <span
+            class="code d-flex justify-content-center mb-2"
+            [ngClass]="{
+              success: this.errorMessagecode === 'code correct',
+              error:
+                this.errorMessagecode === 'code incorrect' ||
+                this.errorMessagecode === 'code expired',
+              code: !this.errorMessagecode
+            }"
+            >Authentification code</span
           >
-            <label
-              [ngClass]="{
-                labelError:
-                  this.formExportData.get('password')?.errors?.checkPassword
-              }"
-              class="label_input"
-              >{{ 'transaction-password' | translate }}:</label
-            >
-          </div>
-          <div class="row d-flex justify-content-center">
-            <div class="col-10">
-              <div
-                class="div_input_add position-relative"
-                [ngClass]="{
-                  errorMsg:
-                    this.formExportData.get('password')?.errors?.checkPassword
-                }"
-              >
-                <img
-                  src="/assets/Images/input_password_logo.svg"
-                  width="46px"
-                  alt=""
-                />
-                <input
-                  autocomplete="off"
-                  type="text"
-                  name="password"
-                  formControlName="password"
-                  class="input_oeil"
-                  #password_field
-                  [ngClass]="{
-                    errorMsg2:
-                      this.formExportData.get('password')?.errors
-                        ?.checkPassword,
-                    'pass-hide': !showPass
-                  }"
-                />
-                <span
-                  (click)="showPass = !showPass"
-                  class="fa fa-fw cross_input_network align-self-center"
-                  aria-hidden="true"
-                  [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"
-                ></span>
-              </div>
-            </div>
-            <div class="col-12 d-flex justify-content-start pt-2">
-              <!-- <span class="error-msg" *ngIf=" (this.formExportData.get('password')?.touched && this.formExportData.get('password')?.errors?.required)"> {{ 'Profil.field_required' | translate }}</span>-->
-              <span
-                class="error-msg"
-                *ngIf="
-                  this.formExportData.get('password')?.errors?.checkPassword
-                "
-                >{{ 'Profil.pass_wrong' | translate }}</span
-              >
-            </div>
-            <div class="mt-4 d-flex justify-content-center mb-5">
-              <button
+          <app-code-input-auth
+            
+            [clearInput]="this.successMsg === 'Email sent'"
+            (codeCompleted)="onCodeCompleted($event)"
+            [ngClass]="{
+              'success-code':
+                this.errorMessagecode === 'code correct',
+              'danger-code':
+                this.errorMessagecode === 'code incorrect' ||
+                this.errorMessagecode === 'code expired'
+            }"
+          ></app-code-input-auth>
+
+          <span
+            class="error_input code-status"
+            *ngIf="
+              this.errorMessagecode === 'code correct' ||
+              this.errorMessagecode === 'code incorrect' ||
+              this.errorMessagecode === 'code expired'
+            "
+            [ngClass]="{
+              'success-code':
+                this.errorMessagecode === 'code correct',
+              'danger-code':
+                this.errorMessagecode === 'code incorrect' ||
+                this.errorMessagecode === 'code expired'
+            }"
+          >
+            {{ errorMessagecode | translate }}
+          </span>
+          <span
+            class="text-code d-flex justify-content-center mt-2"
+            *ngIf="!this.errorMessagecode"
+          >
+            {{
+              'this code will only be valid for 5 min ' | translate
+            }}
+          </span>
+        </form>
+      </div>
+    </div>
+    
+    <button
                 type="submit"
-                class="btn-blue cursor_pntr max-width"
-                [disabled]="this.formExportData.invalid"
+                class="btn rounded-pill confirm-export"
+                [disabled]="!codeExportKeyStore"
                 (click)="
-                  confirmExport(this.formExportData.get('password')?.value)
+                  exportKeyStore()
                 "
               >
                 {{ 'confirm_' | translate }}
               </button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
+
+
+              <button
+              type="submit"
+              class=" btn  resend-code rounded-pill"
+              
+              (click)="
+                resendCode()
+              "
+            >
+              {{ 'send_code' | translate }}
+            </button>         
+ 
   </ng-template>
+
+
+
+
+
 
   <ng-template #exportDataModalV2>
     <div class="modal-header modal-custom">

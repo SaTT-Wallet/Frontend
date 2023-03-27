@@ -196,6 +196,9 @@
             before you can perform the migration.
           </p>
         </div>
+        <div class="wallet-adress-v1">
+          <p> WALLET ADDRESS : <span class="address">{{ network.name === "TRX" ? walletTRON : (network.name === "BTC" ? walletBTC : walletEVM) }}</span><span class="copy-logo"><img (click)="copyAddress(network.name)" src="./../../../../assets/Images/copy-logo.svg"/></span></p>
+        </div>
         <button
           class="next-step mt-4"
           style="margin: 0 auto"
@@ -228,4 +231,5 @@
       Do it later >
     </p>
   </div>
+  
 </div>

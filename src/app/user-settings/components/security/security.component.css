@@ -478,7 +478,80 @@ button:focus {
   line-height: normal;
   color: #8b93a5;
 }
+.confirm-export-button {
+  margin-bottom: 5rem;
+  margin-top: 3rem;
+}
 
+.btn-export-disbaled {
+  background-color: #F6F6FF;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
+  border-radius: 22.1827px;
+  padding: 13px 25px;
+  font-family: 'Poppins';
+  font-weight: 600;
+  font-size: 18px;
+  color: #ADADC8;
+  letter-spacing: 0.01em;
+  border: none;
+  margin-right: 20px;
+  margin-top: 10px;
+  
+  
+}
+
+.confirm-export:disabled {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  border: 1px solid #ADADC8;
+  color: #ADADC8;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  background-color: #F6F6FF;
+}
+
+.confirm-export {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  border: 1px solid #4048ff;
+  color: white;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  background-color: #4048ff;
+}
+
+.resend-code {
+  background-color: white;
+  color: #4048ff;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  border: 1px solid #4048ff;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  margin-bottom: 2rem;
+ 
+}
+
+
+.resend-code:hover {
+  background-color: #4048ff;
+  color: white;
+}
+
+.confirm-code {
+  margin-top: 3rem;
+  background: #f6f6ff;
+  border: 1px solid #f6f6ff;
+  box-sizing: border-box;
+  border-radius: 26px;
+  padding: 12px 50px;
+  max-width: 430px;
+  display: block !important;
+}
 .error_input {
   font-style: normal;
   font-weight: normal;
@@ -810,6 +883,7 @@ a {
   .orange-text,
   .label_input,
   .btn-export,
+  .btn-export-disbaled ,
   .btn-green,
   .pink_btn {
     font-size: 4vw !important;
