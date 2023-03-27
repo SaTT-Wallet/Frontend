@@ -74,6 +74,11 @@ input:-webkit-autofill:active {
     touch-action: none;
   }
 
+  .welcome-body2 {
+    overflow-y: auto;
+    
+  }
+
   /* responsive text */
   .walletV2WrongMessage {
     text-align: left;
