@@ -20,8 +20,6 @@
       aria-expanded="false"
       aria-controls="collapse1"
     >
-     
-
       <div class="d-flex justify-content-between cursor_pntr">
         <div class="d-flex align-self-center">
           <h1 class="data cursor_pntr">
@@ -45,7 +43,7 @@
             <div
               class="col-xl-11 col-lg-11 col-md-12 col-sm-12 div-buttons-export"
             >
-            <!--
+              <!--
 
               (click)="
                   this.exportType = eExportType.btc;
@@ -58,8 +56,13 @@
             -->
               <button
                 class="btn-export mb-1"
-                (click)="getCodeExport('btc', walletV2Exist ? '2' : '1' ,exportDataModal)"
-                
+                (click)="
+                  getCodeExport(
+                    'btc',
+                    walletV2Exist ? '2' : '1',
+                    exportDataModal
+                  )
+                "
               >
                 <span *ngIf="!this.showSpinnerBTCV2">{{
                   'security.download-key-BTC' | translate
@@ -86,7 +89,13 @@
               -->
               <button
                 class="btn-export"
-                (click)="getCodeExport('eth', walletV2Exist ? '2' : '1' ,exportDataModal)"
+                (click)="
+                  getCodeExport(
+                    'eth',
+                    walletV2Exist ? '2' : '1',
+                    exportDataModal
+                  )
+                "
               >
                 <span *ngIf="!this.showSpinnerETHV2">{{
                   'security.download-key-ETH' | translate
@@ -114,7 +123,13 @@
               <button
                 class="btn-export-disbaled"
                 disabled="true"
-                (click)="getCodeExport('tron', walletV2Exist ? '2' : '1' ,exportDataModal)"
+                (click)="
+                  getCodeExport(
+                    'tron',
+                    walletV2Exist ? '2' : '1',
+                    exportDataModal
+                  )
+                "
               >
                 <span *ngIf="!this.showSpinnerTRONV2">{{
                   'security.download-key-TRON' | translate
@@ -406,8 +421,6 @@
     <div class="col-12 p-0">
       <hr />
     </div>
-
-    
 
     <!------- Collapse linkAccounts ----------->
     <div
@@ -824,8 +837,6 @@
       aria-controls="collapse1"
       *ngIf="walletV2Exist && !userIsNew"
     >
-      
-
       <div class="d-flex justify-content-between cursor_pntr">
         <div class="d-flex align-self-center">
           <h1 class="data cursor_pntr">
@@ -849,7 +860,7 @@
             <div
               class="col-xl-11 col-lg-11 col-md-12 col-sm-12 div-buttons-export"
             >
-            <!-- 
+              <!-- 
 
 
               (click)="
@@ -863,7 +874,7 @@
             -->
               <button
                 class="btn-export mb-1"
-                (click)="getCodeExport('btc', '1',exportDataModal)"
+                (click)="getCodeExport('btc', '1', exportDataModal)"
               >
                 <span *ngIf="!this.showSpinnerBTC">{{
                   'security.download-key-BTC' | translate
@@ -886,7 +897,7 @@
               -->
               <button
                 class="btn-export"
-                (click)="getCodeExport('eth', '1',exportDataModal)"
+                (click)="getCodeExport('eth', '1', exportDataModal)"
               >
                 <span *ngIf="!this.showSpinnerETH">{{
                   'security.download-key-ETH' | translate
@@ -945,22 +956,18 @@
         aria-label="Close"
       ></button>
     </div>
-    <img
-              src="assets/Images/moonboy-exportjson.svg"
-              class="moonboy-mobile"
-            />
-            <div class="row d-flex justify-content-center mt-2">
-              <h3 class="d-flex justify-content-center textpwd">
-                {{ 'Profil.export_account' | translate }}
-              </h3>
-            </div>
-            <div class="row d-flex justify-content-center mt-2">
-              <span class="text-center dark-grey-text mb-0">{{
-                'Profil.export_info_security' | translate
-              }}</span>
-            </div>
+    <img src="assets/Images/moonboy-exportjson.svg" class="moonboy-mobile" />
+    <div class="row d-flex justify-content-center mt-2">
+      <h3 class="d-flex justify-content-center textpwd">
+        {{ 'Profil.export_account' | translate }}
+      </h3>
+    </div>
+    <div class="row d-flex justify-content-center mt-2">
+      <span class="text-center dark-grey-text mb-0">{{
+        'Profil.export_info_security' | translate
+      }}</span>
+    </div>
     <div class="confirm-code">
-       
       <div>
         <form>
           <span
@@ -972,15 +979,13 @@
                 this.errorMessagecode === 'code expired',
               code: !this.errorMessagecode
             }"
-            >Authentification code</span
+            >Verification code</span
           >
           <app-code-input-auth
-            
             [clearInput]="this.successMsg === 'Email sent'"
             (codeCompleted)="onCodeCompleted($event)"
             [ngClass]="{
-              'success-code':
-                this.errorMessagecode === 'code correct',
+              'success-code': this.errorMessagecode === 'code correct',
               'danger-code':
                 this.errorMessagecode === 'code incorrect' ||
                 this.errorMessagecode === 'code expired'
@@ -995,8 +1000,7 @@
               this.errorMessagecode === 'code expired'
             "
             [ngClass]="{
-              'success-code':
-                this.errorMessagecode === 'code correct',
+              'success-code': this.errorMessagecode === 'code correct',
               'danger-code':
                 this.errorMessagecode === 'code incorrect' ||
                 this.errorMessagecode === 'code expired'
@@ -1005,46 +1009,32 @@
             {{ errorMessagecode | translate }}
           </span>
           <span
-            class="text-code d-flex justify-content-center mt-2"
+            class="text-code d-flex justify-content-center mt-2 validity-code"
             *ngIf="!this.errorMessagecode"
           >
-            {{
-              'this code will only be valid for 5 min ' | translate
-            }}
+            {{ 'this code will only be valid for 5 min ' | translate }}
           </span>
         </form>
       </div>
     </div>
-    
+
     <button
-                type="submit"
-                class="btn rounded-pill confirm-export"
-                [disabled]="!codeExportKeyStore"
-                (click)="
-                  exportKeyStore()
-                "
-              >
-                {{ 'confirm_' | translate }}
-              </button>
+      type="submit"
+      class="btn rounded-pill confirm-export"
+      [disabled]="!codeExportKeyStore"
+      (click)="exportKeyStore()"
+    >
+      {{ 'confirm_' | translate }}
+    </button>
 
-
-              <button
-              type="submit"
-              class=" btn  resend-code rounded-pill"
-              
-              (click)="
-                resendCode()
-              "
-            >
-              {{ 'send_code' | translate }}
-            </button>         
- 
+    <button
+      type="submit"
+      class="btn resend-code rounded-pill"
+      (click)="resendCode()"
+    >
+      {{ 'send_code' | translate }}
+    </button>
   </ng-template>
-
-
-
-
-
 
   <ng-template #exportDataModalV2>
     <div class="modal-header modal-custom">
