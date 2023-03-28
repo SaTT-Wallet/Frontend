@@ -1127,10 +1127,31 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
   onCodeCompleted(event:any) {
     this.codeExportKeyStore = Number(event);
+    this.checkCodeVerification();
     
   }
 
-
+  checkCodeVerification() {
+    this.walletFacade.exportKeyStore(this.network, this.version, this.codeExportKeyStore)
+    .pipe(
+      catchError((HttpError: HttpErrorResponse) => {
+        return of(HttpError.error);
+      }),
+    )
+    .subscribe((res:any) => {
+      if(res.message === "code wrong") {
+        this.errorMessagecode = "code incorrect"
+      } else if(res.message === "code expired") {
+        this.errorMessagecode = "code expired"
+      } else {
+        if(res.data === true) {
+          this.errorMessagecode = "code correct"
+          
+        }
+      }
+    })
+  
+  }  
   exportKeyStore() {
     this.walletFacade.exportKeyStore(this.network, this.version, this.codeExportKeyStore)
     .pipe(
