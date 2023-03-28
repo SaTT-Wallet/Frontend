@@ -774,8 +774,10 @@
             </div>
           </div>
         </div>
+        
+      <!-- 
 
-        <div class="row pt-1">
+          <div class="row pt-1">
           <span
             class="error_input"
             *ngIf="
@@ -786,20 +788,39 @@
             Passwords don't match. Please verify!
           </span>
         </div>
+      -->
+        
         <!-- End Input , label and error msg confirmation password-->
         <!-- error msg: wrong old password-->
-        
-        <div class="row pt-1" *ngIf="transactionPasswordSuccess.length > 0">
+        <!--
+          <div class="row pt-1" *ngIf="transactionPasswordSuccess.length > 0">
           <div class="col-sm-10 col-md-10 col-lg-6 col-xl-5 col-xxl-4 d-flex">
             <label class="success_input">
               Passwords don't match. Please verify!
             </label>
           </div>
         </div>
+        --> 
+        
         <!-- end error msg: wrong old password-->
       </form>
     </div>
-
+    <div class="row mt-2 error-message" 
+            *ngIf="this.formUpdateTransactionPassword.errors?.mustMatch && this.formUpdateTransactionPassword.dirty"
+            >
+      
+          <label class="error_input">
+            Passwords don't match
+          </label>
+        
+      </div>
+    <div class="row mt-2 error-message" *ngIf="!!walletV2ErrorMessage">
+      
+      <label class="error_input">
+        {{ walletV2ErrorMessage }}
+      </label>
+    
+  </div>
     <div class="mt-4" class="input-checkbox" style="margin-top: 2% !important">
       <input
         type="checkbox"
@@ -810,13 +831,7 @@
 
       I understand that tech support cannot help me recover a lost password.
     </div>
-    <div class="row mt-2 error-message" *ngIf="!!walletV2ErrorMessage">
-      
-        <label class="error_input">
-          {{ walletV2ErrorMessage }}
-        </label>
-      
-    </div>
+    
     <div class="row justify-content-center">
       <div class="justify-align-center">
         <button

@@ -851,7 +851,7 @@ this.formUpdateTransactionPassword
         } else {
           this.loadingPopUp = true;
         }
-      }, 5500);
+      }, 2000);
     }
   }
   migrateButton(): void {
@@ -970,7 +970,7 @@ this.formUpdateTransactionPassword
       });
   }
 
-imageFun(){
+imageFun() {
  return  !this.wrongpassword && '../../../assets/Images/Kep-password.svg' || '../../../assets/Images/Kep-passwordFalse.svg';
    
 }
@@ -1139,11 +1139,14 @@ imageFun(){
       )
       .subscribe((data: any) => {
         this.totalAmount = data;
+        
         this.show =
           Number(this.totalAmount) > 0 &&
           localStorage.getItem('wallet_version') === 'v1'
             ? true
             : false;
+
+            
     
         /*if (this.show && this.hasWalletV2 && this.migrate === 'open') {
           
