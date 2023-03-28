@@ -76,6 +76,7 @@ input:-webkit-autofill:active {
 
   .welcome-body2 {
     overflow-y: auto;
+    overflow-x: hidden;
     
   }
 
