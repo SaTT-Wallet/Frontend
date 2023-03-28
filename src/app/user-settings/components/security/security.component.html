@@ -1021,7 +1021,7 @@
     <button
       type="submit"
       class="btn rounded-pill confirm-export"
-      [disabled]="!codeExportKeyStore"
+      [disabled]="errorMessagecode !== 'code correct'"
       (click)="exportKeyStore()"
     >
       {{ 'confirm_' | translate }}
