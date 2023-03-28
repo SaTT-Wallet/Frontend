@@ -884,7 +884,7 @@ this.formUpdateTransactionPassword
               this.walletV2ErrorMessage='';
               this.wrongpassword = false
             
-            }, 2000);
+            }, 3000);
           } else if (err.error.error === 'same password') {
             this.walletV2ErrorMessage = 'Do not use the login password';
             this.wrongpassword = true
@@ -893,7 +893,7 @@ this.formUpdateTransactionPassword
               this.walletV2ErrorMessage='';
               this.wrongpassword = false
             
-            }, 2000);
+            }, 3000);
           }
         else  if (err.error.error === 'Wallet already exist') {
             this.walletV2ErrorMessage = 'Wallet already exist';
