@@ -1368,7 +1368,7 @@ imageFun() {
             //  let getFillMyProfil = this.tokenStorageService.getFillMyProfil();
             let showAgain = this.tokenStorageService.getShowPopUp();
 
-            if (
+            /*if (
               this.percentProfil < 60 &&
               showAgain === 'true' &&
               this.user.onBoarding === true
@@ -1383,7 +1383,7 @@ imageFun() {
                 }
                 this.tokenStorageService.setFillMyProfil('false');
               }, 3000);
-            }
+            }*/
           }
           return this.profileSettingsFacade.profilePic$;
         })
