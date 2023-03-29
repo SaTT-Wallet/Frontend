@@ -972,13 +972,8 @@
         <form>
           <span
             class="code d-flex justify-content-center mb-2"
-            [ngClass]="{
-              success: this.errorMessagecode === 'code correct',
-              error:
-                this.errorMessagecode === 'code incorrect' ||
-                this.errorMessagecode === 'code expired',
-              code: !this.errorMessagecode
-            }"
+            [className]="!errorMessagecode ? 'code d-flex justify-content-center mb-2' : (errorMessagecode === 'code correct' ? 'code code-success d-flex justify-content-center mb-2': 'code code-error d-flex justify-content-center mb-2')"
+            
             >Verification code</span
           >
           <app-code-input-auth

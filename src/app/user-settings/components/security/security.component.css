@@ -344,6 +344,12 @@ button:focus {
   color: #00cc9e;
 }
 
+.code-error {
+  color: #f52079;
+}
+.code-success {
+  color: #00cc9e;
+}
 .gray_block {
   background: #f6f6ff;
   border-radius: 26px;
