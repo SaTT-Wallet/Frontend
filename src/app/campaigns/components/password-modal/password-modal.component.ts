@@ -197,10 +197,17 @@ export class PasswordModalComponent implements OnInit {
 
   calculateStartDate(startDate: any) {
     let date = new Date();
-    if (startDate.getMinutes() > 0 && startDate.getMinutes() < 30) {
-      date.setMinutes(30);
-    } else if (startDate.getMinutes() >= 30 || startDate.getMinutes() === 0) {
-      date.setMinutes(60);
+    let startDateConverted = new Date(startDate * 1000);
+    if (
+      startDateConverted.getMinutes() > 0 &&
+      startDateConverted.getMinutes() < 30
+    ) {
+      date.setMinutes(date.getMinutes() + 30);
+    } else if (
+      startDateConverted.getMinutes() >= 30 ||
+      startDateConverted.getMinutes() === 0
+    ) {
+      date.setMinutes(date.getMinutes() + 60);
     }
 
     date.setSeconds(0);
@@ -420,7 +427,7 @@ export class PasswordModalComponent implements OnInit {
       if (TokenOBj.addr === 'TRX')
         TokenOBj.addr = environment.addresses.smartContracts.WTRX;
       campaign_info.tokenAddress = TokenOBj.addr;
-      campaign_info.version = localStorage.getItem('wallet_version')
+      campaign_info.version = localStorage.getItem('wallet_version');
       LaunchCampaignObs = this.campaignService.approveTRON(TokenOBj).pipe(
         map((response: any) => response.data),
         switchMap((response: any) => {
