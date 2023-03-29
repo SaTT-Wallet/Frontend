@@ -851,7 +851,7 @@ this.formUpdateTransactionPassword
         } else {
           this.loadingPopUp = true;
         }
-      }, 2000);
+      }, 5500);
     }
   }
   migrateButton(): void {
