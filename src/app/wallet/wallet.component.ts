@@ -884,7 +884,7 @@ this.formUpdateTransactionPassword
               this.walletV2ErrorMessage='';
               this.wrongpassword = false
             
-            }, 2000);
+            }, 3000);
           } else if (err.error.error === 'same password') {
             this.walletV2ErrorMessage = 'Do not use the login password';
             this.wrongpassword = true
@@ -893,7 +893,7 @@ this.formUpdateTransactionPassword
               this.walletV2ErrorMessage='';
               this.wrongpassword = false
             
-            }, 2000);
+            }, 3000);
           }
         else  if (err.error.error === 'Wallet already exist') {
             this.walletV2ErrorMessage = 'Wallet already exist';
@@ -970,7 +970,7 @@ this.formUpdateTransactionPassword
       });
   }
 
-imageFun(){
+imageFun() {
  return  !this.wrongpassword && '../../../assets/Images/Kep-password.svg' || '../../../assets/Images/Kep-passwordFalse.svg';
    
 }
@@ -1139,11 +1139,14 @@ imageFun(){
       )
       .subscribe((data: any) => {
         this.totalAmount = data;
+        
         this.show =
           Number(this.totalAmount) > 0 &&
           localStorage.getItem('wallet_version') === 'v1'
             ? true
             : false;
+
+            
     
         /*if (this.show && this.hasWalletV2 && this.migrate === 'open') {
           
@@ -1365,7 +1368,7 @@ imageFun(){
             //  let getFillMyProfil = this.tokenStorageService.getFillMyProfil();
             let showAgain = this.tokenStorageService.getShowPopUp();
 
-            if (
+            /*if (
               this.percentProfil < 60 &&
               showAgain === 'true' &&
               this.user.onBoarding === true
@@ -1380,7 +1383,7 @@ imageFun(){
                 }
                 this.tokenStorageService.setFillMyProfil('false');
               }, 3000);
-            }
+            }*/
           }
           return this.profileSettingsFacade.profilePic$;
         })
