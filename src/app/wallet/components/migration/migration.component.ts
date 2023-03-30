@@ -12,11 +12,12 @@ import { filterAmount } from '@app/helpers/utils/common';
 import Big from 'big.js';
 import { WalletStoreService } from '@core/services/wallet-store.service';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
-import { takeUntil } from 'rxjs/operators';
+import { map, take, takeUntil,tap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { environment } from '@environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { GazConsumed } from '@app/config/atn.config';
 
 @Component({
   selector: 'app-migration',
@@ -67,7 +68,8 @@ export class MigrationComponent implements OnInit {
   onDestroy$ = new Subject();
 
   @Output() migrateEvent = new EventEmitter<String>();
-
+  etherPrice!: number;
+  price!: number;
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.getScreenHeight = event.target.innerHeight;
@@ -93,6 +95,9 @@ export class MigrationComponent implements OnInit {
     this.getScreenWidth = window.innerWidth;
     this.getCryptoList();
     this.network.name = 'ETH';
+    this.walletFacade.getEtherGaz().pipe(take(1)).subscribe((gaz: any)=>{
+      this.price = gaz.data.gasPrice
+    })
   }
 
   copyAddress(network: string) {
@@ -116,6 +121,9 @@ export class MigrationComponent implements OnInit {
   }
   getCryptoList() {
     this.cryptoList$.subscribe((data: any) => {
+             console.log({data})
+             this.etherPrice = data.find((element:any) => element.name ==="Ethereum")['price']
+
       this.cryptobyNetwork = data.filter(
         (element: any) =>
           Number(element.quantity) > 0 &&
@@ -134,8 +142,8 @@ export class MigrationComponent implements OnInit {
         this.gas = Big(gasLimit).times(Big(gasPrice));
         this.gasToDisplay = filterAmount(this.gas.div(10 ** 18).toString());
         this.cryptoChecked === 'TRON' && (this.gasToDisplay = '0.0268');
-
-        if (this.network.name === '') this.network.name = 'ETH';
+        //if (this.network.name === '') this.network.name = 'ETH';
+     
         let balances = data.filter(
           (element: any) => element.symbol === this.network.name
         );
@@ -199,7 +207,6 @@ export class MigrationComponent implements OnInit {
 
 
   next() {
-    console.log({crypto: this.cryptobyNetwork})
     this.outOfGas = false;
     this.spinner = true;
     this.hash = '';
@@ -233,7 +240,6 @@ export class MigrationComponent implements OnInit {
 
   addCrypto(element: any) {
     let gasLimit = this.getGasPrice(element);
-
     let gasPrice = 10000000000;
     const index = this.arrayToMigrate.findIndex(
       (e) => e.symbol === element.symbol
@@ -242,17 +248,23 @@ export class MigrationComponent implements OnInit {
       this.gas = this.gas.minus(Big(gasLimit).times(Big(gasPrice)));
 
       this.arrayToMigrate.splice(index, 1);
+      if(element.network ==='ERC20'){
+        this.gasToDisplay = new Big (this.gasToDisplay).minus((
+          ((this.price *(gasLimit )) / 1000000000) 
+        )).toFixed(8);
+    }
     } else {
       this.gas = this.gas.plus(Big(gasLimit).times(Big(gasPrice)));
       this.arrayToMigrate.push(element);
+      if(element.network ==='ERC20'){
+          this.gasToDisplay = new Big (this.gasToDisplay || 0.0000).plus((
+            ((this.price *(gasLimit)) / 1000000000) 
+          )).toFixed(8);
+      }
     }
+    if(element.network !=='ERC20')
     this.gasToDisplay = filterAmount(this.gas.div(10 ** 18).toString());
-    if (
-      this.network.balance === '' ||
-      Big(this.gasToDisplay).gt(Big(this.network.balance))
-    )
-      this.outOfGas = true;
-    else this.outOfGas = false;
+    
   }
   nextStep() {
     this.arrayToMigrate = [];
