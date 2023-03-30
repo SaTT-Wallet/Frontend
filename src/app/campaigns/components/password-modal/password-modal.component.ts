@@ -202,7 +202,7 @@ export class PasswordModalComponent implements OnInit {
       startDateConverted.getMinutes() > 0 &&
       startDateConverted.getMinutes() < 30
     ) {
-      date.setMinutes(date.getMinutes() + 30);
+      date.setMinutes(date.getMinutes() + 60);
     } else if (
       startDateConverted.getMinutes() >= 30 ||
       startDateConverted.getMinutes() === 0
