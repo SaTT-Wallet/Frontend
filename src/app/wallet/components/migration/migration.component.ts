@@ -161,7 +161,6 @@ export class MigrationComponent implements OnInit {
     });
   }
   setState(crypto: string) {
-    console.log(crypto);
     this.errorTransaction = false;
     this.migrationTokens = [];
     this.outOfGas = false;
@@ -347,7 +346,6 @@ export class MigrationComponent implements OnInit {
   }
 
   displaySuccessMessage(data: any) {
-    console.log(data)
     this.arrayToMigrate = [];
     this.spinner = false;
     const index = this.listCrypto.findIndex(
