@@ -36,7 +36,10 @@
     style="position: absolute"
   >
     <div class="col-md-12 col-sm-12 col-lg-12 p-0 h-100">
-      <div class="blockk mb-4">
+      <div class="blockk mb-4"   [ngStyle]="
+     isV1 ? { background: 'linear-gradient(180deg, #4048FF 0%, #C4C4C4 76.04%)'}
+        : { background: 'linear-gradient(180deg, #4048ff 0%, #00cc9e 310.62%)'}
+    " >
         <!--portfolio estimation-->
         <!-- <div class="d-flex justify-content-center">-->
 

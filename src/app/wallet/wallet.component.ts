@@ -109,6 +109,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   myModal: any;
   buttonClick: Boolean = false;
   show = false;
+  isV1: Boolean =  localStorage.getItem('wallet_version') === 'v1';
   lineChartDataMonth: ChartDataSets[] = [
     {
       data: [
@@ -371,7 +372,7 @@ export class WalletComponent implements OnInit, OnDestroy {
       borderWidth: 0,
       // backgroundColor: 'rgba(255, 255, 255, 0.3)',
       // backgroundColor: ' rgba(0, 0, 0, 0.1)',
-      backgroundColor: '#4048FF',
+      backgroundColor:  '#4048FF',
       // borderColor: 'rgba(255, 255, 255, 0.3)',
       // pointBackgroundColor: "#fff",
       pointBorderColor: '#0062ff',
@@ -440,7 +441,6 @@ export class WalletComponent implements OnInit, OnDestroy {
   walletV2ErrorMessage = '';
   existV1: any;
   existV2: any;
-
   selectTab(tabId: number) {
     this.staticTabs.tabs[tabId].active = true;
   }
@@ -595,7 +595,7 @@ export class WalletComponent implements OnInit, OnDestroy {
       Math?.max(...weeklyBalances) * 2;
   }
 
-  fillChart(data: any) {
+  fillChart(data: any) {    
     let x: any = this.lineChartDataDaily[0]?.data;
     let y: any = this.lineChartDataDaily[0]?.data;
     let r: any = this.lineChartLabelsDaily;
@@ -734,7 +734,9 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
+if(this.isV1){
+  this.lineChartColors[0].backgroundColor = '#696DE4'
+}else{this.lineChartColors[0].backgroundColor = '#4048FF'}
 this.formUpdateTransactionPassword.controls['confirmPassword'].disable();
 
 this.formUpdateTransactionPassword
@@ -1091,6 +1093,8 @@ imageFun() {
               this.tokenStorageService.saveIdWallet(data.data.address);
               this.tokenStorageService.saveTronWallet(data.data.tronAddress);
               this.tokenStorageService.saveWalletBtc(data.data.btcAddress);
+              this.isV1 = true;
+              this.lineChartColors[0].backgroundColor = '#696DE4'
             } else {
               this.versionText = 'Old Wallet';
               this.height = '250px';
@@ -1099,8 +1103,12 @@ imageFun() {
               this.tokenStorageService.saveIdWallet(data.data.addressV2);
               this.tokenStorageService.saveTronWallet(data.data.tronAddressV2);
               this.tokenStorageService.saveWalletBtc(data.data.btcAddressV2);
+              this.isV1 = false
+              this.lineChartColors[0].backgroundColor = '#4048FF'
+              
             }
-
+          
+        
             this.walletStoreService.getCryptoList();
             this.walletStoreService.getTotalBalance();
           });
