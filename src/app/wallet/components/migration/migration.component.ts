@@ -54,6 +54,7 @@ export class MigrationComponent implements OnInit {
   cryptoChecked = 'ERC20';
   activatedRoute: ActivatedRoute | null | undefined;
   errorTransaction: boolean = false;
+  errorTransactionMessage: string = '';
   network = { name: '', balance: '' };
   cryptoList$ = this.walletFacade.cryptoList$;
   passWallet = false;
@@ -160,7 +161,8 @@ export class MigrationComponent implements OnInit {
     });
   }
   setState(crypto: string) {
-   
+    console.log(crypto);
+    this.errorTransaction = false;
     this.migrationTokens = [];
     this.outOfGas = false;
     this.hash = '';
@@ -198,28 +200,22 @@ export class MigrationComponent implements OnInit {
   }
   }
 
-  displayErrorMessage() {
-    
-    
-    
+  displayErrorMessage(data:any) {
+    if(data[0].includes("insufficient funds for gas")) {
+      this.errorTransactionMessage = data[0].replace("Returned error:", "");
+      this.outOfGas = true; 
+      this.spinner = false;
+    } else this.errorTransactionMessage = "Something went wrong please try again"
     this.errorTransaction= true;
     this.walletPassword = "";
-    
     this.spinner = false;
-    
-    
-  
-    setTimeout(() => {
-      this.errorTransaction = false;
-    }, 5000);
-   
   }
 
   next() {
     this.outOfGas = false;
     this.spinner = true;
     this.hash = '';
-    
+    this.errorTransaction = false;
     this.service
       .migrateTokens(
         this.arrayToMigrate,
@@ -231,8 +227,16 @@ export class MigrationComponent implements OnInit {
           
           if (this.cryptoChecked === 'TRON')
             setTimeout(() => this.displaySuccessMessage(data), 100000);
-          data.data.length  && this.displaySuccessMessage(data);
-          data.data.length === 0 && this.displayErrorMessage();
+            if(data.data.errorTransaction.length > 0) {
+              if(data.data.transactionHash.length > 0) {
+                this.displaySuccessMessage(data.data.transactionHash)
+                this.displayErrorMessage(data.data.errorTransaction)
+              } else {
+                this.displayErrorMessage(data.data.errorTransaction)
+              }
+            }  else {
+              this.displaySuccessMessage(data.data.transactionHash)
+            }
 
         },
         (err: any) => {
@@ -296,7 +300,7 @@ export class MigrationComponent implements OnInit {
     this.arrayToMigrate = [];
     this.hash = '';
     this.walletPassword="";
-
+    this.errorTransaction = false;
     if (this.cryptoChecked === 'TRON') {
       this.walletFacade
         .getAllWallet()
@@ -343,13 +347,14 @@ export class MigrationComponent implements OnInit {
   }
 
   displaySuccessMessage(data: any) {
+    console.log(data)
     this.arrayToMigrate = [];
     this.spinner = false;
     const index = this.listCrypto.findIndex(
       (e) => e.network === this.cryptoChecked
     );
     let network = this.listCrypto[index].explorer;
-    this.hash = network + data?.data[0]?.from;
+    this.hash = network + data[0].from;
     this.walletStoreService.getCryptoList();
     this.walletStoreService.getTotalBalance();
   }
