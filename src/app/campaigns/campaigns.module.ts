@@ -35,6 +35,7 @@ import { DraftPictureComponent } from './components/draft-picture/draft-picture.
 import { CommonModule } from '@angular/common';
 import { SocialsComponent } from './socials/socials.component';
 import { SharedModule } from '@app/shared/shared.module';
+import { RoiModalComponent } from '../src/app/campaigns/components/roi-modal/roi-modal.component';
 @NgModule({
   declarations: [
     CampaignsDashboardComponent,
@@ -56,7 +57,8 @@ import { SharedModule } from '@app/shared/shared.module';
     TransactionMessageStatusComponent,
     MissionsComponent,
     DraftPictureComponent,
-    SocialsComponent
+    SocialsComponent,
+    RoiModalComponent
   ],
   imports: [
     CommonModule,
