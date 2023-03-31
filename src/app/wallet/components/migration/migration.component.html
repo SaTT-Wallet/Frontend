@@ -88,12 +88,26 @@
             [checked]="cryptobyNetwork?.length === 1"
             class="checkbox-style"
             (click)="addCrypto(element)"
+            
           />
         </div>
       </div>
     </div>
     <div *ngIf="cryptobyNetwork?.length === 0" class="empty-message-style">
       You don't have any crypto to migrate on this network
+    </div>
+    <div *ngIf="errorTransaction" class="justify-content-center">
+      <p
+      
+      style="
+      justify-content: center;
+        text-align: center;
+        padding-top: 0.5vh;
+        color: #f52079;
+        font-family: 'Poppins';
+        font-weight: 500;
+      "
+      >Something went wrong please try again</p>
     </div>
     <div class="row justify-content-center mt-3" *ngIf="hash">
       <div class="col-md-6 success-div">
@@ -214,7 +228,7 @@
         </button>
       </div>
     </div>
-
+    
     <div class="row justify-content-center" *ngIf="arrayToMigrate?.length === 0">
       <div class="col-md-6 d-flex flex-column">
         <button
