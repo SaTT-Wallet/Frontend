@@ -441,7 +441,6 @@ export class WalletComponent implements OnInit, OnDestroy {
   walletV2ErrorMessage = '';
   existV1: any;
   existV2: any;
-  // isV1: Boolean =  localStorage.getItem('wallet_version') === 'v1';
   selectTab(tabId: number) {
     this.staticTabs.tabs[tabId].active = true;
   }
@@ -1109,7 +1108,7 @@ imageFun() {
               
             }
           
-            console.log('is v1 ???????',this.isV1 );
+        
             this.walletStoreService.getCryptoList();
             this.walletStoreService.getTotalBalance();
           });
