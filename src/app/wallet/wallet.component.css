@@ -2029,6 +2029,9 @@ p {
 }
 
 @media (max-width: 500px) {
+  .input-div {
+    width: 81%;
+  }
   .div_red_text {
     font-weight: 600 !important;
     font-size: 12px !important;
