@@ -29,7 +29,7 @@ export class MigrationComponent implements OnInit {
   walletEVM!: string;
   walletBTC!: string;
   walletTRON!: string;
-
+  isWalletAddressCopied: boolean = false;
 
 
   listCrypto: any[] = [
@@ -69,6 +69,7 @@ export class MigrationComponent implements OnInit {
   outOfGas = false;
   @Input() migrate: any;
   onDestroy$ = new Subject();
+  gasPriceEstimation!:string;
 
   @Output() migrateEvent = new EventEmitter<String>();
   etherPrice!: number;
@@ -102,10 +103,21 @@ export class MigrationComponent implements OnInit {
     this.network.name = 'ETH';
     this.walletFacade.getEtherGaz().pipe(take(1)).subscribe((gaz: any)=>{
       this.price = gaz.data.gasPrice
+     
     })
+    
+  }
+
+  getInitEstimation(element: any) {
+    const gasLimit = this.getGasPrice(element)
+    this.gasPriceEstimation = new Big (this.gasToDisplay || 0.0000).plus((
+      ((this.price *(gasLimit)) / 1000000000) 
+    )).toFixed(8);
+    return this.gasPriceEstimation;
   }
 
   copyAddress(network: string) {
+    this.isWalletAddressCopied = true;
     if(network === "TRX") {
       this.clipboard.copy(this.walletTRON)
     } else if(network === "BTC") {
@@ -114,6 +126,9 @@ export class MigrationComponent implements OnInit {
       this.clipboard.copy(this.walletEVM)
     }
     
+    setTimeout(() => {
+      this.isWalletAddressCopied = false;
+    }, 2000)
   }
 
   fetchWallet() {
@@ -143,7 +158,7 @@ export class MigrationComponent implements OnInit {
         let gasLimit = this.getGasPrice(this.arrayToMigrate[0]);
         let gasPrice = 10000000000;
         this.gas = Big(gasLimit).times(Big(gasPrice));
-        this.gasToDisplay = filterAmount(this.gas.div(10 ** 18).toString());
+        this.gasToDisplay =  filterAmount(this.gas.div(10 ** 18).toString());
         this.cryptoChecked === 'TRON' && (this.gasToDisplay = '0.0268');
         //if (this.network.name === '') this.network.name = 'ETH';
      
@@ -159,6 +174,7 @@ export class MigrationComponent implements OnInit {
         else this.outOfGas = false;
       }
     });
+    
   }
   setState(crypto: string) {
     this.errorTransaction = false;
