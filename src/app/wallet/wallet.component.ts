@@ -1146,10 +1146,7 @@ imageFun() {
         //takeUntil(this.onDestoy$)
       )
       .subscribe((data: any) => {
-        console.log(this.totalAmount);
-
         this.totalAmount = data;
-        console.log(this.totalAmount)
         this.show =
           Number(this.totalAmount) > 0 &&
           localStorage.getItem('wallet_version') === 'v1'
