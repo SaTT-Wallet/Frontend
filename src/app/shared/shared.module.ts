@@ -69,12 +69,14 @@ import { MoonboyHelpComponent } from './components/moonboy-help/moonboy-help.com
 import { WheelMouseDirective } from './directives/wheelMouse.directive';
 import { BuyGasComponent } from './components/buy-gas/buy-gas.component';
 import { QRCodeComponent } from './components/qr-code/qr-code.component';
+import { RoiModalComponent } from '@app/src/app/campaigns/components/roi-modal/roi-modal.component';
 
 
 @NgModule({
   declarations: [
     HeaderRegisterComponent,
     FooterComponent,
+    RoiModalComponent,
     FooterSendReceiveBuyComponent,
     LoadingLogoComponent,
     CodeInputAuthComponent,
@@ -109,6 +111,8 @@ import { QRCodeComponent } from './components/qr-code/qr-code.component';
   exports: [
     //directives and components
     FilterBynamePipe,
+    RoiModalComponent,
+
     HeaderRegisterComponent,
     FooterComponent,
     LoadingLogoComponent,

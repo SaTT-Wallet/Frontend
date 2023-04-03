@@ -1,4 +1,10 @@
-<div (click)="goToDetailsPage(campaign.id)">
+
+
+<ng-template #calculRoi>
+  <app-roi-modal></app-roi-modal>
+</ng-template>
+
+<div  (click)="goToDetailsPage(campaign.id)">
   <div
     class="img-block"
     tabindex="0"
@@ -253,7 +259,7 @@
           {{ campaign.endDate | date: 'dd/MM/yyyy':undefined:localId || '' }}
         </span>
       </div>
-      <img src="assets/Images/blue-icons/calculator.svg" width="16px" />
+      <img src="assets/Images/blue-icons/calculator.svg" width="16px" (click)= "caluculateRoi()"/>
     </div>
 
     <!--<div class="blue-text" *ngIf="!campaign?.hash">
@@ -297,6 +303,9 @@
     </button>
   </div>
 </div>
+ 
+
+
 <div class="btn-wrapper" *ngIf="campaign.isDraft && campaign.isOwnedByUser">
   <button
     type="button"
