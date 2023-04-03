@@ -50,6 +50,11 @@ enum ExportType {
 })
 export class SecurityComponent implements OnInit, OnDestroy {
   //@ViewChild('codeInput') codeInput !: CodeInputComponent;
+  network!: string;
+  version!: string;
+  errorMessagecode!: string;
+  codeExportKeyStore!:number;
+  confirmButtonActive: boolean = false;
   public code: any;
   public show: boolean = false;
   public showme: boolean = false;
@@ -113,6 +118,8 @@ export class SecurityComponent implements OnInit, OnDestroy {
   showSpinnerTRONV2 = false;
   userIsNew: boolean = false;
   walletV2Exist: boolean = false;
+  keystoreData:any;
+
 
   constructor(
     private accountFacadeService: AccountFacadeService,
@@ -539,6 +546,8 @@ export class SecurityComponent implements OnInit, OnDestroy {
   }
 
 
+ 
+
 
 
   updatePassword() {
@@ -661,7 +670,10 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
   confirmExportV2(password: any) {
     this.showSpinner = true;
-    let exportObs = localStorage.getItem("wallet_version") === "v1" && this.profileSettingsFacade.exportProfileData(password) || this.profileSettingsFacade.exportProfileDataV2(password);
+    //this.formExportData.reset()
+    //this.formExportData.updateValueAndValidity();
+
+    let exportObs = !this.walletV2Exist ? this.profileSettingsFacade.exportProfileData(password) : this.profileSettingsFacade.exportProfileDataV2(password);
     let fileName: string = '';
     if (this.exportType === this.eExportType.eth) {
       fileName = 'keystore.json';
@@ -1056,5 +1068,147 @@ export class SecurityComponent implements OnInit, OnDestroy {
     // this.onDestroy$.next('');
     // this.onDestroy$.complete();
     // this.modalService.dismissAll();
+  }
+
+
+
+  getCodeExport(network: string, version: string, content: any) {
+    
+    if(version === "1") {
+      this.showSpinnerBTC = network === "btc";
+      this.showSpinnerETH = network === "eth";
+      this.showSpinnerTRON = network === "tron";
+    } else {
+      this.showSpinnerBTCV2 = network === "btc";
+      this.showSpinnerETHV2 = network === "eth";
+      this.showSpinnerTRONV2 = network === "tron";
+    }
+    this.keystoreData = '';
+    this.network = "";
+    this.version = "";
+    this.errorMessagecode = "";
+    this.walletFacade.getExportCode(network, version)
+        .pipe(
+          catchError((HttpError: HttpErrorResponse) => {
+            this.showSpinnerBTC = false;
+            this.showSpinnerETH = false;
+            this.showSpinnerTRON = false;
+            this.showSpinnerBTCV2 = false;
+            this.showSpinnerETHV2 = false;
+            this.showSpinnerTRONV2 = false;
+            return of(HttpError.error);
+          }),
+        )
+        .subscribe((res:any) => {
+          if(res.message === "code sent") {
+            this.showSpinnerBTC = false;
+            this.showSpinnerETH = false;
+            this.showSpinnerTRON = false;
+            this.showSpinnerBTCV2 = false;
+            this.showSpinnerETHV2 = false;
+            this.showSpinnerTRONV2 = false;
+            this.version = version;
+            this.network = network;
+            this.codeExportKeyStore = 0;
+            this.openModal(content)
+            
+          } else {
+            this.showSpinnerBTC = false;
+            this.showSpinnerETH = false;
+            this.showSpinnerTRON = false;
+            this.showSpinnerBTCV2 = false;
+            this.showSpinnerETHV2 = false;
+            this.showSpinnerTRONV2 = false;
+            
+
+          }
+        })
+        
+  }
+
+  onCodeCompleted(event:any) {
+    this.keystoreData = '';
+    this.codeExportKeyStore = Number(event);
+    this.checkCodeVerification();
+    
+  }
+
+  checkCodeVerification() {
+    this.walletFacade.exportKeyStore(this.network, this.version, this.codeExportKeyStore)
+    .pipe(
+      catchError((HttpError: HttpErrorResponse) => {
+        return of(HttpError.error);
+      }),
+    )
+    .subscribe((res:any) => {
+      if(res.message === "code wrong") {
+        this.errorMessagecode = "code incorrect"
+      } else if(res.message === "code expired") {
+        this.errorMessagecode = "code expired"
+      } else {
+        if(res.data === true) {
+          this.errorMessagecode = "code correct"
+          this.keystoreData = res.message;
+        }
+      }
+    })
+  
+  }  
+  exportKeyStore() {
+    let fileName = '';
+          const file = new Blob([JSON.stringify(this.keystoreData)], {
+            type: 'application/octet-stream'
+          });
+
+          const href = URL.createObjectURL(file);
+          const a = this.document.createElement('A');
+          a.setAttribute('href', href);
+          a.setAttribute('download', this.network === "btc" ? "wallet.bip38" : 'keystore.json');
+          this.document.body.appendChild(a);
+          a.click();
+          this.modalService.dismissAll()
+
+    /*this.walletFacade.exportKeyStore(this.network, this.version, this.codeExportKeyStore)
+    .pipe(
+      catchError((HttpError: HttpErrorResponse) => {
+        return of(HttpError.error);
+      }),
+    )
+    .subscribe((res:any) => {
+      if(res.message === "code wrong") {
+        this.errorMessagecode = "code incorrect"
+      } else if(res.message === "code expired") {
+        this.errorMessagecode = "code expired"
+      } else {
+        if(res.data === true) {
+          this.errorMessagecode = "code correct"
+          let fileName = '';
+          const file = new Blob([JSON.stringify(res.message)], {
+            type: 'application/octet-stream'
+          });
+
+          const href = URL.createObjectURL(file);
+          const a = this.document.createElement('A');
+          a.setAttribute('href', href);
+          a.setAttribute('download', this.network === "btc" ? "wallet.bip38" : 'keystore.json');
+          this.document.body.appendChild(a);
+          a.click();
+          this.modalService.dismissAll()
+        }
+      }
+    })*/
+  }
+
+
+
+
+  resendCode() {
+    this.walletFacade.getExportCode(this.network, this.version)
+      .pipe(
+        catchError((HttpError: HttpErrorResponse) => {
+          return of(HttpError.error);
+        }),
+      )
+      .subscribe()
   }
 }

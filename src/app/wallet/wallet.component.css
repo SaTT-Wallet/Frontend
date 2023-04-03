@@ -42,7 +42,28 @@ input:-webkit-autofill:active {
   width: 938px;
   margin-top: -2%;
 }
+.error_input {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0.03em;
+  color: #f52079;
+  max-height: 3em;
+ 
+}
+.form_transaction_password{
+  position: relative;width: 60% !important; left: 5%;
+}
 
+.label_input {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 125.9%;
+  letter-spacing: 0.03em;
+  color: #6c768c;
+}
 /* sk */
 @media only screen and (max-width: 768px) {
   #createWalletV2Modal {
@@ -53,6 +74,12 @@ input:-webkit-autofill:active {
     touch-action: none;
   }
 
+  .welcome-body2 {
+    overflow-y: auto;
+    overflow-x: hidden;
+    
+  }
+
   /* responsive text */
   .walletV2WrongMessage {
     text-align: left;
@@ -60,15 +87,25 @@ input:-webkit-autofill:active {
     /* margin-left: ; */
     position: absolute;
   }
+
+  .success_input {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0.03em;
+    color: #00CC9E;
+    max-height: 3em;
+  }
   .postition-trans {
     width: 100% !important;
     text-align: left !important;
-    margin-left: 40px !important;
   }
   .input-div {
-    width: auto !important;
+    width: 60%;
     margin: auto;
   }
+
 
   #welcome-input {
     margin: auto !important;
@@ -166,6 +203,11 @@ input:-webkit-autofill:active {
   .modal-customm {
     z-index: 99999 !important;
   }
+  .form_transaction_password{
+    
+    width: 100% !important;
+    left: 10%;
+  }
 }
 
 .white-bloc {
@@ -181,7 +223,7 @@ input:-webkit-autofill:active {
 #title {
   font-size: 22px !important;
   font-family: 'Poppins';
-  color: #f52079;
+  color: #00CC9E;
   padding-top: 0.5vh;
   padding-bottom: 1vh;
 }
@@ -189,7 +231,6 @@ input:-webkit-autofill:active {
 #welcome-paragraph {
   padding: 0;
   max-width: 90%;
-  padding-bottom: 3vh;
 }
 
 #paragraph {
@@ -214,7 +255,7 @@ input:-webkit-autofill:active {
 }
 
 .input-div {
-  width: 60%;
+  width: 50%;
   margin: auto;
 }
 
@@ -325,6 +366,16 @@ input:-webkit-autofill:active {
 .wallet-flex {
   padding-left: 36px;
 }
+.input-checkbox{
+  margin-top: 10%;
+}
+input[type=checkbox]:checked {
+  background-color: #a77e2d !important;
+  color: #ffffff !important;
+}
+/* .input-checkbox input:checked ~ .checkmark {
+  background-color:  #00CC9E;
+} */
 
 #legend {
   z-index: 1;
@@ -451,6 +502,13 @@ select option {
   }
   .positon-mobile {
     margin: 0 !important;
+  }
+
+}
+@media (min-width: 1300px){
+  .input-checkbox{
+    padding-left: 25% !important;
+padding-right: 25% !important;
   }
 }
 
@@ -1323,7 +1381,10 @@ table > th {
     margin-right: 60px;
   }
 }
-
+@media (max-width: 420px) {.form_transaction_password{
+    
+  margin-top: -12%;
+}}
 @media (min-width: 320px) and (max-width: 425px) {
   .indicatorfont {
     font-size: 4vw;
@@ -1764,6 +1825,7 @@ table > th {
 
 .modal-content {
   position: absolute;
+  
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -1882,6 +1944,9 @@ p {
   .modal-body.modal-customm h3 {
     font-size: 27px !important;
   }
+  .modal-body.modal-custom{
+    background-color: #ffffff;
+  }
   .modal-body.modal-customm p {
     font-size: 12px !important;
     margin-bottom: 6px !important;
@@ -1964,6 +2029,9 @@ p {
 }
 
 @media (max-width: 500px) {
+  .input-div {
+    width: 81%;
+  }
   .div_red_text {
     font-weight: 600 !important;
     font-size: 12px !important;
@@ -2088,6 +2156,9 @@ p {
   .div-input-icon {
     width: 100% !important;
   }
+  /* .btn-blue{
+    width: ;
+  } */
 }
 
 .input-password {
@@ -2124,7 +2195,7 @@ p {
 }
 .btn-blue {
   margin-top: 10%;
-  margin-bottom: 2vh;
+  /* margin-bottom: 2vh; */
   background: #4048ff !important;
   line-height: 27px;
   letter-spacing: 0.005em;
@@ -2132,7 +2203,7 @@ p {
   box-shadow: none !important;
 
   border-radius: 30px;
-  width: 40% !important;
+  width: 137px !important;
 
   font-style: normal;
   font-weight: 600 !important;
@@ -2145,7 +2216,7 @@ p {
   /* margin-right: 1.5rem; */
 }
 .btn-blue:disabled {
-  margin-bottom: 2vh;
+  /* margin-bottom: 2vh; */
   background: #f6f6ff !important;
   line-height: 27px;
   letter-spacing: 0.005em;
@@ -2154,7 +2225,7 @@ p {
   box-shadow: none !important;
 
   border-radius: 30px;
-  width: 40% !important;
+  width: 137px !important;
 
   font-style: normal;
   font-weight: 600 !important;
@@ -2166,6 +2237,9 @@ p {
   border: none;
 
   /* margin-right: 1.5rem; */
+}
+.label_input {
+  font-size: 14px !important;
 }
 .btn-white {
   width: 217px !important;
@@ -2181,7 +2255,10 @@ p {
   text-align: center;
   color: #4048ff !important;
 }
-
+.Kep-password-image{
+  padding-left: 1%;
+  padding-bottom: 2px;
+}
 .trans {
   /* font-family: 'Poppins' !important; */
   font-family: 'Raleway', sans-serif !important;
@@ -2197,15 +2274,14 @@ p {
 }
 
 .postition-trans {
-  width: 32%;
-  margin-left: 9%;
+  text-align-last: left;
 }
 .postition-trans-tron {
   text-align: center;
 }
 .modal-body.modal-custom {
   margin-top: 0;
-  overflow-y: auto;
+  /* overflow-y: auto; */
 }
 
 .link-button {

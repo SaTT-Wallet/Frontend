@@ -763,7 +763,8 @@
     *ngIf="
       this.sidebarService.toggleWalletMobile.value && isLayoutDesktop === false
     "
-    class="sidebarMoreMobile row"
+    [class]="getScreenHeight < 800 ? 'sidebarMoreMobileHeight row' : 'sidebarMoreMobile row'"
+    
   >
     <p
       class="d-flex justify-content-center titleIDW"

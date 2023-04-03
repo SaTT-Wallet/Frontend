@@ -125,9 +125,13 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   url5: any;
   url6: any;
 
+  
+
   picUserUpdated: boolean = false;
   oldHeight: any;
   newHeight: any;
+  public getScreenWidth: any;
+  public getScreenHeight: any;
   seen: boolean = false;
   menuAdpool: boolean = false;
   menuFarmPost: boolean = false;
@@ -139,7 +143,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   menuCampaign: boolean = false;
   menuTokenInfo: boolean = false;
   menuBuyToken: boolean = false;
-  getScreenWidth: any;
+  
   // successPart: boolean = false;
   // errorPart: boolean = false;
   sucess: any = false;
@@ -179,6 +183,14 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   title: any = '';
   titleWallet: any = '';
   existV1: any;
+  @HostListener('window:resize', ['$event'])
+
+  resize(event: any) {
+    this.getScreenHeight = event.target.innerHeight;
+    this.getScreenWidth = event.target.innerWidth;
+  }
+
+
 
   constructor(
     breakpointObserver: BreakpointObserver,
@@ -295,11 +307,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           //@ts-ignore
           // this.header?.nativeElement.style.background =
           //   'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)';
-          this.renderer.setStyle(
-            this.header?.nativeElement,
-            'background',
-            'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)'
-          );
+            this.renderer?.setStyle(this.header?.nativeElement,'background','linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)');
           this.isWelcomePage = false;
           this.menuBuyToken = true;
         }
@@ -339,16 +347,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   ngOnInit(): void {
     this.getScreenWidth = window.innerWidth;
-    switch (localStorage.getItem('wallet_version')) {
-      case 'v2':
-        this.title = 'Go to old wallet';
-        this.titleWallet = 'Your wallet ID';
-        break;
-      case 'v1':
-        this.title = 'Go to new wallet';
-        this.titleWallet = 'Your old wallet';
-        break;
-    }
+    this.getScreenHeight = window.innerHeight;
+
 
     if (isPlatformBrowser(this.platformId)) {
       this.authService.isAuthenticated$
@@ -430,8 +430,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   isDisplayNew() {
     this.displayNew = localStorage.getItem('display')?.toString();
-
-    if (this.existV1) {
+    
+    if (this.existV1 && this.existV2)  {
       if (this.displayNew === 'none') {
         this.displayNew = 'block';
         this.displayOld = 'none';
@@ -1313,6 +1313,15 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         } else {
           this.existV2 = true;
         }
+
+        if(this.existV1 && this.existV2 ) {
+          this.titleWallet = 'Your wallet ID';
+          this.title = 'Go to old wallet';;
+        } else{
+          this.titleWallet = 'Your old wallet';
+          this.title = 'Go to new wallet ';
+        }
+
 
         if (!!data) {
           this.btcCodeV2 = data.data.btcAddressV2;

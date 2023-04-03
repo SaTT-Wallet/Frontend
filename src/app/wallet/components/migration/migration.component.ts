@@ -12,10 +12,12 @@ import { filterAmount } from '@app/helpers/utils/common';
 import Big from 'big.js';
 import { WalletStoreService } from '@core/services/wallet-store.service';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
-import { takeUntil } from 'rxjs/operators';
+import { catchError, map, take, takeUntil,tap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { environment } from '@environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Clipboard } from '@angular/cdk/clipboard';
+import { GazConsumed } from '@app/config/atn.config';
 
 @Component({
   selector: 'app-migration',
@@ -23,6 +25,13 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./migration.component.scss']
 })
 export class MigrationComponent implements OnInit {
+
+  walletEVM!: string;
+  walletBTC!: string;
+  walletTRON!: string;
+  isWalletAddressCopied: boolean = false;
+
+
   listCrypto: any[] = [
     { name: 'ETH', network: 'ERC20', explorer: environment.etherscanaddr },
     { name: 'BNB', network: 'BEP20', explorer: environment.bscanaddr },
@@ -39,10 +48,13 @@ export class MigrationComponent implements OnInit {
   errorMessage: boolean = false;
   gasToDisplay: any;
   arrayToMigrate: any[] = [];
+
+  migrationTokens: any = [];
   cryptobyNetwork: any;
   cryptoChecked = 'ERC20';
   activatedRoute: ActivatedRoute | null | undefined;
-
+  errorTransaction: boolean = false;
+  errorTransactionMessage: string = '';
   network = { name: '', balance: '' };
   cryptoList$ = this.walletFacade.cryptoList$;
   passWallet = false;
@@ -57,9 +69,11 @@ export class MigrationComponent implements OnInit {
   outOfGas = false;
   @Input() migrate: any;
   onDestroy$ = new Subject();
+  gasPriceEstimation!:string;
 
   @Output() migrateEvent = new EventEmitter<String>();
-
+  etherPrice!: number;
+  price!: number;
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.getScreenHeight = event.target.innerHeight;
@@ -77,18 +91,57 @@ export class MigrationComponent implements OnInit {
     private walletStoreService: WalletStoreService,
     private tokenStorageService: TokenStorageService,
     private router: Router,
+    private clipboard: Clipboard
 
   ) {}
   ngOnInit(): void {
-    
+    this.fetchWallet();
+    this.arrayToMigrate = [];
+    this.migrationTokens = [];
     this.getScreenWidth = window.innerWidth;
     this.getCryptoList();
     this.network.name = 'ETH';
+    this.walletFacade.getEtherGaz().pipe(take(1)).subscribe((gaz: any)=>{
+      this.price = gaz.data.gasPrice
+     
+    })
+    
   }
 
+  getInitEstimation(element: any) {
+    const gasLimit = this.getGasPrice(element)
+    this.gasPriceEstimation = new Big (this.gasToDisplay || 0.0000).plus((
+      ((this.price *(gasLimit)) / 1000000000) 
+    )).toFixed(8);
+    return this.gasPriceEstimation;
+  }
 
+  copyAddress(network: string) {
+    this.isWalletAddressCopied = true;
+    if(network === "TRX") {
+      this.clipboard.copy(this.walletTRON)
+    } else if(network === "BTC") {
+      this.clipboard.copy(this.walletBTC)
+    } else {
+      this.clipboard.copy(this.walletEVM)
+    }
+    
+    setTimeout(() => {
+      this.isWalletAddressCopied = false;
+    }, 2000)
+  }
+
+  fetchWallet() {
+    this.walletFacade.getAllWallet().subscribe((res:any) => {
+      this.walletEVM = res.data.address;
+      this.walletBTC = res.data.btcAddress;
+      this.walletTRON = res.data.tronAddress
+    })
+  }
   getCryptoList() {
     this.cryptoList$.subscribe((data: any) => {
+             this.etherPrice = data.find((element:any) => element.name ==="Ethereum")['price']
+
       this.cryptobyNetwork = data.filter(
         (element: any) =>
           Number(element.quantity) > 0 &&
@@ -105,10 +158,10 @@ export class MigrationComponent implements OnInit {
         let gasLimit = this.getGasPrice(this.arrayToMigrate[0]);
         let gasPrice = 10000000000;
         this.gas = Big(gasLimit).times(Big(gasPrice));
-        this.gasToDisplay = filterAmount(this.gas.div(10 ** 18).toString());
+        this.gasToDisplay =  filterAmount(this.gas.div(10 ** 18).toString());
         this.cryptoChecked === 'TRON' && (this.gasToDisplay = '0.0268');
-
-        if (this.network.name === '') this.network.name = 'ETH';
+        //if (this.network.name === '') this.network.name = 'ETH';
+     
         let balances = data.filter(
           (element: any) => element.symbol === this.network.name
         );
@@ -121,9 +174,11 @@ export class MigrationComponent implements OnInit {
         else this.outOfGas = false;
       }
     });
+    
   }
   setState(crypto: string) {
-
+    this.errorTransaction = false;
+    this.migrationTokens = [];
     this.outOfGas = false;
     this.hash = '';
     this.arrayToMigrate = [];
@@ -132,17 +187,8 @@ export class MigrationComponent implements OnInit {
     const index = this.listCrypto.findIndex((e) => e.network === crypto);
     this.network.name = this.listCrypto[index]?.name;
     this.walletPassword=""
-    let element = this.cryptobyNetwork.find(
-      (e: any) => e.symbol === this.network.name
-    );
-    if (element) {
-      // this.outOfGas = false;
-      this.network.balance = element?.quantity;
-    } else {
-      this.network.balance = '';
-      this.outOfGas = true;
-    }
     this.getCryptoList();
+    
   }
 
 
@@ -169,12 +215,22 @@ export class MigrationComponent implements OnInit {
   }
   }
 
-
+  displayErrorMessage(data:any) {
+    if(data[0].includes("insufficient funds for gas")) {
+      this.errorTransactionMessage = data[0].replace("Returned error:", "");
+      this.outOfGas = true; 
+      this.spinner = false;
+    } else this.errorTransactionMessage = "Something went wrong please try again"
+    this.errorTransaction= true;
+    this.walletPassword = "";
+    this.spinner = false;
+  }
 
   next() {
     this.outOfGas = false;
     this.spinner = true;
     this.hash = '';
+    this.errorTransaction = false;
     this.service
       .migrateTokens(
         this.arrayToMigrate,
@@ -183,9 +239,20 @@ export class MigrationComponent implements OnInit {
       )
       .subscribe(
         (data: any) => {
+          
           if (this.cryptoChecked === 'TRON')
             setTimeout(() => this.displaySuccessMessage(data), 100000);
-          else this.displaySuccessMessage(data);
+            if(data.data.errorTransaction.length > 0) {
+              if(data.data.transactionHash.length > 0) {
+                this.displaySuccessMessage(data.data.transactionHash)
+                this.displayErrorMessage(data.data.errorTransaction)
+              } else {
+                this.displayErrorMessage(data.data.errorTransaction)
+              }
+            }  else {
+              this.displaySuccessMessage(data.data.transactionHash)
+            }
+
         },
         (err: any) => {
           if
@@ -204,9 +271,21 @@ export class MigrationComponent implements OnInit {
   }
 
   addCrypto(element: any) {
+   
+    let elementNative= this.cryptobyNetwork.find(
+      (e: any) =>e.symbol === this.network.name
+    );
+    
+    if (elementNative) {
+      // this.outOfGas = false;
+      this.network.balance = element?.quantity;
+    } else {
+      this.network.balance = '';
+      this.outOfGas = true;
+    }
     let gasLimit = this.getGasPrice(element);
-
     let gasPrice = 10000000000;
+    
     const index = this.arrayToMigrate.findIndex(
       (e) => e.symbol === element.symbol
     );
@@ -214,23 +293,29 @@ export class MigrationComponent implements OnInit {
       this.gas = this.gas.minus(Big(gasLimit).times(Big(gasPrice)));
 
       this.arrayToMigrate.splice(index, 1);
+      if(element.network ==='ERC20'){
+        this.gasToDisplay = new Big (this.gasToDisplay).minus((
+          ((this.price *(gasLimit )) / 1000000000) 
+        )).toFixed(8);
+    }
     } else {
       this.gas = this.gas.plus(Big(gasLimit).times(Big(gasPrice)));
       this.arrayToMigrate.push(element);
+      if(element.network ==='ERC20'){
+          this.gasToDisplay = new Big (this.gasToDisplay || 0.0000).plus((
+            ((this.price *(gasLimit)) / 1000000000) 
+          )).toFixed(8);
+      }
     }
+    if(element.network !=='ERC20')
     this.gasToDisplay = filterAmount(this.gas.div(10 ** 18).toString());
-    if (
-      this.network.balance === '' ||
-      Big(this.gasToDisplay).gt(Big(this.network.balance))
-    )
-      this.outOfGas = true;
-    else this.outOfGas = false;
+   
   }
   nextStep() {
     this.arrayToMigrate = [];
     this.hash = '';
     this.walletPassword="";
-
+    this.errorTransaction = false;
     if (this.cryptoChecked === 'TRON') {
       this.walletFacade
         .getAllWallet()
@@ -273,6 +358,7 @@ export class MigrationComponent implements OnInit {
   ngOnDestroy() {
     this.onDestroy$.next('');
     this.onDestroy$.complete();
+    
   }
 
   displaySuccessMessage(data: any) {
@@ -282,7 +368,7 @@ export class MigrationComponent implements OnInit {
       (e) => e.network === this.cryptoChecked
     );
     let network = this.listCrypto[index].explorer;
-    this.hash = network + data.data[0].from;
+    this.hash = network + data[0].from;
     this.walletStoreService.getCryptoList();
     this.walletStoreService.getTotalBalance();
   }

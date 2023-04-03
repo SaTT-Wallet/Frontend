@@ -1,9 +1,12 @@
 <div class="col-12 transactionHash-wrapper bg-grey" *ngIf="transactionHash">
-  <h6 class="trx-hash-title">
+  <h6 class="trx-hash-title" *ngIf="type === 'apply'">
+    {{ 'Your signature: ' | translate }}
+  </h6>
+  <h6 class="trx-hash-title" *ngIf="type !== 'apply'">
     {{ 'Your transaction hash: ' | translate }}
   </h6>
   <div class="d-flex align-items-baseline justify-content-center">
-    <a [href]="networkWallet" target="_blank">
+    <a [href]="type !== 'apply' ? networkWallet : 'farm-posts'" target="_blank">
       <!-- <p class="trx-hash-text text-bold">{{ transactionHash }}</p> -->
       <div class="d-flex justify-content-center">
         <span class="span-wallet flex-start">{{ transactionHash }}</span>
@@ -15,7 +18,7 @@
       class="copy-to-clipboard-btn d-flex"
     >
       <span *ngIf="!isTransactionHashCopied" class="">
-        <img src="/assets/Images/copy-clipboard.svg" style="width:17px" /> 
+        <img src="/assets/Images/copy-clipboard.svg" style="width: 17px" />
       </span>
       <span *ngIf="isTransactionHashCopied" class=""> Copied! </span>
     </button>

@@ -157,6 +157,24 @@ export class WalletService {
     );
   }
 
+  resetTransactionPassword(password: string, newPassword: string) {
+    let header = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+
+    return this.http.post(
+      `${sattUrl}/wallet/resetpassword`,
+      {
+        oldPass: password,
+        newPass: newPassword
+      },
+      { headers: header }
+    );
+  }
+
+
   createNewWalletV2(password: string) {
     let httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -170,6 +188,21 @@ export class WalletService {
       { headers: httpHeaders }
     );
   }
+  verifySign(password: string) {
+    let httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-store',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+
+    return this.http.post(
+      `${sattUrl}/wallet/verifySign`,
+      { pass: password },
+      { headers: httpHeaders }
+    );
+  }
+
+
 
   checkUserIsNew() {
     let httpHeaders = new HttpHeaders({
@@ -197,7 +230,7 @@ export class WalletService {
     );
   }
 
- 
+  
 
   chartjs() {
     const headers = new HttpHeaders({
@@ -258,6 +291,46 @@ export class WalletService {
   listTokens() {
     return this.http.get(sattUrl + '/wallet/cryptoDetails');
     // https://api.satt-token.com:3014/prices
+  }
+
+
+
+  getExportCode(network: string, version: string) {
+    let header = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+    return this.http.post(
+      `${sattUrl}/wallet/code-export-keystore`,
+      {
+        network: network,
+        version: version
+      },
+      {
+        headers: header
+      }
+    )
+  }
+
+
+  exportKeyStore(network: string, version: string, code: number) {
+    let header = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+    return this.http.post(
+      `${sattUrl}/wallet/export-keystore`,
+      {
+        network: network,
+        version: version,
+        code: code
+      },
+      {
+        headers: header
+      }
+    )
   }
 
   // setPayementId(payementId: string) {
