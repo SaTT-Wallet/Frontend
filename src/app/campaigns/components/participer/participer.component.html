@@ -14,7 +14,6 @@
             <h3 class="send_title">{{ 'monetize_your_post' | translate }}</h3>
           </div>
           <button type="button" class="btn-back" (click)="goBack(campaignId)">
-            
             <span class="span_btn_back">
               {{ 'send.back_to_wallet' | translate }}
             </span>
@@ -138,24 +137,18 @@
                     ?.value?.indexOf('https://www.linkedin.com/') === 0,
                 tiktokLink:
                   (!spinner &&
-                    sendform
-                      .get('url')
-                      ?.value?.indexOf(urlTiktok) === 0) ||
+                    sendform.get('url')?.value?.indexOf(urlTiktok) === 0) ||
                   sendform
                     .get('url')
                     ?.value?.indexOf('https://vm.tiktok.com/') === 0,
                 tiktokLinkSpinner:
                   spinner &&
-                  (sendform
-                    .get('url')
-                    ?.value?.indexOf(urlTiktok) === 0 ||
-                    sendform
-                      .get('url')
-                      ?.value?.indexOf(urlTiktok) === 0)
+                  (sendform.get('url')?.value?.indexOf(urlTiktok) === 0 ||
+                    sendform.get('url')?.value?.indexOf(urlTiktok) === 0)
               }"
             />
-            
-              <!-- <p>{{tiktokProfilePrivacy}}</p> -->
+
+            <!-- <p>{{tiktokProfilePrivacy}}</p> -->
             <!-- <div class="Alert d-flex mt-2" >
               <p class="m-0 p-2">
                 {{
@@ -457,25 +450,23 @@
             >
               <ngx-tweet
                 #tweetId
-                class="tweet-class "
+                class="tweet-class"
                 tweetId="{{ this.idstatus }}"
                 style="
                   width: 80%;
                   text-align: -webkit-center;
                   overflow: hidden;
                   display: block;
-                 
                 "
               ></ngx-tweet>
             </div>
             <div>
-            <span class="titre_pass"> {{ 'ur_pass' | translate }} </span>
-            <span class="titre_pass"
-              >
-              &nbsp;&nbsp;(Gas fees : ${{ networkGas }})
-          </span>
-        </div>
-         
+              <span class="titre_pass"> {{ 'ur_pass' | translate }} </span>
+              <!-- <span class="titre_pass">
+                &nbsp;&nbsp;(Gas fees : ${{ networkGas }})
+              </span> -->
+            </div>
+
             <div class="div_input position-relative mt-1">
               <img class="ps-1" src="/assets/Images/Kep-password.svg" />
               <input
@@ -560,6 +551,7 @@
         <label class="text">{{ 'paragraph_succes' | translate }}</label>
         <app-copy-transaction-hash
           [transactionHash]="transactionHash"
+          [type]="'apply'"
           [networkWallet]="networkWallet"
           class="transaction-width"
         ></app-copy-transaction-hash>
@@ -590,12 +582,14 @@
   <div class="envoyer_lien error_page">
     <div class="success-link">
       <img src="/assets/Images/error-info.svg" class="img-style mt-5" />
-      
+
       <h3 class="error-title text-break mt-2">{{ error | translate }}</h3>
-    <div *ngIf="(TiktokPrivate)&&(oracleType === 'tiktok')">
-      <h3 class="error-text" > Check the privcay of your Tiktok profil or the ownership of this video </h3>
-    </div>
-       <!-- <p class="error-text">{{"paragraph_erreur"|translate}}</p> -->
+      <div *ngIf="TiktokPrivate && oracleType === 'tiktok'">
+        <h3 class="error-text">
+          Check the privcay of your Tiktok profil or the ownership of this video
+        </h3>
+      </div>
+      <!-- <p class="error-text">{{"paragraph_erreur"|translate}}</p> -->
       <button
         *ngIf="error === 'Not_your_link'"
         class="btn-info me-2 mt-5 mb-2"

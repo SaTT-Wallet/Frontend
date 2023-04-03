@@ -380,6 +380,12 @@ export class WalletFacadeService {
   }
 
 
+    // VERIFY SIGN
+    verifySign(password: string) {
+      return this.walletService.verifySign(password);
+    }
+  
+
   checkUserIsNew() {
     return this.walletService.checkUserIsNew();
   }
@@ -388,5 +394,18 @@ export class WalletFacadeService {
     return this.walletService.checkWalletV2Exist();
   }
 
+  resetTransactionPassword(password: string, newPassword: string) {
+    return this.walletService.resetTransactionPassword(password, newPassword);
+  }
+
+  // GET EXPORT CODE 
+  getExportCode(network: string, version: string) {
+    return this.walletService.getExportCode(network, version);
+  }
+
+
+  exportKeyStore(network: string, version: string, code: number) {
+    return this.walletService.exportKeyStore(network, version, code);
+  }
   
 }

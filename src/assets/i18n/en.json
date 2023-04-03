@@ -268,7 +268,7 @@
   "Profil.password_wrong ": "Wrong password",
   "Profil.profile.btn_update_password": "Update",
   "Profil.export_account": "Export my portfolio",
-  "Profil.export_info_security": "Enter your password to export your account in JSON keystore format",
+  "Profil.export_info_security": "Please copy the code we sent you via email to export your account in JSON keystore format",
   "Profil.password": "Password",
   "Profil.pass_wrong": "Wrong password",
   "Profil.export": "Export",

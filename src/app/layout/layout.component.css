@@ -76,6 +76,10 @@
   text-transform: uppercase;
   color: #f52079;
 }
+.welcome-body2 {
+  overflow-y: auto;
+
+}
 
 .title-modal.warning-bold {
   font-weight: 700;
