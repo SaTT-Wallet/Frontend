@@ -231,27 +231,31 @@
     </h3>
 
     <div class="orang-text" *ngIf="campaign?.hash">
-      <img src="assets/Images/calender.svg" width="16px" />
-
-      <span
-        class="under_gains date"
-        *ngIf="localId === 'en'"
-        style="text-transform: uppercase"
-      >
-        {{ 'AllCampains.campaign_ends_on' | translate }}:
-        <!-- h:mm:ss a -->
-        {{ campaign.endDate | date: 'MM/dd/yyyy ':undefined:localId || '' }}
-      </span>
-      <span
-        class="under_gains date"
-        *ngIf="localId === 'fr'"
-        style="text-transform: uppercase"
-      >
-        {{ 'AllCampains.campaign_ends_on' | translate }}:
+      <div>
         <img src="assets/Images/calender.svg" width="16px" />
-        {{ campaign.endDate | date: 'dd/MM/yyyy':undefined:localId || '' }}
-      </span>
+
+        <span
+          class="under_gains date"
+          *ngIf="localId === 'en'"
+          style="text-transform: uppercase"
+        >
+          {{ 'AllCampains.campaign_ends_on' | translate }}:
+          <!-- h:mm:ss a -->
+          {{ campaign.endDate | date: 'MM/dd/yyyy ':undefined:localId || '' }}
+        </span>
+        <span
+          class="under_gains date"
+          *ngIf="localId === 'fr'"
+          style="text-transform: uppercase"
+        >
+          {{ 'AllCampains.campaign_ends_on' | translate }}:
+          <img src="assets/Images/calender.svg" width="16px" />
+          {{ campaign.endDate | date: 'dd/MM/yyyy':undefined:localId || '' }}
+        </span>
+      </div>
+      <img src="assets/Images/blue-icons/calculator.svg" width="16px" />
     </div>
+
     <!--<div class="blue-text" *ngIf="!campaign?.hash">
       {{ 'complete-your-informations' | translate }}
     </div>-->
