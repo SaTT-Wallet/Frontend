@@ -179,7 +179,7 @@ export class PasswordModalComponent implements OnInit {
       }
 
       // A ne pas changer +60 Minute
-      _campaign.startDate = this.calculateStartDate(this.campaign.startDate);
+      _campaign.startDate = this.calculateStartDate();
 
       _campaign.endDate = Math.floor(this.campaign.endDate.getTime() / 1000);
 
@@ -195,23 +195,11 @@ export class PasswordModalComponent implements OnInit {
     }
   }
 
-  calculateStartDate(startDate: any) {
+  calculateStartDate() {
     let date = new Date();
-    let startDateConverted = new Date(startDate * 1000);
-    if (
-      startDateConverted.getMinutes() > 0 &&
-      startDateConverted.getMinutes() < 30
-    ) {
-      date.setMinutes(date.getMinutes() + 30);
-    } else if (
-      startDateConverted.getMinutes() >= 30 ||
-      startDateConverted.getMinutes() === 0
-    ) {
-      date.setMinutes(date.getMinutes() + 60);
-    }
 
+    date.setMinutes(date.getMinutes() + 60);
     date.setSeconds(0);
-
     let dateInSeconds = Math.floor(date.getTime() / 1000);
 
     return dateInSeconds;

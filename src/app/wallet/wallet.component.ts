@@ -857,7 +857,7 @@ this.formUpdateTransactionPassword
     }
   }
   migrateButton(): void {
-    if (this.loadingPopUp) {
+    if (this.show && this.hasWalletV2) {
       this.migrate = 'open';
       this.modalService.open(this.migration, {
         backdrop: 'static',
@@ -1147,7 +1147,6 @@ imageFun() {
       )
       .subscribe((data: any) => {
         this.totalAmount = data;
-        
         this.show =
           Number(this.totalAmount) > 0 &&
           localStorage.getItem('wallet_version') === 'v1'
