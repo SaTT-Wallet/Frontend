@@ -69,6 +69,7 @@ export class MigrationComponent implements OnInit {
   outOfGas = false;
   @Input() migrate: any;
   onDestroy$ = new Subject();
+  gasPriceEstimation!:string;
 
   @Output() migrateEvent = new EventEmitter<String>();
   etherPrice!: number;
@@ -102,7 +103,19 @@ export class MigrationComponent implements OnInit {
     this.network.name = 'ETH';
     this.walletFacade.getEtherGaz().pipe(take(1)).subscribe((gaz: any)=>{
       this.price = gaz.data.gasPrice
+     
     })
+    
+  }
+
+  getInitEstimation(element: any) {
+    console.log(element);
+    const gasLimit = this.getGasPrice(element)
+    console.log(gasLimit)
+    this.gasPriceEstimation = new Big (this.gasToDisplay || 0.0000).plus((
+      ((this.price *(gasLimit)) / 1000000000) 
+    )).toFixed(8);
+    return this.gasPriceEstimation;
   }
 
   copyAddress(network: string) {
@@ -147,7 +160,7 @@ export class MigrationComponent implements OnInit {
         let gasLimit = this.getGasPrice(this.arrayToMigrate[0]);
         let gasPrice = 10000000000;
         this.gas = Big(gasLimit).times(Big(gasPrice));
-        this.gasToDisplay = filterAmount(this.gas.div(10 ** 18).toString());
+        this.gasToDisplay =  filterAmount(this.gas.div(10 ** 18).toString());
         this.cryptoChecked === 'TRON' && (this.gasToDisplay = '0.0268');
         //if (this.network.name === '') this.network.name = 'ETH';
      
@@ -163,6 +176,7 @@ export class MigrationComponent implements OnInit {
         else this.outOfGas = false;
       }
     });
+    
   }
   setState(crypto: string) {
     this.errorTransaction = false;

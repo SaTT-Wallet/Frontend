@@ -125,7 +125,7 @@
 
     <div class="row justify-content-center" *ngIf="arrayToMigrate.length > 0">
       <p class="gas-fees-style" *ngIf="cryptobyNetwork.length !== 0">
-        Gas fees : {{ gasToDisplay }} {{ network.name }}
+        Gas fees : {{ cryptobyNetwork?.length === 1  && network.name === "ETH" ? getInitEstimation(cryptobyNetwork[0]) : gasToDisplay }} {{ network.name }}
       </p>
       <div class="col-md-6 d-flex flex-column" *ngIf="!outOfGas">
         <span class="span-migrate">
