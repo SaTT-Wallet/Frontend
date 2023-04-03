@@ -343,16 +343,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void {
     this.getScreenWidth = window.innerWidth;
     this.getScreenHeight = window.innerHeight;
-    switch (localStorage.getItem('wallet_version')) {
-      case 'v2':
-        this.title = 'Go to old wallet';
-        this.titleWallet = 'Your wallet ID';
-        break;
-      case 'v1':
-        this.title = 'Go to new wallet';
-        this.titleWallet = 'Your old wallet';
-        break;
-    }
+
 
     if (isPlatformBrowser(this.platformId)) {
       this.authService.isAuthenticated$
@@ -434,9 +425,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   isDisplayNew() {
     this.displayNew = localStorage.getItem('display')?.toString();
-  
     
-    if (this.existV1) {
+    if (this.existV1 && this.existV2)  {
       if (this.displayNew === 'none') {
         this.displayNew = 'block';
         this.displayOld = 'none';
@@ -1319,6 +1309,15 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         } else {
           this.existV2 = true;
         }
+
+        if(this.existV1 && this.existV2 ) {
+          this.titleWallet = 'Your wallet ID';
+          this.title = 'Go to old wallet';;
+        } else{
+          this.titleWallet = 'Your old wallet';
+          this.title = 'Go to new wallet ';
+        }
+
 
         if (!!data) {
           this.btcCodeV2 = data.data.btcAddressV2;
