@@ -109,9 +109,7 @@ export class MigrationComponent implements OnInit {
   }
 
   getInitEstimation(element: any) {
-    console.log(element);
     const gasLimit = this.getGasPrice(element)
-    console.log(gasLimit)
     this.gasPriceEstimation = new Big (this.gasToDisplay || 0.0000).plus((
       ((this.price *(gasLimit)) / 1000000000) 
     )).toFixed(8);
