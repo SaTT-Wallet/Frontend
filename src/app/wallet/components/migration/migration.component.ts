@@ -29,7 +29,7 @@ export class MigrationComponent implements OnInit {
   walletEVM!: string;
   walletBTC!: string;
   walletTRON!: string;
-
+  isWalletAddressCopied: boolean = false;
 
 
   listCrypto: any[] = [
@@ -106,6 +106,7 @@ export class MigrationComponent implements OnInit {
   }
 
   copyAddress(network: string) {
+    this.isWalletAddressCopied = true;
     if(network === "TRX") {
       this.clipboard.copy(this.walletTRON)
     } else if(network === "BTC") {
@@ -114,6 +115,9 @@ export class MigrationComponent implements OnInit {
       this.clipboard.copy(this.walletEVM)
     }
     
+    setTimeout(() => {
+      this.isWalletAddressCopied = false;
+    }, 2000)
   }
 
   fetchWallet() {
