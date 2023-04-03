@@ -47,7 +47,7 @@
   <div class="row justify-content-center mt-3">
     <div
       *ngIf="cryptobyNetwork?.length !== 0"
-      style="padding-left: 0px; padding-right: 0px"
+      [style]="getScreenWidth > 767 && getScreenWidth < 961 ? 'padding-left: 30%; padding-right: 0px' : 'padding-left: 0px; padding-right: 0px'"
     >
       <div
         [className]="
@@ -125,7 +125,7 @@
 
     <div class="row justify-content-center" *ngIf="arrayToMigrate.length > 0">
       <p class="gas-fees-style" *ngIf="cryptobyNetwork.length !== 0">
-        Gas fees : {{ gasToDisplay }} {{ network.name }}
+        Gas fees : {{ cryptobyNetwork?.length === 1  && network.name === "ETH" ? getInitEstimation(cryptobyNetwork[0]) : gasToDisplay }} {{ network.name }}
       </p>
       <div class="col-md-6 d-flex flex-column" *ngIf="!outOfGas">
         <span class="span-migrate">
@@ -210,9 +210,28 @@
             before you can perform the migration.
           </p>
         </div>
-        <div class="wallet-adress-v1">
-          <p> WALLET ADDRESS : <span class="address">{{ network.name === "TRX" ? walletTRON : (network.name === "BTC" ? walletBTC : walletEVM) }}</span><span class="copy-logo"><img (click)="copyAddress(network.name)" src="./../../../../assets/Images/copy-logo.svg"/></span></p>
+        <div class="wallet-clipboard">
+          <!-- <span class="span-0.wallet flex-start">{{ erc20 }}</span>
+          <span class="span-wallet2 flex-end">{{ erc20 }}</span> -->
+          <span class="wallet-adress-v1">Wallet Address : </span>
+          <span class="span-text-wallet"
+            > {{ network.name === "TRX" ? walletTRON : (network.name === "BTC" ? walletBTC : walletEVM) }}</span
+          >
+          <span class="pr-1 position-relative"
+            ><img
+              class="img-copied"
+              (click)="copyAddress(network.name)"
+              [cdkCopyToClipboard]="network.name === 'TRX' ? walletTRON : (network.name === 'BTC' ? walletBTC : walletEVM)"
+              src="../../../../assets/Images/copy-clipboard.svg" />
+            <span *ngIf="isWalletAddressCopied" class="black-dialog">
+              Copied! </span
+            ><span
+              *ngIf="isWalletAddressCopied"
+              class="dialog-point"
+            ></span
+          ></span>
         </div>
+        
         <button
           class="next-step mt-4"
           style="margin: 0 auto"
