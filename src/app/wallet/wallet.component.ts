@@ -857,7 +857,7 @@ this.formUpdateTransactionPassword
     }
   }
   migrateButton(): void {
-    if (this.show && this.hasWalletV2 && this.migrate === "close") {
+    if (this.loadingPopUp) {
       this.migrate = 'open';
       this.modalService.open(this.migration, {
         backdrop: 'static',
