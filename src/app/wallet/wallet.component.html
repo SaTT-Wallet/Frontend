@@ -36,7 +36,10 @@
     style="position: absolute"
   >
     <div class="col-md-12 col-sm-12 col-lg-12 p-0 h-100">
-      <div class="blockk mb-4">
+      <div class="blockk mb-4"   [ngStyle]="
+     isV1 ? { background: 'linear-gradient(180deg, #4048FF 0%, #C4C4C4 76.04%)'}
+        : { background: 'linear-gradient(180deg, #4048ff 0%, #00cc9e 310.62%)'}
+    " >
         <!--portfolio estimation-->
         <!-- <div class="d-flex justify-content-center">-->
 
@@ -612,19 +615,22 @@
       <img src="../../assets/Images/stepper-v2.svg" />
     </div>
     <div class="img-update">
-      <img src="../../assets/Images/create-wallet-v2.svg" />
+      <img src="../../assets/Images/create-wallet-v2-1.svg" />
     </div>
-    <p class="textpwd" id="title">{{ 'Update your wallet' | translate }}</p>
+    <p class="textpwd" id="title">
+      {{ 'Verify wallet ownership' | translate }}
+    </p>
     <div
       class="d-flex justify-content-center welcome-paragraph"
       id="welcome-paragraph"
     >
       <p class="paragragh" id="paragraph">
-        For security reasons, we update our users' wallets.
+        For security reasons, we are updating our users' wallets.
         <br *ngIf="getScreenWidth > 960" />
         <span>
-          Please enter your password, then transfer your tokens to the updated
-          version.
+          Please enter your transaction password to verify that you are the
+          owner of this wallet and and proceed to the next step of creating a
+          new one
         </span>
       </p>
     </div>
@@ -639,16 +645,10 @@
           error: wrongpassword
         }"
       >
-        <ng-container *ngIf="!wrongpassword; else wrongPasswordImg">
-          <img
-            *ngIf="!wrongpassword"
-            class=""
-            src="../../../assets/Images/Kep-password.svg"
-          />
+        <ng-container>
+          <img class="" [src]="imageFun()" />
         </ng-container>
-        <ng-template #wrongPasswordImg>
-          <img class="" src="../../../assets/Images/Kep-passwordFalse.svg" />
-        </ng-template>
+
         <div style="display: none">
           <input
             type="text"
@@ -723,15 +723,23 @@
       <img src="../../assets/Images/stepper-v2.svg" />
     </div>
     <div class="img-update">
-      <img src="../../assets/Images/ILLU_MOD_security.svg" />
+      <img src="../../assets/Images/ILLU_MOD_security-2.svg" />
     </div>
-    <p class="textpwd" id="title">{{ 'set your transaction password' | translate }}</p>
+    <p class="textpwd" id="title" style="color: #f52079 !important">
+      {{ 'Set your new transaction password' | translate }}
+    </p>
     <div
       class="d-flex justify-content-center welcome-paragraph"
       id="welcome-paragraph"
     >
       <p class="paragragh" id="paragraph">
-        For security reasons. You will need to enter a new transaction password. Write it down carefully and keep it in a safe place!
+        Please enter the new transaction password. You will need to perform any
+        transactions with your new wallet. Write it down carefully and keep it
+        in safe place!
+        <b
+          >This new password is only for your new wallet. The old password
+          remains valid for the old one.
+        </b>
       </p>
     </div>
     <div class="row">
@@ -885,25 +893,6 @@
                   : { border: '1px solid #f52079' }
               "
             >
-              <ng-container
-                *ngIf="
-                  !wrongpassword &&
-                    !this.formUpdateTransactionPassword.errors?.mustMatch;
-                  else wrongPasswordImg
-                "
-              >
-                <img
-                  *ngIf="!wrongpassword"
-                  class="Kep-password-image"
-                  src="../../../assets/Images/Kep-password.svg"
-                />
-              </ng-container>
-              <ng-template #wrongPasswordImg>
-                <img
-                  class="Kep-password-image"
-                  src="../../../assets/Images/Kep-passwordFalse.svg"
-                />
-              </ng-template>
               <ng-container *ngIf="!wrongpassword; else wrongPasswordImg">
                 <img
                   *ngIf="!wrongpassword"
@@ -947,8 +936,10 @@
             </div>
           </div>
         </div>
+        
+      <!-- 
 
-        <div class="row pt-1">
+          <div class="row pt-1">
           <span
             class="error_input"
             *ngIf="
@@ -959,27 +950,40 @@
             Passwords don't match. Please verify!
           </span>
         </div>
+      -->
+        
         <!-- End Input , label and error msg confirmation password-->
         <!-- error msg: wrong old password-->
-        <div class="row pt-1" *ngIf="!!walletV2ErrorMessage">
-          <div class="col-sm-10 col-md-10 col-lg-6 col-xl-5 col-xxl-4 d-flex">
-            <label class="error_input" style="position: fixed">
-              {{ walletV2ErrorMessage }}
-            </label>
-          </div>
-        </div>
-        <div class="row pt-1" *ngIf="transactionPasswordSuccess.length > 0">
+        <!--
+          <div class="row pt-1" *ngIf="transactionPasswordSuccess.length > 0">
           <div class="col-sm-10 col-md-10 col-lg-6 col-xl-5 col-xxl-4 d-flex">
             <label class="success_input">
               Passwords don't match. Please verify!
             </label>
           </div>
         </div>
+        --> 
+        
         <!-- end error msg: wrong old password-->
       </form>
     </div>
-
-    <div class="mt-4" class="input-checkbox">
+    <div class="row mt-2 error-message" 
+            *ngIf="this.formUpdateTransactionPassword.errors?.mustMatch && this.formUpdateTransactionPassword.dirty"
+            >
+      
+          <label class="error_input">
+            Passwords don't match
+          </label>
+        
+      </div>
+    <div class="row mt-2 error-message" *ngIf="!!walletV2ErrorMessage">
+      
+      <label class="error_input">
+        {{ walletV2ErrorMessage }}
+      </label>
+    
+  </div>
+    <div class="mt-4" class="input-checkbox" style="margin-top: 2% !important">
       <input
         type="checkbox"
         name="checkbox"
@@ -989,14 +993,20 @@
 
       I understand that tech support cannot help me recover a lost password.
     </div>
+    
     <div class="row justify-content-center">
-      <div class="w-50 p-3 justify-align-center">
+      <div class="justify-align-center">
         <button
           type="submit"
           class="btnModalError btn_fill_profile btn-blue"
           (click)="createWalletV2()"
           [disabled]="
-            !isChecked || this.formUpdateTransactionPassword.errors?.mustMatch
+            !isChecked ||
+            this.formUpdateTransactionPassword.errors?.mustMatch ||
+            this.formUpdateTransactionPassword.get('password')?.errors
+              ?.required ||
+            this.formUpdateTransactionPassword.get('confirmPassword')?.errors
+              ?.required
           "
         >
           <span *ngIf="!showSpinnerTransactionPassword">

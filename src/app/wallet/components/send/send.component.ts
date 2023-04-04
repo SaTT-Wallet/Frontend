@@ -13,6 +13,7 @@ import {
 
 import { Big } from 'big.js';
 import {
+  GazConsumed,
   GazConsumedByCampaign,
   ListTokens,
   pattContact,
@@ -782,6 +783,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         };
       }),
       switchMap(({ bnb, Eth, matic, btt, trx }) => {
+        console.log(this.selectedCryptoSend )
         return forkJoin([
           this.walletFacade.getEtherGaz().pipe(
             take(1),
@@ -790,7 +792,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               let price;
               price = gaz.data.gasPrice;
               this.gazsend = (
-                ((price * GazConsumedByCampaign) / 1000000000) *
+                ((price *(this.selectedCryptoSend !== 'ETH' ?65000:GazConsumed )) / 1000000000) *
                 Eth
               ).toFixed(2);
               this.eRC20Gaz = this.gazsend;
@@ -1198,6 +1200,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   showNextBloc() {
+    console.log(this.selectedCryptoSend)
     this.showAmountBloc = false;
     this.showPwdBloc = true;
     this.showSuccessBloc = false;

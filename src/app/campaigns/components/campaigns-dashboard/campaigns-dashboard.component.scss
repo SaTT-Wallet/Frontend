@@ -7,7 +7,7 @@
   // }
 }
 .bg-imag-cover {
-  background-image: url('/assets/Images/bgAddPool.png');
+  background-image: url('/assets/Images/bgAddPool.svg');
   background-size: cover;
   background-position: center;
   justify-content: center;
@@ -43,7 +43,7 @@
   display: flex;
   align-items: center;
   letter-spacing: 0.03em;
-  padding-right: 58%;
+  padding-right: 66%;
   padding-left: 3%;
   color: #ffffff;
   margin-bottom: 1%;
@@ -113,17 +113,17 @@
 @media (max-width: 500px) {
   .bg-imag-cover {
     background-image: url('/assets/Images/bgAddPool320.png');
-    height: 100%;
-    text-align: center;
+    height: 468px;
+    margin-top: -8vh;
   }
   .bloc-cover {
     margin-top: 43vh;
-    padding-bottom: 1vh;
+    margin-left: 20%;
   }
   .title-cover {
     left: 5%;
     font-weight: 700;
-    font-size: 25px;
+    font-size: 28px;
     line-height: 120%;
     align-items: center;
   }

@@ -109,6 +109,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   myModal: any;
   buttonClick: Boolean = false;
   show = false;
+  isV1: Boolean =  localStorage.getItem('wallet_version') === 'v1';
   lineChartDataMonth: ChartDataSets[] = [
     {
       data: [
@@ -371,7 +372,7 @@ export class WalletComponent implements OnInit, OnDestroy {
       borderWidth: 0,
       // backgroundColor: 'rgba(255, 255, 255, 0.3)',
       // backgroundColor: ' rgba(0, 0, 0, 0.1)',
-      backgroundColor: '#4048FF',
+      backgroundColor:  '#4048FF',
       // borderColor: 'rgba(255, 255, 255, 0.3)',
       // pointBackgroundColor: "#fff",
       pointBorderColor: '#0062ff',
@@ -440,7 +441,6 @@ export class WalletComponent implements OnInit, OnDestroy {
   walletV2ErrorMessage = '';
   existV1: any;
   existV2: any;
-
   selectTab(tabId: number) {
     this.staticTabs.tabs[tabId].active = true;
   }
@@ -596,7 +596,7 @@ export class WalletComponent implements OnInit, OnDestroy {
       Math?.max(...weeklyBalances) * 2;
   }
 
-  fillChart(data: any) {
+  fillChart(data: any) {    
     let x: any = this.lineChartDataDaily[0]?.data;
     let y: any = this.lineChartDataDaily[0]?.data;
     let r: any = this.lineChartLabelsDaily;
@@ -735,7 +735,9 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
+if(this.isV1){
+  this.lineChartColors[0].backgroundColor = '#696DE4'
+}else{this.lineChartColors[0].backgroundColor = '#4048FF'}
 this.formUpdateTransactionPassword.controls['confirmPassword'].disable();
 
 this.formUpdateTransactionPassword
@@ -856,7 +858,7 @@ this.formUpdateTransactionPassword
     }
   }
   migrateButton(): void {
-    if (this.loadingPopUp) {
+    if (this.show && this.hasWalletV2 && this.migrate === "close") {
       this.migrate = 'open';
       this.modalService.open(this.migration, {
         backdrop: 'static',
@@ -870,7 +872,6 @@ this.formUpdateTransactionPassword
   }
   //Create WALLET V2
   createWalletV2() {
- 
     this.walletV2ErrorMessage = '';
     this.buttonClick = true;
     this.walletFacade
@@ -878,7 +879,6 @@ this.formUpdateTransactionPassword
       .pipe(
         catchError((err) => {
           this.buttonClick = false;
-          console.log("errrrr", err.error.error);
           if (err.error.error === 'same transaction pass ') {
             this.walletV2ErrorMessage = 'Do not use the same old transaction password';
             this.wrongpassword = true
@@ -886,8 +886,8 @@ this.formUpdateTransactionPassword
               this.WalletPasswordTransaction = '';
               this.walletV2ErrorMessage = '';
               this.wrongpassword = false
-
-            }, 2000);
+            
+            }, 3000);
           } else if (err.error.error === 'same password') {
             this.walletV2ErrorMessage = 'Do not use the login password';
             this.wrongpassword = true
@@ -895,8 +895,8 @@ this.formUpdateTransactionPassword
               this.WalletPasswordTransaction = '';
               this.walletV2ErrorMessage = '';
               this.wrongpassword = false
-
-            }, 2000);
+            
+            }, 3000);
           }
           else if (err.error.error === 'Wallet already exist') {
             this.walletV2ErrorMessage = 'Wallet already exist';
@@ -905,7 +905,22 @@ this.formUpdateTransactionPassword
               this.closeModal(this.createWalletV2Modal);
 
             }, 2000);
-          } else {
+          } 
+
+          /*else if (err.error.error === 'Key derivation failed - possibly wrong password'){
+            this.wrongpassword = true;
+            this.walletV2ErrorMessage ='Wrong password, please try again';
+            setTimeout(
+              () => (
+                (this.walletV2ErrorMessage = ''),
+                (this.WalletPasswordTransaction = ''),
+                ( this.wrongpassword = false)
+              ),
+              3000
+            );
+            
+          }*/
+          else {
             this.walletV2ErrorMessage =
               'Something went wrong please try again!';
           }
@@ -935,7 +950,7 @@ this.formUpdateTransactionPassword
             () => (
               (this.walletV2ErrorMessage = ''),
               (this.WalletPasswordTransaction = ''),
-              (this.wrongpassword = false)
+              ( this.wrongpassword = false)
             ),
             3000
           );
@@ -945,17 +960,11 @@ this.formUpdateTransactionPassword
             response?.data?.btcAddress &&
             response?.data?.tronAddress
           ) {
-            // this.ngOnInit();
             this.closeModal(this.setPwdTransactionModal);
-            this.modalService.open(this.migration, {
-              backdrop: 'static',
-              keyboard: false
-            })
-            // localStorage.setItem('oldPasss', this.walletPassword)
-            // this.modalService.open(this.migration, {
-            //   backdrop: 'static',
-            //   keyboard: false
-            // });
+             this.modalService.open(this.migration, {
+                backdrop: 'static',
+                keyboard: false
+              })
           } else {
             //wrong
             // this.closeModal(this.createWalletV2Modal)
@@ -964,7 +973,10 @@ this.formUpdateTransactionPassword
       });
   }
 
-
+imageFun() {
+ return  !this.wrongpassword && '../../../assets/Images/Kep-password.svg' || '../../../assets/Images/Kep-passwordFalse.svg';
+   
+}
 
   verifysign() {
     this.walletV2ErrorMessage = '';
@@ -975,8 +987,16 @@ this.formUpdateTransactionPassword
         catchError((err) => {
           this.buttonClick = false;
 
-          this.walletV2ErrorMessage =
-            'Something went wrong please try again!';
+            this.walletV2ErrorMessage =
+            'Wrong password, please try again';
+            this.wrongpassword = true;
+            setTimeout(
+              () => (
+                (this.walletV2ErrorMessage = ''),
+                ( this.wrongpassword = false)
+              ),
+              3000
+            );
           return of(null);
         })
       )
@@ -1074,6 +1094,8 @@ this.formUpdateTransactionPassword
               this.tokenStorageService.saveIdWallet(data.data.address);
               this.tokenStorageService.saveTronWallet(data.data.tronAddress);
               this.tokenStorageService.saveWalletBtc(data.data.btcAddress);
+              this.isV1 = true;
+              this.lineChartColors[0].backgroundColor = '#696DE4'
             } else {
               this.versionText = 'Old Wallet';
               this.height = '250px';
@@ -1082,8 +1104,12 @@ this.formUpdateTransactionPassword
               this.tokenStorageService.saveIdWallet(data.data.addressV2);
               this.tokenStorageService.saveTronWallet(data.data.tronAddressV2);
               this.tokenStorageService.saveWalletBtc(data.data.btcAddressV2);
+              this.isV1 = false
+              this.lineChartColors[0].backgroundColor = '#4048FF'
+              
             }
-
+          
+        
             this.walletStoreService.getCryptoList();
             this.walletStoreService.getTotalBalance();
           });
@@ -1128,6 +1154,8 @@ this.formUpdateTransactionPassword
             ? true
             : false;
 
+            
+    
         /*if (this.show && this.hasWalletV2 && this.migrate === 'open') {
           
           this.openModal(this.migration);
@@ -1348,7 +1376,7 @@ this.formUpdateTransactionPassword
             //  let getFillMyProfil = this.tokenStorageService.getFillMyProfil();
             let showAgain = this.tokenStorageService.getShowPopUp();
 
-            if (
+            /*if (
               this.percentProfil < 60 &&
               showAgain === 'true' &&
               this.user.onBoarding === true
@@ -1363,7 +1391,7 @@ this.formUpdateTransactionPassword
                 }
                 this.tokenStorageService.setFillMyProfil('false');
               }, 3000);
-            }
+            }*/
           }
           return this.profileSettingsFacade.profilePic$;
         })

@@ -74,6 +74,12 @@ input:-webkit-autofill:active {
     touch-action: none;
   }
 
+  .welcome-body2 {
+    overflow-y: auto;
+    overflow-x: hidden;
+    
+  }
+
   /* responsive text */
   .walletV2WrongMessage {
     text-align: left;
@@ -217,7 +223,7 @@ input:-webkit-autofill:active {
 #title {
   font-size: 22px !important;
   font-family: 'Poppins';
-  color: #f52079;
+  color: #00CC9E;
   padding-top: 0.5vh;
   padding-bottom: 1vh;
 }
@@ -225,7 +231,6 @@ input:-webkit-autofill:active {
 #welcome-paragraph {
   padding: 0;
   max-width: 90%;
-  padding-bottom: 3vh;
 }
 
 #paragraph {
@@ -364,6 +369,14 @@ input:-webkit-autofill:active {
 .input-checkbox{
   margin-top: 10%;
 }
+input[type=checkbox]:checked {
+  background-color: #a77e2d !important;
+  color: #ffffff !important;
+}
+/* .input-checkbox input:checked ~ .checkmark {
+  background-color:  #00CC9E;
+} */
+
 #legend {
   z-index: 1;
   position: absolute;
@@ -2016,6 +2029,9 @@ p {
 }
 
 @media (max-width: 500px) {
+  .input-div {
+    width: 81%;
+  }
   .div_red_text {
     font-weight: 600 !important;
     font-size: 12px !important;
@@ -2179,7 +2195,7 @@ p {
 }
 .btn-blue {
   margin-top: 10%;
-  margin-bottom: 2vh;
+  /* margin-bottom: 2vh; */
   background: #4048ff !important;
   line-height: 27px;
   letter-spacing: 0.005em;
@@ -2200,7 +2216,7 @@ p {
   /* margin-right: 1.5rem; */
 }
 .btn-blue:disabled {
-  margin-bottom: 2vh;
+  /* margin-bottom: 2vh; */
   background: #f6f6ff !important;
   line-height: 27px;
   letter-spacing: 0.005em;

@@ -344,6 +344,12 @@ button:focus {
   color: #00cc9e;
 }
 
+.code-error {
+  color: #f52079;
+}
+.code-success {
+  color: #00cc9e;
+}
 .gray_block {
   background: #f6f6ff;
   border-radius: 26px;
@@ -870,6 +876,8 @@ a {
   border: 3px solid rgba(64, 72, 255, 0.3);
 }
 
+
+
 @media (max-width: 425px) {
   ::ng-deep .codeinput input {
     margin-right: 0 !important;
@@ -913,6 +921,9 @@ a {
 @media (max-width: 767.98px) {
   .btn-blue-kyc {
     margin-top: 0 !important;
+  }
+  .validity-code {
+    font-size: small;
   }
   .kyctext {
     margin-bottom: 1em !important;

@@ -118,6 +118,8 @@ export class SecurityComponent implements OnInit, OnDestroy {
   showSpinnerTRONV2 = false;
   userIsNew: boolean = false;
   walletV2Exist: boolean = false;
+  keystoreData:any;
+
 
   constructor(
     private accountFacadeService: AccountFacadeService,
@@ -1066,6 +1068,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
 
   getCodeExport(network: string, version: string, content: any) {
+    
     if(version === "1") {
       this.showSpinnerBTC = network === "btc";
       this.showSpinnerETH = network === "eth";
@@ -1075,7 +1078,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
       this.showSpinnerETHV2 = network === "eth";
       this.showSpinnerTRONV2 = network === "tron";
     }
-    
+    this.keystoreData = '';
     this.network = "";
     this.version = "";
     this.errorMessagecode = "";
@@ -1119,13 +1122,48 @@ export class SecurityComponent implements OnInit, OnDestroy {
   }
 
   onCodeCompleted(event:any) {
+    this.keystoreData = '';
     this.codeExportKeyStore = Number(event);
+    this.checkCodeVerification();
     
   }
 
-
-  exportKeyStore() {
+  checkCodeVerification() {
     this.walletFacade.exportKeyStore(this.network, this.version, this.codeExportKeyStore)
+    .pipe(
+      catchError((HttpError: HttpErrorResponse) => {
+        return of(HttpError.error);
+      }),
+    )
+    .subscribe((res:any) => {
+      if(res.message === "code wrong") {
+        this.errorMessagecode = "code incorrect"
+      } else if(res.message === "code expired") {
+        this.errorMessagecode = "code expired"
+      } else {
+        if(res.data === true) {
+          this.errorMessagecode = "code correct"
+          this.keystoreData = res.message;
+        }
+      }
+    })
+  
+  }  
+  exportKeyStore() {
+    let fileName = '';
+          const file = new Blob([JSON.stringify(this.keystoreData)], {
+            type: 'application/octet-stream'
+          });
+
+          const href = URL.createObjectURL(file);
+          const a = this.document.createElement('A');
+          a.setAttribute('href', href);
+          a.setAttribute('download', this.network === "btc" ? "wallet.bip38" : 'keystore.json');
+          this.document.body.appendChild(a);
+          a.click();
+          this.modalService.dismissAll()
+
+    /*this.walletFacade.exportKeyStore(this.network, this.version, this.codeExportKeyStore)
     .pipe(
       catchError((HttpError: HttpErrorResponse) => {
         return of(HttpError.error);
@@ -1153,7 +1191,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
           this.modalService.dismissAll()
         }
       }
-    })
+    })*/
   }
 
 
