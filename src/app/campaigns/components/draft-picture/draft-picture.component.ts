@@ -17,7 +17,7 @@ import {
   ViewChild,
   Renderer2
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DraftCampaignService } from '@app/campaigns/services/draft-campaign.service';
 import { CampaignHttpApiService } from '@app/core/services/campaign/campaign.service';
@@ -53,8 +53,8 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
   img = new Image();
   // ViewChild is used to access the input element.
   @ViewChild('coverInput', { static: false }) inputCover!: ElementRef;
-  formUploadPic: FormGroup;
-  form: FormGroup;
+  formUploadPic: UntypedFormGroup;
+  form: UntypedFormGroup;
   logoName: string = '';
   imageLogoChangedEvent: any;
   srcFile: any;
@@ -131,15 +131,15 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
     rendererFactory: RendererFactory2,
     @Inject(PLATFORM_ID) private platformId: string
   ) {
-    this.form = new FormGroup({
-      cover: new FormControl('', Validators.required),
-      coverSrc: new FormControl('', Validators.required),
-      logo: new FormControl('', Validators.required),
-      coverMobile: new FormControl('', Validators.required),
-      coverSrcMobile: new FormControl('', Validators.required)
+    this.form = new UntypedFormGroup({
+      cover: new UntypedFormControl('', Validators.required),
+      coverSrc: new UntypedFormControl('', Validators.required),
+      logo: new UntypedFormControl('', Validators.required),
+      coverMobile: new UntypedFormControl('', Validators.required),
+      coverSrcMobile: new UntypedFormControl('', Validators.required)
     });
-    this.formUploadPic = new FormGroup({
-      file: new FormControl(null, Validators.required)
+    this.formUploadPic = new UntypedFormGroup({
+      file: new UntypedFormControl(null, Validators.required)
     });
   }
   /*

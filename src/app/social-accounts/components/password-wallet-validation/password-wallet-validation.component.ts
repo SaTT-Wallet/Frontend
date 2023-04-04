@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 
@@ -12,16 +12,16 @@ export class PasswordWalletValidationComponent implements OnInit {
   // agreeBox1!: boolean;
   // agreeBox2!: boolean;
   // agreeBox3!: boolean;
-  confirmForm: FormGroup;
+  confirmForm: UntypedFormGroup;
 
   constructor(
     private tokenStorageService: TokenStorageService,
     private router: Router
   ) {
-    this.confirmForm = new FormGroup({
-      agreeBox1: new FormControl('', [Validators.required]),
-      agreeBox2: new FormControl('', [Validators.required]),
-      agreeBox3: new FormControl('', [Validators.required])
+    this.confirmForm = new UntypedFormGroup({
+      agreeBox1: new UntypedFormControl('', [Validators.required]),
+      agreeBox2: new UntypedFormControl('', [Validators.required]),
+      agreeBox3: new UntypedFormControl('', [Validators.required])
     });
   }
 

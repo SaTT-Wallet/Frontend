@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { NotificationService } from '@core/services/notification/notification.service';
 import { ContactService } from '@core/services/contact/contact.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 //import * as moment from 'moment';
 import _ from 'lodash';
 import { walletUrl, ListTokens, tronScan } from '@config/atn.config';
@@ -36,7 +36,7 @@ export class NotificationComponent implements OnInit {
   searchTerm: any;
   term: any;
   public currentLang: string | undefined;
-  form: FormGroup;
+  form: UntypedFormGroup;
   searchvalue: string = '';
   arrayTypeNotification: Array<{ type: string; type_notif: string }>;
   arrayContact: any;
@@ -83,11 +83,11 @@ export class NotificationComponent implements OnInit {
       { type: 'contact_satt_event', type_notif: 'contact_' }
     ];
 
-    this.form = new FormGroup({
-      type_notification: new FormControl(null, Validators.required),
-      contact: new FormControl(null, Validators.required),
-      date_debut: new FormControl(null, Validators.required),
-      date_fin: new FormControl(null, Validators.required)
+    this.form = new UntypedFormGroup({
+      type_notification: new UntypedFormControl(null, Validators.required),
+      contact: new UntypedFormControl(null, Validators.required),
+      date_debut: new UntypedFormControl(null, Validators.required),
+      date_fin: new UntypedFormControl(null, Validators.required)
     });
 
     translate.onLangChange
@@ -420,10 +420,10 @@ export class NotificationComponent implements OnInit {
           console.log(item._label['decimal'])
           let decimal = item._label['decimal']
             ? new Big('10').pow(item._label['decimal'])
-            : ListTokens[item._label.currency].decimals;
+            : ListTokens[item._label.currency]?.decimals;
 
           item._params = {
-            nbr: Big(item._label['amount']).div(decimal),
+            nbr: Big(item._label['amount']).div(decimal ?? 18),
             currency:
               item._label['currency'] === 'SATTBEP20' ||
               item._label['currency'] === 'SATTPOLYGON' ||

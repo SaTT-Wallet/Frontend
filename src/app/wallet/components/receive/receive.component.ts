@@ -13,7 +13,7 @@ import {
 import { pattEmail, ListTokens } from '@config/atn.config';
 import { SidebarService } from '@core/services/sidebar/sidebar.service';
 import { TranslateService } from '@ngx-translate/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { ContactMessageService } from '@core/services/contactmessage/contact-message.service';
@@ -38,7 +38,7 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
   dataList: any = [];
   totalAmount: any;
   amountdefault: string = 'SATT';
-  receiveform: FormGroup;
+  receiveform: UntypedFormGroup;
   selectedCrypto: any = 'SATT';
   currentUser: any;
   emailNotCorrect!: boolean;
@@ -80,20 +80,20 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
     @Inject(PLATFORM_ID) private platformId: string,
     private _location: Location
   ) {
-    this.receiveform = new FormGroup({
-      contact: new FormControl(null, {
+    this.receiveform = new UntypedFormGroup({
+      contact: new UntypedFormControl(null, {
         validators: [Validators.required, Validators.pattern(pattEmail)]
       }),
-      Amount: new FormControl(
+      Amount: new UntypedFormControl(
         null,
         Validators.compose([Validators.required, Validators.min(0)])
       ),
-      AmountUsd: new FormControl(
+      AmountUsd: new UntypedFormControl(
         null,
         Validators.compose([Validators.required, Validators.min(0)])
       ),
-      currency: new FormControl(null, Validators.required),
-      message: new FormControl(null)
+      currency: new UntypedFormControl(null, Validators.required),
+      message: new UntypedFormControl(null)
     });
   }
 

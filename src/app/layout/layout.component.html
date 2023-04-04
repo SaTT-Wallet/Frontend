@@ -46,7 +46,9 @@
     </div>
   </div>
 </ng-container>
+<!-- send phishing visibility to header -->
 <app-header
+  [phishingClosing]="phishingVisibility"
   [ngClass]="{
     fromWallet: router.url.includes('wallet')
   }"

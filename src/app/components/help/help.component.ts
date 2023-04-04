@@ -6,7 +6,7 @@ import {
   OnInit,
   PLATFORM_ID
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -22,7 +22,7 @@ declare var $: any;
   styleUrls: ['./help.component.scss']
 })
 export class HelpComponent implements OnInit {
-  form: FormGroup;
+  form: UntypedFormGroup;
   link: boolean = false;
   formSubmitAttempt: boolean = false;
   public show: boolean = false;
@@ -56,17 +56,17 @@ export class HelpComponent implements OnInit {
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string
   ) {
-    this.form = new FormGroup({
-      NameFAQ: new FormControl(null, Validators.required),
-      emailFAQ: new FormControl(null, [
+    this.form = new UntypedFormGroup({
+      NameFAQ: new UntypedFormControl(null, Validators.required),
+      emailFAQ: new UntypedFormControl(null, [
         Validators.required,
         Validators.pattern(pattEmail)
       ]),
-      ObjetFAQ: new FormControl(
+      ObjetFAQ: new UntypedFormControl(
         null,
         Validators.compose([Validators.required, Validators.min(0)])
       ),
-      MessageFAQ: new FormControl(null, Validators.required)
+      MessageFAQ: new UntypedFormControl(null, Validators.required)
     });
   }
 

@@ -6,7 +6,7 @@ import {
   OnInit,
   PLATFORM_ID
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
@@ -76,7 +76,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   liClicked!: boolean;
   amount: number = 50;
   currency: any;
-  convertform: FormGroup;
+  convertform: UntypedFormGroup;
   // eslint-disable-next-line @typescript-eslint/naming-convention
   cryptoMoneyList: any[] = dataList;
   selectedLevel: any;
@@ -152,13 +152,13 @@ export class BuyTokenComponent implements OnInit, OnChanges {
     private _location: Location,
     private activatedRoute: ActivatedRoute
   ) {
-    this.convertform = new FormGroup({
-      Amount: new FormControl(
+    this.convertform = new UntypedFormGroup({
+      Amount: new UntypedFormControl(
         0,
         Validators.compose([Validators.required, Validators.min(0)])
       ),
-      currency: new FormControl(this.selectedCurrencyValue),
-      walletId: new FormControl(this.walletId, {
+      currency: new UntypedFormControl(this.selectedCurrencyValue),
+      walletId: new UntypedFormControl(this.walletId, {
         validators: [Validators.required, Validators.pattern(pattContact)]
       })
     });

@@ -17,7 +17,7 @@ import { ChartDataSets, ChartType } from 'chart.js';
 import { Big } from 'big.js';
 import { WalletStoreService } from '@core/services/wallet-store.service';
 
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import {
   pattContact,
   pattEmail,
@@ -85,9 +85,9 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   @ViewChild('setPwdTransactionModal', { static: false })
   private setPwdTransactionModal!: TemplateRef<any>;
- 
-  
-  
+
+
+
   @ViewChild('tronWalletCreatedSuccessModal', { static: false })
   private tronWalletCreatedSuccessModal!: TemplateRef<any>;
 
@@ -99,11 +99,11 @@ export class WalletComponent implements OnInit, OnDestroy {
   subscription: any;
   tronWalletPassword = '';
   walletPassword = '';
-  WalletPasswordTransaction='';
+  WalletPasswordTransaction = '';
   errorMsg = '';
   passwordWrong: string = '';
-   transactionPasswordWrong: string = '';
-   transactionPasswordSuccess: string='';
+  transactionPasswordWrong: string = '';
+  transactionPasswordSuccess: string = '';
   tronWalletAddress = '';
   onDestroy$ = new Subject();
   myModal: any;
@@ -445,9 +445,10 @@ export class WalletComponent implements OnInit, OnDestroy {
     this.staticTabs.tabs[tabId].active = true;
   }
   @ViewChild('checkUserLegalKYCModal') checkUserLegalKYCModal!: ElementRef;
-  form: FormGroup;
-  sendform: FormGroup;
-  formUpdateTransactionPassword: FormGroup;
+  form: UntypedFormGroup;
+  sendform: UntypedFormGroup;
+  formUpdateTransactionPassword: UntypedFormGroup;
+
   public hasAnimation: string = '';
   showSpinner!: boolean;
   dropDownSection: any = [];
@@ -528,41 +529,41 @@ export class WalletComponent implements OnInit, OnDestroy {
     @Inject(DOCUMENT) private document: any
   ) {
     matcher: MediaQueryList;
-    this.form = new FormGroup({
-      contact: new FormControl(null, {
+    this.form = new UntypedFormGroup({
+      contact: new UntypedFormControl(null, {
         validators: [Validators.required, Validators.pattern(pattEmail)]
       }),
-      Amount: new FormControl(
+      Amount: new UntypedFormControl(
         null,
         Validators.compose([Validators.required, Validators.min(0)])
       ),
-      currency: new FormControl(null, Validators.required),
-      message: new FormControl(null)
+      currency: new UntypedFormControl(null, Validators.required),
+      message: new UntypedFormControl(null)
     });
-    this.formUpdateTransactionPassword = new FormGroup(
+    this.formUpdateTransactionPassword = new UntypedFormGroup(
       {
-        old_password: new FormControl(null, Validators.required),
-        password: new FormControl(null, {
+        old_password: new UntypedFormControl(null, Validators.required),
+        password: new UntypedFormControl(null, {
           validators: [
             Validators.required,
             Validators.minLength(8),
             Validators.pattern(pattPassword)
           ]
         }),
-        confirmPassword: new FormControl(null, [Validators.required])
+        confirmPassword: new UntypedFormControl(null, [Validators.required])
       },
       { validators: MatchPasswordValidator() }
     );
-    this.sendform = new FormGroup({
-      contact: new FormControl(null, {
+    this.sendform = new UntypedFormGroup({
+      contact: new UntypedFormControl(null, {
         validators: [Validators.required, Validators.pattern(pattContact)]
       }),
-      Amount: new FormControl(
+      Amount: new UntypedFormControl(
         null,
         Validators.compose([Validators.required, Validators.min(0)])
       ),
-      currency: new FormControl(null, Validators.required),
-      password: new FormControl(null, Validators.required)
+      currency: new UntypedFormControl(null, Validators.required),
+      password: new UntypedFormControl(null, Validators.required)
     });
   }
 
@@ -830,9 +831,9 @@ this.formUpdateTransactionPassword
     //this.verifyOnBoarding();
     this.verifyOnBoarding();
     setTimeout(() => {
-      if (this.hasWalletV2 
+      if (this.hasWalletV2
         // && this.migrate === 'close'
-        ) this.getDetails();
+      ) this.getDetails();
     }, 5500);
 
     if (!this.loadingPopUp) {
@@ -865,7 +866,7 @@ this.formUpdateTransactionPassword
       });
     }
   }
-  closeModaleMaintenace(){
+  closeModaleMaintenace() {
     this.closeModal(this.modalMaintenance)
 
   }
@@ -883,7 +884,7 @@ this.formUpdateTransactionPassword
             this.wrongpassword = true
             setTimeout(() => {
               this.WalletPasswordTransaction = '';
-              this.walletV2ErrorMessage='';
+              this.walletV2ErrorMessage = '';
               this.wrongpassword = false
             
             }, 3000);
@@ -892,17 +893,17 @@ this.formUpdateTransactionPassword
             this.wrongpassword = true
             setTimeout(() => {
               this.WalletPasswordTransaction = '';
-              this.walletV2ErrorMessage='';
+              this.walletV2ErrorMessage = '';
               this.wrongpassword = false
             
             }, 3000);
           }
-        else  if (err.error.error === 'Wallet already exist') {
+          else if (err.error.error === 'Wallet already exist') {
             this.walletV2ErrorMessage = 'Wallet already exist';
 
             setTimeout(() => {
               this.closeModal(this.createWalletV2Modal);
-            
+
             }, 2000);
           } 
 
@@ -942,7 +943,7 @@ this.formUpdateTransactionPassword
           this.wrongpassword = true;
           this.walletV2ErrorMessage =
             response?.data?.error ===
-            'Key derivation failed - possibly wrong password'
+              'Key derivation failed - possibly wrong password'
               ? 'Wrong password, please try again'
               : response?.data?.error;
           setTimeout(
@@ -1113,7 +1114,7 @@ imageFun() {
             this.walletStoreService.getTotalBalance();
           });
       }
-    } catch (error) {}
+    } catch (error) { }
   }
 
   public makeAnimation(key: string): void {
@@ -1149,7 +1150,7 @@ imageFun() {
         this.totalAmount = data;
         this.show =
           Number(this.totalAmount) > 0 &&
-          localStorage.getItem('wallet_version') === 'v1'
+            localStorage.getItem('wallet_version') === 'v1'
             ? true
             : false;
 

@@ -7,7 +7,7 @@ import {
   Renderer2
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { User } from '@app/models/User';
 import { Clipboard } from '@angular/cdk/clipboard';
@@ -63,12 +63,12 @@ export class SecurityComponent implements OnInit, OnDestroy {
   showSpinnerTransactionPassword: boolean = false;
   eExportType = ExportType;
   exportType!: string;
-  formL: FormGroup;
-  form: FormGroup;
-  formAuth: FormGroup;
-  deleteForm: FormGroup;
-  formQrCode: FormGroup;
-  formCode: FormGroup;
+  formL: UntypedFormGroup;
+  form: UntypedFormGroup;
+  formAuth: UntypedFormGroup;
+  deleteForm: UntypedFormGroup;
+  formQrCode: UntypedFormGroup;
+  formCode: UntypedFormGroup;
   qrCode: any;
   desactivate: boolean = false;
   errorMsg = '';
@@ -77,15 +77,15 @@ export class SecurityComponent implements OnInit, OnDestroy {
   errorMsgTronV2 = "";
   domicileValid!: boolean;
   identityValid!: boolean;
-  formExportData: FormGroup;
-  formExportDataBTC: FormGroup;
-  formExportDataBTCV2: FormGroup;
+  formExportData: UntypedFormGroup;
+  formExportDataBTC: UntypedFormGroup;
+  formExportDataBTCV2: UntypedFormGroup;
   agreeBox!: boolean;
   formExportDataSubmitted: boolean = false;
   formExportDataBTCSubmitted: boolean = false;
   formExportDataBTCSubmittedV2: boolean = false;
-  formUpdatePassword: FormGroup;
-  
+  formUpdatePassword: UntypedFormGroup;
+  formUpdateTransactionPassword: UntypedFormGroup | undefined;
   password: any;
   passwordWrong: string = '';
   transactionPasswordWrong: string = '';
@@ -152,59 +152,59 @@ export class SecurityComponent implements OnInit, OnDestroy {
       { name: 'other-reason' }
     ];
 
-    this.formUpdatePassword = new FormGroup(
+    this.formUpdatePassword = new UntypedFormGroup(
       {
-        old_password: new FormControl(null, Validators.required),
-        password: new FormControl(null, {
+        old_password: new UntypedFormControl(null, Validators.required),
+        password: new UntypedFormControl(null, {
           validators: [
             Validators.required,
             Validators.minLength(8),
             Validators.pattern(pattPassword)
           ]
         }),
-        confirmPassword: new FormControl(null, [Validators.required])
+        confirmPassword: new UntypedFormControl(null, [Validators.required])
       },
       { validators: MatchPasswordValidator() }
     );
     
 
-    this.formExportData = new FormGroup({
-      password: new FormControl(null, Validators.required)
+    this.formExportData = new UntypedFormGroup({
+      password: new UntypedFormControl(null, Validators.required)
     });
-    this.formExportDataBTC = new FormGroup({
-      password: new FormControl(null, Validators.required)
+    this.formExportDataBTC = new UntypedFormGroup({
+      password: new UntypedFormControl(null, Validators.required)
     });
-    this.formExportDataBTCV2 = new FormGroup({
-      password: new FormControl(null, Validators.required)
+    this.formExportDataBTCV2 = new UntypedFormGroup({
+      password: new UntypedFormControl(null, Validators.required)
     })
 
-    this.form = new FormGroup({
-      name: new FormControl(null, Validators.required)
+    this.form = new UntypedFormGroup({
+      name: new UntypedFormControl(null, Validators.required)
     });
 
-    this.formAuth = new FormGroup({
-      secretKey: new FormControl(null, Validators.required),
-      code: new FormControl(null, Validators.required)
+    this.formAuth = new UntypedFormGroup({
+      secretKey: new UntypedFormControl(null, Validators.required),
+      code: new UntypedFormControl(null, Validators.required)
     });
-    this.formL = new FormGroup(
+    this.formL = new UntypedFormGroup(
       {
-        password: new FormControl(null, [Validators.required]),
-        confirmPassword: new FormControl(null, [Validators.required])
+        password: new UntypedFormControl(null, [Validators.required]),
+        confirmPassword: new UntypedFormControl(null, [Validators.required])
       },
       { validators: MatchPasswordValidator() }
     );
 
-    this.deleteForm = new FormGroup({
-      agreeBox: new FormControl(null, [Validators.required]),
-      reason: new FormControl(null, [Validators.required])
+    this.deleteForm = new UntypedFormGroup({
+      agreeBox: new UntypedFormControl(null, [Validators.required]),
+      reason: new UntypedFormControl(null, [Validators.required])
     });
-    this.formQrCode = new FormGroup({
-      qrCode: new FormControl(''),
-      is2FA: new FormControl('', [Validators.required])
+    this.formQrCode = new UntypedFormGroup({
+      qrCode: new UntypedFormControl(''),
+      is2FA: new UntypedFormControl('', [Validators.required])
     });
-    this.formCode = new FormGroup({
-      code: new FormControl(''),
-      valid: new FormControl(false)
+    this.formCode = new UntypedFormGroup({
+      code: new UntypedFormControl(''),
+      valid: new UntypedFormControl(false)
     });
   }
   selectedReason(name: any) {
@@ -273,8 +273,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
 
 
-     
-   
+      
 
 
     this.idSn = this.tokenStorageService.getTypeSN();
@@ -547,8 +546,6 @@ export class SecurityComponent implements OnInit, OnDestroy {
   }
 
 
- 
-
 
 
   updatePassword() {
@@ -671,10 +668,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
   confirmExportV2(password: any) {
     this.showSpinner = true;
-    //this.formExportData.reset()
-    //this.formExportData.updateValueAndValidity();
-
-    let exportObs = !this.walletV2Exist ? this.profileSettingsFacade.exportProfileData(password) : this.profileSettingsFacade.exportProfileDataV2(password);
+    let exportObs = localStorage.getItem("wallet_version") === "v1" && this.profileSettingsFacade.exportProfileData(password) || this.profileSettingsFacade.exportProfileDataV2(password);
     let fileName: string = '';
     if (this.exportType === this.eExportType.eth) {
       fileName = 'keystore.json';
@@ -700,7 +694,6 @@ export class SecurityComponent implements OnInit, OnDestroy {
               .get('password')
               ?.setErrors({ checkPassword: true });
           } else {
-            // if (res.message === 'success' && res.code === 200) {
           this.formExportDataSubmitted = false;
           const file = new Blob([JSON.stringify(res)], {
             type: 'application/octet-stream'

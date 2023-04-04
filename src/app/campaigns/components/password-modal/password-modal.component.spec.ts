@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -16,7 +16,7 @@ describe('PasswordModalComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ PasswordModalComponent,CapitalizePhrasePipe],
       imports: [ HttpClientTestingModule,RouterTestingModule,TranslateModule.forRoot()],
-      providers :[ { provide: ToastrService, useValue: ToastrService },FormBuilder]
+      providers :[ { provide: ToastrService, useValue: ToastrService },UntypedFormBuilder]
     })
     .compileComponents();
   });

@@ -5,27 +5,55 @@
     "baseUrl": "./src",
     "outDir": "./dist/out-tsc",
     "esModuleInterop": true,
-    "target": "es2017",
+    "target": "ES2022",
     "module": "es2020",
     "lib": [
       "es2018",
       "dom"
     ],
     "paths": {
-      "@app/*": ["app/*"],
-      "@config/*": ["app/config/*"],
-      "@environments/*": ["environments/*"],
-      "@helpers/*": ["app/helpers/*"],
-      "@services/*": ["app/services/*"],
-      "@wallet/*": ["app/wallet/*"],
-      "@shared/*": ["app/shared/*"],
-      "@core/*": ["app/core/*"],
-      "@auth/*": ["app/auth/*"],
-      "@faq/*": ["app/faq/*"],
-      "@campaigns/*": ["app/campaigns/*"],
-      "@social-accounts/*": ["app/social-accounts/*"],
-      "@user-settings/*": ["app/user-settings/*"],
-      "jszip": ["./node_modules/jszip/dist/jszip.min.js"]
+      "@app/*": [
+        "app/*"
+      ],
+      "@config/*": [
+        "app/config/*"
+      ],
+      "@environments/*": [
+        "environments/*"
+      ],
+      "@helpers/*": [
+        "app/helpers/*"
+      ],
+      "@services/*": [
+        "app/services/*"
+      ],
+      "@wallet/*": [
+        "app/wallet/*"
+      ],
+      "@shared/*": [
+        "app/shared/*"
+      ],
+      "@core/*": [
+        "app/core/*"
+      ],
+      "@auth/*": [
+        "app/auth/*"
+      ],
+      "@faq/*": [
+        "app/faq/*"
+      ],
+      "@campaigns/*": [
+        "app/campaigns/*"
+      ],
+      "@social-accounts/*": [
+        "app/social-accounts/*"
+      ],
+      "@user-settings/*": [
+        "app/user-settings/*"
+      ],
+      "jszip": [
+        "./node_modules/jszip/dist/jszip.min.js"
+      ]
     },
     "removeComments": true,
     "forceConsistentCasingInFileNames": true,
@@ -40,6 +68,7 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
+    "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

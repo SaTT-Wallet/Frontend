@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -32,7 +32,7 @@ export class PassPhraseComponent implements OnInit, OnDestroy {
   passPhraseOrdered: any;
   passPhraseOrderedLength = 0;
   passPhraseOrdered2: any;
-  confirmForm: FormGroup;
+  confirmForm: UntypedFormGroup;
   showConfirmForm!: boolean;
   showSpinner!: boolean;
   disabled = true;
@@ -50,8 +50,8 @@ export class PassPhraseComponent implements OnInit, OnDestroy {
     private router: Router,
     private profileSettingsFacade: ProfileSettingsFacadeService
   ) {
-    this.confirmForm = new FormGroup({
-      agreeBox1: new FormControl('', [Validators.required])
+    this.confirmForm = new UntypedFormGroup({
+      agreeBox1: new UntypedFormControl('', [Validators.required])
     });
   }
   ngOnDestroy(): void {
