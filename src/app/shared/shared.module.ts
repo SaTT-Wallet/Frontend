@@ -70,7 +70,7 @@ import { WheelMouseDirective } from './directives/wheelMouse.directive';
 import { BuyGasComponent } from './components/buy-gas/buy-gas.component';
 import { QRCodeComponent } from './components/qr-code/qr-code.component';
 import { RoiModalComponent } from '@app/src/app/campaigns/components/roi-modal/roi-modal.component';
-
+import { InputRoiModalComponent } from '../src/app/campaigns/components/input-roi-modal/input-roi-modal.component';
 
 @NgModule({
   declarations: [
@@ -106,7 +106,8 @@ import { RoiModalComponent } from '@app/src/app/campaigns/components/roi-modal/r
     MoonboyHelpComponent,
     WheelMouseDirective,
     BuyGasComponent,
-    QRCodeComponent
+    QRCodeComponent,
+    InputRoiModalComponent
   ],
   exports: [
     //directives and components

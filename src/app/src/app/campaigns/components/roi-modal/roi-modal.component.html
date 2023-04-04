@@ -1,18 +1,60 @@
-<div class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Modal Title </h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+<div class="roi-modal">
+  <div class="modal-header modal-custom">
+    <button
+      type="button"
+      class="btn-close pull-right close"
+      data-dismiss="modal"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="modal-body modal-custom justify-content-center content">
+    <div class="content">
+      <h2>ROI Calculator</h2>
+    </div>
+    <div class="description-modal">
+      ROI measures investment profitability by calculating initial <br />
+      investment percentage earned/lost.
+    </div>
+    <div>
+      <h3>Earnings</h3>
+    </div>
+    <div class="container">
+      <div class="row flex-sm-row flex-column">
+        <div class="col-sm">
+          <div>1 View = 20 satt</div>
+          <app-input-roi-modal></app-input-roi-modal>
         </div>
-        <div class="modal-body">
-          <p>Modal content goes here.</p>
+        <div class="col-sm">
+          <div>1 like = 20 satt</div>
+          <app-input-roi-modal></app-input-roi-modal>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <div class="col-sm">
+          <div>1 Shar = 20 satt</div>
+          <app-input-roi-modal></app-input-roi-modal>
+        </div>
+        <div class="col-sm" *ngIf="true">
+          <div>max reach = %</div>
+          <app-input-roi-modal></app-input-roi-modal>
         </div>
       </div>
     </div>
+
+    <div class="justify-content-center">
+      <h5 class="mt-5">ROI at current Rate</h5>
+    </div>
+    <div class="container">
+      <div class="current-rate col col-sm-8 align-items-center mb-1">
+        1,000.000.000.00
+      </div>
+      <div
+        class="current-rate col-xxl-4 col-xl-4 col-md-12 col-lg-4 col-sm-8 col-10 align-items-center mb-2"
+      >
+        $ 1,4025
+      </div>
+    </div>
+
+    <div class="more-details">
+      <a href="https://example.com">More details</a>
+    </div>
   </div>
+</div>
