@@ -9,164 +9,175 @@
 
 <!-- <div class="wallet container-fluid"> -->
 
-<ng-template #migration>
-  <app-migration
-    [className]="getScreenWidth > 740 ? 'migration' : 'migration-mobile'"
-    [migrate]="migrate"
-    (migrateEvent)="getMigrationStatus($event)"
-  ></app-migration>
-</ng-template>
-
-<div class="wallet">
-  <!--red bloc:desktop and tablette-->
-  <!-- <div class="mb-2 showDesktop" role="button">
-        <div class=" div_red" id="red-bloc" *ngIf="!this.sidebarService.toggleSidebar.value && hideRedBloc=='false'">
-            <img src="/assets/Images/Rectangle-rouge_mobile_png.png" class="div_red_pic thumbnail " (click)="goToCampaign()">
-            <span class="div_red_text pt-1 ms-3 d-none d-md-block d-lg-none d-xl-none" (click)="goToCampaign()"> {{'wallet.participate_full_text' | translate}} ></span>
-            <span class="div_red_text pt-1 ms-3 d-none d-md-none d-lg-block d-xl-block" (click)="goToCampaign()"> {{'wallet.participate_full_text' | translate}}</span>
-            <button type="button" class="div_red_btn d-none d-md-none d-lg-block d-xl-block" (click)="goToCampaign()">{{'Monetize.Apply_Campaign' |translate}}</button>
-            <img src="/assets/Images/close.svg" alt="" class="icon-close" (click)="closeRedBloc()" />
-        </div>
-    </div> -->
-  <div
-    *ngIf="hidePortfolio"
-    class="row mb-2 positon-mobile"
-    [style.height]="getHeight()"
-    id="chart"
-    style="position: absolute"
-  >
-    <div class="col-md-12 col-sm-12 col-lg-12 p-0 h-100">
-      <div class="blockk mb-4"   [ngStyle]="
-     isV1 ? { background: 'linear-gradient(180deg, #4048FF 0%, #C4C4C4 76.04%)'}
-        : { background: 'linear-gradient(180deg, #4048ff 0%, #00cc9e 310.62%)'}
-    " >
-        <!--portfolio estimation-->
-        <!-- <div class="d-flex justify-content-center">-->
-
-        <div class="currentbalance">
-          <h3 class="walletEstim d-flex justify-content-center">
-            {{ 'Wallet.Your_total_portfolio_is_estimated_at' | translate }}
-          </h3>
-          <div class="d-flex justify-content-center">
-            <div class="walletTotal d-block">
-              <div class="d-flex first_layer" id="totalAmount1">
-                $ {{ totalAmount | number: '1.0-2' || '' }}
-              </div>
-              <div
-                class="d-flex justify-content-center"
-                *ngIf="existV1 && existV2"
-              >
-                <p class="echnage" (click)="allWallet()" type="button">
-                  <span
-                    ><img
-                      src="../../assets/Images/custom_icons/bi_arrow-repeat.svg"
-                  /></span>
-                  Go to {{ versionText }}
-                </p>
-              </div>
-              <div
-                class="divbtn d-flex justify-content-center"
-                *ngIf="
-                  versionText === 'New Wallet' && existV1 && show && existV2
-                "
-              >
-                <button
-                  class="migratebtn"
-                  type="button"
-                  (click)="migrateButton()"
+  <ng-template #migration>
+    <app-migration
+      [className]="getScreenWidth > 740 ? 'migration' : 'migration-mobile'"
+      [migrate]="migrate"
+      (migrateEvent)="getMigrationStatus($event)"
+    ></app-migration>
+  </ng-template>
+  
+  <div class="wallet">
+    <!--red bloc:desktop and tablette-->
+    <!-- <div class="mb-2 showDesktop" role="button">
+          <div class=" div_red" id="red-bloc" *ngIf="!this.sidebarService.toggleSidebar.value && hideRedBloc=='false'">
+              <img src="/assets/Images/Rectangle-rouge_mobile_png.png" class="div_red_pic thumbnail " (click)="goToCampaign()">
+              <span class="div_red_text pt-1 ms-3 d-none d-md-block d-lg-none d-xl-none" (click)="goToCampaign()"> {{'wallet.participate_full_text' | translate}} ></span>
+              <span class="div_red_text pt-1 ms-3 d-none d-md-none d-lg-block d-xl-block" (click)="goToCampaign()"> {{'wallet.participate_full_text' | translate}}</span>
+              <button type="button" class="div_red_btn d-none d-md-none d-lg-block d-xl-block" (click)="goToCampaign()">{{'Monetize.Apply_Campaign' |translate}}</button>
+              <img src="/assets/Images/close.svg" alt="" class="icon-close" (click)="closeRedBloc()" />
+          </div>
+      </div> -->
+    <div
+      *ngIf="hidePortfolio"
+      class="row mb-2 positon-mobile"
+      [style.height]="getHeight()"
+      id="chart"
+      style="position: absolute"
+    >
+      <div class="col-md-12 col-sm-12 col-lg-12 p-0 h-100">
+        <div class="blockk mb-4"   [ngStyle]="
+       isV1 ? { background: 'linear-gradient(180deg, #4048FF 0%, #C4C4C4 76.04%)'}
+          : { background: 'linear-gradient(180deg, #4048ff 0%, #00cc9e 310.62%)'}
+      " >
+          <!--portfolio estimation-->
+          <!-- <div class="d-flex justify-content-center">-->
+  
+          <div class="currentbalance">
+            <h3 class="walletEstim d-flex justify-content-center">
+              {{ 'Wallet.Your_total_portfolio_is_estimated_at' | translate }}
+            </h3>
+            <div class="d-flex justify-content-center">
+              <div class="walletTotal d-block">
+                <div class="d-flex first_layer" id="totalAmount1">
+                  $ {{ totalAmount | number: '1.0-2' || '' }}
+                </div>
+                <div
+                  class="d-flex justify-content-center"
+                  *ngIf="existV1 && existV2"
                 >
-                  <span
-                    ><img
-                      src="../../assets/Images/custom_icons/clarity_error-standard-line.svg"
-                  /></span>
-                  Migrate my tokens
-                </button>
+                  <p class="echnage" (click)="allWallet()" type="button">
+                    <span
+                      ><img
+                        src="../../assets/Images/custom_icons/bi_arrow-repeat.svg"
+                    /></span>
+                    Go to {{ versionText }}
+                  </p>
+                </div>
+                <div
+                  class="divbtn d-flex justify-content-center"
+                  *ngIf="
+                    versionText === 'New Wallet' && existV1 && show && existV2
+                  "
+                >
+                  <button
+                    class="migratebtn"
+                    type="button"
+                    (click)="migrateButton()"
+                  >
+                    <span
+                      ><img
+                        src="../../assets/Images/custom_icons/clarity_error-standard-line.svg"
+                    /></span>
+                    Migrate my tokens
+                  </button>
+                </div>
+  
+                <!-- <div class="d-flex justify-content-center">
+  
+                              <h1 class="indicatorfont " [ngStyle]="{ color: arrowColor }"> {{arrowvar }} {{variationamount}} % </h1>
+                          </div> -->
               </div>
-
-              <!-- <div class="d-flex justify-content-center">
-
-                            <h1 class="indicatorfont " [ngStyle]="{ color: arrowColor }"> {{arrowvar }} {{variationamount}} % </h1>
-                        </div> -->
             </div>
           </div>
+          <!--</div>-->
+  
+          <div id="legend">
+            <button
+              class="show_button"
+              [ngClass]="{ show_button: showMonth, hide_button: !showMonth }"
+              (click)="togglemonth()"
+            >
+              {{ 'Mois' | translate }}
+            </button>
+            <button
+              class="hide_button"
+              [ngClass]="{ show_button: showSemaine, hide_button: !showSemaine }"
+              (click)="toggleWeek()"
+            >
+              {{ 'Semaine' | translate }}
+            </button>
+            <button
+              class="hide_button"
+              [ngClass]="{ show_button: showDaily, hide_button: !showDaily }"
+              (click)="toggleDay()"
+            >
+              {{ 'Jours' | translate }}
+            </button>
+          </div>
+          <canvas
+            class="canV canvdaily"
+            *ngIf="showDaily"
+            #myCanvas1
+            baseChart
+            height="182px"
+            width="1652vw"
+            [datasets]="lineChartDataDaily"
+            [options]="lineChartOptionsDaily"
+            [colors]="lineChartColors"
+            [legend]="lineChartLegend"
+            [chartType]="lineChartType"
+            [plugins]="lineChartPlugins"
+            [labels]="lineChartLabelsDaily"
+          >
+          </canvas>
+          <canvas
+            class="canV"
+            *ngIf="showMonth"
+            #myCanvas3
+            baseChart
+            height="182vh"
+            width="1652vw"
+            style="width: 700px !important"
+            [datasets]="lineChartDataMonth"
+            [options]="lineChartOptionsMonthly"
+            [colors]="lineChartColors"
+            [legend]="lineChartLegend"
+            [chartType]="lineChartType"
+            [plugins]="lineChartPlugins"
+          >
+          </canvas>
+          <canvas
+            class="canV"
+            *ngIf="showSemaine"
+            #myCanvas2
+            baseChart
+            height="182px"
+            width="1652px"
+            [datasets]="lineChartDataSemaine"
+            [options]="lineChartOptionsWeekly"
+            [colors]="lineChartColors"
+            [legend]="lineChartLegend"
+            [chartType]="lineChartType"
+            [plugins]="lineChartPlugins"
+          >
+          </canvas>
         </div>
-        <!--</div>-->
-
-        <div id="legend">
-          <button
-            class="show_button"
-            [ngClass]="{ show_button: showMonth, hide_button: !showMonth }"
-            (click)="togglemonth()"
-          >
-            {{ 'Mois' | translate }}
-          </button>
-          <button
-            class="hide_button"
-            [ngClass]="{ show_button: showSemaine, hide_button: !showSemaine }"
-            (click)="toggleWeek()"
-          >
-            {{ 'Semaine' | translate }}
-          </button>
-          <button
-            class="hide_button"
-            [ngClass]="{ show_button: showDaily, hide_button: !showDaily }"
-            (click)="toggleDay()"
-          >
-            {{ 'Jours' | translate }}
-          </button>
-        </div>
-        <canvas
-          class="canV canvdaily"
-          *ngIf="showDaily"
-          #myCanvas1
-          baseChart
-          height="182px"
-          width="1652vw"
-          [datasets]="lineChartDataDaily"
-          [options]="lineChartOptionsDaily"
-          [colors]="lineChartColors"
-          [legend]="lineChartLegend"
-          [chartType]="lineChartType"
-          [plugins]="lineChartPlugins"
-          [labels]="lineChartLabelsDaily"
+      </div>
+    </div>
+  
+    <div class="showDesktop">
+      <div class="scroll-page" id="page-2">
+        <app-crypto-list
+          (hidePortfolio)="togglePortfolio($event)"
+          (onMakeAnimation)="triggerAnimation($event)"
         >
-        </canvas>
-        <canvas
-          class="canV"
-          *ngIf="showMonth"
-          #myCanvas3
-          baseChart
-          height="182vh"
-          width="1652vw"
-          style="width: 700px !important"
-          [datasets]="lineChartDataMonth"
-          [options]="lineChartOptionsMonthly"
-          [colors]="lineChartColors"
-          [legend]="lineChartLegend"
-          [chartType]="lineChartType"
-          [plugins]="lineChartPlugins"
-        >
-        </canvas>
-        <canvas
-          class="canV"
-          *ngIf="showSemaine"
-          #myCanvas2
-          baseChart
-          height="182px"
-          width="1652px"
-          [datasets]="lineChartDataSemaine"
-          [options]="lineChartOptionsWeekly"
-          [colors]="lineChartColors"
-          [legend]="lineChartLegend"
-          [chartType]="lineChartType"
-          [plugins]="lineChartPlugins"
-        >
-        </canvas>
+        </app-crypto-list>
       </div>
     </div>
   </div>
-
-  <div class="showDesktop">
+  
+  <div class="showMobile">
     <div class="scroll-page" id="page-2">
       <app-crypto-list
         (hidePortfolio)="togglePortfolio($event)"
@@ -175,945 +186,775 @@
       </app-crypto-list>
     </div>
   </div>
-</div>
-
-<div class="showMobile">
-  <div class="scroll-page" id="page-2">
-    <app-crypto-list
-      (hidePortfolio)="togglePortfolio($event)"
-      (onMakeAnimation)="triggerAnimation($event)"
-    >
-    </app-crypto-list>
-  </div>
-</div>
-<ng-template #checkUserLegalKYCModal>
-  <div class="modal-header modal-custom">
-    <button
-      type="button"
-      class="btn-close"
-      data-bs-dismiss="modal"
-      (click)="this.modalService.dismissAll(checkUserLegalKYCModal)"
-    ></button>
-  </div>
-  <div class="modal-body modal-custom mb-3">
-    <h3>{{ 'Wallet.userLegal_notice_title' | translate }}</h3>
-    <p>{{ 'Wallet.userLegal_notice_msg' | translate }}</p>
-    <a
-      class="btn-link"
-      routerLink="/home/settings/Legal_KYC"
-      (click)="this.modalService.dismissAll()"
-      >{{ 'Wallet.userLegal_notice_btn' | translate }}</a
-    >
-  </div>
-</ng-template>
-
-<!--div spinner -->
-<div class="loader" *ngIf="showSpinner"></div>
-<!-- End div spinner -->
-
-<!-- Welcome modal -->
-<ng-template #welcomeModal>
-  <div class="modal-header modal-customm">
-    <button
-      type="button"
-      class="btn-close"
-      data-bs-dismiss="modal"
-      (click)="closeModal(welcomeModal)"
-    ></button>
-  </div>
-  <div class="modal-body welcome-body modal-customm">
-    <div class="row d-flex justify-content-center">
-      <circle-progress
-        class="prog"
-        [percent]="this.percentProfil"
-      ></circle-progress>
-      <img
-        [src]="user.userPicture"
-        (error)="onImgError($event)"
-        class="pic-profile"
-      />
-      <span class="cercle">{{ percentProfil }}%</span>
+  <ng-template #checkUserLegalKYCModal>
+    <div class="modal-header modal-custom">
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        (click)="this.modalService.dismissAll(checkUserLegalKYCModal)"
+      ></button>
     </div>
-    <h3 class="textpwd">{{ 'Welcome_title' | translate }}</h3>
-    <div class="d-flex justify-content-center welcome-paragraph">
-      <p>{{ 'welcome_parag' | translate }}</p>
-    </div>
-    <div class="d-flex flex-column justify-content-center align-items-center">
-      <div
-        class="d-flex align-items-center justify-content-center col-xl-6 col-lg-8 col-md-8 col-sm-8"
+    <div class="modal-body modal-custom mb-3">
+      <h3>{{ 'Wallet.userLegal_notice_title' | translate }}</h3>
+      <p>{{ 'Wallet.userLegal_notice_msg' | translate }}</p>
+      <a
+        class="btn-link"
+        routerLink="/home/settings/Legal_KYC"
+        (click)="this.modalService.dismissAll()"
+        >{{ 'Wallet.userLegal_notice_btn' | translate }}</a
       >
-        <button
-          class="btnModalError btn_fill_profile"
-          (click)="goToProfile(modalService)"
-        >
-          {{ 'fill_profile' | translate }}
-        </button>
+    </div>
+  </ng-template>
+  
+  <!--div spinner -->
+  <div class="loader" *ngIf="showSpinner"></div>
+  <!-- End div spinner -->
+  
+  <!-- Welcome modal -->
+  <ng-template #welcomeModal>
+    <div class="modal-header modal-customm">
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        (click)="closeModal(welcomeModal)"
+      ></button>
+    </div>
+    <div class="modal-body welcome-body modal-customm">
+      <div class="row d-flex justify-content-center">
+        <circle-progress
+          class="prog"
+          [percent]="this.percentProfil"
+        ></circle-progress>
+        <img
+          [src]="user?.userPicture"
+          (error)="onImgError($event)"
+          class="pic-profile"
+        />
+        <span class="cercle">{{ percentProfil }}%</span>
       </div>
-      <div
-        class="col-xl-6 col-lg-8 col-md-8 col-sm-8 d-flex flex-column justify-content-center align-items-center"
-      >
-        <button
-          class="btnModalError btn_later"
-          (click)="closeModal(welcomeModal)"
+      <h3 class="textpwd">{{ 'Welcome_title' | translate }}</h3>
+      <div class="d-flex justify-content-center welcome-paragraph">
+        <p>{{ 'welcome_parag' | translate }}</p>
+      </div>
+      <div class="d-flex flex-column justify-content-center align-items-center">
+        <div
+          class="d-flex align-items-center justify-content-center col-xl-6 col-lg-8 col-md-8 col-sm-8"
         >
-          {{ 'later' | translate }}
-        </button>
+          <button
+            class="btnModalError btn_fill_profile"
+            (click)="goToProfile(modalService)"
+          >
+            {{ 'fill_profile' | translate }}
+          </button>
+        </div>
+        <div
+          class="col-xl-6 col-lg-8 col-md-8 col-sm-8 d-flex flex-column justify-content-center align-items-center"
+        >
+          <button
+            class="btnModalError btn_later"
+            (click)="closeModal(welcomeModal)"
+          >
+            {{ 'later' | translate }}
+          </button>
+        </div>
+      </div>
+      <div class="col-12 d-flex justify-content-start">
+        <div class="col-12">
+          <input type="checkbox" id="confirm" (click)="dontShowAgain()" />
+          <label class="dont_show ms-2">{{
+            "don't_show_again" | translate
+          }}</label>
+        </div>
       </div>
     </div>
-    <div class="col-12 d-flex justify-content-start">
-      <div class="col-12">
-        <input type="checkbox" id="confirm" (click)="dontShowAgain()" />
-        <label class="dont_show ms-2">{{
+  </ng-template>
+  
+  <!-- modal create Tron wallet-->
+  <ng-template #createTronWalletModal>
+    <div class="modal-header modal-custom">
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        (click)="modalService.dismissAll(createTronWalletModal)"
+      ></button>
+    </div>
+    <div class="modal-body welcome-body modal-custom">
+      <div class="">
+        <img src="../../assets/Images/tron-icon.svg" />
+      </div>
+      <h3 class="textpwd">{{ 'Create your Tron wallet' | translate }}</h3>
+      <div class="d-flex justify-content-center welcome-paragraph">
+        <p class="paragragh">
+          {{
+            'Now you have the possibility to create your Tron ​​wallet. You Need to just enter your transactional password to create it '
+              | translate
+          }}
+        </p>
+      </div>
+  
+      <div>
+        <div class="postition-trans-tron">
+          <h6 class="trans">{{ 'Transaction password' | translate }}</h6>
+        </div>
+        <div
+          class="div-input-icon-tron p-1"
+          [ngClass]="{
+            'border-error': wrongpassword
+          }"
+        >
+          <img class="" src="../../../assets/Images/Kep-password.svg" />
+          <div style="display: none">
+            <input
+              type="text"
+              id="PreventChromeAutocomplete"
+              name="PreventChromeAutocomplete"
+              autocomplete="address-level4"
+            />
+          </div>
+          <input
+            autocomplete="new-password"
+            type="password"
+            [ngClass]="showPass ? 'input-password' : 'input-password pass-hide'"
+            [(ngModel)]="tronWalletPassword"
+            #password_field
+          />
+  
+          <span
+            (click)="
+              showPass = !showPass;
+              password_field.type =
+                password_field.type === 'password' ? 'text' : 'password'
+            "
+            class="fa fa-fw cross_input_network align-self-center"
+            aria-hidden="true"
+            [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"
+          ></span>
+        </div>
+        <div *ngIf="!!tronErrorMessage">
+          <span class="text-danger">{{ tronErrorMessage }}</span>
+        </div>
+      </div>
+  
+      <div class="d-flex flex-column justify-content-center align-items-center">
+        <div
+          class="d-flex align-items-center justify-content-center col-xl-6 col-lg-8 col-md-8 col-sm-8"
+        >
+          <button
+            class="btnModalError btn_fill_profile btn-blue"
+            (click)="createTronWallet()"
+            [disabled]="tronWalletPassword.length < 6"
+          >
+            {{ 'Create' | translate }}
+          </button>
+        </div>
+        <div
+          class="col-xl-6 col-lg-8 col-md-8 col-sm-8 d-flex flex-column justify-content-center align-items-center"
+        >
+          <button
+            class="btnModalError btn_later btn-white"
+            (click)="modalService.dismissAll(createTronWalletModal)"
+          >
+            {{ 'later' | translate }}
+          </button>
+        </div>
+      </div>
+  
+      <div class="d-flex justify-content-center m-4 gap-2">
+        <input
+          type="checkbox"
+          class="chbx-default"
+          id="confirm"
+          (click)="dontShowAgain()"
+        />
+        <label class="dont_show m-0" for="confirm">{{
           "don't_show_again" | translate
         }}</label>
       </div>
     </div>
-  </div>
-</ng-template>
-
-<!-- modal create Tron wallet-->
-<ng-template #createTronWalletModal>
-  <div class="modal-header modal-custom">
-    <button
-      type="button"
-      class="btn-close"
-      data-bs-dismiss="modal"
-      (click)="modalService.dismissAll(createTronWalletModal)"
-    ></button>
-  </div>
-  <div class="modal-body welcome-body modal-custom">
-    <div class="">
-      <img src="../../assets/Images/tron-icon.svg" />
+  </ng-template>
+  
+  <!-- modal created Tron wallet Success-->
+  <ng-template #tronWalletCreatedSuccessModal>
+    <div class="modal-header modal-custom">
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        (click)="modalService.dismissAll(tronWalletCreatedSuccessModal)"
+      ></button>
     </div>
-    <h3 class="textpwd">{{ 'Create your Tron wallet' | translate }}</h3>
-    <div class="d-flex justify-content-center welcome-paragraph">
-      <p class="paragragh">
-        {{
-          'Now you have the possibility to create your Tron ​​wallet. You Need to just enter your transactional password to create it '
-            | translate
-        }}
-      </p>
-    </div>
-
-    <div>
-      <div class="postition-trans-tron">
-        <h6 class="trans">{{ 'Transaction password' | translate }}</h6>
+    <div class="modal-body welcome-body modal-custom">
+      <div class="">
+        <img src="../../assets/Images/tron-icon-green.svg" />
       </div>
+      <h3 class="textpwd">{{ 'Success!' | translate }}</h3>
+      <div class="d-flex justify-content-center welcome-paragraph">
+        <p>
+          {{
+            'You have successfully created your Tron Wallet.You can now copy your ID Wallet and make transactions with your Tron wallet'
+              | translate
+          }}
+        </p>
+      </div>
+      <div>
+        <span class="grey-label">{{ 'ID WALLET' }}</span>
+      </div>
+  
       <div
-        class="div-input-icon-tron p-1"
-        [ngClass]="{
-          'border-error': wrongpassword
-        }"
+        class="d-flex justify-content-center gap-1 wallet-address-wrapper"
+        *ngIf="tronWalletAddress !== ''"
       >
-        <img class="" src="../../../assets/Images/Kep-password.svg" />
-        <div style="display: none">
-          <input
-            type="text"
-            id="PreventChromeAutocomplete"
-            name="PreventChromeAutocomplete"
-            autocomplete="address-level4"
-          />
-        </div>
-        <input
-          autocomplete="new-password"
-          type="password"
-          [ngClass]="showPass ? 'input-password' : 'input-password pass-hide'"
-          [(ngModel)]="tronWalletPassword"
-          #password_field
-        />
-
-        <span
-          (click)="
-            showPass = !showPass;
-            password_field.type =
-              password_field.type === 'password' ? 'text' : 'password'
-          "
-          class="fa fa-fw cross_input_network align-self-center"
-          aria-hidden="true"
-          [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"
-        ></span>
-      </div>
-      <div *ngIf="!!tronErrorMessage">
-        <span class="text-danger">{{ tronErrorMessage }}</span>
-      </div>
-    </div>
-
-    <div class="d-flex flex-column justify-content-center align-items-center">
-      <div
-        class="d-flex align-items-center justify-content-center col-xl-6 col-lg-8 col-md-8 col-sm-8"
-      >
-        <button
-          class="btnModalError btn_fill_profile btn-blue"
-          (click)="createTronWallet()"
-          [disabled]="tronWalletPassword.length < 6"
-        >
-          {{ 'Create' | translate }}
-        </button>
-      </div>
-      <div
-        class="col-xl-6 col-lg-8 col-md-8 col-sm-8 d-flex flex-column justify-content-center align-items-center"
-      >
-        <button
-          class="btnModalError btn_later btn-white"
-          (click)="modalService.dismissAll(createTronWalletModal)"
-        >
-          {{ 'later' | translate }}
-        </button>
-      </div>
-    </div>
-
-    <div class="d-flex justify-content-center m-4 gap-2">
-      <input
-        type="checkbox"
-        class="chbx-default"
-        id="confirm"
-        (click)="dontShowAgain()"
-      />
-      <label class="dont_show m-0" for="confirm">{{
-        "don't_show_again" | translate
-      }}</label>
-    </div>
-  </div>
-</ng-template>
-
-<ng-template>
-
-    <div class="input-div">
-      <div class="postition-trans">
-        <h6 class="trans">{{ 'Transaction password' | translate }}</h6>
-      </div>
-      <div
-        class="div-input-icon p-1 welcome-input"
-        id="welcome-input"
-        [ngClass]="{
-          error: wrongpassword
-        }"
-      >
-        <ng-container *ngIf="!wrongpassword; else wrongPasswordImg">
-          <img
-            *ngIf="!wrongpassword"
-            class=""
-            src="../../../assets/Images/Kep-password.svg"
-          />
-        </ng-container>
-        <ng-template #wrongPasswordImg>
-          <img class="" src="../../../assets/Images/Kep-passwordFalse.svg" />
-        </ng-template>
-        <div style="display: none">
-          <input
-            type="text"
-            id="PreventChromeAutocomplete"
-            name="PreventChromeAutocomplete"
-            autocomplete="address-level4"
-          />
-        </div>
-        <input
-          autocomplete="new-password"
-          type="password"
-          [ngClass]="showPass ? 'input-password' : 'input-password pass-hide'"
-          [(ngModel)]="walletPassword"
-          #password_field
-        />
-
-        <span
-          (click)="
-            showPass = !showPass;
-            password_field.type =
-              password_field.type === 'password' ? 'text' : 'password'
-          "
-          class="fa fa-fw cross_input_network align-self-center"
-          aria-hidden="true"
-          [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"
-        ></span>
-      </div>
-
-      <div *ngIf="!!walletV2ErrorMessage">
-        <span class="walletV2WrongMessage">{{ walletV2ErrorMessage }}</span>
-      </div>
-    </div>
-
-    <div class="d-flex flex-column justify-content-center align-items-center">
-      <div
-        class="d-flex align-items-center justify-content-center col-xl-6 col-lg-8 col-md-8 col-sm-8"
-      >
-        <button
-          class="btnModalError btn_fill_profile btn-blue"
-          (click)="createWalletV2()"
-          [disabled]="walletPassword.length < 6 || buttonClick"
-        >
-          <div
-            *ngIf="buttonClick"
-            class="spinner-border text-grey"
-            role="status"
-          >
-            <span class="sr-only">Loading...</span>
-          </div>
-          <div *ngIf="!buttonClick" id="next-step">
-            {{ 'Next Step' | translate }}
-          </div>
-        </button>
-      </div>
-      <div
-        class="col-xl-6 col-lg-8 col-md-8 col-sm-8 d-flex flex-column justify-content-center align-items-center"
-      ></div>
-    </div>
-</ng-template>
-
-<!-- modal maintenance -->
-
-<ng-template #modalMaintenance>
-  <div
-    class="modal-body welcome-body2 modal-custom"
-    data-backdrop="static"
-    id="modalMaintenance"
-  >
-    <div class="modal-header modal-customm">
-      <button type="button" class="btn-close" (click)="closeModaleMaintenace()">
-        <img src="../../assets/Images/custom_icons/close.svg" />
-      </button>
-    </div>
-
-    <div class="img-update">
-      <img src="../../assets/Images/maintenance.png" />
-    </div>
-    <div class="textpwd col mt-4" id="title">
-      <strong>Temporary Maintenance in Progress</strong>
-    </div>
-
-    <div
-      class="d-flex justify-content-center welcome-paragraph"
-      id="welcome-paragraph"
-    >
-      <p class="paragragh col" id="paragraph">
-        Our site is currently undergoing maintenance to ensure the security of
-        your wallet funds. Please follow these essential steps to safeguard your
-        assets. We apologies for the inconvenience
-      </p>
-    </div>
-
-    <div class="container mb-3">
-      <div class="row">
-        <div class="col-3 mb-3 text-right">
-          <img src="../../assets/Images/custom_icons/1-circle-fill.svg" />
-        </div>
-        <div class="col-9 text-left">
-          Log in to your wallet and
-          <a href="/settings/security">export</a>
-          your wallet key.
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-3 mb-3 text-right">
-          <img src="../../assets/Images/custom_icons/2-circle-fill.svg" />
-        </div>
-        <div class="col-9 text-left">
-          Import your <strong>wallet key</strong> into Metamask or Trust Wallet.
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-3 mb-3 text-right">
-          <img src="../../assets/Images/custom_icons/3-circle-fill.svg" />
-        </div>
-        <div class="col-9 text-left">
-          <strong>Transfert</strong> your token from Metamsak/trustwallet to
-          <br />
-          anther wallet.
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-3 mb-3 text-right">
-          <img src="../../assets/Images/custom_icons/4-circle-fill.svg" />
-        </div>
-        <div class="col-9 text-left">
-          It is important to always check the
-          <strong>email </strong> associated <br />with your wallet for any
-          <strong>urgent updates</strong> .
-        </div>
-      </div>
-    </div>
-  </div>
-</ng-template>
-
-<!-- modal created Tron wallet Success-->
-<ng-template #tronWalletCreatedSuccessModal>
-  <div class="modal-header modal-custom">
-    <button
-      type="button"
-      class="btn-close"
-      data-bs-dismiss="modal"
-      (click)="modalService.dismissAll(tronWalletCreatedSuccessModal)"
-    ></button>
-  </div>
-  <div class="modal-body welcome-body modal-custom">
-    <div class="">
-      <img src="../../assets/Images/tron-icon-green.svg" />
-    </div>
-    <h3 class="textpwd">{{ 'Success!' | translate }}</h3>
-    <div class="d-flex justify-content-center welcome-paragraph">
-      <p>
-        {{
-          'You have successfully created your Tron Wallet.You can now copy your ID Wallet and make transactions with your Tron wallet'
-            | translate
-        }}
-      </p>
-    </div>
-    <div>
-      <span class="grey-label">{{ 'ID WALLET' }}</span>
-    </div>
-
-    <div
-      class="d-flex justify-content-center gap-1 wallet-address-wrapper"
-      *ngIf="tronWalletAddress !== ''"
-    >
-      <span class="wallet-address">
-        {{ tronWalletAddress }}
-      </span>
-
-      <a
-        href="{{ 'https://tronscan.org/#/address/' + tronWalletAddress }}"
-        target="_blank"
-        class="link-button"
-      >
-        <img src="../../assets/Images/campagne/view-white.png" alt="" />
-      </a>
-    </div>
-    <div *ngIf="tronWalletAddress === ''" class="error-wallet-exist">
-      You already have tron Wallet!!
-    </div>
-
-    <div class="d-flex flex-column justify-content-center align-items-center">
-      <div
-        class="col-xl-6 col-lg-8 col-md-8 col-sm-8 d-flex flex-column justify-content-center align-items-center"
-      >
-        <button
-          class="btn-blue"
-          (click)="modalService.dismissAll(tronWalletCreatedSuccessModal)"
-        >
-          {{ 'Great' | translate }}
-        </button>
-      </div>
-    </div>
-    <div class="col-12 d-flex justify-content-start">
-      <div class="col-12">
-        <!-- <input type="checkbox" id="confirm" (click)="dontShowAgain()" /> -->
-        <!-- <label class="dont_show ms-2">{{
-          "don't_show_again" | translate
-        }}</label> -->
-      </div>
-    </div>
-  </div>
-</ng-template>
-
-<!-- modal create wallet V2-->
-<ng-template #createWalletV2Modal>
-  <div
-    class="modal-body welcome-body2 modal-custom"
-    data-backdrop="static"
-    id="createWalletV2Modal"
-  >
-    <div id="stepper-v2">
-      <img src="../../assets/Images/stepper-v2.svg" />
-    </div>
-    <div class="img-update">
-      <img src="../../assets/Images/create-wallet-v2-1.svg" />
-    </div>
-    <p class="textpwd" id="title">
-      {{ 'Verify wallet ownership' | translate }}
-    </p>
-    <div
-      class="d-flex justify-content-center welcome-paragraph"
-      id="welcome-paragraph"
-    >
-      <p class="paragragh" id="paragraph">
-        For security reasons, we are updating our users' wallets.
-        <br *ngIf="getScreenWidth > 960" />
-        <span>
-          Please enter your transaction password to verify that you are the
-          owner of this wallet and and proceed to the next step of creating a
-          new one
+        <span class="wallet-address">
+          {{ tronWalletAddress }}
         </span>
-      </p>
-    </div>
-
-    <div class="input-div">
-      <div class="postition-trans">
-        <h6 class="trans">{{ 'Transaction password' | translate }}</h6>
-      </div>
-      <div
-        class="div-input-icon p-1"
-        [ngClass]="{
-          error: wrongpassword
-        }"
-      >
-        <ng-container>
-          <img class="" [src]="imageFun()" />
-        </ng-container>
-
-        <div style="display: none">
-          <input
-            type="text"
-            id="PreventChromeAutocomplete"
-            name="PreventChromeAutocomplete"
-            autocomplete="address-level4"
-          />
-        </div>
-        <input
-          autocomplete="new-password"
-          type="password"
-          [ngClass]="showPass ? 'input-password' : 'input-password pass-hide'"
-          [(ngModel)]="walletPassword"
-          #password_field
-        />
-
-        <span
-          (click)="
-            showPass = !showPass;
-            password_field.type =
-              password_field.type === 'password' ? 'text' : 'password'
-          "
-          class="fa fa-fw cross_input_network align-self-center"
-          aria-hidden="true"
-          [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"
-        ></span>
-      </div>
-
-      <div *ngIf="!!walletV2ErrorMessage">
-        <span class="walletV2WrongMessage">{{ walletV2ErrorMessage }}</span>
-      </div>
-    </div>
-
-    <div class="d-flex flex-column justify-content-center align-items-center">
-      <div
-        class="d-flex align-items-center justify-content-center col-xl-6 col-lg-8 col-md-8 col-sm-8"
-      >
-        <button
-          class="btnModalError btn_fill_profile btn-blue"
-          (click)="verifysign()"
-          [disabled]="walletPassword.length < 6 || buttonClick"
+  
+        <a
+          href="{{ 'https://tronscan.org/#/address/' + tronWalletAddress }}"
+          target="_blank"
+          class="link-button"
         >
-          <div
-            *ngIf="buttonClick"
-            class="spinner-border text-grey"
-            role="status"
-          >
-            <span class="sr-only">Loading...</span>
-          </div>
-          <div *ngIf="!buttonClick" id="next-step">
-            {{ 'Next Step' | translate }}
-          </div>
-        </button>
+          <img src="../../assets/Images/campagne/view-white.png" alt="" />
+        </a>
       </div>
-      <div
-        class="col-xl-6 col-lg-8 col-md-8 col-sm-8 d-flex flex-column justify-content-center align-items-center"
-      ></div>
-    </div>
-  </div>
-</ng-template>
-
-<!-- modal maintenance -->
-
-<!-- modal set pwd transation -->
-<ng-template #setPwdTransactionModal>
-  <div
-    class="modal-body welcome-body2 modal-custom"
-    data-backdrop="static"
-    id="setPwdTransactionModal"
-  >
-    <div id="stepper-v2">
-      <img src="../../assets/Images/stepper-v2.svg" />
-    </div>
-    <div class="img-update">
-      <img src="../../assets/Images/ILLU_MOD_security-2.svg" />
-    </div>
-    <p class="textpwd" id="title" style="color: #f52079 !important">
-      {{ 'Set your new transaction password' | translate }}
-    </p>
-    <div
-      class="d-flex justify-content-center welcome-paragraph"
-      id="welcome-paragraph"
-    >
-      <p class="paragragh" id="paragraph">
-        Please enter the new transaction password. You will need to perform any
-        transactions with your new wallet. Write it down carefully and keep it
-        in safe place!
-        <b
-          >This new password is only for your new wallet. The old password
-          remains valid for the old one.
-        </b>
-      </p>
-    </div>
-    <div class="row">
-      <form
-        [formGroup]="formUpdateTransactionPassword"
-        id="formUpdateTransactionPassword"
-        class="form_transaction_password"
-      >
-
-        <div class="row pt-4 ">
-          <div class="postition-trans">
-            <label
-              style="display: block ruby"
-              class="trans"
-              [ngClass]="{
-                labelError:
-                  this.formUpdateTransactionPassword.get('password')?.invalid &&
-                  !this.formUpdateTransactionPassword.get('password')?.errors
-                    ?.required
-              }"
-            >
-              {{ 'Profil.new_password' | translate }}</label
-            >
-          </div>
+      <div *ngIf="tronWalletAddress === ''" class="error-wallet-exist">
+        You already have tron Wallet!!
+      </div>
+  
+      <div class="d-flex flex-column justify-content-center align-items-center">
+        <div
+          class="col-xl-6 col-lg-8 col-md-8 col-sm-8 d-flex flex-column justify-content-center align-items-center"
+        >
+          <button
+            class="btn-blue"
+            (click)="modalService.dismissAll(tronWalletCreatedSuccessModal)"
+          >
+            {{ 'Great' | translate }}
+          </button>
         </div>
-        <div class="row">
-          <div class="col-10">
+      </div>
+      <div class="col-12 d-flex justify-content-start">
+        <div class="col-12">
+          <!-- <input type="checkbox" id="confirm" (click)="dontShowAgain()" /> -->
+          <!-- <label class="dont_show ms-2">{{
+            "don't_show_again" | translate
+          }}</label> -->
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  
+  <!-- modal create wallet V2-->
+  <ng-template #createWalletV2Modal>
+    <div
+      class="modal-body welcome-body2 modal-custom"
+      data-backdrop="static"
+      id="createWalletV2Modal"
+    >
+      <div id="stepper-v2">
+        <img src="../../assets/Images/stepper-v2.svg" />
+      </div>
+      <div class="img-update">
+        <img src="../../assets/Images/create-wallet-v2-1.svg" />
+      </div>
+      <p class="textpwd" id="title">
+        {{ 'Verify wallet ownership' | translate }}
+      </p>
+      <div
+        class="d-flex justify-content-center welcome-paragraph"
+        id="welcome-paragraph"
+      >
+        <p class="paragragh" id="paragraph">
+          For security reasons, we are updating our users' wallets.
+          <br *ngIf="getScreenWidth > 960" />
+          <span>
+            Please enter your transaction password to verify that you are the
+            owner of this wallet and and proceed to the next step of creating a
+            new one
+          </span>
+        </p>
+      </div>
+  
+      <div class="input-div">
+        <div class="postition-trans">
+          <h6 class="trans">{{ 'Transaction password' | translate }}</h6>
+        </div>
+        <div
+          class="div-input-icon p-1"
+          [ngClass]="{
+            error: wrongpassword
+          }"
+        >
+          <ng-container>
+            <img class="" [src]="imageFun()" />
+          </ng-container>
+  
+          <div style="display: none">
+            <input
+              type="text"
+              id="PreventChromeAutocomplete"
+              name="PreventChromeAutocomplete"
+              autocomplete="address-level4"
+            />
+          </div>
+          <input
+            autocomplete="new-password"
+            type="password"
+            [ngClass]="showPass ? 'input-password' : 'input-password pass-hide'"
+            [(ngModel)]="walletPassword"
+            #password_field
+          />
+  
+          <span
+            (click)="
+              showPass = !showPass;
+              password_field.type =
+                password_field.type === 'password' ? 'text' : 'password'
+            "
+            class="fa fa-fw cross_input_network align-self-center"
+            aria-hidden="true"
+            [ngClass]="showPass ? ' fa-eye ' : ' fa-eye-slash'"
+          ></span>
+        </div>
+  
+        <div *ngIf="!!walletV2ErrorMessage">
+          <span class="walletV2WrongMessage">{{ walletV2ErrorMessage }}</span>
+        </div>
+      </div>
+  
+      <div class="d-flex flex-column justify-content-center align-items-center">
+        <div
+          class="d-flex align-items-center justify-content-center col-xl-6 col-lg-8 col-md-8 col-sm-8"
+        >
+          <button
+            class="btnModalError btn_fill_profile btn-blue"
+            (click)="verifysign()"
+            [disabled]="walletPassword.length < 6 || buttonClick"
+          >
             <div
-              class="div-input-icon position-relative"
-              [ngClass]="{
-                errorMsg:
-                  this.formUpdateTransactionPassword.get('password')?.invalid &&
-                  !this.formUpdateTransactionPassword.get('password')?.errors
-                    ?.required,
-                success:
-                  this.formUpdateTransactionPassword.get('password')?.valid
-              }"
+              *ngIf="buttonClick"
+              class="spinner-border text-grey"
+              role="status"
             >
-              <ng-container *ngIf="!wrongpassword; else wrongPasswordImg">
-                <img
-                  *ngIf="!wrongpassword"
-                  class="Kep-password-image"
-                  src="../../../assets/Images/Kep-password.svg"
-                />
-              </ng-container>
-              <ng-template #wrongPasswordImg>
-                <img
-                  class="Kep-password-image"
-                  src="../../../assets/Images/Kep-passwordFalse.svg"
-                />
-              </ng-template>
-              <input
-                autocomplete="on"
-                type="password"
-                name="password"
-                formControlName="password"
-                id="newPassword"
-                class="input_oeil"
-                style="border: none; background: transparent"
-                [(ngModel)]="WalletPasswordTransaction"
-                #password
+              <span class="sr-only">Loading...</span>
+            </div>
+            <div *ngIf="!buttonClick" id="next-step">
+              {{ 'Next Step' | translate }}
+            </div>
+          </button>
+        </div>
+        <div
+          class="col-xl-6 col-lg-8 col-md-8 col-sm-8 d-flex flex-column justify-content-center align-items-center"
+        ></div>
+      </div>
+    </div>
+  </ng-template>
+  
+  <!-- modal maintenance -->
+  
+  <!-- modal set pwd transation -->
+  <ng-template #setPwdTransactionModal>
+    <div
+      class="modal-body welcome-body2 modal-custom"
+      data-backdrop="static"
+      id="setPwdTransactionModal"
+    >
+      <div id="stepper-v2">
+        <img src="../../assets/Images/stepper-v2.svg" />
+      </div>
+      <div class="img-update">
+        <img src="../../assets/Images/ILLU_MOD_security-2.svg" />
+      </div>
+      <p class="textpwd" id="title" style="color: #f52079 !important">
+        {{ 'Set your new transaction password' | translate }}
+      </p>
+      <div
+        class="d-flex justify-content-center welcome-paragraph"
+        id="welcome-paragraph"
+      >
+        <p class="paragragh" id="paragraph">
+          Please enter the new transaction password. You will need to perform any
+          transactions with your new wallet. Write it down carefully and keep it
+          in safe place!
+          <b
+            >This new password is only for your new wallet. The old password
+            remains valid for the old one.
+          </b>
+        </p>
+      </div>
+      <div class="row">
+        <form
+          [formGroup]="formUpdateTransactionPassword"
+          id="formUpdateTransactionPassword"
+          class="form_transaction_password"
+        >
+          <div class="row pt-4">
+            <div class="postition-trans">
+              <label
+                style="display: block ruby"
+                class="trans"
                 [ngClass]="{
-                  errorMsg2:
-                    this.formUpdateTransactionPassword.get('password')
-                      ?.invalid &&
+                  labelError:
+                    this.formUpdateTransactionPassword.get('password')?.invalid &&
                     !this.formUpdateTransactionPassword.get('password')?.errors
                       ?.required
                 }"
-              />
-              <span
-                (click)="
-                  password.type =
-                    password.type == 'password' ? 'text' : 'password'
-                "
-                class="fa fa-fw cross_input_network align-self-center"
-                aria-hidden="true"
-                [ngClass]="
-                  password.type === 'password' ? ' fa-eye-slash ' : ' fa-eye'
-                "
-              ></span>
+              >
+                {{ 'Profil.new_password' | translate }}</label
+              >
             </div>
           </div>
+          <div class="row">
+            <div class="col-10">
+              <div
+                class="div-input-icon position-relative"
+                [ngClass]="{
+                  errorMsg:
+                    this.formUpdateTransactionPassword.get('password')?.invalid &&
+                    !this.formUpdateTransactionPassword.get('password')?.errors
+                      ?.required,
+                  success:
+                    this.formUpdateTransactionPassword.get('password')?.valid
+                }"
+              >
+                <ng-container *ngIf="!wrongpassword; else wrongPasswordImg">
+                  <img
+                    *ngIf="!wrongpassword"
+                    class="Kep-password-image"
+                    src="../../../assets/Images/Kep-password.svg"
+                  />
+                </ng-container>
+                <ng-template #wrongPasswordImg>
+                  <img
+                    class="Kep-password-image"
+                    src="../../../assets/Images/Kep-passwordFalse.svg"
+                  />
+                </ng-template>
+                <input
+                  autocomplete="on"
+                  type="password"
+                  name="password"
+                  formControlName="password"
+                  id="newPassword"
+                  class="input_oeil"
+                  style="border: none; background: transparent"
+                  [(ngModel)]="WalletPasswordTransaction"
+                  #password
+                  [ngClass]="{
+                    errorMsg2:
+                      this.formUpdateTransactionPassword.get('password')
+                        ?.invalid &&
+                      !this.formUpdateTransactionPassword.get('password')?.errors
+                        ?.required
+                  }"
+                />
+                <span
+                  (click)="
+                    password.type =
+                      password.type == 'password' ? 'text' : 'password'
+                  "
+                  class="fa fa-fw cross_input_network align-self-center"
+                  aria-hidden="true"
+                  [ngClass]="
+                    password.type === 'password' ? ' fa-eye-slash ' : ' fa-eye'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+          <div class="row pt-1">
+            <div
+              class="row"
+              *ngIf="
+                this.formUpdateTransactionPassword.get('password')?.invalid &&
+                !this.formUpdateTransactionPassword.get('password')?.errors
+                  ?.required
+              "
+            >
+              <div class="row">
+                <span class="error_input"
+                  >{{ 'Profil.password_minlength_eight_chars' | translate }}
+                </span>
+              </div>
+              <div class="row">
+                <span class="error_input"
+                  >-{{ 'Profil.password_uppercase' | translate }}</span
+                >
+              </div>
+              <div class="row">
+                <span class="error_input"
+                  >-{{ 'Profil.password_lowercase' | translate }}</span
+                >
+              </div>
+              <div class="row">
+                <span class="error_input"
+                  >-{{ 'Profil.password_number' | translate }}</span
+                >
+              </div>
+              <div class="row">
+                <span class="error_input"
+                  >-{{ 'Profil.password_special_character' | translate }}</span
+                >
+              </div>
+            </div>
+          </div>
+          <!-- End Input , label and error msg new password-->
+          <!-- Input , label and error msg confirmation password-->
+          <div class="row mt-3">
+            <div class="postition-trans">
+              <label
+                style="display: block ruby"
+                class="trans"
+                [ngClass]="{
+                  labelError: this.formUpdateTransactionPassword.errors?.mustMatch
+                }"
+              >
+                {{ 'Profil.confirm_new_password' | translate }}</label
+              >
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-10">
+              <div
+                class="div-input-icon"
+                [ngClass]="{
+                  'incorrect-password': wrongpassword,
+                  errorMsg: this.formUpdateTransactionPassword.errors?.mustMatch,
+                  success:
+                    !this.formUpdateTransactionPassword.errors?.mustMatch &&
+                    this.formUpdateTransactionPassword.get('confirmPassword')
+                      ?.valid
+                }"
+                [ngStyle]="
+                  !wrongpassword &&
+                  !this.formUpdateTransactionPassword.errors?.mustMatch
+                    ? { border: '1px solid #ffa318' }
+                    : { border: '1px solid #f52079' }
+                "
+              >
+                <ng-container *ngIf="!wrongpassword; else wrongPasswordImg">
+                  <img
+                    *ngIf="!wrongpassword"
+                    class="Kep-password-image"
+                    src="../../../assets/Images/Kep-password.svg"
+                  />
+                </ng-container>
+                <ng-template #wrongPasswordImg>
+                  <img
+                    class="Kep-password-image"
+                    src="../../../assets/Images/Kep-passwordFalse.svg"
+                  />
+                </ng-template>
+                <input
+                  autocomplete="on"
+                  type="password"
+                  #confirmPassword
+                  name="confirmPassword"
+                  id="confirmPassword"
+                  formControlName="confirmPassword"
+                  class="input_oeil"
+                  style="border: none; background: transparent"
+                  [ngClass]="{
+                    errorMsg2:
+                      this.formUpdateTransactionPassword.errors?.mustMatch
+                  }"
+                />
+                <span
+                  (click)="
+                    confirmPassword.type =
+                      confirmPassword.type == 'password' ? 'text' : 'password'
+                  "
+                  class="fa fa-fw cross_input_network align-self-center"
+                  aria-hidden="true"
+                  [ngClass]="
+                    confirmPassword.type === 'password'
+                      ? ' fa-eye-slash '
+                      : ' fa-eye'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+          
+        <!-- 
+  
+            <div class="row pt-1">
+            <span
+              class="error_input"
+              *ngIf="
+                this.formUpdateTransactionPassword.errors?.mustMatch &&
+                this.formUpdateTransactionPassword.dirty
+              "
+            >
+              Passwords don't match. Please verify!
+            </span>
+          </div>
+        -->
+          
+          <!-- End Input , label and error msg confirmation password-->
+          <!-- error msg: wrong old password-->
+          <!--
+            <div class="row pt-1" *ngIf="transactionPasswordSuccess.length > 0">
+            <div class="col-sm-10 col-md-10 col-lg-6 col-xl-5 col-xxl-4 d-flex">
+              <label class="success_input">
+                Passwords don't match. Please verify!
+              </label>
+            </div>
+          </div>
+          --> 
+          
+          <!-- end error msg: wrong old password-->
+        </form>
+      </div>
+      <div class="row mt-2 error-message" 
+              *ngIf="this.formUpdateTransactionPassword.errors?.mustMatch && this.formUpdateTransactionPassword.dirty"
+              >
+        
+            <label class="error_input">
+              Passwords don't match
+            </label>
+          
         </div>
-        <div class="row pt-1">
-          <div
-            class="row"
-            *ngIf="
-              this.formUpdateTransactionPassword.get('password')?.invalid &&
-              !this.formUpdateTransactionPassword.get('password')?.errors
+      <div class="row mt-2 error-message" *ngIf="!!walletV2ErrorMessage">
+        
+        <label class="error_input">
+          {{ walletV2ErrorMessage }}
+        </label>
+      
+    </div>
+      <div class="mt-4" class="input-checkbox" style="margin-top: 2% !important">
+        <input
+          type="checkbox"
+          name="checkbox"
+          id="checkbox"
+          [(ngModel)]="isChecked"
+        />
+  
+        I understand that tech support cannot help me recover a lost password.
+      </div>
+      
+      <div class="row justify-content-center">
+        <div class="justify-align-center">
+          <button
+            type="submit"
+            class="btnModalError btn_fill_profile btn-blue"
+            (click)="createWalletV2()"
+            [disabled]="
+              !isChecked ||
+              this.formUpdateTransactionPassword.errors?.mustMatch ||
+              this.formUpdateTransactionPassword.get('password')?.errors
+                ?.required ||
+              this.formUpdateTransactionPassword.get('confirmPassword')?.errors
                 ?.required
             "
           >
-            <div class="row">
-              <span class="error_input"
-                >{{ 'Profil.password_minlength_eight_chars' | translate }}
-              </span>
+            <span *ngIf="!showSpinnerTransactionPassword">
+              {{ 'Next Step' | translate }}
+            </span>
+            <div
+              *ngIf="buttonClick"
+              class="spinner-border text-light"
+              role="status"
+            >
+              <span class="sr-only">Loading...</span>
             </div>
-            <div class="row">
-              <span class="error_input"
-                >-{{ 'Profil.password_uppercase' | translate }}</span
-              >
+          </button>
+  
+          <!-- <button
+            type="submit"
+            class="btn-green"
+            (click)="updateTransactionPassword()"
+            [disabled]="formUpdateTransactionPassword.invalid"
+          >
+            <span *ngIf="!showSpinnerTransactionPassword">
+              {{ 'Next Step' | translate }}
+           </span>
+            <div
+              *ngIf="showSpinnerTransactionPassword"
+              class="spinner-border text-light"
+              role="status"
+            >
+              <span class="sr-only">Loading...</span>
             </div>
-            <div class="row">
-              <span class="error_input"
-                >-{{ 'Profil.password_lowercase' | translate }}</span
-              >
-            </div>
-            <div class="row">
-              <span class="error_input"
-                >-{{ 'Profil.password_number' | translate }}</span
-              >
-            </div>
-            <div class="row">
-              <span class="error_input"
-                >-{{ 'Profil.password_special_character' | translate }}</span
-              >
-            </div>
-          </div>
+          </button> -->
         </div>
-        <!-- End Input , label and error msg new password-->
-        <!-- Input , label and error msg confirmation password-->
-        <div class="row mt-3">
-          <div class="postition-trans">
-            <label
-              style="display: block ruby"
-              class="trans"
-              [ngClass]="{
-                labelError: this.formUpdateTransactionPassword.errors?.mustMatch
-              }"
-            >
-              {{ 'Profil.confirm_new_password' | translate }}</label
-            >
+      </div>
+    </div>
+  </ng-template>
+  
+  <!-- modal maintenance -->
+  <!-- <ng-template #modalMaintenance>
+    <div
+      class="modal-body welcome-body2 modal-custom"
+      data-backdrop="static"
+      id="modalMaintenance"
+    >
+      <div class="modal-header modal-customm">
+        <button type="button" class="btn-close" (click)="closeModaleMaintenace()">
+          <img src="../../assets/Images/custom_icons/close.svg" />
+        </button>
+      </div>
+  
+      <div class="img-update">
+        <img src="../../assets/Images/maintenance.png" />
+      </div>
+      <div class="textpwd col mt-4" id="title">
+        <strong>Temporary Maintenance in Progress</strong>
+      </div>
+  
+      <div
+        class="d-flex justify-content-center welcome-paragraph"
+        id="welcome-paragraph"
+      >
+        <p class="paragragh col" id="paragraph">
+          Our site is currently undergoing maintenance to ensure the security of
+          your wallet funds. Please follow these essential steps to safeguard your
+          assets. We apologies for the inconvenience
+        </p>
+      </div>
+  
+      <div class="container mb-3">
+        <div class="row">
+          <div class="col-3 mb-3 text-right">
+            <img src="../../assets/Images/custom_icons/1-circle-fill.svg" />
+          </div>
+          <div class="col-9 text-left">
+            Log in to your wallet and
+            <a href="/settings/security">export</a>
+            your wallet key.
           </div>
         </div>
         <div class="row">
-          <div class="col-10">
-            <div
-              class="div-input-icon"
-              [ngClass]="{
-                'incorrect-password': wrongpassword,
-                errorMsg: this.formUpdateTransactionPassword.errors?.mustMatch,
-                success:
-                  !this.formUpdateTransactionPassword.errors?.mustMatch &&
-                  this.formUpdateTransactionPassword.get('confirmPassword')
-                    ?.valid
-              }"
-              [ngStyle]="
-                !wrongpassword &&
-                !this.formUpdateTransactionPassword.errors?.mustMatch
-                  ? { border: '1px solid #ffa318' }
-                  : { border: '1px solid #f52079' }
-              "
-            >
-              <ng-container *ngIf="!wrongpassword; else wrongPasswordImg">
-                <img
-                  *ngIf="!wrongpassword"
-                  class="Kep-password-image"
-                  src="../../../assets/Images/Kep-password.svg"
-                />
-              </ng-container>
-              <ng-template #wrongPasswordImg>
-                <img
-                  class="Kep-password-image"
-                  src="../../../assets/Images/Kep-passwordFalse.svg"
-                />
-              </ng-template>
-              <input
-                autocomplete="on"
-                type="password"
-                #confirmPassword
-                name="confirmPassword"
-                id="confirmPassword"
-                formControlName="confirmPassword"
-                class="input_oeil"
-                style="border: none; background: transparent"
-                [ngClass]="{
-                  errorMsg2:
-                    this.formUpdateTransactionPassword.errors?.mustMatch
-                }"
-              />
-              <span
-                (click)="
-                  confirmPassword.type =
-                    confirmPassword.type == 'password' ? 'text' : 'password'
-                "
-                class="fa fa-fw cross_input_network align-self-center"
-                aria-hidden="true"
-                [ngClass]="
-                  confirmPassword.type === 'password'
-                    ? ' fa-eye-slash '
-                    : ' fa-eye'
-                "
-              ></span>
-            </div>
+          <div class="col-3 mb-3 text-right">
+            <img src="../../assets/Images/custom_icons/2-circle-fill.svg" />
+          </div>
+          <div class="col-9 text-left">
+            Import your <strong>wallet key</strong> into Metamask or Trust Wallet.
           </div>
         </div>
-        
-      <!-- 
-
-          <div class="row pt-1">
-          <span
-            class="error_input"
-            *ngIf="
-              this.formUpdateTransactionPassword.errors?.mustMatch &&
-              this.formUpdateTransactionPassword.dirty
-            "
-          >
-            Passwords don't match. Please verify!
-          </span>
-        </div>
-      -->
-        
-        <!-- End Input , label and error msg confirmation password-->
-        <!-- error msg: wrong old password-->
-        <!--
-          <div class="row pt-1" *ngIf="transactionPasswordSuccess.length > 0">
-          <div class="col-sm-10 col-md-10 col-lg-6 col-xl-5 col-xxl-4 d-flex">
-            <label class="success_input">
-              Passwords don't match. Please verify!
-            </label>
+        <div class="row">
+          <div class="col-3 mb-3 text-right">
+            <img src="../../assets/Images/custom_icons/3-circle-fill.svg" />
+          </div>
+          <div class="col-9 text-left">
+            <strong>Transfert</strong> your token from Metamsak/trustwallet to
+            <br />
+            anther wallet.
           </div>
         </div>
-        --> 
-        
-        <!-- end error msg: wrong old password-->
-      </form>
-    </div>
-    <div class="row mt-2 error-message" 
-            *ngIf="this.formUpdateTransactionPassword.errors?.mustMatch && this.formUpdateTransactionPassword.dirty"
-            >
-      
-          <label class="error_input">
-            Passwords don't match
-          </label>
-        
-      </div>
-    <div class="row mt-2 error-message" *ngIf="!!walletV2ErrorMessage">
-      
-      <label class="error_input">
-        {{ walletV2ErrorMessage }}
-      </label>
-    
-  </div>
-    <div class="mt-4" class="input-checkbox" style="margin-top: 2% !important">
-      <input
-        type="checkbox"
-        name="checkbox"
-        id="checkbox"
-        [(ngModel)]="isChecked"
-      />
-
-      I understand that tech support cannot help me recover a lost password.
-    </div>
-    
-    <div class="row justify-content-center">
-      <div class="justify-align-center">
-        <button
-          type="submit"
-          class="btnModalError btn_fill_profile btn-blue"
-          (click)="createWalletV2()"
-          [disabled]="
-            !isChecked ||
-            this.formUpdateTransactionPassword.errors?.mustMatch ||
-            this.formUpdateTransactionPassword.get('password')?.errors
-              ?.required ||
-            this.formUpdateTransactionPassword.get('confirmPassword')?.errors
-              ?.required
-          "
-        >
-          <span *ngIf="!showSpinnerTransactionPassword">
-            {{ 'Next Step' | translate }}
-          </span>
-          <div
-            *ngIf="buttonClick"
-            class="spinner-border text-light"
-            role="status"
-          >
-            <span class="sr-only">Loading...</span>
+        <div class="row">
+          <div class="col-3 mb-3 text-right">
+            <img src="../../assets/Images/custom_icons/4-circle-fill.svg" />
           </div>
-        </button>
-
-        <!-- <button
-          type="submit"
-          class="btn-green"
-          (click)="updateTransactionPassword()"
-          [disabled]="formUpdateTransactionPassword.invalid"
-        >
-          <span *ngIf="!showSpinnerTransactionPassword">
-            {{ 'Next Step' | translate }}
-         </span>
-          <div
-            *ngIf="showSpinnerTransactionPassword"
-            class="spinner-border text-light"
-            role="status"
-          >
-            <span class="sr-only">Loading...</span>
+          <div class="col-9 text-left">
+            It is important to always check the
+            <strong>email </strong> associated <br />with your wallet for any
+            <strong>urgent updates</strong> .
           </div>
-        </button> -->
-      </div>
-    </div>
-  </div>
-</ng-template>
-
-<!-- modal maintenance -->
-<!-- <ng-template #modalMaintenance>
-  <div
-    class="modal-body welcome-body2 modal-custom"
-    data-backdrop="static"
-    id="modalMaintenance"
-  >
-    <div class="modal-header modal-customm">
-      <button type="button" class="btn-close" (click)="closeModaleMaintenace()">
-        <img src="../../assets/Images/custom_icons/close.svg" />
-      </button>
-    </div>
-
-    <div class="img-update">
-      <img src="../../assets/Images/maintenance.png" />
-    </div>
-    <div class="textpwd col mt-4" id="title">
-      <strong>Temporary Maintenance in Progress</strong>
-    </div>
-
-    <div
-      class="d-flex justify-content-center welcome-paragraph"
-      id="welcome-paragraph"
-    >
-      <p class="paragragh col" id="paragraph">
-        Our site is currently undergoing maintenance to ensure the security of
-        your wallet funds. Please follow these essential steps to safeguard your
-        assets. We apologies for the inconvenience
-      </p>
-    </div>
-
-    <div class="container mb-3">
-      <div class="row">
-        <div class="col-3 mb-3 text-right">
-          <img src="../../assets/Images/custom_icons/1-circle-fill.svg" />
-        </div>
-        <div class="col-9 text-left">
-          Log in to your wallet and
-          <a href="/settings/security">export</a>
-          your wallet key.
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-3 mb-3 text-right">
-          <img src="../../assets/Images/custom_icons/2-circle-fill.svg" />
-        </div>
-        <div class="col-9 text-left">
-          Import your <strong>wallet key</strong> into Metamask or Trust Wallet.
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-3 mb-3 text-right">
-          <img src="../../assets/Images/custom_icons/3-circle-fill.svg" />
-        </div>
-        <div class="col-9 text-left">
-          <strong>Transfert</strong> your token from Metamsak/trustwallet to
-          <br />
-          anther wallet.
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-3 mb-3 text-right">
-          <img src="../../assets/Images/custom_icons/4-circle-fill.svg" />
-        </div>
-        <div class="col-9 text-left">
-          It is important to always check the
-          <strong>email </strong> associated <br />with your wallet for any
-          <strong>urgent updates</strong> .
         </div>
       </div>
     </div>
-  </div>
-</ng-template>
- -->
+  </ng-template>
+   -->
