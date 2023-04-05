@@ -194,7 +194,6 @@ export class MigrationComponent implements OnInit {
     this.cryptoChecked = crypto;
     const index = this.listCrypto.findIndex((e) => e.network === crypto);
     this.network.name = this.listCrypto[index]?.name;
-    console.log(this.network.name)
     this.walletPassword=""
     this.getCryptoList();
     
@@ -322,7 +321,6 @@ export class MigrationComponent implements OnInit {
    
   }
   nextStep() {
-    console.log(this.cryptobyNetwork)
     this.arrayToMigrate = [];
     this.hash = '';
     this.walletPassword="";
