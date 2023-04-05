@@ -961,6 +961,9 @@ this.formUpdateTransactionPassword
             response?.data?.tronAddress
           ) {
             this.closeModal(this.setPwdTransactionModal);
+            this.existV2 = true;
+            this.existV1 = true;
+            this.versionText = 'New Wallet';
              this.modalService.open(this.migration, {
                 backdrop: 'static',
                 keyboard: false
