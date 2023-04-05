@@ -72,6 +72,7 @@ export class MigrationComponent implements OnInit {
   gasPriceEstimation!:string;
 
   @Output() migrateEvent = new EventEmitter<String>();
+  @Output() newWallet = new EventEmitter<String>();
   etherPrice!: number;
   price!: number;
   @HostListener('window:resize', ['$event'])
@@ -122,6 +123,7 @@ export class MigrationComponent implements OnInit {
   }
 
   copyAddress(network: string) {
+   
     this.isWalletAddressCopied = true;
     if(network === "TRX") {
       this.clipboard.copy(this.walletTRON)
@@ -182,6 +184,7 @@ export class MigrationComponent implements OnInit {
     
   }
   setState(crypto: string) {
+    
     this.errorTransaction = false;
     this.migrationTokens = [];
     this.outOfGas = false;
@@ -191,6 +194,7 @@ export class MigrationComponent implements OnInit {
     this.cryptoChecked = crypto;
     const index = this.listCrypto.findIndex((e) => e.network === crypto);
     this.network.name = this.listCrypto[index]?.name;
+    console.log(this.network.name)
     this.walletPassword=""
     this.getCryptoList();
     
@@ -256,6 +260,7 @@ export class MigrationComponent implements OnInit {
               }
             }  else {
               this.displaySuccessMessage(data.data.transactionHash)
+              if(this.network.name === 'TRX') setTimeout(() => {this.sendMigrationStatus()},1500)
             }
 
         },
@@ -317,24 +322,14 @@ export class MigrationComponent implements OnInit {
    
   }
   nextStep() {
+    console.log(this.cryptobyNetwork)
     this.arrayToMigrate = [];
     this.hash = '';
     this.walletPassword="";
     this.errorTransaction = false;
     if (this.cryptoChecked === 'TRON') {
-      this.walletFacade
-        .getAllWallet()
-        .pipe(takeUntil(this.onDestroy$))
-        .subscribe((data: any) => {
-          this.tokenStorageService.saveWalletVersion('v2');
-          this.tokenStorageService.saveIdWallet(data.data.addressV2);
-          this.tokenStorageService.saveTronWallet(data.data.tronAddressV2);
-          this.tokenStorageService.saveWalletBtc(data.data.btcAddressV2);
-
-          this.walletStoreService.getCryptoList();
-          this.walletStoreService.getTotalBalance();
-          this.sendMigrationStatus();
-        });
+        this.sendMigrationStatus()
+        this.newWallet.emit("new-wallet")
     } else {
       const index = this.listCrypto.findIndex((object: any) => {
         return object.network === this.cryptoChecked;

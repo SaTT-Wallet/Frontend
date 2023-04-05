@@ -1548,4 +1548,11 @@ imageFun() {
     this.onDestoy$.next('');
     this.onDestoy$.complete();
   }
+
+
+  switchNewWallet(event:any) {
+    if(event === "new-wallet") {
+      this.allWallet();
+    }
+  }
 }
