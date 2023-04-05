@@ -221,6 +221,7 @@ export class MigrationComponent implements OnInit {
   }
 
   displayErrorMessage(data:any) {
+    
     if(data[0].includes("insufficient funds for gas")) {
       this.errorTransactionMessage = data[0].replace("Returned error:", "");
       this.outOfGas = true; 
@@ -245,8 +246,7 @@ export class MigrationComponent implements OnInit {
       .subscribe(
         (data: any) => {
           
-          if (this.cryptoChecked === 'TRON')
-            setTimeout(() => this.displaySuccessMessage(data), 100000);
+            
             if(data.data.errorTransaction.length > 0) {
               if(data.data.transactionHash.length > 0) {
                 this.displaySuccessMessage(data.data.transactionHash)
