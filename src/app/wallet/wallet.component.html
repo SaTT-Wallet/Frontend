@@ -14,6 +14,7 @@
       [className]="getScreenWidth > 740 ? 'migration' : 'migration-mobile'"
       [migrate]="migrate"
       (migrateEvent)="getMigrationStatus($event)"
+      (newWallet)="switchNewWallet($event)"
     ></app-migration>
   </ng-template>
   
