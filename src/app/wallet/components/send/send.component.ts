@@ -702,7 +702,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.max = true;
     let currency = '';
     this.selectedCryptoSend = currency;
-
     if (this.selectedCryptoSend) {
       currency = this.selectedCryptoSend;
     } else {
@@ -719,10 +718,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.dataList?.forEach((crypto: any) => {
         if (crypto.symbol === currency) {
           let quantity = this.showNumbersRule.transform(crypto.quantity);
-
-          //  let totalBal = this.showNumbersRule.transform(crypto.total_balance);
-          //    crypto.total_balance = parseFloat(crypto.total_balance + '');
-          //  crypto.total_balance = crypto?.total_balance?.toFixed(2);
           this.sendform.get('Amount')?.setValue(quantity),
             this.sendform.get('AmountUsd')?.setValue(crypto.total_balance);
 
@@ -783,7 +778,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         };
       }),
       switchMap(({ bnb, Eth, matic, btt, trx }) => {
-        console.log(this.selectedCryptoSend )
         return forkJoin([
           this.walletFacade.getEtherGaz().pipe(
             take(1),
@@ -1200,7 +1194,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   showNextBloc() {
-    console.log(this.selectedCryptoSend)
     this.showAmountBloc = false;
     this.showPwdBloc = true;
     this.showSuccessBloc = false;

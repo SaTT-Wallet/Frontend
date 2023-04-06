@@ -1,8 +1,13 @@
 /***************************************************************************************************/
+@keyframes fadeIn { 
+  from { opacity: 0; } 
+}
+
 
 *:focus {
   outline: none;
 }
+
 
 .div-header {
   height: 150px;
@@ -406,6 +411,13 @@ a {
 .router-text {
   color: #4048ff !important;
   cursor: pointer;
+}
+
+
+.fade-animation {
+  color: #75758f !important;
+  text-align: center;
+  animation: fadeIn 0.5s infinite alternate;
 }
 
 .trans-upper {
