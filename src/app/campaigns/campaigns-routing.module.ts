@@ -31,7 +31,7 @@ const routes: Routes = [
             (m) => m.FarmPostsModule
           )
       },
-      { path: '', redirectTo: '/welcome', pathMatch: 'full' }
+      { path: '', redirectTo: '/ad-pools', pathMatch: 'full' }
     ]
   },
   {
