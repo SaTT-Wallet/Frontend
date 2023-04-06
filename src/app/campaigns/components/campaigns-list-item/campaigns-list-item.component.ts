@@ -82,8 +82,9 @@ export class CampaignsListItemComponent implements OnInit {
     event.target.src = 'assets/Images/moonboy/Default_avatar_MoonBoy.png';
     // event.target.src =  this.user?.userPicture
   }
-  caluculateRoi(){
+  caluculateRoi(id :any){
     this.modalService.open(this.calculRoi);
+    
   }
 
   goToEditPage(id: string) {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CampaignHttpApiService } from '@app/core/services/campaign/campaign.service';
+import { log } from 'console';
 import { from, Subject } from 'rxjs';
 import { filter, first, map, takeUntil } from 'rxjs/operators';
 
@@ -10,7 +11,7 @@ import { filter, first, map, takeUntil } from 'rxjs/operators';
   styleUrls: ['./roi-modal.component.scss']
 })
 export class RoiModalComponent implements OnInit {
-  campaignId: string = '63d941573bf74645ec1f30a9';
+  campaignId: string = '63cfef88de3de12cea7beed1';
   roiCurrentRate: number = 0;
   roiCurrentUsd: number = 0;
   tokenName: string = '';
@@ -25,10 +26,11 @@ export class RoiModalComponent implements OnInit {
   campaignPublicationUsd: number = 0;
   campaignBounties: any;
   campaignRatios: any;
-  InputView: number = 4;
+  InputView: number = 40;
   Inputlike: number = 3;
   InputShare: number = 2;
   InputReachMax: number = 10;
+  InputFllowers: number= 100;
   oracleSelected: string= "facebook";
   oracleId!: number;
   cryptoPrice: number = 2;
@@ -68,27 +70,27 @@ console.log('this.roiCurrentUsd avant', this.roiCurrentUsd);
     let ratios = this.campaignRatios;
     ratios.forEach((ratio: any) => {
       if (ratio.oracle === this.oracleSelected) {
-        let abos =40
+       
         if (ratio.reachLimit) {
           this.campaignReachMax = parseInt(ratio.reachLimit);
           
           if(this.campaignReachMax>0){
-            var max = Math.ceil((this.campaignReachMax * abos) / 100)
+            var max = Math.ceil((this.campaignReachMax * this.InputReachMax) / 100)
             if(+this.InputView> max){
-                this.campaignView = max
+                this.InputView = max
             }
             if(+this.Inputlike> max){
-              this.campaignlike = max
+              this.Inputlike = max
           }
           if(+this.InputShare> max){
-            this.campaignShare = max
+            this.InputShare = max
         }
           }
-        }else{
+        }
           this.campaignView = parseInt(ratio.view);
         this.campaignlike = parseInt(ratio.like);
         this.campaignShare = parseInt(ratio.share);
-        }
+        
         
       }
     });
@@ -98,15 +100,15 @@ console.log('this.roiCurrentUsd avant', this.roiCurrentUsd);
     let totalToEarn = '0';
     bounties.forEach((bounty: any) => {
       if (bounty.oracle === this.oracleSelected) {
-        let abosNumber = 7;
+       
         bounty.categories.forEach((category: any) => {
           if (
-            +category.minFollowers <= +abosNumber &&
-            +abosNumber <= +category.maxFollowers
+            +category.minFollowers <= +this.InputFllowers &&
+            +this.InputFllowers <= +category.maxFollowers
           ) {
             let total = category.reward;
             totalToEarn = total;
-          } else if (+abosNumber > +category.maxFollowers) {
+          } else if (+this.InputFllowers > +category.maxFollowers) {
             let total = category.reward;
             totalToEarn = total;
           }
@@ -118,11 +120,14 @@ console.log('this.roiCurrentUsd avant', this.roiCurrentUsd);
 
   estimationGains() {
     if (this.campaignType === 'performance') {
+      debugger
       this.getRewardRatios()
       this.roiCurrentRate =
         this.campaignView * this.InputView +
         this.campaignlike * this.Inputlike +
         this.campaignShare * this.InputShare;
+      
+        
     } else if (this.campaignType === 'publication') {
       this.getRewardBountie();
     }
