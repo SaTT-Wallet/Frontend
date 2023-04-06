@@ -19,16 +19,18 @@ export class RoiModalComponent implements OnInit {
   campaignlike: number=0;
   campaignShare: number=0;
   campaignReachMax: number=0;
-  campaignPReward: number=0;
-  campaignMinFollowers: number=0;
-  campaignMaxFollowers: number=0;
+  campaignPerformanceReward: number=0;
   campaignPublicationReward: number=0;
+  campaignPerformanceUsd: number=0;
+  campaignPublicationUsd: number=0;
+  campaignBounties: any;
+  campaignRatios: any;
   InputView: number = 4;
   Inputlike: number = 3;
   InputShare: number = 2;
   InputReachMax: number = 10;
   oracleId! : number;
-  cryptoPrice: any;
+  cryptoPrice: number= 2;
   isDestroyedSubject = new Subject();
   // @ViewChild('modal') modal: ElementRef;
   // @Input() title: string;
@@ -50,28 +52,39 @@ export class RoiModalComponent implements OnInit {
       this.campaignlike = parseInt(data.data.ratios[this.oracleId]?.like)
       this.campaignShare = parseInt(data.data.ratios[this.oracleId]?.share)
       this.campaignReachMax = parseInt(data.data.ratios[this.oracleId]?.reachLimit)
-      console.log("bountiiii", data.data.bounties[this.oracleId].categories);
-      this.campaignPublicationReward = data.data.bounties[this.oracleId].categories
-      this.getRewardBountie();
-      
-      // this.campaignMinFollowers = data.data.bounties[this.oracleId]?
+      this.campaignBounties = data.data.bounties
+      this.campaignRatios = data.data.ratios
+
       this.estimationGains()
     })}
+ 
 getRewardBountie(){
-
-  let a = 555; // exemple de valeur de la variable a
-  let categories = [ // exemple de tableau d'objets avec minFollowers, maxFollowers et reward
-    {_id: "63d942c58ea8ff45c075b329", minFollowers: 1, maxFollowers: 5, reward:"1000000000000000000"},
-    {_id: "63d942c58ea8ff45c075b32a", minFollowers: 6, maxFollowers: 20, reward:"2000000000000000000"},
-    {_id: "63d942c58ea8ff45c075b32a", minFollowers: 22, maxFollowers: 200, reward:"3000000000000000000"}
-  ];
+  let bounties =  this.campaignBounties
+  let totalToEarn = '0'
+  bounties.forEach((bounty: any) => {
+    
+    if (
+        bounty.oracle === "youtube"
+    ) {
+        let abosNumber = 7
+        bounty.categories.forEach((category: any) => {
+            if (
+                +category.minFollowers <= +abosNumber &&
+                +abosNumber <= +category.maxFollowers
+            ) {
+                let total = category.reward
+                totalToEarn = total
+              
+            } else if (+abosNumber > +category.maxFollowers) {
+                let total = category.reward
+                totalToEarn = total
+            }
+        })
+        this.roiCurrentRate = parseInt(totalToEarn)
+    
+    }
+})
   
-  let reward$ = from(categories).pipe(
-    first(objet => a >= objet.minFollowers && a <= objet.maxFollowers), 
-    map(objet => objet.reward) 
-  );
-  
-  reward$.subscribe(reward => console.log(reward));
 }
 
     estimationGains(){
@@ -82,13 +95,14 @@ getRewardBountie(){
         }else
        {reachmaxcheck = this.InputView} 
         this.roiCurrentRate= (this.campaignView * reachmaxcheck) + (this.campaignlike * this.Inputlike) +(this.campaignShare * this.InputShare) 
-      
-      }else if(this.campaignType === 'publication'){
-       this.roiCurrentRate 
+     
+    
+    }else if(this.campaignType === 'publication'){
+       this.getRewardBountie(); 
       }
-    
-    
+
      this.roiCurrentUsd = this.roiCurrentRate * this.cryptoPrice
+   
     }
 
   //   this.ActivatedRoute.params
