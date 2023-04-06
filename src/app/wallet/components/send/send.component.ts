@@ -715,7 +715,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       }, 3000);
     }
     if (currency) {
-      this.dataList?.map((crypto: any) => {
+      this.dataList?.forEach((crypto: any) => {
         if (crypto.symbol === currency) {
           let quantity = this.showNumbersRule.transform(crypto.quantity);
           this.sendform.get('Amount')?.setValue(quantity),
