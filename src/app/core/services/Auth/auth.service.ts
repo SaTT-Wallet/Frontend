@@ -18,7 +18,6 @@ export class AuthService {
     private router: Router,
     private tokenStorageService: TokenStorageService
   ) {
-    console.log(this.tokenStorageService.getToken())
     if (this.tokenStorageService.getToken()) {
       this.setIsAuthenticated(true);
     }
