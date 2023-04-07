@@ -858,7 +858,7 @@ this.formUpdateTransactionPassword
     }
   }
   migrateButton(): void {
-    if (this.loadingPopUp) {
+    if (this.show && this.hasWalletV2) {
       this.migrate = 'open';
       this.modalService.open(this.migration, {
         backdrop: 'static',
@@ -903,7 +903,6 @@ this.formUpdateTransactionPassword
 
             setTimeout(() => {
               this.closeModal(this.createWalletV2Modal);
-
             }, 2000);
           } 
 

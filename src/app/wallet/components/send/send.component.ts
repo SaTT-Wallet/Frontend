@@ -778,6 +778,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         };
       }),
       switchMap(({ bnb, Eth, matic, btt, trx }) => {
+        console.log(this.selectedCryptoSend )
         return forkJoin([
           this.walletFacade.getEtherGaz().pipe(
             take(1),
@@ -1194,6 +1195,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   showNextBloc() {
+    console.log(this.selectedCryptoSend)
     this.showAmountBloc = false;
     this.showPwdBloc = true;
     this.showSuccessBloc = false;
