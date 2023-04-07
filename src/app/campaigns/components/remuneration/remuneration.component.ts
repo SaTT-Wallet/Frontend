@@ -450,13 +450,13 @@ export class RemunerationComponent implements OnInit, OnDestroy {
             }
           }
           if (this.draftData.id) {
-            console.log("here");
+           
             
             this.validFormMissionFromRemuToEdit.emit(true);
             this.validFormBudgetRemun.emit(true);
 
             this.sendErrorToMission = false;
-            console.log("valuuuues:", values);
+            
             
             this.service.autoSaveFormOnValueChanges({
               formData: values,
