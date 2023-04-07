@@ -25,103 +25,75 @@
           class="col-xl-8 col-lg-10 col-md-11 col-sm-6 flex-column make-center make-width"
         >
           <span class="white-mobile-version">{{
-            'json_text' | translate
+            'Profil.export_info_security' | translate
           }}</span>
         </div>
       </div>
-      <div class="row mt-5">
-        <div class="col d-flex justify-content-center">
-          <div class="col-xl-8 col-lg-10 col-md-12 col-sm-8 margin-left">
-            <form [formGroup]="formExportData">
-              <div class="">
-                <div class="">
-                  <label class="label_input pl-4">
-                    {{ 'Mot de passe de transaction' | translate }}</label
-                  >
-                </div>
-
-                <div class="col-xl-8 col-lg-9 col-md-8 col-sm-12">
-                  <div class="div_input_add position-relative">
-                    <img
-                      class="ps-1 position-absolute align-self-center"
-                      src="/assets/Images/green-key-password.svg"
-                    />
-                    <input
-                      type="password"
-                      name="password"
-                      formControlName="password"
-                      class="input_oeil"
-                      #password_field
-                      [ngClass]="{
-                        errorMsg2:
-                          this.formExportData.get('password')?.errors
-                            ?.checkPassword
-                      }"
-                    />
-                  </div>
-
-                  <span
-                    (click)="
-                      password_field.type =
-                        password_field.type == 'password' ? 'text' : 'password'
-                    "
-                    class="fa fa-fw cross_input_network align-self-center"
-                    aria-hidden="true"
-                    [ngClass]="
-                      password_field.type === 'password'
-                        ? ' fa-eye-slash '
-                        : ' fa-eye'
-                    "
-                  ></span>
-                </div>
-                <div class="col-12 d-flex justify-content-start pt-2 mb-xs-3">
-                  <span
-                    class="error-msg"
-                    *ngIf="
-                      this.formExportData.get('password')?.errors?.checkPassword
-                    "
-                    >{{ 'Profil.pass_wrong' | translate }}</span
-                  >
-                </div>
-                <div
-                  class="col-xl-8 col-lg-9 col-md-8 col-sm-12 mt-lg-5 mt-sm-5 mt-xs-3"
-                >
-                  <button
-                    type="submit"
-                    class="div-connect-fb"
-                    [disabled]="this.formExportData.invalid"
-                    (click)="confirmExport()"
-                  >
-                    <span *ngIf="!this.showSpinner">
-                      {{ 'Download' | translate }}
-                      <!-- <img class="ms-2" src="/assets/Images/flech.svg"
-                    /> -->
-                    </span>
-                    <div
-                      *ngIf="this.showSpinner"
-                      class="spinner-border text-light"
-                      role="status"
-                    >
-                      <span class="sr-only">Loading...</span>
-                    </div>
-                  </button>
-                </div>
-              </div>
-
-              <!-- 
-                        <div class="mt-3 mb-2 display-flex">
-
-                            <button type="submit" class="div-connect-fb" [disabled]="this.formExportData.invalid" (click)="confirmExport()">
-                          {{ "Télécharger le fichier JSON" | translate }}
-                        </button>
-                        </div> -->
-              <!-- 
-            <div class="row d-flex mt-5">
-
-            </div> -->
-            </form>
-          </div>
+      <div class="confirm-code"> 
+        <div>
+          <form>
+            <span
+              class="code d-flex justify-content-center mb-2"
+              [className]="!errorMessagecode ? 'code d-flex justify-content-center mb-2' : (errorMessagecode === 'code correct' ? 'code code-success d-flex justify-content-center mb-2': 'code code-error d-flex justify-content-center mb-2')"
+              
+              >Verification code</span
+            >
+            <app-code-input-auth
+              [clearInput]="this.successMsg === 'Email sent'"
+              (codeCompleted)="onCodeCompleted($event)"
+              [ngClass]="{
+                'success-code': this.errorMessagecode === 'code correct',
+                'danger-code':
+                  this.errorMessagecode === 'code incorrect' ||
+                  this.errorMessagecode === 'code expired'
+              }"
+            ></app-code-input-auth>
+    
+            <span
+              class="error_input code-status justify-content-center"
+              *ngIf="
+                this.errorMessagecode === 'code correct' ||
+                this.errorMessagecode === 'code incorrect' ||
+                this.errorMessagecode === 'code expired'
+              "
+              [ngClass]="{
+                'success-code': this.errorMessagecode === 'code correct',
+                'danger-code':
+                  this.errorMessagecode === 'code incorrect' ||
+                  this.errorMessagecode === 'code expired'
+              }"
+            >
+              {{ errorMessagecode | translate }}
+            </span>
+            <span
+              class="text-code d-flex justify-content-center mt-2 validity-code"
+              *ngIf="!this.errorMessagecode"
+            >
+              {{ 'this code will only be valid for 5 min ' | translate }}
+            </span>
+          </form>
         </div>
+      </div>
+      <div class="d-flex justify-content-center">
+        <button
+      type="submit"
+      class="btn rounded-pill confirm-export"
+      [disabled]="errorMessagecode !== 'code correct'"
+      (click)="exportKeyStore()"
+    >
+      {{ 'confirm_' | translate }}
+    </button>
+
+    
+      </div>
+      <div class="d-flex justify-content-center">
+        <button
+      type="submit"
+      class="btn resend-code rounded-pill"
+      (click)="resendCode()"
+    >
+      {{ 'send_code' | translate }}
+    </button>
       </div>
       <div class="row d-flex justify-content-center mt-4">
         <div class="col-xl-8 col-lg-10 col-md-11 col-sm-8 top-10 display-flex">
