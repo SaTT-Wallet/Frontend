@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+
+import { ListTokens } from '@app/config/atn.config';
+import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { CampaignHttpApiService } from '@app/core/services/campaign/campaign.service';
-import { log } from 'console';
+
+
 import { from, Subject } from 'rxjs';
-import { filter, first, map, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-roi-modal',
@@ -20,78 +22,82 @@ export class RoiModalComponent implements OnInit {
   campaignlike: number = 0;
   campaignShare: number = 0;
   campaignReachMax: number = 0;
-  campaignPerformanceReward: number = 0;
-  campaignPublicationReward: number = 0;
-  campaignPerformanceUsd: number = 0;
-  campaignPublicationUsd: number = 0;
+  ReachMaxExist: boolean = false;
+  etherInWei: any;
+  coinsPrices: any;
   campaignBounties: any;
   campaignRatios: any;
   InputView: number = 40;
   Inputlike: number = 3;
   InputShare: number = 2;
   InputReachMax: number = 10;
-  InputFllowers: number= 100;
-  oracleSelected: string= "facebook";
+  InputFllowers: number = 100;
+  oracleSelected: string = 'facebook';
   oracleId!: number;
-  cryptoPrice: number = 2;
+  cryptoPrice: any;
   isDestroyedSubject = new Subject();
   // @ViewChild('modal') modal: ElementRef;
   // @Input() title: string;
 
-  constructor(private CampaignService: CampaignHttpApiService) {
+  constructor(
+    private CampaignService: CampaignHttpApiService,
+    private walletFacade: WalletFacadeService
+  ) {
     // private ActivatedRoute: ActivatedRoute
   }
 
   ngOnInit(): void {
-    this.oracleId = 1;
-console.log('this.roiCurrentUsd avant', this.roiCurrentUsd);
-
+    
     this.CampaignService.getOneById(this.campaignId, 'projection').subscribe(
       (data: any) => {
-  
         this.tokenName = data.data.token.name;
         this.campaignType = data.data.remuneration;
-        // this.campaignView = parseInt(data.data.ratios[this.oracleId]?.view);
-        // this.campaignlike = parseInt(data.data.ratios[this.oracleId]?.like);
-        // this.campaignShare = parseInt(data.data.ratios[this.oracleId]?.share);
-        // this.campaignReachMax = parseInt(
-        //   data.data.ratios[this.oracleId]?.reachLimit
-        // );
         this.campaignBounties = data.data.bounties;
         this.campaignRatios = data.data.ratios;
-
-        this.estimationGains();
+        this.getCryptoPrice("SATT");
+        ;
       }
     );
 
+   
+
+    // this.etherInWei = ListTokens[this.tokenName].decimals;
+  }
+  getCryptoPrice(token: string) {
+    this.walletFacade.getCryptoPriceList().subscribe((data: any) => {
+      console.log("tokenn", token);
+      
+      this.cryptoPrice = data.data[token].price;
+      console.log('this.cryptoPrice', this.cryptoPrice);
+      this.estimationGains()
+    },);
   }
   getRewardRatios() {
-    
     let ratios = this.campaignRatios;
     ratios.forEach((ratio: any) => {
       if (ratio.oracle === this.oracleSelected) {
-       
         if (ratio.reachLimit) {
           this.campaignReachMax = parseInt(ratio.reachLimit);
-          
-          if(this.campaignReachMax>0){
-            var max = Math.ceil((this.campaignReachMax * this.InputReachMax) / 100)
-            if(+this.InputView> max){
-                this.InputView = max
+          this.ReachMaxExist = true;
+
+          if (this.campaignReachMax > 0) {
+            var max = Math.ceil(
+              (this.campaignReachMax * this.InputReachMax) / 100
+            );
+            if (+this.InputView > max) {
+              this.InputView = max;
             }
-            if(+this.Inputlike> max){
-              this.Inputlike = max
+            if (+this.Inputlike > max) {
+              this.Inputlike = max;
+            }
+            if (+this.InputShare > max) {
+              this.InputShare = max;
+            }
           }
-          if(+this.InputShare> max){
-            this.InputShare = max
         }
-          }
-        }
-          this.campaignView = parseInt(ratio.view);
-        this.campaignlike = parseInt(ratio.like);
-        this.campaignShare = parseInt(ratio.share);
-        
-        
+        this.campaignView = parseInt(ratio.view) / 10 ** 18;
+        this.campaignlike = parseInt(ratio.like) / 10 ** 18;
+        this.campaignShare = parseInt(ratio.share) / 10 ** 18;
       }
     });
   }
@@ -100,7 +106,6 @@ console.log('this.roiCurrentUsd avant', this.roiCurrentUsd);
     let totalToEarn = '0';
     bounties.forEach((bounty: any) => {
       if (bounty.oracle === this.oracleSelected) {
-       
         bounty.categories.forEach((category: any) => {
           if (
             +category.minFollowers <= +this.InputFllowers &&
@@ -120,17 +125,16 @@ console.log('this.roiCurrentUsd avant', this.roiCurrentUsd);
 
   estimationGains() {
     if (this.campaignType === 'performance') {
-      debugger
-      this.getRewardRatios()
+      this.getRewardRatios();
       this.roiCurrentRate =
         this.campaignView * this.InputView +
         this.campaignlike * this.Inputlike +
         this.campaignShare * this.InputShare;
-      
-        
     } else if (this.campaignType === 'publication') {
       this.getRewardBountie();
     }
+    console.log('this crypto name', this.tokenName);
+    console.log('THIS PRICE', this.cryptoPrice);
 
     this.roiCurrentUsd = this.roiCurrentRate * this.cryptoPrice;
   }
