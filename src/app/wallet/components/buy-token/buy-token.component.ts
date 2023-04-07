@@ -474,7 +474,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
     if(this.selectedCurrencyType === "erc20" && this.selectedBlockchainNetwork === "ERC20") {
       delete this.targetCurrencyList[0];
       this.targetCurrencyList = this.targetCurrencyList.filter(Boolean)
-      console.log(this.targetCurrencyList);
+      
       this.selectedTargetCurrency = 'ETH';
       (this.requestedCrypto="DAI")
       this.toSwapCrypto = cryptoData['DAI']
@@ -827,14 +827,8 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   }
 
   convertCrypto() {
-    console.log(11111111111,this.amount,this.selectedCurrencyType,ECurrencyType.FIAT)
+    
     if (this.amount && this.selectedCurrencyType === ECurrencyType.FIAT) {
-      console.log("inside convertCrypto")
-      console.log( this.selectedTargetCurrency,
-        this.selectedTargetCurrency,
-        this.selectedBlockchainNetwork,
-        this.requestedCrypto
-        )
       this.walletFacade
         .convertCrypto(
           this.requestedCrypto,
@@ -863,11 +857,11 @@ export class BuyTokenComponent implements OnInit, OnChanges {
           takeUntil(this.isDestroyed)
         )
         .pipe(filter((res) => {
-          console.log(res)
+         
         return  res != null
         }))
         .subscribe((data: any) => {
-          console.log("inside subscription")
+          
           this.cryptoAmount = data?.data.digital_money?.amount || 0;
           this.quoteId = data?.data.quote_id;
           this.errMsg = '';

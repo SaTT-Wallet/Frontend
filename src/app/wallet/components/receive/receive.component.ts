@@ -309,7 +309,7 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
     if (elementinputusd)
     this.renderer.setStyle(elementinputusd,'width',elementinputusd.value.length + 1 + 'ch')
 
-    console.log("ngAfterViewChecked")
+    
 
       //elementinputusd.style.width = elementinputusd.value.length + 1 + 'ch';
     // if (inputAmount)
@@ -320,7 +320,7 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
     // let inputAmount = this.inputAmount?.nativeElement;
     if (elementinputusd)
     this.renderer.setStyle(elementinputusd,'width',elementinputusd.value.length + 1 + 'ch')
-    console.log("editwidthInput")
+    
       //elementinputusd.style.width = elementinputusd.value.length + 1 + 'ch';
     // if (inputAmount)
     //   inputAmount.style.width = elementinputusd.value.length + 1 + 'ch';

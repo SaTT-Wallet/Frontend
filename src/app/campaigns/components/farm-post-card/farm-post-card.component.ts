@@ -78,7 +78,6 @@ export class FarmPostCardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.prom.mediaUrl)
     this.getPartPic();
     if (this.router.url.includes('farm-posts')) {
       this.isFarmingRouter = true;
@@ -111,7 +110,7 @@ export class FarmPostCardComponent implements OnInit {
         this.prom = new Participation(prom);
       });
     let currencyName = this.prom.campaign.currency;
-    console.log(this.prom)
+    
 
     if (currencyName === 'SATTBEP20') currencyName = 'SATT';
 

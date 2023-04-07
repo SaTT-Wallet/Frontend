@@ -1308,7 +1308,6 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe((data: any) => {
         this.existV1 = data?.data?.address;
 
-
         if (data?.data?.address === null) {
           this.tokenStorageService.saveWalletVersion('v2');
         }
