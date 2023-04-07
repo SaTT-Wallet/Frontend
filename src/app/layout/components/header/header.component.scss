@@ -1055,11 +1055,6 @@ li:focus {
   display: none;
 }
 
-button:focus {
-  outline: none;
-  box-shadow: none;
-}
-
 .dropdown-menu2 {
   width: 100%;
   border: none;
@@ -1114,6 +1109,7 @@ button:focus {
 }
 
 .dropdown-toggle-content {
+  border: none !important;
   position: relative;
   /* height: 44px; */
   height: 48px;
@@ -1576,12 +1572,11 @@ bottom: 77.54% ; */
   padding-top: 56px;
 }
 
-
 .sidebarMoreMobileHeight {
   display: flex;
   // flex-direction: column;
   padding: 50px 0px 0px 0px;
-  
+
   width: 105%;
   max-height: -webkit-fill-available;
   // height: calc(var(--vh, 1vh) * 100);
@@ -1602,7 +1597,6 @@ bottom: 77.54% ; */
   /* margin-top: 59px; */
   min-height: 100vh;
   flex-direction: column;
-  
 }
 
 .wallet-address {

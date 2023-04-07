@@ -763,8 +763,11 @@
     *ngIf="
       this.sidebarService.toggleWalletMobile.value && isLayoutDesktop === false
     "
-    [class]="getScreenHeight < 800 ? 'sidebarMoreMobileHeight row' : 'sidebarMoreMobile row'"
-    
+    [class]="
+      getScreenHeight < 800
+        ? 'sidebarMoreMobileHeight row'
+        : 'sidebarMoreMobile row'
+    "
   >
     <p
       class="d-flex justify-content-center titleIDW"
@@ -846,9 +849,7 @@
               "
             >
               <span class="span-text-wallet"
-                >{{ btcCodeV2.slice(0, 2) }}...{{
-                  btcCodeV2.slice(-12)
-                }}</span
+                >{{ btcCodeV2.slice(0, 2) }}...{{ btcCodeV2.slice(-12) }}</span
               >
 
               <span class="pr-1 position-relative"
