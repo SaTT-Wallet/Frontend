@@ -54,7 +54,7 @@ export class FormatDataService {
     if (campaign.hasOwnProperty('currency')) {
       object.token = {
         name: campaign.currency.name || campaign.currency || '',
-        type: campaign.currency.type.toUpperCase() || ListTokens[campaign.currency].type.toUpperCase(),
+        type: campaign.currency?.type?.toUpperCase() || ListTokens[campaign.currency]?.type.toUpperCase(),
         addr: campaign.currency.addr || ListTokens[campaign.currency].contract
       };
 

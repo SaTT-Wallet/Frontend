@@ -1,15 +1,17 @@
 export const environment = {
   production: true,
-  API_URL: 'https://api2.satt-token.com',  
-  url:"https://dapp.satt.com/",
+  API_URL: 'https://api2.satt-token.com',
+  url: 'https://dapp.satt.com/',
 
-  url_subgraph_bsc: 'https://api.thegraph.com/subgraphs/name/atayen/satt--bsc-mainnet',
-  url_subgraph_ether: 'https://api.thegraph.com/subgraphs/name/atayen/satt-ether-mainnet',
+  url_subgraph_bsc:
+    'https://api.thegraph.com/subgraphs/name/atayen/satt--bsc-mainnet',
+  url_subgraph_ether:
+    'https://api.thegraph.com/subgraphs/name/atayen/satt-ether-mainnet',
 
   addresses: {
     smartContracts: {
       campaignERC20: '0xf961c85517fe86244cb60889afc4a928068d49ef',
-      campaignBEP20: '0xcef9b240c13f269354e5ae3d6808fecf9834bf10',
+      campaignBEP20: '0x72A423c42FFCB9d2d9F65921Ea4Fe42725cC63b4',
       campaignPOLYGON: '0xa01f80042512Cdf9355a66CBB1266240c0456513',
       campaignBTT: '0xa01f80042512Cdf9355a66CBB1266240c0456513',
       campaignTRON: 'TPeLf9WLzUD8tUoc7dtfGVqPUrnKGip2PN',

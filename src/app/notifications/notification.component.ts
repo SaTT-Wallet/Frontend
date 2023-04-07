@@ -13,7 +13,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import _ from 'lodash';
 import { walletUrl, ListTokens, tronScan } from '@config/atn.config';
 import { isPlatformBrowser } from '@angular/common';
-import { bscan, etherscan, polygonscan,bttscan } from '@app/config/atn.config';
+import { bscan, etherscan, polygonscan, bttscan } from '@app/config/atn.config';
 //import 'moment/locale/fr'
 
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
@@ -58,14 +58,9 @@ export class NotificationComponent implements OnInit {
   // tansfer:string='transfer_event_currency'
   bscan = environment.bscan;
   etherscan = environment.etherscan;
-  tronScan= environment.tronScan;
+  tronScan = environment.tronScan;
   polygonscan = environment.polygonscan;
-  bttscan= environment.bttscan;
-
-
-
-
-
+  bttscan = environment.bttscan;
 
   newNotification: boolean = false;
   errorMessagecode = '';
@@ -105,8 +100,7 @@ export class NotificationComponent implements OnInit {
       });
   }
   ngOnInit(): void {
-      this.getAllNotifications();
-
+    this.getAllNotifications();
   }
   seeNotification() {
     this.NotificationService.notificationSeen()
@@ -243,9 +237,12 @@ export class NotificationComponent implements OnInit {
           if (response.data.isSeen !== 0) {
             this.seeNotification();
           }
-          
+
           this.dataNotification.forEach((item: any) => {
-            item.created = (item.created && item.created !== "a few seconds ago")   ? item.created : item.createdAt;
+            item.created =
+              item.created && item.created !== 'a few seconds ago'
+                ? item.created
+                : item.createdAt;
             this.siwtchFunction(item);
           });
           this.dataNotification = _.chain(this.dataNotification)
@@ -296,17 +293,17 @@ export class NotificationComponent implements OnInit {
       case 'buy_some_gas':
         item._label = 'buy_some_gas';
         item.img = receive_satt_pic;
-        item.content = "gas_notif"
+        item.content = 'gas_notif';
         break;
       case 'invite_friends':
         item._label = 'invite_friends';
         item.img = receive_satt_pic;
-        item.content = "invite_notif"
+        item.content = 'invite_notif';
         break;
       case 'join_on_social':
         item._label = 'join_on_social';
         item.img = receive_satt_pic;
-        item.content = "network_notif"
+        item.content = 'network_notif';
         break;
       case 'send_demande_satt_event':
         item._params = {
@@ -315,17 +312,15 @@ export class NotificationComponent implements OnInit {
             item._label['cryptoCurrency'] &&
             (item._label['cryptoCurrency'] === 'SATTBEP20' ||
               item._label['cryptoCurrency'] === 'SATTPOLYGON' ||
-              item._label['currency'] === 'SATTBTT'||
-              item._label['currency'] === 'SATTTRON'
-              )
+              item._label['currency'] === 'SATTBTT' ||
+              item._label['currency'] === 'SATTTRON')
               ? 'SATT'
               : item._label['cryptoCurrency'] ||
                 (item._label['currency'] &&
                   (item._label['currency'] === 'SATTBEP20' ||
                     item._label['currency'] === 'SATTPOLYGON' ||
-                    item._label['currency'] === 'SATTBTT'||
-                    item._label['currency'] === 'SATTTRON'
-                    ))
+                    item._label['currency'] === 'SATTBTT' ||
+                    item._label['currency'] === 'SATTTRON'))
               ? 'SATT'
               : item._label['currency'],
           // crypto: item._label['currency'],
@@ -342,17 +337,15 @@ export class NotificationComponent implements OnInit {
             item._label['cryptoCurrency'] &&
             (item._label['cryptoCurrency'] === 'SATTBEP20' ||
               item._label['cryptoCurrency'] === 'SATTPOLYGON' ||
-              item._label['currency'] === 'SATTBTT'||
-              item._label['currency'] === 'SATTTRON'
-              )
+              item._label['currency'] === 'SATTBTT' ||
+              item._label['currency'] === 'SATTTRON')
               ? 'SATT'
               : item._label['cryptoCurrency'] ||
                 (item._label['currency'] &&
                   (item._label['currency'] === 'SATTBEP20' ||
                     item._label['currency'] === 'SATTPOLYGON' ||
-                    item._label['currency'] === 'SATTBTT'||
-                    item._label['currency'] === 'SATTTRON'
-                    ))
+                    item._label['currency'] === 'SATTBTT' ||
+                    item._label['currency'] === 'SATTTRON'))
               ? 'SATT'
               : item._label['currency'],
           name: item._label['name']
@@ -383,6 +376,7 @@ export class NotificationComponent implements OnInit {
 
       case 'transfer_event':
         if (item._label['currency']) {
+          item._label['currency'] === "SATTPOLYGON" && (item._label['decimal'] = 18)
           let decimal = item._label['decimal']
             ? new Big('10').pow(item._label['decimal'])
             : ListTokens[item._label.currency].decimals;
@@ -390,10 +384,9 @@ export class NotificationComponent implements OnInit {
           item._params = {
             currency:
               item._label['currency'] === 'SATTBEP20' ||
-              item._label['currency'] === 'SATTPOLYGON' || 
-              item._label['currency'] === 'SATTBTT'||
+              item._label['currency'] === 'SATTPOLYGON' ||
+              item._label['currency'] === 'SATTBTT' ||
               item._label['currency'] === 'SATTTRON'
-
                 ? 'SATT'
                 : item.label['currency'],
             nbr: Big(item._label['amount']).div(decimal),
@@ -422,18 +415,20 @@ export class NotificationComponent implements OnInit {
 
       case 'receive_transfer_event':
         if (item._label['currency']) {
+
+          item._label['currency'] === "SATTPOLYGON" && (item._label['decimal'] = 18)
+          console.log(item._label['decimal'])
           let decimal = item._label['decimal']
             ? new Big('10').pow(item._label['decimal'])
-            : ListTokens[item._label.currency].decimals;
+            : ListTokens[item._label.currency]?.decimals;
 
           item._params = {
-            nbr: Big(item._label['amount']).div(decimal),
+            nbr: Big(item._label['amount']).div(decimal ?? 18),
             currency:
               item._label['currency'] === 'SATTBEP20' ||
               item._label['currency'] === 'SATTPOLYGON' ||
-              item._label['currency'] === 'SATTBTT'||
+              item._label['currency'] === 'SATTBTT' ||
               item._label['currency'] === 'SATTTRON'
-
                 ? 'SATT'
                 : item.label['currency'],
             from: item._label['from']
@@ -467,7 +462,7 @@ export class NotificationComponent implements OnInit {
         item._params = {
           title: item._label['cmp_name'],
           owner: item._label['cmp_owner'],
-          hash: item._label['hash']
+          hash: item._label['txhash'] || item._label['hash']
         };
         item._label = 'apply_campaign';
         item.img = './assets/Images/notifIcons/CandidValid.svg';
@@ -578,9 +573,8 @@ export class NotificationComponent implements OnInit {
           crypto:
             item._label['currency'] === 'SATTBEP20' ||
             item._label['currency'] === 'SATTPOLYGON' ||
-            item._label['currency'] === 'SATTBTT'||
+            item._label['currency'] === 'SATTBTT' ||
             item._label['currency'] === 'SATTTRON'
-
               ? 'SATT'
               : item.label['currency'],
           email: item._label[2]
@@ -595,9 +589,8 @@ export class NotificationComponent implements OnInit {
           crypto:
             item._label['currency'] === 'SATTBEP20' ||
             item._label['currency'] === 'SATTPOLYGON' ||
-            item._label['currency'] === 'SATTBTT'||
+            item._label['currency'] === 'SATTBTT' ||
             item._label['currency'] === 'SATTTRON'
-
               ? 'SATT'
               : item.label['currency'],
           email: item._label[2]
@@ -668,28 +661,24 @@ export class NotificationComponent implements OnInit {
   }
 
   hashLink(network: any, link: any) {
-    
     if (network === 'eth' && isPlatformBrowser(this.platformId)) {
       window.open(etherscan + link, '_blank');
-    } else if (network === 'bsc' && isPlatformBrowser(this.platformId)) {
+    } else if (
+      (network === 'bsc' || network === 'BEP20') &&
+      isPlatformBrowser(this.platformId)
+    ) {
       window.open(bscan + link, '_blank');
-    }
-    else if (network === 'BTTC' && isPlatformBrowser(this.platformId)) {
+    } else if (network === 'BTTC' && isPlatformBrowser(this.platformId)) {
       window.open(bttscan + link, '_blank');
-    } 
-    else if (network === 'polygon' && isPlatformBrowser(this.platformId)) {
+    } else if (network === 'polygon' && isPlatformBrowser(this.platformId)) {
       window.open(polygonscan + link, '_blank');
-    } 
-     else if (network === 'tron' && isPlatformBrowser(this.platformId)) {
+    } else if (network === 'tron' && isPlatformBrowser(this.platformId)) {
       window.open(tronScan + link, '_blank');
     }
-    
   }
 
   redirect(notif: any, content: any): void {
-    if (
-      notif.type === 'join_on_social'
-    ) {
+    if (notif.type === 'join_on_social') {
       this.modalReference = this.modalService.open(content);
     }
     if (notif.type === 'invite_friends') {
@@ -697,10 +686,14 @@ export class NotificationComponent implements OnInit {
     }
 
     if (notif.type === 'buy_some_gas') {
-      this.router.navigate(['/wallet/buy-token'],{ queryParams: {id: 'BNB', network: "BEP20"}});
+      this.router.navigate(['/wallet/buy-token'], {
+        queryParams: { id: 'BNB', network: 'BEP20' }
+      });
     }
 
-    if (notif?.label?.cmp_hash) {
+    if (notif?.label?.txhash) {
+      this.hashLink(notif?.label?.network, notif?.label?.txhash);
+    } else if (notif?.label?.cmp_hash) {
       this.router.navigate(['home/campaign', notif.label.cmp_hash], {
         fragment: notif.label.cmp_hash
       });
@@ -743,7 +736,6 @@ export class NotificationComponent implements OnInit {
       });
     }
 
-    
     if (notif.label.network === 'eth') {
       window.open(etherscan + notif.label.transactionHash, '_blank');
     }
@@ -759,7 +751,6 @@ export class NotificationComponent implements OnInit {
     if (notif.label.network === 'tron') {
       window.open(tronScan + notif.label.transactionHash, '_blank');
     }
-    
   }
 
   shareOnSocialMedias(content: any) {

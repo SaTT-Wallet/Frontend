@@ -8,17 +8,21 @@ import {
   EventEmitter,
   TemplateRef,
   OnDestroy,
-  Inject
+  Inject,
+  HostListener
 } from '@angular/core';
 ('@angular/core');
 import { ChartDataSets, ChartType } from 'chart.js';
 // @ts-ignore
 import { Big } from 'big.js';
+import { WalletStoreService } from '@core/services/wallet-store.service';
+
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   pattContact,
   pattEmail,
-  id_campaign_to_participate
+  id_campaign_to_participate,
+  pattPassword
 } from '@config/atn.config';
 import { SidebarService } from '@core/services/sidebar/sidebar.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -42,7 +46,8 @@ import {
   tap,
   map,
   catchError,
-  take
+  take,
+  shareReplay
 } from 'rxjs/operators';
 import { DOCUMENT } from '@angular/common';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
@@ -50,6 +55,7 @@ import { forkJoin, of, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { ProfileService } from '@app/core/services/profile/profile.service';
 import { ToastrService } from 'ngx-toastr';
+import { MatchPasswordValidator } from '@app/helpers/form-validators';
 
 @Component({
   selector: 'app-wallet',
@@ -59,6 +65,8 @@ import { ToastrService } from 'ngx-toastr';
 export class WalletComponent implements OnInit, OnDestroy {
   hideRedBloc: any;
   percentProfil: any;
+  versionText: any = 'New Wallet';
+  loadingPopUp: boolean = false;
 
   @ViewChild('myCanvas1') canvas1!: ElementRef;
   @ViewChild('myCanvas2') canvas2!: ElementRef;
@@ -69,14 +77,39 @@ export class WalletComponent implements OnInit, OnDestroy {
   @ViewChild('createTronWalletModal', { static: false })
   private createTronWalletModal!: TemplateRef<any>;
 
+  @ViewChild('createWalletV2Modal', { static: false })
+  private createWalletV2Modal!: TemplateRef<any>;
+
+  @ViewChild('modalMaintenance', { static: false })
+  private modalMaintenance!: TemplateRef<any>;
+
+  @ViewChild('setPwdTransactionModal', { static: false })
+  private setPwdTransactionModal!: TemplateRef<any>;
+ 
+  
+  
   @ViewChild('tronWalletCreatedSuccessModal', { static: false })
   private tronWalletCreatedSuccessModal!: TemplateRef<any>;
 
+  @ViewChild('migration', { static: false })
+  private migration!: TemplateRef<any>;
+  showSpinnerTransactionPassword: boolean = false;
   showModal: Boolean = false;
   showPass: boolean = false;
+  subscription: any;
   tronWalletPassword = '';
+  walletPassword = '';
+  WalletPasswordTransaction='';
+  errorMsg = '';
+  passwordWrong: string = '';
+   transactionPasswordWrong: string = '';
+   transactionPasswordSuccess: string='';
   tronWalletAddress = '';
-
+  onDestroy$ = new Subject();
+  myModal: any;
+  buttonClick: Boolean = false;
+  show = false;
+  isV1: Boolean =  localStorage.getItem('wallet_version') === 'v1';
   lineChartDataMonth: ChartDataSets[] = [
     {
       data: [
@@ -339,7 +372,7 @@ export class WalletComponent implements OnInit, OnDestroy {
       borderWidth: 0,
       // backgroundColor: 'rgba(255, 255, 255, 0.3)',
       // backgroundColor: ' rgba(0, 0, 0, 0.1)',
-      backgroundColor: '#4048FF',
+      backgroundColor:  '#4048FF',
       // borderColor: 'rgba(255, 255, 255, 0.3)',
       // pointBackgroundColor: "#fff",
       pointBorderColor: '#0062ff',
@@ -399,20 +432,27 @@ export class WalletComponent implements OnInit, OnDestroy {
   isChecked: boolean = false;
   picUserUpdated: boolean = false;
 
+  public getScreenWidth: any;
+  public getScreenHeight: any;
+
   private totalBalance$ = this.walletFacade.totalBalance$;
   tronErrorMessage = '';
-
+  height: any = '300px';
+  walletV2ErrorMessage = '';
+  existV1: any;
+  existV2: any;
   selectTab(tabId: number) {
     this.staticTabs.tabs[tabId].active = true;
   }
   @ViewChild('checkUserLegalKYCModal') checkUserLegalKYCModal!: ElementRef;
   form: FormGroup;
   sendform: FormGroup;
-
+  formUpdateTransactionPassword: FormGroup;
   public hasAnimation: string = '';
   showSpinner!: boolean;
   dropDownSection: any = [];
   hidePortfolio: boolean = true;
+  hasWalletV2: boolean = false;
   @Output() onMakeAnimation: EventEmitter<string> = new EventEmitter();
   arrow: string = '';
   arrowColor: string = '';
@@ -460,12 +500,20 @@ export class WalletComponent implements OnInit, OnDestroy {
   intro4: string = '';
   // intro5: string = "";
   button: string = '';
+  migrate: any;
   private account$ = this.accountFacadeService.account$;
   private onDestoy$ = new Subject();
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.getScreenHeight = event.target.innerHeight;
+    this.getScreenWidth = event.target.innerWidth;
+  }
   constructor(
     private accountFacadeService: AccountFacadeService,
     private tokenStorageService: TokenStorageService,
     private profileSettingsFacade: ProfileSettingsFacadeService,
+    private walletStoreService: WalletStoreService,
     private authStoreService: AuthStoreService,
     public sidebarService: SidebarService,
     public modalService: NgbModal,
@@ -491,6 +539,20 @@ export class WalletComponent implements OnInit, OnDestroy {
       currency: new FormControl(null, Validators.required),
       message: new FormControl(null)
     });
+    this.formUpdateTransactionPassword = new FormGroup(
+      {
+        old_password: new FormControl(null, Validators.required),
+        password: new FormControl(null, {
+          validators: [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.pattern(pattPassword)
+          ]
+        }),
+        confirmPassword: new FormControl(null, [Validators.required])
+      },
+      { validators: MatchPasswordValidator() }
+    );
     this.sendform = new FormGroup({
       contact: new FormControl(null, {
         validators: [Validators.required, Validators.pattern(pattContact)]
@@ -533,7 +595,7 @@ export class WalletComponent implements OnInit, OnDestroy {
       Math?.max(...weeklyBalances) * 2;
   }
 
-  fillChart(data: any) {
+  fillChart(data: any) {    
     let x: any = this.lineChartDataDaily[0]?.data;
     let y: any = this.lineChartDataDaily[0]?.data;
     let r: any = this.lineChartLabelsDaily;
@@ -670,8 +732,65 @@ export class WalletComponent implements OnInit, OnDestroy {
       }
     }
   }
+
   ngOnInit(): void {
-    this.verifyOnBoarding();
+if(this.isV1){
+  this.lineChartColors[0].backgroundColor = '#696DE4'
+}else{this.lineChartColors[0].backgroundColor = '#4048FF'}
+this.formUpdateTransactionPassword.controls['confirmPassword'].disable();
+
+this.formUpdateTransactionPassword
+  .get('password')
+  ?.valueChanges.pipe(takeUntil(this.onDestroy$))
+  .subscribe((values2) => {
+    if (
+      values2 === '' ||
+      values2 == null ||
+      this.formUpdateTransactionPassword.get('password')?.invalid
+    ) {
+      this.formUpdateTransactionPassword.get('confirmPassword')?.reset();
+      this.formUpdateTransactionPassword.controls['confirmPassword'].disable();
+    } else {
+      this.formUpdateTransactionPassword.controls['confirmPassword'].enable();
+    }
+  });
+    //creation modal maintenance
+    // this.modalService.open(this.modalMaintenance, {
+    //   backdrop: 'static',
+    //   keyboard: false
+    // });
+    // creation modal maintenance
+
+    this.loadingPopUp = false;
+     this.migrate = this.tokenStorageService.getModaleMigrate();
+    //this.getScreenHeight = window.innerHeight;
+    this.hasWalletV2 = false;
+    this.verifyUserWalletV2();
+    this.totalbalancewallet();
+
+    this.getScreenWidth = window.innerWidth;
+    if (this.tokenStorageService.getWalletVersion() === 'v2') {
+      this.versionText = 'Old Wallet';
+      this.height = '250px';
+    } else {
+      this.versionText = 'New Wallet';
+      this.height = '300px';
+    }
+
+    //this.verifyUserWalletV2();
+    this.walletFacade
+      .getAllWallet()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((data: any) => {
+  
+        this.existV1 = data.data.address;
+        if (this.existV1 === null) {
+          this.height = '250px';
+        }
+
+        this.existV2 = data.data.addressV2;
+      });
+
     // this.dontShowAgain();
     // let data_profile = {
     //   onBoarding: false
@@ -700,8 +819,6 @@ export class WalletComponent implements OnInit, OnDestroy {
         this.findMaxBalances(data);
       });
     this.getSecure();
-    this.getDetails();
-    this.totalbalancewallet();
 
     var c = <HTMLCanvasElement>this.document.getElementById('myCanvas');
     var ctx = c?.getContext('2d');
@@ -710,8 +827,204 @@ export class WalletComponent implements OnInit, OnDestroy {
     my_gradient?.addColorStop(1, 'white');
     //ctx.fillStyle = my_gradient;
     ctx?.fillRect(20, 20, 150, 100);
+    //this.verifyOnBoarding();
+    this.verifyOnBoarding();
+    setTimeout(() => {
+      if (this.hasWalletV2 
+        // && this.migrate === 'close'
+        ) this.getDetails();
+    }, 5500);
+
+    if (!this.loadingPopUp) {
+      setTimeout(() => {
+       
+        if (this.hasWalletV2 &&
+           this.migrate === 'open' &&
+            this.show) {
+          //     this.modalService.open(this.setPwdTransactionModal, {
+          //   backdrop: 'static',
+          //   keyboard: false
+          // });
+          this.modalService.open(this.migration, {
+            backdrop: 'static',
+            keyboard: false
+          });
+          this.loadingPopUp = true;
+        } else {
+          this.loadingPopUp = true;
+        }
+      }, 5500);
+    }
+  }
+  migrateButton(): void {
+    if (this.show && this.hasWalletV2) {
+      this.migrate = 'open';
+      this.modalService.open(this.migration, {
+        backdrop: 'static',
+        keyboard: false
+      });
+    }
+  }
+  closeModaleMaintenace(){
+    this.closeModal(this.modalMaintenance)
+
+  }
+  //Create WALLET V2
+  createWalletV2() {
+    this.walletV2ErrorMessage = '';
+    this.buttonClick = true;
+    this.walletFacade
+      .createNewWalletV2(this.WalletPasswordTransaction)
+      .pipe(
+        catchError((err) => {
+          this.buttonClick = false;
+          if (err.error.error === 'same transaction pass ') {
+            this.walletV2ErrorMessage = 'Do not use the same old transaction password';
+            this.wrongpassword = true
+            setTimeout(() => {
+              this.WalletPasswordTransaction = '';
+              this.walletV2ErrorMessage='';
+              this.wrongpassword = false
+            
+            }, 3000);
+          } else if (err.error.error === 'same password') {
+            this.walletV2ErrorMessage = 'Do not use the login password';
+            this.wrongpassword = true
+            setTimeout(() => {
+              this.WalletPasswordTransaction = '';
+              this.walletV2ErrorMessage='';
+              this.wrongpassword = false
+            
+            }, 3000);
+          }
+        else  if (err.error.error === 'Wallet already exist') {
+            this.walletV2ErrorMessage = 'Wallet already exist';
+
+            setTimeout(() => {
+              this.closeModal(this.createWalletV2Modal);
+            
+            }, 2000);
+          } 
+
+          /*else if (err.error.error === 'Key derivation failed - possibly wrong password'){
+            this.wrongpassword = true;
+            this.walletV2ErrorMessage ='Wrong password, please try again';
+            setTimeout(
+              () => (
+                (this.walletV2ErrorMessage = ''),
+                (this.WalletPasswordTransaction = ''),
+                ( this.wrongpassword = false)
+              ),
+              3000
+            );
+            
+          }*/
+          else {
+            this.walletV2ErrorMessage =
+              'Something went wrong please try again!';
+          }
+
+          return of(null);
+        })
+      )
+      /*.pipe(
+        catchError((err) => {
+          if(err.err.err === 'Key derivation failed - possibly wrong password') {
+            this.walletV2ErrorMessage = 'Wrong password';
+          } else {
+            this.walletV2ErrorMessage = err.err.err
+          }
+          return of(null);
+    }), filter(res => res !== null))*/
+      .subscribe((response: any) => {
+        this.buttonClick = false;
+        if (response?.data?.error) {
+          this.wrongpassword = true;
+          this.walletV2ErrorMessage =
+            response?.data?.error ===
+            'Key derivation failed - possibly wrong password'
+              ? 'Wrong password, please try again'
+              : response?.data?.error;
+          setTimeout(
+            () => (
+              (this.walletV2ErrorMessage = ''),
+              (this.WalletPasswordTransaction = ''),
+              ( this.wrongpassword = false)
+            ),
+            3000
+          );
+        } else {
+          if (
+            response?.data?.address &&
+            response?.data?.btcAddress &&
+            response?.data?.tronAddress
+          ) {
+            this.closeModal(this.setPwdTransactionModal);
+             this.modalService.open(this.migration, {
+                backdrop: 'static',
+                keyboard: false
+              })
+          } else {
+            //wrong
+            // this.closeModal(this.createWalletV2Modal)
+          }
+        }
+      });
   }
 
+imageFun() {
+ return  !this.wrongpassword && '../../../assets/Images/Kep-password.svg' || '../../../assets/Images/Kep-passwordFalse.svg';
+   
+}
+
+  verifysign() {
+    this.walletV2ErrorMessage = '';
+    this.buttonClick = true;
+    this.walletFacade
+      .verifySign(this.walletPassword)
+      .pipe(
+        catchError((err) => {
+          this.buttonClick = false;
+
+            this.walletV2ErrorMessage =
+            'Wrong password, please try again';
+            this.wrongpassword = true;
+            setTimeout(
+              () => (
+                (this.walletV2ErrorMessage = ''),
+                ( this.wrongpassword = false)
+              ),
+              3000
+            );
+          return of(null);
+        })
+      )
+      .subscribe((response: any) => {
+        this.buttonClick = false;
+          if (
+            response?.code === 200 
+          ) {
+            // this.ngOnInit();
+            this.closeModal(this.createWalletV2Modal);
+             this.modalService.open(this.setPwdTransactionModal, {
+                backdrop: 'static',
+                keyboard: false
+              })
+ 
+        }
+      });
+  }
+  getMigrationStatus($event: any) {
+    this.tokenStorageService.setModaleMigrate($event);
+    this.migrate = $event;
+    if ($event == 'close') {
+      this.closeModal(this.migration);
+    }
+    this.versionText =
+      this.tokenStorageService.getWalletVersion() === 'v2'
+        ? 'Old Wallet'
+        : 'New Wallet';
+  }
   createTronWallet() {
     this.walletFacade
       .createTronWallet(this.tronWalletPassword)
@@ -760,6 +1073,49 @@ export class WalletComponent implements OnInit, OnDestroy {
     }
   }
 
+  getHeight() {
+    return this.height;
+  }
+
+  allWallet() {
+    try {
+      if (this.loadingPopUp) {
+        this.tokenStorageService.setModaleMigrate('open');
+        this.walletFacade
+          .getAllWallet()
+          .pipe(takeUntil(this.onDestroy$))
+          .subscribe((data: any) => {
+            if (this.tokenStorageService.getWalletVersion() === 'v2') {
+              this.versionText = 'New Wallet';
+              this.height = '300px';
+
+              this.tokenStorageService.saveWalletVersion('v1');
+              this.tokenStorageService.saveIdWallet(data.data.address);
+              this.tokenStorageService.saveTronWallet(data.data.tronAddress);
+              this.tokenStorageService.saveWalletBtc(data.data.btcAddress);
+              this.isV1 = true;
+              this.lineChartColors[0].backgroundColor = '#696DE4'
+            } else {
+              this.versionText = 'Old Wallet';
+              this.height = '250px';
+
+              this.tokenStorageService.saveWalletVersion('v2');
+              this.tokenStorageService.saveIdWallet(data.data.addressV2);
+              this.tokenStorageService.saveTronWallet(data.data.tronAddressV2);
+              this.tokenStorageService.saveWalletBtc(data.data.btcAddressV2);
+              this.isV1 = false
+              this.lineChartColors[0].backgroundColor = '#4048FF'
+              
+            }
+          
+        
+            this.walletStoreService.getCryptoList();
+            this.walletStoreService.getTotalBalance();
+          });
+      }
+    } catch (error) {}
+  }
+
   public makeAnimation(key: string): void {
     this.onMakeAnimation.emit(key);
   }
@@ -785,10 +1141,32 @@ export class WalletComponent implements OnInit, OnDestroy {
     this.totalBalance$
       .pipe(
         filter((res) => Object.keys(res).length !== 0),
+
         takeUntil(this.onDestoy$)
+        //takeUntil(this.onDestoy$)
       )
       .subscribe((data: any) => {
         this.totalAmount = data;
+        this.show =
+          Number(this.totalAmount) > 0 &&
+          localStorage.getItem('wallet_version') === 'v1'
+            ? true
+            : false;
+
+            
+    
+        /*if (this.show && this.hasWalletV2 && this.migrate === 'open') {
+          
+          this.openModal(this.migration);
+        }*/
+
+        if (Number(this.totalAmount) === 0) {
+          this.height = '250px';
+        } else {
+          if (this.show === false) {
+            this.height = '250px';
+          }
+        }
         this.variationamount = data?.variation?.toFixed(2);
         if (this.variationamount < 0) {
           this.arrowvar = '';
@@ -921,6 +1299,35 @@ export class WalletComponent implements OnInit, OnDestroy {
       });
   }
 
+  verifyUserWalletV2() {
+ 
+    this.walletFacade
+      .checkUserWalletV2()
+      .pipe(takeUntil(this.onDestoy$))
+      .subscribe(
+        (res: any) => {
+          if (!res.data) {
+            this.hasWalletV2 = false;
+            localStorage.setItem('existV2', 'false');
+            this.height = '250px';
+            this.modalService.open(this.createWalletV2Modal, {
+              backdrop: 'static',
+              keyboard: false
+            });
+          } else {
+            this.hasWalletV2 = true;
+            
+            localStorage.setItem('existV2', 'true');
+          }
+
+          this.existV2 =res.data ;
+        },
+        // () => {
+        //   this.hasWalletV2 = false;
+        // }
+      );
+  }
+
   getDetails() {
     this.account$
       .pipe(
@@ -968,7 +1375,7 @@ export class WalletComponent implements OnInit, OnDestroy {
             //  let getFillMyProfil = this.tokenStorageService.getFillMyProfil();
             let showAgain = this.tokenStorageService.getShowPopUp();
 
-            if (
+            /*if (
               this.percentProfil < 60 &&
               showAgain === 'true' &&
               this.user.onBoarding === true
@@ -976,27 +1383,14 @@ export class WalletComponent implements OnInit, OnDestroy {
               setTimeout(() => {
                 if (
                   this.tokenStorageService.getFillMyProfil() !== 'false' &&
-                  this.tokenStorageService.getToken()
+                  this.tokenStorageService.getToken() &&
+                  this.hasWalletV2
                 ) {
                   this.openModal(this.welcomeModal);
                 }
                 this.tokenStorageService.setFillMyProfil('false');
               }, 3000);
-            }
-            if (
-              this.tokenStorageService.getItem(
-                'mute-create-tron-wallet-popup'
-              ) !== 'true'
-            )
-              setTimeout(() => {
-                if (
-                  !this.tokenStorageService.getTronWalletAddress() ||
-                  this.tokenStorageService.getTronWalletAddress() ===
-                    'undefined'
-                ) {
-                  this.openModal(this.createTronWalletModal);
-                }
-              }, 4000);
+            }*/
           }
           return this.profileSettingsFacade.profilePic$;
         })
@@ -1053,6 +1447,94 @@ export class WalletComponent implements OnInit, OnDestroy {
     this.tokenStorageService.setItem('hideRedBloc', 'true');
     this.hideRedBloc = this.tokenStorageService.getHideRedBloc();
   }
+
+
+//   updateTransactionPassword() {
+  
+//     this.showSpinnerTransactionPassword = true;
+//     this.transactionPasswordWrong = '';
+//     this.transactionPasswordSuccess = '';
+//  let local = localStorage.getItem('oldPasss')
+//     let oldpass = local || ''
+//     let newpass = this.formUpdateTransactionPassword.get('password')?.value;
+
+
+
+//     if (this.formUpdateTransactionPassword.valid) {
+//       if (oldpass === newpass) {
+//         this.transactionPasswordWrong = 'profile.newPass';
+//         this.showSpinnerTransactionPassword = false;
+//         setTimeout(() => {
+//           this.transactionPasswordWrong = '';
+//         }, 3000);
+//       } else {
+//         this.walletFacade.resetTransactionPassword(oldpass, newpass)
+//         .subscribe(
+//           (res: any) => {
+//             this.showSpinnerTransactionPassword = false;
+//             if(res.code == 200 && res.message === "success") {
+//               this.transactionPasswordSuccess = "you have successfully changed your password";
+//               this.closeModal(this.setPwdTransactionModal);
+//       //         this.modalService.open(this.migration, {
+//       //    backdrop: 'static',
+//       //    keyboard: false
+//       //  });
+//               setTimeout(() => {
+//                 this.transactionPasswordSuccess = "";
+            
+//               }, 2000)
+//             }
+            
+//           },
+//           (err: any) => {
+//             this.showSpinnerTransactionPassword = false;
+//             if(err.error.error === "Key derivation failed - possibly wrong password") {
+//               this.transactionPasswordWrong = "Wrong password"
+//               setTimeout(() => {
+//                 this.transactionPasswordWrong = ''
+//               }, 2000)
+//             } else {
+//               this.transactionPasswordWrong = "Something went wrong please try again!"
+//               setTimeout(() => {
+//                 this.transactionPasswordWrong = ''
+//               }, 2000)
+//             }
+            
+//           }
+//         )
+//         /*this.AuthService.updatePassword(oldpass, newpass)
+//           .pipe(
+//             catchError((HttpError: HttpErrorResponse) => {
+//               return of(HttpError.error);
+//             }),
+//             takeUntil(this.onDestroy$)
+//           )
+//           .subscribe((res: IApiResponse<any>) => {
+//             if (res.code === 200) {
+//               this.showSpinner = false;
+//               let msg: string = '';
+//               this.translate
+//                 .get('profile.password_change')
+//                 .pipe(takeUntil(this.onDestroy$))
+//                 .subscribe((data1: any) => {
+//                   msg = data1;
+//                 });
+//               this.toastr.success(msg);
+//               this.formUpdatePassword.reset();
+//             } else if (res.code === 401) {
+//               this.passwordWrong = 'profile.old_pass_wrong';
+//               this.formUpdatePassword.get('old_password')?.reset();
+//             }
+//           });*/
+//       }
+//     }
+//   }
+  removeMessage() {
+    this.passwordWrong = '';
+    this.errorMsg = '';
+  }
+
+
   getSecure() {
     if (this.tokenStorageService.getSecure() === 'true') {
       this.tokenStorageService.removeItem('secure');

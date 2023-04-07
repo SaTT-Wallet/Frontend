@@ -20,30 +20,46 @@
   }
 }
 
-.badge {
-  background: #f6f6ff;
-  border: 1px solid #adadc8;
-  box-sizing: border-box;
-  border-radius: 19px;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 120%;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  justify-content: center;
-  letter-spacing: 0.03em;
-  color: #75758f;
-  width: 75.9px;
-  padding: 8px;
-  height: 33.65px;
-  margin: 0px auto 10px auto;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
+// .badge {
+//   background: #f6f6ff;
+//   border: 1px solid #adadc8;
+//   box-sizing: border-box;
+//   border-radius: 19px;
+//   font-style: normal;
+//   font-weight: 500;
+//   font-size: 14px;
+//   line-height: 120%;
+//   display: flex;
+//   align-items: center;
+//   text-align: center;
+//   justify-content: center;
+//   letter-spacing: 0.03em;
+//   color: #75758f;
+//   width: 75.9px;
+//   padding: 8px;
+//   height: 33.65px;
+//   margin: 0px auto 10px auto;
+//   position: absolute;
+//   top: 10px;
+//   right: 10px;
+// }
 
+.badge {
+  position: absolute;
+  top: 1vh;
+  left: 0.5vw;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  display: flex;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 130%;
+  text-align: center;
+  letter-spacing: 0.03em;
+  gap: 10px;
+}
 .crypto-renumeration-badge {
   width: 75.9px;
   position: absolute;
@@ -51,11 +67,29 @@
   right: 10px;
 }
 
-.logo-badge {
-  width: 75.9px;
-  position: absolute;
-  top: 2px;
-  left: 2px;
+.new-badge {
+  background: #00cc9e;
+  box-shadow: 0px 4px 7px rgba(0, 204, 158, 0.2);
+  border-radius: 20px;
+  width: 40px;
+  height: 20px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+}
+.earning-type {
+  width: 92px;
+  height: 20px;
+  position: relative;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  background: #ffffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  color: #4048ff;
 }
 
 .logo {
@@ -150,6 +184,7 @@
 .img-block {
   background-size: cover;
   background-repeat: no-repeat;
+  justify-content: flex-start;
   background-position: center center;
   overflow: hidden;
   position: relative;

@@ -185,13 +185,15 @@ export class checkStepsService implements CanActivate {
       } else {
         return false;
       }
-    } else if (url === 'pass-phrase') {
+    }
+    else if (url === 'pass-phrase') {
       if (this.tokenStorageService.getSecureWallet('visited-pwd') === 'true') {
         return true;
       } else {
         return false;
       }
-    } else if (url === 'downaldJSON') {
+    }
+     else if (url === 'downloadjson') {
       if (
         this.tokenStorageService.getSecureWallet('visited-passPhrase') ===
         'true'

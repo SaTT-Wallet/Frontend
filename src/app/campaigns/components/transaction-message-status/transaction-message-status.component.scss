@@ -22,7 +22,7 @@
     justify-content: center;
     align-items: center;
     position: relative;
-    margin: 2em 0 2em 0;
+    margin: 13em 0 2em 0;
     text-align: center;
     padding: 15px;
   }
@@ -67,7 +67,7 @@
   // }
   .btn-default {
     font-family: 'Poppins';
-font-style: normal;
+    font-style: normal;
     background: #ffffff;
     box-shadow: 0px 2px 6px rgb(50 55 84 / 40%);
     border-radius: 56px;
@@ -84,12 +84,11 @@ font-style: normal;
     overflow: hidden;
     text-overflow: ellipsis;
     letter-spacing: 0.01em;
-
   }
-  .btn-default-history{
+  .btn-default-history {
     font-family: 'Poppins';
-font-style: normal;
-    background: #4048FF;
+    font-style: normal;
+    background: #4048ff;
     box-shadow: 0px 2px 6px rgb(50 55 84 / 40%);
     border-radius: 56px;
     width: 100%;

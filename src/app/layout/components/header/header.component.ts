@@ -7,9 +7,11 @@ import {
   HostListener,
   Inject,
   OnDestroy,
+  Renderer2,
   OnInit,
   PLATFORM_ID,
-  ViewChild
+  ViewChild,
+  Input
 } from '@angular/core';
 // import { bscan, etherscan } from '@app/config/atn.config';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
@@ -84,6 +86,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   showMenuProfil: boolean = false;
   isTransactionHashCopiedtron = false;
 
+  existV2: any;
+
   isDropdownOpen: boolean = true;
   tronAddress: string = '';
 
@@ -101,6 +105,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   newNotification: boolean = false;
   isSeen: number = 0;
   btcCode: string = '';
+  btcCodeV2: string = '';
   erc20: string = '';
   portfeuilleList: Array<{ type: any; code: any }> = [];
   generateCode: boolean = false;
@@ -114,9 +119,19 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   url3: any;
   urlM1: any;
   urlM2: any;
+  urlM4: any;
+  urlM5: any;
+  url4: any;
+  url5: any;
+  url6: any;
+
+  
+
   picUserUpdated: boolean = false;
   oldHeight: any;
   newHeight: any;
+  public getScreenWidth: any;
+  public getScreenHeight: any;
   seen: boolean = false;
   menuAdpool: boolean = false;
   menuFarmPost: boolean = false;
@@ -128,6 +143,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   menuCampaign: boolean = false;
   menuTokenInfo: boolean = false;
   menuBuyToken: boolean = false;
+  
   // successPart: boolean = false;
   // errorPart: boolean = false;
   sucess: any = false;
@@ -144,7 +160,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   // elementType = NgxQrcodeElementTypes.URL;
   // correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
   // value = 'Techiediaries';
-
+  @Input() phishingClosing: boolean = false;
   issendfire: number = 0;
   private notifItemSize = 111;
   notifListSize = 0;
@@ -160,6 +176,22 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   isTransactionHashCopied = false;
   isTransactionHashCopiedbtc = false;
   isLayoutDesktop = false;
+  erc20V2: any;
+  tronAddressV2: any;
+  displayNew: any;
+  displayOld: any;
+  title: any = '';
+  titleWallet: any = '';
+  existV1: any;
+  @HostListener('window:resize', ['$event'])
+
+  resize(event: any) {
+    this.getScreenHeight = event.target.innerHeight;
+    this.getScreenWidth = event.target.innerWidth;
+  }
+
+
+
   constructor(
     breakpointObserver: BreakpointObserver,
     private accountFacadeService: AccountFacadeService,
@@ -175,6 +207,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     private ParticipationListStoreService: ParticipationListStoreService,
     private toastr: ToastrService,
     private walletFacade: WalletFacadeService,
+    private renderer: Renderer2,
     private walletService: WalletService,
     private campaignFacade: CampaignsService,
     private profileSettingsFacade: ProfileSettingsFacadeService,
@@ -272,15 +305,18 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           this.router.url.includes('edit')
         ) {
           //@ts-ignore
-          this.header?.nativeElement.style.background =
-            'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)';
+          // this.header?.nativeElement.style.background =
+          //   'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)';
+            this.renderer?.setStyle(this.header?.nativeElement,'background','linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)');
           this.isWelcomePage = false;
           this.menuBuyToken = true;
         }
         if (!this.isWelcomePage) {
-          //@ts-ignore
-          this.header?.nativeElement.style.background =
-            'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)';
+          this.renderer.setStyle(
+            this.header?.nativeElement,
+            'background',
+            'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)'
+          );
         }
       }
     });
@@ -290,28 +326,11 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.route.url.subscribe((e) => {});
     this.router.events
       .pipe(
-        tap((e) => {
-          //  console.log(e)
-        }),
+        tap((e) => {}),
         filter((e: any) => e instanceof NavigationEnd),
         startWith({ url: this.router.url })
       )
-      .subscribe((e: any) => {
-        // if (
-        //   ['/home', '/wallet'].includes(e.url) ||
-        //   e.url.includes('/campaign')
-        // ) {
-        //   (this.headerNav as ElementRef).nativeElement.style.position =
-        //     'absolute';
-        //   (this.headerNav as ElementRef).nativeElement.style.width = '100%';
-        //   this.hostElement.nativeElement.style.height = 'inherit';
-        // } else {
-        //   (this.headerNav as ElementRef).nativeElement.style.position =
-        //     'inherit';
-        //   (this.headerNav as ElementRef).nativeElement.style.width = 'inherit';
-        //   this.hostElement.nativeElement.style.height = '64px;';
-        // }
-      });
+      .subscribe((e: any) => {});
   }
 
   goToSocials() {
@@ -327,6 +346,10 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   ngOnInit(): void {
+    this.getScreenWidth = window.innerWidth;
+    this.getScreenHeight = window.innerHeight;
+
+
     if (isPlatformBrowser(this.platformId)) {
       this.authService.isAuthenticated$
         .pipe(takeUntil(this.isDestroyed$))
@@ -396,13 +419,31 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           this.router.navigate(['/auth/login']);
         }
         this.tokenStorageService.setItem('wallet_btc', this.btcCode);
+        this.tokenStorageService.setItem('wallet_btc_v2', this.btcCodeV2);
         this.tokenStorageService.setItem('tron-wallet', this.tronAddress);
-        this.generateCodeDes();
-        this.generateCodeERCDes();
-        this.generateCodeFunction();
-        this.generateCodeERC();
+        this.tokenStorageService.setItem('tron-wallet_v2', this.tronAddressV2);
       } else {
         this.isConnected = false;
+      }
+    }
+  }
+
+  isDisplayNew() {
+    this.displayNew = localStorage.getItem('display')?.toString();
+    
+    if (this.existV1 && this.existV2)  {
+      if (this.displayNew === 'none') {
+        this.displayNew = 'block';
+        this.displayOld = 'none';
+        localStorage.setItem('display', this.displayNew);
+        this.titleWallet = 'Your wallet ID';
+        this.title = 'Go to old wallet';
+      } else {
+        this.displayNew = 'none';
+        this.displayOld = 'block';
+        localStorage.setItem('display', this.displayNew);
+        this.titleWallet = 'Your old wallet';
+        this.title = 'Go to new wallet ';
       }
     }
   }
@@ -1257,18 +1298,54 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
       window.location.href = 'https://old.satt.atayen.us/';
   }
   portfeuille() {
-    this.walletFacade.wallet$
+    this.walletFacade
+      .getAllWallet()
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe((data: any) => {
+        this.existV1 = data?.data?.address;
+
+        if (data?.data?.address === null) {
+          this.tokenStorageService.saveWalletVersion('v2');
+        }
+        if (data.data.addressV2 === null) {
+          this.existV2 = false;
+          this.displayOld = 'none';
+        } else {
+          this.existV2 = true;
+        }
+
+        if(this.existV1 && this.existV2 ) {
+          this.titleWallet = 'Your wallet ID';
+          this.title = 'Go to old wallet';;
+        } else{
+          this.titleWallet = 'Your old wallet';
+          this.title = 'Go to new wallet ';
+        }
+
+
         if (!!data) {
-          this.btcCode = data.data.btc;
-          this.erc20 = data.data.address;
-          this.tronAddress = data.data.tronAddress;
+          this.btcCodeV2 = data.data.btcAddressV2;
+          this.erc20V2 = data.data.addressV2;
+          this.tronAddressV2 = data.data.tronAddressV2;
+          if (this.existV1) {
+            this.btcCode = data?.data?.btcAddress;
+            this.erc20 = data?.data?.address;
+            this.tronAddress = data?.data?.tronAddress;
+          }
           this.url3 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.tronAddress}&chs=219x219&chco=212121&chld=m|1`;
+          this.url6 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.tronAddressV2}&chs=219x219&chco=212121&chld=m|1`;
+          this.urlM4 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20V2}&chs=219x219&chco=212121&chld=m|1`;
+          this.urlM1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=219x219&chco=212121&chld=m|1`;
+          this.urlM2 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.btcCode}&chs=219x219&chco=212121&chld=m|1`;
+          this.urlM5 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.btcCodeV2}&chs=219x219&chco=212121&chld=m|1`;
+
           this.portfeuilleList = [
             { type: 'ERC20/BEP20', code: this.erc20 },
             { type: 'BTC', code: this.btcCode },
-            { type: 'tron', code: this.tronAddress }
+            { type: 'tron', code: this.tronAddress },
+            { type: 'ERC20/BEP20V2', code: this.erc20V2 },
+            { type: 'BTCV2', code: this.btcCodeV2 },
+            { type: 'tronv2', code: this.tronAddressV2 }
           ];
         }
       });
@@ -1300,37 +1377,9 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   public copytron(code: any) {
     this.clipboard.copy(code);
   }
-  ////display1////////
-  generateCodeERC() {
-    //@ts-ignore
-    let urlM1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=219x219&chco=212121&chld=m|1`;
-    this.urlM1 = urlM1;
-  }
-  ////display2////////
-  generateCodeFunction() {
-    let urlM2 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.btcCode}&chs=219x219&chco=212121&chld=m|1`;
-    this.urlM2 = urlM2;
-  }
 
-  // generateCodeTron(){
-  //   let url3 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.tronAddress}&chs=219x219&chco=212121&chld=m|1`;
-  //   this.url3 = url3;
-  // }
-  ////display1////////
-  generateCodeERCDes() {
-    //@ts-ignore
-    let url1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=219x219&chld=m|1`;
-    this.url1 = url1;
-    //@ts-ignore
-    let urlM1 = `https://chart.apis.google.com/chart?cht=qr&chl=${this.erc20}&chs=219x219&chld=m|1`;
-    this.urlM1 = urlM1;
-  }
   ////display2////////
   notifSize = 10;
-  generateCodeDes() {
-    let urll = `https://chart.apis.google.com/chart?cht=qr&chl=${this.btcCode}&chs=150x150`;
-    this.url2 = urll;
-  }
 
   goToEther(erc20: any) {
     if (isPlatformBrowser(this.platformId))
@@ -1472,6 +1521,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
+    // console.log(this.getScreenWidth);
+    this.getScreenWidth = event.target.innerWidth;
     if (isPlatformBrowser(this.platformId)) {
       let element0 = this.document.getElementById('introo');
       if (element0) element0.style.removeProperty('width');

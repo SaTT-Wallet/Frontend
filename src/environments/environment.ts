@@ -11,22 +11,24 @@ export const environment = {
 
   //API_URL:  'https://api2.satt-token.com',
 
-  url_subgraph_bsc: 'https://api.thegraph.com/subgraphs/name/atayen/satt-testnet',
-  url_subgraph_ether: 'https://api.thegraph.com/subgraphs/name/atayen/satt-testnet-ether',
+  url_subgraph_bsc:
+    'https://api.thegraph.com/subgraphs/name/atayen/satt-testnet',
+  url_subgraph_ether:
+    'https://api.thegraph.com/subgraphs/name/atayen/satt-testnet-ether',
 
   //API_URL: 'https://localhost:3015',
-  //https://api-preprod.satt-token.com:3014
+  // 'https://api-preprod.satt-token.com:3014',
   addresses: {
     smartContracts: {
-      campaignERC20: '0x477C93E935DcBFd330c7aE1A8BA128232eA87AC7',
-      campaignBEP20: '0x4074ec9dfd977a7af1ca93a708490966ef8120b9',
+      campaignERC20: '0xbc27de58DDCEd7A2BB911BE2E18D0FA1A49fF7D3',
+      campaignBEP20: '0x7520ed6091a338ed2ccd6940d0beef22df0e5d61',
       campaignPOLYGON: '0xD6Cb96a00b312D5930FC2E8084A98ff2Daa5aD2e',
       campaignBTT: '0x261491739e36090FC80fF1569B7E5FFe26070d77',
       campaignTRON: 'THUD3VAxyTEmMCBEjd2AcSujzbgPSu39p9',
 
-      // SATT_TOKENERC20: '0x3e233F049DAfB2ed8aaf324F67Dd98bc8FDdF6dA',
-      SATT_TOKENERC20: '0x2bef0d7531f0aae08adc26a0442ba8d0516590d0',
-      
+      SATT_TOKENERC20: '0x3e233F049DAfB2ed8aaf324F67Dd98bc8FDdF6dA',
+      //SATT_TOKENERC20: '0x2bef0d7531f0aae08adc26a0442ba8d0516590d0',
+
       SATT_TOKENBEP20: '0x6fAc729f346A46fC0093126f237b4A520c40eb89',
       SATT_TOKEN_TRON: 'TZ9mUjmxCtowj9h68NJq626qaGWiv61KWo',
       SATT_TOKENPOLYGON: '0x195DC8342D923D3dFe0167Dc902A33Eabd801653',
@@ -54,7 +56,7 @@ export const environment = {
   },
   fcmredirectUrl: 'http://localhost:4200/#/home',
   bscan: 'https://testnet.bscscan.com/tx/',
-  etherscan: 'https://ropsten.etherscan.io/tx/',
+  etherscan: 'https://goerli.etherscan.io/tx/',
   polygonscan: 'https://mumbai.polygonscan.com/tx/',
   bttscan: 'https://testnet.bttcscan.com/tx/',
   tronScan: 'https://shasta.tronscan.org/#/transaction/',
@@ -63,7 +65,7 @@ export const environment = {
   polygonscanAddr: 'https://mumbai.polygonscan.com/address/',
   bttscanAddr: 'https://testnet.bttcscan.com/address/',
   tronScanAddr: 'https://shasta.tronscan.org/#/address/',
-  etherscanaddr: 'https://ropsten.etherscan.io/address/',
+  etherscanaddr: 'https://goerli.etherscan.io/address/',
 
   simplexUrl: 'https://sandbox.test-simplexcc.com/payments/new',
   gmtId: 'GTM-5XW23QX',
@@ -108,7 +110,7 @@ export const environment = {
   },
   urlSocialMedia: {
     urlTiktok: 'https://www.tiktok.com/'
-  },
+  }
   // gmtId: 'GTM-5XW23QX'
 
   /*  API_URL: 'https://api2.satt-token.com',

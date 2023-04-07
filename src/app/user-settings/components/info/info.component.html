@@ -1,4 +1,7 @@
-<div class="container-fluid page-content wallet-page">
+<div
+  class="container-fluid page-content wallet-page"
+  [style]="'margin-top: 4%!important; '"
+>
   <div class="row show-mobile">
     <div class="col-md-12 col-lg-12 col-xs-12">
       <button type="button" class="btn-back" [routerLink]="['/home/settings/']">
@@ -88,10 +91,7 @@
                   <!-- <img [src]="user?.userPicture" (error)="onImgError($event)" class="avatar" *ngIf="user.idSn === 0">
                                      <img src={{pic}} (error)="onImgError($event)" class="avatar" *ngIf="user.idSn != 0">  -->
 
-
-
-
-                                     <!-- <img
+                  <!-- <img
                                      [src]="user?.userPicture"
                                      (error)="onImgError($event)"
                                      class="avatar"
@@ -104,12 +104,11 @@
                                    class="avatar"
                                  />    -->
 
-
-                                 <img
-                                 [src]="user?.userPicture"
-                                 (error)="onImgError($event)"
-                                 class="avatar"
-                               />
+                  <img
+                    [src]="user?.userPicture"
+                    (error)="onImgError($event)"
+                    class="avatar"
+                  />
 
                   <img
                     class="mt-5 pt-5 ms-5 ps-5 position-absolute modifbut"

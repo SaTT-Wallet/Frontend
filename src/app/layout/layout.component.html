@@ -1,19 +1,88 @@
-<app-header [ngClass]="{
-    fromWallet: router.url.includes('wallet')
-  }" *ngIf="router.url !== 'password_wallet'" [ngStyle]="{ display: router.url.includes('help') ? 'none' : 'block' }"></app-header>
+<ng-container *ngIf="!phishingVisibility">
+  <div class="div1">
+    <!-- <img
+      src="assets/Images/moon-boy-warning.svg"
+      alt=""
+      *ngIf="getScreenWidth < 960"
+    /> -->
+    <img
+      id="img-moon-warning"
+      src="assets/Images/moon-boy-warning.svg"
+      alt=""
+      *ngIf="getScreenWidth > 960"
+    />
+    <div class="div2">
+      <div class="div2-content">
+        <span class="title-modal" [ngClass]="'warning'">Phishing warning:</span>
+        <span class="title-modal"
+          >&nbsp; Please make sure you're visiting
+        </span>
+        <span class="title-modal" [ngClass]="'warning-bold'">
+          <a href="https://dapp.satt.com"></a> https://dapp.satt.com</span
+        >
+        <span class="title-modal"> - check the URL carefully</span>
+      </div>
 
-<div class="container-main" *ngIf="router.url !== 'password_wallet'" appScrollTrack>
-    <app-sidebar></app-sidebar>
-    <div class="center-content" id="center-content" (scroll)="onScroll($event)" (window:resize)="onResize($event)">
-        <router-outlet class="outlet"></router-outlet>
+      <!-- <div class="close-modale">
+        <img src="assets/Images/closeModal.svg" alt="" />
+      </div> -->
+
+      <span *ngIf="getScreenWidth > 960">
+        <img
+          id="cross"
+          src="assets/Images/closeModal.svg"
+          alt=""
+          (click)="close()"
+        />
+      </span>
     </div>
+    <div *ngIf="getScreenWidth < 960" class="cross-mobile">
+      <img
+        id="cross-mobile"
+        src="assets/Images/closeModal.svg"
+        alt=""
+        (click)="close()"
+      />
+    </div>
+  </div>
+</ng-container>
+<!-- send phishing visibility to header -->
+<app-header
+  [phishingClosing]="phishingVisibility"
+  [ngClass]="{
+    fromWallet: router.url.includes('wallet')
+  }"
+  *ngIf="router.url !== 'password_wallet'"
+  [ngStyle]="{
+    top: phishingVisibility ? '0' : '8vh',
+    display: router.url.includes('help') ? 'none' : 'block'
+  }"
+></app-header>
+
+<div
+  class="container-main"
+  *ngIf="router.url !== 'password_wallet'"
+  appScrollTrack
+>
+  <app-sidebar></app-sidebar>
+  <div
+    [className]="phishingVisibility ? 'center-content' : 'center-content2'"
+    id="center-content"
+    (scroll)="onScroll($event)"
+    (window:resize)="onResize($event)"
+  >
+    <router-outlet class="outlet"></router-outlet>
+  </div>
 </div>
 
-<app-footer-bar [ngClass]="{
+<app-footer-bar
+  [ngClass]="{
     fromWallet: router.url.includes('wallet')
-  }" *ngIf="
+  }"
+  *ngIf="
     router.url !== 'password_wallet' &&
     !router.url.includes('welcome') &&
     !router.url.includes('help') &&
     !router.url.includes('/campaign/')
-  "></app-footer-bar>
+  "
+></app-footer-bar>

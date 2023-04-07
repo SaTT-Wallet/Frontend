@@ -344,6 +344,12 @@ button:focus {
   color: #00cc9e;
 }
 
+.code-error {
+  color: #f52079;
+}
+.code-success {
+  color: #00cc9e;
+}
 .gray_block {
   background: #f6f6ff;
   border-radius: 26px;
@@ -478,7 +484,80 @@ button:focus {
   line-height: normal;
   color: #8b93a5;
 }
+.confirm-export-button {
+  margin-bottom: 5rem;
+  margin-top: 3rem;
+}
 
+.btn-export-disbaled {
+  background-color: #F6F6FF;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
+  border-radius: 22.1827px;
+  padding: 13px 25px;
+  font-family: 'Poppins';
+  font-weight: 600;
+  font-size: 18px;
+  color: #ADADC8;
+  letter-spacing: 0.01em;
+  border: none;
+  margin-right: 20px;
+  margin-top: 10px;
+  
+  
+}
+
+.confirm-export:disabled {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  border: 1px solid #ADADC8;
+  color: #ADADC8;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  background-color: #F6F6FF;
+}
+
+.confirm-export {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  border: 1px solid #4048ff;
+  color: white;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  background-color: #4048ff;
+}
+
+.resend-code {
+  background-color: white;
+  color: #4048ff;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  border: 1px solid #4048ff;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  margin-bottom: 2rem;
+ 
+}
+
+
+.resend-code:hover {
+  background-color: #4048ff;
+  color: white;
+}
+
+.confirm-code {
+  margin-top: 3rem;
+  background: #f6f6ff;
+  border: 1px solid #f6f6ff;
+  box-sizing: border-box;
+  border-radius: 26px;
+  padding: 12px 50px;
+  max-width: 430px;
+  display: block !important;
+}
 .error_input {
   font-style: normal;
   font-weight: normal;
@@ -486,6 +565,16 @@ button:focus {
   line-height: 16px;
   letter-spacing: 0.03em;
   color: #f52079;
+  max-height: 3em;
+}
+
+.success_input {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0.03em;
+  color: #00CC9E;
   max-height: 3em;
 }
 
@@ -787,6 +876,8 @@ a {
   border: 3px solid rgba(64, 72, 255, 0.3);
 }
 
+
+
 @media (max-width: 425px) {
   ::ng-deep .codeinput input {
     margin-right: 0 !important;
@@ -800,6 +891,7 @@ a {
   .orange-text,
   .label_input,
   .btn-export,
+  .btn-export-disbaled ,
   .btn-green,
   .pink_btn {
     font-size: 4vw !important;
@@ -829,6 +921,9 @@ a {
 @media (max-width: 767.98px) {
   .btn-blue-kyc {
     margin-top: 0 !important;
+  }
+  .validity-code {
+    font-size: small;
   }
   .kyctext {
     margin-bottom: 1em !important;
@@ -1182,6 +1277,22 @@ button:focus {
 
 .btn-blue {
   background: #4048ff !important;
+  border-radius: 30px;
+  width: 165px;
+  height: 56px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 27px;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.01em;
+  color: #f6f6ff !important;
+  border: none;
+  /* margin-right: 1.5rem; */
+}
+.btn-grey {
+  background: "grey" !important;
   border-radius: 30px;
   width: 165px;
   height: 56px;

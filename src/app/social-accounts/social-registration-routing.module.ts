@@ -85,7 +85,7 @@ const routes: Routes = [
         canActivate: [HasIdWalletService, checkStepsService]
       },
       {
-        path: 'downaldJSON',
+        path: 'downloadjson',
         component: DownaldJSONFileComponent,
         canActivate: [checkStepsService]
       },
@@ -118,11 +118,11 @@ const routes: Routes = [
         component: ActivationMailComponent,
         canActivate: [checkStepsService]
       },
-      {
+      /*{
         path: 'pass-phrase',
         component: PassPhraseComponent
         //canActivate: [checkStepsService]
-      }
+      }*/
     ]
   }
 ];

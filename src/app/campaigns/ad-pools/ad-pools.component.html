@@ -1,5 +1,10 @@
 <!-- <div class="style-grid mt-4" *ngIf="this.tokenStorageService.getIsAuth()">
   <div class="block-create-campaign">
+    <img
+        src="/assets/Images/bg-create-adPool.png"
+        width="70px"
+        class="create-campaign-bg"
+      /> 
     <div class="block-title-create-campaign text-center">
       <h2 class="title-budget">
         {{ 'AllCampains.budget' | translate }}
@@ -18,15 +23,14 @@
         width="70px"
         class="pic-btn-create-campaign"
       />
-      <button type="button" class="btn-create-campaign">
+      <button type="button" class="btn-create-new-campaign">
         <span class="text-btn-create-campaign">{{
           'confirm_btc' | translate
         }}</span>
       </button>
     </div>
   </div>
-
-</div>  -->
+</div> -->
 <div class="row filter-container">
   <!-- <app-ad-pool-filter
     (isFormatGrid)="listenForStyleHost($event)"
@@ -55,6 +59,38 @@
     (onEndPageScroll)="onScroll()"
   >
     <ng-template appItemsList>
+      <div class="block-create-campaign">
+        <img
+          src="/assets/Images/bg-create-adPool.png"
+          width="70px"
+          class="create-campaign-bg"
+        />
+        <!-- <div class="block-title-create-campaign text-center">
+          <h2 class="title-budget">
+            {{ 'AllCampains.budget' | translate }}
+          </h2>
+          <h2 class="title-budget">
+            {{ (totalBudgetInvested$ | async) || '0' | fromWeiTo: 'SATT' }} SaTT
+          </h2>
+          <h5>
+            ( {{ 'AllCampains.soit' | translate }}
+            {{ (totalBudgetInvestedInUSD$ | async) || '0' }} $ )
+          </h5>
+        </div> -->
+        <div class="">
+          <!-- (click)="createNewDraftCampaign()" > -->
+          <!-- <img
+            src="/assets/Images/newImages/Mask-Group.svg"
+            width="70px"
+            class="pic-btn-create-campaign"
+          /> -->
+          <button type="button" class="btn-create-new-campaign">
+            <span class="text-btn-create-campaign">{{
+              'confirm_btc' | translate
+            }}</span>
+          </button>
+        </div>
+      </div>
       <app-campaigns-list-item
         *ngFor="
           let campaign of campaignsList;
@@ -72,7 +108,15 @@
     </ng-template>
   </app-list-items>
 </div>
-
+<div
+  class="col-12 background pt-0.25 fixed-bottom position-relative"
+  style="
+    display: contents;
+    box-shadow: 0px -16px 135px rgb(0 0 0 / 18%);
+    width: 100%;
+    left: 0%;
+  "
+></div>
 <div class="mt-2">
   <div
     *ngIf="!isLoading && campaignsList.length === 0"
@@ -85,7 +129,7 @@
     </p>
   </div>
 </div>
- 
+
 <ng-template #welcomeModal>
   <div class="modal-header modal-customm">
     <button

@@ -45,8 +45,14 @@
           }}.svg"
       /></span> -->
     </div>
-    <div class="logo-badge d-flex justify-content-start">
-      <!-- <span
+    <div class="badge" *ngIf="campaign.type !== 'draft'">
+      <div class="new-badge" *ngIf="isNewCampaign">New</div>
+
+      <div class="earning-type" *ngIf="isPublication">Publication</div>
+      <div class="earning-type" *ngIf="isPerformance">Performance</div>
+    </div>
+    <!-- <div class="logo-badge d-flex justify-content-start">
+      <span
         class="d-flex justify-content-start align-items-center"
         *ngIf="campaign.type !== 'draft'"
       >
@@ -57,8 +63,8 @@
           class="logo"
           alt=""
         />
-      </span> -->
-    </div>
+      </span>
+    </div> -->
     <!-- <app-user-picture [isHeaderPic]="false" *ngIf="campaign.isOwnedByUser"></app-user-picture> -->
     <!--  <img
       [src]="campaign.urlPicUser"
@@ -109,7 +115,7 @@
     [ngStyle]="{ background: campaign.type === 'draft' ? '#F6F6FF' : 'white' }"
   >
     <div class="social-Icons">
-      <img src="./assets/Images/tikTok.svg" *ngIf="isTikTokSelected"/>
+      <img src="./assets/Images/tikTok.svg" *ngIf="isTikTokSelected" />
 
       <img src="./assets/Images/instagram.svg" *ngIf="isInstagramSelected" />
       <img
@@ -167,9 +173,9 @@
         "
       />
       <img
-      src="./assets/Images/linkedin-active.svg"
-      *ngIf="isLinkedinSelected"
-    />
+        src="./assets/Images/linkedin-active.svg"
+        *ngIf="isLinkedinSelected"
+      />
       <img
         src="./assets/Images/desabled-linkedin.svg"
         *ngIf="
@@ -182,7 +188,7 @@
           campaign.type === 'draft'
         "
       />
-  <img
+      <img
         src="./assets/Images/desabled-tikTok.svg"
         *ngIf="
           !isInstagramSelected &&
@@ -205,7 +211,7 @@
       <span class="campaign-funds-details d-flex justify-content-center">
         <span class="d-flex align-items-center">
           {{ 'Monetize.funds' | translate }}:
-          {{  campaign.budget | fromWeiTo: currencyName:3 | number }}
+          {{ campaign.budget | fromWeiTo: currencyName:3 | number }}
         </span>
         <span class="d-flex align-items-center ml-1">
           <img

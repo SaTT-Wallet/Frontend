@@ -46,11 +46,32 @@ export class CryptofetchServiceService {
     });
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     var idwallet = id_wallet || this.tokenStorageService.getIdWallet();
-    return this.http
-      .get(sattUrl + '/wallet/totalBalance', { headers: headers })
-      .pipe(shareReplay(1));
+    return this.http.post(
+      sattUrl + '/wallet/totalBalance',
+      {
+        version: this.tokenStorageService?.getWalletVersion()
+      },
+      { headers: headers }
+    );
   }
 
+  migrateTokens(tokens: any, network: string, pass: any) {
+    const headers = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    return this.http.post(
+      sattUrl + '/wallet/transfertTokensBep20',
+      {
+        tokens,
+        network,
+        pass
+      },
+      { headers: headers }
+    );
+  }
   getEtherGaz() {
     return this.http.get(sattUrl + '/wallet/Erc20GasPrice');
   }
@@ -68,12 +89,11 @@ export class CryptofetchServiceService {
       headers: this.tokenStorageService.getHeader()
     });
   }
-  getGas(network: any){
-      return this.http.get(sattUrl + '/wallet/gasPrice/' + network , 
-      {
-         headers: this.tokenStorageService.getHeader()
-     } )
-   }
+  getGas(network: any) {
+    return this.http.get(sattUrl + '/wallet/gasPrice/' + network, {
+      headers: this.tokenStorageService.getHeader()
+    });
+  }
 
   getBalanceCrypto() {
     const headers = new HttpHeaders({
@@ -81,9 +101,12 @@ export class CryptofetchServiceService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http
-      .get(sattUrl + '/wallet/userBalance', { headers: headers })
-      .pipe(shareReplay(1));
+
+    return this.http.post(
+      sattUrl + '/wallet/userBalance',
+      { version: this.tokenStorageService?.getWalletVersion() },
+      { headers: headers }
+    );
   }
   convertcrypto(send: any) {
     const headers = new HttpHeaders({

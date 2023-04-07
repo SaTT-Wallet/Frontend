@@ -73,6 +73,7 @@ export class DraftCampaignService implements OnDestroy {
   }
 
   private saveForm() {
+    
     return this.editFormChangesSubject.pipe(
       tap(() => {
         if (!this.isSaveFormStarted) {
@@ -80,22 +81,29 @@ export class DraftCampaignService implements OnDestroy {
         }
       }),
       map((values: any) => {
-        //console.log(values.formData);
         let campaignData = JSON.parse(JSON.stringify(values.formData));
+        
         const formData = this.formatData.manipulateDataBeforeSend({
           ...campaignData
         });
+        
         return { formData, id: values.id };
       }),
       switchMap((values: any) => {
+        
+
+        
         return this.service.updateOneById(values.formData, values.id).pipe(
           tap(() => {
+            
             this.campaignsStore.initCampaignStore(values.id);
           })
         );
       }),
       retry(3),
-      catchError(() => {
+      catchError((error) => {
+        console.log(error);
+        
         return of(null);
       }),
       exhaustMap((response: IApiResponse<ICampaignResponse> | null) => {

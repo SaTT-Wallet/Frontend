@@ -4,10 +4,23 @@
   padding: 42% 0 0 0;
   overflow-y: auto !important;
 }
+
+
+.modal-transaction-password-mobile {
+  width: 100vw;
+  text-align: center;
+}
+
+
+
 @media (max-width: 768px) {
   :host {
     padding: 57% 0 0 0;
   }
+
+  
+
+  
 }
 @media (max-width: 425px) {
   :host {
@@ -62,6 +75,140 @@
   color: white;
   box-shadow: 0px 4px 20px 0px #00000033;
 }
+
+.btn-edit-refunds-pool {
+  justify-content: center;
+  border: none;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+  text-align: center;
+  align-items: center;
+  letter-spacing: 0.03em;
+  padding-left: 3%;
+  padding-top: 3%;
+  padding-bottom: 3%;
+  border-radius: 30px;
+  background-color: #4048ff;
+  color: white;
+  box-shadow: 0px 4px 20px 0px #00000033;
+}
+
+.modal-transaction-password {
+  //height: 50vh;
+  width: 50vw;
+  text-align: center;
+}
+
+.change_btn {
+  border-radius: 30px;
+  border: none;
+  background: #00cc9e;
+  height: 50px;
+  width: 30%;
+  color: cornsilk;
+  margin-bottom: 5%;
+}
+
+.campaign-password-description {
+  padding-left: 15%;
+  padding-right: 15%;
+  font-family: 'Poppins';
+}
+
+
+
+.error-message {
+  font-family: 'Poppins';
+  color: #F52079;
+  font-weight: 500;
+}
+
+.success-message {
+  font-family: 'Poppins';
+  color: #00CC9E;
+  font-weight: 500;
+}
+
+.campaign-password-title {
+  padding-top: 2%;
+  font-family: 'Poppins';
+}
+.campaign-password-logo {
+  padding-top: 5%;
+  font-family: 'Poppins';
+}
+
+.input_oeil {
+  
+  height: 45px;
+  padding: 6px 15px;
+  line-height: 1.57142857;
+  border: none;
+  font-size: 14px;
+  color: #162746;
+  border-radius: 30px;
+  content: '\f002';
+}
+
+.div_input_add {
+  margin-right: 15%;
+  margin-left: 15%;
+  background-color: white;
+  border: 1px solid #d6d6e8;
+  display: flex;
+  padding: 0;
+  border-radius: 30px;
+}
+
+.div_input_add_mobile {
+  width: 100vw;
+  background-color: white;
+  border: 1px solid #d6d6e8;
+  display: flex;
+  padding: 0;
+  border-radius: 30px;
+  
+}
+
+
+
+.btn-edit-refunds-pool p {
+  margin-bottom: 0px;
+}
+.btn-edit-refunds-pool-disabled p {
+  margin-bottom: 0px;
+}
+.btn-edit-refunds-pool-disabled p img{
+  margin-right: 10px;
+}
+.btn-edit-refunds-pool p img{
+  margin-right: 10px;
+}
+
+.btn-edit-refunds-pool-disabled {
+  justify-content: center;
+  border: none;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+  text-align: center;
+  align-items: center;
+  letter-spacing: 0.03em;
+  padding-left: 3%;
+  padding-top: 3%;
+  padding-bottom: 3%;
+  /* width: 169px; */
+  
+  border-radius: 30px ;
+  background-color: #F6F6FF;
+  color: #ADADC8;
+  font-family: 'Poppins';
+  border: 1px solid #ADADC8;
+}
+
 
 .img-container {
   /* box-shadow: 0px 4px 20px rgb(0 0 0 / 20%);
@@ -304,9 +451,19 @@
   .btn-apply {
     display: none !important;
   }
+
+  .modal-transaction-password {
+    width: 70vw;
+  }
 }
 
 @media (min-width: 768px) {
+
+
+  
+
+
+
   .desktopClass {
     display: block;
   }
@@ -493,16 +650,15 @@
   border-radius: 30px;
 }
 
-::ng-deep iframe {
-  opacity: 0.001;
-  z-index: -1 !important;
-}
+// ::ng-deep iframe {
+//   opacity: 0.001;
+//   z-index: -1 !important;
+// }
 
-::ng-deep #fc_frame,
-#fc_frame.fc-widget-normal {
-  z-index: -1 !important;
-  opacity: 0 !important;
-}
+ ::ng-deep #fc_frame,
+ #fc_frame.fc-widget-normal {
+  bottom: 64px!important;
+ }
 
 /*------css spinner-----*/
 

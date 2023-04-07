@@ -161,10 +161,14 @@ export class ParticipationListStoreService {
                   }
 
                   element.sum =
-                    element?.totalToEarn && element?.payedAmount
+                    element?.totalToEarn &&
+                    element?.payedAmount &&
+                    new Big(element?.totalToEarn).gt(element?.payedAmount)
                       ? new Big(element?.totalToEarn)
                           .plus(element?.payedAmount)
                           .toFixed()
+                      : new Big(element?.totalToEarn).lte(element?.payedAmount)
+                      ? element?.payedAmount
                       : element?.totalToEarn;
                   if (
                     element.isPayed === true &&
@@ -448,8 +452,7 @@ export class ParticipationListStoreService {
       return this.sanitizer.bypassSecurityTrustResourceUrl(
         'https://twitter.com/' + post.idUser + '/status/' + post.idPost
       );
-    }
-     else {
+    } else {
       const idPost = post.idPost.split('&')[0];
 
       return this.sanitizer.bypassSecurityTrustResourceUrl(
@@ -471,11 +474,10 @@ export class ParticipationListStoreService {
       return 'https://www.youtube.com/watch?v=' + post.idPost.split('&')[0];
     } else if (post.typeSN === 6) {
       // console.log(post)
-      return 'https://www.tiktok.com/embed/'+post.idPost  ;
+      return 'https://www.tiktok.com/embed/' + post.idPost;
     } else {
       return `https://www.linkedin.com/feed/update/urn:li:${post.typeURL}:${post.idPost}/`;
     }
-    
   }
   sanitizedDescription(value: any) {
     return this.sanitizer.bypassSecurityTrustHtml(value);
