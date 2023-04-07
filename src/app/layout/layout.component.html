@@ -52,7 +52,7 @@
   [ngClass]="{
     fromWallet: router.url.includes('wallet')
   }"
-  *ngIf="router.url !== 'password_wallet'"
+  *ngIf="router.url !== 'password_wallet' || !router.url.includes('login')"
   [ngStyle]="{
     top: phishingVisibility ? '0' : '8vh',
     display: router.url.includes('help') ? 'none' : 'block'

@@ -18,6 +18,7 @@ export class AuthService {
     private router: Router,
     private tokenStorageService: TokenStorageService
   ) {
+    console.log(this.tokenStorageService.getToken())
     if (this.tokenStorageService.getToken()) {
       this.setIsAuthenticated(true);
     }
@@ -150,6 +151,7 @@ export class AuthService {
     if (!this.tokenStorageService.getIsAuth()) {
       return true;
     }
+    
     this.router.navigate(['']);
     return false;
   }
