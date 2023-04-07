@@ -1195,6 +1195,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   showNextBloc() {
+    console.log(this.selectedCryptoSend)
     this.showAmountBloc = false;
     this.showPwdBloc = true;
     this.showSuccessBloc = false;

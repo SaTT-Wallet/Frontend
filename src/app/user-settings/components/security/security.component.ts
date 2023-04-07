@@ -86,6 +86,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
   formExportDataBTCSubmittedV2: boolean = false;
   formUpdatePassword: UntypedFormGroup;
   formUpdateTransactionPassword: UntypedFormGroup | undefined;
+  
   password: any;
   passwordWrong: string = '';
   transactionPasswordWrong: string = '';
@@ -547,7 +548,6 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
 
 
-
   updatePassword() {
     //this.showSpinner=true;
 
@@ -669,6 +669,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
   confirmExportV2(password: any) {
     this.showSpinner = true;
     let exportObs = localStorage.getItem("wallet_version") === "v1" && this.profileSettingsFacade.exportProfileData(password) || this.profileSettingsFacade.exportProfileDataV2(password);
+
     let fileName: string = '';
     if (this.exportType === this.eExportType.eth) {
       fileName = 'keystore.json';
