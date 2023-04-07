@@ -106,50 +106,6 @@ export class DownaldJSONFileComponent implements OnInit {
   
   }  
 
-  confirmExport() {
-    let password = this.formExportData.get('password')?.value;
-
-    let fileName: string = 'keystore.json';
-    this.showSpinner = true;
-    // let exportType: string = 'export';
-
-    if (this.formExportData.valid && isPlatformBrowser(this.platformId)) {
-      this.profileSettingsFacade
-        .exportProfileDataV2(password)
-        .pipe(takeUntil(this.isDestroyed))
-        .subscribe(
-          (data) => {
-            const file = new Blob([JSON.stringify(data)], {
-              type: 'application/octet-stream'
-            });
-
-            const href = URL.createObjectURL(file);
-            const a = this.document.createElement('A');
-            a.setAttribute('href', href);
-            a.setAttribute('download', fileName);
-            this.document.body.appendChild(a);
-            a.click();
-            this.document.body.removeChild(a);
-            this.formExportData.reset();
-            this.showSpinner = false;
-            this.router.navigate(['/social-registration/activePass']);
-          },
-          (err) => {
-            if (
-              (err.error.code === 500 &&
-                err.error.error ===
-                  'Key derivation failed - possibly wrong password') ||
-              (err.error.code === 401 && err.error.error === 'Wrong password')
-            ) {
-              this.formExportData
-                .get('password')
-                ?.setErrors({ checkPassword: true });
-              this.showSpinner = false;
-            }
-          }
-        );
-    }
-  }
   ngOnDestroy(): void {
     this.isDestroyed.next('');
     this.isDestroyed.unsubscribe();
