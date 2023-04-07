@@ -419,7 +419,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         // @ts-ignore
         let compare = Math.floor(this.tokenStorageService.getExpire() * 1);
         if (compare < expire) {
-          this.tokenStorageService.signOut();
+           this.tokenStorageService.signOut();
           this.router.navigate(['/auth/login']);
         }
         this.tokenStorageService.setItem('wallet_btc', this.btcCode);
@@ -1307,7 +1307,6 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe((data: any) => {
         this.existV1 = data?.data?.address;
-
 
         if (data?.data?.address === null) {
           this.tokenStorageService.saveWalletVersion('v2');

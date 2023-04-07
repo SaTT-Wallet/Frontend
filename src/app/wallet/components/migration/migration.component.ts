@@ -249,7 +249,7 @@ export class MigrationComponent implements OnInit {
       .subscribe(
         (data: any) => {
           
-            
+          
             if(data.data.errorTransaction.length > 0) {
               if(data.data.transactionHash.length > 0) {
                 this.displaySuccessMessage(data.data.transactionHash)
@@ -258,8 +258,13 @@ export class MigrationComponent implements OnInit {
                 this.displayErrorMessage(data.data.errorTransaction)
               }
             }  else {
-              this.displaySuccessMessage(data.data.transactionHash)
-              if(this.network.name === 'TRX') setTimeout(() => {this.sendMigrationStatus()},1500)
+              
+              if(this.network.name === 'TRX') {
+                setTimeout(() => {
+                  this.displaySuccessMessage(data.data.transactionHash);
+                }, 70000)
+              } else this.displaySuccessMessage(data.data.transactionHash)
+              
             }
 
         },

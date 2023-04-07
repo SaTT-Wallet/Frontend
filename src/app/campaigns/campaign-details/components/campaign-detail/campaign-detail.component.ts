@@ -309,15 +309,12 @@ export class CampaignDetailComponent implements OnInit {
 
 
   callRemaining() {
-    console.log(this.campaign.currency.type);
-    console.log(this.passwordForm.value.password);
     this.errorMessage = '';
     this.successMessage = '';
     if(this.passwordForm.value.password.length > 0) {
       this.loadingButton = true;
       this.CampaignService.getRefunds(this.campaign.hash, this.passwordForm.value.password, this.campaign.currency.type).subscribe(
         (res: any) => {
-          console.log({res})
           if(res.code === 200 && res.message === "budget retrieved") {
             this.loadingButton = false;
             this.successMessage = "Budget retrieved";
@@ -327,7 +324,6 @@ export class CampaignDetailComponent implements OnInit {
           }
         },
         (err) => {
-          console.log({err : err.error.error})
           if(err.error.error === "Key derivation failed - possibly wrong password") {
             this.errorMessage = "wrong password, please try again"
             this.passwordForm.reset();
