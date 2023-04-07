@@ -343,7 +343,7 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
           .compressFile(data.result, -2, 50, 25)
           .then((result: DataUrl) => {console.log({result})
         
-          console.log("data.result: ", result)
+          
           // this.imageChangedEventMobile = event;
           // this.isConformCoverMobile = true;
           // this.showImageMobile = true;
@@ -378,7 +378,6 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
         this.imageCompress
           .compressFile(image, orientation, 50, 25)
           .then((result: DataUrl) => {
-            console.log("result: ", result)
             this.imgResultAfterCompress = result;
             console.warn(
               `Compressed: ${result.substring(0, 50)}... (${
@@ -403,7 +402,7 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
       this.picName = null;
       this.showImage = false;
       let fileUploaded = event.target.files[0];
-      console.log("fileUploaded: ", fileUploaded)
+      
       /*this.imageCompress
           .compressFile(fileUploaded, -2, 50, 25)
           .then((result: DataUrl) => {

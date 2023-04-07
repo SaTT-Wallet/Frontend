@@ -34,7 +34,7 @@ export class AccountEffects {
           Number(localStorage.getItem('expires_in')) <
           Math.floor(Date.now() / 1000)
         ) {
-          console.log('expiredexpiredexpiredexpired');
+          
           localStorage.clear();
           window.open('welcome' , '_self');
         } else if (

@@ -778,7 +778,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         };
       }),
       switchMap(({ bnb, Eth, matic, btt, trx }) => {
-        console.log(this.selectedCryptoSend )
+        
         return forkJoin([
           this.walletFacade.getEtherGaz().pipe(
             take(1),
