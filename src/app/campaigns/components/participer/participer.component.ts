@@ -12,8 +12,8 @@ import {
 } from '@angular/core';
 import {
   AbstractControl,
-  FormControl,
-  FormGroup,
+  UntypedFormControl,
+  UntypedFormGroup,
   ValidatorFn,
   Validators,
 
@@ -59,7 +59,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
   values: Array<any> = [];
   value: any = {};
   campaigndata: any;
-  sendform: FormGroup;
+  sendform: UntypedFormGroup;
   application: any;
   errorResponse: any = '';
   applyPassword: boolean = false;
@@ -154,12 +154,12 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
   ) {
     if (isPlatformBrowser(this.platformId))
       this.window = this.document.defaultView;
-    this.sendform = new FormGroup({
-      url: new FormControl('', [
+    this.sendform = new UntypedFormGroup({
+      url: new UntypedFormControl('', [
         Validators.required,
         Validators.pattern(pattMedia)
       ]),
-      password: new FormControl('', Validators.required)
+      password: new UntypedFormControl('', Validators.required)
     });
   }
 

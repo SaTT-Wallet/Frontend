@@ -4,12 +4,12 @@
 
 export const environment = {
   production: false,
-  API_URL: 'https://api-preprod2.satt-token.com',
+  //API_URL: 'https://localhost:3015',
   //url:"http://localhost:4200/",
   url: 'https://testnet.satt.atayen.us/',
   //https://api-preprod2.satt-token.com
 
-  //API_URL:  'https://api2.satt-token.com',
+  API_URL:  'https://api-preprod2.satt-token.com',
 
   url_subgraph_bsc:
     'https://api.thegraph.com/subgraphs/name/atayen/satt-testnet',
@@ -21,7 +21,7 @@ export const environment = {
   addresses: {
     smartContracts: {
       campaignERC20: '0xbc27de58DDCEd7A2BB911BE2E18D0FA1A49fF7D3',
-      campaignBEP20: '0x7520ed6091a338ed2ccd6940d0beef22df0e5d61',
+      campaignBEP20: '0x79Ab8dd7267F45AdF846F0dE0732759e3456Bee3',
       campaignPOLYGON: '0xD6Cb96a00b312D5930FC2E8084A98ff2Daa5aD2e',
       campaignBTT: '0x261491739e36090FC80fF1569B7E5FFe26070d77',
       campaignTRON: 'THUD3VAxyTEmMCBEjd2AcSujzbgPSu39p9',

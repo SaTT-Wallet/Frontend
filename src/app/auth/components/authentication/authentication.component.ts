@@ -16,7 +16,7 @@ import Swal from 'sweetalert2';
 import { CookieService } from 'ngx-cookie-service';
 import { CountdownComponent, CountdownEvent } from 'ngx-countdown';
 import { SocialUser } from 'angularx-social-login';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ContactMessageService } from '@core/services/contactmessage/contact-message.service';
@@ -88,9 +88,9 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
   errorMessage_validation: string = '';
   routerSub!: Subscription;
   loginNet: string = '';
-  authForm: FormGroup;
-  formL: FormGroup;
-  resetPasswordForm: FormGroup;
+  authForm: UntypedFormGroup;
+  formL: UntypedFormGroup;
+  resetPasswordForm: UntypedFormGroup;
   language: string = 'Fr';
   isSuccessful = false;
   isSubmitting = false;
@@ -131,7 +131,7 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
   blocktime!: number;
   timeLeftToUnLock!: number;
   blockedForgetPassword: boolean = false;
-  formCode: FormGroup;
+  formCode: UntypedFormGroup;
   confirmCodeShow: boolean = false;
   codesms: boolean = false;
   loginshow: boolean = true;
@@ -204,21 +204,21 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
     //       this.french = false;
     //     }
     //   });
-    this.formCode = new FormGroup({
-      code: new FormControl(null, [Validators.required])
+    this.formCode = new UntypedFormGroup({
+      code: new UntypedFormControl(null, [Validators.required])
     });
 
-    this.authForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', Validators.required)
+    this.authForm = new UntypedFormGroup({
+      email: new UntypedFormControl('', [Validators.required, Validators.email]),
+      password: new UntypedFormControl('', Validators.required)
     });
-    this.formL = new FormGroup({
-      email: new FormControl(null, [Validators.required, Validators.email])
+    this.formL = new UntypedFormGroup({
+      email: new UntypedFormControl(null, [Validators.required, Validators.email])
     });
     this.telegramLinkAccountService.init();
-    this.resetPasswordForm = new FormGroup(
+    this.resetPasswordForm = new UntypedFormGroup(
       {
-        password: new FormControl(null, {
+        password: new UntypedFormControl(null, {
           validators: [
             Validators.required,
             Validators.minLength(8),
@@ -227,7 +227,7 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
             )
           ]
         }),
-        confirmPassword: new FormControl(null, [Validators.required])
+        confirmPassword: new UntypedFormControl(null, [Validators.required])
       },
       { validators: MatchPasswordValidator() }
     );

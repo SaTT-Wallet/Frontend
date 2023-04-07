@@ -161,7 +161,7 @@
 
   .toast-success{
     background-color:  #323754!important;
-    background-image: url() !important;
+    /* background-image: url() !important; */
     border-radius: 20px !important;
     opacity: 0.8 !important;
     -webkit-border-radius: 20px !important;
@@ -180,7 +180,7 @@
   }
 
    .toast-message .icon {
-    background-image: url() !important;
+    /* background-image: url() !important; */
   }
   .icon {
     margin-left: -36px !important;

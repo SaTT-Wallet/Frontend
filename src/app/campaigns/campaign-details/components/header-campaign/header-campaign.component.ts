@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { ParticipationListStoreService } from '@app/campaigns/services/participation-list-store.service';
 import { IOption } from '@shared/components/multi-select/multi-select.component';
 import { Subject } from 'rxjs';
@@ -79,7 +79,7 @@ export class HeaderCampaignComponent implements OnInit {
     }
   ];
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private participationListService: ParticipationListStoreService
   ) {
     // reset filter

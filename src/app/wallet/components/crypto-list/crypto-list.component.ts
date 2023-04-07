@@ -30,7 +30,7 @@ import { WalletStoreService } from '@core/services/wallet-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 
 import { ShowNumbersRule } from '@shared/pipes/showNumbersRule';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { pattContact } from '@config/atn.config';
 import { environment } from '@environments/environment';
 import { FilterBynamePipe } from '@shared/pipes/filter-byname.pipe';
@@ -97,7 +97,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   private listAddedToken: any[] = [];
   isLodingBtn = false;
   errorAddTokenMsg = '';
-  formToken: FormGroup;
+  formToken: UntypedFormGroup;
 
   successMsg: string = '';
   selectedBlockchain = 'erc20';
@@ -130,14 +130,14 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     private filterByNamePipe: FilterBynamePipe
   ) {
     this.buyIframSrc = this.dom.bypassSecurityTrustResourceUrl('');
-    this.formToken = new FormGroup({
-      network: new FormControl('bep20', Validators.required),
-      tokenAdress: new FormControl('', {
+    this.formToken = new UntypedFormGroup({
+      network: new UntypedFormControl('bep20', Validators.required),
+      tokenAdress: new UntypedFormControl('', {
         validators: [Validators.required, Validators.pattern(pattContact)]
       }),
-      symbol: new FormControl(''),
-      decimal: new FormControl(''),
-      tokenName: new FormControl('')
+      symbol: new UntypedFormControl(''),
+      decimal: new UntypedFormControl(''),
+      tokenName: new UntypedFormControl('')
     });
   }
 

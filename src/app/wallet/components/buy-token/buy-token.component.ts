@@ -6,7 +6,7 @@ import {
   OnInit,
   PLATFORM_ID
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
@@ -76,7 +76,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   liClicked!: boolean;
   amount: number = 50;
   currency: any;
-  convertform: FormGroup;
+  convertform: UntypedFormGroup;
   // eslint-disable-next-line @typescript-eslint/naming-convention
   cryptoMoneyList: any[] = dataList;
   selectedLevel: any;
@@ -152,13 +152,13 @@ export class BuyTokenComponent implements OnInit, OnChanges {
     private _location: Location,
     private activatedRoute: ActivatedRoute
   ) {
-    this.convertform = new FormGroup({
-      Amount: new FormControl(
+    this.convertform = new UntypedFormGroup({
+      Amount: new UntypedFormControl(
         0,
         Validators.compose([Validators.required, Validators.min(0)])
       ),
-      currency: new FormControl(this.selectedCurrencyValue),
-      walletId: new FormControl(this.walletId, {
+      currency: new UntypedFormControl(this.selectedCurrencyValue),
+      walletId: new UntypedFormControl(this.walletId, {
         validators: [Validators.required, Validators.pattern(pattContact)]
       })
     });
@@ -474,7 +474,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
     if(this.selectedCurrencyType === "erc20" && this.selectedBlockchainNetwork === "ERC20") {
       delete this.targetCurrencyList[0];
       this.targetCurrencyList = this.targetCurrencyList.filter(Boolean)
-      console.log(this.targetCurrencyList);
+      
       this.selectedTargetCurrency = 'ETH';
       (this.requestedCrypto="DAI")
       this.toSwapCrypto = cryptoData['DAI']
@@ -827,14 +827,8 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   }
 
   convertCrypto() {
-    console.log(11111111111,this.amount,this.selectedCurrencyType,ECurrencyType.FIAT)
+    
     if (this.amount && this.selectedCurrencyType === ECurrencyType.FIAT) {
-      console.log("inside convertCrypto")
-      console.log( this.selectedTargetCurrency,
-        this.selectedTargetCurrency,
-        this.selectedBlockchainNetwork,
-        this.requestedCrypto
-        )
       this.walletFacade
         .convertCrypto(
           this.requestedCrypto,
@@ -863,11 +857,11 @@ export class BuyTokenComponent implements OnInit, OnChanges {
           takeUntil(this.isDestroyed)
         )
         .pipe(filter((res) => {
-          console.log(res)
+         
         return  res != null
         }))
         .subscribe((data: any) => {
-          console.log("inside subscription")
+          
           this.cryptoAmount = data?.data.digital_money?.amount || 0;
           this.quoteId = data?.data.quote_id;
           this.errMsg = '';

@@ -1,7 +1,7 @@
 :host {
   --cs-red: #f52079;
   display: block;
-
+}
   .confirm-form {
     max-width: 600px;
     margin: 0 auto;
@@ -89,4 +89,4 @@
   .error-input {
     border: 1px solid var(--cs-red);
   }
-}
+

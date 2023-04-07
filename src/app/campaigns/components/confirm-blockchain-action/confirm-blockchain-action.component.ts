@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { BlockchainActionsService } from '@core/services/blockchain-actions.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -13,8 +13,8 @@ export class ConfirmBlockchainActionComponent implements OnInit {
   @Output() onSuccess = new EventEmitter();
   @Output() onFail = new EventEmitter();
 
-  form = new FormGroup({
-    password: new FormControl(null, Validators.required)
+  form = new UntypedFormGroup({
+    password: new UntypedFormControl(null, Validators.required)
   });
   isLoading = false;
   errorMessage: string = '';
@@ -80,7 +80,7 @@ export class ConfirmBlockchainActionComponent implements OnInit {
   }
 
   get password() {
-    return this.form.get('password') as FormControl;
+    return this.form.get('password') as UntypedFormControl;
   }
 
   onFormSubmit() {

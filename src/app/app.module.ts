@@ -14,9 +14,9 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '@environments/environment';
 import { HelpComponent } from './components/help/help.component';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TransferHttpCacheModule } from '@nguniversal/common';
 import { translateBrowserLoaderFactory } from '@core/loaders/translate-browser.loader';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -52,6 +52,7 @@ import { translateBrowserLoaderFactory } from '@core/loaders/translate-browser.l
       id: environment.gmtId
     })*/
   ],
+  exports:[TranslateModule], 
   providers: [{ provide: 'isBrowser', useValue: true }],
   bootstrap: [AppComponent]
 })

@@ -17,7 +17,7 @@ import { NotificationService } from '@core/services/notification/notification.se
 import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { ParticipationListStoreService } from '@campaigns/services/participation-list-store.service';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   atLastOneChecked,
   requiredDescription
@@ -41,7 +41,7 @@ export class FarmPostCardComponent implements OnInit {
   @Input() formatGrid: boolean = true;
   @Output() deleted = new EventEmitter<any>();
   showSpinner: boolean = false;
-  reasonForm: FormGroup;
+  reasonForm: UntypedFormGroup;
   promToreject: any;
   showLoadingSpinner: boolean = false;
   isFarmingRouter: boolean = false;
@@ -65,20 +65,19 @@ export class FarmPostCardComponent implements OnInit {
     public changeDetectorRef: ChangeDetectorRef,
     @Inject(PLATFORM_ID) private platformId: string,
   ) {
-    this.reasonForm = new FormGroup(
+    this.reasonForm = new UntypedFormGroup(
       {
-        reason1: new FormControl(null),
-        reason2: new FormControl(null),
-        reason3: new FormControl(null),
-        reason4: new FormControl(null),
-        description: new FormControl(null)
+        reason1: new UntypedFormControl(null),
+        reason2: new UntypedFormControl(null),
+        reason3: new UntypedFormControl(null),
+        reason4: new UntypedFormControl(null),
+        description: new UntypedFormControl(null)
       },
       [atLastOneChecked(), requiredDescription()]
     );
   }
 
   ngOnInit(): void {
-    console.log(this.prom.mediaUrl)
     this.getPartPic();
     if (this.router.url.includes('farm-posts')) {
       this.isFarmingRouter = true;
@@ -111,7 +110,7 @@ export class FarmPostCardComponent implements OnInit {
         this.prom = new Participation(prom);
       });
     let currencyName = this.prom.campaign.currency;
-    console.log(this.prom)
+    
 
     if (currencyName === 'SATTBEP20') currencyName = 'SATT';
 
@@ -214,7 +213,7 @@ export class FarmPostCardComponent implements OnInit {
       }
     });
     let filterdArray = arrayReason.filter((ele: any) => ele !== null);
-    if (filterdArray !== []) {
+    if (filterdArray.length !== 0) {
       this.campaignService
         .rejectLinks(
           this.prom,

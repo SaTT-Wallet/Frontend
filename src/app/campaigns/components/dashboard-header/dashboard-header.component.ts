@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { CampaignsListStoreService } from '@campaigns/services/campaigns-list-store.service';
 import { ParticipationListStoreService } from '@campaigns/services/participation-list-store.service';
 import { Subject } from 'rxjs';
@@ -110,7 +110,7 @@ export class DashboardHeaderComponent implements OnInit {
   searchButtonClickSubject = new Subject();
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private participationListService: ParticipationListStoreService,
     private campaignsListStoreService: CampaignsListStoreService
   ) {}
