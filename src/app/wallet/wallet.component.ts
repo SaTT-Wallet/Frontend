@@ -903,6 +903,7 @@ this.formUpdateTransactionPassword
 
             setTimeout(() => {
               this.closeModal(this.createWalletV2Modal);
+            
             }, 2000);
           } 
 
