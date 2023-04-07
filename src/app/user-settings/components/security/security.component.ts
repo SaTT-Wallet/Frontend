@@ -686,7 +686,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
       
       exportObs.pipe(takeUntil(this.onDestroy$)).subscribe(
         (res: any) => {
-          console.log(res);
+          
           
           if(this.exportType === this.eExportType.tron && res.error && res.error === "Invalid Tron password") {
             this.showSpinner = false;
@@ -739,9 +739,9 @@ export class SecurityComponent implements OnInit, OnDestroy {
               .get('password')
               ?.setErrors({ checkPassword: true });
           } else if(err.error.text === "Wallet V2 not found" || err.error.text === "Wallet v2 not found") {
-            console.log("test")
+            
             if(this.exportType === this.eExportType.tron) {
-              console.log("test 2")
+              
               this.errorMsgTronV2 = "Wallet v2 not found"
             } else {
               this.errorMsgETHV2 = "Wallet v2 not found";
@@ -826,7 +826,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
           (res: any) => {
             //   if (res.message === 'success' && res.code === 200) {
             this.showSpinner = false;
-            console.log(res);
+            
             // if (res.error === 'Wrong password') {
             //   this.formExportDataBTC
             //     .get('password')
