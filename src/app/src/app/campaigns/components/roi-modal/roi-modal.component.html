@@ -3,6 +3,7 @@
     <button
       type="button"
       class="btn-close pull-right close"
+      click = "closeBtn()"
       data-dismiss="modal"
       aria-label="Close"
     ></button>
@@ -14,6 +15,17 @@
     <div class="description-modal">
       ROI measures investment profitability by calculating initial <br />
       investment percentage earned/lost.
+    </div>
+    <div class="form-group">
+      <!-- <label>Select your favorite social media platform:</label> -->
+      <div class="btn-group btn-group-toggle">
+        <label class="btn" *ngFor="let platform of platforms">
+          <input type="radio" name="platform" [value]="platform" (change)="onPlatformSelect(platform)"> 
+          <!-- <i [ngClass]="'fa fa-' + platform"></i>  -->
+          <img src="./assets/Images/{{platform}}.svg" style="    height: 38px;
+          width: 38px;" />
+        </label>
+      </div>
     </div>
     <div *ngIf="campaignType === 'performance'">
       <h3>Earnings</h3>
@@ -33,7 +45,25 @@
               />
              </span>
           </div>
-          <app-input-roi-modal ></app-input-roi-modal>
+          <!-- <app-input-roi-modal [icon]="view" [text]="view"></app-input-roi-modal> -->
+          <div class="input-group mb-3 input-social-media">
+            <div class="input-group-prepend">
+              <span class="input-group-text icon-input" id="basic-addon1">    <img
+                class="icon-crypto-input"
+                src="/assets/Images/actions-social-media-icons/view.svg"
+              />
+              </span>
+            </div>
+            <input
+            style="color:  #4048FF;"
+              type="text"
+              class="form-control"
+              placeholder="view"
+              aria-label="Username"
+              aria-describedby="basic-addon1"
+              [(ngModel)]="InputView" (input)="estimationGains()"
+            />
+          </div>
         </div>
         <div class="col-sm input-social-media">
           <div>1 like = {{ campaignlike }}  <span>
@@ -43,7 +73,25 @@
             />
            </span>
           </div>
-          <app-input-roi-modal></app-input-roi-modal>
+          <!-- <app-input-roi-modal [icon]="like" [text]="like"></app-input-roi-modal> -->
+          <div class="input-group mb-3 input-social-media">
+            <div class="input-group-prepend">
+              <span class="input-group-text icon-input" id="basic-addon1">    <img
+                class="icon-crypto-input"
+                src="/assets/Images/actions-social-media-icons/like.svg"
+              />
+              </span>
+            </div>
+            <input
+            style="color:  #4048FF;"
+              type="text"
+              class="form-control"
+              placeholder="like"
+              aria-label="Username"
+              aria-describedby="basic-addon1"
+              [(ngModel)]="Inputlike" (input)="estimationGains()"
+            />
+          </div>
         </div>
         <div class="col-sm input-social-media">
           <div>1 Shar = {{ campaignShare }} 
@@ -54,27 +102,73 @@
               />
              </span>
           </div>
-          <app-input-roi-modal></app-input-roi-modal>
+          <!-- <app-input-roi-modal [icon]="share" [text]="share"></app-input-roi-modal> -->
+          <div class="input-group mb-3 input-social-media">
+            <div class="input-group-prepend">
+              <span class="input-group-text icon-input" id="basic-addon1">    <img
+                class="icon-crypto-input"
+                src="/assets/Images/actions-social-media-icons/share.svg"
+              />
+              </span>
+            </div>
+            <input
+            style="color:  #4048FF;"
+              type="text"
+              class="form-control"
+              placeholder="share"
+              aria-label="Username"
+              aria-describedby="basic-addon1"
+              [(ngModel)]="InputShare" (input)="estimationGains()"
+            />
+          </div>
         </div>
-        <div class="col-sm input-social-media" *ngIf="!ReachMaxExist">
+        <div class="col-sm input-social-media" *ngIf="ReachMaxExist">
           <div>maxreach={{ campaignReachMax }}%</div>
-          <app-input-roi-modal></app-input-roi-modal>
+          <!-- <app-input-roi-modal [icon]="maxreach" [text]="maxreach"></app-input-roi-modal> -->
+          <div class="input-group mb-3 input-social-media">
+            <div class="input-group-prepend">
+              <span class="input-group-text icon-input" id="basic-addon1">    <img
+                class="icon-crypto-input"
+                src="/assets/Images/actions-social-media-icons/reach.svg"
+              />
+              </span>
+            </div>
+            <input
+            style="color:  #4048FF;"
+              type="text"
+              class="form-control"
+              placeholder="reach"
+              aria-label="Username"
+              aria-describedby="basic-addon1"
+              [(ngModel)]="InputReachMax" (input)="estimationGains()"
+            />
+          </div>
         </div>
       </div>
     </div>
     <div class="container" *ngIf="campaignType === 'publication'">
       <div class="row flex-sm-row flex-column justify-content-center">
         <div class="col-sm input-social-media">
-          <div>
-            1 View = {{ campaignView }}
-            <span>
-              <img
+       
+          <!-- <app-input-roi-modal [icon]="followers" [text]="followers"></app-input-roi-modal> -->
+          <div class="input-group mb-3 input-social-media">
+            <div class="input-group-prepend">
+              <span class="input-group-text icon-input" id="basic-addon1">    <img
                 class="icon-crypto-input"
-                src="/assets/Images/icons-crypto/black/{{ tokenName }}.svg"
+                src="/assets/Images/actions-social-media-icons/followers.svg"
               />
-             </span>
+              </span>
+            </div>
+            <input
+            style="color:  #4048FF;"
+              type="text"
+              class="form-control"
+              placeholder="followers"
+              aria-label="Username"
+              aria-describedby="basic-addon1"
+              [(ngModel)]="InputFllowers" (input)="estimationGains()"
+            />
           </div>
-          <app-input-roi-modal ></app-input-roi-modal>
         </div>
      
       </div>

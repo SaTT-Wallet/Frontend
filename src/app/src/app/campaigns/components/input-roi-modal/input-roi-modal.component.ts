@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-input-roi-modal',
@@ -6,7 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./input-roi-modal.component.scss']
 })
 export class InputRoiModalComponent implements OnInit {
+  @Input() icon: any;
+  @Input() text: any;
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+ 
+    
+    
+  }
 }

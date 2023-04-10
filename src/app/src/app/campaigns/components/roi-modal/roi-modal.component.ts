@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { ListTokens } from '@app/config/atn.config';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { CampaignHttpApiService } from '@app/core/services/campaign/campaign.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { event } from 'jquery';
 
 
 import { from, Subject } from 'rxjs';
@@ -13,7 +15,8 @@ import { from, Subject } from 'rxjs';
   styleUrls: ['./roi-modal.component.scss']
 })
 export class RoiModalComponent implements OnInit {
-  campaignId: string = '63cfef88de3de12cea7beed1';
+  campaignId!: string ;
+  inputValue:any;
   roiCurrentRate: number = 0;
   roiCurrentUsd: number = 0;
   tokenName: string = '';
@@ -27,34 +30,44 @@ export class RoiModalComponent implements OnInit {
   coinsPrices: any;
   campaignBounties: any;
   campaignRatios: any;
-  InputView: number = 40;
-  Inputlike: number = 3;
-  InputShare: number = 2;
-  InputReachMax: number = 10;
-  InputFllowers: number = 100;
+  InputView: number=0;
+  Inputlike: number = 0;
+  InputShare: number = 0;
+  InputReachMax: number = 0;
+  InputFllowers: number = 0;
   oracleSelected: string = 'facebook';
-  oracleId!: number;
+  platforms: string[] = ['facebook', 'twitter', 'instagram', 'linkedin', 'youtube','tiktok-white'];
   cryptoPrice: any;
+  close: any;
   isDestroyedSubject = new Subject();
   // @ViewChild('modal') modal: ElementRef;
-  // @Input() title: string;
+   @Input() id: any;
 
   constructor(
     private CampaignService: CampaignHttpApiService,
-    private walletFacade: WalletFacadeService
+    private walletFacade: WalletFacadeService,
+    private modalService: NgbModal
   ) {
     // private ActivatedRoute: ActivatedRoute
   }
 
   ngOnInit(): void {
+  
     
-    this.CampaignService.getOneById(this.campaignId, 'projection').subscribe(
+    this.CampaignService.getOneById(this.id, 'projection').subscribe(
       (data: any) => {
         this.tokenName = data.data.token.name;
+        if (
+          ['SATTPOLYGON', 'SATTBEP20', 'SATTBTT'].includes(
+            this.tokenName 
+          )
+        )
+        this.tokenName  = 'SATT';
+
         this.campaignType = data.data.remuneration;
         this.campaignBounties = data.data.bounties;
         this.campaignRatios = data.data.ratios;
-        this.getCryptoPrice("SATT");
+        this.getCryptoPrice(this.tokenName);
         ;
       }
     );
@@ -62,6 +75,9 @@ export class RoiModalComponent implements OnInit {
    
 
     // this.etherInWei = ListTokens[this.tokenName].decimals;
+  }
+  closeBtn() {
+    this.modalService.dismissAll()
   }
   getCryptoPrice(token: string) {
     this.walletFacade.getCryptoPriceList().subscribe((data: any) => {
@@ -72,9 +88,24 @@ export class RoiModalComponent implements OnInit {
       this.estimationGains()
     },);
   }
+  // onSocialMediaSelect(platform: string) {
+  //   console.log('Selected platform:', platform);
+  // }
+  // filterByOracle($event: any) {
+  //   console.log("eveeeent", event );
+    
+  //   this.oracleSelected = $event;
+  // }
+
+onPlatformSelect(platform: string) {
+
+  this.oracleSelected = platform;
+}
+
   getRewardRatios() {
     let ratios = this.campaignRatios;
     ratios.forEach((ratio: any) => {
+
       if (ratio.oracle === this.oracleSelected) {
         if (ratio.reachLimit) {
           this.campaignReachMax = parseInt(ratio.reachLimit);
@@ -102,6 +133,7 @@ export class RoiModalComponent implements OnInit {
     });
   }
   getRewardBountie() {
+    console.log("reward", this.InputFllowers);
     let bounties = this.campaignBounties;
     let totalToEarn = '0';
     bounties.forEach((bounty: any) => {
@@ -122,8 +154,15 @@ export class RoiModalComponent implements OnInit {
       }
     });
   }
-
+  onInputChange() {
+    this.InputView = this.inputValue
+  this.estimationGains()
+   // this will log the current value of the input field
+  }
   estimationGains() {
+    console.log("laaa", this.InputFllowers);
+    
+    
     if (this.campaignType === 'performance') {
       this.getRewardRatios();
       this.roiCurrentRate =
