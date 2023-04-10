@@ -85,6 +85,9 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   @ViewChild('setPwdTransactionModal', { static: false })
   private setPwdTransactionModal!: TemplateRef<any>;
+
+
+
   @ViewChild('tronWalletCreatedSuccessModal', { static: false })
   private tronWalletCreatedSuccessModal!: TemplateRef<any>;
 
@@ -900,7 +903,6 @@ this.formUpdateTransactionPassword
 
             setTimeout(() => {
               this.closeModal(this.createWalletV2Modal);
-            
             }, 2000);
           } 
 
