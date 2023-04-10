@@ -1,11 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { ListTokens } from '@app/config/atn.config';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { CampaignHttpApiService } from '@app/core/services/campaign/campaign.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { event } from 'jquery';
-
 
 import { from, Subject } from 'rxjs';
 
@@ -15,8 +14,7 @@ import { from, Subject } from 'rxjs';
   styleUrls: ['./roi-modal.component.scss']
 })
 export class RoiModalComponent implements OnInit {
-  campaignId!: string ;
-  inputValue:any;
+  inputValue: any;
   roiCurrentRate: number = 0;
   roiCurrentUsd: number = 0;
   tokenName: string = '';
@@ -26,85 +24,91 @@ export class RoiModalComponent implements OnInit {
   campaignShare: number = 0;
   campaignReachMax: number = 0;
   ReachMaxExist: boolean = false;
+  closeModal: boolean = false;
   etherInWei: any;
   coinsPrices: any;
   campaignBounties: any;
   campaignRatios: any;
-  InputView: number=0;
+  InputView: number = 0;
   Inputlike: number = 0;
   InputShare: number = 0;
   InputReachMax: number = 0;
   InputFllowers: number = 0;
   oracleSelected: string = 'facebook';
-  platforms: string[] = ['facebook', 'twitter', 'instagram', 'linkedin', 'youtube','tiktok-white'];
+  platforms: string[] = [];
   cryptoPrice: any;
-  close: any;
+  listor: string[] = [];
   isDestroyedSubject = new Subject();
-  // @ViewChild('modal') modal: ElementRef;
-   @Input() id: any;
 
+  @Input() id: any;
+  @Output() closeModaleEvent = new EventEmitter<any>();
   constructor(
     private CampaignService: CampaignHttpApiService,
+    private router: Router,
     private walletFacade: WalletFacadeService,
     private modalService: NgbModal
-  ) {
-    // private ActivatedRoute: ActivatedRoute
-  }
+  ) {}
 
   ngOnInit(): void {
-  
-    
     this.CampaignService.getOneById(this.id, 'projection').subscribe(
       (data: any) => {
         this.tokenName = data.data.token.name;
-        if (
-          ['SATTPOLYGON', 'SATTBEP20', 'SATTBTT'].includes(
-            this.tokenName 
-          )
-        )
-        this.tokenName  = 'SATT';
-
+        if (['SATTPOLYGON', 'SATTBEP20', 'SATTBTT'].includes(this.tokenName))
+          this.tokenName = 'SATT';
         this.campaignType = data.data.remuneration;
         this.campaignBounties = data.data.bounties;
         this.campaignRatios = data.data.ratios;
+        this.campaignRatios.forEach((ratio : any) => {
+          this.platforms.push(ratio.oracle);
+        });
+        this.campaignBounties.forEach((bountie : any) =>{
+          this.platforms.push(bountie.oracle)
+        })
         this.getCryptoPrice(this.tokenName);
-        ;
       }
     );
 
-   
-
     // this.etherInWei = ListTokens[this.tokenName].decimals;
   }
+
+  getOraclList() {}
+
   closeBtn() {
-    this.modalService.dismissAll()
+    this.closeModaleEvent.emit(true);
   }
   getCryptoPrice(token: string) {
     this.walletFacade.getCryptoPriceList().subscribe((data: any) => {
-      console.log("tokenn", token);
-      
+      console.log('tokenn', token);
+
       this.cryptoPrice = data.data[token].price;
       console.log('this.cryptoPrice', this.cryptoPrice);
-      this.estimationGains()
-    },);
+      this.estimationGains();
+    });
   }
   // onSocialMediaSelect(platform: string) {
   //   console.log('Selected platform:', platform);
   // }
   // filterByOracle($event: any) {
   //   console.log("eveeeent", event );
-    
+
   //   this.oracleSelected = $event;
   // }
 
-onPlatformSelect(platform: string) {
-
-  this.oracleSelected = platform;
-}
+  onPlatformSelect(platform: string) {
+    this.oracleSelected = platform;
+    this.InputFllowers = 0;
+    this.InputView =0;
+    this.InputShare =0;
+    this.InputReachMax= 0;
+    this.Inputlike =0;
+    this.roiCurrentRate= 0;
+    this.roiCurrentUsd=0;
+  }
 
   getRewardRatios() {
     let ratios = this.campaignRatios;
     ratios.forEach((ratio: any) => {
+      
 
       if (ratio.oracle === this.oracleSelected) {
         if (ratio.reachLimit) {
@@ -133,10 +137,11 @@ onPlatformSelect(platform: string) {
     });
   }
   getRewardBountie() {
-    console.log("reward", this.InputFllowers);
+    console.log('reward', this.InputFllowers);
     let bounties = this.campaignBounties;
     let totalToEarn = '0';
     bounties.forEach((bounty: any) => {
+  
       if (bounty.oracle === this.oracleSelected) {
         bounty.categories.forEach((category: any) => {
           if (
@@ -154,15 +159,10 @@ onPlatformSelect(platform: string) {
       }
     });
   }
-  onInputChange() {
-    this.InputView = this.inputValue
-  this.estimationGains()
-   // this will log the current value of the input field
-  }
+
   estimationGains() {
-    console.log("laaa", this.InputFllowers);
-    
-    
+    console.log('laaa', this.InputFllowers);
+
     if (this.campaignType === 'performance') {
       this.getRewardRatios();
       this.roiCurrentRate =
@@ -177,43 +177,8 @@ onPlatformSelect(platform: string) {
 
     this.roiCurrentUsd = this.roiCurrentRate * this.cryptoPrice;
   }
-
-  //   this.ActivatedRoute.params
-  //   .pipe(
-  //     mergeMap((params) => {
-  //       this.campaignId = params['campaign_id'];
-  //       return this.CampaignService.getOneById(this.campaignId,'projection');
-  //     }),
-  //     takeUntil(this.isDestroyedSubject)
-  //   )
-  //   .subscribe((data: any) => {
-  //     this.campaigndata = data.data;
-  //     this.tokenName = data.data.token.name
-  //     let performance = this.campaigndata.ratios[0]?.oracle;
-  //     if (performance?.length > 1 && performance === 'twitter') {
-  //       this.ratioLink = true;
-  //     }
-  //     this.parentFunction(this.networkWallet).subscribe();
-  //   });
-  // }
-
-  // getCampaignData(){
-  //   this.CampaignService.getOneById(this.campaignId)
-  //       .pipe(
-  //         takeUntil(this.isDestroyed$),
-  //         map((res: any) => res.data)
-  //       )
-  //       .subscribe((data: any) => {
-
-  //       });
-  // }
-  // openModal() {
-  //   this.modal.nativeElement.classList.add('show');
-  //   document.body.classList.add('modal-open');
-  // }
-
-  // closeModal() {
-  //   this.modal.nativeElement.classList.remove('show');
-  //   document.body.classList.remove('modal-open');
-  // }
+  goToCampaignDetail() {
+    this.router.navigate(['/home/campaign/', this.id]);
+    this.closeModaleEvent.emit(true);
+  }
 }
