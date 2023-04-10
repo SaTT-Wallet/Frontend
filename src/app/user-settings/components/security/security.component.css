@@ -508,7 +508,7 @@ button:focus {
 
 .confirm-export:disabled {
   font-family: 'Poppins', sans-serif;
-  font-size: 1rem;
+  font-size: 1.2rem;
   border: 1px solid #ADADC8;
   color: #ADADC8;
   margin-top: 1rem;
@@ -516,11 +516,13 @@ button:focus {
   padding-left: 2rem;
   padding-right: 2rem;
   background-color: #F6F6FF;
+  padding-top: 0.35rem;
+  padding-bottom: 0.35rem;
 }
 
 .confirm-export {
   font-family: 'Poppins', sans-serif;
-  font-size: 1rem;
+  font-size: 1.5rem;
   border: 1px solid #4048ff;
   color: white;
   margin-top: 1rem;
@@ -528,25 +530,28 @@ button:focus {
   padding-left: 2rem;
   padding-right: 2rem;
   background-color: #4048ff;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 .resend-code {
-  background-color: white;
+  background-color: #F6F6FF;
   color: #4048ff;
-  font-size: 1rem;
+  font-weight: 600;
+  font-size: 1.3rem;
   font-family: 'Poppins', sans-serif;
-  border: 1px solid #4048ff;
+  border: 1px solid #F6F6FF;
   padding-left: 2rem;
   padding-right: 2rem;
   margin-bottom: 2rem;
+  box-shadow: 2px 2px 2px 2px #888888;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
  
 }
 
 
-.resend-code:hover {
-  background-color: #4048ff;
-  color: white;
-}
+
 
 .confirm-code {
   margin-top: 3rem;

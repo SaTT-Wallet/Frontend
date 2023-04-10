@@ -1026,8 +1026,9 @@
       type="submit"
       class="btn resend-code rounded-pill"
       (click)="resendCode()"
+      [disabled]="resendCodeDisabled"
     >
-      {{ 'send_code' | translate }}
+      {{ 'send_code' | translate }} <span *ngIf="resendCodeDisabled">({{secondsToActivateResendCode}}s)</span>
     </button>
   </ng-template>
 
