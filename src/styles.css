@@ -1553,12 +1553,9 @@ app-header-register {
   }
 }
 
-/* .toast-container {
-    background-image:#eaecf7 !important;
-    border-radius: 22px !important;
-    box-shadow: -5px 8px 16px 0px rgba(0,0,0,0.3) !important;
-    margin-bottom: 2px !important;
-  } */
+ .toast-container {
+text-align: center;
+  } 
 
 .toast-success {
   background-color: #323754 !important;
