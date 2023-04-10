@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { ProfileService } from '@core/services/profile/profile.service';
 import { Router } from '@angular/router';
@@ -18,7 +18,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 })
 export class ProAccountComponent implements OnInit, OnDestroy {
   errorMessage = '';
-  formCompany: FormGroup;
+  formCompany: UntypedFormGroup;
 
   show: boolean = false;
 
@@ -41,9 +41,9 @@ export class ProAccountComponent implements OnInit, OnDestroy {
     public translate: TranslateService,
     private profileSettingsFacade: ProfileSettingsFacadeService
   ) {
-    this.formCompany = new FormGroup({
-      organisation: new FormControl(null, Validators.required),
-      ntva: new FormControl(null, Validators.required)
+    this.formCompany = new UntypedFormGroup({
+      organisation: new UntypedFormControl(null, Validators.required),
+      ntva: new UntypedFormControl(null, Validators.required)
     });
     const countryList = arrayCountries;
     this.countriesListObj = countryList.sort(function (a: any, b: any) {

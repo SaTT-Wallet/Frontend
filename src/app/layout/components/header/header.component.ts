@@ -307,7 +307,11 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           //@ts-ignore
           // this.header?.nativeElement.style.background =
           //   'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)';
-            this.renderer?.setStyle(this.header?.nativeElement,'background','linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)');
+          this.renderer.setStyle(
+            this.header?.nativeElement,
+            'background',
+            'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)'
+          );
           this.isWelcomePage = false;
           this.menuBuyToken = true;
         }
@@ -415,7 +419,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         // @ts-ignore
         let compare = Math.floor(this.tokenStorageService.getExpire() * 1);
         if (compare < expire) {
-          this.tokenStorageService.signOut();
+           this.tokenStorageService.signOut();
           this.router.navigate(['/auth/login']);
         }
         this.tokenStorageService.setItem('wallet_btc', this.btcCode);

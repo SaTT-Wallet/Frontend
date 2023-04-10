@@ -27,7 +27,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { TranslateService } from '@ngx-translate/core';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { filter, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { forkJoin, Subject } from 'rxjs';
 import { WalletStoreService } from '@core/services/wallet-store.service';
@@ -50,7 +50,7 @@ import { ITransferTokensRequestBody } from '@app/core/services/wallet/wallet.ser
 export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('inputAmountUsd') inputAmountUsd?: ElementRef;
   emailPlaceholderText = 'Id wallet';
-  sendform: FormGroup;
+  sendform: UntypedFormGroup;
   typetab: string = '';
   btcCode: string = '';
   selectedValue: any;
@@ -173,15 +173,15 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     private renderer: Renderer2
   ) {
     //, Validators.max(this.maxNumber)
-    this.sendform = new FormGroup({
-      contact: new FormControl(null, {
+    this.sendform = new UntypedFormGroup({
+      contact: new UntypedFormControl(null, {
         validators: [Validators.required, Validators.pattern(pattContact)]
       }),
 
-      Amount: new FormControl(0, Validators.compose([Validators.required])),
-      AmountUsd: new FormControl(null),
-      currency: new FormControl(null),
-      password: new FormControl(null, Validators.required)
+      Amount: new UntypedFormControl(0, Validators.compose([Validators.required])),
+      AmountUsd: new UntypedFormControl(null),
+      currency: new UntypedFormControl(null),
+      password: new UntypedFormControl(null, Validators.required)
     });
   }
 
@@ -702,7 +702,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.max = true;
     let currency = '';
     this.selectedCryptoSend = currency;
-
     if (this.selectedCryptoSend) {
       currency = this.selectedCryptoSend;
     } else {
@@ -719,10 +718,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.dataList?.forEach((crypto: any) => {
         if (crypto.symbol === currency) {
           let quantity = this.showNumbersRule.transform(crypto.quantity);
-
-          //  let totalBal = this.showNumbersRule.transform(crypto.total_balance);
-          //    crypto.total_balance = parseFloat(crypto.total_balance + '');
-          //  crypto.total_balance = crypto?.total_balance?.toFixed(2);
           this.sendform.get('Amount')?.setValue(quantity),
             this.sendform.get('AmountUsd')?.setValue(crypto.total_balance);
 
@@ -783,7 +778,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         };
       }),
       switchMap(({ bnb, Eth, matic, btt, trx }) => {
-        console.log(this.selectedCryptoSend )
+        
         return forkJoin([
           this.walletFacade.getEtherGaz().pipe(
             take(1),
@@ -1200,7 +1195,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   showNextBloc() {
-    console.log(this.selectedCryptoSend)
     this.showAmountBloc = false;
     this.showPwdBloc = true;
     this.showSuccessBloc = false;

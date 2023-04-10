@@ -808,8 +808,8 @@
           type="button"
           class="btn btn-reject"
           [disabled]="
-            reasonForm?.errors?.requireCheckboxes ||
-            reasonForm?.errors?.requiredElseReason
+            reasonForm.errors?.requireCheckboxes ||
+            reasonForm.errors?.requiredElseReason
           "
           data-dismiss="modal"
         >

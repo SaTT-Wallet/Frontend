@@ -11,7 +11,7 @@ import {
   TranslateService,
   TranslateStore, USE_DEFAULT_LANG
 } from '@ngx-translate/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 describe('TransactionsHistoryComponent', () => {
@@ -22,7 +22,7 @@ describe('TransactionsHistoryComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ TransactionsHistoryComponent ],
       imports: [ HttpClientTestingModule,RouterTestingModule,TranslateModule.forRoot(), NgxPaginationModule ],
-      providers: [FormBuilder]
+      providers: [UntypedFormBuilder]
 
     })
     .compileComponents();

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { takeUntil, tap } from 'rxjs/operators';
@@ -31,7 +31,7 @@ export class ConvertSummaryComponent implements OnInit {
   symbol: any;
   PaymentID: any;
   phone: any;
-  phoneNumber = new FormControl('');
+  phoneNumber = new UntypedFormControl('');
   location: any;
   separateDialCode = false;
   SearchCountryField = SearchCountryField;

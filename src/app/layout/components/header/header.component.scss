@@ -98,23 +98,17 @@
     margin-left: -31px !important;
     margin-top: -24px; */
   height: 48px;
-  margin-left: -8px;
-  margin-top: -8px t;
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
   .anim-gif-mobile {
     height: 48px;
-    margin-left: -8px !important;
-    margin-top: -8px !important;
   }
 }
 
 @media (max-width: 767.98px) {
   .anim-gif-mobile {
     height: 48px;
-    margin-left: -16px !important;
-    margin-top: -8px !important;
   }
 }
 
@@ -297,6 +291,7 @@ a.click-to-top:hover span {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  margin-left: 0.15vh;
 }
 
 .itemnotification {
@@ -867,8 +862,6 @@ ul .notif_drop_main {
   font-size: 22px;
   color: white;
   text-align: center;
-  margin-left: -2px;
-  margin-top: 4px;
 }
 
 .notifBody {
@@ -1055,11 +1048,6 @@ li:focus {
   display: none;
 }
 
-button:focus {
-  outline: none;
-  box-shadow: none;
-}
-
 .dropdown-menu2 {
   width: 100%;
   border: none;
@@ -1114,6 +1102,7 @@ button:focus {
 }
 
 .dropdown-toggle-content {
+  border: none !important;
   position: relative;
   /* height: 44px; */
   height: 48px;
@@ -1576,12 +1565,11 @@ bottom: 77.54% ; */
   padding-top: 56px;
 }
 
-
 .sidebarMoreMobileHeight {
   display: flex;
   // flex-direction: column;
   padding: 50px 0px 0px 0px;
-  
+
   width: 105%;
   max-height: -webkit-fill-available;
   // height: calc(var(--vh, 1vh) * 100);
@@ -1602,7 +1590,6 @@ bottom: 77.54% ; */
   /* margin-top: 59px; */
   min-height: 100vh;
   flex-direction: column;
-  
 }
 
 .wallet-address {
@@ -1918,6 +1905,7 @@ bottom: 77.54% ; */
 }
 
 .position_icon_notif_mobile {
+  padding-top: 2.7%;
   position: absolute;
   /* right: 24px;*/
   top: 8px;

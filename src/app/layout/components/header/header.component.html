@@ -347,7 +347,7 @@
               <span
                 class="span-userName ps-2 pe-2"
                 *ngIf="user?.firstName && user?.lastName"
-                >{{ user?.getFullName() | titlecase }}</span
+                >{{ user.getFullName() | titlecase }}</span
               >
               <i class="chevron fa fa-fw"></i>
             </a>
@@ -484,7 +484,7 @@
                 <!-- <span class="span-wallet flex-start">{{ erc20 }}</span>
                 <span class="span-wallet2 flex-end">{{ erc20 }}</span> -->
                 <span class="span-text-wallet"
-                  >{{ erc20?.slice(0, 4) }}...{{ erc20?.slice(-5) }}</span
+                  >{{ erc20.slice(0, 4) }}...{{ erc20.slice(-5) }}</span
                 >
                 <span class="pr-1 position-relative"
                   ><img
@@ -530,7 +530,7 @@
                 <!-- <span class="span-wallet flex-start">{{ btcCode }}</span>
                 <span class="span-wallet2 flex-end">{{ btcCode }}</span> -->
                 <span class="span-text-wallet"
-                  >{{ btcCode?.slice(0, 4) }}...{{ btcCode?.slice(-5) }}</span
+                  >{{ btcCode.slice(0, 4) }}...{{ btcCode.slice(-5) }}</span
                 >
                 <span class="pr-1 position-relative"
                   ><img
@@ -763,8 +763,11 @@
     *ngIf="
       this.sidebarService.toggleWalletMobile.value && isLayoutDesktop === false
     "
-    [class]="getScreenHeight < 800 ? 'sidebarMoreMobileHeight row' : 'sidebarMoreMobile row'"
-    
+    [class]="
+      getScreenHeight < 800
+        ? 'sidebarMoreMobileHeight row'
+        : 'sidebarMoreMobile row'
+    "
   >
     <p
       class="d-flex justify-content-center titleIDW"
@@ -846,9 +849,7 @@
               "
             >
               <span class="span-text-wallet"
-                >{{ btcCodeV2?.slice(0, 2) }}...{{
-                  btcCodeV2?.slice(-12)
-                }}</span
+                >{{ btcCodeV2.slice(0, 2) }}...{{ btcCodeV2.slice(-12) }}</span
               >
 
               <span class="pr-1 position-relative"
@@ -1039,7 +1040,7 @@
               "
             >
               <span class="span-text-wallet"
-                >{{ btcCode?.slice(0, 2) }}...{{ btcCode?.slice(-12) }}</span
+                >{{ btcCode.slice(0, 2) }}...{{ btcCode.slice(-12) }}</span
               >
 
               <span class="pr-1 position-relative"
@@ -1093,7 +1094,7 @@
                 "
               >
                 <span class="span-text-wallet"
-                  >{{ erc20?.slice(0, 2) }}...{{ erc20?.slice(-12) }}</span
+                  >{{ erc20.slice(0, 2) }}...{{ erc20.slice(-12) }}</span
                 >
 
                 <span class="pr-1 position-relative"
@@ -1172,8 +1173,8 @@
               "
             >
               <span class="span-text-wallet"
-                >{{ tronAddress?.slice(0, 2) }}...{{
-                  tronAddress?.slice(-12)
+                >{{ tronAddress.slice(0, 2) }}...{{
+                  tronAddress.slice(-12)
                 }}</span
               >
 
