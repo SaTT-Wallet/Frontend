@@ -13,7 +13,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { arrayCountries, socialMedia } from '@config/atn.config';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DOCUMENT, isPlatformBrowser, ViewportScroller } from '@angular/common';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -57,7 +57,7 @@ export class CampaignDetailComponent implements OnInit {
   updateCoverResponseMsg: any;
   showPasswordModal: boolean = false;
   meta: any;
-  budgetform: UntypedFormGroup;
+  budgetform: FormGroup;
   passwordBlockChain: any;
   applyButton: boolean = false;
   campaignId = '';
@@ -106,7 +106,7 @@ export class CampaignDetailComponent implements OnInit {
   facebook: any = 0;
   instagram: any = 0;
   linkModal: boolean = false;
-  sendform: UntypedFormGroup;
+  sendform: FormGroup;
   acceptedEproms: any = [];
   applyPassword: boolean = false;
   exactDate = new Date().getTime() / 1000;
@@ -137,7 +137,7 @@ export class CampaignDetailComponent implements OnInit {
   private isErnings = false;
   downloadKit = false;
   editMode = false;
-  passwordForm = new UntypedFormGroup({});
+  passwordForm = new FormGroup({});
   errorMessage: string = '';
 
   
@@ -151,7 +151,7 @@ export class CampaignDetailComponent implements OnInit {
 
   constructor(
     public router: Router,
-    private _formBuilder: UntypedFormBuilder,
+    private _formBuilder: FormBuilder,
     public modalService: NgbModal,
     public CampaignService: CampaignHttpApiService,
     private route: ActivatedRoute,
@@ -173,12 +173,12 @@ export class CampaignDetailComponent implements OnInit {
     private campaignsHttpService: CampaignHttpApiService,
     private _location: Location
   ) {
-    this.sendform = new UntypedFormGroup({
-      url: new UntypedFormControl(null, Validators.required)
+    this.sendform = new FormGroup({
+      url: new FormControl(null, Validators.required)
     });
 
-    this.budgetform = new UntypedFormGroup({
-      cost: new UntypedFormControl(null, Validators.required)
+    this.budgetform = new FormGroup({
+      cost: new FormControl(null, Validators.required)
     });
     this.route.queryParams.subscribe((params) => {
       !!params.mode && (this.editMode = true);
@@ -309,12 +309,15 @@ export class CampaignDetailComponent implements OnInit {
 
 
   callRemaining() {
+    console.log(this.campaign.currency.type);
+    console.log(this.passwordForm.value.password);
     this.errorMessage = '';
     this.successMessage = '';
     if(this.passwordForm.value.password.length > 0) {
       this.loadingButton = true;
       this.CampaignService.getRefunds(this.campaign.hash, this.passwordForm.value.password, this.campaign.currency.type).subscribe(
         (res: any) => {
+          console.log({res})
           if(res.code === 200 && res.message === "budget retrieved") {
             this.loadingButton = false;
             this.successMessage = "Budget retrieved";
@@ -324,6 +327,7 @@ export class CampaignDetailComponent implements OnInit {
           }
         },
         (err) => {
+          console.log({err : err.error.error})
           if(err.error.error === "Key derivation failed - possibly wrong password") {
             this.errorMessage = "wrong password, please try again"
             this.passwordForm.reset();

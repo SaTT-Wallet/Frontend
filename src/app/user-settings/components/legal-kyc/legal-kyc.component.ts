@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { sattUrl } from '@config/atn.config';
 import { User } from '../../../models/User';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -14,8 +14,8 @@ import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.servic
   styleUrls: ['./legal-kyc.component.css']
 })
 export class LegalKYCComponent implements OnInit {
-  formUploadProofID: UntypedFormGroup;
-  formUploadProofDomicile: UntypedFormGroup;
+  formUploadProofID: FormGroup;
+  formUploadProofDomicile: FormGroup;
   dataLegalIdentity: any;
   dataLegalDomicile: any;
   srcFileIdentity: any;
@@ -30,10 +30,7 @@ export class LegalKYCComponent implements OnInit {
   ispdfProof: any;
   urlPicProof: any;
   srcLegalFile: any;
-  display : any;
   isIdentity: any;
-  color: any;
-  background:any;
   imgsrcId: any;
   imgsrcDomicile: any;
   user!: User;
@@ -50,11 +47,11 @@ export class LegalKYCComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: string,
     private kycFacadeService: KycFacadeService
   ) {
-    this.formUploadProofID = new UntypedFormGroup({
-      proofId: new UntypedFormControl(null, Validators.required)
+    this.formUploadProofID = new FormGroup({
+      proofId: new FormControl(null, Validators.required)
     });
-    this.formUploadProofDomicile = new UntypedFormGroup({
-      proofDomicile: new UntypedFormControl(null, Validators.required)
+    this.formUploadProofDomicile = new FormGroup({
+      proofDomicile: new FormControl(null, Validators.required)
     });
   }
   ngOnInit(): void {
@@ -75,14 +72,14 @@ export class LegalKYCComponent implements OnInit {
         this.ispdfIdentity = 'true';
         this.isNotConformIdentity = 'false';
         // @ts-ignore
-       this.disabled = disabled;
+        this.document.getElementById('KYC').disabled = false;
 
         // @ts-ignore
-        this.background = '#00CC9E';
+        this.document.getElementById('KYC')?.style.background = '#00CC9E';
         // @ts-ignore
-       this.color = 'white';
+        this.document.getElementById('KYC')?.style.color = 'white';
         // @ts-ignore
-        this.display = 'none';
+        this.document.getElementById('danger')?.style.display = 'none';
         let imgResponsive = this.document.getElementsByClassName(
           'img-responsive'
         ) as HTMLCollectionOf<HTMLElement>;
@@ -94,9 +91,9 @@ export class LegalKYCComponent implements OnInit {
         isPlatformBrowser(this.platformId)
       ) {
         // @ts-ignore
-        this.color = 'white';
+        this.document.getElementById('KYC')?.style.color = 'white';
         //    // @ts-ignore
-        this.display = "none";
+        // this.document.getElementById("danger").style.display = "none";
         this.nameFile = this.srcFileIdentity.name;
         this.ispdfIdentity = 'false';
         let reader = new FileReader();
@@ -105,11 +102,11 @@ export class LegalKYCComponent implements OnInit {
           this.urlPic = reader.result;
         };
         // @ts-ignore
-       this.disabled = false;
+        this.document.getElementById('KYC')?.disabled = false;
         // @ts-ignore
-      this.background = '#00CC9E';
+        this.document.getElementById('KYC')?.style.background = '#00CC9E';
         // @ts-ignore
-        this.display = 'none';
+        this.document.getElementById('danger')?.style.display = 'none';
         let imgResponsive = this.document.getElementsByClassName(
           'img-responsive'
         ) as HTMLCollectionOf<HTMLElement>;
@@ -126,9 +123,9 @@ export class LegalKYCComponent implements OnInit {
         // @ts-ignore
         this.isNotConformIdentity = 'true';
         // @ts-ignore
-        this.disabled = true;
+        // this.document.getElementById("KYC").disabled = true;
         // @ts-ignore
-       this.background = '#D6D6E8';
+        this.document.getElementById('KYC')?.style.background = '#D6D6E8';
 
         let imgResponsive = this.document.getElementsByClassName(
           'img-responsive'
@@ -136,7 +133,7 @@ export class LegalKYCComponent implements OnInit {
         if (imgResponsive) imgResponsive[0].style.display = 'none';
 
         // @ts-ignore
-        this.display = 'block';
+        this.document.getElementById('danger')?.style.display = 'block';
       }
     }
   }
@@ -156,13 +153,13 @@ export class LegalKYCComponent implements OnInit {
         this.ispdfProof = 'true';
         this.isNotConformProof = 'false';
         // @ts-ignore
-        this.disabled = false;
+        this.document.getElementById('KYCC')?.disabled = false;
         // @ts-ignore
-        this.background = '#00CC9E';
+        this.document.getElementById('KYCC')?.style.background = '#00CC9E';
         // @ts-ignore
-        this.background = '#00CC9E';
+        this.document.getElementById('KYCC')?.style.background = '#00CC9E';
         // @ts-ignore
-        this.color = 'white';
+        this.document.getElementById('KYCC')?.style.color = 'white';
         let imgResponsiveP = this.document.getElementsByClassName(
           'img-responsive p'
         ) as HTMLCollectionOf<HTMLElement>;
@@ -178,16 +175,16 @@ export class LegalKYCComponent implements OnInit {
         this.ispdfProof = 'false';
         this.isNotConformProof = 'false';
         // @ts-ignore
-       this.color = 'white';
+        this.document.getElementById('KYCC')?.style.color = 'white';
         this.nameFile = this.srcFileProof.name;
         let reader2 = new FileReader();
         reader2.readAsDataURL(this.srcFileProof);
         reader2.onload = () => {
           this.urlPicProof = reader2.result;
           // @ts-ignore
-          this.disabled = false;
+          this.document.getElementById('KYCC')?.disabled = false;
           // @ts-ignore
-          this.background = '#00CC9E';
+          this.document.getElementById('KYCC')?.style.background = '#00CC9E';
           let imgResponsiveP = this.document.getElementsByClassName(
             'img-responsive p'
           ) as HTMLCollectionOf<HTMLElement>;
@@ -200,11 +197,11 @@ export class LegalKYCComponent implements OnInit {
         this.srcFileProof.size > 5000000
       ) {
         // @ts-ignore
-        this.disabled = true;
+        this.document.getElementById('KYCC')?.disabled = true;
         // @ts-ignore
         this.isNotConformProof = 'true';
         // @ts-ignore
-       this.background = '#D6D6E8';
+        this.document.getElementById('KYCC')?.style.background = '#D6D6E8';
         let imgResponsiveP = this.document.getElementsByClassName(
           'img-responsive p'
         ) as HTMLCollectionOf<HTMLElement>;

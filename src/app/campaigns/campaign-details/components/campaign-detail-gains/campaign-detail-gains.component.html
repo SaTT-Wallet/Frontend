@@ -396,7 +396,7 @@
         *ngIf="isOwnedByUser"
         [ngClass]="{
           'div-send-by-perfermance':
-            this.campaign.bounties.length !== 0 && !isStyleGrid,
+            this.campaign.bounties?.length !== 0 && !isStyleGrid,
           'div-send-by-earnings-owner': !isStyleGrid
         }"
       >
@@ -415,10 +415,10 @@
       <div
         class="d-flex justify-content-center align-items-center"
         [ngClass]="{
-          'div-date-owner': isOwnedByUser && this.campaign.ratios.length !== 0,
+          'div-date-owner': isOwnedByUser && this.campaign.ratios?.length !== 0,
           'div-date': !isOwnedByUser,
           'div-date-owner-post':
-            isOwnedByUser && this.campaign.bounties.length !== 0
+            isOwnedByUser && this.campaign.bounties?.length !== 0
         }"
       >
         <span class="gray-text">{{ 'date' | translate }} </span>
@@ -500,7 +500,7 @@
       <div
         class="div-earnings d-flex justify-content-center align-items-center"
         [ngClass]="{
-          'div-earnings-post': this.campaign.bounties.length !== 0
+          'div-earnings-post': this.campaign.bounties?.length !== 0
         }"
       >
         <span class="d-flex gray-text"

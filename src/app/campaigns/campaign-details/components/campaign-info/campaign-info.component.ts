@@ -18,8 +18,8 @@ import {
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   AbstractControl,
-  UntypedFormControl,
-  UntypedFormGroup,
+  FormControl,
+  FormGroup,
   ValidatorFn,
   Validators
 } from '@angular/forms';
@@ -91,8 +91,8 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
   editor: any = new Editor();
   paramsSubscription: any;
   budgetModal: boolean = false;
-  budgetform: UntypedFormGroup;
-  sendform: UntypedFormGroup;
+  budgetform: FormGroup;
+  sendform: FormGroup;
   sattBalancef: any;
   passwordBudget: boolean = false;
   etherInWei: any;
@@ -100,7 +100,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
   earnings: any;
   totalInvested: Big = new Big(0);
   totalInvestedInUsD = new Observable<string>();
-  passwordFormBudget: UntypedFormGroup;
+  passwordFormBudget: FormGroup;
   funds: any = { ERC20token: '', idCampaign: '', amount: 0, pass: '' };
 
   showEditBudget: boolean = false;
@@ -192,18 +192,18 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
       { mission: 'Citer la marque au moins 1 fois ' },
       { mission: 'Citer la marque au moins 2 fois ' }
     ];
-    this.sendform = new UntypedFormGroup({
-      url: new UntypedFormControl(null, Validators.required)
+    this.sendform = new FormGroup({
+      url: new FormControl(null, Validators.required)
     });
 
-    this.budgetform = new UntypedFormGroup({
-      cost: new UntypedFormControl('', [
+    this.budgetform = new FormGroup({
+      cost: new FormControl('', [
         Validators.required,
         this.checkIfEnoughBalance()
       ])
     });
-    this.passwordFormBudget = new UntypedFormGroup({
-      password: new UntypedFormControl(null, Validators.required)
+    this.passwordFormBudget = new FormGroup({
+      password: new FormControl(null, Validators.required)
     });
   }
 

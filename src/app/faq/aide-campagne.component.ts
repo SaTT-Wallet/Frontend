@@ -7,7 +7,7 @@ import {
   Inject,
   PLATFORM_ID
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { pattEmail } from '@config/atn.config';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { ContactService } from '@core/services/contact/contact.service';
@@ -23,7 +23,7 @@ declare var $: any;
   styleUrls: ['./aide-campagne.component.css']
 })
 export class AideCampagneComponent implements OnInit, AfterViewInit {
-  form: UntypedFormGroup;
+  form: FormGroup;
   link: boolean = false;
   formSubmitAttempt: boolean = false;
   public show: boolean = false;
@@ -57,17 +57,17 @@ export class AideCampagneComponent implements OnInit, AfterViewInit {
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string
   ) {
-    this.form = new UntypedFormGroup({
-      NameFAQ: new UntypedFormControl(null, Validators.required),
-      emailFAQ: new UntypedFormControl(null, [
+    this.form = new FormGroup({
+      NameFAQ: new FormControl(null, Validators.required),
+      emailFAQ: new FormControl(null, [
         Validators.required,
         Validators.pattern(pattEmail)
       ]),
-      ObjetFAQ: new UntypedFormControl(
+      ObjetFAQ: new FormControl(
         null,
         Validators.compose([Validators.required, Validators.min(0)])
       ),
-      MessageFAQ: new UntypedFormControl(null, Validators.required)
+      MessageFAQ: new FormControl(null, Validators.required)
     });
   }
 

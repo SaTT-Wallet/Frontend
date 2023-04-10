@@ -210,7 +210,7 @@
             before you can perform the migration.
           </p>
         </div>
-        <div class="wallet-clipboard" *ngIf="getScreenWidth > 519">
+        <div class="wallet-clipboard">
           <!-- <span class="span-0.wallet flex-start">{{ erc20 }}</span>
           <span class="span-wallet2 flex-end">{{ erc20 }}</span> -->
           <span class="wallet-adress-v1">Wallet Address : </span>
@@ -231,36 +231,6 @@
             ></span
           ></span>
         </div>
-
-
-        <div class="wallet-clipboard-mobile" *ngIf="getScreenWidth < 519">
-          <!-- <span class="span-0.wallet flex-start">{{ erc20 }}</span>
-          <span class="span-wallet2 flex-end">{{ erc20 }}</span> -->
-          <div style="text-align: center;">
-            <span class="wallet-adress-v1">Wallet Address : </span>
-          </div>
-          <div style="text-align: center;">
-            <span class="span-text-wallet"
-            > {{ network.name === "TRX" ? walletTRON : (network.name === "BTC" ? walletBTC : walletEVM) }}</span
-          >
-          <span class="pr-1 position-relative"
-            ><img
-              class="img-copied"
-              (click)="copyAddress(network.name)"
-              [cdkCopyToClipboard]="network.name === 'TRX' ? walletTRON : (network.name === 'BTC' ? walletBTC : walletEVM)"
-              src="../../../../assets/Images/copy-clipboard.svg" />
-            <span *ngIf="isWalletAddressCopied" class="black-dialog">
-              Copied! </span
-            ><span
-              *ngIf="isWalletAddressCopied"
-              class="dialog-point"
-            ></span
-          ></span>
-          </div>
-          
-        </div>
-
-        
         
         <button
           class="next-step mt-4"

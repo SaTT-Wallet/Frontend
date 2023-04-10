@@ -12,7 +12,7 @@ import { AuthService } from '@app/core/services/Auth/auth.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, of, Subject } from 'rxjs';
 import { User } from '@app/models/User';
 import { MatchPasswordValidator } from '@app/helpers/form-validators';
@@ -39,7 +39,7 @@ export class PassWalletComponent implements OnInit, OnDestroy {
   wizardFinished: boolean = false;
   showSpinner: boolean = false;
   passwordStrengthMsg: string = '';
-  form: UntypedFormGroup;
+  form: FormGroup;
   show: boolean = false;
   showErrors!: Observable<boolean>;
   showBigSpinner: boolean = false;
@@ -61,16 +61,16 @@ export class PassWalletComponent implements OnInit, OnDestroy {
     private walletFacade: WalletFacadeService,
     private authFacadeService: AuthFacadeService
   ) {
-    this.form = new UntypedFormGroup(
+    this.form = new FormGroup(
       {
-        password: new UntypedFormControl(null, {
+        password: new FormControl(null, {
           validators: [
             Validators.required,
             Validators.minLength(8),
             Validators.pattern(pattPassword)
           ]
         }),
-        confirmPassword: new UntypedFormControl(null, [Validators.required])
+        confirmPassword: new FormControl(null, [Validators.required])
         // confidential: new FormControl(null, [Validators.required]),
       },
       { validators: MatchPasswordValidator() }

@@ -13,7 +13,7 @@ import { SidebarService } from '@core/services/sidebar/sidebar.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   catchError,
   filter,
@@ -61,7 +61,7 @@ export class ConvertComponent implements OnInit, OnDestroy {
   cryptoPicNameconvert: string = 'SATT';
   cryptoSymbolconvert: string = '';
   checkType: string = 'ERC20';
-  convertform: UntypedFormGroup;
+  convertform: FormGroup;
   amountdefault: any;
   selectedCryptoSend: any;
   noCryptoSelected: boolean = false;
@@ -186,14 +186,14 @@ export class ConvertComponent implements OnInit, OnDestroy {
     private walletFacade: WalletFacadeService,
     @Inject(DOCUMENT) private document: any
   ) {
-    this.convertform = new UntypedFormGroup({
-      Amount: new UntypedFormControl(
+    this.convertform = new FormGroup({
+      Amount: new FormControl(
         null,
         Validators.compose([Validators.required, Validators.min(0)])
       ),
-      AmountUsd: new UntypedFormControl(null, Validators.compose([Validators.min(0)])),
-      password: new UntypedFormControl(null, Validators.required),
-      currency: new UntypedFormControl(null)
+      AmountUsd: new FormControl(null, Validators.compose([Validators.min(0)])),
+      password: new FormControl(null, Validators.required),
+      currency: new FormControl(null)
     });
   }
 

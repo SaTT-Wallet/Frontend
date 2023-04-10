@@ -65,7 +65,7 @@ const routes: Routes = [
       anchorScrolling: 'enabled',
       scrollPositionRestoration: 'enabled',
       enableTracing: false, // set it true only in dev mode
-      initialNavigation: 'enabledBlocking'
+      initialNavigation: 'enabled'
     })
   ],
   exports: [RouterModule]

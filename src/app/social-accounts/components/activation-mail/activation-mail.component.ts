@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '@app/models/User';
 import { AuthService } from '@app/core/services/Auth/auth.service';
@@ -16,8 +16,8 @@ import { filter, takeUntil } from 'rxjs/operators';
   styleUrls: ['./activation-mail.component.scss']
 })
 export class ActivationMailComponent implements OnInit {
-  formCode: UntypedFormGroup;
-  formL: UntypedFormGroup;
+  formCode: FormGroup;
+  formL: FormGroup;
   errorMessagecode = '';
   successMsg = '';
   user!: User;
@@ -41,11 +41,11 @@ export class ActivationMailComponent implements OnInit {
     private route: ActivatedRoute,
     private profileSettingsFacade: ProfileSettingsFacadeService
   ) {
-    (this.formCode = new UntypedFormGroup({
-      code: new UntypedFormControl(null, [Validators.required])
+    (this.formCode = new FormGroup({
+      code: new FormControl(null, [Validators.required])
     })),
-      (this.formL = new UntypedFormGroup({
-        email: new UntypedFormControl(null, [Validators.required, Validators.email])
+      (this.formL = new FormGroup({
+        email: new FormControl(null, [Validators.required, Validators.email])
       }));
   }
 

@@ -1,8 +1,8 @@
 import {
   AbstractControl,
   ValidatorFn,
-  UntypedFormControl,
-  UntypedFormArray,
+  FormControl,
+  FormArray,
   ValidationErrors,
   AsyncValidatorFn
 } from '@angular/forms';
@@ -19,8 +19,8 @@ export function checkIfEnoughBalance(
   return (
     control: AbstractControl
   ): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
-    const initialBudget = control.get('initialBudget') as UntypedFormControl;
-    const currency = control.get('currency') as UntypedFormControl;
+    const initialBudget = control.get('initialBudget') as FormControl;
+    const currency = control.get('currency') as FormControl;
     return walletFacade.cryptoList$.pipe(
       take(1),
       map((res) => {
@@ -69,8 +69,8 @@ export function InitiaBudgetValidator(
 // check if form array is required
 export function customValidateRequired(): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
-    let ratios = (control.get('ratios') as UntypedFormArray).controls;
-    let bounties = (control.get('bounties') as UntypedFormArray).controls;
+    let ratios = (control.get('ratios') as FormArray).controls;
+    let bounties = (control.get('bounties') as FormArray).controls;
     if (ratios.length === 0 && bounties.length === 0) {
       return {
         remunRequired: true
@@ -82,8 +82,8 @@ export function customValidateRequired(): ValidatorFn {
 // check if InsufficientBudget > sum of price
 export function customValidateInsufficientBudget(): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
-    let ratios = (control.get('ratios') as UntypedFormArray).controls;
-    let bounties = (control.get('bounties') as UntypedFormArray).controls;
+    let ratios = (control.get('ratios') as FormArray).controls;
+    let bounties = (control.get('bounties') as FormArray).controls;
     let initialBudget = control.get('initialBudget')?.value;
     let sum = 0;
     let sumReward = 0;

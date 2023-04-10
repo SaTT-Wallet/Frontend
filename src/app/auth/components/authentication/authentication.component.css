@@ -906,8 +906,6 @@ main {
 }
 
 .forgot_link {
-  cursor: pointer;
-  color:#0d6efd;
   margin-top: 2em;
   font-size: 12px;
 }
@@ -1764,7 +1762,6 @@ button .btnModalError {
 }
 
 .resend {
-  cursor: pointer;
   font-family: 'Poppins';
   font-style: normal;
   font-weight: normal;
@@ -1775,7 +1772,7 @@ button .btnModalError {
   text-align: center;
   letter-spacing: 0.03em;
   /* text-decoration-line: underline; */
-  color: #4048ff !important;
+  color: #4048ff;
 }
 
 .display-none {

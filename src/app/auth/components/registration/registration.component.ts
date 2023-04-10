@@ -13,7 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { sattUrl, pattEmail, pattPassword } from '@app/config/atn.config';
 import { CookieService } from 'ngx-cookie-service';
@@ -50,7 +50,7 @@ export class RegistrationComponent implements OnInit {
   isSubmitting: boolean = false;
   routerSub!: Subscription;
   errorMessage = '';
-  authForm: UntypedFormGroup;
+  authForm: FormGroup;
   languageSelected: string = 'en';
   showSpinner: boolean = false;
   authFacebook: string = sattUrl + '/auth/signup/facebook';
@@ -63,7 +63,7 @@ export class RegistrationComponent implements OnInit {
   isClicked!: boolean;
   expiresToken!: number;
   private account$ = this.accountFacadeService.account$;
-  color:any;
+
   successUpper = false;
   successLower = false;
   successNumber = false;
@@ -120,12 +120,12 @@ export class RegistrationComponent implements OnInit {
           this.english = false;
         }
       });
-    this.authForm = new UntypedFormGroup({
-      email: new UntypedFormControl(null, [
+    this.authForm = new FormGroup({
+      email: new FormControl(null, [
         Validators.required,
         Validators.pattern(pattEmail)
       ]),
-      password: new UntypedFormControl('', {
+      password: new FormControl('', {
         validators: [
           WhiteSpaceValidator.noWhiteSpace,
           Validators.required,
@@ -134,8 +134,8 @@ export class RegistrationComponent implements OnInit {
           // Validators.pattern(pattUppercase)
         ]
       }),
-      agreeBox: new UntypedFormControl('', [Validators.required]),
-      newsLetterBox: new UntypedFormControl(false)
+      agreeBox: new FormControl('', [Validators.required]),
+      newsLetterBox: new FormControl(false)
     });
   }
 
@@ -218,64 +218,75 @@ export class RegistrationComponent implements OnInit {
     this.authForm
       .get('password')
       ?.valueChanges.pipe(takeUntil(this.onDestroy$))
-      .subscribe((pass: string) => {
+      .subscribe((pass) => {
         const regex = /[A-Z]/g;
         const regexLowerCase = /[a-z]/g;
         const regexNumber = /[0-9]+/g;
         const regexSpecial = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
         const regexWhitespaces = /\s/;
         if (pass.match(regex)) {
+          let errMsg = this.document.getElementById('errMsgUpper');
           this.successUpper = true;
           //@ts-ignore
-          this.color = '#00CC9E';
+          errMsg?.style.color = '#00CC9E';
         } else {
+          let errMsg = this.document.getElementById('errMsgUpper');
           this.successUpper = false;
           //@ts-ignore
-           this.color = '#F52079';
+          errMsg?.style.color = '#F52079';
         }
 
         if (pass.match(regexLowerCase)) {
+          let errMsg = this.document.getElementById('errMsgLower');
           this.successLower = true;
           //@ts-ignore
-          this.color = '#00CC9E';
+          errMsg?.style.color = '#00CC9E';
         } else {
+          let errMsg = this.document.getElementById('errMsgLower');
           this.successLower = false;
           //@ts-ignore
-          this.color =  '#F52079';
+          errMsg?.style.color = '#F52079';
         }
 
         if (pass.match(regexNumber)) {
+          let errMsg = this.document.getElementById('errMsgNumber');
           this.successNumber = true;
           //@ts-ignore
-          this.color = '#00CC9E';
+          errMsg?.style.color = '#00CC9E';
         } else {
+          let errMsg = this.document.getElementById('errMsgNumber');
           this.successNumber = false;
           //@ts-ignore
-          this.color =  '#F52079';
+          errMsg?.style.color = '#F52079';
         }
 
         if (pass.match(regexSpecial)) {
+          let errMsg = this.document.getElementById('errMsgSpecial');
           this.successSpecial = true;
           //@ts-ignore
-          this.color =  '#00CC9E';
+          errMsg?.style.color = '#00CC9E';
         } else {
+          let errMsg = this.document.getElementById('errMsgSpecial');
           this.successSpecial = false;
           //@ts-ignore
-          this.color =  '#F52079';
+          errMsg?.style.color = '#F52079';
         }
         if (!pass.match(regexWhitespaces)) {
+          let errMsg = this.document.getElementById('errMsgWhitespaces');
           this.successWhitespaces = true;
           //@ts-ignore
-       this.color = '#00CC9E';
+          errMsg?.style.color = '#00CC9E';
         } else {
+          let errMsg = this.document.getElementById('errMsgWhitespaces');
           this.successWhitespaces = false;
           //@ts-ignore
-          this.color = '#F52079';
+          errMsg?.style.color = '#F52079';
         }
         if (this.getControls.password.errors?.minlength) {
+          let errMsg = this.document.getElementById('errLength');
           this.successLength = false;
           //@ts-ignore
-          this.color =  '#F52079';
+          errMsg?.style.color = '#F52079';
         } else {
           let errMsg = this.document.getElementById('errLength');
           this.successLength = true;

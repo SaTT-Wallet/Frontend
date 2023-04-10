@@ -113,7 +113,7 @@
               class="row mt-2 d-flex justify-content-center p-2"
               *ngIf="isNotConformIdentity == 'true'"
             >
-              <label class="danger_kyc p-2" id="danger" [style.display] = "display"
+              <label class="danger_kyc p-2" id="danger"
                 ><img src="assets/Images/false.svg" class="pb-1 pe-2" />{{
                   'Profil.invalid_picture' | translate
                 }}
@@ -157,9 +157,7 @@
                   class="btn_kyc"
                   id="KYC"
                   (click)="saveKyc('proofId')"
-                  [disabled]="disabled"
-                  [style.color]="color"
-                  [style.background]="background"
+                  [disabled]="true"
                 >
                   {{ 'Profil.soumettre' | translate }}
                 </button>
@@ -303,11 +301,7 @@
                   class="btn_kyc"
                   id="KYCC"
                   (click)="saveKyc('proofDomicile')"
-
-                  [disabled]="disabled"
-                  [style.color]="color"
-                  [style.background]="background"
-
+                  [disabled]="true"
                 >
                   {{ 'Profil.soumettre' | translate }}
                 </button>

@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { AuthService } from '../../../core/services/Auth/auth.service';
 
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { User } from '@app/models/User';
@@ -37,7 +37,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   urlpic: any;
   years: string = 'years';
   errorMessage = '';
-  formProfile: UntypedFormGroup;
+  formProfile: FormGroup;
   show: boolean = false;
   buttonName: any = 'Show';
   profile: any;
@@ -85,17 +85,17 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private campaignFacade: CampaignsService,
     private kycFacadeService: KycFacadeService
   ) {
-    this.formProfile = new UntypedFormGroup({
-      firstName: new UntypedFormControl(null, Validators.required),
-      lastName: new UntypedFormControl(null, Validators.required),
-      email: new UntypedFormControl(null, Validators.required),
-      gender: new UntypedFormControl(),
-      country: new UntypedFormControl(),
-      phone: new UntypedFormControl(),
-      address: new UntypedFormControl(),
-      birthday: new UntypedFormControl(),
-      zipCode: new UntypedFormControl(),
-      city: new UntypedFormControl()
+    this.formProfile = new FormGroup({
+      firstName: new FormControl(null, Validators.required),
+      lastName: new FormControl(null, Validators.required),
+      email: new FormControl(null, Validators.required),
+      gender: new FormControl(),
+      country: new FormControl(),
+      phone: new FormControl(),
+      address: new FormControl(),
+      birthday: new FormControl(),
+      zipCode: new FormControl(),
+      city: new FormControl()
     });
   }
 

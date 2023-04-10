@@ -10,7 +10,7 @@ import {
   PLATFORM_ID,
   Inject
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Editor, Toolbar } from 'ngx-editor';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil, tap } from 'rxjs/operators';
@@ -37,7 +37,7 @@ export class DraftCampaignPresentationComponent implements OnInit {
   @Output() saveFormStatus = new EventEmitter();
   private render: Renderer2;
   containWithinAspectRatio = false;
-  form = new UntypedFormGroup({});
+  form = new FormGroup({});
   editor = new Editor();
   toolbar: Toolbar = [
     ['bold', 'italic'],
@@ -59,15 +59,15 @@ export class DraftCampaignPresentationComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: string
   ) {
     this.render = rendererFactory.createRenderer(null, null);
-    this.form = new UntypedFormGroup({
-      title: new UntypedFormControl('', Validators.required),
-      brand: new UntypedFormControl(''),
-      reference: new UntypedFormControl(''),
-      summary: new UntypedFormControl('', [
+    this.form = new FormGroup({
+      title: new FormControl('', Validators.required),
+      brand: new FormControl(''),
+      reference: new FormControl(''),
+      summary: new FormControl('', [
         Validators.required,
         Validators.maxLength(250)
       ]),
-      description: new UntypedFormControl('', Validators.required)
+      description: new FormControl('', Validators.required)
     });
   }
   ngOnInit(): void {

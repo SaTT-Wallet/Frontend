@@ -150,7 +150,6 @@ export class AuthService {
     if (!this.tokenStorageService.getIsAuth()) {
       return true;
     }
-    
     this.router.navigate(['']);
     return false;
   }

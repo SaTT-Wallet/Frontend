@@ -13,7 +13,7 @@ import {
   ViewChild,
   ViewChildren
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Editor } from 'ngx-editor';
 import {
   debounceTime,
@@ -55,7 +55,7 @@ export class DraftCampaignKitComponent implements OnInit {
   @Output()
   saveFormStatus = new EventEmitter();
   dropdownSettings: any;
-  form = new UntypedFormGroup({});
+  form = new FormGroup({});
   editor = new Editor();
   kits: any = [];
   isAcceptedImageFileType?: boolean;
@@ -120,9 +120,9 @@ export class DraftCampaignKitComponent implements OnInit {
     private windowRefService: WindowRefService,
     private renderer: Renderer2
   ) {
-    this.form = new UntypedFormGroup({
-      url: new UntypedFormControl('', [Validators.pattern(urlValidator)]),
-      file: new UntypedFormControl('')
+    this.form = new FormGroup({
+      url: new FormControl('', [Validators.pattern(urlValidator)]),
+      file: new FormControl('')
     });
     this.iTestData = 0;
   }

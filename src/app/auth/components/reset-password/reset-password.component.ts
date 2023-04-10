@@ -8,7 +8,7 @@ import {
   Inject,
   PLATFORM_ID
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
@@ -74,7 +74,7 @@ export class ResetPasswordComponent {
   @ViewChild('sucessModal', { static: false })
   public sucessModal!: ElementRef;
   languageSelected: string = 'en';
-  resetPasswordForm: UntypedFormGroup;
+  resetPasswordForm: FormGroup;
   showSpinner: boolean = false;
   mailFromUrl!: string;
   expireFromUrl!: number;
@@ -105,9 +105,9 @@ export class ResetPasswordComponent {
       this.languageSelected = 'en';
       translate.setDefaultLang('en');
     }
-    this.resetPasswordForm = new UntypedFormGroup(
+    this.resetPasswordForm = new FormGroup(
       {
-        password: new UntypedFormControl(null, {
+        password: new FormControl(null, {
           validators: [
             Validators.required,
             Validators.minLength(8),
@@ -116,7 +116,7 @@ export class ResetPasswordComponent {
             )
           ]
         }),
-        confirmPassword: new UntypedFormControl(null, [Validators.required])
+        confirmPassword: new FormControl(null, [Validators.required])
       },
       { validators: MatchPasswordValidator() }
     );

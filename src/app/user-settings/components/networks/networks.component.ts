@@ -9,9 +9,9 @@ import {
 } from '@angular/core';
 
 import {
-  UntypedFormBuilder,
-  UntypedFormControl,
-  UntypedFormGroup,
+  FormBuilder,
+  FormControl,
+  FormGroup,
   Validators
 } from '@angular/forms';
 import { User } from '@app/models/User';
@@ -46,8 +46,8 @@ import { TokenStorageService } from '@app/core/services/tokenStorage/token-stora
 export class NetworksComponent implements OnInit, OnDestroy {
   @ViewChild('script') script!: ElementRef;
   urlArray: Array<{ value: string; name: string }>;
-  formProfileNetworks: UntypedFormGroup;
-  formAddNetwork: UntypedFormGroup;
+  formProfileNetworks: FormGroup;
+  formAddNetwork: FormGroup;
   user!: User;
   isValidLink: boolean = false;
   allLinksExiste!: boolean;
@@ -76,7 +76,7 @@ export class NetworksComponent implements OnInit, OnDestroy {
     private accountFacadeService: AccountFacadeService,
     public translate: TranslateService,
     private profileSettingsFacade: ProfileSettingsFacadeService,
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private toastr: ToastrService,
     private modalService: NgbModal,
     private route: ActivatedRoute,
@@ -90,32 +90,32 @@ export class NetworksComponent implements OnInit, OnDestroy {
 
     // let pattern = "^(https?:\\/\\/){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.(com))+)(/(.)*)?(\\?(.)*)?"
     this.formProfileNetworks = this.formBuilder.group({
-      fbLink: new UntypedFormControl(this.fbLink, Validators.pattern(regexFacebook)),
-      linkedinLink: new UntypedFormControl(
+      fbLink: new FormControl(this.fbLink, Validators.pattern(regexFacebook)),
+      linkedinLink: new FormControl(
         this.linkedinLink,
         Validators.pattern(regexLinkedin)
       ),
-      twitterLink: new UntypedFormControl(
+      twitterLink: new FormControl(
         this.twitterLink,
         Validators.pattern(regexTwitter)
       ),
-      instagramLink: new UntypedFormControl(
+      instagramLink: new FormControl(
         this.instagramLink,
         Validators.pattern(regexInstagram)
       ),
-      youtubeLink: new UntypedFormControl(
+      youtubeLink: new FormControl(
         this.youtubeLink,
         Validators.pattern(regexYoutube)
       ),
-      tikTokLink: new UntypedFormControl(
+      tikTokLink: new FormControl(
         this.tikTokLink,
         Validators.pattern(regexTiktok)
       )
     });
     //formGroup in modal "add a page"
     this.formAddNetwork = this.formBuilder.group({
-      type: new UntypedFormControl(null, Validators.required),
-      linkInput: new UntypedFormControl(null, [
+      type: new FormControl(null, Validators.required),
+      linkInput: new FormControl(null, [
         Validators.required,
         Validators.pattern(regexNetwork)
       ])

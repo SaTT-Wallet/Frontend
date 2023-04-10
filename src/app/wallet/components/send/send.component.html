@@ -45,7 +45,7 @@
         <p *ngIf="!this.selectedCryptoDetails" class="hard-gray-text mb-0">
           Balance :${{ this.sattBalance }}
         </p>
-        <span [className]="dataList.length > 0 ? 'router-text' : 'fade-animation'" (click)="dataList.length > 0 && onClickAmount()">{{
+        <span class="router-text" (click)="onClickAmount()">{{
           'useMax' | translate
         }}</span>
       </div>

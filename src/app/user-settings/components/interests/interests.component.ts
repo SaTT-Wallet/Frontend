@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  UntypedFormBuilder,
-  UntypedFormControl,
-  UntypedFormGroup,
+  FormBuilder,
+  FormControl,
+  FormGroup,
   Validators
 } from '@angular/forms';
 import { NgSelectConfig } from '@ng-select/ng-select';
@@ -22,7 +22,7 @@ export class InterestsComponent implements OnInit {
   interestsTagList: any;
   interestsList: any;
   interestsTagListSet: any;
-  formInterests: UntypedFormGroup;
+  formInterests: FormGroup;
   showSpinner: boolean = false;
   isMaxItems: boolean = false;
   disabled: boolean = false;
@@ -32,7 +32,7 @@ export class InterestsComponent implements OnInit {
   private isDestroyed = new Subject();
 
   constructor(
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private configSelect: NgSelectConfig,
     private translate: TranslateService,
     private profileSettingsFacade: ProfileSettingsFacadeService,
@@ -41,8 +41,8 @@ export class InterestsComponent implements OnInit {
     this.configSelect.notFoundText = 'No results found';
     this.configSelect.appendTo = 'body';
     this.formInterests = this.formBuilder.group({
-      interests: new UntypedFormControl(null, Validators.required),
-      interestsLength: new UntypedFormControl()
+      interests: new FormControl(null, Validators.required),
+      interestsLength: new FormControl()
     });
 
     this.interestsList = interestsList;

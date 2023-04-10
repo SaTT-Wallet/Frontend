@@ -5,7 +5,7 @@ import {
   PLATFORM_ID,
   ViewChild
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { interestsList, pattContact } from '@app/config/atn.config';
 import { ListTokensPerso } from '@config/atn.config';
@@ -23,7 +23,7 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class AddTokenComponent implements OnInit {
   selectedBlockchain = 'bep20';
-  formToken: UntypedFormGroup;
+  formToken: FormGroup;
   isSubmited: boolean = false;
   token: any;
   errorMsg = '';
@@ -62,14 +62,14 @@ export class AddTokenComponent implements OnInit {
     private walletFacade: WalletFacadeService,
     @Inject(PLATFORM_ID) private platformId: string
   ) {
-    this.formToken = new UntypedFormGroup({
-      network: new UntypedFormControl('bep20', Validators.required),
-      tokenAdress: new UntypedFormControl('', {
+    this.formToken = new FormGroup({
+      network: new FormControl('bep20', Validators.required),
+      tokenAdress: new FormControl('', {
         validators: [Validators.required, Validators.pattern(pattContact)]
       }),
-      symbol: new UntypedFormControl(''),
-      decimal: new UntypedFormControl(''),
-      tokenName: new UntypedFormControl('')
+      symbol: new FormControl(''),
+      decimal: new FormControl(''),
+      tokenName: new FormControl('')
     });
     this.interestsList = interestsList;
   }

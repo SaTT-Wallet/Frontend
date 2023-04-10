@@ -13,9 +13,7 @@ import {
 } from '@angular/core';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { ChartOptions, ChartType, Chart, plugins } from 'chart.js';
-
 import { Color, Label, MultiDataSet } from 'ng2-charts';
-
 import { ConvertToWeiPipe } from '@shared/pipes/convert-to-wei.pipe';
 import { ConvertFromWei } from '@shared/pipes/wei-to-sa-tt.pipe';
 import { Subject } from 'rxjs';

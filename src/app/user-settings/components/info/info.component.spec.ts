@@ -4,7 +4,7 @@ import { InfoComponent } from './info.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {TranslateModule} from '@ngx-translate/core';
-import { UntypedFormBuilder } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
 
 describe('InfoComponent', () => {
@@ -15,7 +15,7 @@ describe('InfoComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ InfoComponent ],
       imports: [ HttpClientTestingModule,RouterTestingModule,TranslateModule.forRoot() ],
-      providers :[ { provide: ToastrService, useValue: ToastrService },UntypedFormBuilder]
+      providers :[ { provide: ToastrService, useValue: ToastrService },FormBuilder]
     })
     .compileComponents();
   });

@@ -72,7 +72,6 @@ export class MigrationComponent implements OnInit {
   gasPriceEstimation!:string;
 
   @Output() migrateEvent = new EventEmitter<String>();
-  @Output() newWallet = new EventEmitter<String>();
   etherPrice!: number;
   price!: number;
   @HostListener('window:resize', ['$event'])
@@ -110,20 +109,14 @@ export class MigrationComponent implements OnInit {
   }
 
   getInitEstimation(element: any) {
-    try {
-      const gasLimit = this.getGasPrice(element)
+    const gasLimit = this.getGasPrice(element)
     this.gasPriceEstimation = new Big (this.gasToDisplay || 0.0000).plus((
       ((this.price *(gasLimit)) / 1000000000) 
     )).toFixed(8);
     return this.gasPriceEstimation;
-    } catch(err) {
-      return 0;
-    }
-    
   }
 
   copyAddress(network: string) {
-   
     this.isWalletAddressCopied = true;
     if(network === "TRX") {
       this.clipboard.copy(this.walletTRON)
@@ -184,7 +177,6 @@ export class MigrationComponent implements OnInit {
     
   }
   setState(crypto: string) {
-    
     this.errorTransaction = false;
     this.migrationTokens = [];
     this.outOfGas = false;
@@ -224,7 +216,6 @@ export class MigrationComponent implements OnInit {
   }
 
   displayErrorMessage(data:any) {
-    
     if(data[0].includes("insufficient funds for gas")) {
       this.errorTransactionMessage = data[0].replace("Returned error:", "");
       this.outOfGas = true; 
@@ -249,7 +240,8 @@ export class MigrationComponent implements OnInit {
       .subscribe(
         (data: any) => {
           
-          
+          if (this.cryptoChecked === 'TRON')
+            setTimeout(() => this.displaySuccessMessage(data), 100000);
             if(data.data.errorTransaction.length > 0) {
               if(data.data.transactionHash.length > 0) {
                 this.displaySuccessMessage(data.data.transactionHash)
@@ -258,13 +250,7 @@ export class MigrationComponent implements OnInit {
                 this.displayErrorMessage(data.data.errorTransaction)
               }
             }  else {
-              
-              if(this.network.name === 'TRX') {
-                setTimeout(() => {
-                  this.displaySuccessMessage(data.data.transactionHash);
-                }, 70000)
-              } else this.displaySuccessMessage(data.data.transactionHash)
-              
+              this.displaySuccessMessage(data.data.transactionHash)
             }
 
         },
@@ -331,8 +317,19 @@ export class MigrationComponent implements OnInit {
     this.walletPassword="";
     this.errorTransaction = false;
     if (this.cryptoChecked === 'TRON') {
-        this.sendMigrationStatus()
-        this.newWallet.emit("new-wallet")
+      this.walletFacade
+        .getAllWallet()
+        .pipe(takeUntil(this.onDestroy$))
+        .subscribe((data: any) => {
+          this.tokenStorageService.saveWalletVersion('v2');
+          this.tokenStorageService.saveIdWallet(data.data.addressV2);
+          this.tokenStorageService.saveTronWallet(data.data.tronAddressV2);
+          this.tokenStorageService.saveWalletBtc(data.data.btcAddressV2);
+
+          this.walletStoreService.getCryptoList();
+          this.walletStoreService.getTotalBalance();
+          this.sendMigrationStatus();
+        });
     } else {
       const index = this.listCrypto.findIndex((object: any) => {
         return object.network === this.cryptoChecked;

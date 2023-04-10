@@ -17,6 +17,12 @@
   opacity: 0 !important;
 }
 
+*:focus {
+  /*
+    outline: none;
+    */
+}
+
 a {
   text-decoration: none;
 }
@@ -1562,7 +1568,7 @@ app-header-register {
 
 .toast-success {
   background-color: #323754 !important;
-  /* background-image: url() !important; */
+  background-image: url() !important;
   border-radius: 20px !important;
   opacity: 0.8 !important;
   -webkit-border-radius: 20px !important;
@@ -1585,7 +1591,7 @@ app-header-register {
 }
 
 .toast-message .icon {
-  /* background-image: url() !important; */
+  background-image: url() !important;
 }
 
 .toast-container .ngx-toastr {

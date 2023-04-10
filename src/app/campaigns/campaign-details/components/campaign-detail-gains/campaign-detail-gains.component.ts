@@ -297,7 +297,7 @@ export class CampaignDetailGainsComponent implements OnInit {
   }
 
   getStatEarnings(array: any): void {
-    if (array.length !== 0) {
+    if (array !== []) {
       array.forEach((item: any) => {
         if (
           item.status === true &&

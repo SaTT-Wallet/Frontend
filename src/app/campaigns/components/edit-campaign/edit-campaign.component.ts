@@ -10,7 +10,7 @@ import {
   HostListener,
   Inject
 } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Editor } from 'ngx-editor';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
@@ -83,9 +83,9 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
   socialMediaType = ESocialMediaType;
   editor: any = new Editor();
   step: any = 1;
-  forthFormGroup: UntypedFormGroup;
+  forthFormGroup: FormGroup;
   cryptodata: any;
-  passForm: UntypedFormGroup;
+  passForm: FormGroup;
   kits: any = [];
   validpassword: boolean = false;
   selectedAttributes: any;
@@ -107,7 +107,7 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
   isLoading = true;
   constructor(
     
-    private _formBuilder: UntypedFormBuilder,
+    private _formBuilder: FormBuilder,
     private CampaignService: CampaignHttpApiService,
     private sanitizer: DomSanitizer,
     public translate: TranslateService,
@@ -128,9 +128,9 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
     private campaignsStore: CampaignsStoreService,
     private localeStorageService: TokenStorageService
   ) {
-    this.passForm = new UntypedFormGroup(
+    this.passForm = new FormGroup(
       {
-        password: new UntypedFormControl(null)
+        password: new FormControl(null)
       },
       {}
     );

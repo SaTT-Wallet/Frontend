@@ -2991,7 +2991,7 @@
   "new_email": "New email",
   "code_title": "Confirm it is you",
   "code_title-code": "Authentication code",
-  "code_label": "Please enter the verification code sent to your adress",
+  "code_label": "Please enter the verication code sent to your adresse",
   "code incorrect": "Incorrect code ",
   "code correct": "Correct code",
   "code expired": "Expired code",

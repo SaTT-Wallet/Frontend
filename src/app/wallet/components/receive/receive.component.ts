@@ -13,7 +13,7 @@ import {
 import { pattEmail, ListTokens } from '@config/atn.config';
 import { SidebarService } from '@core/services/sidebar/sidebar.service';
 import { TranslateService } from '@ngx-translate/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { ContactMessageService } from '@core/services/contactmessage/contact-message.service';
@@ -38,7 +38,7 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
   dataList: any = [];
   totalAmount: any;
   amountdefault: string = 'SATT';
-  receiveform: UntypedFormGroup;
+  receiveform: FormGroup;
   selectedCrypto: any = 'SATT';
   currentUser: any;
   emailNotCorrect!: boolean;
@@ -80,20 +80,20 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
     @Inject(PLATFORM_ID) private platformId: string,
     private _location: Location
   ) {
-    this.receiveform = new UntypedFormGroup({
-      contact: new UntypedFormControl(null, {
+    this.receiveform = new FormGroup({
+      contact: new FormControl(null, {
         validators: [Validators.required, Validators.pattern(pattEmail)]
       }),
-      Amount: new UntypedFormControl(
+      Amount: new FormControl(
         null,
         Validators.compose([Validators.required, Validators.min(0)])
       ),
-      AmountUsd: new UntypedFormControl(
+      AmountUsd: new FormControl(
         null,
         Validators.compose([Validators.required, Validators.min(0)])
       ),
-      currency: new UntypedFormControl(null, Validators.required),
-      message: new UntypedFormControl(null)
+      currency: new FormControl(null, Validators.required),
+      message: new FormControl(null)
     });
   }
 
@@ -309,7 +309,7 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
     if (elementinputusd)
     this.renderer.setStyle(elementinputusd,'width',elementinputusd.value.length + 1 + 'ch')
 
-    
+    console.log("ngAfterViewChecked")
 
       //elementinputusd.style.width = elementinputusd.value.length + 1 + 'ch';
     // if (inputAmount)
@@ -320,7 +320,7 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
     // let inputAmount = this.inputAmount?.nativeElement;
     if (elementinputusd)
     this.renderer.setStyle(elementinputusd,'width',elementinputusd.value.length + 1 + 'ch')
-    
+    console.log("editwidthInput")
       //elementinputusd.style.width = elementinputusd.value.length + 1 + 'ch';
     // if (inputAmount)
     //   inputAmount.style.width = elementinputusd.value.length + 1 + 'ch';

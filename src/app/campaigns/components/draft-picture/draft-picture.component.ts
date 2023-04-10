@@ -17,7 +17,7 @@ import {
   ViewChild,
   Renderer2
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DraftCampaignService } from '@app/campaigns/services/draft-campaign.service';
 import { CampaignHttpApiService } from '@app/core/services/campaign/campaign.service';
@@ -53,8 +53,8 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
   img = new Image();
   // ViewChild is used to access the input element.
   @ViewChild('coverInput', { static: false }) inputCover!: ElementRef;
-  formUploadPic: UntypedFormGroup;
-  form: UntypedFormGroup;
+  formUploadPic: FormGroup;
+  form: FormGroup;
   logoName: string = '';
   imageLogoChangedEvent: any;
   srcFile: any;
@@ -131,15 +131,15 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
     rendererFactory: RendererFactory2,
     @Inject(PLATFORM_ID) private platformId: string
   ) {
-    this.form = new UntypedFormGroup({
-      cover: new UntypedFormControl('', Validators.required),
-      coverSrc: new UntypedFormControl('', Validators.required),
-      logo: new UntypedFormControl('', Validators.required),
-      coverMobile: new UntypedFormControl('', Validators.required),
-      coverSrcMobile: new UntypedFormControl('', Validators.required)
+    this.form = new FormGroup({
+      cover: new FormControl('', Validators.required),
+      coverSrc: new FormControl('', Validators.required),
+      logo: new FormControl('', Validators.required),
+      coverMobile: new FormControl('', Validators.required),
+      coverSrcMobile: new FormControl('', Validators.required)
     });
-    this.formUploadPic = new UntypedFormGroup({
-      file: new UntypedFormControl(null, Validators.required)
+    this.formUploadPic = new FormGroup({
+      file: new FormControl(null, Validators.required)
     });
   }
   /*
@@ -343,7 +343,7 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
           .compressFile(data.result, -2, 50, 25)
           .then((result: DataUrl) => {console.log({result})
         
-          
+          console.log("data.result: ", result)
           // this.imageChangedEventMobile = event;
           // this.isConformCoverMobile = true;
           // this.showImageMobile = true;
@@ -378,6 +378,7 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
         this.imageCompress
           .compressFile(image, orientation, 50, 25)
           .then((result: DataUrl) => {
+            console.log("result: ", result)
             this.imgResultAfterCompress = result;
             console.warn(
               `Compressed: ${result.substring(0, 50)}... (${
@@ -402,7 +403,7 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
       this.picName = null;
       this.showImage = false;
       let fileUploaded = event.target.files[0];
-      
+      console.log("fileUploaded: ", fileUploaded)
       /*this.imageCompress
           .compressFile(fileUploaded, -2, 50, 25)
           .then((result: DataUrl) => {
