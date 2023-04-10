@@ -77,7 +77,7 @@ export class DownaldJSONFileComponent implements OnInit {
     a.click();
     setTimeout(() => {
       this.router.navigate(['/social-registration/activePass']);
-    }, 2000)
+    }, 1000)
     
   }
 
