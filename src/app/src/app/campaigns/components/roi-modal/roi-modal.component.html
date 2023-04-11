@@ -12,14 +12,14 @@
     <div class="content mb-2">
       <h2>ROI Calculator</h2>
     </div>
-    <div class="description-modal container">
+    <!-- <div class="description-modal container">
       ROI measures investment profitability by calculating initial
       investment percentage earned/lost.
     </div>
-    
-    <div *ngIf="campaignType === 'performance'">
+     -->
+    <!-- <div *ngIf="campaignType === 'performance'">
       <h3>Earnings</h3>
-    </div>
+    </div> -->
     <div *ngIf="campaignType === 'publication'">
       <h3>Put number of followers</h3>
     </div>
@@ -64,8 +64,9 @@
             <input
             style="color:  #4048FF; background: #F6F6FF;"
               type="text"
+              pattern="^[1-9][0-9]*$"
               class="form-control"
-              placeholder="view"
+              placeholder="0"
               aria-label="Username"
               aria-describedby="basic-addon1"
               [(ngModel)]="InputView" (input)="estimationGains()"
@@ -92,8 +93,9 @@
             <input
             style="color:  #4048FF; background: #F6F6FF;"
               type="text"
+              pattern="^[1-9][0-9]*$"
               class="form-control"
-              placeholder="like"
+              placeholder="0"
               aria-label="Username"
               aria-describedby="basic-addon1"
               [(ngModel)]="Inputlike" (input)="estimationGains()"
@@ -120,9 +122,10 @@
             </div>
             <input
             style="color:#4048FF; background: #F6F6FF;"
+            pattern="^[1-9][0-9]*$"
               type="text"
               class="form-control"
-              placeholder="share"
+              placeholder="0"
               aria-label="Username"
               aria-describedby="basic-addon1"
               [(ngModel)]="InputShare" (input)="estimationGains()"
@@ -142,9 +145,10 @@
             </div>
             <input
             style="color:  #4048FF; background: #F6F6FF;"
+            pattern="^[1-9][0-9]*$"
               type="text"
               class="form-control"
-              placeholder="reach"
+              placeholder="0"
               aria-label="Username"
               aria-describedby="basic-addon1"
               [(ngModel)]="InputReachMax" (input)="estimationGains()"
@@ -168,9 +172,10 @@
             </div>
             <input
             style="color:  #4048FF; background: #F6F6FF;"
+            pattern="^[1-9][0-9]*$"
               type="text"
               class="form-control"
-              placeholder="followers"
+              placeholder="0"
               aria-label="Username"
               aria-describedby="basic-addon1"
               [(ngModel)]="InputFllowers" (input)="estimationGains()"

@@ -106,6 +106,11 @@ letter-spacing: 0.03em;
   background: #4048ff;
 }
 @media (max-width: 767.98px){
+  .modal-header .modal-custom{
+    margin-top: auto;
+
+    background: #FFFFFF;
+  }
   .description-modal{
     width: 50%;
   }
@@ -113,7 +118,7 @@ letter-spacing: 0.03em;
     width: fit-content;
   }
   .roi-modal{
-    height: 100vh;
+   
     background: #FFFFFF;
   }
   .modal-custom {

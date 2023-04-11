@@ -13,8 +13,8 @@ import { Subject } from 'rxjs';
 })
 export class RoiModalComponent implements OnInit {
   inputValue: any;
-  roiCurrentRate: number = 0;
-  roiCurrentUsd: number = 0;
+  roiCurrentRate!: number ;
+  roiCurrentUsd!: number ;
   tokenName: string = '';
   campaignType: string = '';
   campaignView: number = 0;
@@ -26,11 +26,11 @@ export class RoiModalComponent implements OnInit {
   etherInWei: any;
   campaignBounties: any;
   campaignRatios: any;
-  InputView: number = 0;
-  Inputlike: number = 0;
-  InputShare: number = 0;
-  InputReachMax: number = 0;
-  InputFllowers: number = 0;
+  InputView!: number ;
+  Inputlike!: number;
+  InputShare!: number;
+  InputReachMax!: number ;
+  InputFllowers!: number;
   oracleSelected: string = 'facebook';
   platforms: string[] = [];
   cryptoPrice: any;
@@ -47,10 +47,12 @@ export class RoiModalComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.roiCurrentRate =0;
+    this.roiCurrentUsd= 0;
     this.CampaignService.getOneById(this.id, 'projection').subscribe(
       (data: any) => {
         this.tokenName = data.data.token.name;
-        if (['SATTPOLYGON', 'SATTBEP20', 'SATTBTT'].includes(this.tokenName))
+        if ([ 'SATTBEP20'].includes(this.tokenName))
           this.tokenName = 'SATT';
         this.campaignType = data.data.remuneration;
         this.campaignBounties = data.data.bounties;
@@ -151,14 +153,16 @@ export class RoiModalComponent implements OnInit {
   }
 
   estimationGains() {
-  
-
+  console.log('this.InputView', !this.InputView ?0 :this.InputView);
+   let View =!this.InputView ?0 :this.InputView
+   let like =!this.Inputlike ?0 :this.Inputlike
+   let Share =!this.InputShare ?0 :this.InputShare
     if (this.campaignType === 'performance') {
       this.getRewardRatios();
       this.roiCurrentRate =
-        this.campaignView * this.InputView +
-        this.campaignlike * this.Inputlike +
-        this.campaignShare * this.InputShare;
+        this.campaignView * View +
+        this.campaignlike * like +
+        this.campaignShare * Share;
     } else if (this.campaignType === 'publication') {
       this.getRewardBountie();
     }
