@@ -205,7 +205,7 @@ export class CampaignsListItemComponent implements OnInit {
     } else return false;
   }
   closeRoi($event: any){
-    console.log("hi eventtt", $event);
+  
     
     if ($event){
       this.closeModal(this.calculRoi)

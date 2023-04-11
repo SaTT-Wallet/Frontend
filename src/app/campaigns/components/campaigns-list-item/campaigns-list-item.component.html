@@ -115,7 +115,7 @@
     [ngStyle]="{ background: campaign.type === 'draft' ? '#F6F6FF' : 'white' }"
   >
     <div class="social-Icons">
-      <img src="./assets/Images/tikTok.svg" *ngIf="isTikTokSelected" />
+      <img src="./assets/Images/tiktok.svg" *ngIf="isTikTokSelected" />
 
       <img src="./assets/Images/instagram.svg" *ngIf="isInstagramSelected" />
       <img
@@ -327,8 +327,8 @@
     /></span>
   </button>
 </div>
-<ng-template #calculRoi>
-  <app-roi-modal [id]="campaign.id" (closeModaleEvent)="closeRoi($event) "></app-roi-modal>
+<ng-template class="modal-roi" #calculRoi>
+  <app-roi-modal  [id]="campaign.id" (closeModaleEvent)="closeRoi($event) "></app-roi-modal>
 </ng-template>
 <ng-template #modifiercampaign>
   <div class="modal-header modal-custom">

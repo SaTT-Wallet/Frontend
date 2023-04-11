@@ -8,12 +8,12 @@
       aria-label="Close"
     ></button>
   </div>
-  <div class="modal-body modal-custom justify-content-center content">
+  <div class="modal-body modal-custom justify-content-center content" style="margin-top: auto;">
     <div class="content mb-2">
       <h2>ROI Calculator</h2>
     </div>
-    <div class="description-modal">
-      ROI measures investment profitability by calculating initial <br />
+    <div class="description-modal container">
+      ROI measures investment profitability by calculating initial
       investment percentage earned/lost.
     </div>
     
@@ -23,12 +23,15 @@
     <div *ngIf="campaignType === 'publication'">
       <h3>Put number of followers</h3>
     </div>
+    <div class="chose-text">
+      Choose social media
+    </div>
     <div class="form-group">
-      <!-- <label>Select your favorite social media platform:</label> -->
+    
       <div class="btn-group btn-group-toggle">
         <label class="btn" *ngFor="let platform of platforms">
           <input type="radio" name="platform" [value]="platform"  [(ngModel)]="oracleSelected" (change)="onPlatformSelect(platform)"> 
-          <!-- <i [ngClass]="'fa fa-' + platform"></i>  -->
+        
         
           <img *ngIf="oracleSelected  !== platform" src="./assets/Images/social-media/desabled/{{platform}}.svg" style="    height: 38px;
           width: 38px;" />
@@ -37,10 +40,10 @@
         </label>
       </div>
     </div>
-    <div class="container" *ngIf="campaignType === 'performance'">
+    <div class="container container-inputs" *ngIf="campaignType === 'performance'">
       <div class="row flex-sm-row flex-column justify-content-center">
         <div class="col-sm input-social-media">
-          <div>
+          <div style="margin-bottom: 5px;">
             1 View = {{ campaignView }}
             <span>
               <img
@@ -49,7 +52,7 @@
               />
              </span>
           </div>
-          <!-- <app-input-roi-modal [icon]="view" [text]="view"></app-input-roi-modal> -->
+      
           <div class="input-group mb-3 input-social-media">
             <div class="input-group-prepend">
               <span class="input-group-text icon-input" id="basic-addon1">    <img
@@ -59,7 +62,7 @@
               </span>
             </div>
             <input
-            style="color:  #4048FF;"
+            style="color:  #4048FF; background: #F6F6FF;"
               type="text"
               class="form-control"
               placeholder="view"
@@ -70,7 +73,7 @@
           </div>
         </div>
         <div class="col-sm input-social-media">
-          <div>1 like = {{ campaignlike }}  <span>
+          <div style="margin-bottom: 5px;">1 like = {{ campaignlike }}  <span>
             <img
               class="icon-crypto-input"
               src="/assets/Images/icons-crypto/black/{{ tokenName }}.svg"
@@ -87,7 +90,7 @@
               </span>
             </div>
             <input
-            style="color:  #4048FF;"
+            style="color:  #4048FF; background: #F6F6FF;"
               type="text"
               class="form-control"
               placeholder="like"
@@ -98,7 +101,7 @@
           </div>
         </div>
         <div class="col-sm input-social-media">
-          <div>1 Shar = {{ campaignShare }} 
+          <div style="margin-bottom: 5px;">1 Share = {{ campaignShare }} 
             <span>
               <img
                 class="icon-crypto-input"
@@ -116,7 +119,7 @@
               </span>
             </div>
             <input
-            style="color:  #4048FF;"
+            style="color:#4048FF; background: #F6F6FF;"
               type="text"
               class="form-control"
               placeholder="share"
@@ -127,7 +130,7 @@
           </div>
         </div>
         <div class="col-sm input-social-media" *ngIf="ReachMaxExist">
-          <div>maxreach={{ campaignReachMax }}%</div>
+          <div style="margin-bottom: 5px;">Max Reach={{ campaignReachMax }}%</div>
           <!-- <app-input-roi-modal [icon]="maxreach" [text]="maxreach"></app-input-roi-modal> -->
           <div class="input-group mb-3 input-social-media">
             <div class="input-group-prepend">
@@ -138,7 +141,7 @@
               </span>
             </div>
             <input
-            style="color:  #4048FF;"
+            style="color:  #4048FF; background: #F6F6FF;"
               type="text"
               class="form-control"
               placeholder="reach"
@@ -150,7 +153,7 @@
         </div>
       </div>
     </div>
-    <div class="container" *ngIf="campaignType === 'publication'">
+    <div class="container container-inputs" *ngIf="campaignType === 'publication'">
       <div class="row flex-sm-row flex-column justify-content-center">
         <div class="col-sm input-social-media">
        
@@ -164,7 +167,7 @@
               </span>
             </div>
             <input
-            style="color:  #4048FF;"
+            style="color:  #4048FF; background: #F6F6FF;"
               type="text"
               class="form-control"
               placeholder="followers"
@@ -185,7 +188,7 @@
     </div>
     <div class="container roi-rate">
       <div class="current-rate col col-sm-8 align-items-center mb-1">
-        {{ roiCurrentRate|| '0' }}  <span>
+        {{ roiCurrentRate | number: '1.0-3' || '0' }}  <span>
           <img
             style="height: 24px; width: 24px;"
             src="/assets/Images/icons-crypto/black/{{ tokenName }}.svg"
@@ -193,7 +196,7 @@
          </span>
       </div>
       <div  class="current-rate col-xxl-4 col-xl-4 col-md-12 col-lg-4 col-sm-8 col-10 align-items-center mb-2">
-        $ {{ roiCurrentUsd || '0' }}
+        $ {{ roiCurrentUsd | number: '1.0-3'  || '0'}}
       </div>
     </div>
 

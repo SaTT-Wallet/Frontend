@@ -1,12 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-
-import { ListTokens } from '@app/config/atn.config';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { CampaignHttpApiService } from '@app/core/services/campaign/campaign.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { from, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-roi-modal',
@@ -26,7 +24,6 @@ export class RoiModalComponent implements OnInit {
   ReachMaxExist: boolean = false;
   closeModal: boolean = false;
   etherInWei: any;
-  coinsPrices: any;
   campaignBounties: any;
   campaignRatios: any;
   InputView: number = 0;
@@ -37,7 +34,7 @@ export class RoiModalComponent implements OnInit {
   oracleSelected: string = 'facebook';
   platforms: string[] = [];
   cryptoPrice: any;
-  listor: string[] = [];
+
   isDestroyedSubject = new Subject();
 
   @Input() id: any;
@@ -78,21 +75,14 @@ export class RoiModalComponent implements OnInit {
   }
   getCryptoPrice(token: string) {
     this.walletFacade.getCryptoPriceList().subscribe((data: any) => {
-      console.log('tokenn', token);
+     
 
       this.cryptoPrice = data.data[token].price;
-      console.log('this.cryptoPrice', this.cryptoPrice);
+
       this.estimationGains();
     });
   }
-  // onSocialMediaSelect(platform: string) {
-  //   console.log('Selected platform:', platform);
-  // }
-  // filterByOracle($event: any) {
-  //   console.log("eveeeent", event );
 
-  //   this.oracleSelected = $event;
-  // }
 
   onPlatformSelect(platform: string) {
     this.oracleSelected = platform;
@@ -137,7 +127,7 @@ export class RoiModalComponent implements OnInit {
     });
   }
   getRewardBountie() {
-    console.log('reward', this.InputFllowers);
+  
     let bounties = this.campaignBounties;
     let totalToEarn = '0';
     bounties.forEach((bounty: any) => {
@@ -161,7 +151,7 @@ export class RoiModalComponent implements OnInit {
   }
 
   estimationGains() {
-    console.log('laaa', this.InputFllowers);
+  
 
     if (this.campaignType === 'performance') {
       this.getRewardRatios();
@@ -172,8 +162,7 @@ export class RoiModalComponent implements OnInit {
     } else if (this.campaignType === 'publication') {
       this.getRewardBountie();
     }
-    console.log('this crypto name', this.tokenName);
-    console.log('THIS PRICE', this.cryptoPrice);
+    
 
     this.roiCurrentUsd = this.roiCurrentRate * this.cryptoPrice;
   }

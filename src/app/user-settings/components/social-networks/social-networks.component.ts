@@ -29,7 +29,7 @@ export class SocialNetworksComponent implements OnInit {
   networkLogoTwitter = './assets/Images/twitter.svg';
   networkLogoInstagram = './assets/Images/img_satt/Instagram.png';
   networkLogoLinkedin = './assets/Images/linkedin-icon.svg';
-  networkLogoTiktok = './assets/Images/tikTok.svg';
+  networkLogoTiktok = './assets/Images/tiktok.svg';
   accounts: any;
   accountsTwitter: any;
   channelId: string = '';
