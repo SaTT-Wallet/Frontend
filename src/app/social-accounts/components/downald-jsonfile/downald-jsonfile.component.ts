@@ -24,6 +24,8 @@ export class DownaldJSONFileComponent implements OnInit {
   successMsg: string = "";
   codeExportKeyStore!:number;
   keystoreData:any;
+  resendCodeDisabled: boolean = false;
+  secondsToActivateResendCode:number = 10;
   private isDestroyed = new Subject();
 
   constructor(
@@ -42,7 +44,7 @@ export class DownaldJSONFileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.resendCode();
+    this.sendCode();
     this.tokenStorageService.setSecureWallet('visited-download', 'true');
   }
 
@@ -51,8 +53,7 @@ export class DownaldJSONFileComponent implements OnInit {
     this.codeExportKeyStore = Number(event);
     this.checkCodeVerification();
   }
-
-  resendCode() {
+  sendCode() {
     this.walletFacade.getExportCode("eth", "2")
       .pipe(
         catchError((HttpError: HttpErrorResponse) => {
@@ -60,6 +61,32 @@ export class DownaldJSONFileComponent implements OnInit {
         }),
       )
       .subscribe()
+  }
+
+  resendCode() {
+    this.resendCodeDisabled = true;
+    this.secondsToActivateResendCode = 10;
+    const count = setInterval(
+      () => {
+         this.secondsToActivateResendCode --
+         if(this.secondsToActivateResendCode === 0) clearInterval(count);
+      }, 1000
+    )
+    this.walletFacade.getExportCode("eth", "2")
+      .pipe(
+        catchError((HttpError: HttpErrorResponse) => {
+          this.resendCodeDisabled = false;
+          return of(HttpError.error);
+        }),
+      )
+      .subscribe(
+        (res: any) => {
+          setTimeout(() => {
+            this.resendCodeDisabled = false;
+  
+          }, 10000)
+        }
+      )
   }
 
 
