@@ -43,7 +43,7 @@ export class RoiModalComponent implements OnInit {
     private CampaignService: CampaignHttpApiService,
     private router: Router,
     private walletFacade: WalletFacadeService,
-    private modalService: NgbModal
+    
   ) {}
 
   ngOnInit(): void {
@@ -145,7 +145,7 @@ export class RoiModalComponent implements OnInit {
             totalToEarn = total;
           }
         });
-        this.roiCurrentRate = parseInt(totalToEarn);
+        this.roiCurrentRate = parseInt(totalToEarn)/ 10 ** 18;
       }
     });
   }
