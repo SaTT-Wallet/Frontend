@@ -28,20 +28,21 @@
     background-color: #F6F6FF;
   }
   .resend-code {
-    background-color: white;
+    background-color: #F6F6FF;
     color: #4048ff;
-    font-size: 1rem;
+    font-weight: 600;
+    font-size: 1.3rem;
     font-family: 'Poppins', sans-serif;
-    border: 1px solid #4048ff;
+    border: 1px solid #F6F6FF;
     padding-left: 2rem;
     padding-right: 2rem;
     margin-bottom: 2rem;
+    box-shadow: 2px 2px 2px 2px #888888;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
    
   }
-  .resend-code:hover {
-    background-color: #4048ff;
-    color: white;
-  }
+  
   .error_input {
     color: #f52079;
     /* padding: 0.1rem; */
