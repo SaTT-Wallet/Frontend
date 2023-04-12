@@ -4,7 +4,9 @@ import {
   EventEmitter,
   Input,
   OnInit,
-  Output
+  Output,
+  TemplateRef,
+  ViewChild
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -28,7 +30,8 @@ import { WalletStoreService } from '@app/core/services/wallet-store.service';
 })
 export class CampaignsListItemComponent implements OnInit {
   onDestroy$ = new Subject();
-
+  @ViewChild('calculRoi', { static: false })
+  private calculRoi!: TemplateRef<any>;
   @Input() campaign = new Campaign();
   @Output() deleted = new EventEmitter();
   showSpinner = false;
@@ -78,6 +81,10 @@ export class CampaignsListItemComponent implements OnInit {
   onImgError(event: any) {
     event.target.src = 'assets/Images/moonboy/Default_avatar_MoonBoy.png';
     // event.target.src =  this.user?.userPicture
+  }
+  caluculateRoi(id :any){
+    this.modalService.open(this.calculRoi);
+    
   }
 
   goToEditPage(id: string) {
@@ -196,6 +203,14 @@ export class CampaignsListItemComponent implements OnInit {
     if (this.campaign.remuneration === 'publication') {
       return true;
     } else return false;
+  }
+  closeRoi($event: any){
+  
+    
+    if ($event){
+      this.closeModal(this.calculRoi)
+    }
+
   }
   getCurrencyName(campaign: any) {
     const currencyName = campaign.currency.name;

@@ -317,6 +317,11 @@
   max-height: 130px;
   height: 130px;
   position: relative;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .buttons-wrapper {
@@ -508,6 +513,9 @@
   font-weight: 700;
   font-style: normal;
   text-align: center;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .blue-text {
@@ -605,4 +613,12 @@
   /* or 15px */
   letter-spacing: 0.03em;
   color: #4080ff;
+}
+
+@media (max-width: 767.98px){
+  .modal-roi{
+    background: #FFFFFF;
+
+  }
+
 }
