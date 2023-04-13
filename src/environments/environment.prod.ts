@@ -7,7 +7,11 @@ export const environment = {
     'https://api.thegraph.com/subgraphs/name/atayen/satt--bsc-mainnet',
   url_subgraph_ether:
     'https://api.thegraph.com/subgraphs/name/atayen/satt-ether-mainnet',
+    url_subgraph_vote:
+    'https://hub.snapshot.org/graphql',
 
+  snapshot_hub: "https://hub.snapshot.org",
+  space_name: "atayen.eth",    
   addresses: {
     smartContracts: {
       campaignERC20: '0xf961c85517fe86244cb60889afc4a928068d49ef',

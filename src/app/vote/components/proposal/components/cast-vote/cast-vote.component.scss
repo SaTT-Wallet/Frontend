@@ -1,0 +1,45 @@
+.vote-table {
+    margin: 0 auto;
+    border-collapse: collapse;
+    width: 50%;
+}
+
+.vote-table th {
+    background-color: #e0e0e0;
+    font-weight: bold;
+    border: 1px solid #dcdcdc;
+    padding: 5px;
+    text-align: center;
+}
+
+.vote-table td {
+    border: 1px solid #dcdcdc;
+    padding: 10px;
+}
+
+.vote-table .choices {
+    margin-top: 10px;
+}
+
+.vote-table .radio-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.vote-table label {
+    margin-bottom: 5px;
+}
+
+.vote-table .vote-button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #008CBA;
+    border: none;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.vote-table .vote-button:hover {
+    background-color: #005f7f;
+}

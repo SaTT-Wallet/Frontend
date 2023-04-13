@@ -1,0 +1,21 @@
+<div class="box-container">
+    <div class="box-topbar">
+        Details
+    </div>
+    <div class="box-main">
+        <div class="identifier">
+            <p>Identifier <a href="https://snapshot.mypinata.cloud/ipfs/{{ipfsHash}}">{{proposal.id}}</a></p>
+        </div>
+        <div class="creator">
+            <p>Creator <a href="https://bscscan.com/address/{{proposal.author}}">{{proposal.author}}</a></p>
+        </div>
+        <div class="snapshot">
+            <p>Snapshot <a href="https://bscscan.com/block/{{proposal.snapshot}}">{{proposal.snapshot}}</a></p>
+        </div>
+        <div class="inner-box">
+            <div class="state"><span>{{proposal.state}}</span></div>
+            <div class="start"><span>Start Date</span><span>{{start}}</span></div>
+            <div class="end"><span>End Date</span><span>{{end}}</span></div>
+        </div>
+    </div>
+</div>

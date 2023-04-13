@@ -1,0 +1,589 @@
+.page {
+    position: relative;
+    width: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    background: #faf9fa;
+  }
+  
+  *,
+  ::before,
+  ::after {
+    box-sizing: border-box;
+  }
+  
+  .container {
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+    transition: margin-top 0.2s ease 0s, margin-left 0.2s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+    transform: translate3d(0px, 0px, 0px);
+    max-width: 100%;
+    max-height: 100%;
+  }
+  
+  .page-container {
+    max-width: 1200px;
+    padding: 40px 16px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .page-container .return-svg {
+    align-self: center;
+    fill: #1fc7d4;
+    flex-shrink: 0;
+    margin-right: 0.5rem;
+  }
+  
+  .box {
+    background: white;
+    border: #eeeaf4 solid 1px;
+    border-radius: 24px;
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 24px;
+    margin: 0px 0px 16px;
+  }
+  
+  .box .box-header {
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    background: linear-gradient(111.68deg, #f2ecf2, #e8f2f6);
+    ;
+    border-bottom: #ecf0f5 solid 1px;
+  }
+  
+  .box h3 {
+    padding: 24px;
+  
+  }
+  
+  .nav a {
+    color: #1fc7d4;
+  }
+  
+  .nav a:hover {
+    color: #53dee9;
+  }
+  
+  .btn-choice:disabled {
+    background-color: #e9eaeb;
+    border-color: #e9eaeb;
+    box-shadow: none;
+    color: #bdc2c4;
+    cursor: not-allowed;
+  }
+  
+  .btn-choice {
+    position: relative;
+    -webkit-box-align: center;
+    align-items: center;
+    border: 0px;
+    border-radius: 16px;
+    box-shadow: rgb(14 14 44 / 40%) 0px -1px 0px 0px inset;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    -webkit-box-pack: center;
+    justify-content: center;
+    letter-spacing: 0.03em;
+    line-height: 1;
+    opacity: 1;
+    outline: 0px;
+    transition: background-color 0.2s ease 0s, opacity 0.2s ease 0s;
+    height: 48px;
+    padding: 0px 24px;
+    background-color: #1fc7d4;
+    color: #fff;
+  }
+  
+  .nav a:hover svg {
+    fill: #53dee9;
+  }
+  
+  a {
+    text-decoration: none;
+  }
+  
+  .nav {
+    margin-bottom: 40px;
+  }
+  
+  // .vote {
+  //   -webkit-box-align: start;
+  //   align-items: start;
+  //   display: grid;
+  //   gap: 32px;
+  // }
+  
+  .vote-header span {
+    padding: 6px;
+    margin-bottom: 8px;
+    display: inline-block;
+  }
+  
+  .vote-header .title {
+    margin: 0 0 16px;
+  }
+  
+  .vote-header .body {
+    margin: 16px 0;
+  }
+  
+  .vote-header div {
+    padding: 4px 10px;
+  
+  }
+  
+  .vote-header span .now {
+    padding: 4px 10px;
+    background: green;
+  }
+  
+  .vote-header span .soon {
+    padding: 4px 10px;
+    background: yellow;
+  }
+  
+  .vote-header span .closed {
+    padding: 4px 10px;
+    background: black;
+  }
+  
+  .vote-header span .core {
+    border: purple 2px solid;
+    background: transparent;
+    color: purple;
+  }
+  
+  .vote-header span .community {
+    border: pink 2px solid;
+    background: transparent;
+    color: pink;
+  }
+  
+  .vote-header span div {
+    border-color: transparent;
+    border-radius: 24px;
+    color: white;
+    padding: 0px 8px;
+    margin-left: 8px;
+    white-space: nowrap;
+    display: inline-flex;
+  }
+  
+  .vote-header span :first-child {
+    margin: 0;
+  }
+  
+  .box-choices label {
+    -webkit-box-align: center;
+    align-items: center;
+    border: 1px solid #edeef3;
+    border-radius: 16px;
+    cursor: pointer;
+    display: flex;
+    margin-bottom: 16px;
+    padding: 16px;
+  }
+  
+  .box-main {
+    padding: 24px;
+  }
+  
+  .box-main .choice span {
+    padding: 0 0 0 16px;
+  }
+  
+  .form-control {
+    position: relative;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    align-items: center;
+    border: 1px solid #e7e3eb;
+    border-radius: 16px;
+    cursor: pointer;
+    display: flex;
+    margin-bottom: 16px;
+    padding: 16px;
+  }
+  label.form-control {
+    margin-bottom: 16px;
+      padding: 16px;
+  }
+  
+  label.form-control p {
+    padding: 16px 0px 16px 16px;
+  }
+  
+  .form-control input {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  .form-control{
+    -webkit-box-align: center;
+    align-items: center;
+    border: 1px solid var(--colors-cardBorder);
+    border-radius: 16px;
+    cursor: not-allowed;
+    display: flex;
+    margin-bottom: 16px;
+    padding: 16px;
+  }
+  
+  .checkmark {
+    position: absolute;
+    top: 0px;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border-radius: 50%;
+    margin-top: 6px;
+    margin-left: 16px;
+  }
+  
+  .radio-choices label {
+    vertical-align: baseline;
+    padding: 16px !important;
+    // margin: 0 16px 0 0;
+    // width: fit-content;
+    // block-size: fit-content;
+  }
+  
+  // .radio-choices .checkmark {
+  //   border-radius: 50%
+  // }
+  
+  .form-control input:checked~.checkmark {
+    background-color: #42d0aa
+  }
+  
+  .checkmark:after {
+    content: '';
+    position: absolute;
+    display: none
+  }
+  
+  .form-control input:not(:checked)~.checkmark:hover {
+    box-shadow: 0 0 0 1px #7645d9, 0 0 0 4px rgba(118, 69, 217, 0.6)
+  }
+  
+  .form-control input:checked~.checkmark:after {
+    display: block
+  }
+  
+  .form-control .checkmark:after {
+    top: 6px;
+    left: 6px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #fff
+  }
+  
+  // .checkmark {margin: 6px;}
+  .box-main .radio-choices .form-control{
+    padding: 16px !important;
+  }
+  .box-main label input {
+    padding-left: 20px;
+  }
+  .radio-choices .form-control{
+    vertical-align: baseline;
+    padding: 20px;
+  }
+  .radio-choices .form-control p{
+    padding-left: 16px;
+  }
+  .radio-choices .form-control input:checked~.checkmark {
+    background-color: #42d0aa;
+  }
+  span.checkmark{
+    vertical-align: baseline;
+  }
+  
+  .radio-choices .form-control {
+    -webkit-box-align: center;
+    align-items: center;
+    border: 1px solid #e7e3eb;
+    border-radius: 16px;
+    cursor: pointer;
+    display: flex;
+    margin-bottom: 16px;
+    padding: 16px;
+  }
+  
+  
+  
+  .radio-choices .checkmark:after {
+    content: '';
+    position: absolute;
+    display: none;
+  }
+  
+  .radio-choices .form-control input:not(:checked)~.checkmark:hover {
+    box-shadow: 0px 0px 0px 1px #7645d9, 0px 0px 0px 4px rgba(118, 69, 217, 0.6);
+  }
+  
+  .radio-choices .form-control input:checked~.checkmark:after {
+    display: block;
+  }
+  
+  .radio-choices .form-control .checkmark:after {
+    top: 6px;
+    left: 6px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: white;
+  }
+  
+  .radio-choices .checkmark {
+    border-radius: 50%;
+  }
+  
+  .vote {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 32px;
+    grid-auto-rows: minmax(100px, auto);
+    // -webkit-box-align: start;
+    // align-items: start;
+    // display: grid;
+    // gap: 32px;
+    // width: fit-content;
+    // block-size: fit-content;
+  }
+  
+  .box-details {
+    width: 100%;
+    height: 100%;
+    overflow: inherit;
+    background: #fff;
+    border-radius: 24px;
+    width: fit-content;
+    block-size: fit-content;
+  }
+  
+  .vote-main {
+    width: 788px;
+    margin-right: 8px;
+    display: flex;
+    flex-direction: column;
+    grid-column: 1 / 3;
+    grid-row: 1;
+  }
+  
+  .vote-aside {
+    grid-column: 3;
+    grid-row: 1;
+    position: sticky;
+    top: 60px;
+    overflow-y: auto;
+    height: fit-content;
+    // right: 0;
+    // width: fit-content;
+    // block-size: fit-content;
+    // height: 100%;
+    // display: flex;
+    // flex-direction: column;
+  }
+  
+  .box-main div a {
+    margin: 0 0 0 8px;
+  }
+  
+  .box-main div a {
+    margin: 0 0 0 8px;
+  }
+  
+  .box-details .box-main div {
+    display: inline-block;
+    white-space: nowrap;
+  }
+  
+  .box-main div {
+    margin: 0 0 8px;
+  }
+  
+  .main-box div>p {
+    display: inline;
+  }
+  
+  .main-box>div {
+    display: block;
+  }
+  
+  .inner-box {
+    background-color: #faf9fa;
+    border: 1px solid #e7e3eb;
+    border-radius: 16px;
+    padding: 16px;
+    justify-content: center;
+    width: 282px;
+    margin: 0 !important;
+  }
+  
+  .inner-box div {
+    text-align: left;
+    margin: 0;
+  }
+  
+  .radio-choices label input {
+    background-color: #fff;
+    padding: 20px;
+    border-bottom: #eeeaf4 solid 1px;
+    border-bottom: #eeeaf4 solid 1px;
+    padding: 14px 0 14px 24px;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    vertical-align: baseline;
+  }
+  
+  .radio-choices input {
+    vertical-align: baseline !important;
+  }
+  
+  .inner-box .now {
+    padding: 0px 8px;
+    background: green;
+    border-color: transparent;
+    border-radius: 24px;
+    color: white;
+    margin: 0 0 8px;
+    white-space: nowrap;
+    display: inline-flex;
+  }
+  
+  .inner-box .date-text {
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+    font-size: 14px !important;
+    margin: 0 !important;
+  }
+  
+  .inner-box .date-value {
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+    margin: 0 0 0 8px !important;
+    font-size: 16px !important;
+  }
+  
+  
+  // .main-box a::after{
+  //   content: "\a";
+  //   white-space: pre;
+  // }
+  
+  html,
+  body,
+  div,
+  span,
+  applet,
+  object,
+  iframe,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  blockquote,
+  pre,
+  a,
+  abbr,
+  acronym,
+  address,
+  big,
+  cite,
+  code,
+  del,
+  dfn,
+  em,
+  img,
+  ins,
+  kbd,
+  q,
+  s,
+  samp,
+  small,
+  strike,
+  strong,
+  sub,
+  sup,
+  tt,
+  var,
+  b,
+  u,
+  i,
+  center,
+  dl,
+  dt,
+  dd,
+  ol,
+  ul,
+  #faf9fa li,
+  fieldset,
+  form,
+  label,
+  legend,
+  table,
+  caption,
+  tbody,
+  tfoot,
+  thead,
+  tr,
+  th,
+  td,
+  article,
+  aside,
+  canvas,
+  details,
+  embed,
+  figure,
+  figcaption,
+  footer,
+  header,
+  hgroup,
+  menu,
+  nav,
+  output,
+  ruby,
+  section,
+  summary,
+  time,
+  mark,
+  audio,
+  video {
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+    font-size: 100%;
+    vertical-align: baseline;
+  }
+  
+  .form-control{
+    padding: 16px;
+  }
+  
+  .form-control p{
+    margin-left: 16px;
+  }
+  
+  span.checkmark:checked + label.form-control {
+    border-color: blue;
+  }
+  
+  label.form-control:checked {
+    border: 1px solid #31d0aa;
+  }

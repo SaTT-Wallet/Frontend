@@ -1,0 +1,52 @@
+<div class="box-container">
+    <div class="box-topbar">
+        Votes ({{votes.length}})
+    </div>
+    <div class="box-main">
+        <div *ngFor="let vote of votes">
+            <div class="votes-list-row">
+                <div class="votes-list-col1"><a href="https://bscscan.com/address/{{vote.voter}}">{{ vote.voter
+                        }}</a></div>
+                <div class="votes-list-col2">{{ vote.choice }}</div>
+                <div class="votes-list-col3">{{ vote.vp }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="box-container">
+    <div class="box-topbar">
+        Votes ({{votes.length}})
+    </div>
+    <div class="box-main">
+        <div class="votes-list-header">
+        <div class="votes-list-col">Voter</div>
+        <div class="votes-list-col">Choice</div>
+        <div class="votes-list-col">VP</div>
+      </div>
+        <div *ngFor="let vote of votes">
+            <div class="votes-list-row">
+                <div class="votes-list-col1"><a href="'https://bscscan.com/address/'+{{vote.voter}}">{{ vote.voter
+                        }}</a></div>
+                <div class="votes-list-col2">{{ vote.choice }}</div>
+                <div class="votes-list-col3">{{ vote.vp }}</div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<!-- <div class="box-container">
+    <div class="topbar">
+        <p>Votes ({{votes.length}})</p>
+    </div>
+    <div class="list">
+        <ul>
+            
+            <li>
+                <td><a href="'https://bscscan.com/address/'+{{votes.voter}}">{{votes.voter}}</a></td>
+                <td>{{votes.choice}}</td>
+                <td>{{votes.vp}}</td>
+            </li>
+        </ul>
+    </div>
+</div> -->

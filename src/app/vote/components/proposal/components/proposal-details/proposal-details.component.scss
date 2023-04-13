@@ -1,0 +1,92 @@
+.box-container {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    background-color: #f5f5f5;
+    border: 1px solid #dcdcdc;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px 0px #dcdcdc;
+}
+
+.box-topbar {
+    background-color: #e0e0e0;
+    border-radius: 5px 5px 0px 0px;
+    padding: 5px 10px;
+    font-weight: bold;
+    border: 1px solid #dcdcdc;
+    border-bottom: none;
+}
+
+.box-main {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.identifier,
+.creator,
+.snapshot,
+.inner-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    border-bottom: 1px solid #dcdcdc;
+}
+
+.identifier a,
+.creator a,
+.snapshot a {
+    text-decoration: none;
+    color: #4b4b4b;
+    font-weight: bold;
+}
+
+.inner-box {
+    border-bottom: none;
+    padding-bottom: 0px;
+}
+
+.state {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.start span,
+.end span {
+    font-weight: bold;
+}
+
+.start {
+    margin-top: 10px;
+}
+
+.end {
+    margin-bottom: 10px;
+}
+
+.inner-box {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.state {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.dates {
+    display: flex;
+    flex-direction: column;
+}
+
+.start span,
+.end span {
+    font-weight: bold;
+    margin-right: 10px;
+}

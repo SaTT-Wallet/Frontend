@@ -9,15 +9,19 @@ export const environment = {
   url: 'https://testnet.satt.atayen.us/',
   //https://api-preprod2.satt-token.com
 
-  API_URL:  'https://api-preprod2.satt-token.com',
+  // API_URL:  'https://api-preprod2.satt-token.com',
+  API_URL: 'https://localhost:3015',
+  // 'https://api-preprod.satt-token.com:3014',
 
   url_subgraph_bsc:
     'https://api.thegraph.com/subgraphs/name/atayen/satt-testnet',
   url_subgraph_ether:
     'https://api.thegraph.com/subgraphs/name/atayen/satt-testnet-ether',
+    url_subgraph_vote:
+    'https://testnet.snapshot.org/graphql',
 
-  //API_URL: 'https://localhost:3015',
-  // 'https://api-preprod.satt-token.com:3014',
+  snapshot_hub: 'https://testnet.snapshot.org',
+  space_name: 'atayensatt.eth',
   addresses: {
     smartContracts: {
       campaignERC20: '0xbc27de58DDCEd7A2BB911BE2E18D0FA1A49fF7D3',

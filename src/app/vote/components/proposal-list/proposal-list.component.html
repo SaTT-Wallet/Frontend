@@ -1,0 +1,42 @@
+<div class="box-container">
+    <div class="box-topbar">
+        <div class="tabs">
+            <button [ngClass]="{ active: activeButton === 'CORE' }" (click)="onButtonClick('CORE')">
+                <div>Core</div>
+            </button>
+            <button [ngClass]="{ active: activeButton === 'COMMUNITY' }" (click)="onButtonClick('COMMUNITY')">
+                <div>Community</div>
+            </button>
+            <button [ngClass]="{ active: activeButton === 'ALL' }" (click)="onButtonClick('ALL')">
+                <div>All</div>
+            </button>
+        </div>
+        <div class="radio-bar">
+            <label for="NOW" class="form-control">Vote Now
+                <input type="radio" class="radio-btn" value="NOW" checked="" id="NOW" name="voting_status" />
+                <span class="checkmark"></span>
+            </label>
+            <label for="SOON" class="form-control">Soon
+                <input type="radio" class="radio-btn" id="SOON" name="voting_status" value="SOON" />
+                <span class="checkmark"></span>
+            </label>
+            <label for="CLOSED" class="form-control">Closed
+                <input type="radio" class="radio-btn" id="CLOSED" name="voting_status" value="CLOSED" />
+                <span class="checkmark"></span>
+            </label>
+        </div>
+    </div>
+    <div class="box-main">
+        <div *ngFor="let proposal of proposals">
+            <div class="proposals-list-row">
+                <div class="proposal">
+                    <a (click)="goToProposal(proposal.id)">
+                        <h1>{{proposal.title}}</h1>
+                        <p>{{proposal.end}}</p>
+                        <button onclick="proposal(proposal.id)">{{proposal.state}}</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

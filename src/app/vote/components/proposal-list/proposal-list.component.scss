@@ -1,0 +1,123 @@
+.box-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.box-topbar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.tabs {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.tabs button {
+    padding: 10px;
+    margin-right: 10px;
+    border: none;
+    background-color: transparent;
+    color: #666;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tabs button:hover,
+.tabs button.active {
+    color: #000;
+}
+
+.radio-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.radio-bar label {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    margin-right: 10px;
+    border: none;
+    background-color: #f2f2f2;
+    color: #666;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.radio-bar label:hover {
+    background-color: #e6e6e6;
+}
+
+.radio-btn {
+    display: none;
+}
+
+.checkmark {
+    position: relative;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    background-color: #fff;
+    transition: all 0.3s ease;
+}
+
+.radio-bar input[type="radio"]:checked+.checkmark {
+    background-color: #2196F3;
+    border-color: #2196F3;
+}
+
+.proposals-list-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.proposal {
+    flex: 1;
+}
+
+.proposal a {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #000;
+    transition: all 0.3s ease;
+}
+
+.proposal a:hover {
+    background-color: #f2f2f2;
+}

@@ -1,0 +1,316 @@
+<div class="page-container">
+  <div>
+    <h1>navbar</h1>
+  </div>
+
+  <div class="nav">
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li class="superior">
+        <div aria-hidden="true">
+          <svg
+            viewBox="0 0 24 24"
+            color="#280D5F"
+            width="24px"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M9.29006 15.88L13.1701 12L9.29006 8.12001C8.90006 7.73001 8.90006 7.10001 9.29006 6.71001C9.68006 6.32001 10.3101 6.32001 10.7001 6.71001L15.2901 11.3C15.6801 11.69 15.6801 12.32 15.2901 12.71L10.7001 17.3C10.3101 17.69 9.68006 17.69 9.29006 17.3C8.91006 16.91 8.90006 16.27 9.29006 15.88Z"
+            ></path>
+          </svg>
+        </div>
+      </li>
+      <li>
+        <a href="/vote">Vote</a>
+      </li>
+      <li class="superior">
+        <div aria-hidden="true">
+          <svg
+            viewBox="0 0 24 24"
+            color="currentColor"
+            width="24px"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M9.29006 15.88L13.1701 12L9.29006 8.12001C8.90006 7.73001 8.90006 7.10001 9.29006 6.71001C9.68006 6.32001 10.3101 6.32001 10.7001 6.71001L15.2901 11.3C15.6801 11.69 15.6801 12.32 15.2901 12.71L10.7001 17.3C10.3101 17.69 9.68006 17.69 9.29006 17.3C8.91006 16.91 8.90006 16.27 9.29006 15.88Z"
+            ></path>
+          </svg>
+        </div>
+      </li>
+      <li>
+        <div type="text" font-size="16px">Create Proposal</div>
+      </li>
+    </ul>
+  </div>
+  <br />
+
+  <!--FORMS-->
+  <div class="page">
+    <div class="mainForm">
+      <form [formGroup]="createProposalForm" (ngSubmit)="publish()">
+        <div class="title">
+          <label for="title" class="headerc">
+            <h3 class="title">TITLE</h3>
+          </label>
+          <input
+            type="text"
+            name="title"
+            class="form-control inputc"
+            formControlName="title"
+          />
+          <div
+            *ngIf="
+              createProposalForm.get('title')?.invalid &&
+              (createProposalForm.get('title')?.dirty ||
+                createProposalForm.get('title')?.touched)
+            "
+            class="text-danger"
+          >
+            this is required field
+          </div>
+        </div>
+        <div class="content">
+          <label for="content" class="headerc">
+            <h3 class="title">CONTENT</h3>
+          </label>
+
+          <div
+            class="editor"
+            height="400"
+            minheight="200"
+            width="400"
+            minWidth="400"
+          >
+            <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
+            </ngx-editor-menu>
+            <div class="textarea">
+              <ngx-editor
+                [(ngModel)]="choiceValue"
+                [editor]="editor"
+                editable="true"
+                placeholder="type your content here"
+                formControlName="body"
+                height="400"
+                minHeight="100px"
+                (ngModelChange)="updateContent()"
+              ></ngx-editor>
+            </div>
+            <div
+              *ngIf="
+                createProposalForm.get('body')?.invalid &&
+                (createProposalForm.get('body')?.dirty ||
+                  createProposalForm.get('body')?.touched)
+              "
+              class="text-danger"
+            >
+              this is required field
+            </div>
+          </div>
+        </div>
+
+        <div class="preview" *ngIf="formattedContent">
+          <div class="previewHeader">
+            <label for="choices" class="headerc">
+              <h3 class="title">Preview</h3>
+            </label>
+          </div>
+          <div class="previewBody">
+            <blockquote [innerHTML]="formattedContent"></blockquote>
+          </div>
+        </div>
+
+        <div class="choices">
+          <div class="headerchoices">
+            <label for="choices" class="headerc">
+              <h3 class="title">Choices</h3>
+            </label>
+          </div>
+
+          <!-- <div
+            class="inputchoices"
+            *ngFor="let choice of choices; let i = index"
+          >
+            <input
+              type="text"
+              [ngModelOptions]="{ standalone: true }"
+              [(ngModel)]="choice.text"
+              name="choice{{ i }}"
+              placeholder="Input choice text"
+              class="form-control inputc"
+            />
+          </div>
+          <button
+            type="button"
+            class="btn btn-primary btn-lg"
+            (click)="addChoice()"
+          >
+            Add choices
+          </button> -->
+
+          <div *ngFor="let choice of choices; let i = index;">
+            <input [(ngModel)]="choice.value" name="choice{{i}}" required>
+            <button type="button" (click)="removeChoice(i)">X</button>
+          </div>
+          <button type="button" (click)="addChoice()">Add Choice</button>
+        </div>
+
+        <!--ACTIONS FORMS-->
+
+        <div class="form-right">
+          <div class="actionHeader">
+            <label for="title">
+              <h3>ACTIONS</h3>
+            </label>
+          </div>
+          <div class="actionsBody">
+            <label class="actionLabel" for="startDate">START DATE</label>
+            <input
+              id="startDate"
+              class="form-control actionInput"
+              type="date"
+              formControlName="startDate"
+            />
+            <div
+              *ngIf="
+                createProposalForm.get('startDate')?.invalid &&
+                (createProposalForm.get('startDate')?.dirty ||
+                  createProposalForm.get('startDate')?.touched)
+              "
+              class="text-danger"
+            >
+              this is required field
+            </div>
+            <br />
+            <label class="actionLabel" for="startTime">START TIME</label>
+            <input
+              id="startTime"
+              class="form-control actionInput"
+              type="time"
+              formControlName="startTime"
+            />
+            <div
+              *ngIf="
+                createProposalForm.get('startTime')?.invalid &&
+                (createProposalForm.get('startTime')?.dirty ||
+                  createProposalForm.get('startTime')?.touched)
+              "
+              class="text-danger"
+            >
+              this is required field
+            </div>
+            <br />
+            <label class="actionLabel" for="endDate">END DATE</label>
+            <input
+              id="endDate"
+              class="form-control actionInput"
+              type="date"
+              formControlName="endDate"
+            />
+            <div
+              *ngIf="
+                createProposalForm.get('endDate')?.invalid &&
+                (createProposalForm.get('endDate')?.dirty ||
+                  createProposalForm.get('endDate')?.touched)
+              "
+              class="text-danger"
+            ></div>
+            <div *ngIf="isButtonDisabled()" class="text-danger">
+              Start date must be before end date.
+            </div>
+
+            <br />
+            <label class="actionLabel" for="startTime">END TIME</label>
+            <input
+              id="endTime"
+              class="form-control actionInput"
+              type="time"
+              formControlName="endTime"
+            />
+            <div
+              *ngIf="
+                createProposalForm.get('endTime')?.invalid &&
+                (createProposalForm.get('endTime')?.dirty ||
+                  createProposalForm.get('endTime')?.touched)
+              "
+              class="text-danger"
+            >
+              this is required field
+            </div>
+            <br />
+            <div class="snapshot"></div>
+            <br />
+
+            <!-- <dialog #dialog>
+              <div class="DlContainer">
+                <div class="body" *ngIf="!walletConnected">
+                  <h5>Connect Wallet</h5>
+                  <p>Start by connecting with one of the Meatmask Wallet</p>
+                  <p>
+                    Be sure to store your private keys or seed phrase securely.
+                  </p>
+                  <p>Never share them with anyone.</p>
+
+                  <button
+                    class="btn btn-primary"
+                    (click)="connectWallet()"
+                  >
+                    Connect
+                  </button>
+                </div>
+              </div>
+            </dialog> -->
+            <dialog #dialog>
+              <div class="DlContainer">
+                <div class="body" *ngIf="!metaMaskService.isWalletConnected">
+                  <h5>Connect Wallet</h5>
+                  <p>Start by connecting with one of the Meatmask Wallet</p>
+                  <p>
+                    Be sure to store your private keys or seed phrase securely.
+                  </p>
+                  <p>Never share them with anyone.</p>
+
+                  <button class="btn btn-primary" (click)="connectWallet()">
+                    Connect
+                  </button>
+                </div>
+              </div>
+            </dialog>
+            <div *ngIf="!metaMaskService.isWalletConnected">
+              <button class="btn btn-primary" (click)="dialog.showModal()">
+                Connect Wallet
+              </button>
+            </div>
+            <!-- <button
+              *ngIf="!walletConnected"
+              (click)="dialog.showModal()"
+              class="btn btn-primary btn-lg"
+            >
+              Connect Wallet
+            </button> -->
+            <h5>Snapshot : {{ snapshot }}</h5>
+            <div *ngIf="metaMaskService.isWalletConnected">
+              <h5>Creator : {{ walletId }}</h5>
+
+              <!-- <label class="text-white">{{Snapshot}}</label> -->
+              <button
+                class="btn btn-lg btn-primary"
+                type="submit"
+                [disabled]="isButtonDisabled()"
+              >
+                Publish
+              </button>
+              <p>You need at least 10 Voting power to publish a proposal</p>
+
+              <a href=" #">check voting Power</a>
+
+              <p>Block Number: {{ snapshot?.blockNumber }}</p>
+              <nav>
+                <a routerLink="/snapshot" routerLinkActive="active">Snapshot</a>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

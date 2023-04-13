@@ -1,0 +1,12 @@
+<div class="box-container">
+    <div class="box-topbar">
+      Vote Results
+    </div>
+    <div class="box-main">
+      <ul>
+        <li *ngFor="let choice of getObjectKeys()">
+          {{ choice }}: {{ voteCounts[choice].voteCount }} votes ({{ voteCounts[choice].percentage }})
+        </li>
+      </ul>
+    </div>
+  </div>

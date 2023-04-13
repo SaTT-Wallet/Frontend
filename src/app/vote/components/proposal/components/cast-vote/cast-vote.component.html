@@ -1,0 +1,79 @@
+<table class="vote-table">
+  <thead>
+    <tr>
+      <th colspan="2">Cast Your Vote</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td colspan="2">
+        <div class="choices">
+          <div class="radio-group">
+            <label *ngFor="let choice of choices; let i = index">
+              <input type="radio" name="vote" [(ngModel)]="selectedChoice" [value]="i+1">{{choice}}
+            </label>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <div class="inner-box">
+          <button class="vote-button" [disabled]="selectedChoice === undefined || selectedChoice === null"
+            (click)="submitVote()">Vote</button>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="box-container">
+    <div class="box-topbar">
+        Cast Your Vote
+    </div>
+    <div class="box-main">
+        <div class="choices">
+            <div class="radio-group">
+                <label *ngFor="let choice of choices; let i = index">
+                    <input type="radio" name="vote" [(ngModel)]="selectedChoice" [value]="i">{{choice}}
+                </label>
+            </div>
+        </div>
+        <div class="inner-box">
+            <button class="vote-button" [disabled]="!selectedChoice || voteButtonDisabled" (click)="submitVote()">Vote</button>
+        </div>
+    </div>
+</div> -->
+
+
+<!-- <div class="box-container">
+    <div class="box-topbar">
+        Details
+    </div>
+    <div class="box-main">
+        <div class="identifier"><p>Identifier <a href="'https://snapshot.mypinata.cloud/ipfs/'+{{proposal.id}}">{{proposal.id}}</a></p></div>
+        <div class="creator"><p>Creator <a href="'https://bscscan.com/address/'+{{proposal.author}}">{{proposal.author}}</a></p></div>
+        <div class="snapshot"><p>Snapshot <a href="'https://bscscan.com/block/'+{{proposal.snapshot}}">{{proposal.snapshot}}</a></p></div>
+        <div class="inner-box">
+            <div class="state"><span>{{proposal.state}}</span></div>
+            <div class="start"><span>Start Date</span><span>{{start}}</span></div>
+            <div class="end"><span>End Date</span><span>{{end}}</span></div>
+        </div>
+    </div>
+</div> -->

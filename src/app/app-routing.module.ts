@@ -14,6 +14,10 @@ const routes: Routes = [
       import('./auth/authentication.module').then((m) => m.AuthenticationModule)
   },
   {
+    path: 'vote',
+    loadChildren: () => import('./vote/vote.module').then((m) => m.VoteModule)
+  },
+  {
     path: 'cgu',
     component: CguComponent,
     loadChildren: () => import('./cgu/cgu.module').then((m) => m.CguModule)
