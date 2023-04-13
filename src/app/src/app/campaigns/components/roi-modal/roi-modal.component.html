@@ -79,13 +79,14 @@
             </div>
             <input
               style="color: #4048ff; background: #f6f6ff"
-              type="text"
-              pattern="^[1-9][0-9]*$"
+              type="number"
+              
               class="form-control"
               placeholder="0"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
+              
+              
               [(ngModel)]="InputView"
+              (keypress)="validateNumber($event)"
               (input)="estimationGains()"
             />
           </div>
@@ -112,13 +113,14 @@
             </div>
             <input
               style="color: #4048ff; background: #f6f6ff"
-              type="text"
-              pattern="^[1-9][0-9]*$"
+              type="number"
+              
               class="form-control"
               placeholder="0"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
+              
+              
               [(ngModel)]="Inputlike"
+              (keypress)="validateNumber($event)"
               (input)="estimationGains()"
             />
           </div>
@@ -145,13 +147,14 @@
             </div>
             <input
               style="color: #4048ff; background: #f6f6ff"
-              pattern="^[1-9][0-9]*$"
-              type="text"
+              
+              type="number"
               class="form-control"
               placeholder="0"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
+              
+              
               [(ngModel)]="InputShare"
+              (keypress)="validateNumber($event)"
               (input)="estimationGains()"
             />
           </div>
@@ -172,13 +175,14 @@
             </div>
             <input
               style="color: #4048ff; background: #f6f6ff"
-              pattern="^[1-9][0-9]*$"
-              type="text"
+              
+              type="number"
               class="form-control"
               placeholder="0"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
+              
+              
               [(ngModel)]="InputReachMax"
+              (keypress)="validateNumber($event)"
               (input)="estimationGains()"
             />
           </div>
@@ -203,13 +207,14 @@
             </div>
             <input
               style="color: #4048ff; background: #f6f6ff"
-              pattern="^[1-9][0-9]*$"
-              type="text"
+              
+              type="number"
               class="form-control"
               placeholder="0"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
+              
+              
               [(ngModel)]="InputFllowers"
+              (keypress)="validateNumber($event)"
               (input)="estimationGains()"
             />
           </div>
@@ -235,7 +240,7 @@
       <div
         class="current-rate col-xxl-4 col-xl-4 col-md-12 col-lg-4 col-sm-8 col-10 align-items-center mb-2"
       >
-        $ {{ roiCurrentUsd | number: '1.0-3' || '0' }}
+        $ {{ roiCurrentUsd | number: '1.'+tofixUsd || '0' }}
       </div>
     </div>
 

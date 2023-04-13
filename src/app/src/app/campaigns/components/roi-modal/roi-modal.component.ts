@@ -34,7 +34,7 @@ export class RoiModalComponent implements OnInit {
   oracleSelected: string = 'facebook';
   platforms: string[] = [];
   cryptoPrice: any;
-
+  tofixUsd: string='0';
   isDestroyedSubject = new Subject();
 
   @Input() id: any;
@@ -70,7 +70,14 @@ export class RoiModalComponent implements OnInit {
     // this.etherInWei = ListTokens[this.tokenName].decimals;
   }
 
-  getOraclList() {}
+  validateNumber(e: any ) {
+    e = e || window.event;
+    var charCode = (typeof e.which == "undefined") ? e.keyCode : e.which;
+    var charStr = String.fromCharCode(charCode);
+    if (!charStr.match(/^[0-9]+$/))
+      e.preventDefault();
+  }
+ 
 
   closeBtn() {
     this.closeModaleEvent.emit(true);
@@ -169,6 +176,25 @@ export class RoiModalComponent implements OnInit {
     
 
     this.roiCurrentUsd = this.roiCurrentRate * this.cryptoPrice;
+    if(this.roiCurrentUsd === 0){
+      this.tofixUsd = '0';
+   
+     }else{
+     if(this.roiCurrentUsd<0.1){
+     this.tofixUsd = '8';
+     }
+     if(this.roiCurrentUsd >= 0.1 && this.roiCurrentUsd <= 1.9){
+      this.tofixUsd = '6';
+    }
+    if(this.roiCurrentUsd >= 2 && this.roiCurrentUsd <= 9.9999){
+      this.tofixUsd = '5';
+    }
+     if(this.roiCurrentUsd >= 10.00 && this.roiCurrentUsd <= 9.9999){
+      this.tofixUsd = '2';
+    }
+     }
+    
+ 
   }
   goToCampaignDetail() {
     this.router.navigate(['/home/campaign/', this.id]);
