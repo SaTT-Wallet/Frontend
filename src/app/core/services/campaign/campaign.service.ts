@@ -1075,7 +1075,9 @@ export class CampaignHttpApiService {
       .set('campaign', campaignId)
       .set('state', state)
       .set('page', '' + page)
-      .set('limit', '' + size);
+      .set('limit', '' + size)
+      .set('version',''+this.tokenStorageService.getWalletVersion())
+      
     let header = new HttpHeaders({
       'Cache-Control': 'no-store',
       'Content-Type': 'application/json',
