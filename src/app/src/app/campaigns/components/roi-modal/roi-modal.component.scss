@@ -75,7 +75,9 @@ font-size: 16px;
 line-height: 130%;
 
 }
-
+.social-media-btn:hover{
+border: white;
+}
 .icon-input {
   border-radius: 30px 0px 0px 30px;
   background: #4048ff;
@@ -131,6 +133,7 @@ input[type=number] {
     width: fit-content;
   }
   .roi-modal{
+    height: 100svh;
    
     background: #FFFFFF;
   }
@@ -141,4 +144,12 @@ input[type=number] {
     background: #FFFFFF;
   }
 
+}
+@media(max-height: 670px){
+  .roi-modal{
+    height: 100svh;
+  }
+  .modal-header .modal-custom{
+    margin-bottom: 5% !important;
+  }
 }

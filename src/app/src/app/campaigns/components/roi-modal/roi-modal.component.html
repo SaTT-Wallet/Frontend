@@ -30,12 +30,13 @@
     </div>
     <div class="form-group">
       <div class="btn-group btn-group-toggle">
-        <label class="btn" *ngFor="let platform of platforms">
+        <label class="btn social-media-btn" *ngFor="let platform of platforms">
           <input
             type="radio"
             name="platform"
             [value]="platform"
             [(ngModel)]="oracleSelected"
+            (ngModelChange)="estimationGains()"
             (change)="onPlatformSelect(platform)"
           />
 
@@ -78,7 +79,7 @@
               </span>
             </div>
             <input
-              style="color: #4048ff; background: #f6f6ff"
+              style="color: #4048ff; background: #f6f6ff; border-radius: 0px 30px 30px 0px;"
               type="number"
               
               class="form-control"
@@ -87,7 +88,7 @@
               
               [(ngModel)]="InputView"
               (keypress)="validateNumber($event)"
-              (input)="estimationGains()"
+              (ngModelChange)="estimationGains()"
             />
           </div>
         </div>
@@ -112,7 +113,7 @@
               </span>
             </div>
             <input
-              style="color: #4048ff; background: #f6f6ff"
+              style="color: #4048ff; background: #f6f6ff; border-radius: 0px 30px 30px 0px;"
               type="number"
               
               class="form-control"
@@ -121,7 +122,7 @@
               
               [(ngModel)]="Inputlike"
               (keypress)="validateNumber($event)"
-              (input)="estimationGains()"
+              (ngModelChange)="estimationGains()"
             />
           </div>
         </div>
@@ -146,7 +147,7 @@
               </span>
             </div>
             <input
-              style="color: #4048ff; background: #f6f6ff"
+              style="color: #4048ff; background: #f6f6ff; border-radius: 0px 30px 30px 0px;"
               
               type="number"
               class="form-control"
@@ -155,7 +156,7 @@
               
               [(ngModel)]="InputShare"
               (keypress)="validateNumber($event)"
-              (input)="estimationGains()"
+              (ngModelChange)="estimationGains()"
             />
           </div>
         </div>
@@ -174,7 +175,7 @@
               </span>
             </div>
             <input
-              style="color: #4048ff; background: #f6f6ff"
+              style="color: #4048ff; background: #f6f6ff; border-radius: 0px 30px 30px 0px;"
               
               type="number"
               class="form-control"
@@ -183,7 +184,7 @@
               
               [(ngModel)]="InputReachMax"
               (keypress)="validateNumber($event)"
-              (input)="estimationGains()"
+              (ngModelChange)="estimationGains()"
             />
           </div>
         </div>
@@ -206,7 +207,7 @@
               </span>
             </div>
             <input
-              style="color: #4048ff; background: #f6f6ff"
+              style="color: #4048ff; background: #f6f6ff; border-radius: 0px 30px 30px 0px;"
               
               type="number"
               class="form-control"
@@ -215,7 +216,7 @@
               
               [(ngModel)]="InputFllowers"
               (keypress)="validateNumber($event)"
-              (input)="estimationGains()"
+              (ngModelChange)="estimationGains()"
             />
           </div>
         </div>
