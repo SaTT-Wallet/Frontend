@@ -119,7 +119,8 @@ export class SecurityComponent implements OnInit, OnDestroy {
   userIsNew: boolean = false;
   walletV2Exist: boolean = false;
   keystoreData:any;
-
+  resendCodeDisabled: boolean = false;
+  secondsToActivateResendCode:number = 10;
 
   constructor(
     private accountFacadeService: AccountFacadeService,
@@ -1078,6 +1079,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
       this.showSpinnerETHV2 = network === "eth";
       this.showSpinnerTRONV2 = network === "tron";
     }
+    this.resendCodeDisabled = false;
     this.keystoreData = '';
     this.network = "";
     this.version = "";
@@ -1198,12 +1200,28 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
 
   resendCode() {
+    this.resendCodeDisabled = true;
+    this.secondsToActivateResendCode = 10;
+    const count = setInterval(
+      () => {
+         this.secondsToActivateResendCode --
+         if(this.secondsToActivateResendCode === 0) clearInterval(count);
+      }, 1000
+    )
     this.walletFacade.getExportCode(this.network, this.version)
       .pipe(
         catchError((HttpError: HttpErrorResponse) => {
+          this.resendCodeDisabled = false;
           return of(HttpError.error);
         }),
       )
-      .subscribe()
+      .subscribe((res: any) =>{
+        
+        setTimeout(() => {
+          this.resendCodeDisabled = false;
+          
+        }, 10000)
+      })
+      
   }
 }

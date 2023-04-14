@@ -1,0 +1,131 @@
+.content {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+
+  letter-spacing: 1px;
+  align-items: center;
+  text-align: center;
+}
+.roi-modal {
+  width: 925px;
+ 
+}
+.modal-body.modal-custom h3{ 
+font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+font-size: 20px;
+}
+h2 {
+  font-family: 'Poppins';
+font-style: normal;
+font-weight: 700;
+  color: #f52079;
+  font-size: 22px;
+  line-height: 28px;
+  letter-spacing: 1px;
+}
+.chose-text {
+  font-family: 'Poppins';
+  font-style: normal;
+ 
+    display: flex;
+    font-weight: 400;
+    justify-content: center;
+    font-size: 16px;
+    line-height: 130%;
+    letter-spacing: 0.03em;
+}
+.description-modal {
+  font-family: 'Poppins';
+font-style: normal;
+width: 70%;
+  display: flex;
+  font-weight: 400;
+  justify-content: center;
+  font-size: 16px;
+  line-height: 130%;
+  letter-spacing: 0.03em;
+}
+.current-rate {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 16px;
+  gap: 8px;
+  width: 292px;
+  height: 44px;
+  background: rgba(205, 207, 255, 0.15);
+  border-bottom: 1px solid #f6f6ff;
+  color: #323754;
+  font-size: 20px;
+  line-height: 28px;
+}
+.more-details {
+  color: #4048ff;
+  letter-spacing: 0.03em;
+text-decoration-line: underline;
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 500;
+font-size: 16px;
+line-height: 130%;
+
+}
+
+.icon-input {
+  border-radius: 30px 0px 0px 30px;
+  background: #4048ff;
+}
+.icon-crypto-input{
+  height: 15.75px;
+  width: 15.75px;
+}
+.roi-rate{
+  display: flex;
+flex-direction: column;
+
+align-items: center;
+}
+.input-social-media{
+  
+  max-width: 155px;
+  font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 130%;
+text-align: center;
+letter-spacing: 0.03em;
+ }
+ .icon-input {
+  border-radius: 30px 0px 0px 30px;
+  background: #4048ff;
+}
+@media (max-width: 767.98px){
+  .modal-header .modal-custom{
+    margin-top: auto;
+
+    background: #FFFFFF;
+  }
+  .description-modal{
+    width: 50%;
+  }
+  .container-inputs{
+    width: fit-content;
+  }
+  .roi-modal{
+   
+    background: #FFFFFF;
+  }
+  .modal-custom {
+    background: #FFFFFF;
+  }
+  .modal-header{
+    background: #FFFFFF;
+  }
+
+}

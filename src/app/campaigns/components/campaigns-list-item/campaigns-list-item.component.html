@@ -1,4 +1,4 @@
-<div (click)="goToDetailsPage(campaign.id)">
+<div>
   <div
     class="img-block"
     tabindex="0"
@@ -115,7 +115,7 @@
     [ngStyle]="{ background: campaign.type === 'draft' ? '#F6F6FF' : 'white' }"
   >
     <div class="social-Icons">
-      <img src="./assets/Images/tikTok.svg" *ngIf="isTikTokSelected" />
+      <img src="./assets/Images/tiktok.svg" *ngIf="isTikTokSelected" />
 
       <img src="./assets/Images/instagram.svg" *ngIf="isInstagramSelected" />
       <img
@@ -231,27 +231,35 @@
     </h3>
 
     <div class="orang-text" *ngIf="campaign?.hash">
-      <img src="assets/Images/calender.svg" width="16px" />
-
-      <span
-        class="under_gains date"
-        *ngIf="localId === 'en'"
-        style="text-transform: uppercase"
-      >
-        {{ 'AllCampains.campaign_ends_on' | translate }}:
-        <!-- h:mm:ss a -->
-        {{ campaign.endDate | date: 'MM/dd/yyyy ':undefined:localId || '' }}
-      </span>
-      <span
-        class="under_gains date"
-        *ngIf="localId === 'fr'"
-        style="text-transform: uppercase"
-      >
-        {{ 'AllCampains.campaign_ends_on' | translate }}:
+      <div>
         <img src="assets/Images/calender.svg" width="16px" />
-        {{ campaign.endDate | date: 'dd/MM/yyyy':undefined:localId || '' }}
-      </span>
+
+        <span
+          class="under_gains date"
+          *ngIf="localId === 'en'"
+          style="text-transform: uppercase"
+        >
+          {{ 'AllCampains.campaign_ends_on' | translate }}:
+          <!-- h:mm:ss a -->
+          {{ campaign.endDate | date: 'MM/dd/yyyy ':undefined:localId || '' }}
+        </span>
+        <span
+          class="under_gains date"
+          *ngIf="localId === 'fr'"
+          style="text-transform: uppercase"
+        >
+          {{ 'AllCampains.campaign_ends_on' | translate }}:
+          <img src="assets/Images/calender.svg" width="16px" />
+          {{ campaign.endDate | date: 'dd/MM/yyyy':undefined:localId || '' }}
+        </span>
+      </div>
+      <img
+        src="assets/Images/blue-icons/calculator.svg"
+        width="16px"
+        (click)="caluculateRoi(campaign.id)"
+      />
     </div>
+
     <!--<div class="blue-text" *ngIf="!campaign?.hash">
       {{ 'complete-your-informations' | translate }}
     </div>-->
@@ -293,6 +301,7 @@
     </button>
   </div>
 </div>
+
 <div class="btn-wrapper" *ngIf="campaign.isDraft && campaign.isOwnedByUser">
   <button
     type="button"
@@ -318,7 +327,9 @@
     /></span>
   </button>
 </div>
-
+<ng-template class="modal-roi" #calculRoi>
+  <app-roi-modal  [id]="campaign.id" (closeModaleEvent)="closeRoi($event) "></app-roi-modal>
+</ng-template>
 <ng-template #modifiercampaign>
   <div class="modal-header modal-custom">
     <button

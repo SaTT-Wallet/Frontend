@@ -1,0 +1,246 @@
+<div class="roi-modal">
+  <div class="modal-header modal-custom">
+    <button
+      type="button"
+      class="btn-close pull-right close"
+      (click)="closeBtn()"
+      data-dismiss="modal"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div
+    class="modal-body modal-custom justify-content-center content"
+    style="margin-top: auto"
+  >
+    <div class="content mb-2">
+      <h2>ROI Calculator</h2>
+    </div>
+    <div class="description-modal container d-none d-sm-block">
+      {{ 'roi_description' | translate }}
+    </div>
+
+    <div class="d-none d-sm-block" *ngIf="campaignType === 'performance'">
+      <h3>{{ 'roi_text_performence' | translate }}</h3>
+    </div>
+    <div class="d-none d-sm-block" *ngIf="campaignType === 'publication'">
+      <h3>{{ 'roi_text_publication' | translate }}</h3>
+    </div>
+    <div class="chose-text">
+      {{ 'roi_social_media' | translate }}
+    </div>
+    <div class="form-group">
+      <div class="btn-group btn-group-toggle">
+        <label class="btn" *ngFor="let platform of platforms">
+          <input
+            type="radio"
+            name="platform"
+            [value]="platform"
+            [(ngModel)]="oracleSelected"
+            (change)="onPlatformSelect(platform)"
+          />
+
+          <img
+            *ngIf="oracleSelected !== platform"
+            src="./assets/Images/social-media/desabled/{{ platform }}.svg"
+            style="height: 38px; width: 38px"
+          />
+          <img
+            *ngIf="oracleSelected === platform"
+            src="./assets/Images/{{ platform }}.svg"
+            style="height: 38px; width: 38px"
+          />
+        </label>
+      </div>
+    </div>
+    <div
+      class="container container-inputs"
+      *ngIf="campaignType === 'performance'"
+    >
+      <div class="row flex-sm-row flex-column justify-content-center">
+        <div class="col-sm input-social-media">
+          <div style="margin-bottom: 5px">
+            1 View = {{ campaignView }}
+            <span>
+              <img
+                class="icon-crypto-input"
+                src="/assets/Images/icons-crypto/black/{{ tokenName }}.svg"
+              />
+            </span>
+          </div>
+
+          <div class="input-group mb-3 input-social-media">
+            <div class="input-group-prepend">
+              <span class="input-group-text icon-input" id="basic-addon1">
+                <img
+                  class="icon-crypto-input"
+                  src="/assets/Images/actions-social-media-icons/view.svg"
+                />
+              </span>
+            </div>
+            <input
+              style="color: #4048ff; background: #f6f6ff"
+              type="text"
+              pattern="^[1-9][0-9]*$"
+              class="form-control"
+              placeholder="0"
+              aria-label="Username"
+              aria-describedby="basic-addon1"
+              [(ngModel)]="InputView"
+              (input)="estimationGains()"
+            />
+          </div>
+        </div>
+        <div class="col-sm input-social-media">
+          <div style="margin-bottom: 5px">
+            1 like = {{ campaignlike }}
+            <span>
+              <img
+                class="icon-crypto-input"
+                src="/assets/Images/icons-crypto/black/{{ tokenName }}.svg"
+              />
+            </span>
+          </div>
+          <!-- <app-input-roi-modal [icon]="like" [text]="like"></app-input-roi-modal> -->
+          <div class="input-group mb-3 input-social-media">
+            <div class="input-group-prepend">
+              <span class="input-group-text icon-input" id="basic-addon1">
+                <img
+                  class="icon-crypto-input"
+                  src="/assets/Images/actions-social-media-icons/like.svg"
+                />
+              </span>
+            </div>
+            <input
+              style="color: #4048ff; background: #f6f6ff"
+              type="text"
+              pattern="^[1-9][0-9]*$"
+              class="form-control"
+              placeholder="0"
+              aria-label="Username"
+              aria-describedby="basic-addon1"
+              [(ngModel)]="Inputlike"
+              (input)="estimationGains()"
+            />
+          </div>
+        </div>
+        <div class="col-sm input-social-media">
+          <div style="margin-bottom: 5px">
+            1 Share = {{ campaignShare }}
+            <span>
+              <img
+                class="icon-crypto-input"
+                src="/assets/Images/icons-crypto/black/{{ tokenName }}.svg"
+              />
+            </span>
+          </div>
+          <!-- <app-input-roi-modal [icon]="share" [text]="share"></app-input-roi-modal> -->
+          <div class="input-group mb-3 input-social-media">
+            <div class="input-group-prepend">
+              <span class="input-group-text icon-input" id="basic-addon1">
+                <img
+                  class="icon-crypto-input"
+                  src="/assets/Images/actions-social-media-icons/share.svg"
+                />
+              </span>
+            </div>
+            <input
+              style="color: #4048ff; background: #f6f6ff"
+              pattern="^[1-9][0-9]*$"
+              type="text"
+              class="form-control"
+              placeholder="0"
+              aria-label="Username"
+              aria-describedby="basic-addon1"
+              [(ngModel)]="InputShare"
+              (input)="estimationGains()"
+            />
+          </div>
+        </div>
+        <div class="col-sm input-social-media" *ngIf="ReachMaxExist">
+          <div style="margin-bottom: 5px">
+            Max Reach={{ campaignReachMax }}%
+          </div>
+          <!-- <app-input-roi-modal [icon]="maxreach" [text]="maxreach"></app-input-roi-modal> -->
+          <div class="input-group mb-3 input-social-media">
+            <div class="input-group-prepend">
+              <span class="input-group-text icon-input" id="basic-addon1">
+                <img
+                  class="icon-crypto-input"
+                  src="/assets/Images/actions-social-media-icons/reach.svg"
+                />
+              </span>
+            </div>
+            <input
+              style="color: #4048ff; background: #f6f6ff"
+              pattern="^[1-9][0-9]*$"
+              type="text"
+              class="form-control"
+              placeholder="0"
+              aria-label="Username"
+              aria-describedby="basic-addon1"
+              [(ngModel)]="InputReachMax"
+              (input)="estimationGains()"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="container container-inputs"
+      *ngIf="campaignType === 'publication'"
+    >
+      <div class="row flex-sm-row flex-column justify-content-center">
+        <div class="col-sm input-social-media">
+          <!-- <app-input-roi-modal [icon]="followers" [text]="followers"></app-input-roi-modal> -->
+          <div class="input-group mb-3 input-social-media">
+            <div class="input-group-prepend">
+              <span class="input-group-text icon-input" id="basic-addon1">
+                <img
+                  class="icon-crypto-input"
+                  src="/assets/Images/actions-social-media-icons/followers.svg"
+                />
+              </span>
+            </div>
+            <input
+              style="color: #4048ff; background: #f6f6ff"
+              pattern="^[1-9][0-9]*$"
+              type="text"
+              class="form-control"
+              placeholder="0"
+              aria-label="Username"
+              aria-describedby="basic-addon1"
+              [(ngModel)]="InputFllowers"
+              (input)="estimationGains()"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <img class="justify-content-center" src="./assets/Images/Union.svg" />
+
+    <div class="justify-content-center">
+      <h5 class="mt-3 mb-1">{{ 'roi_rate' | translate }}</h5>
+    </div>
+    <div class="container roi-rate">
+      <div class="current-rate col col-sm-8 align-items-center mb-1">
+        {{ roiCurrentRate | number: '1.0-3' || '0' }}
+        <span>
+          <img
+            style="height: 24px; width: 24px"
+            src="/assets/Images/icons-crypto/black/{{ tokenName }}.svg"
+          />
+        </span>
+      </div>
+      <div
+        class="current-rate col-xxl-4 col-xl-4 col-md-12 col-lg-4 col-sm-8 col-10 align-items-center mb-2"
+      >
+        $ {{ roiCurrentUsd | number: '1.0-3' || '0' }}
+      </div>
+    </div>
+
+    <div class="more-details">
+      <a (click)="goToCampaignDetail()"> {{ 'moreDetails' | translate }}</a>
+    </div>
+  </div>
+</div>
