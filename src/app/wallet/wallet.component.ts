@@ -744,12 +744,82 @@ export class WalletComponent implements OnInit, OnDestroy {
       }
     }
   }
-  checkRule(rule: any): string {
-    rule
-      ? (this.urlImgCondition = '../../assets/Images/sucessCondition.svg')
-      : '../../assets/Images/alertCondition.svg';
-    return rule;
+
+
+
+
+  checkPasswordLength(length: number): string {
+    return (
+      (length >= 8 && '../../assets/Images/sucessCondition.svg') ||
+      '../../assets/Images/alertCondition.svg'
+    );
   }
+
+  checkPasswordUpper(success: boolean): string {
+    return (
+      (success && '../../assets/Images/sucessCondition.svg') ||
+      '../../assets/Images/alertCondition.svg'
+    );
+  }
+
+  checkPasswordLower(success: boolean): string {
+    return (
+      (success && '../../assets/Images/sucessCondition.svg') ||
+      '../../assets/Images/alertCondition.svg'
+    );
+  }
+
+  checkPasswordNumber(success: boolean ): string {
+    return (
+      (success && '../../assets/Images/sucessCondition.svg') ||
+      '../../assets/Images/alertCondition.svg'
+    );
+  }
+
+  checkPasswordSpecial(success: boolean ): string {
+    return (
+      (success && '../../assets/Images/sucessCondition.svg') ||
+      '../../assets/Images/alertCondition.svg'
+    );
+  }
+
+
+  checkPasswordWhite(success: boolean ): string {
+    return (
+      (success && '../../assets/Images/sucessCondition.svg') ||
+      '../../assets/Images/alertCondition.svg'
+    );
+  }
+
+  // checkPasswordCriteria(criteria: string, value: string): string {
+  //   switch(criteria) {
+  //     case 'length':
+  //       return (value.length >= 8 && '../../assets/Images/sucessCondition.svg') || '../../assets/Images/alertCondition.svg';
+  //     case 'upper':
+  //       return (/[A-Z]/.test(value) && '../../assets/Images/sucessCondition.svg') || '../../assets/Images/alertCondition.svg';
+  //     case 'lower':
+  //       return (/[a-z]/.test(value) && '../../assets/Images/sucessCondition.svg') || '../../assets/Images/alertCondition.svg';
+  //     case 'number':
+  //       return (/\d/.test(value) && '../../assets/Images/sucessCondition.svg') || '../../assets/Images/alertCondition.svg';
+  //     case 'special':
+  //       return (/[^A-Za-z0-9]/.test(value) && '../../assets/Images/sucessCondition.svg') || '../../assets/Images/alertCondition.svg';
+  //     case 'white':
+  //       return (!/\s/.test(value) && '../../assets/Images/sucessCondition.svg') || '../../assets/Images/alertCondition.svg';
+  //     default:
+  //       return '../../assets/Images/alertCondition.svg';
+  //   }
+  // }
+
+
+  // checkRule(success: boolean, image: string): string {
+  //   if (success) {
+  //     this.urlImgCondition = '../../assets/Images/successCondition.svg';
+  //   } else {
+  //     this.urlImgCondition = image;
+  //   }
+  //   return this.urlImgCondition;
+  // }
+
   ngOnInit(): void {
     this.modalService.open(this.setPwdTransactionModal, {
       backdrop: 'static',
@@ -766,66 +836,24 @@ export class WalletComponent implements OnInit, OnDestroy {
       .get('password')
       ?.valueChanges.pipe(takeUntil(this.onDestroy$))
       .subscribe((pass: string) => {
-        const regex = /[A-Z]/g;
-        const regexLowerCase = /[a-z]/g;
+        const regexUpper = /[A-Z]/g;
+        const regexLower = /[a-z]/g;
         const regexNumber = /[0-9]+/g;
-        const regexSpecial = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+        const regexSpecial = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
         const regexWhitespaces = /\s/;
-        if (pass.match(regex)) {
-          this.successUpper = true;
-          this.checkRule(this.successUpper);
-          //@ts-ignore
-          this.color = '#00CC9E';
-        } else {
-          this.successUpper = false;
-          this.urlImgCondition = '../../assets/Images/alertCondition.svg';
-          //@ts-ignore
-          this.color = '#F52079';
-        }
 
-        if (pass.match(regexLowerCase)) {
-          this.successLower = true;
-          //@ts-ignore
-          this.color = '#00CC9E';
-        } else {
-          this.successLower = false;
-          //@ts-ignore
-          this.color = '#F52079';
-        }
-
-        if (pass.match(regexNumber)) {
-          this.successNumber = true;
-          //@ts-ignore
-          this.color = '#00CC9E';
-        } else {
-          this.successNumber = false;
-          //@ts-ignore
-          this.color = '#F52079';
-        }
-
-        if (pass.match(regexSpecial)) {
-          this.successSpecial = true;
-          //@ts-ignore
-          this.color = '#00CC9E';
-        } else {
-          this.successSpecial = false;
-          //@ts-ignore
-          this.color = '#F52079';
-        }
-        if (!pass.match(regexWhitespaces)) {
-          this.successWhitespaces = true;
-          //@ts-ignore
-          this.color = '#00CC9E';
-        } else {
-          this.successWhitespaces = false;
-          //@ts-ignore
-          this.color = '#F52079';
-        }
+        this.successUpper = pass.match(regexUpper) != null;
+        this.successLower = pass.match(regexLower) != null;
+        this.successNumber = pass.match(regexNumber) != null;
+        this.successSpecial = pass.match(regexSpecial) != null;
+        this.successWhitespaces = pass.match(regexWhitespaces) == null;
+        
         if (
           pass === '' ||
           pass == null ||
           this.formUpdateTransactionPassword.get('password')?.invalid
         ) {
+        
           this.formUpdateTransactionPassword.get('confirmPassword')?.reset();
           this.formUpdateTransactionPassword.controls[
             'confirmPassword'
@@ -835,6 +863,7 @@ export class WalletComponent implements OnInit, OnDestroy {
             'confirmPassword'
           ].enable();
         }
+
       });
     //creation modal maintenance
     // this.modalService.open(this.modalMaintenance, {

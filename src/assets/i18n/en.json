@@ -261,7 +261,7 @@
   "Profil.password_minlength_eight_chars": "At least 8 characters",
   "Profil.password_uppercase": "Uppercase letter",
   "Profil.password_lowercase": "Lowercase letter",
-  "Profil.password_number": "One digit",
+  "Profil.password_number": "At least One Digit",
   "Profil.password_special_character": "Special character",
   "Profil.confirm_new_password": "CONFIRM NEW PASSWORD",
   "Profil.password_must_match_error": "Password must match!!",
