@@ -222,7 +222,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
   }
 
   createNewDraftCampaign() {
-    this.draftStore.init();
+    //this.draftStore.init();
     this.draftStore
       .addNewDraft(new Campaign())
       .pipe(takeUntil(this.onDestoy$))
