@@ -960,7 +960,7 @@ export class CampaignHttpApiService {
     titleCampaign: string
   ) {
     return this.http.put(
-      sattUrl + '/campaign/reject/' + prom.hash,
+      sattUrl + '/campaign/reject/' + prom.id,
 
       {
         idCampaign: campaignid,
