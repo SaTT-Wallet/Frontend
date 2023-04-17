@@ -644,7 +644,6 @@ export class PasswordModalComponent implements OnInit {
     return _amount;
   }
   createNewDraftCampaign(): void {
-    this.draftStore.init();
     this.draftStore
       .addNewDraft(new Campaign())
       .pipe(takeUntil(this.onDestoy$))
