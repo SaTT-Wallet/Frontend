@@ -9,18 +9,17 @@
 }
 .roi-modal {
   width: 925px;
- 
 }
-.modal-body.modal-custom h3{ 
-font-family: 'Poppins';
+.modal-body.modal-custom h3 {
+  font-family: 'Poppins';
   font-style: normal;
   font-weight: 600;
-font-size: 20px;
+  font-size: 20px;
 }
 h2 {
   font-family: 'Poppins';
-font-style: normal;
-font-weight: 700;
+  font-style: normal;
+  font-weight: 700;
   color: #f52079;
   font-size: 22px;
   line-height: 28px;
@@ -29,18 +28,18 @@ font-weight: 700;
 .chose-text {
   font-family: 'Poppins';
   font-style: normal;
- 
-    display: flex;
-    font-weight: 400;
-    justify-content: center;
-    font-size: 16px;
-    line-height: 130%;
-    letter-spacing: 0.03em;
+
+  display: flex;
+  font-weight: 400;
+  justify-content: center;
+  font-size: 16px;
+  line-height: 130%;
+  letter-spacing: 0.03em;
 }
 .description-modal {
   font-family: 'Poppins';
-font-style: normal;
-width: 70%;
+  font-style: normal;
+  width: 70%;
   display: flex;
   font-weight: 400;
   justify-content: center;
@@ -67,90 +66,90 @@ width: 70%;
 .more-details {
   color: #4048ff;
   letter-spacing: 0.03em;
-text-decoration-line: underline;
-font-family: 'Poppins';
-font-style: normal;
-font-weight: 500;
-font-size: 16px;
-line-height: 130%;
-cursor: pointer;
-
+  text-decoration-line: underline;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 130%;
+  cursor: pointer;
 }
-.social-media-btn:hover{
-border: white;
+.social-media-btn:hover {
+  border: white;
 }
 .icon-input {
   border-radius: 30px 0px 0px 30px;
   background: #4048ff;
 }
-.icon-crypto-input{
+.icon-crypto-input {
   height: 15.75px;
   width: 15.75px;
 }
-.roi-rate{
+.roi-rate {
   display: flex;
-flex-direction: column;
-cursor: zoom-in;
-align-items: center;
+  flex-direction: column;
+  cursor: zoom-in;
+  align-items: center;
 }
-.input-social-media{
-  
+.input-social-media {
   max-width: 155px;
   font-family: 'Poppins';
-font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 130%;
-text-align: center;
-letter-spacing: 0.03em;
- }
- .icon-input {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 130%;
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+.icon-input {
   border-radius: 30px 0px 0px 30px;
   background: #4048ff;
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
- -webkit-appearance: none;
- margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
-
 
 /* Firefox */
-input[type=number] {
- -moz-appearance: textfield;
+input[type='number'] {
+  -moz-appearance: textfield;
 }
 
-@media (max-width: 767.98px){
-  .modal-header .modal-custom{
+@media (max-width: 767.98px) {
+  .modal-header .modal-custom {
     margin-top: auto;
 
-    background: #FFFFFF;
+    background: #ffffff;
   }
-  .description-modal{
+  .description-modal {
     width: 50%;
   }
-  .container-inputs{
+  .container-inputs {
     width: fit-content;
   }
-  .roi-modal{
+  .roi-modal {
     height: 100svh;
-   
-    background: #FFFFFF;
+
+    background: #ffffff;
   }
   .modal-custom {
-    background: #FFFFFF;
+    background: #ffffff;
   }
-  .modal-header{
-    background: #FFFFFF;
+  .modal-header {
+    background: #ffffff;
   }
-
 }
-@media(max-height: 670px){
-  .roi-modal{
+@media (max-height: 670px) {
+  .roi-modal {
     height: 100svh;
+    overflow: auto;
   }
-  .modal-header .modal-custom{
-    margin-bottom: 5% !important;
+  .btn-close {
+    z-index: 9 !important;
+  }
+  .modal-header {
+    height: auto !important;
   }
 }
