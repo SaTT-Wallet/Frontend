@@ -55,7 +55,8 @@ h2 {
   align-items: center;
   padding: 8px 16px;
   gap: 8px;
-  width: 292px;
+  min-width: 292px;
+  max-width: 292px;
   height: 44px;
   background: rgba(205, 207, 255, 0.15);
   border-bottom: 1px solid #f6f6ff;
@@ -131,6 +132,8 @@ input[type='number'] {
   }
   .roi-modal {
     height: 100svh;
+
+    width: 100vw;
 
     background: #ffffff;
   }
