@@ -745,9 +745,6 @@ export class WalletComponent implements OnInit, OnDestroy {
     }
   }
 
-
-
-
   checkPasswordLength(length: number): string {
     return (
       (length >= 8 && '../../assets/Images/sucessCondition.svg') ||
@@ -769,22 +766,21 @@ export class WalletComponent implements OnInit, OnDestroy {
     );
   }
 
-  checkPasswordNumber(success: boolean ): string {
+  checkPasswordNumber(success: boolean): string {
     return (
       (success && '../../assets/Images/sucessCondition.svg') ||
       '../../assets/Images/alertCondition.svg'
     );
   }
 
-  checkPasswordSpecial(success: boolean ): string {
+  checkPasswordSpecial(success: boolean): string {
     return (
       (success && '../../assets/Images/sucessCondition.svg') ||
       '../../assets/Images/alertCondition.svg'
     );
   }
 
-
-  checkPasswordWhite(success: boolean ): string {
+  checkPasswordWhite(success: boolean): string {
     return (
       (success && '../../assets/Images/sucessCondition.svg') ||
       '../../assets/Images/alertCondition.svg'
@@ -810,7 +806,6 @@ export class WalletComponent implements OnInit, OnDestroy {
   //   }
   // }
 
-
   // checkRule(success: boolean, image: string): string {
   //   if (success) {
   //     this.urlImgCondition = '../../assets/Images/successCondition.svg';
@@ -821,10 +816,10 @@ export class WalletComponent implements OnInit, OnDestroy {
   // }
 
   ngOnInit(): void {
-    // this.modalService.open(this.setPwdTransactionModal, {
-    //   backdrop: 'static',
-    //   keyboard: false
-    // });
+    this.modalService.open(this.setPwdTransactionModal, {
+      backdrop: 'static',
+      keyboard: false
+    });
     if (this.isV1) {
       this.lineChartColors[0].backgroundColor = '#696DE4';
     } else {
@@ -847,13 +842,12 @@ export class WalletComponent implements OnInit, OnDestroy {
         this.successNumber = pass.match(regexNumber) != null;
         this.successSpecial = pass.match(regexSpecial) != null;
         this.successWhitespaces = pass.match(regexWhitespaces) == null;
-        
+
         if (
           pass === '' ||
           pass == null ||
           this.formUpdateTransactionPassword.get('password')?.invalid
         ) {
-        
           this.formUpdateTransactionPassword.get('confirmPassword')?.reset();
           this.formUpdateTransactionPassword.controls[
             'confirmPassword'
@@ -863,7 +857,6 @@ export class WalletComponent implements OnInit, OnDestroy {
             'confirmPassword'
           ].enable();
         }
-
       });
     //creation modal maintenance
     // this.modalService.open(this.modalMaintenance, {
