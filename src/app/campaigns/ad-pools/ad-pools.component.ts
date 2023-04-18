@@ -12,7 +12,7 @@ import { Page } from '@app/models/page.model';
 import { User } from '@app/models/User';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { DraftCampaignStoreService } from '@core/services/draft-campaign-store.service';
-import _ from 'lodash';
+import _, { concat } from 'lodash';
 import { forkJoin, of, Subject, Subscription } from 'rxjs';
 import {
   catchError,
@@ -176,12 +176,14 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
         //   item.urlPicUser=this.user.userPicture
         // })
         //this.campaignsList = this.sortList(campaigns);
-        
-        campaigns.sort((a: any, b: any) => {
+        const draftsArray = campaigns.filter((element: Campaign) => element.type === "draft");
+        const campaignsArray = campaigns.filter((element: Campaign) => element.type != "draft");
+        draftsArray.sort((a: any, b: any) => {
           return <any>new Date(b.createdAt) - <any>new Date(a.createdAt);
         });
-        this.campaignsList = campaigns;
-        this.campaignsList2 = campaigns;
+        const newCampaignsArray = concat(draftsArray, campaignsArray);
+        this.campaignsList = newCampaignsArray;
+        this.campaignsList2 = newCampaignsArray;
         this.campaignsList?.forEach((element: Campaign) => {
           if (
             ['SATTPOLYGON', 'SATTBEP20', 'SATTBTT'].includes(
