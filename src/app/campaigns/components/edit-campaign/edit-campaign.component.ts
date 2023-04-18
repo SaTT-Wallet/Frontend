@@ -274,9 +274,9 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
     }
   }
   ngOnDestroy(): void {
-    this.deleteCampaignIfNotFilled().subscribe(() => {
+    /*this.deleteCampaignIfNotFilled().subscribe(() => {
       this.campaignListStoreService.getAllCampaigns(true, {});
-    });
+    });*/
     this.isDestroyed$.next('');
     this.isDestroyed$.unsubscribe();
   }

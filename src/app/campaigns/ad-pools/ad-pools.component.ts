@@ -108,6 +108,12 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
     this.onBoarding();
     this.loadCampaigns();
   }
+
+  campare(a:any,b:any) {
+    if(a.createdAt > b.createdAt) return 1;
+    if(a.createdAt < b.createdAt) return -1;
+    return 0;
+  }
   getUserPic() {
     this.subscription = this.account$
       .pipe(
@@ -170,6 +176,10 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
         //   item.urlPicUser=this.user.userPicture
         // })
         //this.campaignsList = this.sortList(campaigns);
+        
+        campaigns.sort((a: any, b: any) => {
+          return <any>new Date(b.createdAt) - <any>new Date(a.createdAt);
+        });
         this.campaignsList = campaigns;
         this.campaignsList2 = campaigns;
         this.campaignsList?.forEach((element: Campaign) => {
@@ -222,7 +232,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
   }
 
   createNewDraftCampaign() {
-    this.draftStore.init();
+    //this.draftStore.init();
     this.draftStore
       .addNewDraft(new Campaign())
       .pipe(takeUntil(this.onDestoy$))
@@ -291,6 +301,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
         )
         .subscribe(
           (campaigns: Campaign[]) => {
+            console.log({campaigns})
             if (campaigns.length === 0) {
               this.isLoading = false;
             }
