@@ -20,7 +20,7 @@
   font-size: 20px;
   line-height: 28px;
   position: absolute;
-  margin-top: 11%;
+  margin-top: 20%;
   color: #ffffff;
   letter-spacing: 1px;
 }
@@ -1840,7 +1840,22 @@ bottom: 77.54% ; */
     display: none !important;
   }
 }
-
+@media (max-height: 670px) {
+  .qrr_imgg1 {
+    width: 219px;
+    height: 166px;
+  }
+  .title {
+    margin-bottom: 5px;
+    margin-top: 11svh;
+  }
+  #change-wallet-title {
+    top: 2%;
+  }
+  #title_wallet {
+    top: -3%;
+  }
+}
 @media (max-width: 1023.98px) {
   .three-points,
   .div-copy-wallet-mobile,
