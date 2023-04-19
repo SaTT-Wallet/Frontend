@@ -2203,7 +2203,10 @@ p {
 }
 
 .div-input-icon.error {
-  border: 1px solid #f52079;
+  border: 1px solid #f52079 !important;
+}
+.div-input-icon.errorMsg {
+  border: 1px solid #f52079 !important;
 }
 
 @media (max-width: 424px) {

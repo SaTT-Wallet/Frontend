@@ -622,7 +622,8 @@
             <div
               class="div-input-icon position-relative"
               [ngClass]="{
-                errorMsg:
+                errorMsg: this.formUpdateTransactionPassword.errors?.mustMatch,
+                error:
                   this.formUpdateTransactionPassword.get('password')?.invalid &&
                   !this.formUpdateTransactionPassword.get('password')?.errors
                     ?.required,
@@ -864,12 +865,12 @@
         this.formUpdateTransactionPassword.dirty
       "
     >
-      <label class="missMatch_warning" style="color: #f52079">
+      <label class="missMatch_warning">
         Passwords don't match. Please verify!
       </label>
     </div>
     <div class="row mt-2 error-message" *ngIf="!!walletV2ErrorMessage">
-      <label class="error_input">
+      <label class="missMatch_warning">
         {{ walletV2ErrorMessage }}
       </label>
     </div>
