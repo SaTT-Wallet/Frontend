@@ -34,7 +34,7 @@ export class RoiModalComponent implements OnInit {
   View!: number;
   like!: number;
   Share!: number;
-  oracleSelected: string = 'facebook';
+  oracleSelected: string = '';
   platforms: string[] = [];
   cryptoPrice: any;
   tofixUsd: string = '0';
@@ -58,9 +58,15 @@ export class RoiModalComponent implements OnInit {
         this.campaignType = data.data.remuneration;
         this.campaignBounties = data.data.bounties;
         this.campaignRatios = data.data.ratios;
+   
+       this.oracleSelected = this.campaignType === 'performance' ? this.campaignRatios[0].oracle : this.campaignBounties[0].oracle;
+     
+     
         this.campaignRatios.forEach((ratio: any) => {
           this.platforms.push(ratio.oracle);
         });
+     
+        
         this.campaignBounties.forEach((bountie: any) => {
           this.platforms.push(bountie.oracle);
         });
