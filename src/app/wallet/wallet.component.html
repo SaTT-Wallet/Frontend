@@ -622,7 +622,8 @@
             <div
               class="div-input-icon position-relative"
               [ngClass]="{
-                errorMsg:
+                errorMsg: this.formUpdateTransactionPassword.errors?.mustMatch,
+                error:
                   this.formUpdateTransactionPassword.get('password')?.invalid &&
                   !this.formUpdateTransactionPassword.get('password')?.errors
                     ?.required,
@@ -684,40 +685,67 @@
                 ?.required
             "
             [style.color]="color"
->
+          >
             <div class="warningsContainer">
-              <img [src]="checkPasswordLength(password.value.length)" class="condition_img" />
-              <p [className]="password.value.length >= 8 ? 'success_input' : 'error_input'" style="width: 100%;">
+              <img
+                [src]="checkPasswordLength(password.value.length)"
+                class="condition_img"
+              />
+              <p
+                [className]="
+                  password.value.length >= 8 ? 'success_input' : 'error_input'
+                "
+                style="width: 100%"
+              >
                 {{ 'Profil.password_minlength_eight_chars' | translate }}
               </p>
             </div>
             <div class="warningsContainer">
-              <img [src]="checkPasswordNumber(successNumber)" class="condition_img" />
-              <p [className]="successNumber ? 'success_input' : 'error_input' ">
+              <img
+                [src]="checkPasswordNumber(successNumber)"
+                class="condition_img"
+              />
+              <p [className]="successNumber ? 'success_input' : 'error_input'">
                 {{ 'Profil.password_number' | translate }}
               </p>
             </div>
             <div class="warningsContainer">
-              <img [src]="checkPasswordUpper(successUpper)" class="condition_img" />
-              <p [className]="successUpper ? 'success_input' : 'error_input' ">
+              <img
+                [src]="checkPasswordUpper(successUpper)"
+                class="condition_img"
+              />
+              <p [className]="successUpper ? 'success_input' : 'error_input'">
                 {{ 'Profil.password_uppercase' | translate }}
               </p>
             </div>
             <div class="warningsContainer">
-              <img [src]="checkPasswordLower(successLower)" class="condition_img" />
-              <p [className]="successLower ? 'success_input' : 'error_input' ">
+              <img
+                [src]="checkPasswordLower(successLower)"
+                class="condition_img"
+              />
+              <p [className]="successLower ? 'success_input' : 'error_input'">
                 {{ 'Profil.password_lowercase' | translate }}
               </p>
             </div>
             <div class="warningsContainer">
-              <img [src]="checkPasswordSpecial(successSpecial)" class="condition_img" />
-              <p id="last_error_input" [className]="successSpecial ? 'success_input' : 'error_input' ">
+              <img
+                [src]="checkPasswordSpecial(successSpecial)"
+                class="condition_img"
+              />
+              <p
+                id="last_error_input"
+                [className]="successSpecial ? 'success_input' : 'error_input'"
+              >
                 {{ 'Profil.password_special_character' | translate }}
               </p>
             </div>
             <div *ngIf="!successWhitespaces" class="warningsContainer">
-              <p id="warning_White" class="error_input" style="width: 118%; color:#F52079 !important;">
-                  Please Remove the space
+              <p
+                id="warning_White"
+                class="error_input"
+                style="width: 118%; color: #f52079 !important"
+              >
+                {{ 'Profil.password_space' | translate }}
               </p>
             </div>
           </div>
@@ -837,10 +865,12 @@
         this.formUpdateTransactionPassword.dirty
       "
     >
-      <label class="missMatch_warning" style="color:#F52079"> Passwords don't match. Please verify! </label>
+      <label class="missMatch_warning">
+        {{ 'Profil.password_must_match_error' | translate }}
+      </label>
     </div>
     <div class="row mt-2 error-message" *ngIf="!!walletV2ErrorMessage">
-      <label class="error_input">
+      <label class="missMatch_warning">
         {{ walletV2ErrorMessage }}
       </label>
     </div>
