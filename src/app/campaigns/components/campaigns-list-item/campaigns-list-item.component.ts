@@ -184,12 +184,13 @@ export class CampaignsListItemComponent implements OnInit {
     return this.tokenStorageService.getLocale() || 'en';
   }
   get isNewCampaign(): boolean {
-    let createdDate = new Date(this.campaign.createdAt);
-
+    let start = new Date(this.campaign.startDate);
+  console.log("createdDate", this.campaign.startDate);
+  
     let today = new Date();
 
     if (
-      createdDate.setDate(createdDate.getDate() + 15) >=
+      start.setDate(start.getDate() + 15) >=
       today.setHours(0, 0, 0, 0)
     ) {
       return true;
