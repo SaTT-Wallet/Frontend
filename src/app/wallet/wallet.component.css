@@ -42,7 +42,7 @@ input:-webkit-autofill:active {
   margin-top: -2%;
 }
 .error_input {
-  width: 100%;
+  width: 150%;
   margin-left: 2.2em;
   text-align: left !important;
   padding-top: 1.1em;
@@ -56,7 +56,7 @@ input:-webkit-autofill:active {
 }
 
 .success_input {
-  width: 100%;
+  width: 150%;
   margin-left: 2.2em;
   text-align: left !important;
   padding-top: 1.1em;
@@ -74,7 +74,7 @@ input:-webkit-autofill:active {
 }
 
 #warning_White {
-  width: 122% !important;
+  width: 150% !important;
   position: relative;
   bottom: 3em;
 }
