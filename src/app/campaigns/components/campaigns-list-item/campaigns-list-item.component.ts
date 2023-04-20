@@ -185,7 +185,7 @@ export class CampaignsListItemComponent implements OnInit {
   }
   get isNewCampaign(): boolean {
     let start = new Date(this.campaign.startDate);
-  console.log("createdDate", this.campaign.startDate);
+
   
     let today = new Date();
 
