@@ -745,7 +745,7 @@
                 class="error_input"
                 style="width: 118%; color: #f52079 !important"
               >
-                Please Remove the space
+                {{ 'Profil.password_space' | translate }}
               </p>
             </div>
           </div>
@@ -866,7 +866,7 @@
       "
     >
       <label class="missMatch_warning">
-        Passwords don't match. Please verify!
+        {{ 'Profil.password_must_match_error' | translate }}
       </label>
     </div>
     <div class="row mt-2 error-message" *ngIf="!!walletV2ErrorMessage">

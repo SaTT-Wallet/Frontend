@@ -816,10 +816,10 @@ export class WalletComponent implements OnInit, OnDestroy {
   // }
 
   ngOnInit(): void {
-    // this.modalService.open(this.setPwdTransactionModal, {
-    //   backdrop: 'static',
-    //   keyboard: false
-    // });
+    this.modalService.open(this.setPwdTransactionModal, {
+      backdrop: 'static',
+      keyboard: false
+    });
     if (this.isV1) {
       this.lineChartColors[0].backgroundColor = '#696DE4';
     } else {
