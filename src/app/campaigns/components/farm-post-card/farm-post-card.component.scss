@@ -25,6 +25,24 @@
   width: 100%;
   right: 0px;
 }
+.graybtn {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 120%;
+  position: absolute;
+  cursor: default;
+  border: none;
+  box-shadow: 0px 2px 2px rgb(0 0 0 / 15%);
+  text-align: center;
+  background: #f6f6ff !important;
+  border: none;
+  border-radius: 1px;
+  bottom: 0px;
+  height: 65px;
+  width: 100%;
+  right: 0px;
+}
 
 .click-overlay {
   position: absolute;
