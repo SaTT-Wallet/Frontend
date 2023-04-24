@@ -161,7 +161,6 @@ export class CampaignsListStoreService {
       );*/
         let campaignsList$ = obs;
       campaignsList$.subscribe(({ campaigns }) => {
-        console.log({campaigns})
         this._loadingCampaign.next(false);
         this.nextPage.items = campaigns as Campaign[];
         let pages: Page<Campaign>[] = this.list;

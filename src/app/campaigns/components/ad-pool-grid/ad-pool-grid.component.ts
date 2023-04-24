@@ -54,7 +54,6 @@ export class AdPoolGridComponent implements OnInit, OnChanges {
     this.campaignsFacade.campaignsSortItem$
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((sortItem: any) => {
-        console.log({sortItem})
         if (sortItem.sortField === 'adpool-name') {
           this.sortAdPoolUp = sortItem.sortUp;
           this.sortAdPoolName();
