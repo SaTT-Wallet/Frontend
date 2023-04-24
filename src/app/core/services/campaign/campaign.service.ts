@@ -1102,7 +1102,7 @@ export class CampaignHttpApiService {
 
   allCampaigns(
     page = 1,
-    size = 10,
+    size = 1,
     queryParams: HttpParams = new HttpParams()
   ): Observable<ICampaignsListResponse> {
     const walletId = !!this.tokenStorageService.getToken()

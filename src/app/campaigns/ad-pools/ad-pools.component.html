@@ -60,7 +60,7 @@
   <app-list-items
     [infiniteScrollContainer]="'.center-content'"
     [fromRoot]="true"
-    (onEndPageScroll)="onScroll()"
+    
   >
     <ng-template appItemsList>
       <div class="block-create-campaign">
@@ -106,7 +106,7 @@
 
       <ng-container *ngIf="isLoading">
         <app-campaigns-list-item-placeholder-ui
-          *ngFor="let card of [1, 2, 3]"
+          *ngFor="let card of [1]"
         ></app-campaigns-list-item-placeholder-ui>
       </ng-container>
     </ng-template>

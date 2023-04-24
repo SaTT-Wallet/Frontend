@@ -110,8 +110,32 @@ export class CampaignsListStoreService {
           this.nextPage.size,
           this.getFilterQueryString(filterOptions)
         )
-        .pipe(share());
-      let campaignsList$ = obs.pipe(
+        .pipe(
+          share(),
+          map((res: ICampaignsListResponse) => {
+            this.count = res.data.count;
+            if (res.code === 200 && res.message === 'success') {
+              return {
+                count: res.data.count,
+                campaigns: !!res.data.campaigns
+                  ? res.data.campaigns.map((c: any) => {
+                      let campaign = new Campaign(c);
+                      campaign.ownedByUser =
+                        Number(campaign.ownerId) ===
+                        Number(this.localStorageService.getUserId());
+                      return campaign;
+                    })
+                  : ([] as Campaign[])
+              };
+            }
+            return {
+              count: 0,
+              campaigns: []
+            };
+          }),
+          takeUntil(this.isDestroyed)
+          );
+      /*let campaignsList$ = obs.pipe(
         map((res: ICampaignsListResponse) => {
           this.count = res.data.count;
           if (res.code === 200 && res.message === 'success') {
@@ -134,9 +158,10 @@ export class CampaignsListStoreService {
           };
         }),
         takeUntil(this.isDestroyed)
-      );
-
+      );*/
+        let campaignsList$ = obs;
       campaignsList$.subscribe(({ campaigns }) => {
+        console.log({campaigns})
         this._loadingCampaign.next(false);
         this.nextPage.items = campaigns as Campaign[];
         let pages: Page<Campaign>[] = this.list;
