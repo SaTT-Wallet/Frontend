@@ -623,7 +623,7 @@
               class="div-input-icon position-relative"
               [ngClass]="{
                 errorMsg: this.formUpdateTransactionPassword.errors?.mustMatch,
-                error:
+                errormsg:
                   this.formUpdateTransactionPassword.get('password')?.invalid &&
                   !this.formUpdateTransactionPassword.get('password')?.errors
                     ?.required,
