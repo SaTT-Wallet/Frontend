@@ -35,9 +35,19 @@
     </defs>
   </svg>
   <div class="bg-content d-flex align-items-center flex-column">
-    <div class="bg-title text-center">FARM YOUR SOCIAL NETWORKS</div>
-    <div class="bg-subtitle text-center">Earn Cryptos with a Post</div>
-    <div class="bg-moon-boy text-center">
+    <div class=""><h1>Hello World</h1></div>
+    <div class="bg-title text-left">FARM YOUR SOCIAL NETWORKS</div>
+    <div class="bg-subtitle text-left">Earn Cryptos with a Post</div>
+    <!-- <p class="bg-description text-left">
+      Are you interested in earning cryptos through the power of blockchain
+      technology and social media? So why not start leveraging your social media
+      accounts today and see how you can earn cryptos with just a few clicks?
+      With a little effort and engagement, you can start "farming" your social
+      networks and earning crypto, So why not start exploring the world of
+      socialfi and crypto today, and see how you can turn your social media
+      presence into a profitable venture?
+    </p> -->
+    <div class="bg-moon-boy text-right">
       <img src="assets/Images/welcome-page-bg-img.png" #moonBoyImg alt="" />
     </div>
     <div
@@ -156,7 +166,10 @@
         >
           <ng-template appItemsList>
             <app-campaigns-list-item
-              *ngFor="let campaign of campaignsList; trackBy: trackById"
+              *ngFor="
+                let campaign of campaignsList.slice(0, 3);
+                trackBy: trackById
+              "
               [campaign]="campaign"
             ></app-campaigns-list-item>
             <ng-container *ngIf="isLoading">
