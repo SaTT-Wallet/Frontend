@@ -188,7 +188,9 @@ export class FarmWelcomeComponent implements OnInit {
           } else {
             this.noData = false;
           }
-          this.campaignsListStoreService.emitPageScroll();
+          
+
+          this.campaignsList.length < 2 && this.campaignsListStoreService.emitPageScroll();
           // this.campaignsList = campaigns.filter(
           //   (campaign: Campaign) => campaign.isDraft === false
           // );
