@@ -80,23 +80,21 @@ export class FarmPostCardComponent implements OnInit {
     );
   }
   private countDownTimer(): void{
-    var harvestDate = new Date(this.prom.appliedDate).getTime();
+    const harvestDate = new Date(this.prom.appliedDate).getTime();
 
-    var harvestDateAvailable = new Date(harvestDate + (24 * 60 * 60 * 1000)).getTime();
-    var today = new Date().getTime();
+    const harvestDateAvailable = new Date(harvestDate + (24 * 60 * 60 * 1000)).getTime();
+    const today = new Date().getTime();
 
     
-    var diffrenence = harvestDateAvailable - today;
+    const diffrenence = harvestDateAvailable - today;
     
-    
-    var d = Math.floor(diffrenence / (1000 * 60 * 60 * 24));
 
     if(this.prom.isAccepted && diffrenence>= 0){
-      var h = Math.floor(
+      const  h = Math.floor(
         (diffrenence % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
       );
  
-      var m = Math.floor((diffrenence % (1000 * 60 * 60)) / (1000 * 60));
+      const m = Math.floor((diffrenence % (1000 * 60 * 60)) / (1000 * 60));
     
       this.harvestAvailable = true;
       const s = Math.floor((diffrenence % (1000 * 60)) / 1000);
