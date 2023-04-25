@@ -167,14 +167,14 @@
           <ng-template appItemsList>
             <app-campaigns-list-item
               *ngFor="
-                let campaign of campaignsList.slice(0, 3);
+                let campaign of campaignsList;
                 trackBy: trackById
               "
               [campaign]="campaign"
             ></app-campaigns-list-item>
             <ng-container *ngIf="isLoading">
               <app-campaigns-list-item-placeholder-ui
-                *ngFor="let card of [1, 2, 3]"
+                *ngFor="let card of [1]"
               ></app-campaigns-list-item-placeholder-ui>
             </ng-container>
           </ng-template>
@@ -184,7 +184,7 @@
   </div>
 </div>
 <div class="row d-flex align-items-center justify-content-center mt-4 mb-5">
-  <div class="load-more-btn" *ngIf="!isLoading && !noData" (click)="loadMore()">
+  <div class="load-more-btn" *ngIf="!isLoading && !noData" >
     Load More
   </div>
 </div>

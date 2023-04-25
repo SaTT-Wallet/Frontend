@@ -154,6 +154,7 @@ export class FarmWelcomeComponent implements OnInit {
       )
       .subscribe(
         (campaigns: Campaign[]) => {
+
           this.isLoading = false;
           this.campaignsList = campaigns;
           this.campaignsList2 = campaigns;
@@ -176,6 +177,7 @@ export class FarmWelcomeComponent implements OnInit {
                 .toFixed(2);
             }
           });
+
           this.campaignNumber = this.campaignsListStoreService.countCampaigns;
           if (campaigns.length === 0 && this.campaignNumber === 0) {
             this.noData = true;
@@ -186,6 +188,7 @@ export class FarmWelcomeComponent implements OnInit {
           } else {
             this.noData = false;
           }
+          this.campaignsListStoreService.emitPageScroll();
           // this.campaignsList = campaigns.filter(
           //   (campaign: Campaign) => campaign.isDraft === false
           // );
