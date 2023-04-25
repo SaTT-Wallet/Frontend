@@ -176,6 +176,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
         //   item.urlPicUser=this.user.userPicture
         // })
         //this.campaignsList = this.sortList(campaigns);
+        
         const draftsArray = campaigns.filter((element: Campaign) => element.type === "draft");
         const campaignsArray = campaigns.filter((element: Campaign) => element.type != "draft");
         draftsArray.sort((a: any, b: any) => {
@@ -218,6 +219,10 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
             element.urlPicUser = this.user.userPicture;
           }
         });
+        this.campaignsListStoreService.emitPageScroll();
+        
+        
+        
         // if(this.campaignsList.length ===0){
         //   this.show = true
         // }else{
@@ -303,7 +308,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
         )
         .subscribe(
           (campaigns: Campaign[]) => {
-            console.log({campaigns})
+            
             if (campaigns.length === 0) {
               this.isLoading = false;
             }
@@ -328,6 +333,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
                   .toFixed(2);
               }
             });
+            this.campaignsListStoreService.emitPageScroll();
             // this.campaignsList = campaigns.filter(
             //   (campaign: Campaign) => campaign.isDraft === false
             // );
@@ -337,13 +343,13 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
           }
         );
     }
-    this.campaignService.loadDataAddPoolWhenEndScroll
-      .pipe(debounceTime(450), takeUntil(this.onDestoy$))
+    /*this.campaignService.loadDataAddPoolWhenEndScroll
+      .pipe(debounceTime(50), takeUntil(this.onDestoy$))
       .subscribe(() => {
         this.campaignsListStoreService.emitPageScroll();
-      });
+      });*/
 
-    this.campaignsListStoreService.loadNextPage({}, true);
+    //this.campaignsListStoreService.loadNextPage({}, true);
   }
 
   ngOnDestroy(): void {

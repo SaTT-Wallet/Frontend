@@ -582,7 +582,7 @@ getCookie(key: string){
   }
 
   snlogin(social: string) {
-    this.tokenStorageService?.saveWalletVersion('v2');
+    this.tokenStorageService?.saveWalletVersion('v1');
     this.tokenStorageService?.setModaleMigrate('open');
     this.scale = true;
     this.loggedrs = true;
@@ -625,7 +625,7 @@ getCookie(key: string){
    */
   login() {
     this.tokenStorageService?.setModaleMigrate('open');
-    this.tokenStorageService?.saveWalletVersion('v2');
+    this.tokenStorageService?.saveWalletVersion('v1');
     this.isSubmitting = true;
     this.showSpinner = true;
     this.loggedrs = false;
@@ -991,7 +991,6 @@ getCookie(key: string){
             this.tokenStorageService.saveIdSn(response.idSn.toString());
             this.tokenStorageService.setItem('valid2FA', '');
             this.tokenStorageService.setItem('isAuthenticated', 'true');
-            this.tokenStorageService?.saveWalletVersion('v1');
             this.tokenStorageService.saveExpire(this.expiresToken);
             this.tokenStorageService.setHeader();
             return this.walletFacade.getUserWallet();
