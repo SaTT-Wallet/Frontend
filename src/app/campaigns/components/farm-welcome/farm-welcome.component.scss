@@ -480,6 +480,13 @@
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
+.btn_apply_lunch:hover {
+  background: linear-gradient(
+    85.14deg,
+    #ffffff 103.39% #f52079 -1.05%
+  ) !important;
+}
+
 @media (max-width: 913px) {
   .bg-title {
     font-size: 35px;
