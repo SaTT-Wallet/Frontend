@@ -49,6 +49,9 @@ export class FarmPostCardComponent implements OnInit {
   sumInUSD: any;
   payedAmoundInUSD: any;
   private isDestroyed = new Subject();
+  intervalId!: any;
+  harvestAvailableIn: any;
+  harvestAvailable: boolean = false;
 
   constructor(
     private tokenStorageService: TokenStorageService,
@@ -75,6 +78,34 @@ export class FarmPostCardComponent implements OnInit {
       },
       [atLastOneChecked(), requiredDescription()]
     );
+  }
+  private countDownTimer(): void{
+    const harvestDate = new Date(this.prom.appliedDate).getTime();
+
+    const harvestDateAvailable = new Date(harvestDate + (24 * 60 * 60 * 1000)).getTime();
+    const today = new Date().getTime();
+
+    
+    const diffrenence = harvestDateAvailable - today;
+    
+
+    if(this.prom.isAccepted && diffrenence>= 0){
+      const  h = Math.floor(
+        (diffrenence % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+ 
+      const m = Math.floor((diffrenence % (1000 * 60 * 60)) / (1000 * 60));
+    
+      this.harvestAvailable = true;
+      const s = Math.floor((diffrenence % (1000 * 60)) / 1000);
+      
+      this.harvestAvailableIn= h+"h " + m +"min";
+      return this.harvestAvailableIn
+
+    }
+   
+    
+    
   }
 
   ngOnInit(): void {
@@ -110,8 +141,10 @@ export class FarmPostCardComponent implements OnInit {
         this.prom = new Participation(prom);
       });
     let currencyName = this.prom.campaign.currency;
-    
-
+    this.intervalId = setInterval(() => {
+      this.countDownTimer();
+    }, 1000);
+    ;
     if (currencyName === 'SATTBEP20') currencyName = 'SATT';
 
     let etherInWei = ListTokens[currencyName].decimals;
