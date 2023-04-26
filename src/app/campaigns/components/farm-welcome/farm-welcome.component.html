@@ -1,44 +1,8 @@
-<div class="bg-container">
-  <!--
-  <img src="assets/Images/header-welcom-page.svg" class="header" alt="" />
--->
-  <svg
-    style="width: 100%; height: 100%"
-    width="1440"
-    height="840"
-    viewBox="0 0 1440 840"
-    preserveAspectRatio="none"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M525.441 819.374C188.229 845.387 30.6936 702.976 -5.92285 628.52V0.820801H1440V711.93C1138.55 699.206 946.956 786.858 525.441 819.374Z"
-      fill="#1F2337"
-    />
-    <path
-      d="M559.569 829.584C226.091 876.293 37.8028 744.38 1.37109 668.791V16.5908H1440V738.514C1140.07 725.597 1072.69 757.712 559.569 829.584Z"
-      fill="url(#paint0_linear_1073_22087)"
-      fill-opacity="0.5"
-    />
-    <defs>
-      <linearGradient
-        id="paint0_linear_1073_22087"
-        x1="524.509"
-        y1="831.98"
-        x2="638.68"
-        y2="-12.1883"
-        gradientUnits="userSpaceOnUse"
-      >
-        <stop stop-color="#4048FF" />
-        <stop offset="1" stop-color="#293056" stop-opacity="0" />
-      </linearGradient>
-    </defs>
-  </svg>
-  <div class="bg-content d-flex align-items-center flex-column">
-    <div class=""><h1>Hello World</h1></div>
-    <div class="bg-title text-left">FARM YOUR SOCIAL NETWORKS</div>
-    <div class="bg-subtitle text-left">Earn Cryptos with a Post</div>
-    <!-- <p class="bg-description text-left">
+<div class="welcome_cover d-flex">
+  <div class="col-lg-6 welcome_description">
+    <div class="row mb-1 welcome_title">FARM YOUR SOCIAL NETWORKS</div>
+    <div class="row mb-3 welcome_subtitle">Earn Cryptos with a Post</div>
+    <div class="row mb-4 welcome_description_long">
       Are you interested in earning cryptos through the power of blockchain
       technology and social media? So why not start leveraging your social media
       accounts today and see how you can earn cryptos with just a few clicks?
@@ -46,26 +10,79 @@
       networks and earning crypto, So why not start exploring the world of
       socialfi and crypto today, and see how you can turn your social media
       presence into a profitable venture?
-    </p> -->
+    </div>
+    <div class="row welcome_btn_launch">
+      <button class="btnStart">Launch App</button>
+    </div>
+  </div>
+  <div class="col-6 justify-content-center welcome_video_moon">
     <div class="bg-moon-boy text-right">
       <img src="assets/Images/welcome-page-bg-img.png" #moonBoyImg alt="" />
     </div>
-    <div
-      class="bg-button"
-      *ngIf="moonBoyImg.offsetHeight > 50 && !isConnected"
-      routerLink="auth/login"
-    >
-      Start
+  </div>
+</div>
+<!-- <div class="bg-container">
+  <div class="bg-content d-flex flex-column">
+    <div class=""><h1>Hello World</h1></div>
+    <div class="bg-title text-left">FARM YOUR SOCIAL NETWORKS</div>
+    <div class="bg-subtitle text-left">Earn Cryptos with a Post</div>
+    <p class="bg-description text-left">
+      Are you interested in earning cryptos through the power of blockchain
+      technology and social media? So why not start leveraging your social media
+      accounts today and see how you can earn cryptos with just a few clicks?
+      With a little effort and engagement, you can start "farming" your social
+      networks and earning crypto, So why not start exploring the world of
+      socialfi and crypto today, and see how you can turn your social media
+      presence into a profitable venture?
+    </p>
+    <div class="bg-moon-boy text-right">
+      <img src="assets/Images/welcome-page-bg-img.png" #moonBoyImg alt="" />
     </div>
-    <div
-      class="bg-button"
-      *ngIf="moonBoyImg.offsetHeight > 50 && isConnected"
-      routerLink="/ad-pools"
-    >
-      Start
+  </div>
+</div> -->
+<div
+  class="row d-flex align-items-center justify-content-center mt-lg-5 mt-md-0"
+>
+  <span class="adpool-title">New AdPools</span>
+</div>
+<div class="row d-flex align-items-center justify-content-center mt-2">
+  <div class="container mt-lg-5 mt-md-0 d-flex justify-content-center">
+    <div class="row adpools-container">
+      <div class="style-grid mt-4">
+        <app-list-items
+          [infiniteScrollContainer]="'.center-content'"
+          [fromRoot]="true"
+        >
+          <ng-template appItemsList>
+            <app-campaigns-list-item
+              *ngFor="
+                let campaign of campaignsList.slice(0, 3);
+                trackBy: trackById
+              "
+              [campaign]="campaign"
+            ></app-campaigns-list-item>
+            <ng-container *ngIf="isLoading">
+              <app-campaigns-list-item-placeholder-ui
+                *ngFor="let card of [1, 2, 3]"
+              ></app-campaigns-list-item-placeholder-ui>
+            </ng-container>
+          </ng-template>
+        </app-list-items>
+      </div>
     </div>
   </div>
 </div>
+<div class="row d-flex align-items-center justify-content-center mt-4 mb-5">
+  <div
+    class="btn_container_loadmore"
+    *ngIf="!isLoading && !noData"
+    (click)="loadMore()"
+  >
+    <span class="load-more-btn">All Adpools</span>
+    <span class="load-more-btn-arrow">></span>
+  </div>
+</div>
+
 <div class="container d-flex justify-content-center">
   <div class="row info-container margin-top">
     <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
@@ -151,161 +168,85 @@
     </div>
   </div>
 </div>
-<div
-  class="row d-flex align-items-center justify-content-center mt-lg-5 mt-md-0"
->
-  <span class="adpool-title">Join our AdPools</span>
+<div class="welcome_btn_launch" id="btn_launch_stat">
+  <button class="btnStart">Launch App</button>
 </div>
-<div class="row d-flex align-items-center justify-content-center mt-2">
-  <div class="container mt-lg-5 mt-md-0 d-flex justify-content-center">
-    <div class="row adpools-container">
-      <div class="style-grid mt-4">
-        <app-list-items
-          [infiniteScrollContainer]="'.center-content'"
-          [fromRoot]="true"
+
+<div class="welcome_footer_lunch text-center">
+  <div class="col-6" style="margin: auto">
+    <div class="pt-5 mb-1 welcome_footer_title" style="margin: auto">
+      Launch your Adpool Now !
+    </div>
+    <div class="row mb-4 welcome_description_long">
+      Adpool is an innovative tool for advertisers looking to maximize the
+      impact of their marketing campaigns. It allows advertisers to solicit
+      influencers to speak about their brand or product, while also compensating
+      them with the SaTT token. By applying to create an Adpool, our experienced
+      team will contact you to guide and assist you in setting up your campaign.
+      Trust Adpool for a successful marketing campaign !
+    </div>
+    <div class="btn_apply_lunch" style="margin: auto">Apply to lunch</div>
+  </div>
+</div>
+
+<ng-container>
+  <div
+    class="row welcome-page-footer d-flex flex-column align-items-center justify-content-center mt-4"
+  >
+    <div class="welcome-page-footer-title">Follow us</div>
+    <div class="d-flex justify-content-center align-items-center">
+      <img
+        class="social-footer"
+        src="assets/Images/socials/facebook-white.svg"
+        (click)="openInNewTab('https://www.facebook.com/SaTT.Token/')"
+        alt="facebook"
+      />
+      <img
+        class="social-footer"
+        src="assets/Images/socials/instagram-white.svg"
+        (click)="openInNewTab('https://www.instagram.com/satt.token/')"
+        alt="instagram"
+      />
+      <img
+        class="social-footer"
+        src="assets/Images/socials/twitch-white.svg"
+        (click)="openInNewTab('https://www.twitch.tv/satt_token')"
+        alt="twitch"
+      />
+      <img
+        class="social-footer"
+        src="assets/Images/socials/twitter-white.svg"
+        (click)="openInNewTab('https://twitter.com/SaTT_Token')"
+        alt="twitter"
+      />
+      <img
+        class="social-footer"
+        src="assets/Images/socials/youtube-white.svg"
+        (click)="
+          openInNewTab(
+            'https://www.youtube.com/channel/UCNSq8P6ZmrhF0Ft3fouqOTw'
+          )
+        "
+        alt="youtube"
+      />
+    </div>
+
+    <div
+      class="d-flex justify-content-center align-items-center copyrights flex-column"
+    >
+      <div>Copyright © 2023 Atayen, Inc.</div>
+      <div>
+        All right reserved,&nbsp;
+        <span style="text-decoration: underline" routerLink="/cgu" class="point"
+          >CONDITIONS</span
+        >&nbsp; and &nbsp;
+        <span
+          style="text-decoration: underline"
+          routerLink="/privacy-policy"
+          class="point"
+          >PRIVACY POLICY</span
         >
-          <ng-template appItemsList>
-            <app-campaigns-list-item
-              *ngFor="
-                let campaign of campaignsList;
-                trackBy: trackById
-              "
-              [campaign]="campaign"
-            ></app-campaigns-list-item>
-            <ng-container *ngIf="isLoading">
-              <app-campaigns-list-item-placeholder-ui
-                *ngFor="let card of [1]"
-              ></app-campaigns-list-item-placeholder-ui>
-            </ng-container>
-          </ng-template>
-        </app-list-items>
       </div>
     </div>
   </div>
-</div>
-<div class="row d-flex align-items-center justify-content-center mt-4 mb-5">
-  <div class="load-more-btn" *ngIf="!isLoading && !noData" >
-    Load More
-  </div>
-</div>
-
-<div
-  class="row welcome-page-footer d-flex flex-column align-items-center justify-content-center mt-4"
->
-  <div class="welcome-page-footer-title">Follow us</div>
-  <div class="d-flex justify-content-center align-items-center">
-    <img
-      class="social-footer"
-      src="assets/Images/socials/facebook-white.svg"
-      (click)="openInNewTab('https://www.facebook.com/SaTT.Token/')"
-      alt="facebook"
-    />
-    <img
-      class="social-footer"
-      src="assets/Images/socials/instagram-white.svg"
-      (click)="openInNewTab('https://www.instagram.com/satt.token/')"
-      alt="instagram"
-    />
-    <img
-      class="social-footer"
-      src="assets/Images/socials/twitch-white.svg"
-      (click)="openInNewTab('https://www.twitch.tv/satt_token')"
-      alt="twitch"
-    />
-    <img
-      class="social-footer"
-      src="assets/Images/socials/twitter-white.svg"
-      (click)="openInNewTab('https://twitter.com/SaTT_Token')"
-      alt="twitter"
-    />
-    <img
-      class="social-footer"
-      src="assets/Images/socials/youtube-white.svg"
-      (click)="
-        openInNewTab('https://www.youtube.com/channel/UCNSq8P6ZmrhF0Ft3fouqOTw')
-      "
-      alt="youtube"
-    />
-  </div>
-
-  <div
-    class="d-flex justify-content-center align-items-center copyrights flex-column"
-  >
-    <div>Copyright © 2023 Atayen, Inc.</div>
-    <div>
-      All right reserved,&nbsp;
-      <span style="text-decoration: underline" routerLink="/cgu" class="point"
-        >CONDITIONS</span
-      >&nbsp; and &nbsp;
-      <span
-        style="text-decoration: underline"
-        routerLink="/privacy-policy"
-        class="point"
-        >PRIVACY POLICY</span
-      >
-    </div>
-  </div>
-</div>
-
-<!--
-<div class="bg"></div>
--->
-
-<!--<div class="row d-flex justify-content-center lanche_title_div">
-  <span class="lanche_title">Farm Posts</span>
-                    </div>
-                    <div class="row d-flex justify-content-center new_user white-background-mobile">
-                        <div class="col-lg-7 col-md-10 col-sm-12 d-flex justify-content-center welcome">
-                            <div class="row d-flex justify-content-center lanche_text_div">
-                                <span class="lanche_text">
-        {{ 'welcome_text_farmPosts1' | translate }}</span
-      >
-    </div>
-    <div class="row d-flex justify-content-center">
-      <img src="/assets/Images/farm_post.png" class="satt_lanche" />
-    </div>
-    <div class="row d-flex justify-content-center lanche_text_div">
-      <span class="lanche_text">
-        {{ 'welcome_text_farmPosts2' | translate }}</span
-      >
-    </div>
-  </div>
-  <div class="row btn_row p-0">
-    <div
-      class="
-        d-flex
-        align-items-center
-        justify-content-center
-        col-xl-6 col-lg-8 col-md-12 col-sm-12
-        p-0
-      "
-    >
-      <button class="btnStart" (click)="goToFarmPosts()">
-        <span *ngIf="!this.showSpinnerJoin">{{ 'Join' | translate }}</span>
-                                <div *ngIf="this.showSpinnerJoin" class="spinner-border text-light" role="status">
-                                    <span class="sr-only">Loading...</span>
-                                </div>
-                                </button>
-                            </div>
-                            <div class="
-        col-xl-6 col-lg-8 col-md-12 col-sm-12
-        d-flex
-        flex-column
-        justify-content-center
-        align-items-center
-        p-0
-        show-desktop
-      ">
-                                <button class="btnInfo" (click)="redirectqueryparam()">
-        <span *ngIf="!this.showSpinnerInfo">{{ 'more_info' | translate }}</span>
-        <div
-          *ngIf="this.showSpinnerInfo"
-          class="spinner-border text-light"
-          role="status"
-        >
-          <span class="sr-only">Loading...</span>
-        </div>
-      </button>
-                            </div>
-                        </div>
-                    </div>-->
+</ng-container>
