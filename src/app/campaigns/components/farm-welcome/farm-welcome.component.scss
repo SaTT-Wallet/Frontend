@@ -451,6 +451,7 @@
   margin: auto;
   width: fit-content;
 }
+
 .welcome_footer_lunch {
   color: #ffffff;
   background-size: cover;
@@ -482,10 +483,8 @@
 }
 
 .btn_apply_lunch:hover {
-  background: linear-gradient(
-    85.14deg,
-    #ffffff 103.39% #f52079 -1.05%
-  ) !important;
+  background-color: #f52079 !important;
+  color: white;
 }
 
 @media (max-width: 913px) {
