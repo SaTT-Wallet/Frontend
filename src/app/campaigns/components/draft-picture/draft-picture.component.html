@@ -128,8 +128,15 @@
               >
             </span>
           </div>
-
-          <image-cropper
+          <ng-container *ngIf="this.form.controls.coverSrcMobile.value.includes('ipfs') && this.form.controls.coverSrcMobile.value.includes('data:image') && showImageMobile === true">
+            <img [src]="ipfsURL+this.form.controls.coverSrcMobile.value.substring(27,this.form.controls.coverSrcMobile.value.length)"/>
+          </ng-container>
+          <ng-container *ngIf="this.form.controls.coverSrcMobile.value.includes('ipfs') && !this.form.controls.coverSrcMobile.value.includes('data:image') && showImageMobile === true">
+            <img [src]="ipfsURL+this.form.controls.coverSrcMobile.value.substring(5,this.form.controls.coverSrcMobile.value.length)"/>
+          </ng-container>
+          <!--
+            <ng-container *ngIf="!draftData.coverSrcMobile.includes('ipfs') && showImageMobile === true">
+            <image-cropper
             [aspectRatio]="4 / 3"
             [imageBase64]="
               draftData.isActive && !draftData.coverSrcMobile
@@ -154,6 +161,10 @@
             (imageLoaded)="imageLoadedMobile()"
           >
           </image-cropper>
+          </ng-container>
+          -->
+          
+          
           <!-- <img [src]="draftData.cover" class="mt-1 pic-cover" *ngIf="isCropped"> -->
         </div>
         <div
@@ -273,8 +284,18 @@
               >
             </span>
           </div>
+          <ng-container *ngIf="this.form.controls.coverSrc.value.includes('ipfs') && showImage === true && this.form.controls.coverSrc.value.includes('data:image')">
+            <img [src]="ipfsURL+this.form.controls.coverSrc.value.substring(27,this.form.controls.coverSrc.value.length)"/>
+          </ng-container>
 
-          <image-cropper
+          <ng-container *ngIf="this.form.controls.coverSrc.value.includes('ipfs') && showImage === true && !this.form.controls.coverSrc.value.includes('data:image')">
+            <img [src]="ipfsURL+this.form.controls.coverSrc.value.substring(5,this.form.controls.coverSrc.value.length)"/>
+          </ng-container>
+
+
+          <!--
+            <ng-container *ngIf="!draftData.coverSrc.includes('ipfs') && showImage === true">
+            <image-cropper
             [aspectRatio]="16 / 4"
             [imageBase64]="draftData.coverSrc"
             [transform]="transform"
@@ -291,6 +312,10 @@
             (imageLoaded)="imageLoaded()"
           >
           </image-cropper>
+          </ng-container>
+          -->
+          
+          
           <!-- <img [src]="draftData.cover" class="mt-1 pic-cover" *ngIf="isCropped"> -->
         </div>
         <div

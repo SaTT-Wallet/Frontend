@@ -3,23 +3,40 @@
   <div
     style="position: absolute; top: 0; width: 100vw; height: 100vh; z-index: 1"
   ></div>
+  
+  <!--
+    
+  -->
+
   <div class="campaign-cover img-container" id="" *ngIf="!showInfoSpinner">
-    <img
+    
+      <img
       class="campaign-img desktopClass"
       src="/assets/Images/img_placeholder.svg"
       *ngIf="!campaign || !campaign.cover"
     />
     <img
-      class="campaign-img desktopClass"
-      [src]="campaign.cover"
+      [className]="campaign.cover.includes('ipfs') ? 'campaign-img desktopClass' : 'campaign-img desktopClass'"
+      [src]="campaign.cover.includes('ipfs') ? ipfsURL + campaign.cover.substring(27, campaign.cover.length) : campaign.cover"
       alt="{{ campaign.title }}"
       *ngIf="campaign && campaign.cover"
     />
-    <img
-      class="campaign-img mobileClass"
-      [src]="campaign.coverSrcMobile ? campaign.coverSrcMobile : campaign.cover"
+  
+    
+    
+    
+
+    
+      <img
+      [className]="campaign.coverSrcMobile.includes('ipfs') ? 'campaign-img mobileClass' :'campaign-img mobileClass'"
+      [src]="campaign.coverSrcMobile.includes('ipfs') ? ipfsURL + campaign.coverSrcMobile.substring(27, campaign.coverSrcMobile.length) : campaign.coverSrcMobile"
       alt="{{ campaign.title }}"
-    />
+    /> 
+    
+    
+      
+    
+    
     <!-- <app-edit-cover-btn
       *ngIf="campaign.isOwnedByUser"
       class="btn-edit"

@@ -1,8 +1,9 @@
 export const environment = {
   production: true,
+  
   API_URL: 'https://api2.satt-token.com',
   url: 'https://dapp.satt.com/',
-
+  ipfsURL: 'https://ipfs.io/ipfs/',
   url_subgraph_bsc:
     'https://api.thegraph.com/subgraphs/name/atayen/satt--bsc-mainnet',
   url_subgraph_ether:

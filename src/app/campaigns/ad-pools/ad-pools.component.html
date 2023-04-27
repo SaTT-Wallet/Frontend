@@ -1,4 +1,4 @@
-<!--
+
   <div class="style-grid mt-4" *ngIf="this.tokenStorageService.getIsAuth()">
   <div class="block-create-campaign">
     <img
@@ -33,7 +33,7 @@
   </div>
 </div> 
 
--->
+
 
 <div class="row filter-container">
   <!-- <app-ad-pool-filter
@@ -95,7 +95,8 @@
           </button>
         </div>
       </div>
-      <app-campaigns-list-item
+      
+        <app-campaigns-list-item
         *ngFor="
           let campaign of campaignsList;
           trackBy: trackByCampaignId;
@@ -103,6 +104,8 @@
         "
         [campaign]="campaign"
       ></app-campaigns-list-item>
+      
+      
 
       <ng-container *ngIf="isLoading">
         <app-campaigns-list-item-placeholder-ui

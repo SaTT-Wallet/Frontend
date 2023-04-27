@@ -32,7 +32,7 @@ import {
   NgxImageCompressService,
   UploadResponse,
 } from 'ngx-image-compress';
-
+import { ipfsURL } from '@app/config/atn.config';
 declare var $: any;
 @Component({
   selector: 'app-draft-picture',
@@ -60,6 +60,7 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
   srcFile: any;
   srcFileMobile: any;
   srcFileLogo: any;
+  ipfsURL:string = ipfsURL;
   imageChangedEvent: any = '';
   imageChangedEventMobile: any = '';
   isImageCroppedSubject = new Subject<boolean>();
@@ -394,30 +395,12 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
 
   // Cropper
   fileChangeEvent(event: any, type: string): void {
-    // console.log('eveeent', event.target.files[0]);
-    // console.log('this.inputCover.nativeElement', this.inputCover.nativeElement);
     if (type === 'desktop') {
       this.isCropped = false;
       this.imageChangedEvent = null;
       this.picName = null;
       this.showImage = false;
       let fileUploaded = event.target.files[0];
-      
-      /*this.imageCompress
-          .compressFile(fileUploaded, -2, 50, 25)
-          .then((result: DataUrl) => {
-            console.log("result: ", result)
-            this.imgResultAfterCompress = result;*/
-            /*console.warn(
-              `Compressed: ${result.substring(0, 50)}... (${
-                result.length
-              } characters)`
-            );
-            console.warn(
-              'Size in bytes is now:',
-              this.imageCompress.byteCount(result)
-            );
-          });*/
       let imgExtensions: Array<string> = [
         'image/png',
         'image/jpeg',
@@ -445,13 +428,33 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
         
         this.readAsBase64(fileUploaded).then((data) => {
           if (data.result.length < 2000000 + 594455) {
+            let ipfsResult = "";
+            this.CampaignService.upload(fileUploaded).subscribe(
+              (data: any) => {
+              if(data.data) {
+                ipfsResult = "ipfs:" + data.message.path
+                this.form.get('cover')?.setValue(ipfsResult);
+                this.form.get('coverSrc')?.setValue(ipfsResult);
+
+                this.CampaignService.updateOneById(this.form.value, this.draftData.id).subscribe((data: any) => {
+                  
+                  this.showImage = true;
+                  this.imageChangedEvent = event;
+                  this.isConformCover = true;
+                  this.sizeErrorCover = false;
+                });
+              }
+            }, (err: any) => {
+              console.log(err)
+            }
+            )
             //this.imageCompress
-         this.imageChangedEvent = event;
+         /*this.imageChangedEvent = event;
           
         this.isConformCover = true;
         this.sizeErrorCover = false;
             this.form.get('cover')?.setValue(data.result);
-          this.form.get('coverSrc')?.setValue(data.result);
+          this.form.get('coverSrc')?.setValue(data.result);*/
       
           } else {
             this.isConformCover = false;
@@ -492,10 +495,41 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
         this.picNameMobile = fileUploaded.name;
         this.extensionErrorCoverMobile = false;
         this.readAsBase64(fileUploaded).then((data) => {
+          
           if (data.result.length < 2000000 + 594455) {
-            // we add  594455 byte , because readAsBase64 add some size ( approximately 594455 byte ) to original size of the image
-            // compress to 25% size (mobile)
-            this.imageCompress
+            let ipfsResult = "";
+            this.CampaignService.upload(fileUploaded).subscribe(
+              (data: any) => {
+              if(data.data) {
+                ipfsResult = "ipfs:" + data.message.path
+                this.form.get('coverMobile')?.setValue(ipfsResult);
+                this.form.get('coverSrcMobile')?.setValue(ipfsResult);
+                this.CampaignService.updateOneById(this.form.value, this.draftData.id).subscribe((data: any) => {
+                  this.imageChangedEventMobile = event;
+                  this.isConformCoverMobile = true;
+                  this.showImageMobile = true;
+                  this.sizeErrorCoverMobile = false;
+                });
+                
+                
+                /*this.imageCompress
+                .compressFile(data.result, -2, 50, 25)
+                .then((result: DataUrl) => {console.log({result})
+        
+                console.log("data.result: ", result)
+                this.imageChangedEventMobile = event;
+                this.isConformCoverMobile = true;
+                this.showImageMobile = true;
+                this.sizeErrorCoverMobile = false;
+                this.form.get('coverMobile')?.setValue(ipfsResult);
+                this.form.get('coverSrcMobile')?.setValue(ipfsResult);
+          }).catch(e=> {console.log(e)})*/
+              }
+            }, (err: any) => {
+              console.log(err)
+            }
+            )
+            /*this.imageCompress
           .compressFile(data.result, -2, 50, 25)
           .then((result: DataUrl) => {console.log({result})
         
@@ -504,9 +538,9 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
           this.isConformCoverMobile = true;
           this.showImageMobile = true;
           this.sizeErrorCoverMobile = false;
-          this.form.get('coverMobile')?.setValue(result);
-          this.form.get('coverSrcMobile')?.setValue(result);
-          }).catch(e=> {console.log(e)})
+          //this.form.get('coverMobile')?.setValue(result);
+          //this.form.get('coverSrcMobile')?.setValue(result);
+          }).catch(e=> {console.log(e)})*/
           } else {
             this.imageChangedEvent = null;
             this.isConformCoverMobile = false;

@@ -65,6 +65,19 @@ export class CampaignHttpApiService {
         )
       );
   }
+
+  upload(file: File) {
+    let header = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+    const formData: FormData = new FormData();
+    formData.append('cover', file);
+    return this.http
+      .post(sattUrl + '/campaign/ipfs', formData,{
+        headers: header
+      });
+  }
   /*
      @link : /campaigns/:id
      @description: retrieves all the publisher identifiers of the campaign
