@@ -73,10 +73,6 @@ export class CampaignHttpApiService {
     });
     const formData: FormData = new FormData();
     formData.append('cover', file);
-    console.log({formData})
-    formData.forEach((value,key) => {
-      console.log(key+" "+value)
-    });
     return this.http
       .post(sattUrl + '/campaign/ipfs', formData,{
         headers: header
@@ -716,7 +712,6 @@ export class CampaignHttpApiService {
     values: any,
     id: string
   ): Observable<IApiResponse<ICampaignResponse> | null> {
-    console.log({values})
     return this.http
       .put<IApiResponse<ICampaignResponse>>(
         `${sattUrl}/campaign/update/${id}`,
