@@ -65,6 +65,23 @@ export class CampaignHttpApiService {
         )
       );
   }
+
+  upload(file: File) {
+    let header = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+    const formData: FormData = new FormData();
+    formData.append('cover', file);
+    console.log({formData})
+    formData.forEach((value,key) => {
+      console.log(key+" "+value)
+    });
+    return this.http
+      .post(sattUrl + '/campaign/ipfs', formData,{
+        headers: header
+      });
+  }
   /*
      @link : /campaigns/:id
      @description: retrieves all the publisher identifiers of the campaign
@@ -699,6 +716,7 @@ export class CampaignHttpApiService {
     values: any,
     id: string
   ): Observable<IApiResponse<ICampaignResponse> | null> {
+    console.log({values})
     return this.http
       .put<IApiResponse<ICampaignResponse>>(
         `${sattUrl}/campaign/update/${id}`,
