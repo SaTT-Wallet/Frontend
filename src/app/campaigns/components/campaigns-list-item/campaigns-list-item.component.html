@@ -287,7 +287,9 @@
     >
       <span class="btn-apply-text">{{
         'AllCampains.Augmenter budget' | translate
-      }}</span>
+      }}
+      <img src="assets/Images/blue-icons/ellipse.svg" *ngIf="newLink"/>
+    </span>
     </button>
   </div>
   <div class="buttons-wrapper" *ngIf="campaign.inProgress">

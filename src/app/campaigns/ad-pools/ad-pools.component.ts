@@ -57,7 +57,9 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
   intro2: string = '';
   intro3: string = '';
   intro4: string = '';
-
+  campaignsOwnesByUser: string[] =[""];
+  lastLogin: any;
+  newApplicant: any[]= [];
   // intro5: string = "";
   button: string = '';
   showModal = false;
@@ -107,6 +109,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.onBoarding();
     this.loadCampaigns();
+
   }
 
   campare(a:any,b:any) {
@@ -184,6 +187,8 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
         });
         const newCampaignsArray = concat(draftsArray, campaignsArray);
         this.campaignsList = newCampaignsArray;
+    
+        
         this.campaignsList2 = newCampaignsArray;
         this.campaignsList?.forEach((element: Campaign) => {
           if (
@@ -217,6 +222,10 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
 
           if (element.isOwnedByUser) {
             element.urlPicUser = this.user.userPicture;
+            this.campaignsOwnesByUser.push(element.id);  
+            this.getNew(element.id, element.isOwnedByUser)
+            
+            
           }
         });
         this.campaignsListStoreService.emitPageScroll();
@@ -233,6 +242,34 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
         // }
       });
     //   this.userPicture = this.user?.picLink ? this.user.picLink : this.sanitizer.bypassSecurityTrustUrl(objectURL)
+  }
+
+  getNew(elem1: any, elem2: any){
+   
+    this.campaignService.getAllPromsStats(
+      elem1,
+      elem2
+    )  .subscribe((data: any) => {
+      let newapp = false
+        
+      if (data.message === 'success' && data.data.allProms.length>0 ) {
+        let allProms = data.data.allProms;
+        this.lastLogin=this.tokenStorageService.getLastLogin();
+        
+        allProms.forEach((applicant: any)=>{
+          let comparaison = this.lastLogin <= applicant.createdAt;
+      
+          newapp = comparaison? true: false
+       
+         
+        
+        })
+     this.newApplicant.push(elem1, newapp)
+        
+      }
+    
+    })
+    
   }
   onScroll() {
     this.campaignsListStoreService.emitPageScroll();

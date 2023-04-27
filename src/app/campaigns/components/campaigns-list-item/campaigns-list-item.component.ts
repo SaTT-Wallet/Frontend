@@ -34,10 +34,15 @@ export class CampaignsListItemComponent implements OnInit {
   private calculRoi!: TemplateRef<any>;
   @Input() campaign = new Campaign();
   @Output() deleted = new EventEmitter();
+  @Input() newApplicant: any[]= [];
+  newLink: boolean = false;
   showSpinner = false;
   deletebutton: boolean = false;
   picUserUpdated: boolean = false;
+
+ 
   currencyName = '';
+ 
   private isDestroyed = new Subject();
 
   constructor(
@@ -53,11 +58,25 @@ export class CampaignsListItemComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+
+this.getNewApplicant()
     this.currencyName = this.campaign.currency.name;
     if (this.currencyName === 'SATTBEP20') {
       this.currencyName = 'SATT';
     }
   }
+
+  ngOnChanges() {
+    this.getNewApplicant()
+  }
+getNewApplicant(){
+  
+  for ( let i = 0; i < this.newApplicant.length-1; i++){
+    if(this.newApplicant[i]=== this.campaign.id){
+      this.newLink= this.newApplicant[i+1]
+    }
+  }
+}
 
   goToDetailsPage(id: string) {
     // const currentUrl = this.router.url;
