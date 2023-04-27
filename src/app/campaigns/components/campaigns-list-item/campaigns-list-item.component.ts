@@ -70,12 +70,13 @@ this.getNewApplicant()
     this.getNewApplicant()
   }
 getNewApplicant(){
-  
-  for ( let i = 0; i < this.newApplicant.length-1; i++){
-    if(this.newApplicant[i]=== this.campaign.id){
-      this.newLink= this.newApplicant[i+1]
-    }
+  this.newApplicant.forEach((applicant: any)=>{
+  if( applicant.idcampaign === this.campaign.id){
+    this.newLink = applicant.newapplicant;
   }
+   
+    
+  })
 }
 
   goToDetailsPage(id: string) {

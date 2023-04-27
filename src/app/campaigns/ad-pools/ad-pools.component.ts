@@ -59,7 +59,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
   intro4: string = '';
   campaignsOwnesByUser: string[] =[""];
   lastLogin: any;
-  newApplicant: any[]= [];
+  newApplicant: any[]= [{}];
   // intro5: string = "";
   button: string = '';
   showModal = false;
@@ -244,27 +244,26 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
     //   this.userPicture = this.user?.picLink ? this.user.picLink : this.sanitizer.bypassSecurityTrustUrl(objectURL)
   }
 
-  getNew(elem1: any, elem2: any){
+  getNew(idcampaign: any, isOwnedbyuser: any){
    
     this.campaignService.getAllPromsStats(
-      elem1,
-      elem2
+      idcampaign,
+      isOwnedbyuser
     )  .subscribe((data: any) => {
-      let newapp = false
+      let newapplicant = false
         
-      if (data.message === 'success' && data.data.allProms.length>0 ) {
+      if (data.message === 'success' && data.data.allProms ) {
         let allProms = data.data.allProms;
         this.lastLogin=this.tokenStorageService.getLastLogin();
         
         allProms.forEach((applicant: any)=>{
           let comparaison = this.lastLogin <= applicant.createdAt;
       
-          newapp = comparaison? true: false
+          newapplicant = comparaison? true: false
        
-         
-        
+      
         })
-     this.newApplicant.push(elem1, newapp)
+     this.newApplicant.push({idcampaign, newapplicant})
         
       }
     
