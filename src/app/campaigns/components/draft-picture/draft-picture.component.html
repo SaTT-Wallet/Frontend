@@ -129,10 +129,10 @@
             </span>
           </div>
           <ng-container *ngIf="this.form.controls.coverSrcMobile.value.includes('ipfs') && this.form.controls.coverSrcMobile.value.includes('data:image') && showImageMobile === true">
-            <img [src]="'https://ipfs.io/ipfs/'+this.form.controls.coverSrcMobile.value.substring(27,this.form.controls.coverSrcMobile.value.length)"/>
+            <img [src]="ipfsURL+this.form.controls.coverSrcMobile.value.substring(27,this.form.controls.coverSrcMobile.value.length)"/>
           </ng-container>
           <ng-container *ngIf="this.form.controls.coverSrcMobile.value.includes('ipfs') && !this.form.controls.coverSrcMobile.value.includes('data:image') && showImageMobile === true">
-            <img [src]="'https://ipfs.io/ipfs/'+this.form.controls.coverSrcMobile.value.substring(5,this.form.controls.coverSrcMobile.value.length)"/>
+            <img [src]="ipfsURL+this.form.controls.coverSrcMobile.value.substring(5,this.form.controls.coverSrcMobile.value.length)"/>
           </ng-container>
           <!--
             <ng-container *ngIf="!draftData.coverSrcMobile.includes('ipfs') && showImageMobile === true">
@@ -285,11 +285,11 @@
             </span>
           </div>
           <ng-container *ngIf="this.form.controls.coverSrc.value.includes('ipfs') && showImage === true && this.form.controls.coverSrc.value.includes('data:image')">
-            <img [src]="'https://ipfs.io/ipfs/'+this.form.controls.coverSrc.value.substring(27,this.form.controls.coverSrc.value.length)"/>
+            <img [src]="ipfsURL+this.form.controls.coverSrc.value.substring(27,this.form.controls.coverSrc.value.length)"/>
           </ng-container>
 
           <ng-container *ngIf="this.form.controls.coverSrc.value.includes('ipfs') && showImage === true && !this.form.controls.coverSrc.value.includes('data:image')">
-            <img [src]="'https://ipfs.io/ipfs/'+this.form.controls.coverSrc.value.substring(5,this.form.controls.coverSrc.value.length)"/>
+            <img [src]="ipfsURL+this.form.controls.coverSrc.value.substring(5,this.form.controls.coverSrc.value.length)"/>
           </ng-container>
 
 

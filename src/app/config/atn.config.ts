@@ -1,7 +1,7 @@
 import { Big } from 'big.js';
 import { environment as env } from '../../environments/environment';
 const sattUrl = env.API_URL;
-
+const ipfsURL = env.ipfsURL;
 const walletUrl = 'http://localhost:4200/#/';
 const bscan = env.bscan;
 const etherscan = env.etherscan;
@@ -876,6 +876,7 @@ export {
   socialMedia,
   cryptoNetwork,
   sattUrl,
+  ipfsURL,
   walletUrl,
   arrayCountries,
   GazConsumed,

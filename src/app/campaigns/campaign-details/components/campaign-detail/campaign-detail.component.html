@@ -17,25 +17,19 @@
     />
     <img
       [className]="campaign.cover.includes('ipfs') ? 'campaign-img desktopClass' : 'campaign-img desktopClass'"
-      [src]="campaign.cover.includes('ipfs') ? 'https://ipfs.io/ipfs/' + campaign.cover.substring(27, campaign.cover.length) : campaign.cover"
+      [src]="campaign.cover.includes('ipfs') ? ipfsURL + campaign.cover.substring(27, campaign.cover.length) : campaign.cover"
       alt="{{ campaign.title }}"
       *ngIf="campaign && campaign.cover"
     />
   
     
-    <!--
-      <img
-      class="campaign-img mobileClass"
-      src="https://ipfs.io/ipfs/QmSFuxE8eYgfCZgQsN19ZxSLYgSaHFzVTr1ywJ16prthkw"
-      alt="{{ campaign.title }}"
-    />
-    -->
+    
     
 
     
       <img
       [className]="campaign.coverSrcMobile.includes('ipfs') ? 'campaign-img mobileClass' :'campaign-img mobileClass'"
-      [src]="campaign.coverSrcMobile.includes('ipfs') ? 'https://ipfs.io/ipfs/' + campaign.coverSrcMobile.substring(27, campaign.coverSrcMobile.length) : campaign.coverSrcMobile"
+      [src]="campaign.coverSrcMobile.includes('ipfs') ? ipfsURL + campaign.coverSrcMobile.substring(27, campaign.coverSrcMobile.length) : campaign.coverSrcMobile"
       alt="{{ campaign.title }}"
     /> 
     

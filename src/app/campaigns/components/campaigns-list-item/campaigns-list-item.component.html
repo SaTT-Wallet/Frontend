@@ -79,14 +79,14 @@
       class="img-campaign ng-isolate-scope"
       alt=""
       loading="lazy"
-      [src]="campaign.cover.includes('ipfs') ? 'https://ipfs.io/ipfs/' + campaign.cover.substring(27, campaign.cover.length) : campaign.cover"
+      [src]="campaign.cover.includes('ipfs') ? ipfsURL + campaign.cover.substring(27, campaign.cover.length) : campaign.cover"
     />
     <img
       *ngIf="!!campaign.coverSrcMobile"
       class="img-campaign ng-isolate-scope"
       alt=""
       loading="lazy"
-      [src]="campaign.coverSrcMobile.includes('ipfs') ? 'https://ipfs.io/ipfs/' + campaign.coverSrcMobile.substring(27, campaign.coverSrcMobile.length) : campaign.coverSrcMobile"
+      [src]="campaign.coverSrcMobile.includes('ipfs') ? ipfsURL + campaign.coverSrcMobile.substring(27, campaign.coverSrcMobile.length) : campaign.coverSrcMobile"
     />
 
     <div

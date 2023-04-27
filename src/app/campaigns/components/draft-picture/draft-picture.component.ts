@@ -32,7 +32,7 @@ import {
   NgxImageCompressService,
   UploadResponse,
 } from 'ngx-image-compress';
-
+import { ipfsURL } from '@app/config/atn.config';
 declare var $: any;
 @Component({
   selector: 'app-draft-picture',
@@ -60,6 +60,7 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
   srcFile: any;
   srcFileMobile: any;
   srcFileLogo: any;
+  ipfsURL:string = ipfsURL;
   imageChangedEvent: any = '';
   imageChangedEventMobile: any = '';
   isImageCroppedSubject = new Subject<boolean>();

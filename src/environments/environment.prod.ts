@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
+  
   API_URL: 'https://api2.satt-token.com',
   url: 'https://dapp.satt.com/',
 
