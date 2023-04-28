@@ -10,6 +10,8 @@ const expiresIn = 'expires_in';
 const localLang = 'local';
 const progCampaign = 'ProgressCampaign';
 const userId = 'userId';
+const lastLogin ='lasLogin'
+const newLink='newLink'
 const idSn = 'idSn';
 const url = 'url';
 const phoneNumber = 'phoneNumber';
@@ -84,7 +86,12 @@ export class TokenStorageService {
   public saveUserEmail(userEmail: any) {
     this.localStorage.setItem('userEmail', userEmail);
   }
-
+public saveLastLogin(lastlog: any){
+  this.localStorage.setItem(lastLogin, lastlog);
+}
+public saveLinks(newlink: any){
+  this.localStorage.setItem(newLink, newlink);
+}
   public saveUrlCampaign(urlLink: any) {
     this.localStorage.removeItem(url);
     this.localStorage.setItem(url, urlLink);
@@ -106,6 +113,12 @@ export class TokenStorageService {
   }
   public getUserId() {
     return this.localStorage.getItem(userId);
+  }
+  public getLastLogin(){
+    return this.localStorage.getItem(lastLogin);
+  }
+  public getHaveNewLink(){
+    return this.localStorage.getItem(newLink);
   }
   public saveIdSn(id: string) {
     this.localStorage.setItem(idSn, id);

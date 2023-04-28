@@ -42,6 +42,7 @@ export class User {
   public visitsocialAccounts: any;
   public hasWallet: boolean;
   public toggle: boolean;
+  public lastLogin : any;
   new: string;
   error: any;
 
@@ -58,6 +59,7 @@ export class User {
     this.firstName = data.firstName || '';
     this.lastName = data.lastName || '';
     this.birthday = data.birthday ? new Date(data.birthday) : '';
+    this.lastLogin =data.updatedAt || '';
     this.phone = data.phone || '';
     this.address = data.address || '';
     this.zipCode = data.zipCode;
@@ -114,5 +116,9 @@ export class User {
   }
   public getUserId() {
     return this.idUser;
+  }
+  public getLastLogin(){
+  
+    return this.lastLogin;
   }
 }

@@ -383,6 +383,8 @@ getCookie(key: string){
         mergeMap(({ response, user }) => {
           this.tokenStorageService.setHeader();
           this.tokenStorageService.saveUserId(response.idUser);
+        
+          this.tokenStorageService.saveLastLogin(response.lastLogin);
           this.tokenStorageService.saveIdSn(response.idSn?.toString());
           this.idUser = Number(response.idUser);
 
@@ -693,6 +695,7 @@ getCookie(key: string){
           mergeMap(({ data, response }: { data: any; response: User }) => {
             this.tokenStorageService.setHeader();
             this.tokenStorageService.saveUserId(response.idUser);
+            this.tokenStorageService.saveLastLogin(response.lastLogin);
             this.tokenStorageService.saveIdSn(response.idSn.toString());
             this.idUser = Number(response.idUser);
 
@@ -988,6 +991,7 @@ getCookie(key: string){
         mergeMap((response: User | null) => {
           if (response) {
             this.tokenStorageService.saveUserId(response.idUser);
+            this.tokenStorageService.saveLastLogin(response.lastLogin);
             this.tokenStorageService.saveIdSn(response.idSn.toString());
             this.tokenStorageService.setItem('valid2FA', '');
             this.tokenStorageService.setItem('isAuthenticated', 'true');
