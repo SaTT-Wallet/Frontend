@@ -39,7 +39,51 @@
   letter-spacing: 1px;
   color: #1f2337;
 }
+.welcome_cover {
+  color: white;
+  background: linear-gradient(286.72deg, #00072b 32.94%, #4048ff 108.54%);
+  // background-image: url('~assets/Images/header-welcome-page-v2.svg');
+  // background-size: cover;
+  align-items: center;
+  // height: 100%;
+  // width: 100vw;
+  // height: 663px;
+}
 
+.welcome_title {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 65.0965px;
+  line-height: 110%;
+}
+
+.welcome_subtitle {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 120%;
+}
+
+.welcome_description_long {
+  align-items: center;
+  // text-align: center;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+}
+.welcome_description {
+  padding-top: 10%;
+  padding-left: 5%;
+  // height: 600px;
+}
+
+.welcome_video_moon {
+  padding-top: 10%;
+  height: 600px;
+}
 .lanche_text {
   font-style: normal;
   font-weight: 600;
@@ -136,6 +180,33 @@
 }
 
 @media (max-width: 767.98px) {
+  .welcome_title {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 110%;
+    margin-top: 10%;
+  }
+  .welcome_description {
+    padding-left: 7%;
+    padding-right: 7%;
+  }
+  .welcome_subtitle {
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 120%;
+  }
+  .welcome_description_long {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 130%;
+  }
+  .welcome_btn_launch {
+    width: auto;
+  }
+
   .lanche_text {
     font-size: 18px;
   }
@@ -147,13 +218,10 @@
     margin: 3%;
   }
   .btnStart {
-    width: 100% !important;
-    padding: 0;
-    margin: 0;
-    border-radius: 0;
-    border-bottom-left-radius: 30px;
-    border-bottom-right-radius: 30px;
-    height: 72px;
+    // width: 100% !important;
+
+    width: 152px !important;
+    height: 48px;
   }
   .btnInfo {
     display: none !important;
@@ -199,48 +267,6 @@
 //         gap: 30px !important;
 //     }
 // }
-
-.welcome_cover {
-  color: white;
-  background-image: url('~assets/Images/header-welcome-page-v2.svg');
-  background-size: cover;
-  align-items: center;
-  // width: 100vw;
-  // height: 663px;
-}
-
-.welcome_title {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 65.0965px;
-  line-height: 110%;
-}
-
-.welcome_subtitle {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 36px;
-  line-height: 120%;
-}
-
-.welcome_description_long {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-}
-.welcome_description {
-  padding-top: 10%;
-  padding-left: 5%;
-  height: 600px;
-}
-
-.welcome_video_moon {
-  padding-top: 10%;
-  height: 600px;
-}
 
 .bg {
   position: absolute;
@@ -494,6 +520,15 @@
   }
   .bg-subtitle {
     font-size: 18px;
+  }
+  .welcome_footer_lunch {
+    color: #ffffff;
+    background-size: cover;
+    height: 717px;
+    background-image: url('~assets/Images/footer-lunch-sm.svg');
+  }
+  .welcome_footer_title {
+    font-size: 28px;
   }
 }
 
