@@ -20,6 +20,7 @@ import { mergeMap, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { WalletStoreService } from '@app/core/services/wallet-store.service';
+import { ipfsURL } from '@app/config/atn.config';
 // TODO: missing budget property in the data sent by backend /v2/campaigns
 
 @Component({
@@ -30,14 +31,20 @@ import { WalletStoreService } from '@app/core/services/wallet-store.service';
 })
 export class CampaignsListItemComponent implements OnInit {
   onDestroy$ = new Subject();
+  ipfsURL: string = ipfsURL;
   @ViewChild('calculRoi', { static: false })
   private calculRoi!: TemplateRef<any>;
   @Input() campaign = new Campaign();
   @Output() deleted = new EventEmitter();
+  @Input() newApplicant: any[]= [];
+  newLink: boolean = false;
   showSpinner = false;
   deletebutton: boolean = false;
   picUserUpdated: boolean = false;
+
+ 
   currencyName = '';
+ 
   private isDestroyed = new Subject();
 
   constructor(
@@ -53,11 +60,26 @@ export class CampaignsListItemComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+
+this.getNewApplicant()
     this.currencyName = this.campaign.currency.name;
     if (this.currencyName === 'SATTBEP20') {
       this.currencyName = 'SATT';
     }
   }
+
+  ngOnChanges() {
+    this.getNewApplicant()
+  }
+getNewApplicant(){
+  this.newApplicant.forEach((applicant: any)=>{
+  if( applicant.idcampaign === this.campaign.id){
+    this.newLink = applicant.newapplicant;
+  }
+   
+    
+  })
+}
 
   goToDetailsPage(id: string) {
     // const currentUrl = this.router.url;

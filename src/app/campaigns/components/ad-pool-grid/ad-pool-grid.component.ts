@@ -46,7 +46,9 @@ export class AdPoolGridComponent implements OnInit, OnChanges {
     private toastr: ToastrService,
     private convertFromWei: ConvertFromWei,
     private campaignsFacade: CampaignsService
-  ) {}
+  ) {
+    
+  }
 
   ngOnInit(): void {
     this.campaignsFacade.campaignsSortItem$
@@ -83,6 +85,7 @@ export class AdPoolGridComponent implements OnInit, OnChanges {
   showBlock() {}
 
   haveInstagram(campaign: any): boolean {
+    
     const oracles: any[] = [
       ...campaign.bounties.map((bounty: any) => bounty.oracle),
       ...campaign.ratios.map((ratio: any) => ratio.oracle)

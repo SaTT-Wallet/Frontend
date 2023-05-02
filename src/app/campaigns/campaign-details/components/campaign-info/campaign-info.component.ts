@@ -136,6 +136,8 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
   fourthscroldisable: boolean = false;
   fithscroldisable: boolean = false;
   campaignLen: boolean = true;
+  newApplicant: boolean =false;
+  lastLogin: any;
   followers = '';
   displayShowMoreLessButton: boolean = false;
   urlImage: any;
@@ -210,6 +212,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
   copyText(textToCopy: string) {
     this.clipboard.copy(textToCopy);
   }
+
   onChangeTab(tab: 'info' | 'gains' | 'stat') {
     if (
       this.campaign.isOwnedByUser ||
@@ -323,6 +326,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngOnInit(): void {
+      
     this.CampaignService.stat.subscribe((res) => {
       if (res === true) {
         this.navigationTab = 'stat';
@@ -520,6 +524,10 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
     this.earnings = this.allProms;
+    this.lastLogin=this.tokenStorageService.getLastLogin();
+    this.newApplicant = this.allProms.length >0 ? this.newbies(this.allProms): false;
+   
+    
     if (!this.campaign.isOwnedByUser && this.earnings?.length) {
       this.earnings.forEach((item: any) => {
         if (
@@ -603,6 +611,23 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
         this.totalInvested.times(crypto[this.currencyName].price).toFixed(2)
       )
     );
+  }
+  newbies(allProms :any){
+   
+    let newapp = false
+    allProms.forEach((applicant: any)=>{
+      let comparaison = this.lastLogin <= applicant.createdAt;
+  
+      newapp = comparaison? true: false
+   
+     
+    
+    })
+ 
+    
+    return newapp
+    
+    
   }
 
   /**

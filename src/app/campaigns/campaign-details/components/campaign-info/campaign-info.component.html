@@ -71,7 +71,9 @@
           [ngClass]="{ active: this.activeTab === 'gains' }"
           (click)="onChangeTab('gains')"
         >
-          {{ titleTab | translate }}</label
+          {{ titleTab | translate }}  
+          <img *ngIf="titleTab !== 'Gains' && newApplicant" src="assets/Images/blue-icons/ellipse.svg"/>
+          </label
         >
         <div
           class="nav-link show-mobile"
@@ -1163,7 +1165,7 @@
         [totalInvestedInUsD]="totalInvestedInUsD"
         [gains]="gainsEarned"
         [gainsUSD]="gainsEarnedInUsD"
-      >
+      > 
       </app-campaign-detail-gains>
     </ng-container>
     <ng-container *ngIf="navigationTab === 'stat'">

@@ -36,7 +36,7 @@ import { WindowRefService } from '@core/windowRefService';
 import * as FileSaver from 'file-saver';
 import JSZip from 'jszip';
 import { Location } from '@angular/common';
-
+import {ipfsURL } from '@config/atn.config'
 declare var $: any;
 @Component({
   selector: 'app-campaign-detail',
@@ -49,6 +49,7 @@ export class CampaignDetailComponent implements OnInit {
   @ViewChild('transactionPassword', { static: false })
   public transactionPassword!: TemplateRef<any>;
   scrolling = false;
+  ipfsURL: string = ipfsURL;
   successMessage: string = '';
   loadingButton: boolean = false;
   inTop = true;

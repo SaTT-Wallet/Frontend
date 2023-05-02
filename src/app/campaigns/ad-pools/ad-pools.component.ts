@@ -57,7 +57,9 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
   intro2: string = '';
   intro3: string = '';
   intro4: string = '';
-
+  campaignsOwnesByUser: string[] =[""];
+  lastLogin: any;
+  newApplicant: any[]= [{}];
   // intro5: string = "";
   button: string = '';
   showModal = false;
@@ -107,6 +109,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.onBoarding();
     this.loadCampaigns();
+
   }
 
   campare(a:any,b:any) {
@@ -176,6 +179,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
         //   item.urlPicUser=this.user.userPicture
         // })
         //this.campaignsList = this.sortList(campaigns);
+        
         const draftsArray = campaigns.filter((element: Campaign) => element.type === "draft");
         const campaignsArray = campaigns.filter((element: Campaign) => element.type != "draft");
         draftsArray.sort((a: any, b: any) => {
@@ -183,6 +187,8 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
         });
         const newCampaignsArray = concat(draftsArray, campaignsArray);
         this.campaignsList = newCampaignsArray;
+    
+        
         this.campaignsList2 = newCampaignsArray;
         this.campaignsList?.forEach((element: Campaign) => {
           if (
@@ -216,8 +222,16 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
 
           if (element.isOwnedByUser) {
             element.urlPicUser = this.user.userPicture;
+            this.campaignsOwnesByUser.push(element.id);  
+            this.getNew(element.id, element.isOwnedByUser)
+            
+            
           }
         });
+        this.campaignsListStoreService.emitPageScroll();
+        
+        
+        
         // if(this.campaignsList.length ===0){
         //   this.show = true
         // }else{
@@ -228,6 +242,33 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
         // }
       });
     //   this.userPicture = this.user?.picLink ? this.user.picLink : this.sanitizer.bypassSecurityTrustUrl(objectURL)
+  }
+
+  getNew(idcampaign: any, isOwnedbyuser: any){
+   
+    this.campaignService.getAllPromsStats(
+      idcampaign,
+      isOwnedbyuser
+    )  .subscribe((data: any) => {
+      let newapplicant = false
+        
+      if (data.message === 'success' && data.data.allProms ) {
+        let allProms = data.data.allProms;
+        this.lastLogin=this.tokenStorageService.getLastLogin();
+        
+        allProms.forEach((applicant: any)=>{
+          let comparaison = this.lastLogin <= applicant.createdAt;
+      
+          newapplicant = comparaison? true: false
+       
+      
+        })
+     this.newApplicant.push({idcampaign, newapplicant})
+        
+      }
+    
+    })
+    
   }
   onScroll() {
     this.campaignsListStoreService.emitPageScroll();
@@ -303,7 +344,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
         )
         .subscribe(
           (campaigns: Campaign[]) => {
-            console.log({campaigns})
+            
             if (campaigns.length === 0) {
               this.isLoading = false;
             }
@@ -328,6 +369,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
                   .toFixed(2);
               }
             });
+            this.campaignsListStoreService.emitPageScroll();
             // this.campaignsList = campaigns.filter(
             //   (campaign: Campaign) => campaign.isDraft === false
             // );
@@ -337,13 +379,13 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
           }
         );
     }
-    this.campaignService.loadDataAddPoolWhenEndScroll
-      .pipe(debounceTime(450), takeUntil(this.onDestoy$))
+    /*this.campaignService.loadDataAddPoolWhenEndScroll
+      .pipe(debounceTime(50), takeUntil(this.onDestoy$))
       .subscribe(() => {
         this.campaignsListStoreService.emitPageScroll();
-      });
+      });*/
 
-    this.campaignsListStoreService.loadNextPage({}, true);
+    //this.campaignsListStoreService.loadNextPage({}, true);
   }
 
   ngOnDestroy(): void {
