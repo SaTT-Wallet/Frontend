@@ -79,14 +79,14 @@
       class="img-campaign ng-isolate-scope"
       alt=""
       loading="lazy"
-      [src]="campaign.cover"
+      [src]="campaign.cover.includes('ipfs') ? ipfsURL + campaign.cover.substring(27, campaign.cover.length) : campaign.cover"
     />
     <img
       *ngIf="!!campaign.coverSrcMobile"
       class="img-campaign ng-isolate-scope"
       alt=""
       loading="lazy"
-      [src]="campaign.coverSrcMobile"
+      [src]="campaign.coverSrcMobile.includes('ipfs') ? ipfsURL + campaign.coverSrcMobile.substring(27, campaign.coverSrcMobile.length) : campaign.coverSrcMobile"
     />
 
     <div
@@ -287,7 +287,9 @@
     >
       <span class="btn-apply-text">{{
         'AllCampains.Augmenter budget' | translate
-      }}</span>
+      }}
+      <img src="assets/Images/blue-icons/ellipse.svg" *ngIf="newLink"/>
+    </span>
     </button>
   </div>
   <div class="buttons-wrapper" *ngIf="campaign.inProgress">

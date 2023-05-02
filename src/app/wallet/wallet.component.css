@@ -42,50 +42,53 @@ input:-webkit-autofill:active {
   margin-top: -2%;
 }
 .error_input {
+  width: 150%;
   margin-left: 2.2em;
   text-align: left !important;
-  padding-top: 0.5em;
+  padding-top: 1.1em;
   font-family: 'Raleway';
   font-style: normal;
   font-weight: 300;
   font-size: 16px;
-  line-height: 130%;
+  line-height: 0% !important;
   letter-spacing: 0.03em;
-  color: #F52079 !important
+  color: #f52079 !important;
 }
-
-
 
 .success_input {
+  width: 150%;
   margin-left: 2.2em;
   text-align: left !important;
-  padding-top: 0.5em;
+  padding-top: 1.1em;
   font-family: 'Raleway';
   font-style: normal;
   font-weight: 300;
   font-size: 16px;
-  line-height: 130%;
+  line-height: 0% !important;
   letter-spacing: 0.03em;
-  color: #1F2337 !important;
+  color: #1f2337 !important;
 }
 
-#last_error_input{
+#last_error_input {
   padding-bottom: 1.5em;
 }
 
-#warning_White{
+#warning_White {
+  width: 150% !important;
   position: relative;
   bottom: 3em;
 }
 .condition_img {
   position: relative;
-  top:2px;
+  top: 2px;
   width: 1.5em;
   float: left;
 }
-#missMatch_warning{
-  width: 75%;
+.missMatch_warning {
+  margin-left: 1em !important ;
+  width: 90%;
   margin: 0;
+  padding-left: 0px;
   padding-top: 0.5em;
   font-family: 'Raleway';
   font-style: normal;
@@ -93,11 +96,11 @@ input:-webkit-autofill:active {
   font-size: 14px;
   line-height: 130%;
   letter-spacing: 0.03em;
-  color: #F52079 !important
+  color: #f52079 !important;
 }
-.warningsContainer{
+.warningsContainer {
   margin-left: 5%;
-  width:50%;
+  width: 50%;
 }
 .rulesContainer {
   width: 83%;
@@ -171,8 +174,6 @@ input:-webkit-autofill:active {
     width: 50% !important;
   }
 }
-
-
 
 /* @media only screen and (max-width: 400px) {
   .btn-blue {
@@ -269,6 +270,7 @@ input:-webkit-autofill:active {
   border-radius: 15px;
 }
 .textpwd {
+  line-height: 130% !important;
   font-size: 22px !important;
   font-family: 'Poppins';
   color: #f52079;
@@ -2203,7 +2205,10 @@ p {
 }
 
 .div-input-icon.error {
-  border: 1px solid #f52079;
+  border: 1px solid #f52079 !important;
+}
+.div-input-icon.errorMsg {
+  border: 1px solid #f52079 !important;
 }
 
 @media (max-width: 424px) {

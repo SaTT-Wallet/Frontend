@@ -64,6 +64,7 @@ export class MonetizeTelegramAccountComponent implements OnInit {
           this.user = new User(response);
           if (response.idSn !== 0) {
             this.tokenStorageService.saveUserId(response._id);
+            this.tokenStorageService.saveLastLogin(response.updatedAt);
           }
         }
       });

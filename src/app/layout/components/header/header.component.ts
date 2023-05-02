@@ -473,7 +473,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
               this.tokenStorageService.setShowPopUp('true');
             }
             this.user = new User(data);
-            this.tokenStorageService.saveUserId(data.idUser);
+            this.tokenStorageService.saveUserId(data.idUser);    
+            this.tokenStorageService.saveLastLogin(data.lastLogin);
             this.tokenStorageService.saveIdSn(data.idSn);
             return this.walletFacade.wallet$;
           }
