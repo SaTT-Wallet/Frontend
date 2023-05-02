@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   Component,
   ElementRef,
@@ -17,7 +18,11 @@ import { ChartDataSets, ChartType } from 'chart.js';
 import { Big } from 'big.js';
 import { WalletStoreService } from '@core/services/wallet-store.service';
 
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators
+} from '@angular/forms';
 import {
   pattContact,
   pattEmail,
@@ -83,10 +88,8 @@ export class WalletComponent implements OnInit, OnDestroy {
   @ViewChild('modalMaintenance', { static: false })
   private modalMaintenance!: TemplateRef<any>;
 
-  @ViewChild('setPwdTransactionModal', { static: false })
+  @ViewChild('setPwdTransactionModal', { static: true })
   private setPwdTransactionModal!: TemplateRef<any>;
-
-
 
   @ViewChild('tronWalletCreatedSuccessModal', { static: false })
   private tronWalletCreatedSuccessModal!: TemplateRef<any>;
@@ -108,8 +111,16 @@ export class WalletComponent implements OnInit, OnDestroy {
   onDestroy$ = new Subject();
   myModal: any;
   buttonClick: Boolean = false;
+  urlImgCondition = '';
+  color: any;
   show = false;
-  isV1: Boolean =  localStorage.getItem('wallet_version') === 'v1';
+  successUpper = false;
+  successLower = false;
+  successNumber = false;
+  successSpecial = false;
+  successWhitespaces = false;
+  successLength = false;
+  isV1: Boolean = localStorage.getItem('wallet_version') === 'v1';
   lineChartDataMonth: ChartDataSets[] = [
     {
       data: [
@@ -372,7 +383,7 @@ export class WalletComponent implements OnInit, OnDestroy {
       borderWidth: 0,
       // backgroundColor: 'rgba(255, 255, 255, 0.3)',
       // backgroundColor: ' rgba(0, 0, 0, 0.1)',
-      backgroundColor:  '#4048FF',
+      backgroundColor: '#4048FF',
       // borderColor: 'rgba(255, 255, 255, 0.3)',
       // pointBackgroundColor: "#fff",
       pointBorderColor: '#0062ff',
@@ -596,7 +607,7 @@ export class WalletComponent implements OnInit, OnDestroy {
       Math?.max(...weeklyBalances) * 2;
   }
 
-  fillChart(data: any) {    
+  fillChart(data: any) {
     let x: any = this.lineChartDataDaily[0]?.data;
     let y: any = this.lineChartDataDaily[0]?.data;
     let r: any = this.lineChartLabelsDaily;
@@ -734,27 +745,126 @@ export class WalletComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnInit(): void {
-if(this.isV1){
-  this.lineChartColors[0].backgroundColor = '#696DE4'
-}else{this.lineChartColors[0].backgroundColor = '#4048FF'}
-this.formUpdateTransactionPassword.controls['confirmPassword'].disable();
 
-this.formUpdateTransactionPassword
-  .get('password')
-  ?.valueChanges.pipe(takeUntil(this.onDestroy$))
-  .subscribe((values2) => {
-    if (
-      values2 === '' ||
-      values2 == null ||
-      this.formUpdateTransactionPassword.get('password')?.invalid
-    ) {
-      this.formUpdateTransactionPassword.get('confirmPassword')?.reset();
-      this.formUpdateTransactionPassword.controls['confirmPassword'].disable();
+
+
+  checkPasswordLength(length: number): string {
+    return (
+      (length >= 8 && '../../assets/Images/sucessCondition.svg') ||
+      '../../assets/Images/alertCondition.svg'
+    );
+  }
+
+  checkPasswordUpper(success: boolean): string {
+    return (
+      (success && '../../assets/Images/sucessCondition.svg') ||
+      '../../assets/Images/alertCondition.svg'
+    );
+  }
+
+  checkPasswordLower(success: boolean): string {
+    return (
+      (success && '../../assets/Images/sucessCondition.svg') ||
+      '../../assets/Images/alertCondition.svg'
+    );
+  }
+
+  checkPasswordNumber(success: boolean ): string {
+    return (
+      (success && '../../assets/Images/sucessCondition.svg') ||
+      '../../assets/Images/alertCondition.svg'
+    );
+  }
+
+  checkPasswordSpecial(success: boolean ): string {
+    return (
+      (success && '../../assets/Images/sucessCondition.svg') ||
+      '../../assets/Images/alertCondition.svg'
+    );
+  }
+
+
+  checkPasswordWhite(success: boolean ): string {
+    return (
+      (success && '../../assets/Images/sucessCondition.svg') ||
+      '../../assets/Images/alertCondition.svg'
+    );
+  }
+
+  // checkPasswordCriteria(criteria: string, value: string): string {
+  //   switch(criteria) {
+  //     case 'length':
+  //       return (value.length >= 8 && '../../assets/Images/sucessCondition.svg') || '../../assets/Images/alertCondition.svg';
+  //     case 'upper':
+  //       return (/[A-Z]/.test(value) && '../../assets/Images/sucessCondition.svg') || '../../assets/Images/alertCondition.svg';
+  //     case 'lower':
+  //       return (/[a-z]/.test(value) && '../../assets/Images/sucessCondition.svg') || '../../assets/Images/alertCondition.svg';
+  //     case 'number':
+  //       return (/\d/.test(value) && '../../assets/Images/sucessCondition.svg') || '../../assets/Images/alertCondition.svg';
+  //     case 'special':
+  //       return (/[^A-Za-z0-9]/.test(value) && '../../assets/Images/sucessCondition.svg') || '../../assets/Images/alertCondition.svg';
+  //     case 'white':
+  //       return (!/\s/.test(value) && '../../assets/Images/sucessCondition.svg') || '../../assets/Images/alertCondition.svg';
+  //     default:
+  //       return '../../assets/Images/alertCondition.svg';
+  //   }
+  // }
+
+
+  // checkRule(success: boolean, image: string): string {
+  //   if (success) {
+  //     this.urlImgCondition = '../../assets/Images/successCondition.svg';
+  //   } else {
+  //     this.urlImgCondition = image;
+  //   }
+  //   return this.urlImgCondition;
+  // }
+
+  ngOnInit(): void {
+    // this.modalService.open(this.setPwdTransactionModal, {
+    //   backdrop: 'static',
+    //   keyboard: false
+    // });
+    if (this.isV1) {
+      this.lineChartColors[0].backgroundColor = '#696DE4';
     } else {
-      this.formUpdateTransactionPassword.controls['confirmPassword'].enable();
+      this.lineChartColors[0].backgroundColor = '#4048FF';
     }
-  });
+    this.formUpdateTransactionPassword.controls['confirmPassword'].disable();
+
+    this.formUpdateTransactionPassword
+      .get('password')
+      ?.valueChanges.pipe(takeUntil(this.onDestroy$))
+      .subscribe((pass: string) => {
+        const regexUpper = /[A-Z]/g;
+        const regexLower = /[a-z]/g;
+        const regexNumber = /[0-9]+/g;
+        const regexSpecial = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+        const regexWhitespaces = /\s/;
+
+        this.successUpper = pass.match(regexUpper) != null;
+        this.successLower = pass.match(regexLower) != null;
+        this.successNumber = pass.match(regexNumber) != null;
+        this.successSpecial = pass.match(regexSpecial) != null;
+        this.successWhitespaces = pass.match(regexWhitespaces) == null;
+        
+        if (
+          pass === '' ||
+          pass == null ||
+          this.formUpdateTransactionPassword.get('password')?.invalid
+        ) {
+        
+          this.formUpdateTransactionPassword.get('confirmPassword')?.reset();
+          this.formUpdateTransactionPassword.controls[
+            'confirmPassword'
+          ].disable();
+        } else {
+          this.formUpdateTransactionPassword.controls[
+            'confirmPassword'
+          ].enable();
+        }
+
+      });
     //creation modal maintenance
     // this.modalService.open(this.modalMaintenance, {
     //   backdrop: 'static',
@@ -763,7 +873,7 @@ this.formUpdateTransactionPassword
     // creation modal maintenance
 
     this.loadingPopUp = false;
-     this.migrate = this.tokenStorageService.getModaleMigrate();
+    this.migrate = this.tokenStorageService.getModaleMigrate();
     //this.getScreenHeight = window.innerHeight;
     this.hasWalletV2 = false;
     this.verifyUserWalletV2();
@@ -783,7 +893,6 @@ this.formUpdateTransactionPassword
       .getAllWallet()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((data: any) => {
-  
         this.existV1 = data.data.address;
         if (this.existV1 === null) {
           this.height = '250px';
@@ -831,17 +940,16 @@ this.formUpdateTransactionPassword
     //this.verifyOnBoarding();
     this.verifyOnBoarding();
     setTimeout(() => {
-      if (this.hasWalletV2
+      if (
+        this.hasWalletV2
         // && this.migrate === 'close'
-      ) this.getDetails();
+      )
+        this.getDetails();
     }, 5500);
 
     if (!this.loadingPopUp) {
       setTimeout(() => {
-       
-        if (this.hasWalletV2 &&
-           this.migrate === 'open' &&
-            this.show) {
+        if (this.hasWalletV2 && this.migrate === 'open' && this.show) {
           //     this.modalService.open(this.setPwdTransactionModal, {
           //   backdrop: 'static',
           //   keyboard: false
@@ -866,9 +974,9 @@ this.formUpdateTransactionPassword
       });
     }
   }
-  closeModaleMaintenace() {
-    this.closeModal(this.modalMaintenance)
 
+  closeModaleMaintenace() {
+    this.closeModal(this.modalMaintenance);
   }
   //Create WALLET V2
   createWalletV2() {
@@ -880,33 +988,30 @@ this.formUpdateTransactionPassword
         catchError((err) => {
           this.buttonClick = false;
           if (err.error.error === 'same transaction pass ') {
-            this.walletV2ErrorMessage = 'Do not use the same old transaction password';
-            this.wrongpassword = true
+            this.walletV2ErrorMessage =
+              'Do not use the same old transaction password';
+            this.wrongpassword = true;
             setTimeout(() => {
               this.WalletPasswordTransaction = '';
               this.walletV2ErrorMessage = '';
-              this.wrongpassword = false
-            
+              this.wrongpassword = false;
             }, 3000);
           } else if (err.error.error === 'same password') {
             this.walletV2ErrorMessage = 'Do not use the login password';
-            this.wrongpassword = true
+            this.wrongpassword = true;
             setTimeout(() => {
               this.WalletPasswordTransaction = '';
               this.walletV2ErrorMessage = '';
-              this.wrongpassword = false
-            
+              this.wrongpassword = false;
             }, 3000);
-          }
-          else if (err.error.error === 'Wallet already exist') {
+          } else if (err.error.error === 'Wallet already exist') {
             this.walletV2ErrorMessage = 'Wallet already exist';
 
             setTimeout(() => {
               this.closeModal(this.createWalletV2Modal);
             }, 2000);
-          } 
-
-          /*else if (err.error.error === 'Key derivation failed - possibly wrong password'){
+          } else {
+            /*else if (err.error.error === 'Key derivation failed - possibly wrong password'){
             this.wrongpassword = true;
             this.walletV2ErrorMessage ='Wrong password, please try again';
             setTimeout(
@@ -919,7 +1024,6 @@ this.formUpdateTransactionPassword
             );
             
           }*/
-          else {
             this.walletV2ErrorMessage =
               'Something went wrong please try again!';
           }
@@ -942,14 +1046,14 @@ this.formUpdateTransactionPassword
           this.wrongpassword = true;
           this.walletV2ErrorMessage =
             response?.data?.error ===
-              'Key derivation failed - possibly wrong password'
+            'Key derivation failed - possibly wrong password'
               ? 'Wrong password, please try again'
               : response?.data?.error;
           setTimeout(
             () => (
               (this.walletV2ErrorMessage = ''),
               (this.WalletPasswordTransaction = ''),
-              ( this.wrongpassword = false)
+              (this.wrongpassword = false)
             ),
             3000
           );
@@ -963,10 +1067,10 @@ this.formUpdateTransactionPassword
             this.existV2 = true;
             this.existV1 = true;
             this.versionText = 'New Wallet';
-             this.modalService.open(this.migration, {
-                backdrop: 'static',
-                keyboard: false
-              })
+            this.modalService.open(this.migration, {
+              backdrop: 'static',
+              keyboard: false
+            });
           } else {
             //wrong
             // this.closeModal(this.createWalletV2Modal)
@@ -975,10 +1079,12 @@ this.formUpdateTransactionPassword
       });
   }
 
-imageFun() {
- return  !this.wrongpassword && '../../../assets/Images/Kep-password.svg' || '../../../assets/Images/Kep-passwordFalse.svg';
-   
-}
+  imageFun() {
+    return (
+      (!this.wrongpassword && '../../../assets/Images/Kep-password.svg') ||
+      '../../../assets/Images/Kep-passwordFalse.svg'
+    );
+  }
 
   verifysign() {
     this.walletV2ErrorMessage = '';
@@ -989,31 +1095,26 @@ imageFun() {
         catchError((err) => {
           this.buttonClick = false;
 
-            this.walletV2ErrorMessage =
-            'Wrong password, please try again';
-            this.wrongpassword = true;
-            setTimeout(
-              () => (
-                (this.walletV2ErrorMessage = ''),
-                ( this.wrongpassword = false)
-              ),
-              3000
-            );
+          this.walletV2ErrorMessage = 'Wrong password, please try again';
+          this.wrongpassword = true;
+          setTimeout(
+            () => (
+              (this.walletV2ErrorMessage = ''), (this.wrongpassword = false)
+            ),
+            3000
+          );
           return of(null);
         })
       )
       .subscribe((response: any) => {
         this.buttonClick = false;
-          if (
-            response?.code === 200 
-          ) {
-            // this.ngOnInit();
-            this.closeModal(this.createWalletV2Modal);
-             this.modalService.open(this.setPwdTransactionModal, {
-                backdrop: 'static',
-                keyboard: false
-              })
- 
+        if (response?.code === 200) {
+          // this.ngOnInit();
+          this.closeModal(this.createWalletV2Modal);
+          this.modalService.open(this.setPwdTransactionModal, {
+            backdrop: 'static',
+            keyboard: false
+          });
         }
       });
   }
@@ -1097,7 +1198,7 @@ imageFun() {
               this.tokenStorageService.saveTronWallet(data.data.tronAddress);
               this.tokenStorageService.saveWalletBtc(data.data.btcAddress);
               this.isV1 = true;
-              this.lineChartColors[0].backgroundColor = '#696DE4'
+              this.lineChartColors[0].backgroundColor = '#696DE4';
             } else {
               this.versionText = 'Old Wallet';
               this.height = '250px';
@@ -1106,17 +1207,15 @@ imageFun() {
               this.tokenStorageService.saveIdWallet(data.data.addressV2);
               this.tokenStorageService.saveTronWallet(data.data.tronAddressV2);
               this.tokenStorageService.saveWalletBtc(data.data.btcAddressV2);
-              this.isV1 = false
-              this.lineChartColors[0].backgroundColor = '#4048FF'
-              
+              this.isV1 = false;
+              this.lineChartColors[0].backgroundColor = '#4048FF';
             }
-          
-        
+
             this.walletStoreService.getCryptoList();
             this.walletStoreService.getTotalBalance();
           });
       }
-    } catch (error) { }
+    } catch (error) {}
   }
 
   public makeAnimation(key: string): void {
@@ -1152,12 +1251,10 @@ imageFun() {
         this.totalAmount = data;
         this.show =
           Number(this.totalAmount) > 0 &&
-            localStorage.getItem('wallet_version') === 'v1'
+          localStorage.getItem('wallet_version') === 'v1'
             ? true
             : false;
 
-            
-    
         /*if (this.show && this.hasWalletV2 && this.migrate === 'open') {
           
           this.openModal(this.migration);
@@ -1303,7 +1400,6 @@ imageFun() {
   }
 
   verifyUserWalletV2() {
- 
     this.walletFacade
       .checkUserWalletV2()
       .pipe(takeUntil(this.onDestoy$))
@@ -1319,12 +1415,12 @@ imageFun() {
             });
           } else {
             this.hasWalletV2 = true;
-            
+
             localStorage.setItem('existV2', 'true');
           }
 
-          this.existV2 =res.data ;
-        },
+          this.existV2 = res.data;
+        }
         // () => {
         //   this.hasWalletV2 = false;
         // }
@@ -1451,92 +1547,88 @@ imageFun() {
     this.hideRedBloc = this.tokenStorageService.getHideRedBloc();
   }
 
+  //   updateTransactionPassword() {
 
-//   updateTransactionPassword() {
-  
-//     this.showSpinnerTransactionPassword = true;
-//     this.transactionPasswordWrong = '';
-//     this.transactionPasswordSuccess = '';
-//  let local = localStorage.getItem('oldPasss')
-//     let oldpass = local || ''
-//     let newpass = this.formUpdateTransactionPassword.get('password')?.value;
+  //     this.showSpinnerTransactionPassword = true;
+  //     this.transactionPasswordWrong = '';
+  //     this.transactionPasswordSuccess = '';
+  //  let local = localStorage.getItem('oldPasss')
+  //     let oldpass = local || ''
+  //     let newpass = this.formUpdateTransactionPassword.get('password')?.value;
 
+  //     if (this.formUpdateTransactionPassword.valid) {
+  //       if (oldpass === newpass) {
+  //         this.transactionPasswordWrong = 'profile.newPass';
+  //         this.showSpinnerTransactionPassword = false;
+  //         setTimeout(() => {
+  //           this.transactionPasswordWrong = '';
+  //         }, 3000);
+  //       } else {
+  //         this.walletFacade.resetTransactionPassword(oldpass, newpass)
+  //         .subscribe(
+  //           (res: any) => {
+  //             this.showSpinnerTransactionPassword = false;
+  //             if(res.code == 200 && res.message === "success") {
+  //               this.transactionPasswordSuccess = "you have successfully changed your password";
+  //               this.closeModal(this.setPwdTransactionModal);
+  //       //         this.modalService.open(this.migration, {
+  //       //    backdrop: 'static',
+  //       //    keyboard: false
+  //       //  });
+  //               setTimeout(() => {
+  //                 this.transactionPasswordSuccess = "";
 
+  //               }, 2000)
+  //             }
 
-//     if (this.formUpdateTransactionPassword.valid) {
-//       if (oldpass === newpass) {
-//         this.transactionPasswordWrong = 'profile.newPass';
-//         this.showSpinnerTransactionPassword = false;
-//         setTimeout(() => {
-//           this.transactionPasswordWrong = '';
-//         }, 3000);
-//       } else {
-//         this.walletFacade.resetTransactionPassword(oldpass, newpass)
-//         .subscribe(
-//           (res: any) => {
-//             this.showSpinnerTransactionPassword = false;
-//             if(res.code == 200 && res.message === "success") {
-//               this.transactionPasswordSuccess = "you have successfully changed your password";
-//               this.closeModal(this.setPwdTransactionModal);
-//       //         this.modalService.open(this.migration, {
-//       //    backdrop: 'static',
-//       //    keyboard: false
-//       //  });
-//               setTimeout(() => {
-//                 this.transactionPasswordSuccess = "";
-            
-//               }, 2000)
-//             }
-            
-//           },
-//           (err: any) => {
-//             this.showSpinnerTransactionPassword = false;
-//             if(err.error.error === "Key derivation failed - possibly wrong password") {
-//               this.transactionPasswordWrong = "Wrong password"
-//               setTimeout(() => {
-//                 this.transactionPasswordWrong = ''
-//               }, 2000)
-//             } else {
-//               this.transactionPasswordWrong = "Something went wrong please try again!"
-//               setTimeout(() => {
-//                 this.transactionPasswordWrong = ''
-//               }, 2000)
-//             }
-            
-//           }
-//         )
-//         /*this.AuthService.updatePassword(oldpass, newpass)
-//           .pipe(
-//             catchError((HttpError: HttpErrorResponse) => {
-//               return of(HttpError.error);
-//             }),
-//             takeUntil(this.onDestroy$)
-//           )
-//           .subscribe((res: IApiResponse<any>) => {
-//             if (res.code === 200) {
-//               this.showSpinner = false;
-//               let msg: string = '';
-//               this.translate
-//                 .get('profile.password_change')
-//                 .pipe(takeUntil(this.onDestroy$))
-//                 .subscribe((data1: any) => {
-//                   msg = data1;
-//                 });
-//               this.toastr.success(msg);
-//               this.formUpdatePassword.reset();
-//             } else if (res.code === 401) {
-//               this.passwordWrong = 'profile.old_pass_wrong';
-//               this.formUpdatePassword.get('old_password')?.reset();
-//             }
-//           });*/
-//       }
-//     }
-//   }
+  //           },
+  //           (err: any) => {
+  //             this.showSpinnerTransactionPassword = false;
+  //             if(err.error.error === "Key derivation failed - possibly wrong password") {
+  //               this.transactionPasswordWrong = "Wrong password"
+  //               setTimeout(() => {
+  //                 this.transactionPasswordWrong = ''
+  //               }, 2000)
+  //             } else {
+  //               this.transactionPasswordWrong = "Something went wrong please try again!"
+  //               setTimeout(() => {
+  //                 this.transactionPasswordWrong = ''
+  //               }, 2000)
+  //             }
+
+  //           }
+  //         )
+  //         /*this.AuthService.updatePassword(oldpass, newpass)
+  //           .pipe(
+  //             catchError((HttpError: HttpErrorResponse) => {
+  //               return of(HttpError.error);
+  //             }),
+  //             takeUntil(this.onDestroy$)
+  //           )
+  //           .subscribe((res: IApiResponse<any>) => {
+  //             if (res.code === 200) {
+  //               this.showSpinner = false;
+  //               let msg: string = '';
+  //               this.translate
+  //                 .get('profile.password_change')
+  //                 .pipe(takeUntil(this.onDestroy$))
+  //                 .subscribe((data1: any) => {
+  //                   msg = data1;
+  //                 });
+  //               this.toastr.success(msg);
+  //               this.formUpdatePassword.reset();
+  //             } else if (res.code === 401) {
+  //               this.passwordWrong = 'profile.old_pass_wrong';
+  //               this.formUpdatePassword.get('old_password')?.reset();
+  //             }
+  //           });*/
+  //       }
+  //     }
+  //   }
   removeMessage() {
     this.passwordWrong = '';
     this.errorMsg = '';
   }
-
 
   getSecure() {
     if (this.tokenStorageService.getSecure() === 'true') {
@@ -1548,9 +1640,8 @@ imageFun() {
     this.onDestoy$.complete();
   }
 
-
-  switchNewWallet(event:any) {
-    if(event === "new-wallet") {
+  switchNewWallet(event: any) {
+    if (event === 'new-wallet') {
       this.allWallet();
     }
   }

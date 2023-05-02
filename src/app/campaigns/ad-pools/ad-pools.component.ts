@@ -12,7 +12,7 @@ import { Page } from '@app/models/page.model';
 import { User } from '@app/models/User';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { DraftCampaignStoreService } from '@core/services/draft-campaign-store.service';
-import _ from 'lodash';
+import _, { concat } from 'lodash';
 import { forkJoin, of, Subject, Subscription } from 'rxjs';
 import {
   catchError,
@@ -108,6 +108,12 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
     this.onBoarding();
     this.loadCampaigns();
   }
+
+  campare(a:any,b:any) {
+    if(a.createdAt > b.createdAt) return 1;
+    if(a.createdAt < b.createdAt) return -1;
+    return 0;
+  }
   getUserPic() {
     this.subscription = this.account$
       .pipe(
@@ -170,8 +176,14 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
         //   item.urlPicUser=this.user.userPicture
         // })
         //this.campaignsList = this.sortList(campaigns);
-        this.campaignsList = campaigns;
-        this.campaignsList2 = campaigns;
+        const draftsArray = campaigns.filter((element: Campaign) => element.type === "draft");
+        const campaignsArray = campaigns.filter((element: Campaign) => element.type != "draft");
+        draftsArray.sort((a: any, b: any) => {
+          return <any>new Date(b.createdAt) - <any>new Date(a.createdAt);
+        });
+        const newCampaignsArray = concat(draftsArray, campaignsArray);
+        this.campaignsList = newCampaignsArray;
+        this.campaignsList2 = newCampaignsArray;
         this.campaignsList?.forEach((element: Campaign) => {
           if (
             ['SATTPOLYGON', 'SATTBEP20', 'SATTBTT'].includes(
@@ -222,7 +234,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
   }
 
   createNewDraftCampaign() {
-    this.draftStore.init();
+    //this.draftStore.init();
     this.draftStore
       .addNewDraft(new Campaign())
       .pipe(takeUntil(this.onDestoy$))
@@ -291,6 +303,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
         )
         .subscribe(
           (campaigns: Campaign[]) => {
+            console.log({campaigns})
             if (campaigns.length === 0) {
               this.isLoading = false;
             }

@@ -302,9 +302,9 @@ export class CampaignDetailComponent implements OnInit {
     });
     this.loadingButton = false;
     this.successMessage = '';
-    if(!this.refundButtonDisable) {
+   if(!this.refundButtonDisable) {
       this.openModal(this.transactionPassword);
-    }
+   }
   }
 
 

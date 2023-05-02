@@ -29,6 +29,10 @@ export class MigrationComponent implements OnInit {
   walletEVM!: string;
   walletBTC!: string;
   walletTRON!: string;
+  shortWalletTRON!: string;
+  shortWalletBTC!: string;
+  shortWalletEVM!: string;
+
   isWalletAddressCopied: boolean = false;
 
 
@@ -143,6 +147,10 @@ export class MigrationComponent implements OnInit {
       this.walletEVM = res.data.address;
       this.walletBTC = res.data.btcAddress;
       this.walletTRON = res.data.tronAddress
+      this.shortWalletEVM = res.data.address.slice(0,8) + "..." + res.data.address.slice(-8)
+      this.shortWalletTRON = res.data.tronAddress.slice(0,8) + "..." + res.data.address.slice(-8)
+      this.shortWalletBTC = res.data.btcAddress.slice(0,8) + "..." + res.data.address.slice(-8)
+      
     })
   }
   getCryptoList() {
