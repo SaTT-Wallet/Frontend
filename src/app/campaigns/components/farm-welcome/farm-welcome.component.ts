@@ -30,7 +30,7 @@ import { CryptofetchServiceService } from '@app/core/services/wallet/cryptofetch
 import axios from 'axios'
 import { environment as env } from '../../../../environments/environment';
 import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
-
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-farm-welcome',
   templateUrl: './farm-welcome.component.html',
@@ -60,7 +60,10 @@ export class FarmWelcomeComponent implements OnInit {
   campaignNumber: number = 0;
   private isDestroyed = new Subject();
   cryptoPrices: any;
+  blogs: any;
+ 
   constructor(
+    private http: HttpClient,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private campaignsListStoreService: CampaignsListStoreService,
@@ -78,6 +81,8 @@ export class FarmWelcomeComponent implements OnInit {
     if (window.innerWidth <= 768 && isPlatformBrowser(this.platformId)) {
       this.smDevice = true;
     }
+    this.getBlogs();
+
     if (isPlatformBrowser(this.platformId)) {
       this.loadCampaigns();
       this.loadStatistics();
@@ -99,6 +104,13 @@ export class FarmWelcomeComponent implements OnInit {
       this.smDevice = false;
     }
   }
+getBlogs(){
+ return this.http.get('https://satt-token.com/blog/wp-json/wp/v2/posts?_embed') 
+ .subscribe((data) => {
+  this.blogs = data
+
+});
+}
 
   goToFarmPosts() {
     this.showSpinnerJoin = true;
@@ -154,6 +166,7 @@ export class FarmWelcomeComponent implements OnInit {
       )
       .subscribe(
         (campaigns: Campaign[]) => {
+
           this.isLoading = false;
           this.campaignsList = campaigns;
           this.campaignsList2 = campaigns;
@@ -176,6 +189,7 @@ export class FarmWelcomeComponent implements OnInit {
                 .toFixed(2);
             }
           });
+
           this.campaignNumber = this.campaignsListStoreService.countCampaigns;
           if (campaigns.length === 0 && this.campaignNumber === 0) {
             this.noData = true;
@@ -186,6 +200,9 @@ export class FarmWelcomeComponent implements OnInit {
           } else {
             this.noData = false;
           }
+          
+
+          this.campaignsList.length < 2 && this.campaignsListStoreService.emitPageScroll();
           // this.campaignsList = campaigns.filter(
           //   (campaign: Campaign) => campaign.isDraft === false
           // );
