@@ -198,7 +198,10 @@
   <div class="col-4 d-none d-sm-block "   style="left: 4%;">
     <div class="row adpool-title mb-3">Blog</div>
     <div class="row blog-description mb-3"> To stay updated on SaTT's progress and be informed of trends in the blockchain world, regularly visit our blog for updates.</div>
-    <button class="row btn_apply_lunch" style="width: 134px;" onclick="window.open('https://satt-token.com/blog');"> Visit Blog</button>
+    <button class="row btn_apply_lunch" 
+    style="width: 134px;" 
+    onclick="window.open('https://satt-token.com/blog');"
+    > Visit Blog</button>
    
   </div>
 
@@ -210,7 +213,13 @@
   >
   <div class="row adpool-title justify-content-center mb-3">Blog</div>
   <div class="row blog-description mb-3">To stay updated on SaTT's progress and be informed of trends in the blockchain world, regularly visit our blog for updates.</div>
-  <button class="row btn_apply_lunch mb-5" style="width: 134px; " onclick="window.open('https://satt-token.com/blog');"> Visit Blog</button>
+  <button 
+  class="row btn_apply_lunch mb-5" 
+  style="width: 134px; 
+  display: table-column; " 
+  onclick="window.open('https://satt-token.com/blog');"> 
+  Visit Blog
+</button>
 </div>
     <div class="row  flex-nowrap overflow-auto ">
       <div class="col" *ngFor="let blog of blogs.slice(0, 3)" [@scrollAnimation]>
@@ -231,8 +240,8 @@
 </div>
 
 <div class="welcome_footer_lunch text-center">
-  <div class="col-7" style="margin: auto">
-    <div class="pt-5 mb-1 welcome_footer_title" style="margin: auto">
+  <div class="col-11 col-md-7" style="margin: auto">
+    <div class="pt-5 mb-2 welcome_footer_title" style="margin: auto">
       Launch your Adpool Now !
     </div>
     <div class="row mb-4 welcome_description_long">
