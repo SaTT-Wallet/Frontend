@@ -1031,7 +1031,7 @@ getCookie(key: string){
         if (myWallet && myWallet.data.address) {
           this.tokenStorageService.saveIdWallet(myWallet.data.address);
           this.tokenStorageService.saveTronWallet(myWallet.data?.tronAddress);
-          this.router.navigate(['']);
+          this.router.navigate(['/ad-pools']);
           this.showBigSpinner = true;
           this.backgroundImage = '';
           this.backgroundColor = '';
