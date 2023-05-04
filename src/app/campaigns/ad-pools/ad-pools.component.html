@@ -60,7 +60,7 @@
   <app-list-items
     [infiniteScrollContainer]="'.center-content'"
     [fromRoot]="true"
-    
+    (onEndPageScroll)="onScroll()"
   >
     <ng-template appItemsList>
       <div class="block-create-campaign">
@@ -95,18 +95,15 @@
           </button>
         </div>
       </div>
-      
-        <app-campaigns-list-item
+      <app-campaigns-list-item
         *ngFor="
           let campaign of campaignsList;
           trackBy: trackByCampaignId;
           let i = index
         "
         [campaign]="campaign"
-        [newApplicant]="newApplicant"
+        
       ></app-campaigns-list-item>
-      
-      
 
       <ng-container *ngIf="isLoading">
         <app-campaigns-list-item-placeholder-ui
