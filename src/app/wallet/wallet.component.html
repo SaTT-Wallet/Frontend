@@ -234,7 +234,13 @@
   </div>
 </div>
 
-<div class="showMobile">
+<div
+  class="showMobile"
+  [ngClass]="{
+    showMobileMigration:
+      versionText === 'New Wallet' && existV1 && show && existV2
+  }"
+>
   <div class="scroll-page" id="page-2">
     <app-crypto-list
       (hidePortfolio)="togglePortfolio($event)"

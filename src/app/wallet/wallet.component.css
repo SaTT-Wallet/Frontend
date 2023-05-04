@@ -2055,6 +2055,7 @@ p {
   /* padding-top: 5vh; */
 }
 .hwrap {
+  height: 200px;
   position: relative;
   bottom: 2em;
   clear: right;
@@ -2062,7 +2063,7 @@ p {
   overflow: hidden; /* HIDE SCROLL BAR */
   background: linear-gradient(
     360deg,
-    #f52079 -73.91%,
+    #f52079 33.91%,
     rgba(245, 32, 121, 0) 100%
   );
 }
@@ -2091,7 +2092,15 @@ p {
 @media only screen and (max-width: 768px) {
   .estim_ballance {
     position: relative;
-    top: 5vh;
+    top: 7vh;
+  }
+  .walletEstimm {
+    margin-top: 4%;
+    font-size: 20px !important;
+  }
+
+  .first_layer {
+    font-size: 36px !important;
   }
   .hitem {
     margin-top: 4% !important;
@@ -2110,6 +2119,7 @@ p {
     );
   }
   .echnage {
+    position: relative;
     float: none;
     width: fit-content;
     margin: auto;
@@ -2257,6 +2267,11 @@ p {
 
 .showMobile {
   display: block;
+  margin-top: 0px;
+}
+
+.showMobile.showMobileMigration {
+  margin-top: 28px;
 }
 
 .showDesktop {
