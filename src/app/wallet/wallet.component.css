@@ -2085,11 +2085,12 @@ p {
   height: 3em;
   overflow: hidden;
   white-space: nowrap;
-  text-overflow: ellipsis;
-  width: 100%;
   color: #ffffff;
 }
 @media only screen and (max-width: 768px) {
+  .hwrap {
+    width: fit-content !important;
+  }
   .estim_ballance {
     position: relative;
     top: 7vh;
