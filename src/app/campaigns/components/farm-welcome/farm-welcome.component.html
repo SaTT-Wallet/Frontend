@@ -75,7 +75,7 @@
             ></app-campaigns-list-item>
             <ng-container *ngIf="isLoading">
               <app-campaigns-list-item-placeholder-ui
-                *ngFor="let card of [1, 2, 3]"
+                *ngFor="let card of [1]"
               ></app-campaigns-list-item-placeholder-ui>
             </ng-container>
           </ng-template>
@@ -218,24 +218,26 @@
       </button>
     </div>
     <div class="row flex-nowrap overflow-auto">
-      <div
-        class="col"
-        *ngFor="let blog of blogs.slice(0, 3)"
-        [@scrollAnimation]
-      >
+      <ng-container *ngIf="!!blogs">
         <div
-          class="card mb-4 box-shadow"
-          style="border: hidden; background: transparent"
+          class="col"
+          *ngFor="let blog of blogs.slice(0, 3)"
+          [@scrollAnimation]
         >
-          <a target="_blank" href="{{ blog.link }}">
-            <img
-              class="card-img-top blog-img"
-              [src]="blog._embedded['wp:featuredmedia'][0].source_url"
-              alt="{{ blog.title.rendered }}"
-            />
-          </a>
+          <div
+            class="card mb-4 box-shadow"
+            style="border: hidden; background: transparent"
+          >
+            <a target="_blank" href="{{ blog.link }}">
+              <img
+                class="card-img-top blog-img"
+                [src]="blog._embedded['wp:featuredmedia'][0].source_url"
+                alt="{{ blog.title.rendered }}"
+              />
+            </a>
+          </div>
         </div>
-      </div>
+      </ng-container>
     </div>
   </div>
 </div>
