@@ -84,13 +84,14 @@ export class PasswordModalComponent implements OnInit {
     private route: ActivatedRoute,
     private walletFacade: WalletFacadeService
   ) {
+    console.log({campaign : this.campaign.currency.type})
     this.route.queryParams
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((params: any) => {
+        this.network = params['network']
         this.campaign = this.campaignsStore.campaignsListByWalletId.find(
           (c) => c.id === params['id']
         );
-
         if (!!this.campaign) {
           this.network = this.campaign.currency.type;
         }
@@ -118,8 +119,10 @@ export class PasswordModalComponent implements OnInit {
     //   });
     // }
     this.parentFunction().subscribe();
+    if(!!this.campaign) this.network = this.campaign.currency.type;
+    
   }
-
+  
   creatYourCampaign() {
     this.errorMessage = '';
     let token = this.campaign?.currency?.name;

@@ -769,7 +769,7 @@ export class CampaignDetailComponent implements OnInit {
     this.checkValidDraft();
     if (this.disabledBtn === false) {
       this.router.navigate(['home/check-password'], {
-        queryParams: { id: this.campaignId }
+        queryParams: { id: this.campaignId, network: this.campaign.currency.type }
       });
     }
   }

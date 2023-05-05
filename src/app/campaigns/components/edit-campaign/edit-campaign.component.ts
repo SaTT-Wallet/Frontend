@@ -219,8 +219,9 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
       console.log("here");
       
       this.alertRequired = false;
+      console.log(this.campaignData)
       this.router.navigate(['home/check-password'], {
-        queryParams: { id: this.draftId }
+        queryParams: { id: this.draftId, network: this.campaignData.currency.type }
       });
     } else {
       this.alertRequired = true;
