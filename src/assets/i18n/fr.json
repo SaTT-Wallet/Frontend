@@ -1334,6 +1334,7 @@
   "profile.text_update_password": "Changer votre mot de passe d'accès à votre portefeuille",
   "profile.text_update_password2": "Changer votre mot de passe d'accès au site",
   "profile_nav": "Profil",
+  "Profil.warning_deprecrated_walletv1": "Pour des raisons de sécurité, cette wallet va bientôt être obsolète. Transferez s'il vous plait vos tokens dans la nouvelle wallet V2. ",
   "profite_iframe": "profitez de la suite iframe compléte pour",
   "proofDomicile": "Votre justificatif de domicile a bien été ajouté",
   "proofId": "Votre pièce d'identité a bien été ajoutée.",

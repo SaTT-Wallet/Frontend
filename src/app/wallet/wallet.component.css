@@ -190,7 +190,12 @@ input:-webkit-autofill:active {
 }
 
 .echnage {
-  position: absolute;
+  margin-right: 4em;
+  cursor: pointer;
+  float: right;
+  width: fit-content;
+  text-decoration: underline;
+  /* position: absolute; */
   font-family: 'Poppins';
   font-style: normal;
   font-weight: 400;
@@ -198,12 +203,12 @@ input:-webkit-autofill:active {
   top: 2vh;
   padding-left: 16px;
   /* line-height: 99%; */
-  display: flex;
-  align-items: flex-end;
+  /* display: flex; */
+  /* align-items: flex-end; */
   letter-spacing: 0.03em;
   color: #ffffff;
   white-space: break-spaces;
-  width: max-content;
+  /* width: max-content; */
 }
 .migratebtn {
   /* display: flex; */
@@ -235,6 +240,7 @@ input:-webkit-autofill:active {
   order: 1;
   flex-grow: 0;
   border: thin;
+  cursor: pointer;
 }
 
 .walletTotal {
@@ -252,7 +258,9 @@ input:-webkit-autofill:active {
 }
 
 .divbtn {
-  padding-top: 5vh;
+  padding-top: 1em;
+  width: fit-content;
+  margin: auto;
 }
 
 @media (max-width: 767.98px) {
@@ -316,9 +324,14 @@ input:-webkit-autofill:active {
 }
 
 .first_layer {
-  z-index: 11;
-  position: relative;
-  flex-direction: column-reverse;
+  width: fit-content;
+  margin: auto;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 130%;
+  color: #ffffff;
 }
 
 .indicatorfont {
@@ -538,7 +551,7 @@ select option {
   border-radius: 20px;
   min-block-size: 135px;
   overflow-x: hidden;
-  height: 100%;
+  height: auto;
   /* height: 280px: */
   background-size: cover;
   position: relative;
@@ -948,6 +961,21 @@ textarea::placeholder {
   top: -2px;
 }
 
+.walletEstimm {
+  position: relative;
+  top: 1%;
+  width: fit-content;
+  margin: auto;
+  margin-top: 5%;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 25px;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+}
+
 .left_margin {
   font-style: normal;
   font-weight: normal;
@@ -1143,13 +1171,15 @@ textarea::placeholder {
 }
 
 .blockk {
-  border-radius: 0px !important;
-  min-height: 309.5px;
-  min-width: 320px;
+  /* 
   padding-top: 2.5rem;
   position: fixed;
   width: 100%;
-  height: 50px;
+  height: 50px; 
+  */
+  /* min-height: 309.5px;
+  min-width: 320px; */
+  border-radius: 0px !important;
 }
 .blockk-3 {
   min-height: 300px;
@@ -2017,7 +2047,118 @@ p {
     max-width: 177px;
   }
 }
+/* sk msg hitem */
+/* .deprecate_warning {
+} */
 
+.balance_container {
+  /* padding-top: 5vh; */
+}
+.hwrap {
+  height: 200px;
+  position: relative;
+  bottom: 2em;
+  clear: right;
+  background-size: cover;
+  overflow: hidden; /* HIDE SCROLL BAR */
+  background: linear-gradient(
+    360deg,
+    #f52079 33.91%,
+    rgba(245, 32, 121, 0) 100%
+  );
+}
+
+/* (B) MOVING TICKER WRAPPER */
+.hmove {
+  display: flex;
+}
+
+/* (C) ITEMS - INTO A LONG HORIZONTAL ROW */
+.hitem {
+  padding: 10px;
+  text-align: center;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 1.5em;
+  height: 3em;
+  overflow: hidden;
+  white-space: nowrap;
+  color: #ffffff;
+}
+@media only screen and (max-width: 768px) {
+  .hwrap {
+    width: fit-content !important;
+  }
+  .estim_ballance {
+    position: relative;
+    top: 7vh;
+  }
+  .walletEstimm {
+    margin-top: 4%;
+    font-size: 20px !important;
+  }
+
+  .first_layer {
+    font-size: 36px !important;
+  }
+  .hitem {
+    margin-top: 4% !important;
+    font-size: 15px;
+  }
+
+  .hwrap {
+    bottom: 0em !important;
+    height: 12vh;
+    background-size: cover;
+    overflow: hidden; /* HIDE SCROLL BAR */
+    background: linear-gradient(
+      360deg,
+      #f52079 -73.91%,
+      rgba(245, 32, 121, 0) 100%
+    );
+  }
+  .echnage {
+    position: relative;
+    float: none;
+    width: fit-content;
+    margin: auto;
+    text-decoration: underline;
+    /* position: absolute; */
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    top: 2vh;
+    padding-left: 16px;
+    /* line-height: 99%; */
+    /* display: flex; */
+    /* align-items: flex-end; */
+    letter-spacing: 0.03em;
+    color: #ffffff;
+    white-space: break-spaces;
+    /* width: max-content; */
+  }
+}
+
+/* (D) ANIMATION - MOVE ITEMS FROM RIGHT TO LEFT */
+/* 4 ITEMS -400%, CHANGE THIS IF YOU ADD/REMOVE ITEMS */
+@keyframes tickerh {
+  0% {
+    transform: translate3d(100%, 0, 0);
+  }
+  100% {
+    transform: translate3d(-400%, 0, 0);
+  }
+}
+.hmove {
+  animation: tickerh linear 40s infinite;
+}
+.hmove:hover {
+  animation-play-state: paused;
+}
+/* sk */
 .pic-profile {
   /*height: 110px;
     width: 134px;
@@ -2127,6 +2268,11 @@ p {
 
 .showMobile {
   display: block;
+  margin-top: 0px;
+}
+
+.showMobile.showMobileMigration {
+  margin-top: 28px;
 }
 
 .showDesktop {
