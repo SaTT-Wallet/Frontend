@@ -553,8 +553,6 @@ select option {
   border-radius: 20px;
   min-block-size: 135px;
   overflow-x: hidden;
-  height: auto;
-  /* height: 280px: */
   background-size: cover;
   position: relative;
 }
@@ -2053,9 +2051,6 @@ p {
 /* .deprecate_warning {
 } */
 
-.balance_container {
-  /* padding-top: 5vh; */
-}
 .hwrap {
   height: 200px;
   position: relative;
@@ -2091,6 +2086,9 @@ p {
   color: #ffffff;
 }
 @media only screen and (max-width: 768px) {
+  .blockk {
+    height: 250px !important;
+  }
   .hwrap {
     bottom: 2em !important;
     width: fit-content !important;
@@ -2114,7 +2112,7 @@ p {
 
   .hwrap {
     bottom: 0em !important;
-    height: 12vh;
+    height: 15vh;
     background-size: cover;
     overflow: hidden; /* HIDE SCROLL BAR */
     background: linear-gradient(
@@ -2153,11 +2151,12 @@ p {
     transform: translate3d(100%, 0, 0);
   }
   100% {
-    transform: translate3d(-400%, 0, 0);
+    transform: translate3d(-200%, 0, 0);
   }
 }
 .hmove {
-  animation: tickerh linear 70s infinite;
+  animation: tickerh linear 50s infinite;
+
 }
 .hmove:hover {
   animation-play-state: paused;
