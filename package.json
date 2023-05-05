@@ -141,7 +141,7 @@
     "highcharts": "^9.3.3",
     "i18n": "^0.14.1",
     "i18n-iso-countries": "^7.3.0",
-    "i18next": "^21.6.11",
+    "i18next": "^21.10.0",
     "intl-tel-input": "^17.0.15",
     "intro.js": "^5.0.0",
     "isomorphic-fetch": "^3.0.0",
