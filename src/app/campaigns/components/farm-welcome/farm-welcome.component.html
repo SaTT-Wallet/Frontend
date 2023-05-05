@@ -75,7 +75,7 @@
             ></app-campaigns-list-item>
             <ng-container *ngIf="isLoading">
               <app-campaigns-list-item-placeholder-ui
-                *ngFor="let card of [1, 2, 3]"
+                *ngFor="let card of [1]"
               ></app-campaigns-list-item-placeholder-ui>
             </ng-container>
           </ng-template>
@@ -89,7 +89,7 @@
     class="btn_container_loadmore"
     *ngIf="!isLoading && !noData"
     (click)="loadMore()"
-    routerLink="/ad-pools"
+    
   >
     <span class="load-more-btn">All Adpools</span>
     <span class="load-more-btn-arrow">></span>
