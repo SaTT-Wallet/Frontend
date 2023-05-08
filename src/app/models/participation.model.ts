@@ -32,6 +32,7 @@ export class Participation {
   abosNumber: string;
   totalToEarnInUSD: string;
   isAccepted: boolean = false;
+  acceptedDate: Date | null;
   type: string;
   meta: any;
   userPic: any;
@@ -71,6 +72,8 @@ export class Participation {
     this.mediaUrl = data?.media_url || '';
     this.totalToEarnInUSD = '';
     this.isAccepted = data?.isAccepted ? data?.isAccepted : data?.status;
+    this.acceptedDate = data?.acceptedDate || null;
+
     this.type = data?.type || '';
     this.meta = data?.meta || '';
     this.userPic = data?.meta?.picLink ? data?.meta.picLink : '';
