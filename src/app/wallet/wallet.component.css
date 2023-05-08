@@ -2086,8 +2086,25 @@ p {
   color: #ffffff;
 }
 @media only screen and (max-width: 768px) {
-  .blockk {
+  .blockk.migrate {
+    padding-top: 1px;
     height: 250px !important;
+    overflow-x: unset !important;
+  }
+  .hwrap.migrate {
+    position: relative;
+    top: -3.5em;
+    bottom: 2em !important;
+    width: fit-content !important;
+  }
+  .hitem.migrate {
+    margin-top: 5% !important;
+    font-size: 15px;
+  }
+  .blockk {
+    padding-top: 1px;
+    height: 250px !important;
+    overflow-x: unset;
   }
   .hwrap {
     bottom: 2em !important;
