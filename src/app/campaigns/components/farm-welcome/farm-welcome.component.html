@@ -219,11 +219,8 @@
     </div>
     <div class="row flex-nowrap overflow-auto">
       <ng-container *ngIf="!!blogs">
-        <div
-          class="col"
-          *ngFor="let blog of blogs.slice(0, 3)"
-          [@scrollAnimation]
-        >
+        <div class="col" *ngFor="let blog of blogs.slice(0, 3)">
+          <!-- [@scrollAnimation] -->
           <div
             class="card mb-4 box-shadow"
             style="border: hidden; background: transparent"
