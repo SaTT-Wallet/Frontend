@@ -202,6 +202,8 @@ input:-webkit-autofill:active {
   font-size: 13px;
   top: 2vh;
   padding-left: 16px;
+  position: relative;
+  top: -4em;
   /* line-height: 99%; */
   /* display: flex; */
   /* align-items: flex-end; */
@@ -2052,7 +2054,7 @@ p {
 .hwrap {
   height: 200px;
   position: relative;
-  bottom: 2em;
+  bottom: 4em;
   clear: right;
   background-size: cover;
   overflow: hidden; /* HIDE SCROLL BAR */
@@ -2070,6 +2072,7 @@ p {
 
 /* (C) ITEMS - INTO A LONG HORIZONTAL ROW */
 .hitem {
+  margin-top: 1%;
   padding: 10px;
   text-align: center;
   font-family: 'Poppins';
@@ -2087,6 +2090,7 @@ p {
     height: 250px !important;
   }
   .hwrap {
+    bottom: 2em !important;
     width: fit-content !important;
   }
   .estim_ballance {
