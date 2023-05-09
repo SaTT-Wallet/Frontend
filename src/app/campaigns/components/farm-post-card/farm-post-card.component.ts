@@ -185,11 +185,12 @@ export class FarmPostCardComponent implements OnInit {
       },
       action: EButtonActions.GET_MY_GAINS
     });
-
+    this.campaignService.getCampaignbyId(prom.campaign._id).subscribe((res) => console.log({res}))
+    console.log({prom})
     this.router.navigate(
       [`/home/campaign/${prom.campaign._id}/recover-my-gains`],
       {
-        queryParams: { prom_hash: prom.hash, id: prom.campaign._id }
+        queryParams: { prom_hash: prom.hash, id: prom.campaign._id, network: prom.currency.type }
       }
     );
   }
