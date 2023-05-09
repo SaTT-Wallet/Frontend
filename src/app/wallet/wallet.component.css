@@ -213,6 +213,11 @@ input:-webkit-autofill:active {
   /* width: max-content; */
 }
 .migratebtn {
+  width: fit-content;
+  margin: auto;
+  z-index: 2;
+  bottom: 1em;
+  position: relative;
   /* display: flex; */
   flex-direction: row;
   justify-content: center;
@@ -220,10 +225,10 @@ input:-webkit-autofill:active {
   padding: 4px 16px;
   gap: 8px;
   /* position: absolute; */
-  left: 17.57%;
+  /* left: 17.57%;
   right: 16.83%;
   top: 33.74%;
-  bottom: 60.34%;
+  bottom: 60.34%; */
   background: #ffffff;
   box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
   border-radius: 30px;
@@ -234,13 +239,13 @@ input:-webkit-autofill:active {
   font-weight: 600;
   font-size: 18px;
   line-height: 27px;
-  display: flex;
+  /* display: flex; */
   align-items: center;
   letter-spacing: 0.01em;
   color: #ffa318;
   flex: none;
   order: 1;
-  flex-grow: 0;
+  /* flex-grow: 0; */
   border: thin;
   cursor: pointer;
 }
@@ -2086,6 +2091,9 @@ p {
   color: #ffffff;
 }
 @media only screen and (max-width: 768px) {
+  .migratebtn {
+    bottom: 0.3em !important;
+  }
   .blockk.migrate {
     padding-top: 1px;
     height: 250px !important;
