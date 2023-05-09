@@ -84,7 +84,6 @@ export class PasswordModalComponent implements OnInit {
     private route: ActivatedRoute,
     private walletFacade: WalletFacadeService
   ) {
-    console.log({campaign : this.campaign.currency.type})
     this.route.queryParams
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((params: any) => {
@@ -279,25 +278,7 @@ export class PasswordModalComponent implements OnInit {
             })
           ),
 
-          this.walletFacade.getBnbGaz().pipe(
-            take(1),
-            tap((gaz: any) => {
-              let price = gaz.data.gasPrice;
-              this.bepGaz = (
-                ((price * GazConsumedByCampaign) / 1000000000) *
-                bnb
-              ).toFixed(2);
-
-              if (this.gazsend === 'NaN') {
-                this.gazsend = '';
-                let price = gaz.data.gasPrice;
-                this.bepGaz = (
-                  ((price * GazConsumedByCampaign) / 1000000000) *
-                  this.bnb
-                ).toFixed(2);
-              }
-            })
-          ),
+          
 
           this.walletFacade.getPolygonGaz().pipe(
             take(1),
