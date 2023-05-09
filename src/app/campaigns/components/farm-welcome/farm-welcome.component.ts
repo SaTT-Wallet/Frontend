@@ -322,7 +322,7 @@ getBlogs(){
   }
 
   loadMore() {
-    this.campaignsListStoreService.emitPageScroll();
+    this.router.navigateByUrl('/ad-pools')
   }
 
   openInNewTab(url: string) {

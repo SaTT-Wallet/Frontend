@@ -117,6 +117,19 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
     if(a.createdAt < b.createdAt) return -1;
     return 0;
   }
+
+
+  findDuplicatesCampaigns(arr: any) {
+    let unique:any = [];
+    arr.forEach((element:any) => {
+        console.log({element})
+        if (!unique.includes(element.id)) {
+            unique.push(element);
+        }
+    });
+    return unique;
+  }
+
   getUserPic() {
     this.subscription = this.account$
       .pipe(
@@ -174,21 +187,23 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe((campaigns: Campaign[]) => {
-        // campaigns.map((item:Campaign)=>
-        // {
-        //   item.urlPicUser=this.user.userPicture
-        // })
-        //this.campaignsList = this.sortList(campaigns);
-        
-        const draftsArray = campaigns.filter((element: Campaign) => element.type === "draft");
-        const campaignsArray = campaigns.filter((element: Campaign) => element.type != "draft");
+        let newCampaigns = campaigns;
+        let campaignsId = campaigns.map(o => o.id);
+        const toFindDuplicates = campaignsId.filter((item, index) => campaignsId.indexOf(item) !== index)
+        for(var i = 0; i < toFindDuplicates.length; i++) {
+          const duplicateElement = campaigns.find(element => element.id === toFindDuplicates[i]);
+          if(duplicateElement) {
+            newCampaigns.splice(newCampaigns.indexOf(duplicateElement),1)
+          }
+          
+        }
+        const draftsArray = newCampaigns.filter((element: Campaign) => element.type === "draft");
+        const campaignsArray = newCampaigns.filter((element: Campaign) => element.type != "draft");
         draftsArray.sort((a: any, b: any) => {
           return <any>new Date(b.createdAt) - <any>new Date(a.createdAt);
         });
         const newCampaignsArray = concat(draftsArray, campaignsArray);
         this.campaignsList = newCampaignsArray;
-    
-        
         this.campaignsList2 = newCampaignsArray;
         this.campaignsList?.forEach((element: Campaign) => {
           if (
