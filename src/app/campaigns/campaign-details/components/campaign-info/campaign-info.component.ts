@@ -29,7 +29,7 @@ import { Editor } from 'ngx-editor';
 import { WalletStoreService } from '@core/services/wallet-store.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
-import { catchError, filter, map, mergeMap, takeUntil } from 'rxjs/operators';
+import { catchError, filter, map, mergeMap, takeUntil,tap } from 'rxjs/operators';
 import { Observable, of, Subject } from 'rxjs';
 import { ConvertFromWei } from '@shared/pipes/wei-to-sa-tt.pipe';
 import { Campaign } from '@app/models/campaign.model';
@@ -868,7 +868,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
   get localId(): string {
     return this.tokenStorageService.getLocale() || 'en';
   }
-  getUrlSmartContart() {
+  /*getUrlSmartContart() {
     let bscan = environment.bscan;
     let etherscan = environment.etherscan;
     let polygonscan = environment.polygonscan;
@@ -905,6 +905,35 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
           }
         }
       });
+  }*/
+  getUrlSmartContart() {
+    const scanUrls :any = {
+      ERC20: environment.etherscan,
+      BEP20: environment.bscan,
+      POLYGON: environment.polygonscan,
+      BTTC: environment.bttscan,
+      TRON: environment.tronScan,
+    };
+  
+    this.CampaignService.getOneById(this.campaign.id).pipe(
+      takeUntil(this.isDestroyed$),
+      map((res: any) => res.data),
+      tap((data: any) => {
+        const transactionHash = data?.transactionHash;
+        const tokenType = data?.token?.type;
+  
+        if (!transactionHash) {
+          this.noTransactionHash = true;
+          return;
+        }
+  
+        const urlSmartContrat  = scanUrls[tokenType] + transactionHash;
+  
+        if (isPlatformBrowser(this.platformId)) {
+          this.windowRefService.nativeWindow.open(urlSmartContrat, '_blank');
+        }
+      })
+    ).subscribe();
   }
 
   trackByBountie(index: any, bountie: any) {
