@@ -525,14 +525,15 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
 
     this.earnings = this.allProms;
     this.lastLogin=this.tokenStorageService.getLastLogin();
-    this.newApplicant = this.allProms.length >0 ? this.newbies(this.allProms): false;
+    this.newApplicant = this.allProms?.length >0 ? this.newbies(this.allProms): false;
    
     
     if (!this.campaign.isOwnedByUser && this.earnings?.length) {
       this.earnings.forEach((item: any) => {
+        console.log(item)
         if (
           item.status &&
-          (item.payedAmount !== '0' || item.payedAmount !== '0.00')
+          ((item.payedAmount !== '0' || item.payedAmount !== '0.00') && item.payedAmount)
         ) {
           this.gainsEarned = new Big(this.gainsEarned).plus(
             new Big(item.payedAmount)
@@ -602,7 +603,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
 
   getStatEarnings(): void {
     this.totalInvested = new Big(this.campaign.initialBudget)
-      .minus(this.campaign.budget)
+      .minus(this.campaign?.budget || '0')
       .div(this.etherInWei);
 
     this.totalInvestedInUsD = this.walletFacade.getCryptoPriceList().pipe(

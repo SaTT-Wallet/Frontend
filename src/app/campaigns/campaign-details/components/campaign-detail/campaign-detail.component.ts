@@ -269,7 +269,7 @@ export class CampaignDetailComponent implements OnInit {
     
     setTimeout(() => {
       // WHEN YOU GET REFUNDS ( AFTER 15 DAYS )
-      this.dateRefund = new Date(((this.campaign.endDate.getTime() / 1000) + 1296000 ) * 1000)
+      this.dateRefund = new Date(((this.campaign?.endDate?.getTime() / 1000) + 1296000 ) * 1000)
       
       if((this.dateRefund.getTime() - Date.now()) > 0) {
         this.refundButtonDisable = true;

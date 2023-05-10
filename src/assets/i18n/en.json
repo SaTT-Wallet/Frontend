@@ -313,6 +313,7 @@
   "Profil.choose_interests": "Choose your interests",
   "Profil.type_your_category": "Type in your category or choose from the list",
   "Profil.warning_msg_Pro": "This part is intended for entrepreneurs and advertisers. Please fill in all the elements in line with the legislation. Individuals are not affected.",
+  "Profil.warning_deprecrated_walletv1": "For security reasons, this wallet will soon be deprecated. Please transfer your tokens to the new v2 wallet. ",
   "Profil.url_must_mutch": "the URL and its type must match!!",
   "Profil.professional_information": "Fill in your professional information",
   "Profil.deactivate_account_pro": "Deactivate my PRO account",

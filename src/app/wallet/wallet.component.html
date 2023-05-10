@@ -54,7 +54,7 @@
         <!--portfolio estimation-->
         <!-- <div class="d-flex justify-content-center">-->
 
-        <div class="currentbalance">
+        <!-- <div class="currentbalance">
           <h3 class="walletEstim d-flex justify-content-center">
             {{ 'Wallet.Your_total_portfolio_is_estimated_at' | translate }}
           </h3>
@@ -68,10 +68,7 @@
                 *ngIf="existV1 && existV2"
               >
                 <p class="echnage" (click)="allWallet()" type="button">
-                  <span
-                    ><img
-                      src="../../assets/Images/custom_icons/bi_arrow-repeat.svg"
-                  /></span>
+                  <span><img src="../../assets/Images/walletCard.svg" /></span>
                   Go to {{ versionText }}
                 </p>
               </div>
@@ -93,17 +90,67 @@
                   Migrate my tokens
                 </button>
               </div>
-
-              <!-- <div class="d-flex justify-content-center">
-  
-                              <h1 class="indicatorfont " [ngStyle]="{ color: arrowColor }"> {{arrowvar }} {{variationamount}} % </h1>
-                          </div> -->
+              <div
+                class="deprecate_warning justify-content-center"
+                *ngIf="
+                  versionText === 'New Wallet' && existV1 && !show && existV2
+                "
+              >
+                <div class="hwrap">
+                  <div class="hmove">
+                    <div class="hitem">
+                      For security reasons, this wallet will soon be deprecated. Please transfer your tokens to the new v2 wallet.
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
+        </div> -->
+        <div class="balance_container">
+          <div class="estim_ballance">
+            <h3 class="walletEstimm justify-content-center">
+              {{ 'Wallet.Your_total_portfolio_is_estimated_at' | translate }}
+            </h3>
+            <div class="first_layer" id="totalAmount1">
+              $ {{ totalAmount | number: '1.0-2' || '' }}
+            </div>
+          </div>
+          <ng-container *ngIf="existV1 && existV2">
+            <p class="echnage" (click)="allWallet()" type="button">
+              <span><img src="../../assets/Images/walletCard.svg" /></span>
+              Go to {{ versionText }}
+            </p>
+          </ng-container>
+          <!-- <div
+            class="divbtn"
+            *ngIf="versionText === 'New Wallet' && existV1 && show && existV2"
+          >
+            <button class="migratebtn" type="button" (click)="migrateButton()">
+              <span
+                ><img
+                  src="../../assets/Images/custom_icons/clarity_error-standard-line.svg"
+              /></span>
+              Migrate my tokens
+            </button>
+          </div> -->
+          <ng-container
+            *ngIf="versionText === 'New Wallet' && existV1 && !show && existV2"
+          >
+            <div class="hwrap">
+              <div class="hmove">
+                <div class="hitem">
+                  <label>
+                    {{ 'Profil.warning_deprecrated_walletv1' | translate }}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </ng-container>
         </div>
         <!--</div>-->
 
-        <div id="legend">
+        <!-- <div id="legend">
           <button
             class="show_button"
             [ngClass]="{ show_button: showMonth, hide_button: !showMonth }"
@@ -125,8 +172,8 @@
           >
             {{ 'Jours' | translate }}
           </button>
-        </div>
-        <canvas
+        </div> -->
+        <!-- <canvas
           class="canV canvdaily"
           *ngIf="showDaily"
           #myCanvas1
@@ -172,7 +219,7 @@
           [chartType]="lineChartType"
           [plugins]="lineChartPlugins"
         >
-        </canvas>
+        </canvas> -->
       </div>
     </div>
   </div>
@@ -188,7 +235,13 @@
   </div>
 </div>
 
-<div class="showMobile">
+<div
+  class="showMobile"
+  [ngClass]="{
+    showMobileMigration:
+      versionText === 'New Wallet' && existV1 && show && existV2
+  }"
+>
   <div class="scroll-page" id="page-2">
     <app-crypto-list
       (hidePortfolio)="togglePortfolio($event)"
