@@ -37,15 +37,18 @@ export class ConfirmBlockchainActionComponent implements OnInit {
     public router: Router,
     private route: ActivatedRoute,
     private walletFacade: WalletFacadeService) {
-      console.log("here")
     this.route.queryParams
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((params: any) => {
-        this.network = params['network']
+        if(!!params['network']) {
+          this.network = params['network']
+        } else this.network = "";
+        
       });
   }
 
   ngOnInit(): void {
+   
     this.walletFacade
       .getCryptoPriceList()
       .pipe(
@@ -108,6 +111,10 @@ export class ConfirmBlockchainActionComponent implements OnInit {
           }, 6000);
         }
       });
+
+
+
+      this.feesData().subscribe();
   }
 
   get password() {

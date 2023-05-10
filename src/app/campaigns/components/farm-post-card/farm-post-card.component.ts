@@ -14,7 +14,7 @@ import { EButtonActions } from '@app/core/enums';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Participation } from '@app/models/participation.model';
 import { NotificationService } from '@core/services/notification/notification.service';
-import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, takeUntil } from 'rxjs/operators';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { ParticipationListStoreService } from '@campaigns/services/participation-list-store.service';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
@@ -185,14 +185,32 @@ export class FarmPostCardComponent implements OnInit {
       },
       action: EButtonActions.GET_MY_GAINS
     });
-    this.campaignService.getCampaignbyId(prom.campaign._id).subscribe((res) => console.log({res}))
-    console.log({prom})
-    this.router.navigate(
-      [`/home/campaign/${prom.campaign._id}/recover-my-gains`],
-      {
-        queryParams: { prom_hash: prom.hash, id: prom.campaign._id, network: prom.currency.type }
+
+
+    /************   FETCH NETWORK OF CAMPAIGN     ***********/
+    
+    let network = "";
+    this.campaignService.getOneById(prom.campaign._id)
+    .subscribe(
+      (res) => {
+      network = res.data.token.type;
+      this.router.navigate(
+        [`/home/campaign/${prom.campaign._id}/recover-my-gains`],
+        {
+          queryParams: {prom_hash: prom.hash, id: prom.campaign._id, network: network}
+        }
+      );
+    },
+      (err:any) => {
+        this.router.navigate(
+          [`/home/campaign/${prom.campaign._id}/recover-my-gains`],
+          {
+            queryParams: {prom_hash: prom.hash, id: prom.campaign._id}
+          }
+        );
       }
-    );
+    )
+    
   }
   validateLink(prom: any) {
     this.blockchainActions.onActionButtonClick({

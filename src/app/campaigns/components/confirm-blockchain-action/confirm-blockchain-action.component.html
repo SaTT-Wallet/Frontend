@@ -5,8 +5,8 @@
 <p class="confirmation-info">
   {{ 'campaign_password.description2' | translate }}
 </p>
-<div>
-  <p style="font-family: 'Poppins';font-weight: 400; color: grey">
+<ng-container *ngIf="!!network">
+  <p style="font-family: 'Poppins';font-weight: 400; text-align: center;">
     <ng-container *ngIf="network.toString().toUpperCase() === 'BEP20' && !!bepGaz">
       Fees : {{ (bepGaz / bnb).toFixed(8) }} BNB ( ≈ ${{bepGaz}} )
     </ng-container>
@@ -16,7 +16,7 @@
     
    
   </p>
-</div>
+</ng-container>
 <form [formGroup]="form" (ngSubmit)="onFormSubmit()" class="confirm-form">
   <div
     class="div_input_add position-relative"
