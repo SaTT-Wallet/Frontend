@@ -15,12 +15,11 @@ import {
   UntypedFormControl,
   UntypedFormGroup,
   ValidatorFn,
-  Validators,
-
+  Validators
 } from '@angular/forms';
 import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
 
-import { of, Subject , forkJoin} from 'rxjs';
+import { of, Subject, forkJoin } from 'rxjs';
 import {
   catchError,
   map,
@@ -28,8 +27,7 @@ import {
   takeUntil,
   take,
   tap,
-  switchMap,
-  
+  switchMap
 } from 'rxjs/operators';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -109,10 +107,10 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
   accountDeactivatedError = false;
   tiktokProfilePrivacy = '';
   TiktokPrivate: boolean = false;
-  tokenName : string = '';
-  urlFromInput : any;
-  
-  urlTiktok : string = env.urlSocialMedia.urlTiktok;
+  tokenName: string = '';
+  urlFromInput: any;
+
+  urlTiktok: string = env.urlSocialMedia.urlTiktok;
   // @ViewChild('draggable') private draggableElement: ElementRef | undefined;
   // @ViewChild('draggableinsta') private draggableinstaElement:
   // | ElementRef
@@ -134,7 +132,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
   isGoogleUrl: boolean = false;
   gazproblem: boolean = false;
   embedTiktokVideo: any;
-  privacy: string='public';
+  privacy: string = 'public';
   constructor(
     private profilService: ProfileService,
     private router: Router,
@@ -165,34 +163,28 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
 
   ngOnInit(): void {
     this.ActivatedRoute.params
-    .pipe(
-      mergeMap((params) => {
-        this.campaignId = params['campaign_id'];
-        return this.CampaignService.getOneById(this.campaignId,'projection');
-      }),
-      takeUntil(this.isDestroyedSubject)
-    )
-    .subscribe((data: any) => {
-      this.campaigndata = data.data;
-      this.networkWallet = data.data.token.type;
-      this.tokenName = data.data.token.name
-      let performance = this.campaigndata.ratios[0]?.oracle;
-      if (performance?.length > 1 && performance === 'twitter') {
-        this.ratioLink = true;
-      }
-      this.parentFunction(this.networkWallet).subscribe();
-    });
+      .pipe(
+        mergeMap((params) => {
+          this.campaignId = params['campaign_id'];
+          return this.CampaignService.getOneById(this.campaignId, 'projection');
+        }),
+        takeUntil(this.isDestroyedSubject)
+      )
+      .subscribe((data: any) => {
+        this.campaigndata = data.data;
+        this.networkWallet = data.data.token.type;
+        this.tokenName = data.data.token.name;
+        let performance = this.campaigndata.ratios[0]?.oracle;
+        if (performance?.length > 1 && performance === 'twitter') {
+          this.ratioLink = true;
+        }
+        this.parentFunction(this.networkWallet).subscribe();
+      });
 
-
-
-    this.profilService.getTiktokProfilPrivcay().subscribe((res:any)=>
-    {
-
+    this.profilService.getTiktokProfilPrivcay().subscribe((res: any) => {
       this.tiktokProfilePrivacy = res.data;
-     this.CheckPrivacy();
-
-    }
-    )
+      this.CheckPrivacy();
+    });
     this.sendform
       .get('url')
       ?.valueChanges.pipe(takeUntil(this.isDestroyedSubject))
@@ -208,13 +200,12 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
 
         setTimeout(() => {
           this.spinner = false;
-         
+
           this.sendLink();
         }, 1000);
       });
-    
+
     this.showLinkedMessage();
-     
   }
 
   ngAfterContentChecked(): void {
@@ -239,33 +230,30 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
       window.open('https://www.youtube.com/watch?v=tAZHZwrZh0o', '_blank');
   }
   goToBuy() {
-
-    if(this.error === 'out_of_gas_btt'){
-      window.open('https://sunswap.com/#/v2?lang=en-US&t0=TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t&t1=TAFjULxiVgT4qWk6UZwjqwZXTSaGaqnVp4&type=swap', '_blank');
-      return
-   }
- 
+    if (this.error === 'out_of_gas_btt') {
+      window.open(
+        'https://sunswap.com/#/v2?lang=en-US&t0=TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t&t1=TAFjULxiVgT4qWk6UZwjqwZXTSaGaqnVp4&type=swap',
+        '_blank'
+      );
+      return;
+    }
 
     if (this.networkWallet === 'BEP20') {
       this.tokenName = 'BNB';
-    
     } else if (this.networkWallet === 'ERC20') {
       this.tokenName = 'ETH';
-    }
-    
-    else if (this.networkWallet === 'TRON') {
+    } else if (this.networkWallet === 'TRON') {
       this.tokenName = 'TRX';
     } else if (this.networkWallet === 'MATIC') {
       this.tokenName = 'MATIC';
-      this.networkWallet = 'POLYGON'
+      this.networkWallet = 'POLYGON';
     } else if (this.networkWallet === 'BTTC') {
       this.tokenName = '';
     }
 
     this.router.navigate(['/wallet/buy-token'], {
-      
       queryParams: {
-        id:  this.tokenName,
+        id: this.tokenName,
         network: this.networkWallet
       },
       relativeTo: this.ActivatedRoute
@@ -275,11 +263,9 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
     const testTiktok = normalUrl?.search('vm.tiktok.com');
     const testYoutube = normalUrl?.search('youtu.be');
 
-
-    if ((testTiktok > -1) || (testYoutube > -1)) {
+    if (testTiktok > -1 || testYoutube > -1) {
       this.CampaignService.expandUrl(normalUrl).subscribe((res: any) => {
         this.urlFromInput = res.data;
-        
       });
     }
   }
@@ -362,7 +348,6 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
   }
 
   sendLink(): void {
-    
     this.connectValue = '';
     let performance = this.campaigndata?.ratios?.length
       ? this.campaigndata?.ratios
@@ -379,30 +364,74 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
         (media?.indexOf('posts') !== -1 ||
           media?.indexOf('photos') !== -1 ||
           media?.indexOf('videos') !== -1)) ||
+      media?.indexOf(env.M_FaCEBOOK_URL) !== -1 ||
       media.search('vm.tiktok.com') !== -1
     ) {
       this.validUrl = true;
       let parts = media?.split('/');
       if (parts[3] !== '' && parts[5] !== '') {
-        myApplication.idUser = parts[3].replace(pattLinks, '');
-        this.userfaceook = myApplication.idUser;
-        myApplication.idPost = parts[5].split('?')[0].replace(pattLinks, '');
-        this.idfaceook = myApplication.idPost;
-        myApplication.typeSN = 1;
-        this.application = myApplication;
+        if (media.indexOf(env.M_FaCEBOOK_URL) !== -1) {
+          let mfacebooklink = media?.replaceAll('&', '=');
+          let parts1 = mfacebooklink?.split('=');
+          let test = this.CampaignService.getFbUserName(parts1[3]).subscribe(
+            (data: any) => {
+          
+              myApplication.idUser = data.data;
+              myApplication.idPost = parts1[1];
+
+              this.userfaceook = myApplication.idUser;
+              this.idfaceook = myApplication.idPost;
+              myApplication.typeSN = 1;
+              this.application = myApplication;
+
+              this.tokenStorageService.setIdPost(myApplication.idPost);
+              this.tokenStorageService.setIdUserPost(myApplication.idUser);
+              this.tokenStorageService.setTypeSN(myApplication.typeSN);
+              this.renderer.setAttribute(
+                this.myIframe?.nativeElement,
+                'src',
+                env.FACEBOOK_POST_URL +
+                  this.userfaceook +
+                  '%2Fposts%2F' +
+                  this.idfaceook +
+                  '&show_text=true&appId=214777317448706'
+              );
+            },
+            (err) => {
+              this.error = 'Not_your_link';
+              this.oracleType = 'facebook';
+              this.success = '';
+              this.loadingButton = false;
+              this.router.navigate([], {
+                queryParams: {
+                  errorMessage: 'error'
+                }
+              });
+            }
+          );
+      
+        } else {
+          myApplication.idUser = parts[3].replace(pattLinks, '');
+          this.userfaceook = myApplication.idUser;
+          myApplication.idPost = parts[5].split('?')[0].replace(pattLinks, '');
+          this.idfaceook = myApplication.idPost;
+          myApplication.typeSN = 1;
+          this.application = myApplication;
+          this.renderer.setAttribute(
+            this.myIframe?.nativeElement,
+            'src',
+            env.FACEBOOK_POST_URL +
+              this.userfaceook +
+              '%2Fposts%2F' +
+              this.idfaceook +
+              '&show_text=true&appId=214777317448706'
+          );
+        }
+
         this.idinstagram = '';
         this.idstatus = '';
         this.idvideo = '';
         this.idlinkedin = '';
-        this.renderer.setAttribute(
-          this.myIframe?.nativeElement,
-          'src',
-          env.FACEBOOK_POST_URL +
-            this.userfaceook +
-            '%2Fposts%2F' +
-            this.idfaceook +
-            '&show_text=true&appId=214777317448706'
-        );
 
         if (!!this.idfaceook && isPlatformBrowser(this.platformId)) {
           this.renderer.removeChild(
@@ -743,8 +772,9 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
             .subscribe(
               (data: any) => {
                 if (
-                  (data.message ===
-                    'success' && data.code === 200 && data.data !== 'false')
+                  data.message === 'success' &&
+                  data.code === 200 &&
+                  data.data !== 'false'
                 ) {
                   this.linked = true;
                   this.loadingButton = false;
@@ -921,7 +951,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
             .subscribe(
               (data: any) => {
                 if (data.message === 'success' && data.code === 200) {
-                  this.application.linkedinId = data.id
+                  this.application.linkedinId = data.id;
                   this.linked = true;
                   this.loadingButton = false;
                 } else if (data.data === 'false' && data.code === 200) {
@@ -1153,7 +1183,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
       media.search('vm.tiktok.com') !== -1
     ) {
       this.idtiktok = media.split('video/')[1].split('?')[0];
-      
+
       this.embedTiktokVideo = this.sanitizer.bypassSecurityTrustHtml(`
         <iframe
           src="https://www.tiktok.com/embed/v2/${this.idtiktok}"
@@ -1251,7 +1281,6 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
               }
             }
           );
-       
       } else {
         this.spinner = false;
         this.error = 'oracle_not_exist';
@@ -1276,13 +1305,11 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
   //     )
   //   )
   // );
-  CheckPrivacy(){
-    
-    if(this.tiktokProfilePrivacy==="private"){
-
-    this.privacy="private";
-    this.TiktokPrivate=true;
-  }
+  CheckPrivacy() {
+    if (this.tiktokProfilePrivacy === 'private') {
+      this.privacy = 'private';
+      this.TiktokPrivate = true;
+    }
   }
   getdatavideo() {
     this.CampaignService.videoDescription(this.idvideo, this.oracleType)
@@ -1317,7 +1344,6 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
   //}
 
   applyCampaign(): void {
-    
     let application = this.application;
     if (!application) {
       application = {};
@@ -1358,7 +1384,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
           //   this.balanceNotEnough = false;
 
           // } else {
-         
+
           if (data?.data?.applyerSignature?.signature) {
             this.transactionHash = data?.data?.applyerSignature?.signature;
             this.notifyLink(data?.data?.applyerSignature?.signature);
@@ -1400,12 +1426,15 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
           } else if (error.error.code === 402) {
             if (
               error.error.error === 'Account resource insufficient error.' ||
-              error.error.error === "Contract validate error : account does not exist" ||
               error.error.error ===
-                'Returned error: replacement transaction underpriced' || error.error.error === "Returned error: insufficient funds for gas * price + value"
+                'Contract validate error : account does not exist' ||
+              error.error.error ===
+                'Returned error: replacement transaction underpriced' ||
+              error.error.error ===
+                'Returned error: insufficient funds for gas * price + value'
             ) {
               this.gazproblem = true;
-              this.error = "out_of_gas_error";
+              this.error = 'out_of_gas_error';
               this.router.navigate([], {
                 queryParams: {
                   errorMessage: 'error'
@@ -1441,8 +1470,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
                   errorMessage: 'error'
                 }
               });
-            } else if(error.error.error === 'Wallet v2 not found')
-            {
+            } else if (error.error.error === 'Wallet v2 not found') {
               this.error = 'wallet not found';
               this.success = '';
               this.loadingButton = false;
@@ -1454,59 +1482,49 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
       );
   }
 
-  parentFunction(network:any) {
-    
-
+  parentFunction(network: any) {
     return this.walletFacade.getCryptoPriceList().pipe(
-    
       map((response: any) => response.data),
       take(1),
       map((data: any) => {
         let protocolrPrice;
         let networkProtocol;
-        if(network === "BEP20"){
+        if (network === 'BEP20') {
           protocolrPrice = data['BNB'].price;
-          networkProtocol = env.Network.BNB
-       } else if(network === "ERC20"){
+          networkProtocol = env.Network.BNB;
+        } else if (network === 'ERC20') {
           protocolrPrice = data['ETH'].price;
-          networkProtocol = env.Network.ETH
-       }else if(network === "POLYGON"){
+          networkProtocol = env.Network.ETH;
+        } else if (network === 'POLYGON') {
           protocolrPrice = data['MATIC'].price;
-          networkProtocol = env.Network.MATIC
-       }else if( network === "BTTC"){
-         protocolrPrice = data['BTT'].price;
-          networkProtocol = env.Network.BTT
-          
-       }else if( network === "TRON"){
-        protocolrPrice = data['TRX'].price;
-         networkProtocol =  env.Network.TRX
-      }
-        return {protocolrPrice, networkProtocol};
+          networkProtocol = env.Network.MATIC;
+        } else if (network === 'BTTC') {
+          protocolrPrice = data['BTT'].price;
+          networkProtocol = env.Network.BTT;
+        } else if (network === 'TRON') {
+          protocolrPrice = data['TRX'].price;
+          networkProtocol = env.Network.TRX;
+        }
+        return { protocolrPrice, networkProtocol };
       }),
-      
-      switchMap(({protocolrPrice, networkProtocol}) => {
+
+      switchMap(({ protocolrPrice, networkProtocol }) => {
         return this.walletFacade.getGas(network).pipe(
           take(1),
           tap((res: any) => {
             let price;
-                price = res.data.gasPrice;
-                this.networkProtocol = networkProtocol;
+            price = res.data.gasPrice;
+            this.networkProtocol = networkProtocol;
 
-
-                this.gazsend = (
-                  ((price * GazConsumedByCampaign) / 1000000000) *
-                  protocolrPrice
-                );
-                this.networkGas = this.showNumbersRule.transform(this.gazsend + '', true)
-                
-
-
-               
-            }
-          )
+            this.gazsend =
+              ((price * GazConsumedByCampaign) / 1000000000) * protocolrPrice;
+            this.networkGas = this.showNumbersRule.transform(
+              this.gazsend + '',
+              true
+            );
+          })
         );
       })
-   
     );
   }
 
