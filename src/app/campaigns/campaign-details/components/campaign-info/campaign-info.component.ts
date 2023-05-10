@@ -530,7 +530,6 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
     
     if (!this.campaign.isOwnedByUser && this.earnings?.length) {
       this.earnings.forEach((item: any) => {
-        console.log(item)
         if (
           item.status &&
           ((item.payedAmount !== '0' || item.payedAmount !== '0.00') && item.payedAmount)
