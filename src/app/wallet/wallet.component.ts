@@ -814,7 +814,23 @@ export class WalletComponent implements OnInit, OnDestroy {
   //   }
   //   return this.urlImgCondition;
   // }
+  shouldShowWarning(): boolean {
+    return (
+      this.versionText === 'New Wallet' &&
+      this.existV1 &&
+      !this.show &&
+      this.existV2
+    );
+  }
 
+  shouldMigrate(): boolean {
+    return (
+      this.versionText === 'New Wallet' &&
+      this.existV1 &&
+      this.show &&
+      this.existV2
+    );
+  }
   ngOnInit(): void {
     // this.modalService.open(this.setPwdTransactionModal, {
     //   backdrop: 'static',

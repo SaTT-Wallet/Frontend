@@ -122,7 +122,7 @@
               Go to {{ versionText }}
             </p>
           </ng-container>
-          <!-- <div
+          <div
             class="divbtn"
             *ngIf="versionText === 'New Wallet' && existV1 && show && existV2"
           >
@@ -133,16 +133,14 @@
               /></span>
               Migrate my tokens
             </button>
-          </div> -->
-          <ng-container
-            *ngIf="versionText === 'New Wallet' && existV1 && !show && existV2"
-          >
-            <div class="hwrap">
+          </div>
+          <ng-container *ngIf="shouldShowWarning()">
+            <div class="hwrap" [ngClass]="{ migrate: shouldMigrate() }">
               <div class="hmove">
-                <div class="hitem">
-                  <label>
-                    {{ 'Profil.warning_deprecrated_walletv1' | translate }}
-                  </label>
+                <div class="hitem" [ngClass]="{ migrate: shouldMigrate() }">
+                  <label>{{
+                    'Profil.warning_deprecrated_walletv1' | translate
+                  }}</label>
                 </div>
               </div>
             </div>
