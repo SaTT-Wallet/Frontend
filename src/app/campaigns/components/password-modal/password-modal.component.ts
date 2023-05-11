@@ -65,9 +65,11 @@ export class PasswordModalComponent implements OnInit {
   transactionHash = '';
   bnb: any;
   eth: any;
+  btt:any;
   gazsend: any;
   erc20Gaz: any;
   bepGaz: any;
+  bttGaz:any;
   private isDestroyed = new Subject();
   matic: any;
   polygonGaz: any;
@@ -237,11 +239,12 @@ export class PasswordModalComponent implements OnInit {
         this.bnb = data['BNB'].price;
         this.eth = data['ETH'].price;
         this.matic = data['MATIC'].price;
-
+        this.btt = data['BTT'].price;
         return {
           bnb: this.bnb,
           Eth: this.eth,
-          matic: this.matic
+          matic: this.matic,
+          btt: this.btt 
         };
       }),
       switchMap(({ bnb, Eth, matic }) => {
@@ -289,6 +292,20 @@ export class PasswordModalComponent implements OnInit {
               this.polygonGaz = (
                 ((price * GazConsumedByCampaign) / 1000000000) *
                 matic
+              ).toFixed(8);
+            })
+          ),
+
+
+          this.walletFacade.getBttGaz().pipe(
+            take(1),
+            tap((gaz: any) => {
+              let price;
+              price = gaz.data.gasPrice;
+
+              this.bttGaz = (
+                ((price * GazConsumedByCampaign) / 1000000000) *
+                this.btt
               ).toFixed(8);
             })
           )
