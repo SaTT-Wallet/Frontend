@@ -23,9 +23,8 @@ export function reducer(
 ): TotaleBalanceState {
   switch (action.type) {
     case WalletActionTypes.LoadTotalBalanceSuccess: {
-
       return {
-        totalBalance: action.payload.data.Total_balance,
+        totalBalance: action.payload.data === undefined ? '' : action.payload.data.Total_balance,
         isLoaded: true,
         error: ''
       };
