@@ -271,18 +271,18 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
       relativeTo: this.ActivatedRoute
     });
   }
-  shortUrlChanger(normalUrl: string) {
-    const testTiktok = normalUrl?.search('vm.tiktok.com');
-    const testYoutube = normalUrl?.search('youtu.be');
+  // shortUrlChanger(normalUrl: string) {
+  //   const testTiktok = normalUrl?.search('vm.tiktok.com');
+  //   const testYoutube = normalUrl?.search('youtu.be');
 
 
-    if ((testTiktok > -1) || (testYoutube > -1)) {
-      this.CampaignService.expandUrl(normalUrl).subscribe((res: any) => {
-        this.urlFromInput = res.data;
+  //   if ((testTiktok > -1) || (testYoutube > -1)) {
+  //     this.CampaignService.expandUrl(normalUrl).subscribe((res: any) => {
+  //       this.urlFromInput = res.data;
         
-      });
-    }
-  }
+  //     });
+  //   }
+  // }
   connect(social: any) {
     var linkFacebook: string =
       sattUrl +
@@ -1007,12 +1007,19 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
         this.oracleType = env.oracleType.youtube;
       }
       if (media.indexOf(env.YOUTUBE_SHORTEN_LINK) !== -1) {
+     
+     
         var parts = media.split('/');
         let videoId = parts[3];
         this.idvideo = videoId;
+    
         myApplication.idPost = videoId;
         myApplication.idUser = '0';
         myApplication.typeSN = 2;
+        this.application = myApplication;
+        this.tokenStorageService.setIdPost(myApplication.idPost);
+        this.tokenStorageService.setIdUserPost(myApplication.idUser);
+        this.tokenStorageService.setTypeSN(myApplication.typeSN);
       }
       if (media.indexOf(env.YOUTUBE_EMBED_LINK) !== -1) {
         var parts = media.split('/');
@@ -1028,11 +1035,16 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
       }
       this.application = myApplication;
 
+
       if (this.application) {
+     
+        
         this.tokenStorageService.setIdPost(myApplication.idPost);
         this.tokenStorageService.setIdUserPost(myApplication.idUser);
         this.tokenStorageService.setTypeSN(myApplication.typeSN);
       } else {
+      
+        
         myApplication.idPost = this.tokenStorageService.getIdPost();
         myApplication.idUser = this.tokenStorageService.getIdUserPost();
         myApplication.typeSN = this.tokenStorageService.getTypeSN();

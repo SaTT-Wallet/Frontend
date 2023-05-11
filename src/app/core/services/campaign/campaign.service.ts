@@ -1159,16 +1159,16 @@ export class CampaignHttpApiService {
       headers: header
     });
   }
-  expandUrl(shortUrl: string) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json'
-    });
+  // expandUrl(shortUrl: string) {
+  //   let header = new HttpHeaders({
+  //     'Cache-Control': 'no-store',
+  //     'Content-Type': 'application/json'
+  //   });
 
-    return this.http.get(sattUrl + '/campaign/expandUrl?shortUrl=' + shortUrl, {
-      headers: header
-    });
-  }
+  //   return this.http.get(sattUrl + '/campaign/expandUrl?shortUrl=' + shortUrl, {
+  //     headers: header
+  //   });
+  // }
 
   getWelcomePageStats() {
     let header = new HttpHeaders({
