@@ -134,27 +134,13 @@
               Migrate my tokens
             </button>
           </div>
-          <ng-container
-            *ngIf="versionText === 'New Wallet' && existV1 && !show && existV2"
-          >
-            <div
-              class="hwrap"
-              [ngClass]="{
-                migrate:
-                  versionText === 'New Wallet' && existV1 && show && existV2
-              }"
-            >
+          <ng-container *ngIf="shouldShowWarning()">
+            <div class="hwrap" [ngClass]="{ migrate: shouldMigrate() }">
               <div class="hmove">
-                <div
-                  class="hitem"
-                  [ngClass]="{
-                    migrate:
-                      versionText === 'New Wallet' && existV1 && show && existV2
-                  }"
-                >
-                  <label>
-                    {{ 'Profil.warning_deprecrated_walletv1' | translate }}
-                  </label>
+                <div class="hitem" [ngClass]="{ migrate: shouldMigrate() }">
+                  <label>{{
+                    'Profil.warning_deprecrated_walletv1' | translate
+                  }}</label>
                 </div>
               </div>
             </div>

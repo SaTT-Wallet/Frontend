@@ -2077,7 +2077,7 @@ p {
 
 /* (C) ITEMS - INTO A LONG HORIZONTAL ROW */
 .hitem {
-  margin-top: 1%;
+  margin-top: 2%;
   padding: 10px;
   text-align: center;
   font-family: 'Poppins';
@@ -2120,7 +2120,7 @@ p {
   }
   .estim_ballance {
     position: relative;
-    top: 7vh;
+    top: 6vh;
   }
   .walletEstimm {
     margin-top: 4%;
@@ -2157,7 +2157,7 @@ p {
     font-style: normal;
     font-weight: 400;
     font-size: 13px;
-    top: 2vh;
+    top: 1.7vh;
     padding-left: 16px;
     /* line-height: 99%; */
     /* display: flex; */
