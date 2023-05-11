@@ -90,11 +90,16 @@ export class FarmWelcomeComponent implements OnInit {
       this.loadNbrTransactions()
 
     }
-    if (this.tokenStorageService.getToken()) {
-      this.isConnected = true;
+    /*if (this.tokenStorageService.getToken()) {
+      this.walletFacade.checkUserWalletV2()
+      .subscribe((res: any) => {
+        if(res.message === "success") {
+          this.isConnected = true;
+        } else this.isConnected = false;
+      }, (err:any) => this.isConnected = false)
     } else {
       this.isConnected = false;
-    }
+    }*/
   }
   @HostListener('window:resize', ['$event'])
   onResize() {
@@ -127,6 +132,7 @@ getBlogs(){
       queryParams: queryParams
     });
   }
+  
 
   loadCampaigns() {
     this.campaignsListStoreService.loadingCampaign$
