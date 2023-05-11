@@ -1090,7 +1090,6 @@ export class CampaignHttpApiService {
       .set('page', '' + page)
       .set('limit', '' + size)
       .set('version',''+this.tokenStorageService.getWalletVersion())
-      
     let header = new HttpHeaders({
       'Cache-Control': 'no-store',
       'Content-Type': 'application/json',
@@ -1158,6 +1157,18 @@ export class CampaignHttpApiService {
     return this.http.get(`${sattUrl}/campaign/statLinkCampaign/` + hash, {
       headers: header
     });
+  }
+  getFbUserName(linkApplication: any) {
+    return this.http.get(
+      sattUrl +
+        '/profile/link/verify/fbUserName/' +
+        linkApplication,
+      {
+        headers: {
+          Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+        }
+      }
+    );
   }
   expandUrl(shortUrl: string) {
     let header = new HttpHeaders({

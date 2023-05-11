@@ -216,11 +216,9 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
       this.validFormMissionFromRemuToEdit &&
       this.validFormPicture
     ) {
-      console.log("here");
-      
       this.alertRequired = false;
       this.router.navigate(['home/check-password'], {
-        queryParams: { id: this.draftId }
+        queryParams: { id: this.draftId, network: this.campaignData.currency.type }
       });
     } else {
       this.alertRequired = true;
@@ -325,7 +323,6 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
     
 
     this.validFormBudgetRemun = event;
-    console.log("im here",this.validFormBudgetRemun)
   }
   listenForMissionChange(event: any) {
 

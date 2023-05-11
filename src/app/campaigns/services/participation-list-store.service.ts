@@ -121,6 +121,7 @@ export class ParticipationListStoreService {
     filterOptions: any,
     query: any
   ) {
+    let basicTotalToEarn :string;
     this.nextPage.pageNumber = firstLoad ? 0 : this.nextPage.pageNumber;
 
     if (this.nextPage.items.length || this.nextPage.pageNumber === 0) {
@@ -138,6 +139,7 @@ export class ParticipationListStoreService {
             if (response.message === 'success') {
               this.count = response.data.count;
               response.data.Links.forEach((element: any) => {
+                basicTotalToEarn = element.totalToEarn
                 element.appliedDate = this.createDateFromUnixTimestamp(
                   element.appliedDate
                 );
@@ -163,7 +165,7 @@ export class ParticipationListStoreService {
                   element.sum =
                     element?.totalToEarn &&
                     element?.payedAmount &&
-                    new Big(element?.totalToEarn).gt(element?.payedAmount)
+                    new Big(basicTotalToEarn).gt(element?.payedAmount)
                       ? new Big(element?.totalToEarn)
                           .plus(element?.payedAmount)
                           .toFixed()
