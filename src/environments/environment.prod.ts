@@ -43,7 +43,7 @@ export const environment = {
     measurementId: 'G-DSJK01CZ0X'
   },
   gmtId: 'GTM-5XW23QX',
-  unix15days :1296000,
+  dateRefund :1296000,
   fcmredirectUrl: 'https://satt.atayen.us/#/home',
   bscan: 'https://bscscan.com/tx/',
   etherscan: 'https://etherscan.io/tx/',
