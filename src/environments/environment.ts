@@ -67,7 +67,7 @@ export const environment = {
   bttscanAddr: 'https://testnet.bttcscan.com/address/',
   tronScanAddr: 'https://shasta.tronscan.org/#/address/',
   etherscanaddr: 'https://goerli.etherscan.io/address/',
-
+  unix15days :1296000,
   simplexUrl: 'https://sandbox.test-simplexcc.com/payments/new',
   gmtId: 'GTM-5XW23QX',
 
