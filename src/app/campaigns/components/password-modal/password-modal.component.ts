@@ -65,9 +65,11 @@ export class PasswordModalComponent implements OnInit {
   transactionHash = '';
   bnb: any;
   eth: any;
+  btt:any;
   gazsend: any;
   erc20Gaz: any;
   bepGaz: any;
+  bttGaz:any;
   private isDestroyed = new Subject();
   matic: any;
   polygonGaz: any;
@@ -87,10 +89,10 @@ export class PasswordModalComponent implements OnInit {
     this.route.queryParams
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((params: any) => {
+        this.network = params['network']
         this.campaign = this.campaignsStore.campaignsListByWalletId.find(
           (c) => c.id === params['id']
         );
-
         if (!!this.campaign) {
           this.network = this.campaign.currency.type;
         }
@@ -118,8 +120,10 @@ export class PasswordModalComponent implements OnInit {
     //   });
     // }
     this.parentFunction().subscribe();
+    if(!!this.campaign) this.network = this.campaign.currency.type;
+    
   }
-
+  
   creatYourCampaign() {
     this.errorMessage = '';
     let token = this.campaign?.currency?.name;
@@ -235,11 +239,12 @@ export class PasswordModalComponent implements OnInit {
         this.bnb = data['BNB'].price;
         this.eth = data['ETH'].price;
         this.matic = data['MATIC'].price;
-
+        this.btt = data['BTT'].price;
         return {
           bnb: this.bnb,
           Eth: this.eth,
-          matic: this.matic
+          matic: this.matic,
+          btt: this.btt 
         };
       }),
       switchMap(({ bnb, Eth, matic }) => {
@@ -276,25 +281,7 @@ export class PasswordModalComponent implements OnInit {
             })
           ),
 
-          this.walletFacade.getBnbGaz().pipe(
-            take(1),
-            tap((gaz: any) => {
-              let price = gaz.data.gasPrice;
-              this.bepGaz = (
-                ((price * GazConsumedByCampaign) / 1000000000) *
-                bnb
-              ).toFixed(2);
-
-              if (this.gazsend === 'NaN') {
-                this.gazsend = '';
-                let price = gaz.data.gasPrice;
-                this.bepGaz = (
-                  ((price * GazConsumedByCampaign) / 1000000000) *
-                  this.bnb
-                ).toFixed(2);
-              }
-            })
-          ),
+          
 
           this.walletFacade.getPolygonGaz().pipe(
             take(1),
@@ -305,6 +292,20 @@ export class PasswordModalComponent implements OnInit {
               this.polygonGaz = (
                 ((price * GazConsumedByCampaign) / 1000000000) *
                 matic
+              ).toFixed(8);
+            })
+          ),
+
+
+          this.walletFacade.getBttGaz().pipe(
+            take(1),
+            tap((gaz: any) => {
+              let price;
+              price = gaz.data.gasPrice;
+
+              this.bttGaz = (
+                ((price * GazConsumedByCampaign) / 1000000000) *
+                this.btt
               ).toFixed(8);
             })
           )

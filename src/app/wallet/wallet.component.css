@@ -41,6 +41,7 @@ input:-webkit-autofill:active {
   width: 938px;
   margin-top: -2%;
 }
+
 .error_input {
   width: 150%;
   margin-left: 2.2em;
@@ -2381,6 +2382,9 @@ p {
   border: 1px solid #f52079 !important;
 }
 .div-input-icon.errorMsg {
+  border: 1px solid #f52079 !important;
+}
+.div-input-icon.errormsg {
   border: 1px solid #f52079 !important;
 }
 

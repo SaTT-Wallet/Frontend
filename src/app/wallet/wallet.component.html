@@ -672,6 +672,12 @@
           <div class="col-10">
             <div
               class="div-input-icon position-relative"
+              [ngStyle]="
+                !wrongpassword &&
+                !this.formUpdateTransactionPassword.errors?.mustMatch
+                  ? { border: '1px solid #ffa318' }
+                  : { border: '1px solid #f42079' }
+              "
               [ngClass]="{
                 errorMsg: this.formUpdateTransactionPassword.errors?.mustMatch,
                 errormsg:
@@ -746,7 +752,6 @@
                 [className]="
                   password.value.length >= 8 ? 'success_input' : 'error_input'
                 "
-                style="width: 100%"
               >
                 {{ 'Profil.password_minlength_eight_chars' | translate }}
               </p>
