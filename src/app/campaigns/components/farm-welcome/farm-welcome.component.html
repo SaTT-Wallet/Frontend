@@ -89,7 +89,7 @@
     class="btn_container_loadmore"
     *ngIf="!isLoading && !noData"
     (click)="loadMore()"
-    
+    routerLink="/ad-pools"
   >
     <span class="load-more-btn">All Adpools</span>
     <span class="load-more-btn-arrow">></span>
@@ -219,25 +219,22 @@
     </div>
     <div class="row flex-nowrap overflow-auto">
       <ng-container *ngIf="!!blogs">
-        <div
-        class="col"
-        *ngFor="let blog of blogs.slice(0,3)"
-      >
-        <div
-          class="card mb-4 box-shadow"
-          style="border: hidden; background: transparent"
-        >
-          <a target="_blank" href="{{ blog.link }}">
-            <img
-              class="card-img-top blog-img"
-              [src]="blog._embedded['wp:featuredmedia'][0].source_url"
-              alt="{{ blog.title.rendered }}"
-            />
-          </a>
+        <div class="col" *ngFor="let blog of blogs.slice(0, 3)">
+          <!-- [@scrollAnimation] -->
+          <div
+            class="card mb-4 box-shadow"
+            style="border: hidden; background: transparent"
+          >
+            <a target="_blank" href="{{ blog.link }}">
+              <img
+                class="card-img-top blog-img"
+                [src]="blog._embedded['wp:featuredmedia'][0].source_url"
+                alt="{{ blog.title.rendered }}"
+              />
+            </a>
+          </div>
         </div>
-      </div>
       </ng-container>
-      
     </div>
   </div>
 </div>
