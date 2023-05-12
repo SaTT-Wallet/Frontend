@@ -1416,7 +1416,8 @@ export class WalletComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestoy$))
       .subscribe(
         (res: any) => {
-          if (!res.data) {
+          console.log({res})
+          if (!!res && !!res.data && res.data === false) {
             this.hasWalletV2 = false;
             localStorage.setItem('existV2', 'false');
             this.height = '250px';
@@ -1424,6 +1425,9 @@ export class WalletComponent implements OnInit, OnDestroy {
               backdrop: 'static',
               keyboard: false
             });
+          } else if(!!res && !!res.message && res.message === "invalid token") {
+            this.hasWalletV2 = false;
+            localStorage.setItem('existV2', 'false');
           } else {
             this.hasWalletV2 = true;
 

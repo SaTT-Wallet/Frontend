@@ -35,7 +35,8 @@ import {
   mergeMap,
   takeUntil,
   tap,
-  startWith
+  startWith,
+  take
 } from 'rxjs/operators';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AuthStoreService } from '@core/services/Auth/auth-store.service';
@@ -221,6 +222,10 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     private route: ActivatedRoute,
     private hostElement: ElementRef
   ) {
+    router.events.subscribe((val) => {
+      console.log({val})
+      console.log(window.location.href);
+    })
     breakpointObserver
       .observe([Breakpoints.Medium, Breakpoints.Large, Breakpoints.XLarge])
       .pipe(takeUntil(this.isDestroyed$))
@@ -424,12 +429,16 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         this.tokenStorageService.setItem('tron-wallet', this.tronAddress);
         this.tokenStorageService.setItem('tron-wallet_v2', this.tronAddressV2);
         } else {
+          this.signOut();
           this.isConnected = false;
           this.showConnectButton = true;
+          
         };
       }, (err:any) => {
+        this.signOut();
         this.isConnected = false;
         this.showConnectButton = true;
+        
       })
 
         
@@ -1566,8 +1575,14 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   signOut() {
+    
+    this.authStoreService.clearStore();
+        this.tokenStorageService.clear();
+        
     this.tokenStorageService.logout().subscribe(
       () => {
+        
+        
         this.campaignFacade.clearLinksListStore();
         this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
         this.ParticipationListStoreService.clearDataFarming();
@@ -1577,14 +1592,13 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
         this.ParticipationListStoreService.nextPage.pageNumber = 0;
         this.profileSettingsFacade.clearProfilePicStore();
-        this.authStoreService.clearStore();
-        this.tokenStorageService.clear();
+        
         this.kycFacadeService.dispatchLogoutKyc();
         this.isConnected = false;
         this.showConnectButton = true;
         this.authService.setIsAuthenticated(false);
 
-        window.open(env.url + 'welcome', '_self');
+       
       }
       // () => {
       //   this.campaignFacade.clearLinksListStore();
