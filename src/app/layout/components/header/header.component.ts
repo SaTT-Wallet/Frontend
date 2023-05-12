@@ -14,7 +14,7 @@ import {
   Input
 } from '@angular/core';
 // import { bscan, etherscan } from '@app/config/atn.config';
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute, ResolveStart } from '@angular/router';
 import { NotificationService } from '@core/services/notification/notification.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
@@ -36,7 +36,8 @@ import {
   takeUntil,
   tap,
   startWith,
-  take
+  take,
+  first
 } from 'rxjs/operators';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AuthStoreService } from '@core/services/Auth/auth-store.service';
@@ -222,10 +223,19 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     private route: ActivatedRoute,
     private hostElement: ElementRef
   ) {
-    router.events.subscribe((val) => {
-      console.log({val})
-      console.log(window.location.href);
+    this.router.events.subscribe((event) => {
+      if(event instanceof ResolveStart) {
+        if(this.tokenStorageService.getToken()) {
+          if(!(event.url.includes('welcome') || event.url.includes('ad-pools'))) {
+            this.walletFacade.checkUserWalletV2().pipe(first()).subscribe((res:any) => {
+              if(res.message != "success") this.signOut();
+            });
+          }
+        }
+      }
     })
+    
+    
     breakpointObserver
       .observe([Breakpoints.Medium, Breakpoints.Large, Breakpoints.XLarge])
       .pipe(takeUntil(this.isDestroyed$))
@@ -274,7 +284,10 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
     //detect url changes to change the background of header
     this.router.events.pipe(takeUntil(this.isDestroyed$)).subscribe((event) => {
+      
+      
       if (event instanceof NavigationEnd) {
+        
         if (event.url.includes('welcome')) {
           this.isWelcomePage = true;
         } else {
