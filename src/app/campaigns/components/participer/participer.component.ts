@@ -1164,8 +1164,16 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
       media.indexOf(env.TIKTOK_URL) !== -1 ||
       media.search('vm.tiktok.com') !== -1
     ) {
-      this.idtiktok = media.split('video/')[1].split('?')[0];
+     
+      if(media.indexOf('/embed/') !== -1){
+        this.idtiktok = media.split('embed/')[1];
+        
+        
+      }else{
+        this.idtiktok = media.split('video/')[1].split('?')[0];
+      }
       
+
       this.embedTiktokVideo = this.sanitizer.bypassSecurityTrustHtml(`
         <iframe
           src="https://www.tiktok.com/embed/v2/${this.idtiktok}"
@@ -1176,6 +1184,8 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
         >
         </iframe>`);
       myApplication.idPost = this.idtiktok;
+     
+      
       myApplication.idUser = this.tokenStorageService.getUserId();
       myApplication.typeSN = 6;
 
