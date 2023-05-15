@@ -259,16 +259,16 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
       relativeTo: this.ActivatedRoute
     });
   }
-  shortUrlChanger(normalUrl: string) {
-    const testTiktok = normalUrl?.search('vm.tiktok.com');
-    const testYoutube = normalUrl?.search('youtu.be');
+  // shortUrlChanger(normalUrl: string) {
+  //   const testTiktok = normalUrl?.search('vm.tiktok.com');
+  //   const testYoutube = normalUrl?.search('youtu.be');
 
-    if (testTiktok > -1 || testYoutube > -1) {
-      this.CampaignService.expandUrl(normalUrl).subscribe((res: any) => {
-        this.urlFromInput = res.data;
-      });
-    }
-  }
+  //   if (testTiktok > -1 || testYoutube > -1) {
+  //     this.CampaignService.expandUrl(normalUrl).subscribe((res: any) => {
+  //       this.urlFromInput = res.data;
+  //     });
+  //   }
+  // }
   connect(social: any) {
     var linkFacebook: string =
       sattUrl +
@@ -1043,6 +1043,10 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
         myApplication.idPost = videoId;
         myApplication.idUser = '0';
         myApplication.typeSN = 2;
+        this.application = myApplication;
+        this.tokenStorageService.setIdPost(myApplication.idPost);
+        this.tokenStorageService.setIdUserPost(myApplication.idUser);
+        this.tokenStorageService.setTypeSN(myApplication.typeSN);
       }
       if (media.indexOf(env.YOUTUBE_EMBED_LINK) !== -1) {
         var parts = media.split('/');
@@ -1182,8 +1186,13 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
       media.indexOf(env.TIKTOK_URL) !== -1 ||
       media.search('vm.tiktok.com') !== -1
     ) {
-      this.idtiktok = media.split('video/')[1].split('?')[0];
+      if(media.indexOf('/embed/') !== -1){
+        this.idtiktok = media.split('embed/')[1];
 
+
+      }else{
+        this.idtiktok = media.split('video/')[1].split('?')[0];
+      }
       this.embedTiktokVideo = this.sanitizer.bypassSecurityTrustHtml(`
         <iframe
           src="https://www.tiktok.com/embed/v2/${this.idtiktok}"
