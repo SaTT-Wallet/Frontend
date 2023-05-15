@@ -32,6 +32,7 @@ declare const zxcvbn: any;
 export class PassWalletComponent implements OnInit, OnDestroy {
   passwordExist: boolean = false;
   languageSelected: string = 'en';
+  errorExist: boolean = false;
   user!: User;
   erreuur: boolean = false;
   @ViewChild('passwordStrengthText') meter!: ElementRef;
@@ -182,12 +183,20 @@ export class PassWalletComponent implements OnInit, OnDestroy {
     return this.form.controls;
   }
   onSubmit() {
+    this.errorExist = false;
     let password = this.f.password.value;
     this.showSpinner = true;
     this.walletFacade.createPasswordWallet(password).subscribe(
       (response) => {
-        if (response.message === 'success' && response.code === 200) {
-          this.tokenStorageService.saveIdWallet(response.data.address);
+        
+        if (response.message === 'success' && response.code === 200 && !!response.data) {
+          if(!!response.data.error) {
+            this.errorExist = true;
+            this.showBigSpinner = false;
+          this.spinner.hide();
+          this.showSpinner = false;
+          } else {
+            this.tokenStorageService.saveIdWallet(response.data.address);
           this.tokenStorageService.saveTronWallet(response.data?.tronAddress);
           this.tokenStorageService.setSecureWallet('visited-pwd', 'true');
           this.tokenStorageService.setSecureWallet('visited-passPhrase', 'true');
@@ -195,7 +204,9 @@ export class PassWalletComponent implements OnInit, OnDestroy {
           this.showBigSpinner = false;
           this.spinner.hide();
           this.showSpinner = false;
-        }
+          }
+          
+        } 
       },
       (err) => {
         if (err.error.error === 'same password' && err.error.code === 401) {
