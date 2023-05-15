@@ -815,12 +815,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   //   return this.urlImgCondition;
   // }
   shouldShowWarning(): boolean {
-    return (
-      this.versionText === 'New Wallet' &&
-      this.existV1 &&
-      !this.show &&
-      this.existV2
-    );
+    return this.versionText === 'New Wallet';
   }
 
   shouldMigrate(): boolean {
