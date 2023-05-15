@@ -78,49 +78,6 @@ export class HeaderSocialRegistartionComponent implements OnInit {
     this.socialAccountFacadeService.dispatchLogoutSocialAccounts();
     this.accountFacadeService.dispatchLogoutAccount();
     this.router.navigate(['/auth/login']);
-    
-    /*this.tokenStorageService.logout().subscribe(
-      () => {
-        
-        this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
-        
-
-        //clear totalBalance and cryptoList
-        this.accountFacadeService.dispatchLogoutAccount(); //clear account user
-        this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
-        
-        this.router.navigate(['/auth/login']);
-        
-      }
-      // () => {
-      //   this.campaignFacade.clearLinksListStore();
-      //   this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
-      //   this.ParticipationListStoreService.clearDataFarming();
-      //   this.walletFacade.dispatchLogout(); //clear totalBalance and cryptoList
-      //   this.accountFacadeService.dispatchLogoutAccount(); //clear account user
-      //   this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
-      //   this.ParticipationListStoreService.nextPage.pageNumber = 0;
-      //   this.profileSettingsFacade.clearProfilePicStore();
-      //   this.authStoreService.clearStore();
-      //   this.tokenStorageService.clear();
-      //   this.kycFacadeService.dispatchLogoutKyc();
-      //   this.isConnected = false;
-      //   this.authService.setIsAuthenticated(false);
-      //   if (isPlatformBrowser(this.platformId)) {
-      //     window.location.reload();
-      //   }
-      //   this.router.navigate(['/auth/login']);
-      // }
-    );*/
-    /*this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
-    this.tokenStorageService.signOut();
-    this.socialAccountFacadeService.dispatchLogoutSocialAccounts();
-    this.accountFacadeService.dispatchLogoutAccount();
-    // if (isPlatformBrowser(this.platformId)) {
-    //   window.location.reload();
-    // }
-    //window.location.assign("https://satt.atayen.us/#/")
-    this.router.navigate(['/auth/login']);*/
   }
 
   refresh() {
