@@ -429,21 +429,24 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
         this.readAsBase64(fileUploaded).then((data) => {
           if (data.result.length < 2000000 + 594455) {
             let ipfsResult = "";
-            this.CampaignService.upload(fileUploaded).subscribe(
+            this.CampaignService.upload(fileUploaded, this.draftData.id).subscribe(
               (data: any) => {
-              if(data.data) {
+                
+              if(data.code === 200) {
                 ipfsResult = "ipfs:" + data.message.path
                 this.form.get('cover')?.setValue(ipfsResult);
                 this.form.get('coverSrc')?.setValue(ipfsResult);
 
                 this.CampaignService.updateOneById(this.form.value, this.draftData.id).subscribe((data: any) => {
-                  
-                  this.showImage = true;
+                  if(data.code === 200) {
+                    this.showImage = true;
                   this.imageChangedEvent = event;
                   this.isConformCover = true;
                   this.sizeErrorCover = false;
+                  }
+                  
                 });
-              }
+              } 
             }, (err: any) => {
               console.log(err)
             }
@@ -498,17 +501,20 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
           
           if (data.result.length < 2000000 + 594455) {
             let ipfsResult = "";
-            this.CampaignService.upload(fileUploaded).subscribe(
+            this.CampaignService.upload(fileUploaded, this.draftData.id).subscribe(
               (data: any) => {
-              if(data.data) {
+              if(data.code === 200) {
                 ipfsResult = "ipfs:" + data.message.path
                 this.form.get('coverMobile')?.setValue(ipfsResult);
                 this.form.get('coverSrcMobile')?.setValue(ipfsResult);
                 this.CampaignService.updateOneById(this.form.value, this.draftData.id).subscribe((data: any) => {
-                  this.imageChangedEventMobile = event;
+                  if(data.code === 200) {
+                    this.imageChangedEventMobile = event;
                   this.isConformCoverMobile = true;
                   this.showImageMobile = true;
                   this.sizeErrorCoverMobile = false;
+                  }
+                  
                 });
                 
                 
