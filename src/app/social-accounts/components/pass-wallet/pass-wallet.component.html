@@ -155,7 +155,10 @@
               </div>
               <div *ngIf="errorExist" class="error-message">
                 <p>
-                  Something went wrong, Please try again !
+                  {{
+                    'sth_went_wrong_title' | translate
+                  }}
+                  
                 </p>
               </div>
               
