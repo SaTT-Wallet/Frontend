@@ -66,15 +66,16 @@ export class CampaignHttpApiService {
       );
   }
 
-  upload(file: File) {
+  upload(file: File, id:any) {
     let header = new HttpHeaders({
       'Cache-Control': 'no-store',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
     const formData: FormData = new FormData();
     formData.append('cover', file);
+    
     return this.http
-      .post(sattUrl + '/campaign/ipfs', formData,{
+      .post(sattUrl + '/campaign/ipfs/'+id, formData,{
         headers: header
       });
   }
