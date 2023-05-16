@@ -1422,8 +1422,6 @@ export class WalletComponent implements OnInit, OnDestroy {
                 backdrop: 'static',
                 keyboard: false
               })},2000)
-              
-              return;
             } else if(res.data === true){
               this.existV2 = res.data;
               this.hasWalletV2 = true;
@@ -1431,9 +1429,7 @@ export class WalletComponent implements OnInit, OnDestroy {
             }
 
           
-        }, (err: any) => {
-          
-        } 
+        }
       );
   }
   getDetails() {
