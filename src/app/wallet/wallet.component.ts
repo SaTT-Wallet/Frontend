@@ -52,7 +52,8 @@ import {
   map,
   catchError,
   take,
-  shareReplay
+  shareReplay,
+  first
 } from 'rxjs/operators';
 import { DOCUMENT } from '@angular/common';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
@@ -61,6 +62,7 @@ import { Router } from '@angular/router';
 import { ProfileService } from '@app/core/services/profile/profile.service';
 import { ToastrService } from 'ngx-toastr';
 import { MatchPasswordValidator } from '@app/helpers/form-validators';
+import { environment as env } from './../../environments/environment';
 
 @Component({
   selector: 'app-wallet',
@@ -836,6 +838,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     //   backdrop: 'static',
     //   keyboard: false
     // });
+    
     if (this.isV1) {
       this.lineChartColors[0].backgroundColor = '#696DE4';
     } else {
@@ -919,7 +922,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     //   this.accountFacadeService.dispatchUpdatedAccount();
     // });
     this.walletFacade.getTotalBalance();
-
+    
     this.walletFacade.getTotalBalance();
     if (!this.walletFacade.totalBalance$) {
       this.walletFacade.getTotalBalance();
@@ -975,13 +978,18 @@ export class WalletComponent implements OnInit, OnDestroy {
     }
   }
   migrateButton(): void {
-    if (this.show && this.hasWalletV2) {
-      this.migrate = 'open';
-      this.modalService.open(this.migration, {
-        backdrop: 'static',
-        keyboard: false
-      });
-    }
+    this.walletFacade.verifyUserToken().pipe(first()).subscribe((res:any) => {
+      if(res.message === "success") {
+        if (this.show && this.hasWalletV2) {
+          this.migrate = 'open';
+          this.modalService.open(this.migration, {
+            backdrop: 'static',
+            keyboard: false
+          });
+        }
+      } else this.expiredSession();
+    }); 
+    
   }
 
   closeModaleMaintenace() {
@@ -1050,7 +1058,10 @@ export class WalletComponent implements OnInit, OnDestroy {
           return of(null);
     }), filter(res => res !== null))*/
       .subscribe((response: any) => {
-        this.buttonClick = false;
+        if(response?.name === "JsonWebTokenError") {
+          this.expiredSession();
+        } else {
+          this.buttonClick = false;
         if (response?.data?.error) {
           this.wrongpassword = true;
           this.walletV2ErrorMessage =
@@ -1085,6 +1096,8 @@ export class WalletComponent implements OnInit, OnDestroy {
             // this.closeModal(this.createWalletV2Modal)
           }
         }
+        }
+        
       });
   }
 
@@ -1116,7 +1129,10 @@ export class WalletComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe((response: any) => {
-        this.buttonClick = false;
+        if(response?.name === "JsonWebTokenError") {
+          this.expiredSession();
+        } else {
+          this.buttonClick = false;
         if (response?.code === 200) {
           // this.ngOnInit();
           this.closeModal(this.createWalletV2Modal);
@@ -1125,6 +1141,10 @@ export class WalletComponent implements OnInit, OnDestroy {
             keyboard: false
           });
         }
+        }
+        
+      }, (err:any) => {
+        console.log({err})
       });
   }
   getMigrationStatus($event: any) {
@@ -1200,33 +1220,44 @@ export class WalletComponent implements OnInit, OnDestroy {
           .getAllWallet()
           .pipe(takeUntil(this.onDestroy$))
           .subscribe((data: any) => {
-            if (this.tokenStorageService.getWalletVersion() === 'v2') {
-              this.versionText = 'New Wallet';
-              this.height = '300px';
-
-              this.tokenStorageService.saveWalletVersion('v1');
-              this.tokenStorageService.saveIdWallet(data.data.address);
-              this.tokenStorageService.saveTronWallet(data.data.tronAddress);
-              this.tokenStorageService.saveWalletBtc(data.data.btcAddress);
-              this.isV1 = true;
-              this.lineChartColors[0].backgroundColor = '#696DE4';
-            } else {
-              this.versionText = 'Old Wallet';
-              this.height = '250px';
-
-              this.tokenStorageService.saveWalletVersion('v2');
-              this.tokenStorageService.saveIdWallet(data.data.addressV2);
-              this.tokenStorageService.saveTronWallet(data.data.tronAddressV2);
-              this.tokenStorageService.saveWalletBtc(data.data.btcAddressV2);
-              this.isV1 = false;
-              this.lineChartColors[0].backgroundColor = '#4048FF';
-            }
-
-            this.walletStoreService.getCryptoList();
-            this.walletStoreService.getTotalBalance();
+            if(data.message === "success") {
+              if (this.tokenStorageService.getWalletVersion() === 'v2') {
+                this.versionText = 'New Wallet';
+                this.height = '300px';
+  
+                this.tokenStorageService.saveWalletVersion('v1');
+                this.tokenStorageService.saveIdWallet(data.data.address);
+                this.tokenStorageService.saveTronWallet(data.data.tronAddress);
+                this.tokenStorageService.saveWalletBtc(data.data.btcAddress);
+                this.isV1 = true;
+                this.lineChartColors[0].backgroundColor = '#696DE4';
+              } else {
+                this.versionText = 'Old Wallet';
+                this.height = '250px';
+  
+                this.tokenStorageService.saveWalletVersion('v2');
+                this.tokenStorageService.saveIdWallet(data.data.addressV2);
+                this.tokenStorageService.saveTronWallet(data.data.tronAddressV2);
+                this.tokenStorageService.saveWalletBtc(data.data.btcAddressV2);
+                this.isV1 = false;
+                this.lineChartColors[0].backgroundColor = '#4048FF';
+              }
+  
+              this.walletStoreService.getCryptoList();
+              this.walletStoreService.getTotalBalance();
+            } 
+          }, (err:any) => {
+            this.walletFacade.verifyUserToken().pipe(first()).subscribe((res:any) => {
+              if(res.message != "success") this.expiredSession();
+            }); 
           });
       }
     } catch (error) {}
+  }
+
+  expiredSession() {
+    this.tokenStorageService.clear();
+    window.open(env.domainName + '/auth/login', '_self');
   }
 
   public makeAnimation(key: string): void {
@@ -1416,28 +1447,27 @@ export class WalletComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestoy$))
       .subscribe(
         (res: any) => {
-          if (!!res && !!res.data && res.data === false) {
-            this.hasWalletV2 = false;
-            localStorage.setItem('existV2', 'false');
-            this.height = '250px';
-            this.modalService.open(this.createWalletV2Modal, {
-              backdrop: 'static',
-              keyboard: false
-            });
-          } else if(!!res && !!res.message && res.message === "invalid token") {
-            this.hasWalletV2 = false;
-            localStorage.setItem('existV2', 'false');
-          } else {
-            this.hasWalletV2 = true;
+      
+          
+            if(res.data === false) {
+              this.existV2 = res.data;
+              this.hasWalletV2 = false;
+              localStorage.setItem('existV2', 'false');
+              this.height = '250px';
+              this.modalService.open(this.createWalletV2Modal, {
+                backdrop: 'static',
+                keyboard: false
+              });
+            } else if(res.data === true){
+              this.existV2 = res.data;
+              this.hasWalletV2 = true;
+              localStorage.setItem('existV2', 'true');
+            }
 
-            localStorage.setItem('existV2', 'true');
-          }
-
-          this.existV2 = res.data;
-        }
-        // () => {
-        //   this.hasWalletV2 = false;
-        // }
+          
+        }, (err: any) => {
+          
+        } 
       );
   }
 
