@@ -332,13 +332,13 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           this.isWelcomePage = false;
           this.menuBuyToken = true;
         }
-        if (!this.isWelcomePage) {
-          this.renderer.setStyle(
+ /*if (!this.isWelcomePage) {
+          this.renderer?.setStyle(
             this.header?.nativeElement,
             'background',
             'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)'
           );
-        }
+        }*/
       }
     });
   }
