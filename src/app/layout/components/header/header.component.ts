@@ -226,7 +226,6 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.router.events.subscribe((event) => {
       if(event instanceof ResolveStart) {
         if(this.tokenStorageService.getToken()) {
-          console.log({url:event.url})
             this.walletFacade.verifyUserToken().pipe(first()).subscribe((res:any) => {
               if(res.message != "success") this.expiredSession();
             }); 
@@ -1255,6 +1254,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   toggleWallet() {
+    
     setTimeout(() => {
       let elem = this.document.getElementById('ercQrCode');
       elem?.scrollIntoView({
@@ -1268,6 +1268,9 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.sidebarService.toggleWalletMobile.value) {
       this.sidebarService.toggleWalletMobile.next(false);
     } else {
+      this.walletFacade.verifyUserToken().pipe(first()).subscribe((res:any) => {
+        if(res.message != "success") this.expiredSession();
+      }); 
       this.sidebarService.toggleWalletMobile.next(true);
     }
   }
