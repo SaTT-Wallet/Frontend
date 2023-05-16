@@ -22,7 +22,7 @@ import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
-import { environment as env } from './../../../../environments/environment';
+import { environment } from '@environments/environment';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Big } from 'big.js';
 import { Location } from '@angular/common';
@@ -448,7 +448,7 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   expiredSession() {
     this.tokenStorageService.clear();
-    window.open(env.domainName + '/auth/login', '_self');
+    window.open(environment.domainName + '/auth/login', '_self');
   }
 
   showNextBloc() {

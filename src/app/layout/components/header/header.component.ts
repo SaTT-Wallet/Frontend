@@ -42,7 +42,7 @@ import {
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AuthStoreService } from '@core/services/Auth/auth-store.service';
 import { WalletService } from '@app/core/services/wallet/wallet.service';
-import { environment as env } from './../../../../environments/environment';
+import { environment } from '@environments/environment';
 import { CampaignsService } from '@campaigns/facade/campaigns.facade';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-facade.service';
@@ -55,13 +55,13 @@ import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.servic
 import { ReturnStatement } from '@angular/compiler';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { REPL_MODE_STRICT } from 'repl';
-const bscan = env.bscanaddr;
-const etherscan = env.etherscanaddr;
-const tronScanAddr = env.tronScanAddr;
-const tronScan = env.tronScan;
-const polygonscanAddr = env.polygonscanAddr;
+const bscan = environment.bscanaddr;
+const etherscan = environment.etherscanaddr;
+const tronScanAddr = environment.tronScanAddr;
+const tronScan = environment.tronScan;
+const polygonscanAddr = environment.polygonscanAddr;
 const btcScanAddr = 'https://www.blockchain.com/btc/address/';
-const bttscanAddr = env.bttscanAddr;
+const bttscanAddr = environment.bttscanAddr;
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -1479,7 +1479,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   checkMenuTokenInfo() {
     if (isPlatformBrowser(this.platformId))
-      window.open(env.domainName + '/wallet/token-info?crypto=SATT', '_self');
+      window.open(environment.domainName + '/wallet/token-info?crypto=SATT', '_self');
   }
   checkMenuAbout() {
     if (isPlatformBrowser(this.platformId))
@@ -1591,7 +1591,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   expiredSession() {
     this.tokenStorageService.clear();
-    window.open(env.domainName + '/auth/login', '_self');
+    window.open(environment.domainName + '/auth/login', '_self');
   }
 
   signOut() {

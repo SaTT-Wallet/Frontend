@@ -10,7 +10,7 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 import { ActivatedRoute, Router } from '@angular/router';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
-import { environment as env } from './../../../../environments/environment';
+import { environment } from '@environments/environment';
 import { cryptoNetwork, dataList, pattContact } from '@config/atn.config';
 import { cryptoList, ListTokens } from '@config/atn.config';
 import { Observable, of, Subject, zip } from 'rxjs';
@@ -809,7 +809,7 @@ export class BuyTokenComponent implements OnInit, OnChanges {
   }
   expiredSession() {
     this.tokenStorageService.clear();
-    window.open(env.domainName + '/auth/login', '_self');
+    window.open(environment.domainName + '/auth/login', '_self');
   }
   convertCryptoUnitToUSD() {
     this.cryptoList$

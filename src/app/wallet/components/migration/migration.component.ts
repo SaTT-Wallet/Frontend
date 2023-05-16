@@ -18,7 +18,7 @@ import { environment } from '@environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { GazConsumed } from '@app/config/atn.config';
-import { environment as env } from './../../../../environments/environment';
+
 
 @Component({
   selector: 'app-migration',
@@ -300,7 +300,7 @@ export class MigrationComponent implements OnInit {
 
   expiredSession() {
     this.tokenStorageService.clear();
-    window.open(env.domainName + '/auth/login', '_self');
+    window.open(environment.domainName + '/auth/login', '_self');
   }
 
   addCrypto(element: any) {

@@ -41,7 +41,7 @@ import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.servic
 import { BarcodeFormat } from '@zxing/library';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ITransferTokensRequestBody } from '@app/core/services/wallet/wallet.service';
-import { environment as env } from './../../../../environments/environment';
+import { environment } from '@environments/environment';
 
 @Component({
   selector: 'app-send',
@@ -383,7 +383,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   expiredSession() {
     this.tokenStorageService.clear();
-    window.open(env.domainName + '/auth/login', '_self');
+    window.open(environment.domainName + '/auth/login', '_self');
   }
 
   openModal(content: any) {

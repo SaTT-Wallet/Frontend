@@ -7,7 +7,8 @@ import { TokenStorageService } from '@app/core/services/tokenStorage/token-stora
 import { BlockchainActionsService } from '@core/services/blockchain-actions.service';
 import { Subject, forkJoin } from 'rxjs';
 import { map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
-import { environment as env } from './../../../../environments/environment';
+import { environment } from '@environments/environment';
+
 
 
 @Component({
@@ -211,7 +212,7 @@ export class ConfirmBlockchainActionComponent implements OnInit {
 
   expiredSession() {
     this.tokenStorageService.clear();
-    window.open(env.domainName + '/auth/login', '_self');
+    window.open(environment.domainName + '/auth/login', '_self');
   }
 
   onFormSubmit() {
