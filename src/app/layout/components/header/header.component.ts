@@ -19,7 +19,7 @@ import { NotificationService } from '@core/services/notification/notification.se
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
-import { walletUrl, ListTokens } from '@config/atn.config';
+import { walletUrl, ListTokens, sattUrl } from '@config/atn.config';
 import { User } from '@app/models/User';
 import { SidebarService } from '@core/services/sidebar/sidebar.service';
 import { Clipboard } from '@angular/cdk/clipboard';
@@ -226,11 +226,10 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.router.events.subscribe((event) => {
       if(event instanceof ResolveStart) {
         if(this.tokenStorageService.getToken()) {
-          if(!(event.url.includes('welcome') || event.url.includes('ad-pools'))) {
-            this.walletFacade.checkUserWalletV2().pipe(first()).subscribe((res:any) => {
-              if(res.message != "success") this.signOut();
-            });
-          }
+          console.log({url:event.url})
+            this.walletFacade.verifyUserToken().pipe(first()).subscribe((res:any) => {
+              if(res.message != "success") this.expiredSession();
+            }); 
         }
       }
     })
@@ -1587,6 +1586,11 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.router.navigate(['/']);
   }
 
+  expiredSession() {
+    this.tokenStorageService.clear();
+    window.open(env.domainName + '/auth/login', '_self');
+  }
+
   signOut() {
     
     this.authStoreService.clearStore();
@@ -1639,6 +1643,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 */
   }
   ngOnDestroy(): void {
+    
     if (!!this.isDestroyed$) {
       this.isDestroyed$.next('');
       this.isDestroyed$.complete();
