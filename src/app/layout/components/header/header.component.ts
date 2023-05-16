@@ -405,7 +405,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         this.newHeight = this.oldHeight;
       }
       if (this.tokenStorageService.getToken()) {
-        this.walletFacade.checkUserWalletV2()
+        this.walletFacade.verifyUserToken()
       .subscribe((res: any) => {
         if(res.message === "success") {
           this.showConnectButton = false;
