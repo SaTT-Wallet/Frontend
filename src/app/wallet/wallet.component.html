@@ -122,7 +122,7 @@
               Go to {{ versionText }}
             </p>
           </ng-container>
-          <!-- <div
+          <div
             class="divbtn"
             *ngIf="versionText === 'New Wallet' && existV1 && show && existV2"
           >
@@ -133,16 +133,14 @@
               /></span>
               Migrate my tokens
             </button>
-          </div> -->
-          <ng-container
-            *ngIf="versionText === 'New Wallet' && existV1 && !show && existV2"
-          >
-            <div class="hwrap">
+          </div>
+          <ng-container *ngIf="shouldShowWarning()">
+            <div class="hwrap" [ngClass]="{ migrate: shouldMigrate() }">
               <div class="hmove">
-                <div class="hitem">
-                  <label>
-                    {{ 'Profil.warning_deprecrated_walletv1' | translate }}
-                  </label>
+                <div class="hitem" [ngClass]="{ migrate: shouldMigrate() }">
+                  <label>{{
+                    'Profil.warning_deprecrated_walletv1' | translate
+                  }}</label>
                 </div>
               </div>
             </div>
@@ -674,6 +672,12 @@
           <div class="col-10">
             <div
               class="div-input-icon position-relative"
+              [ngStyle]="
+                !wrongpassword &&
+                !this.formUpdateTransactionPassword.errors?.mustMatch
+                  ? { border: '1px solid #ffa318' }
+                  : { border: '1px solid #f42079' }
+              "
               [ngClass]="{
                 errorMsg: this.formUpdateTransactionPassword.errors?.mustMatch,
                 errormsg:
@@ -748,7 +752,6 @@
                 [className]="
                   password.value.length >= 8 ? 'success_input' : 'error_input'
                 "
-                style="width: 100%"
               >
                 {{ 'Profil.password_minlength_eight_chars' | translate }}
               </p>

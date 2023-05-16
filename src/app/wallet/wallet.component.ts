@@ -814,7 +814,18 @@ export class WalletComponent implements OnInit, OnDestroy {
   //   }
   //   return this.urlImgCondition;
   // }
+  shouldShowWarning(): boolean {
+    return this.versionText === 'New Wallet';
+  }
 
+  shouldMigrate(): boolean {
+    return (
+      this.versionText === 'New Wallet' &&
+      this.existV1 &&
+      this.show &&
+      this.existV2
+    );
+  }
   ngOnInit(): void {
     // this.modalService.open(this.setPwdTransactionModal, {
     //   backdrop: 'static',
@@ -826,7 +837,7 @@ export class WalletComponent implements OnInit, OnDestroy {
       this.lineChartColors[0].backgroundColor = '#4048FF';
     }
     this.formUpdateTransactionPassword.controls['confirmPassword'].disable();
-
+    
     this.formUpdateTransactionPassword
       .get('password')
       ?.valueChanges.pipe(takeUntil(this.onDestroy$))
@@ -869,6 +880,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     this.migrate = this.tokenStorageService.getModaleMigrate();
     //this.getScreenHeight = window.innerHeight;
     this.hasWalletV2 = false;
+   
     this.verifyUserWalletV2();
     this.totalbalancewallet();
 
@@ -902,6 +914,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     // this.profileSettingsFacade.updateProfile(data_profile).subscribe(() => {
     //   this.accountFacadeService.dispatchUpdatedAccount();
     // });
+    
     this.walletFacade.getTotalBalance();
 
     this.walletFacade.getTotalBalance();
@@ -1400,28 +1413,29 @@ export class WalletComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestoy$))
       .subscribe(
         (res: any) => {
-          if (!res.data) {
-            this.hasWalletV2 = false;
-            localStorage.setItem('existV2', 'false');
-            this.height = '250px';
-            this.modalService.open(this.createWalletV2Modal, {
-              backdrop: 'static',
-              keyboard: false
-            });
-          } else {
-            this.hasWalletV2 = true;
+             if(res.data === false) {
+              this.existV2 = res.data;
+              this.hasWalletV2 = false;
+              localStorage.setItem('existV2', 'false');
+              this.height = '250px';
+              setTimeout(() => {this.modalService.open(this.createWalletV2Modal, {
+                backdrop: 'static',
+                keyboard: false
+              })},2000)
+              
+              return;
+            } else if(res.data === true){
+              this.existV2 = res.data;
+              this.hasWalletV2 = true;
+              localStorage.setItem('existV2', 'true');
+            }
 
-            localStorage.setItem('existV2', 'true');
-          }
-
-          this.existV2 = res.data;
-        }
-        // () => {
-        //   this.hasWalletV2 = false;
-        // }
+          
+        }, (err: any) => {
+          
+        } 
       );
   }
-
   getDetails() {
     this.account$
       .pipe(

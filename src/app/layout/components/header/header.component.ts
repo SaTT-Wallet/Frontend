@@ -183,6 +183,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   title: any = '';
   titleWallet: any = '';
   existV1: any;
+  showConnectButton: boolean = false;
   @HostListener('window:resize', ['$event'])
 
   resize(event: any) {
@@ -315,13 +316,13 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           this.isWelcomePage = false;
           this.menuBuyToken = true;
         }
-        if (!this.isWelcomePage) {
-          this.renderer.setStyle(
+ /*if (!this.isWelcomePage) {
+          this.renderer?.setStyle(
             this.header?.nativeElement,
             'background',
             'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)'
           );
-        }
+        }*/
       }
     });
   }
@@ -355,11 +356,11 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
     if (isPlatformBrowser(this.platformId)) {
-      this.authService.isAuthenticated$
+      /*this.authService.isAuthenticated$
         .pipe(takeUntil(this.isDestroyed$))
         .subscribe((isAuth: boolean) => {
           this.isConnected = isAuth;
-        });
+        });*/
       this.fixMenuItemsWidth();
       if (this.router.url.includes('welcome')) {
         this.isWelcomePage = true;
@@ -388,9 +389,12 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         this.newHeight = this.oldHeight;
       }
       if (this.tokenStorageService.getToken()) {
-        this.isConnected = true;
-
-        this.getProfileDetails();
+        this.walletFacade.checkUserWalletV2()
+      .subscribe((res: any) => {
+        if(res.message === "success") {
+          this.showConnectButton = false;
+          this.isConnected = true;
+          this.getProfileDetails();
         this.getNotifications();
         // this.parentFunction();
         this.portfeuille();
@@ -414,20 +418,24 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         this.tokenStorageService.removeItem('visited-pass-phrase');
 
         this.isClicked();
-        let date = new Date();
-        let expire = (date.getTime() * 1) / 1000;
-        // @ts-ignore
-        let compare = Math.floor(this.tokenStorageService.getExpire() * 1);
-        if (compare < expire) {
-           this.tokenStorageService.signOut();
-          this.router.navigate(['/auth/login']);
-        }
+        
         this.tokenStorageService.setItem('wallet_btc', this.btcCode);
         this.tokenStorageService.setItem('wallet_btc_v2', this.btcCodeV2);
         this.tokenStorageService.setItem('tron-wallet', this.tronAddress);
         this.tokenStorageService.setItem('tron-wallet_v2', this.tronAddressV2);
+        } else {
+          this.isConnected = false;
+          this.showConnectButton = true;
+        };
+      }, (err:any) => {
+        this.isConnected = false;
+        this.showConnectButton = true;
+      })
+
+        
       } else {
         this.isConnected = false;
+        this.showConnectButton = true;
       }
     }
   }
@@ -1573,6 +1581,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         this.tokenStorageService.clear();
         this.kycFacadeService.dispatchLogoutKyc();
         this.isConnected = false;
+        this.showConnectButton = true;
         this.authService.setIsAuthenticated(false);
 
         window.open(env.url + 'welcome', '_self');

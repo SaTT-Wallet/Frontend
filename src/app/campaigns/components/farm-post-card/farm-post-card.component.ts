@@ -14,7 +14,7 @@ import { EButtonActions } from '@app/core/enums';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Participation } from '@app/models/participation.model';
 import { NotificationService } from '@core/services/notification/notification.service';
-import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, takeUntil } from 'rxjs/operators';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { ParticipationListStoreService } from '@campaigns/services/participation-list-store.service';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
@@ -66,7 +66,7 @@ export class FarmPostCardComponent implements OnInit {
     private _sanitizer: DomSanitizer,
     private walletFacade: WalletFacadeService,
     public changeDetectorRef: ChangeDetectorRef,
-    @Inject(PLATFORM_ID) private platformId: string,
+    @Inject(PLATFORM_ID) private platformId: string
   ) {
     this.reasonForm = new UntypedFormGroup(
       {
@@ -79,33 +79,31 @@ export class FarmPostCardComponent implements OnInit {
       [atLastOneChecked(), requiredDescription()]
     );
   }
-  private countDownTimer(): void{
-    const harvestDate = new Date(this.prom.appliedDate).getTime();
+  private countDownTimer(): void {
+    const timestampAcceptedDate: number = this.prom.acceptedDate * 1000;
 
-    const harvestDateAvailable = new Date(harvestDate + (24 * 60 * 60 * 1000)).getTime();
-    const today = new Date().getTime();
+    const harvestDate: number = new Date(timestampAcceptedDate).getTime();
 
-    
-    const diffrenence = harvestDateAvailable - today;
-    
+    const harvestDateAvailable: number = new Date(
+      harvestDate + 24 * 60 * 60 * 1000
+    ).getTime();
+    const today: number = new Date().getTime();
 
-    if(this.prom.isAccepted && diffrenence>= 0){
-      const  h = Math.floor(
+    const diffrenence: number = harvestDateAvailable - today;
+
+    if (this.prom.isAccepted && diffrenence >= 0) {
+      const h = Math.floor(
         (diffrenence % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
       );
- 
+
       const m = Math.floor((diffrenence % (1000 * 60 * 60)) / (1000 * 60));
-    
+
       this.harvestAvailable = true;
       const s = Math.floor((diffrenence % (1000 * 60)) / 1000);
-      
-      this.harvestAvailableIn= h+"h " + m +"min";
-      return this.harvestAvailableIn
 
+      this.harvestAvailableIn = h + 'h ' + m + 'min';
+      return this.harvestAvailableIn;
     }
-   
-    
-    
   }
 
   ngOnInit(): void {
@@ -144,7 +142,6 @@ export class FarmPostCardComponent implements OnInit {
     this.intervalId = setInterval(() => {
       this.countDownTimer();
     }, 1000);
-    ;
     if (currencyName === 'SATTBEP20') currencyName = 'SATT';
 
     let etherInWei = ListTokens[currencyName].decimals;
@@ -170,9 +167,9 @@ export class FarmPostCardComponent implements OnInit {
     return this.tokenStorageService.getLocale() || 'en';
   }
 
-  getLink(){
+  getLink() {
     if (isPlatformBrowser(this.platformId)) {
-      window.open(this.prom.link,  "_blank");
+      window.open(this.prom.link, '_blank');
     }
   }
 
@@ -186,12 +183,31 @@ export class FarmPostCardComponent implements OnInit {
       action: EButtonActions.GET_MY_GAINS
     });
 
-    this.router.navigate(
-      [`/home/campaign/${prom.campaign._id}/recover-my-gains`],
-      {
-        queryParams: { prom_hash: prom.hash, id: prom.campaign._id }
+
+    /************   FETCH NETWORK OF CAMPAIGN     ***********/
+    
+    let network = "";
+    this.campaignService.getOneById(prom.campaign._id)
+    .subscribe(
+      (res) => {
+      network = res.data.token.type;
+      this.router.navigate(
+        [`/home/campaign/${prom.campaign._id}/recover-my-gains`],
+        {
+          queryParams: {prom_hash: prom.hash, id: prom.campaign._id, network: network}
+        }
+      );
+    },
+      (err:any) => {
+        this.router.navigate(
+          [`/home/campaign/${prom.campaign._id}/recover-my-gains`],
+          {
+            queryParams: {prom_hash: prom.hash, id: prom.campaign._id}
+          }
+        );
       }
-    );
+    )
+    
   }
   validateLink(prom: any) {
     this.blockchainActions.onActionButtonClick({

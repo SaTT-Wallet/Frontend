@@ -72,14 +72,11 @@ export class HeaderSocialRegistartionComponent implements OnInit {
     this.router.navigate(['/auth/login']);
   }
   signOut() {
-    this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
+    this.tokenStorageService.clear();
+    this.campaignDataStore.clearDataStore(); 
     this.tokenStorageService.signOut();
     this.socialAccountFacadeService.dispatchLogoutSocialAccounts();
     this.accountFacadeService.dispatchLogoutAccount();
-    // if (isPlatformBrowser(this.platformId)) {
-    //   window.location.reload();
-    // }
-    //window.location.assign("https://satt.atayen.us/#/")
     this.router.navigate(['/auth/login']);
   }
 

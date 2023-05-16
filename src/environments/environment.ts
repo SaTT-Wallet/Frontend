@@ -67,7 +67,7 @@ export const environment = {
   bttscanAddr: 'https://testnet.bttcscan.com/address/',
   tronScanAddr: 'https://shasta.tronscan.org/#/address/',
   etherscanaddr: 'https://goerli.etherscan.io/address/',
-
+  dateRefund :1296000,
   simplexUrl: 'https://sandbox.test-simplexcc.com/payments/new',
   gmtId: 'GTM-5XW23QX',
 
@@ -79,6 +79,7 @@ export const environment = {
   YOUTUBE_SHORTEN_LINK: 'https://youtu.be/',
   YOUTUBE_EMBED_LINK: 'https://www.youtube.com/embed/',
   FACEBOOK_URL: 'https://www.facebook.com/',
+  M_FaCEBOOK_URL: 'https://m.facebook.com/',
   TIKTOK_URL: 'https://www.tiktok.com/',
   FACEBOOK_POST_URL:
     'https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F',

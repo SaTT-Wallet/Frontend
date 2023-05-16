@@ -193,7 +193,7 @@
 
     <button
       type="button"
-      *ngIf="isPlatformBrowser && !isConnected"
+      *ngIf="isPlatformBrowser && !isConnected && showConnectButton"
       class="d-md-block d-xl-none d-lg-none d-sm-block button-connect"
     >
       <a class="" [routerLink]="['/auth/login']">Connect</a>
@@ -735,7 +735,7 @@
 
       <ul
         class="right_nav_side navbar-nav"
-        *ngIf="isPlatformBrowser && !isConnected"
+        *ngIf="isPlatformBrowser && !isConnected && showConnectButton"
       >
         <button type="button" class="button-connect d-none d-md-block">
           <a class="" [routerLink]="['/auth/login']">Connect</a>

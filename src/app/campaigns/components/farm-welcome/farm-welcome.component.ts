@@ -27,7 +27,7 @@ import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import Big from 'big.js';
 import { ConvertFromWei } from '@app/shared/pipes/wei-to-sa-tt.pipe';
 import { CryptofetchServiceService } from '@app/core/services/wallet/cryptofetch-service.service';
-import axios from 'axios'
+import axios from 'axios';
 import { environment as env } from '../../../../environments/environment';
 import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
 import { HttpClient } from '@angular/common/http';
@@ -61,7 +61,7 @@ export class FarmWelcomeComponent implements OnInit {
   private isDestroyed = new Subject();
   cryptoPrices: any;
   blogs: any;
- 
+
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -74,7 +74,7 @@ export class FarmWelcomeComponent implements OnInit {
     private walletFacade: WalletFacadeService,
     private convertFromWeiTo: ConvertFromWei,
     private cryptoFetchService: CryptofetchServiceService,
-    private showNumbersRule: ShowNumbersRule,
+    private showNumbersRule: ShowNumbersRule
   ) {}
 
   ngOnInit(): void {
@@ -86,15 +86,19 @@ export class FarmWelcomeComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       this.loadCampaigns();
       this.loadStatistics();
-      this.loadNbrWallets()
-      this.loadNbrTransactions()
-
+      this.loadNbrWallets();
+      this.loadNbrTransactions();
     }
-    if (this.tokenStorageService.getToken()) {
-      this.isConnected = true;
+    /*if (this.tokenStorageService.getToken()) {
+      this.walletFacade.checkUserWalletV2()
+      .subscribe((res: any) => {
+        if(res.message === "success") {
+          this.isConnected = true;
+        } else this.isConnected = false;
+      }, (err:any) => this.isConnected = false)
     } else {
       this.isConnected = false;
-    }
+    }*/
   }
   @HostListener('window:resize', ['$event'])
   onResize() {
@@ -104,13 +108,13 @@ export class FarmWelcomeComponent implements OnInit {
       this.smDevice = false;
     }
   }
-getBlogs(){
- return this.http.get('https://satt-token.com/blog/wp-json/wp/v2/posts?_embed') 
- .subscribe((data) => {
-  this.blogs = data
-
-});
-}
+  getBlogs() {
+    return this.http
+      .get('https://satt-token.com/blog/wp-json/wp/v2/posts?_embed')
+      .subscribe((data) => {
+        this.blogs = data;
+      });
+  }
 
   goToFarmPosts() {
     this.showSpinnerJoin = true;
@@ -127,6 +131,7 @@ getBlogs(){
       queryParams: queryParams
     });
   }
+  
 
   loadCampaigns() {
     this.campaignsListStoreService.loadingCampaign$
@@ -166,7 +171,6 @@ getBlogs(){
       )
       .subscribe(
         (campaigns: Campaign[]) => {
-
           this.isLoading = false;
           this.campaignsList = campaigns;
           this.campaignsList2 = campaigns;
@@ -200,9 +204,9 @@ getBlogs(){
           } else {
             this.noData = false;
           }
-          
 
-          this.campaignsList.length < 3 && this.campaignsListStoreService.emitPageScroll();
+          this.campaignsList.length < 3 &&
+            this.campaignsListStoreService.emitPageScroll();
           // this.campaignsList = campaigns.filter(
           //   (campaign: Campaign) => campaign.isDraft === false
           // );
@@ -226,14 +230,34 @@ getBlogs(){
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((res: any) => {
         if (res.message === 'success' && res.code === 200) {
-          this.marketCap = this.showNumbersRule.transform(res.data.marketCap.toFixed(2) + '', true);
-          this.nbPools = this.showNumbersRule.transform(res.data.nbPools + '', true);
-          this.posts = this.showNumbersRule.transform(res.data.posts + '', true);
-          this.reach = this.showNumbersRule.transform(res.data.reach + '', true);
-          this.sattPrice = parseFloat(this.showNumbersRule.transform(res.data.sattPrice.toFixed(5) + '', true)).toFixed(5);
-          this.views = this.showNumbersRule.transform(res.data.views + '', true);
+          this.marketCap = this.showNumbersRule.transform(
+            res.data.marketCap.toFixed(2) + '',
+            true
+          );
+          this.nbPools = this.showNumbersRule.transform(
+            res.data.nbPools + '',
+            true
+          );
+          this.posts = this.showNumbersRule.transform(
+            res.data.posts + '',
+            true
+          );
+          this.reach = this.showNumbersRule.transform(
+            res.data.reach + '',
+            true
+          );
+          this.sattPrice = parseFloat(
+            this.showNumbersRule.transform(
+              res.data.sattPrice.toFixed(5) + '',
+              true
+            )
+          ).toFixed(5);
+          this.views = this.showNumbersRule.transform(
+            res.data.views + '',
+            true
+          );
           // this.harvested = this.showNumbersRule.transform(res.data.harvested + '', true);
-          this.harvested = res.data.harvested
+          this.harvested = res.data.harvested;
 
           this.tvl = !!res.data.tvl ? res.data.tvl : 0;
           this.percentChange = !!res.data.percentChange
@@ -251,7 +275,7 @@ getBlogs(){
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((res: any) => {
         if (res.message === 'success' && res.code === 200) {
-          this.nbrWallet = this.showNumbersRule.transform(res.data + '', true)
+          this.nbrWallet = this.showNumbersRule.transform(res.data + '', true);
         }
         // console.log('this.nbrWallets: ', this.nbrWallet)
       });
@@ -260,7 +284,7 @@ getBlogs(){
   // this.nbr_tx_mainnet = Number(loadNbrTransactions_bsc_mainnet())
 
   async loadNbrTransactions() {
-    var sum
+    var sum;
     let x = axios.post(env.url_subgraph_bsc, {
       query: `
       {
@@ -270,13 +294,13 @@ getBlogs(){
         }
        }
       `
-    })
-  // .then((response) => {
-  //   nb_tx_bsc_mainnet = response.data.data.counts.count
-  //   console.log("nb_tx_bsc_mainnet: ", nb_tx_bsc_mainnet);
-  // });
+    });
+    // .then((response) => {
+    //   nb_tx_bsc_mainnet = response.data.data.counts.count
+    //   console.log("nb_tx_bsc_mainnet: ", nb_tx_bsc_mainnet);
+    // });
 
-  let y = axios.post(env.url_subgraph_ether, {
+    let y = axios.post(env.url_subgraph_ether, {
       query: `
       {
         counts(id:"tx") {
@@ -285,22 +309,24 @@ getBlogs(){
         }
        }
       `
-    })
+    });
 
-    var [nb_tx_bsc_mainnet, nb_tx_ether_mainnet] = await Promise.all([x, y])
+    var [nb_tx_bsc_mainnet, nb_tx_ether_mainnet] = await Promise.all([x, y]);
 
     // console.log(nb_tx_bsc_mainnet.data.data.counts.count, nb_tx_ether_mainnet.data.data.counts.count)
-    sum = +nb_tx_bsc_mainnet.data.data.counts.count + +nb_tx_ether_mainnet.data.data.counts.count
-    this.nbr_tx_mainnet = this.showNumbersRule.transform(sum + '', true)
+    sum =
+      +nb_tx_bsc_mainnet.data.data.counts.count +
+      +nb_tx_ether_mainnet.data.data.counts.count;
+    this.nbr_tx_mainnet = this.showNumbersRule.transform(sum + '', true);
 
-    return this.nbr_tx_mainnet
+    return this.nbr_tx_mainnet;
 
-  // .then((response) => {
-  //   nb_tx_ether_mainnet = response.data.data.counts.count
-  //   console.log("nb_tx_ether_mainnet: ", nb_tx_ether_mainnet);
-  // });
-  // nb_tx = nb_tx_bsc_mainnet
-  // console.log("nb_tx: ", nb_tx)
+    // .then((response) => {
+    //   nb_tx_ether_mainnet = response.data.data.counts.count
+    //   console.log("nb_tx_ether_mainnet: ", nb_tx_ether_mainnet);
+    // });
+    // nb_tx = nb_tx_bsc_mainnet
+    // console.log("nb_tx: ", nb_tx)
 
     // this.campaignsHttpService
     //   .getTransactionsCount()
@@ -322,7 +348,7 @@ getBlogs(){
   }
 
   loadMore() {
-    this.router.navigateByUrl('/ad-pools')
+    this.campaignsListStoreService.emitPageScroll();
   }
 
   openInNewTab(url: string) {

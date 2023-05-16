@@ -1158,16 +1158,28 @@ export class CampaignHttpApiService {
       headers: header
     });
   }
-  expandUrl(shortUrl: string) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json'
-    });
-
-    return this.http.get(sattUrl + '/campaign/expandUrl?shortUrl=' + shortUrl, {
-      headers: header
-    });
+  getFbUserName(linkApplication: any) {
+    return this.http.get(
+      sattUrl +
+        '/profile/link/verify/fbUserName/' +
+        linkApplication,
+      {
+        headers: {
+          Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+        }
+      }
+    );
   }
+  // expandUrl(shortUrl: string) {
+  //   let header = new HttpHeaders({
+  //     'Cache-Control': 'no-store',
+  //     'Content-Type': 'application/json'
+  //   });
+
+  //   return this.http.get(sattUrl + '/campaign/expandUrl?shortUrl=' + shortUrl, {
+  //     headers: header
+  //   });
+  // }
 
   getWelcomePageStats() {
     let header = new HttpHeaders({

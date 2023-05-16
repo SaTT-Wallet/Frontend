@@ -38,6 +38,7 @@ import JSZip from 'jszip';
 import { Location } from '@angular/common';
 import {ipfsURL } from '@config/atn.config'
 declare var $: any;
+import { environment } from '@environments/environment';
 @Component({
   selector: 'app-campaign-detail',
   templateUrl: './campaign-detail.component.html',
@@ -269,7 +270,7 @@ export class CampaignDetailComponent implements OnInit {
     
     setTimeout(() => {
       // WHEN YOU GET REFUNDS ( AFTER 15 DAYS )
-      this.dateRefund = new Date(((this.campaign?.endDate?.getTime() / 1000) + 1296000 ) * 1000)
+      this.dateRefund = new Date(((this.campaign?.endDate?.getTime() / 1000) + environment.dateRefund ) * 1000)
       
       if((this.dateRefund.getTime() - Date.now()) > 0) {
         this.refundButtonDisable = true;
@@ -769,7 +770,7 @@ export class CampaignDetailComponent implements OnInit {
     this.checkValidDraft();
     if (this.disabledBtn === false) {
       this.router.navigate(['home/check-password'], {
-        queryParams: { id: this.campaignId }
+        queryParams: { id: this.campaignId, network: this.campaign.currency.type }
       });
     }
   }
