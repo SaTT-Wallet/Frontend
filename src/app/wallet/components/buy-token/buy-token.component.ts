@@ -10,6 +10,7 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 import { ActivatedRoute, Router } from '@angular/router';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
+import { environment as env } from './../../../../environments/environment';
 import { cryptoNetwork, dataList, pattContact } from '@config/atn.config';
 import { cryptoList, ListTokens } from '@config/atn.config';
 import { Observable, of, Subject, zip } from 'rxjs';
@@ -806,23 +807,32 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       this.fromSwapCrypto.contract = 'ETH';
     }
   }
+  expiredSession() {
+    this.tokenStorageService.clear();
+    window.open(env.domainName + '/auth/login', '_self');
+  }
   convertCryptoUnitToUSD() {
     this.cryptoList$
       .pipe(filter((res) => res != null))
       .pipe(takeUntil(this.isDestroyed))
-      .subscribe((data) => {
-        let selectedCrypto = data.filter((crypto: any) => {
-          if (crypto.symbol === 'SATT') {
-            this.sattprice = crypto.price;
+      .subscribe((data:any) => {
+        if(data?.name === "JsonWebTokenError") {
+          this.expiredSession();
+        } else {
+          let selectedCrypto = data.filter((crypto: any) => {
+            if (crypto.symbol === 'SATT') {
+              this.sattprice = crypto.price;
+            }
+            return crypto.symbol === this.requestedCrypto;
+          });
+          if (selectedCrypto.length === 0) {
+            this.cryptoPrice = this.sattprice;
           }
-          return crypto.symbol === this.requestedCrypto;
-        });
-        if (selectedCrypto.length === 0) {
-          this.cryptoPrice = this.sattprice;
+          if (selectedCrypto.length > 0) {
+            this.cryptoPrice = selectedCrypto[0].price;
+          }
         }
-        if (selectedCrypto.length > 0) {
-          this.cryptoPrice = selectedCrypto[0].price;
-        }
+       
       });
   }
 
@@ -861,10 +871,14 @@ export class BuyTokenComponent implements OnInit, OnChanges {
         return  res != null
         }))
         .subscribe((data: any) => {
-          
-          this.cryptoAmount = data?.data.digital_money?.amount || 0;
+          if(data?.name === "JsonWebTokenError") {
+            this.expiredSession();
+          } else {
+            this.cryptoAmount = data?.data.digital_money?.amount || 0;
           this.quoteId = data?.data.quote_id;
           this.errMsg = '';
+          }
+          
         });
       this.rateExchangePerRequestedCrypto$ = this.cryptoList$.pipe(
         map(

@@ -41,6 +41,7 @@ import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.servic
 import { BarcodeFormat } from '@zxing/library';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ITransferTokensRequestBody } from '@app/core/services/wallet/wallet.service';
+import { environment as env } from './../../../../environments/environment';
 
 @Component({
   selector: 'app-send',
@@ -346,22 +347,27 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.showSpinner = true;
       event.preventDefault();
       event.stopPropagation();
-      this.kyc$.pipe(takeUntil(this.isDestroyed)).subscribe((response) => {
+      this.kyc$.pipe(takeUntil(this.isDestroyed)).subscribe((response:any) => {
         if (response !== null && response !== undefined) {
-          if (
-            response.legal.length > 1 &&
-            response.legal.reduce((acc: any, item: any) => {
-              return acc && item['validate'] === true;
-            }, true)
-          ) {
-            this.sendMoney();
-            this.showSpinner = false;
-            this.isSubmitting = false;
+          if(response.name === "JsonWebTokenError") {
+            this.expiredSession();
           } else {
-            this.showSpinner = false;
-            this.modalService.open(this.checkUserLegalKYCModal);
-            this.isSubmitting = false;
+            if (
+              response.legal.length > 1 &&
+              response.legal.reduce((acc: any, item: any) => {
+                return acc && item['validate'] === true;
+              }, true)
+            ) {
+              this.sendMoney();
+              this.showSpinner = false;
+              this.isSubmitting = false;
+            } else {
+              this.showSpinner = false;
+              this.modalService.open(this.checkUserLegalKYCModal);
+              this.isSubmitting = false;
+            }
           }
+          
         }
       });
     } else {
@@ -373,6 +379,11 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.wrongpassword = false;
     this.gazproblem = false;
     this.noCryptoSelected = false;
+  }
+
+  expiredSession() {
+    this.tokenStorageService.clear();
+    window.open(env.domainName + '/auth/login', '_self');
   }
 
   openModal(content: any) {
@@ -508,46 +519,52 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         )
         .subscribe(
           (data: any) => {
+            
             this.showSpinner = false;
             this.loadingButton = false;
-            if (data.data.transactionHash) {
-              this.currency = currency;
-
-              this.hashtransaction = data.data.transactionHash;
-              // if (currency === 'SATTBEP20') {
-              //   let currenncySatt = 'SATT';
-              //   this.toastr.success(
-              //     'You have sent ' +
-              //       splitted +
-              //       '  ' +
-              //       currenncySatt +
-              //       '  to  ' +
-              //       data.data.address
-              //   );
-              // } else {
-              //   this.toastr.success(
-              //     'You have sent ' +
-              //       splitted +
-              //       '  ' +
-              //       currency +
-              //       '  to  ' +
-              //       data.data.address
-              //   );
-              // }
-              if (this.networks === 'BEP20') {
-                this.routertransHash = bscan + this.hashtransaction;
-              } else if (this.networks === 'ERC20') {
-                this.routertransHash = etherscan + this.hashtransaction;
-              } else if (this.networks === 'POLYGON') {
-                this.routertransHash = polygonscan + this.hashtransaction;
-              } else if (this.networks === 'BTT') {
-                this.routertransHash = bttscan + this.hashtransaction;
-              } else if (this.networks === 'TRON') {
-                this.routertransHash = tronScan + this.hashtransaction;
+            if(data?.name === "JsonWebTokenError") {
+              this.expiredSession();
+            } else {
+              if (data.data.transactionHash) {
+                this.currency = currency;
+  
+                this.hashtransaction = data.data.transactionHash;
+                // if (currency === 'SATTBEP20') {
+                //   let currenncySatt = 'SATT';
+                //   this.toastr.success(
+                //     'You have sent ' +
+                //       splitted +
+                //       '  ' +
+                //       currenncySatt +
+                //       '  to  ' +
+                //       data.data.address
+                //   );
+                // } else {
+                //   this.toastr.success(
+                //     'You have sent ' +
+                //       splitted +
+                //       '  ' +
+                //       currency +
+                //       '  to  ' +
+                //       data.data.address
+                //   );
+                // }
+                if (this.networks === 'BEP20') {
+                  this.routertransHash = bscan + this.hashtransaction;
+                } else if (this.networks === 'ERC20') {
+                  this.routertransHash = etherscan + this.hashtransaction;
+                } else if (this.networks === 'POLYGON') {
+                  this.routertransHash = polygonscan + this.hashtransaction;
+                } else if (this.networks === 'BTT') {
+                  this.routertransHash = bttscan + this.hashtransaction;
+                } else if (this.networks === 'TRON') {
+                  this.routertransHash = tronScan + this.hashtransaction;
+                }
+                this.showPwdBloc = false;
+                this.showSuccessBloc = true;
               }
-              this.showPwdBloc = false;
-              this.showSuccessBloc = true;
             }
+            
             // if (data.error === 'Wrong password') {
             //   this.wrongpassword = true;
             //   setTimeout(() => {
