@@ -407,5 +407,11 @@ export class WalletFacadeService {
   exportKeyStore(network: string, version: string, code: number) {
     return this.walletService.exportKeyStore(network, version, code);
   }
+
+
+
+  verifyUserToken() {
+    return this.walletService.verifyUserToken();
+  }
   
 }
