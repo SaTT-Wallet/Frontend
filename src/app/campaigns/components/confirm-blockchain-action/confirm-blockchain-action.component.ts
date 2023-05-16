@@ -3,9 +3,13 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 import { ActivatedRoute, Router } from '@angular/router';
 import { GazConsumedByCampaign } from '@app/config/atn.config';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
+import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 import { BlockchainActionsService } from '@core/services/blockchain-actions.service';
 import { Subject, forkJoin } from 'rxjs';
 import { map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+import { environment } from '@environments/environment';
+
+
 
 @Component({
   selector: 'app-confirm-blockchain-action',
@@ -36,6 +40,7 @@ export class ConfirmBlockchainActionComponent implements OnInit {
 
   constructor(
     private service: BlockchainActionsService, 
+    private tokenStorageService: TokenStorageService,
     public router: Router,
     private route: ActivatedRoute,
     private walletFacade: WalletFacadeService) {
@@ -205,11 +210,23 @@ export class ConfirmBlockchainActionComponent implements OnInit {
     );
   }
 
+  expiredSession() {
+    this.tokenStorageService.clear();
+    window.open(environment.domainName + '/auth/login', '_self');
+  }
+
   onFormSubmit() {
+    
     this.isLoading = true;
+    
     if (this.form.valid) {
-      this.service.onConfirmButtonClick(this.password.value);
-      this.form.reset();
+      this.walletFacade.verifyUserToken().subscribe((res:any) => {
+        if(res.message === "success") {
+          this.service.onConfirmButtonClick(this.password.value);
+          this.form.reset();
+        } else this.expiredSession();
+      })
+      
     } else {
       this.form.markAllAsTouched();
       this.isLoading = false;

@@ -1,17 +1,17 @@
 import { PLATFORM_ID, Component, OnInit, Inject } from '@angular/core';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { environment as env } from './../../../../environments/environment';
+import { environment } from '@environments/environment';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
-const bscanaddr = env.bscanaddr;
-const etherscanaddr = env.etherscanaddr;
-const tronScanAddr = env.tronScanAddr;
-const polygonscanAddr = env.polygonscanAddr;
-const bttscanAddr = env.bttscanAddr;
+const bscanaddr = environment.bscanaddr;
+const etherscanaddr = environment.etherscanaddr;
+const tronScanAddr = environment.tronScanAddr;
+const polygonscanAddr = environment.polygonscanAddr;
+const bttscanAddr = environment.bttscanAddr;
 const btcScanAddr = 'https://www.blockchain.com/btc/address/';
 
 @Component({
