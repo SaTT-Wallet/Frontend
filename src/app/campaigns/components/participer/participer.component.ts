@@ -273,11 +273,11 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
     shortUrlChanger(normalUrl: string) {
     const testTiktok = normalUrl?.search('vm.tiktok.com');
   
-console.log("helloo");
+
 
     if (testTiktok > -1 ) {
       this.CampaignService.expandUrl(normalUrl).subscribe((res: any) => {
-        console.log("res.data", res.data);
+       
         
         this.urlFromInput = res.data;
       });
