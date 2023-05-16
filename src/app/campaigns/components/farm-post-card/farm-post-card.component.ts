@@ -30,6 +30,7 @@ import copy from 'fast-copy';
 import { Subject } from 'rxjs';
 import { Big } from 'big.js';
 import { isPlatformBrowser } from '@angular/common';
+import { environment } from '@environments/environment';
 @Component({
   selector: 'app-farm-post-card',
   templateUrl: './farm-post-card.component.html',
@@ -247,47 +248,60 @@ export class FarmPostCardComponent implements OnInit {
       this.reasonForm.get(form)?.setValue(event.target.value);
     }
   }
+  expiredSession() {
+    this.tokenStorageService.clear();
+    window.open(environment.domainName + '/auth/login', '_self');
+  }
+
+
 
   rejectLink(modal: any) {
     this.showLoadingSpinner = true;
     let arrayReason: any = [];
-    Object.keys(this.reasonForm.controls).forEach((element: any) => {
-      if (element !== 'reason4') {
-        if (
-          this.reasonForm.get(element)?.value !== 'null' ||
-          this.reasonForm.get(element)?.value !== ''
-        ) {
-          arrayReason.push(this.reasonForm.get(element)?.value);
-        }
-      }
-    });
-    let filterdArray = arrayReason.filter((ele: any) => ele !== null);
-    if (filterdArray.length !== 0) {
-      this.campaignService
-        .rejectLinks(
-          this.prom,
-          filterdArray,
-          this.prom.campaign._id,
-          this.prom.campaign.title
-        )
-        .pipe(takeUntil(this.isDestroyed))
-        .subscribe((data: any) => {
-          if (data.message === 'success') {
-            this.closeModal(modal);
-            this.showLoadingSpinner = false;
-            this.deleted.emit(this.prom.id);
-            // this.influencerProms = this.influencerProms.pipe(
-            //   map((array: any) =>
-            //     array.filter(
-            //       (influencer: any) => influencer.id !== this.promToreject.id
-            //     )
-            //   ),
-            //   tap(console.log)
-            // );
-            this.ref.detectChanges();
+    this.walletFacade.verifyUserToken().subscribe((res:any) => {
+      if(res?.message === "success") {
+        this.expiredSession();
+      } else {
+        Object.keys(this.reasonForm.controls).forEach((element: any) => {
+          if (element !== 'reason4') {
+            if (
+              this.reasonForm.get(element)?.value !== 'null' ||
+              this.reasonForm.get(element)?.value !== ''
+            ) {
+              arrayReason.push(this.reasonForm.get(element)?.value);
+            }
           }
         });
-    }
+        let filterdArray = arrayReason.filter((ele: any) => ele !== null);
+        if (filterdArray.length !== 0) {
+          this.campaignService
+            .rejectLinks(
+              this.prom,
+              filterdArray,
+              this.prom.campaign._id,
+              this.prom.campaign.title
+            )
+            .pipe(takeUntil(this.isDestroyed))
+            .subscribe((data: any) => {
+              if (data.message === 'success') {
+                this.closeModal(modal);
+                this.showLoadingSpinner = false;
+                this.deleted.emit(this.prom.id);
+                // this.influencerProms = this.influencerProms.pipe(
+                //   map((array: any) =>
+                //     array.filter(
+                //       (influencer: any) => influencer.id !== this.promToreject.id
+                //     )
+                //   ),
+                //   tap(console.log)
+                // );
+                this.ref.detectChanges();
+              }
+            });
+        }
+      }
+    })
+    
   }
 
   getPartPic() {

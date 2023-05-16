@@ -756,22 +756,27 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe(
         (response: any) => {
-          this.validationAttempt = false;
-          this.walletPassword = '';
-          if (response['transactionHash']) {
-            this.campaign.budget = response.remaining;
-            this.modalService.dismissAll();
-          }
-          if (
-            response['error'] ===
-            'Returned error: insufficient funds for gas * price + value'
-          ) {
-            this.errorMessage = 'out_of_gas_error';
-          } else if (response['error'] === 'Wrong password') {
-            this.errorMessage = 'wrong_password';
+          if(response?.name === "JsonWebTokenError") {
+            this.expiredSession();
           } else {
-            this.errorMessage = 'server_error';
+            this.validationAttempt = false;
+            this.walletPassword = '';
+            if (response['transactionHash']) {
+              this.campaign.budget = response.remaining;
+              this.modalService.dismissAll();
+            }
+            if (
+              response['error'] ===
+              'Returned error: insufficient funds for gas * price + value'
+            ) {
+              this.errorMessage = 'out_of_gas_error';
+            } else if (response['error'] === 'Wrong password') {
+              this.errorMessage = 'wrong_password';
+            } else {
+              this.errorMessage = 'server_error';
+            }
           }
+          
         },
         () => {
           this.validationAttempt = false;
@@ -779,6 +784,11 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
           this.errorMessage = 'server_error';
         }
       );
+  }
+
+  expiredSession() {
+    this.tokenStorageService.clear();
+    window.open(environment.domainName + '/auth/login', '_self');
   }
 
   checkPassword() {

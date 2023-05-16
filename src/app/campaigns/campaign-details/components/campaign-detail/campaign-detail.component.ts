@@ -216,6 +216,9 @@ export class CampaignDetailComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getScreenWidth = window.innerWidth;
+    this.walletFacade.verifyUserToken().subscribe((res:any) => {
+      if(res?.message != "success") this.expiredSession();
+    })
     this.refundButtonDisable = true;
     this.loadingData = true;
     this.CampaignService.isLoading.subscribe((res) => {
@@ -317,13 +320,18 @@ export class CampaignDetailComponent implements OnInit {
       this.loadingButton = true;
       this.CampaignService.getRefunds(this.campaign.hash, this.passwordForm.value.password, this.campaign.currency.type).subscribe(
         (res: any) => {
-          if(res.code === 200 && res.message === "budget retrieved") {
-            this.loadingButton = false;
-            this.successMessage = "Budget retrieved";
-            setTimeout( _ => {
-              this.closeModal(this.transactionPassword)
-            }, 3000)
+          if(res?.name === "JsonWebTokenError") {
+            this.expiredSession();
+          } else {
+            if(res.code === 200 && res.message === "budget retrieved") {
+              this.loadingButton = false;
+              this.successMessage = "Budget retrieved";
+              setTimeout( _ => {
+                this.closeModal(this.transactionPassword)
+              }, 3000)
+            }
           }
+          
         },
         (err) => {
           if(err.error.error === "Key derivation failed - possibly wrong password") {
@@ -396,6 +404,11 @@ export class CampaignDetailComponent implements OnInit {
       }
     }
   }
+  expiredSession() {
+    this.tokenStorageService.clear();
+    window.open(environment.domainName + '/auth/login', '_self');
+  }
+
   gettingAllproms(): void {
     this.CampaignService.getAllPromsStats(
       this.campaignId,
@@ -403,19 +416,14 @@ export class CampaignDetailComponent implements OnInit {
     )
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((data: any) => {
-        if (data.message === 'success') {
-          this.allProms = data.data.allProms;
-          // this.allProms = data.allProms?.filter(
-          //   (item: any) => item.appliedDate && item.isAccepted !== 'rejected'
-          // );
+        if(data?.name === "JsonWebTokenError") {
+          
+          this.expiredSession();
+        } else {
+          if (data.message === 'success') {
+            this.allProms = data.data.allProms;
+          }
         }
-        // if (!this.campaign.isOwnedByUser) {
-        //   this.allProms = data.data.allProms?.filter(
-        //     (item: any) =>
-        //       item.isAccepted !== 'rejected' &&
-        //       item.id_wallet.toLowerCase() === this.idWallet?.toLowerCase()
-        //   );
-        // }
       });
   }
 
@@ -866,8 +874,13 @@ export class CampaignDetailComponent implements OnInit {
         takeUntil(this.isDestroyed)
       )
       .subscribe((data1: any) => {
-        this.toastr.success(data1);
-        this.router.navigate(['home/ad-pools']);
+        if(data1?.name === "JsonWebTokenError") {
+          this.expiredSession();
+        } else {
+          this.toastr.success(data1);
+          this.router.navigate(['home/ad-pools']);
+        }
+        
       });
   }
 }
