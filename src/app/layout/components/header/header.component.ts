@@ -1595,55 +1595,25 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   signOut() {
-    
     this.authStoreService.clearStore();
-        this.tokenStorageService.clear();
-        
+    this.tokenStorageService.clear();  
     this.tokenStorageService.logout().subscribe(
       () => {
-        
-        
         this.campaignFacade.clearLinksListStore();
         this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
         this.ParticipationListStoreService.clearDataFarming();
-
         this.walletFacade.dispatchLogout(); //clear totalBalance and cryptoList
         this.accountFacadeService.dispatchLogoutAccount(); //clear account user
         this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
         this.ParticipationListStoreService.nextPage.pageNumber = 0;
         this.profileSettingsFacade.clearProfilePicStore();
-        
         this.kycFacadeService.dispatchLogoutKyc();
         this.isConnected = false;
         this.showConnectButton = true;
         this.authService.setIsAuthenticated(false);
-
-       
       }
-      // () => {
-      //   this.campaignFacade.clearLinksListStore();
-      //   this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
-      //   this.ParticipationListStoreService.clearDataFarming();
-      //   this.walletFacade.dispatchLogout(); //clear totalBalance and cryptoList
-      //   this.accountFacadeService.dispatchLogoutAccount(); //clear account user
-      //   this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
-      //   this.ParticipationListStoreService.nextPage.pageNumber = 0;
-      //   this.profileSettingsFacade.clearProfilePicStore();
-      //   this.authStoreService.clearStore();
-      //   this.tokenStorageService.clear();
-      //   this.kycFacadeService.dispatchLogoutKyc();
-      //   this.isConnected = false;
-      //   this.authService.setIsAuthenticated(false);
-      //   if (isPlatformBrowser(this.platformId)) {
-      //     window.location.reload();
-      //   }
-      //   this.router.navigate(['/auth/login']);
-      // }
+      
     );
-
-    /*
-    this.campaignsListStore.clearStore();
-*/
   }
   ngOnDestroy(): void {
     
@@ -1653,5 +1623,15 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
       this.isDestroyed$.unsubscribe();
     }
     //this.translate.onLangChange.unsubscribe();
+  }
+
+
+  logout() {
+    this.tokenStorageService.clear();
+    this.authStoreService.clearStore();
+    this.campaignDataStore.clearDataStore();
+    this.walletFacade.dispatchLogout();
+    this.accountFacadeService.dispatchLogoutAccount();
+    window.open(environment.domainName + '/auth/login', '_self');
   }
 }
