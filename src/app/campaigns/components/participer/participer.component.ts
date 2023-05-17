@@ -269,6 +269,22 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
   //     });
   //   }
   // }
+
+    shortUrlChanger(normalUrl: string) {
+    const shortUrlTiktok = normalUrl?.search(env.TIKTOK_SHORTEN_LINK);
+  
+
+
+    if (shortUrlTiktok > -1 ) {
+
+
+      this.CampaignService.expandUrl(normalUrl).subscribe((res: any) => {
+       
+        
+        this.urlFromInput = res.data;
+      });
+    }
+  }
   connect(social: any) {
     var linkFacebook: string =
       sattUrl +

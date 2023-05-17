@@ -1182,6 +1182,17 @@ export class CampaignHttpApiService {
   //   });
   // }
 
+  expandUrl(shortUrl: string) {
+    let header = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.get(sattUrl + '/campaign/expandLink?shortUrl=' + shortUrl, {
+      headers: header
+    });
+  }
+
   getWelcomePageStats() {
     let header = new HttpHeaders({
       'Cache-Control': 'no-store',
