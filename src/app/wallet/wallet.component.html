@@ -50,6 +50,7 @@
                   'linear-gradient(180deg, #4048ff 0%, #00cc9e 310.62%)'
               }
         "
+        [ngStyle]="getWalletVersion() === 'v2' ? {height: '250px'} : {}"
       >
         <!--portfolio estimation-->
         <!-- <div class="d-flex justify-content-center">-->
@@ -107,7 +108,7 @@
             </div>
           </div>
         </div> -->
-        <div class="balance_container">
+        <div [className]="getWalletVersion() === 'v2' ? 'balance_container2' : 'balance_container'">
           <div class="estim_ballance">
             <h3 class="walletEstimm justify-content-center">
               {{ 'Wallet.Your_total_portfolio_is_estimated_at' | translate }}

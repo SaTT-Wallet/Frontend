@@ -989,6 +989,11 @@ export class WalletComponent implements OnInit, OnDestroy {
     
   }
 
+
+  getWalletVersion() {
+    return this.tokenStorageService.getWalletVersion();
+  }
+
   closeModaleMaintenace() {
     this.closeModal(this.modalMaintenance);
   }

@@ -2126,6 +2126,13 @@ p {
     position: relative;
     top: 6vh;
   }
+
+  .balance_container2 {
+    
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+
   .walletEstimm {
     margin-top: 4%;
     font-size: 20px !important;
