@@ -109,7 +109,7 @@
           </div>
         </div> -->
         <div [className]="getWalletVersion() === 'v2' ? 'balance_container2' : 'balance_container'">
-          <div class="estim_ballance">
+          <div  [className]="getWalletVersion() === 'v1' ? 'estim_ballance' : ''">
             <h3 class="walletEstimm justify-content-center">
               {{ 'Wallet.Your_total_portfolio_is_estimated_at' | translate }}
             </h3>
@@ -125,6 +125,7 @@
           </ng-container>
           <div
             class="divbtn"
+            [className]="getScreenWidth <= 768 ? 'divbtn-mobile' : 'divbtn'"
             *ngIf="versionText === 'New Wallet' && existV1 && show && existV2"
           >
             <button class="migratebtn" type="button" (click)="migrateButton()">
