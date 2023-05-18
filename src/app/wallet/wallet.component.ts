@@ -989,6 +989,11 @@ export class WalletComponent implements OnInit, OnDestroy {
     
   }
 
+
+  getWalletVersion() {
+    return this.tokenStorageService.getWalletVersion();
+  }
+
   closeModaleMaintenace() {
     this.closeModal(this.modalMaintenance);
   }
@@ -1203,11 +1208,6 @@ export class WalletComponent implements OnInit, OnDestroy {
     }
   }
 
-  getHeight() {
-    return '250px';
-
-    // return this.height;
-  }
 
   allWallet() {
     try {

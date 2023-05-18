@@ -264,7 +264,11 @@ input:-webkit-autofill:active {
   font-family: 'Poppins';
   letter-spacing: 1px;
 }
-
+.divbtn-mobile {
+  padding-top: 2em;
+  width: fit-content;
+  margin: auto;
+}
 .divbtn {
   padding-top: 1em;
   width: fit-content;
@@ -1186,6 +1190,7 @@ textarea::placeholder {
   /* min-height: 309.5px;
   min-width: 320px; */
   border-radius: 0px !important;
+  width: 100%;
 }
 .blockk-3 {
   min-height: 300px;
@@ -2058,9 +2063,9 @@ p {
 } */
 
 .hwrap {
-  height: 200px;
+ 
   position: relative;
-  bottom: 4em;
+  
   clear: right;
   background-size: cover;
   overflow: hidden; /* HIDE SCROLL BAR */
@@ -2074,11 +2079,13 @@ p {
 /* (B) MOVING TICKER WRAPPER */
 .hmove {
   display: flex;
+  padding-top: 2%;
 }
 
 /* (C) ITEMS - INTO A LONG HORIZONTAL ROW */
 .hitem {
-  margin-top: 2%;
+  
+  
   padding: 10px;
   text-align: center;
   font-family: 'Poppins';
@@ -2097,22 +2104,20 @@ p {
   }
   .blockk.migrate {
     padding-top: 1px;
-    height: 250px !important;
+    
     overflow-x: unset !important;
   }
   .hwrap.migrate {
-    position: relative;
-    top: -3.5em;
-    bottom: 2em !important;
+   
     width: fit-content !important;
   }
   .hitem.migrate {
-    margin-top: 7% !important;
+    
     font-size: 15px;
   }
   .blockk {
     padding-top: 1px;
-    height: 250px !important;
+    
     overflow-x: unset;
   }
   .hwrap {
@@ -2121,8 +2126,15 @@ p {
   }
   .estim_ballance {
     position: relative;
-    top: 6vh;
+    top:6vh;
   }
+
+  .balance_container2 {
+    
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+
   .walletEstimm {
     margin-top: 4%;
     font-size: 20px !important;
@@ -2132,20 +2144,16 @@ p {
     font-size: 36px !important;
   }
   .hitem {
-    margin-top: 4% !important;
+    
     font-size: 15px;
   }
 
   .hwrap {
     bottom: 0em !important;
-    height: 15vh;
+    height: 10vh;
     background-size: cover;
     overflow: hidden; /* HIDE SCROLL BAR */
-    background: linear-gradient(
-      360deg,
-      #f52079 -73.91%,
-      rgba(245, 32, 121, 0) 100%
-    );
+    
   }
   .echnage {
     position: relative;
@@ -2160,6 +2168,7 @@ p {
     font-size: 13px;
     top: 1.7vh;
     padding-left: 16px;
+    padding-top: 2em;
     /* line-height: 99%; */
     /* display: flex; */
     /* align-items: flex-end; */
@@ -2299,9 +2308,7 @@ p {
   margin-top: 0px;
 }
 
-.showMobile.showMobileMigration {
-  margin-top: 28px;
-}
+
 
 .showDesktop {
   display: none;
@@ -2560,11 +2567,7 @@ p {
 .error-wallet-exist {
   color: #f52079;
 }
-@media only screen and (max-width: 960px) {
-  .positon-mobile {
-    height: 308px;
-  }
-}
+
 .migration {
   position: absolute;
   width: 66.13vw;
