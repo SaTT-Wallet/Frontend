@@ -1204,7 +1204,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
 
   getHeight() {
-    return '250px';
+    return '';
 
     // return this.height;
   }

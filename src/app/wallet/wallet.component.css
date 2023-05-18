@@ -1186,6 +1186,7 @@ textarea::placeholder {
   /* min-height: 309.5px;
   min-width: 320px; */
   border-radius: 0px !important;
+  width: 100%;
 }
 .blockk-3 {
   min-height: 300px;
@@ -2058,9 +2059,9 @@ p {
 } */
 
 .hwrap {
-  height: 200px;
+ 
   position: relative;
-  bottom: 4em;
+  
   clear: right;
   background-size: cover;
   overflow: hidden; /* HIDE SCROLL BAR */
@@ -2074,11 +2075,13 @@ p {
 /* (B) MOVING TICKER WRAPPER */
 .hmove {
   display: flex;
+  padding-top: 2%;
 }
 
 /* (C) ITEMS - INTO A LONG HORIZONTAL ROW */
 .hitem {
-  margin-top: 2%;
+  margin-top: 4%;
+  margin-bottom: 1%;
   padding: 10px;
   text-align: center;
   font-family: 'Poppins';
@@ -2097,7 +2100,7 @@ p {
   }
   .blockk.migrate {
     padding-top: 1px;
-    height: 250px !important;
+    
     overflow-x: unset !important;
   }
   .hwrap.migrate {
@@ -2112,7 +2115,7 @@ p {
   }
   .blockk {
     padding-top: 1px;
-    height: 250px !important;
+    
     overflow-x: unset;
   }
   .hwrap {
