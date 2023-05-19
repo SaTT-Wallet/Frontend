@@ -1453,12 +1453,15 @@ export class WalletComponent implements OnInit, OnDestroy {
                 backdrop: 'static',
                 keyboard: false
               })},2000)
+              
               return;
             } else if(res.data === true){
               this.existV2 = res.data;
               this.hasWalletV2 = true;
               localStorage.setItem('existV2', 'true');
-            }    
+            }
+
+          
         }
       );
   }
