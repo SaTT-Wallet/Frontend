@@ -333,6 +333,22 @@ export class WalletService {
     )
   }
 
+
+
+  verifyUserToken() {
+    let header = new HttpHeaders({
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
+    });
+    return this.http.get(
+      `${sattUrl}/auth/verify-token`,
+      {
+        headers: header
+      }
+    )
+  }
+
   // setPayementId(payementId: string) {
   //   let header = new HttpHeaders({
   //     'Cache-Control': 'no-store',

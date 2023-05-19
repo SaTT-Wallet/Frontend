@@ -19,6 +19,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { GazConsumed } from '@app/config/atn.config';
 
+
 @Component({
   selector: 'app-migration',
   templateUrl: './migration.component.html',
@@ -256,27 +257,32 @@ export class MigrationComponent implements OnInit {
       )
       .subscribe(
         (data: any) => {
-          
-          
-            if(data.data.errorTransaction.length > 0) {
-              if(data.data.transactionHash.length > 0) {
-                this.displaySuccessMessage(data.data.transactionHash)
-                this.displayErrorMessage(data.data.errorTransaction)
-              } else {
-                this.displayErrorMessage(data.data.errorTransaction)
+            if(data.name === "JsonWebTokenError") {
+              this.expiredSession() 
+            } else {
+              if(data.data.errorTransaction.length > 0) {
+                if(data.data.transactionHash.length > 0) {
+                  this.displaySuccessMessage(data.data.transactionHash)
+                  this.displayErrorMessage(data.data.errorTransaction)
+                } else {
+                  this.displayErrorMessage(data.data.errorTransaction)
+                }
+              }  else {
+                
+                if(this.network.name === 'TRX') {
+                  setTimeout(() => {
+                    this.displaySuccessMessage(data.data.transactionHash);
+                  }, 70000)
+                } else this.displaySuccessMessage(data.data.transactionHash)
+                
               }
-            }  else {
-              
-              if(this.network.name === 'TRX') {
-                setTimeout(() => {
-                  this.displaySuccessMessage(data.data.transactionHash);
-                }, 70000)
-              } else this.displaySuccessMessage(data.data.transactionHash)
-              
             }
+          
+            
 
         },
         (err: any) => {
+          
           if
           (err.error.error ===
             'Key derivation failed - possibly wrong password' || err.error.error === "Invalid private key provided") {
@@ -290,6 +296,11 @@ export class MigrationComponent implements OnInit {
           this.spinner = false;
         }
       );
+  }
+
+  expiredSession() {
+    this.tokenStorageService.clear();
+    window.open(environment.domainName + '/auth/login', '_self');
   }
 
   addCrypto(element: any) {
@@ -339,8 +350,13 @@ export class MigrationComponent implements OnInit {
     this.walletPassword="";
     this.errorTransaction = false;
     if (this.cryptoChecked === 'TRON') {
-        this.sendMigrationStatus()
-        this.newWallet.emit("new-wallet")
+      this.walletFacade.verifyUserToken().subscribe((res:any) => {
+        if(res.message === "success") {
+          this.sendMigrationStatus()
+          this.newWallet.emit("new-wallet")
+        } else this.expiredSession();
+      })
+        
     } else {
       const index = this.listCrypto.findIndex((object: any) => {
         return object.network === this.cryptoChecked;

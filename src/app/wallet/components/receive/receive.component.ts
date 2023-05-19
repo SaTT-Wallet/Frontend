@@ -22,6 +22,7 @@ import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
+import { environment } from '@environments/environment';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Big } from 'big.js';
 import { Location } from '@angular/common';
@@ -411,24 +412,29 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.ContactMessageService.reveiveMoney(Receive)
         .pipe(takeUntil(this.isDestroyed))
         .subscribe(
-          (data) => {
-            if (data) {
-              this.amount = '';
-              this.amountUsd = '';
-              this.contactEmail = '';
-              this.loadingButton = false;
-              this.showAmountBloc = false;
-              this.showMsgBloc = false;
-              this.showSuccessBloc = true;
-              this.receiveform.reset();
+          (data: any) => {
+            if(data?.name  === "JsonWebTokenError") {
+              this.expiredSession();
+            } else {
+              if (data) {
+                this.amount = '';
+                this.amountUsd = '';
+                this.contactEmail = '';
+                this.loadingButton = false;
+                this.showAmountBloc = false;
+                this.showMsgBloc = false;
+                this.showSuccessBloc = true;
+                this.receiveform.reset();
+              }
+              if (data == null) {
+                this.usernotfound = true;
+                this.loadingButton = false;
+                setTimeout(() => {
+                  this.usernotfound = false;
+                }, 3000);
+              }
             }
-            if (data == null) {
-              this.usernotfound = true;
-              this.loadingButton = false;
-              setTimeout(() => {
-                this.usernotfound = false;
-              }, 3000);
-            }
+            
           }
           // (error) => {
           //   if (error.error.error === 'user not found') {
@@ -438,6 +444,11 @@ export class ReceiveComponent implements OnInit, OnDestroy, AfterViewChecked {
           // }
         );
     }
+  }
+
+  expiredSession() {
+    this.tokenStorageService.clear();
+    window.open(environment.domainName + '/auth/login', '_self');
   }
 
   showNextBloc() {

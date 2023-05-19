@@ -55,8 +55,8 @@ export class RecoverGainsComponent implements OnInit {
     concatMap((promHash: any) =>
       this.campaignsService.getPromById(promHash).pipe(
         map((res: any) => {
-          this.currencyName = res.data.currency;
-          return new Participation(res.data);
+          this.currencyName = res?.data?.currency;
+          return new Participation(res?.data);
         })
       )
     ),
@@ -94,7 +94,7 @@ export class RecoverGainsComponent implements OnInit {
 
   oracleImageSrc = '';
 
-  postLink$ = this.promData$.pipe(
+ /* postLink$ = this.promData$.pipe(
     takeUntil(this.isDestroyedSubject),
     map((prom: Participation) => {
       if (prom.oracle === 'youtube') {
@@ -116,8 +116,43 @@ export class RecoverGainsComponent implements OnInit {
         this.oracleImageSrc = '/assets/Images/campagne/insta_gain.svg';
         return `https://www.instagram.com/p/${prom.postId}`;
       }
+      if (prom.oracle === 'tiktok') {
+        this.oracleImageSrc = '/assets/Images/campagne/tiktok_gain.svg';
+        return `https://www.tiktok.com/embed/${prom.postId}`;
+      }
 
       return '';
+    })
+  );*/
+  postLink$ = this.promData$.pipe(
+    takeUntil(this.isDestroyedSubject),
+    map((prom: Participation) => {
+      const mapping: { [key: string]: { imageSrc: string, link: string } } = {
+        youtube: {
+          imageSrc: '/assets/Images/youtube.svg',
+          link: `https://www.youtube.com/watch?v=${prom.postId}`
+        },
+        facebook: {
+          imageSrc: '/assets/Images/campagne/facebook_gain.svg',
+          link: `https://www.facebook.com/${prom.username}/posts/${prom.postId}`
+        },
+        twitter: {
+          imageSrc: '/assets/Images/campagne/twitter_gain.svg',
+          link: `https://www.twitter.com/${prom.username}/status/${prom.postId}`
+        },
+        instagram: {
+          imageSrc: '/assets/Images/campagne/insta_gain.svg',
+          link: `https://www.instagram.com/p/${prom.postId}`
+        },
+        tiktok: {
+          imageSrc: '/assets/Images/campagne/tiktok_gain.svg',
+          link: `https://www.tiktok.com/embed/${prom.postId}`
+        }
+      };
+  
+      const { imageSrc, link } = mapping[prom.oracle] || { imageSrc: '', link: '' };
+      this.oracleImageSrc = imageSrc;
+      return link;
     })
   );
 

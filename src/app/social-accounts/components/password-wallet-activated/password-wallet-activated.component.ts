@@ -21,14 +21,17 @@ export class PasswordWalletActivatedComponent implements OnInit {
   }
 
   goToWallet() {
+    this.tokenStorageService.setItem('wallet_version', 'v2');
     this.router.navigate(['/home/wallet']);
   }
 
   goToEditProfile() {
+    this.tokenStorageService.setItem('wallet_version', 'v2');
     this.router.navigate(['home/settings/edit']);
   }
 
   goToBuyBEP20_Simplex() {
+    this.tokenStorageService.setItem('wallet_version', 'v2');
     this.router.navigate(['/wallet/buy-token'], {
       queryParams: { id: 'SATTBEP20', network: 'BEP20' },
       relativeTo: this.activatedRoute

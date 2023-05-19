@@ -109,6 +109,7 @@ export const environment = {
   YOUTUBE_SHORTEN_LINK: 'https://youtu.be/',
 
   YOUTUBE_EMBED_LINK: 'https://www.youtube.com/embed/',
+ 
 
   typeSN: {
     facebook: 1,
@@ -129,7 +130,9 @@ export const environment = {
   },
 
   TIKTOK_URL: 'https://www.tiktok.com/',
+  TIKTOK_SHORTEN_LINK:'https://vm.tiktok.com',
 
+  
   Network: {
     BNB: 'BNB',
     WSAT: 'WSATT',
