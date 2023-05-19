@@ -94,36 +94,6 @@ export class RecoverGainsComponent implements OnInit {
 
   oracleImageSrc = '';
 
- /* postLink$ = this.promData$.pipe(
-    takeUntil(this.isDestroyedSubject),
-    map((prom: Participation) => {
-      if (prom.oracle === 'youtube') {
-        this.oracleImageSrc = '/assets/Images/youtube.svg';
-        return `https://www.youtube.com/watch?v=${prom.postId}`;
-      }
-
-      if (prom.oracle === 'facebook') {
-        this.oracleImageSrc = '/assets/Images/campagne/facebook_gain.svg';
-        return `https://www.facebook.com/${prom.username}/posts/${prom.postId}`;
-      }
-
-      if (prom.oracle === 'twitter') {
-        this.oracleImageSrc = '/assets/Images/campagne/twitter_gain.svg';
-        return `https://www.twitter.com/${prom.username}/status/${prom.postId}`;
-      }
-
-      if (prom.oracle === 'instagram') {
-        this.oracleImageSrc = '/assets/Images/campagne/insta_gain.svg';
-        return `https://www.instagram.com/p/${prom.postId}`;
-      }
-      if (prom.oracle === 'tiktok') {
-        this.oracleImageSrc = '/assets/Images/campagne/tiktok_gain.svg';
-        return `https://www.tiktok.com/embed/${prom.postId}`;
-      }
-
-      return '';
-    })
-  );*/
   postLink$ = this.promData$.pipe(
     takeUntil(this.isDestroyedSubject),
     map((prom: Participation) => {
