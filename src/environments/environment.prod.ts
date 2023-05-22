@@ -100,7 +100,7 @@ export const environment = {
     urlTiktok: 'https://www.tiktok.com/'
   },
   FACEBOOK_URL: 'https://www.facebook.com/',
-
+  M_FACEBOOK_URL: 'https://m.facebook.com/',
   FACEBOOK_POST_URL:
     'https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F',
 

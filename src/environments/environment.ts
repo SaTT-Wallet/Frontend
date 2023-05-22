@@ -79,7 +79,7 @@ export const environment = {
   YOUTUBE_SHORTEN_LINK: 'https://youtu.be/',
   YOUTUBE_EMBED_LINK: 'https://www.youtube.com/embed/',
   FACEBOOK_URL: 'https://www.facebook.com/',
-  M_FaCEBOOK_URL: 'https://m.facebook.com/',
+  M_FACEBOOK_URL: 'https://m.facebook.com/',
   TIKTOK_URL: 'https://www.tiktok.com/',
   TIKTOK_SHORTEN_LINK:'https://vm.tiktok.com',
   FACEBOOK_POST_URL:
