@@ -70,6 +70,7 @@
               [className]="
                 getScreenWidth > 960 ? 'image-size-crypto' : 'image-size2'
               "
+              (error)="errorPictureHandle($event)"
             />
             <p
               [className]="
