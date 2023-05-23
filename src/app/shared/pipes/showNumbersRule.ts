@@ -33,22 +33,13 @@ export class ShowNumbersRule implements PipeTransform {
         return '0';
       } else if (bigValue.gte(0) && bigValue.lte(0.1)) {
         valueToReturn = bigValue.toFixed(8);
-        // if (valueToReturn % 1 !== 0) {
-        //   return parseFloat(valueToReturn + '') + '';
-        // }
         return valueToReturn;
       } else if (bigValue.gte(0.1) && bigValue.lte(1.9)) {
         valueToReturn = bigValue.toFixed(6);
-        if (valueToReturn % 1 !== 0) {
-          return parseFloat(valueToReturn + '') + '';
-        }
-        return bigValue.toFixed(6);
+        return valueToReturn;
       } else if (bigValue.gte(2) && bigValue.lte(9.9999)) {
-        valueToReturn = bigValue.toFixed(5);
-        if (valueToReturn % 1 !== 0) {
-          return parseFloat(valueToReturn + '') + '';
-        }
-        return bigValue.toFixed(5);
+        valueToReturn = bigValue.toFixed(4);
+        return valueToReturn;
       } else if (bigValue.gte(10) && bigValue.lte(9999.99)) {
         if (modeCryptoList) {
           valueToReturn = Number(bigValue.toFixed(2));
