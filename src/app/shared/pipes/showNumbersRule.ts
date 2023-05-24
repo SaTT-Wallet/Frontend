@@ -40,14 +40,21 @@ export class ShowNumbersRule implements PipeTransform {
         for (const rule of numberRules) {
           if(rule.range[0] === 10000) {
             if(bigValue.gte(rule.range[0])) {
-              if(modeCryptoList) return this.handleFormattedValue(bigValue, '0.0-2')
-              return this.handleFixedValue(bigValue, rule.precision)
+              if(modeCryptoList) return this.handleFixedValue(bigValue, rule.precision)
+              return this.handleFormattedValue(bigValue, '0.0-2')
             }
           } else {
             if(bigValue.gte(rule.range[0]) && bigValue.lte(rule.range[1])) {
-              if(modeCryptoList && rule.range[0] === 10) {
-                return this.handleFormattedValue(bigValue, '0.0-2')
-              } else return this.handleFixedValue(bigValue, rule.precision)
+              if(rule.range[0] === 10) {
+                if(modeCryptoList) {
+                  return this.handleFixedValue(bigValue, rule.precision)
+                } else return this.handleFormattedValue(bigValue, '0.0-2')
+              } else {
+                if(modeCryptoList) {
+                  return this.handleFixedValue(bigValue, rule.precision)
+                } else return this.handleFormattedValue(bigValue, '0.0-2')
+                
+              }
             }
           }
         }

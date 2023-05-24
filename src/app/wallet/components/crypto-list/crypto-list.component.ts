@@ -744,7 +744,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     else {
       sum = crypto.total_balance;
     }
-    return this.showNumbersRule.transform((!!sum ? sum : 0) + '', true);
+    return this.showNumbersRule.transform((!!sum ? sum : 0) + '', false);
   }
 
   quantitySum(crypto: any, modeDetails?: boolean) {
