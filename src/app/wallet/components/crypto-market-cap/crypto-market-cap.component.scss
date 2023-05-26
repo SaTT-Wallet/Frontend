@@ -1,0 +1,53 @@
+.cover-crypto-market-cap{
+    height: 243px;
+background: #F6F6FF;
+}
+.search-input-wrapper {
+    width: 100%;
+    justify-content: flex-end;
+    gap: 0.5em;
+    align-items: flex-start;
+}
+#key {
+    align-self: center;
+    /*
+    margin: 2em auto 2em 0;
+    */
+      background-image: url('/assets/Images/serch-hard-gray.svg');
+     background-position: 13px;
+     background-repeat: no-repeat;
+     /* width: 80%; */
+     margin-bottom: 1rem;
+     padding-left: 45px;
+ 
+     height: 35px;
+     border: 1px solid #d6d6e8;
+     border-radius: 30px;
+     text-overflow: ellipsis;
+ }
+ 
+ #key::placeholder {
+        font-weight: 400 ;
+     line-height: 120%;
+     font-size: 16px;
+     letter-spacing: 0.03em;
+     color: #75758F;
+ }
+ .crypto-market-cap-title{
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 120%;
+letter-spacing: 1px;
+color: #4048FF;
+ }
+ .market-cap-in-number{
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 120%;
+letter-spacing: 1px;
+color: #1F2337;
+ }

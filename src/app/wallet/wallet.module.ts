@@ -20,6 +20,7 @@ import { CryptoInfoComponent } from './components/crypto-info/crypto-info.compon
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { FilterBynamePipe } from '@shared/pipes/filter-byname.pipe';
 import { MigrationComponent } from './components/migration/migration.component';
+import { CryptoMarketCapComponent } from './components/crypto-market-cap/crypto-market-cap.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { MigrationComponent } from './components/migration/migration.component';
     ConvertComponent,
     HeaderSendReceiveBuyComponent,
     CryptoInfoComponent,
-    MigrationComponent
+    MigrationComponent,
+    CryptoMarketCapComponent
   ],
   imports: [
     SharedModule,

@@ -1,1 +1,82 @@
-<p>crypto-market-cap works!</p>
+
+<meta name="viewport" content="width=device-width,user-scalable=no" />
+<header class="cover-crypto-market-cap">
+    <div class="row" style="  padding-top: 5%; padding-left: 25%;">
+    <div class="col-3 d-flex justify-content-center  d-none d-sm-block" style="padding-left: 10%;"> 
+    <img src="assets/Images/crypto-market-cap-cov.png"/>
+    </div>
+    <div class="col justify-content-center Global " > 
+     <div class="row crypto-market-cap-title">Crypto Market Cap</div>
+     <div class="row market-cap-in-number ">$1,101,610,061,495 </div> 
+     </div>
+     
+</div>
+</header>
+<div
+  class="container-fluid page-content "
+  [style]="'margin-top: 4%!important; '"
+>
+<input
+id="key"
+class="key d-flex search-input-wrapper mt-3"
+type="text"
+name="search"
+placeholder="Search token "
+/>
+<div class="table-responsive-sm">
+<table class="table  table-sm table-hover" style="border:white;">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">NAME</th>
+        <th scope="col">PRICE</th>
+        <th scope="col d-none d-sm-block">1H%</th>
+        <th scope="col">24H%</th>
+        <th scope="col d-none d-sm-block">7D%</th>
+        <th scope="col d-none d-sm-block">VOLUME(24H)</th>
+        <th scope="col d-none d-sm-block">LAST 7DAYS</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let crypto of cryptoLists ; let i = index">
+        <th scope="row">  {{ i +1}}</th>
+        <td><img
+          class="Icons"
+          *ngIf="crypto.image"
+          [src]="crypto.image"
+          alt=""
+          style="height: 30px;
+          width: 30px;"
+        />
+        {{crypto.name}}
+          {{crypto.symbol}}</td>
+        <td> $ {{crypto.current_price}}</td>
+        <td class="d-none d-sm-table-cell"> {{crypto.price_change_percentage_1h_in_currency}}%</td>
+        <td>   {{crypto.price_change_percentage_24h}}%</td>
+        <td class="d-none d-sm-table-cell"> {{crypto.price_change_percentage_7d_in_currency}}%</td>
+        <td class="d-none d-sm-table-cell">{{crypto.total_volume}}%</td>
+        <td class="d-none d-sm-table-cell"><canvas  id="MyChart" >{{ chart }}</canvas></td>
+      </tr>
+ 
+    </tbody>
+  </table>
+</div>
+<div>
+
+</div>
+
+<div>
+  <div>
+    <!-- <canvas  id="MyChart" >{{ chart }}</canvas> -->
+    <!-- <canvas baseChart 
+        [datasets]="lineChartData" 
+        [labels]="lineChartLabels" 
+        [options]="lineChartOptions"
+        [colors]="lineChartColors" 
+        [legend]="lineChartLegend" 
+        [chartType]="lineChartType"
+        [plugins]="lineChartPlugins">
+    </canvas> -->
+  </div>
+</div>
+</div>

@@ -46,7 +46,10 @@ export class CryptoInfoService {
       `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&ids=${cryptoId}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
     );
   }
-
+getCryptoList(){
+  return this.http.get(
+    `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,satt,bittorrent,matic,busd,maker&page=1&sparkline=true&price_change_percentage=1h%2C7d&locale=en`)
+}
   generalTokenInfos(cryptoId: string) {
     return this.http.get(
       `https://api.coingecko.com/api/v3/coins/${cryptoId}?localization=false&tickers=false&market_data=true&community_data=true&developer_data=false&sparkline=true`
