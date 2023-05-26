@@ -19,26 +19,15 @@
 </ng-template>
 
 <div class="wallet">
-  <!--red bloc:desktop and tablette-->
-  <!-- <div class="mb-2 showDesktop" role="button">
-          <div class=" div_red" id="red-bloc" *ngIf="!this.sidebarService.toggleSidebar.value && hideRedBloc=='false'">
-              <img src="/assets/Images/Rectangle-rouge_mobile_png.png" class="div_red_pic thumbnail " (click)="goToCampaign()">
-              <span class="div_red_text pt-1 ms-3 d-none d-md-block d-lg-none d-xl-none" (click)="goToCampaign()"> {{'wallet.participate_full_text' | translate}} ></span>
-              <span class="div_red_text pt-1 ms-3 d-none d-md-none d-lg-block d-xl-block" (click)="goToCampaign()"> {{'wallet.participate_full_text' | translate}}</span>
-              <button type="button" class="div_red_btn d-none d-md-none d-lg-block d-xl-block" (click)="goToCampaign()">{{'Monetize.Apply_Campaign' |translate}}</button>
-              <img src="/assets/Images/close.svg" alt="" class="icon-close" (click)="closeRedBloc()" />
-          </div>
-      </div> -->
   <div
     *ngIf="hidePortfolio"
     class="row mb-2 positon-mobile"
-    
     id="chart"
     style="position: absolute"
   >
     <div class="col-md-12 col-sm-12 col-lg-12 p-0 h-100">
       <div
-        class="blockk mb-4"
+        class="blockk mb-2"
         [ngStyle]="
           isV1
             ? {
@@ -50,66 +39,18 @@
                   'linear-gradient(180deg, #4048ff 0%, #00cc9e 310.62%)'
               }
         "
-        [ngStyle]="getWalletVersion() === 'v2' ? {height: '250px'} : {}"
+        [ngStyle]="getWalletVersion() === 'v2' ? { height: '250px' } : {}"
       >
-        <!--portfolio estimation-->
-        <!-- <div class="d-flex justify-content-center">-->
-
-        <!-- <div class="currentbalance">
-          <h3 class="walletEstim d-flex justify-content-center">
-            {{ 'Wallet.Your_total_portfolio_is_estimated_at' | translate }}
-          </h3>
-          <div class="d-flex justify-content-center">
-            <div class="walletTotal d-block">
-              <div class="d-flex first_layer" id="totalAmount1">
-                $ {{ totalAmount | number: '1.0-2' || '' }}
-              </div>
-              <div
-                class="d-flex justify-content-center"
-                *ngIf="existV1 && existV2"
-              >
-                <p class="echnage" (click)="allWallet()" type="button">
-                  <span><img src="../../assets/Images/walletCard.svg" /></span>
-                  Go to {{ versionText }}
-                </p>
-              </div>
-              <div
-                class="divbtn d-flex justify-content-center"
-                *ngIf="
-                  versionText === 'New Wallet' && existV1 && show && existV2
-                "
-              >
-                <button
-                  class="migratebtn"
-                  type="button"
-                  (click)="migrateButton()"
-                >
-                  <span
-                    ><img
-                      src="../../assets/Images/custom_icons/clarity_error-standard-line.svg"
-                  /></span>
-                  Migrate my tokens
-                </button>
-              </div>
-              <div
-                class="deprecate_warning justify-content-center"
-                *ngIf="
-                  versionText === 'New Wallet' && existV1 && !show && existV2
-                "
-              >
-                <div class="hwrap">
-                  <div class="hmove">
-                    <div class="hitem">
-                      For security reasons, this wallet will soon be deprecated. Please transfer your tokens to the new v2 wallet.
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> -->
-        <div [className]="getWalletVersion() === 'v2' ? 'balance_container2' : 'balance_container'">
-          <div  [className]="getWalletVersion() === 'v1' ? 'estim_ballance' : ''">
+        <div
+          [className]="
+            getWalletVersion() === 'v2'
+              ? 'balance_container2'
+              : 'balance_container'
+          "
+        >
+          <div
+            [className]="getWalletVersion() === 'v1' ? 'estim_ballance' : ''"
+          >
             <h3 class="walletEstimm justify-content-center">
               {{ 'Wallet.Your_total_portfolio_is_estimated_at' | translate }}
             </h3>
