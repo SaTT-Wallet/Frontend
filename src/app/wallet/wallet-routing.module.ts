@@ -31,9 +31,15 @@ const routes: Routes = [
   },
   {
     path: 'token-info',
-    component:  CryptoMarketCapComponent
-    // canActivate: [AuthGuardService]
+    component:  CryptoMarketCapComponent,
+    
   },
+   {
+        path: 'coin-detail',
+        component:  CryptoInfoComponent
+       
+      },
+
   {
     path: 'summary',
     component: ConvertSummaryComponent

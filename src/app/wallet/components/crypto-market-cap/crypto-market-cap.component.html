@@ -1,82 +1,177 @@
-
 <meta name="viewport" content="width=device-width,user-scalable=no" />
 <header class="cover-crypto-market-cap">
-    <div class="row" style="  padding-top: 5%; padding-left: 25%;">
-    <div class="col-3 d-flex justify-content-center  d-none d-sm-block" style="padding-left: 10%;"> 
-    <img src="assets/Images/crypto-market-cap-cov.png"/>
+  <meta name="description" content="Discover the best options in the cryptocurrency market and maximize your investments.">
+  <div
+    class="row "
+
+  >
+    <div
+      class="col-4 d-flex justify-content-center d-none d-sm-block"
+  
+    >
+      <img  class="cover-market-cap" src="assets/Images/crypto-market-cap-cov.png" />
     </div>
-    <div class="col justify-content-center Global " > 
-     <div class="row crypto-market-cap-title">Crypto Market Cap</div>
-     <div class="row market-cap-in-number ">$1,101,610,061,495 </div> 
-     </div>
-     
-</div>
-</header>
-<div
-  class="container-fluid page-content "
-  [style]="'margin-top: 4%!important; '"
->
-<input
-id="key"
-class="key d-flex search-input-wrapper mt-3"
-type="text"
-name="search"
-placeholder="Search token "
-/>
-<div class="table-responsive-sm">
-<table class="table  table-sm table-hover" style="border:white;">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">NAME</th>
-        <th scope="col">PRICE</th>
-        <th scope="col d-none d-sm-block">1H%</th>
-        <th scope="col">24H%</th>
-        <th scope="col d-none d-sm-block">7D%</th>
-        <th scope="col d-none d-sm-block">VOLUME(24H)</th>
-        <th scope="col d-none d-sm-block">LAST 7DAYS</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let crypto of cryptoLists ; let i = index">
-        <th scope="row">  {{ i +1}}</th>
-        <td><img
-          class="Icons"
-          *ngIf="crypto.image"
-          [src]="crypto.image"
-          alt=""
-          style="height: 30px;
-          width: 30px;"
-        />
-        {{crypto.name}}
-          {{crypto.symbol}}</td>
-        <td> $ {{crypto.current_price}}</td>
-        <td class="d-none d-sm-table-cell"> {{crypto.price_change_percentage_1h_in_currency}}%</td>
-        <td>   {{crypto.price_change_percentage_24h}}%</td>
-        <td class="d-none d-sm-table-cell"> {{crypto.price_change_percentage_7d_in_currency}}%</td>
-        <td class="d-none d-sm-table-cell">{{crypto.total_volume}}%</td>
-        <td class="d-none d-sm-table-cell"><canvas  id="MyChart" >{{ chart }}</canvas></td>
-      </tr>
- 
-    </tbody>
-  </table>
-</div>
-<div>
-
-</div>
-
-<div>
-  <div>
-    <!-- <canvas  id="MyChart" >{{ chart }}</canvas> -->
-    <!-- <canvas baseChart 
-        [datasets]="lineChartData" 
-        [labels]="lineChartLabels" 
-        [options]="lineChartOptions"
-        [colors]="lineChartColors" 
-        [legend]="lineChartLegend" 
-        [chartType]="lineChartType"
-        [plugins]="lineChartPlugins">
-    </canvas> -->
+    <div class="col justify-content-center global d-none d-sm-block">
+      <h1 class="row crypto-market-cap-title">The Global Crypto Market Cap</h1>
+      <div class="row market-cap-in-number">{{globalMarketCap?.data?.total_market_cap?.usd | currency:'USD':'symbol':'1.0-0'}}</div>
+    </div>
   </div>
+  <div class="d-block d-sm-none" style="margin-top: 20%;
+  text-align: center; justify-items: center;">
+    <div class="row text-mobile" style="color: #4048FF;font-size: 32px;"> Top Cryptocurrencies</div>
+    <div class="row text-mobile" style="font-weight: 400;
+    font-size: 16px;color: #1F2337;margin-top: 3%; margin-left: 12%; width: 70%;">Explore the Best Market Options and Maximize Your Investments!</div>
+  </div>
+</header>
+<div class="container-fluid page-content">
+  <div style="position: relative;">
+  <input
+    id="search-query"
+    [(ngModel)]="searchQuery"
+    class="search-query d-flex  mt-3"
+    type="text"
+    name="search"
+    placeholder="Search token "
+  />
+  <span *ngIf="searchQuery" class="clear-icon" (click)="clear()">x</span>
 </div>
+  <div class="table-responsive-sm d-none d-sm-block">
+    <table class="table table-sm " style="border: white;">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">NAME</th>
+          <th scope="col">PRICE</th>
+          <th scope="col d-none d-sm-block">1H%</th>
+          <th scope="col">24H%</th>
+          <th scope="col d-none d-sm-block">7D%</th>
+          <th scope="col d-none d-sm-block">VOLUME(24H)</th>
+          <th scope="col d-none d-sm-block">LAST 7DAYS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="crypto-row" *ngFor="let crypto of filterCryptos(); let i = index" 
+        (click)="cryptoDtlails(crypto.symbol)" >
+          <th class="align-middle range " scope="row">{{ getNumberWithLeadingZeros(i) }}</th>
+          <td class="align-middle">
+            <img
+              class="Icons"
+              *ngIf="crypto.image"
+              [src]="crypto.image"
+              alt="logo de la crypto-monnaie {{crypto.name}}"
+              style="height: 30px; width: 30px;"
+            />
+            {{ crypto.name }}
+            <span class="crypto-symbol">
+              {{ crypto.symbol }}
+            </span>
+           
+          </td>
+          <td class="align-middle">
+             {{ crypto.current_price | currency:'USD':'symbol':'1.0-9' }}
+          </td>
+          <td
+            class="align-middle"
+            [ngStyle]="{
+              color: getColor(crypto?.price_change_percentage_1h_in_currency)
+            }"
+          >
+            <span *ngIf="crypto?.price_change_percentage_1h_in_currency > 0"
+              >+</span
+            >
+            {{
+              crypto.price_change_percentage_1h_in_currency | number: '1.0-2'
+            }}%
+          </td>
+          <td
+            class="align-middle"
+            [ngStyle]="{ color: getColor(crypto?.price_change_percentage_24h) }"
+          >
+            <span *ngIf="crypto?.price_change_percentage_24h > 0">+</span>
+            {{ crypto.price_change_percentage_24h | number: '1.0-2' }}%
+          </td>
+          <td
+            class="align-middle"
+            [ngStyle]="{
+              color: getColor(crypto?.price_change_percentage_7d_in_currency)
+            }"
+          >
+            <span *ngIf="crypto?.price_change_percentage_7d_in_currency > 0"
+              >+</span
+            >
+            {{
+              crypto.price_change_percentage_7d_in_currency | number: '1.0-2'
+            }}%
+          </td>
+          <td class="align-middle">{{ crypto.total_volume | currency:'USD':'symbol':'1.0-0' }}</td>
+          <td>
+           
+              <canvas
+                baseChart
+                [datasets]="[
+                  {
+                    data: crypto.sparkline_in_7d.price,
+                    borderColor: getColor(
+                      crypto.price_change_percentage_7d_in_currency
+                    ),
+                    borderWidth: 3,
+                    fill: false,
+                    backgroundColor: 'transparent'
+                  }
+                ]"
+                [labels]="crypto.sparkline_in_7d.price"
+                [options]="lineChartOptions"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType"
+              ></canvas>
+           
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+<!----------- mobile ------>
+  <div class="table-responsive-sm d-block d-sm-none">
+    <table class="table table-sm table-hover" style="border: white;">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">NAME</th>
+          <th scope="col">PRICE</th>
+          <th scope="col" style="text-align: center;">24H%</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let crypto of cryptoLists; let i = index">
+          <th class="align-middle range" scope="row">{{ getNumberWithLeadingZeros(i) }}</th>
+          <td class="align-middle" style="text-transform: uppercase">
+            <img
+              class="Icons"
+              *ngIf="crypto.image"
+              [src]="crypto.image"
+              alt=""
+              style="height: 32px; width: 32px; "
+            />
+            {{ crypto.symbol }}
+          </td>
+          <td class="align-middle"  style="font-weight: 600;">
+            {{ crypto.current_price | currency:'USD':'symbol':'1.0-9' }}
+          </td>
+
+          <td
+            class="align-middle "
+            
+            [style.color]="getColor(crypto?.price_change_percentage_24h)"
+            >
+            <div class="percentage-24h" [ngStyle]="{'background': crypto?.price_change_percentage_24h > 0?'rgba(50, 236, 194, 0.1)' : '#FFECF4'}">
+            <span *ngIf="crypto?.price_change_percentage_24h > 0">+</span>
+            {{ crypto.price_change_percentage_24h | number: '1.0-2' }}%
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+<!----------- mobile ------>
+
 </div>

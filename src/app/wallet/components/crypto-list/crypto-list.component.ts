@@ -1145,7 +1145,11 @@ export class CryptoListComponent implements OnInit, OnDestroy {
       window.open(this.etherscanUrl + tokenAddress, '_blank');
     }
   }
+  goToCryptoDetails(crypto : any){
+    const cryptoUpperCase = crypto.toUpperCase();
+    this.router.navigate(['/wallet/coin-detail'], { queryParams: { crypto: cryptoUpperCase } });
 
+  }
   navigateToBEP20Infos(tokenAddress: any) {
     if (isPlatformBrowser(this.platformId)) {
       window.open(this.bscanUrl + tokenAddress, '_blank');
