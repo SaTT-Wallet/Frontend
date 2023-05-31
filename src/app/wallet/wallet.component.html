@@ -27,7 +27,7 @@
   >
     <div class="col-md-12 col-sm-12 col-lg-12 p-0 h-100">
       <div
-        class="blockk mb-2"
+        class="blockk"
         [ngStyle]="
           isV1
             ? {
@@ -41,13 +41,7 @@
         "
         [ngStyle]="getWalletVersion() === 'v2' ? { height: '250px' } : {}"
       >
-        <div
-          [className]="
-            getWalletVersion() === 'v2'
-              ? 'balance_container2'
-              : 'balance_container'
-          "
-        >
+        <div [ngClass]="getBalanceContainerClass()">
           <div
             [className]="getWalletVersion() === 'v1' ? 'estim_ballance' : ''"
           >
@@ -60,7 +54,7 @@
           </div>
           <ng-container *ngIf="existV1 && existV2">
             <p class="echnage" (click)="allWallet()" type="button">
-              <span><img src="../../assets/Images/walletCard.svg" /></span>
+              <span><img src="assets/Images/walletCard.svg" /></span>
               Go to {{ versionText }}
             </p>
           </ng-container>
@@ -72,7 +66,7 @@
             <button class="migratebtn" type="button" (click)="migrateButton()">
               <span
                 ><img
-                  src="../../assets/Images/custom_icons/clarity_error-standard-line.svg"
+                  src="assets/Images/custom_icons/clarity_error-standard-line.svg"
               /></span>
               Migrate my tokens
             </button>
@@ -89,31 +83,10 @@
             </div>
           </ng-container>
         </div>
-        <!--</div>-->
 
-        <!-- <div id="legend">
-          <button
-            class="show_button"
-            [ngClass]="{ show_button: showMonth, hide_button: !showMonth }"
-            (click)="togglemonth()"
-          >
-            {{ 'Mois' | translate }}
-          </button>
-          <button
-            class="hide_button"
-            [ngClass]="{ show_button: showSemaine, hide_button: !showSemaine }"
-            (click)="toggleWeek()"
-          >
-            {{ 'Semaine' | translate }}
-          </button>
-          <button
-            class="hide_button"
-            [ngClass]="{ show_button: showDaily, hide_button: !showDaily }"
-            (click)="toggleDay()"
-          >
-            {{ 'Jours' | translate }}
-          </button>
-        </div> -->
+
+        <!-- /// -->
+        <!-- We remove canvas chart the code commented below may be useful in other components or for futur needs  -->
         <!-- <canvas
           class="canV canvdaily"
           *ngIf="showDaily"
@@ -161,6 +134,7 @@
           [plugins]="lineChartPlugins"
         >
         </canvas> -->
+        <!-- /// -->
       </div>
     </div>
   </div>

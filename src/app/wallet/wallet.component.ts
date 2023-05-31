@@ -994,6 +994,22 @@ export class WalletComponent implements OnInit, OnDestroy {
     return this.tokenStorageService.getWalletVersion();
   }
 
+  getBlockStyle() {
+    if (this.isV1) {
+      return {
+        background: 'linear-gradient(180deg, #4048FF 0%, #C4C4C4 76.04%)'
+      };
+    } else {
+      return {
+        background: 'linear-gradient(180deg, #4048ff 0%, #00cc9e 310.62%)'
+      };
+    }
+  }
+
+  getBalanceContainerClass() {
+    return this.getWalletVersion() === 'v2' ? 'balance_container2' : 'balance_container';
+  }
+
   closeModaleMaintenace() {
     this.closeModal(this.modalMaintenance);
   }
