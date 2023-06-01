@@ -13,7 +13,7 @@ export class CreatePasswordWalletService {
     private tokenStorageService: TokenStorageService
   ) {}
   createPasswordWallet(pass: string): Observable<any> {
-    let token = this.tokenStorageService.getToken();
+    
     let httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'Cache-Control': 'no-store',
@@ -23,7 +23,6 @@ export class CreatePasswordWalletService {
     return this.http.post(
       sattUrl + '/wallet/create/v2',
       {
-        token: token,
         pass: pass
       },
       { headers: httpHeaders }
