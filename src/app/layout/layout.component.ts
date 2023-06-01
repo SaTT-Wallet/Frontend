@@ -36,6 +36,7 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   getScreenWidth: any;
   private isDestroyed$ = new Subject();
   constructor(
+
     public router: Router,
     private draftCampaignStore: DraftCampaignStoreService,
     private campaignService: CampaignHttpApiService,
@@ -47,7 +48,11 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     @Inject(DOCUMENT) private document: any,
     @Inject(PLATFORM_ID) private platformId: string,
     private kycFacadeService: KycFacadeService
-  ) {}
+  ) {
+    if(window.localStorage.getItem('phishing') != 'false'){
+      window.localStorage.setItem('phishing' , 'true') 
+    }
+  }
   ngAfterViewInit(): void {
     if (this.router.url == '/wallet' || this.router.url.includes('campaign')) {
       let content = this.document.getElementById('center-content');
@@ -155,7 +160,11 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
   }
+  getStorageInformaton() {
+    return window.localStorage.getItem('phishing');
+  }
   close() {
+    window.localStorage.setItem('phishing', "false");
     this.phishingVisibility = true;
   }
   @HostListener('scroll', ['$event'])

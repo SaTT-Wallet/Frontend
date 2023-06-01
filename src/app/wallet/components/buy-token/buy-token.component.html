@@ -2,7 +2,16 @@
   [title]="'Buy'"
   class="buy-component"
   (clickedBack)="linstingBack($event)"
+  [ngClass]="{
+    fromWallet: getPath().toString().includes('buy-token') && getStorageInformaton() != 'false'
+  }"
 >
+  <!-- [ngClass]="{
+    fromWallet: router.url.includes('buy-token')
+  }" -->
+  <!-- [ngStyle]="{
+    top: phishingVisibility ? '0' : '8vh'
+  }" -->
 </app-header-send-receive-buy>
 <div class="row white-bloc justify-content-center">
   <!--------------------AmountBloc----------------------------------->

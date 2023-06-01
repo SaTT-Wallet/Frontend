@@ -1,4 +1,4 @@
-<ng-container *ngIf="!phishingVisibility">
+<ng-container *ngIf="getStorageInformaton() != 'false'">
   <div class="div1">
     <!-- <img
       src="assets/Images/moon-boy-warning.svg"
@@ -54,10 +54,16 @@
   }"
   *ngIf="router.url !== 'password_wallet'"
   [ngStyle]="{
-    top: phishingVisibility ? '0' : '8vh',
+    top: getStorageInformaton() == 'false' ? '0' : '10vh',
     display: router.url.includes('help') ? 'none' : 'block'
   }"
-></app-header>
+  >
+</app-header>
+<!-- fromBuyToken: router.url.includes('buy-token') -->
+  <!-- *ngIf="router.url.includes('buy-token')"
+  [ngStyle]="{
+    top: phishingVisibility ? '0' : '10vh'
+  }" -->
 
 <div
   class="container-main"
@@ -66,8 +72,8 @@
 >
   <app-sidebar></app-sidebar>
   <div
-    [className]="phishingVisibility ? 'center-content' : 'center-content2'"
-    id="center-content"
+  id="center-content"
+  [className]="getStorageInformaton() == 'false' ? 'center-content' : 'center-content2'"
     (scroll)="onScroll($event)"
     (window:resize)="onResize($event)"
   >
