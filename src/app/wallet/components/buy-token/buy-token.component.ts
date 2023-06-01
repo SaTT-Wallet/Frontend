@@ -279,7 +279,12 @@ export class BuyTokenComponent implements OnInit, OnChanges {
       });
   }
 
-  getStorageInformaton() {
+  shouldApplyFromWalletClass(): boolean {
+    const path = this.getPath()?.toString() || '';
+    const storageInfo = this.getStorageInformation();
+    return path.includes('buy-token') && storageInfo !== 'false';
+  }
+  getStorageInformation() {
     return window.localStorage.getItem('phishing');
   }
   getPath() {

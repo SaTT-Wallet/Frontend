@@ -2,14 +2,19 @@
 @media only screen and (max-width: 375px) {
 
   .div1 {
-  padding-top: 1vh !important;
+  padding-top: 1vh;
 }
 }
+@media only screen and (min-width:376px) and (max-width: 768px) {
+  .div1 {
+    padding-top: 2vh !important;
+}
+}
+
 @media only screen and (max-width: 768px) {
   .div1 {
     padding: 3px;
     display: flex;
-    
     background-color: #f6f6ff;
     position: fixed;
     z-index: 101;
@@ -55,7 +60,7 @@
   text-align: center;
   position: fixed;
   z-index: 101;
-  padding-top: 2vh;
+  padding-top: 1vh;
 }
 
 .div2 {
@@ -99,7 +104,7 @@
   cursor: pointer;
   position: absolute;
   right: 0;
-  top: 5vh;
+  top: 4.5vh;
   margin-right: 3%;
 }
 
