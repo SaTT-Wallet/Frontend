@@ -2,6 +2,7 @@
   [title]="'Buy'"
   class="buy-component"
   (clickedBack)="linstingBack($event)"
+  [ngClass]="{ fromWallet: shouldApplyFromWalletClass() }"
 >
 </app-header-send-receive-buy>
 <div class="row white-bloc justify-content-center">
