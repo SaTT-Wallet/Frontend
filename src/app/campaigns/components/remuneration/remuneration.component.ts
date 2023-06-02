@@ -181,7 +181,10 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     this.form = new UntypedFormGroup(
       {
         initialBudget: new UntypedFormControl('', {
-          validators: Validators.compose([Validators.required])
+          validators: Validators.compose([
+            Validators.required,
+            Validators.pattern(/^[1-9]\d*$/)
+          ])
         }),
         initialBudgetInUSD: new UntypedFormControl('', {
           validators: Validators.compose([Validators.required])

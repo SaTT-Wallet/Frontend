@@ -204,9 +204,12 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
       this.sendErrorToMissionRemu = true;
     }
   }
-  saveAndLaunchCampaign() {
-    this.getCampaignData();
-   
+  saveAndLaunchCampaign() {    
+    if (Number(this.campaignData.initialBudget) !== 0) {
+
+      
+      this.getCampaignData();
+      
     
     this.checkValidation();
     if (
@@ -215,12 +218,17 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
       this.validFormBudgetRemun &&
       this.validFormMissionFromRemuToEdit &&
       this.validFormPicture
-    ) {
-      this.alertRequired = false;
+      ) {
+        this.alertRequired = false;
       this.router.navigate(['home/check-password'], {
         queryParams: { id: this.draftId, network: this.campaignData.currency.type }
       });
     } else {
+      this.alertRequired = true;
+    }
+    }
+    else {
+
       this.alertRequired = true;
     }
     /*================================================
@@ -259,6 +267,7 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
     //     }
     //   });
     /* ==================================================== */
+    
   }
   goToView() {
     // this.router.navigate(['home/campaign/', this.draftId]);
