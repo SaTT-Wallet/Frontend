@@ -183,7 +183,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         initialBudget: new UntypedFormControl('', {
           validators: Validators.compose([
             Validators.required,
-            Validators.pattern(/^([1-9]\d*|([1-9]\d*|0)\.\d+|[1-9]\d*(\.\d+)?)$/)
+            Validators.pattern(/^([1-9]\d*|([1-9]\d*|0).\d+|[1-9]\d*(.\d+)?)$/)
           ])
         }),
         initialBudgetInUSD: new UntypedFormControl('', {
@@ -471,7 +471,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       )
       .subscribe(() => {
         const initialBudgetControl = this.form.get('initialBudget');
-        const hasPatternError = initialBudgetControl?.hasError('pattern');
+        const hasPatternError = initialBudgetControl?.hasError('pattern') || initialBudgetControl?.value !== "";
         const isValid = initialBudgetControl && !hasPatternError;
       
         this.validFormBudgetRemun.emit(isValid && !this.form.errors?.notEnoughBalance);
