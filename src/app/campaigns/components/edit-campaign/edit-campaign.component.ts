@@ -204,33 +204,26 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
       this.sendErrorToMissionRemu = true;
     }
   }
-  saveAndLaunchCampaign() {    
-    if (Number(this.campaignData.initialBudget) !== 0) {
-
-      
+  saveAndLaunchCampaign() {
+   
       this.getCampaignData();
       
-    
-    this.checkValidation();
-    if (
+      this.checkValidation();
+      if (
       this.validFormParam &&
       this.validFormPresentation &&
       this.validFormBudgetRemun &&
       this.validFormMissionFromRemuToEdit &&
       this.validFormPicture
-      ) {
-        this.alertRequired = false;
+    ) {
+      this.alertRequired = false;
       this.router.navigate(['home/check-password'], {
         queryParams: { id: this.draftId, network: this.campaignData.currency.type }
       });
     } else {
       this.alertRequired = true;
     }
-    }
-    else {
-
-      this.alertRequired = true;
-    }
+  
     /*================================================
      to activate legal KYC uncomment below api call
     =================================================*/
@@ -267,11 +260,10 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
     //     }
     //   });
     /* ==================================================== */
-    
   }
   goToView() {
     // this.router.navigate(['home/campaign/', this.draftId]);
-        this.router.navigateByUrl('/home/campaign/'+this.draftId+'?mode=edit');
+    this.router.navigateByUrl('/home/campaign/'+this.draftId+'?mode=edit');
 
   }
   scrollToTop() {

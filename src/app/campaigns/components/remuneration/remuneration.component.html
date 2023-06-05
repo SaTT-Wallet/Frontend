@@ -35,20 +35,6 @@
           [(ngModel)]="this.amount"
         />
       </div>
-      <ng-container *ngIf="form.get('initialBudget')?.errors as errors">
-        <div
-          class="error d-flex initialBudgetError ml-4"
-          *ngIf="errors.required"
-        >
-          Please enter a non-zero initial budget.
-        </div>
-        <div
-          class="error d-flex initialBudgetError ml-4"
-          *ngIf="errors.pattern"
-        >
-          Please enter a valid initial budget.
-        </div>
-      </ng-container>
       <div
         class="div-use-max mt-3 text-center d-flex justify-content-center align-items-center flex-xl-row flex-lg-row flex-md-row flex-sm-column flex-xs-column gap-2"
       >
@@ -125,7 +111,7 @@
             <span
               *ngIf="
                 (this.form.get('initialBudget')?.errors?.required ||
-                  this.form.get('initialBudget')?.value === 0) &&
+                  this.form.get('initialBudget')?.errors?.pattern) &&
                 this.notValidBudgetRemun
               "
               >{{ 'campaign.field_required' | translate }}</span
