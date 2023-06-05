@@ -111,7 +111,7 @@
             <span
               *ngIf="
                 (this.form.get('initialBudget')?.errors?.required ||
-                  this.form.get('initialBudget')?.value === 0) &&
+                  this.form.get('initialBudget')?.errors?.pattern) &&
                 this.notValidBudgetRemun
               "
               >{{ 'campaign.field_required' | translate }}</span
