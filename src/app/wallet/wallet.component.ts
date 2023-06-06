@@ -1291,6 +1291,11 @@ export class WalletComponent implements OnInit, OnDestroy {
     this.showDaily = false;
     this.showMonth = false;
   }
+  getDynamicStyle(): object {
+    return {
+      'top': this.versionText === 'Old Wallet' ? '-4.4vh' : ''
+    };
+  }
 
   /*------------------------------------------------------------------------------------*/
 
