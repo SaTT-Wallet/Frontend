@@ -144,6 +144,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   bEPGaz: any;
   cryptoToDropdown: string = '';
   maxNumber: number = 999999999;
+  
   gazproblem: boolean = false;
   newquantity: any;
   campaign$!: Observable<Campaign>;
@@ -1083,24 +1084,38 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   }
   keyPressNumbersWithDecimal(event :any) {
     
-    var charCode = (event.which) ? event.which : event.keyCode;
-    if (charCode != 46 && charCode > 31
-      && (charCode < 48 || charCode > 57)) {
+    if ((event.which >= 48 && event.which <=57) || event.which === 46) {
+      return true;
+    } else {
       event.preventDefault();
       return false;
     }
-    return true;
+    
   }
   convertcurrency(event: any): void {
+    console.log({id : event})
     let currency = '';
     var getamount: any = this.form.get('initialBudget')?.value;
     let getusd: any = this.form.get('initialBudgetInUSD')?.value;
     let sendamount = getamount?.toString();
     let sendusd = getusd?.toString();
-
-    if (event === 'usd' && Number(sendusd) > this.maxNumber) {
-      sendusd = sendusd.slice(0, 9);
-      this.form.get('initialBudgetInUSD')?.setValue(sendusd);
+    if(event === 'usd') {
+      
+        
+        this.form.get('initialBudgetInUSD')?.setValue(sendusd);
+        this.form.get('initialBudget')?.setValue(sendusd / this.selectedCryptoDetails.price)
+        this.amount = sendusd / this.selectedCryptoDetails.price
+      
+      
+    } else {
+      this.form.get('initialBudget')?.setValue(sendamount);
+      this.form.get('initialBudgetInUSD')?.setValue(sendusd * this.selectedCryptoDetails.price)
+      this.amountUsd = this.selectedCryptoDetails.price * sendamount;
+      this.editwidthInput();
+    }
+    /*if (event === 'usd' && Number(sendusd) > this.maxNumber) {
+      //sendusd = sendusd.slice(0, 9);
+      
     } else {
       this.selectedCryptoSend = currency;
       if (this.selectedCryptoSend) {
@@ -1114,11 +1129,13 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         !isNaN(sendamount)
       ) {
         this.amountUsd = this.selectedCryptoDetails.price * sendamount;
+        this.form.get('initialBudgetInUSD')?.setValue(sendamount * this.selectedCryptoDetails.price)
         this.amountUsd = this.showNumbersRule.transform(this.amountUsd);
         if (this.amountUsd < 0.1) {
           this.amountUsd = new Big(this.amountUsd).toFixed(8).toString();
         }
-        if (isNaN(this.amountUsd)) {
+        if (isNaN(this.form.get('initialBudgetInUSD')?.value)) {
+          console.log('1')
           this.amountUsd = '';
           this.amount = '';
         }
@@ -1126,24 +1143,29 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         event === 'amount' &&
         (sendamount === undefined || isNaN(sendamount))
       ) {
+        console.log('0')
         this.amountUsd = '';
       }
       if (event === 'usd' && sendusd !== undefined && !isNaN(sendusd)) {
         this.amount = sendusd / this.selectedCryptoDetails.price;
-        this.amount = this.showNumbersRule.transform(this.amount);
+        this.amount = this.showNumbersRule.transform(this.amount, true);
         if (
           sendamount === '0.00000000' ||
           sendusd === '' ||
           isNaN(this.amount)
         ) {
+          console.log("test")
           this.amountUsd = '';
           this.amount = '';
         }
       } else if (event === 'usd' && (sendusd === undefined || isNaN(sendusd))) {
+        console.log('test2')
         this.amount = '';
       }
+
+      
       this.editwidthInput();
-    }
+    }*/
   }
   //convert currency to usd
   // convertcurrency(event: any): void {
@@ -1319,7 +1341,27 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   onClickAmount(): void {
     let currency = '';
     this.selectedCryptoSend = currency;
+    console.log({crypto: this.selectedCryptoDetails})
+    if(!!this.selectedCryptoDetails && this.selectedCryptoDetails.quantity > 0) {
+      if(
+        this.selectedCryptoSend.symbol === 'ETH' ||
+        this.selectedCryptoSend.symbol === 'BNB' ||
+        this.selectedCryptoSend.symbol === 'MATIC' ||
+        this.selectedCryptoSend.symbol === 'BTT'
+      ) {
+        console.log('test')
 
+      } else {
+        this.form.get('initialBudget')?.setValue(this.selectedCryptoDetails?.quantity)
+        this.form.get('initialBudgetInUSD')?.setValue(this.selectedCryptoDetails?.total_balance.toFixed(2))
+        this.amount = this.showNumbersRule.transform(this.selectedCryptoDetails?.quantity, true)
+        this.amountUsd = this.showNumbersRule.transform(this.selectedCryptoDetails?.total_balance)
+      }
+    }
+    
+    
+    
+    /*console.log({test: this.selectedCryptoDetails})
     if (this.selectedCryptoSend) {
       currency = this.selectedCryptoSend;
     } else {
@@ -1332,16 +1374,18 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         this.noCryptoSelected = false;
       }, 3000);
     }
+    
     if (currency) {
       this.dataList?.forEach((crypto: any) => {
         if (crypto.symbol === currency) {
-          let quantity = this.showNumbersRule.transform(crypto.quantity);
+          let quantity = this.showNumbersRule.transform(crypto.quantity, true);
           //  let totalBal = this.showNumbersRule.transform(crypto.total_balance);
           crypto.total_balance = parseFloat(crypto.total_balance + '');
           crypto.total_balance = crypto?.total_balance?.toFixed(2);
           this.form.get('initialBudget')?.setValue(quantity),
             this.form.get('initialBudgetInUSD')?.setValue(crypto.total_balance);
-
+          this.amount = quantity;
+          this.amountUsd = crypto.total_balance;
           this.gazproblem = false;
           if (
             currency === 'ETH' ||
@@ -1365,13 +1409,14 @@ export class RemunerationComponent implements OnInit, OnDestroy {
                 this.form
                   .get('initialBudgetInUSD')
                   ?.setValue(this.difference.toFixed(2));
-
+                  this.amount = newqua;
+                  this.amountUsd = this.difference.toFixed(2);
               this.gazproblem = false;
             }
           }
         }
       });
-    }
+    }*/
   }
 
   private checkValidForm() {

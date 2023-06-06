@@ -64,6 +64,7 @@
             (input)="convertcurrency('usd')"
             #inputAmountUsd
             [(ngModel)]="this.amountUsd"
+            
           />
         </div>
       </div>
@@ -125,7 +126,7 @@
           class="col-xxl-3 col-xl-3 col-md-12 col-lg-4 col-sm-8 col-10 d-flex align-items-center justify-content-center"
         >
           <div class="error">
-            <span *ngIf="this.form.errors?.notEnoughBalance">{{
+            <span *ngIf="this.selectedCryptoDetails.quantity < this.amount">{{
               'not_enough_balance' | translate
             }}</span>
           </div>
