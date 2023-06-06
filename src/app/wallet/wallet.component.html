@@ -53,7 +53,9 @@
             </div>
           </div>
           <ng-container *ngIf="existV1 && existV2">
-            <p class="echnage" (click)="allWallet()" type="button">
+            <p [ngStyle]="getDynamicStyle()" 
+            class="echnage" (click)="allWallet()" type="button"
+             >
               <span><img src="assets/Images/walletCard.svg" /></span>
               Go to {{ versionText }}
             </p>
