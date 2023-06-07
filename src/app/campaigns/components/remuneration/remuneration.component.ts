@@ -149,7 +149,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   newquantity: any;
   campaign$!: Observable<Campaign>;
   campaign: any;
-
+  insufficientBalance: boolean = false;
   remunerationOptions: IDropdownFilterOptions[] = [
     {
       text: this.eRemunerationType.Performance,
@@ -1110,6 +1110,14 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       this.amountUsd = this.showNumbersRule.transform((this.selectedCryptoDetails.price * sendamount).toString());
       this.editwidthInput();
     }
+    let x: number = +(this.amountUsd.includes(',') ? this.amountUsd.replaceAll(',','') : this.amountUsd);
+    
+    if(x <= this.selectedCryptoDetails.total_balance.toFixed(2)) {
+      this.insufficientBalance = false;
+    } else {
+      this.insufficientBalance = true;
+    }
+    
     
   }
  
@@ -1134,9 +1142,11 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     this.amount = '';
   }
   linstingCrypto(event: any) {
+    this.insufficientBalance = false;
     if (event.symbol !== this.form.get('currency')?.value) {
       this.form.get('initialBudget')?.reset();
       this.form.get('initialBudgetInUSD')?.reset();
+      
     }
     this.selectedCryptoDetails = event;
     this.form.get('currency')?.setValue(this.selectedCryptoDetails.symbol);
@@ -1224,6 +1234,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   }
 
   onClickAmount(): void {
+    this.insufficientBalance = false;
     let currency = '';
     this.selectedCryptoSend = currency;
     
