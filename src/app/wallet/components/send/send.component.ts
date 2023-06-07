@@ -83,6 +83,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   bttGaz: any;
   trxGaz: any;
   max = false;
+  maxNumber: number = 999999999;
   matic: any;
   defaultcurr: string = ListTokens['SATT'].name;
   private isDestroyed = new Subject();
@@ -187,12 +188,14 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnInit(): void {
+    
     this.etcAddress = this.localStorage.getIdWallet();
     this.btcAddress = this.localStorage.getWalletBtc();
     this.sendform.get('currency')?.setValue('SATT');
     this.getusercrypto();
     this.getProfileDetails();
     this.amountdefault = this.sendform.get('currency')?.value;
+    console.log("test list : "+this.dataList)
   }
 
   openqrcode(): void {
@@ -224,15 +227,19 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         takeUntil(this.isDestroyed)
       )
       .subscribe((data: any) => {
-        // if (!!this.selectedCryptoDetails) {
-        //   this.selectedCryptoDetails = {
-        //     ...this.selectedCryptoDetails,
-        //     total_balance: data.filter(
-        //       (element: any) =>
-        //         element.symbol === this.selectedCryptoDetails.symbol
-        //     )[0].total_balance
-        //   };
-        // }
+      
+        data.map((crypto: any) => {
+          if(crypto.symbol === 'SATT') this.selectedCryptoDetails = crypto;
+        })
+         /*if (!!this.selectedCryptoDetails) {
+          this.selectedCryptoDetails = {
+           ...this.selectedCryptoDetails,
+            total_balance: data.filter(
+              (element: any) =>
+                element.symbol === this.selectedCryptoDetails.symbol
+           )[0].total_balance
+         };
+         }*/
 
         this.walletFacade.hideWalletSpinner();
         this.showWalletSpinner = false;
@@ -716,57 +723,37 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     });
   }
   onClickAmount(): void {
-    this.max = true;
     let currency = '';
     this.selectedCryptoSend = currency;
-    if (this.selectedCryptoSend) {
-      currency = this.selectedCryptoSend;
-    } else {
-      currency = this.sendform.get('currency')?.value;
-    }
+    
+    if(!!this.selectedCryptoDetails && this.selectedCryptoDetails.quantity > 0) {
+      if(
+        this.selectedCryptoDetails.symbol === 'ETH' ||
+        this.selectedCryptoDetails.symbol === 'BNB' ||
+        this.selectedCryptoDetails.symbol === 'MATIC' ||
+        this.selectedCryptoDetails.symbol === 'BTT' ||
+        this.selectedCryptoDetails.symbol === 'TRX'
+      ) {
+        const fees = (this.selectedCryptoDetails.symbol === "BNB" ? this.bEPGaz : (
+          this.selectedCryptoDetails.symbol === "ETH" ? this.eRC20Gaz : (
+            this.selectedCryptoDetails.symbol === "MATIC" ? this.polygonGaz : (
+              this.selectedCryptoDetails.symbol === "TRON" ? this.trxGaz : this.bttGaz
+            )
+          )
+        ))
+        const balance = this.selectedCryptoDetails?.total_balance.toFixed(2) - fees;
+        const quantity = this.selectedCryptoDetails?.quantity - (fees / this.selectedCryptoDetails?.price) 
+        this.sendform.get('Amount')?.setValue(quantity)
+        this.sendform.get('AmountUsd')?.setValue(balance)
+        this.amount = this.showNumbersRule.transform(quantity.toString(), true);
+        this.amountUsd = balance.toFixed(2)
 
-    if (!currency || currency === '?') {
-      this.noCryptoSelected = true;
-      setTimeout(() => {
-        this.noCryptoSelected = false;
-      }, 3000);
-    }
-    if (currency) {
-      this.dataList?.forEach((crypto: any) => {
-        if (crypto.symbol === currency) {
-          let quantity = this.showNumbersRule.transform(crypto.quantity);
-          this.sendform.get('Amount')?.setValue(quantity),
-            this.sendform.get('AmountUsd')?.setValue(crypto.total_balance);
-
-          this.gazproblem = false;
-          if (
-            currency === 'ETH' ||
-            currency === 'BNB' ||
-            currency === 'MATIC' ||
-            currency === 'BTT'
-          ) {
-            this.difference = crypto.total_balance - this.gazsend;
-            this.newquantity = this.difference / crypto.price;
-            let newqua = this.showNumbersRule.transform(this.newquantity);
-            let quantit = this.showNumbersRule.transform(crypto.quantity);
-            if (this.difference < 0) {
-              this.sendform.get('Amount')?.setValue(quantit),
-                this.sendform.get('AmountUsd')?.setValue('0');
-              this.gazproblem = true;
-              setTimeout(() => {
-                this.gazproblem = false;
-              }, 3000);
-            } else {
-              this.sendform.get('Amount')?.setValue(newqua),
-                this.sendform
-                  .get('AmountUsd')
-                  ?.setValue(this.difference.toFixed(2));
-
-              this.gazproblem = false;
-            }
-          }
-        }
-      });
+      } else {
+        this.sendform.get('Amount')?.setValue(this.selectedCryptoDetails?.quantity)
+        this.sendform.get('AmountUsd')?.setValue(this.selectedCryptoDetails?.total_balance.toFixed(2))
+        this.amount = this.selectedCryptoDetails?.quantity
+        this.amountUsd = this.selectedCryptoDetails?.total_balance.toFixed(2)
+      }
     }
   }
   //validation send
@@ -911,6 +898,28 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     );
   }
 
+  keyPressNumbersWithDecimal(event :any, type: string) {
+    const inputValue = (event.target as HTMLInputElement).value;
+    if (event.key === '.' && inputValue.includes('.')) {
+      event.preventDefault();
+    }
+    if(type === 'crypto') {
+      if((this.selectedCryptoDetails?.price * Number(inputValue)) > this.maxNumber) {
+        event.preventDefault();
+      }
+    }
+    if(type === 'usd' && Number(inputValue) > this.maxNumber) {
+      event.preventDefault();
+    }
+    if ((event.which >= 48 && event.which <=57) || event.which === 46) {
+      return true;
+    } else {
+      event.preventDefault();
+      return false;
+    }
+    
+  }
+
   convertcurrency(event: any, restrict?: boolean): void {
     this.max = false;
     let allow: boolean = true;
@@ -920,6 +929,25 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       allow = true;
     }
     if (allow) {
+
+      var getamount: any = this.sendform.get('Amount')?.value;
+      let getusd: any = this.sendform.get('AmountUsd')?.value;
+      let sendamount = getamount?.toString();
+      let sendusd = getusd?.toString();
+      if(event === 'usd') {
+        this.sendform.get('AmountUsd')?.setValue(sendusd);
+        this.sendform.get('Amount')?.setValue(sendusd / this.selectedCryptoDetails.price)
+        this.amount = this.showNumbersRule.transform((sendusd / this.selectedCryptoDetails.price).toString(), true)
+
+    } else {
+      this.sendform.get('Amount')?.setValue(sendamount);
+      this.sendform.get('AmountUsd')?.setValue(sendusd * this.selectedCryptoDetails.price)
+      this.amountUsd = this.showNumbersRule.transform((this.selectedCryptoDetails.price * sendamount).toString());
+      this.editwidthInput();
+    }
+
+
+      /*console.log({test: this.selectedCryptoDetails})
       let currency = '';
       var getamount: any = this.sendform.get('Amount')?.value;
       let getusd: any = this.sendform.get('AmountUsd')?.value;
@@ -987,7 +1015,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
 
           this.editwidthInput();
         });
-      }
+      }*/
     }
   }
 
