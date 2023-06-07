@@ -126,7 +126,7 @@
           class="col-xxl-3 col-xl-3 col-md-12 col-lg-4 col-sm-8 col-10 d-flex align-items-center justify-content-center"
         >
           <div class="error">
-            <span *ngIf="this.selectedCryptoDetails.quantity < this.amount">{{
+            <span *ngIf="this.selectedCryptoDetails.total_balance.toFixed(2) < this.amountUsd.replaceAll(',','')"> {{
               'not_enough_balance' | translate
             }}</span>
           </div>

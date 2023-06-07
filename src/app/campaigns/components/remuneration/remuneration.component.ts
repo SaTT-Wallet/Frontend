@@ -1107,7 +1107,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     } else {
       this.form.get('initialBudget')?.setValue(sendamount);
       this.form.get('initialBudgetInUSD')?.setValue(sendusd * this.selectedCryptoDetails.price)
-      this.amountUsd = this.selectedCryptoDetails.price * sendamount;
+      this.amountUsd = this.showNumbersRule.transform((this.selectedCryptoDetails.price * sendamount).toString());
       this.editwidthInput();
     }
     
