@@ -23,10 +23,10 @@
       </div>
       <div class="">
         <input
-          type="number"
+          type="decimal"
           id=""
           (keydown)="restrictZero($event)"
-          (keypress)="keyPressNumbersWithDecimal($event)"
+          (keypress)="keyPressNumbersWithDecimal($event, 'crypto')"
           formControlName="initialBudget"
           input
           class="amount input-amount"
@@ -53,11 +53,11 @@
         <div class="w-100 d-flex justify-content-center align-items-center">
           <span class="amount-default-receive-usd">$</span>
           <input
-            type="number"
+            type="decimal"
             class="input-number2-receive"
             class="usd input-amount-usd"
             (keydown)="restrictZero($event)"
-            (keypress)="keyPressNumbersWithDecimal($event)"
+            (keypress)="keyPressNumbersWithDecimal($event, 'usd')"
             onchange="saveForm()"
             placeholder="0"
             formControlName="initialBudgetInUSD"
