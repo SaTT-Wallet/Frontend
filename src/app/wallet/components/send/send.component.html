@@ -132,7 +132,7 @@
             this.sendform.controls.contact.errors?.pattern &&
             this.sendform.get('contact')?.dirty
           "
-          >{{ 'Wallet.Invalid address' | translate }}</span
+          >{{ 'Wallet.Invalid_address' | translate }}</span
         >
       </div>
       <div class="mt-3 text-center">
@@ -221,7 +221,7 @@
 
       <div class="text-start pt-2">
         <span class="error_msg" *ngIf="wrongpassword">{{
-          'Wallet.Wrong Password' | translate
+          'Wallet.Wrong_Password' | translate
         }}</span>
       </div>
       <div class="text-start pt-2" *ngIf="notValidAdressWallet">
@@ -348,7 +348,7 @@
     </div>
 
     <div *ngIf="gazproblem" class="text-center mt-2">
-      <p>{{ 'send.To-complete-this-ransaction.gazfailed' | translate }}</p>
+      <p>{{ 'send.To_complete_this_ransaction.gazfailed' | translate }}</p>
     </div>
     <div class="mt-3 d-flex text-center" *ngIf="!gazproblem">
       <button type="submit" class="white-btn" (click)="sendAgain()">
