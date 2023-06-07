@@ -1073,7 +1073,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   }
   keyPressNumbersWithDecimal(event :any, type: string) {
     const inputValue = (event.target as HTMLInputElement).value;
-    console.log({inputValue})
     if (event.key === '.' && inputValue.includes('.')) {
       event.preventDefault();
     }
