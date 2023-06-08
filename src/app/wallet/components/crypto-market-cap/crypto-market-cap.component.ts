@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CryptoInfoService } from '@app/core/services/crypto-info.service';
 import { ChartOptions, ChartType } from 'chart.js';
 import { Router } from '@angular/router';
+import {  switchMap } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
+import { CryptofetchServiceService } from '@app/core/services/wallet/cryptofetch-service.service';
 
 @Component({
   selector: 'app-crypto-market-cap',
@@ -10,7 +12,9 @@ import { Router } from '@angular/router';
 })
 export class CryptoMarketCapComponent implements OnInit {
 cryptoLists : any;
-filteredCryptoList: any;
+filteredCryptoListId: any[]=[];
+sparklineIn7dCryptoList: any[]=[]
+data: any
 globalMarketCap:any;
 searchQuery: string = '';
 public chart: any;
@@ -46,31 +50,60 @@ lineChartType: ChartType = 'line';
 lineChartLegend = false;
 
   constructor(  
-    private cryptoInfoService: CryptoInfoService,
     private router: Router ,
+    private fetchservice: CryptofetchServiceService,
     ){
   
    }
 
-
   ngOnInit(): void {
-    this.cryptoInfoService
-    .getCryptoList().subscribe((res) => {
-      this.cryptoLists = res;
-      this.filteredCryptoList = this.cryptoLists;
-      
-      
-     });
-     this.cryptoInfoService
-     .getGlobalMarketCap().subscribe((res)=>{
-     
+  
+    this.fetchservice.getCryptoPriceList().pipe(
+      switchMap((data: any) => {
+        const cryptos = data?.data ? Object.entries(data.data) : [];
+        this.cryptoLists = cryptos.slice(0, 100);
+        this.cryptoLists?.forEach((crypto: any) => {
+          if (crypto && crypto[1]) {
+            this.filteredCryptoListId.push(crypto[1].id);
+          }
+        });
+    
+        const chunks = this.getArrayChunks(this.filteredCryptoListId, 10);
+        return forkJoin(chunks.map(chunk => this.fetchservice.getCryptoPriceDetails(chunk)));
+      })
+    ).subscribe(
+      (data: any[]) => { 
+        data.forEach((response: any) => {
+          const details = response?.data || [];
+          details.forEach((crypto: any) => {
+            if (crypto) {
+              this.sparklineIn7dCryptoList.push(crypto.sparkline_in_7d);
+            }
+          });
+        });
+    
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+
+     this.fetchservice.getGlobalCryptoMarketInfo().subscribe((res)=>{
       this.globalMarketCap = res
      }
      )
   
 
   }
-
+  getArrayChunks(arr: any[], chunkSize: number): any[] {
+    let results = [];
+    
+    while (arr.length) {
+      results.push(arr.splice(0, chunkSize));
+    }
+    
+    return results;
+  }
 
   filterCryptos() {
     if (!this.searchQuery) {
@@ -81,8 +114,8 @@ lineChartLegend = false;
     const lowerCaseSearchQuery = this.searchQuery.toLowerCase();
   
     return this.cryptoLists?.filter((crypto : any) =>
-    crypto.symbol.toLowerCase().includes(lowerCaseSearchQuery) ||
-     crypto.name.toLowerCase().includes(lowerCaseSearchQuery)
+    crypto[0].toLowerCase().includes(lowerCaseSearchQuery) ||
+     crypto[1].name.toLowerCase().includes(lowerCaseSearchQuery)
       
     );
   }

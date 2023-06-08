@@ -12,8 +12,9 @@
       <img  class="cover-market-cap" src="assets/Images/crypto-market-cap-cov.png" />
     </div>
     <div class="col justify-content-center global d-none d-sm-block">
-      <h1 class="row crypto-market-cap-title">The Global Crypto Market Cap</h1>
-      <div class="row market-cap-in-number">{{globalMarketCap?.data?.total_market_cap?.usd | currency:'USD':'symbol':'1.0-0'}}</div>
+      <h1 class="row crypto-market-cap-title">{{'cryptolist.title'| translate}}</h1>
+      
+      <div class="row market-cap-in-number">{{globalMarketCap?.data?.total_market_cap | currency:'USD':'symbol':'1.0-0'}}</div>
     </div>
   </div>
   <div class="d-block d-sm-none" style="margin-top: 20%;
@@ -40,8 +41,8 @@
       <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">NAME</th>
-          <th scope="col">PRICE</th>
+          <th scope="col">{{ 'Cryptolist.name' | translate }}</th>
+          <th scope="col">{{ 'Cryptolist.price' | translate }}</th>
           <th scope="col d-none d-sm-block">1H%</th>
           <th scope="col">24H%</th>
           <th scope="col d-none d-sm-block">7D%</th>
@@ -51,81 +52,83 @@
       </thead>
       <tbody>
         <tr class="crypto-row" *ngFor="let crypto of filterCryptos(); let i = index" 
-        (click)="cryptoDtlails(crypto.symbol)" >
+        (click)="cryptoDtlails(crypto[0])" >
+        <ng-container *ngIf="sparklineIn7dCryptoList && crypto">
           <th class="align-middle range " scope="row">{{ getNumberWithLeadingZeros(i) }}</th>
+         
           <td class="align-middle">
             <img
               class="Icons"
-              *ngIf="crypto.image"
-              [src]="crypto.image"
-              alt="logo de la crypto-monnaie {{crypto.name}}"
+              *ngIf="crypto[1].logo"
+              [src]="crypto[1].logo"
+              alt="logo de la crypto-monnaie {{crypto[1]?.name}}"
               style="height: 30px; width: 30px;"
             />
-            {{ crypto.name }}
+            {{ crypto[1]?.name }}
             <span class="crypto-symbol">
-              {{ crypto.symbol }}
+              {{ crypto[0] }}
             </span>
            
           </td>
           <td class="align-middle">
-             {{ crypto.current_price | currency:'USD':'symbol':'1.0-9' }}
+             {{ crypto[1].price | currency:'USD':'symbol':'1.0-9' }}
           </td>
           <td
             class="align-middle"
             [ngStyle]="{
-              color: getColor(crypto?.price_change_percentage_1h_in_currency)
+              color: getColor( crypto[1]?.percent_change_1h)
             }"
           >
-            <span *ngIf="crypto?.price_change_percentage_1h_in_currency > 0"
+            <span *ngIf=" crypto[1]?.percent_change_1h > 0"
               >+</span
             >
             {{
-              crypto.price_change_percentage_1h_in_currency | number: '1.0-2'
+               crypto[1]?.percent_change_1h | number: '1.0-2'
             }}%
           </td>
           <td
             class="align-middle"
-            [ngStyle]="{ color: getColor(crypto?.price_change_percentage_24h) }"
+            [ngStyle]="{ color: getColor( crypto[1]?.percent_change_24h) }"
           >
-            <span *ngIf="crypto?.price_change_percentage_24h > 0">+</span>
-            {{ crypto.price_change_percentage_24h | number: '1.0-2' }}%
+            <span *ngIf=" crypto[1]?.percent_change_24h > 0">+</span>
+            {{  crypto[1]?.percent_change_24h | number: '1.0-2' }}%
           </td>
           <td
             class="align-middle"
             [ngStyle]="{
-              color: getColor(crypto?.price_change_percentage_7d_in_currency)
+              color: getColor( crypto[1]?.percent_change_7d)
             }"
           >
-            <span *ngIf="crypto?.price_change_percentage_7d_in_currency > 0"
+            <span *ngIf=" crypto[1]?.percent_change_7d > 0"
               >+</span
             >
             {{
-              crypto.price_change_percentage_7d_in_currency | number: '1.0-2'
+               crypto[1]?.percent_change_7d | number: '1.0-2'
             }}%
           </td>
-          <td class="align-middle">{{ crypto.total_volume | currency:'USD':'symbol':'1.0-0' }}</td>
-          <td>
-           
+          <td class="align-middle">{{  crypto[1]?.volume_24h | currency:'USD':'symbol':'1.0-0' }}</td>
+        <ng-container *ngIf="sparklineIn7dCryptoList[i]"> 
+            <td>
+        
               <canvas
                 baseChart
                 [datasets]="[
                   {
-                    data: crypto.sparkline_in_7d.price,
-                    borderColor: getColor(
-                      crypto.price_change_percentage_7d_in_currency
-                    ),
+                    data: sparklineIn7dCryptoList[i],
+                    borderColor: getColor(crypto[1].percent_change_7d),
                     borderWidth: 3,
                     fill: false,
                     backgroundColor: 'transparent'
                   }
                 ]"
-                [labels]="crypto.sparkline_in_7d.price"
+                [labels]="sparklineIn7dCryptoList[1]"
                 [options]="lineChartOptions"
                 [legend]="lineChartLegend"
                 [chartType]="lineChartType"
               ></canvas>
-           
-          </td>
+            </td>
+          </ng-container>
+          </ng-container>
         </tr>
       </tbody>
     </table>
@@ -142,30 +145,30 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let crypto of cryptoLists; let i = index">
+        <tr *ngFor="let crypto of filterCryptos(); let i = index">
           <th class="align-middle range" scope="row">{{ getNumberWithLeadingZeros(i) }}</th>
           <td class="align-middle" style="text-transform: uppercase">
             <img
               class="Icons"
-              *ngIf="crypto.image"
-              [src]="crypto.image"
+              *ngIf="crypto[1].logo"
+              [src]="crypto[1].logo"
               alt=""
               style="height: 32px; width: 32px; "
             />
-            {{ crypto.symbol }}
+            {{ crypto[0] }}
           </td>
           <td class="align-middle"  style="font-weight: 600;">
-            {{ crypto.current_price | currency:'USD':'symbol':'1.0-9' }}
+            {{ crypto[1].price | currency:'USD':'symbol':'1.0-9' }}
           </td>
 
           <td
             class="align-middle "
             
-            [style.color]="getColor(crypto?.price_change_percentage_24h)"
+            [style.color]="getColor( crypto[1]?.percent_change_24h)"
             >
-            <div class="percentage-24h" [ngStyle]="{'background': crypto?.price_change_percentage_24h > 0?'rgba(50, 236, 194, 0.1)' : '#FFECF4'}">
-            <span *ngIf="crypto?.price_change_percentage_24h > 0">+</span>
-            {{ crypto.price_change_percentage_24h | number: '1.0-2' }}%
+            <div class="percentage-24h" [ngStyle]="{'background':  crypto[1]?.percent_change_24h > 0?'rgba(50, 236, 194, 0.1)' : '#FFECF4'}">
+            <span *ngIf=" crypto[1]?.percent_change_24h > 0">+</span>
+            {{  crypto[1]?.percent_change_24h | number: '1.0-2' }}%
             </div>
           </td>
         </tr>

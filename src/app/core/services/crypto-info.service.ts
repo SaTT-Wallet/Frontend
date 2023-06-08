@@ -31,12 +31,15 @@ export class CryptoInfoService {
       `https://api.coingecko.com/api/v3/coins/${cryptoId}/history?date=${date}`
     );
   }
+
   marketChartToken(
     cryptoId: string,
     currency: string,
     days: string,
     interval: any
   ) {
+  
+    
     return this.http.get(
       `https://api.coingecko.com/api/v3/coins/${cryptoId}/market_chart?vs_currency=${currency}&days=${days}&interval=${interval}`
     );
@@ -46,13 +49,6 @@ export class CryptoInfoService {
       `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&ids=${cryptoId}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
     );
   }
-getCryptoList(){
-  return this.http.get(
-    `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&page=1&sparkline=true&price_change_percentage=1h%2C7d&locale=en`)
-}
-getGlobalMarketCap(){
-  return this.http.get('https://api.coingecko.com/api/v3/global');
-}
 
   generalTokenInfos(cryptoId: string) {
     return this.http.get(
