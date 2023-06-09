@@ -438,13 +438,14 @@
               <span class="sr-only">Loading...</span>
             </div>
           </button>
+          <!--*ngIf="campaign.isOwnedByUser && campaign.type === 'finished'  && !loadingData && campaign.budget !== '0'"-->
           <button
           type="button"
           [className]="refundButtonDisable ? 'btn-edit-refunds-pool-disabled' : 'btn-edit-refunds-pool'"
           
           id="btn-edit-refunds-pool"
           (click)="getRefunds(campaign.id)"
-          *ngIf="campaign.isOwnedByUser && campaign.type === 'finished'  && !loadingData && campaign.budget !== '0'"
+          *ngIf="campaign.type === 'finished'  && !loadingData && campaign.budget !== '0'"
           >
           <p *ngIf="refundButtonDisable">
             <img src="../../../../../assets/Images/Vector-loading.svg"/>
