@@ -150,6 +150,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   campaign$!: Observable<Campaign>;
   campaign: any;
   insufficientBalance: boolean = false;
+  fieldRequired: boolean = false;
   remunerationOptions: IDropdownFilterOptions[] = [
     {
       text: this.eRemunerationType.Performance,
@@ -224,7 +225,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     
-    
+    console.log({amount: this.amount > 0})
     
     this.cdref.markForCheck();
     this.parentFunction().subscribe();
@@ -420,11 +421,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         }),
         debounceTime(500),
         tap((values: any) => {
-          if (this.form.valid) {
-            this.validFormBudgetRemun.emit(true);
-          } else {
-            this.validFormBudgetRemun.emit(false);
-          }
+          
           var arrayControl = this.form.get('ratios') as UntypedFormArray;
           const lengthRatios = arrayControl.length;
           var arrayControlBounties = this.form.get('bounties') as UntypedFormArray;
@@ -473,15 +470,20 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         takeUntil(this.isDestroyed$)
       )
       .subscribe(() => {
-        const initialBudgetControl = this.form.get('initialBudget');
-
-        const hasPatternError = initialBudgetControl?.hasError('pattern') || initialBudgetControl?.value !== "";
-
-        const isValid = initialBudgetControl && !hasPatternError;
-      
-        this.validFormBudgetRemun.emit(isValid && !this.form.errors?.notEnoughBalance);
+        
+        this.validFormBudgetRemuneration()
+        
       });
   }
+  validFormBudgetRemuneration() {
+    const isValid = this.amount > 0 && this.amount !== '';
+        if(isValid) {
+          this.fieldRequired = false;
+          this.validFormBudgetRemun.emit(!this.insufficientBalance ? true: false)
+        } else {
+          this.fieldRequired = true;
+        }
+  } 
   selectRemunerateType(type: ERemunerationType) {
     if (
       this.isSelectedLinkedin ||
@@ -1094,7 +1096,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   }
   convertcurrency(event: any): void {
    
-    
+    this.fieldRequired = false;
     var getamount: any = this.form.get('initialBudget')?.value;
     let getusd: any = this.form.get('initialBudgetInUSD')?.value;
     let sendamount = getamount?.toString();
@@ -1117,6 +1119,8 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     } else {
       this.insufficientBalance = true;
     }
+
+    console.log(this.amount !== '')
     
     
   }
@@ -1143,6 +1147,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   }
   linstingCrypto(event: any) {
     this.insufficientBalance = false;
+    this.fieldRequired = false;
     if (event.symbol !== this.form.get('currency')?.value) {
       this.form.get('initialBudget')?.reset();
       this.form.get('initialBudgetInUSD')?.reset();
@@ -1235,6 +1240,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
 
   onClickAmount(): void {
     this.insufficientBalance = false;
+    this.fieldRequired = false;
     let currency = '';
     this.selectedCryptoSend = currency;
     
@@ -1259,12 +1265,14 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         this.form.get('initialBudgetInUSD')?.setValue(balance)
         this.amount = this.showNumbersRule.transform(quantity.toString(), true);
         this.amountUsd = balance.toFixed(2)
+        this.validFormBudgetRemun.emit(true);
 
       } else {
         this.form.get('initialBudget')?.setValue(this.selectedCryptoDetails?.quantity)
         this.form.get('initialBudgetInUSD')?.setValue(this.selectedCryptoDetails?.total_balance.toFixed(2))
         this.amount = this.selectedCryptoDetails?.quantity
         this.amountUsd = this.selectedCryptoDetails?.total_balance.toFixed(2)
+        this.validFormBudgetRemun.emit(true);
       }
     }
   }

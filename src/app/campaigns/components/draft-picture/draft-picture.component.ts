@@ -238,6 +238,7 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
               id: this.id
             });
           }
+          
           if (this.form.valid) {
             this.validFormPicture.emit(true);
           } else {

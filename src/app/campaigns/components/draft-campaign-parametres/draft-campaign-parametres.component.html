@@ -35,6 +35,7 @@
             <input
               type="date"
               id="minStartDate"
+              [min]="today"
               [(ngModel)]="draftData.startDate"
               name="startDate"
               formControlName="startDate"
@@ -87,8 +88,8 @@
                         "Profil.field_required" | translate }}</span> -->
               <span
                 *ngIf="
-                  !this.form.get('endDate')?.errors?.required &&
-                  this.form.errors?.invaineTo
+                  this.form.get('endDate')?.errors?.required &&
+                  validFormParam
                 "
                 >{{
                   'create_campaign_form.date_must_grater_today' | translate
@@ -149,15 +150,18 @@
       [attr.style]="isActive ? 'display: none!important' : 'flex'"
     >
       <div
-        class="col-xl-4 col-md-6 col-lg-5 col-sm-8 d-flex justify-content-center"
+        class="col-xl-4 col-md-6 col-lg-5 col-sm-8 d-flex justify-content-center",
+        [className]="this.form.get('endDate')?.errors?.dateIsToday &&
+        notValidParam ? 'error-exist' : ''"
       >
         <div class="error">
           <span
             *ngIf="
-              !this.form.get('startDate')?.errors?.required &&
-              !this.form.get('endDate')?.errors?.required &&
-              this.form.errors?.dates
+             
+              this.form.get('endDate')?.errors?.dateIsToday &&
+              notValidParam
             "
+            style="padding-bottom: 1%;"
             >{{
               'create_campaign_form.end_must_grater_start' | translate
             }}</span
@@ -183,10 +187,10 @@
             [settings]="dropdownSettings"
             [data]="dropdownList"
             [(ngModel)]="selectedAttributes"
-            (onSelect)="saveCountries(countries)"
-            (onSelectAll)="saveCountries(countries)"
-            (onDeSelect)="saveCountries(countries)"
-            (onDeSelectAll)="saveCountries(countries)"
+            (onSelect)="toggleCountries(countries)"
+            (onSelectAll)="toggleCountries(countries)"
+            (onDeSelect)="toggleCountries(countries)"
+            (onDeSelectAll)="toggleCountries(countries)"
             [ngModelOptions]="{ standalone: true }"
             class="input_country country_input"
           >
@@ -198,8 +202,8 @@
       <div class="error mt-2">
         <span
           *ngIf="
-            this.form.get('targetedCountries')?.errors?.required &&
-            notValidParam === true
+          this.selectedAttributes.length === 0 &&
+            notValidParam
           "
           >{{ 'Profil.field_required' | translate }}</span
         >
@@ -234,9 +238,9 @@
           <label
             class="flex-item"
             for="{{ tag.name }}"
-            (click)="toggleTag(tag.name, i)"
+            (click)="toggleTag(i)"
             required
-            [ngClass]="{ success: tag.checked && maxTags <= 3 }"
+            [ngClass]="{ success: checkInterest(i)}"
             >{{ tag.name }}</label
           >
 
@@ -248,7 +252,7 @@
       <div class="error">
         <span
           *ngIf="
-            this.form.get('tags')?.errors?.required && notValidParam === true
+          this.form.get('tags')?.value.length === 0 && notValidParam
           "
           >{{ 'Profil.field_required' | translate }}</span
         >

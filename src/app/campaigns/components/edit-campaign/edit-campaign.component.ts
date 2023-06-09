@@ -184,6 +184,7 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
   }
 
   checkValidation() {
+    
     if (this.validFormParam === false) {
       this.sendErrorToParam = true;
     }
@@ -205,10 +206,10 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
     }
   }
   saveAndLaunchCampaign() {
-   
       this.getCampaignData();
-      
       this.checkValidation();
+
+      console.log({validation: this.validFormParam})
       if (
       this.validFormParam &&
       this.validFormPresentation &&
@@ -281,6 +282,7 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
   }
 
   onSaveDraftStatusChange(event: any) {
+    console.log({form : event})
     // if (event === FormStatus.Saving) {
     //   this._snackBar.open(
     //     "The draft will be saved while you are typing...",
@@ -315,18 +317,13 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
   }
 
   listenForPresenationChange(event: any) {
-    
-    
     this.validFormPresentation = event;
   }
 
   listenForBudgetRemunChange(event: any) {
-    
-
     this.validFormBudgetRemun = event;
   }
   listenForMissionChange(event: any) {
-
     this.validFormMissionFromRemuToEdit = event;
   }
   listenForPictureChange(event: any) {
@@ -381,6 +378,7 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
         takeUntil(this.isDestroyed$)
       )
       .subscribe((c: Campaign) => {
+        console.log({c})
         if (!c.isOwnedByUser) {
           this.router.navigateByUrl('/ad-pools');
         }
