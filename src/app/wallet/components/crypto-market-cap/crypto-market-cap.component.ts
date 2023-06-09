@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartOptions, ChartType } from 'chart.js';
 import { Router } from '@angular/router';
-import {  switchMap } from 'rxjs/operators';
-import { forkJoin } from 'rxjs';
+import {  switchMap, takeUntil } from 'rxjs/operators';
+import { Subject, forkJoin } from 'rxjs';
 import { CryptofetchServiceService } from '@app/core/services/wallet/cryptofetch-service.service';
 
 @Component({
@@ -48,10 +48,11 @@ lineChartOptions: ChartOptions = {
 };
 lineChartType: ChartType = 'line';
 lineChartLegend = false;
-
+private ngUnsubscribe = new Subject<void>();
   constructor(  
     private router: Router ,
     private fetchservice: CryptofetchServiceService,
+    
     ){
   
    }
@@ -59,6 +60,7 @@ lineChartLegend = false;
   ngOnInit(): void {
   
     this.fetchservice.getCryptoPriceList().pipe(
+      takeUntil(this.ngUnsubscribe),
       switchMap((data: any) => {
         const cryptos = data?.data ? Object.entries(data.data) : [];
         this.cryptoLists = cryptos.slice(0, 100);
@@ -88,10 +90,13 @@ lineChartLegend = false;
       }
     );
 
-     this.fetchservice.getGlobalCryptoMarketInfo().subscribe((res)=>{
-      this.globalMarketCap = res
-     }
-     )
+    this.fetchservice.getGlobalCryptoMarketInfo().pipe(takeUntil(this.ngUnsubscribe)).subscribe((res: any) => {
+      this.globalMarketCap = res;
+    },
+    (error) => {
+      console.error(error);
+      
+    });
   
 
   }
@@ -134,4 +139,8 @@ lineChartLegend = false;
  clear(){
   this.searchQuery='';
  }
+ ngOnDestroy() {
+  this.ngUnsubscribe.next();
+  this.ngUnsubscribe.complete();
+}
 }
