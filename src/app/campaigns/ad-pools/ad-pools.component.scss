@@ -58,7 +58,7 @@
   .btn-create-new-campaign {
     position: absolute;
     bottom: 0;
-    background: #f6f6ff;
+    background: #ffffff;
     height: 65px;
     width: 100%;
     right: 0px;
@@ -67,18 +67,20 @@
     justify-content: center;
   }
   .text-btn-create-campaign {
+    font-family: 'Poppins';
     font-style: normal;
     font-weight: 600;
-    font-size: 18px;
-    line-height: 27px;
+    font-size: 20px;
+    line-height: 25px;
     text-align: center;
-    letter-spacing: 0.01em;
-    color: #75758f;
+    letter-spacing: 0.02em;
+    color: #4048FF;
     border: none;
     display: flex;
     align-self: center;
     cursor: pointer;
-  }
+      }
+
   .block-title-create-campaign {
     height: 72%;
     display: flex;

@@ -276,6 +276,7 @@
   "AllCampains.Modify_campagin": "Finalize my Pool",
   "AllCampains.delete_camp_quest": "Are you sure you want to delete this Ad Pool?",
   "AllCampains.Confirm": "Confirm",
+  "Create.Adpool":"Create your AdPool",
   "delete_camp_quest": "Are you sure you want to delete this token?",
   "delete_token_quest": "Are you sure?",
   "delete_token": "You are about to delete this token",

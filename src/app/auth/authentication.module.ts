@@ -1,16 +1,5 @@
 import { NgModule } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
 import { AuthenticationRoutingModule } from '@app/auth/authentication-routing.module';
-import { CookieService } from 'ngx-cookie-service';
-import { TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
-import { AuthService } from '@core/services/Auth/auth.service';
-import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
-import { AuthGuardService } from '@core/services/auth-guard.service';
-import { ContactService } from '@core/services/contact/contact.service';
-import { FilesService } from '@core/services/files/files.Service';
-import { ContactMessageService } from '@core/services/contactmessage/contact-message.service';
-import { ProfileService } from '@core/services/profile/profile.service';
 import { CountdownModule } from 'ngx-countdown';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -39,23 +28,6 @@ import { ResetPasswordComponent } from '@app/auth/components/reset-password/rese
     FormsModule,
     ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' }),
     CustomFormsModule
-  ],
-
-  providers: [
-    CookieService,
-    TranslateService,
-    ToastrService,
-    AuthService,
-    TokenStorageService,
-    AuthGuardService,
-    AsyncPipe,
-    ContactService,
-    FilesService,
-    ContactMessageService,
-    ProfileService
-    // {provide: LocationStrategy, useClass: HashLocationStrategy},
-    //{ provide: LOCALE_ID, useValue: "fr" },
-    //{ provide: LOCALE_ID, useValue: 'de-DE' },
   ]
 })
 export class AuthenticationModule {}

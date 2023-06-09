@@ -29,6 +29,7 @@ import { CampaignsStoreService } from '@campaigns/services/campaigns-store.servi
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { DraftCampaignStoreService } from '@core/services/draft-campaign-store.service';
 import { environment } from '@environments/environment';
+
 enum EOraclesID {
   'facebook' = 1,
   'youtube',
@@ -123,11 +124,21 @@ export class PasswordModalComponent implements OnInit {
     if(!!this.campaign) this.network = this.campaign.currency.type;
     
   }
-  
+  expiredSession() {
+    this.tokenStorageService.clear();
+    window.open(environment.domainName + '/auth/login', '_self');
+  }
+
+
   creatYourCampaign() {
-    this.errorMessage = '';
-    let token = this.campaign?.currency?.name;
-    this.allowance(token);
+    this.walletFacade.verifyUserToken().subscribe((res:any) => {
+      if(res.message === "success") {
+        this.errorMessage = '';
+        let token = this.campaign?.currency?.name;
+        this.allowance(token);
+      } else this.expiredSession();
+    });
+    
   }
 
   convertUnixToDate(x: any) {

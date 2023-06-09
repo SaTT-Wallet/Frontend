@@ -14,12 +14,12 @@ import {
   Input
 } from '@angular/core';
 // import { bscan, etherscan } from '@app/config/atn.config';
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute, ResolveStart } from '@angular/router';
 import { NotificationService } from '@core/services/notification/notification.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
-import { walletUrl, ListTokens } from '@config/atn.config';
+import { walletUrl, ListTokens, sattUrl } from '@config/atn.config';
 import { User } from '@app/models/User';
 import { SidebarService } from '@core/services/sidebar/sidebar.service';
 import { Clipboard } from '@angular/cdk/clipboard';
@@ -35,12 +35,14 @@ import {
   mergeMap,
   takeUntil,
   tap,
-  startWith
+  startWith,
+  take,
+  first
 } from 'rxjs/operators';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { AuthStoreService } from '@core/services/Auth/auth-store.service';
 import { WalletService } from '@app/core/services/wallet/wallet.service';
-import { environment as env } from './../../../../environments/environment';
+import { environment } from '@environments/environment';
 import { CampaignsService } from '@campaigns/facade/campaigns.facade';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-facade.service';
@@ -53,13 +55,13 @@ import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.servic
 import { ReturnStatement } from '@angular/compiler';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { REPL_MODE_STRICT } from 'repl';
-const bscan = env.bscanaddr;
-const etherscan = env.etherscanaddr;
-const tronScanAddr = env.tronScanAddr;
-const tronScan = env.tronScan;
-const polygonscanAddr = env.polygonscanAddr;
+const bscan = environment.bscanaddr;
+const etherscan = environment.etherscanaddr;
+const tronScanAddr = environment.tronScanAddr;
+const tronScan = environment.tronScan;
+const polygonscanAddr = environment.polygonscanAddr;
 const btcScanAddr = 'https://www.blockchain.com/btc/address/';
-const bttscanAddr = env.bttscanAddr;
+const bttscanAddr = environment.bttscanAddr;
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -221,6 +223,17 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     private route: ActivatedRoute,
     private hostElement: ElementRef
   ) {
+    this.router.events.subscribe((event) => {
+      if(event instanceof ResolveStart) {
+        if(this.tokenStorageService.getToken()) {
+            this.walletFacade.verifyUserToken().pipe(first()).subscribe((res:any) => {
+              if(res.message != "success") this.expiredSession();
+            }); 
+        }
+      }
+    })
+    
+    
     breakpointObserver
       .observe([Breakpoints.Medium, Breakpoints.Large, Breakpoints.XLarge])
       .pipe(takeUntil(this.isDestroyed$))
@@ -269,7 +282,10 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
     //detect url changes to change the background of header
     this.router.events.pipe(takeUntil(this.isDestroyed$)).subscribe((event) => {
+      
+      
       if (event instanceof NavigationEnd) {
+        
         if (event.url.includes('welcome')) {
           this.isWelcomePage = true;
         } else {
@@ -316,13 +332,13 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           this.isWelcomePage = false;
           this.menuBuyToken = true;
         }
-        if (!this.isWelcomePage) {
-          this.renderer.setStyle(
+ /*if (!this.isWelcomePage) {
+          this.renderer?.setStyle(
             this.header?.nativeElement,
             'background',
             'linear-gradient(180deg, rgba(31, 35, 55, 0.7) 21.94%, rgba(31, 35, 55, 0) 93.77%)'
           );
-        }
+        }*/
       }
     });
   }
@@ -389,7 +405,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         this.newHeight = this.oldHeight;
       }
       if (this.tokenStorageService.getToken()) {
-        this.walletFacade.checkUserWalletV2()
+        this.walletFacade.verifyUserToken()
       .subscribe((res: any) => {
         if(res.message === "success") {
           this.showConnectButton = false;
@@ -424,12 +440,16 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         this.tokenStorageService.setItem('tron-wallet', this.tronAddress);
         this.tokenStorageService.setItem('tron-wallet_v2', this.tronAddressV2);
         } else {
+          this.signOut();
           this.isConnected = false;
           this.showConnectButton = true;
+          
         };
       }, (err:any) => {
+        this.signOut();
         this.isConnected = false;
         this.showConnectButton = true;
+        
       })
 
         
@@ -1234,6 +1254,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   toggleWallet() {
+    
     setTimeout(() => {
       let elem = this.document.getElementById('ercQrCode');
       elem?.scrollIntoView({
@@ -1247,6 +1268,9 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.sidebarService.toggleWalletMobile.value) {
       this.sidebarService.toggleWalletMobile.next(false);
     } else {
+      this.walletFacade.verifyUserToken().pipe(first()).subscribe((res:any) => {
+        if(res.message != "success") this.expiredSession();
+      }); 
       this.sidebarService.toggleWalletMobile.next(true);
     }
   }
@@ -1455,7 +1479,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   checkMenuTokenInfo() {
     if (isPlatformBrowser(this.platformId))
-      window.open(env.domainName + '/wallet/token-info?crypto=SATT', '_self');
+      window.open(environment.domainName + '/wallet/token-info?crypto=SATT', '_self');
   }
   checkMenuAbout() {
     if (isPlatformBrowser(this.platformId))
@@ -1565,58 +1589,49 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.router.navigate(['/']);
   }
 
+  expiredSession() {
+    this.tokenStorageService.clear();
+    window.open(environment.domainName + '/auth/login', '_self');
+  }
+
   signOut() {
+    this.authStoreService.clearStore();
+    this.tokenStorageService.clear();  
     this.tokenStorageService.logout().subscribe(
       () => {
         this.campaignFacade.clearLinksListStore();
         this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
         this.ParticipationListStoreService.clearDataFarming();
-
         this.walletFacade.dispatchLogout(); //clear totalBalance and cryptoList
         this.accountFacadeService.dispatchLogoutAccount(); //clear account user
         this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
         this.ParticipationListStoreService.nextPage.pageNumber = 0;
         this.profileSettingsFacade.clearProfilePicStore();
-        this.authStoreService.clearStore();
-        this.tokenStorageService.clear();
         this.kycFacadeService.dispatchLogoutKyc();
         this.isConnected = false;
         this.showConnectButton = true;
         this.authService.setIsAuthenticated(false);
-
-        window.open(env.url + 'welcome', '_self');
       }
-      // () => {
-      //   this.campaignFacade.clearLinksListStore();
-      //   this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
-      //   this.ParticipationListStoreService.clearDataFarming();
-      //   this.walletFacade.dispatchLogout(); //clear totalBalance and cryptoList
-      //   this.accountFacadeService.dispatchLogoutAccount(); //clear account user
-      //   this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
-      //   this.ParticipationListStoreService.nextPage.pageNumber = 0;
-      //   this.profileSettingsFacade.clearProfilePicStore();
-      //   this.authStoreService.clearStore();
-      //   this.tokenStorageService.clear();
-      //   this.kycFacadeService.dispatchLogoutKyc();
-      //   this.isConnected = false;
-      //   this.authService.setIsAuthenticated(false);
-      //   if (isPlatformBrowser(this.platformId)) {
-      //     window.location.reload();
-      //   }
-      //   this.router.navigate(['/auth/login']);
-      // }
+      
     );
-
-    /*
-    this.campaignsListStore.clearStore();
-*/
   }
   ngOnDestroy(): void {
+    
     if (!!this.isDestroyed$) {
       this.isDestroyed$.next('');
       this.isDestroyed$.complete();
       this.isDestroyed$.unsubscribe();
     }
     //this.translate.onLangChange.unsubscribe();
+  }
+
+
+  logout() {
+    this.tokenStorageService.clear();
+    this.authStoreService.clearStore();
+    this.campaignDataStore.clearDataStore();
+    this.walletFacade.dispatchLogout();
+    this.accountFacadeService.dispatchLogoutAccount();
+    window.open(environment.domainName + '/auth/login', '_self');
   }
 }

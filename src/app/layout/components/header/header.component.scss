@@ -10,6 +10,9 @@
       display: none !important;
     }
   }
+
+
+  
 }
 #title_wallet {
   // position: absolute;
@@ -1920,7 +1923,22 @@ bottom: 77.54% ; */
   //   ) !important;
   // }
 }
-
+@media (max-height: 640px) {
+  .qrr_imgg1 {
+    width: 219px;
+    height: 160px;
+  }
+  .title {
+    margin-bottom: 1svh !important;
+    margin-top: 11svh;
+  }
+  #change-wallet-title {
+    top: 2%;
+  }
+  #title_wallet {
+    top: -3%;
+  }
+}
 .position_icon_notif_mobile {
   padding-top: 2.7%;
   position: absolute;

@@ -269,6 +269,22 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
   //     });
   //   }
   // }
+
+    shortUrlChanger(normalUrl: string) {
+    const shortUrlTiktok = normalUrl?.search(env.TIKTOK_SHORTEN_LINK);
+  
+
+
+    if (shortUrlTiktok > -1 ) {
+
+
+      this.CampaignService.expandUrl(normalUrl).subscribe((res: any) => {
+       
+        
+        this.urlFromInput = res.data;
+      });
+    }
+  }
   connect(social: any) {
     var linkFacebook: string =
       sattUrl +
@@ -364,13 +380,13 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
         (media?.indexOf('posts') !== -1 ||
           media?.indexOf('photos') !== -1 ||
           media?.indexOf('videos') !== -1)) ||
-      media?.indexOf(env.M_FaCEBOOK_URL) !== -1 ||
+      media?.indexOf(env.M_FACEBOOK_URL) !== -1 ||
       media.search('vm.tiktok.com') !== -1
     ) {
       this.validUrl = true;
       let parts = media?.split('/');
       if (parts[3] !== '' && parts[5] !== '') {
-        if (media.indexOf(env.M_FaCEBOOK_URL) !== -1) {
+        if (media.indexOf(env.M_FACEBOOK_URL) !== -1) {
           let mfacebooklink = media?.replaceAll('&', '=');
           let parts1 = mfacebooklink?.split('=');
           let test = this.CampaignService.getFbUserName(parts1[3]).subscribe(

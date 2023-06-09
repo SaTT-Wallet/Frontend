@@ -41,6 +41,7 @@ import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.servic
 import { BarcodeFormat } from '@zxing/library';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ITransferTokensRequestBody } from '@app/core/services/wallet/wallet.service';
+import { environment } from '@environments/environment';
 
 @Component({
   selector: 'app-send',
@@ -82,6 +83,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   bttGaz: any;
   trxGaz: any;
   max = false;
+  maxNumber: number = 999999999;
   matic: any;
   defaultcurr: string = ListTokens['SATT'].name;
   private isDestroyed = new Subject();
@@ -186,12 +188,14 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnInit(): void {
+    
     this.etcAddress = this.localStorage.getIdWallet();
     this.btcAddress = this.localStorage.getWalletBtc();
     this.sendform.get('currency')?.setValue('SATT');
     this.getusercrypto();
     this.getProfileDetails();
     this.amountdefault = this.sendform.get('currency')?.value;
+    console.log("test list : "+this.dataList)
   }
 
   openqrcode(): void {
@@ -223,15 +227,19 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         takeUntil(this.isDestroyed)
       )
       .subscribe((data: any) => {
-        // if (!!this.selectedCryptoDetails) {
-        //   this.selectedCryptoDetails = {
-        //     ...this.selectedCryptoDetails,
-        //     total_balance: data.filter(
-        //       (element: any) =>
-        //         element.symbol === this.selectedCryptoDetails.symbol
-        //     )[0].total_balance
-        //   };
-        // }
+      
+        data.map((crypto: any) => {
+          if(crypto.symbol === 'SATT') this.selectedCryptoDetails = crypto;
+        })
+         /*if (!!this.selectedCryptoDetails) {
+          this.selectedCryptoDetails = {
+           ...this.selectedCryptoDetails,
+            total_balance: data.filter(
+              (element: any) =>
+                element.symbol === this.selectedCryptoDetails.symbol
+           )[0].total_balance
+         };
+         }*/
 
         this.walletFacade.hideWalletSpinner();
         this.showWalletSpinner = false;
@@ -346,22 +354,27 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.showSpinner = true;
       event.preventDefault();
       event.stopPropagation();
-      this.kyc$.pipe(takeUntil(this.isDestroyed)).subscribe((response) => {
+      this.kyc$.pipe(takeUntil(this.isDestroyed)).subscribe((response:any) => {
         if (response !== null && response !== undefined) {
-          if (
-            response.legal.length > 1 &&
-            response.legal.reduce((acc: any, item: any) => {
-              return acc && item['validate'] === true;
-            }, true)
-          ) {
-            this.sendMoney();
-            this.showSpinner = false;
-            this.isSubmitting = false;
+          if(response.name === "JsonWebTokenError") {
+            this.expiredSession();
           } else {
-            this.showSpinner = false;
-            this.modalService.open(this.checkUserLegalKYCModal);
-            this.isSubmitting = false;
+            if (
+              response.legal.length > 1 &&
+              response.legal.reduce((acc: any, item: any) => {
+                return acc && item['validate'] === true;
+              }, true)
+            ) {
+              this.sendMoney();
+              this.showSpinner = false;
+              this.isSubmitting = false;
+            } else {
+              this.showSpinner = false;
+              this.modalService.open(this.checkUserLegalKYCModal);
+              this.isSubmitting = false;
+            }
           }
+          
         }
       });
     } else {
@@ -373,6 +386,11 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.wrongpassword = false;
     this.gazproblem = false;
     this.noCryptoSelected = false;
+  }
+
+  expiredSession() {
+    this.tokenStorageService.clear();
+    window.open(environment.domainName + '/auth/login', '_self');
   }
 
   openModal(content: any) {
@@ -508,46 +526,52 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         )
         .subscribe(
           (data: any) => {
+            
             this.showSpinner = false;
             this.loadingButton = false;
-            if (data.data.transactionHash) {
-              this.currency = currency;
-
-              this.hashtransaction = data.data.transactionHash;
-              // if (currency === 'SATTBEP20') {
-              //   let currenncySatt = 'SATT';
-              //   this.toastr.success(
-              //     'You have sent ' +
-              //       splitted +
-              //       '  ' +
-              //       currenncySatt +
-              //       '  to  ' +
-              //       data.data.address
-              //   );
-              // } else {
-              //   this.toastr.success(
-              //     'You have sent ' +
-              //       splitted +
-              //       '  ' +
-              //       currency +
-              //       '  to  ' +
-              //       data.data.address
-              //   );
-              // }
-              if (this.networks === 'BEP20') {
-                this.routertransHash = bscan + this.hashtransaction;
-              } else if (this.networks === 'ERC20') {
-                this.routertransHash = etherscan + this.hashtransaction;
-              } else if (this.networks === 'POLYGON') {
-                this.routertransHash = polygonscan + this.hashtransaction;
-              } else if (this.networks === 'BTT') {
-                this.routertransHash = bttscan + this.hashtransaction;
-              } else if (this.networks === 'TRON') {
-                this.routertransHash = tronScan + this.hashtransaction;
+            if(data?.name === "JsonWebTokenError") {
+              this.expiredSession();
+            } else {
+              if (data.data.transactionHash) {
+                this.currency = currency;
+  
+                this.hashtransaction = data.data.transactionHash;
+                // if (currency === 'SATTBEP20') {
+                //   let currenncySatt = 'SATT';
+                //   this.toastr.success(
+                //     'You have sent ' +
+                //       splitted +
+                //       '  ' +
+                //       currenncySatt +
+                //       '  to  ' +
+                //       data.data.address
+                //   );
+                // } else {
+                //   this.toastr.success(
+                //     'You have sent ' +
+                //       splitted +
+                //       '  ' +
+                //       currency +
+                //       '  to  ' +
+                //       data.data.address
+                //   );
+                // }
+                if (this.networks === 'BEP20') {
+                  this.routertransHash = bscan + this.hashtransaction;
+                } else if (this.networks === 'ERC20') {
+                  this.routertransHash = etherscan + this.hashtransaction;
+                } else if (this.networks === 'POLYGON') {
+                  this.routertransHash = polygonscan + this.hashtransaction;
+                } else if (this.networks === 'BTT') {
+                  this.routertransHash = bttscan + this.hashtransaction;
+                } else if (this.networks === 'TRON') {
+                  this.routertransHash = tronScan + this.hashtransaction;
+                }
+                this.showPwdBloc = false;
+                this.showSuccessBloc = true;
               }
-              this.showPwdBloc = false;
-              this.showSuccessBloc = true;
             }
+            
             // if (data.error === 'Wrong password') {
             //   this.wrongpassword = true;
             //   setTimeout(() => {
@@ -699,57 +723,37 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     });
   }
   onClickAmount(): void {
-    this.max = true;
     let currency = '';
     this.selectedCryptoSend = currency;
-    if (this.selectedCryptoSend) {
-      currency = this.selectedCryptoSend;
-    } else {
-      currency = this.sendform.get('currency')?.value;
-    }
+    
+    if(!!this.selectedCryptoDetails && this.selectedCryptoDetails.quantity > 0) {
+      if(
+        this.selectedCryptoDetails.symbol === 'ETH' ||
+        this.selectedCryptoDetails.symbol === 'BNB' ||
+        this.selectedCryptoDetails.symbol === 'MATIC' ||
+        this.selectedCryptoDetails.symbol === 'BTT' ||
+        this.selectedCryptoDetails.symbol === 'TRX'
+      ) {
+        const fees = (this.selectedCryptoDetails.symbol === "BNB" ? this.bEPGaz : (
+          this.selectedCryptoDetails.symbol === "ETH" ? this.eRC20Gaz : (
+            this.selectedCryptoDetails.symbol === "MATIC" ? this.polygonGaz : (
+              this.selectedCryptoDetails.symbol === "TRON" ? this.trxGaz : this.bttGaz
+            )
+          )
+        ))
+        const balance = this.selectedCryptoDetails?.total_balance.toFixed(2) - fees;
+        const quantity = this.selectedCryptoDetails?.quantity - (fees / this.selectedCryptoDetails?.price) 
+        this.sendform.get('Amount')?.setValue(quantity)
+        this.sendform.get('AmountUsd')?.setValue(balance)
+        this.amount = this.showNumbersRule.transform(quantity.toString(), true);
+        this.amountUsd = balance.toFixed(2)
 
-    if (!currency || currency === '?') {
-      this.noCryptoSelected = true;
-      setTimeout(() => {
-        this.noCryptoSelected = false;
-      }, 3000);
-    }
-    if (currency) {
-      this.dataList?.forEach((crypto: any) => {
-        if (crypto.symbol === currency) {
-          let quantity = this.showNumbersRule.transform(crypto.quantity);
-          this.sendform.get('Amount')?.setValue(quantity),
-            this.sendform.get('AmountUsd')?.setValue(crypto.total_balance);
-
-          this.gazproblem = false;
-          if (
-            currency === 'ETH' ||
-            currency === 'BNB' ||
-            currency === 'MATIC' ||
-            currency === 'BTT'
-          ) {
-            this.difference = crypto.total_balance - this.gazsend;
-            this.newquantity = this.difference / crypto.price;
-            let newqua = this.showNumbersRule.transform(this.newquantity);
-            let quantit = this.showNumbersRule.transform(crypto.quantity);
-            if (this.difference < 0) {
-              this.sendform.get('Amount')?.setValue(quantit),
-                this.sendform.get('AmountUsd')?.setValue('0');
-              this.gazproblem = true;
-              setTimeout(() => {
-                this.gazproblem = false;
-              }, 3000);
-            } else {
-              this.sendform.get('Amount')?.setValue(newqua),
-                this.sendform
-                  .get('AmountUsd')
-                  ?.setValue(this.difference.toFixed(2));
-
-              this.gazproblem = false;
-            }
-          }
-        }
-      });
+      } else {
+        this.sendform.get('Amount')?.setValue(this.selectedCryptoDetails?.quantity)
+        this.sendform.get('AmountUsd')?.setValue(this.selectedCryptoDetails?.total_balance.toFixed(2))
+        this.amount = this.selectedCryptoDetails?.quantity
+        this.amountUsd = this.selectedCryptoDetails?.total_balance.toFixed(2)
+      }
     }
   }
   //validation send
@@ -894,6 +898,28 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     );
   }
 
+  keyPressNumbersWithDecimal(event :any, type: string) {
+    const inputValue = (event.target as HTMLInputElement).value;
+    if (event.key === '.' && inputValue.includes('.')) {
+      event.preventDefault();
+    }
+    if(type === 'crypto') {
+      if((this.selectedCryptoDetails?.price * Number(inputValue)) > this.maxNumber) {
+        event.preventDefault();
+      }
+    }
+    if(type === 'usd' && Number(inputValue) > this.maxNumber) {
+      event.preventDefault();
+    }
+    if ((event.which >= 48 && event.which <=57) || event.which === 46) {
+      return true;
+    } else {
+      event.preventDefault();
+      return false;
+    }
+    
+  }
+
   convertcurrency(event: any, restrict?: boolean): void {
     this.max = false;
     let allow: boolean = true;
@@ -903,6 +929,25 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       allow = true;
     }
     if (allow) {
+
+      var getamount: any = this.sendform.get('Amount')?.value;
+      let getusd: any = this.sendform.get('AmountUsd')?.value;
+      let sendamount = getamount?.toString();
+      let sendusd = getusd?.toString();
+      if(event === 'usd') {
+        this.sendform.get('AmountUsd')?.setValue(sendusd);
+        this.sendform.get('Amount')?.setValue(sendusd / this.selectedCryptoDetails.price)
+        this.amount = this.showNumbersRule.transform((sendusd / this.selectedCryptoDetails.price).toString(), true)
+
+    } else {
+      this.sendform.get('Amount')?.setValue(sendamount);
+      this.sendform.get('AmountUsd')?.setValue(sendusd * this.selectedCryptoDetails.price)
+      this.amountUsd = this.showNumbersRule.transform((this.selectedCryptoDetails.price * sendamount).toString());
+      this.editwidthInput();
+    }
+
+
+      /*console.log({test: this.selectedCryptoDetails})
       let currency = '';
       var getamount: any = this.sendform.get('Amount')?.value;
       let getusd: any = this.sendform.get('AmountUsd')?.value;
@@ -970,7 +1015,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
 
           this.editwidthInput();
         });
-      }
+      }*/
     }
   }
 

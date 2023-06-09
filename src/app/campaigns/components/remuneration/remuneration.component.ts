@@ -144,11 +144,12 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   bEPGaz: any;
   cryptoToDropdown: string = '';
   maxNumber: number = 999999999;
+  
   gazproblem: boolean = false;
   newquantity: any;
   campaign$!: Observable<Campaign>;
   campaign: any;
-
+  insufficientBalance: boolean = false;
   remunerationOptions: IDropdownFilterOptions[] = [
     {
       text: this.eRemunerationType.Performance,
@@ -181,7 +182,12 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     this.form = new UntypedFormGroup(
       {
         initialBudget: new UntypedFormControl('', {
-          validators: Validators.compose([Validators.required])
+          validators: Validators.compose([
+            Validators.required,
+
+            Validators.pattern(/^([1-9]\d*|([1-9]\d*|0).\d+|[1-9]\d*(.\d+)?)$/)
+
+          ])
         }),
         initialBudgetInUSD: new UntypedFormControl('', {
           validators: Validators.compose([Validators.required])
@@ -466,8 +472,15 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         }),
         takeUntil(this.isDestroyed$)
       )
-      .subscribe(()=>{ console.log(this.form.value)});
-      ;
+      .subscribe(() => {
+        const initialBudgetControl = this.form.get('initialBudget');
+
+        const hasPatternError = initialBudgetControl?.hasError('pattern') || initialBudgetControl?.value !== "";
+
+        const isValid = initialBudgetControl && !hasPatternError;
+      
+        this.validFormBudgetRemun.emit(isValid && !this.form.errors?.notEnoughBalance);
+      });
   }
   selectRemunerateType(type: ERemunerationType) {
     if (
@@ -597,18 +610,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   //     );
   // }
 
-  isValidKeyCode(code: number): boolean {
-    return (
-      (code >= 48 && code <= 57) ||
-      (code >= 96 && code <= 105) ||
-      code === 8 ||
-      code === 46 ||
-      code === 27 ||
-      code === 110 ||
-      code === 37 ||
-      code === 39
-    );
-  }
+  
 
   get f() {
     return this.form.controls;
@@ -1069,131 +1071,56 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     }*/
     
   }
-  keyPressNumbersWithDecimal(event :any) {
-    
-    var charCode = (event.which) ? event.which : event.keyCode;
-    if (charCode != 46 && charCode > 31
-      && (charCode < 48 || charCode > 57)) {
+  keyPressNumbersWithDecimal(event :any, type: string) {
+    const inputValue = (event.target as HTMLInputElement).value;
+    if (event.key === '.' && inputValue.includes('.')) {
+      event.preventDefault();
+    }
+    if(type === 'crypto') {
+      if((this.selectedCryptoDetails?.price * Number(inputValue)) > this.maxNumber) {
+        event.preventDefault();
+      }
+    }
+    if(type === 'usd' && Number(inputValue) > this.maxNumber) {
+      event.preventDefault();
+    }
+    if ((event.which >= 48 && event.which <=57) || event.which === 46) {
+      return true;
+    } else {
       event.preventDefault();
       return false;
     }
-    return true;
+    
   }
   convertcurrency(event: any): void {
-    let currency = '';
+   
+    
     var getamount: any = this.form.get('initialBudget')?.value;
     let getusd: any = this.form.get('initialBudgetInUSD')?.value;
     let sendamount = getamount?.toString();
     let sendusd = getusd?.toString();
+    if(event === 'usd') {
+        this.form.get('initialBudgetInUSD')?.setValue(sendusd);
+        this.form.get('initialBudget')?.setValue(sendusd / this.selectedCryptoDetails.price)
+        this.amount = this.showNumbersRule.transform((sendusd / this.selectedCryptoDetails.price).toString(), true)
 
-    if (event === 'usd' && Number(sendusd) > this.maxNumber) {
-      sendusd = sendusd.slice(0, 9);
-      this.form.get('initialBudgetInUSD')?.setValue(sendusd);
     } else {
-      this.selectedCryptoSend = currency;
-      if (this.selectedCryptoSend) {
-        currency = this.selectedCryptoSend;
-      } else {
-        currency = this.form.get('currency')?.value;
-      }
-      if (
-        event === 'amount' &&
-        sendamount !== undefined &&
-        !isNaN(sendamount)
-      ) {
-        this.amountUsd = this.selectedCryptoDetails.price * sendamount;
-        this.amountUsd = this.showNumbersRule.transform(this.amountUsd);
-        if (this.amountUsd < 0.1) {
-          this.amountUsd = new Big(this.amountUsd).toFixed(8).toString();
-        }
-        if (isNaN(this.amountUsd)) {
-          this.amountUsd = '';
-          this.amount = '';
-        }
-      } else if (
-        event === 'amount' &&
-        (sendamount === undefined || isNaN(sendamount))
-      ) {
-        this.amountUsd = '';
-      }
-      if (event === 'usd' && sendusd !== undefined && !isNaN(sendusd)) {
-        this.amount = sendusd / this.selectedCryptoDetails.price;
-        this.amount = this.showNumbersRule.transform(this.amount);
-        if (
-          sendamount === '0.00000000' ||
-          sendusd === '' ||
-          isNaN(this.amount)
-        ) {
-          this.amountUsd = '';
-          this.amount = '';
-        }
-      } else if (event === 'usd' && (sendusd === undefined || isNaN(sendusd))) {
-        this.amount = '';
-      }
+      this.form.get('initialBudget')?.setValue(sendamount);
+      this.form.get('initialBudgetInUSD')?.setValue(sendusd * this.selectedCryptoDetails.price)
+      this.amountUsd = this.showNumbersRule.transform((this.selectedCryptoDetails.price * sendamount).toString());
       this.editwidthInput();
     }
+    let x: number = +(this.amountUsd.includes(',') ? this.amountUsd.replaceAll(',','') : this.amountUsd);
+    
+    if(x <= this.selectedCryptoDetails.total_balance.toFixed(2)) {
+      this.insufficientBalance = false;
+    } else {
+      this.insufficientBalance = true;
+    }
+    
+    
   }
-  //convert currency to usd
-  // convertcurrency(event: any): void {
-  //   let currency = '';
-  //   let currencyreceive = '';
-  //   var getamountreceive: any = this.receiveform.get('Amount')?.value;
-  //   let getusdreceive: any = this.receiveform.get('AmountUsd')?.value;
-  //   let receiveamount = getamountreceive?.toString();
-  //   let receiveusd = getusdreceive?.toString();
-  //   if (event === 'usdreceive' && Number(receiveusd) > this.maxNumber) {
-  //     receiveusd = receiveusd.slice(0, 9);
-  //     this.receiveform.get('AmountUsd')?.setValue(receiveusd);
-  //   } else {
-  //     this.selectedCryptoSend = currency;
-  //     if (this.selectedCryptoSend) {
-  //       currencyreceive = this.selectedCryptoSend;
-  //     } else {
-  //       currencyreceive = this.amountdefault;
-  //     }
-  //     this.dataList?.forEach((crypto: any) => {
-  //       if (
-  //         event === 'amountreceive' &&
-  //         receiveamount !== undefined &&
-  //         !isNaN(receiveamount)
-  //       ) {
-  //         if (crypto.symbol === currencyreceive) {
-  //           this.amountUsd = crypto.price * receiveamount;
-  //           this.amountUsd = this.showNumbersRule.transform(this.amountUsd);
-  //           if (isNaN(this.amountUsd)) {
-  //             this.amountUsd = '';
-  //             this.amount = '';
-  //           }
-  //         }
-  //       } else if (
-  //         event === 'amountreceive' &&
-  //         (receiveamount === undefined || isNaN(receiveamount))
-  //       ) {
-  //         this.amountUsd = '';
-  //       }
-  //       if (event === 'usdreceive' && receiveusd !== '' && !isNaN(receiveusd)) {
-  //         if (crypto.symbol === currencyreceive) {
-  //           this.amount = receiveusd / crypto.price;
-  //           this.amount = this.showNumbersRule.transform(this.amount);
-  //           if (
-  //             receiveamount === '0.00000000' ||
-  //             receiveusd === '' ||
-  //             isNaN(this.amount)
-  //           ) {
-  //             this.amountUsd = '';
-  //             this.amount = '';
-  //           }
-  //         }
-  //       } else if (
-  //         event === 'usdreceive' &&
-  //         (receiveusd === '' || isNaN(receiveusd))
-  //       ) {
-  //         this.amount = '';
-  //       }
-  //     });
-  //     this.editwidthInput();
-  //   }
-  // }
+ 
   editwidthInput() {
     let elementinputusd = this.inputAmountUsd?.nativeElement;
     //  elementinputusd.style.width = 40 + 'px';
@@ -1215,9 +1142,11 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     this.amount = '';
   }
   linstingCrypto(event: any) {
+    this.insufficientBalance = false;
     if (event.symbol !== this.form.get('currency')?.value) {
       this.form.get('initialBudget')?.reset();
       this.form.get('initialBudgetInUSD')?.reset();
+      
     }
     this.selectedCryptoDetails = event;
     this.form.get('currency')?.setValue(this.selectedCryptoDetails.symbol);
@@ -1305,60 +1234,38 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   }
 
   onClickAmount(): void {
+    this.insufficientBalance = false;
     let currency = '';
     this.selectedCryptoSend = currency;
+    
+    if(!!this.selectedCryptoDetails && this.selectedCryptoDetails.quantity > 0) {
+      if(
+        this.selectedCryptoDetails.symbol === 'ETH' ||
+        this.selectedCryptoDetails.symbol === 'BNB' ||
+        this.selectedCryptoDetails.symbol === 'MATIC' ||
+        this.selectedCryptoDetails.symbol === 'BTT' ||
+        this.selectedCryptoDetails.symbol === 'TRX'
+      ) {
+        const fees = (this.selectedCryptoDetails.symbol === "BNB" ? this.bEPGaz : (
+          this.selectedCryptoDetails.symbol === "ETH" ? this.eRC20Gaz : (
+            this.selectedCryptoDetails.symbol === "MATIC" ? this.polygonGaz : (
+              this.selectedCryptoDetails.symbol === "TRON" ? this.trxGaz : this.bttGaz
+            )
+          )
+        ))
+        const balance = this.selectedCryptoDetails?.total_balance.toFixed(2) - fees;
+        const quantity = this.selectedCryptoDetails?.quantity - (fees / this.selectedCryptoDetails?.price) 
+        this.form.get('initialBudget')?.setValue(quantity)
+        this.form.get('initialBudgetInUSD')?.setValue(balance)
+        this.amount = this.showNumbersRule.transform(quantity.toString(), true);
+        this.amountUsd = balance.toFixed(2)
 
-    if (this.selectedCryptoSend) {
-      currency = this.selectedCryptoSend;
-    } else {
-      currency = this.form.get('currency')?.value;
-    }
-
-    if (!currency || currency === '?') {
-      this.noCryptoSelected = true;
-      setTimeout(() => {
-        this.noCryptoSelected = false;
-      }, 3000);
-    }
-    if (currency) {
-      this.dataList?.forEach((crypto: any) => {
-        if (crypto.symbol === currency) {
-          let quantity = this.showNumbersRule.transform(crypto.quantity);
-          //  let totalBal = this.showNumbersRule.transform(crypto.total_balance);
-          crypto.total_balance = parseFloat(crypto.total_balance + '');
-          crypto.total_balance = crypto?.total_balance?.toFixed(2);
-          this.form.get('initialBudget')?.setValue(quantity),
-            this.form.get('initialBudgetInUSD')?.setValue(crypto.total_balance);
-
-          this.gazproblem = false;
-          if (
-            currency === 'ETH' ||
-            currency === 'BNB' ||
-            currency === 'MATIC'
-          ) {
-            this.difference = crypto.total_balance - this.gazsend;
-            this.newquantity = this.difference / crypto.price;
-            let newqua = this.showNumbersRule.transform(this.newquantity);
-            let quantit = this.showNumbersRule.transform(crypto.quantity);
-
-            if (this.difference < 0) {
-              this.form.get('initialBudget')?.setValue(quantit),
-                this.form.get('initialBudgetInUSD')?.setValue('0');
-              this.gazproblem = true;
-              setTimeout(() => {
-                this.gazproblem = false;
-              }, 3000);
-            } else {
-              this.form.get('initialBudget')?.setValue(newqua),
-                this.form
-                  .get('initialBudgetInUSD')
-                  ?.setValue(this.difference.toFixed(2));
-
-              this.gazproblem = false;
-            }
-          }
-        }
-      });
+      } else {
+        this.form.get('initialBudget')?.setValue(this.selectedCryptoDetails?.quantity)
+        this.form.get('initialBudgetInUSD')?.setValue(this.selectedCryptoDetails?.total_balance.toFixed(2))
+        this.amount = this.selectedCryptoDetails?.quantity
+        this.amountUsd = this.selectedCryptoDetails?.total_balance.toFixed(2)
+      }
     }
   }
 
