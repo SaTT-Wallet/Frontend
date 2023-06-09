@@ -12,16 +12,16 @@
       <img  class="cover-market-cap" src="assets/Images/crypto-market-cap-cov.png" />
     </div>
     <div class="col justify-content-center global d-none d-sm-block">
-      <h1 class="row crypto-market-cap-title">{{'cryptolist.title'| translate}}</h1>
+      <h1 class="row crypto-market-cap-title">{{'Cryptolist.title'| translate}}</h1>
       
       <div class="row market-cap-in-number">{{globalMarketCap?.data?.total_market_cap | currency:'USD':'symbol':'1.0-0'}}</div>
     </div>
   </div>
   <div class="d-block d-sm-none" style="margin-top: 20%;
   text-align: center; justify-items: center;">
-    <div class="row text-mobile" style="color: #4048FF;font-size: 32px;"> Top Cryptocurrencies</div>
+    <div class="row text-mobile" style="color: #4048FF;font-size: 32px;"> {{'Cryptolist.title.mobile'| translate}}</div>
     <div class="row text-mobile" style="font-weight: 400;
-    font-size: 16px;color: #1F2337;margin-top: 3%; margin-left: 12%; width: 70%;">Explore the Best Market Options and Maximize Your Investments!</div>
+    font-size: 16px;color: #1F2337;margin-top: 3%; margin-left: 12%; width: 70%;">{{'Cryptolist.description.mobile'| translate}}</div>
   </div>
 </header>
 <div class="container-fluid page-content">
@@ -45,9 +45,9 @@
           <th scope="col">{{ 'Cryptolist.price' | translate }}</th>
           <th scope="col d-none d-sm-block">1H%</th>
           <th scope="col">24H%</th>
-          <th scope="col d-none d-sm-block">7D%</th>
-          <th scope="col d-none d-sm-block">VOLUME(24H)</th>
-          <th scope="col d-none d-sm-block">LAST 7DAYS</th>
+          <th scope="col d-none d-sm-block">{{ 'Cryptolist.7d' | translate }}</th>
+          <th scope="col d-none d-sm-block">{{ 'Cryptolist.volume' | translate }}</th>
+          <th scope="col d-none d-sm-block">{{ 'Cryptolist.last7d' | translate }}</th>
         </tr>
       </thead>
       <tbody>
@@ -139,8 +139,8 @@
       <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">NAME</th>
-          <th scope="col">PRICE</th>
+          <th scope="col">{{'Cryptolist.name'| translate}}</th>
+          <th scope="col"> {{'Cryptolist.price'| translate}}</th>
           <th scope="col" style="text-align: center;">24H%</th>
         </tr>
       </thead>
