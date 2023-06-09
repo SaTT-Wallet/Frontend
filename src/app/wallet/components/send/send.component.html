@@ -23,12 +23,13 @@
       </div>
       <div class="">
         <input
-          type="number"
+          type="decimal"
           id=""
           (focus)="goToSection('amount')"
           pattern="^[1-9][0-9]*$"
           formControlName="Amount"
           (keydown)="restrictZero($event)"
+          (keypress)="keyPressNumbersWithDecimal($event, 'crypto')"
           class="amount input-amount"
           placeholder="0"
           [(ngModel)]="amount"
@@ -39,11 +40,8 @@
         class="div-use-max mt-3 text-center d-flex justify-content-center align-items-center flex-xl-row flex-lg-row flex-md-row flex-sm-column flex-xs-column gap-2"
       >
         <!-- <p class="hard-gray-text mb-0">Balance :{{ totalAmount }} USD</p> -->
-        <p *ngIf="this.selectedCryptoDetails" class="hard-gray-text mb-0">
-          Balance :${{ this.selectedCryptoDetails?.total_balance?.toFixed(2) }}
-        </p>
-        <p *ngIf="!this.selectedCryptoDetails" class="hard-gray-text mb-0">
-          Balance :${{ this.sattBalance }}
+        <p  class="hard-gray-text mb-0">
+          Balance :$<span *ngIf="!!this.selectedCryptoDetails">{{ this.selectedCryptoDetails?.total_balance?.toFixed(2) }}</span>
         </p>
         <span [className]="dataList.length > 0 ? 'router-text' : 'fade-animation'" (click)="dataList.length > 0 && onClickAmount()">{{
           'useMax' | translate
@@ -53,11 +51,12 @@
         <div class="w-100 d-flex justify-content-center align-items-center">
           <span class="amount-default-receive-usd">$</span>
           <input
-            type="number"
+            type="decimal"
             class="input-number2-receive"
             (focus)="goToSection('usd')"
             pattern="(\d{1,2}([\.,])?)*([\d{1,2}]?)*"
             (keydown)="restrictZero($event)"
+            (keypress)="keyPressNumbersWithDecimal($event, 'usd')"
             class="usd input-amount-usd"
             placeholder="0"
             formControlName="AmountUsd"

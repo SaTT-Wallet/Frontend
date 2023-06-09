@@ -97,6 +97,7 @@ export class RecoverGainsComponent implements OnInit {
  /* postLink$ = this.promData$.pipe(
     takeUntil(this.isDestroyedSubject),
     map((prom: Participation) => {
+<<<<<<< HEAD
       if (prom.oracle === 'youtube') {
         this.oracleImageSrc = '/assets/Images/youtube.svg';
         return `https://www.youtube.com/watch?v=${prom.postId}`;
@@ -122,6 +123,34 @@ export class RecoverGainsComponent implements OnInit {
       }
 
       return '';
+=======
+      const mapping: { [key: string]: { imageSrc: string, link: string } } = {
+        youtube: {
+          imageSrc: '/assets/Images/youtube.svg',
+          link: `https://www.youtube.com/watch?v=${prom.postId}`
+        },
+        facebook: {
+          imageSrc: '/assets/Images/campagne/facebook_gain.svg',
+          link: `https://www.facebook.com/${prom.username}/posts/${prom.postId}`
+        },
+        twitter: {
+          imageSrc: '/assets/Images/campagne/twitter_gain.svg',
+          link: `https://www.twitter.com/${prom.username}/status/${prom.postId}`
+        },
+        instagram: {
+          imageSrc: '/assets/Images/campagne/insta_gain.svg',
+          link: `https://www.instagram.com/p/${prom.postId}`
+        },
+        tiktok: {
+          imageSrc: '/assets/Images/campagne/tiktok_gain.svg',
+          link: `https://www.tiktok.com/embed/${prom.postId}`
+        }
+      };
+  
+      const { imageSrc, link } = mapping[prom.oracle] || { imageSrc: '', link: '' };
+      this.oracleImageSrc = imageSrc;
+      return link;
+>>>>>>> 140c49e9ffadb522f711bbb420e4b5a937628f3f
     })
   );*/
   postLink$ = this.promData$.pipe(

@@ -565,6 +565,7 @@ select option {
   overflow-x: hidden;
   background-size: cover;
   position: relative;
+  margin-bottom: 0.37rem !important;
 }
 
 .blockk2 {
@@ -2079,7 +2080,7 @@ p {
 /* (B) MOVING TICKER WRAPPER */
 .hmove {
   display: flex;
-  padding-top: 2%;
+  padding-top: 0%;
 }
 
 /* (C) ITEMS - INTO A LONG HORIZONTAL ROW */
@@ -2090,7 +2091,7 @@ p {
   text-align: center;
   font-family: 'Poppins';
   font-style: normal;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 18px;
   line-height: 1.5em;
   height: 3em;
@@ -2126,7 +2127,7 @@ p {
   }
   .estim_ballance {
     position: relative;
-    top:6vh;
+    top:7.5vh;
   }
 
   .balance_container2 {
@@ -2149,7 +2150,7 @@ p {
   }
 
   .hwrap {
-    bottom: 0em !important;
+    bottom: -0.2em !important;
     height: 10vh;
     background-size: cover;
     overflow: hidden; /* HIDE SCROLL BAR */
@@ -2161,21 +2162,16 @@ p {
     width: fit-content;
     margin: auto;
     text-decoration: underline;
-    /* position: absolute; */
     font-family: 'Poppins';
     font-style: normal;
     font-weight: 400;
     font-size: 13px;
-    top: 1.7vh;
+    top: 2.5vh;
     padding-left: 16px;
-    padding-top: 2em;
-    /* line-height: 99%; */
-    /* display: flex; */
-    /* align-items: flex-end; */
+    padding-top: 1em;
     letter-spacing: 0.03em;
     color: #ffffff;
     white-space: break-spaces;
-    /* width: max-content; */
   }
 }
 

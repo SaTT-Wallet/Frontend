@@ -25,71 +25,40 @@ export class ShowNumbersRule implements PipeTransform {
    * @param value
    */
   transform(value: string, modeCryptoList?: boolean): string {
-    if (value) {
-      let valueToReturn: any;
-      // isNaN(+value) && console.log(value)
-      let bigValue = isNaN(+value) ? new Big(0) : new Big(value) ;
-      if (bigValue.div(1).toNumber() === 0) {
-        return '0';
-      } else if (bigValue.gte(0) && bigValue.lte(0.1)) {
-        valueToReturn = bigValue.toFixed(8);
-        // if (valueToReturn % 1 !== 0) {
-        //   return parseFloat(valueToReturn + '') + '';
-        // }
-        return valueToReturn;
-      } else if (bigValue.gte(0.1) && bigValue.lte(1.9)) {
-        valueToReturn = bigValue.toFixed(6);
-        if (valueToReturn % 1 !== 0) {
-          return parseFloat(valueToReturn + '') + '';
-        }
-        return bigValue.toFixed(6);
-      } else if (bigValue.gte(2) && bigValue.lte(9.9999)) {
-        valueToReturn = bigValue.toFixed(5);
-        if (valueToReturn % 1 !== 0) {
-          return parseFloat(valueToReturn + '') + '';
-        }
-        return bigValue.toFixed(5);
-      } else if (bigValue.gte(10) && bigValue.lte(9999.99)) {
-        if (modeCryptoList) {
-          valueToReturn = Number(bigValue.toFixed(2));
-          if (valueToReturn % 1 !== 0) {
-            valueToReturn = parseFloat(valueToReturn + '') + '';
-            return formatNumber(valueToReturn, this.locale, '0.0-2');
-          }
-
-          return formatNumber(
-            Number(bigValue.toFixed(2)),
-            this.locale,
-            '0.0-2'
-          );
-        } else {
-          valueToReturn = bigValue.toFixed(2);
-          if (valueToReturn % 1 !== 0) {
-            return parseFloat(valueToReturn + '') + '';
-          }
-
-          return bigValue.toFixed(2);
-        }
-      } else if (bigValue.gte(10000)) {
-        if (modeCryptoList) {
-          let val: any = formatNumber(
-            bigValue.toNumber(),
-            this.locale,
-            '0.0-2'
-          );
-          if (bigValue.toNumber() % 1 !== 0) {
-            val = parseFloat(bigValue.toNumber() + '');
-            return formatNumber(val, this.locale, '0.0-2'); 
-          }
-          return val;
-        }
-        valueToReturn = bigValue.toFixed(2);
-        if (valueToReturn % 1 !== 0) {
-          return parseFloat(valueToReturn + '') + '';
-        }
-        return bigValue.toFixed(2);
+    if (!value) {
+      return value;
+    }
+    const bigValue = isNaN(+value) ? new Big(0) : new Big(value);
+    if (bigValue.div(1).toNumber() === 0) {
+      return '0';
+    }
+    const numberRules = [
+      { range: [0, 0.1], precision: 8 },
+      { range: [0.1, 1.9], precision: 6 },
+      { range: [2, 9.9999], precision: 4 },
+      { range: [10, 9999.99], precision: 2 },
+      { range: [10000, Infinity], precision: 2 }
+    ];
+    for (const rule of numberRules) {
+      const [lower, upper] = rule.range;
+      if (bigValue.gte(lower) && (upper === Infinity || bigValue.lte(upper))) {
+        return modeCryptoList
+          ? this.handleFixedValue(bigValue, rule.precision)
+          : this.handleFormattedValue(bigValue, '0.0-2');
       }
     }
     return value;
+  }
+
+
+
+  handleFixedValue(bigValue: any, precision: number): string {
+    const valueToReturn = bigValue.toFixed(precision);
+    return valueToReturn;
+  }
+  
+  handleFormattedValue(bigValue: any, format: string): string {
+    const valueToReturn = formatNumber(bigValue, this.locale,format);
+    return valueToReturn;
   }
 }

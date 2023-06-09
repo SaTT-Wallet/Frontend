@@ -143,6 +143,10 @@ export class MigrationComponent implements OnInit {
     }, 2000)
   }
 
+  errorPictureHandle(event: any)  {
+    event.target.src = "assets/Images/symbol_crypto/indispo.svg"
+  }
+
   fetchWallet() {
     this.walletFacade.getAllWallet().subscribe((res:any) => {
       this.walletEVM = res.data.address;
