@@ -100,12 +100,18 @@ private ngUnsubscribe = new Subject<void>();
   
 
   }
-  getArrayChunks(arr: any[], chunkSize: number): any[] {
-    let results = [];
+  /**
+ * Split an array into chunks of a specific size.
+ * @param arr The original array to split.
+ * @param chunkSize The size of each chunk.
+ * @returns A new array containing the chunks.
+ */
+  getArrayChunks<T>(arr: T[], chunkSize: number): T[][] {
+      let results: T[][] = [];
     
-    while (arr.length) {
-      results.push(arr.splice(0, chunkSize));
-    }
+      for (let i = 0; i < arr.length; i += chunkSize) {
+        results.push(arr.slice(i, i + chunkSize));
+      }
     
     return results;
   }
