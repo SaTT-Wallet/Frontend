@@ -445,7 +445,7 @@
           
           id="btn-edit-refunds-pool"
           (click)="getRefunds(campaign.id)"
-          *ngIf="campaign.type === 'finished'  && !loadingData && campaign.budget !== '0'"
+          *ngIf="campaign.isOwnedByUser && campaign.type === 'finished'  && !loadingData && campaign.budget !== '0'"
           >
           <p *ngIf="refundButtonDisable">
             <img src="../../../../../assets/Images/Vector-loading.svg"/>
