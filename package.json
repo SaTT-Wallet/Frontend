@@ -113,7 +113,7 @@
     "bigint-typescript-definitions": "^5.5.3-0",
     "BlobBuilder": "^0.10.0",
     "bootstrap": "^5.2.0-beta1",
-    "bootstrap-icons": "^1.8.1",
+    "bootstrap-icons": "^1.10.5",
     "bootstrap-steps": "^1.0.3",
     "bs-stepper": "^1.7.0",
     "bufferutil": "^4.0.7",
