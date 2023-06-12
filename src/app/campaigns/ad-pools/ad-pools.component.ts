@@ -238,7 +238,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
           if (element.isOwnedByUser) {
             element.urlPicUser = this.user.userPicture;
             this.campaignsOwnesByUser.push(element.id);  
-            //this.getNew(element.id, element.isOwnedByUser)
+            this.getNew(element.id, element.isOwnedByUser)
             
             
           }
