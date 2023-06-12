@@ -983,7 +983,7 @@
   "apply_form.update_profile": "Edit my profile",
   "apply_form.verify_information": "Please check this informations",
   "apply_form.youtube_alert": "You must enter the address of your Youtube channel before you can apply.",
-  "apply_campaign": "You have applied in the following campaign: {{title}}. hash: ",
+  "apply_campaign": "You have applied in the following campaign: {{title}}",
   "apply_campaign_hash": "{{hash}}",
   "cmp_candidate_accept_link_hash": "{{hash}}",
   "asked_cryptoCurrency": "{{name}} ask you {{nbr}} {{crypto}}",
