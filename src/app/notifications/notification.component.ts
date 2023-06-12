@@ -729,9 +729,7 @@ export class NotificationComponent implements OnInit {
     }
     if (notif?.label?.cmp_hash && notif?.label?.linkHash) {
       // console.log(notif?.label?.promHash)
-      this.router.navigate(['home/campaign', notif.label.cmp_hash], {
-        queryParams: { linkHash: notif?.label?.linkHash, type: 'earnings' }
-      });
+      this.router.navigate(['home/farm-posts']);
     }
 
     if (notif.label.network === 'eth') {
