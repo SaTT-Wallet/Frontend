@@ -184,7 +184,6 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
   }
 
   checkValidation() {
-    console.log({test:this.validFormParam})
     if (this.validFormParam === false) {
       this.sendErrorToParam = true;
     }
@@ -279,39 +278,8 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
     this.isDestroyed$.unsubscribe();
   }
 
-  onSaveDraftStatusChange(event: any) {
-    console.log({form : event})
-    // if (event === FormStatus.Saving) {
-    //   this._snackBar.open(
-    //     "The draft will be saved while you are typing...",
-    //     "OK",
-    //     {
-    //       horizontalPosition: "center",
-    //       verticalPosition: "top",
-    //       panelClass: "my-custom-snackbar",
-    //     }
-    //   );
-    // }
-
-    // if (event === FormStatus.Saved) {
-    //   this._snackBar.open("Your draft has been saved!", "OK", {
-    //     horizontalPosition: "center",
-    //     verticalPosition: "top",
-    //     panelClass: "my-custom-snackbar",
-    //     duration: 3000,
-    //   });
-    // }
-
-    if (event === FormStatus.Error) {
-      /* this._snackBar.open(
-        'Not Saved!: Error sending request please try again!',
-        'OK'
-      );*/
-    }
-  }
 
   listenForParamChange(event: any) {
-    console.log({event})
     this.validFormParam = event;
   }
 
@@ -328,20 +296,7 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
   listenForPictureChange(event: any) {
     this.validFormPicture = event;
   }
-  // listenForMissionChange(event: any, type: string) {
-  //   if (type === 'youtube') {
-  //     this.sendToRemuSelectedYoutube = event;
-  //   } else if (type === 'facebook') {
-  //     this.sendToRemuSelectedFacebook = event;
-  //   } else if (type === 'instagram') {
-  //     this.sendToRemuSelectedInstagram = event;
-  //   } else if (type === 'twitter') {
-  //     this.sendToRemuSelectedTwitter = event;
-  //   } else if (type === 'linkedin') {
-  //     this.sendToRemuSelectedLinkedin = event;
-  //   }
-  // }
-
+  
   /**
    * Get campaign data.
    * @param id campaign identifier.
@@ -377,7 +332,6 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
         takeUntil(this.isDestroyed$)
       )
       .subscribe((c: Campaign) => {
-        console.log({c})
         if (!c.isOwnedByUser) {
           this.router.navigateByUrl('/ad-pools');
         }

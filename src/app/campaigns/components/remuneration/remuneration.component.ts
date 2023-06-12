@@ -201,7 +201,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    console.log({howa: this.form.get('ratios')?.value})
     this.cdref.markForCheck();
     this.parentFunction().subscribe();
     this.getUserCrypto();
@@ -209,7 +208,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log({testOfChanges: changes}) 
     if (changes.draftData && changes.draftData.currentValue) {
       /*
       this.form?.patchValue(this.draftData, { emitEvent: false });
@@ -365,7 +363,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   }
   
   listenForMissionValidation(value: boolean) {
-    console.log("test")
     this.sendErrorToMission = value;
     //this.validFormMissionFromRemuToEdit.emit(value);
   }
@@ -804,7 +801,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   }
 
   handleAmountEntries(form: AbstractControl, control: string) {
-    console.log('testtt')
     form
       .get(control)
       ?.setValue(this.replaceNonAlphanumeric(form.get(control)?.value), {
