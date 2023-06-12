@@ -19,10 +19,11 @@ import {
   FormControl,
   UntypedFormControl,
   UntypedFormGroup,
+  ValidatorFn,
   Validators
 } from '@angular/forms';
 import { Editor } from 'ngx-editor';
-import { debounceTime, takeUntil, tap } from 'rxjs/operators';
+import { debounceTime, take, takeUntil, tap } from 'rxjs/operators';
 import { DraftCampaignService } from '@campaigns/services/draft-campaign.service';
 import { Campaign } from '@app/models/campaign.model';
 import { TranslateService } from '@ngx-translate/core';
@@ -113,11 +114,17 @@ export class DraftCampaignParametresComponent implements OnInit {
     this.form = new UntypedFormGroup(
       {
         startDate: new UntypedFormControl('', Validators.required),
-        endDate: new UntypedFormControl('', [Validators.required, dateNotTodayValidator]),
+        endDate: new UntypedFormControl('', [Validators.required]),
         tags: new UntypedFormControl([], Validators.required)
       },
       
+      
     );
+
+    // Wait for the form controls to have values
+this.form.controls.startDate.valueChanges.pipe(take(1)).subscribe(() => {
+  this.form.controls.endDate.setValidators([Validators.required, endDateGreaterThanStartDateValidator(this.form)]);
+});
 
     //tri
     // this.countriesListObj = this.countriesListObj.sort(function (
@@ -142,23 +149,7 @@ export class DraftCampaignParametresComponent implements OnInit {
     return this.form.get('endDate') as UntypedFormControl;
   }
 
-  dateNotTodayValidator = (control: FormControl) => {
-    const selectedDate = new Date(control.value);
-    const today = new Date();
-    
-    // Normalizing both dates to yyyy-MM-dd format to compare just the date part, not the time
-    const normalizedSelectedDate = formatDate(selectedDate, 'yyyy-MM-dd', 'en');
-    const normalizedToday = formatDate(today, 'yyyy-MM-dd', 'en');
-    console.log(normalizedSelectedDate)
-    console.log(normalizedToday)
-    // Return error object if dates are the same
-    if (normalizedSelectedDate === normalizedToday) {
-        return { dateIsToday: true };
-    }
-
-    // Return null if dates are not the same (i.e., valid case)
-    return null;
-}
+  
   ngAfterViewInit(): void {
     setTimeout(() => {
       if (this.draftData.targetedCountries.length === 0) {
@@ -176,36 +167,6 @@ export class DraftCampaignParametresComponent implements OnInit {
     }, 1000);
   }
   
-  /*ngOnInit(): void {
-    let day: any;
-    let month: any;
-    var today = new Date();
-    var dd = today.getDate();
-    var mm = today.getMonth() + 1; //January is 0 so need to add 1 to make it 1!
-    var yyyy = today.getFullYear();
-    if (dd < 10) {
-      day = '0' + dd;
-    } else {
-      day = dd;
-    }
-    if (mm < 10) {
-      month = '0' + mm;
-    } else {
-      month = mm;
-    }
-    let minDate = yyyy + '-' + month + '-' + day;
-    let minStartDate = this.document.getElementById('minStartDate');
-    let minEndDate = this.document.getElementById('minEndDate');
-    console.log("minDate ",minDate)
-    if (minStartDate) minStartDate.setAttribute('min', minDate);
-    if (minEndDate) minEndDate.setAttribute('min', minDate);
-
-    this.saveForm();
-    this.emitFormStatus();
-    /*
-    this.checkCountriesTags(this.form.value);
-*/
-  //}*/
   ngOnInit(): void {
     let today = new Date();
     let formattedDate = this.formatDate(today);
@@ -223,23 +184,36 @@ export class DraftCampaignParametresComponent implements OnInit {
     this.saveForm();
     this.emitFormStatus();
   }
-
+ 
   formatDate(date: Date): string {
     let day = ('0' + date.getDate()).slice(-2); // adds leading zero if necessary
     let month = ('0' + (date.getMonth() + 1)).slice(-2); // adds leading zero if necessary
     let year = date.getFullYear();
-    console.log(`${year}-${month}-${day}`)
     return `${year}-${month}-${day}`;
   }
+
+
+  /** 
+   * 
+   *  SAVE END AND START DATE OF CAMPAIGN
+   * 
+   */
+
+
+  // SELECT DATE
+
+  changeDate(event:any, type: string) {
+    this.checkValidForm()
+  }
+
+
   ngOnChanges(changes: SimpleChanges) {
-    console.log({endDate: this.form.get('endDate')?.value})
-    this.InterestList.forEach((tag: any) => {
-      if (this.draftData.tags.indexOf(tag.name) >= 0) {
-        tag.checked = true;
-        this.selectedTags.push(tag.name);
-      }
+    this.selectedTags = this.InterestList
+    .filter((tag:any) => this.draftData.tags.includes(tag.name))
+    .map((tag: any) => {
+      tag.checked = true;
+      return tag.name;
     });
-    this.maxTags = this.selectedTags.length;
     let today = new Date();
     let start: any;
     if (this.draftData.startDate) {
@@ -250,7 +224,6 @@ export class DraftCampaignParametresComponent implements OnInit {
       let end = new Date(this.draftData.endDate);
       this.draftData.endDate = end;
     }
-
     if (!this.draftData.startDate || !this.draftData.endDate) {
       let today = new Date();
       let end = new Date();
@@ -260,11 +233,7 @@ export class DraftCampaignParametresComponent implements OnInit {
       this.draftData.endDate = end;
     }
     if (changes.draftData && changes.draftData.currentValue.id) {
-      if (this.form.valid) {
-        this.validFormParam.emit(true);
-      } else {
-        this.validFormParam.emit(false);
-      }
+      this.checkValidForm()
       this.populateForm(this.draftData);
       if (
         this.draftData.startDate === '' ||
@@ -289,6 +258,16 @@ export class DraftCampaignParametresComponent implements OnInit {
     }
   }
 
+
+  /***
+   * 
+   *     FORMS UTILS
+   * 
+   * 
+   */
+
+  // SAVE FORM
+
   saveForm() {
     this.form.valueChanges
       .pipe(
@@ -299,14 +278,16 @@ export class DraftCampaignParametresComponent implements OnInit {
               formData: values,
               id: this.id
             });
-            if (this.form.get('tags')?.value.length > 2 && this.selectedAttributes.length > 0) this.validFormParam.emit(true);
-            else this.validFormParam.emit(false);
+           this.checkValidForm()
           }
         }),
         takeUntil(this.isDestroyed)
       )
       .subscribe();
   }
+
+
+  // EMIT FORM STATUS
 
   emitFormStatus() {
     this.service.saveStatus
@@ -315,6 +296,9 @@ export class DraftCampaignParametresComponent implements OnInit {
         this.saveFormStatus.emit(status);
       });
   }
+
+
+  // POPULATE FORM
 
   populateForm(data: Campaign) {
     this.form.patchValue(
@@ -341,55 +325,20 @@ export class DraftCampaignParametresComponent implements OnInit {
 
   
 
-  //TODO: refactor this method to better solution or implement our own lib
-  /*checkCountriesTags(values: any) {
-    if (isPlatformBrowser(this.platformId)) {
-      if (values?.length === this.dropdownList.length) {
-        var elements = this.document.getElementsByClassName('selected-item');
-        var allCountriesElement: HTMLElement;
-        if (elements.length > 0) {
-          allCountriesElement = elements[0] as HTMLElement;
-          allCountriesElement.innerHTML = 'All countries';
-          for (let i = 1; i < elements.length; i++) {
-            let element = elements[i] as HTMLElement;
-            element.childNodes[0].nodeValue = values[i].item_text;
-            element.style.display = 'none';
-            if (element.innerText === '+230') {
-              element.style.display = 'none';
-            }
-          }
-        }
-        elements = this.document.getElementsByClassName('ng-star-inserted');
-        if (elements.length > 0) {
-          for (let i = 1; i < elements.length; i++) {
-            let element = elements[i] as HTMLElement;
-            if (element.innerText === '+230') {
-              element.style.display = 'none';
-            }
-          }
-        }
-      } else {
-        var elements = this.document.getElementsByClassName('selected-item');
-        if (elements.length > 0) {
-          for (let i = 0; i < elements.length; i++) {
-            let element = elements[i] as HTMLElement;
-            element.childNodes[0].nodeValue = !!values[i].item_text
-              ? values[i].item_text
-              : values[i];
-            element.style.display = 'block';
-          }
-        }
-      }
-    }
-  }*/
-
   
 
-
-  ngOnDestroy(): void {
-    this.isDestroyed.next('');
-    this.isDestroyed.unsubscribe();
-  }
+  /**
+   * 
+   *            CHECK
+   *            VALID PARAMS
+   * 
+   * 
+   * 
+   */
+    checkValidForm() {
+      const isValidForm = this.form.get('endDate')?.errors === null && this.form.value.tags.length > 0 && this.selectedAttributes.length > 0;
+      this.validFormParam.emit(isValidForm)
+    }
 
 
 
@@ -426,8 +375,7 @@ export class DraftCampaignParametresComponent implements OnInit {
         formData: { ...this.form.value, tags },
         id: this.id
       });
-      const isValidForm = this.form.get('endDate')?.errors?.dateIsToday && this.form.value.tags.length > 0 && this.selectedAttributes.length > 0;
-      this.validFormParam.emit(isValidForm)
+      this.checkValidForm();
     }
   }
 
@@ -436,10 +384,6 @@ export class DraftCampaignParametresComponent implements OnInit {
   checkInterest(index: number) {
     return this.selectedTags.some(element => element === this.InterestList[index].name);
   }
-
-
-
-
 
 
 
@@ -501,9 +445,17 @@ export class DraftCampaignParametresComponent implements OnInit {
         formData: { ...this.form.value, targetedCountries },
         id: this.id
       });
-      const isValidForm =this.form.get('endDate')?.errors?.dateIsToday && this.form.value.tags.length > 0  && this.selectedAttributes.length > 0;
-      this.validFormParam.emit(isValidForm)
+      this.checkValidForm();
     }
+  }
+
+
+
+  // COMPONENT WILL DESTROY 
+
+  ngOnDestroy(): void {
+    this.isDestroyed.next('');
+    this.isDestroyed.unsubscribe();
   }
   
 }
@@ -516,29 +468,21 @@ export class DraftCampaignParametresComponent implements OnInit {
    *  DATE VALIDATOR
    * 
    */
-
-export function dateNotTodayValidator(control: FormControl): { [key: string]: any } | null {
-  const selectedDate = new Date(control.value);
-    
-    // Check if selectedDate is a valid date
-    if (isNaN(selectedDate.getTime())) {
-        // Date is not valid
-        return { invalidDate: true };
+function endDateGreaterThanStartDateValidator(formGroup: UntypedFormGroup): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    const startDateControl = formGroup.get('startDate');
+    const endDateControl = formGroup.get('endDate');
+    if (startDateControl && endDateControl) {
+      const startDateValue = startDateControl.value;
+      const endDateValue = endDateControl.value;
+      if (startDateValue && endDateValue) {
+        const startDate = new Date(startDateValue);
+        const endDate = new Date(endDateValue);
+        if (endDate <= startDate) {
+          return { endDateLessThanStartDate: true };
+        }
+      }
     }
-    
-    const today = new Date();
-    
-    // Normalizing both dates to yyyy-MM-dd format to compare just the date part, not the time
-    const normalizedSelectedDate = formatDate(selectedDate, 'yyyy-MM-dd', 'en-US');
-    const normalizedToday = formatDate(today, 'yyyy-MM-dd', 'en-US');
-
-    // Return error object if dates are the same
-    if (normalizedSelectedDate === normalizedToday) {
-      console.log("lioumaa")
-        return { dateIsToday: true };
-    }
-
-    // Return null if dates are not the same (i.e., valid case)
-    console.log("mriguel")
     return null;
+  };
 }

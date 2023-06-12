@@ -184,7 +184,7 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
   }
 
   checkValidation() {
-    
+    console.log({test:this.validFormParam})
     if (this.validFormParam === false) {
       this.sendErrorToParam = true;
     }
@@ -208,8 +208,6 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
   saveAndLaunchCampaign() {
       this.getCampaignData();
       this.checkValidation();
-
-      console.log({validation: this.validFormParam})
       if (
       this.validFormParam &&
       this.validFormPresentation &&
@@ -313,6 +311,7 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
   }
 
   listenForParamChange(event: any) {
+    console.log({event})
     this.validFormParam = event;
   }
 

@@ -111,7 +111,7 @@
           <div class="error d-flex initialBudgetError ml-4">
             <span
               *ngIf="
-              fieldRequired
+              fieldRequired && validFormBudgetRemun
               "
               >{{ 'campaign.field_required' | translate }}</span
             >
@@ -458,7 +458,7 @@
           </div>
         </ng-container>
         <div
-          class="col-xl-10 col-md-12 col-lg-10 col-sm-8 error d-flex initialBudgetError"
+          class="justify-content-center error d-flex initialBudgetError"
         >
           <span *ngIf="this.form.errors?.InsufficientBudget">{{
             'campaign.InsufficientBudget' | translate

@@ -218,13 +218,8 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
           this.showImageMobile = true;
         }
       }
-
-      if (this.form.valid) {
-        this.validFormPicture.emit(true);
-      } else {
-        this.notValidPicture = false;
-        this.validFormPicture.emit(false);
-      }
+      if(this.form.valid) this.validFormPicture.emit(true);
+          else this.validFormPicture.emit(false);
     }
   }
   saveForm() {
@@ -238,13 +233,8 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
               id: this.id
             });
           }
-          
-          if (this.form.valid) {
-            this.validFormPicture.emit(true);
-          } else {
-            this.notValidPicture = false;
-            this.validFormPicture.emit(false);
-          }
+          if(this.form.valid) this.validFormPicture.emit(true);
+          else this.validFormPicture.emit(false);
         }),
         takeUntil(this.isDestroyed$)
       )

@@ -89,7 +89,10 @@ export class DraftCampaignPresentationComponent implements OnInit {
   descriptionPattern(value: String): Boolean {
     return (value !== '<p></p>' && value !== '<h1></h1>' && value !== '<h2></h2>' && value !== '<h3></h3>' && value !== '<h4></h4>' && value !== '<h5></h5>')
   }
- 
+  checkValidForm() {
+    const isValidForm = this.form.valid && this.descriptionPattern(this.form.get('description')?.value);
+    this.validFormPresentation.emit(isValidForm); 
+  }
   saveForm() {
     this.form.valueChanges.pipe(
         debounceTime(500),
@@ -99,8 +102,7 @@ export class DraftCampaignPresentationComponent implements OnInit {
               formData: values,
               id: this.id
             });
-            if(this.form.valid && this.descriptionPattern(this.form.get('description')?.value)) this.validFormPresentation.emit(true);
-            else this.validFormPresentation.emit(false); 
+            this.checkValidForm()
           }
         }),
         takeUntil(this.isDestroyed$)

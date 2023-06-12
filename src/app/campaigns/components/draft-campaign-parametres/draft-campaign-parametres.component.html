@@ -41,6 +41,7 @@
               formControlName="startDate"
               class="input-type"
               placeholder="Date"
+              (input)="changeDate($event, 'startDate')"
             />
             <!-- error msg  startDate -->
             <div class="error">
@@ -80,6 +81,7 @@
               [(ngModel)]="draftData.endDate"
               formControlName="endDate"
               class="input-type"
+              (input)="changeDate($event, 'endDate')"
             />
             <!--error msg endDate -->
             <div class="error">
@@ -146,20 +148,19 @@
     [ngStyle]="{ display: isActive ? 'none!important' : 'auto' }"
 -->
     <div
-      class="row d-flex justify-content-center pt-3 mb-1"
-      [attr.style]="isActive ? 'display: none!important' : 'flex'"
+      class="justify-content-center"
+      [attr.style]=" 'display: flex'"
     >
       <div
-        class="col-xl-4 col-md-6 col-lg-5 col-sm-8 d-flex justify-content-center",
-        [className]="this.form.get('endDate')?.errors?.dateIsToday &&
-        notValidParam ? 'error-exist' : ''"
+        class="col-xl-4 col-md-6 col-lg-5 col-sm-8 d-flex justify-content-center"
+        [className]="this.form.get('endDate')?.errors?.endDateLessThanStartDate ? 'error-exist' : ''"
       >
-        <div class="error">
+        <div class="error" style="text-align: center;">
           <span
             *ngIf="
              
-              this.form.get('endDate')?.errors?.dateIsToday &&
-              notValidParam
+              this.form.get('endDate')?.errors?.endDateLessThanStartDate 
+              
             "
             style="padding-bottom: 1%;"
             >{{
