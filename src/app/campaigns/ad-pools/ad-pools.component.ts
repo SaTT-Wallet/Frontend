@@ -237,24 +237,11 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
 
           if (element.isOwnedByUser) {
             element.urlPicUser = this.user.userPicture;
-            this.campaignsOwnesByUser.push(element.id);              
-            
+            this.campaignsOwnesByUser.push(element.id);                    
           }
         });
         this.campaignsListStoreService.emitPageScroll();
-        
-        
-        
-        // if(this.campaignsList.length ===0){
-        //   this.show = true
-        // }else{
-        //   setTimeout(()=>{
-        //     this.show = false
-        //   }, 5000);
-
-        // }
       });
-    //   this.userPicture = this.user?.picLink ? this.user.picLink : this.sanitizer.bypassSecurityTrustUrl(objectURL)
   }
 
 
