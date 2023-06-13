@@ -227,20 +227,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         takeUntil(this.isDestroyed)
       )
       .subscribe((data: any) => {
-      
-        data.map((crypto: any) => {
-          if(crypto.symbol === 'SATT') this.selectedCryptoDetails = crypto;
+        if(this.router.url === '/wallet/send') data.map((crypto: any) => {
+          if(crypto.symbol === 'SATT') this.selectedCryptoDetails = crypto
         })
-         /*if (!!this.selectedCryptoDetails) {
-          this.selectedCryptoDetails = {
-           ...this.selectedCryptoDetails,
-            total_balance: data.filter(
-              (element: any) =>
-                element.symbol === this.selectedCryptoDetails.symbol
-           )[0].total_balance
-         };
-         }*/
-
         this.walletFacade.hideWalletSpinner();
         this.showWalletSpinner = false;
         data = JSON.parse(JSON.stringify(data));
