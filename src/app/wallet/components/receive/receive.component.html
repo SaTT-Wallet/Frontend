@@ -22,7 +22,7 @@
           [ngClass]="{
             'text-error': amount === '' && this.receiveform.get('Amount')?.dirty
           }"
-          type="number"
+          type="decimal"
           id="amount1"
           (focus)="goToSection('amountreceive')"
           pattern="(\d{1,2}([\.,])?)*([\d{1,2}]?)*"
@@ -51,7 +51,7 @@
         <div class="w-100 d-flex justify-content-center align-items-center">
           <span class="amount-default-receive-usd">$</span>
           <input
-            type="number"
+            type="decimal"
             class="usdreceive input-number2-receive"
             pattern="(\d{1,2}([\.,])?)*([\d{1,2}]?)*"
             class="input-amount-usd"
