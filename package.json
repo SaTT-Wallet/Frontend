@@ -212,7 +212,7 @@
     "typeface-poppins": "^1.1.13",
     "utf-8-validate": "^5.0.10",
     "vue-puzzle-vcode": "^1.1.9",
-    "webpack": "^5.76.2",
+    "webpack": "^5.83.1",
     "ws": "^8.4.1",
     "zone.js": "~0.11.4"
   },
