@@ -19,7 +19,7 @@
           <span
             *ngIf="
               this.form.get('title')?.errors?.required &&
-              notValidPresentation === true
+              notValidPresentation
             "
             >{{ 'Profil.field_required' | translate }}</span
           >
@@ -33,6 +33,16 @@
           >{{ 'create_campaign_form.your_brand' | translate }}
         </label>
         <input type="text" name="" formControlName="brand" class="input-type" />
+        <div class="error">
+          <span
+            *ngIf="
+            !this.form.get('brand')?.value && 
+              notValidPresentation
+            "
+            >{{ 'Profil.field_required' | translate }}</span
+          >
+        </div>
+        
       </div>
       <div class="col-xl-5 col-md-6 col-lg-5 col-sm-6 col-12 pt-3-mobile">
         <label
@@ -63,14 +73,14 @@
           <span
             *ngIf="
               this.form.get('summary')?.errors?.required &&
-              notValidPresentation === true
+              notValidPresentation
             "
             >{{ 'Profil.field_required' | translate }}</span
           >
           <span
             *ngIf="
               this.form.get('summary')?.errors &&
-              !this.form.get('summary')?.errors?.required
+              !this.form.get('summary')?.errors?.required &&  notValidPresentation
             "
             >{{ 'create_campaign_form.summary_maxlength' | translate }}</span
           >
@@ -109,18 +119,14 @@
         <div class="error">
           <span
             *ngIf="
-              this.form.get('description')?.errors?.required &&
-              notValidPresentation === true
+            !descriptionPattern(this.form.get('description')?.value)
+               &&
+              notValidPresentation
             "
             >{{ 'Profil.field_required' | translate }}</span
           >
         </div>
       </div>
     </div>
-    <!-- <div class="row d-flex justify-content-center">
-      <div class="col-xl-10 col-md-12 col-lg-10 d-flex justify-content-center">
-        <hr class="horizontal-line" />
-      </div>
-    </div> --->
   </form>
 </div>
