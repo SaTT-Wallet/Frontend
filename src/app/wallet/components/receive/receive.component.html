@@ -28,21 +28,22 @@
           pattern="(\d{1,2}([\.,])?)*([\d{1,2}]?)*"
           formControlName="Amount"
           (keydown)="restrictZero($event)"
+          (keypress)="keyPressNumbersWithDecimal($event, 'crypto')"
           class="amountreceive input-amount"
           placeholder="0"
           [(ngModel)]="amount"
-          (input)="convertcurrency('amountreceive')"
+          (input)="convertcurrency('crypto')"
         />
       </div>
       <div class="text-center balance">
         <p class="hard-gray-text" *ngIf="this.selectedCryptoDetails">
           1 {{ this.selectedCryptoDetails.symbol | translate }} =
-          {{ this.selectedCryptoDetails.price || this.sattPrices }} USD
+          {{ getCryptoPrice() }} USD
         </p>
 
         <p class="hard-gray-text" *ngIf="!this.selectedCryptoDetails">
           1 {{ 'SATT' }} =
-          {{ this.selectedCryptoDetails.price || this.sattPrices }} USD
+          {{ this.sattPrices }} USD
         </p>
       </div>
 
@@ -57,10 +58,11 @@
             (focus)="goToSection('usdreceive')"
             placeholder="0"
             (keydown)="restrictZero($event)"
+            (keypress)="keyPressNumbersWithDecimal($event, 'usd')"
             #inputAmountUsd
             formControlName="AmountUsd"
             [(ngModel)]="amountUsd"
-            (input)="convertcurrency('usdreceive')"
+            (input)="convertcurrency('usd')"
           />
         </div>
       </div>
