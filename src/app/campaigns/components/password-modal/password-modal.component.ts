@@ -330,8 +330,7 @@ export class PasswordModalComponent implements OnInit {
     let campaign_info = this.fillInformations();
     this.showButtonSend = false;
     this.loadingButton = true;
-    let tokenSymbol =
-      (token === 'BNB' && 'SATTBEP20') || this.campaign.currency.name;
+    let tokenSymbol = this.campaign.currency.name;
     TokenOBj.pass = campaign_info.pass;
     TokenOBj.walletaddr = this.tokenStorageService.getIdWallet();
     TokenOBj.addr = ListTokens[tokenSymbol].contract;
@@ -592,6 +591,7 @@ export class PasswordModalComponent implements OnInit {
   }
 
   launchCampaignWithPerPerformanceReward(campaign_info: any) {
+    if(campaign_info.currency === 'BNB') campaign_info.tokenAddress = null;
     return this.campaignService.createCompaign(campaign_info).pipe(
       tap(() => {
         this.gasError = false;
