@@ -23,6 +23,7 @@
             "
             >{{ 'Profil.field_required' | translate }}</span
           >
+          <span *ngIf="this.form.get('title')?.errors?.maxlength"> You have exceeded the maximum length.</span>
         </div>
       </div>
     </div>

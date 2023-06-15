@@ -18,6 +18,7 @@ import { DraftCampaignService } from '@campaigns/services/draft-campaign.service
 import { Campaign } from '@app/models/campaign.model';
 import { TranslateService } from '@ngx-translate/core';
 import { ImageTransform } from 'ngx-image-cropper';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-draft-campaign-presentation',
@@ -60,7 +61,7 @@ export class DraftCampaignPresentationComponent implements OnInit {
   ) {
     this.render = rendererFactory.createRenderer(null, null);
     this.form = new UntypedFormGroup({
-      title: new UntypedFormControl('', Validators.required),
+      title: new UntypedFormControl('', [Validators.required, Validators.maxLength(65)]),
       brand: new UntypedFormControl('', Validators.required),
       reference: new UntypedFormControl(''),
       summary: new UntypedFormControl('', [
