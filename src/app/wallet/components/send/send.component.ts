@@ -227,20 +227,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         takeUntil(this.isDestroyed)
       )
       .subscribe((data: any) => {
-      
-        data.map((crypto: any) => {
-          if(crypto.symbol === 'SATT') this.selectedCryptoDetails = crypto;
+        if(this.router.url === '/wallet/send') data.map((crypto: any) => {
+          if(crypto.symbol === 'SATT') this.selectedCryptoDetails = crypto
         })
-         /*if (!!this.selectedCryptoDetails) {
-          this.selectedCryptoDetails = {
-           ...this.selectedCryptoDetails,
-            total_balance: data.filter(
-              (element: any) =>
-                element.symbol === this.selectedCryptoDetails.symbol
-           )[0].total_balance
-         };
-         }*/
-
         this.walletFacade.hideWalletSpinner();
         this.showWalletSpinner = false;
         data = JSON.parse(JSON.stringify(data));
@@ -942,80 +931,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     } else {
       this.sendform.get('Amount')?.setValue(sendamount);
       this.sendform.get('AmountUsd')?.setValue(sendusd * this.selectedCryptoDetails.price)
-      this.amountUsd = this.showNumbersRule.transform((this.selectedCryptoDetails.price * sendamount).toString());
+      this.amountUsd = this.showNumbersRule.transform((this.selectedCryptoDetails.price * sendamount).toString(), true);
       this.editwidthInput();
     }
-
-
-      /*console.log({test: this.selectedCryptoDetails})
-      let currency = '';
-      var getamount: any = this.sendform.get('Amount')?.value;
-      let getusd: any = this.sendform.get('AmountUsd')?.value;
-      let sendamount = getamount?.toString();
-      let sendusd = getusd?.toString();
-      if (event === 'amount' && Number(sendusd) > this.maxAmountNumber) {
-        sendamount = sendamount.slice(0, 13);
-        this.sendform.get('Amount')?.setValue(sendamount);
-      }
-      if (event === 'usd' && Number(sendusd) > this.maxUsdAmountNumber) {
-        sendusd = sendusd.slice(0, 9);
-        this.sendform.get('AmountUsd')?.setValue(sendusd);
-      } else {
-        this.selectedCryptoSend = currency;
-        if (this.selectedCryptoSend) {
-          currency = this.selectedCryptoSend;
-        } else {
-          currency = this.sendform.get('currency')?.value;
-        }
-        this.dataList?.forEach((crypto: any) => {
-          if (
-            event === 'amount' &&
-            sendamount !== undefined &&
-            !isNaN(sendamount) &&
-            crypto.symbol === currency
-          ) {
-            this.amountUsd = crypto.price * sendamount;
-            this.amountUsd = this.showNumbersRule.transform(this.amountUsd);
-            if (this.amountUsd < 0.1) {
-              this.amountUsd = new Big(this.amountUsd).toFixed(8).toString();
-            }
-
-            if (isNaN(this.amountUsd)) {
-              this.amountUsd = '';
-              this.amount = '';
-            }
-          } else if (
-            event === 'amount' &&
-            (sendamount === undefined || isNaN(sendamount))
-          ) {
-            this.amountUsd = '';
-          }
-          if (
-            event === 'usd' &&
-            sendusd !== undefined &&
-            !isNaN(sendusd) &&
-            crypto.symbol === currency
-          ) {
-            this.amount = sendusd / crypto.price;
-            this.amount = this.showNumbersRule.transform(this.amount);
-            if (
-              sendamount === '0.00000000' ||
-              sendusd === '' ||
-              isNaN(this.amount)
-            ) {
-              this.amountUsd = '';
-              this.amount = '';
-            }
-          } else if (
-            event === 'usd' &&
-            (sendusd === undefined || isNaN(sendusd))
-          ) {
-            this.amount = '';
-          }
-
-          this.editwidthInput();
-        });
-      }*/
     }
   }
 

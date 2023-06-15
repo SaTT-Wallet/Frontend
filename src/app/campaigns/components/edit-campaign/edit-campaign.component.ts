@@ -205,9 +205,7 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
     }
   }
   saveAndLaunchCampaign() {
-   
       this.getCampaignData();
-      
       this.checkValidation();
       if (
       this.validFormParam &&
@@ -315,18 +313,13 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
   }
 
   listenForPresenationChange(event: any) {
-    
-    
     this.validFormPresentation = event;
   }
 
   listenForBudgetRemunChange(event: any) {
-    
-
     this.validFormBudgetRemun = event;
   }
   listenForMissionChange(event: any) {
-
     this.validFormMissionFromRemuToEdit = event;
   }
   listenForPictureChange(event: any) {
