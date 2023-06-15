@@ -10,7 +10,7 @@
           *ngIf="!campaign.isOwnedByUser && campaign.isActive"
         >
           <span class="padding-16" *ngIf="!this.showSpinner">{{
-            'Apply Now' | translate
+            'Apply_Now' | translate
           }}</span>
           <div
             *ngIf="this.showSpinner"
@@ -1034,7 +1034,7 @@
               *ngIf="campaign.targetedCountries"
             >
               <h6 class="labels">
-                {{ 'campaign_details.counrties' | translate }}:
+                {{ 'campaign_details.countries' | translate }}:
               </h6>
               <div
                 class="flex-row-wrapper campaign-coutries pt-3"

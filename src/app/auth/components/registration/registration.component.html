@@ -82,7 +82,7 @@
             </div>
             <div class="row email-input">
               <input
-                placeholder="EMAIL"
+                placeholder="{{ 'EMAIL' | translate }}"
                 type="email"
                 name="email"
                 #emailValue
@@ -159,7 +159,7 @@
             </div>
             <div class="row password-input">
               <input
-                placeholder="PASSWORD"
+                placeholder="{{ 'PASSWORD' | translate }}"
                 id="pwd"
                 type="password"
                 name="password"
@@ -439,6 +439,7 @@
               type="submit"
               class="btn_register"
               (click)="captchapuzzle(puzzle)"
+
             >
               <span *ngIf="!this.showSpinner">{{ 'sign_up' | translate }}</span>
               <div
