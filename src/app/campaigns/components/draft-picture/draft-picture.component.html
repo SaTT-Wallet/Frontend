@@ -128,11 +128,39 @@
               >
             </span>
           </div>
-          <ng-container *ngIf="this.form.controls.coverSrcMobile.value.includes('ipfs') && this.form.controls.coverSrcMobile.value.includes('data:image') && showImageMobile === true">
-            <img [src]="ipfsURL+this.form.controls.coverSrcMobile.value.substring(27,this.form.controls.coverSrcMobile.value.length)"/>
+          <ng-container
+            *ngIf="
+              this.form.controls.coverSrcMobile.value.includes('ipfs') &&
+              this.form.controls.coverSrcMobile.value.includes('data:image') &&
+              showImageMobile === true
+            "
+          >
+            <img
+              [src]="
+                ipfsURL +
+                this.form.controls.coverSrcMobile.value.substring(
+                  27,
+                  this.form.controls.coverSrcMobile.value.length
+                )
+              "
+            />
           </ng-container>
-          <ng-container *ngIf="this.form.controls.coverSrcMobile.value.includes('ipfs') && !this.form.controls.coverSrcMobile.value.includes('data:image') && showImageMobile === true">
-            <img [src]="ipfsURL+this.form.controls.coverSrcMobile.value.substring(5,this.form.controls.coverSrcMobile.value.length)"/>
+          <ng-container
+            *ngIf="
+              this.form.controls.coverSrcMobile.value.includes('ipfs') &&
+              !this.form.controls.coverSrcMobile.value.includes('data:image') &&
+              showImageMobile === true
+            "
+          >
+            <img
+              [src]="
+                ipfsURL +
+                this.form.controls.coverSrcMobile.value.substring(
+                  5,
+                  this.form.controls.coverSrcMobile.value.length
+                )
+              "
+            />
           </ng-container>
           <!--
             <ng-container *ngIf="!draftData.coverSrcMobile.includes('ipfs') && showImageMobile === true">
@@ -163,8 +191,7 @@
           </image-cropper>
           </ng-container>
           -->
-          
-          
+
           <!-- <img [src]="draftData.cover" class="mt-1 pic-cover" *ngIf="isCropped"> -->
         </div>
         <div
@@ -179,7 +206,9 @@
           class="d-flex flex-row justify-content-end"
           *ngIf="showImageMobile === true"
         >
-          <label class="btn-edit me-2" (click)="zoomIn('mobile')">
+         <!-- removed the buttons the code is commented for futur need -->
+
+          <!-- <label class="btn-edit me-2" (click)="zoomIn('mobile')">
             <img class="" src="/assets/Images/search-plus.svg" />
           </label>
           <label class="btn-edit me-2" (click)="zoomOut('mobile')">
@@ -187,7 +216,7 @@
           </label>
           <label class="btn-edit me-2" (click)="rotateLeft('mobile')">
             <img class="" src="/assets/Images/rotation.svg" />
-          </label>
+          </label> -->
           <label class="btn-edit">
             <img class="" src="/assets/Images/blue-vector-edit.svg" />
             <input
@@ -284,14 +313,41 @@
               >
             </span>
           </div>
-          <ng-container *ngIf="this.form.controls.coverSrc.value.includes('ipfs') && showImage === true && this.form.controls.coverSrc.value.includes('data:image')">
-            <img [src]="ipfsURL+this.form.controls.coverSrc.value.substring(27,this.form.controls.coverSrc.value.length)"/>
+          <ng-container
+            *ngIf="
+              this.form.controls.coverSrc.value.includes('ipfs') &&
+              showImage === true &&
+              this.form.controls.coverSrc.value.includes('data:image')
+            "
+          >
+            <img
+              [src]="
+                ipfsURL +
+                this.form.controls.coverSrc.value.substring(
+                  27,
+                  this.form.controls.coverSrc.value.length
+                )
+              "
+            />
           </ng-container>
 
-          <ng-container *ngIf="this.form.controls.coverSrc.value.includes('ipfs') && showImage === true && !this.form.controls.coverSrc.value.includes('data:image')">
-            <img [src]="ipfsURL+this.form.controls.coverSrc.value.substring(5,this.form.controls.coverSrc.value.length)"/>
+          <ng-container
+            *ngIf="
+              this.form.controls.coverSrc.value.includes('ipfs') &&
+              showImage === true &&
+              !this.form.controls.coverSrc.value.includes('data:image')
+            "
+          >
+            <img
+              [src]="
+                ipfsURL +
+                this.form.controls.coverSrc.value.substring(
+                  5,
+                  this.form.controls.coverSrc.value.length
+                )
+              "
+            />
           </ng-container>
-
 
           <!--
             <ng-container *ngIf="!draftData.coverSrc.includes('ipfs') && showImage === true">
@@ -314,8 +370,7 @@
           </image-cropper>
           </ng-container>
           -->
-          
-          
+
           <!-- <img [src]="draftData.cover" class="mt-1 pic-cover" *ngIf="isCropped"> -->
         </div>
         <div
@@ -330,7 +385,8 @@
           class="d-flex flex-row justify-content-center"
           *ngIf="showImage === true"
         >
-          <label class="btn-edit me-2" (click)="zoomIn('desktop')">
+          <!-- removed the buttons the code is commented for futur need -->
+          <!-- <label class="btn-edit me-2" (click)="zoomIn('desktop')">
             <img class="" src="/assets/Images/search-plus.svg" />
           </label>
           <label class="btn-edit me-2" (click)="zoomOut('desktop')">
@@ -338,7 +394,7 @@
           </label>
           <label class="btn-edit me-2" (click)="rotateLeft('desktop')">
             <img class="" src="/assets/Images/rotation.svg" />
-          </label>
+          </label> -->
           <label class="btn-edit">
             <img class="" src="/assets/Images/blue-vector-edit.svg" />
             <input

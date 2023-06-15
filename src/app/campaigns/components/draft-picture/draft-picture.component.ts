@@ -604,43 +604,45 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
     }
     return new File([u8arr], filename, { type: mime });
   }
-  rotateLeft(type: string) {
-    if (type === 'mobile') {
-      this.canvasRotationMobile--;
-      this.flipAfterRotate(type);
-    } else {
-      this.canvasRotation--;
-      this.flipAfterRotate(type);
-    }
-  }
-  rotateRight(type: string) {
-    if (type === 'mobile') {
-      this.canvasRotationMobile++;
-      this.flipAfterRotate(type);
-    } else {
-      this.canvasRotation++;
-      this.flipAfterRotate(type);
-    }
-  }
-  private flipAfterRotate(type: string) {
-    if (type === 'mobile') {
-      const flippedH = this.transformMobile.flipH;
-      const flippedV = this.transformMobile.flipV;
-      this.transformMobile = {
-        ...this.transformMobile,
-        flipH: flippedV,
-        flipV: flippedH
-      };
-    } else {
-      const flippedH = this.transform.flipH;
-      const flippedV = this.transform.flipV;
-      this.transform = {
-        ...this.transform,
-        flipH: flippedV,
-        flipV: flippedH
-      };
-    }
-  }
+
+  // those functions are not used anymore we removed the buttons in the html check lines  209 and 386
+  // rotateLeft(type: string) {
+  //   if (type === 'mobile') {
+  //     this.canvasRotationMobile--;
+  //     this.flipAfterRotate(type);
+  //   } else {
+  //     this.canvasRotation--;
+  //     this.flipAfterRotate(type);
+  //   }
+  // }
+  // rotateRight(type: string) {
+  //   if (type === 'mobile') {
+  //     this.canvasRotationMobile++;
+  //     this.flipAfterRotate(type);
+  //   } else {
+  //     this.canvasRotation++;
+  //     this.flipAfterRotate(type);
+  //   }
+  // }
+  // private flipAfterRotate(type: string) {
+  //   if (type === 'mobile') {
+  //     const flippedH = this.transformMobile.flipH;
+  //     const flippedV = this.transformMobile.flipV;
+  //     this.transformMobile = {
+  //       ...this.transformMobile,
+  //       flipH: flippedV,
+  //       flipV: flippedH
+  //     };
+  //   } else {
+  //     const flippedH = this.transform.flipH;
+  //     const flippedV = this.transform.flipV;
+  //     this.transform = {
+  //       ...this.transform,
+  //       flipH: flippedV,
+  //       flipV: flippedH
+  //     };
+  //   }
+  // }
 
   imageLoaded() {
     setTimeout(() => {
@@ -663,36 +665,39 @@ export class DraftPictureComponent implements OnInit, OnDestroy, OnChanges {
       };
     });
   }
-  zoomOut(type: string) {
-    if (type === 'mobile') {
-      this.scaleMob -= 0.1;
-      this.transformMobile = {
-        ...this.transformMobile,
-        scale: this.scaleMob
-      };
-    } else {
-      this.scale -= 0.1;
-      this.transform = {
-        ...this.transform,
-        scale: this.scale
-      };
-    }
-  }
-  zoomIn(type: string) {
-    if (type === 'mobile') {
-      this.scaleMob += 0.1;
-      this.transformMobile = {
-        ...this.transformMobile,
-        scale: this.scaleMob
-      };
-    } else {
-      this.scale += 0.1;
-      this.transform = {
-        ...this.transform,
-        scale: this.scale
-      };
-    }
-  }
+
+  // those functions are not used anymore we removed the buttons in the html check lines  209 and 386
+  // zoomOut(type: string) {
+  //   if (type === 'mobile') {
+  //     this.scaleMob -= 0.1;
+  //     this.transformMobile = {
+  //       ...this.transformMobile,
+  //       scale: this.scaleMob
+  //     };
+  //   } else {
+  //     this.scale -= 0.1;
+  //     this.transform = {
+  //       ...this.transform,
+  //       scale: this.scale
+  //     };
+  //   }
+  // }
+  // zoomIn(type: string) {
+  //   if (type === 'mobile') {
+  //     this.scaleMob += 0.1;
+  //     this.transformMobile = {
+  //       ...this.transformMobile,
+  //       scale: this.scaleMob
+  //     };
+  //   } else {
+  //     this.scale += 0.1;
+  //     this.transform = {
+  //       ...this.transform,
+  //       scale: this.scale
+  //     };
+  //   }
+  // }
+  // those functions are not used anymore we removed the buttons in the html check lines  209 and 386
   openModal(content: any) {
     this.modalService.open(content);
   }
