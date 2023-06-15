@@ -141,7 +141,6 @@ export class SocialNetworksComponent implements OnInit {
           this.channelLinkedin = data.linkedin;
 
           this.channelTiktok = data.tikTok;
-           console.log(this.channelTiktok?.length )
           this.setUrlMsg(params, data);
 
           if (this.channelGoogle?.length !== 0) {
