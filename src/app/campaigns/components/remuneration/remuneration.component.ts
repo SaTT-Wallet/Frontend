@@ -443,6 +443,15 @@ export class RemunerationComponent implements OnInit, OnDestroy {
           this.validFormMissionFromRemuToEdit.emit(false);
         } else this.validFormMissionFromRemuToEdit.emit(true);
       }
+    } else if(this.form.get('bounties')?.value.length) {
+      for(let [index,bountie] of this.bounties.controls.entries()) {
+        let found = this.getCategories(index).controls.find((category) => {
+          return category.errors !== null;
+        })
+        
+        if(found) this.validFormMissionFromRemuToEdit.emit(false);
+        else this.validFormMissionFromRemuToEdit.emit(true);
+      }
     } else this.validFormMissionFromRemuToEdit.emit(false);
   }
 
