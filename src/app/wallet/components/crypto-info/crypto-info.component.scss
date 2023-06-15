@@ -5,7 +5,6 @@
 .bg-header {
   background: #4048ff;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
-  position: fixed;
   top: 0px;
   width: 100%;
   height: 24vh;
@@ -105,7 +104,7 @@
   border: none;
 }
 .crypto-details-container {
-  margin-top: 23vh;
+  margin-top: 5vh;
   width: 100%;
   z-index: 1;
 }
@@ -364,7 +363,6 @@
     padding: 0 1rem;
   }
   .crypto-info-body {
-    margin-top: 5%;
     position: relative;
     width: 100%;
   }

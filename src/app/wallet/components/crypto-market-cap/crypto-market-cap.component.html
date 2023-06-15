@@ -54,7 +54,7 @@
         <tr class="crypto-row" *ngFor="let crypto of filterCryptos(); let i = index" 
         (click)="cryptoDtlails(crypto[0])" >
         <ng-container *ngIf="sparklineIn7dCryptoList && crypto">
-          <th class="align-middle range " scope="row">{{ getNumberWithLeadingZeros(i) }}</th>
+          <th class="align-middle range " scope="row">{{ getNumberWithLeadingZeros(crypto[1]?.cmc_rank) }}</th>
          
           <td class="align-middle">
             <img

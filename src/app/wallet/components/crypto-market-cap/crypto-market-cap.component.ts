@@ -63,7 +63,7 @@ private ngUnsubscribe = new Subject<void>();
       takeUntil(this.ngUnsubscribe),
       switchMap((data: any) => {
         const cryptos = data?.data ? Object.entries(data.data) : [];
-        this.cryptoLists = cryptos.slice(0, 100);
+        this.cryptoLists = cryptos.slice(0, 200);
         this.cryptoLists?.forEach((crypto: any) => {
           if (crypto && crypto[1]) {
             this.filteredCryptoListId.push(crypto[1].id);
@@ -140,7 +140,7 @@ private ngUnsubscribe = new Subject<void>();
     return variation > 0 ? '#00CC9E' :'#F52079';    
    }
   getNumberWithLeadingZeros(i: number): string {
-    return String(i + 1).padStart(2, '0');
+    return String(i).padStart(2, '0');
   }
  clear(){
   this.searchQuery='';
