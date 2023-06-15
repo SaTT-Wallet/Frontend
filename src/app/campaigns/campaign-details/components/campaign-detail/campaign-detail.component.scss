@@ -16,16 +16,10 @@
   text-align: center;
 }
 
-
-
 @media (max-width: 768px) {
   :host {
     padding: 57% 0 0 0;
   }
-
-  
-
-  
 }
 @media (max-width: 425px) {
   :host {
@@ -122,17 +116,15 @@
   font-family: 'Poppins';
 }
 
-
-
 .error-message {
   font-family: 'Poppins';
-  color: #F52079;
+  color: #f52079;
   font-weight: 500;
 }
 
 .success-message {
   font-family: 'Poppins';
-  color: #00CC9E;
+  color: #00cc9e;
   font-weight: 500;
 }
 
@@ -146,7 +138,6 @@
 }
 
 .input_oeil {
-  
   height: 45px;
   padding: 6px 15px;
   line-height: 1.57142857;
@@ -174,10 +165,7 @@
   display: flex;
   padding: 0;
   border-radius: 30px;
-  
 }
-
-
 
 .btn-edit-refunds-pool p {
   margin-bottom: 0px;
@@ -185,10 +173,10 @@
 .btn-edit-refunds-pool-disabled p {
   margin-bottom: 0px;
 }
-.btn-edit-refunds-pool-disabled p img{
+.btn-edit-refunds-pool-disabled p img {
   margin-right: 10px;
 }
-.btn-edit-refunds-pool p img{
+.btn-edit-refunds-pool p img {
   margin-right: 10px;
 }
 
@@ -206,12 +194,12 @@
   padding-top: 3%;
   padding-bottom: 3%;
   /* width: 169px; */
-  
-  border-radius: 30px ;
-  background-color: #F6F6FF;
-  color: #ADADC8;
+
+  border-radius: 30px;
+  background-color: #f6f6ff;
+  color: #adadc8;
   font-family: 'Poppins';
-  border: 1px solid #ADADC8;
+  border: 1px solid #adadc8;
 }
 
 .ipfs-img {
@@ -240,7 +228,6 @@
   width: 100vw;
   //height: 100vh;
 }
-
 
 .campaign-img {
   width: 100%;
@@ -476,14 +463,10 @@
 }
 
 @media (min-width: 768px) {
-
-
-  
-
-
-
   .desktopClass {
     display: block;
+    width: 1920px;
+    height: 800px;
   }
   .mobileClass {
     display: none;
@@ -673,10 +656,10 @@
 //   z-index: -1 !important;
 // }
 
- ::ng-deep #fc_frame,
- #fc_frame.fc-widget-normal {
-  bottom: 64px!important;
- }
+::ng-deep #fc_frame,
+#fc_frame.fc-widget-normal {
+  bottom: 64px !important;
+}
 
 /*------css spinner-----*/
 
