@@ -37,7 +37,9 @@
 .flex-item:visited {
     background-color: #7A7FFF;
 }*/
-
+.error-exist {
+    margin-bottom: 2%;
+}
 .danger {
     background-color: #f6f6ff;
     border-radius: 30px;

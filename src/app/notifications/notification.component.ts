@@ -694,9 +694,7 @@ export class NotificationComponent implements OnInit {
     if (notif?.label?.txhash) {
       this.hashLink(notif?.label?.network, notif?.label?.txhash);
     } else if (notif?.label?.cmp_hash) {
-      this.router.navigate(['home/campaign', notif.label.cmp_hash], {
-        fragment: notif.label.cmp_hash
-      });
+      this.router.navigate(['home/farm-posts']);
     } //if the notification has cmp_has it will redirect to campaign detail component
 
     // if (notif?.label?.transactionHash) {
@@ -731,9 +729,7 @@ export class NotificationComponent implements OnInit {
     }
     if (notif?.label?.cmp_hash && notif?.label?.linkHash) {
       // console.log(notif?.label?.promHash)
-      this.router.navigate(['home/campaign', notif.label.cmp_hash], {
-        queryParams: { linkHash: notif?.label?.linkHash, type: 'earnings' }
-      });
+      this.router.navigate(['home/farm-posts']);
     }
 
     if (notif.label.network === 'eth') {

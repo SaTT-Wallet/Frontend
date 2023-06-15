@@ -937,7 +937,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
           .pipe(takeUntil(this.isDestroyedSubject))
           .subscribe((linkedin: any) => {
             this.sharedid = linkedin.data;
-
+            this.application.idPost = linkedin.data.split(':').at(-1);
             this.renderer.setAttribute(
               this.linkedinDiv?.nativeElement,
               'src',
@@ -951,7 +951,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
         this.idinstagram = '';
 
         if (this.application) {
-          this.tokenStorageService.setIdPost(myApplication.idPost);
+          this.tokenStorageService.setIdPost(this.sharedid);
           this.tokenStorageService.setIdUserPost(myApplication.idUser);
           this.tokenStorageService.setTypeSN(myApplication.typeSN);
         } else {
