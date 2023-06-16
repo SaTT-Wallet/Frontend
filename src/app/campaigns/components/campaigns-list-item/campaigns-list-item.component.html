@@ -241,7 +241,7 @@
         >
           {{ 'AllCampains.campaign_ends_on' | translate }}:
           <!-- h:mm:ss a -->
-          {{ campaign.endDate | date: 'MM/dd/yyyy ':undefined:localId || '' }}
+          {{ campaign.endDate | time }}
         </span>
         <span
           class="under_gains date"
