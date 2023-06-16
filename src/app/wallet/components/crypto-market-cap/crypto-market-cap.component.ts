@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import {  switchMap, takeUntil } from 'rxjs/operators';
 import { Subject, forkJoin } from 'rxjs';
 import { CryptofetchServiceService } from '@app/core/services/wallet/cryptofetch-service.service';
+import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-crypto-market-cap',
@@ -52,13 +53,18 @@ private ngUnsubscribe = new Subject<void>();
   constructor(  
     private router: Router ,
     private fetchservice: CryptofetchServiceService,
+    private titleService: Title, private metaService: Meta
     
     ){
   
    }
 
   ngOnInit(): void {
-  
+    this.titleService.setTitle('Coin Market Cap'); 
+    this.metaService.updateTag({ name: 'description', content: 'Discover the best options in the cryptocurrency market and maximize your investments.' });
+    this.metaService.addTag({ name: 'keywords', content: 'cryptocurrency, Coin, Market Cap, investment, crypto, earning' });
+    this.metaService.addTag({ property: 'og:image', content: 'assets/Images/global-market-cap-cov.png' });
+    this.metaService.addTag({ name: 'twitter:card', content: 'assets/Images/global-market-cap-cov.png' });
     this.fetchservice.getCryptoPriceList().pipe(
       takeUntil(this.ngUnsubscribe),
       switchMap((data: any) => {
@@ -66,6 +72,8 @@ private ngUnsubscribe = new Subject<void>();
         this.cryptoLists = cryptos.slice(0, 200);
         this.cryptoLists?.forEach((crypto: any) => {
           if (crypto && crypto[1]) {
+         
+            
             this.filteredCryptoListId.push(crypto[1].id);
           }
         });
@@ -130,8 +138,9 @@ private ngUnsubscribe = new Subject<void>();
       
     );
   }
-  cryptoDtlails(crypto: string){
+  cryptoDtlails(crypto: string, cryptoName:string){
     const cryptoUpperCase = crypto.toUpperCase();
+    this.titleService.setTitle(cryptoName)
     this.router.navigate(['/wallet/coin-detail'], { queryParams: { crypto: cryptoUpperCase } });
 
   }

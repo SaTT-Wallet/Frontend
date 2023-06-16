@@ -1,7 +1,6 @@
 <meta name="viewport" content="width=device-width,user-scalable=no" />
 <header class="cover-crypto-market-cap">
-  <meta name="description" content="Discover the best options in the cryptocurrency market and maximize your investments.">
-  <div
+   <div
     class="row "
 
   >
@@ -52,8 +51,9 @@
       </thead>
       <tbody>
         <tr class="crypto-row" *ngFor="let crypto of filterCryptos(); let i = index" 
-        (click)="cryptoDtlails(crypto[0])" >
+        (click)="cryptoDtlails(crypto[0], crypto[1]?.name)" >
         <ng-container *ngIf="sparklineIn7dCryptoList && crypto">
+          
           <th class="align-middle range " scope="row">{{ getNumberWithLeadingZeros(crypto[1]?.cmc_rank) }}</th>
          
           <td class="align-middle">
