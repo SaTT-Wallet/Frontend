@@ -154,6 +154,25 @@ private ngUnsubscribe = new Subject<void>();
  clear(){
   this.searchQuery='';
  }
+ tofixUsd(price: any){
+ if (price < 0.1) {
+    return '8';
+  }
+  if (price >= 0.1 && price <= 1.9) {
+    return '6';
+  }
+  if (price >= 2 && price <= 9.9999) {
+    return '5';
+  }
+  if (price >= 10.0 && price <= 9999.9) {
+    return '2';
+  }
+  if (price >= 10000 && price <= 99999999999) {
+    return '0';
+  }
+  
+ return'0'
+ }
  ngOnDestroy() {
   this.ngUnsubscribe.next();
   this.ngUnsubscribe.complete();

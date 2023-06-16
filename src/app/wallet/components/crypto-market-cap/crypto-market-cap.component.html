@@ -71,7 +71,7 @@
            
           </td>
           <td class="align-middle">
-             {{ crypto[1].price | currency:'USD':'symbol':'1.0-9' }}
+             {{ crypto[1].price | currency:'USD':'symbol':'1.0-'+ tofixUsd(crypto[1]?.price) }}
           </td>
           <td
             class="align-middle"
