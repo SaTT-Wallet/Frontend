@@ -8,7 +8,7 @@
       <img src="assets/Images/market-icon-blue.svg" />
     </div>
 
-    <span class="span-text">Market</span>
+    <span class="span-text">{{ 'Sidebar.market' | translate }}</span>
   </div>
 
   <div class="div-adPool" [routerLink]="['/ad-pools']" (click)="toggleMobile()">
@@ -16,7 +16,7 @@
       <img src="assets/Images/blue-icons/adpool-icon-blue.svg" />
     </div>
 
-    <span class="span-text">AdPool</span>
+    <span class="span-text">{{ 'Sidebar.adpool' | translate }}</span>
   </div>
 
   <div
@@ -89,7 +89,7 @@
       <img src="assets/Images/blue-icons/farmpost-icon-blue.svg" />
     </div>
 
-    <span class="span-text">PostFarm</span>
+    <span class="span-text"> {{ 'Sidebar.PostFarm' | translate }}</span>
   </div>
 
   <div class="div-help" [routerLink]="['/FAQ']" (click)="toggleMobile()">
