@@ -543,7 +543,6 @@ export class CampaignHttpApiService {
     password: any,
     hash: string
   ) {
-    // let token = this.tokenStorageService.getToken();
     let header = new HttpHeaders({
       'Cache-Control': 'no-store',
       'Content-Type': 'application/json',
@@ -561,7 +560,8 @@ export class CampaignHttpApiService {
         pass: password,
         hash,
         linkedinId: application.linkedinId,
-        version: localStorage.getItem('wallet_version')
+        version: localStorage.getItem('wallet_version'),
+        ... application.typeSN === 5 && ({linkedinUserId : application.linkedinUserId})
       },
       { headers: header }
     );
