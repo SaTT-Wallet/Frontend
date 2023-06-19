@@ -27,7 +27,46 @@
       src="../../../assets/Images/bgAddPool.png"
       style="object-fit: cover; width: 100%; margin-top: -3rem !important"
     /> -->
-    <div class="bg-imag-cover">
+    <!-- Sk to implement later  -->
+<!-- <ng-container>
+  <div class="bloc-cover">
+    <div class="title-cover">{{ 'Participate in our Adpools' | translate }}</div>
+    <div class="description-cover">
+{{ 'Farm Your Social Networks & Earn Crypto With Social Media' | translate }}
+    </div>
+    <div>
+      <button class="button-cover" routerLink="wallet">{{ 'Buy SaTT' | translate }}</button>
+    </div>
+  </div>
+
+</ng-container>
+
+<ng-container>
+  <div class="bloc-cover">
+    <div class="title-cover">{{ 'Wallet_updated' | translate }}</div>
+    <div class="description-cover">
+{{ 'Wallet_updated_Warning' | translate }}
+    </div>
+    <div>
+      <button class="button-cover" routerLink="wallet">{{ 'Wallet_updated_migrate' | translate }}</button>
+    </div>
+  </div>
+
+</ng-container> -->
+<!-- to implement Later  -->
+
+    <div *ngIf="isNewUser" class="bg-imag-newUser">
+      <div class="bloc-cover">
+        <div class="title-cover">{{ 'Participate in our Adpools' | translate }}</div>
+        <div class="description-cover">
+{{ 'Farm Your Social Networks & Earn Crypto With Social Media' | translate }}
+        </div>
+        <div>
+          <button class="button-cover" routerLink="wallet">{{ 'Buy SaTT' | translate }}</button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!isNewUser" class="bg-imag-cover">
       <div class="bloc-cover">
         <div class="title-cover">{{ 'Wallet_updated' | translate }}</div>
         <div class="description-cover">
