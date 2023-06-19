@@ -237,54 +237,14 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
 
           if (element.isOwnedByUser) {
             element.urlPicUser = this.user.userPicture;
-            this.campaignsOwnesByUser.push(element.id);  
-            this.getNew(element.id, element.isOwnedByUser)
-            
-            
+            this.campaignsOwnesByUser.push(element.id);                    
           }
         });
         this.campaignsListStoreService.emitPageScroll();
-        
-        
-        
-        // if(this.campaignsList.length ===0){
-        //   this.show = true
-        // }else{
-        //   setTimeout(()=>{
-        //     this.show = false
-        //   }, 5000);
-
-        // }
       });
-    //   this.userPicture = this.user?.picLink ? this.user.picLink : this.sanitizer.bypassSecurityTrustUrl(objectURL)
   }
 
-  getNew(idcampaign: any, isOwnedbyuser: any){
-   
-    this.campaignService.getAllPromsStats(
-      idcampaign,
-      isOwnedbyuser
-    )  .subscribe((data: any) => {
-      let newapplicant = false
-        
-      if (data.message === 'success' && data.data.allProms ) {
-        let allProms = data.data.allProms;
-        this.lastLogin=this.tokenStorageService.getLastLogin();
-        
-        allProms.forEach((applicant: any)=>{
-          let comparaison = this.lastLogin <= applicant.createdAt;
-      
-          newapplicant = comparaison? true: false
-       
-      
-        })
-     this.newApplicant.push({idcampaign, newapplicant})
-        
-      }
-    
-    })
-    
-  }
+
   onScroll() {
     this.campaignsListStoreService.emitPageScroll();
   }

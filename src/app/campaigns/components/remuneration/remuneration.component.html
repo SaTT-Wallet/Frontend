@@ -23,10 +23,10 @@
       </div>
       <div class="">
         <input
-          type="number"
+          type="decimal"
           id=""
           (keydown)="restrictZero($event)"
-          (keypress)="keyPressNumbersWithDecimal($event)"
+          (keypress)="keyPressNumbersWithDecimal($event, 'crypto')"
           formControlName="initialBudget"
           input
           class="amount input-amount"
@@ -53,17 +53,18 @@
         <div class="w-100 d-flex justify-content-center align-items-center">
           <span class="amount-default-receive-usd">$</span>
           <input
-            type="number"
+            type="decimal"
             class="input-number2-receive"
             class="usd input-amount-usd"
             (keydown)="restrictZero($event)"
-            (keypress)="keyPressNumbersWithDecimal($event)"
+            (keypress)="keyPressNumbersWithDecimal($event, 'usd')"
             onchange="saveForm()"
             placeholder="0"
             formControlName="initialBudgetInUSD"
             (input)="convertcurrency('usd')"
             #inputAmountUsd
             [(ngModel)]="this.amountUsd"
+            
           />
         </div>
       </div>
@@ -110,9 +111,7 @@
           <div class="error d-flex initialBudgetError ml-4">
             <span
               *ngIf="
-                (this.form.get('initialBudget')?.errors?.required ||
-                  this.form.get('initialBudget')?.value === 0) &&
-                this.notValidBudgetRemun
+              fieldRequired && validFormBudgetRemun
               "
               >{{ 'campaign.field_required' | translate }}</span
             >
@@ -125,7 +124,12 @@
           class="col-xxl-3 col-xl-3 col-md-12 col-lg-4 col-sm-8 col-10 d-flex align-items-center justify-content-center"
         >
           <div class="error">
-            <span *ngIf="this.form.errors?.notEnoughBalance">{{
+            <!--
+              <span *ngIf="!!this.selectedCryptoDetails && this.selectedCryptoDetails.total_balance.toFixed(2) < (this.amountUsd.toString().includes(',') ? this.amountUsd.replaceAll(',',''): this.amountUsd)"> {{
+              'not_enough_balance' | translate
+            }}</span>
+            -->
+            <span *ngIf="insufficientBalance"> {{
               'not_enough_balance' | translate
             }}</span>
           </div>
@@ -210,10 +214,7 @@
 
         <div
           class="row d-flex justify-content-center pt-3 mb-1"
-          *ngIf="
-            selectRemunerateValue &&
-            selectRemunerateValue !== eRemunerationType.Publication
-          "
+         
         >
           <div
             class="col-xl-10 col-md-12 col-lg-10 col-sm-12 d-flex flex-row justify-content-between"
@@ -457,7 +458,7 @@
           </div>
         </ng-container>
         <div
-          class="col-xl-10 col-md-12 col-lg-10 col-sm-8 error d-flex initialBudgetError"
+          class="justify-content-center error d-flex initialBudgetError"
         >
           <span *ngIf="this.form.errors?.InsufficientBudget">{{
             'campaign.InsufficientBudget' | translate
@@ -554,14 +555,14 @@
                               class="ps-0 hide-mobile bold-font-weight height-span-followers dark_blue col-6 col-xl-12 col-lg-12 col-md-10 mb-lg-3 mb-xl-3"
                             >
                               {{
-                                'create_campaign_form.followers min' | translate
+                                'create_campaign_form.followers_min' | translate
                               }}
                             </span>
                             <span
                               class="follow-wrapper-title bold-font-weight height-span-followers dark_blue col-6 col-xl-12 col-lg-12 col-md-10 mb-lg-3 mb-xl-3"
                             >
                               {{
-                                'create_campaign_form.followers min' | translate
+                                'create_campaign_form.followers_min' | translate
                               }}
                             </span>
                             <input
@@ -586,14 +587,14 @@
                               class="ps-0 hide-mobile bold-font-weight height-span-followers dark_blue justify-content-center mb-lg-3 mb-xl-3 col-6 col-xl-12 col-lg-12 col-md-10"
                             >
                               {{
-                                'create_campaign_form.followers max' | translate
+                                'create_campaign_form.followers_max' | translate
                               }}
                             </span>
                             <span
                               class="follow-wrapper-title bold-font-weight height-span-followers dark_blue justify-content-center mb-lg-3 mb-xl-3 col-6 col-xl-12 col-lg-12 col-md-10"
                             >
                               {{
-                                'create_campaign_form.followers max' | translate
+                                'create_campaign_form.followers_max' | translate
                               }}
                             </span>
                             <input
@@ -719,7 +720,7 @@
                       class="btn-add-category w-100 ms-3"
                       (click)="addRemunerationCategory(bountyIndex)"
                     >
-                      +{{ 'Add Category' | translate }}
+                      +{{ 'Add_Category' | translate }}
                     </button>
                   </div>
                 </div>

@@ -36,7 +36,6 @@ import { checkIfEnoughBalance } from '@helpers/form-validators';
 import { Campaign } from '@app/models/campaign.model';
 import { ConvertFromWei } from '@shared/pipes/wei-to-sa-tt.pipe';
 import { DraftCampaignService } from '@campaigns/services/draft-campaign.service';
-import { WalletStoreService } from '@core/services/wallet-store.service';
 import {
   InitiaBudgetValidator,
   customValidateRequired,
@@ -48,9 +47,9 @@ import {
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { DOCUMENT } from '@angular/common';
 import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
-import { Big } from 'big.js';
-import { CampaignHttpApiService } from '@app/core/services/campaign/campaign.service';
-import { CampaignsStoreService } from '@app/campaigns/services/campaigns-store.service';
+
+
+
 enum ERemunerationType {
   Publication = 'publication',
   Performance = 'performance'
@@ -80,26 +79,21 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   @Input() isSelectedGoogleAnalytics = false;
   @Input()
   id = '';
-
   @Input()
   draftData!: Campaign;
   @Input() notValidBudgetRemun: any;
   @Input() notValidMissionFromEdit: any;
   @Output() validFormBudgetRemun = new EventEmitter();
   @Output() validFormMissionFromRemuToEdit = new EventEmitter();
-  
   closedOracle: string = '';
   sendErrorToMission: any;
   form = new UntypedFormGroup({
     ratios: new UntypedFormArray([], [Validators.required])
   });
-
   @ViewChild('initialBudgetElement')
   initialBudgetElement!: ElementRef<HTMLInputElement>;
-
   @ViewChild('initialBudgetInUSDElement')
   initialBudgetInUSDElement!: ElementRef<HTMLInputElement>;
-
   initialBudgetInputWidth$ = new Observable<string>();
   initialBudgetInUSDInputWidth$ = new Observable<string>();
   eRemunerationType = ERemunerationType; // A variable reference to access enum from template
@@ -148,7 +142,8 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   newquantity: any;
   campaign$!: Observable<Campaign>;
   campaign: any;
-
+  insufficientBalance: boolean = false;
+  fieldRequired: boolean = false;
   remunerationOptions: IDropdownFilterOptions[] = [
     {
       text: this.eRemunerationType.Performance,
@@ -169,10 +164,8 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   constructor(
     private service: DraftCampaignService,
     private convertFromWeiTo: ConvertFromWei,
-    private walletStore: WalletStoreService,
     private cdref: ChangeDetectorRef,
     private walletFacade: WalletFacadeService,
-    private campaignsStoreService: CampaignsStoreService,
     private showNumbersRule: ShowNumbersRule,
     private renderer: Renderer2,
     @Inject(DOCUMENT) private document: Document,
@@ -181,7 +174,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     this.form = new UntypedFormGroup(
       {
         initialBudget: new UntypedFormControl('', {
-          validators: Validators.compose([Validators.required])
+          validators: Validators.compose([Validators.required,Validators.pattern(/^([1-9]\d*|([1-9]\d*|0).\d+|[1-9]\d*(.\d+)?)$/)])
         }),
         initialBudgetInUSD: new UntypedFormControl('', {
           validators: Validators.compose([Validators.required])
@@ -189,21 +182,12 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         currency: new UntypedFormControl(null, {
           validators: Validators.required
         }),
-        // remuneration: new FormControl({
-        //   text: eRemunerationType.Performance,
-        //   value: eRemunerationType.Performance,
-        // }),
         remuneration: new UntypedFormControl(this.eRemunerationType.Performance),
         ratios: new UntypedFormArray([]),
         bounties: new UntypedFormArray([])
       },
       {
-        validators: [
-          Validators.required,
-          InitiaBudgetValidator,
-          customValidateRequired(),
-          customValidateInsufficientBudget()
-        ],
+        validators: [Validators.required,InitiaBudgetValidator,customValidateRequired(),customValidateInsufficientBudget()],
         asyncValidators: [checkIfEnoughBalance(this.walletFacade)]
       }
     );
@@ -217,27 +201,13 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    
-    
-    
     this.cdref.markForCheck();
     this.parentFunction().subscribe();
     this.getUserCrypto();
-    //this.campaign = 
-  //  this.campaignsStoreService.updateOneById({ cost: "5000" });
-    //  this.campaign$.pipe().subscribe((campaign) => {
-    //   this.campaign = campaign;
-    //  });
-    this.checkValidForm();
     this.saveForm();
-    // this.cryptoSymbol = 'SATT';
-    this.showSelectedValue = false;
-    // this.selectedBlockchain = 'erc20';
-    // this.f.currency?.setValue('SATT');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    
     if (changes.draftData && changes.draftData.currentValue) {
       /*
       this.form?.patchValue(this.draftData, { emitEvent: false });
@@ -276,17 +246,12 @@ export class RemunerationComponent implements OnInit, OnDestroy {
           'ratios',
           this.populateRatiosFormArray(this.draftData.ratios)
         );
-        //this.form.get("ratios")?.setValidators(Validators.required);
-        //this.ratios.updateValueAndValidity();
       }
-
       if (this.draftData.remuneration === this.eRemunerationType.Publication) {
         this.form.setControl(
           'bounties',
           this.populateBountiesFormArray(this.draftData.bounties)
         );
-        //this.form.get("bounties")?.setValidators(Validators.required);
-        //this.bounties.updateValueAndValidity();
       }
       if (this.notValidMissionFromEdit === true) {
         this.sendErrorToMission = true;
@@ -295,8 +260,9 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       }
       this.setPreSelectedOracles();
       this.cdref.detectChanges();
-      // this.setPreSelectedMissions();
-      //this.form.updateValueAndValidity();
+      this.validFormBudgetRemuneration();
+      this.validBudgetMissions();
+      
     }
   }
 
@@ -395,14 +361,12 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       }
     }
   }
-  listenForBudgetValidation(value:boolean){
-    console.log("**********////*******",this.form);
-    this.validFormBudgetRemun.emit(value)
-  }
+  
   listenForMissionValidation(value: boolean) {
     this.sendErrorToMission = value;
-    this.validFormMissionFromRemuToEdit.emit(value);
+    //this.validFormMissionFromRemuToEdit.emit(value);
   }
+
   saveForm() {
     this.form.valueChanges.pipe(
         tap(() => {
@@ -414,11 +378,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         }),
         debounceTime(500),
         tap((values: any) => {
-          if (this.form.valid) {
-            this.validFormBudgetRemun.emit(true);
-          } else {
-            this.validFormBudgetRemun.emit(false);
-          }
           var arrayControl = this.form.get('ratios') as UntypedFormArray;
           const lengthRatios = arrayControl.length;
           var arrayControlBounties = this.form.get('bounties') as UntypedFormArray;
@@ -450,14 +409,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
             }
           }
           if (this.draftData.id) {
-           
-            
-            this.validFormMissionFromRemuToEdit.emit(true);
-            this.validFormBudgetRemun.emit(true);
-
             this.sendErrorToMission = false;
-            
-            
             this.service.autoSaveFormOnValueChanges({
               formData: values,
               id: this.id
@@ -466,9 +418,51 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         }),
         takeUntil(this.isDestroyed$)
       )
-      .subscribe(()=>{ console.log(this.form.value)});
-      ;
+      .subscribe(() => {
+        this.validFormBudgetRemuneration()
+        this.validBudgetMissions();
+       
+        
+      });
   }
+
+
+  validBudgetMissions() {
+    let hasError = false;
+    if(this.form.get('ratios')?.value.length) {
+      if(this.form.errors?.InsufficientBudget) {
+        this.validFormMissionFromRemuToEdit.emit(false);
+      } else {
+        for(let ratio of this.ratios.controls) {
+          if(ratio.errors?.invalidRatioSomme) {
+            hasError = true;
+            break;
+          }
+        }
+        if(hasError) {
+          this.validFormMissionFromRemuToEdit.emit(false);
+        } else this.validFormMissionFromRemuToEdit.emit(true);
+      }
+    } else if(this.form.get('bounties')?.value.length) {
+      for(let [index,bountie] of this.bounties.controls.entries()) {
+        let found = this.getCategories(index).controls.find((category) => {
+          return category.errors !== null;
+        })
+        
+        if(found) this.validFormMissionFromRemuToEdit.emit(false);
+        else this.validFormMissionFromRemuToEdit.emit(true);
+      }
+    } else this.validFormMissionFromRemuToEdit.emit(false);
+  }
+
+ 
+
+
+
+
+
+
+
   selectRemunerateType(type: ERemunerationType) {
     if (
       this.isSelectedLinkedin ||
@@ -512,103 +506,9 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       // this.bounties.clear();
     }
   }
-  // ngAfterViewInit() {
-  //   let el = this.initialBudgetElement?.nativeElement;
-  //   let el2 = this.initialBudgetInUSDElement?.nativeElement;
-  //   // el.style.width = 25 + "px";
-  //   // el2.style.width = 40 + "px";
-  //   // let initialBudgetElementChanges$ = fromEvent(el, "keydown");
-  //   // let initialBudgetInUSDElementChanges$ = fromEvent(el2, "keydown");
-  //   // this.initialBudgetInputWidth$ = initialBudgetElementChanges$.pipe(
-  //   //   map((event: any) => event.keyCode),
-  //   //   filter((keyCode) => {
-  //   //     return this.isValidKeyCode(keyCode);
-  //   //   }),
-  //   //   map((keyCode) => (el.value.length + 1) * 12 + "px")
-  //   // );
-  //   // this.initialBudgetInUSDInputWidth$ = initialBudgetInUSDElementChanges$.pipe(
-  //   //   map((event: any) => event.keyCode),
-  //   //   filter((keyCode) => {
-  //   //     return this.isValidKeyCode(keyCode);
-  //   //   }),
-  //   //   map((keyCode) => (el2.value.length + 1) * 12 + "px")
-  //   // );
-  //   this.f.initialBudget.valueChanges
-  //     .pipe(
-  //       takeUntil(this.isDestroyed$),
-  //       startWith('0'),
-  //       filter((value) => value),
-  //       distinctUntilChanged(),
-  //       withLatestFrom(this.walletFacade.getCryptoList().pipe(startWith({}))),
-  //       map(([value = 0, balances]) => {
-  //         let selectedCurrency = (balances as any)?.listOfCrypto?.find(
-  //           (crypto: any) => crypto.symbol === this.f.currency.value
-  //         );
-  //         return [this.replaceNonAlphanumeric(value), selectedCurrency];
-  //       })
-  //     )
-  //     .subscribe(
-  //       ([value, selectedCurrency]) => {
-  //         this.form.patchValue(
-  //           {
-  //             initialBudgetInUSD: new Big(value || 0)
-  //               .times(selectedCurrency?.price || 0)
-  //               .toFixed(2)
-  //               .toString()
-  //           },
-  //           { emitEvent: false }
-  //         );
-  //         // el.style.width = (el.value.length + 1) * 12 + "px";
-  //         // el2.style.width = (el2.value.length + 1) * 12 + "px";
-  //       },
-  //       (err) => {}
-  //     );
-  //   this.f.initialBudgetInUSD.valueChanges
-  //     .pipe(
-  //       takeUntil(this.isDestroyed$),
-  //       startWith('0'),
-  //       filter((value) => value),
-  //       distinctUntilChanged(),
-  //       withLatestFrom(this.walletFacade.getCryptoList().pipe(startWith({}))),
-  //       map(([value = 0, balances]) => {
-  //         let selectedCurrency = (balances as any)?.listOfCrypto?.find(
-  //           (crypto: any) => crypto.symbol === this.f.currency.value
-  //         );
-  //         return [this.replaceNonAlphanumeric(value), selectedCurrency];
-  //       })
-  //     )
-  //     .subscribe(
-  //       ([value, selectedCurrency]) => {
-  //         if (selectedCurrency?.price) {
-  //           this.form.patchValue(
-  //             {
-  //               initialBudget: new Big(value || 0)
-  //                 .div(selectedCurrency?.price || 1)
-  //                 .toFixed(2)
-  //                 .toString()
-  //             },
-  //             { emitEvent: false }
-  //           );
-  //         }
-  //         // el.style.width = (el.value.length + 1) * 12 + "px";
-  //         // el2.style.width = (el2.value.length + 1) * 12 + "px";
-  //       },
-  //       (err) => {}
-  //     );
-  // }
+ 
 
-  isValidKeyCode(code: number): boolean {
-    return (
-      (code >= 48 && code <= 57) ||
-      (code >= 96 && code <= 105) ||
-      code === 8 ||
-      code === 46 ||
-      code === 27 ||
-      code === 110 ||
-      code === 37 ||
-      code === 39
-    );
-  }
+  
 
   get f() {
     return this.form.controls;
@@ -856,16 +756,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     );
   }
 
-  getCurrency(event: any) {
-    this.selectedCrypto = event.target.value;
-    this.f.initialBudget?.reset();
-    this.f.initialBudgetInUSD.reset();
-    let el = this.initialBudgetElement?.nativeElement;
-    // var width = parseInt(el.style.width);
-    this.renderer.setStyle(el,'width', (el.value.length + 1) * 12 + 'px');
-     //el.style.width = (el.value.length + 1) * 12 + 'px';
-    this.defaultAmount = this.f.currency.value;
-  }
+ 
 
   toggleReachLimitFormControl(e: any) {
     this.isReachLimitActivated = e;
@@ -1069,160 +960,39 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     }*/
     
   }
-  keyPressNumbersWithDecimal(event :any) {
-    
-    var charCode = (event.which) ? event.which : event.keyCode;
-    if (charCode != 46 && charCode > 31
-      && (charCode < 48 || charCode > 57)) {
-      event.preventDefault();
-      return false;
-    }
-    return true;
-  }
-  convertcurrency(event: any): void {
-    let currency = '';
-    var getamount: any = this.form.get('initialBudget')?.value;
-    let getusd: any = this.form.get('initialBudgetInUSD')?.value;
-    let sendamount = getamount?.toString();
-    let sendusd = getusd?.toString();
 
-    if (event === 'usd' && Number(sendusd) > this.maxNumber) {
-      sendusd = sendusd.slice(0, 9);
-      this.form.get('initialBudgetInUSD')?.setValue(sendusd);
-    } else {
-      this.selectedCryptoSend = currency;
-      if (this.selectedCryptoSend) {
-        currency = this.selectedCryptoSend;
-      } else {
-        currency = this.form.get('currency')?.value;
-      }
-      if (
-        event === 'amount' &&
-        sendamount !== undefined &&
-        !isNaN(sendamount)
-      ) {
-        this.amountUsd = this.selectedCryptoDetails.price * sendamount;
-        this.amountUsd = this.showNumbersRule.transform(this.amountUsd);
-        if (this.amountUsd < 0.1) {
-          this.amountUsd = new Big(this.amountUsd).toFixed(8).toString();
-        }
-        if (isNaN(this.amountUsd)) {
-          this.amountUsd = '';
-          this.amount = '';
-        }
-      } else if (
-        event === 'amount' &&
-        (sendamount === undefined || isNaN(sendamount))
-      ) {
-        this.amountUsd = '';
-      }
-      if (event === 'usd' && sendusd !== undefined && !isNaN(sendusd)) {
-        this.amount = sendusd / this.selectedCryptoDetails.price;
-        this.amount = this.showNumbersRule.transform(this.amount);
-        if (
-          sendamount === '0.00000000' ||
-          sendusd === '' ||
-          isNaN(this.amount)
-        ) {
-          this.amountUsd = '';
-          this.amount = '';
-        }
-      } else if (event === 'usd' && (sendusd === undefined || isNaN(sendusd))) {
-        this.amount = '';
-      }
-      this.editwidthInput();
-    }
-  }
-  //convert currency to usd
-  // convertcurrency(event: any): void {
-  //   let currency = '';
-  //   let currencyreceive = '';
-  //   var getamountreceive: any = this.receiveform.get('Amount')?.value;
-  //   let getusdreceive: any = this.receiveform.get('AmountUsd')?.value;
-  //   let receiveamount = getamountreceive?.toString();
-  //   let receiveusd = getusdreceive?.toString();
-  //   if (event === 'usdreceive' && Number(receiveusd) > this.maxNumber) {
-  //     receiveusd = receiveusd.slice(0, 9);
-  //     this.receiveform.get('AmountUsd')?.setValue(receiveusd);
-  //   } else {
-  //     this.selectedCryptoSend = currency;
-  //     if (this.selectedCryptoSend) {
-  //       currencyreceive = this.selectedCryptoSend;
-  //     } else {
-  //       currencyreceive = this.amountdefault;
-  //     }
-  //     this.dataList?.forEach((crypto: any) => {
-  //       if (
-  //         event === 'amountreceive' &&
-  //         receiveamount !== undefined &&
-  //         !isNaN(receiveamount)
-  //       ) {
-  //         if (crypto.symbol === currencyreceive) {
-  //           this.amountUsd = crypto.price * receiveamount;
-  //           this.amountUsd = this.showNumbersRule.transform(this.amountUsd);
-  //           if (isNaN(this.amountUsd)) {
-  //             this.amountUsd = '';
-  //             this.amount = '';
-  //           }
-  //         }
-  //       } else if (
-  //         event === 'amountreceive' &&
-  //         (receiveamount === undefined || isNaN(receiveamount))
-  //       ) {
-  //         this.amountUsd = '';
-  //       }
-  //       if (event === 'usdreceive' && receiveusd !== '' && !isNaN(receiveusd)) {
-  //         if (crypto.symbol === currencyreceive) {
-  //           this.amount = receiveusd / crypto.price;
-  //           this.amount = this.showNumbersRule.transform(this.amount);
-  //           if (
-  //             receiveamount === '0.00000000' ||
-  //             receiveusd === '' ||
-  //             isNaN(this.amount)
-  //           ) {
-  //             this.amountUsd = '';
-  //             this.amount = '';
-  //           }
-  //         }
-  //       } else if (
-  //         event === 'usdreceive' &&
-  //         (receiveusd === '' || isNaN(receiveusd))
-  //       ) {
-  //         this.amount = '';
-  //       }
-  //     });
-  //     this.editwidthInput();
-  //   }
-  // }
-  editwidthInput() {
-    let elementinputusd = this.inputAmountUsd?.nativeElement;
-    //  elementinputusd.style.width = 40 + 'px';
-    if (elementinputusd)
-    this.renderer.setStyle(elementinputusd,'width', elementinputusd.value.length + 1.2 + 'ch');
-      //elementinputusd.style.width = elementinputusd.value.length + 1.2 + 'ch';
-  }
+
+
+  
+
+
+
+  
+
+  
+ 
+  
+
   ngAfterViewChecked(): void {
     let elementinputusd = this.inputAmountUsd?.nativeElement;
     if (elementinputusd)
     this.renderer.setStyle(elementinputusd,'width', elementinputusd.value.length + 1.2 + 'ch');
     //elementinputusd.style.width = elementinputusd.value.length + 1.2 + 'ch';
   }
-  resetForm() {
-    this.form.reset();
-    this.network = '';
-    this.token = '';
-    // this.amountUsd = null;
-    this.amount = '';
-  }
+  
+
+
+  // SWITCH TO ANOTHER CRYPTO 
+
   linstingCrypto(event: any) {
+    this.insufficientBalance = false;
+    this.fieldRequired = false;
     if (event.symbol !== this.form.get('currency')?.value) {
       this.form.get('initialBudget')?.reset();
       this.form.get('initialBudgetInUSD')?.reset();
     }
     this.selectedCryptoDetails = event;
     this.form.get('currency')?.setValue(this.selectedCryptoDetails.symbol);
-    console.log({event})
-
     this.amountdefault = this.form.get('currency')?.value;
     this.selectedCryptoSend = event.symbol;
     this.symbol = event.symbol;
@@ -1230,143 +1000,119 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     this.networks = event.network;
     this.decimals = event.decimal;
     this.token = event.AddedToken;
-    if (this.networks === 'ERC20') {
-      this.coinType = false;
-      this.gazcurrency = 'ETH';
-    } else if (this.networks === 'BEP20') {
-      this.coinType = false;
-      this.gazcurrency = 'BNB';
-    } else if (this.networks === 'BTC') {
-      this.coinType = true;
-      this.gazcurrency = 'ETH';
-    } else if (this.networks === 'POLYGON') {
-      this.gazcurrency = 'MATIC';
-      // this.gazcurrency = 'ETH';
-    } else if (this.networks === 'BTT') {
-      this.gazcurrency = 'BTT';
-      // this.gazcurrency = 'ETH';
-    } else if (this.networks === 'TRON') {
-      this.gazcurrency = 'TRX';
-      // this.gazcurrency = 'ETH';
-    }
-    setTimeout(() => {
-      if (this.networks === 'ERC20' || this.networks === 'BTC') {
-        this.gazsend = this.eRC20Gaz;
-      }
-
-      if (this.networks === 'BEP20') {
-        this.gazsend = this.bEPGaz;
-      }
-      if (this.networks === 'POLYGON') {
-        this.gazsend = this.polygonGaz;
-      }
-      if (this.networks === 'BTT') {
-        this.gazsend = this.bttGaz;
-      }
-
-      if (this.networks === 'TRON') {
-        this.gazsend = this.trxGaz;
-      }
-    }, 4000);
-
-    this.dataList?.forEach((crypto: any) => {
-      if (this.networks === 'ERC20' || this.networks === 'BTC') {
-        this.gazsend = this.eRC20Gaz;
-        if (crypto.symbol === 'ETH') {
-          this.gazsendether = (this.gazsend / crypto.price).toFixed(8);
-        }
-      }
-      if (this.networks === 'BEP20') {
-        this.gazsend = this.bEPGaz;
-        if (crypto.symbol === 'BNB') {
-          this.gazsendether = (this.gazsend / crypto.price).toFixed(8);
-        }
-      }
-      if (this.networks === 'POLYGON') {
-        this.gazsend = this.polygonGaz;
-        if (crypto.symbol === 'MATIC') {
-          this.gazsendether = (this.gazsend / crypto.price).toFixed(8);
-        }
-      }
-      if (this.networks === 'BTT') {
-        this.gazsend = this.polygonGaz;
-        if (crypto.symbol === 'BTT') {
-          this.gazsendether = (this.gazsend / crypto.price).toFixed(8);
-        }
-      }
-    });
   }
-  setMaxAmount(): void {
-    let selectedCurrency = this.f.currency.value;
-    let balance: any = this.dataList.find(
-      (crypto: any) => crypto.symbol === selectedCurrency
-    );
-    this.f.initialBudget.setValue(balance?.quantity);
-  }
+
+
+
+  // GET MAX AMOUNT FOR CAMPAIGN BUDGET
 
   onClickAmount(): void {
+    this.insufficientBalance = false;
+    this.fieldRequired = false;
     let currency = '';
     this.selectedCryptoSend = currency;
+    if(!!this.selectedCryptoDetails && this.selectedCryptoDetails.quantity > 0) {
+      if(
+        this.selectedCryptoDetails.symbol === 'ETH' ||
+        this.selectedCryptoDetails.symbol === 'BNB' ||
+        this.selectedCryptoDetails.symbol === 'MATIC' ||
+        this.selectedCryptoDetails.symbol === 'BTT' ||
+        this.selectedCryptoDetails.symbol === 'TRX'
+      ) {
+        const fees = (this.selectedCryptoDetails.symbol === "BNB" ? this.bEPGaz : (
+          this.selectedCryptoDetails.symbol === "ETH" ? this.eRC20Gaz : (
+            this.selectedCryptoDetails.symbol === "MATIC" ? this.polygonGaz : (
+              this.selectedCryptoDetails.symbol === "TRON" ? this.trxGaz : this.bttGaz
+            )
+          )
+        ))
+        const balance = this.selectedCryptoDetails?.total_balance.toFixed(2) - fees;
+        const quantity = this.selectedCryptoDetails?.quantity - (fees / this.selectedCryptoDetails?.price) 
+        this.form.get('initialBudget')?.setValue(quantity)
+        this.form.get('initialBudgetInUSD')?.setValue(balance)
+        this.amount = this.showNumbersRule.transform(quantity.toString(), true);
+        this.amountUsd = balance.toFixed(2)
+        this.validFormBudgetRemun.emit(true);
 
-    if (this.selectedCryptoSend) {
-      currency = this.selectedCryptoSend;
+      } else {
+        this.form.get('initialBudget')?.setValue(this.selectedCryptoDetails?.quantity)
+        this.form.get('initialBudgetInUSD')?.setValue(this.selectedCryptoDetails?.total_balance.toFixed(2))
+        this.amount = this.selectedCryptoDetails?.quantity
+        this.amountUsd = this.selectedCryptoDetails?.total_balance.toFixed(2)
+        this.validFormBudgetRemun.emit(true);
+      }
+    }
+  }
+
+
+  // HANDLE USER INPUT IN REMUNERATION BUDGET 
+
+  convertcurrency(event: any): void {
+    this.fieldRequired = false;
+    var getamount: any = this.form.get('initialBudget')?.value;
+    let getusd: any = this.form.get('initialBudgetInUSD')?.value;
+    let sendamount = getamount?.toString();
+    let sendusd = getusd?.toString();
+    if(event === 'usd') {
+        this.form.get('initialBudgetInUSD')?.setValue(sendusd);
+        this.form.get('initialBudget')?.setValue(sendusd / this.selectedCryptoDetails.price)
+        this.amount = this.showNumbersRule.transform((sendusd / this.selectedCryptoDetails.price).toString(), true)
     } else {
-      currency = this.form.get('currency')?.value;
+      this.form.get('initialBudget')?.setValue(sendamount);
+      this.form.get('initialBudgetInUSD')?.setValue(sendusd * this.selectedCryptoDetails.price)
+      this.amountUsd = this.showNumbersRule.transform((this.selectedCryptoDetails.price * sendamount).toString());
+      this.editwidthInput();
+    } 
+    this.validFormBudgetRemuneration()
+  }
+  editwidthInput() {
+    let elementinputusd = this.inputAmountUsd?.nativeElement;
+    if (elementinputusd)this.renderer.setStyle(elementinputusd,'width', elementinputusd.value.length + 1.2 + 'ch');
+  }
+
+
+  // CONDITION FOR USER INPUTS TO ALLOW ONLY NUMBERS AND ONE POINTS ( DECIMAL NUMBER )
+
+
+  keyPressNumbersWithDecimal(event :any, type: string) {
+    const inputValue = (event.target as HTMLInputElement).value;
+    if (event.key === '.' && inputValue.includes('.')) {
+      event.preventDefault();
     }
-
-    if (!currency || currency === '?') {
-      this.noCryptoSelected = true;
-      setTimeout(() => {
-        this.noCryptoSelected = false;
-      }, 3000);
+    if(type === 'crypto') {
+      if((this.selectedCryptoDetails?.price * Number(inputValue)) > this.maxNumber) {
+        event.preventDefault();
+      }
     }
-    if (currency) {
-      this.dataList?.forEach((crypto: any) => {
-        if (crypto.symbol === currency) {
-          let quantity = this.showNumbersRule.transform(crypto.quantity);
-          //  let totalBal = this.showNumbersRule.transform(crypto.total_balance);
-          crypto.total_balance = parseFloat(crypto.total_balance + '');
-          crypto.total_balance = crypto?.total_balance?.toFixed(2);
-          this.form.get('initialBudget')?.setValue(quantity),
-            this.form.get('initialBudgetInUSD')?.setValue(crypto.total_balance);
+    if(type === 'usd' && Number(inputValue) > this.maxNumber) {
+      event.preventDefault();
+    }
+    if ((event.which >= 48 && event.which <=57) || event.which === 46) {
+      return true;
+    } else {
+      event.preventDefault();
+      return false;
+    }
+    
+  }
 
-          this.gazproblem = false;
-          if (
-            currency === 'ETH' ||
-            currency === 'BNB' ||
-            currency === 'MATIC'
-          ) {
-            this.difference = crypto.total_balance - this.gazsend;
-            this.newquantity = this.difference / crypto.price;
-            let newqua = this.showNumbersRule.transform(this.newquantity);
-            let quantit = this.showNumbersRule.transform(crypto.quantity);
 
-            if (this.difference < 0) {
-              this.form.get('initialBudget')?.setValue(quantit),
-                this.form.get('initialBudgetInUSD')?.setValue('0');
-              this.gazproblem = true;
-              setTimeout(() => {
-                this.gazproblem = false;
-              }, 3000);
-            } else {
-              this.form.get('initialBudget')?.setValue(newqua),
-                this.form
-                  .get('initialBudgetInUSD')
-                  ?.setValue(this.difference.toFixed(2));
+   // CHECK FOR VALIDATION REMUNERATION BUDGET
 
-              this.gazproblem = false;
-            }
+   validFormBudgetRemuneration() {
+    const isValid = this.amount > 0 && this.amount !== '';
+        if(isValid) {
+          this.fieldRequired = false;
+          let x: number = +(this.amountUsd.includes(',') ? this.amountUsd.replaceAll(',','') : this.amountUsd);
+          if(x <= this.selectedCryptoDetails.total_balance.toFixed(2)) {
+            this.insufficientBalance = false;
+          } else {
+            this.insufficientBalance = true;
           }
+          this.validFormBudgetRemun.emit(!this.insufficientBalance ? true: false)
+        } else {
+          this.fieldRequired = true;
+          this.validFormBudgetRemun.emit(false)
         }
-      });
-    }
-  }
-
-  private checkValidForm() {
-    if (this.form.valid) {
-      this.validFormBudgetRemun.emit(true);
-    } else {
-      this.validFormBudgetRemun.emit(false);
-    }
-  }
+  } 
 }

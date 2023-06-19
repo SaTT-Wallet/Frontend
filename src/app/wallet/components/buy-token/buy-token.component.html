@@ -2,6 +2,7 @@
   [title]="'Buy'"
   class="buy-component"
   (clickedBack)="linstingBack($event)"
+  [ngClass]="{ fromWallet: shouldApplyFromWalletClass() }"
 >
 </app-header-send-receive-buy>
 <div class="row white-bloc justify-content-center">
@@ -527,7 +528,7 @@
             this.convertform.get('walletId')?.errors?.pattern &&
             !this.convertform.get('walletId')?.errors?.required
           "
-          >{{ 'Wallet.Invalid address' | translate }}</span
+          >{{ 'Wallet.Invalid_address' | translate }}</span
         >
       </div>
 
@@ -883,7 +884,7 @@
                 <div class="d-flex justify-content-center">
                     <button class="question d-flex justify-content-center" [routerLink]="['/home/FAQ']">
             <img src="../../../../assets/Images/question.svg" class="me-2" />
-            {{ 'A question ? Contact the support !' | translate }} >
+            {{ 'Ask_Support_question !' | translate }} >
           </button>
                 </div>
 

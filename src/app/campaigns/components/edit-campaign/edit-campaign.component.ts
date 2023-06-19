@@ -205,11 +205,9 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
     }
   }
   saveAndLaunchCampaign() {
-    this.getCampaignData();
-   
-    
-    this.checkValidation();
-    if (
+      this.getCampaignData();
+      this.checkValidation();
+      if (
       this.validFormParam &&
       this.validFormPresentation &&
       this.validFormBudgetRemun &&
@@ -223,6 +221,7 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
     } else {
       this.alertRequired = true;
     }
+  
     /*================================================
      to activate legal KYC uncomment below api call
     =================================================*/
@@ -262,7 +261,7 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
   }
   goToView() {
     // this.router.navigate(['home/campaign/', this.draftId]);
-        this.router.navigateByUrl('/home/campaign/'+this.draftId+'?mode=edit');
+    this.router.navigateByUrl('/home/campaign/'+this.draftId+'?mode=edit');
 
   }
   scrollToTop() {
@@ -314,18 +313,13 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
   }
 
   listenForPresenationChange(event: any) {
-    
-    
     this.validFormPresentation = event;
   }
 
   listenForBudgetRemunChange(event: any) {
-    
-
     this.validFormBudgetRemun = event;
   }
   listenForMissionChange(event: any) {
-
     this.validFormMissionFromRemuToEdit = event;
   }
   listenForPictureChange(event: any) {

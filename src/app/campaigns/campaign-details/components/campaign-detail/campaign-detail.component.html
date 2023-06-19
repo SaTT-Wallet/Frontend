@@ -81,7 +81,7 @@
           !campaign.isOwnedByUser && campaign.isActive && isPlatformBrowser
         "
       >
-        {{ 'Apply Now' | translate }}
+        {{ 'Apply_Now' | translate }}
       </button>
       <button
         type="button"
@@ -203,7 +203,7 @@
       <span
         class="span-text gray-text"
         *ngIf="campaign.isFinished && !campaign.isOwnedByUser"
-        >Finished</span
+        >{{ 'Finished' | translate }}</span
       >
       <!------end div finished -->
     </div>
@@ -444,7 +444,7 @@
           
           id="btn-edit-refunds-pool"
           (click)="getRefunds(campaign.id)"
-          *ngIf="campaign.isOwnedByUser && campaign.type === 'finished'  && !loadingData"
+          *ngIf="campaign.isOwnedByUser && campaign.type === 'finished'  && !loadingData && campaign.budget !== '0'"
           >
           <p *ngIf="refundButtonDisable">
             <img src="../../../../../assets/Images/Vector-loading.svg"/>
@@ -466,7 +466,7 @@
             "
           >
             <span class="padding-16" *ngIf="!this.showSpinner">{{
-              'Apply Now' | translate
+              'Apply_Now' | translate
             }}</span>
             <div
               *ngIf="this.showSpinner"

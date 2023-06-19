@@ -34,8 +34,10 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   scrolled: boolean = false;
   phishingVisibility: boolean = false;
   getScreenWidth: any;
+  storageInformation: string | null;
   private isDestroyed$ = new Subject();
   constructor(
+
     public router: Router,
     private draftCampaignStore: DraftCampaignStoreService,
     private campaignService: CampaignHttpApiService,
@@ -47,7 +49,17 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     @Inject(DOCUMENT) private document: any,
     @Inject(PLATFORM_ID) private platformId: string,
     private kycFacadeService: KycFacadeService
-  ) {}
+  ) {
+    try {
+      if (window.localStorage.getItem('phishing') === null) {
+        window.localStorage.setItem('phishing', 'true');
+      }
+      this.storageInformation = window.localStorage.getItem('phishing');
+    } catch (error) {
+      console.error('Could not access localStorage:', error);
+      this.storageInformation = null;
+    }
+  }
   ngAfterViewInit(): void {
     if (this.router.url == '/wallet' || this.router.url.includes('campaign')) {
       let content = this.document.getElementById('center-content');
@@ -155,7 +167,14 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
   }
+  getStorageInformation() {
+    if (!this.storageInformation) {
+      this.storageInformation = window.localStorage.getItem('phishing');
+    }
+    return window.localStorage.getItem('phishing');
+  }
   close() {
+    window.localStorage.setItem('phishing', 'false');
     this.phishingVisibility = true;
   }
   @HostListener('scroll', ['$event'])

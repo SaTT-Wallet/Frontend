@@ -1,10 +1,5 @@
-<ng-container *ngIf="!phishingVisibility">
+<ng-container *ngIf="getStorageInformation() !== 'false'">
   <div class="div1">
-    <!-- <img
-      src="assets/Images/moon-boy-warning.svg"
-      alt=""
-      *ngIf="getScreenWidth < 960"
-    /> -->
     <img
       id="img-moon-warning"
       src="assets/Images/moon-boy-warning.svg"
@@ -22,10 +17,6 @@
         >
         <span class="title-modal"> - check the URL carefully</span>
       </div>
-
-      <!-- <div class="close-modale">
-        <img src="assets/Images/closeModal.svg" alt="" />
-      </div> -->
 
       <span *ngIf="getScreenWidth > 960">
         <img
@@ -54,10 +45,11 @@
   }"
   *ngIf="router.url !== 'password_wallet'"
   [ngStyle]="{
-    top: phishingVisibility ? '0' : '8vh',
+    top: getStorageInformation() === 'false' ? '0' : '10vh',
     display: router.url.includes('help') ? 'none' : 'block'
   }"
-></app-header>
+>
+</app-header>
 
 <div
   class="container-main"
@@ -66,8 +58,8 @@
 >
   <app-sidebar></app-sidebar>
   <div
-    [className]="phishingVisibility ? 'center-content' : 'center-content2'"
-    id="center-content"
+  id="center-content"
+  [className]="getStorageInformation() === 'false' ? 'center-content' : 'center-content2'"
     (scroll)="onScroll($event)"
     (window:resize)="onResize($event)"
   >

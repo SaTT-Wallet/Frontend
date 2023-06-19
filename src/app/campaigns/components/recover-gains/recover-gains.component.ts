@@ -94,6 +94,7 @@ export class RecoverGainsComponent implements OnInit {
 
   oracleImageSrc = '';
 
+
   postLink$ = this.promData$.pipe(
     takeUntil(this.isDestroyedSubject),
     map((prom: Participation) => {

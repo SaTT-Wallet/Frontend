@@ -145,8 +145,8 @@ export class BuyTokenComponent implements OnInit, OnChanges {
 
   constructor(
     private walletFacade: WalletFacadeService,
-    private router: Router,
-    private route: ActivatedRoute,
+    public router: Router,
+    public route: ActivatedRoute,
     @Inject(DOCUMENT) private document: Document,
     private tokenStorageService: TokenStorageService,
     @Inject(PLATFORM_ID) private platformId: string,
@@ -277,6 +277,18 @@ export class BuyTokenComponent implements OnInit, OnChanges {
 
         this.convertCrypto();
       });
+  }
+
+  shouldApplyFromWalletClass(): boolean {
+    const path = this.getPath()?.toString() || '';
+    const storageInfo = this.getStorageInformation();
+    return path.includes('buy-token') && storageInfo !== 'false';
+  }
+  getStorageInformation() {
+    return window.localStorage.getItem('phishing');
+  }
+  getPath() {
+    return window.location.pathname;
   }
   redirect() {
     if (!this.isConnected) {
