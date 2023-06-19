@@ -929,7 +929,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
         parts = parts.includes('-') ? parts.split('-')[1] : parts.split(':')[1];
 
         myApplication.idUser = 666;
-        myApplication.idPost = parts;
+        myApplication.linkedinUserId = parts;
         myApplication.typeSN = 5;
         this.idlinkedin = parts;
         this.application = myApplication;
@@ -954,10 +954,12 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
           this.tokenStorageService.setIdPost(this.sharedid);
           this.tokenStorageService.setIdUserPost(myApplication.idUser);
           this.tokenStorageService.setTypeSN(myApplication.typeSN);
+          this.tokenStorageService.setLinkedinUserId(parts)
         } else {
           myApplication.idPost = this.tokenStorageService.getIdPost();
           myApplication.idUser = this.tokenStorageService.getIdUserPost();
           myApplication.typeSN = this.tokenStorageService.getTypeSN();
+          myApplication.linkedinUserId = this.tokenStorageService.getLinkedinUserId();;
           this.application = myApplication;
         }
 
