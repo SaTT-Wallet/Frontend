@@ -1,31 +1,40 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Pipe({
   name: 'time'
 })
 export class TimePipe implements PipeTransform {
-
+  constructor(private translate: TranslateService) {}
   transform(value: any): string {
     const currentDate = new Date();
     const endDate = new Date(value);
 
     const diffInMs = endDate.getTime() - currentDate.getTime();
-    const diffInSecs = Math.floor(diffInMs / 1000);
-    const diffInMins = Math.floor(diffInSecs / 60);
-    const diffInHrs = Math.floor(diffInMins / 60);
-    const diffInDays = Math.floor(diffInHrs / 24);
 
-    if (diffInDays > 0) {
-        return `${diffInDays} day(s) left`;
-    } else if (diffInHrs > 0) {
-        return `${diffInHrs} hour(s) left`;
-    } else if (diffInMins > 0) {
-        return `${diffInMins} minute(s) left`;
-    } else if (diffInSecs > 0) {
-        return `${diffInSecs} second(s) left`;
-    } else {
-        return `Time's up`;
+    const timeUnits = [
+      {
+        name: 'AllCampains.campaign_ends_in_days',
+        milliseconds: 24 * 60 * 60 * 1000
+      },
+      {
+        name: 'AllCampains.campaign_ends_in_hours',
+        milliseconds: 60 * 60 * 1000
+      },
+      { name: 'AllCampains.campaign_ends_in_minutes', milliseconds: 60 * 1000 },
+      { name: 'AllCampains.campaign_ends_in_seconds', milliseconds: 1000 }
+    ];
+
+    for (const unit of timeUnits) {
+      const timeDiff = Math.floor(diffInMs / unit.milliseconds);
+
+      if (timeDiff > 0) {
+        return `${timeDiff} ${this.translate.instant(unit.name)}${
+          timeDiff > 1 ? 's' : ''
+        } left`;
+      }
     }
-}
 
+    return this.translate.instant('AllCampains.times_up');
+  }
 }
