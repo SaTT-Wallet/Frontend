@@ -10,7 +10,6 @@
 }
 
 #search-query {
-  
   align-self: center;
 
   background-image: url('/assets/Images/serch-hard-gray.svg');
@@ -32,19 +31,22 @@
   }
 }
 @media (max-width: 575px) {
-  .crypto-icons{
-    height: 25px; width: 25px;
+  .crypto-icons {
+    height: 25px;
+    width: 25px;
   }
-  .crypto-name-col{
+  .crypto-name-col {
     text-transform: uppercase;
-    font-size: 13px; font-family: 'Poppins';
-          font-style: normal;
-          font-weight: 400;
+    font-size: 13px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
   }
 }
 
-.crypto-icons{
-  height: 30px; width: 30px;
+.crypto-icons {
+  height: 30px;
+  width: 30px;
 }
 #search-query::placeholder {
   font-weight: 400;
@@ -149,13 +151,12 @@ tr.crypto-row:hover {
   align-items: center;
   text-align: center;
 }
-#search-query:focus{
-  border: 1px solid #4048FF !important;
+#search-query:focus {
+  border: 1px solid #4048ff !important;
   background-image: url('/assets/Images/serch-hard-blue.svg');
-  
 }
-#search-query:focus::placeholder{
-  color:  #4048FF!important ;
+#search-query:focus::placeholder {
+  color: #4048ff !important ;
 }
 .clear-icon {
   position: absolute;
@@ -163,5 +164,5 @@ tr.crypto-row:hover {
   right: 10%;
   transform: translateY(-59%);
   cursor: pointer;
-  color: #4048FF;
+  color: #4048ff;
 }
