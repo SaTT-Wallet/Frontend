@@ -58,11 +58,11 @@
          
           <td class="align-middle">
             <img
-              class="Icons"
+              class="crypto-icons"
               *ngIf="crypto[1].logo"
               [src]="crypto[1].logo"
               alt="logo de la crypto-monnaie {{crypto[1]?.name}}"
-              style="height: 30px; width: 30px;"
+          
             />
             {{ crypto[1]?.name }}
             <span class="crypto-symbol">
@@ -145,20 +145,20 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let crypto of filterCryptos(); let i = index">
-          <th class="align-middle range" scope="row">{{ getNumberWithLeadingZeros(i) }}</th>
-          <td class="align-middle" style="text-transform: uppercase">
+        <tr *ngFor="let crypto of filterCryptos(); let i = index" (click)="cryptoDtlails(crypto[0], crypto[1]?.name)">
+          <th class="align-middle range" scope="row">{{ getNumberWithLeadingZeros(crypto[1]?.cmc_rank) }}</th>
+          <td class="align-middle crypto-name-col" >
             <img
-              class="Icons"
+              class="crypto-icons"
               *ngIf="crypto[1].logo"
               [src]="crypto[1].logo"
               alt=""
-              style="height: 32px; width: 32px; "
+      
             />
             {{ crypto[0] }}
           </td>
           <td class="align-middle"  style="font-weight: 600;">
-            {{ crypto[1].price | currency:'USD':'symbol':'1.0-9' }}
+            {{ crypto[1].price | currency:'USD':'symbol':'1.0-'+ tofixUsd(crypto[1]?.price) }}
           </td>
 
           <td

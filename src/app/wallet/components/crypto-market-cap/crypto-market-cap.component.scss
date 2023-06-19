@@ -31,7 +31,21 @@
     width: 100%;
   }
 }
+@media (max-width: 575px) {
+  .crypto-icons{
+    height: 25px; width: 25px;
+  }
+  .crypto-name-col{
+    text-transform: uppercase;
+    font-size: 13px; font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 400;
+  }
+}
 
+.crypto-icons{
+  height: 30px; width: 30px;
+}
 #search-query::placeholder {
   font-weight: 400;
   line-height: 120%;
