@@ -893,7 +893,6 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
         }
       }
     } else if (media.indexOf('https://www.linkedin.com/') !== -1) {
-      //let parts = media.replace(/\D/g, '');
       this.validUrl = true;
       let url = media.split('activity');
       let parts = url[url.length - 1];
@@ -929,7 +928,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
         parts = parts.includes('-') ? parts.split('-')[1] : parts.split(':')[1];
 
         myApplication.idUser = 666;
-        myApplication.idPost = parts;
+        myApplication.linkedinUserId = parts;
         myApplication.typeSN = 5;
         this.idlinkedin = parts;
         this.application = myApplication;
@@ -937,7 +936,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
           .pipe(takeUntil(this.isDestroyedSubject))
           .subscribe((linkedin: any) => {
             this.sharedid = linkedin.data;
-
+            this.application.idPost = linkedin.data.split(':').at(-1);
             this.renderer.setAttribute(
               this.linkedinDiv?.nativeElement,
               'src',
@@ -951,13 +950,15 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
         this.idinstagram = '';
 
         if (this.application) {
-          this.tokenStorageService.setIdPost(myApplication.idPost);
+          this.tokenStorageService.setIdPost(this.sharedid);
           this.tokenStorageService.setIdUserPost(myApplication.idUser);
           this.tokenStorageService.setTypeSN(myApplication.typeSN);
+          this.tokenStorageService.setLinkedinUserId(parts)
         } else {
           myApplication.idPost = this.tokenStorageService.getIdPost();
           myApplication.idUser = this.tokenStorageService.getIdUserPost();
           myApplication.typeSN = this.tokenStorageService.getTypeSN();
+          myApplication.linkedinUserId = this.tokenStorageService.getLinkedinUserId();;
           this.application = myApplication;
         }
 
@@ -983,21 +984,6 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
                 }
               },
               (err) => {
-                // if (err.error.text === '{result:true}') {
-                //   this.linked = true;
-                //   this.loadingButton = false;
-                // } else if (err.error.text === '{result:false}') {
-                //   this.error = 'Not_your_link';
-                //   this.oracleType = 'linkedin';
-                //   this.success = '';
-                //   this.loadingButton = false;
-                //   this.router.navigate([], {
-                //     queryParams: {
-                //       errorMessage: 'error'
-                //     }
-                //   });
-                // }
-                // else
                 if (
                   err.error.error === 'invalid link' &&
                   err.error.code === 406
@@ -1375,10 +1361,12 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
       application.idPost = this.tokenStorageService.getIdPost();
       application.idUser = this.tokenStorageService.getIdUserPost();
       application.typeSN = this.tokenStorageService.getTypeSN();
-
+      application.typeSN == 5 && (application.linkedinUserId = this.tokenStorageService.getLinkedinUserId());
       this.tokenStorageService.removeItem('idPost');
       this.tokenStorageService.removeItem('userIdPost');
       this.tokenStorageService.removeItem('typeSN');
+      this.tokenStorageService.removeItem('shareId');
+
     }
 
     let campaign = this.campaignId;

@@ -1465,7 +1465,7 @@ export class WalletComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestoy$))
       .subscribe(
         (res: any) => {
-             if(!res.data) {
+             if(res.data === false) {
               this.existV2 = res.data;
               this.hasWalletV2 = false;
               localStorage.setItem('existV2', 'false');

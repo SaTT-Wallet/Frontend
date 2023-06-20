@@ -121,7 +121,7 @@
     <div class="mt-4" *ngIf="!isLoading">
       <div class="details-boxes-container">
         <div class="details-box border-top-sm">
-          <div class="gray-title title-border-md">MARKET CAP</div>
+          <div class="gray-title title-border-md">{{ 'MARKET_CAP' | translate }}</div>
           <div class="right-part-sm-details-box">
             <div class="text-value">${{ marketCap }}</div>
             <div
@@ -136,7 +136,7 @@
           </div>
         </div>
         <div class="details-box">
-          <div class="gray-title title-border-md">Fully diluted market cap</div>
+          <div class="gray-title title-border-md">{{ 'Fully_diluted_market_cap' | translate }}</div>
           <div class="right-part-sm-details-box">
             <div class="text-value">
               {{ !!marketCapFD ? '$' + marketCapFD : '-' }}
@@ -167,7 +167,7 @@
           </div>
         </div>
         <div class="details-box">
-          <div class="gray-title title-border-md">circulating supply</div>
+          <div class="gray-title title-border-md">{{circulating_supply' | translate }}</div>
           <div class="right-part-sm-details-box">
             <div class="text-value">
               {{ circulatingSupply }} {{ cryptoSymbol }}

@@ -1,18 +1,12 @@
 <div class="welcome_cover d-flex">
   <div class="col welcome_description">
-    <div class="row mb-1 welcome_title">FARM YOUR SOCIAL NETWORKS</div>
-    <div class="row mb-3 welcome_subtitle">Earn Cryptos with a Post</div>
+    <div class="row mb-1 welcome_title">{{ 'FARM_YOUR_SOCIAL_NETWORKS' | translate }}</div>
+    <div class="row mb-3 welcome_subtitle">{{'earn_crypto'| translate }}</div>
     <div class="row mb-4 welcome_description_long">
-      Are you interested in earning cryptos through the power of blockchain
-      technology and social media? So why not start leveraging your social media
-      accounts today and see how you can earn cryptos with just a few clicks?
-      With a little effort and engagement, you can start "farming" your social
-      networks and earning crypto, So why not start exploring the world of
-      socialfi and crypto today, and see how you can turn your social media
-      presence into a profitable venture?
+{{ 'DESCRIPTION_WELCOME' | translate }}
     </div>
     <div class="row welcome_btn_launch">
-      <button class="btnStart" routerLink="/ad-pools">Launch App</button>
+      <button class="btnStart" routerLink="/ad-pools">{{ 'Launch_App_Welcome' | translate }}</button>
     </div>
     <div>
       <video
@@ -55,7 +49,7 @@
 <div
   class="row d-flex align-items-center justify-content-center mt-lg-5 mt-md-0"
 >
-  <span class="adpool-title">New AdPools</span>
+  <span class="adpool-title">{{ 'New_AdPools_welcome' | translate }}</span>
 </div>
 <div class="row d-flex align-items-center justify-content-center mt-2">
   <div class="container mt-lg-5 mt-md-0 d-flex justify-content-center">
@@ -91,7 +85,7 @@
     (click)="loadMore()"
     routerLink="/ad-pools"
   >
-    <span class="load-more-btn">All Adpools</span>
+    <span class="load-more-btn">{{ 'All_Adpools_Welcome' | translate }}</span>
     <span class="load-more-btn-arrow">></span>
   </div>
 </div>
@@ -100,7 +94,7 @@
   <div class="row info-container margin-top">
     <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
       <div class="info-box d-flex justify-content-between align-items-center">
-        <span class="info-name">Market Cap</span>
+        <span class="info-name">{{ 'MARKET_CAP' | translate }}</span>
         <span class="info-value">$ {{ marketCap }}</span>
       </div>
     </div>
@@ -131,13 +125,13 @@
     <!-- Transactions and wallets counts -->
     <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
       <div class="info-box d-flex justify-content-between align-items-center">
-        <span class="info-name">Holders</span>
+        <span class="info-name">{{ 'Holders' | translate }}</span>
         <span class="info-value">{{ nbrWallet }}</span>
       </div>
     </div>
     <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
       <div class="info-box d-flex justify-content-between align-items-center">
-        <span class="info-name">Nb of Transactions</span>
+        <span class="info-name">{{ 'Nb_of_Transactions' | translate }}</span>
         <span class="info-value">{{ nbr_tx_mainnet }}</span>
       </div>
     </div>
@@ -150,7 +144,7 @@
     </div>
     <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
       <div class="info-box d-flex justify-content-between align-items-center">
-        <span class="info-name">Reach</span>
+        <span class="info-name">{{ 'Reach' | translate }}</span>
         <span class="info-value">{{ reach }} % </span>
       </div>
     </div>
@@ -162,7 +156,7 @@
     </div>
     <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
       <div class="info-box d-flex justify-content-between align-items-center">
-        <span class="info-name">Views</span>
+        <span class="info-name">{{ 'Views' | translate }}</span>
         <span class="info-value">{{ views }}</span>
       </div>
     </div>
@@ -174,7 +168,7 @@
     </div>
     <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
       <div class="info-box d-flex justify-content-between align-items-center">
-        <span class="info-name">Harvested</span>
+        <span class="info-name">{{ 'Harvested' | translate }}</span>
         <!-- <span class="info-value"> {{ harvested | currency: 'USD' }} </span> -->
         <span class="info-value">$ {{ harvested | number }} </span>
       </div>
@@ -183,15 +177,14 @@
 </div>
 
 <div class="welcome_btn_launch" id="btn_launch_stat">
-  <button class="btnStart" routerLink="/ad-pools">Launch App</button>
+  <button class="btnStart" routerLink="/ad-pools">{{ 'Launch_App_Welcome' | translate }}</button>
 </div>
 
 <div class="mt-5 d-flex blog-bloc">
   <div class="col-4 d-none d-sm-block" style="left: 4%">
     <div class="row adpool-title mb-3">Blog</div>
     <div class="row blog-description mb-3">
-      To stay updated on SaTT's progress and be informed of trends in the
-      blockchain world, regularly visit our blog for updates.
+      {{ 'blogWelcomText' | translate}}
     </div>
     <button
       class="row btn_apply_lunch"
@@ -206,8 +199,7 @@
     <div class="d-block d-sm-none">
       <div class="row adpool-title justify-content-center mb-3">Blog</div>
       <div class="row blog-description mb-3">
-        To stay updated on SaTT's progress and be informed of trends in the
-        blockchain world, regularly visit our blog for updates.
+        {{ 'blogWelcomText' | translate}}
       </div>
       <button
         class="row btn_apply_lunch mb-5"
@@ -242,22 +234,19 @@
 <div class="welcome_footer_lunch text-center">
   <div class="col-11 col-md-7" style="margin: auto">
     <div class="pt-5 mb-2 welcome_footer_title" style="margin: auto">
-      Launch your Adpool Now !
+     {{ 'launchYourAdpoolNowTitle' | translate }}
     </div>
     <div class="row mb-4 welcome_description_long">
-      Adpool is an innovative tool for advertisers looking to maximize the
-      impact of their marketing campaigns. It allows advertisers to solicit
-      influencers to speak about their brand or product, while also compensating
-      them with the SaTT token. By applying to create an Adpool, our experienced
-      team will contact you to guide and assist you in setting up your campaign.
-      Trust Adpool for a successful marketing campaign !
+      {{ 'launchYourAdpoolNowText' | translate }}
+
     </div>
     <button
       class="btn_apply_lunch mb-3"
       style="margin: auto"
       onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLScmtK5oh0fWi_S-yG2LGtUFZ_pQPESd2rgcBbtgXLV830H7pQ/viewform');"
-    >
-      Apply to launch
+    >Apply_to_launch
+    {{ 'Apply_to_launch' | translate }}
+
     </button>
   </div>
 </div>

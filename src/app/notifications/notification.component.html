@@ -152,8 +152,7 @@
                 <span
                   *ngIf="i.type === 'apply_campaign'"
                   class="link"
-                  [translate]="'apply_campaign_hash'"
-                  [translateParams]="{ hash: i._params.hash }"
+                
                 ></span>
                 <span
                   *ngIf="i.type === 'transfer_event'"
@@ -196,7 +195,7 @@
       <img class="not-found" src="/assets/Images/not-found.svg " />
 
       <p class="result-found">
-        {{ 'No result found' | translate }}
+        {{ 'No_result_found' | translate }}
       </p>
     </div>
     <!-- <div class="col-md-12 d-flex justify-content-center">
