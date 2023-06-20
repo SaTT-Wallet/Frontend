@@ -527,8 +527,8 @@ export class CampaignHttpApiService {
         '/' +
         linkApplication.idUser +
         '/' +
-        linkApplication.idPost,
-      {
+        (linkApplication.idPost || localStorage.getItem('idPost')),
+      { 
         headers: {
           Authorization: 'Bearer ' + this.tokenStorageService.getToken()
         }
