@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Component, Input, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NavigationEnd, Router } from '@angular/router';
@@ -40,7 +41,6 @@ export class CampaignsDashboardComponent implements OnInit {
     this.walletService.checkUserIsNew().subscribe(
       (res: any) => {
         this.isNewUser= res?.data
-        console.log(res);
       }
     )
     this.requestedPathUrlChanges$
