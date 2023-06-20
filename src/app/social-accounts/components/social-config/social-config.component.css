@@ -72,9 +72,7 @@
     /* .padding-top {
         padding-top: 80px !important;
     } */
-    .btn-green {
-        width: 300px !important;
-    }
+
     .drak-gray_text,
     .title_page {
         color: white !important;
@@ -171,7 +169,7 @@
     padding: 0.5rem 3rem;
     color: #f6f6ff;
     height: 48px;
-    width: 253px;
+    width: 300x;
 }
 
 .cercle {
