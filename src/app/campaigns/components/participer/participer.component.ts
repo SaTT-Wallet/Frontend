@@ -962,7 +962,6 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
           myApplication.linkedinUserId = this.tokenStorageService.getLinkedinUserId();;
           this.application = myApplication;
         }
-          console.log("befooooore",this.tokenStorageService.getIdPost())
         if (performance.find((ratio: any) => ratio.oracle === 'linkedin')) {
           const copyApplication = {...this.application}
           this.CampaignService.verifyLink(copyApplication)
