@@ -166,7 +166,7 @@
   "All_Adpools_Welcome":"Tous les Adpools",  
   "Launch_your_adpool":"Lancez votre AdPool maintenant !",
   "Apply_to_launch":"Postuler pour lancer",
-  "footerText":"Adpool SaTT est un outil innovant qui vous permet de maximiser l'impact de vos campagnes marketing. Il vous permet de faire de la publicité pour des influenceurs afin qu'ils parlent de votre marque ou de votre produit, en utilisant la technologie blockchain.<br /> En demandant la création d'un Adpool, notre équipe expérimentée vous contactera et vous aidera à mettre en place votre campagne. <br /> Faites confiance à SaTT pour une campagne marketing réussie !",
+  "footerText":"Adpool SaTT est un outil innovant qui vous permet de maximiser l'impact de vos campagnes marketing. Il vous permet de faire de la publicité pour des influenceurs afin qu'ils parlent de votre marque ou de votre produit, en utilisant la technologie blockchain. En demandant la création d'un Adpool, notre équipe expérimentée vous contactera et vous aidera à mettre en place votre campagne. Faites confiance à SaTT pour une campagne marketing réussie !",
   "Reach":"Reach",
   "Wallet_updated":"Portefeuille mis à jour",
   "Wallet_updated_Warning":"Pour des raisons de sécurité, nous vous invitons à migrer vos jetons vers un nouveau portefeuille.",
@@ -434,11 +434,11 @@
   "to": "Au",
   "transacHash": "Hachage de transaction",
   "transfer_money": "Vous avez envoyé {{nbr}} {{crypto}} à {{email}}",
-  "transfer_event_currency": "Vous avez envoyé {{nbr}} {{currency}} à",
+  "transfer_event_currency": "Vous avez envoyé {{nbr}} {{currency}} à ",
   "transfer_event_link": "{{to}}",
   "transfer_event_network": " Vous avez envoyé {{nbr}} sur le réseau {{network}} à l'addresse {{to}}.",
-  "receive_transfer_event_network": "Vous avre reçu {{nbr}} sur le réseau {{network}} de la part de {{from}}",
-  "receive_transfer_event_currency": "Vous avre reçu {{nbr}} {{currency}} de la part de {{from}}",
+  "receive_transfer_event_network": "Vous avez reçu {{nbr}} sur le réseau {{network}} de la part de ",
+  "receive_transfer_event_currency": "Vous avez reçu {{nbr}} {{currency}} de la part de ",
   "understood": "j'ai compris",
   "update_profile": "Profil mis à jour",
   "valid": "Valide",
@@ -714,7 +714,7 @@
   "campaign_list.filter": "Filtre",
   "campaign_list.no_campaign": "Pas de données disponibles",
   "campaign_name": "Nom de l'ADPOOL",
-  "campaign_notification.candidate_accept_link": "Un lien a été accepté pour la campagne {{name}}",
+  "campaign_notification.candidate_accept_link": "Un lien a été accepté pour la campagne {{name}}. hash:",
   "campaign_notification.candidate_insert_link": "Un nouveau lien a été ajouté à votre campagne {{name}}",
   "campaign_notification.candidate_reject_link": "Un lien a été rejeté pour la campagne {{name}}",
   "campaign_notification.editor_cmp_rejected": "Votre candidature a la campagne {{name}} a été refusée.Veuillez trouver d'autres campagnes dans votre <a href='{{editorCmpUrl}}' >espace editeur</a>.",
@@ -1083,7 +1083,7 @@
   "social_networks.add_tiktok": "Ajouter un compte TikTok",
   "kyc_confirm2": "Votre {{type}} a été confirmé, vous pouvez maintenant envoyer des Tokens SaTT depuis votre portefeuille. ",
   "kyc_reject2": "Nous n'avons pas pu confirmer votre {{type}} avec les documents fournis, veuillez renvoyer vos documents ou contacter notre service clientèle.",
-  "transfer_event_currency_firebase": "Vous avez envoyé {{nbr}} {{monnaie}} à {{to}}",
+  "transfer_event_currency_firebase": "Vous avez envoyé {{nbr}} {{monnaie}} à {{to}} ",
   "votreKWC_particular": "Les points suivants revêtent une importance particulière",
   "complete_ur_profile1": "Prêt pour le voyage ?",
   "complete_ur_profile3": "Commencez dès maintenant !",
@@ -1102,7 +1102,61 @@
   "confirm-mail-text3":"Si vous n'avez pas reçu l'e-mail de vérification, vérifiez votre dossier de courrier indésirable.",
   "add_tiktok": "Ajouter un compte TikTok",
   "config_text2": "Assurez-vous d'avoir relié toutes vos plateformes sociales. N'oubliez pas que plus vous en ferez, plus vous accélérerez votre influence et vos revenus.",
-  "pass_text": "Pour effectuer chaque transaction, vous devrez introduire ce mot de passe. Notez-le soigneusement et conservez-le en lieu sûr ! "
+  "pass_text": "Pour effectuer chaque transaction, vous devrez introduire ce mot de passe. Notez-le soigneusement et conservez-le en lieu sûr ! ",
+  "Ad_Pools": "Pools publicitaires",
+  "faq_farmming": "Ferme de publications",
+  "receive_event_link": " {{from}}",
+  "receive_transfer_event_currency_firebase": "Vous avez reçu {{nbr}} {{currency}}} de",
+  "migrateWalletText":"Pour des raisons de sécurité, nous vous invitons à migrer vos jetons vers un nouveau portefeuille. C'est très simple, nous avons besoin de quelques minutes de votre temps. Suivez les les étapes décrites dans notre application pour effectuer la migration en toute sécurité.",
+  "migrateWalletTitle":"Migrer vos jetons vers le nouveau portefeuille",
+  "migrateWalletReminder":"Assurez-vous d'avoir suffisamment de gaz pour effectuer la migration.",
+  "notEnoughGaz":"Vous n'avez pas de crypto à migrer sur ce réseau",
+  "migrateMyTokens":"Migrer mes jetons",
+  "migrationPassword":"Pour migrer, veuillez saisir le mot de passe de votre portefeuille",
+  "gasFees":"Frais de gaz",
+  "transactionPassword":"Mot de passe de transaction",
+  "migrateTokens":"Migrer les tokens",
+  "nextStep":"Étape suivante",
+  "doItLater":"Plus tard >",
+  "you-need-help": "Vous avez besoin d'aide ?",
+  "Read-our-FAQ-about": "Lisez notre FAQ sur",
+  "How-to-Tokens": "How to {{action}} Tokens",
+  "paybyCreditCard":"Payer par carte de crédit",
+  "setYourNewTransactionPassword":"Définissez votre nouveau mot de passe de transaction",
+  "ChooseANetwork":"Choisir un réseau",
+  "yourWalletID":"l'ID de votre portefeuille",
+  "walletAddress":"Adresse du portefeuille",
+  "YourOldWallet":"Votre ancien portefeuille",
+  "goTo":"aller à",
+  "verifyWalletOwnership":"vérifier la propriété du portefeuille",
+  "securityReasons":"Pour des raisons de sécurité, nous mettons à jour les portefeuilles de nos utilisateurs.",
+  "walletOwnershipText":"Veuillez saisir votre mot de passe de transaction pour vérifier que vous êtes bien le propriétaire de ce portefeuille. propriétaire de ce portefeuille et passer à l'étape suivante de création d'un nouveau portefeuille.",  
+  "sendAMessage":"Envoyer un message à votre contact",
+  "sameOldPassword":"Ne pas utiliser le même vieux mot de passe pour les transactions",
+  "techdDesNotSupport":"Je comprends que l'assistance technique ne peut pas m'aider à récupérer un mot de passe perdu.",
+  "DontUseSameLogin":"Ne pas utiliser le mot de passe de connexion",
+  "SearchOrPaste":"Rechercher un token ou coller une adresse"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
