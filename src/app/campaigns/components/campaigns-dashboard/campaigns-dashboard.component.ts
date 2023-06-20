@@ -6,6 +6,8 @@ import { Subject } from 'rxjs';
 import { filter, map, startWith, takeUntil } from 'rxjs/operators';
 import { TokenStorageService } from '../../../core/services/tokenStorage/token-storage-service.service';
 import { sattUrl } from '@config/atn.config';
+import { WalletService } from '@app/core/services/wallet/wallet.service';
+import { data } from 'jquery';
 
 
 @Component({
@@ -14,7 +16,7 @@ import { sattUrl } from '@config/atn.config';
   styleUrls: ['./campaigns-dashboard.component.scss']
 })
 export class CampaignsDashboardComponent implements OnInit {
-  isNewUser: boolean = true;
+  isNewUser!: boolean;
   titlee = '';
   private isDestroyed = new Subject();
   @Input() title = 'page title';
@@ -28,12 +30,19 @@ export class CampaignsDashboardComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
+    private walletService: WalletService,
     private service: CampaignsDashboardService,
     private tokenStorageService: TokenStorageService
   ) {}
 
   ngOnInit(): void {
     // console.log(this.checkUserIsNew().subscribe());
+    this.walletService.checkUserIsNew().subscribe(
+      (res: any) => {
+        this.isNewUser= res?.data
+        console.log(res);
+      }
+    )
     this.requestedPathUrlChanges$
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((url: string) => {
@@ -46,16 +55,4 @@ export class CampaignsDashboardComponent implements OnInit {
     this.isDestroyed.unsubscribe();
   }
 
-  checkUserIsNew() {
-    let httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-store',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
-    return this.http.get(
-      `${sattUrl}/wallet/checkIsNewUser`,
-      { headers: httpHeaders }
-    );
-  }
 }
