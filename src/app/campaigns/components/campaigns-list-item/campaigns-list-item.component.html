@@ -249,7 +249,6 @@
           style="text-transform: uppercase"
         >
           {{ 'AllCampains.campaign_ends_on' | translate }}:
-          <img src="assets/Images/calender.svg" width="16px" />
           {{ campaign.endDate | date: 'dd/MM/yyyy':undefined:localId || '' }}
         </span>
       </div>
