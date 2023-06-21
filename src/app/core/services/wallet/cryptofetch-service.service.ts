@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { sattUrl } from '@config/atn.config';
 import { TokenStorageService } from '../tokenStorage/token-storage-service.service';
 import { shareReplay } from 'rxjs/operators';
@@ -27,6 +27,22 @@ export class CryptofetchServiceService {
     return this.http
       .get(sattUrl + '/wallet/cryptoDetails')
       .pipe(shareReplay(1));
+  }
+  getGlobalCryptoMarketInfo() {
+    return this.http
+      .get(sattUrl + '/wallet/globalCryptoMarketInfo') 
+   
+    
+  }
+  getCryptoPriceDetails(cryptoList: number[]): Observable<any> {
+    // Converting array to comma-separated string
+    const cryptoListString = cryptoList.join(',');
+
+    // Configuring the HTTP params
+    const params = new HttpParams().set('cryptolist', cryptoListString);
+
+    // Making the HTTP GET request
+    return this.http.get( sattUrl + '/wallet/cryptoPriceDetails', { params });
   }
 
   transactionHistory() {

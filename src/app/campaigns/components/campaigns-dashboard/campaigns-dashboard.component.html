@@ -1,3 +1,4 @@
+<!-- eslint-disable prettier/prettier -->
 <div class="col-12 background pt-5" *ngIf="title.startsWith('ad-pools')">
   <div class="d-flex justify-content-center">
     <!-- <img
@@ -27,17 +28,34 @@
       src="../../../assets/Images/bgAddPool.png"
       style="object-fit: cover; width: 100%; margin-top: -3rem !important"
     /> -->
-    <div class="bg-imag-cover">
-      <div class="bloc-cover">
-        <div class="title-cover">{{ 'Wallet_updated' | translate }}</div>
-        <div class="description-cover">
-{{ 'Wallet_updated_Warning' | translate }}
-        </div>
-        <div>
-          <button class="button-cover" routerLink="wallet">{{ 'Wallet_updated_migrate' | translate }}</button>
+    <ng-container *ngIf="!isNewUser; else containerNewUser">
+      <div class="bg-imag-cover">
+        <div class="bloc-cover">
+          <div class="title-cover">{{ 'Wallet_updated' | translate }}</div>
+          <div class="description-cover">
+            {{ 'Wallet_updated_Warning' | translate }}
+          </div>
+          <div>
+            <button class="button-cover" routerLink="wallet">{{ 'Wallet_updated_migrate' | translate }}</button>
+          </div>
         </div>
       </div>
-    </div>
+    </ng-container>
+
+    <ng-template #containerNewUser>
+      <div class="bg-imag-newUser">
+        <div class="bloc-cover-new-user">
+          <div class="title-cover">{{'Wallet_newuser_banner_title' | translate }}</div>
+          <div class="description-cover">
+            {{ 'Wallet_newuser_banner_description' | translate }}
+          </div>
+          <div>
+            <button class="button-cover" routerLink="wallet">{{ 'Wallet_newuser_benner_button' | translate }}</button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
     <!--1400-->
     <!-- <p
       class="d-none d-xl-block"
