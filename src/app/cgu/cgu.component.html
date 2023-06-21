@@ -918,16 +918,16 @@
     <div class="d-flex justify-content-center align-items-center mt-5">
       <img class="logo_satt" src="../../../assets/Images/footer_atayen.svg" />
       <label class="Copyright mt-2">
-        Copyright © 2023 ATAYEN, Inc. ALL RIGHT RESERVED ,
+        Copyright © 2023 ATAYEN, Inc. {{ 'Sidebar.copyright' | translate }} ,
         <a class="Copyright_footer_login_black" [routerLink]="['/cgu']"
           >CONDITIONS</a
         >
-        and
+        {{ 'and' | translate }}
         <a
           class="Copyright_footer_login_black"
           [routerLink]="['/privacy-policy']"
         >
-          PRIVACY POLICY</a
+         {{ 'privacyPolicy' | translate }}</a
         >
       </label>
     </div>
