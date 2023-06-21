@@ -60,6 +60,7 @@ private ngUnsubscribe = new Subject<void>();
    }
 
   ngOnInit(): void {
+    this.titleService.setTitle('SaTT-Market Cap'); 
     this.metaService.updateTag({ name: 'description', content: 'Discover the best options in the cryptocurrency market and maximize your investments.' });
     this.metaService.addTag({ name: 'keywords', content: 'cryptocurrency, Coin, Market Cap, investment, crypto, earning' });
     this.metaService.addTag({ property: 'og:image', content: 'assets/Images/global-market-cap-cov.png' });
@@ -139,7 +140,7 @@ private ngUnsubscribe = new Subject<void>();
   }
   cryptoDtlails(crypto: string, cryptoName:string){
     const cryptoUpperCase = crypto.toUpperCase();
-    this.titleService.setTitle(cryptoName)
+    this.titleService.setTitle(cryptoName +' price today')
     this.router.navigate(['/wallet/coin-detail'], { queryParams: { crypto: cryptoUpperCase } });
 
   }
