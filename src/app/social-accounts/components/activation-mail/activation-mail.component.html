@@ -48,7 +48,7 @@
                           this.errorMessagecode === 'code expired',
                         code: !this.errorMessagecode
                       }"
-                      >Authentification code</span
+                      >{{ 'auth_code' | translate }}</span
                     >
                     <app-code-input-auth
                       [clearInput]="this.successMsg === 'Email sent'"
@@ -153,9 +153,7 @@
                     {{ this.timeLeft }} seconds</span>
                 </span> -->
                 <a style="color: red;">
-                  {{ this.errorMessagecode | translate }}, Please try again after 
-                    {{ this.timeLeft }} seconds
-                </a>
+                  {{ 'verifEmailSent' | translate: { timeLeft: this.timeLeft } }}                 </a>
               </div>
         </div>
 
