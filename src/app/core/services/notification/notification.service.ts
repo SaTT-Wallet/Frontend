@@ -82,17 +82,9 @@ export class NotificationService {
   }
 
   saveAccessfcm(data: any) {
-    this.httpOptions = {
-      headers: new HttpHeaders({
-        'Cache-Control': 'no-store',
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-      })
-    };
     return this.http.post(
       sattUrl + '/auth/save/firebaseAccessToken',
-      data,
-      this.httpOptions
+      data
     );
   }
 

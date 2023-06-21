@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FacebookModule } from 'ngx-facebook';
@@ -17,6 +17,7 @@ import { HelpComponent } from './components/help/help.component';
 import { TransferHttpCacheModule } from '@nguniversal/common';
 import { translateBrowserLoaderFactory } from '@core/loaders/translate-browser.loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpInterceptorService } from './http-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
     })*/
   ],
   exports:[TranslateModule], 
-  providers: [{ provide: 'isBrowser', useValue: true }],
+  providers: [{ provide: 'isBrowser', useValue: true }, {provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -13,42 +13,22 @@ export class CreatePasswordWalletService {
     private tokenStorageService: TokenStorageService
   ) {}
   createPasswordWallet(pass: string): Observable<any> {
-    
-    let httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-store',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
     return this.http.post(
       sattUrl + '/wallet/create/v2',
       {
         pass: pass
-      },
-      { headers: httpHeaders }
+      }
     );
   }
   getPassPhrase() {
-    let httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-store',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.get(sattUrl + '/wallet/getMnemo', {
-      headers: httpHeaders
-    });
+    return this.http.get(sattUrl + '/wallet/getMnemo');
   }
 
   checkPassPhraseOrdered(mnemo: string): Observable<any> {
-    let httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-store',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
     return this.http.post(
       sattUrl + '/wallet/verifyMnemo',
-      { mnemo },
-      { headers: httpHeaders }
+      { mnemo }
+     
     );
   }
 }

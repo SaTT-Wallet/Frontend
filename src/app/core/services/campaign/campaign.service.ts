@@ -67,17 +67,11 @@ export class CampaignHttpApiService {
   }
 
   upload(file: File, id:any) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
     const formData: FormData = new FormData();
     formData.append('cover', file);
     
     return this.http
-      .post(sattUrl + '/campaign/ipfs/'+id, formData,{
-        headers: header
-      });
+      .post(sattUrl + '/campaign/ipfs/'+id, formData);
   }
   /*
      @link : /campaigns/:id
@@ -106,8 +100,7 @@ export class CampaignHttpApiService {
   getRefunds(hash: any, password: string, network: string) {
     return this.http.post(
       sattUrl + '/campaign/remaining',
-      { hash: hash, pass: password, network: network },
-      { headers: this.tokenStorageService.getHeader() }
+      { hash: hash, pass: password, network: network }
     );
   }
 
@@ -128,15 +121,13 @@ export class CampaignHttpApiService {
     );
   }
   getTotalInvestetd() {
-    return this.http.get(sattUrl + '/campaign/invested', {
-      headers: this.tokenStorageService.getHeader()
-    });
+    return this.http.get(sattUrl + '/campaign/invested');
   }
   notifyLink(campaignId: any, link: any, idProm: string) {
     return this.http.post(
       sattUrl + '/campaign/linkNotification',
-      { idCampaign: campaignId, link, idProm },
-      { headers: this.tokenStorageService.getHeader() }
+      { idCampaign: campaignId, link, idProm }
+      
     );
   }
 
@@ -231,20 +222,13 @@ export class CampaignHttpApiService {
     idProm: string,
     hash: any
   ): Observable<any> {
-    let httpHeaders = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
     return this.http.post(
       `${sattUrl}/campaign/gains`,
       {
         idProm,
         pass: password,
         hash
-      },
-      { headers: httpHeaders }
+      }
     );
   }
 
@@ -317,8 +301,7 @@ export class CampaignHttpApiService {
         idPost: application.idPost,
         idUser: application.idUser,
         pass: password
-      },
-      { headers: this.tokenStorageService.getHeader() }
+      }
     );
   }
   /*
@@ -375,9 +358,7 @@ export class CampaignHttpApiService {
   }
   deleteDraft(id: any) {
     return this.http
-      .delete(sattUrl + '/campaign/deleteDraft' + `/${id}`, {
-        headers: this.tokenStorageService.getHeader()
-      })
+      .delete(sattUrl + '/campaign/deleteDraft' + `/${id}`)
       .pipe(shareReplay(1));
   }
 
@@ -394,42 +375,20 @@ export class CampaignHttpApiService {
   }
 
   createCompaign(campagne: any) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.post(sattUrl + '/campaign/launch/performance', campagne, {
-      headers: header
-    });
+    return this.http.post(sattUrl + '/campaign/launch/performance', campagne);
   }
 
   launchCampaignWithBounties(campaign: any) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.post(`${sattUrl}/campaign/launchBounty`, campaign, {
-      headers: header
-    });
+    return this.http.post(`${sattUrl}/campaign/launchBounty`, campaign);
   }
 
   createNewDraftCampaign(
     draftCampaign: any
   ): Observable<IApiResponse<ICampaignResponse>> {
-    const token = this.tokenStorageService.getToken();
-
-    const header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + token
-    });
     return this.http
       .post<IApiResponse<ICampaignResponse>>(
         `${sattUrl}/campaign/save`,
-        draftCampaign,
-        { headers: header }
+        draftCampaign
       )
       .pipe(shareReplay(1));
   }
@@ -455,9 +414,7 @@ export class CampaignHttpApiService {
   }
 
   removeKit(id_kit: any) {
-    return this.http.delete(sattUrl + '/campaign/kit/' + id_kit, {
-      headers: this.tokenStorageService.getHeader()
-    });
+    return this.http.delete(sattUrl + '/campaign/kit/' + id_kit);
   }
 
   getCampaignKitResource(campaignId: string, kitId: string) {
@@ -543,12 +500,7 @@ export class CampaignHttpApiService {
     password: any,
     hash: string
   ) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
+    
     return this.http.post(
       sattUrl + '/campaign/apply',
       {
@@ -562,8 +514,8 @@ export class CampaignHttpApiService {
         linkedinId: application.linkedinId,
         version: localStorage.getItem('wallet_version'),
         ... application.typeSN === 5 && ({linkedinUserId : application.linkedinUserId})
-      },
-      { headers: header }
+      }
+      
     );
   }
 
@@ -673,9 +625,6 @@ export class CampaignHttpApiService {
       .post(sattUrl + '/campaign/addKits', formData, {
         reportProgress: true,
         observe: 'events',
-        headers: {
-          Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-        }
       })
       .pipe(
         catchError(() => {
@@ -717,11 +666,8 @@ export class CampaignHttpApiService {
       .put<IApiResponse<ICampaignResponse>>(
         `${sattUrl}/campaign/update/${id}`,
 
-        values,
+        values
 
-        {
-          headers: this.tokenStorageService.getHeader()
-        }
       )
       .pipe(
         catchError(() => of(null)),
@@ -779,9 +725,7 @@ export class CampaignHttpApiService {
       {
         tokenAddress: erc20.addr,
         campaignAddress: campaignSmartContractERC20
-      },
-
-      { headers: this.tokenStorageService.getHeader() }
+      }
     );
   }
 
@@ -792,8 +736,6 @@ export class CampaignHttpApiService {
         tokenAddress: bep20.addr,
         campaignAddress: campaignSmartContractBEP20
       },
-
-      { headers: this.tokenStorageService.getHeader() }
     );
   }
 
@@ -804,9 +746,7 @@ export class CampaignHttpApiService {
         tokenAddress: tron.addr,
         pass: tron.pass,
         version: localStorage.getItem('wallet_version')
-      },
-
-      { headers: this.tokenStorageService.getHeader() }
+      }
     );
   }
 
@@ -816,9 +756,7 @@ export class CampaignHttpApiService {
       {
         tokenAddress: token.addr,
         campaignAddress: campaignSmartContractPOLYGON
-      },
-
-      { headers: this.tokenStorageService.getHeader() }
+      }
     );
   }
 
@@ -829,8 +767,6 @@ export class CampaignHttpApiService {
         tokenAddress: token.addr,
         campaignAddress: campaignSmartContractBTT
       },
-
-      { headers: this.tokenStorageService.getHeader() }
     );
   }
 
@@ -844,8 +780,7 @@ export class CampaignHttpApiService {
         amount: amount,
         tokenAddress: erc20.addr,
         pass: password
-      },
-      { headers: this.tokenStorageService.getHeader() }
+      }
     );
   }
 
@@ -859,8 +794,7 @@ export class CampaignHttpApiService {
         amount: amount,
         pass: password,
         tokenAddress: bep20.addr
-      },
-      { headers: this.tokenStorageService.getHeader() }
+      }
     );
   }
 
@@ -874,8 +808,7 @@ export class CampaignHttpApiService {
         amount: amount,
         pass: password,
         tokenAddress: token.addr
-      },
-      { headers: this.tokenStorageService.getHeader() }
+      }
     );
   }
 
@@ -888,8 +821,7 @@ export class CampaignHttpApiService {
         amount: amount,
         pass: password,
         tokenAddress: tron.addr
-      },
-      { headers: this.tokenStorageService.getHeader() }
+      }
     );
   }
 
@@ -903,8 +835,7 @@ export class CampaignHttpApiService {
         amount: amount,
         pass: password,
         tokenAddress: token.addr
-      },
-      { headers: this.tokenStorageService.getHeader() }
+      }
     );
   }
 
@@ -945,12 +876,6 @@ export class CampaignHttpApiService {
   }
 
   validateLinks(prom: any, Password: any, id: any) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
     return this.http.post(
       sattUrl + '/campaign/validate',
       {
@@ -962,8 +887,7 @@ export class CampaignHttpApiService {
         idUser: prom.meta._id,
         pass: Password,
         lang: this.tokenStorageService.getLocalLang()
-      },
-      { headers: header }
+      }
     );
   }
 
@@ -984,8 +908,7 @@ export class CampaignHttpApiService {
         idUser: prom.meta._id,
         link: prom.link,
         lang: this.tokenStorageService.getLocalLang()
-      },
-      { headers: this.tokenStorageService.getHeader() }
+      }
     );
   }
 
@@ -1048,11 +971,6 @@ export class CampaignHttpApiService {
     });
   }
   getAllPromsStats(campaignId: string, isOwnedByUser: boolean) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
     // return this.http.get(sattUrl + '/campaign/campaignPrompAll/' + campaignId, {
     //   headers: header
     // });
@@ -1064,16 +982,10 @@ export class CampaignHttpApiService {
           campaignId +
           '?influencer=' +
           this.tokenStorageService.getIdWallet(),
-        {
-          headers: header
-        }
       );
     } else {
       return this.http.get(
         sattUrl + '/campaign/campaignPrompAll/' + campaignId,
-        {
-          headers: header
-        }
       );
     }
   }
@@ -1091,16 +1003,10 @@ export class CampaignHttpApiService {
       .set('page', '' + page)
       .set('limit', '' + size)
       .set('version',''+this.tokenStorageService.getWalletVersion())
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
     let idUser = this.tokenStorageService.getUserId();
 
     return this.http
       .get(sattUrl + '/campaign/filterLinks/' + idUser, {
-        headers: header,
         params: campaignId ? queryParamsCamp : queryParams
       })
       .pipe(share());
@@ -1150,14 +1056,7 @@ export class CampaignHttpApiService {
     // }
   }
   getStatisticsCampaign(hash: any) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.get(`${sattUrl}/campaign/statLinkCampaign/` + hash, {
-      headers: header
-    });
+    return this.http.get(`${sattUrl}/campaign/statLinkCampaign/` + hash);
   }
   getFbUserName(linkApplication: any) {
     return this.http.get(

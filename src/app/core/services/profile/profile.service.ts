@@ -173,15 +173,7 @@ export class ProfileService {
   }
 
   completeprofile(body: any) {
-    let httpHeaders = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
-    return this.http.put(sattUrl + '/auth/updateLastStep', body, {
-      headers: httpHeaders
-    });
+    return this.http.put(sattUrl + '/auth/updateLastStep', body);
   }
 
   exportProfileData(password: string) {
@@ -353,46 +345,24 @@ export class ProfileService {
   }
 
   logoutRS(social: any) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.put(sattUrl + '/auth/disconnect/' + social, null, {
-      headers: header
-    });
+    return this.http.put(sattUrl + '/auth/disconnect/' + social, null);
   }
 
   deleteAccount(obj: any) {
-    let header = new HttpHeaders({
+    /*let header = new HttpHeaders({
       'Cache-Control': 'no-store',
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.post(sattUrl + '/auth/purge', obj, {
-      headers: header
-    });
+    });*/
+    return this.http.post(sattUrl + '/auth/purge', obj);
   }
   generateQRCode() {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.get(sattUrl + '/auth/qrCode', { headers: header });
+    return this.http.get(sattUrl + '/auth/qrCode');
   }
   verifyQRCode(body: any): Observable<IresponseCodeQr> {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
     return this.http.post<IresponseCodeQr>(
       sattUrl + '/auth/verifyQrCode',
-      body,
-      {
-        headers: header
-      }
+      body
     );
   }
 

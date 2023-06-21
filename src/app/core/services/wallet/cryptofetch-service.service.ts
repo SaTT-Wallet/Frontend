@@ -55,28 +55,18 @@ export class CryptofetchServiceService {
   }
 
   getTotalBalance(id_wallet?: any) {
-    const headers = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
+    
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     var idwallet = id_wallet || this.tokenStorageService.getIdWallet();
     return this.http.post(
       sattUrl + '/wallet/totalBalance',
       {
         version: this.tokenStorageService?.getWalletVersion()
-      },
-      { headers: headers }
+      }
     );
   }
 
   migrateTokens(tokens: any, network: string, pass: any) {
-    const headers = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     return this.http.post(
       sattUrl + '/wallet/transfertTokensBep20',
@@ -84,8 +74,7 @@ export class CryptofetchServiceService {
         tokens,
         network,
         pass
-      },
-      { headers: headers }
+      }
     );
   }
   getEtherGaz() {
@@ -112,16 +101,9 @@ export class CryptofetchServiceService {
   }
 
   getBalanceCrypto() {
-    const headers = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
     return this.http.post(
       sattUrl + '/wallet/userBalance',
-      { version: this.tokenStorageService?.getWalletVersion() },
-      { headers: headers }
+      { version: this.tokenStorageService?.getWalletVersion() }
     );
   }
   convertcrypto(send: any) {
@@ -135,14 +117,7 @@ export class CryptofetchServiceService {
     });
   }
   deletetoken(token: any) {
-    const headers = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.delete(sattUrl + '/wallet/removeToken/' + token, {
-      headers: headers
-    });
+    return this.http.delete(sattUrl + '/wallet/removeToken/' + token);
   }
   convertCrypto(
     digital_currency: any,

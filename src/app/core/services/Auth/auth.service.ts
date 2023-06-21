@@ -31,7 +31,6 @@ export class AuthService {
     return this.http.post(
       sattUrl + '/auth/passlost',
       { mail: email, lang: this.tokenStorageService.getLocalLang() },
-      { headers: this.tokenStorageService.getHeader() }
     );
   }
 
@@ -39,13 +38,10 @@ export class AuthService {
     return this.http.post<IresponseCode>(
       sattUrl + '/auth/confirmCode',
       { email: email, code: code, type: type },
-      {}
     );
   }
   confirmResetPassword(data: any) {
-    return this.http.post(`${sattUrl}/auth/passrecover`, data, {
-      headers: this.tokenStorageService.getHeader()
-    });
+    return this.http.post(`${sattUrl}/auth/passrecover`, data);
   }
   login(username: string, password: string): Observable<any> {
     return this.http.post(
@@ -53,8 +49,7 @@ export class AuthService {
       {
         username: username,
         password: password
-      },
-      { headers: this.tokenStorageService.getHeader() }
+      }
     );
   }
 
@@ -71,8 +66,7 @@ export class AuthService {
         password: password,
         newsLetter: newsLetter,
         lang: this.tokenStorageService.getLocalLang()
-      },
-      { headers: this.tokenStorageService.getHeader() }
+      }
     );
   }
 
@@ -93,8 +87,7 @@ export class AuthService {
       {
         oldpass: oldpass,
         newpass: newpass
-      },
-      { headers: this.tokenStorageService.getHeader() }
+      }
     );
   }
 
