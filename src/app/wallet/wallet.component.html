@@ -70,7 +70,7 @@
                 ><img
                   src="assets/Images/custom_icons/clarity_error-standard-line.svg"
               /></span>
-              Migrate my tokens
+              {{ 'migrateMyTokens' | translate }}
             </button>
           </div>
           <ng-container *ngIf="shouldShowWarning()">
@@ -441,19 +441,17 @@
       <img src="../../assets/Images/create-wallet-v2-1.svg" />
     </div>
     <p class="textpwd" id="title">
-      {{ 'Verify wallet ownership' | translate }}
+      {{ 'verifyWalletOwnership' | translate }}
     </p>
     <div
       class="d-flex justify-content-center welcome-paragraph"
       id="welcome-paragraph"
     >
       <p class="paragragh" id="paragraph">
-        For security reasons, we are updating our users' wallets.
+        {{'securityReasons' | translate }}
         <br *ngIf="getScreenWidth > 960" />
         <span>
-          Please enter your transaction password to verify that you are the
-          owner of this wallet and proceed to the next step of creating a new
-          one
+{{ 'walletOwnershipText' | translate }}
         </span>
       </p>
     </div>
@@ -549,7 +547,7 @@
       <img src="../../assets/Images/ILLU_MOD_security-2.svg" />
     </div>
     <p class="textpwd" id="title" style="color: #f52079 !important">
-      {{ 'Set your new transaction password' | translate }}
+      {{ 'setYourNewTransactionPassword' | translate }}
     </p>
     <div
       class="d-flex justify-content-center welcome-paragraph"
@@ -856,8 +854,7 @@
         id="checkbox"
         [(ngModel)]="isChecked"
       />
-
-      I understand that tech support cannot help me recover a lost password.
+{{'techdDesNotSupport' | translate }}
     </div>
 
     <div class="row justify-content-center">

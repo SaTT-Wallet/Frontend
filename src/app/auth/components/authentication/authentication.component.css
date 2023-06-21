@@ -300,9 +300,6 @@ main {
   display: none;
 }
 
-.google-icon {
-  /* margin-left: -20px; */
-}
 
 .show-mobile-version {
   display: none !important;
@@ -1562,9 +1559,6 @@ button .btnModalError {
   opacity: 0;
 }
 
-.modal-body.modal-custom {
-  /* padding: 0px 50px !important;   */
-}
 
 /* ::ng-deep.modal-content {
     max-width: none;
