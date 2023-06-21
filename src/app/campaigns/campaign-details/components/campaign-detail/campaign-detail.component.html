@@ -438,6 +438,7 @@
               <span class="sr-only">Loading...</span>
             </div>
           </button>
+          <!--*ngIf="campaign.isOwnedByUser && campaign.type === 'finished'  && !loadingData && campaign.budget !== '0'"-->
           <button
           type="button"
           [className]="refundButtonDisable ? 'btn-edit-refunds-pool-disabled' : 'btn-edit-refunds-pool'"

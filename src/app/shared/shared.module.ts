@@ -71,6 +71,7 @@ import { BuyGasComponent } from './components/buy-gas/buy-gas.component';
 import { QRCodeComponent } from './components/qr-code/qr-code.component';
 import { RoiModalComponent } from '@app/src/app/campaigns/components/roi-modal/roi-modal.component';
 import { InputRoiModalComponent } from '../src/app/campaigns/components/input-roi-modal/input-roi-modal.component';
+import { TimePipe } from './pipes/time.pipe';
 
 @NgModule({
   declarations: [
@@ -107,13 +108,14 @@ import { InputRoiModalComponent } from '../src/app/campaigns/components/input-ro
     WheelMouseDirective,
     BuyGasComponent,
     QRCodeComponent,
-    InputRoiModalComponent
+    InputRoiModalComponent,
+    TimePipe
   ],
   exports: [
     //directives and components
     FilterBynamePipe,
     RoiModalComponent,
-
+    TimePipe,
     HeaderRegisterComponent,
     FooterComponent,
     LoadingLogoComponent,

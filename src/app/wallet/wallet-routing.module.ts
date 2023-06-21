@@ -12,7 +12,7 @@ import { SendComponent } from './components/send/send.component';
 import { SuccessTransferComponent } from './components/success-transfer/success-transfer.component';
 import { WalletComponent } from './wallet.component';
 import { CryptoInfoComponent } from '@wallet/components/crypto-info/crypto-info.component';
-
+import{ CryptoMarketCapComponent} from '@wallet/components/crypto-market-cap/crypto-market-cap.component';
 const routes: Routes = [
   {
     path: '',
@@ -31,9 +31,15 @@ const routes: Routes = [
   },
   {
     path: 'token-info',
-    component: CryptoInfoComponent
-    // canActivate: [AuthGuardService]
+    component:  CryptoMarketCapComponent,
+    
   },
+   {
+        path: 'coin-detail',
+        component:  CryptoInfoComponent
+       
+      },
+
   {
     path: 'summary',
     component: ConvertSummaryComponent

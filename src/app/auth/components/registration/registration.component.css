@@ -405,7 +405,7 @@ meter[value='4'] {
 }
 
 .social-media-login img {
-    width: 10px;
+    width: 40px;
     height: 20px;
 }
 
@@ -439,7 +439,7 @@ meter[value='4'] {
     width: 250px;
     height: 40px;
     display: block;
-    padding-left: 15px;
+    padding-left: 2px;
     padding-top: 10px;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
@@ -514,7 +514,6 @@ meter[value='4'] {
     position: relative;
     height: 40px;
     width: 40px;
-    padding-right: 20px;
 }
 
 .sn-icon-googleEnglish {

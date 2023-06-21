@@ -1,0 +1,168 @@
+.cover-crypto-market-cap {
+  height: 243px;
+  background: #f6f6ff;
+}
+.search-input-wrapper {
+  width: 100%;
+  justify-content: flex-end;
+  gap: 0.5em;
+  align-items: flex-start;
+}
+
+#search-query {
+  align-self: center;
+
+  background-image: url('/assets/Images/serch-hard-gray.svg');
+  background-position: 13px;
+  background-repeat: no-repeat;
+  transition: border-color 0.3s ease;
+  margin-bottom: 1rem;
+  padding-left: 45px;
+  width: 92%;
+  height: 35px;
+  border: 1px solid #d6d6e8;
+  border-radius: 30px;
+  outline: none;
+  text-overflow: ellipsis;
+}
+@media (max-width: 768px) {
+  #search-query {
+    width: 100%;
+  }
+}
+@media (max-width: 575px) {
+  .crypto-icons {
+    height: 25px;
+    width: 25px;
+  }
+  .crypto-name-col {
+    text-transform: uppercase;
+    font-size: 13px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+  }
+}
+
+.crypto-icons {
+  height: 30px;
+  width: 30px;
+}
+#search-query::placeholder {
+  font-weight: 400;
+  line-height: 120%;
+  font-size: 16px;
+  letter-spacing: 0.03em;
+  color: #75758f;
+}
+.crypto-market-cap-title {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 120%;
+  letter-spacing: 1px;
+  color: #4048ff;
+}
+.market-cap-in-number {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 120%;
+  letter-spacing: 1px;
+  color: #1f2337;
+  padding-left: 7%;
+}
+
+canvas {
+  height: 57.5px !important;
+  width: 200px !important;
+}
+.page-content {
+  max-width: 1400px;
+  margin-top: 4% !important;
+  justify-content: center;
+}
+thead {
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px;
+  color: #75758f;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 130%;
+  align-items: center;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+td {
+  cursor: pointer;
+}
+tr.crypto-row:hover {
+  background: #f6f6ff;
+  border-radius: 25px;
+}
+.percentage-24h {
+  border-radius: 20px;
+  text-align: center;
+}
+.range {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 130%;
+
+  // align-items: center;
+  // text-align: center;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+
+  color: #75758f;
+}
+.crypto-symbol {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 130%;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+
+  color: #a6a6a6;
+}
+.cover-market-cap {
+  position: relative;
+  left: 70%;
+  top: 44% !important;
+}
+.global {
+  padding-top: 5%;
+}
+.text-mobile {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  justify-content: center;
+  line-height: 120%;
+  align-items: center;
+  text-align: center;
+}
+#search-query:focus {
+  border: 1px solid #4048ff !important;
+  background-image: url('/assets/Images/serch-hard-blue.svg');
+}
+#search-query:focus::placeholder {
+  color: #4048ff !important ;
+}
+.clear-icon {
+  position: absolute;
+  top: 54%;
+  right: 10%;
+  transform: translateY(-59%);
+  cursor: pointer;
+  color: #4048ff;
+}
