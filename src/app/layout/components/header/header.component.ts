@@ -1477,9 +1477,9 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.menuAbout = false;
     this.menuBlog = false;
   }
-  checkMenuTokenInfo() {
+   openTokenInfoInNewTab() {
     if (isPlatformBrowser(this.platformId))
-      window.open(environment.domainName + '/wallet/token-info?crypto=SATT', '_self');
+      window.open(environment.domainName + '/wallet/token-info', '_self');
   }
   checkMenuAbout() {
     if (isPlatformBrowser(this.platformId))
