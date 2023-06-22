@@ -47,24 +47,7 @@ export class CampaignHttpApiService {
     private tokenStorageService: TokenStorageService
   ) {}
 
-  getMycampaigns() {
-    let idWallet = this.tokenStorageService.getIdWallet();
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http
-      .get(sattUrl + '/v2/campaigns/influencer/' + idWallet, {
-        headers: header
-      })
-      .pipe(
-        //tap((_)=>{console.log(_)}),
-        map((data: any) =>
-          data.campaigns.filter((campaign: any) => campaign.proms.length)
-        )
-      );
-  }
+ 
 
   upload(file: File, id:any) {
     const formData: FormData = new FormData();
@@ -73,19 +56,6 @@ export class CampaignHttpApiService {
     return this.http
       .post(sattUrl + '/campaign/ipfs/'+id, formData);
   }
-  /*
-     @link : /campaigns/:id
-     @description: retrieves all the publisher identifiers of the campaign
-     @params:
-      id : campaign.meta._id   for activated or ended campaign
-      id : _id for draft campaign
-     */
-  getCampaignbyId(id: any) {
-    return this.http.get(sattUrl + '/campaigns/id/' + id, {
-      headers: this.tokenStorageService.getHeader()
-    });
-  }
-
   getPromById(id: string) {
     return this.http.get(`${sattUrl}/campaign/prom/stats/${id}`).pipe(
       retry(1),
@@ -104,22 +74,7 @@ export class CampaignHttpApiService {
     );
   }
 
-  /*
-	@url : /campaign/totalSpent/:owner
-	@description: fetching total spending of the user in USD
-	@params:
-    owner : wallet address of user
-	{headers}
-	@Output JSON object
-	*/
-  getTotalSpent() {
-    return this.http.get(
-      sattUrl +
-        '/campaign/totalSpent/' +
-        this.tokenStorageService.getIdWallet(),
-      { headers: this.tokenStorageService.getHeader() }
-    );
-  }
+
   getTotalInvestetd() {
     return this.http.get(sattUrl + '/campaign/invested');
   }
@@ -131,83 +86,13 @@ export class CampaignHttpApiService {
     );
   }
 
-  getTotalBudget(): Observable<any> {
-    let idWallet = this.tokenStorageService.getIdWallet();
-    return this.http.get(sattUrl + '/campaign/totalEarned/' + idWallet, {
-      headers: this.tokenStorageService.getHeader()
-    });
-  }
-  /**
-   * Returns the list of created and draft campaigns by user wallet id.
-   * @returns {Observable} a http client observable.
-   */
-  getCampaignsByUserWalletId(
-    page = 1,
-    size = 10,
-    queryParams: HttpParams = new HttpParams()
-  ): Observable<any> {
-    //let idWallet = this.tokenStorageService.getIdWallet();
-
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    queryParams = queryParams.set('page', '' + page).set('limit', '' + size);
-    return this.http
-      .get(`${sattUrl}/v2/campaigns/owner`, {
-        params: queryParams,
-        headers: header
-      })
-      .pipe(share());
-  }
-
-  /**
-   * Possible duplicate api in the backend.
-   * @returns {Observable<any>} Http client observable.
-   */
-  getCampaignsList(
-    page = 1,
-    size = 10,
-    queryParams: HttpParams = new HttpParams()
-  ): Observable<any> {
-    let idWallet = this.tokenStorageService.getIdWallet();
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    queryParams = queryParams.set('page', '' + page).set('limit', '' + size);
-
-    return this.http
-      .get(
-        `
-      ${sattUrl}/v2/campaigns/influencer/${idWallet}`,
-        {
-          params: queryParams,
-          headers: header
-        }
-      )
-      .pipe(share());
-  }
-
-  getAcceptedPromsbyOwner(walletId: any, campainId: any) {
-    return this.http.post(
-      sattUrl + '/campaigns/owner_accepted_proms',
-      { id_wallet: walletId, id_campaign: campainId },
-      { headers: this.tokenStorageService.getHeader() }
-    );
-  }
 
   getOneById(
     id: string,
     projection: string = ''
   ): Observable<IApiResponse<ICampaignResponse>> {
     return this.http.get<IApiResponse<ICampaignResponse>>(
-      sattUrl + '/campaign/details/' + id + `?projection=${projection}`,
-      {
-        headers: this.tokenStorageService.getHeader()
-      }
+      sattUrl + '/campaign/details/' + id + `?projection=${projection}`
     );
   }
 
@@ -238,28 +123,7 @@ export class CampaignHttpApiService {
     });
   }
 
-  /*
-     @link : /campaign/:id/proms
-     @description: retrieves all the publisher identifiers of the campaign
-     @params:
-     idCampaign : campaign id
-     */
-  getCampaignEditors(idCampaign: any) {
-    return this.http.get(sattUrl + '/campaign' + idCampaign + '/proms', {
-      headers: this.tokenStorageService.getHeader()
-    });
-  }
 
-  checkUrl(checkLink: any) {
-    return this.http.get(
-      sattUrl +
-        '/campaign/checklink' +
-        `/${checkLink.typeSN}` +
-        `/${checkLink.idUser}` +
-        `/${checkLink.idPost}`,
-      { headers: this.tokenStorageService.getHeader() }
-    );
-  }
   increaseBudget(Budget: any) {
     Budget.token = this.tokenStorageService.getToken();
     return this.http.post(
@@ -274,30 +138,7 @@ export class CampaignHttpApiService {
       { headers: this.tokenStorageService.getHeader() }
     );
   }
-  /**
-     @link : /campaign/apply
-     @description: permet à un éditeur de postuler à une campagne
-     @parameters :
-     idCampaign : identifiant de campagne
-     typeSN : type de réseau social (1:facebook,2:youtube,3:instagram,4:twitter)
-     idPost : identifiant du post selon le reseau social
-     idUser : identifiant de l’utilisateur selon le reseau social
-     @response :  renvoie un identifiant d'éditeur
-     */
-  campaignApply(campaign: any, application: any, password: any) {
-    // let token = this.tokenStorageService.getToken();
-    return this.http.post(
-      sattUrl + '/v2/campaign/apply',
-      {
-        idCampaign: campaign.meta.hash,
-        typeSN: application.typeSN,
-
-        idPost: application.idPost,
-        idUser: application.idUser,
-        pass: password
-      }
-    );
-  }
+  
   /*
      @link : /campaign/:id/showcovers
      @description: retrieves the cover image for the according campaign

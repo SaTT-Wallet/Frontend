@@ -80,6 +80,9 @@ export class HttpInterceptorService implements HttpInterceptor {
     `${environment.API_URL}/campaign/statLinkCampaign`,
     `${environment.API_URL}/campaign/reject`,
     `${environment.API_URL}/campaign/deleteDraft`,
+    `${environment.API_URL}/campaign/details`,
+
+    ///campaign/details
 
 
 
@@ -122,14 +125,17 @@ export class HttpInterceptorService implements HttpInterceptor {
   constructor() { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler) {
-    console.log({request})
-    console.log({publicEndPoints: this.privateEndPoints})
+    
     // Check if the URL of the current request is not in the list of public endpoints
     if (this.privateEndPoints.some(url => request.url.startsWith(url))) {
-      
+      console.log({url : request.url})  
       // If the URL is not in the list, clone the request and add the token
+      const condition = request.url.includes('ipfs') 
+                        || request.url.includes('addKits') 
+                        || (request.url.includes('profile/picture') && request.method === 'POST') 
+                        || request.url.includes('add/Legalprofile')
       const modifiedRequest = request.clone({
-        setHeaders: this.getHeader("private")
+        setHeaders: this.getHeader("private",condition)
       });
 
       // Pass the modified request to the next handler
@@ -146,25 +152,21 @@ export class HttpInterceptorService implements HttpInterceptor {
   }
 
 
-  getHeader(type: string) {
+  getHeader(type: string, contentType?: boolean) {
+    let headers: { [header: string]: string } = {
+      'Cache-Control': 'no-store',
+    };
     if(type === "private") {
-      let headers: { [header: string]: string } = {
-        'Cache-Control': 'no-store',
-        
-      };
+      if(!contentType) headers['Content-Type'] = 'application/json'
       const token = window.localStorage.getItem('access_token');
       if (token) {
         headers['Authorization'] = 'Bearer ' + token;
       }
-  
-      return headers;
+      
     } else {
-      let headers: { [header: string]: string } = {
-        'Cache-Control': 'no-store',
-        'Content-Type': 'application/json',
-      };
-      return headers;
+      headers['Content-Type'] = 'application/json'
     }
+    return headers;
     
   }
 }
