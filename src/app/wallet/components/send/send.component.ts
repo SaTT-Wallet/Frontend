@@ -732,16 +732,21 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         ))
         const balance = this.selectedCryptoDetails?.total_balance.toFixed(2) - fees;
         const quantity = this.selectedCryptoDetails?.quantity - (fees / this.selectedCryptoDetails?.price) 
-        this.sendform.get('Amount')?.setValue(quantity)
-        this.sendform.get('AmountUsd')?.setValue(balance)
-        this.amount = this.showNumbersRule.transform(quantity.toString(), true);
-        this.amountUsd = balance.toFixed(2)
+        if(balance > 0) {
+          this.sendform.get('Amount')?.setValue(quantity)
+          this.sendform.get('AmountUsd')?.setValue(balance)
+          this.amount = this.showNumbersRule.transform(quantity.toString(), true);
+          this.amountUsd = balance.toFixed(2)
+          this.max = true;
+        }
+        
 
       } else {
         this.sendform.get('Amount')?.setValue(this.selectedCryptoDetails?.quantity)
         this.sendform.get('AmountUsd')?.setValue(this.selectedCryptoDetails?.total_balance.toFixed(2))
         this.amount = this.selectedCryptoDetails?.quantity
         this.amountUsd = this.selectedCryptoDetails?.total_balance.toFixed(2)
+        this.max = true;
       }
     }
   }
@@ -927,11 +932,13 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.sendform.get('AmountUsd')?.setValue(sendusd);
         this.sendform.get('Amount')?.setValue(sendusd / this.selectedCryptoDetails.price)
         this.amount = this.showNumbersRule.transform((sendusd / this.selectedCryptoDetails.price).toString(), true)
+        this.max = false;
 
     } else {
       this.sendform.get('Amount')?.setValue(sendamount);
       this.sendform.get('AmountUsd')?.setValue(sendusd * this.selectedCryptoDetails.price)
       this.amountUsd = this.showNumbersRule.transform((this.selectedCryptoDetails.price * sendamount).toString(), true);
+      this.max = false;
       this.editwidthInput();
     }
     }
