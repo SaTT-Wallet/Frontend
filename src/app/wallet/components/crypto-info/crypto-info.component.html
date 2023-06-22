@@ -4,7 +4,7 @@
   >
     <div
       class="d-md-none d-flex justify-content-end back-button"
-      [routerLink]="['/home']"
+      [routerLink]="['/wallet/token-info']"
       style="cursor: pointer"
     >
       < Back
@@ -45,7 +45,7 @@
     >
       <div
         class="back-button mr-1"
-        [routerLink]="['/home']"
+        [routerLink]="['/wallet/token-info']"
         style="cursor: pointer"
       >
         < Back
@@ -110,11 +110,36 @@
     <div class="chart-header mb-3" *ngIf="!isLoading">
       <div class="price-title">Price</div>
       <div class="chart-filters d-flex align-items-center justify-content-end">
-        <span class="filter-box" (click)="filterChartByPeriod('1')">1D</span>
-        <span class="filter-box" (click)="filterChartByPeriod('7')">1W</span>
-        <span class="filter-box" (click)="filterChartByPeriod('30')">1M</span>
-        <span class="filter-box" (click)="filterChartByPeriod('max')">1Y</span>
-        <span class="filter-box" (click)="filterChartByPeriod('max')">All</span>
+        <span class="filter-box" 
+        (click)="filterChartByPeriod('1')" 
+        [ngStyle]="{'background-color': selectedPeriod === '1' ? '#4048FF' : '', 
+        'color':selectedPeriod === '1' ? 'white' : ''}">
+        1{{ 'chart.day' | translate }}
+         </span>
+        <span class="filter-box" 
+        (click)="filterChartByPeriod('7')" 
+        [ngStyle]="{'background-color': selectedPeriod === '7' ? '#4048FF' : '',
+         'color':selectedPeriod === '7' ? 'white' : ''}">
+        1{{ 'chart.week' | translate }}
+         </span>
+        <span class="filter-box" 
+        (click)="filterChartByPeriod('30')" 
+        [ngStyle]="{'background-color': selectedPeriod === '30' ? '#4048FF' : '', 
+        'color':selectedPeriod === '30' ? 'white' : ''}">
+        1{{ 'chart.month' | translate }}
+          </span>
+        <span class="filter-box"
+         (click)="filterChartByPeriod('365')" 
+         [ngStyle]="{'background-color': selectedPeriod === '365' ? '#4048FF' : '', 
+         'color':selectedPeriod === '365' ? 'white' : ''}">
+         1{{ 'chart.year' | translate }}
+         </span>
+        <span class="filter-box" 
+        (click)="filterChartByPeriod('max')" 
+        [ngStyle]="{'background-color': selectedPeriod === 'max' ? '#4048FF' : '', 
+        'color':selectedPeriod === 'max' ? 'white' : ''}">
+        {{ 'chart.all' | translate }}
+         </span>
       </div>
     </div>
     <div [chart]="chart" class="chart" *ngIf="!!chart"></div>
@@ -167,7 +192,7 @@
           </div>
         </div>
         <div class="details-box">
-          <div class="gray-title title-border-md">{{circulating_supply' | translate }}</div>
+          <div class="gray-title title-border-md">{{'circulating_supply' | translate }}</div>
           <div class="right-part-sm-details-box">
             <div class="text-value">
               {{ circulatingSupply }} {{ cryptoSymbol }}
