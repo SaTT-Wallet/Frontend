@@ -18,6 +18,7 @@ import { data } from 'jquery';
 })
 export class CampaignsDashboardComponent implements OnInit {
   isNewUser!: boolean;
+  isConnected: any;
   titlee = '';
   private isDestroyed = new Subject();
   @Input() title = 'page title';
@@ -37,7 +38,7 @@ export class CampaignsDashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // console.log(this.checkUserIsNew().subscribe());
+    this.isConnected = this.tokenStorageService.getIsAuth()    
     this.walletService.checkUserIsNew().subscribe(
       (res: any) => {
         this.isNewUser= res?.data
