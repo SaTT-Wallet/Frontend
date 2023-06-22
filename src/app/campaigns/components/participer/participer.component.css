@@ -3,7 +3,7 @@
   position: relative;
   height: 100%;
   display: block;
-  overflow: scroll;
+
 }
 
 .input-amount {
@@ -69,6 +69,7 @@ input.pass-hide {
 .block-facebook::-webkit-scrollbar {
   width: 7px;
 }
+
 
 .block-facebook::-webkit-scrollbar-track {
   background: transparent;
@@ -151,6 +152,8 @@ input.pass-hide {
   font-weight: 700;
   line-height: 22px;
   font-size: 22px;
+  
+  
 }
 
 .add_link {
@@ -191,12 +194,17 @@ input.pass-hide {
 }
 
 .titre_add {
+  width: 100%;
   text-transform: uppercase;
   font-style: normal;
   font-weight: 600;
-  line-height: 20.14px;
-  font-size: 14px;
+  line-height: 15.63px;
+  font-size: 13px;
   color: #75758f;
+  display: flex;
+align-items: center;
+letter-spacing: 0.02em;
+initial-letter: 3%;
   /* margin-left: -2%; */
 }
 
@@ -262,7 +270,7 @@ input.pass-hide {
   cursor: pointer;
 }
 
-.butt_send2 {
+.send-button {
   font-style: normal;
   font-weight: 600;
   font-size: 18px;
@@ -271,36 +279,44 @@ input.pass-hide {
   text-align: center;
   letter-spacing: 0.03em;
   border: none;
-  width: 200px;
-  height: 48px;
   color: #f6f6ff;
   background: #00cc9e;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
   border-radius: 30px;
   cursor: pointer;
+  border-radius: 0;
+  height: 56PX;
+  border-radius: 30px;
+  width: 436px;
+ 
 }
 
-.butt_send2:not(:disabled):hover {
+.send-button:not(:disabled):hover {
   background: #009775;
 }
 
-.butt_send2:focus {
+.send-button:focus {
   color: #d6d6e8;
   background: #009775;
   border: 3px solid rgba(0, 204, 158, 0.5);
 }
 
-.butt_send2:disabled {
+.send-button:disabled {
   background: #f6f6ff;
   color: #adadc8;
-  box-shadow: none;
+
 }
 
-.button_send {
-  display: flex;
+.send-block {
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  justify-items: center;
-  padding: 20px 0px 40px 0px;
+  width: 100%;
+  position: relative;
+  min-height: 100%;
+  margin-top: 40%;
+  margin-left: 1%;
+
 }
 
 .confirm .butt_chocher {
@@ -860,8 +876,9 @@ input:-webkit-autofill:active {
 }
 
 @media (max-width: 767.98px) {
-  .span_btn_back {
-    display: none;
+  .send-block{
+    margin-top: 5%;   
+
   }
   .btn-back {
     width: 40px !important;
@@ -937,9 +954,7 @@ input:-webkit-autofill:active {
     opacity: 0.001;
     z-index: -1 !important;
   }
-  /* .monotize_div {
-         min-height: 100vh;
-     } */
+   
   .envoyer_lien {
     /* position: fixed; */
     width: 100%;
@@ -955,12 +970,8 @@ input:-webkit-autofill:active {
     overflow-x: hidden;
     margin-top: -30px;
   }
-  .butt_send2 {
-    width: 100%;
-    border-radius: 0;
-    height: 71.04px;
-    border-radius: 30px;
-  }
+  
+  
   .info_link {
     height: 71.04px;
     margin-top: 2em;
@@ -1088,8 +1099,37 @@ input:-webkit-autofill:active {
   width: 205px;
 }
 @media (max-width: 567.98px) {
+
+  .send-button{
+    width: 462px;
+    margin-bottom: 10px; 
+
+  }
   .btn-green,
   .white-btn {
     width: 272px;
   }
+  
+}
+
+/* .p-3{
+ 
+  padding: 30px;
+
+} */
+.butt_back2{
+  width: 100%;
+  border-radius: 0;
+  height: 37.69px;
+  color:#4048FF;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 120%;
+  background-color: transparent;
+  border: 0px;
+  height: 56px;
+
+
 }
