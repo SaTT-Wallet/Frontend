@@ -81,14 +81,6 @@ export class ContactMessageService {
   }
 
   reveiveMoney(contact: any) {
-    const headers = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
-    return this.http.post(sattUrl + '/profile/receiveMoney', contact, {
-      headers: headers
-    });
+    return this.http.post(sattUrl + '/profile/receiveMoney', contact);
   }
 }

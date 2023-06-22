@@ -125,15 +125,6 @@ export class CryptofetchServiceService {
     fiat_currency: any,
     requested_currency: any
   ) {
-    const headers = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    const headers2 = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json'
-    });
     if (this.tokenStorageService.getToken()) {
       return this.http.post(
         sattUrl + '/wallet/getQuote',
@@ -142,8 +133,7 @@ export class CryptofetchServiceService {
           requested_amount,
           fiat_currency,
           requested_currency
-        },
-        { headers: headers }
+        }
       );
     } else {
       return this.http.post(
@@ -153,8 +143,7 @@ export class CryptofetchServiceService {
           requested_amount,
           fiat_currency,
           requested_currency
-        },
-        { headers: headers2 }
+        }
       );
     }
   }
@@ -164,26 +153,16 @@ export class CryptofetchServiceService {
     quote_id: any,
     idWallet: any
   ): Observable<IApiResponse<IPaymentRequestResponse>> {
-    const headers = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    const headers2 = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json'
-    });
     if (this.tokenStorageService.getToken()) {
       return this.http.post<IApiResponse<IPaymentRequestResponse>>(
         sattUrl + '/wallet/payementRequest',
         { currency, quote_id, idWallet },
-        { headers: headers }
       );
     } else {
       return this.http.post<IApiResponse<IPaymentRequestResponse>>(
         sattUrl + '/wallet/payementRequest',
-        { currency, quote_id, idWallet },
-        { headers: headers2 }
+        { currency, quote_id, idWallet }
+        
       );
     }
   }

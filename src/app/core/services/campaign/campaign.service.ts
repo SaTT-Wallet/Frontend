@@ -233,14 +233,8 @@ export class CampaignHttpApiService {
   }
 
   getBestInfluencerPic(id: any) {
-    let headers = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
     return this.http.get(sattUrl + `/profile/picture?id=${id}`, {
       responseType: 'blob',
-      headers: headers
     });
   }
 
@@ -485,11 +479,6 @@ export class CampaignHttpApiService {
         linkApplication.idUser +
         '/' +
         (linkApplication.idPost || localStorage.getItem('idPost')),
-      { 
-        headers: {
-          Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-        }
-      }
     );
   }
 
@@ -944,16 +933,8 @@ export class CampaignHttpApiService {
   //   });
   // }
   linkedinSharedid(idPost: any) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
     return this.http.get(
-      sattUrl + '/profile/linkedin/ShareByActivity/' + idPost,
-      {
-        headers: header
-      }
+      sattUrl + '/profile/linkedin/ShareByActivity/' + idPost
     );
   }
 
@@ -1063,11 +1044,6 @@ export class CampaignHttpApiService {
       sattUrl +
         '/profile/link/verify/fbUserName/' +
         linkApplication,
-      {
-        headers: {
-          Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-        }
-      }
     );
   }
   // expandUrl(shortUrl: string) {

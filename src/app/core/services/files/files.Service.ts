@@ -20,14 +20,9 @@ export class FilesService {
     return this.http.post(sattUrl + '/profile/picture', formData, {
       reportProgress: true,
       observe: 'events',
-      headers: {
-        Authorization: 'Bearer ' + this.tokenStorageService.getToken(),
-        'Cache-Control': 'no-store'
-      }
     });
   }
   uploadProofID(content: File) {
-    let userId = this.tokenStorageService.getIdUser();
     let type = 'proofId';
     let file = new FormData();
     file.append('file', content);
@@ -35,15 +30,10 @@ export class FilesService {
     file.append('typeProof', this.typeProof);
     return this.http.post(sattUrl + '/profile/add/Legalprofile', file, {
       reportProgress: true,
-      observe: 'events',
-      headers: {
-        Authorization: 'Bearer ' + this.tokenStorageService.getToken(),
-        'ATN-Node': '0' + userId
-      }
+      observe: 'events'
     });
   }
   uploadProofDomicile(content: File) {
-    let userId = this.tokenStorageService.getIdUser();
     let type = 'proofDomicile';
     let file = new FormData();
     file.append('file', content);
@@ -51,31 +41,16 @@ export class FilesService {
     file.append('typeProof', this.typeProof);
     return this.http.post(sattUrl + '/profile/add/Legalprofile', file, {
       reportProgress: true,
-      observe: 'events',
-      headers: {
-        Authorization: 'Bearer ' + this.tokenStorageService.getToken(),
-        'ATN-Node': '0' + userId
-      }
+      observe: 'events'
     });
   }
 
   getUserLegalPic(fileId: any) {
-    let headers = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
     return this.http.get(sattUrl + `/profile/legalUserUpload/${fileId}`, {
-      responseType: 'blob',
-      headers: headers
+      responseType: 'blob'
     });
   }
   getListUserLegal() {
-    let headers = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.get(sattUrl + '/profile/UserLegal', { headers: headers });
+    return this.http.get(sattUrl + '/profile/UserLegal');
   }
 }

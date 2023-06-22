@@ -29,17 +29,8 @@ export class NotificationService {
   ) {}
 
   getAllNotifications(): Observable<INotificationsResponse> {
-    this.httpOptions = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
     return this.http.get<INotificationsResponse>(
-      sattUrl + '/profile/notifications',
-      {
-        headers: this.httpOptions
-      }
+      sattUrl + '/profile/notifications'
     );
   }
   notifIsSendRes() {
@@ -54,30 +45,15 @@ export class NotificationService {
   }
 
   notificationSeen(): Observable<IApiResponse<{ [key: string]: string }>> {
-    let headers = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
     return this.http.get<IApiResponse<{ [key: string]: string }>>(
-      sattUrl + '/profile/notification/issend/clicked',
-      { headers }
+      sattUrl + '/profile/notification/issend/clicked'
     );
   }
 
   oneNotificationSeen(id: any) {
-    this.httpOptions = {
-      headers: new HttpHeaders({
-        'Cache-Control': 'no-store',
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-      })
-    };
     return this.http.post(
       sattUrl + '/profile/notification/seen/' + id,
       {},
-      this.httpOptions
     );
   }
 

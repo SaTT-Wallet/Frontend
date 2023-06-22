@@ -71,14 +71,7 @@ export class AuthService {
   }
 
   verifyAccount(): Observable<IresponseAccount> {
-    let httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-store',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.get<IresponseAccount>(sattUrl + '/profile/account', {
-      headers: httpHeaders
-    });
+    return this.http.get<IresponseAccount>(sattUrl + '/profile/account');
   }
 
   updatePassword(oldpass: any, newpass: any) {
@@ -98,14 +91,7 @@ export class AuthService {
     });
   }
   onBoarding() {
-    let httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-store',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.get(sattUrl + '/profile/onBoarding', {
-      headers: httpHeaders
-    });
+    return this.http.get(sattUrl + '/profile/onBoarding');
   }
   // checkPass(pass: any) {
   //   let httpHeaders = new HttpHeaders({
@@ -118,25 +104,11 @@ export class AuthService {
   //   });
   // }
   imagespuzzle() {
-    let httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-store',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.get(sattUrl + '/auth/captcha', {
-      headers: httpHeaders
-    });
+    return this.http.get(sattUrl + '/auth/captcha');
   }
 
   verifyimagespuzzle(send: any) {
-    let httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-store',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.post(sattUrl + '/auth/verifyCaptcha', send, {
-      headers: httpHeaders
-    });
+    return this.http.post(sattUrl + '/auth/verifyCaptcha', send);
   }
 
   canActivate() {
@@ -149,13 +121,6 @@ export class AuthService {
   }
 
   setVisitSignUpStep(body: { userId: string; visitedStep: string }) {
-    let httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-store',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.post(sattUrl + '/auth/setVisitSignUpStep', body, {
-      headers: httpHeaders
-    });
+    return this.http.post(sattUrl + '/auth/setVisitSignUpStep', body);
   }
 }

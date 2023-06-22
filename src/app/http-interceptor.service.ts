@@ -7,7 +7,9 @@ import { environment } from '@environments/environment';
 
 @Injectable()
 export class HttpInterceptorService implements HttpInterceptor {
-  // List of public API endpoints
+
+
+  // List of private API endpoints
   privateEndPoints = [
 
     // AUTH API
@@ -42,6 +44,10 @@ export class HttpInterceptorService implements HttpInterceptor {
     `${environment.API_URL}/wallet/checkIsNewUser`,
     `${environment.API_URL}/wallet/code-export-keystore`,
     `${environment.API_URL}/wallet/export-keystore`,
+    `${environment.API_URL}/wallet/getQuote`,
+    `${environment.API_URL}/wallet/payementRequest`,
+
+  
 
 
 
@@ -74,7 +80,43 @@ export class HttpInterceptorService implements HttpInterceptor {
     `${environment.API_URL}/campaign/statLinkCampaign`,
     `${environment.API_URL}/campaign/reject`,
     `${environment.API_URL}/campaign/deleteDraft`,
-    // Add more private endpoints here /wallet/export-keystore /campaign/statLinkCampaign/
+
+
+
+
+    // PROFILE API
+    `${environment.API_URL}/profile/picture`,
+    `${environment.API_URL}/profile/UpdateProfile`,
+    `${environment.API_URL}/profile/UserLegal`,
+    `${environment.API_URL}/profile/UserIntersts`,
+    `${environment.API_URL}/profile/AddUserIntersts`,
+    `${environment.API_URL}/profile/UpdateUserIntersts`,
+    `${environment.API_URL}/profile/RemoveTwitterChannels`,
+    `${environment.API_URL}/profile/RemoveTwitterChannel`,
+    `${environment.API_URL}/profile/RemoveGoogleChannels`,
+    `${environment.API_URL}/profile/RemoveGoogleChannel`,
+    `${environment.API_URL}/profile/RemoveFacebookchannels`,
+    `${environment.API_URL}/profile/RemoveFacebookChannel`,
+    `${environment.API_URL}/profile/RemoveLinkedInChannels`,
+    `${environment.API_URL}/profile/remove`,
+    `${environment.API_URL}/profile/RemoveTiktokChannels`,
+    `${environment.API_URL}/profile/RemoveTiktokChannel`,
+    `${environment.API_URL}/profile/socialAccounts`,
+    `${environment.API_URL}/profile/onBoarding`,
+    `${environment.API_URL}/profile/receiveMoney`,
+    `${environment.API_URL}/profile/add/Legalprofile`,
+    `${environment.API_URL}/profile/legalUserUpload`,
+    `${environment.API_URL}/profile/notification/seen`,
+    `${environment.API_URL}/profile/notification/issend/clicked`,
+    `${environment.API_URL}/profile/notifications`,
+    `${environment.API_URL}/profile/changeEmail`,
+    `${environment.API_URL}/profile/confirmChangeEmail`,
+    `${environment.API_URL}/profile/linkedin/ShareByActivity`,
+    `${environment.API_URL}/profile/link/verify`,
+    `${environment.API_URL}/profile/Tiktok/ProfilPrivacy`,
+    `${environment.API_URL}/profile/account`,
+
+    
   ]; 
 
   constructor() { }
@@ -87,30 +129,43 @@ export class HttpInterceptorService implements HttpInterceptor {
       
       // If the URL is not in the list, clone the request and add the token
       const modifiedRequest = request.clone({
-        setHeaders: this.getHeader()
+        setHeaders: this.getHeader("private")
       });
 
       // Pass the modified request to the next handler
       return next.handle(modifiedRequest);
+    } else {
+      const modifiedRequest = request.clone({
+        setHeaders: this.getHeader("public")
+      });
+      return next.handle(modifiedRequest);
     }
 
     // If the URL is in the list of public endpoints, pass the original request to the next handler
-    return next.handle(request);
+   
   }
 
 
-  getHeader() {
-    let headers: { [header: string]: string } = {
-      'Cache-Control': 'no-store',
-      
-    };
-      
-    const token = window.localStorage.getItem('access_token');
-    if (token) {
-      headers['Authorization'] = 'Bearer ' + token;
+  getHeader(type: string) {
+    if(type === "private") {
+      let headers: { [header: string]: string } = {
+        'Cache-Control': 'no-store',
+        
+      };
+      const token = window.localStorage.getItem('access_token');
+      if (token) {
+        headers['Authorization'] = 'Bearer ' + token;
+      }
+  
+      return headers;
+    } else {
+      let headers: { [header: string]: string } = {
+        'Cache-Control': 'no-store',
+        'Content-Type': 'application/json',
+      };
+      return headers;
     }
-
-    return headers;
+    
   }
 }
 

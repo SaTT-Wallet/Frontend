@@ -15,159 +15,60 @@ export class ProfileService {
   ) {}
 
   getSocialNetworks() {
-    let httpHeaders = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
     return this.http.get<IGetSocialNetworksResponse>(
-      sattUrl + '/profile/socialAccounts',
-      { headers: httpHeaders }
+      sattUrl + '/profile/socialAccounts'
     );
   }
   // /profile/socialAccounts
   deleteOneSocialNetworksGoogle(id: string) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.delete(sattUrl + '/profile/RemoveGoogleChannel/' + id, {
-      headers: header
-    });
+    return this.http.delete(sattUrl + '/profile/RemoveGoogleChannel/' + id);
   }
   deleleteAllSocialNetworksTwitter() {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.delete(sattUrl + '/profile/RemoveTwitterChannels', {
-      headers: header
-    });
+    return this.http.delete(sattUrl + '/profile/RemoveTwitterChannels');
   }
   deleteOneSocialNetworksTwitter(id: string) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.delete(sattUrl + '/profile/RemoveTwitterChannel/' + id, {
-      headers: header
-    });
+    return this.http.delete(sattUrl + '/profile/RemoveTwitterChannel/' + id);
   }
   deleleteAllSocialNetworksGoogle() {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.delete(sattUrl + '/profile/RemoveGoogleChannels', {
-      headers: header
-    });
+    return this.http.delete(sattUrl + '/profile/RemoveGoogleChannels');
   }
   deleleteAllSocialNetworksFb() {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.delete(sattUrl + '/profile/RemoveFacebookchannels', {
-      headers: header
-    });
+    return this.http.delete(sattUrl + '/profile/RemoveFacebookchannels');
   }
   deleteOneSocialNetworksFb(id: string) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.delete(sattUrl + '/profile/RemoveFacebookChannel/' + id, {
-      headers: header
-    });
+    return this.http.delete(sattUrl + '/profile/RemoveFacebookChannel/' + id);
   }
   deleteAllSocialNetworksLinkedin() {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.delete(sattUrl + '/profile/RemoveLinkedInChannels', {
-      headers: header
-    });
+    return this.http.delete(sattUrl + '/profile/RemoveLinkedInChannels');
   }
   deleteOneSocialNetworksLinkedin(organization: string,linkedinId:string) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
     return this.http.delete(
-      sattUrl + '/profile/remove/'+ linkedinId+'/linkedInChannel/'+ organization,
-      {
-        headers: header
-      }
+      sattUrl + '/profile/remove/'+ linkedinId+'/linkedInChannel/'+ organization
+      
     );
   }
 
   deleteTiktokChannel(tiktokProfileId: string) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
     return this.http.delete(
-      sattUrl + '/profile/RemoveTiktokChannel/' + tiktokProfileId,
-      {
-        headers: header
-      }
+      sattUrl + '/profile/RemoveTiktokChannel/' + tiktokProfileId
+      
     );
   }
   deleteAllTiktokChannels() {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.delete(sattUrl + '/profile/RemoveTiktokChannels', {
-      headers: header
-    });
+    return this.http.delete(sattUrl + '/profile/RemoveTiktokChannels');
   }
 
   updateprofile(body: any) {
-    let httpHeaders = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
-    return this.http.put(sattUrl + '/profile/UpdateProfile', body, {
-      headers: httpHeaders
-    });
+    return this.http.put(sattUrl + '/profile/UpdateProfile', body);
   }
   updateEmail(body: any) {
-    let httpHeaders = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.post(sattUrl + '/profile/changeEmail', body, {
-      headers: httpHeaders
-    });
+    return this.http.post(sattUrl + '/profile/changeEmail', body);
   }
   confirmChangeEmail(code: any) {
-    let httpHeaders = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
     return this.http.post(
       sattUrl + '/profile/confirmChangeEmail',
       {
         code: code
-      },
-      {
-        headers: httpHeaders
       }
     );
   }
@@ -250,27 +151,13 @@ export class ProfileService {
   }
 
   getTiktokProfilPrivcay() {
-    let headers = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    
-    return this.http.get(sattUrl + '/profile/Tiktok/ProfilPrivacy', {
-      headers: headers
-    });
+    return this.http.get(sattUrl + '/profile/Tiktok/ProfilPrivacy');
   }
 
 
   getUserProfilePic() {
-    let headers = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
     return this.http.get(sattUrl + '/profile/picture', {
       responseType: 'blob',
-      headers: headers
     });
   }
 
@@ -307,16 +194,9 @@ export class ProfileService {
   //   return this.http.get(sattUrl + "/v2/export/" + encodeURIComponent(pass) + "/" +token ,{ headers: headers });
   // }
   addInterests(body: any) {
-    let httpHeaders = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
     return this.http.post(
       sattUrl + '/profile/AddUserIntersts',
-      { interests: body },
-      { headers: httpHeaders }
+      { interests: body }
     );
   }
   getInterests() {
@@ -326,21 +206,12 @@ export class ProfileService {
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
 
-    return this.http.get(sattUrl + '/profile/UserIntersts', {
-      headers: httpHeaders
-    });
+    return this.http.get(sattUrl + '/profile/UserIntersts');
   }
   updateInterests(body: any) {
-    let httpHeaders = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
     return this.http.put(
       sattUrl + '/profile/UpdateUserIntersts',
-      { interests: body },
-      { headers: httpHeaders }
+      { interests: body }
     );
   }
 
