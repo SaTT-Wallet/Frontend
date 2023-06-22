@@ -449,11 +449,11 @@
           >
           <p *ngIf="refundButtonDisable">
             <img src="../../../../../assets/Images/Vector-loading.svg"/>
-           Retrieve Budget  ( {{dateRefundDays}}d {{dateRefundHours}}h {{dateRefundMinutes}}min)
+           {{'retrieveBudget' | translate }} ( {{dateRefundDays}}d {{dateRefundHours}}h {{dateRefundMinutes}}min)
           </p>
           <p *ngIf="!refundButtonDisable">
             <img src="../../../../../assets/Images/retrieve.svg"/>
-           Retrieve Budget
+            {{'retrieveBudget' | translate }}
           </p>
           
           </button>
