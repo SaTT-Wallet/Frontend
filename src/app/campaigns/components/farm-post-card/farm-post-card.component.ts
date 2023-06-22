@@ -259,7 +259,7 @@ export class FarmPostCardComponent implements OnInit {
     this.showLoadingSpinner = true;
     let arrayReason: any = [];
     this.walletFacade.verifyUserToken().subscribe((res:any) => {
-      if(res?.message === "success") {
+      if(res?.message !== "success") {
         this.expiredSession();
       } else {
         Object.keys(this.reasonForm.controls).forEach((element: any) => {
@@ -283,6 +283,7 @@ export class FarmPostCardComponent implements OnInit {
             )
             .pipe(takeUntil(this.isDestroyed))
             .subscribe((data: any) => {
+    
               if (data.message === 'success') {
                 this.closeModal(modal);
                 this.showLoadingSpinner = false;

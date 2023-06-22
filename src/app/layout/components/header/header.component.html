@@ -229,7 +229,7 @@
           <a
             *ngIf="isConnected"
             class="wallet"
-            [routerLink]="['/home/wallet']"
+            [routerLink]="['/wallet']"
             (click)="checkMenuWallet()"
             ><span>{{ 'Sidebar.Wallet' | translate }}</span></a
           >
@@ -247,7 +247,7 @@
         >
           <a
             class="adpools"
-            [routerLink]="['/home/ad-pools']"
+            [routerLink]="['/ad-pools']"
             (click)="checkMenuAdpool()"
           >
             <span>{{ 'Ad_Pools' | translate }}</span>
@@ -262,7 +262,7 @@
           <a
             *ngIf="isConnected"
             class="farmPost"
-            [routerLink]="['/home/farm-posts']"
+            [routerLink]="['/farm-posts']"
             (click)="checkMenuFarmPost()"
             >{{ 'faq_farmming' | translate }}</a
           >

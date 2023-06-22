@@ -55,6 +55,7 @@ import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.servic
 import { ReturnStatement } from '@angular/compiler';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { REPL_MODE_STRICT } from 'repl';
+import { Title } from '@angular/platform-browser';
 const bscan = environment.bscanaddr;
 const etherscan = environment.etherscanaddr;
 const tronScanAddr = environment.tronScanAddr;
@@ -221,7 +222,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     @Inject(PLATFORM_ID) private platformId: string,
     private kycFacadeService: KycFacadeService,
     private route: ActivatedRoute,
-    private hostElement: ElementRef
+    private hostElement: ElementRef,
+    private titleService: Title,
   ) {
     this.router.events.subscribe((event) => {
       if(event instanceof ResolveStart) {
@@ -1479,17 +1481,20 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
    openTokenInfoInNewTab() {
     if (isPlatformBrowser(this.platformId))
-      window.open(environment.domainName + '/wallet/token-info', '_self');
+      window.open( environment.domainName + '/wallet/token-info', '_self');
   }
   checkMenuAbout() {
+    this.titleService.setTitle('SaTT - Smart advertising Transaction Token');
     if (isPlatformBrowser(this.platformId))
       window.open('https://satt-token.com', '_blank');
   }
   checkMenuBlog() {
+    this.titleService.setTitle('SaTT - Smart advertising Transaction Token');
     if (isPlatformBrowser(this.platformId))
       window.open('https://satt-token.com/blog/', '_blank');
   }
   checkMenuAdpool() {
+    this.titleService.setTitle('SaTT - Smart advertising Transaction Token');
     this.menuWallet = false;
     this.menuAdpool = true;
     this.menuFarmPost = false;
@@ -1501,6 +1506,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.menuBlog = false;
   }
   checkMenuHistory() {
+    this.titleService.setTitle('SaTT - Smart advertising Transaction Token');
     this.menuWallet = false;
     this.menuAdpool = false;
     this.menuFarmPost = false;
@@ -1512,6 +1518,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.menuBlog = false;
   }
   checkMenuHelp() {
+    this.titleService.setTitle('SaTT - Smart advertising Transaction Token');
     this.menuWallet = false;
     this.menuAdpool = false;
     this.menuFarmPost = false;
@@ -1523,6 +1530,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.menuBlog = false;
   }
   checkMenuWallet() {
+    this.titleService.setTitle('SaTT - Smart advertising Transaction Token');
     if (this.isConnected) {
       this.menuWallet = true;
       this.menuAdpool = false;
