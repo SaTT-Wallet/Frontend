@@ -284,7 +284,6 @@ initial-letter: 3%;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
   border-radius: 30px;
   cursor: pointer;
-  border-radius: 0;
   height: 56PX;
   border-radius: 30px;
   width: 436px;
@@ -1129,7 +1128,7 @@ input:-webkit-autofill:active {
   line-height: 120%;
   background-color: transparent;
   border: 0px;
-  height: 56px;
+  
 
 
 }
