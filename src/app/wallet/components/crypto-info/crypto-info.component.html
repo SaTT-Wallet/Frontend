@@ -114,25 +114,25 @@
         (click)="filterChartByPeriod('1')" 
         [ngStyle]="{'background-color': selectedPeriod === '1' ? '#4048FF' : '', 
         'color':selectedPeriod === '1' ? 'white' : ''}">
-        1{{ 'chart.day' | translate }}
+        {{ 'chart.day' | translate }}
          </span>
         <span class="filter-box" 
         (click)="filterChartByPeriod('7')" 
         [ngStyle]="{'background-color': selectedPeriod === '7' ? '#4048FF' : '',
          'color':selectedPeriod === '7' ? 'white' : ''}">
-        1{{ 'chart.week' | translate }}
+        {{ 'chart.week' | translate }}
          </span>
         <span class="filter-box" 
         (click)="filterChartByPeriod('30')" 
         [ngStyle]="{'background-color': selectedPeriod === '30' ? '#4048FF' : '', 
         'color':selectedPeriod === '30' ? 'white' : ''}">
-        1{{ 'chart.month' | translate }}
+        {{ 'chart.month' | translate }}
           </span>
         <span class="filter-box"
          (click)="filterChartByPeriod('365')" 
          [ngStyle]="{'background-color': selectedPeriod === '365' ? '#4048FF' : '', 
          'color':selectedPeriod === '365' ? 'white' : ''}">
-         1{{ 'chart.year' | translate }}
+         {{ 'chart.year' | translate }}
          </span>
         <span class="filter-box" 
         (click)="filterChartByPeriod('max')" 
