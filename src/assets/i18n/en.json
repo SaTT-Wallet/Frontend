@@ -1149,6 +1149,8 @@
   "campaign_validation.description2": "You can modify some informations or add more budget at any time",
   "wait_harvest": "Next harvest in",
   "security.download-key-TRON": "Download the TRON key ",
+  "moreInfosOn":"More infos on",
+  "importThisToken":"import this token",
   "privacyPolicy":"PRIVACY POLICY",
   "invalidEmailAddress":"Invalid email address",
   "incorrectPassword":"incorrect password",
