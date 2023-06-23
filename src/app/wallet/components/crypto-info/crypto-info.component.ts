@@ -51,7 +51,7 @@ export class CryptoInfoComponent implements OnInit, AfterViewInit {
   state = {
     current: 'black'
   };
-
+  selectedPeriod: string = '1';
   dataY = [1, 10, 20, 30];
   marketCap: any;
   marketCapFD: any;
@@ -353,6 +353,7 @@ font-size: 12px;">${item.value + '$'}</span>`;
   }
 
   filterChartByPeriod(period: any) {
+    this.selectedPeriod = period;
     this.cryptoInfoService
       .listIdToken()
       .pipe(
