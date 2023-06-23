@@ -125,7 +125,7 @@ export class HttpInterceptorService implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler) {
     
-    // Check if the URL of the current request is not in the list of public endpoints
+    // Check if the URL of the current request is in the list of private endpoints
     if (this.privateEndPoints.some(url => request.url.startsWith(url))) {
       console.log({url : request.url})  
       // If the URL is not in the list, clone the request and add the token
@@ -146,7 +146,7 @@ export class HttpInterceptorService implements HttpInterceptor {
       return next.handle(modifiedRequest);
     }
 
-    // If the URL is in the list of public endpoints, pass the original request to the next handler
+   
    
   }
 
