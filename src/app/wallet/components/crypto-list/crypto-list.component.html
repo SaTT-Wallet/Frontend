@@ -1913,7 +1913,7 @@
                             ? navigateToERC20Infos(crypto.tokenAddress)
                             : navigateToBEP20Infos(crypto.tokenAddress)
                         "
-                        >More infos on
+                        >{{ 'moreInfosOn' | translate }}
                         <span *ngIf="crypto.network?.toLowerCase() === 'erc20'"
                           >Etherscan</span
                         >
@@ -1938,7 +1938,7 @@
                         >
                           <span class="sr-only">Loading...</span>
                         </div>
-                        <span *ngIf="!crypto.isLoading">import this token</span>
+                        <span *ngIf="!crypto.isLoading">{{ 'importThisToken' | translate }}</span>
                       </div>
                     </div>
                   </div>

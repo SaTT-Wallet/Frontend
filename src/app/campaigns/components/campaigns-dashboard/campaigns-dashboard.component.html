@@ -28,7 +28,7 @@
       src="../../../assets/Images/bgAddPool.png"
       style="object-fit: cover; width: 100%; margin-top: -3rem !important"
     /> -->
-    <ng-container *ngIf="!isNewUser; else containerNewUser">
+    <ng-container *ngIf="isConnected && !isNewUser   ; else containerNewUser">
       <div class="bg-imag-cover">
         <div class="bloc-cover">
           <div class="title-cover">{{ 'Wallet_updated' | translate }}</div>

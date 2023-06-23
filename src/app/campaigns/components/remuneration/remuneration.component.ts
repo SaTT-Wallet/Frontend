@@ -817,6 +817,11 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       });
   }
 
+  checkTwitterOracle(form: AbstractControl) {
+    if(form.value.oracle === 'twitter') return true;
+    else return false
+  }
+
   allowOnlyNumbers(form: AbstractControl, control: string) {
     form
       .get(control)
