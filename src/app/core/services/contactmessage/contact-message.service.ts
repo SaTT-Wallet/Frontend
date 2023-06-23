@@ -13,23 +13,7 @@ export class ContactMessageService {
     private tokenStorageService: TokenStorageService
   ) {}
 
-  sendEmail(
-    name: any,
-    email: any,
-    subject: any,
-    message: any
-  ): Observable<any> {
-    return this.http.post(
-      sattUrl + '/satt/sendEmail',
-      {
-        name,
-        email,
-        subject,
-        message
-      },
-      { headers: this.tokenStorageService.getHeader() }
-    );
-  }
+ 
   //////////////solde satt
   // factory($http: any, $q: any, localStorage: any) {
   //   let token = false;
@@ -72,13 +56,7 @@ export class ContactMessageService {
   //   };
   // }
 
-  userNode(wallet: any) {
-    return this.http.post(
-      sattUrl + '/satt/wallet/userNode',
-      { wallet: wallet },
-      { headers: this.tokenStorageService.getHeader() }
-    );
-  }
+  
 
   reveiveMoney(contact: any) {
     return this.http.post(sattUrl + '/profile/receiveMoney', contact);

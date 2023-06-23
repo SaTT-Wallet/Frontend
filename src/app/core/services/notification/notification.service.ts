@@ -33,16 +33,7 @@ export class NotificationService {
       sattUrl + '/profile/notifications'
     );
   }
-  notifIsSendRes() {
-    this.httpOptions = {
-      headers: new HttpHeaders({
-        'Cache-Control': 'no-store',
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-      })
-    };
-    return this.http.patch(sattUrl + '/issend', {}, this.httpOptions);
-  }
+  
 
   notificationSeen(): Observable<IApiResponse<{ [key: string]: string }>> {
     return this.http.get<IApiResponse<{ [key: string]: string }>>(

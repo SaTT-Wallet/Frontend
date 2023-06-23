@@ -50,7 +50,6 @@ export class CryptofetchServiceService {
       sattUrl +
         '/wallet/transaction_history/' +
         this.tokenStorageService.getIdWallet(),
-      { headers: this.tokenStorageService.getHeader() }
     );
   }
 
@@ -90,14 +89,10 @@ export class CryptofetchServiceService {
     return this.http.get(sattUrl + '/wallet/TrxGasPrice');
   }
   getBnbGaz() {
-    return this.http.get(sattUrl + '/wallet/Bep20GasPrice', {
-      headers: this.tokenStorageService.getHeader()
-    });
+    return this.http.get(sattUrl + '/wallet/Bep20GasPrice');
   }
   getGas(network: any) {
-    return this.http.get(sattUrl + '/wallet/gasPrice/' + network, {
-      headers: this.tokenStorageService.getHeader()
-    });
+    return this.http.get(sattUrl + '/wallet/gasPrice/' + network);
   }
 
   getBalanceCrypto() {
@@ -112,9 +107,7 @@ export class CryptofetchServiceService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.post(sattUrl + '/wallet/bridge', send, {
-      headers: headers
-    });
+    return this.http.post(sattUrl + '/wallet/bridge', send);
   }
   deletetoken(token: any) {
     return this.http.delete(sattUrl + '/wallet/removeToken/' + token);

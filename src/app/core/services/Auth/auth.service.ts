@@ -90,19 +90,11 @@ export class AuthService {
       lang: this.tokenStorageService.getLocalLang()
     });
   }
+  
   onBoarding() {
     return this.http.get(sattUrl + '/profile/onBoarding');
   }
-  // checkPass(pass: any) {
-  //   let httpHeaders = new HttpHeaders({
-  //     'Content-Type': 'application/json',
-  //     'Cache-Control': 'no-store',
-  //     Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-  //   });
-  //   return this.http.post(sattUrl + '/check/pass', pass, {
-  //     headers: httpHeaders
-  //   });
-  // }
+ 
   imagespuzzle() {
     return this.http.get(sattUrl + '/auth/captcha');
   }

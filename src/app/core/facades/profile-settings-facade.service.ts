@@ -116,30 +116,6 @@ export class ProfileSettingsFacadeService {
     return this.profileService.completeprofile(body);
   }
 
-  exportProfileData(password: string) {
-    return this.profileService.exportProfileData(password);
-  }
-
-  exportProfileDataV2(password: string) {
-    return this.profileService.exportProfileDataV2(password);
-  }
-
-  exportTronKeystore(password: string) {
-    return this.profileService.exportTronKeystore(password);
-  }
-
-  exportTronKeystoreV2(password: string) {
-    return this.profileService.exportTronKeystoreV2(password);
-  }
-
-  exportProfileDataBTC(password: string) {
-    return this.profileService.exportProfileDataBTC(password);
-  }
-
-  exportProfileDataBTCV2(password: string) {
-    return this.profileService.exportProfileDataBTCV2(password);
-  }
-
   getUserProfilePic() {
     return this.profileSettingsStoreService.getProfilePic();
   }

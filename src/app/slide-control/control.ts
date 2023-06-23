@@ -44,7 +44,5 @@ export class ControlService {
     return this.http.get<Result>(url, this.getHttpOptions).pipe();
   }
 
-  vertifyAuthImage(url: string, query: VertifyQuery): Observable<Result> {
-    return this.http.post<Result>(url, query, this.getHttpOptions).pipe();
-  }
+  
 }
