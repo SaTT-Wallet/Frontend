@@ -291,7 +291,7 @@ export class CampaignDetailComponent implements OnInit {
       // CALCULATE MINUTES : 
       this.dateRefundMinutes = Math.floor(((((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - this.dateRefundDays ) * 24) - this.dateRefundHours) * 60)
       this.loadingData = false;
-    }, 3000)
+    }, 500)
   
     
   }

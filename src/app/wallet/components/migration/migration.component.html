@@ -1,17 +1,15 @@
 <div class="container" *ngIf="!passWallet">
   <div class="row">
-    <p class="content">Migrate your tokens to the new wallet</p>
+    <p class="content">{{ 'migrateWalletTitle' | translate }}</p>
     <p
       class="title"
       style="margin-top: 2vh; padding-right: 5%; padding-left: 5%"
-    >
-      For security reasons, we invite you to migrate your tokens to a new
-      wallet. It’s very simple just we need a few minutes of your time. Follow
-      the steps outlined in our application to safely complete the migration.
+    >{{ 'migrateWalletText' | translate }}
+      
     </p>
 
     <p style="font-weight: bold" class="title title2">
-      Make sure you have enough gas to perform the migration.
+      {{ 'migrateWalletReminder' | translate }}
     </p>
   </div>
   <div
@@ -95,7 +93,7 @@
       </div>
     </div>
     <div *ngIf="cryptobyNetwork?.length === 0" class="empty-message-style">
-      You don't have any crypto to migrate on this network
+      {{'notEnoughGaz'| translate }}
     </div>
     <div *ngIf="errorTransaction" class="justify-content-center">
       <p
@@ -126,14 +124,14 @@
 
     <div class="row justify-content-center" *ngIf="arrayToMigrate.length > 0">
       <p class="gas-fees-style" *ngIf="cryptobyNetwork.length !== 0">
-        Gas fees : {{ cryptobyNetwork?.length === 1  && network.name === "ETH" ? getInitEstimation(cryptobyNetwork[0]) : gasToDisplay }} {{ network.name }}
+        {{'gasFees' | translate }} : {{ cryptobyNetwork?.length === 1  && network.name === "ETH" ? getInitEstimation(cryptobyNetwork[0]) : gasToDisplay }} {{ network.name }}
       </p>
       <div class="col-md-6 d-flex flex-column" *ngIf="!outOfGas">
         <span class="span-migrate">
-          To migrate, please enter your wallet password</span
+          {{ 'migrationPassword' | translate }}</span
         >
         <p class="txn-pass-style" style="font-size: 12px; padding-bottom: 3px">
-          Transaction Password
+          {{ 'transactionPassword' | translate }}
         </p>
         <div
           [className]="
@@ -200,7 +198,7 @@
           <div *ngIf="spinner" class="spinner-border text-grey" role="status">
             <span class="sr-only" style="color: #adadc8">Loading...</span>
           </div>
-          <span *ngIf="!spinner">Migrate Tokens</span>
+          <span *ngIf="!spinner">{{ 'migrateTokens' | translate}}</span>
         </button>
       </div>
       <div class="col-md-6 d-flex flex-column" *ngIf="outOfGas">
@@ -286,13 +284,13 @@
           (click)="nextStep()"
           style="margin: 0 auto"
         >
-          <span *ngIf="cryptoChecked !== 'TRON'">Next step</span>
+          <span *ngIf="cryptoChecked !== 'TRON'">{{'nextStep' | translate }}</span>
           <span *ngIf="cryptoChecked === 'TRON'">Go to new wallet</span>
         </button>
       </div>
     </div>
     <p class="later-message-style" (click)="sendMigrationStatus()">
-      Do it later >
+      {{ 'doItLater' | translate }}
     </p>
   </div>
   

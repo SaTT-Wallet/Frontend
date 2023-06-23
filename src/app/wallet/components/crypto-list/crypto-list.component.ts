@@ -1145,7 +1145,17 @@ export class CryptoListComponent implements OnInit, OnDestroy {
       window.open(this.etherscanUrl + tokenAddress, '_blank');
     }
   }
-
+ /**
+   * This function navigates to the details page of the specified cryptocurrency.
+   *
+   * @param crypto - The symbol of the cryptocurrency. This will be converted to uppercase because the details page expects an uppercase symbol.
+   */
+ goToCryptoDetails(crypto : any){
+  // Ensure the input is a string. If not, we can't proceed.
+  if (typeof crypto == 'string') {
+  const cryptoUpperCase = crypto.toUpperCase();
+  this.router.navigate(['/wallet/coin-detail'], { queryParams: { crypto: cryptoUpperCase } });
+}}
   navigateToBEP20Infos(tokenAddress: any) {
     if (isPlatformBrowser(this.platformId)) {
       window.open(this.bscanUrl + tokenAddress, '_blank');

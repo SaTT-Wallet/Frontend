@@ -15,6 +15,13 @@
     outline: none !important;
     display: none;
 }
+.twitter-disabled {
+    color: white;
+}
+
+.twitter-disabled-container{
+    background-color: grey;
+}
 
 .btn-earning {
     padding: 6px 22px;

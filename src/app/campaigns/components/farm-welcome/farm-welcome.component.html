@@ -244,8 +244,7 @@
       class="btn_apply_lunch mb-3"
       style="margin: auto"
       onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLScmtK5oh0fWi_S-yG2LGtUFZ_pQPESd2rgcBbtgXLV830H7pQ/viewform');"
-    >Apply_to_launch
-    {{ 'Apply_to_launch' | translate }}
+    > {{ 'Apply_to_launch' | translate }}
 
     </button>
   </div>
@@ -298,7 +297,7 @@
     >
       <div>Copyright © 2023 Atayen, Inc.</div>
       <div>
-        All right reserved,&nbsp;
+        {{ 'Sidebar.copyright' | translate }},&nbsp;
         <span style="text-decoration: underline" routerLink="/cgu" class="point"
           >CONDITIONS</span
         >&nbsp; and &nbsp;
@@ -306,7 +305,7 @@
           style="text-decoration: underline"
           routerLink="/privacy-policy"
           class="point"
-          >PRIVACY POLICY</span
+          >{{ 'privacyPolicy' | translate }}</span
         >
       </div>
     </div>

@@ -931,12 +931,13 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
         myApplication.linkedinUserId = parts;
         myApplication.typeSN = 5;
         this.idlinkedin = parts;
-        this.application = myApplication;
+        
         this.CampaignService.linkedinSharedid(this.idlinkedin)
           .pipe(takeUntil(this.isDestroyedSubject))
           .subscribe((linkedin: any) => {
             this.sharedid = linkedin.data;
-            this.application.idPost = linkedin.data.split(':').at(-1);
+            myApplication.idPost = linkedin.data.split(':').at(-1);
+            this.tokenStorageService.setIdPost(myApplication.idPost);
             this.renderer.setAttribute(
               this.linkedinDiv?.nativeElement,
               'src',
@@ -944,13 +945,13 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
             );
           });
 
+          this.application = myApplication;
         this.userfaceook = '';
         this.idstatus = '';
         this.idvideo = '';
         this.idinstagram = '';
 
         if (this.application) {
-          this.tokenStorageService.setIdPost(this.sharedid);
           this.tokenStorageService.setIdUserPost(myApplication.idUser);
           this.tokenStorageService.setTypeSN(myApplication.typeSN);
           this.tokenStorageService.setLinkedinUserId(parts)
@@ -961,9 +962,9 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
           myApplication.linkedinUserId = this.tokenStorageService.getLinkedinUserId();;
           this.application = myApplication;
         }
-
         if (performance.find((ratio: any) => ratio.oracle === 'linkedin')) {
-          this.CampaignService.verifyLink(this.application)
+          const copyApplication = {...this.application}
+          this.CampaignService.verifyLink(copyApplication)
             .pipe(takeUntil(this.isDestroyedSubject))
             .subscribe(
               (data: any) => {

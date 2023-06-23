@@ -31,12 +31,15 @@ export class CryptoInfoService {
       `https://api.coingecko.com/api/v3/coins/${cryptoId}/history?date=${date}`
     );
   }
+
   marketChartToken(
     cryptoId: string,
     currency: string,
     days: string,
     interval: any
   ) {
+  
+    
     return this.http.get(
       `https://api.coingecko.com/api/v3/coins/${cryptoId}/market_chart?vs_currency=${currency}&days=${days}&interval=${interval}`
     );

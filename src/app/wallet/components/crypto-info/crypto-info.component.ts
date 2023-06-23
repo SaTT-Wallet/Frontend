@@ -51,7 +51,7 @@ export class CryptoInfoComponent implements OnInit, AfterViewInit {
   state = {
     current: 'black'
   };
-
+  selectedPeriod: string = '1';
   dataY = [1, 10, 20, 30];
   marketCap: any;
   marketCapFD: any;
@@ -63,6 +63,7 @@ export class CryptoInfoComponent implements OnInit, AfterViewInit {
   circulatingSupplyChange: any;
   cryptoImgUrl: any;
   isLoading = true;
+  CryptoUrl!:string ;
 
 
 
@@ -114,10 +115,14 @@ export class CryptoInfoComponent implements OnInit, AfterViewInit {
             this.cryptoInfoService.marketChartToken(res.id, 'usd', 'max', 'max')
           );
           arrayOfObs.push(this.cryptoInfoService.generalTokenInfos(res.id));
+          
+          
           return forkJoin(arrayOfObs);
         })
       )
       .subscribe((data: any) => {
+      
+        this.CryptoUrl = data[4].links.homepage[0];
         this.isLoading = false;
         this.data = data[3].prices;
         this.fillingMarketDatas(data);
@@ -348,6 +353,7 @@ font-size: 12px;">${item.value + '$'}</span>`;
   }
 
   filterChartByPeriod(period: any) {
+    this.selectedPeriod = period;
     this.cryptoInfoService
       .listIdToken()
       .pipe(
@@ -424,7 +430,7 @@ font-size: 12px;">${item.value + '$'}</span>`;
     );
   }
 
-  openInBitcoinOrg() {
-    window.open('https://bitcoin.org/en/', '_blank');
+  openInBitcoinOrg(cryptoUrl: string) {    
+    window.open(cryptoUrl, '_blank');
   }
 }

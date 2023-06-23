@@ -95,13 +95,17 @@
   }
 }
 @media (max-width: 992px) {
-  .bloc-cover {
+  .bloc-cover  {
+    margin-top: 15vh;
+  }
+  .bloc-cover-new-user {
     margin-top: 15vh;
   }
   .bg-imag-cover {
     background-image: url('/assets/Images/bgAddPool992.png');
     margin-top: -6vh;
   }
+
   .bg-imag-newUser{
     background-image: url('/assets/Images/new922.png');
   }
@@ -110,6 +114,7 @@
   }
   #new_user_title{
     width: 70% !important;
+
   }
 }
 @media (max-width: 786.98px) {
@@ -119,18 +124,26 @@
   .bloc-cover {
     margin-top: 15vh;
   }
+  .bloc-cover-new-user {
+    margin-top: 15vh;
+  }
   .bg-imag-cover {
     background-image: url('/assets/Images/bgAddPool576.png');
   }
+
   .bg-imag-newUser{
     background-image: url('/assets/Images/new576.png');
   }
   #new_user_desc{
     padding-right: 14em !important;
+
   }
 }
 @media (max-width: 576px) {
   .bloc-cover {
+    margin-top: 15vh;
+  }
+  .bloc-cover-new-user {
     margin-top: 15vh;
   }
   .bg-imag-cover {
@@ -160,6 +173,7 @@
 
   .bg-imag-newUser{
     background-image: url('/assets/Images/new320.png');
+
     height: 468px;
     margin-top: -8vh;
   }
@@ -226,6 +240,9 @@
 }
 @media (min-height: 780px) and (max-height: 950px) and (max-width: 450px) {
   .bloc-cover {
+    margin-top: 38vh;
+  }
+  .bloc-cover-new-user{
     margin-top: 38vh;
   }
 }
