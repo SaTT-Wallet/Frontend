@@ -45,13 +45,13 @@
     <ng-template #containerNewUser>
       <div class="bg-imag-newUser">
         <div class="bloc-cover-new-user">
-          <div class="title-cover">{{'Wallet_newuser_banner_title' | translate }}</div>
-          <div class="description-cover">
+          <div id="new_user_title"  class="title-cover w-md-50">{{'Wallet_newuser_banner_title' | translate }}</div>
+          <div id="new_user_desc" class="description-cover">
             {{ 'Wallet_newuser_banner_description' | translate }}
           </div>
-          <div>
-            <button class="button-cover" routerLink="wallet">{{ 'Wallet_newuser_benner_button' | translate }}</button>
-          </div>
+        </div>
+        <div class="btn_cover_container">
+          <button class="button-cover" routerLink="wallet">{{ 'Wallet_newuser_benner_button' | translate }}</button>
         </div>
       </div>
     </ng-template>
