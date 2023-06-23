@@ -127,7 +127,6 @@ export class HttpInterceptorService implements HttpInterceptor {
     
     // Check if the URL of the current request is in the list of private endpoints
     if (this.privateEndPoints.some(url => request.url.startsWith(url))) {
-      console.log({url : request.url})  
       // If the URL is not in the list, clone the request and add the token
       const condition = request.url.includes('ipfs') 
                         || request.url.includes('addKits') 
