@@ -1166,7 +1166,7 @@
   "migrateWalletReminder":"Make sure you have enough gas to perform the migration.",
   "notEnoughGaz":"You don't have any crypto to migrate on this network",
   "migrateMyTokens":"Migrate my tokens",
-  "migrationPässword":"To migrate, please enter your wallet password",
+  "migrationPassword":"To migrate, please enter your wallet password",
   "gasFees":"Gas fees",
   "transactionPassword":"Transaction password",
   "migrateTokens":"Migrate Tokens",
