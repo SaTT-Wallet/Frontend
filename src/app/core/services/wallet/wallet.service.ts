@@ -46,58 +46,6 @@ export class WalletService {
       .pipe(share());
   }
 
-  public sendAmount(send: any) {
-    const headers = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    if (send.symbole === 'BTC' && send.network.toLowerCase() === 'btc') {
-      delete send.access_token;
-      let body = { pass: send.pass, to: send.to, val: send.amount };
-
-      return this.http.post(sattUrl + '/wallet/transfertBtc', body, {
-        headers: headers
-      });
-    } else if (
-      send.symbole === 'ETH' &&
-      send.network.toLowerCase() === 'erc20'
-    ) {
-      let body = { pass: send.pass, to: send.to, val: send.amount };
-      return this.http.post(sattUrl + '/wallet/transfertEther', body, {
-        headers: headers
-      });
-    } else if (
-      send.symbole === 'BNB' &&
-      send.network.toLowerCase() === 'bep20'
-    ) {
-      let body = { to: send.to, val: send.amount, pass: send.pass };
-      return this.http.post(sattUrl + '/wallet/transfertBNB', body, {
-        headers: headers
-      });
-    } else if (send.network.toLowerCase() === 'bep20') {
-      // delete send.token;
-      return this.http.post(sattUrl + '/wallet/transferBep20', send, {
-        headers: headers
-      });
-    } else if (send.network.toLowerCase() === 'polygon') {
-      // delete send.token;
-      return this.http.post(sattUrl + '/wallet/transferPolygon', send, {
-        headers: headers
-      });
-    } else {
-      let body = {
-        token: send.token,
-        to: send.to,
-        amount: send.amount,
-        pass: send.pass,
-        symbole: send.symbole
-      };
-      return this.http.post(sattUrl + '/wallet/transferErc20', body, {
-        headers: headers
-      });
-    }
-  }
 
   transferTokens(
     body: ITransferTokensRequestBody,
@@ -232,15 +180,4 @@ export class WalletService {
       `${sattUrl}/auth/verify-token`
     )
   }
-
-  // setPayementId(payementId: string) {
-  //   let header = new HttpHeaders({
-  //     'Cache-Control': 'no-store',
-  //     'Content-Type': 'application/json',
-  //     Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-  //   });
-  //   return this.http.get(`${sattUrl}/events/${payementId}`, {
-  //     headers: header
-  //   });
-  // }
 }

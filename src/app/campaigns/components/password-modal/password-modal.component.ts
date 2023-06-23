@@ -220,28 +220,6 @@ export class PasswordModalComponent implements OnInit {
     return dateInSeconds;
   }
 
-  erc20Fee() {
-    let token = this.fillInformations('ERC20token');
-    let data = this.campaign;
-    if (token !== ListTokens['SATT'].contract) {
-      data.initialBudget = ((data.initialBudget as any) * 0.9).toString();
-      let fee = new Big(data?.initialBudget)
-        .times(this.etherInWei)
-        .toFixed(30)
-        .split('.')[0];
-      let _FeeObj: any = {};
-
-      _FeeObj.to = campaignSmartContractERC20;
-      _FeeObj.pass = this.fillInformations('pass');
-      _FeeObj.access_token = this.fillInformations('token');
-      _FeeObj.token = token;
-      _FeeObj.amount = fee;
-      return this.campaignService
-        .eRC20Fee(_FeeObj)
-        .pipe(takeUntil(this.isDestroyed))
-        .subscribe(() => {});
-    } else return;
-  }
   parentFunction() {
     return this.walletFacade.getCryptoPriceList().pipe(
       map((response: any) => response.data),

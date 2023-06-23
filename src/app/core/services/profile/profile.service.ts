@@ -89,38 +89,6 @@ export class ProfileService {
     });
   }
 
-  // exportBtc(pass:any){
-  //   let headers = new HttpHeaders({
-  //     'Cache-Control': 'no-store',
-  //     "Content-Type": "application/json",
-  //     Authorization: "Bearer " + this.tokenStorageService.getItem("access_token"),
-  //   });
-  //   let token=this.tokenStorageService.getToken();
-  //   let body={pass:pass}
-  //   return this.http.post(sattUrl + "/v3/exportbtc",body , { headers: headers }
-  //   );
-
-  // }
-
-  //   exportMnemo(pass:any){
-  //   let headers = new HttpHeaders({
-  //     'Cache-Control': 'no-store',
-  //     "Content-Type": "application/json",
-  //     Authorization: "Bearer " + this.tokenStorageService.getItem("access_token"),
-  //   });
-  //   let token=this.tokenStorageService.getToken();
-  //   return this.http.get(sattUrl + "/v2/printseed/" + token + "/" + encodeURIComponent(pass),{ headers: headers });
-  // }
-
-  //   export(pass:any){
-  //   let headers = new HttpHeaders({
-  //     'Cache-Control': 'no-store',
-  //     "Content-Type": "application/json",
-  //     Authorization: "Bearer " + this.tokenStorageService.getItem("access_token"),
-  //   });
-  //   let token=this.tokenStorageService.getToken();
-  //   return this.http.get(sattUrl + "/v2/export/" + encodeURIComponent(pass) + "/" +token ,{ headers: headers });
-  // }
   addInterests(body: any) {
     return this.http.post(
       sattUrl + '/profile/AddUserIntersts',
@@ -148,11 +116,6 @@ export class ProfileService {
   }
 
   deleteAccount(obj: any) {
-    /*let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });*/
     return this.http.post(sattUrl + '/auth/purge', obj);
   }
   generateQRCode() {
@@ -165,47 +128,8 @@ export class ProfileService {
     );
   }
 
-  socialStateGoogle(deactivate: any, channelId: any) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    let body = { channelId: channelId, deactivate: deactivate };
-    return this.http.post(sattUrl + '/allowYoutube', body, { headers: header });
-  }
+ 
 
-  socialStateFacebook(deactivate: any, id: any) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    let body = { channelId: id, deactivate: deactivate };
-    return this.http.post(sattUrl + '/allowFacebook', body, {
-      headers: header
-    });
-  }
-
-  socialStateTwitter(deactivate: any, twitter_id: any) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    let body = { twitter_id: twitter_id, deactivate: deactivate };
-    return this.http.post(sattUrl + '/allowTwitter', body, { headers: header });
-  }
-
-  socialStateLinkedin(deactivate: any, organization: any) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    let body = { organization: organization, deactivate: deactivate };
-    return this.http.post(sattUrl + '/allowLinkedin', body, {
-      headers: header
-    });
-  }
+  
+  
 }

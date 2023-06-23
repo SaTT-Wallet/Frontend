@@ -148,10 +148,6 @@ export class WalletFacadeService {
     this.walletStoreService.hideWalletSpinner();
   }
 
-  sendAmount(send: any) {
-    return this.walletService.sendAmount(send);
-  }
-
   transferTokens(body: ITransferTokensRequestBody,max:any) {
     return this.walletService.transferTokens(body,max);
   }
