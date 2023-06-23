@@ -138,27 +138,7 @@ export class CampaignsStoreService {
     return this.campaignsListSubject.getValue();
   }
 
-  // getNextPage() {
-
-  //   let obs =
-
-  // }
-
-  /**
-   * Gets the campaigns cover images
-   * @param array campaign list
-   */
-  private getCampaignsCovers(campaigns: any[]): void {
-    campaigns.forEach((campaign: any) => {
-      this.campaignService
-        .getCampaignCover(campaign?.meta?._id || campaign._id, '')
-        .pipe(takeUntil(this.isDestroyed))
-        .subscribe((data: any) => {
-          let objectURL = URL.createObjectURL(data);
-          campaign.img = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-        });
-    });
-  }
+ 
 
   addDraftCampaign(draftCampaign: any) {
     let campaignsList: any = this.campaignsListByWalletIdSubject.getValue();

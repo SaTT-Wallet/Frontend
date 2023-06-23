@@ -123,22 +123,6 @@ export class CampaignHttpApiService {
     });
   }
 
-
-  increaseBudget(Budget: any) {
-    Budget.token = this.tokenStorageService.getToken();
-    return this.http.post(
-      sattUrl + '/campaign/fund',
-      {
-        idCampaign: Budget.idCampaign,
-        ERC20token: Budget.ERC20token,
-        amount: Budget.amount,
-        pass: Budget.pass,
-        token: Budget.token
-      },
-      { headers: this.tokenStorageService.getHeader() }
-    );
-  }
-  
   /*
      @link : /campaign/:id/showcovers
      @description: retrieves the cover image for the according campaign
@@ -171,15 +155,7 @@ export class CampaignHttpApiService {
   }
 
   getCampaignKitUrl(id: any) {
-    let httpHeaders = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json'
-      // Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
-    return this.http.get(sattUrl + '/campaign/' + id + '/kits', {
-      headers: httpHeaders
-    });
+    return this.http.get(sattUrl + '/campaign/' + id + '/kits');
   }
 
   createCompaign(campagne: any) {
@@ -201,66 +177,10 @@ export class CampaignHttpApiService {
       .pipe(shareReplay(1));
   }
 
-  // bellehi fahemni chma3neha "upsert" ??????
-  upsert(campagne: any, cover?: any) {
-    return this.http
-      .post(sattUrl + '/campaigns', campagne, {
-        headers: this.tokenStorageService.getHeader()
-      })
-      .pipe(
-        mergeMap((data: any) => {
-          this.campaignData = data.campaign;
-          if (cover) {
-            // let file = { file: cover, campaign: data.campaign.id };
-            return this.addCover(cover, data.campaign._id);
-          }
-          return of(null);
-        }),
-        takeUntil(this.isDestroyed)
-      )
-      .subscribe();
-  }
-
   removeKit(id_kit: any) {
     return this.http.delete(sattUrl + '/campaign/kit/' + id_kit);
   }
-
-  getCampaignKitResource(campaignId: string, kitId: string) {
-    return this.http.get(`${sattUrl}/campaigns/${campaignId}/kits/${kitId}`, {
-      headers: this.tokenStorageService.getHeader()
-    });
-  }
-
-  addCover(file: File, id?: any) {
-    let formData = new FormData();
-    formData.append('file', file);
-    formData.append('campaign', id);
-    let _id = this.campaignData?.id || id;
-    return this.http
-      .post(sattUrl + '/campaign/' + _id + '/cover', formData, {
-        //reportProgress: true,
-        observe: 'events',
-        headers: {
-          Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-        }
-      })
-      .pipe(takeLast(1));
-  }
-
-  deleteCover(campaign_id: any) {
-    this.http
-      .delete(sattUrl + '/campaigns/' + campaign_id + '/covers', {
-        headers: this.tokenStorageService.getHeader()
-      })
-      .pipe(takeUntil(this.isDestroyed))
-      .subscribe(() => {});
-  }
-
-  checkForCover(campaign_id: any) {
-    return this.http.get(sattUrl + '/campaign/' + campaign_id + '/cover', {
-      headers: this.tokenStorageService.getHeader()
-    });
-  }
+  
 
   verifyLink(linkApplication: any) {
     return this.http.get(
