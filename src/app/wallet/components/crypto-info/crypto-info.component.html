@@ -65,7 +65,7 @@
             src="assets/Images/crypto-info/Send.png"
             class="mr-2"
             *ngIf="!disableBtn"
-          />Send
+          />{{'Send' | translate }}
         </button>
         <button
           [disabled]="disableBtn"
@@ -81,7 +81,7 @@
             src="assets/Images/crypto-info/Buy.svg"
             class="mr-2"
             *ngIf="!disableBtn"
-          />Buy
+          />{{'Buy' | translate }}
         </button>
         <button
           [disabled]="disableBtn"
@@ -97,7 +97,7 @@
             *ngIf="!disableBtn"
             src="assets/Images/crypto-info/Request.svg"
             class="mr-2"
-          />Request
+          />{{'Request' | translate }}
         </button>
       </div>
     </div>

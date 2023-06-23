@@ -1178,5 +1178,9 @@
   "sameOldPassword":"Ne pas utiliser le même vieux mot de passe pour les transactions",
   "techdDesNotSupport":"Je comprends que l'assistance technique ne peut pas m'aider à récupérer un mot de passe perdu.",
   "DontUseSameLogin":"Ne pas utiliser le mot de passe de connexion",
-  "SearchOrPaste":"Rechercher un token ou coller une adresse"
+  "SearchOrPaste":"Rechercher un token ou coller une adresse",
+  "Send":"Envoyer",
+  "Buy":"Acheter",  
+  "thisCodeWillOnlyBeValidFor5Min":"Ce code n'est valable que pendant 5 minutes"
+
 }

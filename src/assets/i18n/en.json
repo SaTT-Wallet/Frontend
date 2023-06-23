@@ -1186,6 +1186,7 @@
   "sameOldPassword":"Do not use the same old transaction password",
   "techdDesNotSupport":"I understand that tech support cannot help me recover a lost password.",
   "DontUseSameLogin":"Do not use the login password",
-  "SearchOrPaste":"Search token or paste address"
-
+  "SearchOrPaste":"Search token or paste address",
+  "Send":"Send",
+  "thisCodeWillOnlyBeValidFor5Min":"this code will only be valid for 5 min"
 }
