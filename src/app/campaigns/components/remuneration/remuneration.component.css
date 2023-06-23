@@ -16,11 +16,11 @@
     display: none;
 }
 .twitter-disabled {
-    color: white;
+    color: black;
 }
 
 .twitter-disabled-container{
-    background-color: grey;
+    background-color: #f8f9fa;
 }
 
 .btn-earning {
