@@ -8,8 +8,10 @@ import {
 } from '@angular/core';
 import { UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { DraftCampaignService } from '@app/campaigns/services/draft-campaign.service';
+import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 import { arrayLength } from '@app/helpers/form-validators';
 import { Campaign } from '@app/models/campaign.model';
+import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil, tap } from 'rxjs/operators';
 
@@ -75,60 +77,61 @@ export class MissionsComponent implements OnInit {
     {
       oracle: 'facebook',
       sub_missions: [
-        'Make a post to introduce @product',
-        'Make a story about @product',
-        'Take a picture of you and the @product'
+        this.translate.instant('missions.facebook.postIntroduction', { product: '@product' }),
+        this.translate.instant('missions.facebook.makeStory', { product: '@product' }),
+        this.translate.instant('missions.facebook.takePicture', { product: '@product' })
       ]
     },
     {
       oracle: 'twitter',
       sub_missions: [
-        'Make a tweet of 100 caract. min about @product',
-        'Use the tags #@product #@brand #tag3',
-        'Mention @brand and @product'
+        this.translate.instant('missions.twitter.makeTweet', { product: '@product' }),
+        this.translate.instant('missions.twitter.useTags', { product: '@product', brand: '@brand', tag3: '#tag3' }),
+        this.translate.instant('missions.twitter.mentionBrand', { brand: '@brand', product: '@product' })
       ]
     },
     {
       oracle: 'youtube',
       sub_missions: [
-        'Make a video of at least 2min',
-        'Make a tutorial on the @product',
-        'Quote the @brand and the @product---'
+        this.translate.instant('missions.youtube.makeVideo'),
+        this.translate.instant('missions.youtube.makeTutorial', { product: '@product' }),
+        this.translate.instant('missions.youtube.quoteBrandAndProduct', { brand: '@brand', product: '@product' })
       ]
     },
     {
       oracle: 'linkedin',
       sub_missions: [
-        'Mention @brand and @product',
-        'Add tags #tag01 #tag02 #tag03',
-        'Unbox the @product'
+        this.translate.instant('missions.linkedin.mentionBrandAndProduct', { brand: '@brand', product: '@product' }),
+        this.translate.instant('missions.linkedin.addTags', { tag01: '#tag01', tag02: '#tag02', tag03: '#tag03' }),
+        this.translate.instant('missions.linkedin.unboxProduct', { product: '@product' })
       ]
     },
     {
       oracle: 'instagram',
       sub_missions: [
-        'Post a photo of the product “xxx”',
-        'Add tags #tag01 #tag02 #tag03',
-        'Indicate as a paid partnership with our brand'
+        this.translate.instant('missions.instagram.postPhoto', { product: 'xxx' }),
+        this.translate.instant('missions.instagram.addTags', { tag01: '#tag01', tag02: '#tag02', tag03: '#tag03' }),
+        this.translate.instant('missions.instagram.indicatePaidPartnership')
       ]
     },
     {
       oracle: 'tiktok',
       sub_missions: [
-        'Post a photo of the product “xxx”',
-        'Add tags #tag01 #tag02 #tag03',
-        'Indicate as a paid partnership with our brand'
+        this.translate.instant('missions.tiktok.postPhoto', { product: 'xxx' }),
+        this.translate.instant('missions.tiktok.addTags', { tag01: '#tag01', tag02: '#tag02', tag03: '#tag03' }),
+        this.translate.instant('missions.tiktok.indicatePaidPartnership')
       ]
     },
     {
       oracle: 'googleAnalytics',
       sub_missions: [
-        'Post a photo of the product “xxx”',
-        'Add tags #tag01 #tag02 #tag03',
-        'Indicate as a paid partnership with our brand'
+        this.translate.instant('missions.googleAnalytics.postPhoto', { product: 'xxx' }),
+        this.translate.instant('missions.googleAnalytics.addTags', { tag01: '#tag01', tag02: '#tag02', tag03: '#tag03' }),
+        this.translate.instant('missions.googleAnalytics.indicatePaidPartnership')
       ]
     }
   ];
+  
 
   selecledOracle!: string;
   isDestroyed$ = new Subject<any>();
@@ -139,7 +142,26 @@ export class MissionsComponent implements OnInit {
   showTwitter: boolean = false;
   showTikTok: boolean = false;
   showGoogleAnalytics: boolean = false;
-  constructor(private service: DraftCampaignService) {}
+  languageSelected: string;
+  constructor(private service: DraftCampaignService,    
+    public translate: TranslateService,
+    private tokenStorageService: TokenStorageService
+
+    ) {
+      translate.addLangs(['en', 'fr']);
+      if (this.tokenStorageService.getLocale()) {
+        // @ts-ignore
+        this.languageSelected = this.tokenStorageService.getLocale();
+        translate.setDefaultLang(this.languageSelected);
+        this.translate.use(this.languageSelected);
+      } else {
+        this.tokenStorageService.setLocalLang('en');
+        this.languageSelected = 'en';
+        translate.setDefaultLang('en');
+        this.translate.use(this.languageSelected);
+      }
+    }
+ 
   ngOnDestroy(): void {
     this.isDestroyed$.next('');
     this.isDestroyed$.unsubscribe();

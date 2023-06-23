@@ -708,7 +708,7 @@
   "campaign_details.add_files": "Ajouter des fichiers",
   "campaign_details.add_new_links": "Ajouter des Liens",
   "campaign_details.campaign_duration_text": "Durée de la campagne",
-  "campaign_details.campaign_kit": "Kit de l'AdPool",
+  "campaign_details.campaign_kit": "Kit AdPool",
   "campaign_details.campaign_kit_description": "Pour vous aider à accomplir ces missions, vous pouvez télécharger ce kit de campagne qui comprend des photos, vidéos et autres supports.",
   "campaign_details.close_btn_text": "Fermer",
   "campaign_details.countries": "Pays",
@@ -1176,7 +1176,7 @@
   "Use":"Utiliser",
   "Animals": "Animaux",
   "Beauty": "Beauté",
-  "Creative hobbies": "Loisirs créatifs",
+  "creativeHobbies": "Loisirs créatifs",
   "Decoration": "Décoration",
   "Environment": "Environnement",
   "Finance": "Finance",
@@ -1188,7 +1188,7 @@
   "Parties": "Fêtes",
   "Photography": "Photographie",
   "Reading": "Lecture",
-  "Social Networking": "Réseaux sociaux",
+  "socialNetworking": "Réseaux sociaux",
   "Sport": "Sport",
   "Technologies": "Technologies",
   "Theatre": "Théâtre",
@@ -1200,7 +1200,52 @@
   "retrieveBudget":"Récupérer le budget",
   "selectSocialMedias":"Sélectionner les médias sociaux",
   "onlyPendingApplies":"Seules les demandes en cours s'appliquent",
-  "validateLink":"valider Lien"
+  "validateLink":"valider Lien",
+  "missions": {
+    "facebook": {
+      "postIntroduction": "Faites un post pour présenter @product",
+      "makeStory": "Faites une story à propos de @product",
+      "takePicture": "Prenez une photo de vous avec @product"
+    },
+    "twitter": {
+      "makeTweet": "Faites un tweet d'au moins 100 caractères sur @product",
+      "useTags": "Utilisez les tags #@product #@brand #tag3",
+      "mentionBrand": "Mentionnez @brand et @product"
+    },
+    "youtube": {
+      "makeVideo": "Faites une vidéo d'au moins 2 minutes",
+      "makeTutorial": "Faites un tutoriel sur @product",
+      "quoteBrandAndProduct": "Citez la @brand et le @product"
+    },
+    "linkedin": {
+      "mentionBrandAndProduct": "Mentionnez @brand et @product",
+      "addTags": "Ajoutez les tags #tag01 #tag02 #tag03",
+      "unboxProduct": "Déballez le @product"
+    },
+    "instagram": {
+      "postPhoto": "Publiez une photo du produit \"xxx\"",
+      "addTags": "Ajoutez les tags #tag01 #tag02 #tag03",
+      "indicatePaidPartnership": "Indiquez un partenariat rémunéré avec notre marque"
+    },
+    "tiktok": {
+      "postPhoto": "Publiez une photo du produit \"xxx\"",
+      "addTags": "Ajoutez les tags #tag01 #tag02 #tag03",
+      "indicatePaidPartnership": "Indiquez un partenariat rémunéré avec notre marque"
+    },
+    "googleAnalytics": {
+      "postPhoto": "Publiez une photo du produit \"xxx\"",
+      "addTags": "Ajoutez les tags #tag01 #tag02 #tag03",
+      "indicatePaidPartnership": "Indiquez un partenariat rémunéré avec notre marque"
+    }
+  },
+  "social_networks_youtube.linked": "Chaîne Youtube liée",
+  "social_networks_linkedin.linked": "Compte Linkedin lié",
+  "social_networks_facebook.linked": "Page liée à votre compte Facebook",
+  "social_networks_twitter.linked": "Compte Twitter lié",
+  "social_networks_tiktok.linked": "Compte TikTok lié",
+  "social_networks.relation": "Relation",
+  "editAdpool":"Modifier Adpool",
+  "backToList":"Retour à la liste"
 
 
 
