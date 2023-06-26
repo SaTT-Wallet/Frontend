@@ -1200,7 +1200,76 @@
     "faq80a": "Actuellement, vous pouvez participer aux Ad Pools YouTube et Twitter. Bientôt, LinkedIn, Instagram, Facebook et seront disponibles pour le pool publicitaire. En ciblant un public spécifique et en participant à l'Ad Pool, vous pouvez gagner des jetons SaTT supplémentaires qui sont automatiquement envoyés dans votre portefeuille à la fin du processus.",
     "faq80b": "votre mot de passe blockchain est unique, permettant chaque transaction vers et depuis votre portefeuille. Pour des raisons de sécurité, même l'équipe de SaTT ne peut pas aider à récupérer un mot de passe blockchain perdu.",
     "Aide.When-moon": "When Moon",
-    "faq_whenmoon": "Nous ne sommes pas habilités à donner des conseils financiers ou à faire des projections sur la valeur future de SaTT. Aidez-nous à envoyer le SaTT \"sur la lune\" en proposant des idées et en partageant nos réseaux sociaux. Si vous êtes pressé, vous pouvez essayer d'envoyer vous-même le SaTT sur la lune en jouant à notre jeu 'When Moon' sur Android et IOS."
+    "faq_whenmoon": "Nous ne sommes pas habilités à donner des conseils financiers ou à faire des projections sur la valeur future de SaTT. Aidez-nous à envoyer le SaTT \"sur la lune\" en proposant des idées et en partageant nos réseaux sociaux. Si vous êtes pressé, vous pouvez essayer d'envoyer vous-même le SaTT sur la lune en jouant à notre jeu 'When Moon' sur Android et IOS.",
+    "twitter": {
+      "makeTweet": "Faites un tweet d'au moins 100 caractères sur @product",
+      "useTags": "Utilisez les tags #@product #@brand #tag3",
+      "mentionBrand": "Mentionnez @brand et @product"
+    },
+    "youtube": {
+      "makeVideo": "Faites une vidéo d'au moins 2 minutes",
+      "makeTutorial": "Faites un tutoriel sur @product",
+      "quoteBrandAndProduct": "Citez la @brand et le @product"
+    },
+    "linkedin": {
+      "mentionBrandAndProduct": "Mentionnez @brand et @product",
+      "addTags": "Ajoutez les tags #tag01 #tag02 #tag03",
+      "unboxProduct": "Déballez le @product"
+    },
+    "instagram": {
+      "postPhoto": "Publiez une photo du produit \"xxx\"",
+      "addTags": "Ajoutez les tags #tag01 #tag02 #tag03",
+      "indicatePaidPartnership": "Indiquez un partenariat rémunéré avec notre marque"
+    },
+    "tiktok": {
+      "postPhoto": "Publiez une photo du produit \"xxx\"",
+      "addTags": "Ajoutez les tags #tag01 #tag02 #tag03",
+      "indicatePaidPartnership": "Indiquez un partenariat rémunéré avec notre marque"
+    },
+    "googleAnalytics": {
+      "postPhoto": "Publiez une photo du produit \"xxx\"",
+      "addTags": "Ajoutez les tags #tag01 #tag02 #tag03",
+      "indicatePaidPartnership": "Indiquez un partenariat rémunéré avec notre marque"
+    },
+  
+  "social_networks_youtube.linked": "Chaîne Youtube liée",
+  "social_networks_linkedin.linked": "Compte Linkedin lié",
+  "social_networks_facebook.linked": "Page liée à votre compte Facebook",
+  "social_networks_twitter.linked": "Compte Twitter lié",
+  "social_networks_tiktok.linked": "Compte TikTok lié",
+  "social_networks.relation": "Relation",
+  "editAdpool":"Modifier Adpool",
+  "backToList":"Retour à la liste",
+  "priceLiveData":"Prix en direct",
+  "interestingArticles":"Voici d'autres articles qui pourraient vous intéresser :",
+  "farmATweet":"COMMENT CULTIVER UN TWEET ?",
+  "participateInAdpool":"Comment trouver l'URL de votre Tweet pour participer aux Ad Pools?",
+  "findMyYoutube":"Comment trouver l'URL de ma vidéo YouTube ?",
+  "reachMax":"Que signifient \"Reach\" et \"Reach Max\" ?",
+  "polygon":"Qu'est-ce que le polygone ?",
+  "metaverse":"Qu'est-ce qu'un Metaverse ?",
+  "NFTs":"2022 sera-t-elle l'année des NFT ?",
+  "whatsNFT":"Qu'est-ce qu'un NFT ?",
+  "payingPerPerformance":"Quels sont les avantages de payer les influenceurs à la performance ?",
+  "proInstagram":"Pourquoi avez-vous besoin d'un compte Pro sur Instagram ?",
+  "blockchaineAd":"10 raisons pour lesquelles la publicité n'échappera pas à la révolution blockchain.",
+  "cryptoGlossary":"Glossaire de la cryptographie : Que signifie \"Bitcoin Halving\" ?",
+  "niches":"Quelles sont les différentes niches au sein des catégories d'influenceurs ?",
+  "pancakeSwap":"Qu'est-ce que PancakeSwap ?",
+  "airdropCrypto":"Comment fonctionne Crypto Airdrop ?",
+  "typesOfNFT":"Quels sont les différents types de NFT ?",
+  "Price":"Prix"
+
+
+
+
+
+
+
+
+
+
+
 
 
 
