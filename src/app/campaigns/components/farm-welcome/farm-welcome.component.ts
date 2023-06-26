@@ -172,8 +172,8 @@ export class FarmWelcomeComponent implements OnInit {
       .subscribe(
         (campaigns: Campaign[]) => {
           this.isLoading = false;
-          this.campaignsList = campaigns;
-          this.campaignsList2 = campaigns;
+          this.campaignsList = campaigns.filter(campaign => campaign.type !=='draft');
+          //this.campaignsList2 = campaigns;
           this.campaignsList?.forEach((element: Campaign) => {
             if (element.currency.name === 'SATTPOLYGON')
               element.currency.name = 'MATIC';

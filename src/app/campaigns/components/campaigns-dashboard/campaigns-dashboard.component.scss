@@ -90,14 +90,31 @@
   .bg-imag-cover {
     margin-top: -12vh;
   }
+  #new_user_title{
+    width: 100% !important;
+  }
 }
 @media (max-width: 992px) {
-  .bloc-cover {
+  .bloc-cover  {
+    margin-top: 15vh;
+  }
+  .bloc-cover-new-user {
     margin-top: 15vh;
   }
   .bg-imag-cover {
     background-image: url('/assets/Images/bgAddPool992.png');
     margin-top: -6vh;
+  }
+
+  .bg-imag-newUser{
+    background-image: url('/assets/Images/new922.png');
+  }
+  #new_user_desc{
+    padding-right: 21em !important;
+  }
+  #new_user_title{
+    width: 70% !important;
+
   }
 }
 @media (max-width: 786.98px) {
@@ -107,27 +124,56 @@
   .bloc-cover {
     margin-top: 15vh;
   }
+  .bloc-cover-new-user {
+    margin-top: 15vh;
+  }
   .bg-imag-cover {
     background-image: url('/assets/Images/bgAddPool576.png');
+  }
+
+  .bg-imag-newUser{
+    background-image: url('/assets/Images/new576.png');
+  }
+  #new_user_desc{
+    padding-right: 14em !important;
+
   }
 }
 @media (max-width: 576px) {
   .bloc-cover {
     margin-top: 15vh;
   }
+  .bloc-cover-new-user {
+    margin-top: 15vh;
+  }
   .bg-imag-cover {
     background-image: url('/assets/Images/bgAddPool576.png');
   }
+
+  .bg-imag-newUser{
+    background-image: url('/assets/Images/new576.png');
+  }
+
   .title-cover {
     font-size: 28px;
   }
   .description-cover {
     font-size: 21px;
   }
+  #new_user_desc{
+    padding-right: 13em !important;
+  }
 }
 @media (max-width: 500px) {
   .bg-imag-cover {
     background-image: url('/assets/Images/bgAddPool320.png');
+    height: 468px;
+    margin-top: -8vh;
+  }
+
+  .bg-imag-newUser{
+    background-image: url('/assets/Images/new320.png');
+
     height: 468px;
     margin-top: -8vh;
   }
@@ -154,9 +200,36 @@
     padding-right: 10%;
   }
   .button-cover {
-    left: 17%;
-    margin-bottom: 1%;
+    margin-top: 2.5% !important;
   }
+
+  @media only screen {
+    .bloc-cover-new-user{
+      margin-left: 4% !important;
+    }
+
+    #new_user_desc{
+      padding-right: 2em !important;
+    }
+    #new_user_title{
+      margin-top: 15em;
+      width: 100vh !important;
+      font-size: 22px;
+    }
+  }
+  .btn_cover_container{
+    width: fit-content !important;
+    margin: auto;
+  }
+
+  // #new_user_desc{
+  //   padding-right: 0em !important;
+  // }
+
+  // // #new_user_title{
+  // //   width: 100% !important;
+  // // }
+
 }
 .background {
   background-color: white;
@@ -167,6 +240,9 @@
 }
 @media (min-height: 780px) and (max-height: 950px) and (max-width: 450px) {
   .bloc-cover {
+    margin-top: 38vh;
+  }
+  .bloc-cover-new-user{
     margin-top: 38vh;
   }
 }
