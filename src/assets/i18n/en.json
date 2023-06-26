@@ -1188,5 +1188,15 @@
   "DontUseSameLogin":"Do not use the login password",
   "SearchOrPaste":"Search token or paste address",
   "Send":"Send",
-  "thisCodeWillOnlyBeValidFor5Min":"this code will only be valid for 5 min"
+  "thisCodeWillOnlyBeValidFor5Min":"this code will only be valid for 5 min", 
+    "faq5": {
+      "weVe": "We’ve",
+      "partneredWith": "partnered with multichain,",
+      "sattBridge":"here's how to bridge your SaTT:",
+      "step2": "2. In the top menu bar, select Ethereum Mainnet or BNB Chain Mainnet, depending on the SaTT you have in your wallet.",
+      "step3": "3. Connect your wallet, making sure it is configured on the same blockchain as the one previously selected.",
+      "step4": "4. Select SaTT from the drop-down list.",
+      "step5": "5. Enter the amount you wish to exchange and then confirm the transaction.",
+      "step6": "6. You will receive your SaTT on the same address."
+    }  
 }
