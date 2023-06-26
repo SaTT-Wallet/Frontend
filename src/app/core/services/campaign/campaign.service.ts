@@ -1116,7 +1116,7 @@ export class CampaignHttpApiService {
   allCampaigns(
     page = 1,
     size = 1,
-    queryParams: HttpParams = new HttpParams()
+    queryParams: HttpParams = new HttpParams(),
   ): Observable<ICampaignsListResponse> {
     const walletId = !!this.tokenStorageService.getToken()
       ? (this.tokenStorageService.getIdWallet() as string)
@@ -1124,8 +1124,8 @@ export class CampaignHttpApiService {
     let queryParams2 = queryParams
       .set('idWallet', walletId)
       .set('page', '' + page)
-      .set('limit', '' + size);
-
+      .set('limit', '' + size)
+      
     let header2 = new HttpHeaders({
       'Cache-Control': 'no-store',
       'Content-Type': 'application/json',
