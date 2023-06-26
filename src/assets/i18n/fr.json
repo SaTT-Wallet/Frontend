@@ -291,7 +291,7 @@
   "social_networks.subscriber": "abonné",
   "create_campaign_form.error_max_size_cover": "Le fichier est trop volumineux. Sa taille ne doit pas dépasser 2 MiB",
   "create_campaign_form.error_extension_cover": "Extension de fichier non valide, types autorisés : png, jpeg, jpg",
-  "create_campaign_form.summary": "META DESCRIPTION POUR LE SEO",
+  "create_campaign_form.summary": "Décrivez brièvement l'AdPool.",
   "create_campaign_form.summary_help": "Texte affiché lors du partage de la campagne.",
   "create_campaign_form.your_brand": "MARQUE",
   "create_campaign_form.reference": "REFERENCE",
@@ -319,7 +319,7 @@
   "create_campaign_form.reachmax": "Vous permettent de configurer manuellement la portée maximale qu'un message peut obtenir. trouver plus d'informations dans la FAQ.",
   "create_campaign_form.alert_expire": "La campagne débutera 1 heure après la validation de la campagne.",
   "create_campaign_form.generate_preview": "Générer un aperçu",
-  "create_campaign_form.create_new_campaign": "Finaliser ma Pool",
+  "create_campaign_form.create_new_campaign": "Finaliser AdPool.",
 
   "create_campaign_form.alert_required": "Attention! Veuillez remplir les champs nécessaires",
   "create_campaign_form.summary_maxlength": "Le résumé doit contenir un maximum de 250 caractères",
@@ -713,7 +713,7 @@
   "campaign_details.add_files": "Ajouter des fichiers",
   "campaign_details.add_new_links": "Ajouter des Liens",
   "campaign_details.campaign_duration_text": "Durée de la campagne",
-  "campaign_details.campaign_kit": "Kit de l'AdPool",
+  "campaign_details.campaign_kit": "Kit AdPool",
   "campaign_details.campaign_kit_description": "Pour vous aider à accomplir ces missions, vous pouvez télécharger ce kit de campagne qui comprend des photos, vidéos et autres supports.",
   "campaign_details.close_btn_text": "Fermer",
   "campaign_details.countries": "Pays",
@@ -723,7 +723,7 @@
   "campaign_details.downloadallKit": "Telecharger les kits",
 
   "campaign_details.earnings": "Gains",
-  "campaign_details.editor_recover_satt": "Récupérer vos SaTT",
+  "campaign_details.editor_recover_satt": "Récupérer",
   "campaign_details.editor_stats": "Statistiques",
   "campaign_details.increase_fund": "Augmenter le budget",
   "campaign_details.media": "Média",
@@ -758,7 +758,7 @@
   "campaign_notification.candidate_insert_link": "Un nouveau lien a été ajouté à votre campagne {{name}}",
   "campaign_notification.candidate_reject_link": "Un lien a été rejeté pour la campagne {{name}}",
   "campaign_notification.editor_cmp_rejected": "Votre candidature a la campagne {{name}} a été refusée.Veuillez trouver d'autres campagnes dans votre <a href='{{editorCmpUrl}}' >espace editeur</a>.",
-  "campaign_password.description2": "Valider votre action à l'aide de votre mot de passe Wallet pour interagir avec le smartcontrat SaTT. La mise à la jour de la blockchain peut prendre plusieurs minutes, veuillez de ne pas fermer la fenêtre avant la confirmation",
+  "campaign_password.description2": "Valider votre action à l'aide de votre mot de passe Wallet pour interagir avec le smartcontrat SaTT. La mise à jour de la blockchain peut prendre plusieurs minutes, veuillez de ne pas fermer la fenêtre avant la confirmation",
   "campaign_password.title": "Demande d'autorisation",
   "campaigns": "Campagnes",
   " Send & Receive": "Envoi & Réception",
@@ -1178,5 +1178,85 @@
   "sameOldPassword":"Ne pas utiliser le même vieux mot de passe pour les transactions",
   "techdDesNotSupport":"Je comprends que l'assistance technique ne peut pas m'aider à récupérer un mot de passe perdu.",
   "DontUseSameLogin":"Ne pas utiliser le mot de passe de connexion",
-  "SearchOrPaste":"Rechercher un token ou coller une adresse"
+  "SearchOrPaste":"Rechercher un token ou coller une adresse",
+  "importLogo":"Importer un logo de marque",
+  "Size":"Taille",
+  "Use":"Utiliser",
+  "Animals": "Animaux",
+  "Beauty": "Beauté",
+  "creativeHobbies": "Loisirs créatifs",
+  "Decoration": "Décoration",
+  "Environment": "Environnement",
+  "Finance": "Finance",
+  "Kitchen": "Cuisine",
+  "Games": "Jeux",
+  "Health": "Santé",
+  "Movies": "Films",
+  "Music": "Musique",
+  "Parties": "Fêtes",
+  "Photography": "Photographie",
+  "Reading": "Lecture",
+  "socialNetworking": "Réseaux sociaux",
+  "Sport": "Sport",
+  "Technologies": "Technologies",
+  "Theatre": "Théâtre",
+  "Travel": "Voyage",
+  "chooseMissions":"Choisissez des missions pour",
+  "Suggestions":"vous pouvez modifier nos suggestions",
+  "addNewMissions":"Ajouter une nouvelle mission",
+  "Missions-name-network": "Missions {{oracle}}",
+  "retrieveBudget":"Récupérer le budget",
+  "selectSocialMedias":"Sélectionner les médias sociaux",
+  "onlyPendingApplies":"Seules les demandes en cours s'appliquent",
+  "validateLink":"valider Lien",
+  "missions": {
+    "facebook": {
+      "postIntroduction": "Faites un post pour présenter @product",
+      "makeStory": "Faites une story à propos de @product",
+      "takePicture": "Prenez une photo de vous avec @product"
+    },
+    "twitter": {
+      "makeTweet": "Faites un tweet d'au moins 100 caractères sur @product",
+      "useTags": "Utilisez les tags #@product #@brand #tag3",
+      "mentionBrand": "Mentionnez @brand et @product"
+    },
+    "youtube": {
+      "makeVideo": "Faites une vidéo d'au moins 2 minutes",
+      "makeTutorial": "Faites un tutoriel sur @product",
+      "quoteBrandAndProduct": "Citez la @brand et le @product"
+    },
+    "linkedin": {
+      "mentionBrandAndProduct": "Mentionnez @brand et @product",
+      "addTags": "Ajoutez les tags #tag01 #tag02 #tag03",
+      "unboxProduct": "Déballez le @product"
+    },
+    "instagram": {
+      "postPhoto": "Publiez une photo du produit \"xxx\"",
+      "addTags": "Ajoutez les tags #tag01 #tag02 #tag03",
+      "indicatePaidPartnership": "Indiquez un partenariat rémunéré avec notre marque"
+    },
+    "tiktok": {
+      "postPhoto": "Publiez une photo du produit \"xxx\"",
+      "addTags": "Ajoutez les tags #tag01 #tag02 #tag03",
+      "indicatePaidPartnership": "Indiquez un partenariat rémunéré avec notre marque"
+    },
+    "googleAnalytics": {
+      "postPhoto": "Publiez une photo du produit \"xxx\"",
+      "addTags": "Ajoutez les tags #tag01 #tag02 #tag03",
+      "indicatePaidPartnership": "Indiquez un partenariat rémunéré avec notre marque"
+    }
+  },
+  "social_networks_youtube.linked": "Chaîne Youtube liée",
+  "social_networks_linkedin.linked": "Compte Linkedin lié",
+  "social_networks_facebook.linked": "Page liée à votre compte Facebook",
+  "social_networks_twitter.linked": "Compte Twitter lié",
+  "social_networks_tiktok.linked": "Compte TikTok lié",
+  "social_networks.relation": "Relation",
+  "editAdpool":"Modifier Adpool",
+  "backToList":"Retour à la liste"
+
+
+
+
+
 }
