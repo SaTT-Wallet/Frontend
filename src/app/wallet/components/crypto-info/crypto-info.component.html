@@ -121,7 +121,7 @@
     <div class="mt-4" *ngIf="!isLoading">
       <div class="details-boxes-container">
         <div class="details-box border-top-sm">
-          <div class="gray-title title-border-md">MARKET CAP</div>
+          <div class="gray-title title-border-md">{{ 'MARKET_CAP' | translate }}</div>
           <div class="right-part-sm-details-box">
             <div class="text-value">${{ marketCap }}</div>
             <div
@@ -136,7 +136,7 @@
           </div>
         </div>
         <div class="details-box">
-          <div class="gray-title title-border-md">Fully diluted market cap</div>
+          <div class="gray-title title-border-md">{{ 'Fully_diluted_market_cap' | translate }}</div>
           <div class="right-part-sm-details-box">
             <div class="text-value">
               {{ !!marketCapFD ? '$' + marketCapFD : '-' }}
@@ -167,7 +167,7 @@
           </div>
         </div>
         <div class="details-box">
-          <div class="gray-title title-border-md">circulating supply</div>
+          <div class="gray-title title-border-md">{{circulating_supply' | translate }}</div>
           <div class="right-part-sm-details-box">
             <div class="text-value">
               {{ circulatingSupply }} {{ cryptoSymbol }}
@@ -329,32 +329,18 @@
           class="buttons-container d-flex w-100 justify-content-start justify-content-md-center"
           style="margin-bottom: 5rem"
         >
-          <div
-            class="visit-button mr-2"
-            *ngIf="cryptoBinanceContract"
-            (click)="openInBSCScan()"
-          >
-            View on BSCScan
-            <img src="assets/Images/crypto-info/visit.svg" class="ml-2" />
-          </div>
-          <div
+         
+          <!-- <div
             class="visit-button mr-2"
             *ngIf="cryptoName === 'SaTT'"
             (click)="openInBSCScan()"
           >
             View on BSCScan
             <img src="assets/Images/crypto-info/visit.svg" class="ml-2" />
-          </div>
-          <div
-            class="visit-button mr-2"
-            *ngIf="cryptoEtheriumContract"
-            (click)="openInEtherscan()"
-          >
-            View on Etherscan
-            <img src="assets/Images/crypto-info/visit.svg" class="ml-2" />
-          </div>
-          <div class="visit-button mr-2" (click)="openInBitcoinOrg()">
-            Visit Bitcoin.org
+          </div> -->
+       
+          <div   *ngIf="CryptoUrl" class="visit-button mr-2" (click)="openInBitcoinOrg(CryptoUrl)">
+           {{CryptoUrl}}
             <img src="assets/Images/crypto-info/visit.svg" class="ml-2" />
           </div>
         </div>

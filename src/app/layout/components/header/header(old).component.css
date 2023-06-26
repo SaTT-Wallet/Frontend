@@ -9,6 +9,10 @@
     border-bottom: 1px dotted black;
   }
   
+  #navbarSupportedContent{
+    padding-left: 10px;
+    padding-right: 10px;
+  }
   .tool .tooltext {
        visibility: hidden; 
        width: 120px;

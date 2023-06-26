@@ -61,47 +61,48 @@ export class DraftCampaignPresentationComponent implements OnInit {
     this.render = rendererFactory.createRenderer(null, null);
     this.form = new UntypedFormGroup({
       title: new UntypedFormControl('', Validators.required),
-      brand: new UntypedFormControl(''),
+      brand: new UntypedFormControl('', Validators.required),
       reference: new UntypedFormControl(''),
       summary: new UntypedFormControl('', [
         Validators.required,
         Validators.maxLength(250)
       ]),
       description: new UntypedFormControl('', Validators.required)
-    });
+    }); 
+    
+    
   }
+
   ngOnInit(): void {
-    //this.getCampaignLogo();
-    //this.getCampaignCover();
     this.saveForm();
     this.emitFormStatus();
+    this.fetchCampaignPresentation();
   }
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.draftData && changes.draftData.currentValue.id) {
-      this.populateForm(this.draftData);
-      if (this.form.valid) {
-        this.validFormPresentation.emit(true);
-      } else {
-        this.validFormPresentation.emit(false);
-      }
-    }
+
+  fetchCampaignPresentation() {
+    this.form.get('title')?.setValue(this.draftData.title)
+    this.form.get('brand')?.setValue(this.draftData.brand)
+    this.form.get('reference')?.setValue(this.draftData.reference)
+    this.form.get('summary')?.setValue(this.draftData.summary)
+    this.form.get('description')?.setValue(this.draftData.description)
+  }
+  descriptionPattern(value: String): Boolean {
+    return (value !== '<p></p>' && value !== '<h1></h1>' && value !== '<h2></h2>' && value !== '<h3></h3>' && value !== '<h4></h4>' && value !== '<h5></h5>')
+  }
+  checkValidForm() {
+    const isValidForm = this.form.valid && this.descriptionPattern(this.form.get('description')?.value);
+    this.validFormPresentation.emit(isValidForm); 
   }
   saveForm() {
-    this.form.valueChanges
-      .pipe(
+    this.form.valueChanges.pipe(
         debounceTime(500),
         tap((values: any) => {
-          if (this.draftData.id && this.form.valid) {
-            this.validFormPresentation.emit(true);
-          } else {
-            this.validFormPresentation.emit(false);
-          }
-          if (this.draftData.id) {
-            this.validFormPresentation.emit(true);
+          if(!!this.draftData.id) {
             this.service.autoSaveFormOnValueChanges({
               formData: values,
               id: this.id
             });
+            this.checkValidForm()
           }
         }),
         takeUntil(this.isDestroyed$)
@@ -117,22 +118,6 @@ export class DraftCampaignPresentationComponent implements OnInit {
       });
   }
 
-  populateForm(data: Campaign) {
-    this.form.patchValue(
-      {
-        title: data.title,
-        brand: data.brand,
-        summary: data.summary,
-        reference: data.reference,
-        description: data.description
-      },
-      { emitEvent: false, onlySelf: true }
-    );
-  }
-
-  onImgError(event: any) {
-    event.target.src = 'assets/Images/moonboy/Default_avatar_MoonBoy.png';
-  }
   ngOnDestroy(): void {
     this.isDestroyed$.next('');
     this.isDestroyed$.unsubscribe();

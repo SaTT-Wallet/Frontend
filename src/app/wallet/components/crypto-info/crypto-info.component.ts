@@ -12,6 +12,8 @@ import * as Highcharts from 'highcharts';
 import { forkJoin } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { DatePipe, DOCUMENT } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
+import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 
 @Component({
   selector: 'app-crypto-info',
@@ -32,15 +34,18 @@ export class CryptoInfoComponent implements OnInit, AfterViewInit {
   cryptoPrice: any;
   loading = true;
   disableBtn: boolean = false;
+  languageSelected : string ="";
 
   constructor(
     private route: ActivatedRoute,
+    public translate: TranslateService,
     private walletFacade: WalletFacadeService,
     public showNumbersRule: ShowNumbersRule,
     private cryptoInfoService: CryptoInfoService,
     private datePipe: DatePipe,
     @Inject(DOCUMENT) private document: Document,
     private router: Router,
+    private tokenStorageService: TokenStorageService,
     private activatedRoute: ActivatedRoute
   ) {}
   state = {
@@ -58,6 +63,9 @@ export class CryptoInfoComponent implements OnInit, AfterViewInit {
   circulatingSupplyChange: any;
   cryptoImgUrl: any;
   isLoading = true;
+  CryptoUrl!:string ;
+
+
 
   ngAfterViewInit(): void {}
 
@@ -107,10 +115,14 @@ export class CryptoInfoComponent implements OnInit, AfterViewInit {
             this.cryptoInfoService.marketChartToken(res.id, 'usd', 'max', 'max')
           );
           arrayOfObs.push(this.cryptoInfoService.generalTokenInfos(res.id));
+          
+          
           return forkJoin(arrayOfObs);
         })
       )
       .subscribe((data: any) => {
+      
+        this.CryptoUrl = data[4].links.homepage[0];
         this.isLoading = false;
         this.data = data[3].prices;
         this.fillingMarketDatas(data);
@@ -131,6 +143,18 @@ export class CryptoInfoComponent implements OnInit, AfterViewInit {
         this.disableBtn = false;
       }
     });
+    this.translate.addLangs(['en', 'fr']);
+    if (this.tokenStorageService.getLocale()) {
+      // @ts-ignore
+      this.languageSelected = this.tokenStorageService.getLocale();
+      this.translate.setDefaultLang(this.languageSelected);
+      this.translate.use(this.languageSelected);
+    } else {
+      this.tokenStorageService.setLocalLang('en');
+      this.languageSelected = 'en';
+      this.translate.setDefaultLang('en');
+      this.translate.use(this.languageSelected);
+    }
   }
 
   private drawChart() {
@@ -405,7 +429,7 @@ font-size: 12px;">${item.value + '$'}</span>`;
     );
   }
 
-  openInBitcoinOrg() {
-    window.open('https://bitcoin.org/en/', '_blank');
+  openInBitcoinOrg(cryptoUrl: string) {    
+    window.open(cryptoUrl, '_blank');
   }
 }

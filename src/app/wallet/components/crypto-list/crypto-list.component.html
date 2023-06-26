@@ -48,7 +48,7 @@
                   class="col-2 d-flex align-items-center justify-content-start"
                   style="padding-left: 2em"
                 >
-                  <div class="col-title">PRICE</div>
+                  <div class="col-title">{{ 'PRICE_Crypto_List' | translate }}</div>
                 </div>
                 <div
                   class="col-2 d-flex align-items-center justify-content-start pl-4"
@@ -58,7 +58,7 @@
                 <div
                   class="col-2 d-flex align-items-center justify-content-start pl-4"
                 >
-                  <div class="col-title">USD VALUE</div>
+                  <div class="col-title">{{ 'USD_VALUE_Crypto_List' | translate }}</div>
                 </div>
                 <div
                   class="col-2 d-flex align-items-center justify-content-start"
@@ -1865,7 +1865,7 @@
                 <img class="not-found" src="/assets/Images/not-found.svg " />
 
                 <p class="result-found make-center mt-3">
-                  {{ 'No result found' | translate }}
+                  {{ 'No_result_found' | translate }}
                 </p>
               </div>
               <div *ngIf="!!search">
@@ -2228,7 +2228,7 @@
                 type="text"
                 name="search"
                 autocomplete="off"
-                placeholder="Search token or paste address"
+                placeholder="SearchOrPaste"
                 [(ngModel)]="search"
                 (ngModelChange)="onTextChange($event)"
               />
@@ -2283,6 +2283,8 @@
                               crypto.undername2
                             }}.svg"
                             alt=""
+                           (click)="goToCryptoDetails(crypto.symbol)"
+
                           />
                         </div>
                         <!-- <img
@@ -3139,7 +3141,7 @@
                   class="w-100 d-flex justify-content-center align-items-center"
                 >
                   <p class="result-found make-center mt-3">
-                    {{ 'No result found' | translate }}
+                    {{ 'No_result_found' | translate }}
                   </p>
                 </div>
               </div>

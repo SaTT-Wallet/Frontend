@@ -220,6 +220,14 @@ public saveLinks(newlink: any){
   public setIdUserPost(id: any) {
     return this.localStorage.setItem(userIdPost, id);
   }
+
+  public setLinkedinUserId(linkedinId: any) {
+    return this.localStorage.setItem("shareId", linkedinId);
+  }
+
+  public getLinkedinUserId() {
+    return this.localStorage.getItem("shareId");
+  }
   public setIdUser(id: any) {
     return this.localStorage.setItem(userId, id);
   }

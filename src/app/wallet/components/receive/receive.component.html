@@ -22,27 +22,28 @@
           [ngClass]="{
             'text-error': amount === '' && this.receiveform.get('Amount')?.dirty
           }"
-          type="number"
+          type="decimal"
           id="amount1"
           (focus)="goToSection('amountreceive')"
           pattern="(\d{1,2}([\.,])?)*([\d{1,2}]?)*"
           formControlName="Amount"
           (keydown)="restrictZero($event)"
+          (keypress)="keyPressNumbersWithDecimal($event, 'crypto')"
           class="amountreceive input-amount"
           placeholder="0"
           [(ngModel)]="amount"
-          (input)="convertcurrency('amountreceive')"
+          (input)="convertcurrency('crypto')"
         />
       </div>
       <div class="text-center balance">
         <p class="hard-gray-text" *ngIf="this.selectedCryptoDetails">
           1 {{ this.selectedCryptoDetails.symbol | translate }} =
-          {{ this.selectedCryptoDetails.price || this.sattPrices }} USD
+          {{ getCryptoPrice() }} USD
         </p>
 
         <p class="hard-gray-text" *ngIf="!this.selectedCryptoDetails">
           1 {{ 'SATT' }} =
-          {{ this.selectedCryptoDetails.price || this.sattPrices }} USD
+          {{ this.sattPrices }} USD
         </p>
       </div>
 
@@ -50,17 +51,18 @@
         <div class="w-100 d-flex justify-content-center align-items-center">
           <span class="amount-default-receive-usd">$</span>
           <input
-            type="number"
+            type="decimal"
             class="usdreceive input-number2-receive"
             pattern="(\d{1,2}([\.,])?)*([\d{1,2}]?)*"
             class="input-amount-usd"
             (focus)="goToSection('usdreceive')"
             placeholder="0"
             (keydown)="restrictZero($event)"
+            (keypress)="keyPressNumbersWithDecimal($event, 'usd')"
             #inputAmountUsd
             formControlName="AmountUsd"
             [(ngModel)]="amountUsd"
-            (input)="convertcurrency('usdreceive')"
+            (input)="convertcurrency('usd')"
           />
         </div>
       </div>
@@ -168,7 +170,7 @@
             <textarea
               formControlName="message"
               class="message textplace"
-              placeholder="Send a message to your contact"
+              placeholder="{{'sendAMessage' | translate }}"
             ></textarea>
           </div>
         </div>

@@ -640,9 +640,9 @@ getCookie(key: string){
           takeUntil(this.onDestroy$),
           catchError((error: HttpErrorResponse) => {
             if (error.error.error.message === 'user not found') {
-              this.errorMessage = 'Invalid email address';
+              this.errorMessage = 'invalidEmailAddress';
             } else if (error.error.error.message === 'invalid_credentials') {
-              this.errorMessage = 'Incorrect password';
+              this.errorMessage = 'incorrectPassword';
             } else if (error.error.error.message === 'account_locked') {
               if (
                 this.blocktime &&

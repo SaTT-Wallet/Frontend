@@ -1,3 +1,4 @@
+<!-- eslint-disable prettier/prettier -->
 <div class="col-12 background pt-5" *ngIf="title.startsWith('ad-pools')">
   <div class="d-flex justify-content-center">
     <!-- <img
@@ -27,18 +28,34 @@
       src="../../../assets/Images/bgAddPool.png"
       style="object-fit: cover; width: 100%; margin-top: -3rem !important"
     /> -->
-    <div class="bg-imag-cover">
-      <div class="bloc-cover">
-        <div class="title-cover">Wallet updated</div>
-        <div class="description-cover">
-          For security reasons, we invite you to migrate your tokens to a new
-          wallet.
-        </div>
-        <div>
-          <button class="button-cover" routerLink="wallet">Migrate now</button>
+    <ng-container *ngIf="!isNewUser; else containerNewUser">
+      <div class="bg-imag-cover">
+        <div class="bloc-cover">
+          <div class="title-cover">{{ 'Wallet_updated' | translate }}</div>
+          <div class="description-cover">
+            {{ 'Wallet_updated_Warning' | translate }}
+          </div>
+          <div>
+            <button class="button-cover" routerLink="wallet">{{ 'Wallet_updated_migrate' | translate }}</button>
+          </div>
         </div>
       </div>
-    </div>
+    </ng-container>
+
+    <ng-template #containerNewUser>
+      <div class="bg-imag-newUser">
+        <div class="bloc-cover-new-user">
+          <div class="title-cover">{{'Wallet_newuser_banner_title' | translate }}</div>
+          <div class="description-cover">
+            {{ 'Wallet_newuser_banner_description' | translate }}
+          </div>
+          <div>
+            <button class="button-cover" routerLink="wallet">{{ 'Wallet_newuser_benner_button' | translate }}</button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
     <!--1400-->
     <!-- <p
       class="d-none d-xl-block"
@@ -612,7 +629,7 @@
           color: #f52079;
         "
       >
-        Launch your AdPool now !
+        {{ 'Launch_your_adpool' | translate}}
       </p>
       <p
         class="d-none d-xl-block"
@@ -634,12 +651,8 @@
           color: #1f2337;
         "
       >
-        Adpool SaTT is an innovative tool that allows you to maximize the impact
-        of their marketing campaigns. It allows you to advertise influencers to
-        talk about your brand or product, using blockchain technology. <br />
-        By requesting the creation of an Adpool, our experienced team will
-        contact you and help you set up your campaign. <br />
-        Trust SaTT for a successfulmarketing campaign!
+        {{ 'footerText' |  translate }}
+
       </p>
 
       <button
@@ -652,7 +665,7 @@
           right: 0%;
           top: 19.8vw;
           color: white;
-          width: 133.87px;
+          width: 160px;
           height: 32px;
           background: #f52079;
           border-radius: 30px;
@@ -668,7 +681,7 @@
           border: 0px;
         "
       >
-        Apply to launch
+        {{ 'Apply_to_launch' | translate }}
       </button>
 
       <!--1200-->
@@ -691,7 +704,7 @@
           color: #f52079;
         "
       >
-        Launch your AdPool now !
+        {{ 'Launch_your_adpool' | translate}}
       </p>
       <p
         class="d-none d-lg-block d-xl-none"
@@ -712,12 +725,8 @@
           color: balck;
         "
       >
-        Adpool SaTT is an innovative tool that allows you to maximize the impact
-        of their marketing campaigns. It allows you to advertise influencers to
-        talk about your brand or product, using blockchain technology.<br />
-        By requesting the creation of an Adpool, our experienced team will
-        contact you and help you set up your campaign.<br />
-        Trust SaTT for a successful marketing campaign!
+      {{ 'footerText' |  translate }}
+
       </p>
       <button
         class="d-none d-lg-block d-xl-none"
@@ -746,7 +755,7 @@
           border: 0px;
         "
       >
-        Apply to launch
+                {{ 'Apply_to_launch' | translate }}
       </button>
 
       <!--576-->
@@ -767,7 +776,7 @@
           color: #f52079;
         "
       >
-        Launch your AdPool now !
+        {{ 'Launch_your_adpool' | translate}}
       </p>
 
       <p
@@ -790,12 +799,8 @@
           color: balck;
         "
       >
-        Adpool SaTT is an innovative tool that allows you to maximize the impact
-        of their marketing campaigns. It allows you to advertise influencers to
-        talk about your brand or product, using blockchain technology.<br />
-        By requesting the creation of an Adpool, our experienced team will
-        contact you and help you set up your campaign. <br />
-        Trust SaTT for a successful marketing campaign!
+      {{ 'footerText' |  translate }}
+
       </p>
 
       <button
@@ -824,7 +829,7 @@
           border: 0px;
         "
       >
-        Apply to launch
+                {{ 'Apply_to_launch' | translate }}
       </button>
 
       <!--320-->
@@ -850,7 +855,7 @@
           color: #f52079;
         "
       >
-        Launch your AdPool now !
+        {{ 'Launch_your_adpool' | translate}}
       </p>
       <p
         class="d-none d-sm-block d-md-none"
@@ -873,12 +878,8 @@
           color: balck;
         "
       >
-        Adpool SaTT is an innovative tool that allows you to maximize the impact
-        of their marketing campaigns. It allows you to advertise influencers to
-        talk about your brand or product, using blockchain technology.<br />
-        By requesting the creation of an Adpool, our experienced team will
-        contact you and help you set up your campaign. <br />Trust SaTT for a
-        successful marketing campaign!
+      {{ 'footerText' |  translate }}
+
       </p>
 
       <button
@@ -907,7 +908,7 @@
           border: 0px;
         "
       >
-        Apply to launch
+                {{ 'Apply_to_launch' | translate }}
       </button>
 
       <!--inf 320-->
@@ -933,7 +934,7 @@
           color: #f52079;
         "
       >
-        Launch your AdPool now !
+        {{ 'Launch_your_adpool' | translate}}
       </p>
       <p
         class="d-block d-sm-none"
@@ -957,12 +958,8 @@
           color: balck;
         "
       >
-        Adpool SaTT is an innovative tool that allows you to maximize the impact
-        of their marketing campaigns. It allows you to advertise influencers to
-        talk about your brand or product, using blockchain technology.<br />
-        By requesting the creation of an Adpool, our experienced team will
-        contact you and help you set up your campaign. <br />Trust SaTT for a
-        successful marketing campaign!
+      {{ 'footerText' |  translate }}
+
       </p>
 
       <button
@@ -991,7 +988,7 @@
           border: 0px;
         "
       >
-        Apply to launch
+                {{ 'Apply_to_launch' | translate }}
       </button>
     </div>
   </div>

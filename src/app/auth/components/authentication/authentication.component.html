@@ -105,7 +105,7 @@
 
             <div class="row email-input">
               <input
-                placeholder="EMAIL"
+                placeholder="{{ 'EMAIL' | translate }}"
                 type="email"
                 name="email"
                 formControlName="email"
@@ -138,7 +138,7 @@
             </div>
             <div class="row password-input">
               <input
-                placeholder="PASSWORD"
+                placeholder="{{ 'PASSWORD' | translate }}"
                 type="password"
                 autocomplete="on"
                 name="password"
@@ -250,7 +250,7 @@
                         errorCode: this.errorMessagecode === 'code incorrect',
                         code: !this.errorMessagecode
                       }"
-                      >Authentification code</span
+                      >{{ 'auth_code' | translate }}</span
                     >
 
                     <app-code-input-auth
@@ -454,8 +454,7 @@
           {{ 'resend' | translate }}
         </a> 
         <a *ngIf="!this.showResendLink" style="color: red;">
-          Email sent, Please try again after {{ this.timeLeft }} seconds
-        </a>
+          {{ 'verifEmailSent' | translate: { timeLeft: this.timeLeft } }}  </a>
       </form>
     </div>
   </div>
@@ -558,7 +557,7 @@
 <!--
 <ng-template [ngIf]="cookiesClicked==true">
     <div class="modalCook d-block d-sm-none mx-3">
-        <h3 class="cookieTitle d-flex justify-content-center mt-2 col-sm-12">{{'Prenez un cookie' |translate}}</h3>
+        <h3 class="cookieTitle d-flex justify-content-center mt-2 col-sm-12">{{'Prenez_un_cookie' |translate}}</h3>
         <div class=" row d-flex justify-content-center">
             <img class="cookiesPIC d-flex justify-content-center" width="90px" height="90px" src="/assets/Images/cookies.png" alt="cookies">
             <p class="texteCOOK">{{'cookiesText'|translate}}</p>

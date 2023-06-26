@@ -81,7 +81,7 @@
                   class="col-md-11 col-lg-8 col-xl-6 col-sm-8 pt-4 d-flex justify-content-center"
                 >
                   <span class="bold-title">{{
-                    'Profil.personal-info' | translate
+                    'Profil.personal_info' | translate
                   }}</span>
                 </div>
               </div>
@@ -270,8 +270,7 @@
                       id="dropdownMenuButton"
                       data-toggle="dropdown"
                       aria-haspopup="true"
-                      aria-expanded="false"
-                      disabled
+                      aria-expanded="true"
                     >
                       <span
                         class="text-align-left dark_grey ps-2"
@@ -321,7 +320,8 @@
                 </div>
                 <div class="col-xl-4 col-md-5 col-lg-5 col-sm-8 pt-3"></div>
               </div>
-
+              
+              
               <div class="row d-flex justify-content-center">
                 <div
                   class="col-xl-8 col-lg-10 col-md-10 col-sm-9 d-flex justify-content-center"
@@ -937,7 +937,7 @@
             formControlName="email"
             name="email"
             class="input_lpwd"
-            placeholder="   {{ 'Entrez votre mail' | translate }} "
+            placeholder="   {{ 'Entrez_votre_mail' | translate }} "
             ngModel
             [ngClass]="{ error: this.isSub && formF.email.errors }"
           />

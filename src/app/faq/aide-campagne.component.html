@@ -6,7 +6,7 @@
   <!----------------------------------need a help? --------------------------------------------->
   <div class="d-block mb-5">
     <h3 class="HaveQ">
-      {{ 'Aide.Vous avez une question ? ' | translate }}
+      {{ 'Aide.Vous_avez_une_question ' | translate }}
     </h3>
     <div class="d-flex justify-content-center">
       <input
@@ -17,7 +17,7 @@
         name="search"
         [(ngModel)]="term"
         autocomplete="on"
-        placeholder="{{ 'Saisissez votre question ici' | translate }}"
+        placeholder="{{ 'Saisissez_votre_question_ici' | translate }}"
       />
       <button class="btn-search" (click)="search()">
         <i class="fa fa-search" aria-hidden="true"></i>
@@ -33,7 +33,7 @@
       >
         <span class="icon-ic1 ico iconHelp"></span>
         <span class="title-Aide d-none d-md-block">{{
-          'Aide.Votre portefeuille' | translate
+          'Aide.Votre_portefeuille' | translate
         }}</span>
       </div>
       <div
@@ -42,13 +42,13 @@
       >
         <span class="icon-ico2 iconHelp"></span>
         <span class="title-Aide d-none d-md-block">{{
-          'Aide.Gérer votre compte' | translate
+          'Aide.Gérer_votre_compte' | translate
         }}</span>
       </div>
       <!-------
             <div (click)="closeAndShow2()" class="col blockk me-2 d-flex justify-content-center flex-column mb-2" >
                 <span class="icon-ic3 ico iconHelp "></span>
-                <span class="title-Aide d-none d-md-block ">{{'Aide.Gérer une campagne'| translate}}</span>
+                <span class="title-Aide d-none d-md-block ">{{'Aide.Gérer_une_campagne'| translate}}</span>
             </div>
           -->
 
@@ -58,7 +58,7 @@
       >
         <span class="icon-ic2 ico iconHelp"></span>
         <span class="title-Aide d-none d-md-block">{{
-          'Aide.Participer à une campagne' | translate
+          'Aide.Participer_à_une campagne' | translate
         }}</span>
       </div>
 
@@ -68,7 +68,7 @@
       >
         <span class="icon-scurit ico iconHelp"></span>
         <span class="title-Aide d-none d-md-block">{{
-          'Aide.Sécurité des transactions' | translate
+          'Aide.Sécurité_des_transactions' | translate
         }}</span>
       </div>
       <div
@@ -77,7 +77,7 @@
       >
         <span class="icon-final-svg ico iconHelp"></span>
         <span class="title-Aide d-none d-md-block">{{
-          'Aide.L’Open Source' | translate
+          'Aide.L’Open_Source' | translate
         }}</span>
       </div>
     </div>
@@ -167,7 +167,7 @@
             class="panel-title collapsed question d-flex align-items-center"
             href="#faq89"
           >
-            <h3>{{ 'faq_pools' | translate }}?</h3>
+            <h3>{{ 'faq_Pools' | translate }}?</h3>
           </div>
           <div id="faq89" class="collapse" data-bs-parent=".faq-list">
             <p>{{ 'faq_poolsa' | translate }}</p>
@@ -642,14 +642,14 @@
     </div>
 
     <div class="HaveQ my-3">
-      <span>{{ 'Vous n’avez pas trouvé votre réponse ?' | translate }}</span>
+      <span>{{ 'Vous_n’avez_pas_trouvé_votre_réponse' | translate }}</span>
     </div>
     <!------------------------------send mail form------------------------------------------------------------>
     <div class="row blockBig p-4 mt-2">
-      <!-- <h6 class="remarque">{{'Dans le cas où vous n’auriez pas trouvé la réponse à votre question, n’hésitez pas à contacter notre support.' | translate}}</h6>-->
+      <!-- <h6 class="remarque">{{'Aide.Support' | translate}}</h6>-->
       <!--<hr class="separateur" />-->
 
-      <h3 class="HaveQ">{{ 'Aide.contact-us' | translate }}</h3>
+      <h3 class="HaveQ">{{ 'Aide.contact_us' | translate }}</h3>
       <form
         [formGroup]="form"
         (ngSubmit)="sendMail()"
@@ -658,7 +658,7 @@
         <div class="row d-flex justify-content-center mb-3">
           <div class="col-xl-5 col-md-9 col-lg-8 col-sm-10 pt-3">
             <label for="name" class="type-label">{{
-              'Aide.Votre nom' | translate
+              'Aide.Votre_nom' | translate
             }}</label>
             <input
               formControlName="NameFAQ"
@@ -678,7 +678,7 @@
         <div class="row d-flex justify-content-center mb-3">
           <div class="col-xl-5 col-md-9 col-lg-8 col-sm-10 pt-3">
             <label for="email" class="type-label">{{
-              'Aide.Votre mail' | translate
+              'Aide.Votre_mail' | translate
             }}</label>
             <input
               formControlName="emailFAQ"
