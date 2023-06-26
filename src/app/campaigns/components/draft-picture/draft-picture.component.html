@@ -35,7 +35,7 @@
         >
           <div class="btn-white position-relative gap-2">
             <img src="assets/Images/blue-icons/download-blue.svg" />
-            <span>Import a brand logo</span>
+            <span>{{ 'importLogo' | translate }}</span>
             <input
               type="file"
               name="file"
@@ -45,7 +45,7 @@
             />
           </div>
           <label class="small-label-type mt-2"
-            >Size : 180x180 px . Use : JPG, PNG, GIF</label
+            >{{'Size' | translate }} : 180x180 px . {{'Use' | translate }} : JPG, PNG, GIF</label
           >
         </div>
       </div>
@@ -121,7 +121,7 @@
               {{ 'create_campaign_form.import_cover_image_mobile' | translate }}
             </span>
             <span class="small-label-type d-flex flex-column">
-              <span>size :440x250px </span>
+              <span>{{'Size' | translate }}  :440x250px </span>
               <span>Formats : JPG, PNG, GIF</span>
               <span>
                 {{ 'create_campaign_form.max_weight' | translate }} : 2mo</span
@@ -199,7 +199,7 @@
           *ngIf="showImageMobile === true"
         >
           <span class="small-label-type"
-            >size :440x250px . Use:JPG, PNG, GIF
+            >{{'Size' | translate }}  :440x250px . {{'Use' | translate }}:JPG, PNG, GIF
           </span>
         </div>
         <div
@@ -306,7 +306,7 @@
               {{ 'create_campaign_form.import_cover_image' | translate }}
             </span>
             <span class="small-label-type d-flex flex-column">
-              <span>size :1920x800px</span>
+              <span>{{'Size' | translate }}  :1920x800px</span>
               <span>Formats : JPG, PNG, GIF</span>
               <span>
                 {{ 'create_campaign_form.max_weight' | translate }} : 2mo</span
@@ -378,7 +378,7 @@
           *ngIf="showImage === true"
         >
           <span class="small-label-type"
-            >size :1920x800px . Use:JPG, PNG, GIF
+            >{{'Size' | translate }}  :1920x800px . {{'Use' | translate }}:JPG, PNG, GIF
           </span>
         </div>
         <div

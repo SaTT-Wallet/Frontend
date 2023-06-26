@@ -90,7 +90,7 @@
         (click)="goToEditPage(campaign.id)"
         *ngIf="campaign.isOwnedByUser && campaign.isActive"
       >
-        Edit Adpool
+        {{'editAdpool' | translate}}
       </button>
      
       <button type="button" class="btn-scroll-top" (click)="scrollToTop()">
@@ -417,7 +417,7 @@
                 (this.campaign.isOwnedByUser && !editMode)
               "
             >
-              < Back to List</a
+              < {{'backToList' | translate }}</a
             >
           </div>
           <button
@@ -428,7 +428,7 @@
             *ngIf="campaign.isOwnedByUser && campaign.isActive"
           >
             <span class="padding-16" *ngIf="!this.showSpinner"
-              >Edit Adpool
+              >{{'editAdpool' | translate }}
             </span>
             <div
               *ngIf="this.showSpinner"
@@ -449,11 +449,11 @@
           >
           <p *ngIf="refundButtonDisable">
             <img src="../../../../../assets/Images/Vector-loading.svg"/>
-           Retrieve Budget  ( {{dateRefundDays}}d {{dateRefundHours}}h {{dateRefundMinutes}}min)
+           {{'retrieveBudget' | translate }} ( {{dateRefundDays}}d {{dateRefundHours}}h {{dateRefundMinutes}}min)
           </p>
           <p *ngIf="!refundButtonDisable">
             <img src="../../../../../assets/Images/retrieve.svg"/>
-           Retrieve Budget
+            {{'retrieveBudget' | translate }}
           </p>
           
           </button>

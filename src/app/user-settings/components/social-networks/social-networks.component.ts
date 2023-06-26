@@ -72,7 +72,7 @@ export class SocialNetworksComponent implements OnInit {
     private socialAccountFacadeService: SocialAccountFacadeService,
     private tokenStorageService: TokenStorageService,
     @Inject(PLATFORM_ID) private platformId: string
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
     this.getSocialNetwork();
