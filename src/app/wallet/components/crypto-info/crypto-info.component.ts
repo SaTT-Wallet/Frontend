@@ -51,7 +51,7 @@ export class CryptoInfoComponent implements OnInit, AfterViewInit {
   state = {
     current: 'black'
   };
-  selectedPeriod: string = '1';
+  selectedPeriod: string = 'max';
   dataY = [1, 10, 20, 30];
   marketCap: any;
   marketCapFD: any;
