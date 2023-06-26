@@ -96,7 +96,7 @@ export class CryptoInfoComponent implements OnInit, AfterViewInit {
           let arrayOfObs = [];
           arrayOfObs.push(
             this.cryptoInfoService
-              .getCryptoInfoById(res.id, 'usd')
+              .getCryptoInfoById(res?.id, 'usd')
               .pipe(map((res: any) => res[0]))
           );
           arrayOfObs.push(

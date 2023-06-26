@@ -620,7 +620,7 @@
   "Cryptolist.title.mobile": "Principales Cryptomonnaies",
   "Cryptolist.description.mobile": "Explorez les Meilleures Options du marché et Maximisez Vos Investissements !",
   "Cryptolist.7d": "7j%",
-  "Cryptolist.volume": "VOLUME(24H)",
+  "Cryptolist.marketcap": "MARKET CAP",
   "Cryptolist.last7d": "7DERNIERS JOURS",
   "Cryptolist.name": "NOM",
   "Cryptolist.token": "TOKEN",
