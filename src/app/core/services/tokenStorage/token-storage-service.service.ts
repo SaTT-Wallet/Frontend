@@ -250,6 +250,12 @@ public saveLinks(newlink: any){
   public removeItem(key: string) {
     this.localStorage.removeItem(key);
   }
+    public setNewUserV2(NewUserV2 : any){
+    this.localStorage.setItem('NewUserV2', NewUserV2)
+  }
+  public getNewUserV2() {
+    return this.localStorage.getItem('NewUserV2');
+  }
   logout() {
     let header = new HttpHeaders({
       'Cache-Control': 'no-store',

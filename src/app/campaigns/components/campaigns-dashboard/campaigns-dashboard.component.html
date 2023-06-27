@@ -28,8 +28,7 @@
       src="../../../assets/Images/bgAddPool.png"
       style="object-fit: cover; width: 100%; margin-top: -3rem !important"
     /> -->
-
-    <ng-container *ngIf="isConnected && !isNewUser   ; else containerNewUser">
+    <ng-container *ngIf="isNewUser === 'false'" >
       <div class="bg-imag-cover">
         <div class="bloc-cover">
           <div class="title-cover">{{ 'Wallet_updated' | translate }}</div>
@@ -43,11 +42,11 @@
       </div>
     </ng-container>
 
-    <ng-template #containerNewUser>
+    <ng-container *ngIf="isNewUser === 'true'">
       <div class="bg-imag-newUser">
         <div class="bloc-cover-new-user">
 
-          <div id="new_user_title"  class="title-cover w-md-50">{{'Wallet_newuser_banner_title' | translate }}</div>
+          <div id="new_user_title"  class="title-cover w-md-50"> {{'Wallet_newuser_banner_title' | translate }}</div>
           <div id="new_user_desc" class="description-cover">
             {{ 'Wallet_newuser_banner_description' | translate }}
           </div>
@@ -57,7 +56,7 @@
 
         </div>
       </div>
-    </ng-template>
+    </ng-container>
 
     <!--1400-->
     <!-- <p
