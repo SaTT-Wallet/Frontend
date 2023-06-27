@@ -747,6 +747,8 @@ getCookie(key: string){
                   }
                 });
               } else {
+                this.tokenStorageService.setNewUserV2(response?.passphrase  !== undefined ? !response?.passphrase : true);
+
                 if (response.idSn !== 0 && response.idSn !== null) {
                   if (
                     !response.completed ||
