@@ -80,6 +80,7 @@ export class TokenStorageService {
     this.localStorage.setItem(TOKEN_KEY, token);
     this.localStorage.setItem(isAuth, 'true');
   }
+
   public saveUserId(id: any) {
     this.localStorage.setItem(userId, id);
   }
@@ -126,6 +127,7 @@ public saveLinks(newlink: any){
   public getUserSn() {
     this.localStorage.getItem(idSn);
   }
+
   public setUserSn(id: string) {
     this.localStorage.setItem(idSn, id);
   }
@@ -249,6 +251,12 @@ public saveLinks(newlink: any){
   }
   public removeItem(key: string) {
     this.localStorage.removeItem(key);
+  }
+  public setNewUserV2(NewUserV2 : any){
+    this.localStorage.setItem('NewUserV2', NewUserV2)
+  }
+  public getNewUserV2() {
+    return this.localStorage.getItem('NewUserV2');
   }
   logout() {
     let header = new HttpHeaders({
