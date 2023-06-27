@@ -45,7 +45,7 @@
           <th scope="col d-none d-sm-block">1H%</th>
           <th scope="col">24H%</th>
           <th scope="col d-none d-sm-block">{{ 'Cryptolist.7d' | translate }}</th>
-          <th scope="col d-none d-sm-block">{{ 'Cryptolist.volume' | translate }}</th>
+          <th scope="col d-none d-sm-block">{{ 'Cryptolist.marketcap' | translate }}</th>
           <th scope="col d-none d-sm-block">{{ 'Cryptolist.last7d' | translate }}</th>
         </tr>
       </thead>
@@ -106,7 +106,7 @@
                crypto[1]?.percent_change_7d | number: '1.0-2'
             }}%
           </td>
-          <td class="align-middle">{{  crypto[1]?.volume_24h | currency:'USD':'symbol':'1.0-0' }}</td>
+          <td class="align-middle">{{  crypto[1]?.market_cap | currency:'USD':'symbol':'1.0-0' }}</td>
         <ng-container *ngIf="sparklineIn7dCryptoList[i]"> 
             <td>
         
