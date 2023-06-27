@@ -1260,7 +1260,9 @@
   "typesOfNFT":"Quels sont les différents types de NFT ?",
   "Price":"Prix",
   "selectSocialMedias":"Choisir les médias sociaux",
-  "onlyPendingApplies":"Seule l'attente s'applique"
+  "onlyPendingApplies":"Seule l'attente s'applique",
+  "Missions-name-network": "Missions {{oracle}}"
+
 
 
 
