@@ -87,25 +87,25 @@ export class DraftCampaignParametresComponent implements OnInit {
     private refChangeDetect: ChangeDetectorRef
   ) {
     this.InterestList = [
-      { name: 'Animals' },
-      { name: 'Beauty' },
-      { name: 'Creative hobbies' },
-      { name: 'Decoration' },
-      { name: 'Environment' },
-      { name: 'Finance' },
-      { name: 'Kitchen' },
-      { name: 'Games' },
-      { name: 'Health' },
-      { name: 'Movies' },
-      { name: 'Music' },
-      { name: 'Parties' },
-      { name: 'Photography' },
-      { name: 'Reading' },
-      { name: 'Social Networking' },
-      { name: 'Sport' },
-      { name: 'Technologies' },
-      { name: 'Theatre' },
-      { name: 'Travel' }
+      { name: this.translate.instant('Animals') },
+      { name: this.translate.instant('Beauty') },
+      { name: this.translate.instant('creativeHobbies') },
+      { name: this.translate.instant('Decoration') },
+      { name: this.translate.instant('Environment') },
+      { name: this.translate.instant('Finance') },
+      { name: this.translate.instant('Kitchen') },
+      { name: this.translate.instant('Games') },
+      { name: this.translate.instant('Health') },
+      { name: this.translate.instant('Movies') },
+      { name: this.translate.instant('Music') },
+      { name: this.translate.instant('Parties') },
+      { name: this.translate.instant('Photography') },
+      { name: this.translate.instant('Reading') },
+      { name: this.translate.instant('socialNetworking') },
+      { name: this.translate.instant('Sport') },
+      { name: this.translate.instant('Technologies') },
+      { name: this.translate.instant('Theatre') },
+      { name: this.translate.instant('Travel') }
     ];
     this.InterestList.forEach((item: any) => {
       item.checked = false;

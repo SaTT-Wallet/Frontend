@@ -1117,7 +1117,6 @@ export class CampaignHttpApiService {
     page = 1,
     size = 1,
     queryParams: HttpParams = new HttpParams(),
-    redirect = '',
   ): Observable<ICampaignsListResponse> {
     const walletId = !!this.tokenStorageService.getToken()
       ? (this.tokenStorageService.getIdWallet() as string)
@@ -1126,7 +1125,7 @@ export class CampaignHttpApiService {
       .set('idWallet', walletId)
       .set('page', '' + page)
       .set('limit', '' + size)
-      .set('redirect', redirect);
+      
     let header2 = new HttpHeaders({
       'Cache-Control': 'no-store',
       'Content-Type': 'application/json',
