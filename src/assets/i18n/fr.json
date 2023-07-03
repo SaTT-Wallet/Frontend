@@ -1261,7 +1261,9 @@
   "Price":"Prix",
   "selectSocialMedias":"Choisir les médias sociaux",
   "onlyPendingApplies":"Seule l'attente s'applique",
-  "Missions-name-network": "Missions {{oracle}}"
+  "Missions-name-network": "Missions {{oracle}}",
+  "downloadAdPoolKit":"Télécharger AdPool Kit"
+
 
 
 
