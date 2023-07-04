@@ -534,6 +534,7 @@ meter[value='4'] {
 .sn-icon-googleFrensh {
     position: relative;
     width: 22px;
+
     /* margin-left: -21px; */
 }
 
@@ -942,9 +943,7 @@ a {
   .titleCookieMobile {
     display: block;
 }
-    .google-icon {
-        /* margin-left: 0px; */
-    }
+
      ::ng-deep .container {
         max-width: 920px !important;
     }
@@ -1161,9 +1160,6 @@ a {
     .textpwd {
         font-size: 16px;
     }
-    .modal-body.modal-customm {
-        /*padding: 0px 15px 205px !important;*/
-    }
     .satt-modal-header-img {
         height: 80px;
         width: 80px;
@@ -1259,9 +1255,6 @@ a {
     .left-side-content form {
         max-width: 100% !important;
         padding: 0 !important;
-    }
-    .sn-icon-facebook {
-        /* margin-right: 5px !important; */
     }
     /* .facebook_log {
     width: 256px;
