@@ -1322,12 +1322,12 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
     }
   }
   getdatavideo() {
-    console.log("hello");
+
     
     this.CampaignService.videoDescription(this.idvideo, this.oracleType)
       .pipe(takeUntil(this.isDestroyedSubject))
       .subscribe((datavideo: any) => {
-        console.log("this.idvideo");
+     
         
         this.imagevideo = datavideo.thumbnail_url;
         this.titlevideo = datavideo.title;
