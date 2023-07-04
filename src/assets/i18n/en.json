@@ -1285,7 +1285,11 @@
 "pancakeSwap":"What is PancakeSwap?",
 "airdropCrypto":"How Crypto Airdrop Works?",
 "typesOfNFT":"What Are the Different Types of NFTs?",
-"downloadAdPoolKit":"Download AdPool Kit"
+"downloadAdPoolKit":"Download AdPool Kit",
+"tokensMigratedSuccessfully":"Tokens migrated successfully",
+"checkYourWallet":"Check your wallet",
+"authentificationCode":"Authentification code"
+
 
 
 }

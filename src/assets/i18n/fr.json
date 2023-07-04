@@ -444,7 +444,7 @@
   "summary": "Résumé",
   "timezone": "Fuseau horaire",
   "to": "Au",
-  "transacHash": "Hachage de transaction",
+  "transacHash": "Hash de transaction",
   "transfer_money": "Vous avez envoyé {{nbr}} {{crypto}} à {{email}}",
   "transfer_event_currency": "Vous avez envoyé {{nbr}} {{currency}} à ",
   "transfer_event_link": "{{to}}",
@@ -1262,7 +1262,16 @@
   "selectSocialMedias":"Choisir les médias sociaux",
   "onlyPendingApplies":"Seule l'attente s'applique",
   "Missions-name-network": "Missions {{oracle}}",
-  "downloadAdPoolKit":"Télécharger AdPool Kit"
+  "downloadAdPoolKit":"Télécharger AdPool Kit",
+  "authentificationCode":"Code d'authentification",
+  "activate-oracle-tiktok-text1": "Devenez un créateur de contenu certifié sur ",
+  "activate-oracle-tiktok-text2": " pour commencer à gagner des SaTT.",
+  "tokensMigratedSuccessfully":"Migration des Tokens réussie",
+  "checkYourWallet":"Vérifiez votre portefeuille: ",
+  "SATTBEP20": "SATT"
+
+
+
 
 
 

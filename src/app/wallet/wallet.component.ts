@@ -1024,7 +1024,7 @@ export class WalletComponent implements OnInit, OnDestroy {
           this.buttonClick = false;
           if (err.error.error === 'same transaction pass ') {
             this.walletV2ErrorMessage =
-              'sameOldPassword';
+              this.translate.instant('sameOldPassword');
             this.wrongpassword = true;
             setTimeout(() => {
               this.WalletPasswordTransaction = '';
@@ -1032,7 +1032,7 @@ export class WalletComponent implements OnInit, OnDestroy {
               this.wrongpassword = false;
             }, 3000);
           } else if (err.error.error === 'same password') {
-            this.walletV2ErrorMessage = 'DontUseSameLogin';
+            this.walletV2ErrorMessage = this.translate.instant('DontUseSameLogin');
             this.wrongpassword = true;
             setTimeout(() => {
               this.WalletPasswordTransaction = '';
