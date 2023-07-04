@@ -1261,7 +1261,11 @@
   "Price":"Prix",
   "selectSocialMedias":"Choisir les médias sociaux",
   "onlyPendingApplies":"Seule l'attente s'applique",
-  "Missions-name-network": "Missions {{oracle}}"
+  "Missions-name-network": "Missions {{oracle}}",
+  "authentificationCode":"Code d'authentification",
+  "activate-oracle-tiktok-text1": "Devenez un créateur de contenu certifié sur ",
+  "activate-oracle-tiktok-text2": " pour commencer à gagner des SaTT."
+  
 
 
 
