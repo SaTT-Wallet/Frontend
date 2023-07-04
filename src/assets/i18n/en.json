@@ -1187,6 +1187,18 @@
   "techdDesNotSupport":"I understand that tech support cannot help me recover a lost password.",
   "DontUseSameLogin":"Do not use the login password",
   "SearchOrPaste":"Search token or paste address",
+  "Send":"Send",
+  "thisCodeWillOnlyBeValidFor5Min":"this code will only be valid for 5 min", 
+    "faq5": {
+      "weVe": "We’ve",
+      "partneredWith": "partnered with multichain,",
+      "sattBridge":"here's how to bridge your SaTT:",
+      "step2": "2. In the top menu bar, select Ethereum Mainnet or BNB Chain Mainnet, depending on the SaTT you have in your wallet.",
+      "step3": "3. Connect your wallet, making sure it is configured on the same blockchain as the one previously selected.",
+      "step4": "4. Select SaTT from the drop-down list.",
+      "step5": "5. Enter the amount you wish to exchange and then confirm the transaction.",
+      "step6": "6. You will receive your SaTT on the same address."
+    },  
   "importLogo":"Import a brand logo",
   "Size":"Size",
   "Use":"Use",
@@ -1254,6 +1266,26 @@
   }
 },
 "editAdpool":"Edit Adpool",
-"backToList":"Back to List"
+"backToList":"Back to List",
+"priceLiveData":"Price Live Data",
+"interestingArticles":"Here are some other articles that you may be interested in:",
+"farmATweet":"HOW TO FARM A TWEET?",
+"participateInAdpool":"How to find your Tweet URL to participate in the Ad Pools?",
+"findMyYoutube":"How to find my YouTube Video URL?",
+"reachMax":"What does “Reach” and “Reach Max” mean?",
+"polygon":"What is Polygon ?",
+"metaverse":"What Is a Metaverse?",
+"NFTs":"Will 2022 Be The Year Of NFTs?",
+"whatsNFT":"What’re NFTs?",
+"payingPerPerformance":"What are the advantages of paying influencers per performance?",
+"proInstagram":"Why You Need a Pro account on Instagram?",
+"blockchaineAd":"10 reasons why advertising will not escape the Blockchain Revolution",
+"cryptoGlossary":"Crypto glossary: What does “Bitcoin Halving” mean?",
+"niches":"What are the various niches within influencer categories?",
+"pancakeSwap":"What is PancakeSwap?",
+"airdropCrypto":"How Crypto Airdrop Works?",
+"typesOfNFT":"What Are the Different Types of NFTs?",
+"authentificationCode":"Authentification code"
+
 
 }
