@@ -1239,55 +1239,7 @@
   "social_networks_tiktok.linked": "Compte TikTok lié",
   "social_networks.relation": "Relation",
   "editAdpool":"Modifier Adpool",
-  "backToList":"Retour à la liste",
-  "priceLiveData":"Prix en direct",
-  "interestingArticles":"Voici d'autres articles qui pourraient vous intéresser :",
-  "farmATweet":"COMMENT CULTIVER UN TWEET ?",
-  "participateInAdpool":"Comment trouver l'URL de votre Tweet pour participer aux Ad Pools?",
-  "findMyYoutube":"Comment trouver l'URL de ma vidéo YouTube ?",
-  "reachMax":"Que signifient \"Reach\" et \"Reach Max\" ?",
-  "polygon":"Qu'est-ce que le polygone ?",
-  "metaverse":"Qu'est-ce qu'un Metaverse ?",
-  "NFTs":"2022 sera-t-elle l'année des NFT ?",
-  "whatsNFT":"Qu'est-ce qu'un NFT ?",
-  "payingPerPerformance":"Quels sont les avantages de payer les influenceurs à la performance ?",
-  "proInstagram":"Pourquoi avez-vous besoin d'un compte Pro sur Instagram ?",
-  "blockchaineAd":"10 raisons pour lesquelles la publicité n'échappera pas à la révolution blockchain.",
-  "cryptoGlossary":"Glossaire de la cryptographie : Que signifie \"Bitcoin Halving\" ?",
-  "niches":"Quelles sont les différentes niches au sein des catégories d'influenceurs ?",
-  "pancakeSwap":"Qu'est-ce que PancakeSwap ?",
-  "airdropCrypto":"Comment fonctionne Crypto Airdrop ?",
-  "typesOfNFT":"Quels sont les différents types de NFT ?",
-  "Price":"Prix",
-  "selectSocialMedias":"Choisir les médias sociaux",
-  "onlyPendingApplies":"Seule l'attente s'applique",
-  "Missions-name-network": "Missions {{oracle}}",
-  "downloadAdPoolKit":"Télécharger AdPool Kit",
-  "authentificationCode":"Code d'authentification",
-  "activate-oracle-tiktok-text1": "Devenez un créateur de contenu certifié sur ",
-  "activate-oracle-tiktok-text2": " pour commencer à gagner des SaTT.",
-  "tokensMigratedSuccessfully":"Migration des Tokens réussie",
-  "checkYourWallet":"Vérifiez votre portefeuille: ",
-  "SATTBEP20": "SATT"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  "backToList":"Retour à la liste"
 
 
 

@@ -141,7 +141,7 @@ meter[value='4'] {
 }
 
 .google-icon {
-    width: 20px !important;
+    width: 37px !important;
     height: 20px;
 }
 
@@ -458,7 +458,7 @@ meter[value='4'] {
     cursor: pointer;
     background: #ffffff;
     border-radius: 3rem;
-    margin-bottom: 18px;
+    margin-bottom: 0.8em;
     align-items: center;
     display: block;
     justify-content: center;
@@ -467,7 +467,7 @@ meter[value='4'] {
     padding-top: 11px;
     padding-left: 12px;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-}
+  }
 
 .google_log:hover {
     filter: drop-shadow(0px 1px 11px #cddefd) !important;
@@ -518,7 +518,7 @@ meter[value='4'] {
 
 .sn-icon-googleEnglish {
     position: relative;
-    width: 20px;
+    width: 30px !important;
     /* margin-left: 5px; */
 }
 
@@ -526,7 +526,7 @@ meter[value='4'] {
     position: relative;
     height: 20px;
     width: 30px !important;
-    padding-right: 12px;
+    padding-right: 5px !important;
     vertical-align: middle !important;
     top: -2px;
 }
@@ -534,7 +534,6 @@ meter[value='4'] {
 .sn-icon-googleFrensh {
     position: relative;
     width: 22px;
-    padding-right: 12px;
     /* margin-left: -21px; */
 }
 
@@ -1262,6 +1261,10 @@ a {
   .google_log {
     width: 256px;
   } */
+  .google_log {
+    height: 40px !important;
+    font-size: 14px !important;
+  }
      ::ng-deep.tgme_widget_login.large button.tgme_widget_login_button {
         font-size: 14px !important;
         padding: 7px 10px 7px !important;
