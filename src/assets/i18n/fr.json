@@ -1147,7 +1147,7 @@
   "config_text2": "Assurez-vous d'avoir relié toutes vos plateformes sociales. N'oubliez pas que plus vous en ferez, plus vous accélérerez votre influence et vos revenus.",
   "pass_text": "Pour effectuer chaque transaction, vous devrez introduire ce mot de passe. Notez-le soigneusement et conservez-le en lieu sûr ! ",
   "Ad_Pools": "AdPools",
-  "faq_farmming": "Ferme de publications",
+  "faq_farmming": "Post farming",
   "receive_event_link": " {{from}}",
   "receive_transfer_event_currency_firebase": "Vous avez reçu {{nbr}} {{currency}}} de",
   "migrateWalletText":"Pour des raisons de sécurité, nous vous invitons à migrer vos jetons vers un nouveau portefeuille. C'est très simple, nous avons besoin de quelques minutes de votre temps. Suivez les les étapes décrites dans notre application pour effectuer la migration en toute sécurité.",
