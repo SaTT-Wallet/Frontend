@@ -44,12 +44,19 @@
         onerror="this.src='/assets/Images/campagne/twitter_cover.svg'"
         class="cmp-img2"
       />
-      <img
-        *ngIf="prom.typeSN === 3"
+      <ng-container  *ngIf="prom.typeSN === 3 && prom.mediaUrl.includes('mp4')">
+        <video [src]="prom.mediaUrl" autoplay loop [muted]="true"></video>
+      </ng-container>
+
+      <ng-container  *ngIf="prom.typeSN === 3 && !prom.mediaUrl.includes('mp4')">
+        <img
         [src]="prom.mediaUrl"
         onerror="this.src='/assets/Images/campagne/instagramm.svg'"
         class="cmp-img2"
       />
+      </ng-container>
+      
+      
       <img
         *ngIf="prom.typeSN === 5"
         [src]="prom.mediaUrl"
