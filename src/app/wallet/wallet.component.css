@@ -43,7 +43,7 @@ input:-webkit-autofill:active {
 }
 
 .error_input {
-  width: 150%;
+  width: 180%;
   margin-left: 2.2em;
   text-align: left !important;
   padding-top: 1.1em;
@@ -2452,6 +2452,8 @@ p {
   text-align: center;
   letter-spacing: 0.005em;
   border: none;
+  width: 50%!important;
+
   /* margin-right: 1.5rem; */
 }
 .btn-blue:disabled {
@@ -2474,7 +2476,7 @@ p {
   text-align: center;
   letter-spacing: 0.005em;
   border: none;
-
+  width: 50%!important;
   /* margin-right: 1.5rem; */
 }
 .label_input {

@@ -286,7 +286,7 @@
   "social_networks.add_youtube_ch": "Ajouter une Chaine Youtube",
   "social_networks.add_fb": "Ajouter un compte Facebook",
   "social_networks.add_twitter": "Ajouter un compte Twitter",
-  "social_networks.add_linkedin": "Add a Linkedin account",
+  "social_networks.add_linkedin": "Ajouter un compte Linkedin",
   "social_networks.follower": "Suiveur",
   "social_networks.subscriber": "abonné",
   "create_campaign_form.error_max_size_cover": "Le fichier est trop volumineux. Sa taille ne doit pas dépasser 2 MiB",
@@ -531,7 +531,7 @@
   "Profil.update_pwd_connexion": "Modifier mon mot de passe de connexion au site",
   "Profil.new_password": "NOUVEAU MOT DE PASSE",
   "Profil.current_password": "VOTRE MOT DE PASSE ACTUEL",
-  "Profil.password_minlength_eight_chars": "Le mot de passe doit contenir au moins 8 caractères :",
+  "Profil.password_minlength_eight_chars": "Le mot de passe doit contenir au moins 8 caractères",
   "Profil.password_uppercase": "une lettre majuscule.",
   "Profil.password_lowercase": "une lettre minuscule.",
   "Profil.password_number": "un chiffre",
@@ -1032,7 +1032,7 @@
   "no_channel_found": "Aucune chaîne trouvée",
   "editogo": "Editer votre Logo",
   "completed-at": "complété à ",
-  "followers": "suiveurs",
+  "followers": "abonnés",
   "subscribers": "abonnés",
   "access-cancel": "Compte non lié ",
   "token_révolution_signup": "Créez un compte et gagnez de l'argent grâce à vos réseaux sociaux. ",
@@ -1084,8 +1084,8 @@
   "Facultative": "Facultative",
   "You-are-Requesting": "Vous demandez",
   "Send-again": "Réessayer autre fois",
-  "You-re-about-to-Send": "You’re about to Send",
-  "You-re-about-to-buy": "You’re about to Buy",
+  "You-re-about-to-Send": "Vous allez envoyer",
+  "You-re-about-to-buy": "Vous êtes sur le point d'acheter",
   "useMax": "Max",
   "confirm_passphrase": "confirmer la passphrase",
   "Congratulations-bought-tokens-successfully": "Toutes nos félicitations ! Vous avez acheté des jetons avec succès.",
@@ -1147,7 +1147,7 @@
   "config_text2": "Assurez-vous d'avoir relié toutes vos plateformes sociales. N'oubliez pas que plus vous en ferez, plus vous accélérerez votre influence et vos revenus.",
   "pass_text": "Pour effectuer chaque transaction, vous devrez introduire ce mot de passe. Notez-le soigneusement et conservez-le en lieu sûr ! ",
   "Ad_Pools": "AdPools",
-  "faq_farmming": "Ferme de publications",
+  "faq_farmming": "Post Farming",
   "receive_event_link": " {{from}}",
   "receive_transfer_event_currency_firebase": "Vous avez reçu {{nbr}} {{currency}}} de",
   "migrateWalletText":"Pour des raisons de sécurité, nous vous invitons à migrer vos jetons vers un nouveau portefeuille. C'est très simple, nous avons besoin de quelques minutes de votre temps. Suivez les les étapes décrites dans notre application pour effectuer la migration en toute sécurité.",
@@ -1173,7 +1173,7 @@
   "goTo":"aller à",
   "verifyWalletOwnership":"vérifier la propriété du portefeuille",
   "securityReasons":"Pour des raisons de sécurité, nous mettons à jour les portefeuilles de nos utilisateurs.",
-  "walletOwnershipText":"Veuillez saisir votre mot de passe de transaction pour vérifier que vous êtes bien le propriétaire de ce portefeuille. propriétaire de ce portefeuille et passer à l'étape suivante de création d'un nouveau portefeuille.",  
+  "walletOwnershipText":"Veuillez entrer votre mot de passe de transaction pour vérifier que vous êtes le propriétaire de ce portefeuille et passer à l'étape suivante de la création d'un nouveau.",  
   "sendAMessage":"Envoyer un message à votre contact",
   "sameOldPassword":"Ne pas utiliser le même vieux mot de passe pour les transactions",
   "techdDesNotSupport":"Je comprends que l'assistance technique ne peut pas m'aider à récupérer un mot de passe perdu.",
@@ -1268,7 +1268,21 @@
   "activate-oracle-tiktok-text2": " pour commencer à gagner des SaTT.",
   "tokensMigratedSuccessfully":"Migration des Tokens réussie",
   "checkYourWallet":"Vérifiez votre portefeuille: ",
-  "SATTBEP20": "SATT"
+  "SATTBEP20": "SATT",
+  "Accounts":"Comptes",
+  "activate-oracle-linkedin-text1": "Devenez un créateur de contenu Linkedin certifié pour commencer à gagner du SaTT.",
+  "setYourNewTransactionPasswordText1":"Veuillez saisir le nouveau mot de passe de transaction. Vous devrez effectuer toutes les transactions avec votre nouveau portefeuille. Notez-le soigneusement et conservez-le en lieu sûr !",
+  "setYourNewTransactionPasswordText2":"Ce nouveau mot de passe n'est valable que pour votre nouveau portefeuille. L'ancien mot de passe reste valable pour l'ancien portefeuille.",
+  "goToNewWallet":"Aller à Nouveau portefeuille",
+  "searchToken":"Cherche de Tokens",
+  "WalletAlreadyExist":"Portefeuille déjà existant",
+  "continueWithSimplex":"Continuer avec Simplex",
+  "swapWithUniswap":"Échanger avec Uniswap",
+  "swapWithPancakeswap":"Échanger avec Pancakeswap"
+
+
+
+
 
 
 

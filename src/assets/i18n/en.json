@@ -1288,8 +1288,16 @@
 "downloadAdPoolKit":"Download AdPool Kit",
 "tokensMigratedSuccessfully":"Tokens migrated successfully",
 "checkYourWallet":"Check your wallet",
-"authentificationCode":"Authentification code"
-
+"authentificationCode":"Authentification code",
+"Accounts":"Accounts",
+"setYourNewTransactionPasswordText1":"Please enter the new transaction password. You will need to perform any transactions with your new wallet. Write it down carefully and keep it in safe place!",
+"setYourNewTransactionPasswordText2":"This new password is only for your new wallet. The old password remains valid for the old one.",
+"goToNewWallet":"Go to new wallet",
+"searchToken":"Search Token",
+"WalletAlreadyExist":"Wallet Already Exist",
+"continueWithSimplex":"Continue with Simplex",
+"swapWithUniswap":"Swap with uniswap",
+"swapWithPancakeswap":"Swap with pancakeswap "
 
 
 

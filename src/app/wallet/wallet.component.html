@@ -270,7 +270,7 @@
     <div class="d-flex justify-content-center welcome-paragraph">
       <p class="paragragh">
         {{
-          'Now you have the possibility to create your Tron ​​wallet. You Need to just enter your transactional password to create it '
+          ' Now you have the possibility to create your Tron ​​wallet. You Need to just enter your transactional password to create it'
             | translate
         }}
       </p>
@@ -278,7 +278,7 @@
 
     <div>
       <div class="postition-trans-tron">
-        <h6 class="trans">{{ 'Transaction password' | translate }}</h6>
+        <h6 class="trans">{{ 'transactionPassword' | translate }}</h6>
       </div>
       <div
         class="div-input-icon-tron p-1"
@@ -458,7 +458,7 @@
 
     <div class="input-div">
       <div class="postition-trans">
-        <h6 class="trans">{{ 'Transaction password' | translate }}</h6>
+        <h6 class="trans">{{ 'transactionPassword' | translate }}</h6>
       </div>
       <div
         class="div-input-icon p-1"
@@ -520,7 +520,7 @@
             <span class="sr-only">Loading...</span>
           </div>
           <div *ngIf="!buttonClick" id="next-step">
-            {{ 'Next Step' | translate }}
+            {{ 'nextStep' | translate }}
           </div>
         </button>
       </div>
@@ -554,12 +554,9 @@
       id="welcome-paragraph"
     >
       <p class="paragragh" id="paragraph">
-        Please enter the new transaction password. You will need to perform any
-        transactions with your new wallet. Write it down carefully and keep it
-        in safe place!
+        {{'setYourNewTransactionPasswordText1' | translate }}
         <b
-          >This new password is only for your new wallet. The old password
-          remains valid for the old one.
+          > {{'setYourNewTransactionPasswordText2' | translate }}
         </b>
       </p>
     </div>

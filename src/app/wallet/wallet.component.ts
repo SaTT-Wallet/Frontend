@@ -1040,7 +1040,7 @@ export class WalletComponent implements OnInit, OnDestroy {
               this.wrongpassword = false;
             }, 3000);
           } else if (err.error.error === 'Wallet already exist') {
-            this.walletV2ErrorMessage = 'Wallet already exist';
+            this.walletV2ErrorMessage = this.translate.instant('WalletAlreadyExist');
 
             setTimeout(() => {
               this.closeModal(this.createWalletV2Modal);
