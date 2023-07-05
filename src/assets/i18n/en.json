@@ -1288,7 +1288,9 @@
 "downloadAdPoolKit":"Download AdPool Kit",
 "tokensMigratedSuccessfully":"Tokens migrated successfully",
 "checkYourWallet":"Check your wallet",
-"authentificationCode":"Authentification code"
+"authentificationCode":"Authentification code",
+"time.left":"left",
+"SaTTPrice":"SaTT Price"
 
 
 

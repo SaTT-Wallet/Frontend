@@ -167,7 +167,7 @@
   "chart.year":"1Y",
   "chart.all":"All",
   "Fully_diluted_market_cap":"CAPITALISATION BOURSIÈRE APRÈS DILUTION",
-  "MARKET_CAP":"CAP MARCHE",
+  "MARKET_CAP":"MARKET CAP",
   "FARM_YOUR_SOCIAL_NETWORKS":"EXPLOITER VOS RÉSEAUX SOCIAUX",
   "earn_crypto":"Gagner des cryptos avec un post",
   "Launch_App_Welcome":"lancer App",
@@ -588,7 +588,7 @@
   "AllCampains.draft": "Brouillon",
   "AllCampains.campaign_ends_on": "Fin le",
   "AllCampains.campaign_ends_in_months": "mois",
-  "AllCampains.campaign_ends_in_days": "jours",
+  "AllCampains.campaign_ends_in_days": "jour",
   "AllCampains.campaign_ends_in_hours": "heures",
   "AllCampains.campaign_ends_in_seconds": "secondes",
   "AllCampains.times_up": "temps écoulé",
@@ -1268,7 +1268,11 @@
   "activate-oracle-tiktok-text2": " pour commencer à gagner des SaTT.",
   "tokensMigratedSuccessfully":"Migration des Tokens réussie",
   "checkYourWallet":"Vérifiez votre portefeuille: ",
-  "SATTBEP20": "SATT"
+  "SATTBEP20": "SATT",
+  "time.left":"restant",
+  "SaTTPrice":"Prix du SaTT"
+
+
 
 
 
