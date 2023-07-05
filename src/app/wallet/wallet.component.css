@@ -2432,51 +2432,34 @@ p {
   text-align: center;
   letter-spacing: 0.005em;
 }
-.btn-blue {
+.btn-blue,
+.btn-blue:disabled {
   margin-top: 10%;
   /* margin-bottom: 2vh; */
-  background: #4048ff !important;
   line-height: 27px;
   letter-spacing: 0.005em;
-  color: #ffffff !important;
   box-shadow: none !important;
-
   border-radius: 30px;
   width: 137px !important;
-
   font-style: normal;
   font-weight: 600 !important;
   font-size: 80%;
-
   align-items: center;
   text-align: center;
-  letter-spacing: 0.005em;
   border: none;
   width: 50%;
   /* margin-right: 1.5rem; */
 }
+
+.btn-blue {
+  background: #4048ff !important;
+  color: #ffffff !important;
+}
+
 .btn-blue:disabled {
-  /* margin-bottom: 2vh; */
   background: #f6f6ff !important;
-  line-height: 27px;
-  letter-spacing: 0.005em;
   color: #adadc8 !important;
   border: 1px solid #d6d6e8 !important;
-  box-shadow: none !important;
-
-  border-radius: 30px;
-  width: 137px !important;
-
-  font-style: normal;
-  font-weight: 600 !important;
-  font-size: 80%;
-
-  align-items: center;
-  text-align: center;
-  letter-spacing: 0.005em;
-  border: none;
-  width: 50%!important;
-  /* margin-right: 1.5rem; */
 }
 .label_input {
   font-size: 14px !important;
