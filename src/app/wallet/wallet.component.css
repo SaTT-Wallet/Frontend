@@ -2452,8 +2452,7 @@ p {
   text-align: center;
   letter-spacing: 0.005em;
   border: none;
-  width: 50%!important;
-
+  width: 50%;
   /* margin-right: 1.5rem; */
 }
 .btn-blue:disabled {
