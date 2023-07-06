@@ -216,9 +216,7 @@ export class CampaignDetailComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getScreenWidth = window.innerWidth;
-    this.walletFacade.verifyUserToken().subscribe((res:any) => {
-      if(res?.message != "success") this.expiredSession();
-    })
+   
     this.refundButtonDisable = true;
     this.loadingData = true;
     this.CampaignService.isLoading.subscribe((res) => {
@@ -320,9 +318,7 @@ export class CampaignDetailComponent implements OnInit {
       this.loadingButton = true;
       this.CampaignService.getRefunds(this.campaign.hash, this.passwordForm.value.password, this.campaign.currency.type).subscribe(
         (res: any) => {
-          if(res?.name === "JsonWebTokenError") {
-            this.expiredSession();
-          } else {
+          
             if(res.code === 200 && res.message === "budget retrieved") {
               this.loadingButton = false;
               this.successMessage = "Budget retrieved";
@@ -330,7 +326,7 @@ export class CampaignDetailComponent implements OnInit {
                 this.closeModal(this.transactionPassword)
               }, 3000)
             }
-          }
+     
           
         },
         (err) => {
@@ -416,14 +412,11 @@ export class CampaignDetailComponent implements OnInit {
     )
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((data: any) => {
-        if(data?.name === "JsonWebTokenError") {
-          
-          this.expiredSession();
-        } else {
+       
           if (data.message === 'success') {
             this.allProms = data.data.allProms;
           }
-        }
+       
       });
   }
 
@@ -874,12 +867,10 @@ export class CampaignDetailComponent implements OnInit {
         takeUntil(this.isDestroyed)
       )
       .subscribe((data1: any) => {
-        if(data1?.name === "JsonWebTokenError") {
-          this.expiredSession();
-        } else {
+     
           this.toastr.success(data1);
           this.router.navigate(['home/ad-pools']);
-        }
+      
         
       });
   }
