@@ -9,6 +9,7 @@ import { Meta } from '@angular/platform-browser';
 import { environment } from '@environments/environment';
 import { sattUrl } from '@config/atn.config';
 import { isPlatformServer } from '@angular/common';
+import { ipfsURL } from '@config/atn.config';
 
 @Component({
   selector: 'app-campaign-details-container',
@@ -18,6 +19,7 @@ import { isPlatformServer } from '@angular/common';
 export class CampaignDetailsContainerComponent implements OnInit {
   showInfoSpinner: boolean = true;
   showmoonboy: boolean = false;
+  ogImageUrl: any;
 
   campaign$!: Observable<Campaign>;
   campaign: any;
@@ -140,15 +142,17 @@ export class CampaignDetailsContainerComponent implements OnInit {
 
     this.campaign$.pipe(takeUntil(this.isDestroyed)).subscribe((campaign) => {
       this.campaign = campaign;
+     
       setTimeout(() => {
         this.showmoonboy = campaign.id === this.campaignId;
       }, 1000);
-
+      this.ogImageUrl = campaign.coverSrcMobile.includes('ipfs') ? ipfsURL + campaign.coverSrcMobile.substring(27, campaign.coverSrcMobile.length) : campaign.coverSrcMobile;
+      
 
       this.meta.updateTag(
         {
           itemprop: 'image',
-          content: `${sattUrl}/campaign/coverByCampaign/${campaign.id}`
+          content: this.ogImageUrl
         },
         `itemprop='image'`
       );
@@ -181,21 +185,27 @@ export class CampaignDetailsContainerComponent implements OnInit {
       this.meta.updateTag(
         {
           name: 'og:image:secure_url',
-          content: `${sattUrl}/campaign/coverByCampaign/${campaign.id}`
+          content: this.ogImageUrl
         },
         `name='og:image:secure_url'`
       );
 
       this.meta.updateTag(
         {
-          name: 'og:image',
-          content: `${sattUrl}/campaign/coverByCampaign/${campaign.id}`
+          property: 'og:image',
+          content: this.ogImageUrl
         },
-        `name='og:image'`
+        `property='og:image'`
       );
 
 
-
+      this.meta.updateTag(
+        {
+          name: 'og:image',
+          content: this.ogImageUrl
+        },
+        `name='og:image'`
+      );
       this.meta.updateTag(
         {
           property: 'og:image:width',
@@ -266,7 +276,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
       this.meta.updateTag(
         {
           name: 'twitter:image',
-          content: `https://satt-token.com/assets/img/share_img_200px.png`
+          content: this.ogImageUrl
         },
         `name='twitter'`
       );
