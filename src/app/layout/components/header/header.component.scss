@@ -5,7 +5,7 @@
       /* margin-left: 56px; */
       align-items: center;
       list-style: none;
-      padding: 0;
+      padding: 5px;
       margin-top: 12px;
       display: none !important;
     }
@@ -573,6 +573,7 @@ ul.dropdown-menu.notif_drop_main.show {
 @media (max-width: 880.98px) {
   .li-menu {
     padding: 5px !important;
+    width: auto;
   }
 }
 
@@ -582,6 +583,10 @@ ul.dropdown-menu.notif_drop_main.show {
     } */
   .li-menu {
     margin: 0 !important;
+    padding: 5px !important;
+    width: auto;
+    flex-grow: 1 !important;
+
   }
   .height-fluid {
     height: 44px;

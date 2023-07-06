@@ -1084,7 +1084,7 @@
   "Facultative": "Facultative",
   "You-are-Requesting": "Vous demandez",
   "Send-again": "Réessayer autre fois",
-  "You-re-about-to-Send": "Vous allez envoyer",
+  "You-re-about-to-Send": "Vous êtes sur le point d'envoyer",
   "You-re-about-to-buy": "Vous êtes sur le point d'acheter",
   "useMax": "Max",
   "confirm_passphrase": "confirmer la passphrase",
@@ -1273,12 +1273,13 @@
   "activate-oracle-linkedin-text1": "Devenez un créateur de contenu Linkedin certifié pour commencer à gagner du SaTT.",
   "setYourNewTransactionPasswordText1":"Veuillez saisir le nouveau mot de passe de transaction. Vous devrez effectuer toutes les transactions avec votre nouveau portefeuille. Notez-le soigneusement et conservez-le en lieu sûr !",
   "setYourNewTransactionPasswordText2":"Ce nouveau mot de passe n'est valable que pour votre nouveau portefeuille. L'ancien mot de passe reste valable pour l'ancien portefeuille.",
-  "goToNewWallet":"Aller à Nouveau portefeuille",
-  "searchToken":"Cherche de Tokens",
+  "goToNewWallet":"Allez vers le nouveau portefeuille",
+  "searchToken":"Rechercher un token",
   "WalletAlreadyExist":"Portefeuille déjà existant",
   "continueWithSimplex":"Continuer avec Simplex",
   "swapWithUniswap":"Échanger avec Uniswap",
-  "swapWithPancakeswap":"Échanger avec Pancakeswap"
+  "swapWithPancakeswap":"Échanger avec Pancakeswap",
+  "createTronWallet":"Vous avez maintenant la possibilité de créer votre portefeuille Tron. Il vous suffit d'entrer votre mot de passe transactionnel pour le créer."
 
 
 
