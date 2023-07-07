@@ -2,6 +2,7 @@
   height: 243px;
   background: #f6f6ff;
 }
+
 .search-input-wrapper {
   width: 100%;
   justify-content: flex-end;
@@ -165,4 +166,23 @@ tr.crypto-row:hover {
   transform: translateY(-59%);
   cursor: pointer;
   color: #4048ff;
+}
+.text-mobile-title{
+  color: #4048FF;
+  font-size: 32px;
+  margin-left: 4%;
+  margin-top: 5%;
+}
+.text-mobile-desc{
+  font-weight: 400;
+  font-size: 16px;
+  color: #1F2337;
+  margin-top: 3%;
+  margin-left: 12%; 
+  width: 70%;
+}
+.d-block{
+  margin-top: 3%;
+  text-align: center;
+   justify-items: center; 
 }
