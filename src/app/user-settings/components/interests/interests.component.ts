@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { interestsList } from '../../../config/atn.config';
 import { ProfileSettingsFacadeService } from '@core/facades/profile-settings-facade.service';
+import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 
 import { catchError, filter, map, mergeMap, takeUntil } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
@@ -29,6 +30,7 @@ export class InterestsComponent implements OnInit {
   errorMsg: string = '';
   selectedItemsNumber: any;
   interestsPercent: any;
+  languageSelected: string = 'en';
   private isDestroyed = new Subject();
 
   constructor(
@@ -36,7 +38,8 @@ export class InterestsComponent implements OnInit {
     private configSelect: NgSelectConfig,
     private translate: TranslateService,
     private profileSettingsFacade: ProfileSettingsFacadeService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private tokenStorageService: TokenStorageService
   ) {
     this.configSelect.notFoundText = 'No results found';
     this.configSelect.appendTo = 'body';
@@ -46,6 +49,17 @@ export class InterestsComponent implements OnInit {
     });
 
     this.interestsList = interestsList;
+
+    translate.addLangs(['en', 'fr']);
+    if (this.tokenStorageService.getLocale()) {
+      // @ts-ignore
+      this.languageSelected = this.tokenStorageService.getLocalLang();
+      translate.setDefaultLang(this.languageSelected);
+    } else {
+      this.tokenStorageService.setLocalLang('en');
+      this.languageSelected = 'en';
+      translate.setDefaultLang('en');
+    }
   }
   ngOnInit(): void {
     this.getUserInterests();
