@@ -728,5 +728,8 @@ a {
     border-radius: 100%;
 }
 
-
+.validity-code{
+    width: 470px;
+    align-content: center;
+}
 /*------------------------*/
