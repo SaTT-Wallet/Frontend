@@ -1139,6 +1139,7 @@
 ,
   "privacyPolicy":"POLITIQUE DE CONFIDENTIALITÉ",
   "invalidEmailAddress":"Adresse e-mail invalide",
+  "RegisterFirst":"Inscrivez-vous d'abord",
   "incorrectPassword":"mot de passe incorrect",
   "verif_code":"Code de vérification",  
   "verifEmailSent":"Email envoyé, Veuillez réessayer après {{ timeLeft }} secondes"  ,
