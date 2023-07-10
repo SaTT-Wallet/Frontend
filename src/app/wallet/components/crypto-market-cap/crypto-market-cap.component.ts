@@ -78,24 +78,35 @@ private ngUnsubscribe = new Subject<void>();
           }
         });
     
-        const chunks = this.getArrayChunks(this.filteredCryptoListId, 10);
+        const chunks = this.getArrayChunks(this.filteredCryptoListId, 50);
+       
+     
+        
         return forkJoin(chunks.map(chunk => this.fetchservice.getCryptoPriceDetails(chunk)));
       })
     ).subscribe(
-      (data: any[]) => { 
-        data.forEach((response: any) => {
-          const details = response?.data || [];
+      (data: any) => { 
+   
+       
+        const dataArray = Object.values(data)
+    
+        dataArray.forEach((response: any) => {
+          
+          const details = Object.values(response?.data) || [];
           details.forEach((crypto: any) => {
             if (crypto) {
               this.sparklineIn7dCryptoList.push(crypto.sparkline_in_7d);
             }
           });
         });
-    
+   
       },
       (error) => {
+    
+        
         console.error(error);
       }
+      
     );
 
     this.fetchservice.getGlobalCryptoMarketInfo().pipe(takeUntil(this.ngUnsubscribe)).subscribe((res: any) => {
