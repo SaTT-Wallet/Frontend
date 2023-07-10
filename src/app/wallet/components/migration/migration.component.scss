@@ -204,7 +204,7 @@
 .next-step {
   background: #4048ff;
   border-radius: 30px;
-  width: 14.7vw;
+  width: 150px;
   height: 5.3vh;
   border: 0;
   font-family: 'Poppins';
@@ -220,7 +220,7 @@
 .next-step:disabled {
   background: #F6F6FF  ;
   border-radius: 30px;
-  width: 14.7vw;
+  width: 150px !important;
   height: 5.3vh;
   border: 0;
   font-family: 'Poppins';
@@ -232,7 +232,6 @@
   letter-spacing: 0.01em;
   color: #ADADC8;
   margin-bottom: 2vh;
-  width: 50%;
 }
 
 .image-size {
@@ -414,7 +413,7 @@
 
   .next-step {
     height: 75%;
-    width: 40%;
+    width:150px;
     margin-bottom: 10%;
     font-size: 14px;
     padding-right: 0px;
