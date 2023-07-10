@@ -12,9 +12,5 @@ export class TransactionsService {
     private tokenStorageService: TokenStorageService
   ) {}
 
-  fetchtransactions(address?: any, token?: any) {
-    return this.http.get(`${sattUrl}/txs/:address/:token`, {
-      headers: this.tokenStorageService.getHeader()
-    });
-  }
+  
 }

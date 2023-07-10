@@ -39,18 +39,10 @@ export class SocialAccountFacadeService {
     return this.profileService.getSocialNetworks();
   }
 
-  socialStateGoogle(deactivate: any, channelId: any) {
-    return this.profileService.socialStateGoogle(deactivate, channelId);
-  }
-  socialStateFacebook(deactivate: any, id: any) {
-    return this.profileService.socialStateFacebook(deactivate, id);
-  }
-  socialStateLinkedin(deactivate: any, organization: any) {
-    return this.profileService.socialStateLinkedin(deactivate, organization);
-  }
-  socialStateTwitter(deactivate: any, twitter_id: any) {
-    return this.profileService.socialStateTwitter(deactivate, twitter_id);
-  }
+ 
+  
+ 
+  
   /*-------delete-------- */
   deleteOneSocialNetworksGoogle(id: string) {
     return this.profileService.deleteOneSocialNetworksGoogle(id);

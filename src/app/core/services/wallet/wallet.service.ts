@@ -34,233 +34,95 @@ export class WalletService {
   dismissPage = new Subject();
 
   public getWallet(): Observable<IResponseWallet> {
-    const headers = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
     return this.http.post<IResponseWallet>(
       sattUrl + '/wallet/mywallet',
-      { version: this.tokenStorageService?.getWalletVersion() },
-      { headers: headers }
+      { version: this.tokenStorageService?.getWalletVersion() }
     );
   }
 
   public getAllWallet(): Observable<IResponseWallet> {
-    const headers = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
     return this.http
-      .get<IResponseWallet>(sattUrl + '/wallet/allwallets', {
-        headers: headers
-      })
+      .get<IResponseWallet>(sattUrl + '/wallet/allwallets')
       .pipe(share());
   }
 
-  public sendAmount(send: any) {
-    const headers = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    if (send.symbole === 'BTC' && send.network.toLowerCase() === 'btc') {
-      delete send.access_token;
-      let body = { pass: send.pass, to: send.to, val: send.amount };
-
-      return this.http.post(sattUrl + '/wallet/transfertBtc', body, {
-        headers: headers
-      });
-    } else if (
-      send.symbole === 'ETH' &&
-      send.network.toLowerCase() === 'erc20'
-    ) {
-      let body = { pass: send.pass, to: send.to, val: send.amount };
-      return this.http.post(sattUrl + '/wallet/transfertEther', body, {
-        headers: headers
-      });
-    } else if (
-      send.symbole === 'BNB' &&
-      send.network.toLowerCase() === 'bep20'
-    ) {
-      let body = { to: send.to, val: send.amount, pass: send.pass };
-      return this.http.post(sattUrl + '/wallet/transfertBNB', body, {
-        headers: headers
-      });
-    } else if (send.network.toLowerCase() === 'bep20') {
-      // delete send.token;
-      return this.http.post(sattUrl + '/wallet/transferBep20', send, {
-        headers: headers
-      });
-    } else if (send.network.toLowerCase() === 'polygon') {
-      // delete send.token;
-      return this.http.post(sattUrl + '/wallet/transferPolygon', send, {
-        headers: headers
-      });
-    } else {
-      let body = {
-        token: send.token,
-        to: send.to,
-        amount: send.amount,
-        pass: send.pass,
-        symbole: send.symbole
-      };
-      return this.http.post(sattUrl + '/wallet/transferErc20', body, {
-        headers: headers
-      });
-    }
-  }
 
   transferTokens(
     body: ITransferTokensRequestBody,
     max:any,
   ): Observable<IApiResponse<ITransferTokensResponse>> {
-    const headers = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
     return this.http.post<IApiResponse<ITransferTokensResponse>>(
       `${sattUrl}/wallet/transferTokens?max=${max}`,
-      body,
-      { headers }
+      body
+     
     );
   }
 
   createTronWallet(password: string) {
-    let httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-store',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
     return this.http.post(
       `${sattUrl}/wallet/add-tron-wallet`,
-      { pass: password },
-      { headers: httpHeaders }
+      { pass: password }
     );
   }
 
 
   checkUserWalletV2() {
-    let httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-store',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
     return this.http.get(
       `${sattUrl}/wallet/checkUserWalletV2`,
-      { headers: httpHeaders }
     );
   }
 
-  resetTransactionPassword(password: string, newPassword: string) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
 
-    return this.http.post(
-      `${sattUrl}/wallet/resetpassword`,
-      {
-        oldPass: password,
-        newPass: newPassword
-      },
-      { headers: header }
-    );
-  }
 
 
   createNewWalletV2(password: string) {
-    let httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-store',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
     return this.http.post(
       `${sattUrl}/wallet/create/v2`,
-      { pass: password },
-      { headers: httpHeaders }
+      { pass: password }
     );
   }
-  verifySign(password: string) {
-    let httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-store',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
 
+  verifySign(password: string) {
     return this.http.post(
       `${sattUrl}/wallet/verifySign`,
-      { pass: password },
-      { headers: httpHeaders }
+      { pass: password }
     );
   }
 
 
 
   checkUserIsNew() {
-    let httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-store',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
     return this.http.get(
-      `${sattUrl}/wallet/checkIsNewUser`,
-      { headers: httpHeaders }
+      `${sattUrl}/wallet/checkIsNewUser`
+      
     );
   }
 
   checkWalletV2Exist() {
-    let httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-store',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
     return this.http.get(
-      `${sattUrl}/wallet/checkUserWalletV2`,
-      { headers: httpHeaders }
+      `${sattUrl}/wallet/checkUserWalletV2`
     );
   }
 
  
 
   chartjs() {
-    const headers = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
     /*
      @Url :API (link) /balance/stats'
      @description: fetch user chart stats
 	 @parameters : header access token
      @response : object of arrays => different balance stats (daily, weekly, monthly)
      */
-    return this.http.get(sattUrl + '/wallet/stats', { headers: headers });
+    return this.http.get(sattUrl + '/wallet/stats');
   }
 
   checkToken(network: string, tokenAdress: any) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
     return this.http.post(
       `${sattUrl}/wallet/checkWalletToken`,
       {
         network: network,
         tokenAdress: tokenAdress
-      },
-      { headers: header }
+      }
     );
   }
   addToken(
@@ -270,12 +132,6 @@ export class WalletService {
     tokenAdress: string,
     network: string
   ) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
     return this.http.post(
       `${sattUrl}/wallet/addNewToken`,
       {
@@ -284,8 +140,7 @@ export class WalletService {
         symbol,
         network,
         tokenName
-      },
-      { headers: header }
+      }
     );
   }
   listTokens() {
@@ -296,39 +151,24 @@ export class WalletService {
 
 
   getExportCode(network: string, version: string) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
     return this.http.post(
       `${sattUrl}/wallet/code-export-keystore`,
       {
         network: network,
         version: version
-      },
-      {
-        headers: header
       }
+      
     )
   }
 
 
   exportKeyStore(network: string, version: string, code: number) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
     return this.http.post(
       `${sattUrl}/wallet/export-keystore`,
       {
         network: network,
         version: version,
         code: code
-      },
-      {
-        headers: header
       }
     )
   }
@@ -336,27 +176,8 @@ export class WalletService {
 
 
   verifyUserToken() {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
     return this.http.get(
-      `${sattUrl}/auth/verify-token`,
-      {
-        headers: header
-      }
+      `${sattUrl}/auth/verify-token`
     )
   }
-
-  // setPayementId(payementId: string) {
-  //   let header = new HttpHeaders({
-  //     'Cache-Control': 'no-store',
-  //     'Content-Type': 'application/json',
-  //     Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-  //   });
-  //   return this.http.get(`${sattUrl}/events/${payementId}`, {
-  //     headers: header
-  //   });
-  // }
 }
