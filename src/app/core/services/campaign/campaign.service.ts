@@ -47,51 +47,15 @@ export class CampaignHttpApiService {
     private tokenStorageService: TokenStorageService
   ) {}
 
-  getMycampaigns() {
-    let idWallet = this.tokenStorageService.getIdWallet();
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http
-      .get(sattUrl + '/v2/campaigns/influencer/' + idWallet, {
-        headers: header
-      })
-      .pipe(
-        //tap((_)=>{console.log(_)}),
-        map((data: any) =>
-          data.campaigns.filter((campaign: any) => campaign.proms.length)
-        )
-      );
-  }
+ 
 
   upload(file: File, id:any) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
     const formData: FormData = new FormData();
     formData.append('cover', file);
     
     return this.http
-      .post(sattUrl + '/campaign/ipfs/'+id, formData,{
-        headers: header
-      });
+      .post(sattUrl + '/campaign/ipfs/'+id, formData);
   }
-  /*
-     @link : /campaigns/:id
-     @description: retrieves all the publisher identifiers of the campaign
-     @params:
-      id : campaign.meta._id   for activated or ended campaign
-      id : _id for draft campaign
-     */
-  getCampaignbyId(id: any) {
-    return this.http.get(sattUrl + '/campaigns/id/' + id, {
-      headers: this.tokenStorageService.getHeader()
-    });
-  }
-
   getPromById(id: string) {
     return this.http.get(`${sattUrl}/campaign/prom/stats/${id}`).pipe(
       retry(1),
@@ -106,117 +70,29 @@ export class CampaignHttpApiService {
   getRefunds(hash: any, password: string, network: string) {
     return this.http.post(
       sattUrl + '/campaign/remaining',
-      { hash: hash, pass: password, network: network },
-      { headers: this.tokenStorageService.getHeader() }
+      { hash: hash, pass: password, network: network }
     );
   }
 
-  /*
-	@url : /campaign/totalSpent/:owner
-	@description: fetching total spending of the user in USD
-	@params:
-    owner : wallet address of user
-	{headers}
-	@Output JSON object
-	*/
-  getTotalSpent() {
-    return this.http.get(
-      sattUrl +
-        '/campaign/totalSpent/' +
-        this.tokenStorageService.getIdWallet(),
-      { headers: this.tokenStorageService.getHeader() }
-    );
-  }
+
   getTotalInvestetd() {
-    return this.http.get(sattUrl + '/campaign/invested', {
-      headers: this.tokenStorageService.getHeader()
-    });
+    return this.http.get(sattUrl + '/campaign/invested');
   }
   notifyLink(campaignId: any, link: any, idProm: string) {
     return this.http.post(
       sattUrl + '/campaign/linkNotification',
-      { idCampaign: campaignId, link, idProm },
-      { headers: this.tokenStorageService.getHeader() }
+      { idCampaign: campaignId, link, idProm }
+      
     );
   }
 
-  getTotalBudget(): Observable<any> {
-    let idWallet = this.tokenStorageService.getIdWallet();
-    return this.http.get(sattUrl + '/campaign/totalEarned/' + idWallet, {
-      headers: this.tokenStorageService.getHeader()
-    });
-  }
-  /**
-   * Returns the list of created and draft campaigns by user wallet id.
-   * @returns {Observable} a http client observable.
-   */
-  getCampaignsByUserWalletId(
-    page = 1,
-    size = 10,
-    queryParams: HttpParams = new HttpParams()
-  ): Observable<any> {
-    //let idWallet = this.tokenStorageService.getIdWallet();
-
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    queryParams = queryParams.set('page', '' + page).set('limit', '' + size);
-    return this.http
-      .get(`${sattUrl}/v2/campaigns/owner`, {
-        params: queryParams,
-        headers: header
-      })
-      .pipe(share());
-  }
-
-  /**
-   * Possible duplicate api in the backend.
-   * @returns {Observable<any>} Http client observable.
-   */
-  getCampaignsList(
-    page = 1,
-    size = 10,
-    queryParams: HttpParams = new HttpParams()
-  ): Observable<any> {
-    let idWallet = this.tokenStorageService.getIdWallet();
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    queryParams = queryParams.set('page', '' + page).set('limit', '' + size);
-
-    return this.http
-      .get(
-        `
-      ${sattUrl}/v2/campaigns/influencer/${idWallet}`,
-        {
-          params: queryParams,
-          headers: header
-        }
-      )
-      .pipe(share());
-  }
-
-  getAcceptedPromsbyOwner(walletId: any, campainId: any) {
-    return this.http.post(
-      sattUrl + '/campaigns/owner_accepted_proms',
-      { id_wallet: walletId, id_campaign: campainId },
-      { headers: this.tokenStorageService.getHeader() }
-    );
-  }
 
   getOneById(
     id: string,
     projection: string = ''
   ): Observable<IApiResponse<ICampaignResponse>> {
     return this.http.get<IApiResponse<ICampaignResponse>>(
-      sattUrl + '/campaign/details/' + id + `?projection=${projection}`,
-      {
-        headers: this.tokenStorageService.getHeader()
-      }
+      sattUrl + '/campaign/details/' + id + `?projection=${projection}`
     );
   }
 
@@ -231,96 +107,22 @@ export class CampaignHttpApiService {
     idProm: string,
     hash: any
   ): Observable<any> {
-    let httpHeaders = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
     return this.http.post(
       `${sattUrl}/campaign/gains`,
       {
         idProm,
         pass: password,
         hash
-      },
-      { headers: httpHeaders }
+      }
     );
   }
 
   getBestInfluencerPic(id: any) {
-    let headers = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
     return this.http.get(sattUrl + `/profile/picture?id=${id}`, {
       responseType: 'blob',
-      headers: headers
     });
   }
 
-  /*
-     @link : /campaign/:id/proms
-     @description: retrieves all the publisher identifiers of the campaign
-     @params:
-     idCampaign : campaign id
-     */
-  getCampaignEditors(idCampaign: any) {
-    return this.http.get(sattUrl + '/campaign' + idCampaign + '/proms', {
-      headers: this.tokenStorageService.getHeader()
-    });
-  }
-
-  checkUrl(checkLink: any) {
-    return this.http.get(
-      sattUrl +
-        '/campaign/checklink' +
-        `/${checkLink.typeSN}` +
-        `/${checkLink.idUser}` +
-        `/${checkLink.idPost}`,
-      { headers: this.tokenStorageService.getHeader() }
-    );
-  }
-  increaseBudget(Budget: any) {
-    Budget.token = this.tokenStorageService.getToken();
-    return this.http.post(
-      sattUrl + '/campaign/fund',
-      {
-        idCampaign: Budget.idCampaign,
-        ERC20token: Budget.ERC20token,
-        amount: Budget.amount,
-        pass: Budget.pass,
-        token: Budget.token
-      },
-      { headers: this.tokenStorageService.getHeader() }
-    );
-  }
-  /**
-     @link : /campaign/apply
-     @description: permet à un éditeur de postuler à une campagne
-     @parameters :
-     idCampaign : identifiant de campagne
-     typeSN : type de réseau social (1:facebook,2:youtube,3:instagram,4:twitter)
-     idPost : identifiant du post selon le reseau social
-     idUser : identifiant de l’utilisateur selon le reseau social
-     @response :  renvoie un identifiant d'éditeur
-     */
-  campaignApply(campaign: any, application: any, password: any) {
-    // let token = this.tokenStorageService.getToken();
-    return this.http.post(
-      sattUrl + '/v2/campaign/apply',
-      {
-        idCampaign: campaign.meta.hash,
-        typeSN: application.typeSN,
-
-        idPost: application.idPost,
-        idUser: application.idUser,
-        pass: password
-      },
-      { headers: this.tokenStorageService.getHeader() }
-    );
-  }
   /*
      @link : /campaign/:id/showcovers
      @description: retrieves the cover image for the according campaign
@@ -346,178 +148,39 @@ export class CampaignHttpApiService {
       );
   }
 
-  getCampaignLogo(id: any) {
-    return this.http
-      .get(sattUrl + '/campaign/' + id + '/logo', {
-        responseType: 'blob',
-        headers: this.tokenStorageService.getHeader()
-      })
-      .pipe(
-        retry(1),
-        catchError(() => of(null))
-      );
-  }
-
-  addCampaignLog(file: File, id?: any) {
-    let formData = new FormData();
-    formData.append('file', file);
-    formData.append('campaign', id);
-    let _id = this.campaignData?.id || id;
-    return this.http
-      .post(sattUrl + '/campaign/' + _id + '/logo', formData, {
-        //reportProgress: true,
-        observe: 'events',
-        headers: {
-          Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-        }
-      })
-      .pipe(takeLast(1));
-  }
   deleteDraft(id: any) {
     return this.http
-      .delete(sattUrl + '/campaign/deleteDraft' + `/${id}`, {
-        headers: this.tokenStorageService.getHeader()
-      })
+      .delete(sattUrl + '/campaign/deleteDraft' + `/${id}`)
       .pipe(shareReplay(1));
   }
 
   getCampaignKitUrl(id: any) {
-    let httpHeaders = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json'
-      // Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
-    return this.http.get(sattUrl + '/campaign/' + id + '/kits', {
-      headers: httpHeaders
-    });
+    return this.http.get(sattUrl + '/campaign/' + id + '/kits');
   }
 
   createCompaign(campagne: any) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.post(sattUrl + '/campaign/launch/performance', campagne, {
-      headers: header
-    });
+    return this.http.post(sattUrl + '/campaign/launch/performance', campagne);
   }
 
   launchCampaignWithBounties(campaign: any) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.post(`${sattUrl}/campaign/launchBounty`, campaign, {
-      headers: header
-    });
+    return this.http.post(`${sattUrl}/campaign/launchBounty`, campaign);
   }
 
   createNewDraftCampaign(
     draftCampaign: any
   ): Observable<IApiResponse<ICampaignResponse>> {
-    const token = this.tokenStorageService.getToken();
-
-    const header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + token
-    });
     return this.http
       .post<IApiResponse<ICampaignResponse>>(
         `${sattUrl}/campaign/save`,
-        draftCampaign,
-        { headers: header }
+        draftCampaign
       )
       .pipe(shareReplay(1));
   }
 
-  // bellehi fahemni chma3neha "upsert" ??????
-  upsert(campagne: any, cover?: any) {
-    return this.http
-      .post(sattUrl + '/campaigns', campagne, {
-        headers: this.tokenStorageService.getHeader()
-      })
-      .pipe(
-        mergeMap((data: any) => {
-          this.campaignData = data.campaign;
-          if (cover) {
-            // let file = { file: cover, campaign: data.campaign.id };
-            return this.addCover(cover, data.campaign._id);
-          }
-          return of(null);
-        }),
-        takeUntil(this.isDestroyed)
-      )
-      .subscribe();
-  }
-
   removeKit(id_kit: any) {
-    return this.http.delete(sattUrl + '/campaign/kit/' + id_kit, {
-      headers: this.tokenStorageService.getHeader()
-    });
+    return this.http.delete(sattUrl + '/campaign/kit/' + id_kit);
   }
-
-  getCampaignKitResource(campaignId: string, kitId: string) {
-    return this.http.get(`${sattUrl}/campaigns/${campaignId}/kits/${kitId}`, {
-      headers: this.tokenStorageService.getHeader()
-    });
-  }
-
-  upsertbudget(campagne: any, campaign_id?: any) {
-    if (campaign_id) {
-      return this.http
-        .put(sattUrl + '/campaigns' + '/' + campaign_id, campagne, {
-          headers: this.tokenStorageService.getHeader()
-        })
-        .pipe(takeUntil(this.isDestroyed))
-        .subscribe((data: any) => {
-          this.campaignData = data.campaign;
-        });
-    } else {
-      return this.http
-        .put(sattUrl + '/campaigns' + '/' + this.campaignData.id, campagne, {
-          headers: this.tokenStorageService.getHeader()
-        })
-        .pipe(takeUntil(this.isDestroyed))
-        .subscribe((data: any) => {
-          this.campaignData = data.campaign;
-        });
-    }
-  }
-
-  addCover(file: File, id?: any) {
-    let formData = new FormData();
-    formData.append('file', file);
-    formData.append('campaign', id);
-    let _id = this.campaignData?.id || id;
-    return this.http
-      .post(sattUrl + '/campaign/' + _id + '/cover', formData, {
-        //reportProgress: true,
-        observe: 'events',
-        headers: {
-          Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-        }
-      })
-      .pipe(takeLast(1));
-  }
-
-  deleteCover(campaign_id: any) {
-    this.http
-      .delete(sattUrl + '/campaigns/' + campaign_id + '/covers', {
-        headers: this.tokenStorageService.getHeader()
-      })
-      .pipe(takeUntil(this.isDestroyed))
-      .subscribe(() => {});
-  }
-
-  checkForCover(campaign_id: any) {
-    return this.http.get(sattUrl + '/campaign/' + campaign_id + '/cover', {
-      headers: this.tokenStorageService.getHeader()
-    });
-  }
+  
 
   verifyLink(linkApplication: any) {
     return this.http.get(
@@ -528,11 +191,6 @@ export class CampaignHttpApiService {
         linkApplication.idUser +
         '/' +
         (linkApplication.idPost || localStorage.getItem('idPost')),
-      { 
-        headers: {
-          Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-        }
-      }
     );
   }
 
@@ -543,12 +201,7 @@ export class CampaignHttpApiService {
     password: any,
     hash: string
   ) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
+    
     return this.http.post(
       sattUrl + '/campaign/apply',
       {
@@ -562,8 +215,8 @@ export class CampaignHttpApiService {
         linkedinId: application.linkedinId,
         version: localStorage.getItem('wallet_version'),
         ... application.typeSN === 5 && ({linkedinUserId : application.linkedinUserId})
-      },
-      { headers: header }
+      }
+      
     );
   }
 
@@ -571,42 +224,7 @@ export class CampaignHttpApiService {
     return this.http.get(url, { observe: 'response' });
   }
 
-  upsertKit(Kits: any) {
-    Kits.forEach((element: any) => {
-      if (element.file) {
-        let formData = new FormData();
-        formData.append('file', element.file);
-        formData.append('campaign', element.campaign);
-        return this.http
-          .post(
-            'https://wallet-preprod.iframe-apps.com:3014/api/v1/campaigns/' +
-              this.campaignData.id +
-              '/kits',
-            formData,
-            {
-              reportProgress: true,
-              observe: 'events',
-              headers: {
-                Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-              }
-            }
-          )
-          .pipe(takeUntil(this.isDestroyed))
-          .subscribe();
-      } else {
-        return this.http
-          .post(
-            'https://wallet-preprod.iframe-apps.com:3014/api/v1/campaigns/' +
-              this.campaignData.id +
-              '/kits',
-            element,
-            { headers: this.tokenStorageService.getHeader() }
-          )
-          .pipe(takeUntil(this.isDestroyed))
-          .subscribe();
-      }
-    });
-  }
+
 
   modifytKit(kits: any, campaignId: any) {
     let formData = new FormData();
@@ -673,9 +291,6 @@ export class CampaignHttpApiService {
       .post(sattUrl + '/campaign/addKits', formData, {
         reportProgress: true,
         observe: 'events',
-        headers: {
-          Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-        }
       })
       .pipe(
         catchError(() => {
@@ -691,15 +306,9 @@ export class CampaignHttpApiService {
   }
 
   getKitPic(fileId: any) {
-    let httpHeaders = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
     return this.http.get(sattUrl + '/campaign/kit/' + fileId, {
-      responseType: 'blob',
-      headers: httpHeaders
+      responseType: 'blob'
+      
     });
   }
 
@@ -717,11 +326,8 @@ export class CampaignHttpApiService {
       .put<IApiResponse<ICampaignResponse>>(
         `${sattUrl}/campaign/update/${id}`,
 
-        values,
+        values
 
-        {
-          headers: this.tokenStorageService.getHeader()
-        }
       )
       .pipe(
         catchError(() => of(null)),
@@ -730,48 +336,6 @@ export class CampaignHttpApiService {
       );
   }
 
-  modifier(modification: any, cover: any, campaign_id: any) {
-    return this.http.put(
-      sattUrl + '/campaigns' + '/' + campaign_id,
-      modification,
-      {
-        headers: this.tokenStorageService.getHeader()
-      }
-    );
-    // .subscribe(() => {
-    //   if (cover) {
-    //     this.addCover(cover, campaign_id);
-    //   }
-    // });
-  }
-
-  approve(net: any, campaignAddresses: any) {
-    let network = net.network;
-    let amount = '999999999999999999999999999999999999999999999999999999999';
-    return this.http.post(
-      sattUrl + '/campaign/approve/' + network,
-      {
-        // access_token: this.tokenStorageService.getToken(),
-        campaignAddress: campaignAddresses[network],
-        amount: amount,
-        tokenAddress: net.addr,
-        pass: net.pass
-      },
-      { headers: this.tokenStorageService.getHeader() }
-    );
-  }
-  allow(net: any, campaignAddresses: any) {
-    let network = net.network;
-    return this.http.post(
-      sattUrl + '/campaign/allow/' + network,
-      {
-        tokenAddress: net.addr,
-        campaignAddress: campaignAddresses[network]
-      },
-
-      { headers: this.tokenStorageService.getHeader() }
-    );
-  }
 
   approvalERC20(erc20: any) {
     return this.http.post(
@@ -779,9 +343,7 @@ export class CampaignHttpApiService {
       {
         tokenAddress: erc20.addr,
         campaignAddress: campaignSmartContractERC20
-      },
-
-      { headers: this.tokenStorageService.getHeader() }
+      }
     );
   }
 
@@ -792,8 +354,6 @@ export class CampaignHttpApiService {
         tokenAddress: bep20.addr,
         campaignAddress: campaignSmartContractBEP20
       },
-
-      { headers: this.tokenStorageService.getHeader() }
     );
   }
 
@@ -804,9 +364,7 @@ export class CampaignHttpApiService {
         tokenAddress: tron.addr,
         pass: tron.pass,
         version: localStorage.getItem('wallet_version')
-      },
-
-      { headers: this.tokenStorageService.getHeader() }
+      }
     );
   }
 
@@ -816,9 +374,7 @@ export class CampaignHttpApiService {
       {
         tokenAddress: token.addr,
         campaignAddress: campaignSmartContractPOLYGON
-      },
-
-      { headers: this.tokenStorageService.getHeader() }
+      }
     );
   }
 
@@ -829,8 +385,6 @@ export class CampaignHttpApiService {
         tokenAddress: token.addr,
         campaignAddress: campaignSmartContractBTT
       },
-
-      { headers: this.tokenStorageService.getHeader() }
     );
   }
 
@@ -844,8 +398,7 @@ export class CampaignHttpApiService {
         amount: amount,
         tokenAddress: erc20.addr,
         pass: password
-      },
-      { headers: this.tokenStorageService.getHeader() }
+      }
     );
   }
 
@@ -859,8 +412,7 @@ export class CampaignHttpApiService {
         amount: amount,
         pass: password,
         tokenAddress: bep20.addr
-      },
-      { headers: this.tokenStorageService.getHeader() }
+      }
     );
   }
 
@@ -874,8 +426,7 @@ export class CampaignHttpApiService {
         amount: amount,
         pass: password,
         tokenAddress: token.addr
-      },
-      { headers: this.tokenStorageService.getHeader() }
+      }
     );
   }
 
@@ -888,8 +439,7 @@ export class CampaignHttpApiService {
         amount: amount,
         pass: password,
         tokenAddress: tron.addr
-      },
-      { headers: this.tokenStorageService.getHeader() }
+      }
     );
   }
 
@@ -903,54 +453,12 @@ export class CampaignHttpApiService {
         amount: amount,
         pass: password,
         tokenAddress: token.addr
-      },
-      { headers: this.tokenStorageService.getHeader() }
+      }
     );
   }
 
-  eRC20Fee(FeeObj: any) {
-    return this.http.post(sattUrl + '/v2/erc20/transfer', FeeObj, {
-      headers: this.tokenStorageService.getHeader()
-    });
-  }
-
-  getCampaignRatios(campaign_id: any) {
-    return this.http.get(sattUrl + '/campaign/' + campaign_id + '/ratios', {
-      headers: this.tokenStorageService.getHeader()
-    });
-  }
-
-  rejectedLinks(campaign_id: any) {
-    return this.http.get(
-      sattUrl +
-        '/campaign/links?idCampaign=' +
-        campaign_id +
-        '&status=rejected',
-      { headers: this.tokenStorageService.getHeader() }
-    );
-  }
-
-  getRequestOracleStatsByEditor(prom_id: any) {
-    return this.http.get(sattUrl + '/prom/' + prom_id + '/results', {
-      headers: this.tokenStorageService.getHeader()
-    });
-  }
-
-  getPromStatsLive(prom_id: any) {
-    return this.http.post(
-      sattUrl + '/campaign/stats_live',
-      { prom_id },
-      { headers: this.tokenStorageService.getHeader() }
-    );
-  }
 
   validateLinks(prom: any, Password: any, id: any) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
     return this.http.post(
       sattUrl + '/campaign/validate',
       {
@@ -962,8 +470,7 @@ export class CampaignHttpApiService {
         idUser: prom.meta._id,
         pass: Password,
         lang: this.tokenStorageService.getLocalLang()
-      },
-      { headers: header }
+      }
     );
   }
 
@@ -984,21 +491,12 @@ export class CampaignHttpApiService {
         idUser: prom.meta._id,
         link: prom.link,
         lang: this.tokenStorageService.getLocalLang()
-      },
-      { headers: this.tokenStorageService.getHeader() }
+      }
     );
   }
 
   getCampaignStatics(campaignId: string) {
-    return this.http.get(`${sattUrl}/campaign/statistics/${campaignId}`, {
-      headers: this.tokenStorageService.getHeader()
-    });
-  }
-
-  verifyGains(idProm: any) {
-    return this.http.get(`${sattUrl}/proms/verify/${idProm}`, {
-      headers: this.tokenStorageService.getHeader()
-    });
+    return this.http.get(`${sattUrl}/campaign/statistics/${campaignId}`);
   }
 
   videoDescription(idPost: any, oracle?: any) {
@@ -1007,30 +505,10 @@ export class CampaignHttpApiService {
     }
     return of({});
   }
-  // twitterDescription(idPost: any) {
-  //   let header = new HttpHeaders({
-  //     Authorization:
-  //       'Bearer' +
-  //       'AAAAAAAAAAAAAAAAAAAAAJClVgEAAAAAv3WRQYQO7fY9gQoPNSAhrGcmT1c%3DnsS947JL5AzBZ3KBqaIXRTB12wtz9UG5WuOEKB6mLJHOQZWi6i',
-  //     'Cache-Control': 'no-store',
-  //     'Content-Type': 'application/json',
-  //     'Access-Control-Allow-Origin': '*'
-  //   });
-  //   return this.http.get(`https://api.twitter.com/2/tweets/${idPost}`, {
-  //     headers: header
-  //   });
-  // }
+ 
   linkedinSharedid(idPost: any) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
     return this.http.get(
-      sattUrl + '/profile/linkedin/ShareByActivity/' + idPost,
-      {
-        headers: header
-      }
+      sattUrl + '/profile/linkedin/ShareByActivity/' + idPost
     );
   }
 
@@ -1042,21 +520,7 @@ export class CampaignHttpApiService {
     return this.tokenStorageService.getProgressCampaign();
   }
 
-  promsByInfluencer(walletId: any) {
-    return this.http.get(`${sattUrl}/campaign/proms/influencer/${walletId}`, {
-      headers: this.tokenStorageService.getHeader()
-    });
-  }
   getAllPromsStats(campaignId: string, isOwnedByUser: boolean) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    // return this.http.get(sattUrl + '/campaign/campaignPrompAll/' + campaignId, {
-    //   headers: header
-    // });
-    //GET  /campaign/APaacgillmmnoppr / console.log(isOwnedByUser);
     if (!isOwnedByUser) {
       return this.http.get(
         sattUrl +
@@ -1064,19 +528,14 @@ export class CampaignHttpApiService {
           campaignId +
           '?influencer=' +
           this.tokenStorageService.getIdWallet(),
-        {
-          headers: header
-        }
       );
     } else {
       return this.http.get(
         sattUrl + '/campaign/campaignPrompAll/' + campaignId,
-        {
-          headers: header
-        }
       );
     }
   }
+
   userParticipations(
     page = 1,
     size = 10,
@@ -1091,32 +550,20 @@ export class CampaignHttpApiService {
       .set('page', '' + page)
       .set('limit', '' + size)
       .set('version',''+this.tokenStorageService.getWalletVersion())
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
     let idUser = this.tokenStorageService.getUserId();
 
     return this.http
       .get(sattUrl + '/campaign/filterLinks/' + idUser, {
-        headers: header,
         params: campaignId ? queryParamsCamp : queryParams
       })
       .pipe(share());
   }
 
-  allCampaigns2() {
-    return this.http.get(
-      `${sattUrl}/v2/campaigns/` + this.tokenStorageService.getIdWallet(),
-      { headers: this.tokenStorageService.getHeader() }
-    );
-  }
 
   allCampaigns(
     page = 1,
     size = 1,
-    queryParams: HttpParams = new HttpParams()
+    queryParams: HttpParams = new HttpParams(),
   ): Observable<ICampaignsListResponse> {
     const walletId = !!this.tokenStorageService.getToken()
       ? (this.tokenStorageService.getIdWallet() as string)
@@ -1125,93 +572,35 @@ export class CampaignHttpApiService {
       .set('idWallet', walletId)
       .set('page', '' + page)
       .set('limit', '' + size);
-
-    let header2 = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
-    // let sortedCampaignsByStartDate = this.http
-    // .get<ICampaignsListResponse>(` ${sattUrl}/campaign/campaigns`, {
-    //   headers: header2,
-    //   params: queryParams2
-    // }).pipe(share()).subscribe((res) => {
-    //   // console.log('res: ', res.data.campaigns.sort((a, b) => Number(a.startDate) - Number(b.startDate)))
-    // });
-
     return this.http
       .get<ICampaignsListResponse>(` ${sattUrl}/campaign/campaigns`, {
-        headers: header2,
         params: queryParams2
       })
       .pipe(share());
+  }
 
-    // }
-  }
   getStatisticsCampaign(hash: any) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.get(`${sattUrl}/campaign/statLinkCampaign/` + hash, {
-      headers: header
-    });
+    return this.http.get(`${sattUrl}/campaign/statLinkCampaign/` + hash);
   }
+
   getFbUserName(linkApplication: any) {
     return this.http.get(
       sattUrl +
         '/profile/link/verify/fbUserName/' +
         linkApplication,
-      {
-        headers: {
-          Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-        }
-      }
     );
   }
-  // expandUrl(shortUrl: string) {
-  //   let header = new HttpHeaders({
-  //     'Cache-Control': 'no-store',
-  //     'Content-Type': 'application/json'
-  //   });
-
-  //   return this.http.get(sattUrl + '/campaign/expandUrl?shortUrl=' + shortUrl, {
-  //     headers: header
-  //   });
-  // }
 
   expandUrl(shortUrl: string) {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json'
-    });
-
-    return this.http.get(sattUrl + '/campaign/expandLink?shortUrl=' + shortUrl, {
-      headers: header
-    });
+    return this.http.get(sattUrl + '/campaign/expandLink?shortUrl=' + shortUrl);
   }
 
   getWelcomePageStats() {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
-    return this.http.get(sattUrl + '/campaign/statistics', {
-      headers: header
-    });
+    return this.http.get(sattUrl + '/campaign/statistics');
   }
 
   getWalletsCount() {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.get(sattUrl + '/wallet/countWallets', { headers: header });
+    return this.http.get(sattUrl + '/wallet/countWallets');
   }
 
 

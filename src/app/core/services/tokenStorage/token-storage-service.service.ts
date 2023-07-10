@@ -214,6 +214,12 @@ public saveLinks(newlink: any){
   public getIdPost() {
     return this.localStorage.getItem('idPost');
   }
+  public setNewUserV2(NewUserV2 : any){
+    this.localStorage.setItem('NewUserV2', NewUserV2)
+  }
+  public getNewUserV2() {
+    return this.localStorage.getItem('NewUserV2');
+  }
   public getIdUserPost() {
     return this.localStorage.getItem(userIdPost);
   }
@@ -251,15 +257,8 @@ public saveLinks(newlink: any){
     this.localStorage.removeItem(key);
   }
   logout() {
-    let header = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.localStorage.getItem('access_token')
-    });
     let idUser = this.localStorage.getItem('userId');
-    return this.http.get(sattUrl + '/auth/logout/' + idUser, {
-      headers: header
-    });
+    return this.http.get(sattUrl + '/auth/logout/' + idUser);
   }
   public getLocalLang() {
     return this.localStorage.getItem(localLang);

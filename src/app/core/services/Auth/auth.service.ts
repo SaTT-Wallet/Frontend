@@ -31,7 +31,6 @@ export class AuthService {
     return this.http.post(
       sattUrl + '/auth/passlost',
       { mail: email, lang: this.tokenStorageService.getLocalLang() },
-      { headers: this.tokenStorageService.getHeader() }
     );
   }
 
@@ -39,13 +38,10 @@ export class AuthService {
     return this.http.post<IresponseCode>(
       sattUrl + '/auth/confirmCode',
       { email: email, code: code, type: type },
-      {}
     );
   }
   confirmResetPassword(data: any) {
-    return this.http.post(`${sattUrl}/auth/passrecover`, data, {
-      headers: this.tokenStorageService.getHeader()
-    });
+    return this.http.post(`${sattUrl}/auth/passrecover`, data);
   }
   login(username: string, password: string): Observable<any> {
     return this.http.post(
@@ -53,8 +49,7 @@ export class AuthService {
       {
         username: username,
         password: password
-      },
-      { headers: this.tokenStorageService.getHeader() }
+      }
     );
   }
 
@@ -71,20 +66,12 @@ export class AuthService {
         password: password,
         newsLetter: newsLetter,
         lang: this.tokenStorageService.getLocalLang()
-      },
-      { headers: this.tokenStorageService.getHeader() }
+      }
     );
   }
 
   verifyAccount(): Observable<IresponseAccount> {
-    let httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-store',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.get<IresponseAccount>(sattUrl + '/profile/account', {
-      headers: httpHeaders
-    });
+    return this.http.get<IresponseAccount>(sattUrl + '/profile/account');
   }
 
   updatePassword(oldpass: any, newpass: any) {
@@ -93,8 +80,7 @@ export class AuthService {
       {
         oldpass: oldpass,
         newpass: newpass
-      },
-      { headers: this.tokenStorageService.getHeader() }
+      }
     );
   }
 
@@ -104,46 +90,17 @@ export class AuthService {
       lang: this.tokenStorageService.getLocalLang()
     });
   }
+  
   onBoarding() {
-    let httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-store',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.get(sattUrl + '/profile/onBoarding', {
-      headers: httpHeaders
-    });
+    return this.http.get(sattUrl + '/profile/onBoarding');
   }
-  // checkPass(pass: any) {
-  //   let httpHeaders = new HttpHeaders({
-  //     'Content-Type': 'application/json',
-  //     'Cache-Control': 'no-store',
-  //     Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-  //   });
-  //   return this.http.post(sattUrl + '/check/pass', pass, {
-  //     headers: httpHeaders
-  //   });
-  // }
+ 
   imagespuzzle() {
-    let httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-store',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.get(sattUrl + '/auth/captcha', {
-      headers: httpHeaders
-    });
+    return this.http.get(sattUrl + '/auth/captcha');
   }
 
   verifyimagespuzzle(send: any) {
-    let httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-store',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.post(sattUrl + '/auth/verifyCaptcha', send, {
-      headers: httpHeaders
-    });
+    return this.http.post(sattUrl + '/auth/verifyCaptcha', send);
   }
 
   canActivate() {
@@ -156,13 +113,6 @@ export class AuthService {
   }
 
   setVisitSignUpStep(body: { userId: string; visitedStep: string }) {
-    let httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-store',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.post(sattUrl + '/auth/setVisitSignUpStep', body, {
-      headers: httpHeaders
-    });
+    return this.http.post(sattUrl + '/auth/setVisitSignUpStep', body);
   }
 }

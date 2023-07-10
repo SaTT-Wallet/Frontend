@@ -11,7 +11,7 @@
   </div> -->
   <div class="filter-wrapper d-flex gap-3">
     <div class="form-control-wrapper d-flex align-items-center gap-2">
-      <h6 class="form-control-title title-case">Only pending applies</h6>
+      <h6 class="form-control-title title-case">{{'onlyPendingApplies' | translate}}</h6>
       <img
         src="assets/Images/Toggleon.svg"
         class="cursor-pointer picture-toggle"
@@ -27,7 +27,7 @@
     </div>
 
     <div class="form-control-wrapper d-flex align-items-center gap-2">
-      <h6 class="form-control-title title-case">Select social media(s)</h6>
+      <h6 class="form-control-title title-case">{{'selectSocialMedias' | translate }}</h6>
       <app-multi-select
         formControlName="oracles"
         [options]="oraclesOptions"

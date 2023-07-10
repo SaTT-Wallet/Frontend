@@ -530,6 +530,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
     
     if (!this.campaign.isOwnedByUser && this.earnings?.length) {
       this.earnings.forEach((item: any) => {
+        console.log(item)
         if (
           item.status &&
           ((item.payedAmount !== '0' || item.payedAmount !== '0.00') && item.payedAmount)
@@ -736,54 +737,6 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
     if (this.budgetform.valid) {
       this.modalService.open(this.passwordModal);
     }
-  }
-
-  campaignFund() {
-    this.validationAttempt = true;
-    let cost = this.budgetform.get('cost')?.value;
-    this.funds.ERC20token =
-      this.campaign.currency.addr ||
-      ListTokens[this.campaign.currency.name].contract;
-    this.funds.pass = this.walletPassword;
-
-    this.funds.amount = new Big(cost)
-      .times(this.etherInWei)
-      .toFixed(30)
-      .split('.')[0];
-    this.funds.idCampaign = this.campaign.hash;
-
-    this.CampaignService.increaseBudget(this.funds)
-      .pipe(takeUntil(this.isDestroyed$))
-      .subscribe(
-        (response: any) => {
-          if(response?.name === "JsonWebTokenError") {
-            this.expiredSession();
-          } else {
-            this.validationAttempt = false;
-            this.walletPassword = '';
-            if (response['transactionHash']) {
-              this.campaign.budget = response.remaining;
-              this.modalService.dismissAll();
-            }
-            if (
-              response['error'] ===
-              'Returned error: insufficient funds for gas * price + value'
-            ) {
-              this.errorMessage = 'out_of_gas_error';
-            } else if (response['error'] === 'Wrong password') {
-              this.errorMessage = 'wrong_password';
-            } else {
-              this.errorMessage = 'server_error';
-            }
-          }
-          
-        },
-        () => {
-          this.validationAttempt = false;
-          this.walletPassword = '';
-          this.errorMessage = 'server_error';
-        }
-      );
   }
 
   expiredSession() {

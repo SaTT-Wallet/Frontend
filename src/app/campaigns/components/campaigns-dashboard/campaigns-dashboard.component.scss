@@ -18,7 +18,7 @@
 }
 
 .bg-imag-newUser{
-  background-image: url('/assets/Images/bgAddPoolNewUser.png');
+  background-image: url('/assets/Images/bgAddPoolNewUser.svg');
   background-size: cover;
   background-position: center;
   justify-content: center;
@@ -90,6 +90,9 @@
   .bg-imag-cover {
     margin-top: -12vh;
   }
+  #new_user_title{
+    width: 100% !important;
+  }
 }
 @media (max-width: 992px) {
   .bloc-cover  {
@@ -102,9 +105,16 @@
     background-image: url('/assets/Images/bgAddPool992.png');
     margin-top: -6vh;
   }
-  .bg-imag-newUser {
-    background-image: url('/assets/Images/bgAddPoolNewUser992.png');
-    margin-top: -6vh;
+
+  .bg-imag-newUser{
+    background-image: url('/assets/Images/bgAddPoolNewUser922.png');
+  }
+  #new_user_desc{
+    padding-right: 21em !important;
+  }
+  #new_user_title{
+    width: 70% !important;
+
   }
 }
 @media (max-width: 786.98px) {
@@ -120,8 +130,13 @@
   .bg-imag-cover {
     background-image: url('/assets/Images/bgAddPool576.png');
   }
-  .bg-imag-newUser {
-    background-image: url('/assets/Images/bgAddPoolNewUser576.png');
+
+  .bg-imag-newUser{
+    background-image: url('/assets/Images/bgAddPoolNewUser576.svg');
+  }
+  #new_user_desc{
+    padding-right: 14em !important;
+
   }
 }
 @media (max-width: 576px) {
@@ -134,14 +149,19 @@
   .bg-imag-cover {
     background-image: url('/assets/Images/bgAddPool576.png');
   }
-  .bg-imag-newUser {
-    background-image: url('/assets/Images/bgAddPoolNewUser576.png');
+
+  .bg-imag-newUser{
+    background-image: url('/assets/Images/bgAddPoolNewUser576.svg');
   }
+
   .title-cover {
     font-size: 28px;
   }
   .description-cover {
     font-size: 21px;
+  }
+  #new_user_desc{
+    padding-right: 13em !important;
   }
 }
 @media (max-width: 500px) {
@@ -150,8 +170,10 @@
     height: 468px;
     margin-top: -8vh;
   }
-  .bg-imag-newUser {
-    background-image: url('/assets/Images/bgAddPoolNewUser320.png');
+
+  .bg-imag-newUser{
+    background-image: url('/assets/Images/bgAddPoolNewUser320.svg');
+
     height: 468px;
     margin-top: -8vh;
   }
@@ -178,9 +200,36 @@
     padding-right: 10%;
   }
   .button-cover {
-    left: 17%;
-    margin-bottom: 1%;
+    margin-top: 2.5% !important;
   }
+
+  @media only screen {
+    .bloc-cover-new-user{
+      margin-left: 4% !important;
+    }
+
+    #new_user_desc{
+      padding-right: 2em !important;
+    }
+    #new_user_title{
+      margin-top: 15em;
+      width: 100vh !important;
+      font-size: 22px;
+    }
+  }
+  .btn_cover_container{
+    width: fit-content !important;
+    margin: auto;
+  }
+
+  // #new_user_desc{
+  //   padding-right: 0em !important;
+  // }
+
+  // // #new_user_title{
+  // //   width: 100% !important;
+  // // }
+
 }
 .background {
   background-color: white;

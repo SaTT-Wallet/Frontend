@@ -168,11 +168,13 @@ export class FarmPostCardComponent implements OnInit {
     return this.tokenStorageService.getLocale() || 'en';
   }
 
-  getLink() {
+  getLink(event: Event) {
+    event.preventDefault(); // Prevent the default link behavior
     if (isPlatformBrowser(this.platformId)) {
       window.open(this.prom.link, '_blank');
     }
   }
+  
 
   getMyGains(prom: any) {
     let x = prom.campaign.ratio?.length ? false : true;

@@ -73,7 +73,6 @@
   line-height: 120%;
   letter-spacing: 1px;
   color: #1f2337;
-  padding-left: 7%;
 }
 
 canvas {
@@ -137,7 +136,7 @@ tr.crypto-row:hover {
 }
 .cover-market-cap {
   position: relative;
-  left: 70%;
+  left: 10%;
   top: 44% !important;
 }
 .global {
@@ -167,22 +166,28 @@ tr.crypto-row:hover {
   cursor: pointer;
   color: #4048ff;
 }
-.text-mobile-title{
-  color: #4048FF;
-  font-size: 32px;
-  margin-left: 4%;
-  margin-top: 5%;
-}
-.text-mobile-desc{
-  font-weight: 400;
-  font-size: 16px;
-  color: #1F2337;
-  margin-top: 3%;
-  margin-left: 12%; 
-  width: 70%;
-}
-.d-block{
-  margin-top: 3%;
+
+.crypto-market-cap-overlay {
+  position: absolute;
+  top: -50%;
+  left: 40px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-   justify-items: center; 
+  color: white;
+  padding-top: 12%;
+}
+
+.crypto-market-cap-title {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.market-cap-in-number {
+  font-size: 32px;
+
 }

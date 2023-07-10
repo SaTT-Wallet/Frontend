@@ -1028,6 +1028,9 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
       media.indexOf(env.YOUTUBE_SHORTEN_LINK) !== -1 ||
       media.indexOf(env.YOUTUBE_EMBED_LINK) !== -1
     ) {
+      myApplication.idUser = '0';
+      myApplication.typeSN = env.typeSN.youtube;
+      this.oracleType = env.oracleType.youtube;
       if (media.indexOf(env.YOUTUBE_WATCH_LINK) !== -1) {
         this.validUrl = true;
         var parts = media.split('=');
@@ -1035,17 +1038,14 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
         let videoId = videos[0];
         myApplication.idPost = videoId;
         this.idvideo = videoId;
-        myApplication.idUser = '0';
-        myApplication.typeSN = env.typeSN.youtube;
-        this.oracleType = env.oracleType.youtube;
+       
       }
       if (media.indexOf(env.YOUTUBE_SHORTEN_LINK) !== -1) {
         var parts = media.split('/');
         let videoId = parts[3];
         this.idvideo = videoId;
         myApplication.idPost = videoId;
-        myApplication.idUser = '0';
-        myApplication.typeSN = 2;
+  
         this.application = myApplication;
         this.tokenStorageService.setIdPost(myApplication.idPost);
         this.tokenStorageService.setIdUserPost(myApplication.idUser);
@@ -1054,10 +1054,8 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
       if (media.indexOf(env.YOUTUBE_EMBED_LINK) !== -1) {
         var parts = media.split('/');
         let videoId = parts[4];
+        this.idvideo = videoId;
         myApplication.idPost = videoId;
-        myApplication.idUser = '0';
-        myApplication.typeSN = 2;
-
         this.userfaceook = '';
         this.idinstagram = '';
         this.idstatus = '';
@@ -1324,9 +1322,13 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
     }
   }
   getdatavideo() {
+
+    
     this.CampaignService.videoDescription(this.idvideo, this.oracleType)
       .pipe(takeUntil(this.isDestroyedSubject))
       .subscribe((datavideo: any) => {
+     
+        
         this.imagevideo = datavideo.thumbnail_url;
         this.titlevideo = datavideo.title;
       });

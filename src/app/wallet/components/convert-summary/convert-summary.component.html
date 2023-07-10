@@ -54,7 +54,7 @@
               form="payment_form"
               class="blue-btn"
             >
-              <span *ngIf="!this.showSpinner"> Continue with Simplex </span>
+              <span *ngIf="!this.showSpinner"> {{'continueWithSimplex' | translate }} </span>
               <div
                 *ngIf="this.showSpinner"
                 class="spinner-border"

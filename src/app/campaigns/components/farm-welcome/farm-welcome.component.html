@@ -126,20 +126,20 @@
     <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
       <div class="info-box d-flex justify-content-between align-items-center">
         <span class="info-name">{{ 'Holders' | translate }}</span>
-        <span class="info-value">{{ nbrWallet }}</span>
+        <span class="info-value">{{ nbrWallet| number: '1.0-0' }}</span>
       </div>
     </div>
     <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
       <div class="info-box d-flex justify-content-between align-items-center">
         <span class="info-name">{{ 'Nb_of_Transactions' | translate }}</span>
-        <span class="info-value">{{ nbr_tx_mainnet }}</span>
+        <span class="info-value">{{ nbr_tx_mainnet| number: '1.0-0' }}</span>
       </div>
     </div>
 
     <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
       <div class="info-box d-flex justify-content-between align-items-center">
         <span class="info-name">AdPools</span>
-        <span class="info-value">{{ nbPools }}</span>
+        <span class="info-value">{{ nbPools | number: '1.0-0'}}</span>
       </div>
     </div>
     <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
@@ -151,13 +151,13 @@
     <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
       <div class="info-box d-flex justify-content-between align-items-center">
         <span class="info-name">Posts</span>
-        <span class="info-value">{{ posts }}</span>
+        <span class="info-value">{{ posts| number: '1.0-0' }}</span>
       </div>
     </div>
     <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
       <div class="info-box d-flex justify-content-between align-items-center">
         <span class="info-name">{{ 'Views' | translate }}</span>
-        <span class="info-value">{{ views }}</span>
+        <span class="info-value">{{ views| number: '1.0-0' }}</span>
       </div>
     </div>
     <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
