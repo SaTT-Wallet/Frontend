@@ -49,7 +49,7 @@ import { SocialAccountsFacade } from '@app/social-accounts/facade/social-account
 import { ESocialMediaNames } from '@app/core/enums';
 import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-facade/socialAcounts-facade.service';
 import jwt_decode from 'jwt-decode';
-
+import { WalletService } from '@app/core/services/wallet/wallet.service';
 // interface credantials {
 //   email: string;
 //   password: string;
@@ -151,6 +151,7 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
   blockDate: any;
   successMessagecode: string = '';
   constructor(
+    private walletService: WalletService,
     private modalService: NgbModal,
     private authService: AuthService,
     private router: Router,
@@ -640,9 +641,9 @@ getCookie(key: string){
           takeUntil(this.onDestroy$),
           catchError((error: HttpErrorResponse) => {
             if (error.error.error.message === 'user not found') {
-              this.errorMessage = 'Invalid email address';
+              this.errorMessage = 'invalidEmailAddress';
             } else if (error.error.error.message === 'invalid_credentials') {
-              this.errorMessage = 'Incorrect password';
+              this.errorMessage = 'incorrectPassword';
             } else if (error.error.error.message === 'account_locked') {
               if (
                 this.blocktime &&
@@ -747,6 +748,7 @@ getCookie(key: string){
                   }
                 });
               } else {
+                this.tokenStorageService.setNewUserV2(response?.passphrase  !== undefined ? !response?.passphrase : true);
                 if (response.idSn !== 0 && response.idSn !== null) {
                   if (
                     !response.completed ||

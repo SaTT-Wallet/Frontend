@@ -34,13 +34,14 @@ export class CryptofetchServiceService {
    
     
   }
-  getCryptoPriceDetails(cryptoList: number[]): Observable<any> {
+  getCryptoPriceDetails(cryptoList: number[]) {
+
     // Converting array to comma-separated string
     const cryptoListString = cryptoList.join(',');
 
     // Configuring the HTTP params
     const params = new HttpParams().set('cryptolist', cryptoListString);
-
+   
     // Making the HTTP GET request
     return this.http.get( sattUrl + '/wallet/cryptoPriceDetails', { params });
   }

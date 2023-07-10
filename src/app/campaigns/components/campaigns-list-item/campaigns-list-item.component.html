@@ -79,14 +79,26 @@
       class="img-campaign ng-isolate-scope"
       alt=""
       loading="lazy"
-      [src]="campaign.cover.includes('ipfs') ? ipfsURL + campaign.cover.substring(27, campaign.cover.length) : campaign.cover"
+      [src]="
+        campaign.cover.includes('ipfs')
+          ? ipfsURL + campaign.cover.substring(27, campaign.cover.length)
+          : campaign.cover
+      "
     />
     <img
       *ngIf="!!campaign.coverSrcMobile"
       class="img-campaign ng-isolate-scope"
       alt=""
       loading="lazy"
-      [src]="campaign.coverSrcMobile.includes('ipfs') ? ipfsURL + campaign.coverSrcMobile.substring(27, campaign.coverSrcMobile.length) : campaign.coverSrcMobile"
+      [src]="
+        campaign.coverSrcMobile.includes('ipfs')
+          ? ipfsURL +
+            campaign.coverSrcMobile.substring(
+              27,
+              campaign.coverSrcMobile.length
+            )
+          : campaign.coverSrcMobile
+      "
     />
 
     <div
@@ -202,21 +214,24 @@
       />
     </div>
     <div class="div-title justify-content-center align-items-center">
-      <h3 class="title" [ngClass]="{ 'gray-title': !campaign.hash }">
+      <h3 style="font-size: 24px" class="title" [ngClass]="{ 'gray-title': !campaign.hash }">
         {{ campaign.title }}
       </h3>
     </div>
 
-    <h3 class="pink-text mt-1 mb-0 d-flex flex-column" *ngIf="campaign?.hash">
+    <h3
+      class="pink-text mt-1 mb-0 d-flex flex-column"
+      *ngIf="campaign?.hash"
+    >
       <span class="campaign-funds-details d-flex justify-content-center">
-        <span class="d-flex align-items-center">
-          {{ 'Monetize.funds' | translate }}:
+        <span style="font-size: 18px" class="d-flex align-items-center">
+          <!-- {{ 'Monetize.funds' | translate }}: -->
           {{ campaign.budget | fromWeiTo: currencyName:3 | number }}
         </span>
-        <span class="d-flex align-items-center ml-1">
+        <span class="d-flex align-items-center ml-1 mb-1">
           <img
             *ngIf="campaign.type !== 'draft'"
-            style="height: 20px"
+            style="height: 24px"
             src="/assets/Images/icons-crypto/black/{{
               getCurrencyName(campaign)
             }}.svg"
@@ -232,16 +247,16 @@
 
     <div class="orang-text" *ngIf="campaign?.hash">
       <div>
-        <img src="assets/Images/calender.svg" width="16px" />
+        <!-- <img src="assets/Images/calender.svg" width="16px" /> -->
 
         <span
           class="under_gains date"
           *ngIf="localId === 'en'"
           style="text-transform: uppercase"
         >
-          {{ 'AllCampains.campaign_ends_on' | translate }}:
-          <!-- h:mm:ss a -->
-          {{ campaign.endDate | date: 'MM/dd/yyyy ':undefined:localId || '' }}
+          <!-- {{ 'AllCampains.campaign_ends_on' | translate }}
+          h:mm:ss a -->
+          {{ campaign.endDate | time }}
         </span>
         <span
           class="under_gains date"
@@ -249,13 +264,12 @@
           style="text-transform: uppercase"
         >
           {{ 'AllCampains.campaign_ends_on' | translate }}:
-          <img src="assets/Images/calender.svg" width="16px" />
           {{ campaign.endDate | date: 'dd/MM/yyyy':undefined:localId || '' }}
         </span>
       </div>
       <img
         src="assets/Images/blue-icons/calculator.svg"
-        width="16px"
+        width="20px"
         (click)="caluculateRoi(campaign.id, $event)"
       />
     </div>
@@ -285,11 +299,10 @@
       *ngIf="campaign.isOwnedByUser"
       (click)="goToDetailsPage(campaign.id)"
     >
-      <span class="btn-apply-text">{{
-        'AllCampains.Augmenter_budget' | translate
-      }}
-      <img src="assets/Images/blue-icons/ellipse.svg" *ngIf="newLink"/>
-    </span>
+      <span class="btn-apply-text"
+        >{{ 'AllCampains.Augmenter_budget' | translate }}
+        <img src="assets/Images/blue-icons/ellipse.svg" *ngIf="newLink" />
+      </span>
     </button>
   </div>
   <div class="buttons-wrapper" *ngIf="campaign.inProgress">
@@ -330,7 +343,10 @@
   </button>
 </div>
 <ng-template class="modal-roi" #calculRoi>
-  <app-roi-modal  [id]="campaign.id" (closeModaleEvent)="closeRoi($event) "></app-roi-modal>
+  <app-roi-modal
+    [id]="campaign.id"
+    (closeModaleEvent)="closeRoi($event)"
+  ></app-roi-modal>
 </ng-template>
 <ng-template #modifiercampaign>
   <div class="modal-header modal-custom">

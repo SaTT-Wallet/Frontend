@@ -22,8 +22,7 @@
                 width="33px"
                 class="icons-img"
               />
-              Choose missions for {{ mission.get('oracle')?.value }} (you can
-              modify our suggestions)
+              {{'chooseMissions' | translate }} {{ mission.get('oracle')?.value }} ({{'Suggestions' | translate}})
             </label>
             <!-- <ui-switch
               *ngIf="!isIncludeOracle(mission.get('oracle')?.value)"
@@ -88,7 +87,7 @@
                   class="btn-white"
                   (click)="addSubMissions(missionIndex)"
                 >
-                  Add a new mission
+                  {{ 'addNewMissions' | translate }}
                 </button>
               </div>
             </div>

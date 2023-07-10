@@ -974,7 +974,7 @@
             class="code d-flex justify-content-center mb-2"
             [className]="!errorMessagecode ? 'code d-flex justify-content-center mb-2' : (errorMessagecode === 'code correct' ? 'code code-success d-flex justify-content-center mb-2': 'code code-error d-flex justify-content-center mb-2')"
             
-            >Verification code</span
+            >{{ 'verif_code' | translate }}</span
           >
           <app-code-input-auth
             [clearInput]="this.successMsg === 'Email sent'"
@@ -1007,7 +1007,7 @@
             class="text-code d-flex justify-content-center mt-2 validity-code"
             *ngIf="!this.errorMessagecode"
           >
-            {{ 'this code will only be valid for 5 min ' | translate }}
+            {{ 'thisCodeWillOnlyBeValidFor5Min' | translate }}
           </span>
         </form>
       </div>

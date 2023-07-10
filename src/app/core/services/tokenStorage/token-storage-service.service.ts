@@ -214,6 +214,12 @@ public saveLinks(newlink: any){
   public getIdPost() {
     return this.localStorage.getItem('idPost');
   }
+  public setNewUserV2(NewUserV2 : any){
+    this.localStorage.setItem('NewUserV2', NewUserV2)
+  }
+  public getNewUserV2() {
+    return this.localStorage.getItem('NewUserV2');
+  }
   public getIdUserPost() {
     return this.localStorage.getItem(userIdPost);
   }

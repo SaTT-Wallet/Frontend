@@ -51,7 +51,7 @@ export class CryptoInfoComponent implements OnInit, AfterViewInit {
   state = {
     current: 'black'
   };
-
+  selectedPeriod: string = 'max';
   dataY = [1, 10, 20, 30];
   marketCap: any;
   marketCapFD: any;
@@ -96,7 +96,7 @@ export class CryptoInfoComponent implements OnInit, AfterViewInit {
           let arrayOfObs = [];
           arrayOfObs.push(
             this.cryptoInfoService
-              .getCryptoInfoById(res.id, 'usd')
+              .getCryptoInfoById(res?.id, 'usd')
               .pipe(map((res: any) => res[0]))
           );
           arrayOfObs.push(
@@ -353,6 +353,7 @@ font-size: 12px;">${item.value + '$'}</span>`;
   }
 
   filterChartByPeriod(period: any) {
+    this.selectedPeriod = period;
     this.cryptoInfoService
       .listIdToken()
       .pipe(

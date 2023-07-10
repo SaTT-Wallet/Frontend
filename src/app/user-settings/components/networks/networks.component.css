@@ -312,7 +312,7 @@ input:-webkit-autofill:active {
   .gray-text-span,
   .white-text-span,
   .tgm2 {
-    font-size: 14px !important;
+    font-size: 10px !important;
   }
 }
 
@@ -651,6 +651,7 @@ a {
 }
 
 .div-connect-google {
+  width: 250px !important;
   /* border: 1.63449px solid #d6d6e8; */
   color: #757575;
   background-color: #ffffff;
@@ -693,7 +694,7 @@ a {
 .grey_text_fr {
   font-style: normal;
   font-weight: normal;
-  font-size: 18px;
+  font-size: 14px;
   line-height: 130%;
   letter-spacing: -0.01em;
   color: #757575;

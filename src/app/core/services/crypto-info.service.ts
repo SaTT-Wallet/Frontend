@@ -52,7 +52,7 @@ export class CryptoInfoService {
 
   generalTokenInfos(cryptoId: string) {
     return this.http.get(
-      `https://api.coingecko.com/api/v3/coins/${cryptoId}?localization=false&tickers=false&market_data=true&community_data=true&developer_data=false&sparkline=true`
+      `https://api.coingecko.com/api/v3/coins/${cryptoId}?tickers=false&market_data=true&community_data=true&developer_data=false&sparkline=true`
     );
   }
 }

@@ -168,11 +168,13 @@ export class FarmPostCardComponent implements OnInit {
     return this.tokenStorageService.getLocale() || 'en';
   }
 
-  getLink() {
+  getLink(event: Event) {
+    event.preventDefault(); // Prevent the default link behavior
     if (isPlatformBrowser(this.platformId)) {
       window.open(this.prom.link, '_blank');
     }
   }
+  
 
   getMyGains(prom: any) {
     let x = prom.campaign.ratio?.length ? false : true;
@@ -259,7 +261,7 @@ export class FarmPostCardComponent implements OnInit {
     this.showLoadingSpinner = true;
     let arrayReason: any = [];
     this.walletFacade.verifyUserToken().subscribe((res:any) => {
-      if(res?.message === "success") {
+      if(res?.message !== "success") {
         this.expiredSession();
       } else {
         Object.keys(this.reasonForm.controls).forEach((element: any) => {
@@ -283,6 +285,7 @@ export class FarmPostCardComponent implements OnInit {
             )
             .pipe(takeUntil(this.isDestroyed))
             .subscribe((data: any) => {
+    
               if (data.message === 'success') {
                 this.closeModal(modal);
                 this.showLoadingSpinner = false;

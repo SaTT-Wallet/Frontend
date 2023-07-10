@@ -1,21 +1,15 @@
 <meta name="viewport" content="width=device-width,user-scalable=no" />
 <header class="cover-crypto-market-cap">
-   <div
-    class="row "
-
-  >
-    <div
-      class="col-4 d-flex justify-content-center d-none d-sm-block"
-  
-    >
-      <img  class="cover-market-cap" src="assets/Images/crypto-market-cap-cov.png" />
-    </div>
-    <div class="col justify-content-center global d-none d-sm-block">
-      <h1 class="row crypto-market-cap-title">{{'Cryptolist.title'| translate}}</h1>
-      
-      <div class="row market-cap-in-number">{{globalMarketCap?.data?.total_market_cap | currency:'USD':'symbol':'1.0-0'}}</div>
+  <div class="row">
+    <div class="col-12 d-flex justify-content-center align-items-center d-none d-sm-block">
+      <img class="cover-market-cap" src="assets/Images/crypto-market-cap-cov.png" />
+      <div class="crypto-market-cap-overlay">
+        <h1 class="crypto-market-cap-title mb-0">{{ 'Cryptolist.title' | translate }}</h1>
+        <div class="market-cap-in-number">{{ globalMarketCap?.data?.total_market_cap | currency:'USD':'symbol':'1.0-0' }}</div>
+      </div>
     </div>
   </div>
+  
   <div class="d-block d-sm-none" style="margin-top: 20%;
   text-align: center; justify-items: center;">
     <div class="row text-mobile" style="color: #4048FF;font-size: 32px;"> {{'Cryptolist.title.mobile'| translate}}</div>
@@ -45,7 +39,7 @@
           <th scope="col d-none d-sm-block">1H%</th>
           <th scope="col">24H%</th>
           <th scope="col d-none d-sm-block">{{ 'Cryptolist.7d' | translate }}</th>
-          <th scope="col d-none d-sm-block">{{ 'Cryptolist.volume' | translate }}</th>
+          <th scope="col d-none d-sm-block">{{ 'Cryptolist.marketcap' | translate }}</th>
           <th scope="col d-none d-sm-block">{{ 'Cryptolist.last7d' | translate }}</th>
         </tr>
       </thead>
@@ -106,7 +100,7 @@
                crypto[1]?.percent_change_7d | number: '1.0-2'
             }}%
           </td>
-          <td class="align-middle">{{  crypto[1]?.volume_24h | currency:'USD':'symbol':'1.0-0' }}</td>
+          <td class="align-middle">{{  crypto[1]?.market_cap | currency:'USD':'symbol':'1.0-0' }}</td>
         <ng-container *ngIf="sparklineIn7dCryptoList[i]"> 
             <td>
         

@@ -143,15 +143,7 @@ export class FarmWelcomeComponent implements OnInit {
           this.isLoading = false;
         }
       });
-    // TODO: load campaigns list here
-    // this.campaignsListStoreService.list$
-    //   .pipe(filter((data) => data[0].size !== 0))
-    //   .pipe(
-    //     map((pages: Page<Campaign>[]) => {
-    //       return _.flatten(pages.map((page: Page<Campaign>) => page.items));
-    //     }),
-    //     takeUntil(this.isDestroyed)
-    //   )
+      
     this.walletFacade
       .getCryptoPriceList()
       .pipe(
@@ -172,8 +164,7 @@ export class FarmWelcomeComponent implements OnInit {
       .subscribe(
         (campaigns: Campaign[]) => {
           this.isLoading = false;
-          this.campaignsList = campaigns;
-          this.campaignsList2 = campaigns;
+          this.campaignsList = campaigns.filter(campaign => campaign.type !=='draft');
           this.campaignsList?.forEach((element: Campaign) => {
             if (element.currency.name === 'SATTPOLYGON')
               element.currency.name = 'MATIC';

@@ -783,3 +783,7 @@
     display: none !important;
   }
   }
+.li-menu{
+  min-width: 200px !important;
+}
+  

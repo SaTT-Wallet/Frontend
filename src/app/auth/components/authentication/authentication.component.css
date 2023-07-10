@@ -300,9 +300,6 @@ main {
   display: none;
 }
 
-.google-icon {
-  /* margin-left: -20px; */
-}
 
 .show-mobile-version {
   display: none !important;
@@ -548,22 +545,23 @@ main {
 
 .icon-google {
   position: relative;
-  height: 20px;
-  width: 20px;
+  height: 20px!important;
+  width: 20px!important;
   vertical-align: middle !important;
   top: -2px;
+  margin-right: 0 !important;
+  padding-left:0 !important;
 }
 
 .sn-icon-googleEnglish {
   position: relative;
-  width: 42px;
-  /* margin-left: 5px; */
+  width: 35px;
+  margin-right: 0 !important;
+  padding-left: 0 ! important;
+  
 }
 
-.sn-icon-googleFrensh {
-  position: relative;
-  width: 22px;
-}
+
 
 .sn-icon-telegram {
   position: relative;
@@ -587,24 +585,6 @@ main {
   background-color: rgba(64, 72, 255, 0.3);
 }
 
-/* .google_log {
-    font-style: normal;
-    font-weight: normal;
-    font-size: 17px;
-    line-height: 130%;
-    letter-spacing: -0.02em;
-    color: #757575;
-    cursor: pointer;
-    background: white;
-    border: 1.63449px solid #d6d6e8;
-    border-radius: 3rem;
-    margin-bottom: 0.5vh;
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    width: 264px;
-    height: 41px;
-} */
 
 .google_log {
   font-style: normal;
@@ -623,7 +603,7 @@ main {
   width: 250px;
   height: 40px;
   padding-top: 11px;
-  padding-left: 2px;
+  padding-left: 12px;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
 
@@ -716,16 +696,12 @@ main {
 
 .sn-icon-googleEnglish {
   position: relative;
-  width: 42px;
+  width: 35px;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
   /* margin-left: 5px; */
-}
-
-.sn-icon-googleFrensh {
-  position: relative;
-  width: 22px;
-  /* padding-left: 100px; */
-  padding-right: 12px;
-  padding-left: 10px;
+  padding-left: 0 ! important;
+  padding-right: 12px !important;
 }
 
 .sn-icon-telegram {
@@ -1278,7 +1254,8 @@ button .btnModalError {
     overflow: hidden;
   }
   .google-icon {
-    margin-left: 0px;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
   }
   .social-media-show {
     display: none !important;
@@ -1318,11 +1295,14 @@ button .btnModalError {
   .google_log {
     background: white;
   }
-  .sn-icon-googleFrensh {
-    position: relative;
-    width: 37px;
-    /* margin-left: -32px; */
-  }
+.sn-icon-googleFrensh{
+  position: relative;
+  width: 35px;
+  /* padding-left: 100px; */
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  padding-left: 0 !important;
+}
   .social-media-login a {
     margin-right: 0px !important;
   }
@@ -1580,9 +1560,6 @@ button .btnModalError {
   opacity: 0;
 }
 
-.modal-body.modal-custom {
-  /* padding: 0px 50px !important;   */
-}
 
 /* ::ng-deep.modal-content {
     max-width: none;

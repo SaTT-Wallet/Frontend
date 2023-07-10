@@ -15,7 +15,7 @@
   />
 
   <div class="img-block" role="button" tabindex="0">
-    <a (click)="getLink()" class="a_link d-flex justify-content-center">
+    <a (click)="getLink($event)" class="a_link d-flex justify-content-center">
       <img
         class=""
         alt=""
@@ -44,12 +44,19 @@
         onerror="this.src='/assets/Images/campagne/twitter_cover.svg'"
         class="cmp-img2"
       />
-      <img
-        *ngIf="prom.typeSN === 3"
+      <ng-container  *ngIf="prom.typeSN === 3 && prom.mediaUrl.includes('mp4')">
+        <video [src]="prom.mediaUrl" autoplay loop [muted]="true"></video>
+      </ng-container>
+
+      <ng-container  *ngIf="prom.typeSN === 3 && !prom.mediaUrl.includes('mp4')">
+        <img
         [src]="prom.mediaUrl"
         onerror="this.src='/assets/Images/campagne/instagramm.svg'"
         class="cmp-img2"
       />
+      </ng-container>
+      
+      
       <img
         *ngIf="prom.typeSN === 5"
         [src]="prom.mediaUrl"
@@ -152,10 +159,10 @@
               <img src="assets/Images/calender.svg" width="16px" />
               {{ prom.applyDate | date: 'dd/MM/yyyy ':undefined:localId || '' }}
             </span>
-            <span class="span-hours">
+         <!--   <span class="span-hours">
               <img src="assets/Images/clock-link.svg" width="16px" />
               {{ prom.applyDate | date: 'h:mm ':undefined:localId || '' }}
-            </span>
+            </span>-->
           </h2>
         </div>
       </div>

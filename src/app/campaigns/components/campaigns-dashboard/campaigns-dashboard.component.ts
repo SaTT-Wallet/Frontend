@@ -1,8 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
+/* eslint-disable prettier/prettier */
+import { ChangeDetectorRef,Component, Input, OnInit } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NavigationEnd, Router } from '@angular/router';
 import { CampaignsDashboardService } from '@campaigns/services/campaigns-dashboard.service';
 import { Subject } from 'rxjs';
 import { filter, map, startWith, takeUntil } from 'rxjs/operators';
+import { TokenStorageService } from '../../../core/services/tokenStorage/token-storage-service.service';
+import { sattUrl } from '@config/atn.config';
+import { WalletService } from '@app/core/services/wallet/wallet.service';
+import { data } from 'jquery';
+
 
 @Component({
   selector: 'app-campaigns-dashboard',
@@ -10,6 +17,7 @@ import { filter, map, startWith, takeUntil } from 'rxjs/operators';
   styleUrls: ['./campaigns-dashboard.component.scss']
 })
 export class CampaignsDashboardComponent implements OnInit {
+  isNewUser: any;
   titlee = '';
   private isDestroyed = new Subject();
   @Input() title = 'page title';
@@ -21,11 +29,29 @@ export class CampaignsDashboardComponent implements OnInit {
   );
 
   constructor(
+    private http: HttpClient,
     private router: Router,
-    private service: CampaignsDashboardService
+    private walletService: WalletService,
+    private service: CampaignsDashboardService,
+    private tokenStorageService: TokenStorageService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
+
+    if(!this.tokenStorageService.getIsAuth()){
+
+
+      this.isNewUser= 'true';
+    }else
+    if(this.tokenStorageService.getNewUserV2() == null ){
+
+      this.isNewUser= 'true';
+    }
+    else{
+
+       this.isNewUser = this.tokenStorageService.getNewUserV2()
+    }  
     this.requestedPathUrlChanges$
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((url: string) => {
@@ -37,4 +63,5 @@ export class CampaignsDashboardComponent implements OnInit {
     this.isDestroyed.next('');
     this.isDestroyed.unsubscribe();
   }
+
 }

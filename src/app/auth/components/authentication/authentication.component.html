@@ -250,7 +250,7 @@
                         errorCode: this.errorMessagecode === 'code incorrect',
                         code: !this.errorMessagecode
                       }"
-                      >Authentification code</span
+                      >{{ 'auth_code' | translate }}</span
                     >
 
                     <app-code-input-auth
@@ -401,7 +401,7 @@
                 code: !this.errorMessagecode
               }"
             >
-              Authentification code
+              {{'authentificationCode' | translate }}
             </span>
             <app-code-input-auth
               [ngClass]="{
@@ -454,8 +454,7 @@
           {{ 'resend' | translate }}
         </a> 
         <a *ngIf="!this.showResendLink" style="color: red;">
-          Email sent, Please try again after {{ this.timeLeft }} seconds
-        </a>
+          {{ 'verifEmailSent' | translate: { timeLeft: this.timeLeft } }}  </a>
       </form>
     </div>
   </div>
