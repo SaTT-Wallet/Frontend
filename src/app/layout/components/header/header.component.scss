@@ -561,6 +561,22 @@ ul.dropdown-menu.notif_drop_main.show {
   display: none;
 }
 
+
+.ul-left-side {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  width: 1000px;
+}
+
+.li-menu {
+  flex:auto;
+  white-space: nowrap;
+  padding:5px;
+  margin-left: 10px;
+  align-content: center;
+}
 @media (max-height: 850px) {
   ul.dropdown-menu.notif_drop_main.show {
     /*
@@ -570,23 +586,22 @@ ul.dropdown-menu.notif_drop_main.show {
   }
 }
 
-@media (max-width: 880.98px) {
+/*@media (max-width: 880.98px) {
   .li-menu {
     padding: 5px !important;
     width: auto;
   }
-}
+}*/
 
-@media (max-width: 1111px) and (min-width: 768px) {
+/*@media (max-width: 1111px) and (min-width: 768px) {
   /* .right-menu {
         display: none;
     } */
-  .li-menu {
+  /*.li-menu {
     margin: 0 !important;
     padding: 5px !important;
     width: auto;
     flex-grow: 1 !important;
-
   }
   .height-fluid {
     height: 44px;
@@ -601,11 +616,11 @@ ul.dropdown-menu.notif_drop_main.show {
     border-radius: 50%;
     width: 45px !important;
     gap: 0 !important;
-  }
+  }*/
   /* ul.dropdown-menu.notif_drop_main.show {
         width: 300px;
         height: 90vh;
-    } */
+    } *//*
   .notifBody {
     max-width: 240px;
   }
@@ -626,7 +641,7 @@ ul.dropdown-menu.notif_drop_main.show {
     position: absolute;
   }
 }
-
+*/
 .dropdown-tablette-profile-md.show {
   transform: translate3d(-8px, 21px, 0px) !important;
 }

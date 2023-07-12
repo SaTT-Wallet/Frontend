@@ -27,7 +27,8 @@
     class="search-query d-flex  mt-3"
     type="text"
     name="search"
-    placeholder="Search token "
+    placeholder="{{ 'searchToken' | translate }}
+"
   />
   <span *ngIf="searchQuery" class="clear-icon" (click)="clear()">x</span>
 </div>

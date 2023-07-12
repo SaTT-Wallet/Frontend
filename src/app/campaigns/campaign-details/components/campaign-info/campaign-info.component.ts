@@ -47,6 +47,7 @@ import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-faca
 import { Big } from 'big.js';
 import FileSaver from 'file-saver';
 import { IGetSocialNetworksResponse } from '@user-settings/components/social-networks/social-networks.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-campaign-info',
@@ -188,6 +189,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
     private windowRefService: WindowRefService,
     private renderer: Renderer2,
     private cdRef: ChangeDetectorRef,
+    private translate: TranslateService,
     private socialAccountFacadeService: SocialAccountFacadeService
   ) {
     this.arrayMission = [
@@ -420,8 +422,8 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
       singleSelection: false,
       idField: 'item_id',
       textField: 'item_text',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
+      selectAllText: this.translate.instant('selectAll'),
+      unSelectAllText: this.translate.instant('unSelectAll'),
       itemsShowLimit: 20,
       allowSearchFilter: true
     };

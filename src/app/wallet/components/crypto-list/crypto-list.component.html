@@ -39,7 +39,8 @@
                     type="password"
                     name="search"
                     autocomplete="new-password"
-                    [placeholder]="translate.instant('searchToken')"
+                    placeholder="{{ 'searchToken' | translate }}
+ "
                     [(ngModel)]="search"
                     (ngModelChange)="onTextChange($event); clearInput()"
                   />

@@ -221,7 +221,8 @@
     </div>
     <div class="d-flex flex-column justify-content-center align-items-center">
       <div
-        class="d-flex align-items-center justify-content-center col-xl-6 col-lg-8 col-md-8 col-sm-8"
+        class="d-flex align-items-center justify-content-center col-xl-6 col-lg-8 col-md-8 col-sm-8" 
+        
       >
         <button
           class="btnModalError btn_fill_profile"
@@ -506,7 +507,7 @@
     <div class="d-flex flex-column justify-content-center align-items-center">
       <div
         class="d-flex align-items-center justify-content-center col-xl-6 col-lg-8 col-md-8 col-sm-8"
-      >
+        style="width: 210px;">
         <button
           class="btnModalError btn_fill_profile btn-blue"
           (click)="verifysign()"
@@ -868,9 +869,10 @@
             this.formUpdateTransactionPassword.get('confirmPassword')?.errors
               ?.required
           "
+          style = "width: 190px;font-size: 18px;"
         >
           <span *ngIf="!showSpinnerTransactionPassword">
-            {{ 'Next Step' | translate }}
+            {{ 'nextStep' | translate }}
           </span>
           <div
             *ngIf="buttonClick"
