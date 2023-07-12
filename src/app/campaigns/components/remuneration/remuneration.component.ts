@@ -12,10 +12,12 @@ import {
   PLATFORM_ID,
   Renderer2,
   SimpleChanges,
+  TemplateRef,
   ViewChild
 } from '@angular/core';
 import {
   AbstractControl,
+  FormControl,
   UntypedFormArray,
   UntypedFormControl,
   UntypedFormGroup,
@@ -47,6 +49,7 @@ import {
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { DOCUMENT } from '@angular/common';
 import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -69,6 +72,14 @@ interface IDropdownFilterOptions {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RemunerationComponent implements OnInit, OnDestroy {
+  @ViewChild('tokenModal', {static: false})
+  private tokenModal! : TemplateRef<any>
+
+  tokenSearch = new FormControl('');
+  searchToken() {
+    console.log(this.tokenSearch.value);
+  }
+
   @ViewChild('inputAmountUsd') inputAmountUsd?: ElementRef;
   @Input() isSelectedYoutube = false;
   @Input() isSelectedTwitter = false;
@@ -162,6 +173,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   trx: any;
   trxGaz: any;
   constructor(
+    public modalService: NgbModal,
     private service: DraftCampaignService,
     private convertFromWeiTo: ConvertFromWei,
     private cdref: ChangeDetectorRef,
@@ -200,6 +212,11 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     this.isDestroyed$.unsubscribe();
   }
 
+  createTokenModal() {
+    this.walletFacade.getCryptoPriceList().subscribe(res =>{ console.log(res)
+    });
+    return this.modalService.open(this.tokenModal);
+  }
   ngOnInit(): void {
     this.cdref.markForCheck();
     this.parentFunction().subscribe();

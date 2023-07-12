@@ -14,7 +14,34 @@
           'create_campaign_form.budjet' | translate
         }}</label>
       </div>
+      <button (click)="createTokenModal()">Click Me</button>
+      <ng-template #tokenModal>
+        <div class="w-100">
+          <h3 class="w-fit mx-auto">Select token</h3>
+          <p>YOUR NETWORK: <span>futur selected token</span> </p>  
+          <input (change)="searchToken()"type="text" [formControl]="tokenSearch" placeholder="Search a name or paste address" />
+          <div class="container ">
+            <div class="row">
+              <div class="col-sm d-flex">
+                <img src="" alt="logo" />
+                <p>Satt</p>
+              </div>
+              <div class="col-sm d-flex">
+                <img src="" alt="logo" />
+                <p>Eth</p>
+              </div>
+              <div class="col-sm d-flex">
+                <img src="" alt="logo" />
+                <p>Eth</p>
+              </div>
+            </div>
 
+          </div>
+          
+
+          <!-- the token list will appear here  with an overflow cause there is more than 100 token-->
+        </div>
+      </ng-template>
       <div class="height-drop">
         <app-dropdown-crypto-network
           (selectedCrypto)="linstingCrypto($event)"
