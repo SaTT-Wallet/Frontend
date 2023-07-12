@@ -1,14 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  HostListener,
-  Inject,
-  OnDestroy,
-  OnInit,
-  PLATFORM_ID,
-  TemplateRef,
-  ViewChild
-} from '@angular/core';
+import { AfterViewInit, Component, HostListener, Inject, OnDestroy, OnInit, PLATFORM_ID, Renderer2, TemplateRef, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { DraftCampaignStoreService } from '@core/services/draft-campaign-store.service';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
@@ -21,6 +11,7 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.service';
+
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
@@ -32,12 +23,14 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   scrollTopChange: boolean = false;
   smDevice = false;
   scrolled: boolean = false;
-  phishingVisibility: boolean = false;
+  phishingVisibility: boolean = true;
   getScreenWidth: any;
   storageInformation: string | null;
+  phishingWarningVisible: boolean = true;
   private isDestroyed$ = new Subject();
-  constructor(
 
+  constructor(
+    private renderer: Renderer2,
     public router: Router,
     private draftCampaignStore: DraftCampaignStoreService,
     private campaignService: CampaignHttpApiService,
@@ -60,6 +53,7 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       this.storageInformation = null;
     }
   }
+
   ngAfterViewInit(): void {
     if (this.router.url == '/wallet' || this.router.url.includes('campaign')) {
       let content = this.document.getElementById('center-content');
@@ -89,25 +83,33 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         }
       });
+
+    if (this.getStorageInformation() === 'false') {
+      this.phishingVisibility = false;
+      this.updateTopBarPosition();
+    }
   }
+
   ngOnDestroy(): void {
     this.isDestroyed$.next('');
     this.isDestroyed$.complete();
     this.isDestroyed$.unsubscribe();
   }
+
   ngOnInit(): void {
     this.getScreenWidth = window.innerWidth;
+
     if (window.innerWidth <= 768 && isPlatformBrowser(this.platformId)) {
       this.smDevice = true;
     } else {
       this.smDevice = false;
     }
-    if (
-      this.tokenStorageService.getSecureWallet('visited-passPhrase') === 'false'
-    ) {
+
+    if (this.tokenStorageService.getSecureWallet('visited-passPhrase') === 'false') {
       this.router.navigate(['social-registration/pass-phrase']);
       // window.location.reload()
     }
+
     if (this.tokenStorageService.getToken()) {
       if (isPlatformBrowser(this.platformId)) {
         this.walletFacade.initWallet(); // initialize total balance// initialize crypto list and gaz
@@ -118,8 +120,30 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
         this.kycFacadeService.initKyc();
       }
     }
+
+    // Check if phishing warning is visible and update top bar position
+    const phishingWarningElement = this.document.getElementById('phishing-warning');
+    if (phishingWarningElement) {
+      const observer = new MutationObserver(() => {
+        const computedStyle = getComputedStyle(phishingWarningElement);
+        const isVisible = computedStyle.display !== 'none';
+        this.phishingVisibility = isVisible;
+        this.updateTopBarPosition();
+      });
+
+      observer.observe(phishingWarningElement, { attributes: true });
+
+      // Update the initial top bar position
+      const computedStyle = getComputedStyle(phishingWarningElement);
+      const isVisible = computedStyle.display !== 'none';
+      this.phishingVisibility = isVisible;
+      this.updateTopBarPosition();
+    } else {
+      this.phishingVisibility = false; // Add this line to handle the case when the phishing warning element is not found
+      this.updateTopBarPosition();
+    }
   }
-  //change chart wallet position on the window re-size
+
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.getScreenWidth = event.target.innerWidth;
@@ -142,17 +166,6 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
         } else {
           if (btnApply) btnApply.style.display = 'flex';
         }
-        //  else {
-        //   if (this.scrolled) {
-        //     topBar.style.display = 'flex';
-        //     if (btnApply) btnApply.style.display = 'none';
-        //     header.style.backgroundColor = '#2F3347';
-        //   } else {
-        //     topBar.style.display = 'none';
-        //     if (btnApply) btnApply.style.display = 'flex';
-        //     header.style.backgroundColor = 'transparent';
-        //   }
-        // }
       }
       if (this.router.url.startsWith('/wallet')) {
         let chart = this.document.getElementById('chart');
@@ -167,20 +180,22 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
   }
+
   getStorageInformation() {
     if (!this.storageInformation) {
       this.storageInformation = window.localStorage.getItem('phishing');
     }
     return window.localStorage.getItem('phishing');
   }
+
   close() {
     window.localStorage.setItem('phishing', 'false');
-    this.phishingVisibility = true;
+    this.phishingVisibility = false;
+    this.updateTopBarPosition();
   }
+
   @HostListener('scroll', ['$event'])
   onScroll(event: any) {
-    // console.log('event.target.clientWidth', event.target.clientWidth);
-    // visible height + pixel scrolled >= total height
     if (isPlatformBrowser(this.platformId)) {
       if (
         event.target.offsetHeight + event.target.scrollTop >=
@@ -246,8 +261,6 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
         header.classList.remove('navbar-wallet');
         if (event.target.clientWidth < 1025) {
           header.classList.add('navbar-trans2');
-          //header.style.background = '';
-          //if (btnApply) btnApply.style.display = 'none';
           if (event.target.scrollTop < 159) {
             header.classList.remove('navbar-trans2');
             if (blueText && bluePic && disabledText && disabledPic) {
@@ -257,14 +270,7 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
               disabledPic.style.display = 'block';
               this.campaignService.scrolling.next(true);
             }
-
-            // cover.style.position = 'fixed';
-            // main.style.marginTop = '28%';
-            // // cover.style.position = 'fixed';
-            // header.style.background = 'transparent';
           } else {
-            // cover.style.position = 'relative';
-            // main.style.marginTop = '-16vw';
             if (blueText && bluePic && disabledText && disabledPic) {
               blueText.style.display = 'block';
               bluePic.style.display = 'block';
@@ -280,8 +286,6 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
             event.target.clientWidth > 1024 &&
             event.target.scrollTop >= 440
           ) {
-            //cover.style.position = 'relative';
-            //  main.style.marginTop = '-35px';
             if (topBar) topBar.style.display = 'flex';
             if (btnApply) btnApply.style.display = 'none';
             header.style.background = '#2F3347';
@@ -302,7 +306,6 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
             if (topBar) topBar.style.display = 'none';
             if (btnApply) btnApply.style.display = 'flex';
             if (cover) cover.style.position = 'fixed';
-            //  if (main) main.style.marginTop = '28%';
             header.style.background = '';
           }
         }
@@ -320,6 +323,18 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
           header.classList.remove('navbar-trans');
           header.classList.remove('navbar-wallet');
         }
+      }
+      this.updateTopBarPosition(); // Update the top bar position on scroll
+    }
+  }
+
+  updateTopBarPosition() {
+    const topBarElement = this.document.getElementById('campaign-top-bar');
+    if (topBarElement) {
+      if (this.phishingVisibility) {
+        this.renderer.addClass(topBarElement, 'top-bar-phishing-visible');
+      } else {
+        this.renderer.removeClass(topBarElement, 'top-bar-phishing-visible');
       }
     }
   }
