@@ -2,6 +2,7 @@
   height: 243px;
   background: #f6f6ff;
 }
+
 .search-input-wrapper {
   width: 100%;
   justify-content: flex-end;
@@ -165,6 +166,7 @@ tr.crypto-row:hover {
   cursor: pointer;
   color: #4048ff;
 }
+
 .crypto-market-cap-overlay {
   position: absolute;
   top: -50%;
@@ -187,4 +189,5 @@ tr.crypto-row:hover {
 
 .market-cap-in-number {
   font-size: 32px;
+
 }

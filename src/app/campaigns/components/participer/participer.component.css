@@ -313,7 +313,7 @@ initial-letter: 3%;
   width: 100%;
   position: relative;
   min-height: 100%;
-  margin-top: 40%;
+  margin-top: 10%;
   margin-left: 1%;
 
 }
@@ -1101,7 +1101,7 @@ input:-webkit-autofill:active {
 
   .send-button{
     width: 462px;
-    margin-bottom: 10px; 
+  
 
   }
   .btn-green,
