@@ -96,54 +96,63 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isDestroyed$.unsubscribe();
   }
 
-  ngOnInit(): void {
-    this.getScreenWidth = window.innerWidth;
+ngOnInit(): void {
+  this.getScreenWidth = window.innerWidth;
 
-    if (window.innerWidth <= 768 && isPlatformBrowser(this.platformId)) {
-      this.smDevice = true;
-    } else {
-      this.smDevice = false;
+  if (window.innerWidth <= 768 && isPlatformBrowser(this.platformId)) {
+    this.smDevice = true;
+  } else {
+    this.smDevice = false;
+  }
+
+  if (this.tokenStorageService.getSecureWallet('visited-passPhrase') === 'false') {
+    this.router.navigate(['social-registration/pass-phrase']);
+  }
+
+  if (this.tokenStorageService.getToken()) {
+    if (isPlatformBrowser(this.platformId)) {
+      this.walletFacade.initWallet();
+      this.draftCampaignStore.init();
+      this.profileSettingsFacade.loadUserProfilePic();
+      this.accountFacadeService.initAccount();
+      this.socialAccountFacadeService.initSocialAccount();
+      this.kycFacadeService.initKyc();
     }
+  }
 
-    if (this.tokenStorageService.getSecureWallet('visited-passPhrase') === 'false') {
-      this.router.navigate(['social-registration/pass-phrase']);
-      // window.location.reload()
-    }
-
-    if (this.tokenStorageService.getToken()) {
-      if (isPlatformBrowser(this.platformId)) {
-        this.walletFacade.initWallet(); // initialize total balance// initialize crypto list and gaz
-        this.draftCampaignStore.init(); // initialize draft campaign list data
-        this.profileSettingsFacade.loadUserProfilePic(); // initialize user profile picture
-        this.accountFacadeService.initAccount();
-        this.socialAccountFacadeService.initSocialAccount();
-        this.kycFacadeService.initKyc();
-      }
-    }
-
-
-  // Check if phishing warning is visible and update top bar position
   const phishingWarningElement = this.document.getElementById('phishing-warning');
   if (phishingWarningElement) {
     const observer = new MutationObserver(() => {
       const computedStyle = getComputedStyle(phishingWarningElement);
       const isVisible = computedStyle.display !== 'none';
       this.phishingVisibility = isVisible;
-      this.updateTopBarPosition();
+      this.updateTopBarPositionWithDelay();
     });
 
     observer.observe(phishingWarningElement, { attributes: true });
 
-    // Update the initial top bar position
     const computedStyle = getComputedStyle(phishingWarningElement);
     const isVisible = computedStyle.display !== 'none';
     this.phishingVisibility = isVisible;
-    this.updateTopBarPosition();
+    this.updateTopBarPositionWithDelay();
   } else {
-    this.phishingVisibility = false; // Add this line to handle the case when the phishing warning element is not found
+    this.setPhishingVisibility();
+  }
+}
+
+updateTopBarPositionWithDelay(): void {
+  setTimeout(() => {
     this.updateTopBarPosition();
-  }
-  }
+  }, 250); // Don't change this
+}
+
+setPhishingVisibility(): void {
+  const localStoragePhishingValue = window.localStorage.getItem('phishing');
+  this.phishingVisibility = localStoragePhishingValue === 'false' ? false : true;
+  this.updateTopBarPositionWithDelay();
+}
+
+
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
@@ -200,12 +209,10 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     return window.localStorage.getItem('phishing');
   }
 
-  close() {
-    window.localStorage.setItem('phishing', 'false');
-    this.phishingVisibility = false;
-    this.updateTopBarPosition();
-  }
-
+close(): void {
+  window.localStorage.setItem('phishing', 'false');
+  this.setPhishingVisibility();
+}
   @HostListener('scroll', ['$event'])
   onScroll(event: any) {
     // console.log('event.target.clientWidth', event.target.clientWidth);
@@ -355,7 +362,7 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   updateTopBarPosition() {
     const topBarElement = this.document.getElementById('campaign-top-bar');
     if (topBarElement) {
-      if (!this.phishingVisibility) {
+      if (this.phishingVisibility) {
         this.renderer.setStyle(topBarElement, 'top', '160px');
       } else {
         this.renderer.setStyle(topBarElement, 'top', '62px');
