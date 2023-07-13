@@ -263,8 +263,9 @@
           *ngIf="localId === 'fr'"
           style="text-transform: uppercase"
         >
-          {{ 'AllCampains.campaign_ends_on' | translate }}:
-          {{ campaign.endDate | date: 'dd/MM/yyyy':undefined:localId || '' }}
+          <!-- {{ 'AllCampains.campaign_ends_on' | translate }}
+          h:mm:ss a -->
+          {{ campaign.endDate | time }}
         </span>
       </div>
       <img
