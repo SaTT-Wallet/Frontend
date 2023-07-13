@@ -33,7 +33,7 @@ import {
   takeUntil,
   tap
 } from 'rxjs/operators';
-import { GazConsumedByCampaign} from '@app/config/atn.config';
+import { GazConsumedByCampaign } from '@app/config/atn.config';
 import { checkIfEnoughBalance } from '@helpers/form-validators';
 import { Campaign } from '@app/models/campaign.model';
 import { ConvertFromWei } from '@shared/pipes/wei-to-sa-tt.pipe';
@@ -50,8 +50,6 @@ import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { DOCUMENT } from '@angular/common';
 import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
-
 
 enum ERemunerationType {
   Publication = 'publication',
@@ -72,13 +70,8 @@ interface IDropdownFilterOptions {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RemunerationComponent implements OnInit, OnDestroy {
-  @ViewChild('tokenModal', {static: false})
-  private tokenModal! : TemplateRef<any>
-
-  tokenSearch = new FormControl('');
-  searchToken() {
-    console.log(this.tokenSearch.value);
-  }
+  @ViewChild('tokenModal', { static: false })
+  private tokenModal!: TemplateRef<any>;
 
   @ViewChild('inputAmountUsd') inputAmountUsd?: ElementRef;
   @Input() isSelectedYoutube = false;
@@ -186,7 +179,10 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     this.form = new UntypedFormGroup(
       {
         initialBudget: new UntypedFormControl('', {
-          validators: Validators.compose([Validators.required,Validators.pattern(/^([1-9]\d*|([1-9]\d*|0).\d+|[1-9]\d*(.\d+)?)$/)])
+          validators: Validators.compose([
+            Validators.required,
+            Validators.pattern(/^([1-9]\d*|([1-9]\d*|0).\d+|[1-9]\d*(.\d+)?)$/)
+          ])
         }),
         initialBudgetInUSD: new UntypedFormControl('', {
           validators: Validators.compose([Validators.required])
@@ -194,12 +190,19 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         currency: new UntypedFormControl(null, {
           validators: Validators.required
         }),
-        remuneration: new UntypedFormControl(this.eRemunerationType.Performance),
+        remuneration: new UntypedFormControl(
+          this.eRemunerationType.Performance
+        ),
         ratios: new UntypedFormArray([]),
         bounties: new UntypedFormArray([])
       },
       {
-        validators: [Validators.required,InitiaBudgetValidator,customValidateRequired(),customValidateInsufficientBudget()],
+        validators: [
+          Validators.required,
+          InitiaBudgetValidator,
+          customValidateRequired(),
+          customValidateInsufficientBudget()
+        ],
         asyncValidators: [checkIfEnoughBalance(this.walletFacade)]
       }
     );
@@ -213,8 +216,9 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   }
 
   createTokenModal() {
-    this.walletFacade.getCryptoPriceList().subscribe(res =>{ console.log(res)
-    });
+    // this.walletFacade.getCryptoPriceList().subscribe((res) => {
+    //   console.log(res);
+    // });
     return this.modalService.open(this.tokenModal);
   }
   ngOnInit(): void {
@@ -222,6 +226,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     this.parentFunction().subscribe();
     this.getUserCrypto();
     this.saveForm();
+    console.log(this.form.get('currency')?.value);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -279,7 +284,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       this.cdref.detectChanges();
       this.validFormBudgetRemuneration();
       this.validBudgetMissions();
-      
     }
   }
 
@@ -378,26 +382,29 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       }
     }
   }
-  
+
   listenForMissionValidation(value: boolean) {
     this.sendErrorToMission = value;
     //this.validFormMissionFromRemuToEdit.emit(value);
   }
 
   saveForm() {
-    this.form.valueChanges.pipe(
+    this.form.valueChanges
+      .pipe(
         tap(() => {
           // this.notValidBudgetRemun = false;
           if (!this.service.isSavingStarted) {
             this.service.setSaveFormStatus('saving');
-            this.service.isSavingStarted = true;            
+            this.service.isSavingStarted = true;
           }
         }),
         debounceTime(500),
         tap((values: any) => {
           var arrayControl = this.form.get('ratios') as UntypedFormArray;
           const lengthRatios = arrayControl.length;
-          var arrayControlBounties = this.form.get('bounties') as UntypedFormArray;
+          var arrayControlBounties = this.form.get(
+            'bounties'
+          ) as UntypedFormArray;
           const lengthBounties = arrayControlBounties.length;
           if (
             this.form.get('remuneration')?.value ===
@@ -436,49 +443,38 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         takeUntil(this.isDestroyed$)
       )
       .subscribe(() => {
-        this.validFormBudgetRemuneration()
+        this.validFormBudgetRemuneration();
         this.validBudgetMissions();
-       
-        
       });
   }
 
-
   validBudgetMissions() {
     let hasError = false;
-    if(this.form.get('ratios')?.value.length) {
-      if(this.form.errors?.InsufficientBudget) {
+    if (this.form.get('ratios')?.value.length) {
+      if (this.form.errors?.InsufficientBudget) {
         this.validFormMissionFromRemuToEdit.emit(false);
       } else {
-        for(let ratio of this.ratios.controls) {
-          if(ratio.errors?.invalidRatioSomme) {
+        for (let ratio of this.ratios.controls) {
+          if (ratio.errors?.invalidRatioSomme) {
             hasError = true;
             break;
           }
         }
-        if(hasError) {
+        if (hasError) {
           this.validFormMissionFromRemuToEdit.emit(false);
         } else this.validFormMissionFromRemuToEdit.emit(true);
       }
-    } else if(this.form.get('bounties')?.value.length) {
-      for(let [index,bountie] of this.bounties.controls.entries()) {
+    } else if (this.form.get('bounties')?.value.length) {
+      for (let [index, bountie] of this.bounties.controls.entries()) {
         let found = this.getCategories(index).controls.find((category) => {
           return category.errors !== null;
-        })
-        
-        if(found) this.validFormMissionFromRemuToEdit.emit(false);
+        });
+
+        if (found) this.validFormMissionFromRemuToEdit.emit(false);
         else this.validFormMissionFromRemuToEdit.emit(true);
       }
     } else this.validFormMissionFromRemuToEdit.emit(false);
   }
-
- 
-
-
-
-
-
-
 
   selectRemunerateType(type: ERemunerationType) {
     if (
@@ -523,9 +519,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       // this.bounties.clear();
     }
   }
- 
-
-  
 
   get f() {
     return this.form.controls;
@@ -689,15 +682,14 @@ export class RemunerationComponent implements OnInit, OnDestroy {
           Eth: this.eth,
           matic: this.matic,
           btt: this.btt,
-          trx :this.trx
+          trx: this.trx
         };
       }),
-      switchMap(({ bnb, Eth, matic, btt,trx }) => {
+      switchMap(({ bnb, Eth, matic, btt, trx }) => {
         return forkJoin([
           this.walletFacade.getGas('erc20').pipe(
             take(1),
             tap((gaz: any) => {
-              
               let price;
               price = gaz.data.gasPrice;
               this.gazsend = (
@@ -710,7 +702,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
           this.walletFacade.getGas('bep20').pipe(
             take(1),
             tap((gaz: any) => {
-             
               let price = gaz.data.gasPrice;
               this.bEPGaz = (
                 ((price * GazConsumedByCampaign) / 1000000000) *
@@ -731,7 +722,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
           this.walletFacade.getGas('polygon').pipe(
             take(1),
             tap((gaz: any) => {
-           
               let price;
               price = gaz.data.gasPrice;
 
@@ -745,7 +735,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
           this.walletFacade.getGas('bttc').pipe(
             take(1),
             tap((gaz: any) => {
-           
               let price;
               price = gaz.data.gasPrice;
 
@@ -758,7 +747,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
           this.walletFacade.getGas('tron').pipe(
             take(1),
             tap((gaz: any) => {
-             
               let price;
               price = gaz.data.gasPrice;
 
@@ -773,14 +761,15 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     );
   }
 
- 
-
   toggleReachLimitFormControl(e: any) {
     this.isReachLimitActivated = e;
 
     if (this.isReachLimitActivated) {
       this.ratios.controls.forEach((control: AbstractControl) => {
-        (control as UntypedFormGroup).setControl('reachLimit', new UntypedFormControl(''));
+        (control as UntypedFormGroup).setControl(
+          'reachLimit',
+          new UntypedFormControl('')
+        );
         (control as UntypedFormGroup).get('reachLimit')?.setValidators([
           Validators.required
           //  Validators.min(0),
@@ -835,8 +824,8 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   }
 
   checkTwitterOracle(form: AbstractControl) {
-    if(form.value.oracle === 'twitter') return true;
-    else return false
+    if (form.value.oracle === 'twitter') return true;
+    else return false;
   }
 
   allowOnlyNumbers(form: AbstractControl, control: string) {
@@ -980,31 +969,20 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     /*if (event.target.value.length === 0 && event.key === '0') {
       event.preventDefault();
     }*/
-    
   }
-
-
-
-  
-
-
-
-  
-
-  
- 
-  
 
   ngAfterViewChecked(): void {
     let elementinputusd = this.inputAmountUsd?.nativeElement;
     if (elementinputusd)
-    this.renderer.setStyle(elementinputusd,'width', elementinputusd.value.length + 1.2 + 'ch');
+      this.renderer.setStyle(
+        elementinputusd,
+        'width',
+        elementinputusd.value.length + 1.2 + 'ch'
+      );
     //elementinputusd.style.width = elementinputusd.value.length + 1.2 + 'ch';
   }
-  
 
-
-  // SWITCH TO ANOTHER CRYPTO 
+  // SWITCH TO ANOTHER CRYPTO
 
   linstingCrypto(event: any) {
     this.insufficientBalance = false;
@@ -1024,8 +1002,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     this.token = event.AddedToken;
   }
 
-
-
   // GET MAX AMOUNT FOR CAMPAIGN BUDGET
 
   onClickAmount(): void {
@@ -1033,108 +1009,135 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     this.fieldRequired = false;
     let currency = '';
     this.selectedCryptoSend = currency;
-    if(!!this.selectedCryptoDetails && this.selectedCryptoDetails.quantity > 0) {
-      if(
+    if (
+      !!this.selectedCryptoDetails &&
+      this.selectedCryptoDetails.quantity > 0
+    ) {
+      if (
         this.selectedCryptoDetails.symbol === 'ETH' ||
         this.selectedCryptoDetails.symbol === 'BNB' ||
         this.selectedCryptoDetails.symbol === 'MATIC' ||
         this.selectedCryptoDetails.symbol === 'BTT' ||
         this.selectedCryptoDetails.symbol === 'TRX'
       ) {
-        const fees = (this.selectedCryptoDetails.symbol === "BNB" ? this.bEPGaz : (
-          this.selectedCryptoDetails.symbol === "ETH" ? this.eRC20Gaz : (
-            this.selectedCryptoDetails.symbol === "MATIC" ? this.polygonGaz : (
-              this.selectedCryptoDetails.symbol === "TRON" ? this.trxGaz : this.bttGaz
-            )
-          )
-        ))
-        const balance = this.selectedCryptoDetails?.total_balance.toFixed(2) - fees;
-        const quantity = this.selectedCryptoDetails?.quantity - (fees / this.selectedCryptoDetails?.price) 
-        this.form.get('initialBudget')?.setValue(quantity)
-        this.form.get('initialBudgetInUSD')?.setValue(balance)
+        const fees =
+          this.selectedCryptoDetails.symbol === 'BNB'
+            ? this.bEPGaz
+            : this.selectedCryptoDetails.symbol === 'ETH'
+            ? this.eRC20Gaz
+            : this.selectedCryptoDetails.symbol === 'MATIC'
+            ? this.polygonGaz
+            : this.selectedCryptoDetails.symbol === 'TRON'
+            ? this.trxGaz
+            : this.bttGaz;
+        const balance =
+          this.selectedCryptoDetails?.total_balance.toFixed(2) - fees;
+        const quantity =
+          this.selectedCryptoDetails?.quantity -
+          fees / this.selectedCryptoDetails?.price;
+        this.form.get('initialBudget')?.setValue(quantity);
+        this.form.get('initialBudgetInUSD')?.setValue(balance);
         this.amount = this.showNumbersRule.transform(quantity.toString(), true);
-        this.amountUsd = balance.toFixed(2)
+        this.amountUsd = balance.toFixed(2);
         this.validFormBudgetRemun.emit(true);
-
       } else {
-        this.form.get('initialBudget')?.setValue(this.selectedCryptoDetails?.quantity)
-        this.form.get('initialBudgetInUSD')?.setValue(this.selectedCryptoDetails?.total_balance.toFixed(2))
-        this.amount = this.selectedCryptoDetails?.quantity
-        this.amountUsd = this.selectedCryptoDetails?.total_balance.toFixed(2)
+        this.form
+          .get('initialBudget')
+          ?.setValue(this.selectedCryptoDetails?.quantity);
+        this.form
+          .get('initialBudgetInUSD')
+          ?.setValue(this.selectedCryptoDetails?.total_balance.toFixed(2));
+        this.amount = this.selectedCryptoDetails?.quantity;
+        this.amountUsd = this.selectedCryptoDetails?.total_balance.toFixed(2);
         this.validFormBudgetRemun.emit(true);
       }
     }
   }
 
-
-  // HANDLE USER INPUT IN REMUNERATION BUDGET 
+  // HANDLE USER INPUT IN REMUNERATION BUDGET
 
   convertcurrency(event: any): void {
+    // console.log({ selected: this.selectedCryptoDetails });
     this.fieldRequired = false;
     var getamount: any = this.form.get('initialBudget')?.value;
     let getusd: any = this.form.get('initialBudgetInUSD')?.value;
     let sendamount = getamount?.toString();
     let sendusd = getusd?.toString();
-    if(event === 'usd') {
-        this.form.get('initialBudgetInUSD')?.setValue(sendusd);
-        this.form.get('initialBudget')?.setValue(sendusd / this.selectedCryptoDetails.price)
-        this.amount = this.showNumbersRule.transform((sendusd / this.selectedCryptoDetails.price).toString(), true)
+    if (event === 'usd') {
+      this.form.get('initialBudgetInUSD')?.setValue(sendusd);
+      this.form
+        .get('initialBudget')
+        ?.setValue(sendusd / this.selectedCryptoDetails.price);
+      this.amount = this.showNumbersRule.transform(
+        (sendusd / this.selectedCryptoDetails.price).toString(),
+        true
+      );
     } else {
       this.form.get('initialBudget')?.setValue(sendamount);
-      this.form.get('initialBudgetInUSD')?.setValue(sendusd * this.selectedCryptoDetails.price)
-      this.amountUsd = this.showNumbersRule.transform((this.selectedCryptoDetails.price * sendamount).toString());
+      this.form
+        .get('initialBudgetInUSD')
+        ?.setValue(sendusd * this.selectedCryptoDetails.price);
+      this.amountUsd = this.showNumbersRule.transform(
+        (this.selectedCryptoDetails.price * sendamount).toString()
+      );
       this.editwidthInput();
-    } 
-    this.validFormBudgetRemuneration()
+    }
+    this.validFormBudgetRemuneration();
   }
   editwidthInput() {
     let elementinputusd = this.inputAmountUsd?.nativeElement;
-    if (elementinputusd)this.renderer.setStyle(elementinputusd,'width', elementinputusd.value.length + 1.2 + 'ch');
+    if (elementinputusd)
+      this.renderer.setStyle(
+        elementinputusd,
+        'width',
+        elementinputusd.value.length + 1.2 + 'ch'
+      );
   }
-
 
   // CONDITION FOR USER INPUTS TO ALLOW ONLY NUMBERS AND ONE POINTS ( DECIMAL NUMBER )
 
-
-  keyPressNumbersWithDecimal(event :any, type: string) {
+  keyPressNumbersWithDecimal(event: any, type: string) {
     const inputValue = (event.target as HTMLInputElement).value;
     if (event.key === '.' && inputValue.includes('.')) {
       event.preventDefault();
     }
-    if(type === 'crypto') {
-      if((this.selectedCryptoDetails?.price * Number(inputValue)) > this.maxNumber) {
+    if (type === 'crypto') {
+      if (
+        this.selectedCryptoDetails?.price * Number(inputValue) >
+        this.maxNumber
+      ) {
         event.preventDefault();
       }
     }
-    if(type === 'usd' && Number(inputValue) > this.maxNumber) {
+    if (type === 'usd' && Number(inputValue) > this.maxNumber) {
       event.preventDefault();
     }
-    if ((event.which >= 48 && event.which <=57) || event.which === 46) {
+    if ((event.which >= 48 && event.which <= 57) || event.which === 46) {
       return true;
     } else {
       event.preventDefault();
       return false;
     }
-    
   }
 
+  // CHECK FOR VALIDATION REMUNERATION BUDGET
 
-   // CHECK FOR VALIDATION REMUNERATION BUDGET
-
-   validFormBudgetRemuneration() {
+  validFormBudgetRemuneration() {
     const isValid = this.amount > 0 && this.amount !== '';
-        if(isValid) {
-          this.fieldRequired = false;
-          let x: number = +(this.amountUsd.includes(',') ? this.amountUsd.replaceAll(',','') : this.amountUsd);
-          if(x <= this.selectedCryptoDetails.total_balance.toFixed(2)) {
-            this.insufficientBalance = false;
-          } else {
-            this.insufficientBalance = true;
-          }
-          this.validFormBudgetRemun.emit(!this.insufficientBalance ? true: false)
-        } else {
-          this.fieldRequired = true;
-          this.validFormBudgetRemun.emit(false)
-        }
-  } 
+    if (isValid) {
+      this.fieldRequired = false;
+      let x: number = +(this.amountUsd.includes(',')
+        ? this.amountUsd.replaceAll(',', '')
+        : this.amountUsd);
+      if (x <= this.selectedCryptoDetails.total_balance.toFixed(2)) {
+        this.insufficientBalance = false;
+      } else {
+        this.insufficientBalance = true;
+      }
+      this.validFormBudgetRemun.emit(!this.insufficientBalance ? true : false);
+    } else {
+      this.fieldRequired = true;
+      this.validFormBudgetRemun.emit(false);
+    }
+  }
 }
