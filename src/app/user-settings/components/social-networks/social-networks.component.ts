@@ -451,12 +451,34 @@ export class SocialNetworksComponent implements OnInit {
   safeImageUrl(base64Image: string): SafeResourceUrl {
     return this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${base64Image}`);
   }
+  getUpdatedItem(item:any, res:any) {
+    const updatedItem = {
+      ...item,
+      threads_id: res.data.id,
+      threads_picture: res.data.picture
+    };
+    return updatedItem;
+  }
   addThreadsAccount() {
     this.isLoading = true;
     this.socialAccountFacadeService.addThreads().subscribe((res:any) => {
-      if(res.message === true) {
+      if(res.message === 'threads_account_added') {
         this.isLoading = false;
         this.checkThreadsExist = false;
+        const index = this.channelFacebook.findIndex((obj:any) => obj.instagram_username === res.data.username);
+        if(index !== -1) {
+          let newObj = {
+            ...this.channelFacebook[index],
+            threads_id: res.data.id,
+            threads_picture: res.data.picture
+          }
+          this.channelFacebook = [
+            ...this.channelFacebook.slice(0, index), // Copy the elements before the target object
+            newObj, // Replace the target object with the new object
+            ...this.channelFacebook.slice(index + 1), // Copy the elements after the target object
+          ];
+          this.channelFacebook[index] = newObj;
+        }
       } else this.isLoading = false;
     }, error => this.isLoading = false)
   }
