@@ -28,11 +28,12 @@
   <hr />
   <div>
     <p>Token List</p>
-    <div class="d-flex">
-      <img src="" alt="Logo" />
+
+    <div *ngFor="let crypto of cryptoList" class="d-flex">
+      <img style="width: 20%" src="{{ crypto.logo }}" alt="Logo" />
       <!-- <ul *ngFor='let item of tokens'></ul> -->
-      <p>Title Token</p>
-      <p>Balance</p>
+      <p>{{ crypto.name }}</p>
+      <p>0</p>
     </div>
   </div>
 

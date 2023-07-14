@@ -24,13 +24,13 @@ export class AdPoolTokenSelectComponent implements OnInit {
 
   ngOnInit(): void {
     this.walletFacade.getCryptoPriceList().subscribe((res: any) => {
-      console.log(res.data);
-      // res.data.map((crypto: any) => {
-      //   if (crypto.network === this.selectedNetworkValue)
-      //     this.cryptoList.push(crypto);
-      // });
-
-      console.log(this.cryptoList, 'cryptoList');
+      const result = Object.keys(res.data);
+      result.forEach((key) => {
+        console.log(res.data[key].network);
+        res.data[key].network === this.selectedNetworkValue &&
+          this.cryptoList.push(res.data[key]);
+      });
+      console.log(this.cryptoList);
     });
 
     // this.walletFacade
