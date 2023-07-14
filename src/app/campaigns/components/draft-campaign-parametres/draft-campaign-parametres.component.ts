@@ -56,8 +56,8 @@ export class DraftCampaignParametresComponent implements OnInit {
     singleSelection: false,
     idField: 'item_id',
     textField: 'item_text',
-    selectAllText: 'Select All',
-    unSelectAllText: 'UnSelect All',
+    selectAllText: this.translate.instant('selectAll'),
+    unSelectAllText: this.translate.instant('unSelectAll'),
     itemsShowLimit: 20,
     allowSearchFilter: true
   };
@@ -421,7 +421,7 @@ this.form.controls.startDate.valueChanges.pipe(take(1)).subscribe(() => {
     const selectedItemElements = Array.from(this.document.getElementsByClassName('selected-item') as HTMLCollectionOf<HTMLElement>);
     const ngStarInsertedElements = Array.from(this.document.getElementsByClassName('ng-star-inserted') as HTMLCollectionOf<HTMLElement>);
     if (values?.length === this.dropdownList.length) {
-        selectedItemElements[0].innerHTML = 'All countries';
+        selectedItemElements[0].innerHTML = this.translate.instant('allCountries');
         selectedItemElements.slice(1).forEach((element, i) => {
             element.childNodes[0].nodeValue = values[i].item_text;
             element.style.display = (element.innerText === '+230') ? 'none' : 'none';

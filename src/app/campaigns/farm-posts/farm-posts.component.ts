@@ -159,23 +159,7 @@ export class FarmPostsComponent implements OnInit {
     this.isStyleGrid = event;
   }
 
-  // disabledFunction(array: any) {
-  //   console.log("ok")
-
-  //   array.forEach((element: any) => {
-  //     // if(element.totalToEarn && element.payedAmount !== '0'){
-  //     //   element.totalToEarn = new Big(element.totalToEarn).minus(new Big(element.payedAmount)).gt(new Big('0')) ? new Big(element.totalToEarn).minus(new Big(element.payedAmount)) : "0";
-  //     // }
-  //     if (element.campaign?.ratio?.length && element.status == true) {
-  //       this.campaignsService
-  //         .verifyGains(element.hash)
-  //         .subscribe((res: any) => {
-
-  //           element.disable = res.disabled;
-  //         });
-  //     }
-  //   });
-  // }
+  
 
   sortingPromsArray(array: any) {
     let PromsArray = [

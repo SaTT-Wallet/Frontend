@@ -27,11 +27,11 @@ export class TimePipe implements PipeTransform {
 
     for (const unit of timeUnits) {
       const timeDiff = Math.floor(diffInMs / unit.milliseconds);
-
+    
       if (timeDiff > 0) {
         return `${timeDiff} ${this.translate.instant(unit.name)}${
           timeDiff > 1 ? 's' : ''
-        } left`;
+        } ${this.translate.instant('time.left')}`;
       }
     }
 
