@@ -633,7 +633,7 @@ getCookie(key: string){
     this.showSpinner = true;
     this.loggedrs = false;
     this.scale = true;
-
+  
     if (this.authForm.valid && this.cookie.get('satt_cookies') === 'pass') {
       this.authService
         .login(this.f.email?.value, this.f.password?.value)
@@ -641,8 +641,8 @@ getCookie(key: string){
           takeUntil(this.onDestroy$),
           catchError((error: HttpErrorResponse) => {
             if (
-              error.error.message ===
-              'ValidationError: "password" failed custom validation because password not match'
+              error.error.message.startsWith('ValidationError') 
+              //=== 'ValidationError: "password" failed custom validation because password not match'
             ) {
               this.errorMessage = 'incorrectPassword';
             } else if (error.error.error.message === 'user not found') {
@@ -700,15 +700,37 @@ getCookie(key: string){
             this.tokenStorageService.saveLastLogin(response.lastLogin);
             this.tokenStorageService.saveIdSn(response.idSn.toString());
             this.idUser = Number(response.idUser);
-
+  
             if (response.visitedFacebook) {
               this.tokenStorageService.setSecureWallet(
                 'visited-facebook',
                 'true'
               );
             }
-            // Check for other visited platforms
-
+            if (response.visitedTwitter) {
+              this.tokenStorageService.setSecureWallet(
+                'visited-twitter',
+                'true'
+              );
+            }
+            if (response.visitedLinkedIn) {
+              this.tokenStorageService.setSecureWallet(
+                'visited-linkedin',
+                'true'
+              );
+            }
+            if (response.visitedYoutube) {
+              this.tokenStorageService.setSecureWallet(
+                'visited-google',
+                'true'
+              );
+            }
+            if (response.visitedTiktok) {
+              this.tokenStorageService.setSecureWallet(
+                'visited-tiktok',
+                'true'
+              );
+            }  
             if (response.is2FA === true) {
               this.tokenStorageService.setItem('valid2FA', 'false');
               this.confirmCodeShow = true;
@@ -861,6 +883,7 @@ getCookie(key: string){
       this.showSpinner = false;
     }
   }
+  
   socialAcountCheck(data: any) {
     this.tokenStorageService.setSecureWallet('visited-completeProfile', 'true');
     if (data?.facebook?.length === 0) {
