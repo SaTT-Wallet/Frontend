@@ -9,6 +9,7 @@ import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-faca
 import { of, Subject } from 'rxjs';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 import { isPlatformBrowser } from '@angular/common';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 export interface IGetSocialNetworksResponse {
   facebook: { [key: string]: string | boolean }[];
@@ -28,6 +29,7 @@ export class SocialNetworksComponent implements OnInit {
   networkLogoFacebook = './assets/Images/fb_image.svg';
   networkLogoTwitter = './assets/Images/twitter.svg';
   networkLogoInstagram = './assets/Images/img_satt/Instagram.png';
+  networkLogoThreads = './assets/Images/img_satt/Threads.png';
   networkLogoLinkedin = './assets/Images/linkedin-icon.svg';
   networkLogoTiktok = './assets/Images/tiktok.svg';
   accounts: any;
@@ -60,9 +62,11 @@ export class SocialNetworksComponent implements OnInit {
   deactivateTiktok: boolean = false;
   networkName: string = '';
   percentSocial: any;
+  isLoading: any = false;
   private isDestroyed = new Subject();
   userId = this.tokenStorageService.getIdUser();
   showSpinner: boolean = true;
+  checkThreadsExist: boolean = false;
   private socialAccount$ = this.socialAccountFacadeService.socialAccount$;
   constructor(
     private profile: ProfileService,
@@ -71,10 +75,15 @@ export class SocialNetworksComponent implements OnInit {
     private router: Router,
     private socialAccountFacadeService: SocialAccountFacadeService,
     private tokenStorageService: TokenStorageService,
+    private sanitizer: DomSanitizer,
     @Inject(PLATFORM_ID) private platformId: string
   ) { }
   ngOnInit(): void {
     this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
+    this.socialAccountFacadeService.checkThreads().subscribe((res:any) => {
+      if(res.message === true) this.checkThreadsExist = true
+      else this.checkThreadsExist = false;
+    });
     this.getSocialNetwork();
 
     // this.profilService.getTiktokProfilPrivcay().subscribe((res:any)=>
@@ -291,6 +300,8 @@ export class SocialNetworksComponent implements OnInit {
         window.open('https://www.linkedin.com/company/' + userName, '_blank');
       } else if (network === 'tiktok') {
         window.open('https://www.tiktok.com/' + userName.replace(/\s/g, ''));
+      } else if(network === 'threads') {
+        window.open('https://threads.net/@' + userName, '_blank')
       }
     }
   }
@@ -366,6 +377,14 @@ export class SocialNetworksComponent implements OnInit {
             this.closeModal(id);
           }
         });
+    } else if(network === 'threads') {
+      this.socialAccountFacadeService.deleteThreadAccount().subscribe((response:any) => {
+        if (response.message === 'deleted successfully') {
+          this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
+          //this.getSocialNetwork();
+          this.closeModal(id);
+        }
+      })
     }
   }
   deleteList(modalName: any, network: string) {
@@ -429,7 +448,18 @@ export class SocialNetworksComponent implements OnInit {
   onImgError(event: any) {
     event.target.src = 'assets/Images/moonboy/Default_avatar_MoonBoy.png';
   }
-  
+  safeImageUrl(base64Image: string): SafeResourceUrl {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${base64Image}`);
+  }
+  addThreadsAccount() {
+    this.isLoading = true;
+    this.socialAccountFacadeService.addThreads().subscribe((res:any) => {
+      if(res.message === true) {
+        this.isLoading = false;
+        this.checkThreadsExist = false;
+      } else this.isLoading = false;
+    }, error => this.isLoading = false)
+  }
   trackByChannelId(index: any, ch: any) {
     return ch?.id;
   }

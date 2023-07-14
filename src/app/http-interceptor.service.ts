@@ -117,7 +117,12 @@ export class HttpInterceptorService implements HttpInterceptor {
     `${environment.API_URL}/profile/link/verify`,
     `${environment.API_URL}/profile/Tiktok/ProfilPrivacy`,
     `${environment.API_URL}/profile/account`,
+    `${environment.API_URL}/profile/check/threads-account`,
+    `${environment.API_URL}/profile/add/threads-account`,
+    `${environment.API_URL}/profile/remove/threads-account`,
 
+    
+    
     
   ]; 
 
