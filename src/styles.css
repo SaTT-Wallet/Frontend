@@ -17,6 +17,11 @@
   opacity: 0 !important;
 }
 
+.mat-snack-bar-container {
+  background-color: white;
+  color: black;
+}
+
 a {
   text-decoration: none;
 }
