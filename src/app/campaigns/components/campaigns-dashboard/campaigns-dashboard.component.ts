@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { ChangeDetectorRef,Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NavigationEnd, Router } from '@angular/router';
 import { CampaignsDashboardService } from '@campaigns/services/campaigns-dashboard.service';
@@ -9,7 +9,6 @@ import { TokenStorageService } from '../../../core/services/tokenStorage/token-s
 import { sattUrl } from '@config/atn.config';
 import { WalletService } from '@app/core/services/wallet/wallet.service';
 import { data } from 'jquery';
-
 
 @Component({
   selector: 'app-campaigns-dashboard',
@@ -38,20 +37,13 @@ export class CampaignsDashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-
-    if(!this.tokenStorageService.getIsAuth()){
-
-
-      this.isNewUser= 'true';
-    }else
-    if(this.tokenStorageService.getNewUserV2() == null ){
-
-      this.isNewUser= 'true';
+    if (!this.tokenStorageService.getIsAuth()) {
+      this.isNewUser = 'true';
+    } else if (this.tokenStorageService.getNewUserV2() == null) {
+      this.isNewUser = 'true';
+    } else {
+      this.isNewUser = this.tokenStorageService.getNewUserV2();
     }
-    else{
-
-       this.isNewUser = this.tokenStorageService.getNewUserV2()
-    }  
     this.requestedPathUrlChanges$
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((url: string) => {
@@ -63,5 +55,4 @@ export class CampaignsDashboardComponent implements OnInit {
     this.isDestroyed.next('');
     this.isDestroyed.unsubscribe();
   }
-
 }
