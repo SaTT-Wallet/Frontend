@@ -633,14 +633,19 @@ getCookie(key: string){
     this.showSpinner = true;
     this.loggedrs = false;
     this.scale = true;
+  
     if (this.authForm.valid && this.cookie.get('satt_cookies') === 'pass') {
-      // const noredirect = 'true';
       this.authService
         .login(this.f.email?.value, this.f.password?.value)
         .pipe(
           takeUntil(this.onDestroy$),
           catchError((error: HttpErrorResponse) => {
-            if (error.error.error.message === 'user not found') {
+            if (
+              error.error.message.startsWith('ValidationError') 
+              //=== 'ValidationError: "password" failed custom validation because password not match'
+            ) {
+              this.errorMessage = 'incorrectPassword';
+            } else if (error.error.error.message === 'user not found') {
               this.errorMessage = 'invalidEmailAddress';
             } else if (error.error.error.message === 'invalid_credentials') {
               this.errorMessage = 'incorrectPassword';
@@ -683,14 +688,10 @@ getCookie(key: string){
             }
             return of(null);
           }),
-
           filter(({ data, response }: any) => {
             return response !== null && data !== null;
           }),
           catchError(() => {
-            // if (error.error.text === 'Invalid Access Token') {
-            //   this.tokenStorageService.signOut();
-            // }
             return of(null);
           }),
           mergeMap(({ data, response }: { data: any; response: User }) => {
@@ -699,14 +700,13 @@ getCookie(key: string){
             this.tokenStorageService.saveLastLogin(response.lastLogin);
             this.tokenStorageService.saveIdSn(response.idSn.toString());
             this.idUser = Number(response.idUser);
-
+  
             if (response.visitedFacebook) {
               this.tokenStorageService.setSecureWallet(
                 'visited-facebook',
                 'true'
               );
             }
-
             if (response.visitedTwitter) {
               this.tokenStorageService.setSecureWallet(
                 'visited-twitter',
@@ -730,8 +730,7 @@ getCookie(key: string){
                 'visited-tiktok',
                 'true'
               );
-            }
-
+            }  
             if (response.is2FA === true) {
               this.tokenStorageService.setItem('valid2FA', 'false');
               this.confirmCodeShow = true;
@@ -739,8 +738,6 @@ getCookie(key: string){
             } else {
               this.tokenStorageService.saveToken(data.data.access_token);
               if (response.enabled === 0) {
-                // this.errorMessage_validation="account_not_verified";
-                // tokenStorageService.clear();any
                 this.tokenStorageService.setItem('enabled', '0');
                 this.router.navigate(['/social-registration/activation-mail'], {
                   queryParams: {
@@ -748,17 +745,14 @@ getCookie(key: string){
                   }
                 });
               } else {
-                this.tokenStorageService.setNewUserV2(response?.passphrase  !== undefined ? !response?.passphrase : true);
+                this.tokenStorageService.setNewUserV2(response?.passphrase !== undefined ? !response?.passphrase : true);
                 if (response.idSn !== 0 && response.idSn !== null) {
                   if (
                     !response.completed ||
                     (response.completed && !response.enabled)
                   ) {
-                    this.router.navigate([
-                      'social-registration/completeProfile'
-                    ]);
+                    this.router.navigate(['social-registration/completeProfile']);
                     this.showBigSpinner = true;
-                    // this.spinner.hide();
                   } else {
                     return this.walletFacade.getUserWallet().pipe(
                       map((myWallet: IResponseWallet) => ({
@@ -781,17 +775,6 @@ getCookie(key: string){
             }
             return of(null);
           }),
-          // tap((response: any) => {
-          //   if (response.myWallet === null) {
-
-          //     this.tokenStorageService.setSecureWallet(
-          //       'visited-completeProfile',
-          //       'true'
-          //     );
-          //     this.router.navigate(['social-registration/monetize-facebook']);
-          //     this.showBigSpinner = true;
-          //   }
-          // }),
           filter((res: any) => {
             if (!res) {
               return false;
@@ -834,7 +817,6 @@ getCookie(key: string){
                     }
                   }),
                   filter((res: any) => res !== null),
-
                   takeUntil(this.onDestroy$)
                 );
               }
@@ -852,22 +834,12 @@ getCookie(key: string){
         .subscribe(
           (res: any) => {
             if (!res.myWallet) {
-              // this.tokenStorageService.setSecureWallet(
-              //   'visited-completeProfile',
-              //   'true'
-              // );
-              // this.router.navigate(['social-registration/monetize-facebook']);
               this.showBigSpinner = true;
               return;
             }
             if (res.myWallet.data.address) {
               if (res.response.data?.new) {
-                // if (!res.response.data.passphrase) {
-                //   this.router.navigate(['/social-registration/pass-phrase']);
-                // } else {
-                this.tokenStorageService.saveIdWallet(
-                  res.myWallet.data.address
-                );
+                this.tokenStorageService.saveIdWallet(res.myWallet.data.address);
                 this.tokenStorageService.saveTronWallet(
                   res.myWallet.data?.tronAddress
                 );
@@ -878,25 +850,19 @@ getCookie(key: string){
                 this.showBigSpinner = true;
                 this.backgroundImage = '';
                 this.backgroundColor = '';
-                // }
               } else {
-                this.tokenStorageService.saveIdWallet(
-                  res.myWallet.data.address
-                );
+                this.tokenStorageService.saveIdWallet(res.myWallet.data.address);
                 this.tokenStorageService.saveTronWallet(
                   res.myWallet.data?.tronAddress
                 );
                 this.notificationService.triggerFireBaseNotifications.next(
                   true
                 );
-
                 this.router.navigate(['/ad-pools']);
                 this.showBigSpinner = true;
                 this.backgroundImage = '';
                 this.backgroundColor = '';
               }
-
-              // this.spinner.hide();
             }
           },
           (error: HttpErrorResponse) => {
@@ -917,6 +883,7 @@ getCookie(key: string){
       this.showSpinner = false;
     }
   }
+  
   socialAcountCheck(data: any) {
     this.tokenStorageService.setSecureWallet('visited-completeProfile', 'true');
     if (data?.facebook?.length === 0) {
