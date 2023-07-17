@@ -67,8 +67,8 @@ export class SocialAccountFacadeService {
   deleteTiktokChannel(tiktokProfileId: string) {
     return this.profileService.deleteTiktokChannel(tiktokProfileId);
   }
-  deleteThreadAccount() {
-    return this.profileService.deleteThreadAccount();
+  deleteThreadAccount(id: string) {
+    return this.profileService.deleteThreadAccount(id);
   }
   deleteAllTiktokChannels() {
     return this.profileService.deleteAllTiktokChannels();

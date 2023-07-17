@@ -25,9 +25,9 @@ export class ProfileService {
     )
   }
 
-  deleteThreadAccount() {
+  deleteThreadAccount(id: string) {
     return this.http.delete(
-      sattUrl + '/profile/remove/threads-account'
+      sattUrl + '/profile/remove/threads-account/'+id
     )
   }
   getSocialNetworks() {

@@ -10,6 +10,8 @@ import { of, Subject } from 'rxjs';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 import { isPlatformBrowser } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { CustomToastComponent } from '../custom-toast/custom-toast.component';
 
 export interface IGetSocialNetworksResponse {
   facebook: { [key: string]: string | boolean }[];
@@ -63,6 +65,7 @@ export class SocialNetworksComponent implements OnInit {
   networkName: string = '';
   percentSocial: any;
   isLoading: any = false;
+  threadIdToDelete: any = '';
   private isDestroyed = new Subject();
   userId = this.tokenStorageService.getIdUser();
   showSpinner: boolean = true;
@@ -76,6 +79,7 @@ export class SocialNetworksComponent implements OnInit {
     private socialAccountFacadeService: SocialAccountFacadeService,
     private tokenStorageService: TokenStorageService,
     private sanitizer: DomSanitizer,
+    private snackBar: MatSnackBar,
     @Inject(PLATFORM_ID) private platformId: string
   ) { }
   ngOnInit(): void {
@@ -95,13 +99,25 @@ export class SocialNetworksComponent implements OnInit {
     // }
     // )
   }
+
+  showToast(message: string): void {
+    this.snackBar.openFromComponent(CustomToastComponent, {
+      duration: 3000, // Duration in milliseconds
+      horizontalPosition: 'end', // Position of the toast (e.g., 'start', 'center', 'end')
+      verticalPosition: 'top',
+      panelClass: ['custom-snackbar'],
+      data: {icon:'./assets/Images/error-icon.png', message: message}
+    });
+  }
   openModalDeleteOne(
     content: any,
     title: string,
     id: string,
     network: string,
-    chname: string
+    chname: string,
+    threadsId? :any
   ) {
+    if(!!threadsId)  this.threadIdToDelete = threadsId;
     this.modalService.open(content);
     this.channelTitle = title;
     this.channelId = id;
@@ -378,9 +394,10 @@ export class SocialNetworksComponent implements OnInit {
           }
         });
     } else if(network === 'threads') {
-      this.socialAccountFacadeService.deleteThreadAccount().subscribe((response:any) => {
+      this.socialAccountFacadeService.deleteThreadAccount(this.threadIdToDelete).subscribe((response:any) => {
         if (response.message === 'deleted successfully') {
           this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
+          this.checkThreadsExist = true;
           //this.getSocialNetwork();
           this.closeModal(id);
         }
@@ -473,14 +490,23 @@ export class SocialNetworksComponent implements OnInit {
             threads_picture: res.data.picture
           }
           this.channelFacebook = [
-            ...this.channelFacebook.slice(0, index), // Copy the elements before the target object
-            newObj, // Replace the target object with the new object
-            ...this.channelFacebook.slice(index + 1), // Copy the elements after the target object
+            ...this.channelFacebook.slice(0, index), 
+            newObj,
+            ...this.channelFacebook.slice(index + 1), 
           ];
           this.channelFacebook[index] = newObj;
         }
-      } else this.isLoading = false;
-    }, error => this.isLoading = false)
+      } else if(res.message === 'threads_not_found'){
+        this.isLoading = false;
+        this.showToast('Sorry we cant find threads account with this name !');
+      } else {
+        this.isLoading = false;
+        this.showToast('Something went wrong, please try again!');
+      }
+    }, error => {
+      this.isLoading = false;
+      this.showToast('Something went wrong, please try again!');
+    })
   }
   trackByChannelId(index: any, ch: any) {
     return ch?.id;
