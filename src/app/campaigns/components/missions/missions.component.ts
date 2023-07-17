@@ -31,6 +31,7 @@ export class MissionsComponent implements OnInit {
   isFacebookSelected = false;
   isYoutubeSelected = false;
   isInstagramSelected = false;
+  isThreadsSelected = false;
   isTwitterSelected = false;
   isLinkedinSelected = false;
   isTikTokSelected = false;
@@ -60,6 +61,10 @@ export class MissionsComponent implements OnInit {
       }),
       new UntypedFormGroup({
         oracle: new UntypedFormControl('instagram'),
+        sub_missions: new UntypedFormArray([])
+      }),
+      new UntypedFormGroup({
+        oracle: new UntypedFormControl('threads'),
         sub_missions: new UntypedFormArray([])
       }),
       new UntypedFormGroup({
@@ -112,6 +117,14 @@ export class MissionsComponent implements OnInit {
         this.translate.instant('missions.instagram.postPhoto', { product: 'xxx' }),
         this.translate.instant('missions.instagram.addTags', { tag01: '#tag01', tag02: '#tag02', tag03: '#tag03' }),
         this.translate.instant('missions.instagram.indicatePaidPartnership')
+      ]
+    },
+    {
+      oracle: 'threads',
+      sub_missions: [
+        this.translate.instant('missions.threads.postPhoto', { product: 'xxx' }),
+        this.translate.instant('missions.threads.addTags', { tag01: '#tag01', tag02: '#tag02', tag03: '#tag03' }),
+        this.translate.instant('missions.threads.indicatePaidPartnership')
       ]
     },
     {
