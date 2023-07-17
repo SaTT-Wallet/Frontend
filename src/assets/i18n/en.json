@@ -1158,6 +1158,7 @@
   "importThisToken":"import this token",
   "privacyPolicy":"PRIVACY POLICY",
   "invalidEmailAddress":"Invalid email address",
+  "RegisterFirst":"Register First",
   "incorrectPassword":"incorrect password",
   "verif_code":"Verification code",  
   "verifEmailSent":"Email sent, Please try again after {{ timeLeft }} seconds",  

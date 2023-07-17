@@ -640,13 +640,15 @@ getCookie(key: string){
         .pipe(
           takeUntil(this.onDestroy$),
           catchError((error: HttpErrorResponse) => {
+
             if (
               error.error.message.startsWith('ValidationError') 
               //=== 'ValidationError: "password" failed custom validation because password not match'
             ) {
               this.errorMessage = 'incorrectPassword';
             } else if (error.error.error.message === 'user not found') {
-              this.errorMessage = 'invalidEmailAddress';
+              this.errorMessage = 'RegisterFirst';
+
             } else if (error.error.error.message === 'invalid_credentials') {
               this.errorMessage = 'incorrectPassword';
             } else if (error.error.error.message === 'account_locked') {
