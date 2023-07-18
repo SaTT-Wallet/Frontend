@@ -28,10 +28,12 @@
     border: 1px solid #d6d6e8;
     font-size: 16px;
     background-color: white;
-    color: #323754;
-    border-radius: 30px;
     font-style: normal;
     font-weight: normal;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px
 }
 
 .type-textarea {
@@ -49,11 +51,10 @@
     border-radius: 30px;
     font-style: normal;
     font-weight: normal;
-    padding: 0;
-    border-radius: 2px;
-    border-bottom-left-radius: 25px;
-    border-top-left-radius: 25px;
-    padding : 5px
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
 }
 
 
@@ -424,11 +425,15 @@ ng-deep .cropper .resize-bar {
     max-width: 68px;
 }
 
-.editor {
+.NgxEditor__Wrappe {
     border: 2px solid #d6d6e8;
-    height: 218px;
-    border-radius: 5px 5px 30px 30px;
-    overflow: hidden;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+   
+    
+
 }
 
 ::ng-deep.NgxEditor__MenuBar {
