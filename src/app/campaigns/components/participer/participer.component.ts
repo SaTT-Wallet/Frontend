@@ -291,7 +291,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
   }
   connect(social: any) {
     if(social === 'threads') {
-      console.log("test")
+      this.router.navigate(['/settings/social-networks']);
     } else {
       var linkFacebook: string =
       sattUrl +
