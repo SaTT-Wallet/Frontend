@@ -1,0 +1,47 @@
+.modal_title {
+  font-family: 'Poppins';
+  font-weight: 700;
+  line-height: 28px;
+  width: fit-content;
+  margin: auto;
+  padding: 3em;
+}
+.modal_subtitle {
+  padding: 2em 0em;
+  text-transform: uppercase;
+}
+.network_selected {
+  background-color: #f6f6ff;
+  text-transform: uppercase;
+}
+.input_search_token {
+  border: 1px;
+  border-radius: 30px;
+  padding: 14px, 16px, 14px, 16px;
+  gap: 10px;
+}
+.list_token {
+  background-color: #f6f6ff;
+  border-radius: 31px;
+  width: 335px;
+  height: 42px;
+  padding: 5px, 14px, 5px, 14px;
+}
+.img_token {
+  padding: 0em 1em;
+  width: 32px;
+  height: 32px;
+}
+.name_token {
+  font-style: 'Poppins';
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20.8px;
+  letter-spacing: 3%;
+}
+.balance_token {
+  float: right;
+  font-size: 16px;
+  line-height: 20.8px;
+  letter-spacing: 3%;
+}

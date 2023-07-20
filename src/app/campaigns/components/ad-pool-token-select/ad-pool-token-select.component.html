@@ -1,9 +1,11 @@
 <div class="w-100">
-  <h3 class="w-fit mx-auto">Select token</h3>
-  <p>
-    YOUR NETWORK: <span>{{ selectedNetworkValue }}</span>
+  <h3 class="modal_title w-fit mx-auto">Select token</h3>
+  <p class="modal_subtitle">
+    YOUR NETWORK:
+    <span class="network_selected">{{ selectedNetworkValue }}</span>
   </p>
   <input
+    class="input_search_token"
     (change)="searchToken()"
     type="text"
     [formControl]="tokenSearch"
@@ -27,13 +29,13 @@
   </div>
   <hr />
   <div>
-    <p>Token List</p>
+    <p class="modal_subtitle">Token List</p>
 
-    <div *ngFor="let crypto of cryptoList" class="d-flex">
-      <img style="width: 20%" src="{{ crypto.logo }}" alt="Logo" />
+    <div *ngFor="let crypto of cryptoList" class="list_token d-flex">
+      <img class="img_token" src="{{ crypto.logo }}" alt="Logo" />
       <!-- <ul *ngFor='let item of tokens'></ul> -->
-      <p>{{ crypto.name }}</p>
-      <p>0</p>
+      <p class="name_token">{{ crypto.name }}</p>
+      <p class="balance_token">0</p>
     </div>
   </div>
 
