@@ -190,10 +190,14 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
       ?.valueChanges.pipe(takeUntil(this.isDestroyedSubject))
       .subscribe((value: any) => {
         this.urlTronsformed = value;
+        
         if (value !== '') {
+          console.log('test')
           this.linkNetorwkMutch = true;
           this.linked = false;
           this.validUrl = true;
+          console.log((this.urlTronsformed?.errors?.pattern || !this.validUrl) &&
+        !this.urlTronsformed?.errors?.required)
         }
         this.spinner = true;
         this.errorResponse = '';
@@ -286,7 +290,10 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
     }
   }
   connect(social: any) {
-    var linkFacebook: string =
+    if(social === 'threads') {
+      console.log("test")
+    } else {
+      var linkFacebook: string =
       sattUrl +
       '/profile/addChannel/facebook/' +
       this.tokenStorageService.getIdUser() +
@@ -334,6 +341,8 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
         window.location.href = linkTiktok;
       }
     }
+    }
+  
   }
   redirect(link: any) {
     this.sendform.reset();
@@ -1299,6 +1308,59 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
       }
     } else if (media.indexOf('vm.tiktok.com') !== -1) {
       this.idtiktok = 0;
+    } else if(media.indexOf('https://www.threads.net/') !== -1) {
+      console.log("send link")
+      console.log({media})
+      const parts = media.split('/');
+      const lastPart = parts[parts.length - 1];
+      console.log({lastPart})
+      let linkApp = {
+        typeSN: 7,
+        idUser: this.tokenStorageService.getUserId(),
+        idPost: lastPart
+      };
+      
+      
+     
+      this.CampaignService.verifyLink(linkApp)
+        .subscribe(
+          res => console.log({res}),
+          (err) => {
+            this.spinner = false;
+
+            if (
+              err.error.error === 'account not linked' &&
+              err.error.code === 406
+            ) {
+              this.connectValue = 'threads';
+              this.errorResponse = 'threads';
+              this.error = '';
+              this.success = '';
+              this.loadingButton = false;
+            } else if (
+              err.error.error === 'invalid link' &&
+              err.error.code === 406
+            ) {
+              this.connectValue = 'threads';
+              this.errorResponse = 'threads';
+              this.error = '';
+              this.success = '';
+              this.loadingButton = false;
+            } else if (
+              err.error.error === 'account deactivated' &&
+              err.error.code === 405
+            ) {
+              this.error = 'account_deactivated_error';
+            } else {
+              this.error = 'Default';
+              this.errorDescription = 'Default paragraphe';
+              this.success = '';
+              this.loadingButton = false;
+            }
+          }
+          )
+      
+      
     } else {
       this.validUrl = false;
     }

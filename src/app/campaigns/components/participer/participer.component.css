@@ -744,13 +744,13 @@ input:-webkit-autofill:active {
 
 
 .threadsLink {
-  background-image: url('/assets/Images/linkedin-checked.svg');
+  background-image: url('/assets/Images/threads-check.svg');
   background-repeat: no-repeat;
   background-position: 99% 43%;
 }
 
 .threadsLinkSpinner {
-  background-image: url('/assets/Images/linkedin-spinner.gif');
+  background-image: url('/assets/Images/threads-check.svg');
   background-repeat: no-repeat;
   background-position: 99% 43%;
 }
