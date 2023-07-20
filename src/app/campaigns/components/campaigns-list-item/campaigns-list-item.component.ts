@@ -207,7 +207,6 @@ getNewApplicant(){
     let campaignPerformance = this.campaign.ratios.length
       ? this.campaign.ratios
       : this.campaign.bounties;
-      console.log(!!campaignPerformance.find((r) => r.oracle === 'threads'))
     return !!campaignPerformance.find((r) => r.oracle === 'threads');
   }
   get localId(): string {

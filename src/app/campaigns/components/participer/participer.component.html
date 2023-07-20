@@ -138,6 +138,17 @@
                   sendform
                     .get('url')
                     ?.value?.indexOf('https://www.linkedin.com/') === 0,
+                
+                threadsLink:
+                  !spinner &&
+                  sendform
+                    .get('url')
+                    ?.value?.indexOf('https://www.threads.net/') === 0,
+                threadsLinkSpinner:
+                  spinner &&
+                  sendform
+                    .get('url')
+                    ?.value?.indexOf('https://www.threads.net/') === 0,
                 tiktokLink:
                   (!spinner &&
                     sendform.get('url')?.value?.indexOf(urlTiktok) === 0) ||

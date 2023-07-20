@@ -741,6 +741,21 @@ input:-webkit-autofill:active {
   background-repeat: no-repeat;
   background-position: 99% 43%;
 }
+
+
+.threadsLink {
+  background-image: url('/assets/Images/linkedin-checked.svg');
+  background-repeat: no-repeat;
+  background-position: 99% 43%;
+}
+
+.threadsLinkSpinner {
+  background-image: url('/assets/Images/linkedin-spinner.gif');
+  background-repeat: no-repeat;
+  background-position: 99% 43%;
+}
+
+
 .tiktokLinkSpinner {
   background-image: url('/assets/Images/tiktok-spin.gif');
   background-repeat: no-repeat;
