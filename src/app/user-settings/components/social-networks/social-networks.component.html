@@ -963,10 +963,10 @@
                         </div>
                         <div>
                           <span class="sa-subscribers-number" *ngIf="ch.threads_id"
-                        >{{ ch.subscribers | transfomNumber }}
+                        >{{ ch.threads_followers | transfomNumber }}
                         <span class="desktop">
                           {{ 'social_networks.follower' | translate
-                          }}<span *ngIf="ch.subscribers !== 1">s</span>
+                          }}<span *ngIf="ch.threads_followers !== 1">s</span>
                         </span>
                       </span>
                         </div>
