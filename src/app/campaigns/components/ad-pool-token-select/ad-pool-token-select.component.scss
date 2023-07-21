@@ -1,38 +1,73 @@
+.modal_container {
+  padding: 1em;
+  height: 693px;
+}
+
 .modal_title {
   font-family: 'Poppins';
   font-weight: 700;
   line-height: 28px;
   width: fit-content;
   margin: auto;
-  padding: 3em;
+  padding: 1em;
 }
 .modal_subtitle {
+  font-weight: 600;
+  font-family: 'Poppins';
   padding: 2em 0em;
   text-transform: uppercase;
 }
+.warning_message {
+  color: #4048ff;
+}
+.label_title {
+  padding: 0;
+  font-weight: 600;
+  font-family: 'Poppins';
+  text-transform: uppercase;
+}
 .network_selected {
+  border-radius: 30px;
+  padding: 0.5em;
+  color: #4048ff;
   background-color: #f6f6ff;
   text-transform: uppercase;
 }
-.input_search_token {
-  border: 1px;
+
+.input_search_token_container {
   border-radius: 30px;
-  padding: 14px, 16px, 14px, 16px;
-  gap: 10px;
+  border-color: #d6d6e8;
+  border-width: 1px;
+  border-style: solid;
+  margin-bottom: 1em;
+  padding: 0.7em;
+}
+.input_search_token {
+  font-weight: 400;
+  border: none;
+  outline: none;
+}
+
+#search_logo {
+  padding: 1em 1em;
 }
 .list_token {
+  margin: auto;
+  margin-bottom: 1em;
+  justify-content: space-around;
   background-color: #f6f6ff;
   border-radius: 31px;
   width: 335px;
   height: 42px;
-  padding: 5px, 14px, 5px, 14px;
+  padding: 0.7em;
 }
 .img_token {
-  padding: 0em 1em;
+  // padding: 0em 1em;
   width: 32px;
   height: 32px;
 }
 .name_token {
+  padding: 0.5em;
   font-style: 'Poppins';
   font-weight: 400;
   font-size: 16px;
@@ -40,8 +75,21 @@
   letter-spacing: 3%;
 }
 .balance_token {
-  float: right;
+  padding: 0.5em;
   font-size: 16px;
   line-height: 20.8px;
   letter-spacing: 3%;
+}
+.form-group {
+  padding: 0;
+  display: flex;
+  flex-direction: column; /* Display label and input in a column */
+}
+
+.form-group label {
+  margin-bottom: 5px; /* Optional: Add some space between label and input */
+}
+
+.form-group input {
+  /* Add any additional styling for the input here */
 }

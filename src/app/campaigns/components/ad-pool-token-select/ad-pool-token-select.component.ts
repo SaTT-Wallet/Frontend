@@ -12,13 +12,44 @@ import { filter, map, takeUntil } from 'rxjs/operators';
 export class AdPoolTokenSelectComponent implements OnInit {
   tokenSearch = new FormControl('');
   cryptoList: any = [];
+  filterList: any = [];
   userCrypto: any = [];
   isDestroyed$ = new Subject<any>();
+  tokenNotFound: boolean = false;
+  showWarning: boolean = true;
+  showSearchNewTokenContainer: boolean = false;
   @Input() selectedNetworkValue!: string;
   tokenList: any = [];
 
-  searchToken() {
-    console.log(this.tokenSearch.value);
+  reset(e: any) {
+    e.target.value = '';
+    this.filterList = this.cryptoList;
+    this.showSearchNewTokenContainer = false;
+    this.showWarning = true;
+    this.tokenNotFound = false;
+  }
+  searchToken(e: any) {
+    this.filterList = [];
+
+    if (e.target.value.length > 0) {
+      this.cryptoList.forEach((crypto: any) => {
+        if (
+          crypto.name
+            .toString()
+            .toLowerCase()
+            .includes(e.target.value.toLowerCase()) // crypto.symbol.includes(e.target.value)
+        )
+          this.filterList.push(crypto);
+        console.log(this.filterList);
+      });
+      if (this.filterList.length === 0) this.tokenNotFound = true;
+      else this.tokenNotFound = false;
+    } else this.filterList = this.cryptoList;
+  }
+
+  searchPersonalizedToken() {
+    this.showSearchNewTokenContainer = !this.showSearchNewTokenContainer;
+    this.showWarning = false;
   }
   constructor(private walletFacade: WalletFacadeService) {}
 
@@ -30,7 +61,7 @@ export class AdPoolTokenSelectComponent implements OnInit {
         res.data[key].network === this.selectedNetworkValue &&
           this.cryptoList.push(res.data[key]);
       });
-      console.log(this.cryptoList);
+      this.filterList = this.cryptoList;
     });
 
     // this.walletFacade
@@ -64,4 +95,99 @@ export class AdPoolTokenSelectComponent implements OnInit {
         console.log(this.userCrypto, 'userCrypto');
       });
   }
+
+  // addToken() {
+  //   this.isSubmited = true;
+  //   this.isLodingBtn = true;
+  //   this.formToken.enable({ onlySelf: true, emitEvent: false });
+  //   this.walletFacade
+  //     .addToken(
+  //       this.token,
+  //       this.formToken.get('symbol')?.value.toUpperCase(),
+  //       this.formToken.get('decimal')?.value,
+  //       this.formToken.get('tokenAdress')?.value,
+  //       this.formToken.get('network')?.value.toUpperCase()
+  //     )
+  //     .subscribe(
+  //       (response: any) => {
+  //         if (response !== undefined) {
+  //           this.formToken.reset('', { onlySelf: true, emitEvent: false });
+  //           this.disabled = false;
+  //           this.isLodingBtn = false;
+  //           this.isSubmited = false;
+  //           this.showAddBtn = false;
+  //           this.formToken.reset('', { onlySelf: true, emitEvent: false });
+  //           this.errorMsg = '';
+  //           this.successMsg = 'addToken.token-added-successfully';
+  //           this.walletStoreService.getCryptoList();
+  //           this.router.navigate(['/home']);
+  //         }
+  //       },
+  //       (error: any) => {
+  //         if (
+  //           (error.error = 'token already added') ||
+  //           (error.error = 'not a token address')
+  //         ) {
+  //           this.errorMsg = 'addToken.token-already-added';
+  //           this.successMsg = '';
+  //           this.disabled = false;
+
+  //           this.showAddBtn = false;
+  //           this.isLodingBtn = false;
+  //           // this.formToken.enable({ onlySelf: true, emitEvent: false });
+  //           //
+  //           // this.formToken.reset({ onlySelf: true, emitEvent: false });
+
+  //           // this.formToken
+  //           //
+  //           //   .get('network')
+  //           //
+  //           //   ?.setValue(this.selectedBlockchain, { onlySelf: true });
+  //         }
+  //       }
+  //     );
+  // }
+  // importToken(token: any) {
+  //   this.listToken[
+  //     this.listToken.map((res) => res.symbol).indexOf(token.symbol)
+  //   ].isLoading = true;
+  //   this.isLodingBtn = true;
+  //   this.walletFacade
+  //     .addToken(
+  //       token.name,
+  //       token.symbol,
+  //       token.decimals,
+  //       token.tokenAddress,
+  //       token.network
+  //     )
+  //     .subscribe(
+  //       (response: any) => {
+  //         this.isLodingBtn = true;
+
+  //         if (response !== undefined) {
+  //           this.search = '';
+  //           this.listToken[
+  //             this.listToken.map((res) => res.symbol).indexOf(token.symbol)
+  //           ].isLoading = false;
+  //           this.walletStoreService.getCryptoList();
+  //         }
+  //       },
+
+  //       (error: any) => {
+  //         this.isLodingBtn = true;
+  //         this.listToken[
+  //           this.listToken.map((res) => res.symbol).indexOf(token.symbol)
+  //         ].isLoading = false;
+  //         if (
+  //           (error.error = 'token already added') ||
+  //           (error.error = 'not a token address')
+  //         ) {
+  //           this.errorAddTokenMsg = 'addToken.token-already-added';
+  //           setTimeout(() => {
+  //             this.errorAddTokenMsg = '';
+  //           }, 3000);
+  //         }
+  //       }
+  //     );
+  // }
 }
