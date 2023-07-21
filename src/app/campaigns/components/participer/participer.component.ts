@@ -1309,19 +1309,14 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
     } else if (media.indexOf('vm.tiktok.com') !== -1) {
       this.idtiktok = 0;
     } else if(media.indexOf('https://www.threads.net/') !== -1) {
-      console.log("send link")
-      console.log({media})
+      if(performance.find((ratio: any) => ratio.oracle === 'threads')) {
       const parts = media.split('/');
       const lastPart = parts[parts.length - 1];
-      console.log({lastPart})
       let linkApp = {
         typeSN: 7,
         idUser: this.tokenStorageService.getUserId(),
         idPost: lastPart
       };
-      
-      
-     
       this.CampaignService.verifyLink(linkApp)
         .subscribe(
           (res:any) => {
@@ -1347,7 +1342,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
             }
           },(err) => {
             this.spinner = false;
-
+            console.log({err})
             if (
               err.error.error === 'account not linked' &&
               err.error.code === 406
@@ -1355,6 +1350,14 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
               this.connectValue = 'threads';
               this.errorResponse = 'threads';
               this.error = '';
+              this.success = '';
+              this.loadingButton = false;
+            } else if(
+              err.error.error === 'link not found' &&
+              err.error.code === 406
+            ) {
+              this.error = 'No link found on Threads with this link.';
+              this.errorDescription = '';
               this.success = '';
               this.loadingButton = false;
             } else if (
@@ -1379,6 +1382,13 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
             }
           }
           )
+      } else {
+        this.spinner = false;
+        this.error = 'oracle_not_exist';
+        this.success = '';
+        this.loadingButton = false;
+      }
+      
       
       
     } else {
