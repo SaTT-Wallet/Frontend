@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, HostListener, Inject, OnDestroy, OnInit, PLATFORM_ID, Renderer2, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, PLATFORM_ID, Renderer2, TemplateRef, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { DraftCampaignStoreService } from '@core/services/draft-campaign-store.service';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
@@ -11,6 +11,7 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { KycFacadeService } from '@app/core/facades/kyc-facade/kyc-facade.service';
+import { SharedService } from '@app/campaigns/campaign-details/components/campaign-detail/shared.service';
 
 @Component({
   selector: 'app-layout',
@@ -28,8 +29,10 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   storageInformation: string | null;
   phishingWarningVisible: boolean = true;
   private isDestroyed$ = new Subject();
+  private campaignTopBarRef!: ElementRef<HTMLElement>;
 
   constructor(
+    private sharedService: SharedService,
     private renderer: Renderer2,
     public router: Router,
     private draftCampaignStore: DraftCampaignStoreService,
@@ -360,7 +363,8 @@ close(): void {
     }
   }
   updateTopBarPosition() {
-    const topBarElement = this.document.getElementById('campaign-top-bar');
+    const topBarElement = this.sharedService.campaignTopBarRef?.nativeElement;
+    //const topBarElement = this.document.getElementById('campaign-top-bar');
     if (topBarElement) {
       if (this.phishingVisibility) {
         this.renderer.setStyle(topBarElement, 'top', '160px');

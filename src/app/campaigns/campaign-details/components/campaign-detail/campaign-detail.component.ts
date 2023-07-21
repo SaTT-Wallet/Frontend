@@ -1,5 +1,6 @@
 import {
   Component,
+  ElementRef,
   HostListener,
   Inject,
   OnInit,
@@ -39,6 +40,7 @@ import { Location } from '@angular/common';
 import {ipfsURL } from '@config/atn.config'
 declare var $: any;
 import { environment } from '@environments/environment';
+import { SharedService } from './shared.service';
 @Component({
   selector: 'app-campaign-detail',
   templateUrl: './campaign-detail.component.html',
@@ -49,6 +51,8 @@ export class CampaignDetailComponent implements OnInit {
 
   @ViewChild('transactionPassword', { static: false })
   public transactionPassword!: TemplateRef<any>;
+  @ViewChild('campaignTopBar', { static: false })
+  private campaignTopBarRef!: ElementRef<HTMLElement>;
   scrolling = false;
   ipfsURL: string = ipfsURL;
   successMessage: string = '';
@@ -152,6 +156,7 @@ export class CampaignDetailComponent implements OnInit {
   isPlatformBrowser = isPlatformBrowser(this.platformId);
 
   constructor(
+    private sharedService: SharedService,
     public router: Router,
     private _formBuilder: UntypedFormBuilder,
     public modalService: NgbModal,
@@ -352,6 +357,9 @@ export class CampaignDetailComponent implements OnInit {
 
   
 
+  ngAfterViewInit(): void {
+    this.sharedService.campaignTopBarRef = this.campaignTopBarRef;
+  }
 
   ngOnDestroy(): void {
     this.isDestroyed.next('');
