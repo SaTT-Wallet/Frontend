@@ -58,8 +58,14 @@ export class AdPoolTokenSelectComponent implements OnInit {
       const result = Object.keys(res.data);
       result.forEach((key) => {
         console.log(res.data[key].network);
-        res.data[key].network === this.selectedNetworkValue &&
-          this.cryptoList.push(res.data[key]);
+        if (res.data[key].network === null) {
+          res.data[key].networkSupported?.platform?.name.includes(
+            this.selectedNetworkValue
+          ) && this.cryptoList.push(res.data[key]);
+        } else {
+          res.data[key].network === this.selectedNetworkValue &&
+            this.cryptoList.push(res.data[key]);
+        }
       });
       this.filterList = this.cryptoList;
     });

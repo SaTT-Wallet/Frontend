@@ -1,6 +1,7 @@
 .modal_container {
   padding: 1em;
-  height: 693px;
+  height: 818px;
+  width: 23vw;
 }
 
 .modal_title {
@@ -14,7 +15,7 @@
 .modal_subtitle {
   font-weight: 600;
   font-family: 'Poppins';
-  padding: 2em 0em;
+  padding: 1em 0em;
   text-transform: uppercase;
 }
 .warning_message {
@@ -51,15 +52,24 @@
 #search_logo {
   padding: 1em 1em;
 }
+
+.list_crypto_container {
+  height: 22.5em;
+  overflow: auto;
+}
+
+.warning_div {
+  width: fit-content;
+  margin: auto;
+}
 .list_token {
   margin: auto;
   margin-bottom: 1em;
-  justify-content: space-around;
   background-color: #f6f6ff;
   border-radius: 31px;
   width: 335px;
   height: 42px;
-  padding: 0.7em;
+  padding: 0.3em 0 0 0;
 }
 .img_token {
   // padding: 0em 1em;

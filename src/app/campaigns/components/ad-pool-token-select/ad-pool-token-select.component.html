@@ -16,32 +16,29 @@
     />
   </div>
   <div class="container">
+    <!-- Your content for each crypto element here -->
     <div class="row">
-      <div class="col-sm d-flex">
-        <img src="" alt="logo" />
-        <p>Satt</p>
-      </div>
-      <div class="col-sm d-flex">
-        <img src="" alt="logo" />
-        <p>Eth</p>
-      </div>
-      <div class="col-sm d-flex">
-        <img src="" alt="logo" />
-        <p>Eth</p>
+      <div class="col-sm-4" *ngFor="let crypto of cryptoList.slice(0, 6)">
+        <div class="d-flex">
+          <img class="img_token" src="{{ crypto.logo }}" alt="logo" />
+          <p class="name_token">{{ crypto.name }}</p>
+        </div>
       </div>
     </div>
   </div>
   <hr />
   <div>
     <ng-container *ngIf="tokenNotFound && showWarning">
-      <p>{{ 'No Search Result Available' | uppercase }}</p>
-      <p
-        class="warning_message"
-        *ngIf="!showSearchNewTokenContainer"
-        (click)="searchPersonalizedToken()"
-      >
-        Add a personnaliszed token >
-      </p>
+      <div class="warning_div">
+        <p>{{ 'No Search Result Available' | uppercase }}</p>
+        <p
+          class="warning_message"
+          *ngIf="!showSearchNewTokenContainer"
+          (click)="searchPersonalizedToken()"
+        >
+          Add a personnaliszed token >
+        </p>
+      </div>
     </ng-container>
     <ng-container *ngIf="showSearchNewTokenContainer">
       <div class="form-group">
@@ -81,13 +78,15 @@
       </div>
     </ng-container>
     <ng-container *ngIf="!tokenNotFound">
-      <p class="modal_subtitle">Token List</p>
-      <div *ngFor="let crypto of filterList" class="list_token d-flex">
-        <img class="img_token" src="{{ crypto.logo }}" alt="Logo" />
-        <!-- <ul *ngFor='let item of tokens'></ul> -->
-        <p class="name_token">{{ crypto.name }}</p>
-        <p class="balance_token">0</p>
-        <!-- justify-content-end -->
+      <div class="list_crypto_container">
+        <p class="modal_subtitle">Token List</p>
+        <div *ngFor="let crypto of filterList" class="list_token d-flex">
+          <img class="img_token" src="{{ crypto.logo }}" alt="Logo" />
+          <!-- <ul *ngFor='let item of tokens'></ul> -->
+          <p class="name_token p-2">{{ crypto.name }}</p>
+          <p class="balance_token ml-auto p-2">0</p>
+          <!-- justify-content-end -->
+        </div>
       </div>
     </ng-container>
   </div>
