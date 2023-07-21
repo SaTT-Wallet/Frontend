@@ -1324,8 +1324,28 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
      
       this.CampaignService.verifyLink(linkApp)
         .subscribe(
-          res => console.log({res}),
-          (err) => {
+          (res:any) => {
+            if (
+              res.message === 'success' &&
+              res.code === 200 &&
+              res.data === 'true'
+            ) {
+              this.linked = true;
+              this.getdatavideo();
+              this.loadingButton = false;
+              this.spinner = false;
+            } else if (res.data === 'false' && res.code === 200 && res.message === 'success') {
+              this.error = 'Not_your_link';
+              this.oracleType = 'threads';
+              this.success = '';
+              this.loadingButton = false;
+              this.router.navigate([], {
+                queryParams: {
+                  errorMessage: 'error'
+                }
+              });
+            }
+          },(err) => {
             this.spinner = false;
 
             if (

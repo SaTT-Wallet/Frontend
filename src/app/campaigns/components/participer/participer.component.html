@@ -665,6 +665,9 @@
         <span *ngIf="oracleType === 'tiktok'">
           {{ 'Add_channel_tiktok' | translate }}
         </span>
+        <span *ngIf="oracleType === 'threads'">
+          {{ 'Add_channel_threads' | translate }}
+        </span>
       </button>
       <button
         *ngIf="error !== 'Not_your_link' && error"

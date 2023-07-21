@@ -750,7 +750,7 @@ input:-webkit-autofill:active {
 }
 
 .threadsLinkSpinner {
-  background-image: url('/assets/Images/threads-check.svg');
+  background-image: url('/assets/Images/spin_thread.gif');
   background-repeat: no-repeat;
   background-position: 99% 43%;
 }
