@@ -202,6 +202,13 @@ getNewApplicant(){
       : this.campaign.bounties;
     return !!campaignPerformance.find((r) => r.oracle === 'tiktok');
   }
+
+  get isThreadsSelected(): boolean {
+    let campaignPerformance = this.campaign.ratios.length
+      ? this.campaign.ratios
+      : this.campaign.bounties;
+    return !!campaignPerformance.find((r) => r.oracle === 'threads');
+  }
   get localId(): string {
     return this.tokenStorageService.getLocale() || 'en';
   }
