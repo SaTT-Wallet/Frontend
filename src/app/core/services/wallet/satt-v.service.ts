@@ -13,9 +13,5 @@ export class SattVService {
   ) {}
   url: string = sattUrl + '/api/v1';
   token = this.tokenStorageService.getToken();
-  public getTotalSattV() {
-    return this.http.get(this.url + '/satt/parrain/sattv', {
-      headers: this.tokenStorageService.getHeader()
-    });
-  }
+  
 }

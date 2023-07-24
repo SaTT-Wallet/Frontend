@@ -47,6 +47,7 @@ import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-faca
 import { Big } from 'big.js';
 import FileSaver from 'file-saver';
 import { IGetSocialNetworksResponse } from '@user-settings/components/social-networks/social-networks.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-campaign-info',
@@ -188,6 +189,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
     private windowRefService: WindowRefService,
     private renderer: Renderer2,
     private cdRef: ChangeDetectorRef,
+    private translate: TranslateService,
     private socialAccountFacadeService: SocialAccountFacadeService
   ) {
     this.arrayMission = [
@@ -420,8 +422,8 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
       singleSelection: false,
       idField: 'item_id',
       textField: 'item_text',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
+      selectAllText: this.translate.instant('selectAll'),
+      unSelectAllText: this.translate.instant('unSelectAll'),
       itemsShowLimit: 20,
       allowSearchFilter: true
     };
@@ -737,54 +739,6 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
     if (this.budgetform.valid) {
       this.modalService.open(this.passwordModal);
     }
-  }
-
-  campaignFund() {
-    this.validationAttempt = true;
-    let cost = this.budgetform.get('cost')?.value;
-    this.funds.ERC20token =
-      this.campaign.currency.addr ||
-      ListTokens[this.campaign.currency.name].contract;
-    this.funds.pass = this.walletPassword;
-
-    this.funds.amount = new Big(cost)
-      .times(this.etherInWei)
-      .toFixed(30)
-      .split('.')[0];
-    this.funds.idCampaign = this.campaign.hash;
-
-    this.CampaignService.increaseBudget(this.funds)
-      .pipe(takeUntil(this.isDestroyed$))
-      .subscribe(
-        (response: any) => {
-          if(response?.name === "JsonWebTokenError") {
-            this.expiredSession();
-          } else {
-            this.validationAttempt = false;
-            this.walletPassword = '';
-            if (response['transactionHash']) {
-              this.campaign.budget = response.remaining;
-              this.modalService.dismissAll();
-            }
-            if (
-              response['error'] ===
-              'Returned error: insufficient funds for gas * price + value'
-            ) {
-              this.errorMessage = 'out_of_gas_error';
-            } else if (response['error'] === 'Wrong password') {
-              this.errorMessage = 'wrong_password';
-            } else {
-              this.errorMessage = 'server_error';
-            }
-          }
-          
-        },
-        () => {
-          this.validationAttempt = false;
-          this.walletPassword = '';
-          this.errorMessage = 'server_error';
-        }
-      );
   }
 
   expiredSession() {

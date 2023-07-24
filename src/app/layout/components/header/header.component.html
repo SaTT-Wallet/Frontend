@@ -203,29 +203,7 @@
     <!--start desktop  collapse navbar-collapse-->
     <div class="desktop-menu" id="navbarSupportedContent">
       <ul class="d-flex ul-left-side">
-        <!-- <li
-          class="li-menu"
-          [ngClass]="{ 'is-visited': menuWallet }"
-          id="introo"
-        >
-          <a
-            *ngIf="isConnected"
-            class="wallet"
-             (click)="checkMenuWallet()"
-            ><span>SaTT</span></a
-          >
-          <a
-            *ngIf="!isConnected"
-            class="wallet"
-             >SaTT</a
-          >
-        </li> -->
-
-        <li
-          class="li-menu"
-          [ngClass]="{ 'is-visited': menuWallet }"
-          id="introo"
-        >
+        <li class="li-menu" [ngClass]="{ 'is-visited': menuWallet }" id="introo">
           <a
             *ngIf="isConnected"
             class="wallet"
@@ -240,11 +218,7 @@
             >{{ 'Sidebar.Wallet' | translate }}</a
           >
         </li>
-        <li
-          class="li-menu"
-          [ngClass]="{ 'is-visited': menuAdpool }"
-          id="intro2"
-        >
+        <li class="li-menu" [ngClass]="{ 'is-visited': menuAdpool }" id="intro2">
           <a
             class="adpools"
             [routerLink]="['/ad-pools']"
@@ -253,12 +227,7 @@
             <span>{{ 'Ad_Pools' | translate }}</span>
           </a>
         </li>
-
-        <li
-          class="li-menu"
-          [ngClass]="{ 'is-visited': menuFarmPost }"
-          id="intro3"
-        >
+        <li class="li-menu" [ngClass]="{ 'is-visited': menuFarmPost }" id="intro3">
           <a
             *ngIf="isConnected"
             class="farmPost"
@@ -286,35 +255,19 @@
             ><span>{{ 'Sidebar.history_transaction' | translate }}</span></a
           >
         </li>
-        <li
-          class="li-menu"
-          [ngClass]="{ 'is-visited': menuBuyToken }"
-          id="intro6"
-        >
+        <li class="li-menu" [ngClass]="{ 'is-visited': menuBuyToken }" id="intro6">
           <a
             class="farmPost"
             [routerLink]="['/wallet/buy-token']"
             (click)="checkMenuBuyToken()"
             >{{ 'menu_buyToken' | translate }}</a
           >
-
-          <!-- <a
-            *ngIf="!isConnected"
-            class="farmPost"
-            [routerLink]="['/wallet/buy-token']"
-            ><span>{{ 'menu_buyToken' | translate }}</span></a
-          > -->
         </li>
-        <li
-          class="li-menu"
-          [ngClass]="{ 'is-visited': menuTokenInfo }"
-          id="intro7"
-        >
-          <a style="cursor: pointer" (click)=" openTokenInfoInNewTab()"
+        <li class="li-menu" [ngClass]="{ 'is-visited': menuTokenInfo }" id="intro7">
+          <a style="cursor: pointer" (click)="openTokenInfoInNewTab()"
             >Token Info</a
           >
         </li>
-
         <li class="li-menu" [ngClass]="{ 'is-visited': menuHelp }" id="intro5">
           <a class="help" [routerLink]="['FAQ']" (click)="checkMenuHelp()"
             ><span>{{ 'Sidebar.Aide' | translate }}</span>
@@ -732,7 +685,6 @@
           </ul> -->
         </li>
       </ul>
-
       <ul
         class="right_nav_side navbar-nav"
         *ngIf="isPlatformBrowser && !isConnected && showConnectButton"

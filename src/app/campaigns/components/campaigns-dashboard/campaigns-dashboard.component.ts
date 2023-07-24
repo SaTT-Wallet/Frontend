@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NavigationEnd, Router } from '@angular/router';
 import { CampaignsDashboardService } from '@campaigns/services/campaigns-dashboard.service';
@@ -10,15 +10,13 @@ import { sattUrl } from '@config/atn.config';
 import { WalletService } from '@app/core/services/wallet/wallet.service';
 import { data } from 'jquery';
 
-
 @Component({
   selector: 'app-campaigns-dashboard',
   templateUrl: './campaigns-dashboard.component.html',
   styleUrls: ['./campaigns-dashboard.component.scss']
 })
 export class CampaignsDashboardComponent implements OnInit {
-  isNewUser!: boolean;
-  isConnected: any;
+  isNewUser: any;
   titlee = '';
   private isDestroyed = new Subject();
   @Input() title = 'page title';
@@ -34,16 +32,18 @@ export class CampaignsDashboardComponent implements OnInit {
     private router: Router,
     private walletService: WalletService,
     private service: CampaignsDashboardService,
-    private tokenStorageService: TokenStorageService
+    private tokenStorageService: TokenStorageService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.isConnected = this.tokenStorageService.getIsAuth()    
-    this.walletService.checkUserIsNew().subscribe(
-      (res: any) => {
-        this.isNewUser= res?.data
-      }
-    )
+    if (!this.tokenStorageService.getIsAuth()) {
+      this.isNewUser = 'true';
+    } else if (this.tokenStorageService.getNewUserV2() == null) {
+      this.isNewUser = 'true';
+    } else {
+      this.isNewUser = this.tokenStorageService.getNewUserV2();
+    }
     this.requestedPathUrlChanges$
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((url: string) => {
@@ -55,5 +55,4 @@ export class CampaignsDashboardComponent implements OnInit {
     this.isDestroyed.next('');
     this.isDestroyed.unsubscribe();
   }
-
 }

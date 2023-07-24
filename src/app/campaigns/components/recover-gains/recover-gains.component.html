@@ -25,7 +25,7 @@
 
   <ng-container *ngIf="promData$ | async as prom">
     <p class="start-date-text text-grey text-uppercase">
-      {{ 'applied on' }}
+      {{ 'appliedOn' | translate }}
       <span>{{ prom.applyDate | date: 'dd/MM/yyyy' }}</span>
       {{ 'at' | translate }}
       <span>{{
@@ -121,19 +121,19 @@
           class="text-grey gas-fee"
           *ngIf="campaign.currency.type === 'erc20'"
         >
-          Gas fees ETH: ${{ eRC20Gaz }}
+          {{'gasFees' | translate }} ETH: ${{ eRC20Gaz }}
         </div>
         <div
           class="text-grey gas-fee"
           *ngIf="campaign.currency.type === 'bep20'"
         >
-          Gas fees BNB: ${{ bEPGaz }}
+        {{'gasFees' | translate }} BNB: ${{ bEPGaz }}
         </div>
         <div
         class="text-grey gas-fee"
         *ngIf="campaign.currency.type === 'matic'"
       >
-        Gas fees MATIC: ${{ polygonGaz }}
+      {{'gasFees' | translate }} MATIC: ${{ polygonGaz }}
       </div>
       </div>
     </div>

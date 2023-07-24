@@ -76,8 +76,8 @@
           <img src="./assets/Images/Shape_twitter.svg" />
           <span> {{ 'social_networks.add_twitter' | translate }}</span>
         </button>
-
-        <button
+        
+          <button
           class="linkedin-btn-cnx"
           (click)="onReditectSocial('linkedin')"
           *ngIf="channelLinkedin?.length === 0"
@@ -85,6 +85,9 @@
           <img src="./assets/Images/linkedin-white.png" width="24px" />
           <span> {{ 'social_networks.add_linkedin' | translate }}</span>
         </button>
+
+       
+        
         <button
           class="tiktok-btn-cnx"
           (click)="onReditectSocial('tiktok')"
@@ -95,6 +98,7 @@
             {{ 'social_networks.add_tiktok' | translate }}
           </span>
         </button>
+        
       </div>
     </div>
 
@@ -180,7 +184,7 @@
                   <thead>
                     <tr>
                       <th class="sa-table-titles text-center col-3">
-                        Accounts
+                        {{'Accounts' | translate }}
                       </th>
 
                       <th class="sa-table-titles text-center col-4">
@@ -265,18 +269,6 @@
                       </td>
                       <td class="text-center">
                         <div class="action">
-                          <!--<button (click)="socialStateGoogle(i)" class="btn-on">
-                          <img
-                            *ngIf="!ch.deactivate"
-                            src="/assets/Images/on.svg"
-                            alt=""
-                          />
-                          <img
-                            *ngIf="ch.deactivate"
-                            src="/assets/Images/off.svg"
-                            alt=""
-                          />
-                        </button>-->
                           <button
                             (click)="
                               openModalDeleteOne(
@@ -377,7 +369,7 @@
               <table class="social-accounts-table w-100">
                 <thead>
                   <tr>
-                    <th class="sa-table-titles text-center col-3">Accounts</th>
+                    <th class="sa-table-titles text-center col-3">{{'Accounts' | translate }}</th>
                     <th class="sa-table-titles text-center col-4">
                       <img
                         src="./assets/Images/followers.png"
@@ -428,7 +420,6 @@
                     </td>
                     <td class="text-center">
                       <div class="action">
-                        <!--<button (click)="socialStateLinkedin(i)" class="btn-on"> <img *ngIf="!ch.deactivate" src="/assets/Images/on.svg" alt="" /> <img *ngIf="ch.deactivate" src="/assets/Images/off.svg" alt="" /> </button>-->
                         <button
                           (click)="
                             openModalDeleteOne(
@@ -533,7 +524,7 @@
               <table class="social-accounts-table w-100">
                 <thead>
                   <tr>
-                    <th class="sa-table-titles text-center col-3">Accounts</th>
+                    <th class="sa-table-titles text-center col-3">{{'Accounts' | translate }}</th>
                     <th class="sa-table-titles text-center col-4">
                       <img
                         src="./assets/Images/followers.png"
@@ -578,18 +569,6 @@
                     </td>
                     <td class="text-center">
                       <div class="action">
-                        <!--<button (click)="socialStateTwitter(i)" class="btn-on">
-                          <img
-                            *ngIf="!ch.deactivate"
-                            src="/assets/Images/on.svg"
-                            alt=""
-                          />
-                          <img
-                            *ngIf="ch.deactivate"
-                            src="/assets/Images/off.svg"
-                            alt=""
-                          />
-                        </button>-->
                         <button
                           (click)="
                             openModalDeleteOne(
@@ -701,7 +680,7 @@
               <table class="social-accounts-table w-100">
                 <thead>
                   <tr>
-                    <th class="sa-table-titles text-center col-3">Accounts</th>
+                    <th class="sa-table-titles text-center col-3">{{'Accounts' | translate }}</th>
                     <th class="sa-table-titles text-center col-4">
                       <img
                         src="./assets/Images/followers.png"
@@ -754,18 +733,6 @@
                     </td>
                     <td class="text-center">
                       <div class="action">
-                        <!--<button (click)="socialStateTwitter(i)" class="btn-on">
-                          <img
-                            *ngIf="!ch.deactivate"
-                            src="/assets/Images/on.svg"
-                            alt=""
-                          />
-                          <img
-                            *ngIf="ch.deactivate"
-                            src="/assets/Images/off.svg"
-                            alt=""
-                          />
-                        </button>-->
                         <button
                           (click)="
                             openModalDeleteOne(
@@ -819,7 +786,7 @@
         >
           <div class="col-1 col-md-1 col-sm-1 bloc-name">
             <span class="network-logo">
-              <img width="35px" src="{{ networkLogoFacebook }}" />
+              <img class="fb-insta" src="{{ networkLogoFacebookInsta }}" />
             </span>
             <span class="acc-name">{{ nameAccount }}</span>
           </div>
@@ -882,7 +849,7 @@
               <table class="social-accounts-table w-100">
                 <thead>
                   <tr>
-                    <th class="sa-table-titles text-center col-3">Accounts</th>
+                    <th class="sa-table-titles text-center col-3">{{'Accounts' | translate }}</th>
                     <th class="sa-table-titles text-center col-4">
                       <img
                         src="./assets/Images/followers.png"
@@ -931,6 +898,35 @@
                         </div>
                       </div>
                       <div
+                        class="d-flex align-items-center cursor-pointer threads-details"
+                        *ngIf="ch.instagram_username && ch.threads_id"
+                        (click)="
+                          goToAccount('threads', ch.instagram_username)
+                        "
+                      >
+                        <div class="social-account-image">
+                          <img
+                            class="ch-image"
+                            [src]="safeImageUrl(ch.threads_picture)"
+                            (error)="onImgError($event)"
+                          />
+                          <img
+                            class="social-account-icon"
+                            [src]="networkLogoThreads"
+                          />
+                        </div>
+                        <div>
+                          <span class="ch-name"
+                            >{{ ch.instagram_username }}
+                            <img
+                              src="./assets/Images/custom_icons/link.svg"
+                              class="link-icon"
+                            />
+                          </span>
+                        </div>
+                      </div>
+
+                      <div
                         class="d-flex align-items-center cursor-pointer"
                         *ngIf="!ch.instagram_username"
                         (click)="goToAccount('facebook', ch.id)"
@@ -955,28 +951,41 @@
                       </div>
                     </td>
                     <td class="text-center">
-                      <span class="sa-subscribers-number"
+                      <ng-container *ngIf="ch.threads_id">
+                        <div [ngStyle]="{'margin-bottom': '15%'}">
+                          <span class="sa-subscribers-number"
+                          >{{ ch.subscribers | transfomNumber }}
+                          <span class="desktop">
+                            {{ 'social_networks.follower' | translate
+                            }}<span *ngIf="ch.subscribers !== 1">s</span>
+                          </span>
+                        </span>
+                        </div>
+                        <div>
+                          <span class="sa-subscribers-number" *ngIf="ch.threads_id"
+                        >{{ ch.threads_followers | transfomNumber }}
+                        <span class="desktop">
+                          {{ 'social_networks.follower' | translate
+                          }}<span *ngIf="ch.threads_followers !== 1">s</span>
+                        </span>
+                      </span>
+                        </div>
+                       
+                      
+                      </ng-container>
+                      <ng-container *ngIf="!ch.threads_id">
+                        <span class="sa-subscribers-number"
                         >{{ ch.subscribers | transfomNumber }}
                         <span class="desktop">
                           {{ 'social_networks.follower' | translate
                           }}<span *ngIf="ch.subscribers !== 1">s</span>
                         </span>
                       </span>
+                      </ng-container>
+                     
                     </td>
                     <td class="text-center">
-                      <div class="action">
-                        <!--<button (click)="socialStateFacebook(i)" class="btn-on">
-                          <img
-                            *ngIf="!ch.deactivate"
-                            src="/assets/Images/on.svg"
-                            alt=""
-                          />
-                          <img
-                            *ngIf="ch.deactivate"
-                            src="/assets/Images/off.svg"
-                            alt=""
-                          />
-                        </button>-->
+                      <div class="action" [ngStyle]=" ch.threads_id && {'margin-bottom': '15%'}">
                         <button
                           (click)="
                             openModalDeleteOne(
@@ -985,6 +994,30 @@
                               ch._id,
                               'facebook',
                               ch.name
+                            )
+                          "
+                        >
+                          <span class="btn-del"></span>
+                        </button>
+
+                        <!-- <ui-switch
+                              class="d-flex align-self-center"
+                              id="toggle"
+                              (change)="toggleSocialAccount($event)"
+                              [checked]="true"
+                            >
+                            </ui-switch> -->
+                      </div>
+                      <div class="action" *ngIf="ch.threads_id" >
+                        <button
+                          (click)="
+                            openModalDeleteOne(
+                              deleteOneModal,
+                              'threads',
+                              ch._id,
+                              'threads',
+                              ch.name,
+                              ch.threads_id
                             )
                           "
                         >
@@ -1010,6 +1043,8 @@
               + {{ 'social_networks.add_fb' | translate }}
             </button>
           </div>
+
+          
         </div>
       </div>
 
@@ -1017,7 +1052,7 @@
     </div>
 
     <!------------------------------------------link other netwok------------------------------------------>
-    <div class="other-network" *ngIf="percentSocial < 100 && percentSocial > 0">
+    <div class="other-network">
       <hr />
       <p class="network-type">
         {{ 'social_networks.link_another_acc' | translate }}
@@ -1065,6 +1100,23 @@
         >
           <img src="./assets/Images/tiktok-white.svg" width="20px" />
           <span> {{ 'social_networks.add_tiktok' | translate }}</span>
+        </button>
+        <button
+          class="tiktok-btn-cnx"
+          [className]="isLoading ? 'center-div' : 'tiktok-btn-cnx'"
+          (click)="addThreadsAccount()"
+          *ngIf="checkThreadsExist"
+        >
+          <ng-container *ngIf="!isLoading">
+            <img src="./assets/Images/threads-logo.svg" width="24px" />
+            <span > {{ 'social_networks.add_threads' | translate }}</span>
+          </ng-container>
+          <div *ngIf="isLoading"
+                class="spinner-border text-light"
+                role="status"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
         </button>
       </div>
     </div>

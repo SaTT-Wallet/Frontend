@@ -138,6 +138,17 @@
                   sendform
                     .get('url')
                     ?.value?.indexOf('https://www.linkedin.com/') === 0,
+                
+                threadsLink:
+                  !spinner &&
+                  sendform
+                    .get('url')
+                    ?.value?.indexOf('https://www.threads.net/') === 0,
+                threadsLinkSpinner:
+                  spinner &&
+                  sendform
+                    .get('url')
+                    ?.value?.indexOf('https://www.threads.net/') === 0,
                 tiktokLink:
                   (!spinner &&
                     sendform.get('url')?.value?.indexOf(urlTiktok) === 0) ||
@@ -288,6 +299,34 @@
               </div>
             </div>
 
+
+
+            <div
+              class="error_container div-error d-flex justify-content-center mt-2"
+              *ngIf="connectValue === 'threads'"
+            >
+            
+              <!-- *ngIf="user.idSn !== 1"-->
+              <label class="mt-3 errorSocial"
+                >{{ 'sendMSGThreads' | translate }}
+              </label>
+
+              <div class="d-flex justify-content-center mt-2 mb-3">
+                <div class="div-connect-google" (click)="connect('threads')">
+                  <!--(click)="snlogin('google')" src="./assets/Images/vector-google.svg"-->
+                  <img
+                    src="./assets/Images/img_satt/Threads.png"
+                    class="goog_icon"
+                    width="30px"
+                  />
+                  <span class="d-flex align-self-center gray-text-span ps-2">
+                    {{ 'threads_signup' | translate }}</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            
             <div
               class="error_container div-error d-flex justify-content-center mt-2"
               *ngIf="connectValue === 'tiktok'"
@@ -395,6 +434,8 @@
             />
           </div>
 
+        
+         
           <div
             #facebookDiv
             id="facebook-div"
@@ -625,6 +666,9 @@
         </span>
         <span *ngIf="oracleType === 'tiktok'">
           {{ 'Add_channel_tiktok' | translate }}
+        </span>
+        <span *ngIf="oracleType === 'threads'">
+          {{ 'Add_channel_threads' | translate }}
         </span>
       </button>
       <button

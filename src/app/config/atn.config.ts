@@ -32,7 +32,7 @@ let pattEmail =
 let pattNetwork =
   '^(https?:\\/\\/(www\\.)){1}([0-9A-Za-z-\\.@:%_+~&#=]+)+((\\.(com))+)(/(.)*)?(\\?(.)*)?';
 let pattMedia =
-  /(?:(?:https?:\/\/)?(?:www\.)?)?(?:(?:(?:facebook|instagram|linkedin|twitter|youtube)\.(?:com|li)\/)?[A-Za-z0-9]+\/?(?:[\/?#]\S+)?)/;
+  /(?:(?:https?:\/\/)?(?:www\.)?)?(?:(?:(?:facebook|instagram|linkedin|twitter|youtube|threads)\.(?:com|li)\/)?[A-Za-z0-9]+\/?(?:[\/?#]\S+)?)/;
 // '^(https?:\\/\\/){1}([0-9A-Za-z-\\.@:%_+~#&=]+)+((\\.(com|be))+)(/(.)*)?(\\?(.)*)?';
 let urlValidator =
   '^(?:(?:http(?:s)?|ftp)://)(?:\\S+(?::(?:\\S)*)?@)?(?:(?:[a-z0-9\u00a1-\uffff](?:-)*)*(?:[a-z0-9\u00a1-\uffff])+)(?:\\.(?:[a-z0-9\u00a1-\uffff](?:-)*)*(?:[a-z0-9\u00a1-\uffff])+)*(?:\\.(?:[a-z0-9\u00a1-\uffff]){2,})(?::(?:\\d){2,5})?(?:/(?:\\S)*)?$';

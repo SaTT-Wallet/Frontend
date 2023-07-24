@@ -30,12 +30,11 @@
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <li
-          *ngFor="
-            let language of translate.getLangs();
-            trackBy: trackByLanguage
-          "
+          *ngFor="let language of translate.getLangs(); trackBy: trackByLanguage"
+          (click)="switchLang(language)"
+          class="lang-select"
         >
-          <a (click)="switchLang(language)" class="lang-select">
+          <a>
             <span *ngIf="language === 'en'" class="lang-en">En </span>
             <span *ngIf="language === 'fr'" class="lang-fr"> Fr </span>
           </a>

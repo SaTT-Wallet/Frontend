@@ -112,8 +112,8 @@
       <div class="col-md-6 success-div">
         <img src="assets/Images/custom_icons/icon_alert_success.svg" />
         <p class="text-success-migration">
-          Tokens migrated successfully<br />
-          <span class="underline"> Check your wallet: </span>
+          {{'tokensMigratedSuccessfully' | translate }}<br />
+          <span class="underline"> {{'checkYourWallet' | translate }} </span>
 
           <a href="{{ hash }}" target="_blank" class="success-color">
             {{ walletId?.slice(0, 8) }}...{{ walletId?.slice(-8) }}</a
@@ -285,7 +285,7 @@
           style="margin: 0 auto"
         >
           <span *ngIf="cryptoChecked !== 'TRON'">{{'nextStep' | translate }}</span>
-          <span *ngIf="cryptoChecked === 'TRON'">Go to new wallet</span>
+          <span *ngIf="cryptoChecked === 'TRON'">{{'goToNewWallet' | translate }}</span>
         </button>
       </div>
     </div>

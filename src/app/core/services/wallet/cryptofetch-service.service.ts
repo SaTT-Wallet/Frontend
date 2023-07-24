@@ -34,13 +34,14 @@ export class CryptofetchServiceService {
    
     
   }
-  getCryptoPriceDetails(cryptoList: number[]): Observable<any> {
+  getCryptoPriceDetails(cryptoList: number[]) {
+
     // Converting array to comma-separated string
     const cryptoListString = cryptoList.join(',');
 
     // Configuring the HTTP params
     const params = new HttpParams().set('cryptolist', cryptoListString);
-
+   
     // Making the HTTP GET request
     return this.http.get( sattUrl + '/wallet/cryptoPriceDetails', { params });
   }
@@ -50,33 +51,22 @@ export class CryptofetchServiceService {
       sattUrl +
         '/wallet/transaction_history/' +
         this.tokenStorageService.getIdWallet(),
-      { headers: this.tokenStorageService.getHeader() }
     );
   }
 
   getTotalBalance(id_wallet?: any) {
-    const headers = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
+    
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     var idwallet = id_wallet || this.tokenStorageService.getIdWallet();
     return this.http.post(
       sattUrl + '/wallet/totalBalance',
       {
         version: this.tokenStorageService?.getWalletVersion()
-      },
-      { headers: headers }
+      }
     );
   }
 
   migrateTokens(tokens: any, network: string, pass: any) {
-    const headers = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     return this.http.post(
       sattUrl + '/wallet/transfertTokensBep20',
@@ -84,8 +74,7 @@ export class CryptofetchServiceService {
         tokens,
         network,
         pass
-      },
-      { headers: headers }
+      }
     );
   }
   getEtherGaz() {
@@ -101,27 +90,16 @@ export class CryptofetchServiceService {
     return this.http.get(sattUrl + '/wallet/TrxGasPrice');
   }
   getBnbGaz() {
-    return this.http.get(sattUrl + '/wallet/Bep20GasPrice', {
-      headers: this.tokenStorageService.getHeader()
-    });
+    return this.http.get(sattUrl + '/wallet/Bep20GasPrice');
   }
   getGas(network: any) {
-    return this.http.get(sattUrl + '/wallet/gasPrice/' + network, {
-      headers: this.tokenStorageService.getHeader()
-    });
+    return this.http.get(sattUrl + '/wallet/gasPrice/' + network);
   }
 
   getBalanceCrypto() {
-    const headers = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-
     return this.http.post(
       sattUrl + '/wallet/userBalance',
-      { version: this.tokenStorageService?.getWalletVersion() },
-      { headers: headers }
+      { version: this.tokenStorageService?.getWalletVersion() }
     );
   }
   convertcrypto(send: any) {
@@ -130,19 +108,10 @@ export class CryptofetchServiceService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.tokenStorageService.getToken()
     });
-    return this.http.post(sattUrl + '/wallet/bridge', send, {
-      headers: headers
-    });
+    return this.http.post(sattUrl + '/wallet/bridge', send);
   }
   deletetoken(token: any) {
-    const headers = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    return this.http.delete(sattUrl + '/wallet/removeToken/' + token, {
-      headers: headers
-    });
+    return this.http.delete(sattUrl + '/wallet/removeToken/' + token);
   }
   convertCrypto(
     digital_currency: any,
@@ -150,15 +119,6 @@ export class CryptofetchServiceService {
     fiat_currency: any,
     requested_currency: any
   ) {
-    const headers = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    const headers2 = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json'
-    });
     if (this.tokenStorageService.getToken()) {
       return this.http.post(
         sattUrl + '/wallet/getQuote',
@@ -167,8 +127,7 @@ export class CryptofetchServiceService {
           requested_amount,
           fiat_currency,
           requested_currency
-        },
-        { headers: headers }
+        }
       );
     } else {
       return this.http.post(
@@ -178,8 +137,7 @@ export class CryptofetchServiceService {
           requested_amount,
           fiat_currency,
           requested_currency
-        },
-        { headers: headers2 }
+        }
       );
     }
   }
@@ -189,26 +147,16 @@ export class CryptofetchServiceService {
     quote_id: any,
     idWallet: any
   ): Observable<IApiResponse<IPaymentRequestResponse>> {
-    const headers = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.tokenStorageService.getToken()
-    });
-    const headers2 = new HttpHeaders({
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json'
-    });
     if (this.tokenStorageService.getToken()) {
       return this.http.post<IApiResponse<IPaymentRequestResponse>>(
         sattUrl + '/wallet/payementRequest',
         { currency, quote_id, idWallet },
-        { headers: headers }
       );
     } else {
       return this.http.post<IApiResponse<IPaymentRequestResponse>>(
         sattUrl + '/wallet/payementRequest',
-        { currency, quote_id, idWallet },
-        { headers: headers2 }
+        { currency, quote_id, idWallet }
+        
       );
     }
   }

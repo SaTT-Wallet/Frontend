@@ -4822,7 +4822,7 @@ hr {
 
 
 .search-input-wrapper {
-    width: 100%;
+    width: 230px;
     justify-content: flex-end;
     gap: 0.5em;
     align-items: flex-start;

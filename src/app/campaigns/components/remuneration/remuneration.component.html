@@ -316,14 +316,14 @@
                   "
                   [formGroupName]="i"
                 >
-                  <div
+                  <div 
                     class="oracle-inputs col-12 d-flex flex-xl-row flex-lg-row flex-md-row flex-sm-column flex-column"
                   >
                     <!-- Prix/Vue-->
-                    <div
+                    <div 
                       class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 justify-content-xl-center justify-content-lg-center justify-content-md-center justify-content-sm-between justify-content-between p-0 align-items-xl-start align-items-lg-start align-items-md-start align-items-sm-center align-items-center d-flex flex-xl-column flex-lg-column flex-md-column flex-sm-row flex-row oracle-wrapper"
                     >
-                      <span
+                      <span [ngStyle]="{'color':ratio.value.oracle === 'threads'? '#ADADC8': 'black'}"
                         class="bold-font-weight dark_blue d-flex justify-content-lg-center justify-content-md-center justify-content-xl-center justify-content-start mb-xl-3 mb-xl-3 mb-ld-3 mb-md-3 mb-sm-0 mb-0"
                       >
                         {{ 'campaign.Prix/Vue' | translate }}
@@ -333,23 +333,20 @@
                         [ngClass]="{
                           errors: isFieldValid(ratio, 'view')
                         }"
-                        [className]="checkTwitterOracle(ratio) && 'twitter-disabled-container'"
                       >
                       
                         <input
+                        [ngStyle]="{'color':ratio.value.oracle === 'threads'? '#ADADC8': 'black'}"
                           type="text"
-                          
+                          class="styleForInputMedia ms-3 pe-2"
                           aria-describedby="basic-addon2"
                           formControlName="view"
+                          [readonly]="ratio.value.oracle === 'threads'"
                           (input)="handleAmountEntries(ratio, 'view')"
-                          [className]="checkTwitterOracle(ratio) ? 'styleForInputMedia ms-3 pe-2 twitter-disabled-container' : 'styleForInputMedia ms-3 pe-2'"
-                          [readOnly]="checkTwitterOracle(ratio)"
-                          [value]="checkTwitterOracle(ratio) && '0'"
                         />
                         <span
+                        [ngStyle]="{'color':ratio.value.oracle === 'threads'? '#ADADC8': 'black'}"
                           class="label-type normal-font-weight font-weight-normal me-2 ps-1"
-                          [className]="checkTwitterOracle(ratio) && 'twitter-disabled'"
-
                           >{{ cryptoSymbol | translate }}</span
                         >
                       </div>
@@ -383,28 +380,34 @@
                       </div>
                     </div>
                     <!-- Prix/Partage-->
-                    <div
+                    <div 
+                    
                       class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 justify-content-xl-center justify-content-lg-center justify-content-md-center justify-content-sm-between justify-content-between p-0 align-items-xl-start align-items-lg-start align-items-md-start align-items-sm-center align-items-center d-flex flex-xl-column flex-lg-column flex-md-column flex-sm-row flex-row oracle-wrapper"
                     >
                       <span
+                      [ngStyle]="{'color':ratio.value.oracle === 'threads'? '#ADADC8': 'black'}"
                         class="bold-font-weight dark_blue d-flex justify-content-center mb-xl-3 mb-xl-3 mb-ld-3 mb-md-3 mb-sm-0 mb-0"
                       >
                         {{ 'campaign.Prix/Partage' | translate }}
                       </span>
                       <div
+                  
                         class="div_input_oracle"
                         [ngClass]="{
                           errors: isFieldValid(ratio, 'share')
                         }"
                       >
                         <input
+                        [ngStyle]="{'color':ratio.value.oracle === 'threads'? '#ADADC8': 'black'}"
                           type="text"
                           class="styleForInputMedia ms-3 pe-2"
                           aria-describedby="basic-addon2"
                           formControlName="share"
+                           [readonly]="ratio.value.oracle === 'threads'"
                           (input)="handleAmountEntries(ratio, 'share')"
                         />
                         <span
+                        [ngStyle]="{'color':ratio.value.oracle === 'threads'? '#ADADC8': 'black'}"
                           class="label-type normal-font-weight font-weight-normal me-2 ps-1"
                           >{{ cryptoSymbol | translate }}</span
                         >
@@ -445,9 +448,11 @@
                       </div>
                     </div>
                   </div>
-                  <div
+                  <div *ngIf="ratio.value.oracle !== 'threads'"
                     class="row error mb-2 mt-2 justify-content-center initialBudgetError"
+
                   >
+                  
                     <span *ngIf="ratio.errors?.invalidRatioSomme">{{
                       'campaign.must_fill_field' | translate
                     }}</span>

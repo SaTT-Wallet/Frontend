@@ -15,7 +15,7 @@
   />
 
   <div class="img-block" role="button" tabindex="0">
-    <a (click)="getLink()" class="a_link d-flex justify-content-center">
+    <a (click)="getLink($event)" class="a_link d-flex justify-content-center">
       <img
         class=""
         alt=""
@@ -44,12 +44,19 @@
         onerror="this.src='/assets/Images/campagne/twitter_cover.svg'"
         class="cmp-img2"
       />
-      <img
-        *ngIf="prom.typeSN === 3"
+      <ng-container  *ngIf="prom.typeSN === 3 && prom.mediaUrl.includes('mp4')">
+        <video [src]="prom.mediaUrl" autoplay loop [muted]="true"></video>
+      </ng-container>
+
+      <ng-container  *ngIf="prom.typeSN === 3 && !prom.mediaUrl.includes('mp4')">
+        <img
         [src]="prom.mediaUrl"
         onerror="this.src='/assets/Images/campagne/instagramm.svg'"
         class="cmp-img2"
       />
+      </ng-container>
+      
+      
       <img
         *ngIf="prom.typeSN === 5"
         [src]="prom.mediaUrl"
@@ -64,9 +71,16 @@
         class="cmp-img2"
       />
 
+      <img
+        *ngIf="prom.typeSN === 7"
+        [src]="prom.mediaUrl.toString().startsWith('https') ? prom.mediaUrl:  safeImageUrl(prom.mediaUrl)"
+        onerror="this.src='/assets/Images/tiktoksign.svg'"
+        class="cmp-img2"
+      />
+
       <!-- <img *ngIf="prom.typeSN == 1" src="/assets/Images/campagne/facebook_cover_gain.svg" class="cmp-img2"> -->
       <!-- <img *ngIf="prom.typeSN == 4" src="/assets/Images/campagne/twitter_cover.svg" class="cmp-img2" [routerLink]="['/home/campaign/', prom.campaign._id]" /> -->
-      <a [href]="prom.link" target="_blank" class="icon_link hide-row-version"
+      <a [href]="prom.typeSN == 7 ? 'https://www.threads.net/@skymage.skandert/CuhaaNvIJrh' : prom.link" target="_blank" class="icon_link hide-row-version"
         ><img src="/assets/Images/campagne/gains-link.svg"
       /></a>
       <img
@@ -102,6 +116,12 @@
       <img
         *ngIf="prom.typeSN === 6"
         src="/assets/Images/campagne/tiktok_gain.svg"
+        class="icon_oracle"
+        [routerLink]="['/home/campaign/', prom.campaign._id]"
+      />
+      <img
+        *ngIf="prom.typeSN === 7"
+        src="/assets/Images/img_satt/Threads.png"
         class="icon_oracle"
         [routerLink]="['/home/campaign/', prom.campaign._id]"
       />

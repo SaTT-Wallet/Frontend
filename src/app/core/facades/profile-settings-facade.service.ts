@@ -116,30 +116,6 @@ export class ProfileSettingsFacadeService {
     return this.profileService.completeprofile(body);
   }
 
-  exportProfileData(password: string) {
-    return this.profileService.exportProfileData(password);
-  }
-
-  exportProfileDataV2(password: string) {
-    return this.profileService.exportProfileDataV2(password);
-  }
-
-  exportTronKeystore(password: string) {
-    return this.profileService.exportTronKeystore(password);
-  }
-
-  exportTronKeystoreV2(password: string) {
-    return this.profileService.exportTronKeystoreV2(password);
-  }
-
-  exportProfileDataBTC(password: string) {
-    return this.profileService.exportProfileDataBTC(password);
-  }
-
-  exportProfileDataBTCV2(password: string) {
-    return this.profileService.exportProfileDataBTCV2(password);
-  }
-
   getUserProfilePic() {
     return this.profileSettingsStoreService.getProfilePic();
   }
@@ -200,18 +176,8 @@ export class ProfileSettingsFacadeService {
     this.telegramLinkAccountService.init();
   }
 
-  socialStateGoogle(deactivate: any, channelId: any) {
-    return this.profileService.socialStateGoogle(deactivate, channelId);
-  }
-  socialStateFacebook(deactivate: any, id: any) {
-    return this.profileService.socialStateFacebook(deactivate, id);
-  }
-  socialStateLinkedin(deactivate: any, organization: any) {
-    return this.profileService.socialStateLinkedin(deactivate, organization);
-  }
-  socialStateTwitter(deactivate: any, twitter_id: any) {
-    return this.profileService.socialStateTwitter(deactivate, twitter_id);
-  }
+  
+ 
   clearProfilePicStore() {
     this.store.dispatch(clearProfilePicStore());
   }

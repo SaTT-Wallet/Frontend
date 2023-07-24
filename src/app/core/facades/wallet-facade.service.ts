@@ -148,10 +148,6 @@ export class WalletFacadeService {
     this.walletStoreService.hideWalletSpinner();
   }
 
-  sendAmount(send: any) {
-    return this.walletService.sendAmount(send);
-  }
-
   transferTokens(body: ITransferTokensRequestBody,max:any) {
     return this.walletService.transferTokens(body,max);
   }
@@ -394,9 +390,6 @@ export class WalletFacadeService {
     return this.walletService.checkWalletV2Exist();
   }
 
-  resetTransactionPassword(password: string, newPassword: string) {
-    return this.walletService.resetTransactionPassword(password, newPassword);
-  }
 
   // GET EXPORT CODE 
   getExportCode(network: string, version: string) {

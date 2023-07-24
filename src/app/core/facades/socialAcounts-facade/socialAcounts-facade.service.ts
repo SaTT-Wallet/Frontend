@@ -39,18 +39,18 @@ export class SocialAccountFacadeService {
     return this.profileService.getSocialNetworks();
   }
 
-  socialStateGoogle(deactivate: any, channelId: any) {
-    return this.profileService.socialStateGoogle(deactivate, channelId);
+
+  checkThreads() {
+    return this.profileService.checkThreads();
   }
-  socialStateFacebook(deactivate: any, id: any) {
-    return this.profileService.socialStateFacebook(deactivate, id);
+
+  addThreads() {
+    return this.profileService.addThreads()
   }
-  socialStateLinkedin(deactivate: any, organization: any) {
-    return this.profileService.socialStateLinkedin(deactivate, organization);
-  }
-  socialStateTwitter(deactivate: any, twitter_id: any) {
-    return this.profileService.socialStateTwitter(deactivate, twitter_id);
-  }
+ 
+  
+ 
+  
   /*-------delete-------- */
   deleteOneSocialNetworksGoogle(id: string) {
     return this.profileService.deleteOneSocialNetworksGoogle(id);
@@ -66,6 +66,9 @@ export class SocialAccountFacadeService {
   }
   deleteTiktokChannel(tiktokProfileId: string) {
     return this.profileService.deleteTiktokChannel(tiktokProfileId);
+  }
+  deleteThreadAccount(id: string) {
+    return this.profileService.deleteThreadAccount(id);
   }
   deleteAllTiktokChannels() {
     return this.profileService.deleteAllTiktokChannels();
