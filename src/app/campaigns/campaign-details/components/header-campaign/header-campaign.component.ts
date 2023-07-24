@@ -91,29 +91,31 @@ export class HeaderCampaignComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.filterGainsForm?.valueChanges
-      .pipe(debounceTime(700), takeUntil(this.isDestroyed))
-      .subscribe((v) => {
-        this.onFormChange.emit(v);
-        this.participationListService.setFilterValues(v);
-        if (!this.fromFarming) {
-          let state = '';
-          if (this.isOwner) {
-            state = 'owner';
+    setTimeout(() => {
+      this.filterGainsForm?.valueChanges
+        .pipe(debounceTime(700), takeUntil(this.isDestroyed))
+        .subscribe((v) => {
+          this.onFormChange.emit(v);
+          this.participationListService.setFilterValues(v);
+          if (!this.fromFarming) {
+            let state = '';
+            if (this.isOwner) {
+              state = 'owner';
+            } else {
+              state = 'part';
+            }
+            this.participationListService.setQueryParams({
+              campaignId: this.campaignHash,
+              state: state
+            });
           } else {
-            state = 'part';
+            this.participationListService.setQueryParams({
+              campaignId: '',
+              state: ''
+            });
           }
-          this.participationListService.setQueryParams({
-            campaignId: this.campaignHash,
-            state: state
-          });
-        } else {
-          this.participationListService.setQueryParams({
-            campaignId: '',
-            state: ''
-          });
-        }
-      });
+        });
+    }, 500);
 
     // this.filterCampaignsForm?.valueChanges
     //   .pipe(debounceTime(500))
