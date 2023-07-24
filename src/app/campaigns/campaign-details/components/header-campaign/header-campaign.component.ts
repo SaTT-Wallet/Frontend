@@ -59,6 +59,12 @@ export class HeaderCampaignComponent implements OnInit {
       iconUrl: '/assets/Images/tiktok-purple.svg',
       selectedIconUrl: '/assets/Images/tikTok-icon.svg',
       bgColor: 'white'
+    },
+    {
+      value: 'threads',
+      iconUrl: '/assets/Images/threads_logo.svg',
+      selectedIconUrl: '/assets/Images/threads_logo.svg',
+      bgColor: 'white'
     }
   ];
   participationStatusOptions: IOption[] = [
