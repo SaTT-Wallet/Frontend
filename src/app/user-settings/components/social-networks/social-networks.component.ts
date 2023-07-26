@@ -52,6 +52,7 @@ export class SocialNetworksComponent implements OnInit {
   channelInstagram: any;
   channelLinkedin: any;
   channelTiktok: any;
+  channelThreads: any;
   allChannels: any;
   showGoogleList: boolean = false;
   showTwitterList: boolean = false;
@@ -169,7 +170,7 @@ export class SocialNetworksComponent implements OnInit {
 
           this.channelTiktok = data.tikTok;
           this.setUrlMsg(params, data);
-          this.checkTheradsAccountExit(data)
+         this.channelThreads = this.checkTheradsAccountExit(data)
           if (this.channelGoogle?.length !== 0) {
             count++;
           } else {
@@ -222,6 +223,7 @@ export class SocialNetworksComponent implements OnInit {
           this.channelFacebook = [];
           this.channelLinkedin = [];
           this.channelTiktok = [];
+          this.channelThreads= [];
           setTimeout(() => {
             this.showSpinner = false;
           }, 2000);
@@ -491,7 +493,7 @@ export class SocialNetworksComponent implements OnInit {
     this.socialAccountFacadeService.addThreads().subscribe((res:any) => {
       if(res.message === 'threads_account_added') {
         this.isLoading = false;
-    
+    this.checkThreadsExist= true;
         const index = this.channelFacebook.findIndex((obj:any) => obj.instagram_username === res.data.username);
         if(index !== -1) {
           let newObj = {
