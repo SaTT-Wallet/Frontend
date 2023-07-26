@@ -171,6 +171,8 @@ export class SocialNetworksComponent implements OnInit {
           this.channelTiktok = data.tikTok;
           this.setUrlMsg(params, data);
          this.channelThreads = this.checkTheradsAccountExit(data)
+         console.log(" this.channelThreads", this.channelThreads);
+         
           if (this.channelGoogle?.length !== 0) {
             count++;
           } else {
@@ -210,7 +212,13 @@ export class SocialNetworksComponent implements OnInit {
               this.deactivateTiktok = !!data.tiktok[ch].deactivate;
             });
           }
-          let stat = (count * 100) / 5;
+          if (this.channelThreads !== false) {
+   
+            count++;
+          }
+          let stat = (count * 100) / 6;
+          console.log(this.channelThreads?.length);
+          
           this.percentSocial = stat.toFixed(0);
           setTimeout(() => {
             this.showSpinner = false;
@@ -232,7 +240,7 @@ export class SocialNetworksComponent implements OnInit {
   }
   checkTheradsAccountExit(data:any)
   {     
-    this.checkThreadsExist = data.facebook.some((elem : any) => elem.threads_id )      
+   return this.checkThreadsExist = data.facebook.some((elem : any) => elem.threads_id )      
    }  
   
   //get errors from url
@@ -417,6 +425,8 @@ export class SocialNetworksComponent implements OnInit {
     }
   }
   deleteList(modalName: any, network: string) {
+   
+    
     if (network === 'google') {
       this.socialAccountFacadeService
         .deleteAllSocialNetworksGoogle()
