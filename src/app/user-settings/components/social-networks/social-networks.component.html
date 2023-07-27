@@ -98,7 +98,16 @@
             {{ 'social_networks.add_tiktok' | translate }}
           </span>
         </button>
-        
+        <button
+        class="tiktok-btn-cnx"
+        (click)="addThreadsAccount()"
+        *ngIf="this.channelThreads !== false"
+      >
+        <img src="./assets/Images/threads-white.svg" width="20px" />
+        <span>
+          {{ 'social_networks.add_threads' | translate }}
+        </span>
+      </button>
       </div>
     </div>
 
@@ -1052,7 +1061,7 @@
     </div>
 
     <!------------------------------------------link other netwok------------------------------------------>
-    <div class="other-network">
+    <div class="other-network" *ngIf="percentSocial < 100 && percentSocial > 0">
       <hr />
       <p class="network-type">
         {{ 'social_networks.link_another_acc' | translate }}
