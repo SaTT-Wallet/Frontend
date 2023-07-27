@@ -1317,7 +1317,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
       }
     } else if (media.indexOf('vm.tiktok.com') !== -1) {
       this.idtiktok = 0;
-    } else if(media.indexOf('https://www.threads.net/') !== -1) {
+    } else if(media.indexOf('https://www.threads.net/') !== -1 && media.indexOf('post') !== -1) {
       this.idinstagram = '';
       
       if(performance.find((ratio: any) => ratio.oracle === 'threads')) {
