@@ -57,17 +57,21 @@ export class AdPoolTokenSelectComponent implements OnInit {
     this.walletFacade.getCryptoPriceList().subscribe((res: any) => {
       const result = Object.keys(res.data);
       result.forEach((key) => {
-        console.log(res.data[key].network);
+        let arr = res?.data[key]?.networkSupported || [];
         if (res.data[key].network === null) {
-          res.data[key].networkSupported?.platform?.name.includes(
-            this.selectedNetworkValue
-          ) && this.cryptoList.push(res.data[key]);
+          arr.forEach((data: any) => {
+            data.platform?.name
+              .toUpperCase()
+              .includes(this.selectedNetworkValue) &&
+              this.cryptoList.push(res.data[key]);
+          });
         } else {
           res.data[key].network === this.selectedNetworkValue &&
             this.cryptoList.push(res.data[key]);
         }
       });
       this.filterList = this.cryptoList;
+      console.log(this.filterList);
     });
 
     // this.walletFacade
