@@ -217,7 +217,7 @@ export class SocialNetworksComponent implements OnInit {
             count++;
           }
           let stat = (count * 100) / 6;
-          console.log(this.channelThreads?.length);
+         
           
           this.percentSocial = stat.toFixed(0);
           setTimeout(() => {
