@@ -85,10 +85,10 @@ export class SocialNetworksComponent implements OnInit {
   ) { }
   ngOnInit(): void {
     this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
-    this.socialAccountFacadeService.checkThreads().subscribe((res:any) => {
-      if(res.message === true) this.checkThreadsExist = true
-      else this.checkThreadsExist = false;
-    });
+    // this.socialAccountFacadeService.checkThreads().subscribe((res:any) => {
+    //   if(res.message === true) this.checkThreadsExist = true
+    //   else this.checkThreadsExist = false;
+    // });
     this.getSocialNetwork();
 
     // this.profilService.getTiktokProfilPrivcay().subscribe((res:any)=>
@@ -159,6 +159,7 @@ export class SocialNetworksComponent implements OnInit {
       )
       .subscribe(({ params, data }: { params: Params; data: any }) => {
         if (data !== null) {
+        
           let count = 0;
           this.allChannels = data;
           this.channelGoogle = data.google;
@@ -168,7 +169,7 @@ export class SocialNetworksComponent implements OnInit {
 
           this.channelTiktok = data.tikTok;
           this.setUrlMsg(params, data);
-
+          this.checkTheradsAccountExit(data)
           if (this.channelGoogle?.length !== 0) {
             count++;
           } else {
@@ -227,8 +228,16 @@ export class SocialNetworksComponent implements OnInit {
         }
       });
   }
+  checkTheradsAccountExit(data:any)
+  {     
+    this.checkThreadsExist = data.facebook.some((elem : any) => elem.threads_id )      
+   }  
+  
   //get errors from url
+ 
   setUrlMsg(p: Params, data: IGetSocialNetworksResponse): void {
+    
+    
     if (p.message) {
       if (p.message === 'access-denied') {
         this.errorMessage = 'access-cancel';
@@ -398,7 +407,7 @@ export class SocialNetworksComponent implements OnInit {
       this.socialAccountFacadeService.deleteThreadAccount(this.threadIdToDelete).subscribe((response:any) => {
         if (response.message === 'deleted successfully') {
           this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
-          this.checkThreadsExist = true;
+      
           //this.getSocialNetwork();
           this.closeModal(id);
         }
@@ -482,7 +491,7 @@ export class SocialNetworksComponent implements OnInit {
     this.socialAccountFacadeService.addThreads().subscribe((res:any) => {
       if(res.message === 'threads_account_added') {
         this.isLoading = false;
-        this.checkThreadsExist = false;
+    
         const index = this.channelFacebook.findIndex((obj:any) => obj.instagram_username === res.data.username);
         if(index !== -1) {
           let newObj = {
