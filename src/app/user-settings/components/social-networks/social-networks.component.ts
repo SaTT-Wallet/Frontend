@@ -506,6 +506,8 @@ export class SocialNetworksComponent implements OnInit {
     this.checkThreadsExist= true;
         const index = this.channelFacebook.findIndex((obj:any) => obj.instagram_username === res.data.username);
         if(index !== -1) {
+
+          
           let newObj = {
             ...this.channelFacebook[index],
             threads_id: res.data.id,
