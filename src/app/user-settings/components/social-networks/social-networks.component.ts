@@ -171,7 +171,7 @@ export class SocialNetworksComponent implements OnInit {
           this.channelTiktok = data.tikTok;
           this.setUrlMsg(params, data);
          this.channelThreads = this.checkTheradsAccountExit(data)
-         console.log(" this.channelThreads", this.channelThreads);
+        
          
           if (this.channelGoogle?.length !== 0) {
             count++;

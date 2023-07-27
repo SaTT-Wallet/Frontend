@@ -101,7 +101,7 @@
         <button
         class="tiktok-btn-cnx"
         (click)="addThreadsAccount()"
-        *ngIf="channelThreads?.length === 0"
+        *ngIf="this.channelThreads !== false"
       >
         <img src="./assets/Images/threads-white.svg" width="20px" />
         <span>
