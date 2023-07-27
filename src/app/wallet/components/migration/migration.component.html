@@ -192,7 +192,7 @@
         <button
           class="next-step mt-4"
           (click)="next()"
-          style="margin: 0 auto; height: 35px"
+          style="margin: 0 auto; height: 35px;width: 182px;"
           [disabled]="spinner"
         >
           <div *ngIf="spinner" class="spinner-border text-grey" role="status">
@@ -282,7 +282,7 @@
         <button
           class="next-step mt-4"
           (click)="nextStep()"
-          style="margin: 0 auto"
+          style="margin: 0 auto ;width: 170px !important;"
         >
           <span *ngIf="cryptoChecked !== 'TRON'">{{'nextStep' | translate }}</span>
           <span *ngIf="cryptoChecked === 'TRON'">{{'goToNewWallet' | translate }}</span>
