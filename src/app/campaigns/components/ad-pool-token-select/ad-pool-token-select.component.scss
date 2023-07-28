@@ -1,7 +1,7 @@
 .modal_container {
   padding: 1em;
-  height: 818px;
-  width: 23vw;
+  width: 100%; /* Use the full width of the container */
+  max-width: 23rem; /* Set a maximum width for the modal */
 }
 
 .modal_title {
@@ -12,21 +12,25 @@
   margin: auto;
   padding: 1em;
 }
+
 .modal_subtitle {
   font-weight: 600;
   font-family: 'Poppins';
   padding: 1em 0em;
   text-transform: uppercase;
 }
+
 .warning_message {
   color: #4048ff;
 }
+
 .label_title {
   padding: 0;
   font-weight: 600;
   font-family: 'Poppins';
   text-transform: uppercase;
 }
+
 .network_selected {
   border-radius: 30px;
   padding: 0.5em;
@@ -36,17 +40,21 @@
 }
 
 .input_search_token_container {
+  display: inline-block;
   border-radius: 30px;
   border-color: #d6d6e8;
   border-width: 1px;
   border-style: solid;
   margin-bottom: 1em;
   padding: 0.7em;
+  width: fit-content;
 }
+
 .input_search_token {
   font-weight: 400;
   border: none;
   outline: none;
+  width: 100%; /* Use the full width of the container */
 }
 
 #search_logo {
@@ -62,34 +70,37 @@
   width: fit-content;
   margin: auto;
 }
+
 .list_token {
   margin: auto;
   margin-bottom: 1em;
   background-color: #f6f6ff;
   border-radius: 31px;
-  width: 335px;
-  height: 42px;
+  max-width: 335px; /* Set a maximum width for the token list */
   padding: 0.3em 0 0 0;
 }
+
 .img_token {
-  // padding: 0em 1em;
   width: 32px;
   height: 32px;
 }
+
 .name_token {
   padding: 0.5em;
-  font-style: 'Poppins';
+  font-family: 'Poppins';
   font-weight: 400;
   font-size: 16px;
   line-height: 20.8px;
   letter-spacing: 3%;
 }
+
 .balance_token {
   padding: 0.5em;
   font-size: 16px;
   line-height: 20.8px;
   letter-spacing: 3%;
 }
+
 .form-group {
   padding: 0;
   display: flex;
@@ -102,4 +113,5 @@
 
 .form-group input {
   /* Add any additional styling for the input here */
+  width: 100%; /* Use the full width of the container */
 }
