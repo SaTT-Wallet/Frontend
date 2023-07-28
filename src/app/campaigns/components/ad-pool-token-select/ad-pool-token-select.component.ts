@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
+import { WalletStoreService } from '@app/core/services/wallet-store.service';
+import { CryptofetchServiceService } from '@app/core/services/wallet/cryptofetch-service.service';
 import { Subject } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
 
@@ -51,9 +53,16 @@ export class AdPoolTokenSelectComponent implements OnInit {
     this.showSearchNewTokenContainer = !this.showSearchNewTokenContainer;
     this.showWarning = false;
   }
-  constructor(private walletFacade: WalletFacadeService) {}
+  constructor(
+    private walletFacade: WalletFacadeService,
+    private Fetchservice: CryptofetchServiceService
+  ) {}
 
   ngOnInit(): void {
+    this.Fetchservice.getBalanceCrypto().subscribe((res: any) => {
+      console.log(res, 'balance');
+    });
+
     this.walletFacade.getCryptoPriceList().subscribe((res: any) => {
       const result = Object.keys(res.data);
       result.forEach((key) => {
@@ -155,7 +164,7 @@ export class AdPoolTokenSelectComponent implements OnInit {
   //           //   ?.setValue(this.selectedBlockchain, { onlySelf: true });
   //         }
   //       }
-  //     );
+  //     )d etre en ;
   // }
   // importToken(token: any) {
   //   this.listToken[
