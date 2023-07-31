@@ -82,6 +82,7 @@ export class FarmPostsComponent implements OnInit {
         this.ParticipationListService.emitPageScroll();
       });
     this.showSpinner = true;
+
     this.ParticipationListService.list$
       .pipe(
         map((pages: Page<Participation>[]) =>
