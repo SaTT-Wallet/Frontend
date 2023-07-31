@@ -64,14 +64,18 @@ export class AdPoolTokenSelectComponent implements OnInit {
     });
 
     this.walletFacade.getCryptoPriceList().subscribe((res: any) => {
+      console.log({ data: res.data });
       const result = Object.keys(res.data);
       result.forEach((key) => {
         let arr = res?.data[key]?.networkSupported || [];
-        if (res.data[key].network === null) {
+        if (!res.data[key].network) {
           arr.forEach((data: any) => {
             data.platform?.name
               .toUpperCase()
               .includes(this.selectedNetworkValue) &&
+              !this.cryptoList.find(
+                (e: any) => e.name === res.data[key].name
+              ) &&
               this.cryptoList.push(res.data[key]);
           });
         } else {

@@ -19,7 +19,7 @@
     <!-- Your content for each crypto element here -->
     <div class="row">
       <div class="col-sm-4" *ngFor="let crypto of cryptoList.slice(0, 6)">
-        <div class="d-flex">
+        <div class="tokens_preview d-flex p-2 mb-2">
           <img class="img_token" src="{{ crypto.logo }}" alt="logo" />
           <p class="name_token">{{ crypto.name }}</p>
         </div>
