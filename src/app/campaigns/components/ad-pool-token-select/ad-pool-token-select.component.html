@@ -80,7 +80,11 @@
     <ng-container *ngIf="!tokenNotFound">
       <div class="list_crypto_container">
         <p class="modal_subtitle">Token List</p>
-        <div *ngFor="let crypto of filterList" class="list_token d-flex">
+        <div
+          (click)="tokenToSelect(crypto)"
+          *ngFor="let crypto of filterList"
+          class="list_token d-flex"
+        >
           <img class="img_token" src="{{ crypto.logo }}" alt="Logo" />
           <!-- <ul *ngFor='let item of tokens'></ul> -->
           <p class="name_token p-2">{{ crypto.name }}</p>

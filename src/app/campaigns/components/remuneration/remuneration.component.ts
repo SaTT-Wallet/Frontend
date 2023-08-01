@@ -89,6 +89,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   @Input() notValidMissionFromEdit: any;
   @Output() validFormBudgetRemun = new EventEmitter();
   @Output() validFormMissionFromRemuToEdit = new EventEmitter();
+  selectedToken: any;
   closedOracle: string = '';
   sendErrorToMission: any;
   form = new UntypedFormGroup({
@@ -148,6 +149,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   campaign: any;
   insufficientBalance: boolean = false;
   fieldRequired: boolean = false;
+
   remunerationOptions: IDropdownFilterOptions[] = [
     {
       text: this.eRemunerationType.Performance,
@@ -971,6 +973,16 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     }*/
   }
 
+  onCryptoSelected(crypto: any) {
+    this.selectedToken = crypto;
+    console.log(this.selectedToken);
+    console.log(
+      crypto.networkSupported.find((e: any) =>
+        e.platform.name.includes(this.selectedCryptoDetails.network)
+      )
+    );
+    // ?.platform.coin.name
+  }
   ngAfterViewChecked(): void {
     let elementinputusd = this.inputAmountUsd?.nativeElement;
     if (elementinputusd)

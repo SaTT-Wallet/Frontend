@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { WalletStoreService } from '@app/core/services/wallet-store.service';
@@ -13,6 +13,8 @@ import { filter, map, takeUntil } from 'rxjs/operators';
 })
 export class AdPoolTokenSelectComponent implements OnInit {
   tokenSearch = new FormControl('');
+  // @Input() selectedToken: any = [];
+  @Output() tokenSelected = new EventEmitter<any>();
   cryptoList: any = [];
   filterList: any = [];
   userCrypto: any = [];
@@ -53,6 +55,11 @@ export class AdPoolTokenSelectComponent implements OnInit {
     this.showSearchNewTokenContainer = !this.showSearchNewTokenContainer;
     this.showWarning = false;
   }
+
+  tokenToSelect(crypto: any) {
+    this.tokenSelected.emit(crypto);
+  }
+
   constructor(
     private walletFacade: WalletFacadeService,
     private Fetchservice: CryptofetchServiceService
