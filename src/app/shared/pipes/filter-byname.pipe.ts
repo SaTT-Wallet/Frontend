@@ -12,6 +12,10 @@ export class FilterBynamePipe implements PipeTransform {
     // filter items array, items which match and return true will be
     // kept, false will be filtered out
     return items.filter((item) => {
+      if(item.name.toLowerCase() === 'bittorrent') console.log({item})
+      let cond0 = (!!item.symbol &&
+        item.symbol?.toLowerCase().indexOf(filter.toLowerCase()) !== -1) ||
+      false;
       let cond1 =
         (!!item.name &&
           item.name?.toLowerCase().indexOf(filter.toLowerCase()) !== -1) ||
@@ -39,7 +43,7 @@ export class FilterBynamePipe implements PipeTransform {
           item.cryptoPOLYGON.contract?.toLowerCase().indexOf(filter.toLowerCase()) !==
             -1) ||
         false;
-      let cond = cond1 || cond2 || cond3 || cond4 || cond5;
+      let cond = cond0 || cond1 || cond2 || cond3 || cond4 || cond5;
       return cond;
     });
   }
