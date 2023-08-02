@@ -24,7 +24,7 @@ import {
   requiredDescription
 } from '@app/helpers/form-validators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ListTokens } from '@app/config/atn.config';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import copy from 'fast-copy';
@@ -68,8 +68,10 @@ export class FarmPostCardComponent implements OnInit {
     private _sanitizer: DomSanitizer,
     private walletFacade: WalletFacadeService,
     public changeDetectorRef: ChangeDetectorRef,
+    private sanitizer: DomSanitizer,
     @Inject(PLATFORM_ID) private platformId: string
   ) {
+    console.log({test:this.prom})
     this.reasonForm = new UntypedFormGroup(
       {
         reason1: new UntypedFormControl(null),
@@ -107,7 +109,9 @@ export class FarmPostCardComponent implements OnInit {
       return this.harvestAvailableIn;
     }
   }
-
+  safeImageUrl(base64Image: string): SafeResourceUrl {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${base64Image}`);
+  }
   ngOnInit(): void {
     this.getPartPic();
     if (this.router.url.includes('farm-posts')) {
@@ -129,6 +133,7 @@ export class FarmPostCardComponent implements OnInit {
         switchMap(() => this.campaignService.getPromById(this.prom.hash)),
         map((data: any) => data.prom),
         map((prom: any) => {
+          console.log({prom})
           return {
             ...prom,
             safeURL: this.participationService.generatePostThumbnail(prom),
@@ -139,6 +144,7 @@ export class FarmPostCardComponent implements OnInit {
       )
       .subscribe((prom: any) => {
         this.prom = new Participation(prom);
+        console.log(this.prom)
       });
     let currencyName = this.prom.campaign.currency;
     this.intervalId = setInterval(() => {
@@ -174,7 +180,8 @@ export class FarmPostCardComponent implements OnInit {
   getLink(event: Event) {
     event.preventDefault(); // Prevent the default link behavior
     if (isPlatformBrowser(this.platformId)) {
-      window.open(this.prom.link, '_blank');
+      
+      window.open(this.prom.typeSN == 7 ? 'https://www.threads.net/t/'+this.prom.idPost :this.prom.link, '_blank');
     }
   }
   
