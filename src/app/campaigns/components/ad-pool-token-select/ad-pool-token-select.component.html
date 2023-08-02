@@ -18,10 +18,13 @@
   <div class="container">
     <!-- Your content for each crypto element here -->
     <div class="row">
-      <div class="col-sm-4" *ngFor="let crypto of cryptoList.slice(0, 6)">
+      <div
+        class="col-sm-4"
+        *ngFor="let crypto of filterList.slice(0, 6); let i = index"
+      >
         <div class="tokens_preview d-flex p-2 mb-2">
-          <img class="img_token" src="{{ crypto.logo }}" alt="logo" />
-          <p class="name_token">{{ crypto.name }}</p>
+          <img class="img_token" src="{{ crypto.value.logo }}" alt="logo" />
+          <p class="name_token">{{ crypto.key }}</p>
         </div>
       </div>
     </div>
@@ -76,6 +79,8 @@
           placeholder="18"
         />
       </div>
+
+      <button class="button_add_token">+ Add Token</button>
     </ng-container>
     <ng-container *ngIf="!tokenNotFound">
       <div class="list_crypto_container">
@@ -85,9 +90,9 @@
           *ngFor="let crypto of filterList"
           class="list_token d-flex"
         >
-          <img class="img_token" src="{{ crypto.logo }}" alt="Logo" />
+          <img class="img_token" src="{{ crypto.value.logo }}" alt="Logo" />
           <!-- <ul *ngFor='let item of tokens'></ul> -->
-          <p class="name_token p-2">{{ crypto.name }}</p>
+          <p class="name_token p-2">{{ crypto.value.name }}</p>
           <p class="balance_token ml-auto p-2">0</p>
           <!-- justify-content-end -->
         </div>

@@ -127,6 +127,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   currency: any;
   bnbGaz: any;
   selectedCryptoDetails: any = '';
+  openModalToken: boolean = false;
   network: string = '';
   token: any;
   amountUsd: any;
@@ -222,6 +223,13 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     //   console.log(res);
     // });
     return this.modalService.open(this.tokenModal);
+  }
+
+  closeTokenModal(content: any) {
+    if (this.openModalToken) {
+      this.modalService.dismissAll(content);
+      this.openModalToken = false;
+    }
   }
   ngOnInit(): void {
     this.cdref.markForCheck();
@@ -975,11 +983,12 @@ export class RemunerationComponent implements OnInit, OnDestroy {
 
   onCryptoSelected(crypto: any) {
     this.selectedToken = crypto;
-    console.log(this.selectedToken);
+    console.log(this.selectedToken, 'tokennnSelectedd');
     console.log(
       crypto.networkSupported.find((e: any) =>
         e.platform.name.includes(this.selectedCryptoDetails.network)
-      )
+      ),
+      'crypto filtered'
     );
     // ?.platform.coin.name
   }

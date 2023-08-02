@@ -16,6 +16,8 @@
       </div>
       <ng-template #tokenModal>
         <app-ad-pool-token-select
+          (click)="closeTokenModal(tokenModal)"
+          [closeModal]="openModalToken"
           (tokenSelected)="onCryptoSelected($event)"
           [selectedNetworkValue]="selectedCryptoDetails.network"
         ></app-ad-pool-token-select>
