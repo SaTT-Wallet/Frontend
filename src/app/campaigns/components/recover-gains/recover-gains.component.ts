@@ -98,6 +98,8 @@ export class RecoverGainsComponent implements OnInit {
   postLink$ = this.promData$.pipe(
     takeUntil(this.isDestroyedSubject),
     map((prom: Participation) => {
+    
+      
       const mapping: { [key: string]: { imageSrc: string, link: string } } = {
         youtube: {
           imageSrc: '/assets/Images/youtube.svg',
@@ -118,6 +120,10 @@ export class RecoverGainsComponent implements OnInit {
         tiktok: {
           imageSrc: '/assets/Images/campagne/tiktok_gain.svg',
           link: `https://www.tiktok.com/embed/${prom.postId}`
+        },
+        threads: {
+          imageSrc: '/assets/Images/threads-icon.svg',
+          link: `https://www.threads.net/@${prom.instagramUserName}/post/${prom.postId}`
         }
       };
   
