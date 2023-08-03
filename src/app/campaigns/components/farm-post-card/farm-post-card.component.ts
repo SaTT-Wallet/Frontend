@@ -6,7 +6,8 @@ import {
   Input,
   OnInit,
   Output,
-  PLATFORM_ID
+  PLATFORM_ID,
+  SimpleChanges
 } from '@angular/core';
 import { BlockchainActionsService } from '@core/services/blockchain-actions.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
@@ -169,6 +170,8 @@ export class FarmPostCardComponent implements OnInit {
       )
     );
   }
+
+
 
   get localId(): string {
     return this.tokenStorageService.getLocale() || 'en';

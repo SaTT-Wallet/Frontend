@@ -62,8 +62,8 @@ export class HeaderCampaignComponent implements OnInit {
     },
     {
       value: 'threads',
-      iconUrl: '/assets/Images/threads_logo.svg',
-      selectedIconUrl: '/assets/Images/threads_logo.svg',
+      iconUrl: '/assets/Images/social-media/threads-purple.svg',
+      selectedIconUrl: '/assets/Images/social-media/threads-icon.svg',
       bgColor: 'white'
     }
   ];
