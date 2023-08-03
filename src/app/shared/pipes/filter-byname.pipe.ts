@@ -12,7 +12,6 @@ export class FilterBynamePipe implements PipeTransform {
     // filter items array, items which match and return true will be
     // kept, false will be filtered out
     return items.filter((item) => {
-      if(item.name.toLowerCase() === 'bittorrent') console.log({item})
       let cond0 = (!!item.symbol &&
         item.symbol?.toLowerCase().indexOf(filter.toLowerCase()) !== -1) ||
       false;
