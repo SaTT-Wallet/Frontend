@@ -70,9 +70,6 @@ interface IDropdownFilterOptions {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RemunerationComponent implements OnInit, OnDestroy {
-  @ViewChild('tokenModal', { static: false })
-  private tokenModal!: TemplateRef<any>;
-
   @ViewChild('inputAmountUsd') inputAmountUsd?: ElementRef;
   @Input() isSelectedYoutube = false;
   @Input() isSelectedTwitter = false;
@@ -218,20 +215,18 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     this.isDestroyed$.unsubscribe();
   }
 
-  createTokenModal() {
-    // this.walletFacade.getCryptoPriceList().subscribe((res) => {
-    //   console.log(res);
-    // });
-    return this.modalService.open(this.tokenModal);
-  }
+  // createTokenModal() {
+  //   // this.walletFacade.getCryptoPriceList().subscribe((res) => {
+  //   //   console.log(res);
+  //   // });
+  //   return this.modalService.open(this.tokenModal);
+  // }
 
   closeTokenModal(content: any) {
-    if (this.openModalToken) {
-      this.modalService.dismissAll(content);
-      this.openModalToken = false;
-    }
+    this.modalService.dismissAll(content);
   }
   ngOnInit(): void {
+    console.log(this.draftData, 'drafffff');
     this.cdref.markForCheck();
     this.parentFunction().subscribe();
     this.getUserCrypto();
@@ -981,17 +976,30 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     }*/
   }
 
-  onCryptoSelected(crypto: any) {
-    this.selectedToken = crypto;
-    console.log(this.selectedToken, 'tokennnSelectedd');
-    console.log(
-      crypto.networkSupported.find((e: any) =>
-        e.platform.name.includes(this.selectedCryptoDetails.network)
-      ),
-      'crypto filtered'
-    );
-    // ?.platform.coin.name
-  }
+  // onCryptoSelected(crypto: any) {
+  //   // const networkSelectedToken: any = crypto.value.networkSupported?.find(
+  //   //   (e: any) => {
+  //   //     e.platform.name.includes(this.selectedCryptoDetails.network);
+  //   //   }
+  //   // );
+  //   console.log(crypto);
+  //   this.selectedToken = crypto;
+  //   // this.selectedCrypto = {
+  //   //   addr: networkSelectedToken.contract_address,
+  //   //   name: crypto.value.name,
+  //   //   type: this.selectedCryptoDetails.network
+  //   // };
+
+  //   console.log(this.selectedToken, 'tokennnSelectedd');
+  //   console.log(
+  //     crypto.value.networkSupported?.find((e: any) =>
+  //       e.platform.name.includes(this.selectedCryptoDetails.network)
+  //     ),
+  //     'crypto filtered'
+  //   );
+  // }
+  //   // ?.platform.coin.name
+  // }
   ngAfterViewChecked(): void {
     let elementinputusd = this.inputAmountUsd?.nativeElement;
     if (elementinputusd)
@@ -1006,6 +1014,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   // SWITCH TO ANOTHER CRYPTO
 
   linstingCrypto(event: any) {
+    console.log(event, 'event');
     this.insufficientBalance = false;
     this.fieldRequired = false;
     if (event.symbol !== this.form.get('currency')?.value) {

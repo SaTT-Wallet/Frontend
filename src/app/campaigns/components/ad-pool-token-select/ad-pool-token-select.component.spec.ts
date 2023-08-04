@@ -8,9 +8,8 @@ describe('AdPoolTokenSelectComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AdPoolTokenSelectComponent ]
-    })
-    .compileComponents();
+      declarations: [AdPoolTokenSelectComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {
