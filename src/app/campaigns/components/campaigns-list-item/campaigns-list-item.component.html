@@ -279,7 +279,7 @@
 </div>
 <ng-template class="modal-roi" #calculRoi>
   <app-roi-modal
-    [id]="campaign.id"
+    [campaign]="campaign"
     (closeModaleEvent)="closeRoi($event)"
   ></app-roi-modal>
 </ng-template>
