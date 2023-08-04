@@ -88,8 +88,9 @@ export class DropdownCryptoNetworkComponent
 
     if (e.target.value.length > 0) {
       this.campaignCryptoList.forEach((crypto: any) => {
+        console.log({ crypto });
         if (
-          crypto.value.name
+          crypto.name
             .toString()
             .toLowerCase()
             .includes(e.target.value.toLowerCase()) // crypto.symbol.includes(e.target.value)
@@ -186,14 +187,49 @@ export class DropdownCryptoNetworkComponent
     this.defaultcurrtron = ListTokens['TRX'].name;
 
     //SELECT TOKEN FOR CREATE CAMPAGIN
-
     if (this.router.url.startsWith('/campaign')) {
       this.walletFacade.getCryptoPriceList().subscribe((res: any) => {
         console.log({ data: res.data }, 'data wallet facade');
         const result = Object.keys(res.data);
         result.forEach((key) => {
-          let arr = res?.data[key]?.networkSupported || [];
-          if (!res.data[key].network) {
+          if (
+            res.data[key].network === 'ERC20' &&
+            this.selectedNetworkValue === 'ERC20'
+          ) {
+            this.campaignCryptoList.push(res.data[key]);
+          } else {
+            res.data[key].networkSupported.length > 0 &&
+              res.data[key].networkSupported.forEach((network: any) => {
+                if (network === this.selectedNetworkValue) {
+                  this.campaignCryptoList.push(res.data[key]);
+                }
+              });
+          }
+        });
+        this.filterList = this.campaignCryptoList;
+        console.log({ filterList: this.filterList });
+      });
+    } /*let arr = res?.data[key]?.networkSupported || [];
+    /*if (this.router.url.startsWith('/campaign')) {
+      this.walletFacade.getCryptoPriceList().subscribe((res: any) => {
+        console.log({ res });
+        Object.keys(res.data).forEach((key) => {
+          let default = false;
+          console.log({ key });
+          if(res.data[key].network === 'ERC20' && this.selectedNetworkValue === "ERC20") {
+            this.campaignCryptoList.push(res.data[key]);
+          }  else {
+            res.data[key].networkSupported.forEach((network) => {
+              if(network === this.selectedNetworkValue) {
+                this.campaignCryptoList.push(res.data[key])
+              }
+            })
+          } 
+          
+        });
+        });
+        } */
+    /*if (!res.data[key].network) {
             arr.forEach((data: any) => {
               data.platform?.name
                 .toUpperCase()
@@ -209,12 +245,7 @@ export class DropdownCryptoNetworkComponent
           } else {
             res.data[key].network === this.selectedNetworkValue &&
               this.campaignCryptoList.push(res.data[key]);
-          }
-        });
-        this.filterList = this.campaignCryptoList;
-        console.log({ filterList: this.filterList });
-      });
-    }
+          }*/
   }
   openModal(content: any) {
     this.modalService.open(content);
@@ -224,10 +255,31 @@ export class DropdownCryptoNetworkComponent
   }
   selectToken(content: any) {
     if (this.router.url.startsWith('/campaign')) {
+      this.walletFacade.getCryptoPriceList().subscribe((res: any) => {
+        console.log({ data: res.data }, 'data wallet facade');
+        const result = Object.keys(res.data);
+        result.forEach((key) => {
+          if (
+            res.data[key].network === 'ERC20' &&
+            this.selectedNetworkValue === 'ERC20'
+          ) {
+            this.campaignCryptoList.push(res.data[key]);
+          } else {
+            res.data[key].networkSupported.length > 0 &&
+              res.data[key].networkSupported.forEach((network: any) => {
+                if (network === this.selectedNetworkValue) {
+                  this.campaignCryptoList.push(res.data[key]);
+                }
+              });
+          }
+        });
+        this.filterList = this.campaignCryptoList;
+        console.log({ filterList: this.filterList });
+      });
       this.openModal(content);
     }
     // get the list of crypto for user
-    this.getUserCrypto();
+    //this.getUserCrypto();
 
     // this.walletFacade
     //   .getAllWallet()
