@@ -239,6 +239,12 @@
                       <span class="label label-text col-12 d-flex text-center">
                         ${{ (budgetInUSD | async) || '0' | number }}
                       </span>
+                      <img
+                      *ngIf="campaign?.hash"
+                        src="assets/Images/blue-icons/calculator.svg"
+                        width="20px"
+                        (click)="caluculateRoi(campaign.id, $event)"
+                      />
                     </div>
                     <button
                       style="border: none; background: none; margin: 0"
@@ -1436,3 +1442,11 @@
   </div>
   
 </div>
+
+
+<ng-template class="modal-roi" #calculRoi>
+  <app-roi-modal
+    [id]="campaign.id"
+    (closeModaleEvent)="closeRoi($event)"
+  ></app-roi-modal>
+</ng-template>

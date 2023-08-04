@@ -60,7 +60,7 @@
       <div class="row flex-sm-row flex-column justify-content-center">
         <div class="col-sm input-social-media">
           <div style="margin-bottom: 5px">
-            1 View = {{ campaignView }}
+            1 View = {{ oracleSelected === 'threads' ? 0 :campaignView }}
             <span>
               <img
                 class="icon-crypto-input"
@@ -90,6 +90,7 @@
               [(ngModel)]="InputView"
               (keypress)="validateNumber($event)"
               (ngModelChange)="estimationGains()"
+              [disabled]="oracleSelected === 'threads'"
             />
           </div>
         </div>
@@ -125,12 +126,13 @@
               [(ngModel)]="Inputlike"
               (keypress)="validateNumber($event)"
               (ngModelChange)="estimationGains()"
+              
             />
           </div>
         </div>
         <div class="col-sm input-social-media">
           <div style="margin-bottom: 5px">
-            1 Share = {{ campaignShare }}
+            1 Share = {{ oracleSelected === 'threads' ? 0 : campaignShare }}
             <span>
               <img
                 class="icon-crypto-input"
@@ -160,6 +162,7 @@
               [(ngModel)]="InputShare"
               (keypress)="validateNumber($event)"
               (ngModelChange)="estimationGains()"
+              [disabled]="oracleSelected === 'threads'"
             />
           </div>
         </div>
@@ -238,6 +241,7 @@
         {{ roiCurrentRate | number: '1.0-3' || '0' }}
         <span>
           <img
+          *ngIf="!!tokenName"
             style="height: 24px; width: 24px"
             src="/assets/Images/icons-crypto/black/{{ tokenName }}.svg"
           />

@@ -15,7 +15,7 @@ export class RoiModalComponent implements OnInit {
   inputValue: any;
   roiCurrentRate!: number;
   roiCurrentUsd!: number;
-  tokenName: string = '';
+  tokenName!: string ;
   campaignType: string = '';
   campaignView: number = 0;
   campaignlike: number = 0;
@@ -53,6 +53,7 @@ export class RoiModalComponent implements OnInit {
     this.roiCurrentUsd = 0;
     this.CampaignService.getOneById(this.id, 'projection').subscribe(
       (data: any) => {
+        console.log({data})
         this.tokenName = data.data.token.name;
         if (['SATTBEP20'].includes(this.tokenName)) this.tokenName = 'SATT';
         this.campaignType = data.data.remuneration;
@@ -61,7 +62,7 @@ export class RoiModalComponent implements OnInit {
    
        this.oracleSelected = this.campaignType === 'performance' ? this.campaignRatios[0].oracle : this.campaignBounties[0].oracle;
      
-     
+        
         this.campaignRatios.forEach((ratio: any) => {
           this.platforms.push(ratio.oracle);
         });
