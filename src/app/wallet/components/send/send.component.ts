@@ -195,7 +195,6 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.getusercrypto();
     this.getProfileDetails();
     this.amountdefault = this.sendform.get('currency')?.value;
-    console.log("test list : "+this.dataList)
   }
 
   openqrcode(): void {

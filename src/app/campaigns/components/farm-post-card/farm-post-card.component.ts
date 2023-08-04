@@ -71,7 +71,6 @@ export class FarmPostCardComponent implements OnInit {
     private sanitizer: DomSanitizer,
     @Inject(PLATFORM_ID) private platformId: string
   ) {
-    console.log({test:this.prom})
     this.reasonForm = new UntypedFormGroup(
       {
         reason1: new UntypedFormControl(null),
@@ -133,7 +132,6 @@ export class FarmPostCardComponent implements OnInit {
         switchMap(() => this.campaignService.getPromById(this.prom.hash)),
         map((data: any) => data.prom),
         map((prom: any) => {
-          console.log({prom})
           return {
             ...prom,
             safeURL: this.participationService.generatePostThumbnail(prom),
@@ -144,7 +142,7 @@ export class FarmPostCardComponent implements OnInit {
       )
       .subscribe((prom: any) => {
         this.prom = new Participation(prom);
-        console.log(this.prom)
+        
       });
     let currencyName = this.prom.campaign.currency;
     this.intervalId = setInterval(() => {

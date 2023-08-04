@@ -122,7 +122,6 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
   findDuplicatesCampaigns(arr: any) {
     let unique:any = [];
     arr.forEach((element:any) => {
-        console.log({element})
         if (!unique.includes(element.id)) {
             unique.push(element);
         }
