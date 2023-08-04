@@ -204,3 +204,143 @@ button:focus {
 .hide {
   display: none;
 }
+
+
+
+.modal_container {
+  padding: 1em;
+  height: 818px;
+  width: 23vw; /* Use the full width of the container */
+  // max-width: 23rem; /* Set a maximum width for the modal */
+}
+
+.modal_title {
+  font-family: 'Poppins';
+  font-weight: 700;
+  line-height: 28px;
+  width: fit-content;
+  margin: auto;
+  padding: 1em;
+}
+
+.button_add_token {
+  width: fit-content;
+  margin: auto;
+  background-color: #4048ff;
+}
+.modal_subtitle {
+  font-weight: 600;
+  font-family: 'Poppins';
+  padding: 1em 0em;
+  text-transform: uppercase;
+}
+
+.warning_message {
+  color: #4048ff;
+}
+
+.label_title {
+  padding: 0;
+  font-weight: 600;
+  font-family: 'Poppins';
+  text-transform: uppercase;
+}
+
+.network_selected {
+  border-radius: 30px;
+  padding: 0.5em;
+  color: #4048ff;
+  background-color: #f6f6ff;
+  text-transform: uppercase;
+}
+
+.input_search_token_container {
+  // display: inline-block;
+  border-radius: 30px;
+  border-color: #d6d6e8;
+  border-width: 1px;
+  border-style: solid;
+  margin-bottom: 1em;
+  padding: 0.7em;
+  // width: fit-content;
+}
+
+.input_search_token {
+  font-weight: 400;
+  border: none;
+  outline: none;
+  // width: 100%; /* Use the full width of the container */
+}
+
+.tokens_preview {
+  width: 107px;
+  justify-content: center;
+  height: 3em;
+  border-color: #d6d6e8;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 52px;
+}
+
+#search_logo {
+  padding: 1em 1em;
+}
+
+.list_crypto_container {
+  height: 22.5em;
+  overflow: auto;
+}
+
+.warning_div {
+  width: fit-content;
+  margin: auto;
+}
+
+.list_token {
+  margin: auto;
+  margin-bottom: 1em;
+  background-color: #f6f6ff;
+  border-radius: 31px;
+  height: 42px;
+  max-width: 335px; /* Set a maximum width for the token list */
+  padding: 0.3em 0 0 0;
+}
+
+.img_token {
+  // padding: 0em 1em;
+  margin-left: 1em;
+  width: 32px;
+  height: 32px;
+}
+
+.name_token {
+  padding: 0.5em;
+  font-family: 'Poppins';
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20.8px;
+  letter-spacing: 3%;
+}
+
+.balance_token {
+  margin-right: 1em;
+  padding: 0.5em;
+  font-size: 16px;
+  line-height: 20.8px;
+  letter-spacing: 3%;
+}
+
+.form-group {
+  padding: 0;
+  display: flex;
+  flex-direction: column; /* Display label and input in a column */
+}
+
+.form-group label {
+  margin-bottom: 5px; /* Optional: Add some space between label and input */
+}
+
+.form-group input {
+  /* Add any additional styling for the input here */
+  // width: 100%; /* Use the full width of the container */
+}

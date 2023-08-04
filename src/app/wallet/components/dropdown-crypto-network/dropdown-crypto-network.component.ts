@@ -7,13 +7,17 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  SimpleChanges
+  SimpleChanges,
+  TemplateRef,
+  ViewChild
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ListTokens } from '@app/config/atn.config';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-dropdown-crypto-network',
@@ -31,7 +35,17 @@ export class DropdownCryptoNetworkComponent
   dataList: any = [];
   defaultcurr: any;
   defaultcurrbtt: any;
-
+  tokenSearch = new FormControl('');
+  // @Input() selectedToken: any = [];
+  @Output() tokenSelected = new EventEmitter<any>();
+  campaignCryptoList: any = [];
+  filterList: any = [];
+  userCrypto: any = [];
+ 
+  tokenNotFound: boolean = false;
+  showWarning: boolean = true;
+  showSearchNewTokenContainer: boolean = false;
+  selectedNetworkValueForCamapigns: string = 'bep20';
   defaultcurrbep: any;
   defaultcurrbtc: any;
   cryptoName: any;
@@ -51,11 +65,14 @@ export class DropdownCryptoNetworkComponent
   cryptoList: any = [];
   defaultcurrpolygon: any;
   defaultcurrtron: any;
+  @ViewChild('selectToken', { static: false })
+  public selectTokenModal!: TemplateRef<any>;
   constructor(
     private walletFacade: WalletFacadeService,
     private route: ActivatedRoute,
     public router: Router,
-    private cdref: ChangeDetectorRef
+    private cdref: ChangeDetectorRef,
+    private modalService: NgbModal,
   ) {
     this.networkList = [
       { network: 'BEP20' },
@@ -68,6 +85,7 @@ export class DropdownCryptoNetworkComponent
   }
 
   ngOnInit(): void {
+
     this.routerSub = this.route.queryParams
       .pipe(takeUntil(this.onDestoy$))
       .subscribe((p: any) => {
@@ -90,6 +108,7 @@ export class DropdownCryptoNetworkComponent
           // this.selectedNetworkValue = 'ERC20';
         }
       });
+      
     this.getusercrypto();
     this.defaultcurr = ListTokens['SATT'].name;
     this.defaultcurrbep = ListTokens['SATTBEP20'].name;
@@ -97,6 +116,50 @@ export class DropdownCryptoNetworkComponent
     this.defaultcurrpolygon = ListTokens['MATIC'].name;
     this.defaultcurrbtt = ListTokens['BTT'].name;
     this.defaultcurrtron = ListTokens['TRX'].name;
+
+
+
+    // SELECT TOKEN FOR CREATE CAMPAIGN
+    if(this.router.url.startsWith('/campaign')) {
+      
+  
+      this.walletFacade.getCryptoPriceList().subscribe((res: any) => {
+        console.log({ data: res.data }, 'data wallet facade');
+        const result = Object.keys(res.data);
+        result.forEach((key) => {
+          let arr = res?.data[key]?.networkSupported || [];
+          if (!res.data[key].network) {
+            arr.forEach((data: any) => {
+              data.platform?.name
+                .toUpperCase()
+                .includes(this.selectedNetworkValue) &&
+                !this.campaignCryptoList.find(
+                  (e: any) => e.name === res.data[key].name
+                ) &&
+                this.campaignCryptoList.push({ key: key, value: res.data[key] });
+            });
+          } else {
+            res.data[key].network === this.selectedNetworkValue &&
+              this.campaignCryptoList.push(res.data[key]);
+          }
+        });
+        this.filterList = this.campaignCryptoList;
+        console.log({filterList: this.filterList})
+        
+      });
+     
+    }
+  }
+  openModal(content: any) {
+    this.modalService.open(content);
+  }
+  closeModal(content: any) {
+    this.modalService.dismissAll(content);
+  }
+  selectToken(content:any) {
+    if(this.router.url.startsWith('/campaign')) {
+      this.openModal(content)
+    }
   }
   //get list of crypto for user
   getusercrypto() {
@@ -356,5 +419,48 @@ export class DropdownCryptoNetworkComponent
         this.cdref.detectChanges();
       }
     }
+  }
+
+
+
+
+
+
+  // TOKEN SELECT FOR CAMPAIGN CREATE 
+  reset(e: any) {
+    e.target.value = '';
+    this.filterList = this.campaignCryptoList;
+    this.showSearchNewTokenContainer = false;
+    this.showWarning = true;
+    this.tokenNotFound = false;
+  }
+
+  searchPersonalizedToken() {
+    this.showSearchNewTokenContainer = !this.showSearchNewTokenContainer;
+    this.showWarning = false;
+  }
+
+  tokenToSelect(crypto: any) {
+    // this.getTokenBalance();
+    this.tokenSelected.emit(crypto);
+  }
+
+  searchToken(e: any) {
+    this.filterList = [];
+
+    if (e.target.value.length > 0) {
+      this.campaignCryptoList.forEach((crypto: any) => {
+        if (
+          crypto.value.name
+            .toString()
+            .toLowerCase()
+            .includes(e.target.value.toLowerCase()) // crypto.symbol.includes(e.target.value)
+        )
+          this.filterList.push(crypto);
+        console.log(this.filterList), 'filterList';
+      });
+      if (this.filterList.length === 0) this.tokenNotFound = true;
+      else this.tokenNotFound = false;
+    } else this.filterList = this.campaignCryptoList;
   }
 }
