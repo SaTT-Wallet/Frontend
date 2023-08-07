@@ -84,9 +84,8 @@ export class DropdownCryptoNetworkComponent
   }
 
   searchToken(e: any) {
-    this.filterList = [];
-
     if (e.target.value.length > 0) {
+      this.filterList = [];
       this.campaignCryptoList.forEach((crypto: any) => {
         console.log({ crypto });
         if (
@@ -96,7 +95,6 @@ export class DropdownCryptoNetworkComponent
             .includes(e.target.value.toLowerCase()) // crypto.symbol.includes(e.target.value)
         )
           this.filterList.push(crypto);
-        console.log(this.filterList), 'filterList';
       });
       if (this.filterList.length === 0) this.tokenNotFound = true;
       else this.tokenNotFound = false;
@@ -253,28 +251,34 @@ export class DropdownCryptoNetworkComponent
   closeModal(content: any) {
     this.modalService.dismissAll(content);
   }
+
   selectToken(content: any) {
     if (this.router.url.startsWith('/campaign')) {
+      this.campaignCryptoList = [];
       this.walletFacade.getCryptoPriceList().subscribe((res: any) => {
-        console.log({ data: res.data }, 'data wallet facade');
         const result = Object.keys(res.data);
         result.forEach((key) => {
-          if (
-            res.data[key].network === 'ERC20' &&
-            this.selectedNetworkValue === 'ERC20'
-          ) {
-            this.campaignCryptoList.push(res.data[key]);
-          } else {
-            res.data[key].networkSupported.length > 0 &&
-              res.data[key].networkSupported.forEach((network: any) => {
-                if (network === this.selectedNetworkValue) {
+          typeof res.data[key].networkSupported != 'string' &&
+            res.data[key].networkSupported.forEach((value: any) => {
+              console.log(this.selectedNetworkValue);
+              if (this.selectedNetworkValue === 'ERC20') {
+                value.platform.name === 'Ethereum' &&
                   this.campaignCryptoList.push(res.data[key]);
-                }
-              });
-          }
+              } else {
+                value.platform.name
+                  .toString()
+                  .toLowerCase()
+                  .includes(
+                    this.selectedNetworkValue.toString().toLowerCase()
+                  ) && this.campaignCryptoList.push(res.data[key]);
+              }
+            });
+          // this.campaignCryptoList.push({
+          //   key: key,
+          //   value: res.data[key]
+          // })
+          this.filterList = this.campaignCryptoList;
         });
-        this.filterList = this.campaignCryptoList;
-        console.log({ filterList: this.filterList });
       });
       this.openModal(content);
     }
@@ -426,6 +430,7 @@ export class DropdownCryptoNetworkComponent
     AddedToken: string,
     crypto: any
   ) {
+    console.log({ crypto });
     this.firstEmit = true;
     if (this.isCryptoRouter) {
       this.isCryptoRouter = false;
