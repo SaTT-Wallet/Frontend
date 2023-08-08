@@ -27,7 +27,7 @@
       <div class="height-drop">
         <app-dropdown-crypto-network
           (selectedCrypto)="linstingCrypto($event)"
-          [cryptoFromDraft]="this.draftData.currency.name"
+          [cryptoFromDraft]="this.form.get('currency')?.value"
         ></app-dropdown-crypto-network>
       </div>
       <div class="">

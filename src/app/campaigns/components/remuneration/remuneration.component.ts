@@ -50,6 +50,8 @@ import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { DOCUMENT } from '@angular/common';
 import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CampaignsService } from '@app/campaigns/facade/campaigns.facade';
+import { CampaignHttpApiService } from '@app/core/services/campaign/campaign.service';
 
 enum ERemunerationType {
   Publication = 'publication',
@@ -173,6 +175,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     private walletFacade: WalletFacadeService,
     private showNumbersRule: ShowNumbersRule,
     private renderer: Renderer2,
+    private campaignService: CampaignHttpApiService,
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string
   ) {
@@ -231,7 +234,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     this.parentFunction().subscribe();
     this.getUserCrypto();
     this.saveForm();
-    console.log(this.form.get('currency')?.value);
+    console.log('testttt zeaazeaezae ', this.form.get('currency')?.value);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -239,6 +242,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       /*
       this.form?.patchValue(this.draftData, { emitEvent: false });
 */
+      console.log('testttt');
       this.form?.patchValue(
         {
           initialBudget: this.convertFromWeiTo.transform(
@@ -1021,8 +1025,11 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       this.form.get('initialBudget')?.reset();
       this.form.get('initialBudgetInUSD')?.reset();
     }
+
     this.selectedCryptoDetails = event;
+    console.log({ test: this.selectedCryptoDetails });
     this.form.get('currency')?.setValue(this.selectedCryptoDetails.symbol);
+    console.log({ form: this.form });
     this.amountdefault = this.form.get('currency')?.value;
     this.selectedCryptoSend = event.symbol;
     this.symbol = event.symbol;
@@ -1030,6 +1037,21 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     this.networks = event.network;
     this.decimals = event.decimal;
     this.token = event.AddedToken;
+    console.log({ draft: this.draftData });
+    //this.service.saveForm()
+    console.log({ hello: this.selectedCryptoDetails });
+    this.campaignService
+      .updateOneById(
+        {
+          token: {
+            name: this.selectedCryptoDetails.key,
+            type: this.selectedCryptoDetails.network,
+            addr: this.selectedCryptoDetails.contract
+          }
+        },
+        this.draftData.id
+      )
+      .subscribe((res) => console.log({ res }));
   }
 
   // GET MAX AMOUNT FOR CAMPAIGN BUDGET

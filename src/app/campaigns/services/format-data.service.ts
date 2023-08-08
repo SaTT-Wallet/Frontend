@@ -52,11 +52,15 @@ export class FormatDataService {
       object.countries = campaign.targetedCountries; //this.countriesCode(campaign.targetedCountries);
     }
     if (campaign.hasOwnProperty('currency')) {
+      console.log({ campaign, ListTokens });
       object.token = {
         name: campaign.currency.name || campaign.currency || '',
-        type: campaign.currency?.type?.toUpperCase() || ListTokens[campaign.currency]?.type.toUpperCase(),
+        type:
+          campaign.currency?.type?.toUpperCase() ||
+          ListTokens[campaign.currency]?.type.toUpperCase(),
         addr: campaign.currency.addr || ListTokens[campaign.currency].contract
       };
+      console.log({ object });
 
       if (
         object.token.name === 'WSATT' ||

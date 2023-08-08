@@ -63,6 +63,7 @@
       data-toggle="dropdown"
       aria-haspopup="true"
       aria-expanded="false"
+      *ngIf="!router.url.startsWith('/campaign')"
     >
       <button
         [disabled]="selectedNetworkValue === 'BTC'"
@@ -86,6 +87,65 @@
           *ngIf="this.token && !this.addedTokenNopic"
         />
         <span class="dropdown-text ps-3">{{ cryptoSymbol | translate }} </span>
+      </button>
+      <ul
+        class="dropdown-menu"
+        aria-labelledby="dropdownButton2"
+        id="dropdownButtonUl"
+        *ngIf="!router.url.startsWith('/campaign')"
+      >
+        <ng-container *ngFor="let crypto of dataList; trackBy: trackById">
+          <li
+            class="li-select"
+            *ngIf="
+              crypto.type === selectedNetworkValue &&
+              crypto.symbol !== cryptoSymbol
+            "
+            (click)="
+              selectCryptoValue(
+                crypto.name,
+                crypto.undername2,
+                crypto.symbol,
+                crypto.AddedToken,
+                crypto
+              )
+            "
+          >
+            <span class="li-select-text">{{ crypto.symbol | translate }}</span>
+
+            <img
+              *ngIf="!crypto.picUrl"
+              src="assets/Images/symbol_crypto/{{ crypto.undername2 }}.svg"
+              class="width_icon_crypto"
+            />
+            <img
+              class="width_icon_crypto"
+              *ngIf="crypto.picUrl"
+              [src]="crypto.picUrl"
+              alt=""
+            />
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+    <div
+      class="dropdown"
+      id="dropdown-ul"
+      data-flip="false"
+      type="button"
+      id="dropdownButton2"
+      data-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
+      *ngIf="router.url.startsWith('/campaign')"
+    >
+      <button
+        (click)="selectToken(selectTokenModal)"
+        class="btn btntoggle dropdown-toggle btn-dropdown"
+      >
+        <i class="chevron fa fa-fw"></i>
+        <img class="crypto-image" src="{{ cryptoImageCamapign }}" />
+        <span class="dropdown-text ps-3">{{ cryptoSymbolCampaign }} </span>
       </button>
       <ul
         class="dropdown-menu"
@@ -156,8 +216,10 @@
           *ngFor="let crypto of filterList.slice(0, 6); let i = index"
         >
           <div class="tokens_preview d-flex p-2 mb-2">
-            <img class="img_token" src="{{ crypto.logo }}" alt="logo" />
-            <p class="name_token">{{ crypto.key }}</p>
+            <img class="img_token" src="{{ crypto.value.logo }}" alt="logo" />
+            <p class="name_token">
+              {{ crypto.key }}
+            </p>
           </div>
         </div>
       </div>
@@ -230,10 +292,9 @@
               crypto?.AddedToken,
               crypto
             ) -->
-            <img class="img_token" src="{{ crypto.logo }}" alt="Logo" />
+            <img class="img_token" src="{{ crypto.value.logo }}" alt="Logo" />
             <!-- <ul *ngFor='let item of tokens'></ul> -->
-            <p class="name_token p-2">{{ crypto.name }}</p>
-            <p class="balance_token ml-auto p-2">0</p>
+            <p class="name_token p-2">{{ crypto.value.name }}</p>
             <!-- justify-content-end -->
           </div>
         </div>
