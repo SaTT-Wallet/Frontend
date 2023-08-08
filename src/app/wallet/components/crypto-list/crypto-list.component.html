@@ -1860,9 +1860,10 @@
                   res.length === 0 &&
                   res2.length === 0 &&
                   this.searched &&
-                  search.indexOf('0x') < 0
+                  !isValidAddress(search)
                 "
               >
+             
                 <img class="not-found" src="/assets/Images/not-found.svg " />
 
                 <p class="result-found make-center mt-3">
@@ -1949,7 +1950,7 @@
                 *ngIf="
                   res2.length === 0 &&
                   res.length === 0 &&
-                  search?.indexOf('0x') >= 0 &&
+                  isValidAddress(search) &&
                   !!search
                 "
               >
@@ -2008,7 +2009,7 @@
                                 class="dropdown-menu"
                                 aria-labelledby="dropdownMenuButton"
                               >
-                                <li
+                                <li 
                                   *ngFor="let network of networkList"
                                   (click)="selectNetwork(network)"
                                 >
@@ -3126,13 +3127,14 @@
                   res.length === 0 &&
                   res2.length === 0 &&
                   this.searched &&
-                  search.indexOf('0x') < 0 &&
+                
                   !importManually
                 "
               >
                 <div
                   class="w-100 d-flex justify-content-center align-items-center"
                 >
+                
                   <img
                     class="not-found make-center"
                     src="/assets/Images/not-found.svg "
