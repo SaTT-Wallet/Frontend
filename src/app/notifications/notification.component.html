@@ -122,6 +122,7 @@
                   i.type !== 'cmp_candidate_accept_link' &&
                   i.type !== 'receive_transfer_event'
                 "
+
                 [translate]="i._label"
                 [translateParams]="i._params"
               ></p>
@@ -130,6 +131,7 @@
                 *ngIf="i.content"
                 [translate]="i.content"
               ></p>
+              <p class="label_time_notif p-0 m-0">{{ i.createdFormated }}</p>
               <p
                 class="label_avatar_notif p-0 m-0"
                 *ngIf="
@@ -152,7 +154,7 @@
                 <span
                   *ngIf="i.type === 'apply_campaign'"
                   class="link"
-                
+              
                 ></span>
                 <span
                   *ngIf="i.type === 'transfer_event'"
@@ -171,7 +173,7 @@
                             <span  [translate]="i._label" [translateParams]="i._params" ></span>
                             <span  class="link" [translate]="'apply_campaign_hash'" [translateParams]="i._params" ></span>
                            </p> -->
-              <p class="label_time_notif p-0 m-0">{{ i.createdFormated }}</p>
+              
             </div>
           </div>
         </div>
