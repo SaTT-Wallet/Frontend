@@ -432,8 +432,8 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
 
 .search-results {
     margin-top: 10px;
-    /* margin-left: 40% !important;
-    margin-right: 10% !important; */
+    /* margin-left: 40% !important; */
+    margin-right: 20% !important;  
 }
 
 .div_filter {
@@ -490,3 +490,7 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
 .separator {
   height: 65px;
 }
+
+
+ 
+   
