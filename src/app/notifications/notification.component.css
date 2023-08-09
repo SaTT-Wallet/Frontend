@@ -107,10 +107,8 @@ input[type='search']::-webkit-search-cancel-button {
 
 .div_notification {
     background: transparent;
-    border-top: 0.25px solid #ADADC8;
-    border-bottom: 0.25px solid #ADADC8;
-    /* box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
-    border-radius: 30px; */
+    border-top:  0.25px solid rgba(117, 117, 143, 0.3) !important; /* Color #75758f with 30% opacity */
+    border-bottom:  0.25px solid rgba(117, 117, 143, 0.3) !important; 
 }
 
 .div_notification :hover {
@@ -434,6 +432,8 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
 
 .search-results {
     margin-top: 10px;
+    /* margin-left: 40% !important;
+    margin-right: 10% !important; */
 }
 
 .div_filter {
