@@ -70,7 +70,6 @@ export class FarmPostCardComponent implements OnInit {
     private sanitizer: DomSanitizer,
     @Inject(PLATFORM_ID) private platformId: string
   ) {
-    console.log({test:this.prom})
     this.reasonForm = new UntypedFormGroup(
       {
         reason1: new UntypedFormControl(null),
