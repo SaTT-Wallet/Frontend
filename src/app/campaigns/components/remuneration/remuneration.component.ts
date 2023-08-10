@@ -17,7 +17,9 @@ import {
 } from '@angular/core';
 import {
   AbstractControl,
+  FormBuilder,
   FormControl,
+  FormGroup,
   UntypedFormArray,
   UntypedFormControl,
   UntypedFormGroup,
@@ -52,6 +54,8 @@ import { ShowNumbersRule } from '@app/shared/pipes/showNumbersRule';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CampaignsService } from '@app/campaigns/facade/campaigns.facade';
 import { CampaignHttpApiService } from '@app/core/services/campaign/campaign.service';
+import { environment } from '@environments/environment';
+import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 
 enum ERemunerationType {
   Publication = 'publication',
@@ -72,6 +76,99 @@ interface IDropdownFilterOptions {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RemunerationComponent implements OnInit, OnDestroy {
+  networksNew: string[] = [
+    'Ethereum',
+    'Binance Smart Chain',
+    'Polygon',
+    'Solana'
+  ];
+  tokensNew: any = {
+    Ethereum: {
+      ETH: {
+        name: 'Ethereum',
+        symbol: 'ETH',
+        address: '0xethereumaddress',
+        logoUrl: 'https://example.com/eth-logo.png'
+      },
+      DAI: {
+        name: 'Dai Stablecoin',
+        symbol: 'DAI',
+        address: '0xdaiaddress',
+        logoUrl: 'https://example.com/dai-logo.png'
+      },
+      UNI: {
+        name: 'Uniswap',
+        symbol: 'UNI',
+        address: '0xuniaddress',
+        logoUrl: 'https://example.com/uni-logo.png'
+      }
+    },
+    'Binance Smart Chain': {
+      BNB: {
+        name: 'Binance Coin',
+        symbol: 'BNB',
+        address: '0xbbnbaddress',
+        logoUrl: 'https://example.com/bnb-logo.png'
+      },
+      CAKE: {
+        name: 'PancakeSwap',
+        symbol: 'CAKE',
+        address: '0xcakeaddress',
+        logoUrl: 'https://example.com/cake-logo.png'
+      },
+      BUSD: {
+        name: 'Binance USD',
+        symbol: 'BUSD',
+        address: '0xbusdaddress',
+        logoUrl: 'https://example.com/busd-logo.png'
+      }
+      // ...
+    },
+    Polygon: {
+      MATIC: {
+        name: 'Polygon',
+        symbol: 'MATIC',
+        address: '0xmaticaddress',
+        logoUrl: 'https://example.com/matic-logo.png'
+      },
+      AAVE: {
+        name: 'Aave',
+        symbol: 'AAVE',
+        address: '0xaaveaddress',
+        logoUrl: 'https://example.com/aave-logo.png'
+      },
+      QUICK: {
+        name: 'Quickswap',
+        symbol: 'QUICK',
+        address: '0xquickaddress',
+        logoUrl: 'https://example.com/quick-logo.png'
+      }
+      // ...
+    },
+    Solana: {
+      SOL: {
+        name: 'Solana',
+        symbol: 'SOL',
+        address: 'soladdress',
+        logoUrl: 'https://example.com/sol-logo.png'
+      },
+      RAY: {
+        name: 'Raydium',
+        symbol: 'RAY',
+        address: 'rayaddress',
+        logoUrl: 'https://example.com/ray-logo.png'
+      },
+      SRM: {
+        name: 'Serum',
+        symbol: 'SRM',
+        address: 'srmaddress',
+        logoUrl: 'https://example.com/srm-logo.png'
+      }
+      // ...
+    }
+  };
+
+  newForm!: FormGroup;
   @ViewChild('inputAmountUsd') inputAmountUsd?: ElementRef;
   @Input() isSelectedYoutube = false;
   @Input() isSelectedTwitter = false;
@@ -167,6 +264,9 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   bttGaz: any;
   trx: any;
   trxGaz: any;
+  res: any;
+
+  selectedTokensNew: any[] = [];
   constructor(
     public modalService: NgbModal,
     private service: DraftCampaignService,
@@ -176,9 +276,21 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     private showNumbersRule: ShowNumbersRule,
     private renderer: Renderer2,
     private campaignService: CampaignHttpApiService,
+    private tokenStorageService: TokenStorageService,
+    private fb: FormBuilder,
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string
   ) {
+    this.newForm = this.fb.group({
+      selectedNetworkNew: '',
+      selectedTokenNew: ''
+    });
+    this.newForm
+      .get('selectedNetworkNew')
+      ?.valueChanges.subscribe((network) => {
+        this.selectedTokensNew = Object.values(this.tokensNew[network] || {});
+      });
+
     this.form = new UntypedFormGroup(
       {
         initialBudget: new UntypedFormControl('', {
@@ -218,6 +330,40 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     this.isDestroyed$.unsubscribe();
   }
 
+  logSelectedValues() {
+    console.log('Selected Network:', this.newForm.value.selectedNetworkNew);
+    console.log('Selected Token:', this.newForm.value.selectedTokenNew);
+    console.log('Selected Adress:', this.selectedTokenAddress());
+  }
+
+  selectedTokenLogoUrl(): string | undefined {
+    const selectedTokenSymbol = this.newForm.value.selectedTokenNew;
+    const selectedNetwork = this.newForm.value.selectedNetworkNew;
+
+    if (selectedTokenSymbol && selectedNetwork) {
+      const selectedNetworkData = this.tokensNew[selectedNetwork];
+      if (selectedNetworkData) {
+        const selectedToken = selectedNetworkData[selectedTokenSymbol];
+        return selectedToken ? selectedToken.logoUrl : undefined;
+      }
+    }
+    return undefined;
+  }
+
+  // Function to get the selected token's address
+  selectedTokenAddress(): string | undefined {
+    const selectedTokenSymbol = this.newForm.value.selectedTokenNew;
+    const selectedNetwork = this.newForm.value.selectedNetworkNew;
+
+    if (selectedTokenSymbol && selectedNetwork) {
+      const selectedNetworkData = this.tokensNew[selectedNetwork];
+      if (selectedNetworkData) {
+        const selectedToken = selectedNetworkData[selectedTokenSymbol];
+        return selectedToken ? selectedToken.address : undefined;
+      }
+    }
+    return undefined;
+  }
   // createTokenModal() {
   //   // this.walletFacade.getCryptoPriceList().subscribe((res) => {
   //   //   console.log(res);
@@ -228,13 +374,21 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   closeTokenModal(content: any) {
     this.modalService.dismissAll(content);
   }
+  getTokenType() {
+    this.campaignService
+      .getOneById('64c76b113cdf7874b1ea6411')
+      .subscribe((res) => console.log('api resssss', res));
+  }
   ngOnInit(): void {
-    console.log(this.draftData, 'drafffff');
+    this.getTokenType();
     this.cdref.markForCheck();
     this.parentFunction().subscribe();
     this.getUserCrypto();
     this.saveForm();
-    console.log('testttt zeaazeaezae ', this.form.get('currency')?.value);
+
+    this.walletFacade.getCryptoPriceList().subscribe((result: any) => {
+      this.res = result;
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -242,7 +396,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       /*
       this.form?.patchValue(this.draftData, { emitEvent: false });
 */
-      console.log('testttt');
+      console.log({ test: this.draftData });
       this.form?.patchValue(
         {
           initialBudget: this.convertFromWeiTo.transform(
@@ -409,6 +563,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         }),
         debounceTime(500),
         tap((values: any) => {
+          console.log('allo values ....', values);
           var arrayControl = this.form.get('ratios') as UntypedFormArray;
           const lengthRatios = arrayControl.length;
           var arrayControlBounties = this.form.get(
@@ -1025,7 +1180,8 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       this.form.get('initialBudget')?.reset();
       this.form.get('initialBudgetInUSD')?.reset();
     }
-
+    this.form.get('initialBudget')?.setValue('0');
+    this.form.get('initialBudgetInUSD')?.setValue('0.00');
     this.selectedCryptoDetails = event;
     console.log({ test: this.selectedCryptoDetails });
     this.form.get('currency')?.setValue(this.selectedCryptoDetails.symbol);
@@ -1037,9 +1193,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     this.networks = event.network;
     this.decimals = event.decimal;
     this.token = event.AddedToken;
-    console.log({ draft: this.draftData });
     //this.service.saveForm()
-    console.log({ hello: this.selectedCryptoDetails });
     this.campaignService
       .updateOneById(
         {
@@ -1051,9 +1205,22 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         },
         this.draftData.id
       )
-      .subscribe((res) => console.log({ res }));
+      .subscribe((res: any) => {
+        console.log("é'daazdaz");
+        console.log({
+          token: {
+            name: this.selectedCryptoDetails.key,
+            type: this.selectedCryptoDetails.network,
+            addr: this.selectedCryptoDetails.contract
+          }
+        });
+        if (res?.name === 'JsonWebTokenError') this.expiredSession();
+      });
   }
-
+  expiredSession() {
+    this.tokenStorageService.clear();
+    window.open(environment.domainName + '/auth/login', '_self');
+  }
   // GET MAX AMOUNT FOR CAMPAIGN BUDGET
 
   onClickAmount(): void {

@@ -31,6 +31,7 @@ export class FormatDataService {
   }
 
   manipulateDataBeforeSend(campaign: any): any {
+    console.log({ hello: campaign });
     let price: any;
     let object: any = {};
     if (campaign.hasOwnProperty('title')) {
@@ -54,13 +55,12 @@ export class FormatDataService {
     if (campaign.hasOwnProperty('currency')) {
       console.log({ campaign, ListTokens });
       object.token = {
-        name: campaign.currency.name || campaign.currency || '',
+        name: campaign.token.name || campaign.currency || 'test',
         type:
-          campaign.currency?.type?.toUpperCase() ||
+          campaign.token?.type?.toUpperCase() ||
           ListTokens[campaign.currency]?.type.toUpperCase(),
-        addr: campaign.currency.addr || ListTokens[campaign.currency].contract
+        addr: campaign.token.addr || ListTokens[campaign.currency].contract
       };
-      console.log({ object });
 
       if (
         object.token.name === 'WSATT' ||
@@ -160,6 +160,8 @@ export class FormatDataService {
     if (campaign.hasOwnProperty('missions')) {
       object.missions = campaign.missions;
     }
+
+    console.log({ check: object });
     return object;
   }
 
