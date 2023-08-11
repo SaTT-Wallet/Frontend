@@ -672,6 +672,15 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
     size: 16px;
     letter-spacing: 1%;   
 }
+/* .checkbck input[type="checkbox"] {
+    display: none;
+  } */
+  
+  .checkbck.checked {
+    background-color: #7A7FFF;
+    color: white;
+    border-color: #7A7FFF;
+  }
  
   
  
