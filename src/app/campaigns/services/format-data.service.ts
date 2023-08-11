@@ -31,7 +31,6 @@ export class FormatDataService {
   }
 
   manipulateDataBeforeSend(campaign: any): any {
-    console.log({ hello: campaign });
     let price: any;
     let object: any = {};
     if (campaign.hasOwnProperty('title')) {
@@ -53,7 +52,6 @@ export class FormatDataService {
       object.countries = campaign.targetedCountries; //this.countriesCode(campaign.targetedCountries);
     }
     if (campaign.hasOwnProperty('currency')) {
-      console.log({ campaign, ListTokens });
       object.token = {
         name: campaign.token.name || campaign.currency || 'test',
         type:
@@ -161,7 +159,6 @@ export class FormatDataService {
       object.missions = campaign.missions;
     }
 
-    console.log({ check: object });
     return object;
   }
 

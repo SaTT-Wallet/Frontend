@@ -35,7 +35,6 @@ import { DraftPictureComponent } from './components/draft-picture/draft-picture.
 import { CommonModule } from '@angular/common';
 import { SocialsComponent } from './socials/socials.component';
 import { SharedModule } from '@app/shared/shared.module';
-import { AdPoolTokenSelectComponent } from './components/ad-pool-token-select/ad-pool-token-select.component';
 @NgModule({
   declarations: [
     CampaignsDashboardComponent,
@@ -57,8 +56,7 @@ import { AdPoolTokenSelectComponent } from './components/ad-pool-token-select/ad
     TransactionMessageStatusComponent,
     MissionsComponent,
     DraftPictureComponent,
-    SocialsComponent,
-    AdPoolTokenSelectComponent
+    SocialsComponent
   ],
   imports: [
     CommonModule,

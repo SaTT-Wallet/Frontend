@@ -144,7 +144,11 @@
         class="btn btntoggle dropdown-toggle btn-dropdown"
       >
         <i class="chevron fa fa-fw"></i>
-        <img class="crypto-image" src="{{ cryptoImageCamapign }}" />
+        <img
+          class="crypto-image"
+          src="{{ getCryptoImage() }}"
+          onerror="this.src='/assets/Images/symbol_crypto/indispo.svg'"
+        />
         <span class="dropdown-text ps-3">{{ cryptoSymbolCampaign }} </span>
       </button>
       <ul
@@ -229,13 +233,14 @@
       <ng-container *ngIf="tokenNotFound && showWarning">
         <div class="warning_div">
           <p>{{ 'No Search Result Available' | uppercase }}</p>
-          <p
+          <!-- <p
             class="warning_message"
             *ngIf="!showSearchNewTokenContainer"
             (click)="searchPersonalizedToken()"
           >
             Add a personnaliszed token >
-          </p>
+          </p> -->
+          <!-- Futur Button for add token  -->
         </div>
       </ng-container>
       <ng-container *ngIf="showSearchNewTokenContainer">

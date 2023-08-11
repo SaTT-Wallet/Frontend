@@ -80,7 +80,6 @@ export class DraftCampaignService implements OnDestroy {
         }
       }),
       map((values: any) => {
-        console.log('values from service ...', +values);
         let campaignData = JSON.parse(JSON.stringify(values.formData));
 
         const formData = this.formatData.manipulateDataBeforeSend({
@@ -90,7 +89,6 @@ export class DraftCampaignService implements OnDestroy {
         return { formData, id: values.id };
       }),
       switchMap((values: any) => {
-        console.log({ values });
         return this.service.updateOneById(values.formData, values.id).pipe(
           tap(() => {
             this.campaignsStore.initCampaignStore(values.id);

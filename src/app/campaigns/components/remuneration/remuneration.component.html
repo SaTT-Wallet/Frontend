@@ -81,6 +81,7 @@
         <app-dropdown-crypto-network
           (selectedCrypto)="linstingCrypto($event)"
           [cryptoFromDraft]="this.form.get('currency')?.value"
+          [selectedNetworkValue]="selectedNetworkValue"
           [res]="res"
         ></app-dropdown-crypto-network>
       </div>
@@ -103,9 +104,7 @@
       >
         <!-- <p class="hard-gray-text mb-0">Balance :{{ totalAmount }} USD</p> -->
         <p class="hard-gray-text mb-0">
-          Balance :${{
-            this.selectedCryptoDetails?.total_balance | showNumbersRule
-          }}
+          Balance :${{ selectedCryptoDetails.total_balance | showNumbersRule }}
         </p>
 
         <span class="router-text" (click)="onClickAmount()">{{

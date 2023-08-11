@@ -42,6 +42,7 @@ export class HttpInterceptorService implements HttpInterceptor {
     `${environment.API_URL}/wallet/export-keystore`,
     `${environment.API_URL}/wallet/getQuote`,
     `${environment.API_URL}/wallet/payementRequest`,
+    `${environment.API_URL}/wallet/getBalance`,
 
     // CAMPAIGN API
     `${environment.API_URL}/campaign/btt/approval`,

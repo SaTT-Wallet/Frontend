@@ -96,7 +96,6 @@ export class CampaignsStoreService {
       .updateOneById(data, this.campaign.id)
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((res: IApiResponse<ICampaignResponse> | null) => {
-        console.log('"édadazdazd');
         let campaign = new Campaign(res?.data);
 
         campaign.ownedByUser =
