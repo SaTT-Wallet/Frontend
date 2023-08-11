@@ -107,7 +107,8 @@ input[type='search']::-webkit-search-cancel-button {
 
 .div_notification {
     background: transparent;
-    border-top:  0.25px solid rgba(117, 117, 143, 0.3) !important; /* Color #75758f with 30% opacity */
+    /* border-top:  0.25px solid rgba(117, 117, 143, 0.3) !important; */
+     /* Color #75758f with 30% opacity */
     border-bottom:  0.25px solid rgba(117, 117, 143, 0.3) !important;
   
 }
@@ -295,7 +296,7 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
 }
 
 .card_notif {
-    margin-bottom: 70px;
+    margin-bottom: 30px !important;
 }
 
 .page_history_mobile {
