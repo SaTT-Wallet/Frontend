@@ -676,7 +676,7 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
     display: none;
   } */
   
-  .checkbck.checked {
+  .checkbck{
     background-color: #7A7FFF;
     color: white;
     border-color: #7A7FFF;

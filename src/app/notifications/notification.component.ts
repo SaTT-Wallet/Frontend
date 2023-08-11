@@ -82,9 +82,24 @@ export class NotificationComponent implements OnInit {
     { text: 'Waiting', toggle: true },
     { text: 'Refused', toggle: true }
   ];
+  checkboxData = [
+    { label: 'Facebook', toggle: false },
+    { label: 'Instagram', toggle: false },
+    { label: 'Linkedin', toggle: false },
+    { label: 'Tiktok', toggle: false },
+    { label: 'Twitter', toggle: false },
+    { label: 'Youtube', toggle: false }
+  ];
+  checkboxData1 = [
+    { label: 'Display only AdPools I created', toggle: false },
+  ];
+  enableDisableRulecheck(checkbox: any) {
+    checkbox.toggle = !checkbox.toggle;
+  }
   enableDisableRule(button: any) {
     button.toggle = !button.toggle;
   }
+ 
   //
 
   constructor(

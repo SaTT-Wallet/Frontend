@@ -43,11 +43,9 @@
     </div>
       <div class="lines line">
       <p class="ptext">AdPools</p>
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="flexCheckCheckedDisabled" checked disabled>
-        <label class="checkb" for="flexCheckCheckedDisabled">
-          Display only AdPools I created
-        </label>
+      <div class="form-check" *ngFor="let checkbox of checkboxData1">
+        <input class="form-check-input" type="checkbox" [ngClass]="{'checkbck': checkbox.toggle, 'checkb': !checkbox.toggle}" (click)="enableDisableRulecheck(checkbox)">
+        <label class="checkb">{{ checkbox.label }}</label>
       </div>
      
     <p class="ptext">Choose statue</p>
@@ -66,47 +64,12 @@
       <div class="line">
         <p class="ptext">Select Social media</p>
 
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminateDisabled" disabled>
-          <label class="checkb" for="flexCheckIndeterminateDisabled">
-            Facebook
-          </label>
+        <div class="form-check" *ngFor="let checkbox of checkboxData">
+          <input class="form-check-input" type="checkbox" [ngClass]="{'checkbck': checkbox.toggle, 'checkb': !checkbox.toggle}" (click)="enableDisableRulecheck(checkbox)">
+          <label class="checkb">{{ checkbox.label }}</label>
         </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckDisabled" disabled>
-          <label class="checkb" for="flexCheckDisabled">
-            Instagram
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckCheckedDisabled" checked disabled>
-          <label class="checkb" for="flexCheckCheckedDisabled">
-           Linkedin
-          </label>
-        </div>
-
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminateDisabled" disabled>
-          <label class="checkb" for="flexCheckIndeterminateDisabled">
-           Tiktok
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckDisabled" disabled>
-          <label class="checkb" for="flexCheckDisabled">
-            Twitter
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckCheckedDisabled" checked disabled>
-          <label class="checkb" for="flexCheckCheckedDisabled">
-            Youtube
-          </label>
-        </div>
-
-
-
         
+
         </div>
       </div>
       
