@@ -33,6 +33,7 @@ import { environment } from '@environments/environment';
   styleUrls: ['./notification.component.css']
 })
 export class NotificationComponent implements OnInit {
+ 
   searchTerm: any;
   term: any;
   public currentLang: string | undefined;
@@ -65,6 +66,27 @@ export class NotificationComponent implements OnInit {
   newNotification: boolean = false;
   errorMessagecode = '';
   modalReference: any;
+  //
+  buttonData1 = [
+    { text: 'Sent', toggle: true },
+    { text: 'Received', toggle: true },
+    { text: 'Resquest', toggle: true }
+  ];
+  buttonData2 = [
+    { text: 'In Progress', toggle: true },
+    { text: 'Finished', toggle: true },
+    { text: 'Budget Alert', toggle: true }
+  ];
+  buttonData3 = [
+    { text: 'To Harvest', toggle: true },
+    { text: 'Waiting', toggle: true },
+    { text: 'Refused', toggle: true }
+  ];
+  enableDisableRule(button: any) {
+    button.toggle = !button.toggle;
+  }
+  //
+
   constructor(
     private eRef: ElementRef,
     private _changeDetectorRef: ChangeDetectorRef,
