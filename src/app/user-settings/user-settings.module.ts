@@ -15,7 +15,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { ProfilePicEffects } from './store/effects/profile-pic.effects';
 import { Store, StoreModule } from '@ngrx/store';
 import * as fromProfilePic from '@user-settings/store/reducers/profile-pic.reducer';
-
+import { MatSnackBarModule } from '@angular/material/snack-bar'
+import { CustomToastComponent } from './components/custom-toast/custom-toast.component';
 @NgModule({
   declarations: [
     ProfileComponent,
@@ -26,10 +27,12 @@ import * as fromProfilePic from '@user-settings/store/reducers/profile-pic.reduc
     SecurityComponent,
     InfoComponent,
     NetworksComponent,
-    SocialNetworksComponent
+    SocialNetworksComponent,
+    CustomToastComponent
   ],
   imports: [
     SharedModule,
+    MatSnackBarModule,
     UserSettingsRoutingModule,
     NgxIntlTelInputModule,
     EffectsModule.forFeature([ProfilePicEffects]),

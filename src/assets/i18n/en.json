@@ -51,6 +51,7 @@
   "sendMSGtwitter": "To send links, you must first connect your Twitter account.",
   "sendMSGfacebook": "To send links, you must first connect your Facebook account.",
   "sendMSGgoogle": "To send links, you must first connect your Google account.",
+  "sendMSGThreads": "To send links, you must first connect your Threads account.",
   "sendMSGtiktok": "To send links, you must first connect your TikTok account.",
   "sendMSGlinkedin": "To send links, you must first connect your linkedin account.",
   "Aide.particpateCampagne": "How can I participate in an Ad Pool to earn SaTT?",
@@ -586,6 +587,7 @@
   "social_networks.nb_subsc": "Nb of subscribers",
   "social_networks.add_youtube_ch": "Add Youtube Channel",
   "social_networks.add_fb": "Add Facebook account",
+  "social_networks.add_threads": "Add Threads account",
   "social_networks.add_twitter": "Add Twitter account",
   "social_networks.add_linkedin": "Add Linkedin account",
   "social_networks.follower": "Follower",
@@ -652,6 +654,7 @@
   "fund_form.description": "You receive this alert because you have less than 10% of the budget allocated to your campaign. If it reaches 0, your campaign will automatically end. Increase your budget if you want to avoid this. At the end of the campaign, the remaining budget will be returned to you.",
   "fund_form.title_": "You only have allocated to your campaign",
   "google_signup": "Connect to Google",
+  "threads_signup": "Connect to Threads",
   "tiktok_signup": "Connect to TikTok",
   "linkedin_signup": "Connect to Linkedin",
   "send_msg": "Your message has been sent successfully",
@@ -830,7 +833,7 @@
   "channel_required": "Youtube channel is required",
   "page_required": "Page is required",
   "account_linked_other_account": "Account already linked !",
-  "deconnect_successfully": "Deconnection successfully",
+  "deconnect_successfully": " successfully Deconnection",
   "trans.du": "From",
   "trans.au": "To",
   "link_already_exist": "This link already exist please try with another one!",
@@ -872,6 +875,7 @@
   "Add_channel_twitter": "Add your Twitter account",
   "Add_channel_linkedin": "Add your Linkedin account",
   "Add_channel_tiktok": "Add your TikTok account",
+  "Add_channel_threads": "Add your Threads account",
   "bye_gaz": "Buy more gas",
   "Montant_récupéré": "Amount already recovered",
   "no-gains": "No gains",
@@ -1158,6 +1162,7 @@
   "importThisToken":"import this token",
   "privacyPolicy":"PRIVACY POLICY",
   "invalidEmailAddress":"Invalid email address",
+  "RegisterFirst":"Register First",
   "incorrectPassword":"incorrect password",
   "verif_code":"Verification code",  
   "verifEmailSent":"Email sent, Please try again after {{ timeLeft }} seconds",  
@@ -1254,6 +1259,12 @@
     "addTags": "Add tags #tag01 #tag02 #tag03",
     "indicatePaidPartnership": "Indicate as a paid partnership with our brand"
   },
+
+  "threads": {
+    "postPhoto": "Post a photo of the product \"xxx\"",
+    "addTags": "Add tags #tag01 #tag02 #tag03",
+    "indicatePaidPartnership": "Indicate as a paid partnership with our brand"
+  },
   "tiktok": {
     "postPhoto": "Post a photo of the product \"xxx\"",
     "addTags": "Add tags #tag01 #tag02 #tag03",
@@ -1298,7 +1309,16 @@
 "continueWithSimplex":"Continue with Simplex",
 "swapWithUniswap":"Swap with uniswap",
 "swapWithPancakeswap":"Swap with pancakeswap",
-"createTronWallet":"Now you have the possibility to create your Tron ​​wallet. You Need to just enter your transactional password to create it"
+"createTronWallet":"Now you have the possibility to create your Tron ​​wallet. You Need to just enter your transactional password to create it",
+"time.left":"left",
+"SaTTPrice":"SaTT Price",
+"allCountries":"All Countries",
+"Aide.Vous_avez_une_question":"Do you have a question?",
+"selectAll":"Select All",
+"unSelectAll":"UnSelect All"
+
+
+
 
 
 

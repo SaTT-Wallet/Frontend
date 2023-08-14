@@ -107,10 +107,11 @@ export class HttpInterceptorService implements HttpInterceptor {
     `${environment.API_URL}/profile/account`,
     `${environment.API_URL}/profile/check/threads-account`,
     `${environment.API_URL}/profile/add/threads-account`,
-    `${environment.API_URL}/profile/remove/threads-account`
-  ];
+    `${environment.API_URL}/profile/remove/threads-account`   
+  ]; 
 
-  constructor() {}
+  constructor() { }
+
 
   intercept(request: HttpRequest<any>, next: HttpHandler) {
     // Check if the URL of the current request is in the list of private endpoints

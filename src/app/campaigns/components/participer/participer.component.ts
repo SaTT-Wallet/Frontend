@@ -96,6 +96,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
   userfaceook: any;
   idfaceook: any;
   idinstagram: any;
+  idThreads: any;
   idlinkedin: any;
   urlTronsformed: any;
   idtiktok: any;
@@ -124,6 +125,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
   @ViewChild('facebookDiv') facebookDiv?: ElementRef;
   @ViewChild('TwitterDiv') twitterDiv?: ElementRef;
   @ViewChild('instagramDiv') instagramDiv?: ElementRef;
+  @ViewChild('threadsDiv') threadsDiv?: ElementRef;
   @ViewChild('instaDiv') instaDiv?: ElementRef;
   @ViewChild('linkedinDiv') linkedinDiv?: ElementRef;
   @ViewChild('linkDiv') linkDiv?: ElementRef;
@@ -190,10 +192,12 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
       ?.valueChanges.pipe(takeUntil(this.isDestroyedSubject))
       .subscribe((value: any) => {
         this.urlTronsformed = value;
+        
         if (value !== '') {
           this.linkNetorwkMutch = true;
           this.linked = false;
           this.validUrl = true;
+          
         }
         this.spinner = true;
         this.errorResponse = '';
@@ -286,7 +290,10 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
     }
   }
   connect(social: any) {
-    var linkFacebook: string =
+    if(social === 'threads') {
+      this.router.navigate(['/settings/social-networks']);
+    } else {
+      var linkFacebook: string =
       sattUrl +
       '/profile/addChannel/facebook/' +
       this.tokenStorageService.getIdUser() +
@@ -334,11 +341,14 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
         window.location.href = linkTiktok;
       }
     }
+    }
+  
   }
   redirect(link: any) {
     this.sendform.reset();
     this.userfaceook = '';
     this.idinstagram = '';
+    this.idThreads = '';
     this.idvideo = '';
     this.idtiktok = '';
     this.idlinkedin = '';
@@ -445,6 +455,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
         }
 
         this.idinstagram = '';
+        this.idThreads = '';
         this.idstatus = '';
         this.idvideo = '';
         this.idlinkedin = '';
@@ -595,6 +606,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
         this.application = myApplication;
         this.userfaceook = '';
         this.idinstagram = '';
+        this.idThreads = '';
         this.idvideo = '';
         setTimeout(() => {
           // var element = this.document.getElementById('twitter-widget-0');
@@ -741,6 +753,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
 
         this.userfaceook = '';
         this.idstatus = '';
+        this.idThreads = '';
         this.idvideo = '';
         this.idlinkedin = '';
 
@@ -950,6 +963,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
         this.idstatus = '';
         this.idvideo = '';
         this.idinstagram = '';
+        this.idThreads = '';
 
         if (this.application) {
           this.tokenStorageService.setIdUserPost(myApplication.idUser);
@@ -1058,6 +1072,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
         myApplication.idPost = videoId;
         this.userfaceook = '';
         this.idinstagram = '';
+        this.idThreads = '';
         this.idstatus = '';
         this.idlinkedin = '';
       }
@@ -1209,6 +1224,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
 
       this.userfaceook = '';
       this.idinstagram = '';
+      this.idThreads = '';
       this.idstatus = '';
       this.idlinkedin = '';
 
@@ -1299,6 +1315,97 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
       }
     } else if (media.indexOf('vm.tiktok.com') !== -1) {
       this.idtiktok = 0;
+    } else if(media.indexOf('https://www.threads.net/') !== -1 && media.indexOf('post') !== -1) {
+      this.idinstagram = '';
+      
+      if(performance.find((ratio: any) => ratio.oracle === 'threads')) {
+      const parts = media.split('/');
+      const lastPart = parts[parts.length - 1];
+      let linkApp = {
+        typeSN: 7,
+        idUser: this.tokenStorageService.getUserId(),
+        idPost: lastPart
+      };
+      this.CampaignService.verifyLink(linkApp)
+        .subscribe(
+          (res:any) => {
+            if (
+              res.message === 'success' &&
+              res.code === 200 &&
+              res.data === 'true'
+            ) {
+              this.idThreads = lastPart;
+              this.linked = true;
+              this.loadingButton = false;
+              this.spinner = false;
+              this.tokenStorageService.setIdPost(linkApp.idPost);
+              this.tokenStorageService.setTypeSN(linkApp.typeSN);
+              this.tokenStorageService.setIdUserPost(linkApp.idUser)
+              //application.idPost = this.tokenStorageService.getIdPost();
+              //application.idUser = this.tokenStorageService.getIdUserPost();
+              //application.typeSN = this.tokenStorageService.getTypeSN();
+            } else if (res.data === 'false' && res.code === 200 && res.message === 'success') {
+              this.error = 'Not_your_link';
+              this.oracleType = 'threads';
+              this.success = '';
+              this.loadingButton = false;
+              this.router.navigate([], {
+                queryParams: {
+                  errorMessage: 'error'
+                }
+              });
+            }
+          },(err) => {
+            this.spinner = false;
+            console.log({err})
+            if (
+              err.error.error === 'account not linked' &&
+              err.error.code === 406
+            ) {
+              this.connectValue = 'threads';
+              this.errorResponse = 'threads';
+              this.error = '';
+              this.success = '';
+              this.loadingButton = false;
+            } else if(
+              err.error.error === 'link not found' &&
+              err.error.code === 406
+            ) {
+              this.error = 'No link found on Threads with this link.';
+              this.errorDescription = '';
+              this.success = '';
+              this.loadingButton = false;
+            } else if (
+              err.error.error === 'invalid link' &&
+              err.error.code === 406
+            ) {
+              this.connectValue = 'threads';
+              this.errorResponse = 'threads';
+              this.error = '';
+              this.success = '';
+              this.loadingButton = false;
+            } else if (
+              err.error.error === 'account deactivated' &&
+              err.error.code === 405
+            ) {
+              this.error = 'account_deactivated_error';
+            } else {
+              this.error = 'Default';
+              this.errorDescription = 'Default paragraphe';
+              this.success = '';
+              this.loadingButton = false;
+            }
+          }
+          )
+      } else {
+        this.spinner = false;
+        this.error = 'oracle_not_exist';
+        this.success = '';
+        this.loadingButton = false;
+      }
+      
+      
+      
     } else {
       this.validUrl = false;
     }
@@ -1328,7 +1435,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
       .pipe(takeUntil(this.isDestroyedSubject))
       .subscribe((datavideo: any) => {
      
-        
+        console.log({datavideo})
         this.imagevideo = datavideo.thumbnail_url;
         this.titlevideo = datavideo.title;
       });
@@ -1702,6 +1809,10 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
         '_blank'
       );
   }
+
+
+
+
   ngOnDestroy(): void {
     this.isDestroyedSubject.next('');
     this.isDestroyedSubject.unsubscribe();

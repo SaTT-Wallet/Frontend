@@ -82,6 +82,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   @Input() isSelectedTwitter = false;
   @Input() isSelectedFacebook = false;
   @Input() isSelectedInstagram = false;
+  @Input() isSelectedThreads = false;
   @Input() isSelectedLinkedin = false;
   @Input() isSelectedTikTok = false;
   @Input() isSelectedGoogleAnalytics = false;
@@ -416,6 +417,11 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       this.isSelectedInstagram = !this.isSelectedInstagram;
       this.toggleOracle('instagram', event.event);
     }
+
+    if (event.oracle === 'threads') {
+      this.isSelectedThreads = !this.isSelectedThreads;
+      this.toggleOracle('threads', event.event);
+    }
     if (event.oracle === 'twitter') {
       this.isSelectedTwitter = !this.isSelectedTwitter;
       this.toggleOracle('twitter', event.event);
@@ -598,6 +604,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       this.isSelectedTwitter ||
       this.isSelectedFacebook ||
       this.isSelectedInstagram ||
+      this.isSelectedThreads ||
       this.isSelectedTikTok ||
       this.isSelectedGoogleAnalytics
     ) {
@@ -614,6 +621,9 @@ export class RemunerationComponent implements OnInit, OnDestroy {
 
       if (this.isSelectedInstagram) {
         this.toggleOracle('instagram', true);
+      }
+      if (this.isSelectedThreads) {
+        this.toggleOracle('threads', true);
       }
       if (this.isSelectedTwitter) {
         this.toggleOracle('twitter', true);
@@ -914,6 +924,9 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     this.isSelectedInstagram = array.find((elem) => elem.oracle === 'instagram')
       ? true
       : false;
+      this.isSelectedThreads = array.find((elem) => elem.oracle === 'threads')
+      ? true
+      : false;
     this.isSelectedTwitter = array.find((elem) => elem.oracle === 'twitter')
       ? true
       : false;
@@ -1017,6 +1030,8 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         oracle === 'youtube' ? false : this.isSelectedYoutube;
       this.isSelectedInstagram =
         oracle === 'instagram' ? false : this.isSelectedInstagram;
+        this.isSelectedThreads =
+        oracle === 'threads' ? false : this.isSelectedThreads;
       this.isSelectedLinkedin =
         oracle === 'linkedin' ? false : this.isSelectedLinkedin;
       this.isSelectedTikTok =

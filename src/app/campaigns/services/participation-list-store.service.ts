@@ -140,9 +140,12 @@ export class ParticipationListStoreService {
               this.count = response.data.count;
               response.data.Links.forEach((element: any) => {
                 basicTotalToEarn = element.totalToEarn
+
+                if(typeof element.appliedDate === 'number' )
+{
                 element.appliedDate = this.createDateFromUnixTimestamp(
                   element.appliedDate
-                );
+                );}
 
                 if (element.status !== true) element.totalToEarn = '0';
                 if (
