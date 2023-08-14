@@ -138,8 +138,6 @@ export class CampaignsStoreService {
     return this.campaignsListSubject.getValue();
   }
 
- 
-
   addDraftCampaign(draftCampaign: any) {
     let campaignsList: any = this.campaignsListByWalletIdSubject.getValue();
 

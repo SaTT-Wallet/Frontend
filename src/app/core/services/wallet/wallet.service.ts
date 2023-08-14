@@ -11,7 +11,6 @@ import {
 } from '@app/core/types/rest-api-responses';
 
 export interface ITransferTokensRequestBody {
-  
   from: string;
   to: string;
   amount: string;
@@ -19,7 +18,6 @@ export interface ITransferTokensRequestBody {
   network: string;
   tokenSymbol: string;
   tokenAddress: string;
-
 }
 
 @Injectable({
@@ -34,10 +32,9 @@ export class WalletService {
   dismissPage = new Subject();
 
   public getWallet(): Observable<IResponseWallet> {
-    return this.http.post<IResponseWallet>(
-      sattUrl + '/wallet/mywallet',
-      { version: this.tokenStorageService?.getWalletVersion() }
-    );
+    return this.http.post<IResponseWallet>(sattUrl + '/wallet/mywallet', {
+      version: this.tokenStorageService?.getWalletVersion()
+    });
   }
 
   public getAllWallet(): Observable<IResponseWallet> {
@@ -46,65 +43,45 @@ export class WalletService {
       .pipe(share());
   }
 
-
   transferTokens(
     body: ITransferTokensRequestBody,
-    max:any,
+    max: any
   ): Observable<IApiResponse<ITransferTokensResponse>> {
     return this.http.post<IApiResponse<ITransferTokensResponse>>(
       `${sattUrl}/wallet/transferTokens?max=${max}`,
       body
-     
     );
   }
 
   createTronWallet(password: string) {
-    return this.http.post(
-      `${sattUrl}/wallet/add-tron-wallet`,
-      { pass: password }
-    );
+    return this.http.post(`${sattUrl}/wallet/add-tron-wallet`, {
+      pass: password
+    });
   }
-
 
   checkUserWalletV2() {
-    return this.http.get(
-      `${sattUrl}/wallet/checkUserWalletV2`,
-    );
+    return this.http.get(`${sattUrl}/wallet/checkUserWalletV2`);
   }
 
-
-
+  getBalanceByToken(payload: any) {
+    return this.http.post(`${sattUrl}/wallet/getBalance`, payload);
+  }
 
   createNewWalletV2(password: string) {
-    return this.http.post(
-      `${sattUrl}/wallet/create/v2`,
-      { pass: password }
-    );
+    return this.http.post(`${sattUrl}/wallet/create/v2`, { pass: password });
   }
 
   verifySign(password: string) {
-    return this.http.post(
-      `${sattUrl}/wallet/verifySign`,
-      { pass: password }
-    );
+    return this.http.post(`${sattUrl}/wallet/verifySign`, { pass: password });
   }
 
-
-
   checkUserIsNew() {
-    return this.http.get(
-      `${sattUrl}/wallet/checkIsNewUser`
-      
-    );
+    return this.http.get(`${sattUrl}/wallet/checkIsNewUser`);
   }
 
   checkWalletV2Exist() {
-    return this.http.get(
-      `${sattUrl}/wallet/checkUserWalletV2`
-    );
+    return this.http.get(`${sattUrl}/wallet/checkUserWalletV2`);
   }
-
- 
 
   chartjs() {
     /*
@@ -117,13 +94,10 @@ export class WalletService {
   }
 
   checkToken(network: string, tokenAdress: any) {
-    return this.http.post(
-      `${sattUrl}/wallet/checkWalletToken`,
-      {
-        network: network,
-        tokenAdress: tokenAdress
-      }
-    );
+    return this.http.post(`${sattUrl}/wallet/checkWalletToken`, {
+      network: network,
+      tokenAdress: tokenAdress
+    });
   }
   addToken(
     tokenName: string,
@@ -132,52 +106,35 @@ export class WalletService {
     tokenAdress: string,
     network: string
   ) {
-    return this.http.post(
-      `${sattUrl}/wallet/addNewToken`,
-      {
-        tokenAdress,
-        decimal,
-        symbol,
-        network,
-        tokenName
-      }
-    );
+    return this.http.post(`${sattUrl}/wallet/addNewToken`, {
+      tokenAdress,
+      decimal,
+      symbol,
+      network,
+      tokenName
+    });
   }
   listTokens() {
     return this.http.get(sattUrl + '/wallet/cryptoDetails');
     // https://api.satt-token.com:3014/prices
   }
 
-
-
   getExportCode(network: string, version: string) {
-    return this.http.post(
-      `${sattUrl}/wallet/code-export-keystore`,
-      {
-        network: network,
-        version: version
-      }
-      
-    )
+    return this.http.post(`${sattUrl}/wallet/code-export-keystore`, {
+      network: network,
+      version: version
+    });
   }
-
 
   exportKeyStore(network: string, version: string, code: number) {
-    return this.http.post(
-      `${sattUrl}/wallet/export-keystore`,
-      {
-        network: network,
-        version: version,
-        code: code
-      }
-    )
+    return this.http.post(`${sattUrl}/wallet/export-keystore`, {
+      network: network,
+      version: version,
+      code: code
+    });
   }
 
-
-
   verifyUserToken() {
-    return this.http.get(
-      `${sattUrl}/auth/verify-token`
-    )
+    return this.http.get(`${sattUrl}/auth/verify-token`);
   }
 }
