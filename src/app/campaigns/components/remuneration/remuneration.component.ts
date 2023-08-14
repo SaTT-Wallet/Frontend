@@ -27,6 +27,7 @@ import {
 } from '@angular/forms';
 import { forkJoin, Observable, Subject } from 'rxjs';
 import {
+  catchError,
   debounceTime,
   filter,
   map,
@@ -232,16 +233,8 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   closeTokenModal(content: any) {
     this.modalService.dismissAll(content);
   }
-  getTokenType() {
-    let network = 'ERC20';
-    this.campaignService.getOneById(this.draftData.id).subscribe((res) => {
-      network = res.data.token.type;
-    });
-    return network;
-  }
 
   ngOnInit(): void {
-    this.getTokenType();
     this.cdref.markForCheck();
     this.parentFunction().subscribe();
     this.getUserCrypto();
@@ -289,32 +282,63 @@ export class RemunerationComponent implements OnInit, OnDestroy {
               .getBalanceByToken({
                 network: this.selectedNetworkValue.toLowerCase(),
                 walletAddress: window.localStorage.getItem('wallet_id'),
-                isNative: false,
-                smartContract: '0xE6baB06eb943e9b6D475fB229E3E15F6E49a5461' //value.contract
+                isNative:
+                  value.contract ===
+                    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' ||
+                  value.contract === '0' ||
+                  value.contract ===
+                    '0x0000000000000000000000000000000000001010'
+                    ? true
+                    : false,
+                smartContract: value.contract //value.contract
               })
-              .subscribe((res: any) => {
-                this.selectedCryptoDetails = {
-                  AddedToken: !!value.AddedToken ? value.AddedToken : true,
-                  balance: 0,
-                  contract: value.contract,
-                  contrat: value.contract,
-                  decimal: 18,
-                  key: this.form.get('currency')?.value,
-                  network: this.selectedNetworkValue,
-                  picUrl: true,
-                  price: value.value.price,
-                  quantity: res.data,
-                  symbol: this.form.get('currency')?.value,
-                  total_balance: res.data * value.value.price,
-                  type: this.selectedNetworkValue,
-                  typetab: this.selectedNetworkValue,
-                  undername: value.value.name,
-                  undername2: value.value.name,
-                  variation: 0
-                };
-                console.log('ezeerze', this.selectedCryptoDetails);
-                this.totalBalanceExist = true;
-              });
+
+              .subscribe(
+                (res: any) => {
+                  this.selectedCryptoDetails = {
+                    AddedToken: !!value.AddedToken ? value.AddedToken : true,
+                    balance: 0,
+                    contract: value.contract,
+                    contrat: value.contract,
+                    decimal: 18,
+                    key: this.form.get('currency')?.value,
+                    network: this.selectedNetworkValue,
+                    picUrl: true,
+                    price: value.value.price,
+                    quantity: res.data,
+                    symbol: this.form.get('currency')?.value,
+                    total_balance: res.data * value.value.price,
+                    type: this.selectedNetworkValue,
+                    typetab: this.selectedNetworkValue,
+                    undername: value.value.name,
+                    undername2: value.value.name,
+                    variation: 0
+                  };
+                  this.totalBalanceExist = true;
+                },
+                (error: any) => {
+                  this.selectedCryptoDetails = {
+                    AddedToken: !!value.AddedToken ? value.AddedToken : true,
+                    balance: 0,
+                    contract: value.contract,
+                    contrat: value.contract,
+                    decimal: 18,
+                    key: this.form.get('currency')?.value,
+                    network: this.selectedNetworkValue,
+                    picUrl: true,
+                    price: value.value.price,
+                    quantity: 0,
+                    symbol: this.form.get('currency')?.value,
+                    total_balance: 0,
+                    type: this.selectedNetworkValue,
+                    typetab: this.selectedNetworkValue,
+                    undername: value.value.name,
+                    undername2: value.value.name,
+                    variation: 0
+                  };
+                  this.totalBalanceExist = true;
+                }
+              );
           }
         });
       });
@@ -1092,7 +1116,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     this.decimals = event.decimal;
     this.token = event.AddedToken;
     //this.service.saveForm()
-
+    this.selectedNetworkValue = this.selectedCryptoDetails.network;
     this.campaignService
       .updateOneById(
         {
@@ -1167,7 +1191,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   // HANDLE USER INPUT IN REMUNERATION BUDGET
 
   convertcurrency(event: any): void {
-    // console.log({ selected: this.selectedCryptoDetails });
     this.fieldRequired = false;
     var getamount: any = this.form.get('initialBudget')?.value;
     let getusd: any = this.form.get('initialBudgetInUSD')?.value;

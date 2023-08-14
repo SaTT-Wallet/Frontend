@@ -85,20 +85,20 @@ export class DropdownCryptoNetworkComponent
     this.showWarning = true;
     this.tokenNotFound = false;
   }
-
+  errorNetwork() {
+    this.selectedNetworkValue = 'ERC20';
+    this.selectNetworkValue(this.selectedNetworkValue);
+  }
   getCryptoImage() {
     let logo = '';
     if (!!this.res) {
       const result = Object.keys(this.res.data);
       result.forEach((key) => {
-        console.log({ key });
-        console.log({ symbol: this.cryptoSymbolCampaign });
         if (key === this.cryptoSymbolCampaign) {
           logo = this.res.data[key].logo;
         }
       });
     }
-    console.log({ logo });
     return logo;
   }
 
@@ -125,45 +125,83 @@ export class DropdownCryptoNetworkComponent
   }
 
   tokenToSelect(crypto: any) {
-    console.log({ crypto });
     this.walletFacade
       .getBalanceByToken({
         network: this.selectedNetworkValue.toLowerCase(),
         walletAddress: window.localStorage.getItem('wallet_id'),
-        smartContract: '0xE6baB06eb943e9b6D475fB229E3E15F6E49a5461', // crypto.contract TO DO
-        isNative: false // TO DO
+        smartContract: crypto.contract, // crypto.contract TO DO
+        isNative:
+          crypto.contract === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' ||
+          crypto.contract === '0' ||
+          crypto.contract === '0x0000000000000000000000000000000000001010'
+            ? true
+            : false // TO DO
       })
-      .subscribe((res: any) => {
-        this.quantity = res.data;
-        this.cryptoImageCamapign = crypto.value.logo;
-        this.cryptoSymbolCampaign = crypto.key;
-        this.closeTokenModal(this.tokenModal);
-        this.selectCryptoValue(
-          crypto.name,
-          crypto?.undername2,
-          crypto?.symbol,
-          !!crypto.AddedToken ? crypto.AddedToken : true,
-          {
-            AddedToken: !!crypto.value.AddedToken ? crypto.AddedToken : true,
-            balance: 0,
-            contract: crypto.contract,
-            contrat: '',
-            decimal: 18,
-            key: crypto.key,
-            network: this.selectedNetworkValue,
-            picUrl: true,
-            price: crypto.value.price,
-            quantity: this.quantity,
-            symbol: crypto.key,
-            total_balance: this.quantity * crypto.value.price,
-            type: this.selectedNetworkValue,
-            typetab: this.selectedNetworkValue,
-            undername: crypto.value.name,
-            undername2: crypto.value.name,
-            variation: 0
-          }
-        );
-      });
+      .subscribe(
+        (res: any) => {
+          this.quantity = res.data;
+          this.cryptoImageCamapign = crypto.value.logo;
+          this.cryptoSymbolCampaign = crypto.key;
+          this.closeTokenModal(this.tokenModal);
+          this.selectCryptoValue(
+            crypto.name,
+            crypto?.undername2,
+            crypto?.symbol,
+            !!crypto.AddedToken ? crypto.AddedToken : true,
+            {
+              AddedToken: !!crypto.value.AddedToken ? crypto.AddedToken : true,
+              balance: 0,
+              contract: crypto.contract,
+              contrat: '',
+              decimal: 18,
+              key: crypto.key,
+              network: this.selectedNetworkValue,
+              picUrl: true,
+              price: crypto.value.price,
+              quantity: this.quantity,
+              symbol: crypto.key,
+              total_balance: this.quantity * crypto.value.price,
+              type: this.selectedNetworkValue,
+              typetab: this.selectedNetworkValue,
+              undername: crypto.value.name,
+              undername2: crypto.value.name,
+              variation: 0
+            }
+          );
+        },
+        (err: any) => {
+          this.quantity = 0;
+          this.cryptoImageCamapign = crypto.value.logo;
+          this.cryptoSymbolCampaign = crypto.key;
+          //this.selectNetworkValue = crypto.network;
+          this.closeTokenModal(this.tokenModal);
+          this.selectCryptoValue(
+            crypto.name,
+            crypto?.undername2,
+            crypto?.symbol,
+            !!crypto.AddedToken ? crypto.AddedToken : true,
+            {
+              AddedToken: !!crypto.value.AddedToken ? crypto.AddedToken : true,
+              balance: 0,
+              contract: crypto.contract,
+              contrat: '',
+              decimal: 18,
+              key: crypto.key,
+              network: this.selectedNetworkValue,
+              picUrl: true,
+              price: crypto.value.price,
+              quantity: this.quantity,
+              symbol: crypto.key,
+              total_balance: this.quantity * crypto.value.price,
+              type: this.selectedNetworkValue,
+              typetab: this.selectedNetworkValue,
+              undername: crypto.value.name,
+              undername2: crypto.value.name,
+              variation: 0
+            }
+          );
+        }
+      );
   }
 
   getUserCrypto() {
@@ -280,19 +318,8 @@ export class DropdownCryptoNetworkComponent
           });
         this.filterList = this.campaignCryptoList;
       });
-
-      console.log({ filter: this.filterList });
       this.openModal(content);
     }
-    // get the list of crypto for user
-    //this.getUserCrypto();
-
-    // this.walletFacade
-    //   .getAllWallet()
-    //   // .pipe(filter((crypto) => crypto.network === this.selectedNetworkValue))
-    //   .subscribe((res) => {
-    //     console.log(res, 'futur token List');
-    //   });
   }
   //get list of crypto for user
   getusercrypto() {
@@ -314,7 +341,6 @@ export class DropdownCryptoNetworkComponent
         ];
         /*----emit default cryto to receive compoent */
         this.dataList?.forEach((crypto: any) => {
-          // console.log({ kok: this.cryptoFromDraft });
           if (!this.cryptoFromDraft && !this.firstEmit) {
             if (crypto.symbol === 'SATT') {
               // this.selectedCrypto.emit(crypto);
@@ -489,10 +515,9 @@ export class DropdownCryptoNetworkComponent
                 .toString()
                 .toLowerCase()
                 .includes(this.selectedNetworkValue.toString().toLowerCase()) &&
-                //  &&
                 // !this.campaignCryptoList.find(
                 //   (e: any) => e.name === value.data[key].name
-                // )
+                // ) &&
                 this.campaignCryptoList.push({
                   key,
                   value: this.res.data[key],
@@ -503,46 +528,47 @@ export class DropdownCryptoNetworkComponent
         this.filterList = this.campaignCryptoList;
       });
       this.tokenToSelect(this.campaignCryptoList[0]);
-    }
-    if (network === 'BEP20') {
-      this.cryptoPicName = 'SATT';
-      this.cryptoSymbol = this.defaultcurrbep;
-      this.cryptoName = this.defaultcurrbep;
-      this.cryptoDetails = 'SATTBEP20';
-    } else if (network === 'ERC20') {
-      this.cryptoSymbol = 'SATT';
-      this.cryptoName = this.defaultcurr;
-      this.cryptoPicName = this.defaultcurr;
-      this.cryptoDetails = 'SATT';
-    } else if (network === 'BTC') {
-      this.cryptoSymbol = this.defaultcurrbtc;
-      this.cryptoName = this.defaultcurrbtc;
-      this.cryptoPicName = this.defaultcurrbtc;
-      this.cryptoDetails = 'BTC';
-    } else if (network === 'POLYGON') {
-      this.cryptoSymbol = 'MATIC';
-      this.cryptoName = this.defaultcurr;
-      this.cryptoPicName = this.defaultcurr;
-      this.cryptoDetails = 'MATIC';
-    } else if (network === 'BTTC') {
-      this.cryptoSymbol = 'BTT';
-      this.cryptoName = this.defaultcurrbtt;
-      this.cryptoPicName = this.defaultcurrbtt;
-      this.cryptoDetails = 'BTT';
-    } else if (network === 'TRON') {
-      this.cryptoSymbol = 'TRX';
-      this.cryptoName = this.defaultcurrtron;
-      this.cryptoPicName = this.defaultcurrtron;
-      this.cryptoDetails = 'TRX';
-    }
-
-    this.dataList.forEach((crypto: any) => {
-      if (crypto.symbol === this.cryptoDetails) {
-        if (!this.router.url.startsWith('/campaign'))
-          this.selectedCrypto.emit(crypto);
+    } else {
+      if (network === 'BEP20') {
+        this.cryptoPicName = 'SATT';
+        this.cryptoSymbol = this.defaultcurrbep;
+        this.cryptoName = this.defaultcurrbep;
+        this.cryptoDetails = 'SATTBEP20';
+      } else if (network === 'ERC20') {
+        this.cryptoSymbol = 'SATT';
+        this.cryptoName = this.defaultcurr;
+        this.cryptoPicName = this.defaultcurr;
+        this.cryptoDetails = 'SATT';
+      } else if (network === 'BTC') {
+        this.cryptoSymbol = this.defaultcurrbtc;
+        this.cryptoName = this.defaultcurrbtc;
+        this.cryptoPicName = this.defaultcurrbtc;
+        this.cryptoDetails = 'BTC';
+      } else if (network === 'POLYGON') {
+        this.cryptoSymbol = 'MATIC';
+        this.cryptoName = this.defaultcurr;
+        this.cryptoPicName = this.defaultcurr;
+        this.cryptoDetails = 'MATIC';
+      } else if (network === 'BTTC') {
+        this.cryptoSymbol = 'BTT';
+        this.cryptoName = this.defaultcurrbtt;
+        this.cryptoPicName = this.defaultcurrbtt;
+        this.cryptoDetails = 'BTT';
+      } else if (network === 'TRON') {
+        this.cryptoSymbol = 'TRX';
+        this.cryptoName = this.defaultcurrtron;
+        this.cryptoPicName = this.defaultcurrtron;
+        this.cryptoDetails = 'TRX';
       }
-    });
-    this.cdref.detectChanges();
+
+      this.dataList.forEach((crypto: any) => {
+        if (crypto.symbol === this.cryptoDetails) {
+          if (!this.router.url.startsWith('/campaign'))
+            this.selectedCrypto.emit(crypto);
+        }
+      });
+      this.cdref.detectChanges();
+    }
   }
   ngOnDestroy() {
     this.onDestoy$.next('');
@@ -553,7 +579,7 @@ export class DropdownCryptoNetworkComponent
     if (changes.cryptoFromDraft && this.router.url.includes('edit')) {
       if (this.cryptoFromDraft) {
         if (this.router.url.startsWith('/campaign')) {
-          this.selectedNetworkValue = 'BEP20';
+          //this.selectedNetworkValue = 'BEP20';
           this.cryptoSymbolCampaign = this.cryptoFromDraft;
           this.cdref.detectChanges();
         } else {

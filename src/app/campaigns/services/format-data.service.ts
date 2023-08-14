@@ -52,14 +52,18 @@ export class FormatDataService {
       object.countries = campaign.targetedCountries; //this.countriesCode(campaign.targetedCountries);
     }
     if (campaign.hasOwnProperty('currency')) {
-      object.token = {
+      /*object.token = {
         name: campaign.token.name || campaign.currency || 'test',
         type:
           campaign.token?.type?.toUpperCase() ||
           ListTokens[campaign.currency]?.type.toUpperCase(),
         addr: campaign.token.addr || ListTokens[campaign.currency].contract
+      };*/
+      object.token = {
+        name: campaign.currency.name || '',
+        type: ListTokens[campaign.currency.name]?.type.toUpperCase(),
+        addr: ListTokens[campaign.currency.name].contract
       };
-
       if (
         object.token.name === 'WSATT' ||
         object.token.name === 'SATTBEP20' ||

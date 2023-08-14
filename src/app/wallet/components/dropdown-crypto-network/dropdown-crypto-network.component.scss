@@ -12,8 +12,41 @@ button:focus {
 .modal_container {
   padding: 1em;
   height: 818px;
-  width: 23vw; /* Use the full width of the container */
-  // max-width: 23rem; /* Set a maximum width for the modal */
+  width: 23vw;
+
+  .list_crypto_container {
+    height: 22.5em;
+  }
+
+  .list_token {
+    background-color: transparent;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .modal_container {
+    width: 100vw;
+    height: 100vh;
+  }
+  .input_search_token {
+    width: 16em;
+    background-color: transparent;
+  }
+  .img_token {
+    margin-left: 0em !important;
+    border-radius: 1em;
+  }
+  .tokens_preview {
+    justify-content: unset !important;
+  }
+
+  .list_crypto_container {
+    height: 18em !important;
+  }
+
+  .container {
+    padding-left: 0px !important;
+  }
 }
 
 .modal_title {
@@ -75,6 +108,7 @@ button:focus {
 }
 
 .tokens_preview {
+  cursor: pointer;
   width: 107px;
   justify-content: center;
   height: 3em;
@@ -99,6 +133,7 @@ button:focus {
 }
 
 .list_token {
+  cursor: pointer;
   margin: auto;
   margin-bottom: 1em;
   background-color: #f6f6ff;
