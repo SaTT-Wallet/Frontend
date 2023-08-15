@@ -133,11 +133,13 @@ export class DropdownCryptoNetworkComponent
     if (e.target.value.length > 0) {
       this.filterList = [];
       this.campaignCryptoList.forEach((crypto: any) => {
+        console.log({crypto})
         if (
           crypto.value.name
             .toString()
             .toLowerCase()
-            .includes(e.target.value.toLowerCase()) // crypto.symbol.includes(e.target.value)
+            .includes(e.target.value.toLowerCase()) 
+            || crypto.key.toString().toLowerCase().includes(e.target.value.toLowerCase())
         )
           this.filterList.push(crypto);
       });
