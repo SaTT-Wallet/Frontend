@@ -124,6 +124,11 @@ export class RecoverGainsComponent implements OnInit {
         threads: {
           imageSrc: '/assets/Images/threads-icon.svg',
           link: `https://www.threads.net/@${prom.instagramUserName}/post/${prom.postId}`
+        },
+        linkedin :{
+          imageSrc: '/assets/Images/campagne/linkedin_gain.svg',
+          link: `https://www.linkedin.com/feed/update/urn:li:share:${prom.postId}`
+      
         }
       };
   
