@@ -235,13 +235,13 @@
       <ng-container *ngIf="tokenNotFound && showWarning">
         <div class="warning_div">
           <p>{{ 'No Search Result Available' | uppercase }}</p>
-          <!-- <p
+          <p
             class="warning_message"
             *ngIf="!showSearchNewTokenContainer"
             (click)="searchPersonalizedToken()"
           >
             Add a personnaliszed token >
-          </p> -->
+          </p>
           <!-- Futur Button for add token  -->
         </div>
       </ng-container>
@@ -255,6 +255,7 @@
             class="input_search_token_container"
             type="text"
             placeholder="0x"
+            (input)="searchCustomToken($event)"
           />
         </div>
 
@@ -263,10 +264,11 @@
             {{ "Token's Symbol" | uppercase }}
           </label>
           <input
+          [disabled]="true"
             id="tokenSymbol"
             class="input_search_token_container"
             type="text"
-            placeholder="SOL"
+            [value]="tokenSymbol"
           />
         </div>
 
@@ -275,14 +277,21 @@
             {{ 'Decimals' | uppercase }}
           </label>
           <input
+            [disabled]="true"
             id="decimals"
             class="input_search_token_container"
             type="text"
-            placeholder="18"
+            [value]="tokenDecimal"
           />
         </div>
-
-        <button class="button_add_token">+ Add Token</button>
+        <div *ngIf="customTokenNotFound">incorrect network or address</div>
+        <button class="add-btn" [disabled]="true"> <div
+          *ngIf="loadingCustomToken"
+          class="spinner-border text-light"
+          role="status"
+        >
+          <span class="sr-only">Loading...</span>
+        </div><div *ngIf="!loadingCustomToken">+ Add Token</div></button>
       </ng-container>
       <ng-container *ngIf="!tokenNotFound">
         <div class="list_crypto_container">

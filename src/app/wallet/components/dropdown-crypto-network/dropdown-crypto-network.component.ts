@@ -48,7 +48,9 @@ export class DropdownCryptoNetworkComponent
   campaignCryptoList: any = [];
   filterList: any = [];
   userCrypto: any = [];
-
+  smartContract: string = '';
+  tokenDecimal: number = 0;
+  tokenSymbol: string = '';
   tokenNotFound: boolean = false;
   showWarning: boolean = true;
   showSearchNewTokenContainer: boolean = false;
@@ -56,6 +58,7 @@ export class DropdownCryptoNetworkComponent
   defaultcurrbep: any;
   defaultcurrbtc: any;
   selectedToken: any;
+  customTokenNotFound: boolean = false;
   cryptoName: any;
   token: any;
   networkList: Array<{ network: string }>;
@@ -73,7 +76,7 @@ export class DropdownCryptoNetworkComponent
   cryptoList: any = [];
   defaultcurrpolygon: any;
   defaultcurrtron: any;
-
+  loadingCustomToken: boolean = false;
   @ViewChild('selectToken', { static: false })
   public selectTokenModal!: TemplateRef<any>;
   tokenList: any = [];
@@ -102,6 +105,30 @@ export class DropdownCryptoNetworkComponent
     return logo;
   }
 
+
+  selectCustomToken() {
+    console.log('testtt')
+    let pattern = /^0x[a-fA-F0-9]{40}$|^(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,39}$|T[A-Za-z1-9]{33}$/;
+    if(pattern.test(this.smartContract)) {
+      console.log('in if')
+      this.walletFacade.checkToken(this.selectedNetworkValue, this.smartContract).subscribe((res:any) => {
+        if(res.message === "Token found") {
+          let crypto = {
+            contract: this.smartContract,
+            key: res.data.symbol,
+            value: {
+              AddedToken: true,
+              price: 0,
+              name: res.data.symbol
+            }
+          }
+          this.tokenToSelect(crypto);
+        }
+      })
+    }
+   
+  }
+
   searchToken(e: any) {
     if (e.target.value.length > 0) {
       this.filterList = [];
@@ -125,6 +152,7 @@ export class DropdownCryptoNetworkComponent
   }
 
   tokenToSelect(crypto: any) {
+    console.log({crypto})
     this.walletFacade
       .getBalanceByToken({
         network: this.selectedNetworkValue.toLowerCase(),
@@ -140,8 +168,10 @@ export class DropdownCryptoNetworkComponent
       .subscribe(
         (res: any) => {
           this.quantity = res.data;
+          console.log({crypto})
           this.cryptoImageCamapign = crypto.value.logo;
           this.cryptoSymbolCampaign = crypto.key;
+          console.log({symbol: this.cryptoSymbolCampaign})
           this.closeTokenModal(this.tokenModal);
           this.selectCryptoValue(
             crypto.name,
@@ -319,6 +349,35 @@ export class DropdownCryptoNetworkComponent
         this.filterList = this.campaignCryptoList;
       });
       this.openModal(content);
+    }
+  }
+
+  searchCustomToken(event: any) {
+    let pattern = /^0x[a-fA-F0-9]{40}$|^(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,39}$|T[A-Za-z1-9]{33}$/;
+    if(pattern.test(event.target.value)) {
+      this.loadingCustomToken = true;
+      this.smartContract = event.target.value;
+      this.walletFacade.checkToken(this.selectedNetworkValue, event.target.value).subscribe((res:any) => {
+        if(res.message === "Token found") {
+          this.customTokenNotFound = false;
+          this.tokenDecimal = res.data.decimals;
+          this.tokenSymbol = res.data.symbol; 
+          let crypto = {
+            contract: this.smartContract,
+            key: res.data.symbol,
+            value: {
+              AddedToken: true,
+              price: 0,
+              name: res.data.symbol
+            }
+          }
+          this.tokenToSelect(crypto);
+          
+        } else {
+          this.customTokenNotFound = true;
+          this.loadingCustomToken = false;
+        };
+      })
     }
   }
   //get list of crypto for user
