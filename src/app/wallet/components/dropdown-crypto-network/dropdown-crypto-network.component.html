@@ -285,7 +285,13 @@
           />
         </div>
         <div *ngIf="customTokenNotFound">incorrect network or address</div>
-        <button class="button_add_token">+ Add Token</button>
+        <button class="add-btn" [disabled]="true"> <div
+          *ngIf="loadingCustomToken"
+          class="spinner-border text-light"
+          role="status"
+        >
+          <span class="sr-only">Loading...</span>
+        </div><div *ngIf="!loadingCustomToken">+ Add Token</div></button>
       </ng-container>
       <ng-container *ngIf="!tokenNotFound">
         <div class="list_crypto_container">

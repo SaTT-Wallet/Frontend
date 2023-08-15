@@ -76,7 +76,7 @@ export class DropdownCryptoNetworkComponent
   cryptoList: any = [];
   defaultcurrpolygon: any;
   defaultcurrtron: any;
-
+  loadingCustomToken: boolean = false;
   @ViewChild('selectToken', { static: false })
   public selectTokenModal!: TemplateRef<any>;
   tokenList: any = [];
@@ -355,6 +355,7 @@ export class DropdownCryptoNetworkComponent
   searchCustomToken(event: any) {
     let pattern = /^0x[a-fA-F0-9]{40}$|^(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,39}$|T[A-Za-z1-9]{33}$/;
     if(pattern.test(event.target.value)) {
+      this.loadingCustomToken = true;
       this.smartContract = event.target.value;
       this.walletFacade.checkToken(this.selectedNetworkValue, event.target.value).subscribe((res:any) => {
         if(res.message === "Token found") {
@@ -371,7 +372,11 @@ export class DropdownCryptoNetworkComponent
             }
           }
           this.tokenToSelect(crypto);
-        } else this.customTokenNotFound = true;
+          
+        } else {
+          this.customTokenNotFound = true;
+          this.loadingCustomToken = false;
+        };
       })
     }
   }
