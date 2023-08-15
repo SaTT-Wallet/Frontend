@@ -357,7 +357,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     //           this.showSpinner = false;
     //           this.isSubmitting = false;
     //         } else {
-    //        
+    //           console.log("heyy");
     //           this.sendMoney();
     //           this.showSpinner = false;
     //           // this.modalService.open(this.checkUserLegalKYCModal);
@@ -372,6 +372,9 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.sendMoney();
       this.showSpinner = false;
       this.isSubmitting = false;
+    }
+    else {
+      this.showSpinner = false;
     }
   }
   resetchecker() {
