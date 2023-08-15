@@ -683,4 +683,18 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
   }
  
   
- 
+  @media screen and (max-width: 1414px) {
+    /* Hide elements for mobile view */
+    .div_notifications,
+    .div_notifications-filter,
+    .restfilter {
+      display: none;
+    }
+    
+    /* Adjust other styling as needed for mobile view */
+    .col-md-3 {
+      padding: 20px;
+      /* ... other styles ... */
+    }
+  }
+  
