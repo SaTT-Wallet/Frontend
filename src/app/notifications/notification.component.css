@@ -110,7 +110,6 @@ input[type='search']::-webkit-search-cancel-button {
     /* border-top:  0.25px solid rgba(117, 117, 143, 0.3) !important; */
      /* Color #75758f with 30% opacity */
     border-bottom:  0.25px solid rgba(117, 117, 143, 0.3) !important;
-  
 }
 
 .div_notification :hover {
@@ -693,8 +692,31 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
     
     /* Adjust other styling as needed for mobile view */
     .col-md-3 {
-      padding: 20px;
+     padding: 20px;
+     margin: 0px !important;
+    
       /* ... other styles ... */
+    }
+    .div_notification{
+     margin-bottom:0 !important;
+     padding-right: 0px !important;
+     border-bottom:  0.25px solid rgba(117, 117, 143, 0.3) !important;
+    } 
+    .search-results {
+        margin-top: 10px;
+        margin-left: 2% !important;  
+        margin-right: 2% !important;  
+        padding-right: 0% !important;
+        padding-left: 0% !important;
+    }
+    .div_notification :hover {
+        background: transparent;
+        cursor: pointer;
+        border-radius: 30px;
+    }
+    
+    .div_notif :hover {
+        border-radius: 0px !important;
     }
   }
   

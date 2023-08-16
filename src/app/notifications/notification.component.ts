@@ -90,16 +90,14 @@ export class NotificationComponent implements OnInit {
     { label: 'Twitter', toggle: false },
     { label: 'Youtube', toggle: false }
   ];
-  checkboxData1 = [
-    { label: 'Display only AdPools I created', toggle: false },
-  ];
+  // this.translate.instant('filtre_Adpools_message')
+  checkboxData1 = [{ label: 'Display only AdPools I created', toggle: false }];
   enableDisableRulecheck(checkbox: any) {
     checkbox.toggle = !checkbox.toggle;
   }
   enableDisableRule(button: any) {
     button.toggle = !button.toggle;
   }
- 
   //
 
   constructor(
