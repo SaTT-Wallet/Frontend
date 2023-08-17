@@ -718,5 +718,14 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
     .div_notif :hover {
         border-radius: 0px !important;
     }
+    .imgcentwh{
+        width: 280px !important;
+        height: 180px !important;
+        padding-left: 40px !important;
+    }
+   
   }
-  
+  /* /////////////imgcent//////////// */
+  .imgcent{
+    padding-left: 30px !important;
+  }

@@ -84,6 +84,8 @@ export class RoiModalComponent implements OnInit {
   }
   getCryptoPrice(token: string) {
     this.walletFacade.getCryptoPriceList().subscribe((data: any) => {
+      console.log("dataa", data);
+      
       this.cryptoPrice = data.data[token].price;
 
       this.estimationGains();

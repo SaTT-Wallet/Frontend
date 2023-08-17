@@ -324,20 +324,24 @@ export class NotificationComponent implements OnInit {
     item._label = item.label;
 
     const receive_satt_pic = './assets/Images/notifIcons/Reception.svg';
+    const receive_satt_pic1 = './assets/Images/notifIcons/Reception1.svg';
     switch (item.type) {
       case 'buy_some_gas':
         item._label = 'buy_some_gas';
         item.img = receive_satt_pic;
+        item.img1 = receive_satt_pic1;
         item.content = 'gas_notif';
         break;
       case 'invite_friends':
         item._label = 'invite_friends';
         item.img = receive_satt_pic;
+        item.img1 = receive_satt_pic1;
         item.content = 'invite_notif';
         break;
       case 'join_on_social':
         item._label = 'join_on_social';
         item.img = receive_satt_pic;
+        item.img1 = receive_satt_pic1;
         item.content = 'network_notif';
         break;
       case 'send_demande_satt_event':
@@ -363,6 +367,7 @@ export class NotificationComponent implements OnInit {
         };
         item._label = 'asked_to_acquire';
         item.img = receive_satt_pic;
+        item.img1 = receive_satt_pic1;
         break;
       //////////////////////////////////////////
       case 'demande_satt_event':
@@ -387,6 +392,7 @@ export class NotificationComponent implements OnInit {
         };
         item._label = 'asked_cryptoCurrency';
         item.img = receive_satt_pic;
+        item.img1 = receive_satt_pic1;
         break;
       //////////////////////////////////////////
       case 'save_legal_file_event':
@@ -438,6 +444,7 @@ export class NotificationComponent implements OnInit {
           item._label = 'transfer_event_network';
         }
         item.img = './assets/Images/notifIcons/envoi.svg';
+        item.img1 = './assets/Images/notifIcons/envoi1.svg';
         break;
 
       /*
@@ -478,6 +485,7 @@ export class NotificationComponent implements OnInit {
           item._label = 'receive_transfer_event_network';
         }
         item.img = './assets/Images/notifIcons/Reception.svg';
+        item.img1 = './assets/Images/notifIcons/Reception1.svg';
         break;
       //////////////////////////////////////////
       case 'convert_event':
@@ -600,6 +608,7 @@ export class NotificationComponent implements OnInit {
         };
         item._label = 'buy_satt_notify';
         item.img = receive_satt_pic;
+        item.img1 = receive_satt_pic1;
         break;
       //////////////////////////////////////////
       case 'transfer_satt_event':
@@ -616,6 +625,7 @@ export class NotificationComponent implements OnInit {
         };
         item._label = 'transfer_money';
         item.img = './assets/Images/notifIcons/envoi.svg';
+        item.img1 = './assets/Images/notifIcons/envoi1.svg';
         break;
       //////////////////////////////////////////
       case 'received_satt_event':
@@ -632,6 +642,7 @@ export class NotificationComponent implements OnInit {
         };
         item._label = 'received_satt';
         item.img = receive_satt_pic;
+        item.img1 = receive_satt_pic1;
         break;
       //////////////////////////////////////////
       case 'add_contact_event':
@@ -666,6 +677,7 @@ export class NotificationComponent implements OnInit {
         item._params = { email: item._label[0] };
         item._label = 'email_has_been_sent';
         item.img = './assets/Images/notifIcons/envoi.svg';
+        item.img1 = './assets/Images/notifIcons/envoi1.svg';
         break;
       //////////////////////////////////////////
       case 'buy_satt_event':
@@ -675,6 +687,7 @@ export class NotificationComponent implements OnInit {
         };
         item._label = 'buy_satt_notify';
         item.img = receive_satt_pic;
+        item.img1 = receive_satt_pic1;
         break;
 
       //////////////////////////////////////////
