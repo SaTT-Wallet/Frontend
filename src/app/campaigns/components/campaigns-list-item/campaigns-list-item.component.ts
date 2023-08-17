@@ -80,7 +80,13 @@ getNewApplicant(){
     
   })
 }
-
+truncateTitle(title: string): string {
+  const maxLength = 17;
+  if (title.length > maxLength) {
+    return title.slice(0, maxLength) + '...';
+  }
+  return title;
+}
   goToDetailsPage(id: string) {
     // const currentUrl = this.router.url;
     // if(this.deletebutton==false){
