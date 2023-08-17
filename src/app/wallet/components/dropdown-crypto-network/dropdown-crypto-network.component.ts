@@ -100,16 +100,13 @@ export class DropdownCryptoNetworkComponent
         }
       });
     }
-    console.log({logo})
     return logo;
   }
 
 
   selectCustomToken() {
-    console.log('testtt')
     let pattern = /^0x[a-fA-F0-9]{40}$|^(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,39}$|T[A-Za-z1-9]{33}$/;
     if(pattern.test(this.smartContract)) {
-      console.log('in if')
       this.walletFacade.checkToken(this.selectedNetworkValue, this.smartContract).subscribe((res:any) => {
         if(res.message === "Token found") {
           let crypto = {
@@ -132,7 +129,6 @@ export class DropdownCryptoNetworkComponent
     if (e.target.value.length > 0) {
       this.filterList = [];
       this.campaignCryptoList.forEach((crypto: any) => {
-        console.log({crypto})
         if (
           crypto.value.name
             .toString()
@@ -156,7 +152,7 @@ export class DropdownCryptoNetworkComponent
     this.walletFacade
       .getBalanceByToken({
         network: this.selectedNetworkValue.toLowerCase(),
-        walletAddress: window.localStorage.getItem('wallet_id'),
+        walletAddress: this.selectedNetworkValue === 'TRON' ? window.localStorage.getItem('tron-wallet') : window.localStorage.getItem('wallet_id'),
         smartContract: (this.selectedNetworkValue === 'ERC20' && crypto.key === 'SATT') ? env.addresses.smartContracts.SATT_TOKENERC20 :  ( (this.selectedNetworkValue === 'BEP20' && crypto.key === 'SATT') ? env.addresses.smartContracts.SATT_TOKENBEP20 :crypto.contract),
         isNative:
          ((crypto.key === 'ETH' && this.selectedNetworkValue === 'ERC20') || (crypto.key === 'BNB' && this.selectedNetworkValue === 'BEP20') || (crypto.key === 'BTT' && this.selectedNetworkValue === 'BTTC') || (crypto.key === 'TRX' && this.selectedNetworkValue === 'TRON') || (crypto.key === 'MATIC' && this.selectedNetworkValue === 'POLYGON'))
@@ -308,13 +304,21 @@ export class DropdownCryptoNetworkComponent
           }
         }
       });
+      this.router.url.startsWith('/campaign') && this.getCryptoList();
     !this.router.url.startsWith('/campaigns') && this.getusercrypto();
+    
     this.defaultcurr = ListTokens['SATT'].name;
     this.defaultcurrbep = ListTokens['SATTBEP20'].name;
     this.defaultcurrbtc = ListTokens['BTC'].name;
     this.defaultcurrpolygon = ListTokens['MATIC'].name;
     this.defaultcurrbtt = ListTokens['BTT'].name;
     this.defaultcurrtron = ListTokens['TRX'].name;
+  }
+
+  getCryptoList() {
+    if(!this.res) {
+      this.walletFacade.getCryptoPriceList().subscribe((res) => res = this.res);
+    }
   }
   openModal(content: any) {
     this.modalService.open(content);
@@ -435,7 +439,6 @@ export class DropdownCryptoNetworkComponent
             crypto.symbol === this.cryptoFromDraft
           ) {
             this.cryptoFromComponent = [crypto];
-            // console.log({ hopa: this.cryptoFromComponent });
             this.cryptoSymbol = this.cryptoFromComponent[0].symbol;
 
             this.selectedNetworkValue = this.cryptoFromComponent[0].network;

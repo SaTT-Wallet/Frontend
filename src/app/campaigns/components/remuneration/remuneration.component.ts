@@ -290,7 +290,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
             this.walletFacade
               .getBalanceByToken({
                 network: this.selectedNetworkValue.toLowerCase(),
-                walletAddress: window.localStorage.getItem('wallet_id'),
+                walletAddress: this.selectedNetworkValue === 'TRON' ? window.localStorage.getItem('tron-wallet') : window.localStorage.getItem('wallet_id'),
                 isNative:
          ((value.key === 'ETH' && this.selectedNetworkValue === 'ERC20') || (value.key === 'BNB' && this.selectedNetworkValue === 'BEP20') || (value.key === 'BTT' && this.selectedNetworkValue === 'BTTC') || (value.key === 'TRX' && this.selectedNetworkValue === 'TRON') || (value.key === 'MATIC' && this.selectedNetworkValue === 'POLYGON'))
             ? true
