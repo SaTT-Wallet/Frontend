@@ -44,9 +44,9 @@
       class="statistics-wrapper"
       *ngIf="totalEarnedInSaTT$ | async as earnings"
     >
-      <div class="statistic-element">
+      <div class="statistic-element" *ngIf="prom.oracle !== 'threads'">
         <div class="stats-wrapper">
-          <span class="pr-2">{{ prom.views }}</span>
+          <span  *ngIf="prom.oracle !== 'threads'" class="pr-2">{{ prom.views }}</span>
           <img src="/assets/Images/campagne/view_gain.svg" />
         </div>
         :
@@ -60,7 +60,7 @@
           />
         </div>
       </div>
-      <span class="separator"></span>
+      <span *ngIf="prom.oracle !== 'threads'" class="separator"></span>
       <div class="statistic-element">
         <div class="stats-wrapper">
           <span class="pr-2">{{ prom.likes }}</span>
@@ -80,8 +80,8 @@
           />
         </div>
       </div>
-      <span class="separator"></span>
-      <div class="statistic-element">
+      <span *ngIf="prom.oracle !== 'threads'" class="separator"></span>
+      <div class="statistic-element" *ngIf="prom.oracle !== 'threads'">
         <div class="stats-wrapper">
           <span class="pr-2"> {{ prom.shares }}</span>
           <img
