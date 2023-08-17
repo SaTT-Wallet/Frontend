@@ -1069,7 +1069,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
             this.errorMsg = '';
             this.successMsg = 'addToken.token-added-successfully';
             this.walletStoreService.getCryptoList();
-            this.router.navigate(['/home']);
+            this.router.navigate(['/wallet']);
           }
         },
         (error: any) => {

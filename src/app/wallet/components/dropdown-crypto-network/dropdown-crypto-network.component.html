@@ -12,7 +12,6 @@
 
         <img
           class="width_icon_selectednetwork"
-          (error)="errorNetwork()"
           src="assets/Images/networks-icon/network-black-{{
             selectedNetworkValue
           }}.svg"
@@ -205,7 +204,6 @@
     <div class="input_search_token_container">
       <i id="search_logo" class="bi bi-search"></i>
       <input
-        (click)="reset($event)"
         class="input_search_token"
         (input)="searchToken($event)"
         type="text"
