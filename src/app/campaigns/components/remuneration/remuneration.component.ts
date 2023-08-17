@@ -348,9 +348,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       });
     });
   }
-  navigateToBuyScreen() {
-    console.log('test')
-  }
+ 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.draftData && changes.draftData.currentValue) {
       this.form?.patchValue(
