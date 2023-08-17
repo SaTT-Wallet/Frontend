@@ -332,15 +332,23 @@ export class DropdownCryptoNetworkComponent
                 value: this.res.data[key],
                 contract: value.contract_address
               });
+            } else if(key === 'BNB' && this.selectedNetworkValue === 'BEP20') {
+              this.campaignCryptoList.push({
+                key,
+                value: this.res.data[key],
+                contract: null
+              })
+            } else if(key === 'BTT' && this.selectedNetworkValue === 'BTTC') {
+              this.campaignCryptoList.push({
+                key,
+                value: this.res.data[key],
+                contract: null
+              }) 
             } else {
               value.platform.name
                 .toString()
                 .toLowerCase()
                 .includes(this.selectedNetworkValue.toString().toLowerCase()) &&
-                //  &&
-                // !this.campaignCryptoList.find(
-                //   (e: any) => e.name === value.data[key].name
-                // )
                 this.campaignCryptoList.push({
                   key,
                   value: this.res.data[key],
@@ -348,7 +356,12 @@ export class DropdownCryptoNetworkComponent
                 });
             }
           });
-        this.filterList = this.campaignCryptoList;
+          
+        this.campaignCryptoList = this.campaignCryptoList.filter((item:any, index:any, self:any) => {
+          return index === self.findIndex((obj:any) => obj.key === item.key);
+        });
+        this.filterList = this.campaignCryptoList
+        
       });
       this.openModal(content);
     }
@@ -556,6 +569,7 @@ export class DropdownCryptoNetworkComponent
     }
     this.token = '';
     this.selectedNetworkValue = network;
+    
     if (this.router.url.startsWith('/campaign')) {
       this.campaignCryptoList = [];
       const result = Object.keys(this.res.data);
@@ -571,14 +585,25 @@ export class DropdownCryptoNetworkComponent
                 value: this.res.data[key],
                 contract: value.contract_address
               });
+            } else if(key === 'BNB' && this.selectedNetworkValue === 'BEP20') {
+              this.campaignCryptoList.push({
+                key,
+                value: this.res.data[key],
+                contract: null
+              })
+            } else if(key === 'BTT' && this.selectedNetworkValue === 'BTTC') {
+              this.campaignCryptoList.push({
+                key,
+                value: this.res.data[key],
+                contract: null
+              })
+              
+              
             } else {
               value.platform.name
                 .toString()
                 .toLowerCase()
                 .includes(this.selectedNetworkValue.toString().toLowerCase()) &&
-                // !this.campaignCryptoList.find(
-                //   (e: any) => e.name === value.data[key].name
-                // ) &&
                 this.campaignCryptoList.push({
                   key,
                   value: this.res.data[key],
@@ -586,7 +611,10 @@ export class DropdownCryptoNetworkComponent
                 });
             }
           });
-        this.filterList = this.campaignCryptoList;
+          this.campaignCryptoList = this.campaignCryptoList.filter((item:any, index:any, self:any) => {
+            return index === self.findIndex((obj:any) => obj.key === item.key);
+          });
+          this.filterList = this.campaignCryptoList
       });
       this.tokenToSelect(this.campaignCryptoList[0]);
     } else {
