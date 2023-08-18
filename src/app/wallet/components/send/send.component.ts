@@ -342,30 +342,38 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.showSpinner = true;
       event.preventDefault();
       event.stopPropagation();
-      this.kyc$.pipe(takeUntil(this.isDestroyed)).subscribe((response:any) => {
-        if (response !== null && response !== undefined) {
-          if(response.name === "JsonWebTokenError") {
-            this.expiredSession();
-          } else {
-            if (
-              response.legal.length > 1 &&
-              response.legal.reduce((acc: any, item: any) => {
-                return acc && item['validate'] === true;
-              }, true)
-            ) {
-              this.sendMoney();
-              this.showSpinner = false;
-              this.isSubmitting = false;
-            } else {
-              this.showSpinner = false;
-              this.modalService.open(this.checkUserLegalKYCModal);
-              this.isSubmitting = false;
-            }
-          }
+    //   this.kyc$.pipe(takeUntil(this.isDestroyed)).subscribe((response:any) => {
+    //     if (response !== null && response !== undefined) {
+    //       if(response.name === "JsonWebTokenError") {
+    //         this.expiredSession();
+    //       } else {
+    //         if (
+    //           response.legal.length > 1 &&
+    //           response.legal.reduce((acc: any, item: any) => {
+    //             return acc && item['validate'] === true;
+    //           }, true)
+    //         ) {
+    //           this.sendMoney();
+    //           this.showSpinner = false;
+    //           this.isSubmitting = false;
+    //         } else {
+    //           console.log("heyy");
+    //           this.sendMoney();
+    //           this.showSpinner = false;
+    //           // this.modalService.open(this.checkUserLegalKYCModal);
+    //           this.isSubmitting = false;
+    //         }
+    //       }
           
-        }
-      });
-    } else {
+    //     }
+    //   });
+    // } else {
+     
+      this.sendMoney();
+      this.showSpinner = false;
+      this.isSubmitting = false;
+    }
+    else {
       this.showSpinner = false;
     }
   }

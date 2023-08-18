@@ -149,7 +149,7 @@
     </div>
     <div class="div-title justify-content-center align-items-center">
       <h3 style="font-size: 24px" class="title" [ngClass]="{ 'gray-title': !campaign.hash }">
-        {{ campaign.title }}
+        {{ truncateTitle(campaign.title) }}
       </h3>
     </div>
 
@@ -204,7 +204,7 @@
       </div>
       <img
         src="assets/Images/blue-icons/calculator.svg"
-        width="20px"
+        width="15px"
         (click)="caluculateRoi(campaign.id, $event)"
       />
     </div>

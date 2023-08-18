@@ -47,14 +47,11 @@ export class CampaignHttpApiService {
     private tokenStorageService: TokenStorageService
   ) {}
 
- 
-
-  upload(file: File, id:any) {
+  upload(file: File, id: any) {
     const formData: FormData = new FormData();
     formData.append('cover', file);
-    
-    return this.http
-      .post(sattUrl + '/campaign/ipfs/'+id, formData);
+
+    return this.http.post(sattUrl + '/campaign/ipfs/' + id, formData);
   }
   getPromById(id: string) {
     return this.http.get(`${sattUrl}/campaign/prom/stats/${id}`).pipe(
@@ -68,24 +65,23 @@ export class CampaignHttpApiService {
   }
 
   getRefunds(hash: any, password: string, network: string) {
-    return this.http.post(
-      sattUrl + '/campaign/remaining',
-      { hash: hash, pass: password, network: network }
-    );
+    return this.http.post(sattUrl + '/campaign/remaining', {
+      hash: hash,
+      pass: password,
+      network: network
+    });
   }
-
 
   getTotalInvestetd() {
     return this.http.get(sattUrl + '/campaign/invested');
   }
   notifyLink(campaignId: any, link: any, idProm: string) {
-    return this.http.post(
-      sattUrl + '/campaign/linkNotification',
-      { idCampaign: campaignId, link, idProm }
-      
-    );
+    return this.http.post(sattUrl + '/campaign/linkNotification', {
+      idCampaign: campaignId,
+      link,
+      idProm
+    });
   }
-
 
   getOneById(
     id: string,
@@ -107,19 +103,16 @@ export class CampaignHttpApiService {
     idProm: string,
     hash: any
   ): Observable<any> {
-    return this.http.post(
-      `${sattUrl}/campaign/gains`,
-      {
-        idProm,
-        pass: password,
-        hash
-      }
-    );
+    return this.http.post(`${sattUrl}/campaign/gains`, {
+      idProm,
+      pass: password,
+      hash
+    });
   }
 
   getBestInfluencerPic(id: any) {
     return this.http.get(sattUrl + `/profile/picture?id=${id}`, {
-      responseType: 'blob',
+      responseType: 'blob'
     });
   }
 
@@ -180,7 +173,6 @@ export class CampaignHttpApiService {
   removeKit(id_kit: any) {
     return this.http.delete(sattUrl + '/campaign/kit/' + id_kit);
   }
-  
 
   verifyLink(linkApplication: any) {
     return this.http.get(
@@ -190,7 +182,7 @@ export class CampaignHttpApiService {
         '/' +
         linkApplication.idUser +
         '/' +
-        (linkApplication.idPost || localStorage.getItem('idPost')),
+        (linkApplication.idPost || localStorage.getItem('idPost'))
     );
   }
 
@@ -201,30 +193,25 @@ export class CampaignHttpApiService {
     password: any,
     hash: string
   ) {
-    
-    return this.http.post(
-      sattUrl + '/campaign/apply',
-      {
-        idCampaign: campaign,
-        typeSN: application.typeSN,
-        idPost: application.idPost,
-        idUser: application.idUser,
-        title,
-        pass: password,
-        hash,
-        linkedinId: application.linkedinId,
-        version: localStorage.getItem('wallet_version'),
-        ... application.typeSN === 5 && ({linkedinUserId : application.linkedinUserId})
-      }
-      
-    );
+    return this.http.post(sattUrl + '/campaign/apply', {
+      idCampaign: campaign,
+      typeSN: application.typeSN,
+      idPost: application.idPost,
+      idUser: application.idUser,
+      title,
+      pass: password,
+      hash,
+      linkedinId: application.linkedinId,
+      version: localStorage.getItem('wallet_version'),
+      ...(application.typeSN === 5 && {
+        linkedinUserId: application.linkedinUserId
+      })
+    });
   }
 
   redirect(url: any) {
     return this.http.get(url, { observe: 'response' });
   }
-
-
 
   modifytKit(kits: any, campaignId: any) {
     let formData = new FormData();
@@ -290,7 +277,7 @@ export class CampaignHttpApiService {
     return this.http
       .post(sattUrl + '/campaign/addKits', formData, {
         reportProgress: true,
-        observe: 'events',
+        observe: 'events'
       })
       .pipe(
         catchError(() => {
@@ -308,7 +295,6 @@ export class CampaignHttpApiService {
   getKitPic(fileId: any) {
     return this.http.get(sattUrl + '/campaign/kit/' + fileId, {
       responseType: 'blob'
-      
     });
   }
 
@@ -327,7 +313,6 @@ export class CampaignHttpApiService {
         `${sattUrl}/campaign/update/${id}`,
 
         values
-
       )
       .pipe(
         catchError(() => of(null)),
@@ -336,142 +321,107 @@ export class CampaignHttpApiService {
       );
   }
 
-
   approvalERC20(erc20: any) {
-    return this.http.post(
-      sattUrl + '/campaign/erc20/approval',
-      {
-        tokenAddress: erc20.addr,
-        campaignAddress: campaignSmartContractERC20
-      }
-    );
+    return this.http.post(sattUrl + '/campaign/erc20/approval', {
+      tokenAddress: erc20.addr,
+      campaignAddress: campaignSmartContractERC20
+    });
   }
 
   approveBEP20(bep20: any) {
-    return this.http.post(
-      sattUrl + '/campaign/bep20/approval',
-      {
-        tokenAddress: bep20.addr,
-        campaignAddress: campaignSmartContractBEP20
-      },
-    );
+    return this.http.post(sattUrl + '/campaign/bep20/approval', {
+      tokenAddress: bep20.addr,
+      campaignAddress: campaignSmartContractBEP20
+    });
   }
 
   approveTRON(tron: any) {
-    return this.http.post(
-      sattUrl + '/campaign/tron/approval',
-      {
-        tokenAddress: tron.addr,
-        pass: tron.pass,
-        version: localStorage.getItem('wallet_version')
-      }
-    );
+    return this.http.post(sattUrl + '/campaign/tron/approval', {
+      tokenAddress: tron.addr,
+      pass: tron.pass,
+      version: localStorage.getItem('wallet_version')
+    });
   }
 
   approvePOLYGON(token: any) {
-    return this.http.post(
-      sattUrl + '/campaign/polygon/approval',
-      {
-        tokenAddress: token.addr,
-        campaignAddress: campaignSmartContractPOLYGON
-      }
-    );
+    return this.http.post(sattUrl + '/campaign/polygon/approval', {
+      tokenAddress: token.addr,
+      campaignAddress: campaignSmartContractPOLYGON
+    });
   }
 
   approveBTT(token: any) {
-    return this.http.post(
-      sattUrl + '/campaign/btt/approval',
-      {
-        tokenAddress: token.addr,
-        campaignAddress: campaignSmartContractBTT
-      },
-    );
+    return this.http.post(sattUrl + '/campaign/btt/approval', {
+      tokenAddress: token.addr,
+      campaignAddress: campaignSmartContractBTT
+    });
   }
 
   allowERC20(erc20: any, password: any) {
     let amount = '999999999999999999999999999999999999999999999999999999999';
-    return this.http.post(
-      sattUrl + '/campaign/erc20/allow',
-      {
-        // access_token: this.tokenStorageService.getToken(),
-        campaignAddress: campaignSmartContractERC20,
-        amount: amount,
-        tokenAddress: erc20.addr,
-        pass: password
-      }
-    );
+    return this.http.post(sattUrl + '/campaign/erc20/allow', {
+      // access_token: this.tokenStorageService.getToken(),
+      campaignAddress: campaignSmartContractERC20,
+      amount: amount,
+      tokenAddress: erc20.addr,
+      pass: password
+    });
   }
 
   allowBEP20(bep20: any, password: any) {
     let amount = '999999999999999999999999999999999999999999999999999999999';
     // const BEP20 = ListTokens["SATTBEP20"].contract;
-    return this.http.post(
-      sattUrl + '/campaign/bep20/allow',
-      {
-        campaignAddress: campaignSmartContractBEP20,
-        amount: amount,
-        pass: password,
-        tokenAddress: bep20.addr
-      }
-    );
+    return this.http.post(sattUrl + '/campaign/bep20/allow', {
+      campaignAddress: campaignSmartContractBEP20,
+      amount: amount,
+      pass: password,
+      tokenAddress: bep20.addr
+    });
   }
 
   allowPOLYGON(token: any, password: any) {
     let amount = '999999999999999999999999999999999999999999999999999999999';
     // const BEP20 = ListTokens["SATTBEP20"].contract;
-    return this.http.post(
-      sattUrl + '/campaign/polygon/allow',
-      {
-        campaignAddress: campaignSmartContractPOLYGON,
-        amount: amount,
-        pass: password,
-        tokenAddress: token.addr
-      }
-    );
+    return this.http.post(sattUrl + '/campaign/polygon/allow', {
+      campaignAddress: campaignSmartContractPOLYGON,
+      amount: amount,
+      pass: password,
+      tokenAddress: token.addr
+    });
   }
 
   allowTRON(tron: any, password: any) {
     let amount = '999999999999999999999999999999999999999999999999999999999';
     // const BEP20 = ListTokens["SATTBEP20"].contract;
-    return this.http.post(
-      sattUrl + '/campaign/tron/allow',
-      {
-        amount: amount,
-        pass: password,
-        tokenAddress: tron.addr
-      }
-    );
+    return this.http.post(sattUrl + '/campaign/tron/allow', {
+      amount: amount,
+      pass: password,
+      tokenAddress: tron.addr
+    });
   }
 
   allowBTT(token: any, password: any) {
     let amount = '999999999999999999999999999999999999999999999999999999999';
     // const BEP20 = ListTokens["SATTBEP20"].contract;
-    return this.http.post(
-      sattUrl + '/campaign/BTT/allow',
-      {
-        campaignAddress: campaignSmartContractBTT,
-        amount: amount,
-        pass: password,
-        tokenAddress: token.addr
-      }
-    );
+    return this.http.post(sattUrl + '/campaign/BTT/allow', {
+      campaignAddress: campaignSmartContractBTT,
+      amount: amount,
+      pass: password,
+      tokenAddress: token.addr
+    });
   }
 
-
   validateLinks(prom: any, Password: any, id: any) {
-    return this.http.post(
-      sattUrl + '/campaign/validate',
-      {
-        idCampaign: prom.campaign._id || id,
-        idProm: prom.hash,
-        link: prom.link,
-        email: prom.meta.email,
-        idLink: prom.id,
-        idUser: prom.meta._id,
-        pass: Password,
-        lang: this.tokenStorageService.getLocalLang()
-      }
-    );
+    return this.http.post(sattUrl + '/campaign/validate', {
+      idCampaign: prom.campaign._id || id,
+      idProm: prom.hash,
+      link: prom.link,
+      email: prom.meta.email,
+      idLink: prom.id,
+      idUser: prom.meta._id,
+      pass: Password,
+      lang: this.tokenStorageService.getLocalLang()
+    });
   }
 
   rejectLinks(
@@ -505,7 +455,7 @@ export class CampaignHttpApiService {
     }
     return of({});
   }
- 
+
   linkedinSharedid(idPost: any) {
     return this.http.get(
       sattUrl + '/profile/linkedin/ShareByActivity/' + idPost
@@ -527,11 +477,11 @@ export class CampaignHttpApiService {
           '/campaign/campaignPrompAll/' +
           campaignId +
           '?influencer=' +
-          this.tokenStorageService.getIdWallet(),
+          this.tokenStorageService.getIdWallet()
       );
     } else {
       return this.http.get(
-        sattUrl + '/campaign/campaignPrompAll/' + campaignId,
+        sattUrl + '/campaign/campaignPrompAll/' + campaignId
       );
     }
   }
@@ -549,7 +499,7 @@ export class CampaignHttpApiService {
       .set('state', state)
       .set('page', '' + page)
       .set('limit', '' + size)
-      .set('version',''+this.tokenStorageService.getWalletVersion())
+      .set('version', '' + this.tokenStorageService.getWalletVersion());
     let idUser = this.tokenStorageService.getUserId();
 
     return this.http
@@ -559,11 +509,10 @@ export class CampaignHttpApiService {
       .pipe(share());
   }
 
-
   allCampaigns(
     page = 1,
     size = 1,
-    queryParams: HttpParams = new HttpParams(),
+    queryParams: HttpParams = new HttpParams()
   ): Observable<ICampaignsListResponse> {
     const walletId = !!this.tokenStorageService.getToken()
       ? (this.tokenStorageService.getIdWallet() as string)
@@ -585,9 +534,7 @@ export class CampaignHttpApiService {
 
   getFbUserName(linkApplication: any) {
     return this.http.get(
-      sattUrl +
-        '/profile/link/verify/fbUserName/' +
-        linkApplication,
+      sattUrl + '/profile/link/verify/fbUserName/' + linkApplication
     );
   }
 
@@ -602,7 +549,6 @@ export class CampaignHttpApiService {
   getWalletsCount() {
     return this.http.get(sattUrl + '/wallet/countWallets');
   }
-
 
   ngOnDestroy(): void {
     this.isDestroyed.next('');
