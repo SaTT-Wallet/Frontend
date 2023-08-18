@@ -644,6 +644,7 @@
   "female": "Female",
   "field_email": "Email invalid!!",
   "field_mustbe_email": "Field Email Address must have a valid form",
+  "field_mustbe_password": "Please check the format of your password",
   "field_mustbe_url": "Filed must be a valid url",
   "forget_password": "Forgot Password ?",
   "forgot_password": "Forgot your password?",

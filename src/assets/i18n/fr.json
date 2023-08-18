@@ -344,6 +344,7 @@
   "female": "Femme",
   "field_email": "Email exist ou invalide!!",
   "field_mustbe_email": "Ce Champ doit être un email valide",
+  "field_mustbe_password": "Veuillez vérifier le format de votre mot de passe.",
   "field_mustbe_url": "Champ doit être un url valide",
   "forget_password": "Mot de passe oublié ?",
   "forgot_password": "Mot de passe oublié ?",
