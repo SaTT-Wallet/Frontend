@@ -3,7 +3,7 @@
   <!-- class="container-fluid page-content" -->
   <div class="row">
     <div class="col-md-3">
-      <div class="div_notifications">
+      <div class="div_notifications" *ngIf="showNotification">
         <!-- ///////////////////////////////// -->
 
         <div class="d-flex align-items-center position-relative pb-3">
@@ -15,28 +15,75 @@
               loading="lazy"
             />
           </div>
-
-          <div class="flex-grow-1 ms-3 itext">
+          <div class="flex-grow-1 ms-3 itext" >
             <div
               class="d-flex align-items-start justify-content-between xbutton"
             >
-              <h5 class="stretched-link btn-link coltext">Stephen Tran</h5>
-              <button class="close-button coltext">X</button>
+              <h5 class="stretched-link btn-link coltext">
+                
+
+                {{
+
+
+                  (showNotifcationMessage === 'showing-campaign' ? 'New_AdPools_welcome'
+                  : (
+                    showNotifcationMessage === 'showing-buy-fees' ? 'buy-gas'
+                    : (
+                      showNotifcationMessage === 'showing-complete-profile' ? 'complete-profile' : (
+                        notificationRandomNumber === 1 ? 'read-faq' : 'campaign.shares' 
+                      )
+                    )
+                  )
+                  
+                  ) | translate
+    
+                }}
+
+                
+                
+               
+              
+              
+              
+              </h5>
+              <div class="close-button coltext" (click)="hideNotification()">X</div>
             </div>
             <p class="coltext formttxt m-0">
-              Discover our latest Adpool for your social networks.
+              {{ 'new_adpools_notification' | translate}}
+              
             </p>
           </div>
         </div>
 
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center" *ngIf="showNotifcationMessage === 'showing-campaign'">
           <img
-            src="./assets/Images/notifIcons/Frameimage.svg"
-            alt="Profile Picture"
+            [src]=" 'https://cloudflare-ipfs.com/ipfs/QmSNYCSXPXKzUchAJzHZSzU2ETSJcmAtpgBvyVCRJ4Z48s' "
+            width="305.5"
+            height="163.85"
           />
         </div>
-        <div class="d-flex justify-content-center">
-          <button class="button-rounded">Adpool</button>
+        <div class="d-flex justify-content-center" *ngIf="!(showNotifcationMessage === 'showing-random-number' && notificationRandomNumber === 2)">
+          <button class="button-rounded" (click)="navigateTo()">
+
+            {{
+
+
+              (showNotifcationMessage === 'showing-campaign' ? 'ad_pool' 
+              : (
+                (showNotifcationMessage === 'showing-buy-fees' || showNotifcationMessage === 'showing-buy-satt') ? 'Cryptolist.acheter'
+                : (
+                  showNotifcationMessage === 'showing-complete-profile' ? 'complete-profile' : (
+                    notificationRandomNumber === 1 ? 'read-faq' : 'campaign.shares' 
+                  )
+                )
+              )
+              
+              ) | translate
+
+            }}
+
+
+          </button>
         </div>
 
         <!-- //////////////////////////////// -->
@@ -55,7 +102,7 @@
                 'button-cryptock': !button.toggle
               }"
             >
-              {{ button.text }}
+              {{ button.text | translate }}
             </button>
           </div>
         </div>
@@ -71,7 +118,7 @@
               }"
               (click)="enableDisableRulecheck(checkbox)"
             />
-            <label class="checkb">{{ checkbox.label }}</label>
+            <label class="checkb">{{ checkbox.label | translate }}</label>
           </div>
 
           <p class="ptext">{{ 'filtre_Choose_statue' | translate }}</p>
@@ -85,7 +132,7 @@
                 'button-cryptock': !button.toggle
               }"
             >
-              {{ button.text }}
+              {{ button.text | translate }}
             </button>
           </div>
         </div>
@@ -101,7 +148,8 @@
                 'button-cryptock': !button.toggle
               }"
             >
-              {{ button.text }}
+
+              {{ button.text  | translate }}
             </button>
           </div>
         </div>

@@ -26,6 +26,7 @@ import { INotificationsResponse } from '@app/core/notifications-response.interfa
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment';
 import { environment } from '@environments/environment';
+import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-facade/socialAcounts-facade.service';
 
 @Component({
   selector: 'app-history',
@@ -54,6 +55,13 @@ export class NotificationComponent implements OnInit {
   showSpinner!: boolean;
   crypto: any;
   private isDestroyed = new Subject();
+  showNotifcationMessage!: string;
+  showNotification: boolean  = false;
+
+
+  campaignCover: string = '';
+  notificationRandomNumber!: number;
+
 
   offset: any;
   // tansfer:string='transfer_event_currency'
@@ -68,19 +76,19 @@ export class NotificationComponent implements OnInit {
   modalReference: any;
   //
   buttonData1 = [
-    { text: 'Sent', toggle: true },
-    { text: 'Received', toggle: true },
-    { text: 'Resquest', toggle: true }
+    { text: "filtre_mycrypto_sent", toggle: true },
+    { text: "filtre_mycrypto_received", toggle: true },
+    { text: "filtre_mycrypto_requested", toggle: true }
   ];
   buttonData2 = [
-    { text: 'In Progress', toggle: true },
-    { text: 'Finished', toggle: true },
-    { text: 'Budget Alert', toggle: true }
+    { text: "filtre_choosestatus_in progress", toggle: true },
+    { text: "filtre_choosestatus_finished", toggle: true },
+    { text: "filtre_choosestatus_budget_alert", toggle: true }
   ];
   buttonData3 = [
-    { text: 'To Harvest', toggle: true },
-    { text: 'Waiting', toggle: true },
-    { text: 'Refused', toggle: true }
+    { text: "filtre_My_Links_to_harvest", toggle: true },
+    { text:  "filtre_My_Links_waiting", toggle: true },
+    { text: "filtre_My_Links_refused", toggle: true }
   ];
   checkboxData = [
     { label: 'Facebook', toggle: false },
@@ -91,7 +99,7 @@ export class NotificationComponent implements OnInit {
     { label: 'Youtube', toggle: false }
   ];
   // this.translate.instant('filtre_Adpools_message')
-  checkboxData1 = [{ label: 'Display only AdPools I created', toggle: false }];
+  checkboxData1 = [{ label: "filtre_Adpools_message", toggle: false }];
   enableDisableRulecheck(checkbox: any) {
     checkbox.toggle = !checkbox.toggle;
   }
@@ -108,6 +116,7 @@ export class NotificationComponent implements OnInit {
     private translate: TranslateService,
     public router: Router,
     private activatedRoute: ActivatedRoute,
+    private socialAccountFacadeService: SocialAccountFacadeService,
     private tokenStorageService: TokenStorageService,
     @Inject(PLATFORM_ID) private platformId: string,
     private modalService: NgbModal
@@ -134,8 +143,52 @@ export class NotificationComponent implements OnInit {
         this.getAllNotifications();
       });
   }
+  navigateTo() {
+    console.log("test")
+  }
+  getNotificationsDecision() {
+    this.socialAccountFacadeService.notification().subscribe((res: any) => {
+      switch(res.message) {
+        case 'showing-complete-profile':
+          this.showNotifcationMessage = res.message;
+          this.showNotification = true;
+          break;
+        case 'showing-buy-satt':
+          this.showNotifcationMessage = res.message;
+          this.showNotification = true;
+          break;
+        case 'showing-buy-fees':
+          this.showNotifcationMessage = res.message;
+          this.showNotification = true;
+          break;
+        case 'showing-campaign':
+          this.showNotifcationMessage = res.message;
+          this.showNotification = true;
+          this.campaignCover = res.data;
+          break;
+        case 'showing-random-number':
+          this.showNotifcationMessage = res.message;
+          this.showNotification = true;
+          this.notificationRandomNumber = res.data;
+          break;
+
+
+        default:
+          this.showNotification = false;
+      }
+     
+    }, (err: any) => {
+      this.showNotification = false;
+    })
+  }
+
+  hideNotification() {
+    console.log('click')
+    this.showNotification = false;
+  }
   ngOnInit(): void {
     this.getAllNotifications();
+    this.getNotificationsDecision();
   }
   seeNotification() {
     this.NotificationService.notificationSeen()
