@@ -212,10 +212,13 @@ export class PasswordModalComponent implements OnInit {
 
   calculateStartDate() {
     let date = new Date();
+    let dateInSeconds = new Date(date);
 
-    date.setMinutes(date.getMinutes() + 60);
-    date.setSeconds(0);
-    let dateInSeconds = Math.floor(date.getTime() / 1000);
+
+    date.setMinutes(date.getMinutes() + 60);	  
+    dateInSeconds.setMinutes(date.getMinutes() + 60);
+    date.setSeconds(0);	  
+    dateInSeconds.setSeconds(0);
 
     return dateInSeconds;
   }
