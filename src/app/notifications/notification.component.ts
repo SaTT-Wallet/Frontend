@@ -20,12 +20,17 @@ import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { Big } from 'big.js';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 import { INotificationsResponse } from '@app/core/notifications-response.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment';
 import { environment } from '@environments/environment';
+import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-facade/socialAcounts-facade.service';
+import { User } from '@app/models/User';
+import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
+import { ProfileSettingsFacadeService } from '@app/core/facades/profile-settings-facade.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-history',
@@ -38,22 +43,35 @@ export class NotificationComponent implements OnInit {
   term: any;
   public currentLang: string | undefined;
   form: UntypedFormGroup;
+  picUserUpdated: boolean = false;
   searchvalue: string = '';
   arrayTypeNotification: Array<{ type: string; type_notif: string }>;
   arrayContact: any;
+  user!: User;
   dataNotification: any;
   dataNotificationFilter: any;
   dateDebutValue: any;
   dateFinValue: any;
+  urlpic: any;
   typeNotifValue: any;
   contactValue: any;
+  urlPic: any;
   isloading: boolean = false;
   nodata: boolean = true;
   isfocused: boolean = false;
   isClickedOutside: boolean = true;
   showSpinner!: boolean;
+  showSpinner2!: boolean;
   crypto: any;
   private isDestroyed = new Subject();
+  showNotifcationMessage!: string;
+  showNotification: boolean  = false;
+  percentProf: number = 0;
+  private onDestoy$ = new Subject();
+  private account$ = this.accountFacadeService.account$;
+  campaignCover: string = '';
+  notificationRandomNumber!: number;
+  percentProf2!: string;
 
   offset: any;
   // tansfer:string='transfer_event_currency'
@@ -68,19 +86,19 @@ export class NotificationComponent implements OnInit {
   modalReference: any;
   //
   buttonData1 = [
-    { text: 'Sent', toggle: true },
-    { text: 'Received', toggle: true },
-    { text: 'Resquest', toggle: true }
+    { text: "filtre_mycrypto_sent", toggle: true },
+    { text: "filtre_mycrypto_received", toggle: true },
+    { text: "filtre_mycrypto_requested", toggle: true }
   ];
   buttonData2 = [
-    { text: 'In Progress', toggle: true },
-    { text: 'Finished', toggle: true },
-    { text: 'Budget Alert', toggle: true }
+    { text: "filtre_choosestatus_in progress", toggle: true },
+    { text: "filtre_choosestatus_finished", toggle: true },
+    { text: "filtre_choosestatus_budget_alert", toggle: true }
   ];
   buttonData3 = [
-    { text: 'To Harvest', toggle: true },
-    { text: 'Waiting', toggle: true },
-    { text: 'Refused', toggle: true }
+    { text: "filtre_My_Links_to_harvest", toggle: true },
+    { text:  "filtre_My_Links_waiting", toggle: true },
+    { text: "filtre_My_Links_refused", toggle: true }
   ];
   checkboxData = [
     { label: 'Facebook', toggle: false },
@@ -91,24 +109,30 @@ export class NotificationComponent implements OnInit {
     { label: 'Youtube', toggle: false }
   ];
   // this.translate.instant('filtre_Adpools_message')
-  checkboxData1 = [{ label: 'Display only AdPools I created', toggle: false }];
+  checkboxData1 = [{ label: "filtre_Adpools_message", toggle: false }];
   enableDisableRulecheck(checkbox: any) {
     checkbox.toggle = !checkbox.toggle;
   }
   enableDisableRule(button: any) {
     button.toggle = !button.toggle;
+    
+    
   }
   //
 
   constructor(
     private eRef: ElementRef,
+    private profileSettingsFacade: ProfileSettingsFacadeService,
     private _changeDetectorRef: ChangeDetectorRef,
     private NotificationService: NotificationService,
     private ContatcService: ContactService,
     private translate: TranslateService,
     public router: Router,
     private activatedRoute: ActivatedRoute,
+    private accountFacadeService: AccountFacadeService,
+    private socialAccountFacadeService: SocialAccountFacadeService,
     private tokenStorageService: TokenStorageService,
+    private sanitizer: DomSanitizer,
     @Inject(PLATFORM_ID) private platformId: string,
     private modalService: NgbModal
   ) {
@@ -134,8 +158,245 @@ export class NotificationComponent implements OnInit {
         this.getAllNotifications();
       });
   }
+  getNotificationIcon() {
+    return this.showNotifcationMessage === 'showing-buy-satt' 
+    ? './assets/Images/notif-buy-satt.svg' 
+    : (this.showNotifcationMessage === 'showing-buy-fees' ? './assets/Images/notif-buy-gas.svg' 
+    : (this.showNotifcationMessage === 'showing-campaign' ? './assets/Images/notifIcons/tesmail.svg' 
+    : (this.showNotifcationMessage === 'showing-random-number' ? 
+    (
+      this.notificationRandomNumber === 1  ? './assets/Images/notif-faq.svg' : (this.notificationRandomNumber === 2  ?  './assets/Images/notif-social-media.svg' : './assets/Images/notif-invite-friends.svg') 
+    ) : './assets/Images/moonboy/Default_avatar_MoonBoy.png')
+    ) 
+    )
+  }
+  getNotificationBody() {
+    return (this.showNotifcationMessage === 'showing-campaign' ? 'new_adpools_notification'
+    : (
+      this.showNotifcationMessage === 'showing-buy-fees' ? 'notif_buy_gas'
+      : (
+          this.showNotifcationMessage === 'showing-buy-satt' ? 'notif_buy_satt' 
+          : (this.showNotifcationMessage === 'showing-complete-profile' ? 'notif_complete_profile' 
+          : 
+          (this.showNotifcationMessage === 'showing-random-number' ? (
+
+          this.notificationRandomNumber === 1 ? 'notif_problem_faq' : (this.notificationRandomNumber === 2 ? 'notif_join_social_networks' : 'notif_invite_friends')
+          ) : '') 
+          )
+          
+        
+      )
+    )
+    
+    )
+  }
+  getNotificationTitle() {
+    return (this.showNotifcationMessage === 'showing-campaign' ? 'New_AdPools_welcome'
+                  : (
+                    this.showNotifcationMessage === 'showing-buy-fees' ? 'buy-gas'
+                    : (
+                        this.showNotifcationMessage === 'showing-buy-satt' ? 'invite_friends' 
+                        : (this.showNotifcationMessage === 'showing-random-number' ? (
+
+                        this.notificationRandomNumber === 1 ? 'problem_faq' : (this.notificationRandomNumber === 2 ? 'join_social_networks' : 'invite_friends_notif')
+                        ) : './assets/Images/moonboy/Default_avatar_MoonBoy.png') 
+                      
+                    )
+                  )
+                  
+                  ) 
+  }
+  getNotificationButtonTitle() {
+    return (this.showNotifcationMessage === 'showing-campaign' ? 'ad_pool' 
+    : (
+      (this.showNotifcationMessage === 'showing-buy-fees' || this.showNotifcationMessage === 'showing-buy-satt') ? 'Cryptolist.acheter'
+      : (
+        this.showNotifcationMessage === 'showing-complete-profile' ? 'complete-profile' : (
+          this.notificationRandomNumber === 1 ? 'read-faq' : 'campaign.shares' 
+        )
+      )
+    )
+    
+    ) 
+  }
+  navigateTo() {
+    switch(this.showNotifcationMessage) {
+      case 'showing-complete-profile':
+          this.router.navigate(['/settings/profile']);
+          break;
+        case 'showing-buy-satt':
+          this.router.navigate(['/wallet/buy-token']);
+          break;
+        case 'showing-buy-fees':
+          this.router.navigate(['/wallet/buy-token']);
+          break;
+        case 'showing-campaign':
+          this.router.navigate(['/ad-pools']);
+          break;
+        case 'showing-random-number':
+          if(this.notificationRandomNumber === 1) this.router.navigate(['/FAQ']);
+          else this.router.navigate(['/FAQ']);
+          
+          break;
+
+
+        default:
+          console.error('case not found')
+    }
+  }
+  getNotificationsDecision() {
+    this.showSpinner2 = true;
+    this.socialAccountFacadeService.notification().subscribe((res: any) => {
+      switch(res.message) {
+        case 'showing-complete-profile':
+          this.showNotifcationMessage = res.message;
+          this.getDetails();
+          this.showNotification = true;
+          this.showSpinner2 = false;
+          break;
+        case 'showing-buy-satt':
+          this.showNotifcationMessage = res.message;
+          this.showNotification = true;
+          this.showSpinner2 = false;
+          break;
+        case 'showing-buy-fees':
+          this.showNotifcationMessage = res.message;
+          this.showNotification = true;
+          this.showSpinner2 = false;
+          break;
+        case 'showing-campaign':
+          this.showNotifcationMessage = res.message;
+          this.showNotification = true;
+          this.campaignCover = res.data;
+          this.campaignCover = this.campaignCover.replace('ipfs:', '');
+          this.showSpinner2 = false;
+          break;
+        case 'showing-random-number':
+          this.showNotifcationMessage = res.message;
+          this.showNotification = true;
+          this.notificationRandomNumber = res.data;
+          this.showSpinner2 = false;
+          break;
+
+
+        default:
+          this.showNotification = false;
+          this.showSpinner2 = false;
+      }
+     
+    }, (err: any) => {
+      this.showNotification = false;
+      this.showSpinner2 = false;
+    })
+  }
+  onImgError(event: any) {
+    event.target.src = 'assets/Images/moonboy/Default_avatar_MoonBoy.png';
+  }
+
+  getDetails() {
+    // this.spinner.show();
+    this.showSpinner = true;
+    this.account$
+      .pipe(
+        filter((res) => res !== null),
+        takeUntil(this.onDestoy$)
+      )
+      .subscribe((response: any) => {
+        if (response !== null && response !== undefined) {
+          let count = 0;
+          this.showSpinner = false;
+          this.user = new User(response);
+          this.urlpic = this.user.idUser;
+          this.picUserUpdated = response.photoUpdated;
+          if (this.user.firstName && this.user.firstName !== '') {
+            count++;
+          }
+          if (this.user.lastName && this.user.lastName !== '') {
+            count++;
+          }
+          if (this.user.address && this.user.address !== '') {
+            count++;
+          }
+          if (this.user.email && this.user.email !== '') {
+            count++;
+          }
+          if (this.user.phone && this.user.phone !== '') {
+            count++;
+          }
+          if (this.user.gender && this.user.gender !== '') {
+            count++;
+          }
+          if (this.user.city && this.user.city !== '') {
+            count++;
+          }
+          if (this.user.zipCode && this.user.zipCode !== '') {
+            count++;
+          }
+          if (this.user.country && this.user.country !== '') {
+            count++;
+          }
+          if (this.user.birthday && this.user.birthday !== '') {
+            count++;
+          }
+          //let count2 = 0;
+          this.percentProf = (count * 100) / 10;
+
+          this.percentProf2 = this.percentProf.toFixed(0) + '%';
+
+
+          if (!this.user.instagramLink) {
+            $('#addInsta').css('pointer-events', 'none');
+          }
+          if (!this.user.fbLink) {
+            $('#addFb').css('pointer-events', 'none');
+          }
+          if (!this.user.twitterLink) {
+            $('#addTwitter').css('pointer-events', 'none');
+          }
+          if (!this.user.youtubeLink) {
+            $('#youtube-link').css('pointer-events', 'none');
+          }
+
+          this.profileSettingsFacade.profilePic$
+            .pipe(takeUntil(this.onDestoy$))
+            .subscribe((profile: any) => {
+              if (!!profile) {
+                let objectURL = URL.createObjectURL(profile);
+                if (this.user.idSn === 0) {
+                  this.user.userPicture =
+                    this.sanitizer.bypassSecurityTrustUrl(objectURL);
+                }
+                if (this.picUserUpdated && this.user.idSn !== 0) {
+                  this.user.userPicture =
+                    this.sanitizer.bypassSecurityTrustUrl(objectURL);
+                }
+              }
+
+              if (this.user.picLink && !this.user.userPicture) {
+                this.user.userPicture = this.user?.picLink;
+              }
+            });
+          // if (this.user.picLink) {
+          //   this.user.userPicture = this.user?.picLink;
+          // }else{
+          //    this.ProfileService.getUserProfilePic().subscribe(
+          //   (profile: any) => {
+          //     let objectURL = URL.createObjectURL(profile);
+          //     this.user.userPicture =
+          //       this.sanitizer.bypassSecurityTrustUrl(objectURL);
+          //   }
+          // );
+          // }
+        }
+      });
+  }
+  hideNotification() {
+    this.showNotification = false;
+  }
   ngOnInit(): void {
     this.getAllNotifications();
+    this.getNotificationsDecision();
+    
   }
   seeNotification() {
     this.NotificationService.notificationSeen()
@@ -254,6 +515,9 @@ export class NotificationComponent implements OnInit {
         () => {}
       );
   }
+
+
+
   getAllNotifications() {
     this.showSpinner = true;
     this.NotificationService.getAllNotifications()
@@ -291,6 +555,9 @@ export class NotificationComponent implements OnInit {
         }
       });
   }
+
+
+
   onScroll() {
     if (this.isloading) {
       this.showSpinner = true;
@@ -459,7 +726,6 @@ export class NotificationComponent implements OnInit {
         if (item._label['currency']) {
 
           item._label['currency'] === "SATTPOLYGON" && (item._label['decimal'] = 18)
-          console.log(item._label['decimal'])
           let decimal = item._label['decimal']
             ? new Big('10').pow(item._label['decimal'])
             : ListTokens[item._label.currency]?.decimals;

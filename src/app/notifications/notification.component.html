@@ -1,44 +1,97 @@
 <div class="separator"></div>
 <div style="margin-right: 70px !important">
   <!-- class="container-fluid page-content" -->
-  <div class="row">
+  <div class="row" *ngIf="!(showSpinner && showSpinner2)">
     <div class="col-md-3">
-      <div class="div_notifications">
+      <div class="div_notifications" *ngIf="showNotification">
         <!-- ///////////////////////////////// -->
 
         <div class="d-flex align-items-center position-relative pb-3">
-          <div class="flex-shrink-0">
+          <div class="row d-flex justify-content-center" *ngIf="showNotifcationMessage === 'showing-complete-profile'">
+            <circle-progress class="prog" [percent]="this.percentProf">
+              ></circle-progress
+            >
+            <img
+              [src]="user.userPicture"
+              (error)="onImgError($event)"
+              class="pic-profile"
+            />
+          
+          </div>
+          <div class="flex-shrink-0" *ngIf="showNotifcationMessage !== 'showing-complete-profile'">
             <img
               class="img-md rounded-circle"
-              src="./assets/Images/notifIcons/tesmail.svg"
-              alt="Profile Picture"
-              loading="lazy"
+              [src]="
+              getNotificationIcon()"
+              
+             
             />
           </div>
-
-          <div class="flex-grow-1 ms-3 itext">
+          <div class="flex-grow-1 ms-3 itext" >
             <div
               class="d-flex align-items-start justify-content-between xbutton"
             >
-              <h5 class="stretched-link btn-link coltext">Stephen Tran</h5>
-              <button class="close-button coltext">X</button>
+              <h5 *ngIf="showNotifcationMessage != 'showing-complete-profile'">
+                
+
+                {{
+
+
+                  getNotificationTitle() | translate
+    
+                }}
+
+                
+                
+               
+              
+              
+              
+              </h5>
+
+              <h5  *ngIf="showNotifcationMessage === 'showing-complete-profile'">
+                <span>{{ "notif_complete_profile_1"  |translate}}</span> {{percentProf}}%<span>{{ 'notif_complete_profile_2'  | translate }}</span>
+              </h5>
+              <div class="close-button coltext" (click)="hideNotification()">X</div>
             </div>
             <p class="coltext formttxt m-0">
-              Discover our latest Adpool for your social networks.
+              {{ 
+                getNotificationBody()
+                
+                | translate }}
+              
             </p>
           </div>
         </div>
 
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center" *ngIf="showNotifcationMessage === 'showing-campaign'">
           <img
-            src="./assets/Images/notifIcons/Frameimage.svg"
-            alt="Profile Picture"
+            [src]=" 'https://cloudflare-ipfs.com/ipfs/'+campaignCover"
+            width="305.5"
+            height="163.85"
           />
         </div>
-        <div class="d-flex justify-content-center">
-          <button class="button-rounded">Adpool</button>
-        </div>
+        <div class="d-flex justify-content-center" *ngIf="!(showNotifcationMessage === 'showing-random-number' && notificationRandomNumber === 2)">
+          <button class="button-rounded" (click)="navigateTo()">
 
+            {{
+
+
+              getNotificationButtonTitle() | translate
+
+            }}
+
+
+          </button>
+        </div>
+        <div class="d-flex justify-content-center" *ngIf="(showNotifcationMessage === 'showing-random-number' && notificationRandomNumber === 2)">
+         <div>
+          <img src="./assets/Images/notif-facebook.svg"/>
+          <img src="./assets/Images/notif-twitter.svg"/>
+          <img src="./assets/Images/notif-telegram.svg"/>
+          <img src="./assets/Images/notif-btc.svg"/>
+         </div>
+        </div>
         <!-- //////////////////////////////// -->
       </div>
 
@@ -47,7 +100,7 @@
           <p class="ptext">{{ 'filtre_My Cryptos' | translate }}</p>
           <div class="d-flex align-items-start">
             <button
-              *ngFor="let button of buttonData1"
+              *ngFor="let button of buttonData1; let i = index"
               class="button-crypto"
               (click)="enableDisableRule(button)"
               [ngClass]="{
@@ -55,7 +108,7 @@
                 'button-cryptock': !button.toggle
               }"
             >
-              {{ button.text }}
+              {{ button.text | translate }}
             </button>
           </div>
         </div>
@@ -71,13 +124,13 @@
               }"
               (click)="enableDisableRulecheck(checkbox)"
             />
-            <label class="checkb">{{ checkbox.label }}</label>
+            <label class="checkb">{{ checkbox.label | translate }}</label>
           </div>
 
           <p class="ptext">{{ 'filtre_Choose_statue' | translate }}</p>
           <div class="d-flex align-items-start">
             <button
-              *ngFor="let button of buttonData2"
+              *ngFor="let button of buttonData2; let i =index"
               class="button-crypto"
               (click)="enableDisableRule(button)"
               [ngClass]="{
@@ -85,7 +138,7 @@
                 'button-cryptock': !button.toggle
               }"
             >
-              {{ button.text }}
+              {{ button.text | translate }}
             </button>
           </div>
         </div>
@@ -93,7 +146,7 @@
           <p class="ptext">{{ 'filre_My_links' | translate }}</p>
           <div class="d-flex align-items-start">
             <button
-              *ngFor="let button of buttonData3"
+              *ngFor="let button of buttonData3; let i = index"
               class="button-crypto"
               (click)="enableDisableRule(button)"
               [ngClass]="{
@@ -101,7 +154,8 @@
                 'button-cryptock': !button.toggle
               }"
             >
-              {{ button.text }}
+
+              {{ button.text  | translate }}
             </button>
           </div>
         </div>
@@ -316,9 +370,7 @@
     </div>
     <!------------------------------------------------------------------------------------------------>
     <!--div spinner -->
-    <div class="spinner-wrapper">
-      <app-loading-logo *ngIf="showSpinner" class="spinner"></app-loading-logo>
-    </div>
+   
     <!-- End div spinner -->
 
     <div
@@ -341,6 +393,9 @@
     </div> -->
     </div>
     <!--  <div class="loading "  *ngIf="isloading"></div> -->
+  </div>
+  <div class="spinner-wrapper">
+    <app-loading-logo *ngIf="showSpinner && showSpinner2" class="spinner"></app-loading-logo>
   </div>
 </div>
 <ng-template #shareSocial>

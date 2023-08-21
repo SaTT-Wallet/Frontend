@@ -10,7 +10,21 @@
 *:focus {
     outline: none;
 }
+.pic-profile {
+    height: 110px;
+    width: 132px;
+    position: absolute;
+    border-radius: 50%;
+    display: flex;
+    align-self: center;
+}
 
+.prog {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
 .profilestyle {
     text-align: center;
 }
