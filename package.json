@@ -129,7 +129,7 @@
     "express": "^4.17.3",
     "fast-copy": "^2.1.1",
     "file-saver": "^2.0.5",
-    "firebase": "^9.22.0",
+    "firebase": "^10.2.0",
     "font-awesome": "^4.7.0",
     "font-family": "^0.2.0",
     "fs": "0.0.1-security",
