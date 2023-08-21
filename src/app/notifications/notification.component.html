@@ -7,35 +7,37 @@
         <!-- ///////////////////////////////// -->
 
         <div class="d-flex align-items-center position-relative pb-3">
-          <div class="flex-shrink-0">
+          <div class="row d-flex justify-content-center" *ngIf="showNotifcationMessage === 'showing-complete-profile'">
+            <circle-progress class="prog" [percent]="this.percentProf">
+              ></circle-progress
+            >
+            <img
+              [src]="user.userPicture"
+              (error)="onImgError($event)"
+              class="pic-profile"
+            />
+          
+          </div>
+          <div class="flex-shrink-0" *ngIf="showNotifcationMessage !== 'showing-complete-profile'">
             <img
               class="img-md rounded-circle"
-              src="./assets/Images/notifIcons/tesmail.svg"
-              alt="Profile Picture"
-              loading="lazy"
+              [src]="
+              getNotificationIcon()"
+              
+             
             />
           </div>
           <div class="flex-grow-1 ms-3 itext" >
             <div
               class="d-flex align-items-start justify-content-between xbutton"
             >
-              <h5 class="stretched-link btn-link coltext">
+              <h5 class="stretched-link btn-link coltext" *ngIf="showNotifcationMessage != 'showing-complete-profile'">
                 
 
                 {{
 
 
-                  (showNotifcationMessage === 'showing-campaign' ? 'New_AdPools_welcome'
-                  : (
-                    showNotifcationMessage === 'showing-buy-fees' ? 'buy-gas'
-                    : (
-                      showNotifcationMessage === 'showing-complete-profile' ? 'complete-profile' : (
-                        notificationRandomNumber === 1 ? 'read-faq' : 'campaign.shares' 
-                      )
-                    )
-                  )
-                  
-                  ) | translate
+                  getNotificationTitle() | translate
     
                 }}
 
@@ -46,10 +48,17 @@
               
               
               </h5>
+
+              <h5 class="stretched-link btn-link coltext" *ngIf="showNotifcationMessage === 'showing-complete-profile'">
+                <span>{{ "notif_complete_profile_1"  |translate}}</span> {{percentProf}}%<span>{{ 'notif_complete_profile_2'  | translate }}</span>
+              </h5>
               <div class="close-button coltext" (click)="hideNotification()">X</div>
             </div>
             <p class="coltext formttxt m-0">
-              {{ 'new_adpools_notification' | translate}}
+              {{ 
+                getNotificationBody()
+                
+                | translate }}
               
             </p>
           </div>
@@ -57,7 +66,7 @@
 
         <div class="d-flex justify-content-center" *ngIf="showNotifcationMessage === 'showing-campaign'">
           <img
-            [src]=" 'https://cloudflare-ipfs.com/ipfs/QmSNYCSXPXKzUchAJzHZSzU2ETSJcmAtpgBvyVCRJ4Z48s' "
+            [src]=" 'https://cloudflare-ipfs.com/ipfs/'+campaignCover"
             width="305.5"
             height="163.85"
           />
@@ -68,24 +77,21 @@
             {{
 
 
-              (showNotifcationMessage === 'showing-campaign' ? 'ad_pool' 
-              : (
-                (showNotifcationMessage === 'showing-buy-fees' || showNotifcationMessage === 'showing-buy-satt') ? 'Cryptolist.acheter'
-                : (
-                  showNotifcationMessage === 'showing-complete-profile' ? 'complete-profile' : (
-                    notificationRandomNumber === 1 ? 'read-faq' : 'campaign.shares' 
-                  )
-                )
-              )
-              
-              ) | translate
+              getNotificationButtonTitle() | translate
 
             }}
 
 
           </button>
         </div>
-
+        <div class="d-flex justify-content-center" *ngIf="(showNotifcationMessage === 'showing-random-number' && notificationRandomNumber === 2)">
+         <div>
+          <img src="./assets/Images/notif-facebook.svg"/>
+          <img src="./assets/Images/notif-twitter.svg"/>
+          <img src="./assets/Images/notif-telegram.svg"/>
+          <img src="./assets/Images/notif-btc.svg"/>
+         </div>
+        </div>
         <!-- //////////////////////////////// -->
       </div>
 
