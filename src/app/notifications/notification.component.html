@@ -1,7 +1,7 @@
 <div class="separator"></div>
 <div style="margin-right: 70px !important">
   <!-- class="container-fluid page-content" -->
-  <div class="row">
+  <div class="row" *ngIf="!(showSpinner && showSpinner2)">
     <div class="col-md-3">
       <div class="div_notifications" *ngIf="showNotification">
         <!-- ///////////////////////////////// -->
@@ -31,7 +31,7 @@
             <div
               class="d-flex align-items-start justify-content-between xbutton"
             >
-              <h5 class="stretched-link btn-link coltext" *ngIf="showNotifcationMessage != 'showing-complete-profile'">
+              <h5 *ngIf="showNotifcationMessage != 'showing-complete-profile'">
                 
 
                 {{
@@ -49,7 +49,7 @@
               
               </h5>
 
-              <h5 class="stretched-link btn-link coltext" *ngIf="showNotifcationMessage === 'showing-complete-profile'">
+              <h5  *ngIf="showNotifcationMessage === 'showing-complete-profile'">
                 <span>{{ "notif_complete_profile_1"  |translate}}</span> {{percentProf}}%<span>{{ 'notif_complete_profile_2'  | translate }}</span>
               </h5>
               <div class="close-button coltext" (click)="hideNotification()">X</div>
@@ -370,9 +370,7 @@
     </div>
     <!------------------------------------------------------------------------------------------------>
     <!--div spinner -->
-    <div class="spinner-wrapper">
-      <app-loading-logo *ngIf="showSpinner" class="spinner"></app-loading-logo>
-    </div>
+   
     <!-- End div spinner -->
 
     <div
@@ -395,6 +393,9 @@
     </div> -->
     </div>
     <!--  <div class="loading "  *ngIf="isloading"></div> -->
+  </div>
+  <div class="spinner-wrapper">
+    <app-loading-logo *ngIf="showSpinner && showSpinner2" class="spinner"></app-loading-logo>
   </div>
 </div>
 <ng-template #shareSocial>

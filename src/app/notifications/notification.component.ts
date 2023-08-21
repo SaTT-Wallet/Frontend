@@ -61,6 +61,7 @@ export class NotificationComponent implements OnInit {
   isfocused: boolean = false;
   isClickedOutside: boolean = true;
   showSpinner!: boolean;
+  showSpinner2!: boolean;
   crypto: any;
   private isDestroyed = new Subject();
   showNotifcationMessage!: string;
@@ -244,41 +245,48 @@ export class NotificationComponent implements OnInit {
     }
   }
   getNotificationsDecision() {
+    this.showSpinner2 = true;
     this.socialAccountFacadeService.notification().subscribe((res: any) => {
       switch(res.message) {
         case 'showing-complete-profile':
           this.showNotifcationMessage = res.message;
           this.getDetails();
           this.showNotification = true;
+          this.showSpinner2 = false;
           break;
         case 'showing-buy-satt':
           this.showNotifcationMessage = res.message;
           this.showNotification = true;
+          this.showSpinner2 = false;
           break;
         case 'showing-buy-fees':
           this.showNotifcationMessage = res.message;
           this.showNotification = true;
+          this.showSpinner2 = false;
           break;
         case 'showing-campaign':
           this.showNotifcationMessage = res.message;
           this.showNotification = true;
-          
           this.campaignCover = res.data;
           this.campaignCover = this.campaignCover.replace('ipfs:', '');
+          this.showSpinner2 = false;
           break;
         case 'showing-random-number':
           this.showNotifcationMessage = res.message;
           this.showNotification = true;
           this.notificationRandomNumber = res.data;
+          this.showSpinner2 = false;
           break;
 
 
         default:
           this.showNotification = false;
+          this.showSpinner2 = false;
       }
      
     }, (err: any) => {
       this.showNotification = false;
+      this.showSpinner2 = false;
     })
   }
   onImgError(event: any) {
@@ -383,7 +391,6 @@ export class NotificationComponent implements OnInit {
       });
   }
   hideNotification() {
-    
     this.showNotification = false;
   }
   ngOnInit(): void {
@@ -545,8 +552,6 @@ export class NotificationComponent implements OnInit {
               return { created: key, value };
             })
             .value();
-            //this.dataNotificationFilter = this.dataNotification;
-            console.log({notification: this.dataNotification })
         }
       });
   }
@@ -721,7 +726,6 @@ export class NotificationComponent implements OnInit {
         if (item._label['currency']) {
 
           item._label['currency'] === "SATTPOLYGON" && (item._label['decimal'] = 18)
-          console.log(item._label['decimal'])
           let decimal = item._label['decimal']
             ? new Big('10').pow(item._label['decimal'])
             : ListTokens[item._label.currency]?.decimals;
