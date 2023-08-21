@@ -114,6 +114,8 @@ export class NotificationComponent implements OnInit {
   }
   enableDisableRule(button: any) {
     button.toggle = !button.toggle;
+    
+    
   }
   //
 
@@ -333,36 +335,6 @@ export class NotificationComponent implements OnInit {
 
           this.percentProf2 = this.percentProf.toFixed(0) + '%';
 
-          //   if(this.user.twitterLink && this.user.twitterLink !=='' ) {
-          //     count2 ++;
-          //   }
-          //   if(this.user.youtubeLink && this.user.youtubeLink !=='' ) {
-          //     count2 ++;
-          //   }
-          //   if(this.user.fbLink && this.user.fbLink !=='' ) {
-          //     count2 ++;
-          //   }
-          //   if(this.user.instagramLink && this.user.instagramLink !=='' ) {
-          //     count2 ++;
-          //   }
-          //   if( this.user.linkedinLink && this.user.linkedinLink !=='' ) {
-          //     count2 ++;
-          //   }
-          //   if(this.user.tikTokLink && this.user.tikTokLink !==''){
-          //     count2 ++;
-          //   }
-          //   if(this.user.idOnSn){
-          //     count2++;
-          // }
-          // if(this.user.idOnSn2){
-          //     count2++;
-          // }
-          // if(this.user.idOnSn3){
-          //     count2++;
-          // }
-
-          //   this.percentNet=count2*100/9 ;
-          //   this.percentNet2=this.percentNet.toFixed(0) +'%';
 
           if (!this.user.instagramLink) {
             $('#addInsta').css('pointer-events', 'none');
@@ -417,6 +389,7 @@ export class NotificationComponent implements OnInit {
   ngOnInit(): void {
     this.getAllNotifications();
     this.getNotificationsDecision();
+    
   }
   seeNotification() {
     this.NotificationService.notificationSeen()
@@ -535,6 +508,9 @@ export class NotificationComponent implements OnInit {
         () => {}
       );
   }
+
+
+
   getAllNotifications() {
     this.showSpinner = true;
     this.NotificationService.getAllNotifications()
@@ -569,9 +545,14 @@ export class NotificationComponent implements OnInit {
               return { created: key, value };
             })
             .value();
+            //this.dataNotificationFilter = this.dataNotification;
+            console.log({notification: this.dataNotification })
         }
       });
   }
+
+
+
   onScroll() {
     if (this.isloading) {
       this.showSpinner = true;

@@ -100,7 +100,7 @@
           <p class="ptext">{{ 'filtre_My Cryptos' | translate }}</p>
           <div class="d-flex align-items-start">
             <button
-              *ngFor="let button of buttonData1"
+              *ngFor="let button of buttonData1; let i = index"
               class="button-crypto"
               (click)="enableDisableRule(button)"
               [ngClass]="{
@@ -130,7 +130,7 @@
           <p class="ptext">{{ 'filtre_Choose_statue' | translate }}</p>
           <div class="d-flex align-items-start">
             <button
-              *ngFor="let button of buttonData2"
+              *ngFor="let button of buttonData2; let i =index"
               class="button-crypto"
               (click)="enableDisableRule(button)"
               [ngClass]="{
@@ -146,7 +146,7 @@
           <p class="ptext">{{ 'filre_My_links' | translate }}</p>
           <div class="d-flex align-items-start">
             <button
-              *ngFor="let button of buttonData3"
+              *ngFor="let button of buttonData3; let i = index"
               class="button-crypto"
               (click)="enableDisableRule(button)"
               [ngClass]="{
