@@ -100,6 +100,7 @@ export class DropdownCryptoNetworkComponent
   
       for (const key of result) {
         if (key === this.cryptoSymbolCampaign) {
+          this.cryptoImageCamapign = this.res.data[key].logo
           return this.res.data[key].logo;
         }
       }
@@ -209,7 +210,6 @@ export class DropdownCryptoNetworkComponent
           
         },
         (err: any) => {
-          console.log({network: this.selectedNetworkValue})
           this.quantity = 0;
           
           this.cryptoImageCamapign = crypto.value.logo;
@@ -386,8 +386,7 @@ export class DropdownCryptoNetworkComponent
         this.filterList = this.campaignCryptoList
         
       });
-     console.log({campaign: this.campaignCryptoList})
-     console.log({filter: this.filterList})
+    
       this.showSearchNewTokenContainer = false;
       this.openModal(content);
     }
@@ -714,7 +713,6 @@ export class DropdownCryptoNetworkComponent
     if (changes.cryptoFromDraft && this.router.url.includes('edit')) {
       if (this.cryptoFromDraft) {
         if (this.router.url.startsWith('/campaign')) {
-          //this.selectedNetworkValue = 'BEP20';
           this.cryptoSymbolCampaign = this.cryptoFromDraft;
           this.cdref.detectChanges();
         } else {
