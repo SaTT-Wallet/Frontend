@@ -91,16 +91,21 @@ export class DropdownCryptoNetworkComponent
   }
  
   getCryptoImage() {
-    let logo = '';
-    if (!!this.res) {
-      const result = Object.keys(this.res?.data);
-      result.forEach((key) => {
-        if (key === this.cryptoSymbolCampaign) {
-          logo = this.res.data[key].logo;
-        }
-      });
+    if (!this.res) {
+      this.getCryptoList();
     }
-    return logo;
+  
+    if (this.res && this.res.data) {
+      const result = Object.keys(this.res.data);
+  
+      for (const key of result) {
+        if (key === this.cryptoSymbolCampaign) {
+          return this.res.data[key].logo;
+        }
+      }
+    }
+  
+    return ''; // Default logo if not found
   }
 
 
@@ -138,7 +143,10 @@ export class DropdownCryptoNetworkComponent
         )
           this.filterList.push(crypto);
       });
-      if (this.filterList.length === 0) this.tokenNotFound = true;
+      if (this.filterList.length === 0) {
+        this.tokenNotFound = true;
+        this.showWarning = true;
+      }
       else this.tokenNotFound = false;
     } else this.filterList = this.campaignCryptoList;
   }
@@ -330,6 +338,10 @@ export class DropdownCryptoNetworkComponent
   selectToken(content: any) {
     if (this.router.url.startsWith('/campaign')) {
       this.campaignCryptoList = [];
+      this.filterList = [];
+      this.tokenNotFound = false;
+      this.showWarning = false;
+      this.tokenSearch.setValue('');
       const result = Object.keys(this.res?.data);
       result.forEach((key) => {
         typeof this.res.data[key].networkSupported != 'string' &&
@@ -374,6 +386,9 @@ export class DropdownCryptoNetworkComponent
         this.filterList = this.campaignCryptoList
         
       });
+     console.log({campaign: this.campaignCryptoList})
+     console.log({filter: this.filterList})
+      this.showSearchNewTokenContainer = false;
       this.openModal(content);
     }
   }

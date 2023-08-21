@@ -30,6 +30,7 @@ import {
   catchError,
   debounceTime,
   filter,
+  first,
   map,
   switchMap,
   take,
@@ -236,6 +237,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.getTronWallet()
     this.cdref.markForCheck();
     this.parentFunction().subscribe();
     this.getUserCrypto();
@@ -348,7 +350,25 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       });
     });
   }
- 
+  getTronWallet() {
+    this.walletFacade
+          .getAllWallet()
+          .subscribe((data: any) => {
+            if(data.message === "success") {
+              if (this.tokenStorageService.getWalletVersion() === 'v2') {
+                this.tokenStorageService.saveWalletVersion('v1');
+                this.tokenStorageService.saveTronWallet(data.data.tronAddress);
+              } else {
+                this.tokenStorageService.saveWalletVersion('v2');
+                this.tokenStorageService.saveTronWallet(data.data.tronAddressV2);
+              }
+            } 
+          }, (err:any) => {
+            this.walletFacade.verifyUserToken().pipe(first()).subscribe((res:any) => {
+              if(res.message != "success") this.expiredSession();
+            }); 
+          });
+  }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.draftData && changes.draftData.currentValue) {
       this.form?.patchValue(

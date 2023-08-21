@@ -235,7 +235,7 @@
           <p>{{ 'No Search Result Available' | uppercase }}</p>
           <p
             class="warning_message"
-            *ngIf="!showSearchNewTokenContainer"
+            *ngIf="!showSearchNewTokenContainer && filterList.length === 0"
             (click)="searchPersonalizedToken()"
           >
             Add a personnaliszed token >
@@ -243,7 +243,7 @@
           <!-- Futur Button for add token  -->
         </div>
       </ng-container>
-      <ng-container *ngIf="showSearchNewTokenContainer">
+      <ng-container *ngIf="showSearchNewTokenContainer && filterList.length === 0">
         <div class="form-group">
           <label class="label_title" for="contractAddress">
             {{ "Token's Contract Address" | uppercase }}
