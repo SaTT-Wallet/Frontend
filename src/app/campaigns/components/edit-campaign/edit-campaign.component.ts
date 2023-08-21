@@ -25,6 +25,7 @@ import { Campaign } from '@app/models/campaign.model';
 import {
   concatMap,
   filter,
+  first,
   map,
   mergeMap,
   switchMap,
@@ -44,6 +45,7 @@ import { CampaignsStoreService } from '@app/campaigns/services/campaigns-store.s
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { IApiResponse } from '@app/core/types/rest-api-responses';
 import { ICampaignResponse } from '@app/core/campaigns-list-response.interface';
+import { environment } from '@environments/environment';
 
 enum FormStatus {
   Saving = 'saving',
@@ -140,8 +142,34 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
       motivation: ['']
     });
   }
+  expiredSession() {
+    this.localeStorageService.clear();
+    window.open(environment.domainName + '/auth/login', '_self');
+  }
+  getTronWallet() {
+    this.walletFacade
+          .getAllWallet()
+          .subscribe((data: any) => {
+            if(data.message === "success") {
+             
+                if (this.localeStorageService.getWalletVersion() === 'v2') {
+                  this.localeStorageService.saveTronWallet(data.data.tronAddressV2);
+                } else {
+                  this.localeStorageService.saveTronWallet(data.data.tronAddress);
+                }
+            } 
+          }, (err:any) => {
+            this.walletFacade.verifyUserToken().pipe(first()).subscribe((res:any) => {
+              if(res.message != "success") this.expiredSession();
+            }); 
+          });
+  }
+
+
+  
 
   ngOnInit() {
+    this.getTronWallet();
     this.showModal = true;
     this.campaignsHttpService.scrolling.subscribe(() => {
       this.scrolling = true;
