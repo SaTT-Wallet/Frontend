@@ -2064,9 +2064,8 @@ p {
 } */
 
 .hwrap {
- 
   position: relative;
-  
+
   clear: right;
   background-size: cover;
   overflow: hidden; /* HIDE SCROLL BAR */
@@ -2085,8 +2084,6 @@ p {
 
 /* (C) ITEMS - INTO A LONG HORIZONTAL ROW */
 .hitem {
-  
-  
   padding: 10px;
   text-align: center;
   font-family: 'Poppins';
@@ -2105,20 +2102,18 @@ p {
   }
   .blockk.migrate {
     padding-top: 1px;
-    
+
     overflow-x: unset !important;
   }
   .hwrap.migrate {
-   
     width: fit-content !important;
   }
   .hitem.migrate {
-    
     font-size: 15px;
   }
   .blockk {
     padding-top: 1px;
-    
+
     overflow-x: unset;
   }
   .hwrap {
@@ -2127,11 +2122,10 @@ p {
   }
   .estim_ballance {
     position: relative;
-    top:7.5vh;
+    top: 7.5vh;
   }
 
   .balance_container2 {
-    
     padding-top: 50px;
     padding-bottom: 50px;
   }
@@ -2145,7 +2139,6 @@ p {
     font-size: 36px !important;
   }
   .hitem {
-    
     font-size: 15px;
   }
 
@@ -2154,7 +2147,6 @@ p {
     height: 10vh;
     background-size: cover;
     overflow: hidden; /* HIDE SCROLL BAR */
-    
   }
   .echnage {
     position: relative;
@@ -2267,6 +2259,10 @@ p {
     font-size: 12px !important;
     letter-spacing: 0px !important;
   }
+  .showMobile {
+    position: relative;
+    bottom: 0.6em;
+  }
 }
 
 @media (min-width: 768px) {
@@ -2303,8 +2299,6 @@ p {
   display: block;
   margin-top: 0px;
 }
-
-
 
 .showDesktop {
   display: none;
