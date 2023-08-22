@@ -672,6 +672,7 @@ getCookie(key: string){
             return of(null);
           }),
           mergeMap((data: any) => {
+            
             if (data?.data.access_token !== undefined) {
               this.tokenStorageService.setItem(
                 'access_token',
