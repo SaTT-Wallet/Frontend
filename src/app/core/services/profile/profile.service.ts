@@ -13,7 +13,27 @@ export class ProfileService {
     private http: HttpClient,
     private tokenStorageService: TokenStorageService
   ) {}
+  checkThreads() {
+    return this.http.get(
+      sattUrl + '/profile/check/threads-account'
+    );
+  }
+  notification() {
+    return this.http.get(
+      sattUrl + '/profile/notifications/decision'
+    )
+  }
+  addThreads() {
+    return this.http.get(
+      sattUrl + '/profile/add/threads-account'
+    )
+  }
 
+  deleteThreadAccount(id: string) {
+    return this.http.delete(
+      sattUrl + '/profile/remove/threads-account/'+id
+    )
+  }
   getSocialNetworks() {
     return this.http.get<IGetSocialNetworksResponse>(
       sattUrl + '/profile/socialAccounts'

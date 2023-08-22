@@ -39,6 +39,18 @@ export class SocialAccountFacadeService {
     return this.profileService.getSocialNetworks();
   }
 
+
+  checkThreads() {
+    return this.profileService.checkThreads();
+  }
+
+  addThreads() {
+    return this.profileService.addThreads()
+  }
+
+  notification() {
+    return this.profileService.notification();
+  }
  
   
  
@@ -58,6 +70,9 @@ export class SocialAccountFacadeService {
   }
   deleteTiktokChannel(tiktokProfileId: string) {
     return this.profileService.deleteTiktokChannel(tiktokProfileId);
+  }
+  deleteThreadAccount(id: string) {
+    return this.profileService.deleteThreadAccount(id);
   }
   deleteAllTiktokChannels() {
     return this.profileService.deleteAllTiktokChannels();

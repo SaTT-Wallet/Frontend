@@ -678,6 +678,29 @@ getCookie(key: string){
             }
 
             this.errorMessage = errorMessage;
+
+            if (
+              error.error.message.startsWith('ValidationError') 
+              //=== 'ValidationError: "password" failed custom validation because password not match'
+            ) {
+              this.errorMessage = 'incorrectPassword';
+            } else if (error.error.error.message === 'user not found') {
+              this.errorMessage = 'RegisterFirst';
+
+            } else if (error.error.error.message === 'invalid_credentials') {
+              this.errorMessage = 'incorrectPassword';
+            } else if (error.error.error.message === 'account_locked') {
+              if (
+                this.blocktime &&
+                this.blocktime !== error.error.error.blockedDate.blockedDate
+              )
+                this.counter.restart();
+              this.blocktime = error.error.error.blockedDate + 1800;
+              this.timeLeftToUnLock =
+                this.blocktime - Math.floor(Date.now() / 1000);
+              this.f.password.reset();
+              this.blockedForgetPassword = true;
+              this.errorMessage = 'Account locked ';
             this.authForm.get('password')?.setValue('');
             this.f.password.reset();
             this.f.email.clearValidators();

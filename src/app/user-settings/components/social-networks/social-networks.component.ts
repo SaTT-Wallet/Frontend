@@ -9,6 +9,9 @@ import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-faca
 import { of, Subject } from 'rxjs';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 import { isPlatformBrowser } from '@angular/common';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { CustomToastComponent } from '../custom-toast/custom-toast.component';
 
 export interface IGetSocialNetworksResponse {
   facebook: { [key: string]: string | boolean }[];
@@ -28,8 +31,10 @@ export class SocialNetworksComponent implements OnInit {
   networkLogoFacebook = './assets/Images/fb_image.svg';
   networkLogoTwitter = './assets/Images/twitter.svg';
   networkLogoInstagram = './assets/Images/img_satt/Instagram.png';
+  networkLogoThreads = './assets/Images/img_satt/Threads.png';
   networkLogoLinkedin = './assets/Images/linkedin-icon.svg';
   networkLogoTiktok = './assets/Images/tiktok.svg';
+  networkLogoFacebookInsta='./assets/Images/Fb_insta.svg';
   accounts: any;
   accountsTwitter: any;
   channelId: string = '';
@@ -47,6 +52,7 @@ export class SocialNetworksComponent implements OnInit {
   channelInstagram: any;
   channelLinkedin: any;
   channelTiktok: any;
+  channelThreads: any;
   allChannels: any;
   showGoogleList: boolean = false;
   showTwitterList: boolean = false;
@@ -60,9 +66,12 @@ export class SocialNetworksComponent implements OnInit {
   deactivateTiktok: boolean = false;
   networkName: string = '';
   percentSocial: any;
+  isLoading: any = false;
+  threadIdToDelete: any = '';
   private isDestroyed = new Subject();
   userId = this.tokenStorageService.getIdUser();
   showSpinner: boolean = true;
+  checkThreadsExist: boolean = false;
   private socialAccount$ = this.socialAccountFacadeService.socialAccount$;
   constructor(
     private profile: ProfileService,
@@ -71,10 +80,16 @@ export class SocialNetworksComponent implements OnInit {
     private router: Router,
     private socialAccountFacadeService: SocialAccountFacadeService,
     private tokenStorageService: TokenStorageService,
+    private sanitizer: DomSanitizer,
+    private snackBar: MatSnackBar,
     @Inject(PLATFORM_ID) private platformId: string
   ) { }
   ngOnInit(): void {
     this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
+    // this.socialAccountFacadeService.checkThreads().subscribe((res:any) => {
+    //   if(res.message === true) this.checkThreadsExist = true
+    //   else this.checkThreadsExist = false;
+    // });
     this.getSocialNetwork();
 
     // this.profilService.getTiktokProfilPrivcay().subscribe((res:any)=>
@@ -86,13 +101,25 @@ export class SocialNetworksComponent implements OnInit {
     // }
     // )
   }
+
+  showToast(message: string): void {
+    this.snackBar.openFromComponent(CustomToastComponent, {
+      duration: 3000, // Duration in milliseconds
+      horizontalPosition: 'end', // Position of the toast (e.g., 'start', 'center', 'end')
+      verticalPosition: 'top',
+      panelClass: ['custom-snackbar'],
+      data: {icon:'./assets/Images/error-icon.png', message: message}
+    });
+  }
   openModalDeleteOne(
     content: any,
     title: string,
     id: string,
     network: string,
-    chname: string
+    chname: string,
+    threadsId? :any
   ) {
+    if(!!threadsId)  this.threadIdToDelete = threadsId;
     this.modalService.open(content);
     this.channelTitle = title;
     this.channelId = id;
@@ -133,6 +160,7 @@ export class SocialNetworksComponent implements OnInit {
       )
       .subscribe(({ params, data }: { params: Params; data: any }) => {
         if (data !== null) {
+        
           let count = 0;
           this.allChannels = data;
           this.channelGoogle = data.google;
@@ -142,7 +170,9 @@ export class SocialNetworksComponent implements OnInit {
 
           this.channelTiktok = data.tikTok;
           this.setUrlMsg(params, data);
-
+         this.channelThreads = this.checkTheradsAccountExit(data)
+        
+         
           if (this.channelGoogle?.length !== 0) {
             count++;
           } else {
@@ -182,7 +212,13 @@ export class SocialNetworksComponent implements OnInit {
               this.deactivateTiktok = !!data.tiktok[ch].deactivate;
             });
           }
-          let stat = (count * 100) / 5;
+          if (this.channelThreads !== false) {
+   
+            count++;
+          }
+          let stat = (count * 100) / 6;
+         
+          
           this.percentSocial = stat.toFixed(0);
           setTimeout(() => {
             this.showSpinner = false;
@@ -195,14 +231,23 @@ export class SocialNetworksComponent implements OnInit {
           this.channelFacebook = [];
           this.channelLinkedin = [];
           this.channelTiktok = [];
+          this.channelThreads= [];
           setTimeout(() => {
             this.showSpinner = false;
           }, 2000);
         }
       });
   }
+  checkTheradsAccountExit(data:any)
+  {     
+   return this.checkThreadsExist = data.facebook.some((elem : any) => elem.threads_id )      
+   }  
+  
   //get errors from url
+ 
   setUrlMsg(p: Params, data: IGetSocialNetworksResponse): void {
+    
+    
     if (p.message) {
       if (p.message === 'access-denied') {
         this.errorMessage = 'access-cancel';
@@ -291,6 +336,8 @@ export class SocialNetworksComponent implements OnInit {
         window.open('https://www.linkedin.com/company/' + userName, '_blank');
       } else if (network === 'tiktok') {
         window.open('https://www.tiktok.com/' + userName.replace(/\s/g, ''));
+      } else if(network === 'threads') {
+        window.open('https://threads.net/@' + userName, '_blank')
       }
     }
   }
@@ -366,9 +413,20 @@ export class SocialNetworksComponent implements OnInit {
             this.closeModal(id);
           }
         });
+    } else if(network === 'threads') {
+      this.socialAccountFacadeService.deleteThreadAccount(this.threadIdToDelete).subscribe((response:any) => {
+        if (response.message === 'deleted successfully') {
+          this.socialAccountFacadeService.dispatchUpdatedSocailAccount();
+      
+          //this.getSocialNetwork();
+          this.closeModal(id);
+        }
+      })
     }
   }
   deleteList(modalName: any, network: string) {
+   
+    
     if (network === 'google') {
       this.socialAccountFacadeService
         .deleteAllSocialNetworksGoogle()
@@ -429,7 +487,52 @@ export class SocialNetworksComponent implements OnInit {
   onImgError(event: any) {
     event.target.src = 'assets/Images/moonboy/Default_avatar_MoonBoy.png';
   }
-  
+  safeImageUrl(base64Image: string): SafeResourceUrl {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${base64Image}`);
+  }
+  getUpdatedItem(item:any, res:any) {
+    const updatedItem = {
+      ...item,
+      threads_id: res.data.id,
+      threads_picture: res.data.picture
+    };
+    return updatedItem;
+  }
+  addThreadsAccount() {
+    this.isLoading = true;
+    this.socialAccountFacadeService.addThreads().subscribe((res:any) => {
+      if(res.message === 'threads_account_added') {
+        this.isLoading = false;
+    this.checkThreadsExist= true;
+        const index = this.channelFacebook.findIndex((obj:any) => obj.instagram_username === res.data.username);
+        if(index !== -1) {
+
+          
+          let newObj = {
+            ...this.channelFacebook[index],
+            threads_id: res.data.id,
+            threads_picture: res.data.picture,
+            threads_followers: res.data.threads_followers
+          }
+          this.channelFacebook = [
+            ...this.channelFacebook.slice(0, index), 
+            newObj,
+            ...this.channelFacebook.slice(index + 1), 
+          ];
+          this.channelFacebook[index] = newObj;
+        }
+      } else if(res.message === 'threads_not_found'){
+        this.isLoading = false;
+        this.showToast('Sorry we cant find threads account with this name !');
+      } else {
+        this.isLoading = false;
+        this.showToast('Something went wrong, please try again!');
+      }
+    }, error => {
+      this.isLoading = false;
+      this.showToast('Something went wrong, please try again!');
+    })
+  }
   trackByChannelId(index: any, ch: any) {
     return ch?.id;
   }

@@ -236,10 +236,20 @@
                     <div
                       class="d-flex justify-content-lg-start justify-content-md-center justify-content-sm-center"
                     >
-                      <span class="label label-text col-12 d-flex text-center">
+                    <div>
+                      
+                    </div>
+                      <span class="label label-text col-7 d-flex text-center" style="margin-top: 10px">
                         ${{ (budgetInUSD | async) || '0' | number }}
                       </span>
+                      <img
+                      *ngIf="campaign?.hash"
+                        src="assets/Images/blue-icons/calculator.svg"
+                        width="20px"
+                        (click)="caluculateRoi(campaign.id, $event)"
+                      />
                     </div>
+                   
                     <button
                       style="border: none; background: none; margin: 0"
                       (click)="getUrlSmartContart()"
@@ -1436,3 +1446,11 @@
   </div>
   
 </div>
+
+
+<ng-template class="modal-roi" #calculRoi>
+  <app-roi-modal
+    [campaign]="campaign"
+    (closeModaleEvent)="closeRoi($event)"
+  ></app-roi-modal>
+</ng-template>

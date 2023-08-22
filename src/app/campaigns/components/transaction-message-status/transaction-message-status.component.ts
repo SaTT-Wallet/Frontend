@@ -5,11 +5,16 @@ import {
   ITransactionStatus
 } from '@core/services/blockchain-actions.service';
 import { CampaignsStoreService } from '@campaigns/services/campaigns-store.service';
+import { Page } from '@app/models/page.model';
+
 import { Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter, takeUntil,map } from 'rxjs/operators';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
 import { EButtonActions } from '@app/core/enums';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
+import { ParticipationListStoreService } from '@app/campaigns/services/participation-list-store.service';
+import { Participation } from '@app/models/participation.model';
+import _ from 'lodash';
 @Component({
   selector: 'app-transaction-message-status',
   templateUrl: './transaction-message-status.component.html',
@@ -17,6 +22,7 @@ import { TokenStorageService } from '@app/core/services/tokenStorage/token-stora
 })
 export class TransactionMessageStatusComponent implements OnInit {
   idFromUrl = this.route.snapshot.queryParamMap.get('id');
+  isDestroyed = new Subject();
 
   campaignId = this.campaignsStoreService.campaign.id || this.idFromUrl;
   transactionHash = '';
@@ -25,7 +31,7 @@ export class TransactionMessageStatusComponent implements OnInit {
   isDestroyedSubject = new Subject();
   networkWallet: any;
   id: any;
-
+  listLinks: Participation[] = [];
   text: any;
   constructor(
     private service: BlockchainActionsService,
@@ -33,10 +39,27 @@ export class TransactionMessageStatusComponent implements OnInit {
     private campaignsStoreService: CampaignsStoreService,
     private route: ActivatedRoute,
     private CampaignService: CampaignHttpApiService,
-    private tokenStorageService: TokenStorageService
+    private tokenStorageService: TokenStorageService,
+    public ParticipationListService: ParticipationListStoreService
+
   ) {}
 
   ngOnInit(): void {
+
+
+    this.ParticipationListService.list$
+      .pipe(
+        map((pages: Page<Participation>[]) =>
+          _.flatten(pages.map((page: Page<Participation>) => page.items))
+        ),
+        takeUntil(this.isDestroyed)
+      )
+      .subscribe((links: Participation[]) => {
+        this.listLinks = links;
+      });
+
+
+
     this.CampaignService.getOneById(this.campaignId as string)
       .pipe(takeUntil(this.isDestroyedSubject))
       .subscribe((data: any) => {

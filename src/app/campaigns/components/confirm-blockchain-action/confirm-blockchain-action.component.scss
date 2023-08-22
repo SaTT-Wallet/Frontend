@@ -80,6 +80,7 @@
     margin: 0.5em 0;
     display: flex;
     flex-direction: column;
+    margin-left: 3%;
   }
 
   .error-message {
@@ -90,3 +91,21 @@
     border: 1px solid var(--cs-red);
   }
 
+/* Desktop version */
+p {
+  font-family: 'Poppins';
+  font-weight: 400;
+  text-align: center;
+}
+
+.price {
+  display: inline; /* Keep the price part inline */
+}
+
+/* Mobile version */
+@media (max-width: 768px) {
+  .price {
+    display: block; /* Move the price part to a new line */
+    text-align: center; /* Center align the price part in the mobile version */
+  }
+}

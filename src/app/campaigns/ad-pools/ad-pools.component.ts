@@ -18,6 +18,7 @@ import {
   catchError,
   debounceTime,
   filter,
+  first,
   map,
   mergeMap,
   takeUntil,
@@ -37,6 +38,7 @@ import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { ConvertFromWei } from '@app/shared/pipes/wei-to-sa-tt.pipe';
 import { Big } from 'big.js';
 import { ShowNumbersRule } from '@shared/pipes/showNumbersRule';
+import { environment } from '@environments/environment';
 @Component({
   selector: 'app-ad-pools',
   templateUrl: './ad-pools.component.html',
@@ -107,11 +109,12 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+   
     this.onBoarding();
     this.loadCampaigns();
-
+    
   }
-
+ 
   campare(a:any,b:any) {
     if(a.createdAt > b.createdAt) return 1;
     if(a.createdAt < b.createdAt) return -1;
@@ -122,7 +125,6 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
   findDuplicatesCampaigns(arr: any) {
     let unique:any = [];
     arr.forEach((element:any) => {
-        console.log({element})
         if (!unique.includes(element.id)) {
             unique.push(element);
         }

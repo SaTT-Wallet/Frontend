@@ -25,14 +25,16 @@ const campaignSmartContractTRON = env.addresses.smartContracts.campaignTRON;
 
 const id_campaign_to_participate = '61139d487048d8251bf91401';
 
-let pattContact = /^0x[a-fA-F0-9]{40}$|^(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,39}$/;
+//let pattContact = /^0x[a-fA-F0-9]{40}$|^(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,39}$/;
+let pattContact = /^0x[a-fA-F0-9]{40}$|^(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,39}$|T[A-Za-z1-9]{33}$/;
 let tronPattContact = /T[A-Za-z1-9]{33}$/;
+
 let pattEmail =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 let pattNetwork =
   '^(https?:\\/\\/(www\\.)){1}([0-9A-Za-z-\\.@:%_+~&#=]+)+((\\.(com))+)(/(.)*)?(\\?(.)*)?';
 let pattMedia =
-  /(?:(?:https?:\/\/)?(?:www\.)?)?(?:(?:(?:facebook|instagram|linkedin|twitter|youtube)\.(?:com|li)\/)?[A-Za-z0-9]+\/?(?:[\/?#]\S+)?)/;
+  /(?:(?:https?:\/\/)?(?:www\.)?)?(?:(?:(?:facebook|instagram|linkedin|twitter|youtube|threads)\.(?:com|li)\/)?[A-Za-z0-9]+\/?(?:[\/?#]\S+)?)/;
 // '^(https?:\\/\\/){1}([0-9A-Za-z-\\.@:%_+~#&=]+)+((\\.(com|be))+)(/(.)*)?(\\?(.)*)?';
 let urlValidator =
   '^(?:(?:http(?:s)?|ftp)://)(?:\\S+(?::(?:\\S)*)?@)?(?:(?:[a-z0-9\u00a1-\uffff](?:-)*)*(?:[a-z0-9\u00a1-\uffff])+)(?:\\.(?:[a-z0-9\u00a1-\uffff](?:-)*)*(?:[a-z0-9\u00a1-\uffff])+)*(?:\\.(?:[a-z0-9\u00a1-\uffff]){2,})(?::(?:\\d){2,5})?(?:/(?:\\S)*)?$';

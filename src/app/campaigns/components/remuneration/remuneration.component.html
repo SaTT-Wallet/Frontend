@@ -15,10 +15,74 @@
         }}</label>
       </div>
 
+      <!-- <ng-template #tokenModal>
+        <app-ad-pool-token-select
+          (tokenSelected)="onCryptoSelected($event)"
+          [selectedNetworkValue]="selectedCryptoDetails.network"
+        ></app-ad-pool-token-select>
+      </ng-template> -->
+      <!-- <button (click)="createTokenModal()">
+        Click Me : {{ selectedToken?.value.name }}
+      </button> -->
+
+      <!-- new sk -->
+      <!-- <div class="height-drop container" [formGroup]="newForm">
+        <div class="row justify-content-center">
+          <div class="col-2">
+            <select id="networkSelect" formControlName="selectedNetworkNew">
+              <option *ngFor="let network of networksNew" [value]="network">
+                {{ network }}
+              </option>
+            </select>
+          </div>
+          <div class="col-2">
+            <select id="tokenSelect" formControlName="selectedTokenNew">
+              <option
+                *ngFor="let token of selectedTokensNew"
+                [value]="token.symbol"
+              >
+                {{ token.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <ng-template #selectTokenModalNew>
+          <div class="modal_container">
+            <h3 class="modal_title w-fit mx-auto">Select token</h3>
+            <p class="modal_subtitle">
+              {{ 'your network:' | uppercase }}
+              <span class="network_selected">{{
+                form.value.selectedNetworkNew
+              }}</span>
+            </p>
+            <div class="input_search_token_container">
+              <i id="search_logo" class="bi bi-search"></i>
+              <input type="text" placeholder="..." />
+            </div>
+          </div>
+          <div class="container">
+            <div class="row">
+              <div><div>futur crypto preview</div></div>
+            </div>
+          </div>
+        </ng-template> -->
+      <!-- <div>
+          <p>You selected network: {{ form.value.selectedNetworkNew }}</p>
+          <p>You selected token: {{ form.value.selectedTokenNew }}</p>
+          <p>Token Address: {{ selectedTokenAddress() }}</p>
+          <img
+            *ngIf="selectedTokenLogoUrl()"
+            [src]="selectedTokenLogoUrl()"
+            alt="Token Logo"
+          />
+        </div>
+        <button (click)="logSelectedValues()">Create Campaign</button> -->
       <div class="height-drop">
         <app-dropdown-crypto-network
           (selectedCrypto)="linstingCrypto($event)"
-          [cryptoFromDraft]="this.draftData.currency.name"
+          [cryptoFromDraft]="this.form.get('currency')?.value"
+          [selectedNetworkValue]="selectedNetworkValue"
+          [res]="res"
         ></app-dropdown-crypto-network>
       </div>
       <div class="">
@@ -40,9 +104,7 @@
       >
         <!-- <p class="hard-gray-text mb-0">Balance :{{ totalAmount }} USD</p> -->
         <p class="hard-gray-text mb-0">
-          Balance :${{
-            this.selectedCryptoDetails?.total_balance | showNumbersRule
-          }}
+          Balance :${{ selectedCryptoDetails.total_balance | showNumbersRule }}
         </p>
 
         <span class="router-text" (click)="onClickAmount()">{{
@@ -64,17 +126,19 @@
             (input)="convertcurrency('usd')"
             #inputAmountUsd
             [(ngModel)]="this.amountUsd"
-            
           />
         </div>
       </div>
       <div
-        class="pointer row d-flex justify-content-center pt-3 mb-1"
-        [routerLink]="['/wallet/buy-token']"
-        target="_blank"
+        class=" row d-flex justify-content-center pt-3 mb-1"
+        
+        
       >
         <div
+        
           class="div-Not-enough-satt col-xxl-3 col-xl-4 col-md-12 col-lg-5 col-sm-8 col-10 d-flex align-items-center justify-content-start"
+          [routerLink]="['/wallet/buy-token']"
+          target="_blank"
         >
           <img
             src="assets/Images/exclam-attente.svg"
@@ -87,12 +151,12 @@
         </div>
       </div>
       <div
-        class="pointer row d-flex justify-content-center pt-3 mb-1"
-        [routerLink]="['/wallet']"
-        target="_blank"
+        class="row d-flex justify-content-center pt-3 mb-1"
       >
         <div
-          class="div-Not-enoughsatt col-xxl-3 col-xl-3 col-md-12 col-lg-4 col-sm-8 col-10 d-flex align-items-center justify-content-start"
+          class="div-Not-enoughsatt col-xxl-3 col-xl-3 col-md-12 col-lg-4 col-sm-8 col-10 d-flex align-items-center justify-content-start pointer"
+          [routerLink]="['/wallet']"
+          target="_blank"
         >
           <img
             src="assets/Images/exclam.svg"
@@ -109,12 +173,9 @@
           class="col-xxl-3 col-xl-3 col-md-12 col-lg-4 col-sm-8 col-10 d-flex align-items-center justify-content-center"
         >
           <div class="error d-flex initialBudgetError ml-4">
-            <span
-              *ngIf="
-              fieldRequired && validFormBudgetRemun
-              "
-              >{{ 'campaign.field_required' | translate }}</span
-            >
+            <span *ngIf="fieldRequired && validFormBudgetRemun">{{
+              'campaign.field_required' | translate
+            }}</span>
           </div>
         </div>
       </div>
@@ -129,9 +190,9 @@
               'not_enough_balance' | translate
             }}</span>
             -->
-            <span *ngIf="insufficientBalance"> {{
-              'not_enough_balance' | translate
-            }}</span>
+            <span *ngIf="insufficientBalance">
+              {{ 'not_enough_balance' | translate }}</span
+            >
           </div>
         </div>
       </div>
@@ -212,10 +273,7 @@
         </div>
         <!-------------bloc toggle------>
 
-        <div
-          class="row d-flex justify-content-center pt-3 mb-1"
-         
-        >
+        <div class="row d-flex justify-content-center pt-3 mb-1">
           <div
             class="col-xl-10 col-md-12 col-lg-10 col-sm-12 d-flex flex-row justify-content-between"
           >
@@ -316,14 +374,14 @@
                   "
                   [formGroupName]="i"
                 >
-                  <div
+                  <div 
                     class="oracle-inputs col-12 d-flex flex-xl-row flex-lg-row flex-md-row flex-sm-column flex-column"
                   >
                     <!-- Prix/Vue-->
-                    <div
+                    <div 
                       class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 justify-content-xl-center justify-content-lg-center justify-content-md-center justify-content-sm-between justify-content-between p-0 align-items-xl-start align-items-lg-start align-items-md-start align-items-sm-center align-items-center d-flex flex-xl-column flex-lg-column flex-md-column flex-sm-row flex-row oracle-wrapper"
                     >
-                      <span
+                      <span [ngStyle]="{'color':ratio.value.oracle === 'threads'? '#ADADC8': 'black'}"
                         class="bold-font-weight dark_blue d-flex justify-content-lg-center justify-content-md-center justify-content-xl-center justify-content-start mb-xl-3 mb-xl-3 mb-ld-3 mb-md-3 mb-sm-0 mb-0"
                       >
                         {{ 'campaign.Prix/Vue' | translate }}
@@ -334,15 +392,17 @@
                           errors: isFieldValid(ratio, 'view')
                         }"
                       >
-                      
                         <input
+                        [ngStyle]="{'color':ratio.value.oracle === 'threads'? '#ADADC8': 'black'}"
                           type="text"
                           class="styleForInputMedia ms-3 pe-2"
                           aria-describedby="basic-addon2"
                           formControlName="view"
+                          [readonly]="ratio.value.oracle === 'threads'"
                           (input)="handleAmountEntries(ratio, 'view')"
                         />
                         <span
+                        [ngStyle]="{'color':ratio.value.oracle === 'threads'? '#ADADC8': 'black'}"
                           class="label-type normal-font-weight font-weight-normal me-2 ps-1"
                           >{{ cryptoSymbol | translate }}</span
                         >
@@ -377,28 +437,34 @@
                       </div>
                     </div>
                     <!-- Prix/Partage-->
-                    <div
+                    <div 
+                    
                       class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 justify-content-xl-center justify-content-lg-center justify-content-md-center justify-content-sm-between justify-content-between p-0 align-items-xl-start align-items-lg-start align-items-md-start align-items-sm-center align-items-center d-flex flex-xl-column flex-lg-column flex-md-column flex-sm-row flex-row oracle-wrapper"
                     >
                       <span
+                      [ngStyle]="{'color':ratio.value.oracle === 'threads'? '#ADADC8': 'black'}"
                         class="bold-font-weight dark_blue d-flex justify-content-center mb-xl-3 mb-xl-3 mb-ld-3 mb-md-3 mb-sm-0 mb-0"
                       >
                         {{ 'campaign.Prix/Partage' | translate }}
                       </span>
                       <div
+                  
                         class="div_input_oracle"
                         [ngClass]="{
                           errors: isFieldValid(ratio, 'share')
                         }"
                       >
                         <input
+                        [ngStyle]="{'color':ratio.value.oracle === 'threads'? '#ADADC8': 'black'}"
                           type="text"
                           class="styleForInputMedia ms-3 pe-2"
                           aria-describedby="basic-addon2"
                           formControlName="share"
+                           [readonly]="ratio.value.oracle === 'threads'"
                           (input)="handleAmountEntries(ratio, 'share')"
                         />
                         <span
+                        [ngStyle]="{'color':ratio.value.oracle === 'threads'? '#ADADC8': 'black'}"
                           class="label-type normal-font-weight font-weight-normal me-2 ps-1"
                           >{{ cryptoSymbol | translate }}</span
                         >
@@ -439,9 +505,11 @@
                       </div>
                     </div>
                   </div>
-                  <div
+                  <div *ngIf="ratio.value.oracle !== 'threads'"
                     class="row error mb-2 mt-2 justify-content-center initialBudgetError"
+
                   >
+                  
                     <span *ngIf="ratio.errors?.invalidRatioSomme">{{
                       'campaign.must_fill_field' | translate
                     }}</span>
@@ -458,9 +526,7 @@
             </div>
           </div>
         </ng-container>
-        <div
-          class="justify-content-center error d-flex initialBudgetError"
-        >
+        <div class="justify-content-center error d-flex initialBudgetError">
           <span *ngIf="this.form.errors?.InsufficientBudget">{{
             'campaign.InsufficientBudget' | translate
           }}</span>

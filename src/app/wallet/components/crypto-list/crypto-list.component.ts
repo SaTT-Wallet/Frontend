@@ -488,7 +488,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   nonAdedCryptos: any[] = [];
   disabled = false;
   selectedNetwork = 'BEP20';
-  networkList = ['BEP20', 'ERC20', 'POLYGON'];
+  networkList = ['BEP20', 'ERC20', 'POLYGON', 'BTTC' ,'TRON'];
   importManually = false;
 
   onBlockchainChange(event: any) {
@@ -550,7 +550,9 @@ export class CryptoListComponent implements OnInit, OnDestroy {
               ?.setValue(response.data.tokenAdress, { onlySelf: true });
             this.formToken
               .get('decimal')
-              ?.setValue(response.data.decimal, { onlySelf: true });
+              ?.setValue(response.data.decimals, { onlySelf: true });
+              this.selectedNetwork = response.data.network
+              this.formToken.get('network')?.setValue(response.data?.network, {onlySelf: true});
             // if (
             //   ListTokens[response.data.symbol.toUpperCase()] &&
             //   ListTokens[response.data.symbol.toUpperCase()][
@@ -1039,6 +1041,10 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     }
     return false;
   }
+  isValidAddress(address: string): boolean {
+    
+    return pattContact.test(address);
+  }
   addToken() {
     this.isSubmited = true;
     this.isLodingBtn = true;
@@ -1063,7 +1069,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
             this.errorMsg = '';
             this.successMsg = 'addToken.token-added-successfully';
             this.walletStoreService.getCryptoList();
-            this.router.navigate(['/home']);
+            this.router.navigate(['/wallet']);
           }
         },
         (error: any) => {

@@ -7,20 +7,18 @@
 </p>
 <ng-container *ngIf="!!network">
   <p style="font-family: 'Poppins';font-weight: 400; text-align: center;">
-    <ng-container *ngIf="network.toString().toUpperCase() === 'BEP20' && !!bepGaz">
-      {{'gasFees' | translate }} : {{ (bepGaz / bnb).toFixed(8) }} BNB ( ≈ ${{bepGaz}} )
-    </ng-container>
-    <ng-container *ngIf="network.toString().toUpperCase() === 'ERC20' && !!erc20Gaz">
-      {{'gasFees' | translate }} : {{ (erc20Gaz / eth).toFixed(8) }} ETH ( ≈ ${{erc20Gaz}} )
-    </ng-container>
-    <ng-container *ngIf="network.toString().toUpperCase() === 'POLYGON' && !!polygonGaz">
-      {{'gasFees' | translate }} : {{ (polygonGaz / matic).toFixed(8) }} MATIC ( ≈ ${{polygonGaz}} )
-    </ng-container>
-    <ng-container *ngIf="network.toString().toUpperCase() === 'BTT' && !!bttGaz">
-      {{'gasFees' | translate }} : {{ (bttGaz / btt).toFixed(8) }} BTT ( ≈ ${{bttGaz}} )
-    </ng-container>
-    
-   
+  <ng-container *ngIf="network.toString().toUpperCase() === 'BEP20' && !!bepGaz">
+  {{'gasFees' | translate }} : {{ (bepGaz / bnb).toFixed(8) }} BNB <span class="price">( ≈ ${{bepGaz}} )</span>
+  </ng-container>
+  <ng-container *ngIf="network.toString().toUpperCase() === 'ERC20' && !!erc20Gaz">
+  {{'gasFees' | translate }} : {{ (erc20Gaz / eth).toFixed(8) }} <span class="price">ETH ( ≈ ${{erc20Gaz}} )</span>
+  </ng-container>
+  <ng-container *ngIf="network.toString().toUpperCase() === 'POLYGON' && !!polygonGaz">
+  {{'gasFees' | translate }} : {{ (polygonGaz / matic).toFixed(8) }} MATIC <span class="price">( ≈ ${{polygonGaz}} )</span>
+  </ng-container>
+  <ng-container *ngIf="network.toString().toUpperCase() === 'BTT' && !!bttGaz">
+  {{'gasFees' | translate }} : {{ (bttGaz / btt).toFixed(8) }} BTT<span class="price"> ( ≈ ${{bttGaz}} ) </span>
+  </ng-container>
   </p>
 </ng-container>
 <form [formGroup]="form" (ngSubmit)="onFormSubmit()" class="confirm-form">

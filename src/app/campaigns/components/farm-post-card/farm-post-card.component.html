@@ -71,9 +71,16 @@
         class="cmp-img2"
       />
 
+      <img
+        *ngIf="prom.typeSN === 7"
+        [src]="prom.mediaUrl.toString().startsWith('https') ? prom.mediaUrl:  safeImageUrl(prom.mediaUrl)"
+        onerror="this.src='/assets/Images/tiktoksign.svg'"
+        class="cmp-img2"
+      />
+
       <!-- <img *ngIf="prom.typeSN == 1" src="/assets/Images/campagne/facebook_cover_gain.svg" class="cmp-img2"> -->
       <!-- <img *ngIf="prom.typeSN == 4" src="/assets/Images/campagne/twitter_cover.svg" class="cmp-img2" [routerLink]="['/home/campaign/', prom.campaign._id]" /> -->
-      <a [href]="prom.link" target="_blank" class="icon_link hide-row-version"
+      <a [href]="prom.typeSN == 7 ? 'https://www.threads.net/@skymage.skandert/CuhaaNvIJrh' : prom.link" target="_blank" class="icon_link hide-row-version"
         ><img src="/assets/Images/campagne/gains-link.svg"
       /></a>
       <img
@@ -112,6 +119,12 @@
         class="icon_oracle"
         [routerLink]="['/home/campaign/', prom.campaign._id]"
       />
+      <img
+        *ngIf="prom.typeSN === 7"
+        src="/assets/Images/img_satt/Threads.png"
+        class="icon_oracle"
+        [routerLink]="['/home/campaign/', prom.campaign._id]"
+      />
     </a>
   </div>
   <div class="details-block">
@@ -138,32 +151,34 @@
         </div>
         <div class="div-date">
           <h2
-            class="under_gains date"
-            *ngIf="localId === 'en' && prom.applyDate"
+          class="under_gains date"
+          *ngIf="localId === 'en' && prom.applyDate"
           >
-            <!-- h:mm:ss a -->
-            <span>
-              <img src="assets/Images/calender.svg" width="16px" />
-              {{ prom.applyDate | date: 'MM/dd/yyyy':undefined:localId || '' }}
-            </span>
-            <!-- <span class="span-hours">
-              <img src="assets/Images/clock-link.svg" width="16px" />
-              {{ prom.applyDate | date: 'h:mm ':undefined:localId || '' }}
-            </span> -->
+          <!-- h:mm:ss a -->
+          <span>
+          <img src="assets/Images/calender.svg" width="16px" />
+          {{ prom.applyDate | date: 'MM/dd/yyyy':undefined:localId || '' }}
+          </span>
+          <!-- <span class="span-hours">
+          <img src="assets/Images/clock-link.svg" width="16px" />
+          {{ prom.applyDate | date: 'h:mm ':undefined:localId || '' }}
+          </span> -->
           </h2>
           <h2
-            class="under_gains date"
-            *ngIf="localId === 'fr' && prom.applyDate"
+          class="under_gains date"
+          *ngIf="localId === 'fr' && prom.applyDate"
           >
-            <span>
-              <img src="assets/Images/calender.svg" width="16px" />
-              {{ prom.applyDate | date: 'dd/MM/yyyy ':undefined:localId || '' }}
-            </span>
-         <!--   <span class="span-hours">
-              <img src="assets/Images/clock-link.svg" width="16px" />
-              {{ prom.applyDate | date: 'h:mm ':undefined:localId || '' }}
-            </span>-->
+          <span>
+          <img src="assets/Images/calender.svg" width="16px" />
+          {{ prom.applyDate | date: 'dd/MM/yyyy ':undefined:localId || '' }}
+          </span>
+          <!-- <span class="span-hours">
+          <img src="assets/Images/clock-link.svg" width="16px" />
+          {{ prom.applyDate | date: 'h:mm ':undefined:localId || '' }}
+          </span>-->
           </h2>
+          
+         
         </div>
       </div>
 

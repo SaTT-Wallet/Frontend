@@ -15,7 +15,7 @@ export class RoiModalComponent implements OnInit {
   inputValue: any;
   roiCurrentRate!: number;
   roiCurrentUsd!: number;
-  tokenName: string = '';
+  tokenName!: string ;
   campaignType: string = '';
   campaignView: number = 0;
   campaignlike: number = 0;
@@ -40,7 +40,7 @@ export class RoiModalComponent implements OnInit {
   tofixUsd: string = '0';
   isDestroyedSubject = new Subject();
 
-  @Input() id: any;
+  @Input() campaign: any;
   @Output() closeModaleEvent = new EventEmitter<any>();
   constructor(
     private CampaignService: CampaignHttpApiService,
@@ -51,17 +51,15 @@ export class RoiModalComponent implements OnInit {
   ngOnInit(): void {
     this.roiCurrentRate = 0;
     this.roiCurrentUsd = 0;
-    this.CampaignService.getOneById(this.id, 'projection').subscribe(
-      (data: any) => {
-        this.tokenName = data.data.token.name;
+    this.tokenName = this.campaign.currency.name;
         if (['SATTBEP20'].includes(this.tokenName)) this.tokenName = 'SATT';
-        this.campaignType = data.data.remuneration;
-        this.campaignBounties = data.data.bounties;
-        this.campaignRatios = data.data.ratios;
+        this.campaignType = this.campaign.remuneration;
+        this.campaignBounties = this.campaign.bounties;
+        this.campaignRatios = this.campaign.ratios;
    
        this.oracleSelected = this.campaignType === 'performance' ? this.campaignRatios[0].oracle : this.campaignBounties[0].oracle;
      
-     
+        
         this.campaignRatios.forEach((ratio: any) => {
           this.platforms.push(ratio.oracle);
         });
@@ -71,10 +69,7 @@ export class RoiModalComponent implements OnInit {
           this.platforms.push(bountie.oracle);
         });
         this.getCryptoPrice(this.tokenName);
-      }
-    );
-
-    // this.etherInWei = ListTokens[this.tokenName].decimals;
+    
   }
 
   validateNumber(e: any) {
@@ -89,6 +84,8 @@ export class RoiModalComponent implements OnInit {
   }
   getCryptoPrice(token: string) {
     this.walletFacade.getCryptoPriceList().subscribe((data: any) => {
+      console.log("dataa", data);
+      
       this.cryptoPrice = data.data[token].price;
 
       this.estimationGains();
@@ -174,14 +171,14 @@ export class RoiModalComponent implements OnInit {
   estimationGains() {
     if (this.campaignType === 'performance') {
       this.getRewardRatios();
-      this.roiCurrentRate =
+      this.roiCurrentRate = this.oracleSelected === 'threads' ?  this.campaignlike * this.like :
         this.campaignView * this.View +
         this.campaignlike * this.like +
         this.campaignShare * this.Share;
     } else if (this.campaignType === 'publication') {
       this.getRewardBountie();
     }
-
+    
     this.roiCurrentUsd = this.roiCurrentRate * this.cryptoPrice;
     if (this.roiCurrentUsd === 0) {
       this.tofixUsd = '0';
@@ -201,7 +198,7 @@ export class RoiModalComponent implements OnInit {
     }
   }
   goToCampaignDetail() {
-    this.router.navigate(['/home/campaign/', this.id]);
+    this.router.navigate(['/home/campaign/', this.campaign.id]);
     this.closeModaleEvent.emit(true);
   }
 }

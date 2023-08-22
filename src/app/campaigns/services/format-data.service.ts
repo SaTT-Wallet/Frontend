@@ -52,12 +52,18 @@ export class FormatDataService {
       object.countries = campaign.targetedCountries; //this.countriesCode(campaign.targetedCountries);
     }
     if (campaign.hasOwnProperty('currency')) {
+      /*object.token = {
+        name: campaign.token.name || campaign.currency || 'test',
+        type:
+          campaign.token?.type?.toUpperCase() ||
+          ListTokens[campaign.currency]?.type.toUpperCase(),
+        addr: campaign.token.addr || ListTokens[campaign.currency].contract
+      };*/
       object.token = {
-        name: campaign.currency.name || campaign.currency || '',
-        type: campaign.currency?.type?.toUpperCase() || ListTokens[campaign.currency]?.type.toUpperCase(),
-        addr: campaign.currency.addr || ListTokens[campaign.currency].contract
+        name: campaign.currency.name || '',
+        type: ListTokens[campaign.currency.name]?.type.toUpperCase(),
+        addr: ListTokens[campaign.currency.name].contract
       };
-
       if (
         object.token.name === 'WSATT' ||
         object.token.name === 'SATTBEP20' ||
@@ -156,6 +162,7 @@ export class FormatDataService {
     if (campaign.hasOwnProperty('missions')) {
       object.missions = campaign.missions;
     }
+
     return object;
   }
 

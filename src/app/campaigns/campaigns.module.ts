@@ -56,7 +56,7 @@ import { SharedModule } from '@app/shared/shared.module';
     TransactionMessageStatusComponent,
     MissionsComponent,
     DraftPictureComponent,
-    SocialsComponent,
+    SocialsComponent
   ],
   imports: [
     CommonModule,

@@ -80,7 +80,13 @@ getNewApplicant(){
     
   })
 }
-
+truncateTitle(title: string): string {
+  const maxLength = 17;
+  if (title.length > maxLength) {
+    return title.slice(0, maxLength) + '...';
+  }
+  return title;
+}
   goToDetailsPage(id: string) {
     // const currentUrl = this.router.url;
     // if(this.deletebutton==false){
@@ -201,6 +207,13 @@ getNewApplicant(){
       ? this.campaign.ratios
       : this.campaign.bounties;
     return !!campaignPerformance.find((r) => r.oracle === 'tiktok');
+  }
+
+  get isThreadsSelected(): boolean {
+    let campaignPerformance = this.campaign.ratios.length
+      ? this.campaign.ratios
+      : this.campaign.bounties;
+    return !!campaignPerformance.find((r) => r.oracle === 'threads');
   }
   get localId(): string {
     return this.tokenStorageService.getLocale() || 'en';

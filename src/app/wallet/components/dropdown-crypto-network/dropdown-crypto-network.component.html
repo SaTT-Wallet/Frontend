@@ -63,9 +63,11 @@
       data-toggle="dropdown"
       aria-haspopup="true"
       aria-expanded="false"
+      *ngIf="!router.url.startsWith('/campaign')"
     >
       <button
         [disabled]="selectedNetworkValue === 'BTC'"
+        (click)="selectToken(selectTokenModal)"
         class="btn btntoggle dropdown-toggle btn-dropdown"
       >
         <i class="chevron fa fa-fw" *ngIf="selectedNetworkValue !== 'BTC'"></i>
@@ -90,6 +92,70 @@
         class="dropdown-menu"
         aria-labelledby="dropdownButton2"
         id="dropdownButtonUl"
+        *ngIf="!router.url.startsWith('/campaign')"
+      >
+        <ng-container *ngFor="let crypto of dataList; trackBy: trackById">
+          <li
+            class="li-select"
+            *ngIf="
+              crypto.type === selectedNetworkValue &&
+              crypto.symbol !== cryptoSymbol
+            "
+            (click)="
+              selectCryptoValue(
+                crypto.name,
+                crypto.undername2,
+                crypto.symbol,
+                crypto.AddedToken,
+                crypto
+              )
+            "
+          >
+            <span class="li-select-text">{{ crypto.symbol | translate }}</span>
+
+            <img
+              *ngIf="!crypto.picUrl"
+              src="assets/Images/symbol_crypto/{{ crypto.undername2 }}.svg"
+              class="width_icon_crypto"
+            />
+            <img
+              class="width_icon_crypto"
+              *ngIf="crypto.picUrl"
+              [src]="crypto.picUrl"
+              alt=""
+            />
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+    <div
+      class="dropdown"
+      id="dropdown-ul"
+      data-flip="false"
+      type="button"
+      id="dropdownButton2"
+      data-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
+      *ngIf="router.url.startsWith('/campaign')"
+    >
+      <button
+        (click)="selectToken(selectTokenModal)"
+        class="btn btntoggle dropdown-toggle btn-dropdown"
+      >
+        <i class="chevron fa fa-fw"></i>
+        <img
+          class="crypto-image"
+          src="{{ cryptoImageCamapign }}"
+          onerror="this.src='/assets/Images/symbol_crypto/indispo.svg'"
+        />
+        <span class="dropdown-text ps-3">{{ cryptoSymbolCampaign }} </span>
+      </button>
+      <ul
+        class="dropdown-menu"
+        aria-labelledby="dropdownButton2"
+        id="dropdownButtonUl"
+        *ngIf="!router.url.startsWith('/campaign')"
       >
         <ng-container *ngFor="let crypto of dataList; trackBy: trackById">
           <li
@@ -127,3 +193,131 @@
     </div>
   </div>
 </div>
+
+<ng-template #selectTokenModal>
+  <div class="modal_container">
+    <h3 class="modal_title w-fit mx-auto">Select token</h3>
+    <p class="modal_subtitle">
+      YOUR NETWORK:
+      <span class="network_selected">{{ selectedNetworkValue }}</span>
+    </p>
+    <div class="input_search_token_container">
+      <i id="search_logo" class="bi bi-search"></i>
+      <input
+        class="input_search_token"
+        (input)="searchToken($event)"
+        type="text"
+        [formControl]="tokenSearch"
+        placeholder="Search a name or paste address"
+      />
+    </div>
+    <div class="container">
+      <!-- Your content for each crypto element here -->
+      <div class="row">
+        <div
+          class="col-sm-4 col-4"
+          *ngFor="let crypto of filterList.slice(0, 6); let i = index"
+          (click)="tokenToSelect(crypto)"
+        >
+          <div class="tokens_preview d-flex p-2 mb-2">
+            <img class="img_token" src="{{ crypto.value.logo }}" alt="logo" />
+            <p class="name_token">
+              {{ crypto.key }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr />
+    <div>
+      <ng-container *ngIf="tokenNotFound && showWarning">
+        <div class="warning_div">
+          <p>{{ 'No Search Result Available' | uppercase }}</p>
+          <p
+            class="warning_message"
+            *ngIf="!showSearchNewTokenContainer && filterList.length === 0"
+            (click)="searchPersonalizedToken()"
+          >
+            Add a personnaliszed token >
+          </p>
+          <!-- Futur Button for add token  -->
+        </div>
+      </ng-container>
+      <ng-container *ngIf="showSearchNewTokenContainer && filterList.length === 0">
+        <div class="form-group">
+          <label class="label_title" for="contractAddress">
+            {{ "Token's Contract Address" | uppercase }}
+          </label>
+          <input
+            id="contractAddress"
+            class="input_search_token_container"
+            type="text"
+            placeholder="0x"
+            (input)="searchCustomToken($event)"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="label_title" for="tokenSymbol">
+            {{ "Token's Symbol" | uppercase }}
+          </label>
+          <input
+            [disabled]="true"
+            id="tokenSymbol"
+            class="input_search_token_container"
+            type="text"
+            [value]="tokenSymbol"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="label_title" for="decimals">
+            {{ 'Decimals' | uppercase }}
+          </label>
+          <input
+            [disabled]="true"
+            id="decimals"
+            class="input_search_token_container"
+            type="text"
+            [value]="tokenDecimal"
+          />
+        </div>
+        <div *ngIf="customTokenNotFound">incorrect network or address</div>
+        <button class="add-btn" [disabled]="true">
+          <div
+            *ngIf="loadingCustomToken"
+            class="spinner-border text-light"
+            role="status"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+          <div *ngIf="!loadingCustomToken">+ Add Token</div>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="!tokenNotFound">
+        <div class="list_crypto_container">
+          <p class="modal_subtitle">Token List</p>
+          <div
+            *ngFor="let crypto of filterList"
+            (click)="tokenToSelect(crypto)"
+            class="list_token d-flex"
+          >
+            <!-- selectCryptoValue(
+              crypto?.name,
+              crypto?.undername2,
+              crypto?.symbol,
+              crypto?.AddedToken,
+              crypto
+            ) -->
+            <img class="img_token" src="{{ crypto.value.logo }}" alt="Logo" />
+            <!-- <ul *ngFor='let item of tokens'></ul> -->
+            <p class="name_token p-2">{{ crypto.value.name }}</p>
+            <!-- justify-content-end -->
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- the token list will appear here  with an overflow cause there is more than 100 token-->
+  </div>
+</ng-template>

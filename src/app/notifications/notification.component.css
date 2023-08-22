@@ -10,7 +10,21 @@
 *:focus {
     outline: none;
 }
+.pic-profile {
+    height: 110px;
+    width: 132px;
+    position: absolute;
+    border-radius: 50%;
+    display: flex;
+    align-self: center;
+}
 
+.prog {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
 .profilestyle {
     text-align: center;
 }
@@ -106,13 +120,14 @@ input[type='search']::-webkit-search-cancel-button {
 }
 
 .div_notification {
-    background: #ffffff;
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
-    border-radius: 30px;
+    background: transparent;
+    /* border-top:  0.25px solid rgba(117, 117, 143, 0.3) !important; */
+     /* Color #75758f with 30% opacity */
+    border-bottom:  0.25px solid rgba(117, 117, 143, 0.3) !important;
 }
 
 .div_notification :hover {
-    background: #f1f1f1e5;
+    background: transparent;
     cursor: pointer;
     border-radius: 30px;
 }
@@ -294,7 +309,7 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
 }
 
 .card_notif {
-    margin-bottom: 70px;
+    margin-bottom: 30px !important;
 }
 
 .page_history_mobile {
@@ -432,6 +447,8 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
 
 .search-results {
     margin-top: 10px;
+    margin-left: 12% !important;  
+    margin-right: 15% !important;  
 }
 
 .div_filter {
@@ -488,3 +505,241 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
 .separator {
   height: 65px;
 }
+
+
+ 
+ 
+.col-md-3 {
+    padding: 50px 50px 20px;
+    margin: 0;
+  }
+  .div_notifications {
+    background: #CDCFFF;	    
+    /* box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);	     */
+    border-radius: 30px; 
+    width: 413px; 
+}
+
+
+.notification-image {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .close-button {
+    background-color: transparent;
+    color: #1F2337;
+    border: none;
+    font-size: 16px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: 400;
+    cursor: pointer;
+  }
+
+
+  /* //////////////////////////////////////////////////////////////////////////////// */
+
+
+.img-md {
+    margin-left: 10px !important;
+    width: 5rem;
+    height: 6rem;
+}
+.btn-link {
+
+    transition-property: color,background-color;
+    box-shadow: none;
+    border-radius: 0;
+    text-decoration: none!important;
+}
+.xbutton{
+    padding-right: 20px;
+    padding-top: 20px;
+    cursor: pointer;
+}
+.itext{
+    padding-top: 0px !important;
+}
+.coltext{
+    color: #1F2337;
+    font-weight: 600;
+}
+.formttxt{
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 200;
+    size: 14px;
+    letter-spacing: 3% !important;
+}
+
+
+/* :::::::::::::::::::::::: button */
+
+ 
+.button-rounded {
+    margin-top: 20px !important;
+    margin-bottom: 15px !important;
+    border-radius: 25% / 75%;
+    padding: 10px 60px !important;
+    background-color: #F52079;
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 700;
+    letter-spacing: 3% !important;
+    color: #FFF !important;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+}
+/* filtre */
+
+.div_notifications-filter {
+    margin-top: 30px;
+    background: #F6F6FF;	    
+    /* box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);	     */
+    border-radius: 30px; 
+    width: 413px;
+ 
+}
+.ptext{
+    margin: 0;
+    padding-right:25px ;
+    padding-top: 20px;
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 600;
+    size: 20px;
+    letter-spacing: 25% !important;
+    line-height: 25px;
+    color: #1F2337 !important;
+}
+.choosestat{
+    margin: 0;
+    padding-right:25px ;
+    padding-top: 16px;
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 700;
+    size: 20px;
+    line-height: 28px;
+    letter-spacing: 20.8% !important;
+    color: #1F2337 !important;
+}
+.lines{
+    border-bottom: 1.47884px solid #D6D6E8  !important;
+}
+ 
+
+
+.restfilter{
+    margin-right:10px ;
+    border-radius: 20px !important;
+    letter-spacing: 3% !important;
+    color: #4048FF !important;
+    background-color: #fff;
+    text-align: center;
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 500;
+    margin-top: 10px !important;
+    margin-bottom: 20px !important;
+    cursor: pointer;
+    border: 2.47884px solid #D6D6E8  !important;
+    padding:  10px !important;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
+}
+/* §§§§§§§§§§§§§§§§§§ hover button  §§§§§§§§§§§§§§§§§§§§§§§ */
+  .button-crypto{
+    margin-right:10px ;
+    border-radius: 20px !important;
+    letter-spacing: 3% !important;
+    color: #000 !important;
+    background-color: #fff;
+    text-align: center;
+    font-family: 'Poppins', sans-serif !important;
+    margin-top: 10px !important;
+    margin-bottom: 20px !important;
+    cursor: pointer;
+    border: 2.47884px solid #D6D6E8  !important;
+    padding:  10px !important;
+}  
+ 
+  
+  .button-cryptock {
+    margin-right:10px ;
+    border-radius: 20px !important;
+    letter-spacing: 3% !important;
+    color: #4048FF !important;
+    background-color: #CDCFFF;
+    text-align: center;
+    font-family: 'Poppins', sans-serif !important;
+    margin-top: 10px !important;
+    margin-bottom: 20px !important;
+    cursor: pointer;
+    border: 2.47884px solid #CDCFFF  !important;
+    padding:  10px !important;
+  }  
+
+  
+ 
+
+/* §§§§§§§§§§§§§§§§§§ animation checkbox  §§§§§§§§§§§§§§§§§§§§§§§ */
+.checkb{
+    font-family: 'Poppins', sans-serif !important;
+    color: #000 !important; 
+    size: 16px;
+    letter-spacing: 1%;   
+}
+/* .checkbck input[type="checkbox"] {
+    display: none;
+  } */
+  
+  .checkbck{
+    background-color: #7A7FFF;
+    color: white;
+    border-color: #7A7FFF;
+  }
+ 
+  
+  @media screen and (max-width: 1414px) {
+    /* Hide elements for mobile view */
+    .div_notifications,
+    .div_notifications-filter,
+    .restfilter {
+      display: none;
+    }
+    
+    /* Adjust other styling as needed for mobile view */
+    .col-md-3 {
+     padding: 20px;
+     margin: 0px !important;
+    
+      /* ... other styles ... */
+    }
+    .div_notification{
+     margin-bottom:0 !important;
+     padding-right: 0px !important;
+     border-bottom:  0.25px solid rgba(117, 117, 143, 0.3) !important;
+    } 
+    .search-results {
+        margin-top: 10px;
+        margin-left: 2% !important;  
+        margin-right: 2% !important;  
+        padding-right: 0% !important;
+        padding-left: 0% !important;
+    }
+    .div_notification :hover {
+        background: transparent;
+        cursor: pointer;
+        border-radius: 30px;
+    }
+    
+    .div_notif :hover {
+        border-radius: 0px !important;
+    }
+    .imgcentwh{
+        width: 280px !important;
+        height: 180px !important;
+        padding-left: 40px !important;
+    }
+   
+  }
+  /* /////////////imgcent//////////// */
+  .imgcent{
+    padding-left: 30px !important;
+  }
