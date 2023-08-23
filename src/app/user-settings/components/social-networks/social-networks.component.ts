@@ -247,7 +247,7 @@ export class SocialNetworksComponent implements OnInit {
  
   setUrlMsg(p: Params, data: IGetSocialNetworksResponse): void {
     
-    
+
     if (p.message) {
       if (p.message === 'access-denied') {
         this.errorMessage = 'access-cancel';
@@ -290,7 +290,8 @@ export class SocialNetworksComponent implements OnInit {
           this.errorMessage = 'account_linked_other_account';
           this.router.navigate(['/home/settings/social-networks']);
         }, 3000);
-      } else if (p.message === 'page already exists') {
+      } 
+      else if (p.message === 'page already exists') {
         this.errorMessage = 'page already exists';
         setTimeout(() => {
           // this.ngOnInit();
@@ -298,6 +299,13 @@ export class SocialNetworksComponent implements OnInit {
           this.router.navigate(['/home/settings/social-networks']);
         }, 3000);
       }
+      else if (p.message === 'required_page') {
+
+        setTimeout(() => {
+          this.errorMessage = 'no_page_selected';
+          this.router.navigate(['/home/settings/social-networks']);
+        }, 3000);
+      } 
     }
   }
 
