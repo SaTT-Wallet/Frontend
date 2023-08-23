@@ -1,5 +1,5 @@
 <div class="separator"></div>
-<div style="margin-right: 70px !important">
+<div style="width: 84%; margin: auto">
   <!-- class="container-fluid page-content" -->
   <div class="row" *ngIf="!(showSpinner && showSpinner2)">
     <div class="col-md-3">
@@ -7,7 +7,10 @@
         <!-- ///////////////////////////////// -->
 
         <div class="d-flex align-items-center position-relative pb-3">
-          <div class="row d-flex justify-content-center" *ngIf="showNotifcationMessage === 'showing-complete-profile'">
+          <div
+            class="row d-flex justify-content-center"
+            *ngIf="showNotifcationMessage === 'showing-complete-profile'"
+          >
             <circle-progress class="prog" [percent]="this.percentProf">
               ></circle-progress
             >
@@ -16,81 +19,73 @@
               (error)="onImgError($event)"
               class="pic-profile"
             />
-          
           </div>
-          <div class="flex-shrink-0" *ngIf="showNotifcationMessage !== 'showing-complete-profile'">
-            <img
-              class="img-md rounded-circle"
-              [src]="
-              getNotificationIcon()"
-              
-             
-            />
+          <div
+            class="flex-shrink-0"
+            *ngIf="showNotifcationMessage !== 'showing-complete-profile'"
+          >
+            <img class="img-md rounded-circle" [src]="getNotificationIcon()" />
           </div>
-          <div class="flex-grow-1 ms-3 itext" >
+          <div class="flex-grow-1 ms-3 itext">
             <div
               class="d-flex align-items-start justify-content-between xbutton"
             >
               <h5 *ngIf="showNotifcationMessage != 'showing-complete-profile'">
-                
-
-                {{
-
-
-                  getNotificationTitle() | translate
-    
-                }}
-
-                
-                
-               
-              
-              
-              
+                {{ getNotificationTitle() | translate }}
               </h5>
 
-              <h5  *ngIf="showNotifcationMessage === 'showing-complete-profile'">
-                <span>{{ "notif_complete_profile_1"  |translate}}</span> {{percentProf}}%<span>{{ 'notif_complete_profile_2'  | translate }}</span>
+              <h5 *ngIf="showNotifcationMessage === 'showing-complete-profile'">
+                <span>{{ 'notif_complete_profile_1' | translate }}</span>
+                {{ percentProf }}%<span>{{
+                  'notif_complete_profile_2' | translate
+                }}</span>
               </h5>
-              <div class="close-button coltext" (click)="hideNotification()">X</div>
+              <div class="close-button coltext" (click)="hideNotification()">
+                X
+              </div>
             </div>
             <p class="coltext formttxt m-0">
-              {{ 
-                getNotificationBody()
-                
-                | translate }}
-              
+              {{ getNotificationBody() | translate }}
             </p>
           </div>
         </div>
 
-        <div class="d-flex justify-content-center" *ngIf="showNotifcationMessage === 'showing-campaign'">
+        <div
+          class="d-flex justify-content-center"
+          *ngIf="showNotifcationMessage === 'showing-campaign'"
+        >
           <img
-            [src]=" 'https://cloudflare-ipfs.com/ipfs/'+campaignCover"
+            [src]="'https://cloudflare-ipfs.com/ipfs/' + campaignCover"
             width="305.5"
             height="163.85"
           />
         </div>
-        <div class="d-flex justify-content-center" *ngIf="!(showNotifcationMessage === 'showing-random-number' && notificationRandomNumber === 2)">
+        <div
+          class="d-flex justify-content-center"
+          *ngIf="
+            !(
+              showNotifcationMessage === 'showing-random-number' &&
+              notificationRandomNumber === 2
+            )
+          "
+        >
           <button class="button-rounded" (click)="navigateTo()">
-
-            {{
-
-
-              getNotificationButtonTitle() | translate
-
-            }}
-
-
+            {{ getNotificationButtonTitle() | translate }}
           </button>
         </div>
-        <div class="d-flex justify-content-center" *ngIf="(showNotifcationMessage === 'showing-random-number' && notificationRandomNumber === 2)">
-         <div>
-          <img src="./assets/Images/notif-facebook.svg"/>
-          <img src="./assets/Images/notif-twitter.svg"/>
-          <img src="./assets/Images/notif-telegram.svg"/>
-          <img src="./assets/Images/notif-btc.svg"/>
-         </div>
+        <div
+          class="d-flex justify-content-center"
+          *ngIf="
+            showNotifcationMessage === 'showing-random-number' &&
+            notificationRandomNumber === 2
+          "
+        >
+          <div>
+            <img src="./assets/Images/notif-facebook.svg" />
+            <img src="./assets/Images/notif-twitter.svg" />
+            <img src="./assets/Images/notif-telegram.svg" />
+            <img src="./assets/Images/notif-btc.svg" />
+          </div>
         </div>
         <!-- //////////////////////////////// -->
       </div>
@@ -130,7 +125,7 @@
           <p class="ptext">{{ 'filtre_Choose_statue' | translate }}</p>
           <div class="d-flex align-items-start">
             <button
-              *ngFor="let button of buttonData2; let i =index"
+              *ngFor="let button of buttonData2; let i = index"
               class="button-crypto"
               (click)="enableDisableRule(button)"
               [ngClass]="{
@@ -154,8 +149,7 @@
                 'button-cryptock': !button.toggle
               }"
             >
-
-              {{ button.text  | translate }}
+              {{ button.text | translate }}
             </button>
           </div>
         </div>
@@ -281,12 +275,13 @@
                 *ngFor="let i of notification.value "
                 (click)="redirect(i, shareSocial)"
               >
-              <div style="display: 'block';" *ngIf="!(i.type === 'buy_some_gas' || i.type === 'invite_friends' || i.type === 'join_on_social')">
+
+              <div class="div_notif_child" style="display: 'block';" *ngIf="!(i.type === 'buy_some_gas' || i.type === 'invite_friends' || i.type === 'join_on_social')">
 
              
               <div style="display: 'block';">
                 <div style="display: 'flex';">
-                  <div class="p-2" id="{{ i._id }}  ">
+                  <div class="p-2 h-50 my-auto" id="{{ i._id }}  ">
                     
                       <img src="{{ getLinkIconValidate(i.label.cmp_link) }}" alt="avtar" class="pic_avatar_notif" *ngIf="i.type === 'cmp_candidate_accept_link' "/>
 
@@ -355,28 +350,23 @@
                       </span>
                     </p>
                     <!-- <p class="label_avatar_notif p-0 m-0" *ngIf="i.type === 'apply_campaign'">
+
                               <span  [translate]="i._label" [translateParams]="i._params" ></span>
                               <span  class="link" [translate]="'apply_campaign_hash'" [translateParams]="i._params" ></span>
                              </p> -->
+                    </div>
                   </div>
-                  
-                </div>
 
                 <div>
                   <div  class="imgcent">
                     <ng-container *ngIf="i.img1">
                       <img class="imgcentwh" src="{{ i.img1 }}" style="margin: center;" alt="avatar" />
                     </ng-container>
+
                   </div>
                 </div>
                 
               </div>
-               
-                
-              </div>
-
-             
-            
             </div>
           </div>
           </div>
@@ -387,7 +377,7 @@
     </div>
     <!------------------------------------------------------------------------------------------------>
     <!--div spinner -->
-   
+
     <!-- End div spinner -->
 
     <div
@@ -412,7 +402,10 @@
     <!--  <div class="loading "  *ngIf="isloading"></div> -->
   </div>
   <div class="spinner-wrapper">
-    <app-loading-logo *ngIf="showSpinner && showSpinner2" class="spinner"></app-loading-logo>
+    <app-loading-logo
+      *ngIf="showSpinner && showSpinner2"
+      class="spinner"
+    ></app-loading-logo>
   </div>
 </div>
 <ng-template #shareSocial>
