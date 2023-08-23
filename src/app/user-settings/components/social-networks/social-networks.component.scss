@@ -838,6 +838,7 @@ label:active:after {
   align-items: center;
   display: flex;
   align-content: baseline;
+  text-align: left !important;
 }
 
 .social-network-bloc hr {
@@ -846,9 +847,6 @@ label:active:after {
   color: #d6d6e8;
 }
 
-.account-name .network-type {
-  text-align: left !important;
-}
 .panel-heading .chevron:before {
   font-family: 'FontAwesome';
   font-style: normal;
