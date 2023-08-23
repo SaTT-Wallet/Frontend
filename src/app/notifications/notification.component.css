@@ -354,7 +354,18 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
   position: relative;
   height: 3em;
 } */
+
+
 @media (max-width: 500px) {
+  .div_notifications{
+    width: auto !important;
+    border-radius: 0 !important;
+    display: block !important;
+  }
+
+  .mobile_gen_notif{    padding-right: 0px;
+    padding : 0 !important;
+  }
   .pic_avatar_notif {
     bottom: 0em !important;
     position: unset;
@@ -609,7 +620,7 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
 .button-rounded {
   margin-top: 20px !important;
   margin-bottom: 15px !important;
-  border-radius: 25% / 75%;
+  border-radius: 30px;
   padding: 10px 60px !important;
   background-color: #f52079;
   font-family: 'Poppins', sans-serif !important;
