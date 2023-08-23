@@ -5,6 +5,13 @@
   display: none;
 }
 
+.mobile_bt_tokenModal {
+  border: none;
+  background-color: transparent;
+  display: none;
+  font-size: 1.5em;
+}
+
 button:focus {
   outline: none;
   box-shadow: none;
@@ -46,6 +53,11 @@ button:focus {
 
   .container {
     padding-left: 0px !important;
+  }
+
+  .mobile_bt_tokenModal {
+    display: block;
+    float: right;
   }
 }
 
