@@ -61,6 +61,7 @@ export class NotificationComponent implements OnInit {
   isloading: boolean = false;
   nodata: boolean = true;
   isfocused: boolean = false;
+  filterListType: any = [];
   @ViewChild('instagramDiv') instagramDiv?: ElementRef;
   @ViewChild('instaDiv') instaDiv?: ElementRef;
   isClickedOutside: boolean = true;
@@ -119,6 +120,22 @@ export class NotificationComponent implements OnInit {
   }
   enableDisableRule(button: any) {
     button.toggle = !button.toggle;
+    console.log({button})
+
+    if(!button.toggle) {
+      if(button.text === "filtre_mycrypto_sent") {
+        this.filterListType.push('transfer_event')
+      } else if(button.text === "filtre_mycrypto_received") {
+        this.filterListType.push('receive_transfer_event')
+      }  else if(button.text === "filtre_mycrypto_requested") {
+        this.filterListType.push("filtre_mycrypto_requested")
+      }
+      
+    } else this.filterListType.splice(this.filterListType.indexOf(button.text));
+    
+
+    
+    this.filterNotificationList(this.filterListType)
     
     
   }
@@ -561,7 +578,7 @@ export class NotificationComponent implements OnInit {
         }
 
         if (response !== null && response !== undefined) {
-          this.showSpinner = false;
+          
           this.isloading = false;
           this.dataNotification = response.data.notifications;
           this.dataNotification.map((notif:any) => {
@@ -607,13 +624,35 @@ export class NotificationComponent implements OnInit {
             
             
             })
-        
-        
+
+
+            this.dataNotificationFilter = this.dataNotification;
+           
+            this.showSpinner = false;
         
           }
       });
   }
 
+  filterNotificationList(types: string[]) {
+    
+    if(types.length > 0 ) {
+      const data = this.dataNotification;
+      this.dataNotificationFilter  = data.map((notification:any) => {
+        const filteredValue = notification.value.filter((item:any) => types.includes(item.type));
+        return { ...notification, value: filteredValue };
+      });
+    } else this.dataNotificationFilter = this.dataNotification;
+    
+  
+    
+  }
+
+
+  resetFilter() {
+    this.filterListType = [];
+    this.dataNotificationFilter = this.dataNotification;
+  }
 
 
   onScroll() {
