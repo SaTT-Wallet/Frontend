@@ -117,6 +117,12 @@ export class NotificationComponent implements OnInit {
   checkboxData1 = [{ label: "filtre_Adpools_message", toggle: false }];
   enableDisableRulecheck(checkbox: any) {
     checkbox.toggle = !checkbox.toggle;
+    if(checkbox.toggle) {
+      console.log({checkbox})
+      if(checkbox.label === 'filtre_Adpools_message') this.filterListType.push('cmp_candidate_insert_link');
+    } else this.filterListType.splice(this.filterListType.indexOf(checkbox.label));
+    console.log({list:this.filterListType})
+    this.filterNotificationList(this.filterListType)
   }
   enableDisableRule(button: any) {
     button.toggle = !button.toggle;
