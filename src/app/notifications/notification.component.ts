@@ -552,7 +552,31 @@ export class NotificationComponent implements OnInit {
               return { created: key, value };
             })
             .value();
-        }
+
+            /*
+             for(let item  of notification.value; let index=i) {
+                if(item.type === 'join_on_social' || item.type === 'invite_friends' || item.type === 'buy_some_gas') {
+                  delete notification.value[index];
+                }
+            }
+              */
+            this.dataNotification.forEach((notification: any) => {
+              
+              for(let i = 0 ; i < notification.value.length; i++ ) {
+                if(notification.value[i].type === 'join_on_social' || notification.value[i].type === 'invite_friends' || notification.value[i].type === 'buy_some_gas' ) {
+                  delete notification.value[i];
+                }
+              }
+            
+            
+            
+            
+            
+            })
+        
+        
+        
+          }
       });
   }
 
@@ -751,7 +775,7 @@ export class NotificationComponent implements OnInit {
           item._label = 'receive_transfer_event_network';
         }
         item.img = './assets/Images/notifIcons/Reception.svg';
-        item.img1 = './assets/Images/notifIcons/Reception1.svg';
+        item.img1 = './assets/Images/notifIcons/Receive.svg';
         break;
       //////////////////////////////////////////
       case 'convert_event':
@@ -992,18 +1016,18 @@ export class NotificationComponent implements OnInit {
   }
 
   redirect(notif: any, content: any): void {
-    if (notif.type === 'join_on_social') {
-      this.modalReference = this.modalService.open(content);
-    }
-    if (notif.type === 'invite_friends') {
-      this.router.navigateByUrl('/wallet/buy-token');
-    }
+    // if (notif.type === 'join_on_social') {
+    //   this.modalReference = this.modalService.open(content);
+    // }
+    // if (notif.type === 'invite_friends') {
+    //   this.router.navigateByUrl('/wallet/buy-token');
+    // }
 
-    if (notif.type === 'buy_some_gas') {
-      this.router.navigate(['/wallet/buy-token'], {
-        queryParams: { id: 'BNB', network: 'BEP20' }
-      });
-    }
+    // if (notif.type === 'buy_some_gas') {
+    //   this.router.navigate(['/wallet/buy-token'], {
+    //     queryParams: { id: 'BNB', network: 'BEP20' }
+    //   });
+    // }
 
     if (notif?.label?.txhash) {
       this.hashLink(notif?.label?.network, notif?.label?.txhash);

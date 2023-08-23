@@ -192,17 +192,17 @@
     </div> -->
     <!------------------------------------------------------------------------------------------------>
     <div class="col-md-9">
-      <div class="div_filter">
-        <div class="d-flex justify-content-end" style="z-index: 1">
-          <div class="form-group">
-            <div class="search-filter-wrapper">
-              <input
+      <!-- <div class="div_filter"> -->
+        <!-- <div class="d-flex justify-content-end" style="z-index: 1"> -->
+          <!-- <div class="form-group"> -->
+            <!-- <div class="search-filter-wrapper"> -->
+              <!-- <input
                 type="search"
                 class="input_search mb-2"
                 [(ngModel)]="term"
                 (focus)="onFocus()"
                 (focusout)="focusOutFunction()"
-              />
+              /> -->
               <!-- <button class="filtre_button"> </button>-->
               <!-- <div id="dropdown-menu" class="dropdown-menu p-4">
                         <form [formGroup]="form">
@@ -251,10 +251,10 @@
                         </form>
                     </div> -->
               <!--===================================dropdown menu end ========================================================-->
-            </div>
-          </div>
-        </div>
-      </div>
+            <!-- </div> -->
+          <!-- </div> -->
+        <!-- </div> -->
+      <!-- </div> -->
       <!------------------------------------------------------------------------------------------------>
       <div
         class="search-results mt-5"
@@ -263,50 +263,47 @@
         [infiniteScrollThrottle]="50"
         (scrolled)="onScroll()"
       >
-        <div
+      <div
           class="row card_notif"
           [ngClass]="{
             notif_creation_down: isfocused,
             notif_creation_up: !isfocused
           }"
-          *ngFor="let notification of dataNotification | filter: term"
-        >
+        *ngFor="let notification of dataNotification | filter: term; let last = last">
+            <ng-container *ngIf="!last">
           <div class="col-md-12">
             <div class="div_notification">
               <div
                 class="div_notif d-flex flex-row align-items-center p-3"
-                *ngFor="let i of notification.value"
+                *ngFor="let i of notification.value "
                 (click)="redirect(i, shareSocial)"
               >
-              <div style="display: 'block';">
+              <div style="display: 'block';" *ngIf="!(i.type === 'buy_some_gas' || i.type === 'invite_friends' || i.type === 'join_on_social')">
                 <div style="display: 'flex';">
                   <div class="p-2" id="{{ i._id }}  ">
                     <img src="{{ i.img }}" alt="avtar" class="pic_avatar_notif" />
                   </div>
                   <div class="col-md-11 col-lg-11 col-9 col-sm-9">
-                    <p
-                      [ngClass]="
-                        i.type === 'buy_some_gas' ||
-                        i.type === 'invite_friends' ||
-                        i.type === 'join_on_social'
-                          ? 'label_avatar_title p-0 m-0 mb-1 font-weight-bold'
-                          : 'label_avatar_notif p-0 m-0'
-                      "
-                      *ngIf="
-                        i.type !== 'transfer_event' &&
-                        i.type !== 'apply_campaign' &&
-                        i.type !== 'cmp_candidate_accept_link' &&
-                        i.type !== 'receive_transfer_event'
-                      "
-                      [translate]="i._label"
-                      [translateParams]="i._params"
-                    ></p>
+                   
                     <p
                       class="label_avatar_notif p-0 m-0"
                       *ngIf="i.content"
                       [translate]="i.content"
                     ></p>
                     <p class="label_time_notif">{{ i.createdFormated }}</p>
+                    <p
+                    [ngClass]="
+                      'label_avatar_notif p-0 m-0'
+                    "
+                    *ngIf="
+                      i.type !== 'transfer_event' &&
+                      i.type !== 'apply_campaign' &&
+                      i.type !== 'cmp_candidate_accept_link' &&
+                      i.type !== 'receive_transfer_event'
+                    "
+                    [translate]="i._label"
+                    [translateParams]="i._params"
+                  ></p>
                     <p
                       class="label_avatar_notif p-0 m-0"
                       *ngIf="
@@ -365,8 +362,10 @@
             
             </div>
           </div>
+        </ng-container>
         </div>
       </div>
+      
     </div>
     <!------------------------------------------------------------------------------------------------>
     <!--div spinner -->
