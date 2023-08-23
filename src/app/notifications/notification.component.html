@@ -271,6 +271,7 @@
           }"
           *ngFor="let notification of dataNotification | filter: term"
         >
+        
           <div class="col-md-12">
             <div class="div_notification">
               <div
@@ -278,10 +279,16 @@
                 *ngFor="let i of notification.value"
                 (click)="redirect(i, shareSocial)"
               >
+             
               <div style="display: 'block';">
                 <div style="display: 'flex';">
                   <div class="p-2" id="{{ i._id }}  ">
-                    <img src="{{ i.img }}" alt="avtar" class="pic_avatar_notif" />
+                    
+                      <img src="{{ getLinkIconValidate(i.label.cmp_link) }}" alt="avtar" class="pic_avatar_notif" *ngIf="i.type === 'cmp_candidate_accept_link' "/>
+
+                      <img src="{{ getLinkIconWaitingValidation(i.label.prom)}}" *ngIf="i.type === 'apply_campaign' && !!i.label.prom"/>
+                    
+                      <img src="{{ i.img }}" alt="avtar" class="pic_avatar_notif" *ngIf="i.type != 'cmp_candidate_accept_link' && !(i.type === 'apply_campaign' && !!i.label.prom)"/>
                   </div>
                   <div class="col-md-11 col-lg-11 col-9 col-sm-9">
                     <p
@@ -342,13 +349,18 @@
                         [translate]="'receive_event_link'"
                         [translateParams]="{ from: i._params.from }"
                       ></span>
+                      <span *ngIf="i.type === 'cmp_candidate_insert_link'">
+                        {{i | json}}
+                      </span>
                     </p>
                     <!-- <p class="label_avatar_notif p-0 m-0" *ngIf="i.type === 'apply_campaign'">
                               <span  [translate]="i._label" [translateParams]="i._params" ></span>
                               <span  class="link" [translate]="'apply_campaign_hash'" [translateParams]="i._params" ></span>
                              </p> -->
                   </div>
+                  
                 </div>
+
                 <div>
                   <div  class="imgcent">
                     <ng-container *ngIf="i.img1">
@@ -356,6 +368,7 @@
                     </ng-container>
                   </div>
                 </div>
+                
               </div>
                
                 
