@@ -621,12 +621,7 @@ label:active:after {
   color: #f52079;
 }
 
-.account-name .network-type {
-  font-size: 16px;
-  font-weight: bold;
-  line-height: 130%;
-  color: #75758f;
-}
+
 
 @media (max-width: 767.98px) {
 
@@ -835,6 +830,10 @@ label:active:after {
 }
 
 .account-name .network-type {
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 130%;
+  color: #75758f;
   align-items: center;
   display: flex;
   align-content: baseline;
