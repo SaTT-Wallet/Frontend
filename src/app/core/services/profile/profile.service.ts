@@ -18,7 +18,11 @@ export class ProfileService {
       sattUrl + '/profile/check/threads-account'
     );
   }
-
+  notification() {
+    return this.http.get(
+      sattUrl + '/profile/notifications/decision'
+    )
+  }
   addThreads() {
     return this.http.get(
       sattUrl + '/profile/add/threads-account'

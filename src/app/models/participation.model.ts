@@ -30,6 +30,7 @@ export class Participation {
   mediaUrl: string;
   sum: string;
   abosNumber: string;
+  instagramUserName: string;
   totalToEarnInUSD: string;
   isAccepted: boolean = false;
   acceptedDate: Date | null;
@@ -45,6 +46,7 @@ export class Participation {
     this.abosNumber = data?.abosNumber ?? null;
     this.oracle = data?.oracle || '';
     this.username = data?.userId || data?.idUser || null;
+    this.instagramUserName = data?.instagramUserName ||'';
     this.status = data?.status ?? '';
     this.reason = data?.reason;
     this.postId = data?.idPost || '';

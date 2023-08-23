@@ -130,7 +130,7 @@
 
       <ng-container *ngIf="campaign.type === 'draft'">
         <img [src]="isFacebookSelected ? './assets/Images/facebook.svg': './assets/Images/desabled-fb.svg'"/>
-        <img [src]="isTwitterSelected ? './assets/Images/twitter.svg' : './assets/Images/desabled-twiter.svg'"/>
+        <img [src]="isTwitterSelected ? './assets/Images/twitter.svg' : './assets/Images/desabled-twitter.svg'"/>
         <img [src]="isLinkedinSelected ? './assets/Images/linkedin-active.svg' : './assets/Images/desabled-linkedin.svg'"/>
         <img [src]="isYoutubeSelected ? './assets/Images/youtube-activated.svg' : './assets/Images/desabled-youtube.svg'"/>
         <img [src]="isInstagramSelected ? './assets/Images/instagram.svg': './assets/Images/desabled-insta.svg'"/>
@@ -149,7 +149,7 @@
     </div>
     <div class="div-title justify-content-center align-items-center">
       <h3 style="font-size: 24px" class="title" [ngClass]="{ 'gray-title': !campaign.hash }">
-        {{ campaign.title }}
+        {{ truncateTitle(campaign.title) }}
       </h3>
     </div>
 
@@ -204,7 +204,7 @@
       </div>
       <img
         src="assets/Images/blue-icons/calculator.svg"
-        width="20px"
+        width="15px"
         (click)="caluculateRoi(campaign.id, $event)"
       />
     </div>

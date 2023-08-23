@@ -17,8 +17,9 @@ import { ListTokens } from '@app/config/atn.config';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { CryptofetchServiceService } from '@app/core/services/wallet/cryptofetch-service.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { environment as env } from './../../../../environments/environment';
+import { Subject, of } from 'rxjs';
+import { catchError, filter, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dropdown-crypto-network',
@@ -88,29 +89,30 @@ export class DropdownCryptoNetworkComponent
     this.showWarning = true;
     this.tokenNotFound = false;
   }
-  errorNetwork() {
-    this.selectedNetworkValue = 'ERC20';
-    this.selectNetworkValue(this.selectedNetworkValue);
-  }
+ 
   getCryptoImage() {
-    let logo = '';
-    if (!!this.res) {
-      const result = Object.keys(this.res.data);
-      result.forEach((key) => {
-        if (key === this.cryptoSymbolCampaign) {
-          logo = this.res.data[key].logo;
-        }
-      });
+    if (!this.res) {
+      this.getCryptoList();
     }
-    return logo;
+  
+    if (this.res && this.res.data) {
+      const result = Object.keys(this.res.data);
+  
+      for (const key of result) {
+        if (key === this.cryptoSymbolCampaign) {
+          this.cryptoImageCamapign = this.res.data[key].logo
+          return this.res.data[key].logo;
+        }
+      }
+    }
+  
+    return ''; // Default logo if not found
   }
 
 
   selectCustomToken() {
-    console.log('testtt')
     let pattern = /^0x[a-fA-F0-9]{40}$|^(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,39}$|T[A-Za-z1-9]{33}$/;
     if(pattern.test(this.smartContract)) {
-      console.log('in if')
       this.walletFacade.checkToken(this.selectedNetworkValue, this.smartContract).subscribe((res:any) => {
         if(res.message === "Token found") {
           let crypto = {
@@ -137,11 +139,15 @@ export class DropdownCryptoNetworkComponent
           crypto.value.name
             .toString()
             .toLowerCase()
-            .includes(e.target.value.toLowerCase()) // crypto.symbol.includes(e.target.value)
+            .includes(e.target.value.toLowerCase()) 
+            || crypto.key.toString().toLowerCase().includes(e.target.value.toLowerCase())
         )
           this.filterList.push(crypto);
       });
-      if (this.filterList.length === 0) this.tokenNotFound = true;
+      if (this.filterList.length === 0) {
+        this.tokenNotFound = true;
+        this.showWarning = true;
+      }
       else this.tokenNotFound = false;
     } else this.filterList = this.campaignCryptoList;
   }
@@ -152,58 +158,62 @@ export class DropdownCryptoNetworkComponent
   }
 
   tokenToSelect(crypto: any) {
-    console.log({crypto})
     this.walletFacade
       .getBalanceByToken({
         network: this.selectedNetworkValue.toLowerCase(),
-        walletAddress: window.localStorage.getItem('wallet_id'),
-        smartContract: crypto.contract, // crypto.contract TO DO
+        walletAddress: this.selectedNetworkValue === 'TRON' ? window.localStorage.getItem('tron-wallet') : window.localStorage.getItem('wallet_id'),
+        smartContract: (this.selectedNetworkValue === 'ERC20' && crypto.key === 'SATT') ? env.addresses.smartContracts.SATT_TOKENERC20 :  ( (this.selectedNetworkValue === 'BEP20' && crypto.key === 'SATT') ? env.addresses.smartContracts.SATT_TOKENBEP20 :crypto.contract),
         isNative:
-          crypto.contract === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' ||
-          crypto.contract === '0' ||
-          crypto.contract === '0x0000000000000000000000000000000000001010'
+         ((crypto.key === 'ETH' && this.selectedNetworkValue === 'ERC20') || (crypto.key === 'BNB' && this.selectedNetworkValue === 'BEP20') || (crypto.key === 'BTT' && this.selectedNetworkValue === 'BTTC') || (crypto.key === 'TRX' && this.selectedNetworkValue === 'TRON') || (crypto.key === 'MATIC' && this.selectedNetworkValue === 'POLYGON'))
             ? true
-            : false // TO DO
+            : false
       })
       .subscribe(
         (res: any) => {
-          this.quantity = res.data;
-          console.log({crypto})
-          this.cryptoImageCamapign = crypto.value.logo;
-          this.cryptoSymbolCampaign = crypto.key;
-          console.log({symbol: this.cryptoSymbolCampaign})
-          this.closeTokenModal(this.tokenModal);
-          this.selectCryptoValue(
-            crypto.name,
-            crypto?.undername2,
-            crypto?.symbol,
-            !!crypto.AddedToken ? crypto.AddedToken : true,
-            {
-              AddedToken: !!crypto.value.AddedToken ? crypto.AddedToken : true,
-              balance: 0,
-              contract: crypto.contract,
-              contrat: '',
-              decimal: 18,
-              key: crypto.key,
-              network: this.selectedNetworkValue,
-              picUrl: true,
-              price: crypto.value.price,
-              quantity: this.quantity,
-              symbol: crypto.key,
-              total_balance: this.quantity * crypto.value.price,
-              type: this.selectedNetworkValue,
-              typetab: this.selectedNetworkValue,
-              undername: crypto.value.name,
-              undername2: crypto.value.name,
-              variation: 0
+         
+            if(res?.name === "JsonWebTokenError") {
+              this.expiredSession();
+            } else {
+              this.quantity = res.data;
+           
+            this.cryptoImageCamapign = crypto.value.logo;
+            this.cryptoSymbolCampaign = crypto.key;
+            this.closeTokenModal(this.tokenModal);
+            this.selectCryptoValue(
+              crypto.name,
+              crypto?.undername2,
+              crypto?.symbol,
+              !!crypto.AddedToken ? crypto.AddedToken : true,
+              {
+                AddedToken: !!crypto.value.AddedToken ? crypto.AddedToken : true,
+                balance: 0,
+                contract: crypto.contract,
+                contrat: '',
+                decimal: 18,
+                key: crypto.key,
+                network: this.selectedNetworkValue,
+                picUrl: true,
+                price: crypto.value.price,
+                quantity: this.quantity,
+                symbol: crypto.key,
+                total_balance: this.quantity * crypto.value.price,
+                type: this.selectedNetworkValue,
+                typetab: this.selectedNetworkValue,
+                undername: crypto.value.name,
+                undername2: crypto.value.name,
+                variation: 0
+              }
+            );
             }
-          );
+        
+         
+          
         },
         (err: any) => {
           this.quantity = 0;
+          
           this.cryptoImageCamapign = crypto.value.logo;
           this.cryptoSymbolCampaign = crypto.key;
-          //this.selectNetworkValue = crypto.network;
           this.closeTokenModal(this.tokenModal);
           this.selectCryptoValue(
             crypto.name,
@@ -233,7 +243,10 @@ export class DropdownCryptoNetworkComponent
         }
       );
   }
-
+  expiredSession() {
+    window.localStorage.clear();
+    window.open(env.domainName + '/auth/login', '_self');
+  }
   getUserCrypto() {
     this.walletFacade.cryptoList$.subscribe((data: any) => {
       data = JSON.parse(JSON.stringify(data));
@@ -299,13 +312,21 @@ export class DropdownCryptoNetworkComponent
           }
         }
       });
+      this.router.url.startsWith('/campaign') && this.getCryptoList();
     !this.router.url.startsWith('/campaigns') && this.getusercrypto();
+    
     this.defaultcurr = ListTokens['SATT'].name;
     this.defaultcurrbep = ListTokens['SATTBEP20'].name;
     this.defaultcurrbtc = ListTokens['BTC'].name;
     this.defaultcurrpolygon = ListTokens['MATIC'].name;
     this.defaultcurrbtt = ListTokens['BTT'].name;
     this.defaultcurrtron = ListTokens['TRX'].name;
+  }
+
+  getCryptoList() {
+    if(!this.res) {
+      this.walletFacade.getCryptoPriceList().subscribe((res) => res = this.res);
+    }
   }
   openModal(content: any) {
     this.modalService.open(content);
@@ -317,7 +338,11 @@ export class DropdownCryptoNetworkComponent
   selectToken(content: any) {
     if (this.router.url.startsWith('/campaign')) {
       this.campaignCryptoList = [];
-      const result = Object.keys(this.res.data);
+      this.filterList = [];
+      this.tokenNotFound = false;
+      this.showWarning = false;
+      this.tokenSearch.setValue('');
+      const result = Object.keys(this.res?.data);
       result.forEach((key) => {
         typeof this.res.data[key].networkSupported != 'string' &&
           this.res.data[key].networkSupported.forEach((value: any) => {
@@ -330,15 +355,23 @@ export class DropdownCryptoNetworkComponent
                 value: this.res.data[key],
                 contract: value.contract_address
               });
+            } else if(key === 'BNB' && this.selectedNetworkValue === 'BEP20') {
+              this.campaignCryptoList.push({
+                key,
+                value: this.res.data[key],
+                contract: null
+              })
+            } else if(key === 'BTT' && this.selectedNetworkValue === 'BTTC') {
+              this.campaignCryptoList.push({
+                key,
+                value: this.res.data[key],
+                contract: null
+              }) 
             } else {
               value.platform.name
                 .toString()
                 .toLowerCase()
                 .includes(this.selectedNetworkValue.toString().toLowerCase()) &&
-                //  &&
-                // !this.campaignCryptoList.find(
-                //   (e: any) => e.name === value.data[key].name
-                // )
                 this.campaignCryptoList.push({
                   key,
                   value: this.res.data[key],
@@ -346,8 +379,15 @@ export class DropdownCryptoNetworkComponent
                 });
             }
           });
-        this.filterList = this.campaignCryptoList;
+          
+        this.campaignCryptoList = this.campaignCryptoList.filter((item:any, index:any, self:any) => {
+          return index === self.findIndex((obj:any) => obj.key === item.key);
+        });
+        this.filterList = this.campaignCryptoList
+        
       });
+    
+      this.showSearchNewTokenContainer = false;
       this.openModal(content);
     }
   }
@@ -413,7 +453,6 @@ export class DropdownCryptoNetworkComponent
             crypto.symbol === this.cryptoFromDraft
           ) {
             this.cryptoFromComponent = [crypto];
-            // console.log({ hopa: this.cryptoFromComponent });
             this.cryptoSymbol = this.cryptoFromComponent[0].symbol;
 
             this.selectedNetworkValue = this.cryptoFromComponent[0].network;
@@ -554,9 +593,10 @@ export class DropdownCryptoNetworkComponent
     }
     this.token = '';
     this.selectedNetworkValue = network;
+    
     if (this.router.url.startsWith('/campaign')) {
       this.campaignCryptoList = [];
-      const result = Object.keys(this.res.data);
+      const result = Object.keys(this.res?.data);
       result.forEach((key) => {
         typeof this.res.data[key].networkSupported != 'string' &&
           this.res.data[key].networkSupported.forEach((value: any) => {
@@ -569,14 +609,25 @@ export class DropdownCryptoNetworkComponent
                 value: this.res.data[key],
                 contract: value.contract_address
               });
+            } else if(key === 'BNB' && this.selectedNetworkValue === 'BEP20') {
+              this.campaignCryptoList.push({
+                key,
+                value: this.res.data[key],
+                contract: null
+              })
+            } else if(key === 'BTT' && this.selectedNetworkValue === 'BTTC') {
+              this.campaignCryptoList.push({
+                key,
+                value: this.res.data[key],
+                contract: null
+              })
+              
+              
             } else {
               value.platform.name
                 .toString()
                 .toLowerCase()
                 .includes(this.selectedNetworkValue.toString().toLowerCase()) &&
-                // !this.campaignCryptoList.find(
-                //   (e: any) => e.name === value.data[key].name
-                // ) &&
                 this.campaignCryptoList.push({
                   key,
                   value: this.res.data[key],
@@ -584,9 +635,30 @@ export class DropdownCryptoNetworkComponent
                 });
             }
           });
-        this.filterList = this.campaignCryptoList;
+          this.campaignCryptoList = this.campaignCryptoList.filter((item:any, index:any, self:any) => {
+            return index === self.findIndex((obj:any) => obj.key === item.key);
+          });
+          this.filterList = this.campaignCryptoList
       });
-      this.tokenToSelect(this.campaignCryptoList[0]);
+      const crypto = this.campaignCryptoList.find((element: any) => {
+        switch(this.selectedNetworkValue) {
+          case 'BEP20': 
+            return element.key === 'BNB';
+          case 'ERC20': 
+            return element.key === 'ETH';
+          case 'TRON': 
+            return element.key === 'TRX'; 
+          case 'BTTC': 
+            return element.key === 'BTT';
+          case 'POLYGON': 
+            return element.key === 'MATIC';
+
+          default: 
+          return false;  
+        }
+      })
+
+      this.tokenToSelect(crypto);
     } else {
       if (network === 'BEP20') {
         this.cryptoPicName = 'SATT';
@@ -635,10 +707,12 @@ export class DropdownCryptoNetworkComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (changes.res && this.res && this.router.url.startsWith('/campaign')) {
+       this.getCryptoImage();
+    }
     if (changes.cryptoFromDraft && this.router.url.includes('edit')) {
       if (this.cryptoFromDraft) {
         if (this.router.url.startsWith('/campaign')) {
-          //this.selectedNetworkValue = 'BEP20';
           this.cryptoSymbolCampaign = this.cryptoFromDraft;
           this.cdref.detectChanges();
         } else {

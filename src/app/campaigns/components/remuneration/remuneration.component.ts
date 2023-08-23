@@ -30,6 +30,7 @@ import {
   catchError,
   debounceTime,
   filter,
+  first,
   map,
   switchMap,
   take,
@@ -236,6 +237,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+   
     this.cdref.markForCheck();
     this.parentFunction().subscribe();
     this.getUserCrypto();
@@ -245,7 +247,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       this.selectedNetworkValue = res.data.token.type;
       this.walletFacade.getCryptoPriceList().subscribe((response: any) => {
         this.res = response;
-        const result = Object.keys(this.res.data);
+        const result = Object.keys(this.res?.data);
         result.forEach((key: any) => {
           typeof this.res.data[key].networkSupported != 'string' &&
             this.res.data[key].networkSupported.forEach((value: any) => {
@@ -258,6 +260,18 @@ export class RemunerationComponent implements OnInit, OnDestroy {
                   value: this.res.data[key],
                   contract: value.contract_address
                 });
+              } else if(key === 'BNB' && this.selectedNetworkValue === 'BEP20') {
+                this.campaignCryptoList.push({
+                  key,
+                  value: this.res.data[key],
+                  contract: null
+                })
+              } else if(key === 'BTT' && this.selectedNetworkValue === 'BTTC') {
+                this.campaignCryptoList.push({
+                  key,
+                  value: this.res.data[key],
+                  contract: null
+                }) 
               } else {
                 value.platform.name
                   .toString()
@@ -265,10 +279,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
                   .includes(
                     this.selectedNetworkValue.toString().toLowerCase()
                   ) &&
-                  //  &&
-                  // !this.campaignCryptoList.find(
-                  //   (e: any) => e.name === value.data[key].name
-                  // )
                   this.campaignCryptoList.push({
                     key,
                     value: this.res.data[key],
@@ -279,21 +289,17 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         });
         this.campaignCryptoList.forEach((value: any) => {
           if (value.key === this.form.get('currency')?.value) {
+            
             this.walletFacade
               .getBalanceByToken({
                 network: this.selectedNetworkValue.toLowerCase(),
-                walletAddress: window.localStorage.getItem('wallet_id'),
+                walletAddress: this.selectedNetworkValue === 'TRON' ? window.localStorage.getItem('tron-wallet') : window.localStorage.getItem('wallet_id'),
                 isNative:
-                  value.contract ===
-                    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' ||
-                  value.contract === '0' ||
-                  value.contract ===
-                    '0x0000000000000000000000000000000000001010'
-                    ? true
-                    : false,
-                smartContract: value.contract //value.contract
+         ((value.key === 'ETH' && this.selectedNetworkValue === 'ERC20') || (value.key === 'BNB' && this.selectedNetworkValue === 'BEP20') || (value.key === 'BTT' && this.selectedNetworkValue === 'BTTC') || (value.key === 'TRX' && this.selectedNetworkValue === 'TRON') || (value.key === 'MATIC' && this.selectedNetworkValue === 'POLYGON'))
+            ? true
+            : false,
+                smartContract: (this.selectedNetworkValue === 'ERC20' && value.key === 'SATT') ? environment.addresses.smartContracts.SATT_TOKENERC20 :  ( (this.selectedNetworkValue === 'BEP20' && value.key === 'SATT') ? environment.addresses.smartContracts.SATT_TOKENBEP20 :value.contract) //value.contract
               })
-
               .subscribe(
                 (res: any) => {
                   this.selectedCryptoDetails = {
@@ -345,13 +351,9 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       });
     });
   }
-
+ 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.draftData && changes.draftData.currentValue) {
-      /*
-          this.form?.patchValue(this.draftData, { emitEvent: false });
-    */
-
       this.form?.patchValue(
         {
           initialBudget: this.convertFromWeiTo.transform(
@@ -1136,9 +1138,22 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       .updateOneById(
         {
           token: {
-            name: this.selectedCryptoDetails.key,
+            name: (this.selectedCryptoDetails.key === 'SATT' && this.selectedCryptoDetails.network === 'BEP20') ? 'SATTBEP20' : this.selectedCryptoDetails.key,
             type: this.selectedCryptoDetails.network,
-            addr: this.selectedCryptoDetails.contract
+            addr: 
+            (this.selectedCryptoDetails.key === 'SATT' && this.selectedCryptoDetails.network === 'BEP20') 
+            ? environment.addresses.smartContracts.SATT_TOKENBEP20 :
+            (
+              (this.selectedCryptoDetails.key === 'SATT' && this.selectedCryptoDetails.network === 'ERC20') ? environment.addresses.smartContracts.SATT_TOKENERC20 
+              : ((this.selectedCryptoDetails.key === 'BTT' && this.selectedCryptoDetails.network === 'BTTC') ? '0x0000000000000000000000000000000000001010' 
+              : ((this.selectedCryptoDetails.key === 'TRX' && this.selectedCryptoDetails.network === 'TRON') ? 'TRpHXiD9PRoorNh9Lx4NeJUAP7NcG5zFwi' : 
+              ( (this.selectedCryptoDetails.key === 'BNB' && this.selectedCryptoDetails.network === 'BEP20') ? null :  this.selectedCryptoDetails.contract)
+              ) 
+              )
+              )
+            
+            
+           
           }
         },
         this.draftData.id

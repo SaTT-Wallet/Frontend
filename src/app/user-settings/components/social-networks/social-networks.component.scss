@@ -386,7 +386,7 @@ input:-webkit-autofill:active {
 
 .twitter-btn-cnx {
   color: #ffffff;
-  background: #54a9eb;
+  background: #000000;
   border-radius: 20px;
   border: none;
   box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
@@ -621,12 +621,7 @@ label:active:after {
   color: #f52079;
 }
 
-.account-name .network-type {
-  font-size: 16px;
-  font-weight: bold;
-  line-height: 130%;
-  color: #75758f;
-}
+
 
 @media (max-width: 767.98px) {
 
@@ -835,9 +830,14 @@ label:active:after {
 }
 
 .account-name .network-type {
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 130%;
+  color: #75758f;
   align-items: center;
   display: flex;
   align-content: baseline;
+  text-align: left !important;
 }
 
 .social-network-bloc hr {
@@ -846,9 +846,6 @@ label:active:after {
   color: #d6d6e8;
 }
 
-.account-name .network-type {
-  text-align: left !important;
-}
 .panel-heading .chevron:before {
   font-family: 'FontAwesome';
   font-style: normal;
