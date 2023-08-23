@@ -272,8 +272,7 @@
 
         *ngFor="let notification of dataNotification | filter: term; let last = last">
             <ng-container *ngIf="!last">
-          *ngFor="let notification of dataNotification | filter: term"
-        >
+       
         
           <div class="col-md-12">
             <div class="div_notification">
@@ -379,6 +378,7 @@
              
             
             </div>
+          </div>
           </div>
         </ng-container>
         </div>
