@@ -4,7 +4,9 @@ import {
   ChangeDetectorRef,
   ElementRef,
   PLATFORM_ID,
-  Inject
+  Inject,
+  ViewChild,
+  Renderer2
 } from '@angular/core';
 import { NotificationService } from '@core/services/notification/notification.service';
 import { ContactService } from '@core/services/contact/contact.service';
@@ -59,6 +61,8 @@ export class NotificationComponent implements OnInit {
   isloading: boolean = false;
   nodata: boolean = true;
   isfocused: boolean = false;
+  @ViewChild('instagramDiv') instagramDiv?: ElementRef;
+  @ViewChild('instaDiv') instaDiv?: ElementRef;
   isClickedOutside: boolean = true;
   showSpinner!: boolean;
   showSpinner2!: boolean;
@@ -122,6 +126,7 @@ export class NotificationComponent implements OnInit {
 
   constructor(
     private eRef: ElementRef,
+    private renderer: Renderer2,
     private profileSettingsFacade: ProfileSettingsFacadeService,
     private _changeDetectorRef: ChangeDetectorRef,
     private NotificationService: NotificationService,
@@ -515,9 +520,35 @@ export class NotificationComponent implements OnInit {
         () => {}
       );
   }
+  getLinkIconWaitingValidation(prom : any) {
+    return `./assets/Images/oracle-${prom.oracle}-waiting-validation.svg`
+  }
 
+  getLinkIconValidate( link: string) {
+    let src = '';
+   
+    if(link.includes('facebook')) {
+      src = `./assets/Images/oracle-facebook-validate.svg`;
+    } else if (link.includes('instagram')) {
+      src = `./assets/Images/oracle-instagram-validate.svg`;
+    } else if(link.includes('linkedin')) {
+      src = `./assets/Images/oracle-linkedin-validate.svg`;
+    } else if(link.includes('threads')) {
+      src = `./assets/Images/oracle-threads-validate.svg`;
+    }else if(link.includes('tiktok')) {
+      src = `./assets/Images/oracle-tiktok-validate.svg`;
+    }else if(link.includes('twitter')) {
+      src = `./assets/Images/oracle-twitter-validate.svg`;
+    }else if(link.includes('youtube')) {
+      src = `./assets/Images/oracle-youtube-validate.svg`;
+    }
+    return src;
+  }
 
-
+  getSafeUrl(i:any) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(i.label.cmp_link + "embed/captioned/?cr=1&v=14&wp=540&rd=http%3A%2F%2Flocalhost%3A4200&rp=%2F#%7B%22ci%22%3A0%2C%22os%22%3A15257.489999999962%2C%22ls%22%3A1741.52000000322%2C%22le%22%3A1848.8950000028126%7D");
+    
+  }
   getAllNotifications() {
     this.showSpinner = true;
     this.NotificationService.getAllNotifications()
@@ -533,6 +564,9 @@ export class NotificationComponent implements OnInit {
           this.showSpinner = false;
           this.isloading = false;
           this.dataNotification = response.data.notifications;
+          this.dataNotification.map((notif:any) => {
+           
+          })
           if (response.data.isSeen !== 0) {
             this.seeNotification();
           }
@@ -589,6 +623,7 @@ export class NotificationComponent implements OnInit {
   }
 
   siwtchFunction(item: any) {
+    if(item.type === 'apply_campaign' && !!item.label.prom) console.log({item})
     const etherInWei = new Big(1000000000000000000);
     let itemDate = new Date(item.created);
     item.createdInit = item.created;
