@@ -187,18 +187,18 @@
     <!------------------------------------------------------------------------------------------------>
     <div class="col-md-9">
       <!-- <div class="div_filter"> -->
-        <!-- <div class="d-flex justify-content-end" style="z-index: 1"> -->
-          <!-- <div class="form-group"> -->
-            <!-- <div class="search-filter-wrapper"> -->
-              <!-- <input
+      <!-- <div class="d-flex justify-content-end" style="z-index: 1"> -->
+      <!-- <div class="form-group"> -->
+      <!-- <div class="search-filter-wrapper"> -->
+      <!-- <input
                 type="search"
                 class="input_search mb-2"
                 [(ngModel)]="term"
                 (focus)="onFocus()"
                 (focusout)="focusOutFunction()"
               /> -->
-              <!-- <button class="filtre_button"> </button>-->
-              <!-- <div id="dropdown-menu" class="dropdown-menu p-4">
+      <!-- <button class="filtre_button"> </button>-->
+      <!-- <div id="dropdown-menu" class="dropdown-menu p-4">
                         <form [formGroup]="form">
                             <div class="col-md-12 d-flex justify-content-end "><i class="fa fa-chevron-up arrow"></i></div>
                             <div class="row ">
@@ -244,10 +244,10 @@
                             </div>
                         </form>
                     </div> -->
-              <!--===================================dropdown menu end ========================================================-->
-            <!-- </div> -->
-          <!-- </div> -->
-        <!-- </div> -->
+      <!--===================================dropdown menu end ========================================================-->
+      <!-- </div> -->
+      <!-- </div> -->
+      <!-- </div> -->
       <!-- </div> -->
       <!------------------------------------------------------------------------------------------------>
       <div
@@ -257,123 +257,154 @@
         [infiniteScrollThrottle]="50"
         (scrolled)="onScroll()"
       >
-      <div
+        <div
           class="row card_notif"
           [ngClass]="{
             notif_creation_down: isfocused,
             notif_creation_up: !isfocused
           }"
-
-        *ngFor="let notification of dataNotification | filter: term; let last = last">
-            <ng-container *ngIf="!last">
-       
-        
-          <div class="col-md-12">
-            <div class="div_notification">
-              <div
-                class="div_notif d-flex flex-row align-items-center p-3"
-                *ngFor="let i of notification.value "
-                (click)="redirect(i, shareSocial)"
-              >
-
-              <div class="div_notif_child" style="display: 'block';" *ngIf="!(i.type === 'buy_some_gas' || i.type === 'invite_friends' || i.type === 'join_on_social')">
-
-             
-              <div style="display: 'block';">
-                <div style="display: 'flex';">
-                  <div class="p-2 h-50 my-auto" id="{{ i._id }}  ">
-                    
-                      <img src="{{ getLinkIconValidate(i.label.cmp_link) }}" alt="avtar" class="pic_avatar_notif" *ngIf="i.type === 'cmp_candidate_accept_link' "/>
-
-                      <img src="{{ getLinkIconWaitingValidation(i.label.prom)}}" *ngIf="i.type === 'apply_campaign' && !!i.label.prom"/>
-                    
-                      <img src="{{ i.img }}" alt="avtar" class="pic_avatar_notif" *ngIf="i.type != 'cmp_candidate_accept_link' && !(i.type === 'apply_campaign' && !!i.label.prom)"/>
-                  </div>
-                  <div class="col-md-11 col-lg-11 col-9 col-sm-9">
-                   
-                    <p
-                      class="label_avatar_notif p-0 m-0"
-                      *ngIf="i.content"
-                      [translate]="i.content"
-                    ></p>
-                    <p class="label_time_notif">{{ i.createdFormated }}</p>
-                    <p
-                    [ngClass]="
-                      'label_avatar_notif p-0 m-0'
-                    "
+          *ngFor="
+            let notification of dataNotification | filter: term;
+            let last = last
+          "
+        >
+          <ng-container *ngIf="!last">
+            <div class="col-md-12">
+              <div class="div_notification">
+                <div
+                  class="div_notif d-flex flex-row align-items-center p-3"
+                  *ngFor="let i of notification.value"
+                  (click)="redirect(i, shareSocial)"
+                >
+                  <div
+                    class="div_notif_child"
+                    style="display: 'block'"
                     *ngIf="
-                      i.type !== 'transfer_event' &&
-                      i.type !== 'apply_campaign' &&
-                      i.type !== 'cmp_candidate_accept_link' &&
-                      i.type !== 'receive_transfer_event'
+                      !(
+                        i.type === 'buy_some_gas' ||
+                        i.type === 'invite_friends' ||
+                        i.type === 'join_on_social'
+                      )
                     "
-                    [translate]="i._label"
-                    [translateParams]="i._params"
-                  ></p>
-                    <p
-                      class="label_avatar_notif p-0 m-0"
-                      *ngIf="
-                        i.type === 'transfer_event' ||
-                        i.type === 'receive_transfer_event' ||
-                        i.type === 'apply_campaign' ||
-                        i.type === 'cmp_candidate_accept_link'
-                      "
-                    >
-                      <span
-                        [translate]="i._label"
-                        [translateParams]="i._params"
-                      ></span>
-                      <span
-                        *ngIf="i.type === 'cmp_candidate_accept_link'"
-                        class="link"
-                        [translate]="'cmp_candidate_accept_link_hash'"
-                        [translateParams]="i._params"
-                      ></span>
-                      <span
-                        *ngIf="i.type === 'apply_campaign'"
-                        class="link"
-                      ></span>
-                      <span
-                        *ngIf="i.type === 'transfer_event'"
-                        class="link"
-                        [translate]="'transfer_event_link'"
-                        [translateParams]="i._params"
-                      ></span>
-                      <span
-                        *ngIf="i.type === 'receive_transfer_event'"
-                        class="link"
-                        [translate]="'receive_event_link'"
-                        [translateParams]="{ from: i._params.from }"
-                      ></span>
-                      <span *ngIf="i.type === 'cmp_candidate_insert_link'">
-                        {{i | json}}
-                      </span>
-                    </p>
-                    <!-- <p class="label_avatar_notif p-0 m-0" *ngIf="i.type === 'apply_campaign'">
+                  >
+                    <div style="display: 'block'">
+                      <div style="display: 'flex'">
+                        <div class="p-2 h-50 my-auto" id="{{ i._id }}  ">
+                          <img
+                            src="{{ getLinkIconValidate(i.label.cmp_link) }}"
+                            alt="avtar"
+                            class="pic_avatar_notif"
+                            *ngIf="i.type === 'cmp_candidate_accept_link'"
+                          />
+
+                          <img
+                            src="{{
+                              getLinkIconWaitingValidation(i.label.prom)
+                            }}"
+                            *ngIf="
+                              i.type === 'apply_campaign' && !!i.label.prom
+                            "
+                          />
+
+                          <img
+                            src="{{ i.img }}"
+                            alt="avtar"
+                            class="pic_avatar_notif"
+                            *ngIf="
+                              i.type != 'cmp_candidate_accept_link' &&
+                              !(i.type === 'apply_campaign' && !!i.label.prom)
+                            "
+                          />
+                        </div>
+                        <div class="col-md-11 col-lg-11 col-9 col-sm-9">
+                          <p
+                            class="label_avatar_notif p-0 m-0"
+                            *ngIf="i.content"
+                            [translate]="i.content"
+                          ></p>
+                          <p class="label_time_notif">
+                            {{ i.createdFormated }}
+                          </p>
+                          <p
+                            [ngClass]="'label_avatar_notif p-0 m-0'"
+                            *ngIf="
+                              i.type !== 'transfer_event' &&
+                              i.type !== 'apply_campaign' &&
+                              i.type !== 'cmp_candidate_accept_link' &&
+                              i.type !== 'receive_transfer_event'
+                            "
+                            [translate]="i._label"
+                            [translateParams]="i._params"
+                          ></p>
+                          <p
+                            class="label_avatar_notif p-0 m-0"
+                            *ngIf="
+                              i.type === 'transfer_event' ||
+                              i.type === 'receive_transfer_event' ||
+                              i.type === 'apply_campaign' ||
+                              i.type === 'cmp_candidate_accept_link'
+                            "
+                          >
+                            <span
+                              [translate]="i._label"
+                              [translateParams]="i._params"
+                            ></span>
+                            <span
+                              *ngIf="i.type === 'cmp_candidate_accept_link'"
+                              class="link"
+                              [translate]="'cmp_candidate_accept_link_hash'"
+                              [translateParams]="i._params"
+                            ></span>
+                            <span
+                              *ngIf="i.type === 'apply_campaign'"
+                              class="link"
+                            ></span>
+                            <span
+                              *ngIf="i.type === 'transfer_event'"
+                              class="link"
+                              [translate]="'transfer_event_link'"
+                              [translateParams]="i._params"
+                            ></span>
+                            <span
+                              *ngIf="i.type === 'receive_transfer_event'"
+                              class="link"
+                              [translate]="'receive_event_link'"
+                              [translateParams]="{ from: i._params.from }"
+                            ></span>
+                            <span
+                              *ngIf="i.type === 'cmp_candidate_insert_link'"
+                            >
+                              {{ i | json }}
+                            </span>
+                          </p>
+                          <!-- <p class="label_avatar_notif p-0 m-0" *ngIf="i.type === 'apply_campaign'">
 
                               <span  [translate]="i._label" [translateParams]="i._params" ></span>
                               <span  class="link" [translate]="'apply_campaign_hash'" [translateParams]="i._params" ></span>
                              </p> -->
+                        </div>
+                      </div>
+
+                      <div>
+                        <div class="imgcent">
+                          <ng-container *ngIf="i.img1">
+                            <img
+                              class="imgcentwh"
+                              src="{{ i.img1 }}"
+                              style="margin: center"
+                              alt="avatar"
+                            />
+                          </ng-container>
+                        </div>
+                      </div>
                     </div>
                   </div>
-
-                <div>
-                  <div  class="imgcent">
-                    <ng-container *ngIf="i.img1">
-                      <img class="imgcentwh" src="{{ i.img1 }}" style="margin: center;" alt="avatar" />
-                    </ng-container>
-
-                  </div>
                 </div>
-                
               </div>
             </div>
-          </div>
-          </div>
-        </ng-container>
+          </ng-container>
         </div>
       </div>
-      
     </div>
     <!------------------------------------------------------------------------------------------------>
     <!--div spinner -->

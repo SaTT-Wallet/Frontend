@@ -349,11 +349,11 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
 }
 
 /* will be uncommented */
-/* .pic_avatar_notif {
+ .pic_avatar_notif {
   bottom: 0.5em;
   position: relative;
   height: 3em;
-} */
+} 
 @media (max-width: 500px) {
   .pic_avatar_notif {
     bottom: 0em !important;
