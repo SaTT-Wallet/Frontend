@@ -355,10 +355,19 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
   height: 3em;
 } */
 
+.container {
+  width: 84%;
+  margin: auto;
+}
+
 
 @media (max-width: 500px) {
+
+
+
   .div_notifications{
-    width: auto !important;
+    width: 120% !important;
+    margin-left: -10% !important;
     border-radius: 0 !important;
     display: block !important;
   }
