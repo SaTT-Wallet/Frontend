@@ -243,6 +243,15 @@
                         ${{ (budgetInUSD | async) || '0' | number }}
                       </span>
                       <img
+                      [ngStyle]="{'left':this.campaign.isOwnedByUser? '197%':'100%'  }"
+                       class="calculator-descktop d-none d-sm-block"
+                      *ngIf="campaign?.hash"
+                        src="assets/Images/blue-icons/calculator.svg"
+                      
+                        (click)="caluculateRoi(campaign.id, $event)"
+                      />
+                      <img
+                      class="d-block d-sm-none"
                       *ngIf="campaign?.hash"
                         src="assets/Images/blue-icons/calculator.svg"
                         width="20px"

@@ -84,7 +84,12 @@ input.pass-hide {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
+.calculator-descktop{
+  position: relative;
+  bottom: 3vw;
+  width: 34px;
+  height: 34px;
+}
 .oracle-stylee {
   background: #f6f6ff;
   border: 1px solid #ffffff;
