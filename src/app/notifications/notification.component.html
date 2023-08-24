@@ -172,7 +172,7 @@
       </div>
 
       <div class="d-flex">
-        <button class="restfilter">
+        <button class="restfilter" (click)="resetFilter()">
           {{ 'filtre_button' | translate }}
         </button>
       </div>
@@ -264,12 +264,13 @@
             notif_creation_up: !isfocused
           }"
 
-        *ngFor="let notification of dataNotification | filter: term; let last = last">
+        *ngFor="let notification of dataNotificationFilter | filter: term; let last = last">
             <ng-container *ngIf="!last">
        
         
-          <div class="col-md-12">
+          <div class="col-md-12" *ngIf="notification.value.length > 0">
             <div class="div_notification">
+              <ng-container *ngIf="notification.value.length > 0">
               <div
                 class="div_notif d-flex flex-row align-items-center p-3"
                 *ngFor="let i of notification.value "
@@ -368,6 +369,7 @@
                 
               </div>
             </div>
+            </ng-container>
           </div>
           </div>
         </ng-container>
