@@ -115,37 +115,59 @@ export class NotificationComponent implements OnInit {
   ];
   // this.translate.instant('filtre_Adpools_message')
   checkboxData1 = [{ label: "filtre_Adpools_message", toggle: false }];
+
+
+
   enableDisableRulecheck(checkbox: any) {
     checkbox.toggle = !checkbox.toggle;
-    if(checkbox.toggle) {
-      console.log({checkbox})
-      if(checkbox.label === 'filtre_Adpools_message') this.filterListType.push('cmp_candidate_insert_link');
-    } else this.filterListType.splice(this.filterListType.indexOf(checkbox.label));
-    console.log({list:this.filterListType})
-    this.filterNotificationList(this.filterListType)
+
+    const checkboxLabelMappings: { [key: string]: string } = {
+      'filtre_Adpools_message': 'cmp_candidate_insert_link',
+      'Facebook': 'cmp_candidate_accept_link/facebook',
+      'Instagram': 'cmp_candidate_accept_link/instagram',
+      'Linkedin': 'cmp_candidate_accept_link/linkedin',
+      'Tiktok': 'cmp_candidate_accept_link/tiktok',
+      'Twitter': 'cmp_candidate_accept_link/twitter',
+      'Youtube': 'cmp_candidate_accept_link/youtube'
+    };
+  
+    const filterType = checkboxLabelMappings[checkbox.label];
+  
+    if (filterType) {
+      if (checkbox.toggle) {
+        this.filterListType.push(filterType);
+      } else {
+        const index = this.filterListType.indexOf(filterType);
+        if (index > -1) {
+          this.filterListType.splice(index, 1);
+        }
+      }
+      this.filterNotificationList(this.filterListType);
+    }
   }
+
+
   enableDisableRule(button: any) {
     button.toggle = !button.toggle;
-    console.log({button})
-
-    if(!button.toggle) {
-      if(button.text === "filtre_mycrypto_sent") {
-        this.filterListType.push('transfer_event')
-      } else if(button.text === "filtre_mycrypto_received") {
-        this.filterListType.push('receive_transfer_event')
-      }  else if(button.text === "filtre_mycrypto_requested") {
-        this.filterListType.push("filtre_mycrypto_requested")
+    const buttonTypeMappings: { [key: string]: string } = {
+      'filtre_mycrypto_sent': 'transfer_event',
+      'filtre_mycrypto_received': 'receive_transfer_event',
+      'filtre_mycrypto_requested': 'send_demande_satt_event'
+    };
+    const filterType = buttonTypeMappings[button.text];
+    if (filterType) {
+      if (!button.toggle) {
+        this.filterListType.push(filterType);
+      } else {
+        const index = this.filterListType.indexOf(filterType);
+        if (index > -1) {
+          this.filterListType.splice(index, 1);
+        }
       }
-      
-    } else this.filterListType.splice(this.filterListType.indexOf(button.text));
-    
-
-    
-    this.filterNotificationList(this.filterListType)
-    
-    
+      this.filterNotificationList(this.filterListType);
+    }
   }
-  //
+ 
 
   constructor(
     private eRef: ElementRef,
@@ -548,24 +570,34 @@ export class NotificationComponent implements OnInit {
   }
 
   getLinkIconValidate( link: string) {
-    let src = '';
-   
-    if(link.includes('facebook')) {
-      src = `./assets/Images/oracle-facebook-validate.svg`;
-    } else if (link.includes('instagram')) {
-      src = `./assets/Images/oracle-instagram-validate.svg`;
-    } else if(link.includes('linkedin')) {
-      src = `./assets/Images/oracle-linkedin-validate.svg`;
-    } else if(link.includes('threads')) {
-      src = `./assets/Images/oracle-threads-validate.svg`;
-    }else if(link.includes('tiktok')) {
-      src = `./assets/Images/oracle-tiktok-validate.svg`;
-    }else if(link.includes('twitter')) {
-      src = `./assets/Images/oracle-twitter-validate.svg`;
-    }else if(link.includes('youtube')) {
-      src = `./assets/Images/oracle-youtube-validate.svg`;
-    }
-    return src;
+    const keywordToIconMap = [
+      { keyword: 'facebook', icon: 'facebook' },
+      { keyword: 'instagram', icon: 'instagram' },
+      { keyword: 'linkedin', icon: 'linkedin' },
+      { keyword: 'threads', icon: 'threads' },
+      { keyword: 'tiktok', icon: 'tiktok' },
+      { keyword: 'twitter', icon: 'twitter' },
+      { keyword: 'youtube', icon: 'youtube' }
+    ];
+  
+    const foundMapping = keywordToIconMap.find(mapping => link.includes(mapping.keyword));
+    return foundMapping ? `./assets/Images/oracle-${foundMapping.icon}-validate.svg` : '';
+  }
+
+
+  getOracle( link: string) {
+    const keywordToOracleList = [
+      { keyword: 'facebook', oracle: 'facebook' },
+      { keyword: 'instagram', oracle: 'instagram' },
+      { keyword: 'linkedin', oracle: 'linkedin' },
+      { keyword: 'threads', oracle: 'threads' },
+      { keyword: 'tiktok', oracle: 'tiktok' },
+      { keyword: 'twitter', oracle: 'twitter' },
+      { keyword: 'youtube', oracle: 'youtube' }
+    ];
+  
+    const foundMapping = keywordToOracleList.find(mapping => link.includes(mapping.keyword));
+    return foundMapping ? foundMapping.oracle : '';
   }
 
   getSafeUrl(i:any) {
@@ -641,19 +673,26 @@ export class NotificationComponent implements OnInit {
   }
 
   filterNotificationList(types: string[]) {
-    
-    if(types.length > 0 ) {
+    if (types.length > 0) {
       const data = this.dataNotification;
-      this.dataNotificationFilter  = data.map((notification:any) => {
-        const filteredValue = notification.value.filter((item:any) => types.includes(item.type));
+      this.dataNotificationFilter = data.map((notification: any) => {
+        const filteredValue = notification.value.filter((item: any) => {
+          let linkFiltred = false;
+          if (types.some(type => type.startsWith('cmp_candidate_accept_link/')) && item.type === 'cmp_candidate_accept_link') {
+            linkFiltred = true;
+            
+          } else {
+            linkFiltred = false;
+          }
+          return types.includes(linkFiltred ? `cmp_candidate_accept_link/${this.getOracle(item.label.cmp_link)}` : item.type);
+        });
         return { ...notification, value: filteredValue };
       });
-    } else this.dataNotificationFilter = this.dataNotification;
-    
-  
-    
+    } else {
+      this.dataNotificationFilter = this.dataNotification;
+    }
   }
-
+  
 
   resetFilter() {
     this.filterListType = [];
@@ -668,7 +707,6 @@ export class NotificationComponent implements OnInit {
   }
 
   siwtchFunction(item: any) {
-    if(item.type === 'apply_campaign' && !!item.label.prom) console.log({item})
     const etherInWei = new Big(1000000000000000000);
     let itemDate = new Date(item.created);
     item.createdInit = item.created;
