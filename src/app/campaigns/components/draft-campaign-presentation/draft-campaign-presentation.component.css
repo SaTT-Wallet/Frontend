@@ -426,6 +426,7 @@ ng-deep .cropper .resize-bar {
 }
 
 .NgxEditor__Wrappe {
+    height: 192px !important;
     border: 2px solid #d6d6e8;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
