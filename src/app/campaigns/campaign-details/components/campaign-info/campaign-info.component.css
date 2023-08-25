@@ -84,7 +84,12 @@ input.pass-hide {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
+.calculator-descktop{
+  position: relative;
+  bottom: 3vw;
+  width: 34px;
+  height: 34px;
+}
 .oracle-stylee {
   background: #f6f6ff;
   border: 1px solid #ffffff;
@@ -110,11 +115,7 @@ input.pass-hide {
   width: 100% !important;
 }
 
-.nav-link {
-  cursor: pointer;
-  color: #adadc8;
-  height: 100%;
-}
+
 
 .tabs {
   margin: 0em auto 2em 0em;
@@ -449,13 +450,7 @@ input.pass-hide {
   border: none;
 }
 
-.kit-campaign-thumnails {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1em;
-  /* margin-bottom: 4px;
-    border-bottom: 2px solid #f6f6ff; */
-}
+
 .mission-top {
   margin-top: 1.2em;
 }
