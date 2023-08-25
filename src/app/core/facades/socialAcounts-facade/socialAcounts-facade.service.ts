@@ -47,6 +47,10 @@ export class SocialAccountFacadeService {
   addThreads() {
     return this.profileService.addThreads()
   }
+
+  notification() {
+    return this.profileService.notification();
+  }
  
   
  

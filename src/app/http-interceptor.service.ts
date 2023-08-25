@@ -107,7 +107,8 @@ export class HttpInterceptorService implements HttpInterceptor {
     `${environment.API_URL}/profile/account`,
     `${environment.API_URL}/profile/check/threads-account`,
     `${environment.API_URL}/profile/add/threads-account`,
-    `${environment.API_URL}/profile/remove/threads-account`   
+    `${environment.API_URL}/profile/remove/threads-account`,
+    `${environment.API_URL}/profile/notifications/decision`  
   ]; 
 
   constructor() { }

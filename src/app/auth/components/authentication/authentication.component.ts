@@ -639,31 +639,45 @@ getCookie(key: string){
         .login(this.f.email?.value, this.f.password?.value)
         .pipe(
           takeUntil(this.onDestroy$),
+          //( error.error.message.startsWith('ValidationError')
           catchError((error: HttpErrorResponse) => {
+            let errorMessage = 'login_error'; // Default error message
+          
+            if (error.error && error.error.error) {
+              const errorType = error.error.error.message;
+          
+              switch (errorType) {
+                case 'ValidationError':
+                  errorMessage = 'incorrectPassword';
+                  break;
+                case 'user not found':
+                  errorMessage = 'invalidEmailAddress';
+                  break;
+                case 'invalid_credentials':
+                  errorMessage = 'incorrectPassword';
+                  break;
+                case 'account_locked':
+                  errorMessage = 'Account locked';
+          
+                  if (
+                    this.blocktime &&
+                    this.blocktime !== error.error.error.blockedDate.blockedDate
+                  ) {
+                    this.counter.restart();
+                  }
+          
+                  this.blocktime = error.error.error.blockedDate + 1800;
+                  this.timeLeftToUnLock = Math.max(0, this.blocktime - Math.floor(Date.now() / 1000));
+          
+                  this.f.password.reset();
+                  this.blockedForgetPassword = true;
+                  break;
+                default:
+                  // Handle other error types here if needed
+              }
+            }
 
-            if (
-              error.error.message.startsWith('ValidationError') 
-              //=== 'ValidationError: "password" failed custom validation because password not match'
-            ) {
-              this.errorMessage = 'incorrectPassword';
-            } else if (error.error.error.message === 'user not found') {
-              this.errorMessage = 'RegisterFirst';
-
-            } else if (error.error.error.message === 'invalid_credentials') {
-              this.errorMessage = 'incorrectPassword';
-            } else if (error.error.error.message === 'account_locked') {
-              if (
-                this.blocktime &&
-                this.blocktime !== error.error.error.blockedDate.blockedDate
-              )
-                this.counter.restart();
-              this.blocktime = error.error.error.blockedDate + 1800;
-              this.timeLeftToUnLock =
-                this.blocktime - Math.floor(Date.now() / 1000);
-              this.f.password.reset();
-              this.blockedForgetPassword = true;
-              this.errorMessage = 'Account locked ';
-            } else this.errorMessage = 'login_error';
+            this.errorMessage = errorMessage;
             this.authForm.get('password')?.setValue('');
             this.f.password.reset();
             this.f.email.clearValidators();
@@ -677,6 +691,7 @@ getCookie(key: string){
                 'access_token',
                 data.data.access_token
               );
+              
               this.tokenStorageService.saveExpire(data.data.expires_in);
               this.expiresToken = data.data.expires_in;
               this.accountFacadeService.dispatchUpdatedAccount();

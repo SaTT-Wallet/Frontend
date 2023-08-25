@@ -30,6 +30,7 @@ import {
   catchError,
   debounceTime,
   filter,
+  first,
   map,
   switchMap,
   take,
@@ -236,6 +237,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+   
     this.cdref.markForCheck();
     this.parentFunction().subscribe();
     this.getUserCrypto();
@@ -287,6 +289,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
         });
         this.campaignCryptoList.forEach((value: any) => {
           if (value.key === this.form.get('currency')?.value) {
+            
             this.walletFacade
               .getBalanceByToken({
                 network: this.selectedNetworkValue.toLowerCase(),

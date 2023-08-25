@@ -146,7 +146,7 @@
         <i class="chevron fa fa-fw"></i>
         <img
           class="crypto-image"
-          src="{{ getCryptoImage() }}"
+          src="{{ cryptoImageCamapign }}"
           onerror="this.src='/assets/Images/symbol_crypto/indispo.svg'"
         />
         <span class="dropdown-text ps-3">{{ cryptoSymbolCampaign }} </span>
@@ -196,6 +196,12 @@
 
 <ng-template #selectTokenModal>
   <div class="modal_container">
+    <button
+      class="mobile_bt_tokenModal"
+      (click)="closeTokenModal(selectTokenModal)"
+    >
+      <i class="bi bi-x-lg"></i>
+    </button>
     <h3 class="modal_title w-fit mx-auto">Select token</h3>
     <p class="modal_subtitle">
       YOUR NETWORK:
@@ -235,7 +241,7 @@
           <p>{{ 'No Search Result Available' | uppercase }}</p>
           <p
             class="warning_message"
-            *ngIf="!showSearchNewTokenContainer"
+            *ngIf="!showSearchNewTokenContainer && filterList.length === 0"
             (click)="searchPersonalizedToken()"
           >
             Add a personnaliszed token >
@@ -243,7 +249,9 @@
           <!-- Futur Button for add token  -->
         </div>
       </ng-container>
-      <ng-container *ngIf="showSearchNewTokenContainer">
+      <ng-container
+        *ngIf="showSearchNewTokenContainer && filterList.length === 0"
+      >
         <div class="form-group">
           <label class="label_title" for="contractAddress">
             {{ "Token's Contract Address" | uppercase }}

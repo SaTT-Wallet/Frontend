@@ -1,44 +1,92 @@
 <div class="separator"></div>
-<div style="margin-right: 70px !important">
+<div class="container_perso">
   <!-- class="container-fluid page-content" -->
-  <div class="row">
-    <div class="col-md-3">
-      <div class="div_notifications">
+  <div class="row" *ngIf="!(showSpinner && showSpinner2)">
+    <div class="col-md-3 mobile_gen_notif">
+      <div class="div_notifications" *ngIf="showNotification">
         <!-- ///////////////////////////////// -->
 
         <div class="d-flex align-items-center position-relative pb-3">
-          <div class="flex-shrink-0">
+          <div
+            class="row d-flex justify-content-center"
+            *ngIf="showNotifcationMessage === 'showing-complete-profile'"
+          >
+            <circle-progress class="prog" [percent]="this.percentProf">
+              ></circle-progress
+            >
             <img
-              class="img-md rounded-circle"
-              src="./assets/Images/notifIcons/tesmail.svg"
-              alt="Profile Picture"
-              loading="lazy"
+              [src]="user.userPicture"
+              (error)="onImgError($event)"
+              class="pic-profile"
             />
           </div>
-
+          <div
+            class="flex-shrink-0"
+            *ngIf="showNotifcationMessage !== 'showing-complete-profile'"
+          >
+            <img class="img-md rounded-circle" [src]="getNotificationIcon()" />
+          </div>
           <div class="flex-grow-1 ms-3 itext">
             <div
               class="d-flex align-items-start justify-content-between xbutton"
             >
-              <h5 class="stretched-link btn-link coltext">Stephen Tran</h5>
-              <button class="close-button coltext">X</button>
+              <h5 *ngIf="showNotifcationMessage != 'showing-complete-profile'">
+                {{ getNotificationTitle() | translate }}
+              </h5>
+
+              <h5 *ngIf="showNotifcationMessage === 'showing-complete-profile'">
+                <span>{{ 'notif_complete_profile_1' | translate }}</span>
+                {{ percentProf }}%<span>{{
+                  'notif_complete_profile_2' | translate
+                }}</span>
+              </h5>
+              <div class="close-button coltext" (click)="hideNotification()">
+                X
+              </div>
             </div>
             <p class="coltext formttxt m-0">
-              Discover our latest Adpool for your social networks.
+              {{ getNotificationBody() | translate }}
             </p>
           </div>
         </div>
 
-        <div class="d-flex justify-content-center">
+        <div
+          class="d-flex justify-content-center"
+          *ngIf="showNotifcationMessage === 'showing-campaign'"
+        >
           <img
-            src="./assets/Images/notifIcons/Frameimage.svg"
-            alt="Profile Picture"
+            [src]="'https://cloudflare-ipfs.com/ipfs/' + campaignCover"
+            width="305.5"
+            height="163.85"
           />
         </div>
-        <div class="d-flex justify-content-center">
-          <button class="button-rounded">Adpool</button>
+        <div
+          class="d-flex justify-content-center"
+          *ngIf="
+            !(
+              showNotifcationMessage === 'showing-random-number' &&
+              notificationRandomNumber === 2
+            )
+          "
+        >
+          <button class="button-rounded" (click)="navigateTo()">
+            {{ getNotificationButtonTitle() | translate }}
+          </button>
         </div>
-
+        <div
+          class="d-flex justify-content-center"
+          *ngIf="
+            showNotifcationMessage === 'showing-random-number' &&
+            notificationRandomNumber === 2
+          "
+        >
+          <div>
+            <img src="./assets/Images/notif-facebook.svg" />
+            <img src="./assets/Images/notif-twitter.svg" />
+            <img src="./assets/Images/notif-telegram.svg" />
+            <img src="./assets/Images/notif-btc.svg" />
+          </div>
+        </div>
         <!-- //////////////////////////////// -->
       </div>
 
@@ -47,7 +95,7 @@
           <p class="ptext">{{ 'filtre_My Cryptos' | translate }}</p>
           <div class="d-flex align-items-start">
             <button
-              *ngFor="let button of buttonData1"
+              *ngFor="let button of buttonData1; let i = index"
               class="button-crypto"
               (click)="enableDisableRule(button)"
               [ngClass]="{
@@ -55,7 +103,7 @@
                 'button-cryptock': !button.toggle
               }"
             >
-              {{ button.text }}
+              {{ button.text | translate }}
             </button>
           </div>
         </div>
@@ -71,13 +119,13 @@
               }"
               (click)="enableDisableRulecheck(checkbox)"
             />
-            <label class="checkb">{{ checkbox.label }}</label>
+            <label class="checkb">{{ checkbox.label | translate }}</label>
           </div>
 
           <p class="ptext">{{ 'filtre_Choose_statue' | translate }}</p>
           <div class="d-flex align-items-start">
             <button
-              *ngFor="let button of buttonData2"
+              *ngFor="let button of buttonData2; let i = index"
               class="button-crypto"
               (click)="enableDisableRule(button)"
               [ngClass]="{
@@ -85,7 +133,7 @@
                 'button-cryptock': !button.toggle
               }"
             >
-              {{ button.text }}
+              {{ button.text | translate }}
             </button>
           </div>
         </div>
@@ -93,7 +141,7 @@
           <p class="ptext">{{ 'filre_My_links' | translate }}</p>
           <div class="d-flex align-items-start">
             <button
-              *ngFor="let button of buttonData3"
+              *ngFor="let button of buttonData3; let i = index"
               class="button-crypto"
               (click)="enableDisableRule(button)"
               [ngClass]="{
@@ -101,7 +149,7 @@
                 'button-cryptock': !button.toggle
               }"
             >
-              {{ button.text }}
+              {{ button.text | translate }}
             </button>
           </div>
         </div>
@@ -124,7 +172,7 @@
       </div>
 
       <div class="d-flex">
-        <button class="restfilter">
+        <button class="restfilter" (click)="resetFilter()">
           {{ 'filtre_button' | translate }}
         </button>
       </div>
@@ -138,19 +186,19 @@
     </div> -->
     <!------------------------------------------------------------------------------------------------>
     <div class="col-md-9">
-      <div class="div_filter">
-        <div class="d-flex justify-content-end" style="z-index: 1">
-          <div class="form-group">
-            <div class="search-filter-wrapper">
-              <input
+      <!-- <div class="div_filter"> -->
+      <!-- <div class="d-flex justify-content-end" style="z-index: 1"> -->
+      <!-- <div class="form-group"> -->
+      <!-- <div class="search-filter-wrapper"> -->
+      <!-- <input
                 type="search"
                 class="input_search mb-2"
                 [(ngModel)]="term"
                 (focus)="onFocus()"
                 (focusout)="focusOutFunction()"
-              />
-              <!-- <button class="filtre_button"> </button>-->
-              <!-- <div id="dropdown-menu" class="dropdown-menu p-4">
+              /> -->
+      <!-- <button class="filtre_button"> </button>-->
+      <!-- <div id="dropdown-menu" class="dropdown-menu p-4">
                         <form [formGroup]="form">
                             <div class="col-md-12 d-flex justify-content-end "><i class="fa fa-chevron-up arrow"></i></div>
                             <div class="row ">
@@ -196,11 +244,11 @@
                             </div>
                         </form>
                     </div> -->
-              <!--===================================dropdown menu end ========================================================-->
-            </div>
-          </div>
-        </div>
-      </div>
+      <!--===================================dropdown menu end ========================================================-->
+      <!-- </div> -->
+      <!-- </div> -->
+      <!-- </div> -->
+      <!-- </div> -->
       <!------------------------------------------------------------------------------------------------>
       <div
         class="search-results mt-5"
@@ -215,110 +263,154 @@
             notif_creation_down: isfocused,
             notif_creation_up: !isfocused
           }"
-          *ngFor="let notification of dataNotification | filter: term"
+          *ngFor="
+            let notification of dataNotificationFilter | filter: term;
+            let last = last
+          "
         >
-          <div class="col-md-12">
-            <div class="div_notification">
-              <div
-                class="div_notif d-flex flex-row align-items-center p-3"
-                *ngFor="let i of notification.value"
-                (click)="redirect(i, shareSocial)"
-              >
-              <div style="display: 'block';">
-                <div style="display: 'flex';">
-                  <div class="p-2" id="{{ i._id }}  ">
-                    <img src="{{ i.img }}" alt="avtar" class="pic_avatar_notif" />
-                  </div>
-                  <div class="col-md-11 col-lg-11 col-9 col-sm-9">
-                    <p
-                      [ngClass]="
-                        i.type === 'buy_some_gas' ||
-                        i.type === 'invite_friends' ||
-                        i.type === 'join_on_social'
-                          ? 'label_avatar_title p-0 m-0 mb-1 font-weight-bold'
-                          : 'label_avatar_notif p-0 m-0'
-                      "
+          <ng-container *ngIf="!last">
+            <div class="col-md-12" *ngIf="notification.value.length > 0">
+              <div class="div_notification">
+                <ng-container *ngIf="notification.value.length > 0">
+                  <div
+                    class="div_notif d-flex flex-row align-items-center p-3"
+                    *ngFor="let i of notification.value"
+                    (click)="redirect(i, shareSocial)"
+                  >
+                    <div
+                      class="div_notif_child"
+                      style="display: 'block'"
                       *ngIf="
-                        i.type !== 'transfer_event' &&
-                        i.type !== 'apply_campaign' &&
-                        i.type !== 'cmp_candidate_accept_link' &&
-                        i.type !== 'receive_transfer_event'
-                      "
-                      [translate]="i._label"
-                      [translateParams]="i._params"
-                    ></p>
-                    <p
-                      class="label_avatar_notif p-0 m-0"
-                      *ngIf="i.content"
-                      [translate]="i.content"
-                    ></p>
-                    <p class="label_time_notif">{{ i.createdFormated }}</p>
-                    <p
-                      class="label_avatar_notif p-0 m-0"
-                      *ngIf="
-                        i.type === 'transfer_event' ||
-                        i.type === 'receive_transfer_event' ||
-                        i.type === 'apply_campaign' ||
-                        i.type === 'cmp_candidate_accept_link'
+                        !(
+                          i.type === 'buy_some_gas' ||
+                          i.type === 'invite_friends' ||
+                          i.type === 'join_on_social'
+                        )
                       "
                     >
-                      <span
-                        [translate]="i._label"
-                        [translateParams]="i._params"
-                      ></span>
-                      <span
-                        *ngIf="i.type === 'cmp_candidate_accept_link'"
-                        class="link"
-                        [translate]="'cmp_candidate_accept_link_hash'"
-                        [translateParams]="i._params"
-                      ></span>
-                      <span
-                        *ngIf="i.type === 'apply_campaign'"
-                        class="link"
-                      ></span>
-                      <span
-                        *ngIf="i.type === 'transfer_event'"
-                        class="link"
-                        [translate]="'transfer_event_link'"
-                        [translateParams]="i._params"
-                      ></span>
-                      <span
-                        *ngIf="i.type === 'receive_transfer_event'"
-                        class="link"
-                        [translate]="'receive_event_link'"
-                        [translateParams]="{ from: i._params.from }"
-                      ></span>
-                    </p>
-                    <!-- <p class="label_avatar_notif p-0 m-0" *ngIf="i.type === 'apply_campaign'">
+                      <div style="display: 'block'">
+                        <div style="display: 'flex'">
+                          <div class="p-2 h-50 my-auto" id="{{ i._id }}  ">
+                            <img
+                              src="{{ getLinkIconValidate(i.label.cmp_link) }}"
+                              alt="avtar"
+                              class="pic_avatar_notif"
+                              *ngIf="i.type === 'cmp_candidate_accept_link'"
+                            />
+
+                            <img
+                              src="{{
+                                getLinkIconWaitingValidation(i.label.prom)
+                              }}"
+                              *ngIf="
+                                i.type === 'apply_campaign' && !!i.label.prom
+                              "
+                            />
+
+                            <img
+                              src="{{ i.img }}"
+                              alt="avtar"
+                              class="pic_avatar_notif"
+                              *ngIf="
+                                i.type != 'cmp_candidate_accept_link' &&
+                                !(i.type === 'apply_campaign' && !!i.label.prom)
+                              "
+                            />
+                          </div>
+                          <div class="col-md-11 col-lg-11 col-9 col-sm-9">
+                            <p
+                              class="label_avatar_notif p-0 m-0"
+                              *ngIf="i.content"
+                              [translate]="i.content"
+                            ></p>
+                            <p class="label_time_notif">
+                              {{ i.createdFormated }}
+                            </p>
+                            <p
+                              [ngClass]="'label_avatar_notif p-0 m-0'"
+                              *ngIf="
+                                i.type !== 'transfer_event' &&
+                                i.type !== 'apply_campaign' &&
+                                i.type !== 'cmp_candidate_accept_link' &&
+                                i.type !== 'receive_transfer_event'
+                              "
+                              [translate]="i._label"
+                              [translateParams]="i._params"
+                            ></p>
+                            <p
+                              class="label_avatar_notif p-0 m-0"
+                              *ngIf="
+                                i.type === 'transfer_event' ||
+                                i.type === 'receive_transfer_event' ||
+                                i.type === 'apply_campaign' ||
+                                i.type === 'cmp_candidate_accept_link'
+                              "
+                            >
+                              <span
+                                [translate]="i._label"
+                                [translateParams]="i._params"
+                              ></span>
+                              <span
+                                *ngIf="i.type === 'cmp_candidate_accept_link'"
+                                class="link"
+                                [translate]="'cmp_candidate_accept_link_hash'"
+                                [translateParams]="i._params"
+                              ></span>
+                              <span
+                                *ngIf="i.type === 'apply_campaign'"
+                                class="link"
+                              ></span>
+                              <span
+                                *ngIf="i.type === 'transfer_event'"
+                                class="link"
+                                [translate]="'transfer_event_link'"
+                                [translateParams]="i._params"
+                              ></span>
+                              <span
+                                *ngIf="i.type === 'receive_transfer_event'"
+                                class="link"
+                                [translate]="'receive_event_link'"
+                                [translateParams]="{ from: i._params.from }"
+                              ></span>
+                              <span
+                                *ngIf="i.type === 'cmp_candidate_insert_link'"
+                              >
+                                {{ i | json }}
+                              </span>
+                            </p>
+                            <!-- <p class="label_avatar_notif p-0 m-0" *ngIf="i.type === 'apply_campaign'">
+
                               <span  [translate]="i._label" [translateParams]="i._params" ></span>
                               <span  class="link" [translate]="'apply_campaign_hash'" [translateParams]="i._params" ></span>
                              </p> -->
-                  </div>
-                </div>
-                <div>
-                  <div  class="imgcent">
-                    <ng-container *ngIf="i.img1">
-                      <img class="imgcentwh" src="{{ i.img1 }}" style="margin: center;" alt="avatar" />
-                    </ng-container>
-                  </div>
-                </div>
-              </div>
-               
-                
-              </div>
+                          </div>
+                        </div>
 
-             
-            
+                        <div>
+                          <div class="imgcent">
+                            <ng-container *ngIf="i.img1">
+                              <img
+                                class="imgcentwh"
+                                src="{{ i.img1 }}"
+                                style="margin: center"
+                                alt="avatar"
+                              />
+                            </ng-container>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
             </div>
-          </div>
+          </ng-container>
         </div>
       </div>
     </div>
     <!------------------------------------------------------------------------------------------------>
     <!--div spinner -->
-    <div class="spinner-wrapper">
-      <app-loading-logo *ngIf="showSpinner" class="spinner"></app-loading-logo>
-    </div>
+
     <!-- End div spinner -->
 
     <div
@@ -341,6 +433,12 @@
     </div> -->
     </div>
     <!--  <div class="loading "  *ngIf="isloading"></div> -->
+  </div>
+  <div class="spinner-wrapper">
+    <app-loading-logo
+      *ngIf="showSpinner && showSpinner2"
+      class="spinner"
+    ></app-loading-logo>
   </div>
 </div>
 <ng-template #shareSocial>
