@@ -18,16 +18,16 @@ button:focus {
 }
 .modal_container {
   padding: 1em;
-  height: 818px;
-  width: 23vw;
+  height: 693px;
+  width: 430px;
 
   .list_crypto_container {
-    height: 22.5em;
+    height: 17.5em;
   }
 
-  .list_token {
-    background-color: transparent;
-  }
+  // .list_token {
+  //   background-color: transparent;
+  // }
 }
 
 @media only screen and (max-width: 600px) {
@@ -76,6 +76,7 @@ button:focus {
   background-color: #4048ff;
 }
 .modal_subtitle {
+  margin-left: 2.9em;
   font-weight: 600;
   font-family: 'Poppins';
   padding: 1em 0em;
@@ -103,6 +104,9 @@ button:focus {
 
 .input_search_token_container {
   // display: inline-block;
+  margin: auto;
+  margin-bottom: 1em;
+  width: 22em;
   border-radius: 30px;
   border-color: #d6d6e8;
   border-width: 1px;
@@ -113,6 +117,7 @@ button:focus {
 }
 
 .input_search_token {
+  width: 15em;
   font-weight: 400;
   border: none;
   outline: none;
@@ -145,6 +150,7 @@ button:focus {
 }
 
 .list_token {
+  background-color: #f6f6ff;
   cursor: pointer;
   margin: auto;
   margin-bottom: 1em;
