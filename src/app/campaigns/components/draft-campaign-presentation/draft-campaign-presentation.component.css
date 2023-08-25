@@ -301,15 +301,15 @@
     line-height: 13px;
 }
 
-.cropArea {
-    /* width: 212px; */
+/*.cropArea {
+    /* width: 212px; 
     height: 210px;
     /* max-width: 396px; */
     /* max-width: 100%;
-     height: 209.48px; */
+     height: 209.48px; 
     align-items: center;
     min-width: 300px;
-}
+}*/
 
 #icon-fa-search {
     width: 25px;
@@ -362,11 +362,8 @@ ng-deep .cropper .resize-bar {
     height: 210px;
     max-width: 396px;
     align-items: center;
-}
-
-.btn-white:hover {
-    border: 2px solid #0009d3;
-    box-shadow: none;
+   
+    min-width: 300px;
 }
 
 .btn-green {
