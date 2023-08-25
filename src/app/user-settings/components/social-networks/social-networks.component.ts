@@ -12,7 +12,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CustomToastComponent } from '../custom-toast/custom-toast.component';
-
+import { environment as env } from '../../../../environments/environment';
 export interface IGetSocialNetworksResponse {
   facebook: { [key: string]: string | boolean }[];
   google: { [key: string]: string | boolean }[];
@@ -331,13 +331,13 @@ export class SocialNetworksComponent implements OnInit {
 
 goToAccount(oracle: string, userName: string) {
     const networkUrls: { [key: string]: string } = {
-      twitter: 'https://www.twitter.com/',
-      google: 'https://www.youtube.com/channel/',
-      facebook: 'https://www.facebook.com/',
-      instagram: 'https://www.instagram.com/',
-      linkedin: 'https://www.linkedin.com/company/',
-      tiktok: 'https://www.tiktok.com/',
-      threads: 'https://threads.net/@'
+      twitter: env.urlSocialMedia.urlTwitter,
+      google: env.urlSocialMedia.urlGoogleChannel,
+      facebook: env.urlSocialMedia.urlFacebook,
+      instagram: env.urlSocialMedia.urlInstagram,
+      linkedin: env.urlSocialMedia.urlLinkedinCompany,
+      tiktok: env.urlSocialMedia.urlTiktok,
+      threads: env.urlSocialMedia.urlthreadsAccount
     };
   
     if (isPlatformBrowser(this.platformId)) {
@@ -346,11 +346,11 @@ goToAccount(oracle: string, userName: string) {
       if (socialMediaBaseUrl) {
         let url = socialMediaBaseUrl;
   
-        if (oracle === 'linkedin') {
+        if (oracle === env.oracleType.linkedin) {
           const parts = userName.split(":");
           const linkedinId = parts[3];
           url += linkedinId;
-        } else if (oracle === 'tiktok') {
+        } else if (oracle === env.oracleType.tiktok) {
           url += userName.replace(/\s/g, '');
         } else {
           url += userName;
