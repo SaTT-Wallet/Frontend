@@ -369,11 +369,6 @@ ng-deep .cropper .resize-bar {
     box-shadow: none;
 }
 
-.btn-white:focus {
-    border: 2px solid #d6d6e8;
-    box-shadow: none;
-}
-
 .btn-green {
     font-style: normal;
     font-weight: 900;
