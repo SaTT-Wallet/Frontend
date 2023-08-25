@@ -51,31 +51,14 @@ export class FormatDataService {
     if (campaign.hasOwnProperty('targetedCountries')) {
       object.countries = campaign.targetedCountries; //this.countriesCode(campaign.targetedCountries);
     }
-    if (campaign.hasOwnProperty('currency')) {
-      /*object.token = {
-        name: campaign.token.name || campaign.currency || 'test',
-        type:
-          campaign.token?.type?.toUpperCase() ||
-          ListTokens[campaign.currency]?.type.toUpperCase(),
-        addr: campaign.token.addr || ListTokens[campaign.currency].contract
-      };*/
+   if (campaign.hasOwnProperty('currency')) {
       object.token = {
         name: campaign.currency.name || '',
-        type: ListTokens[campaign.currency.name]?.type.toUpperCase(),
-        addr: ListTokens[campaign.currency.name].contract
+        type: campaign.currency.type.toUpperCase() || '',
+        addr:  campaign.currency.addr || null
       };
-      if (
-        object.token.name === 'WSATT' ||
-        object.token.name === 'SATTBEP20' ||
-        object.token.name === 'SATTPOLYGON'
-      ) {
-        price = new Big(this.coinsPrices['SATT'].price).toFixed(8).toString();
-      } else {
-        price = new Big(this.coinsPrices[object.token.name]?.price || 0)
-          .toFixed(8)
-          .toString();
-      }
     }
+    
     if (campaign.hasOwnProperty('tags')) {
       object.tags = campaign.tags?.map((tag: any) => tag.value || tag);
     }
@@ -139,7 +122,7 @@ export class FormatDataService {
     }
 
     if (campaign.hasOwnProperty('initialBudgetInUSD')) {
-      object.cost_usd = (price * campaign.initialBudget * 1).toFixed(2);
+      object.cost_usd =  campaign.initialBudgetInUSD.toString();
     }
 
     if (campaign.hasOwnProperty('cover')) {

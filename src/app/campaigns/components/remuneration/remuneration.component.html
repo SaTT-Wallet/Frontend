@@ -82,7 +82,7 @@
           (selectedCrypto)="linstingCrypto($event)"
           [cryptoFromDraft]="this.form.get('currency')?.value"
           [selectedNetworkValue]="selectedNetworkValue"
-          [res]="res"
+          [res]="cryptodata"
         ></app-dropdown-crypto-network>
       </div>
       <div class="">
@@ -95,6 +95,7 @@
           input
           class="amount input-amount"
           placeholder="0"
+         
           (input)="convertcurrency('amount')"
           [(ngModel)]="this.amount"
         />
@@ -120,7 +121,6 @@
             class="usd input-amount-usd"
             (keydown)="restrictZero($event)"
             (keypress)="keyPressNumbersWithDecimal($event, 'usd')"
-            onchange="saveForm()"
             placeholder="0"
             formControlName="initialBudgetInUSD"
             (input)="convertcurrency('usd')"
