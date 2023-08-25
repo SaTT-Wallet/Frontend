@@ -117,6 +117,7 @@
                 checkbck: checkbox.toggle,
                 checkb: !checkbox.toggle
               }"
+              [checked]="checkbox.toggle"
               (click)="enableDisableRulecheck(checkbox)"
             />
             <label class="checkb">{{ checkbox.label | translate }}</label>
@@ -164,7 +165,9 @@
                 checkbck: checkbox.toggle,
                 checkb: !checkbox.toggle
               }"
+              [checked]="checkbox.toggle"
               (click)="enableDisableRulecheck(checkbox)"
+ 
             />
             <label class="checkb">{{ checkbox.label }}</label>
           </div>

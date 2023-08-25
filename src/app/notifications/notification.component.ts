@@ -113,9 +113,19 @@ export class NotificationComponent implements OnInit {
     { label: 'Twitter', toggle: false },
     { label: 'Youtube', toggle: false }
   ];
-  // this.translate.instant('filtre_Adpools_message')
+
   checkboxData1 = [{ label: "filtre_Adpools_message", toggle: false }];
 
+  setAllTogglesFalse(dataArray: any[]) {
+    for (const item of dataArray) {
+      item.toggle = true;
+    }
+  }
+  setAllTogglesFalsechek(checkbox: any) {
+    for (const item of checkbox) {
+      item.toggle = false;
+    }
+  }
 
 
   enableDisableRulecheck(checkbox: any) {
@@ -694,11 +704,25 @@ export class NotificationComponent implements OnInit {
   }
   
 
+
   resetFilter() {
     this.filterListType = [];
     this.dataNotificationFilter = this.dataNotification;
+    this.setAllTogglesFalse(this.buttonData1);
+    this.setAllTogglesFalse(this.buttonData2);
+    this.setAllTogglesFalse(this.buttonData3);
+    this.setAllTogglesFalsechek(this.checkboxData);
+    this.setAllTogglesFalsechek(this.checkboxData1);
+    
+    // Remove 'checkbck' class and add 'checkb' class to all checkboxes
+    this.checkboxData.forEach(checkbox => {
+      checkbox.toggle = false;
+    });
+  
+    this.checkboxData1.forEach(checkbox => {
+      checkbox.toggle = false;
+    });
   }
-
 
   onScroll() {
     if (this.isloading) {
