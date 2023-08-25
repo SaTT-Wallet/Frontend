@@ -329,26 +329,34 @@ export class SocialNetworksComponent implements OnInit {
         this.router.url;
   }
 
-  goToAccount(network: string, userName: string) {
+goToAccount(oracle: string, userName: string) {
+    const networkUrls: { [key: string]: string } = {
+      twitter: 'https://www.twitter.com/',
+      google: 'https://www.youtube.com/channel/',
+      facebook: 'https://www.facebook.com/',
+      instagram: 'https://www.instagram.com/',
+      linkedin: 'https://www.linkedin.com/company/',
+      tiktok: 'https://www.tiktok.com/',
+      threads: 'https://threads.net/@'
+    };
+  
     if (isPlatformBrowser(this.platformId)) {
-      if (network === 'twitter') {
-        window.open('https://www.twitter.com/' + userName, '_blank');
-        // window.location.href ="https://www.twitter.com/"+userName;
-      } else if (network === 'google') {
-        window.open('https://www.youtube.com/channel/' + userName, '_blank');
-        //   window.location.href ="https://www.youtube.com/channel/"+userName;
-      } else if (network === 'facebook') {
-        window.open('https://www.facebook.com/' + userName, '_blank');
-      } else if (network === 'instagram') {
-        window.open('https://www.instagram.com/' + userName, '_blank');
-      } else if (network === 'linkedin') {
-        const parts = userName.split(":");
-        const LinkedinId = parts[3]
-        window.open('https://www.linkedin.com/company/' + LinkedinId , '_blank');
-      } else if (network === 'tiktok') {
-        window.open('https://www.tiktok.com/' + userName.replace(/\s/g, ''));
-      } else if(network === 'threads') {
-        window.open('https://threads.net/@' + userName, '_blank')
+      const socialMediaBaseUrl = networkUrls[oracle];
+      
+      if (socialMediaBaseUrl) {
+        let url = socialMediaBaseUrl;
+  
+        if (oracle === 'linkedin') {
+          const parts = userName.split(":");
+          const linkedinId = parts[3];
+          url += linkedinId;
+        } else if (oracle === 'tiktok') {
+          url += userName.replace(/\s/g, '');
+        } else {
+          url += userName;
+        }
+  
+        window.open(url, '_blank');
       }
     }
   }
