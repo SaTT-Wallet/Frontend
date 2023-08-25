@@ -95,13 +95,13 @@ export class DropdownCryptoNetworkComponent
       this.getCryptoList();
     }
   
-    if (this.res && this.res.data) {
-      const result = Object.keys(this.res.data);
+    if (this.res) {
+      const result = Object.keys(this.res);
   
       for (const key of result) {
-        if (key === this.cryptoSymbolCampaign) {
-          this.cryptoImageCamapign = this.res.data[key].logo
-          return this.res.data[key].logo;
+        if (key === (this.cryptoSymbolCampaign === 'SATTBEP20' ? 'SATT' : this.cryptoSymbolCampaign)) {
+          this.cryptoImageCamapign = this.res[key].logo
+          return this.res[key].logo;
         }
       }
     }
@@ -263,6 +263,8 @@ export class DropdownCryptoNetworkComponent
 
     private Fetchservice: CryptofetchServiceService
   ) {
+
+    
     this.networkList = [
       { network: 'BEP20' },
       { network: 'ERC20' },
@@ -287,6 +289,7 @@ export class DropdownCryptoNetworkComponent
   }
 
   ngOnInit(): void {
+    this.getCryptoImage();
     this.routerSub = this.route.queryParams
       .pipe(takeUntil(this.onDestoy$))
       .subscribe((p: any) => {
@@ -312,7 +315,9 @@ export class DropdownCryptoNetworkComponent
           }
         }
       });
-      this.router.url.startsWith('/campaign') && this.getCryptoList();
+      
+      //this.router.url.startsWith('/campaign') && this.getCryptoList();
+     
     !this.router.url.startsWith('/campaigns') && this.getusercrypto();
     
     this.defaultcurr = ListTokens['SATT'].name;
@@ -325,7 +330,7 @@ export class DropdownCryptoNetworkComponent
 
   getCryptoList() {
     if(!this.res) {
-      this.walletFacade.getCryptoPriceList().subscribe((res) => res = this.res);
+      this.walletFacade.getCryptoPriceList().subscribe((res) => res = this.res.data);
     }
   }
   openModal(content: any) {
@@ -342,29 +347,29 @@ export class DropdownCryptoNetworkComponent
       this.tokenNotFound = false;
       this.showWarning = false;
       this.tokenSearch.setValue('');
-      const result = Object.keys(this.res?.data);
+      const result = Object.keys(this.res);
       result.forEach((key) => {
-        typeof this.res.data[key].networkSupported != 'string' &&
-          this.res.data[key].networkSupported.forEach((value: any) => {
+        typeof this.res[key].networkSupported != 'string' &&
+          this.res[key].networkSupported.forEach((value: any) => {
             if (
               this.selectedNetworkValue === 'ERC20' &&
               value.platform.name === 'Ethereum'
             ) {
               this.campaignCryptoList.push({
                 key,
-                value: this.res.data[key],
+                value: this.res[key],
                 contract: value.contract_address
               });
             } else if(key === 'BNB' && this.selectedNetworkValue === 'BEP20') {
               this.campaignCryptoList.push({
                 key,
-                value: this.res.data[key],
+                value: this.res[key],
                 contract: null
               })
             } else if(key === 'BTT' && this.selectedNetworkValue === 'BTTC') {
               this.campaignCryptoList.push({
                 key,
-                value: this.res.data[key],
+                value: this.res[key],
                 contract: null
               }) 
             } else {
@@ -374,7 +379,7 @@ export class DropdownCryptoNetworkComponent
                 .includes(this.selectedNetworkValue.toString().toLowerCase()) &&
                 this.campaignCryptoList.push({
                   key,
-                  value: this.res.data[key],
+                  value: this.res[key],
                   contract: value.contract_address
                 });
             }
@@ -596,29 +601,29 @@ export class DropdownCryptoNetworkComponent
     
     if (this.router.url.startsWith('/campaign')) {
       this.campaignCryptoList = [];
-      const result = Object.keys(this.res?.data);
+      const result = Object.keys(this.res);
       result.forEach((key) => {
-        typeof this.res.data[key].networkSupported != 'string' &&
-          this.res.data[key].networkSupported.forEach((value: any) => {
+        typeof this.res[key].networkSupported != 'string' &&
+          this.res[key].networkSupported.forEach((value: any) => {
             if (
               this.selectedNetworkValue === 'ERC20' &&
               value.platform.name === 'Ethereum'
             ) {
               this.campaignCryptoList.push({
                 key,
-                value: this.res.data[key],
+                value: this.res[key],
                 contract: value.contract_address
               });
             } else if(key === 'BNB' && this.selectedNetworkValue === 'BEP20') {
               this.campaignCryptoList.push({
                 key,
-                value: this.res.data[key],
+                value: this.res[key],
                 contract: null
               })
             } else if(key === 'BTT' && this.selectedNetworkValue === 'BTTC') {
               this.campaignCryptoList.push({
                 key,
-                value: this.res.data[key],
+                value: this.res[key],
                 contract: null
               })
               
@@ -630,7 +635,7 @@ export class DropdownCryptoNetworkComponent
                 .includes(this.selectedNetworkValue.toString().toLowerCase()) &&
                 this.campaignCryptoList.push({
                   key,
-                  value: this.res.data[key],
+                  value: this.res[key],
                   contract: value.contract_address
                 });
             }
@@ -707,9 +712,7 @@ export class DropdownCryptoNetworkComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.res && this.res && this.router.url.startsWith('/campaign')) {
-       this.getCryptoImage();
-    }
+    
     if (changes.cryptoFromDraft && this.router.url.includes('edit')) {
       if (this.cryptoFromDraft) {
         if (this.router.url.startsWith('/campaign')) {

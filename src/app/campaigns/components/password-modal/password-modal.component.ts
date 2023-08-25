@@ -572,6 +572,8 @@ export class PasswordModalComponent implements OnInit {
   }
 
   launchCampaignWithPerPerformanceReward(campaign_info: any) {
+    const startDateUnix = Math.floor(campaign_info.startDate.getTime() / 1000);
+    campaign_info.startDate = startDateUnix;
     if(campaign_info.currency === 'BNB') campaign_info.tokenAddress = null;
     return this.campaignService.createCompaign(campaign_info).pipe(
       tap(() => {

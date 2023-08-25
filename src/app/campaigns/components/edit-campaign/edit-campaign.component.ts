@@ -87,6 +87,7 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
   step: any = 1;
   forthFormGroup: UntypedFormGroup;
   cryptodata: any;
+  cryptoListLoading: boolean = true;
   passForm: UntypedFormGroup;
   kits: any = [];
   validpassword: boolean = false;
@@ -130,6 +131,17 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
     private campaignsStore: CampaignsStoreService,
     private localeStorageService: TokenStorageService
   ) {
+    this.walletFacade
+      .getCryptoPriceList()
+      .pipe(
+        map((response: any) => response.data),
+        takeUntil(this.isDestroyed$)
+      )
+      .subscribe((data: any) => {
+        this.cryptodata = data;
+        this.cryptoListLoading = false;
+        
+      });
     this.passForm = new UntypedFormGroup(
       {
         password: new UntypedFormControl(null)
@@ -166,7 +178,7 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
   }
 
 
-  
+ 
 
   ngOnInit() {
     this.getTronWallet();
@@ -175,15 +187,7 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
       this.scrolling = true;
     });
 
-    this.walletFacade
-      .getCryptoPriceList()
-      .pipe(
-        map((response: any) => response.data),
-        takeUntil(this.isDestroyed$)
-      )
-      .subscribe((data: any) => {
-        this.cryptodata = data;
-      });
+    
     this.route.params.pipe(takeUntil(this.isDestroyed$)).subscribe((params) => {
       this.draftId = params['id'];
       this.draftStore.getDraft(this.draftId);
@@ -242,6 +246,7 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
       this.validFormMissionFromRemuToEdit &&
       this.validFormPicture
     ) {
+      
       this.alertRequired = false;
       this.router.navigate(['home/check-password'], {
         queryParams: { id: this.draftId, network: this.campaignData.currency.type }

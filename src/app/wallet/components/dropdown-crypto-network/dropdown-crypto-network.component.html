@@ -149,7 +149,7 @@
           src="{{ cryptoImageCamapign }}"
           onerror="this.src='/assets/Images/symbol_crypto/indispo.svg'"
         />
-        <span class="dropdown-text ps-3">{{ cryptoSymbolCampaign }} </span>
+        <span class="dropdown-text ps-3">{{ cryptoSymbolCampaign === 'SATTBEP20' ? 'SATT' : cryptoSymbolCampaign }} </span>
       </button>
       <ul
         class="dropdown-menu"
