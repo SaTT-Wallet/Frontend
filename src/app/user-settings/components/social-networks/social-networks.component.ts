@@ -172,6 +172,7 @@ export class SocialNetworksComponent implements OnInit {
           this.setUrlMsg(params, data);
          this.channelThreads = this.checkTheradsAccountExit(data)
         
+        
          
           if (this.channelGoogle?.length !== 0) {
             count++;
@@ -341,7 +342,9 @@ export class SocialNetworksComponent implements OnInit {
       } else if (network === 'instagram') {
         window.open('https://www.instagram.com/' + userName, '_blank');
       } else if (network === 'linkedin') {
-        window.open('https://www.linkedin.com/company/' + userName, '_blank');
+        const parts = userName.split(":");
+        const LinkedinId = parts[3]
+        window.open('https://www.linkedin.com/company/' + LinkedinId , '_blank');
       } else if (network === 'tiktok') {
         window.open('https://www.tiktok.com/' + userName.replace(/\s/g, ''));
       } else if(network === 'threads') {
