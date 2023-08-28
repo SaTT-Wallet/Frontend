@@ -18,16 +18,16 @@ button:focus {
 }
 .modal_container {
   padding: 1em;
-  height: 818px;
-  width: 23vw;
+  height: 693px;
+  width: 430px;
 
   .list_crypto_container {
-    height: 22.5em;
+    height: 17.5em;
   }
 
-  .list_token {
-    background-color: transparent;
-  }
+  // .list_token {
+  //   background-color: transparent;
+  // }
 }
 
 @media only screen and (max-width: 600px) {
@@ -59,6 +59,9 @@ button:focus {
     display: block;
     float: right;
   }
+  .list_token {
+    background-color: transparent !important;
+  }
 }
 
 .modal_title {
@@ -76,6 +79,7 @@ button:focus {
   background-color: #4048ff;
 }
 .modal_subtitle {
+  margin-left: 1.4em;
   font-weight: 600;
   font-family: 'Poppins';
   padding: 1em 0em;
@@ -87,6 +91,7 @@ button:focus {
 }
 
 .label_title {
+  margin-left: 1.4em;
   padding: 0;
   font-weight: 600;
   font-family: 'Poppins';
@@ -103,16 +108,20 @@ button:focus {
 
 .input_search_token_container {
   // display: inline-block;
+  margin: auto;
+  margin-bottom: 1em;
+  // width: 23.5em;
+  width: auto;
   border-radius: 30px;
   border-color: #d6d6e8;
   border-width: 1px;
   border-style: solid;
-  margin-bottom: 1em;
   padding: 0.7em;
   // width: fit-content;
 }
 
 .input_search_token {
+  width: 15em;
   font-weight: 400;
   border: none;
   outline: none;
@@ -122,7 +131,6 @@ button:focus {
 .tokens_preview {
   cursor: pointer;
   width: 107px;
-  justify-content: center;
   height: 3em;
   border-color: #d6d6e8;
   border-style: solid;
@@ -139,16 +147,25 @@ button:focus {
   overflow: auto;
 }
 
+.list_crypto_container::-webkit-scrollbar {
+  width: 10px;
+}
+
+.list_crypto_container::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: 75758F;
+}
+
 .warning_div {
   width: fit-content;
   margin: auto;
 }
 
 .list_token {
+  background-color: #f6f6ff;
   cursor: pointer;
   margin: auto;
   margin-bottom: 1em;
-  background-color: #f6f6ff;
   border-radius: 31px;
   height: 42px;
   max-width: 335px; /* Set a maximum width for the token list */
@@ -157,18 +174,29 @@ button:focus {
 
 .img_token {
   // padding: 0em 1em;
+  border-radius: 1em;
   margin-left: 1em;
   width: 32px;
   height: 32px;
 }
 
+.img_token.i_preview {
+  margin-left: 0em;
+}
+
 .name_token {
+  margin: 0;
   padding: 0.5em;
   font-family: 'Poppins';
   font-weight: 400;
   font-size: 16px;
   line-height: 20.8px;
   letter-spacing: 3%;
+}
+
+.name_token.n_preview {
+  padding: 0em;
+  margin: auto;
 }
 
 .balance_token {
