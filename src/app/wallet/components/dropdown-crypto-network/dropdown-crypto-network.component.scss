@@ -91,6 +91,7 @@ button:focus {
 }
 
 .label_title {
+  margin-left: 1.4em;
   padding: 0;
   font-weight: 600;
   font-family: 'Poppins';
@@ -109,7 +110,8 @@ button:focus {
   // display: inline-block;
   margin: auto;
   margin-bottom: 1em;
-  width: 23.5em;
+  // width: 23.5em;
+  width: auto;
   border-radius: 30px;
   border-color: #d6d6e8;
   border-width: 1px;
@@ -146,6 +148,15 @@ button:focus {
   overflow: auto;
 }
 
+.list_crypto_container::-webkit-scrollbar {
+  width: 10px;
+}
+
+.list_crypto_container::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: 75758F;
+}
+
 .warning_div {
   width: fit-content;
   margin: auto;
@@ -175,7 +186,7 @@ button:focus {
 }
 
 .name_token {
-  margin: auto;
+  margin: 0;
   padding: 0.5em;
   font-family: 'Poppins';
   font-weight: 400;
@@ -186,6 +197,7 @@ button:focus {
 
 .name_token.n_preview {
   padding: 0em;
+  margin: auto;
 }
 
 .balance_token {
