@@ -202,9 +202,9 @@
     >
       <i class="bi bi-x-lg"></i>
     </button>
-    <h3 class="modal_title w-fit mx-auto">Select token</h3>
+    <h3 class="modal_title w-fit mx-auto">{{'addToken.select_token' | translate }}</h3>
     <p class="modal_subtitle">
-      YOUR NETWORK:
+      {{'addToken.your_network' | translate }}
       <span class="network_selected">{{ selectedNetworkValue }}</span>
     </p>
     <div class="input_search_token_container">
@@ -214,7 +214,7 @@
         (input)="searchToken($event)"
         type="text"
         [formControl]="tokenSearch"
-        placeholder="Search a name or paste address"
+        placeholder="{{'addToken.search' | translate}}"
       />
     </div>
     <div class="container">
@@ -238,13 +238,13 @@
     <div>
       <ng-container *ngIf="tokenNotFound && showWarning">
         <div class="warning_div">
-          <p>{{ 'No Search Result Available' | uppercase }}</p>
+          <p>{{ 'addToken.search_no_available' | translate}}</p>
           <p
             class="warning_message"
             *ngIf="!showSearchNewTokenContainer && filterList.length === 0"
             (click)="searchPersonalizedToken()"
           >
-            Add a personnaliszed token >
+           {{'addToken.add-personnaliszed-token' | translate}} >
           </p>
           <!-- Futur Button for add token  -->
         </div>
@@ -254,7 +254,7 @@
       >
         <div class="form-group">
           <label class="label_title" for="contractAddress">
-            {{ "Token's Contract Address" | uppercase }}
+            {{ 'addToken.token-address' | translate | uppercase }}
           </label>
           <input
             id="contractAddress"
@@ -267,7 +267,7 @@
 
         <div class="form-group">
           <label class="label_title" for="tokenSymbol">
-            {{ "Token's Symbol" | uppercase }}
+            {{ 'addToken.token-symbol' | translate }}
           </label>
           <input
             [disabled]="true"
@@ -280,7 +280,7 @@
 
         <div class="form-group">
           <label class="label_title" for="decimals">
-            {{ 'Decimals' | uppercase }}
+            {{ 'addToken.decimals' | translate  | uppercase  }}
           </label>
           <input
             [disabled]="true"
@@ -290,21 +290,21 @@
             [value]="tokenDecimal"
           />
         </div>
-        <div *ngIf="customTokenNotFound">incorrect network or address</div>
+        <div *ngIf="customTokenNotFound">{{'addToken.token-or-network-invalid'| translate}}</div>
         <button class="add-btn" [disabled]="true">
           <div
             *ngIf="loadingCustomToken"
             class="spinner-border text-light"
             role="status"
           >
-            <span class="sr-only">Loading...</span>
+            <span class="sr-only">{{'addToken.Loading' | translate}}...</span>
           </div>
-          <div *ngIf="!loadingCustomToken">+ Add Token</div>
+          <div *ngIf="!loadingCustomToken">+ {{'addToken.add-new-token' | translate}}</div>
         </button>
       </ng-container>
       <ng-container *ngIf="!tokenNotFound">
         <div class="list_crypto_container">
-          <p class="modal_subtitle">Token List</p>
+          <p class="modal_subtitle">{{'addToken.token_list' | translate}}</p>
           <div
             *ngFor="let crypto of filterList"
             (click)="tokenToSelect(crypto)"
