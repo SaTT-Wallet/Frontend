@@ -2,7 +2,7 @@
   "notif_invite_friends": "Partagez notre plateforme avec votre communauté.",
   "notif_join_social_networks": "Vous souhaitez en savoir plus sur notre projet ? Suivez-nous sur les réseaux sociaux et parlons-en !",
   "notif_problem_faq": "Vous pouvez poser vos questions, entrer des mots-clés pour trouver des réponses ou parcourir nos questions déjà répondues.",
-  "notif_complete_profile": "N'oubliez pas de terminer pour remplir votre profil ! Un profil complet signifie plus de visibilité pour les annonceurs.",
+  "notif_complete_profile": "N'oubliez pas de terminer de remplir votre profil ! Un profil complet signifie plus de visibilité pour les annonceurs.",
   "notif_buy_satt":"SaTT est disponible à la fois sur la blockchain Ethereum ERC20 et sur la Binance Smart Chain BEP20.",
   "notif_buy_gas": "Le gaz est nécessaire si vous souhaitez effectuer certaines actions comme envoyer des jetons et créer ou appliquer des AdPools !",
   "notif_complete_profile_1": "Votre profil est ",
@@ -648,7 +648,7 @@
   "Cryptolist.delete": "Supprimer",
   "Cryptolist.convert": "Convertir",
   "read-faq": "Lire FAQ",
-  "filtre_mycrypto_requested": "Request",
+  "filtre_mycrypto_requested": "Demandé",
   "buy-gas": "ACHETEZ DU GAZ", 
   "Aide.help": "Aide",
   "ad_pool":"Adpool",
@@ -751,8 +751,8 @@
   "filtre_choosestatus_budget_alert": "Alerte budgétaire",
 
   "filtre_My_Links_to_harvest": "À la récolte",
-  "filtre_My_Links_waiting": "Attente",
-  "filtre_My_Links_refused": "A refusé",
+  "filtre_My_Links_waiting": "En attente",
+  "filtre_My_Links_refused": "Réfusé",
 
   "filtre_My Cryptos": "Mes Cryptos",
   "filre_My_links": "Mes liens",
