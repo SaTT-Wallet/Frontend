@@ -59,6 +59,9 @@ button:focus {
     display: block;
     float: right;
   }
+  .list_token {
+    background-color: transparent !important;
+  }
 }
 
 .modal_title {
@@ -76,7 +79,7 @@ button:focus {
   background-color: #4048ff;
 }
 .modal_subtitle {
-  margin-left: 2.9em;
+  margin-left: 1.4em;
   font-weight: 600;
   font-family: 'Poppins';
   padding: 1em 0em;
@@ -106,7 +109,7 @@ button:focus {
   // display: inline-block;
   margin: auto;
   margin-bottom: 1em;
-  width: 22em;
+  width: 23.5em;
   border-radius: 30px;
   border-color: #d6d6e8;
   border-width: 1px;
@@ -127,7 +130,6 @@ button:focus {
 .tokens_preview {
   cursor: pointer;
   width: 107px;
-  justify-content: center;
   height: 3em;
   border-color: #d6d6e8;
   border-style: solid;
@@ -154,7 +156,6 @@ button:focus {
   cursor: pointer;
   margin: auto;
   margin-bottom: 1em;
-  background-color: #f6f6ff;
   border-radius: 31px;
   height: 42px;
   max-width: 335px; /* Set a maximum width for the token list */
@@ -163,18 +164,28 @@ button:focus {
 
 .img_token {
   // padding: 0em 1em;
+  border-radius: 1em;
   margin-left: 1em;
   width: 32px;
   height: 32px;
 }
 
+.img_token.i_preview {
+  margin-left: 0em;
+}
+
 .name_token {
+  margin: auto;
   padding: 0.5em;
   font-family: 'Poppins';
   font-weight: 400;
   font-size: 16px;
   line-height: 20.8px;
   letter-spacing: 3%;
+}
+
+.name_token.n_preview {
+  padding: 0em;
 }
 
 .balance_token {

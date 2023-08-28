@@ -226,8 +226,13 @@
           (click)="tokenToSelect(crypto)"
         >
           <div class="tokens_preview d-flex p-2 mb-2">
-            <img class="img_token" src="{{ crypto.value.logo }}" alt="logo" />
-            <p class="name_token">
+            <img
+              [ngClass]="'i_preview'"
+              class="img_token"
+              src="{{ crypto.value.logo }}"
+              alt="logo"
+            />
+            <p [ngClass]="'n_preview'" class="name_token">
               {{ crypto.key }}
             </p>
           </div>
