@@ -69,7 +69,7 @@
             )
           "
         >
-          <button class="button-rounded" (click)="navigateTo()">
+          <button [class]="getButtonClass()" (click)="navigateTo()">
             {{ getNotificationButtonTitle() | translate }}
           </button>
         </div>

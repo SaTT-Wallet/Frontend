@@ -269,6 +269,13 @@ export class NotificationComponent implements OnInit {
     
     ) 
   }
+  getButtonClass() {
+    if (this.showNotifcationMessage === 'new_adpools_notification' || this.showNotifcationMessage === 'notif_buy_gas') {
+      return 'button-rounded';
+    } else {
+      return 'button-roundedblue';
+    }
+  }
   navigateTo() {
     switch(this.showNotifcationMessage) {
       case 'showing-complete-profile':

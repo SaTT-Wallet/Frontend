@@ -307,11 +307,11 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
 }
 
 .card_notif {
-  margin-bottom: 30px !important;
+  margin-bottom: 0px !important;
 }
 
 .page_history_mobile {
-  background-color: #f6f6ff;
+  background-color: #f6f6ff; 
   overflow-y: hidden;
 }
 
@@ -642,6 +642,24 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
   text-align: center;
   border: none;
   cursor: pointer;
+  height: 42px !important;
+  width: 244px !important;
+}
+.button-roundedblue {
+  margin-top: 20px !important;
+  margin-bottom: 15px !important;
+  border-radius: 30px;
+  padding: 10px 60px !important;
+  background-color: #4048FF;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 700;
+  letter-spacing: 3% !important;
+  color: #fff !important;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  height: 42px !important;
+  width: 244px !important;
 }
 /* filtre */
 
