@@ -246,68 +246,62 @@ export class SocialNetworksComponent implements OnInit {
   //get errors from url
  
   setUrlMsg(p: Params, data: IGetSocialNetworksResponse): void {
-    
-
-    if (p.message) {
-      if (p.message === 'access-denied') {
-        this.errorMessage = 'access-cancel';
-        setTimeout(() => {
-          this.errorMessage = '';
-          this.router.navigate(['/home/settings/social-networks']);
-        }, 3000);
-      } else if (p.message === 'channel obligatoire') {
-        this.errorMessage = 'no_channel_found';
-        setTimeout(() => {
-          this.errorMessage = '';
-          this.router.navigate(['/home/settings/social-networks']);
-        }, 3000);
-      } else if (
-        p.message === 'account_linked_with_success' ||
-        p.message === 'account_linked_with_success_facebook' ||
-        p.message === 'account_linked_with_success_instagram_facebook' ||
-        p.message === 'required_page'
-      ) {
-        if (p.sn === 'fb' && data.facebook.length === 0) {
-          this.errorMessage = 'no_page_selected';
-        } else {
-          this.router.navigate(['/home/settings/social-networks']);
-          this.successMessage = 'account_linked_with_success';
-        }
-        setTimeout(() => {
-          this.successMessage = '';
-          this.router.navigate(['/home/settings/social-networks']);
-        }, 3000);
-      } else if (p.message === 'account exist') {
-        this.router.navigate(['/home/settings/social-networks']);
-        this.errorMessage = 'account_linked_other_account';
-        setTimeout(() => {
-          this.errorMessage = '';
-          this.router.navigate(['/home/settings/social-networks']);
-        }, 3000);
-      } else if (p.message === 'external_account') {
-        this.errorMessage = 'Your facebook page ';
-        setTimeout(() => {
-          this.errorMessage = 'account_linked_other_account';
-          this.router.navigate(['/home/settings/social-networks']);
-        }, 3000);
-      } 
-      else if (p.message === 'page already exists') {
-        this.errorMessage = 'page already exists';
-        setTimeout(() => {
-          // this.ngOnInit();
-          this.errorMessage = '';
-          this.router.navigate(['/home/settings/social-networks']);
-        }, 3000);
+    const showMessage = (message: string, type: 'error' | 'success', redirect = true): void => {
+      if (type === 'error') {
+        this.errorMessage = message;
+      } else if (type === 'success') {
+        this.successMessage = message;
       }
-      else if (p.message === 'required_page') {
-
-        setTimeout(() => {
-          this.errorMessage = 'no_page_selected';
+      setTimeout(() => {
+        this.errorMessage = '';
+        this.successMessage = '';
+        if (redirect) {
           this.router.navigate(['/home/settings/social-networks']);
-        }, 3000);
-      } 
+        }
+      }, 3000);
+    };
+  
+    switch (p.message) {
+      case 'access-denied':
+        showMessage('access-cancel', 'error');
+        break;
+  
+      case 'channel obligatoire':
+      case 'required_page':
+        showMessage('no_channel_found', 'error');
+        break;
+  
+      case 'account_linked_with_success':
+      case 'account_linked_with_success_facebook':
+      case 'account_linked_with_success_instagram_facebook':
+        if (p.sn === 'fb' && data.facebook.length === 0) {
+          showMessage('no_page_selected', 'error', false);
+        } else {
+          showMessage('account_linked_with_success', 'success');
+        }
+        break;
+  
+      case 'account exist':
+        showMessage('account_linked_other_account', 'error');
+        break;
+  
+      case 'external_account':
+        showMessage('Your facebook page', 'error', false);
+        break;
+  
+      case 'page already exists':
+        showMessage('page already exists', 'error');
+        break;
+  
+      case 'required_page':
+        showMessage('no_page_selected', 'error');
+        break;
+  
+      default:
+        break;
     }
   }
+  
 
   onReditectSocial(social: string) {
     //let url = this.router.url.split('?')[0];
