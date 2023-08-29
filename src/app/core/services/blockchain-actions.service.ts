@@ -129,8 +129,42 @@ export class BlockchainActionsService {
             );
         }
         if (action === EButtonActions.VALIDATE_LINK) {
+          if(event.data.fromNotification) {
+            return this.campaignService
+            .validateLinks(event.data.prom, password, event.data.campaignId, true)
+            .pipe(
+              catchError((error: HttpErrorResponse) => {
+                if (
+                  error.error.error ===
+                  'Key derivation failed - possibly wrong password'
+                ) {
+                  this.errorMessage = 'Wrong password';
+                } else {
+                  this.errorMessage = error.error.error;
+                }
+                return of(null);
+              }),
+              tap(() => {
+                this.participationListService
+                  .loadNextPage({}, true, { campaignId: '', state: '' })
+                  .subscribe();
+              }),
+              retry(1),
+              catchError(() => {
+                return of(null);
+              }),
+              map((response: any) => {
+                if (response && response.message === 'success') {
+                  return { ...response, action: event.action };
+                } else {
+                  let data = { error: this.errorMessage };
+                  return { ...data, action: event.action };
+                }
+              })
+            );
+          } 
           return this.campaignService
-            .validateLinks(event.data.prom, password, event.data.campaignId)
+            .validateLinks(event.data.prom, password, event.data.campaignId, false)
             .pipe(
               catchError((error: HttpErrorResponse) => {
                 if (

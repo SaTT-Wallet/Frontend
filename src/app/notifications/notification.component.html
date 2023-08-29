@@ -300,7 +300,14 @@
                               class="pic_avatar_notif"
                               *ngIf="i.type === 'cmp_candidate_accept_link'"
                             />
-
+                            <ng-container *ngIf="i.type === 'cmp_candidate_insert_link' && i.label.linkExist">
+                              <img
+                                src="{{ i.label.link.type === 'waiting_for_validation' ? getLinkIconWaitingValidation(i.label.link) :  getLinkIconValidate(i.label.link.oracle)}}"
+                                alt="avtar"
+                                class="pic_avatar_notif"
+                            />
+                            </ng-container>
+                            
                             <img
                               src="{{
                                 getLinkIconWaitingValidation(i.label.prom)
@@ -316,7 +323,7 @@
                               class="pic_avatar_notif"
                               *ngIf="
                                 i.type != 'cmp_candidate_accept_link' &&
-                                !(i.type === 'apply_campaign' && !!i.label.prom)
+                                !(i.type === 'apply_campaign' && !!i.label.prom) && !(i.type === 'cmp_candidate_insert_link' && i.label.linkExist)
                               "
                             />
                           </div>
@@ -402,6 +409,78 @@
                           </div>
                         </div>
                       </div>
+
+                      <div *ngIf="i.type === 'cmp_candidate_insert_link'" >
+                        
+                        <ng-container *ngIf="i.label.linkExist">
+                          <div>
+                            <img
+                            class=""
+                            alt=""
+                            *ngIf="i.label.link.typeSN === 2"
+                            [src]="generatePostThumbnail(i.label.link)"
+                            loading="lazy"
+                            class="cmp-img2"
+                          />
+                          <img
+                            *ngIf="i.label.link.typeSN === 4"
+                            [src]="i.label.link.media_url"
+                            onerror="this.src='/assets/Images/campagne/twitter_cover.svg'"
+                            class="cmp-img2"
+                          />
+                          <img
+                          *ngIf="i.label.link.typeSN === 1"
+                          [src]="i.label.link.media_url"
+                          onerror="this.src='/assets/Images/cover-fb-gain.png'"
+                          class="cmp-img2"
+                        />
+
+                        <ng-container  *ngIf="i.label.link.typeSN === 3 && i.label.link.media_url.includes('mp4')">
+                          <video [src]="i.label.link.media_url" autoplay loop [muted]="true"></video>
+                        </ng-container>
+                  
+                        <ng-container  *ngIf="i.label.link.typeSN === 3 && !i.label.link.media_url.includes('mp4')">
+                          <img
+                          [src]="i.label.link.media_url"
+                          onerror="this.src='/assets/Images/campagne/instagramm.svg'"
+                          class="cmp-img2"
+                        />
+                        </ng-container>
+
+                        <img
+                        *ngIf="i.label.link.typeSN === 5"
+                        [src]="i.label.link.media_url"
+                        onerror="this.src='/assets/Images/linkedin-card.svg'"
+                        class="cmp-img2"
+                      />
+                
+                      <img
+                        *ngIf="i.label.link.typeSN === 6"
+                        [src]="i.label.link.media_url"
+                        onerror="this.src='/assets/Images/tiktoksign.svg'"
+                        class="cmp-img2"
+                      />
+                
+                      <img
+                        *ngIf="i.label.link.typeSN === 7"
+                        [src]="i.label.link.media_url.toString().startsWith('https') ? i.label.link.mediaUrl:  safeImageUrl(i.label.link.media_url)"
+                        onerror="this.src='/assets/Images/tiktoksign.svg'"
+                        class="cmp-img2"
+                      />
+                          </div>
+
+                          <div *ngIf="i.label.link.type === 'waiting_for_validation'">
+                            
+                            <button (click)="linkAction('accept', i.label)">Accept</button>
+                            <button (click)="linkAction('reject', i.label)">Reject</button>
+                          </div>
+                          
+                         
+
+                        
+                    </ng-container>
+                        
+                      </div>
                     </div>
                   </div>
                 </ng-container>
@@ -467,6 +546,152 @@
         description="Farm your social networks with SaTT"
       >
       </share-buttons>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #rejectLinkModal>
+  <div class="">
+    <div class="modal-header modal-customm">
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        (click)="closeModal(rejectLinkModal)"
+      ></button>
+    </div>
+    <div class="modal-body modal-customm mx-3">
+      <div class="d-flex justify-content-center">
+        <img class="" src="assets/Images/moonboy/MoonBoy-reject.png" />
+      </div>
+      <div class="d-flex justify-content-center mt-3">
+        <h3 class="title-reject-prom">{{ 'reject-post' | translate }}</h3>
+      </div>
+      <div
+        class="row d-flex justify-content-center mt-2"
+        style="max-width: 95%; margin: 0 auto"
+      >
+        <div class="col-12">
+          <p class="gray-dark-text">{{ 'rejectLink-text' | translate }}</p>
+        </div>
+      </div>
+
+      <div class="col-12 mb-2">
+        <form
+          [formGroup]="reasonForm"
+          class="d-flex align-items-center flex-column"
+        >
+          <div class="row w-75">
+            <div class="row mt-1">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value="Irrelevant, illegible, or inaudible content"
+                id="flexCheckDefault1"
+                formControlName="reason1"
+                name="reason1"
+                (change)="onCheckboxChange($event, 'reason1')"
+              />
+              <label
+                class="form-check-label gray-dark-text text-align-start ms-3"
+                for="flexCheckDefault1"
+              >
+                {{ 'Irrelevant,_illegible,_or_inaudible_content' | translate }}
+              </label>
+            </div>
+
+            <div class="row mt-1">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value="Inappropriate or offensive content"
+                id="flexCheckDefault2"
+                formControlName="reason2"
+                name="reason2"
+                (change)="onCheckboxChange($event, 'reason2')"
+              />
+              <label
+                class="form-check-label gray-dark-text text-align-start ms-3"
+                for="flexCheckDefault2"
+              >
+                {{ 'Inappropriate_or_offensive_content' | translate }}
+              </label>
+            </div>
+
+            <div class="row mt-1">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value="Controversial content"
+                id="flexCheckDefault3"
+                formControlName="reason3"
+                name="reason3"
+                (change)="onCheckboxChange($event, 'reason3')"
+              />
+              <label
+                class="form-check-label gray-dark-text text-align-start ms-3"
+                for="flexCheckDefault3"
+              >
+                {{ 'Controversial_content' | translate }}
+              </label>
+            </div>
+
+            <div class="row mt-1">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value="Something else"
+                id="flexCheckDefault4"
+                formControlName="reason4"
+                name="reason4"
+                (change)="onCheckboxChange($event, 'reason4')"
+              />
+              <label
+                class="form-check-label gray-dark-text text-align-start ms-3"
+                for="flexCheckDefault4"
+              >
+                <span> {{ 'Something_else' | translate }}</span>
+                <small *ngIf="reasonForm.controls.reason4.value !== null">
+                  {{ 'specify-the-reason' | translate }}</small
+                >
+              </label>
+            </div>
+          </div>
+          <div
+            class="row w-100 mt-2 mb-2"
+            *ngIf="reasonForm.controls.reason4.value !== null"
+          >
+            <textarea
+              class="type-textarea"
+              formControlName="description"
+            ></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="row d-flex justify-content-center">
+        <button
+          (click)="rejectLink(rejectLinkModal)"
+          type="button"
+          class="btn btn-reject"
+          [disabled]="
+            reasonForm.errors?.requireCheckboxes ||
+            reasonForm.errors?.requiredElseReason
+          "
+          data-dismiss="modal"
+        >
+          <span *ngIf="!this.showLoadingSpinner">
+            {{ 'Reject-now' | translate }}</span
+          >
+          <div
+            *ngIf="this.showLoadingSpinner"
+            class="spinner-border loading-spinner"
+            role="status"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+        </button>
+      </div>
     </div>
   </div>
 </ng-template>
