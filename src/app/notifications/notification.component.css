@@ -10,6 +10,91 @@
 *:focus {
   outline: none;
 }
+.modal-body.modal-customm {
+  max-width: 583px !important;
+  padding: 2em 3em !important;
+}
+
+.modal-header {
+  border-bottom: none !important;
+}
+.form-check-label {
+  width: max-content;
+  cursor: pointer;
+  padding: 0;
+  padding-bottom: 0.5em;
+}
+
+.btn-reject {
+  max-width: max-content;
+  background: #f52079;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.01em;
+  border-radius: 30px;
+  color: #f6f6ff;
+  border: none;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  height: 48px;
+  cursor: pointer;
+  margin-bottom: 3em;
+}
+
+.btn-reject:disabled {
+  color: #adadc8;
+  background: #f6f6ff;
+  box-shadow: none;
+  border: 1px solid #d6d6e8;
+}
+
+.btn-reject:hover {
+  background: linear-gradient(246.18deg, #f52079 54.61%, #4048ff 161.43%);
+}
+
+.btn-reject:focus {
+  background: linear-gradient(248.12deg, #f52079 -3.46%, #4048ff 143.84%);
+  border: 1px solid rgba(64, 72, 255, 0.3);
+}
+.type-textarea {
+  resize: none;
+  width: 100%;
+  height: 95px;
+  padding: 6px 15px;
+  line-height: 1.57142857;
+  border: 1px solid #4048ff;
+  font-size: 16px;
+  background-color: #f6f6ff;
+  border-radius: 30px;
+  font-style: normal;
+  font-weight: normal;
+  color: #323754;
+}
+.form-check-input:checked {
+  background-color: white !important;
+  border-color: #4048ff !important;
+  background-image: url('/assets/Images/input-checked-icon.svg') !important;
+  background-size: 10px !important;
+}
+
+.modal-header.modal-customm .btn-close {
+  border: none !important;
+  position: absolute;
+  margin: 0px;
+  top: 0px;
+  right: 0px;
+  padding: 30px;
+  max-height: 30px;
+  max-width: 30px;
+  box-shadow: none;
+}
+.modal-body.modal-customm {
+  max-width: 583px !important;
+  padding: 2em 3em !important;
+}
 .pic-profile {
   height: 110px;
   width: 132px;

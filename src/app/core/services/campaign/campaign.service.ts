@@ -411,7 +411,17 @@ export class CampaignHttpApiService {
     });
   }
 
-  validateLinks(prom: any, Password: any, id: any) {
+  validateLinks(prom: any, Password: any, id: any, fromNotification?: boolean) {
+    if(fromNotification) {
+      return this.http.post(sattUrl + '/campaign/validate', {
+        idCampaign: prom.cmp_hash || id,
+        idProm: prom.link._id,
+        link: prom.link.idPost,
+        idLink: prom.link._id,
+        pass: Password,
+        lang: this.tokenStorageService.getLocalLang()
+      });
+    }  else
     return this.http.post(sattUrl + '/campaign/validate', {
       idCampaign: prom.campaign._id || id,
       idProm: prom.hash,
@@ -431,15 +441,15 @@ export class CampaignHttpApiService {
     titleCampaign: string
   ) {
     return this.http.put(
-      sattUrl + '/campaign/reject/' + prom.id,
+      sattUrl + '/campaign/reject/' + prom.id || prom._id,
 
       {
         idCampaign: campaignid,
         reason: reason,
         title: titleCampaign,
-        email: prom.meta.email,
-        idUser: prom.meta._id,
-        link: prom.link,
+        email: prom.meta?.email || prom.idUser,
+        idUser: prom.meta?._id || prom.idUser,
+        link: prom.link || prom.idPost ,
         lang: this.tokenStorageService.getLocalLang()
       }
     );

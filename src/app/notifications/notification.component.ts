@@ -13,7 +13,7 @@ import { ContactService } from '@core/services/contact/contact.service';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 //import * as moment from 'moment';
 import _ from 'lodash';
-import { walletUrl, ListTokens, tronScan } from '@config/atn.config';
+import { walletUrl, ListTokens, tronScan, youtubeThumbnail } from '@config/atn.config';
 import { isPlatformBrowser } from '@angular/common';
 import { bscan, etherscan, polygonscan, bttscan } from '@app/config/atn.config';
 //import 'moment/locale/fr'
@@ -32,7 +32,12 @@ import { SocialAccountFacadeService } from '@app/core/facades/socialAcounts-faca
 import { User } from '@app/models/User';
 import { AccountFacadeService } from '@app/core/facades/account-facade/account-facade.service';
 import { ProfileSettingsFacadeService } from '@app/core/facades/profile-settings-facade.service';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { BlockchainActionsService } from '@app/core/services/blockchain-actions.service';
+import { EButtonActions } from '@app/core/enums';
+import { atLastOneChecked, requiredDescription } from '@app/helpers/form-validators';
+import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
+import { CampaignHttpApiService } from '@app/core/services/campaign/campaign.service';
 
 @Component({
   selector: 'app-history',
@@ -40,9 +45,11 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./notification.component.css']
 })
 export class NotificationComponent implements OnInit {
- 
+  @ViewChild('rejectLinkModal') rejectLinkModal?: ElementRef;
+  promToreject: any;
   searchTerm: any;
   term: any;
+  reasonForm: UntypedFormGroup;
   public currentLang: string | undefined;
   form: UntypedFormGroup;
   picUserUpdated: boolean = false;
@@ -77,7 +84,7 @@ export class NotificationComponent implements OnInit {
   campaignCover: string = '';
   notificationRandomNumber!: number;
   percentProf2!: string;
-
+  showLoadingSpinner: boolean = false;
   offset: any;
   // tansfer:string='transfer_event_currency'
   bscan = environment.bscan;
@@ -126,7 +133,31 @@ export class NotificationComponent implements OnInit {
       item.toggle = false;
     }
   }
+  safeImageUrl(base64Image: string): SafeResourceUrl {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${base64Image}`);
+  }
+  
+  generatePostThumbnail(post: any): any {
+    if (post.typeSN === '1') {
+      return this.sanitizer.bypassSecurityTrustResourceUrl(
+        'https://www.facebook.com/' + post.idUser + '/posts/' + post.idPost
+      );
+    } else if (post.typeSN === '3') {
+      return this.sanitizer.bypassSecurityTrustResourceUrl(
+        'https://www.instagram.com/p/' + post.idPost + '/'
+      );
+    } else if (post.typeSN === '4') {
+      return this.sanitizer.bypassSecurityTrustResourceUrl(
+        'https://twitter.com/' + post.idUser + '/status/' + post.idPost
+      );
+    } else {
+      const idPost = post.idPost.split('&')[0];
 
+      return this.sanitizer.bypassSecurityTrustResourceUrl(
+        youtubeThumbnail + `${idPost}/0.jpg`
+      );
+    }
+  }
 
   enableDisableRulecheck(checkbox: any) {
     checkbox.toggle = !checkbox.toggle;
@@ -180,8 +211,10 @@ export class NotificationComponent implements OnInit {
  
 
   constructor(
+    private campaignService: CampaignHttpApiService,
     private eRef: ElementRef,
     private renderer: Renderer2,
+    private walletFacade: WalletFacadeService,
     private profileSettingsFacade: ProfileSettingsFacadeService,
     private _changeDetectorRef: ChangeDetectorRef,
     private NotificationService: NotificationService,
@@ -193,9 +226,21 @@ export class NotificationComponent implements OnInit {
     private socialAccountFacadeService: SocialAccountFacadeService,
     private tokenStorageService: TokenStorageService,
     private sanitizer: DomSanitizer,
+    private blockchainActions: BlockchainActionsService,
     @Inject(PLATFORM_ID) private platformId: string,
     private modalService: NgbModal
   ) {
+
+    this.reasonForm = new UntypedFormGroup(
+      {
+        reason1: new UntypedFormControl(null),
+        reason2: new UntypedFormControl(null),
+        reason3: new UntypedFormControl(null),
+        reason4: new UntypedFormControl(null),
+        description: new UntypedFormControl(null)
+      },
+      [atLastOneChecked(), requiredDescription()]
+    );
     this.arrayTypeNotification = [
       { type: 'transfer_satt_event', type_notif: 'send_satt' },
       { type: 'received_satt_event', type_notif: 'receive_satt' },
@@ -217,6 +262,16 @@ export class NotificationComponent implements OnInit {
         this.translate.use(this.currentLang);
         this.getAllNotifications();
       });
+  }
+  onCheckboxChange(event: any, form: any) {
+    if (event.target.checked === false) {
+      this.reasonForm.get(form)?.setValue(null);
+      if (form === 'reason4') {
+        this.reasonForm.get('description')?.setValue(null);
+      }
+    } else {
+      this.reasonForm.get(form)?.setValue(event.target.value);
+    }
   }
   getNotificationIcon() {
     return this.showNotifcationMessage === 'showing-buy-satt' 
@@ -304,6 +359,8 @@ export class NotificationComponent implements OnInit {
           console.error('case not found')
     }
   }
+
+  
   getNotificationsDecision() {
     this.showSpinner2 = true;
     this.socialAccountFacadeService.notification().subscribe((res: any) => {
@@ -364,7 +421,7 @@ export class NotificationComponent implements OnInit {
       .subscribe((response: any) => {
         if (response !== null && response !== undefined) {
           let count = 0;
-          this.showSpinner = false;
+          
           this.user = new User(response);
           this.urlpic = this.user.idUser;
           this.picUserUpdated = response.photoUpdated;
@@ -479,7 +536,7 @@ export class NotificationComponent implements OnInit {
       .subscribe(
         (response: any) => {
           if (response.code === 200 && response.message === 'success') {
-            this.showSpinner = false;
+            
             this.dataNotificationFilter = response.data.notifications;
             //--------------------------------filter with date and type
             if (
@@ -578,8 +635,27 @@ export class NotificationComponent implements OnInit {
   getLinkIconWaitingValidation(prom : any) {
     return `./assets/Images/oracle-${prom.oracle}-waiting-validation.svg`
   }
+ 
 
+  linkAction(action: string, post: any) {
+    if(action === 'accept') {
+      this.validateLink(post)
+    } else {
+      this.openModal(this.rejectLinkModal, post)
+    }
+  }
+closeModal(content: any) {
+    this.modalService.dismissAll(content);
+    
+    
+  }
+  openModal(content: any, prom: any) {
+    this.modalService.open(content);
+    this.promToreject = prom;
+    
+  }
   getLinkIconValidate( link: string) {
+   
     const keywordToIconMap = [
       { keyword: 'facebook', icon: 'facebook' },
       { keyword: 'instagram', icon: 'instagram' },
@@ -1170,63 +1246,132 @@ export class NotificationComponent implements OnInit {
     //     queryParams: { id: 'BNB', network: 'BEP20' }
     //   });
     // }
+    if(notif.type === 'cmp_candidate_insert_link') {
 
-    if (notif?.label?.txhash) {
-      this.hashLink(notif?.label?.network, notif?.label?.txhash);
-    } else if (notif?.label?.cmp_hash) {
-      this.router.navigate(['home/farm-posts']);
-    } //if the notification has cmp_has it will redirect to campaign detail component
-
-    // if (notif?.label?.transactionHash) {
-    //   let owner = notif.type === 'transfer_event' ? null : 'not owner';
-
-    //   if (owner === 'not owner') {
-    //     this.router.navigate(['home'], {
-    //       queryParams: {
-    //         page: 'send',
-    //         transactionHash: notif?.label?.transactionHash,
-    //         network: notif?.label?.network,
-    //         amount: notif?.label?.amount,
-    //         currency: notif?.label?.currency,
-    //         owner
-    //       }
-    //     });
-    //   } else {
-    //     // this.router.navigate(['home/TransactionsHistory']);
-    //   }
-    // }
-
-    // if (notif?.label?.transactionHash) {
-    //   let owner = notif.type == "transfer_event" ? null : "not owner";
-    //   this.router.navigate(["home/TransactionsHistory"])
-    // }
-
-    if (notif?.label?.promHash) {
-      // console.log(notif?.label?.promHash)
-      this.router.navigate(['home/farm-posts'], {
-        queryParams: { promHash: notif?.label?.promHash }
-      });
+    } else {
+      if (notif?.label?.txhash) {
+        this.hashLink(notif?.label?.network, notif?.label?.txhash);
+      } else if (notif?.label?.cmp_hash) {
+        this.router.navigate(['home/farm-posts']);
+      } //if the notification has cmp_has it will redirect to campaign detail component
+  
+      // if (notif?.label?.transactionHash) {
+      //   let owner = notif.type === 'transfer_event' ? null : 'not owner';
+  
+      //   if (owner === 'not owner') {
+      //     this.router.navigate(['home'], {
+      //       queryParams: {
+      //         page: 'send',
+      //         transactionHash: notif?.label?.transactionHash,
+      //         network: notif?.label?.network,
+      //         amount: notif?.label?.amount,
+      //         currency: notif?.label?.currency,
+      //         owner
+      //       }
+      //     });
+      //   } else {
+      //     // this.router.navigate(['home/TransactionsHistory']);
+      //   }
+      // }
+  
+      // if (notif?.label?.transactionHash) {
+      //   let owner = notif.type == "transfer_event" ? null : "not owner";
+      //   this.router.navigate(["home/TransactionsHistory"])
+      // }
+  
+      if (notif?.label?.promHash) {
+        // console.log(notif?.label?.promHash)
+        this.router.navigate(['home/farm-posts'], {
+          queryParams: { promHash: notif?.label?.promHash }
+        });
+      }
+      if (notif?.label?.cmp_hash && notif?.label?.linkHash) {
+        // console.log(notif?.label?.promHash)
+        this.router.navigate(['home/farm-posts']);
+      }
+  
+      if (notif.label.network === 'eth') {
+        window.open(etherscan + notif.label.transactionHash, '_blank');
+      }
+      if (notif.label.network === 'bsc') {
+        window.open(bscan + notif.label.transactionHash, '_blank');
+      }
+      if (notif.label.network === 'BTTC') {
+        window.open(bttscan + notif.label.transactionHash, '_blank');
+      }
+      if (notif.label.network === 'polygon') {
+        window.open(polygonscan + notif.label.transactionHash, '_blank');
+      }
+      if (notif.label.network === 'tron') {
+        window.open(tronScan + notif.label.transactionHash, '_blank');
+      }
     }
-    if (notif?.label?.cmp_hash && notif?.label?.linkHash) {
-      // console.log(notif?.label?.promHash)
-      this.router.navigate(['home/farm-posts']);
-    }
-
-    if (notif.label.network === 'eth') {
-      window.open(etherscan + notif.label.transactionHash, '_blank');
-    }
-    if (notif.label.network === 'bsc') {
-      window.open(bscan + notif.label.transactionHash, '_blank');
-    }
-    if (notif.label.network === 'BTTC') {
-      window.open(bttscan + notif.label.transactionHash, '_blank');
-    }
-    if (notif.label.network === 'polygon') {
-      window.open(polygonscan + notif.label.transactionHash, '_blank');
-    }
-    if (notif.label.network === 'tron') {
-      window.open(tronScan + notif.label.transactionHash, '_blank');
-    }
+    
+  }
+  expiredSession() {
+    this.tokenStorageService.clear();
+    window.open(environment.domainName + '/auth/login', '_self');
+  }
+  rejectLink(modal: any) {
+    this.showLoadingSpinner = true;
+    let arrayReason: any = [];
+    this.walletFacade.verifyUserToken().subscribe((res:any) => {
+      if(res?.message !== "success") {
+        this.expiredSession();
+      } else {
+        Object.keys(this.reasonForm.controls).forEach((element: any) => {
+          if (element !== 'reason4') {
+            if (
+              this.reasonForm.get(element)?.value !== 'null' ||
+              this.reasonForm.get(element)?.value !== ''
+            ) {
+              arrayReason.push(this.reasonForm.get(element)?.value);
+            }
+          }
+        });
+        let filterdArray = arrayReason.filter((ele: any) => ele !== null);
+        if (filterdArray.length !== 0) {
+          this.campaignService
+            .rejectLinks(
+              this.promToreject.link,
+              filterdArray,
+              this.promToreject.cmp_hash,
+              this.promToreject.cmp_hash
+            )
+            .pipe(takeUntil(this.isDestroyed))
+            .subscribe((data: any) => {
+    
+              if (data.message === 'success') {
+                this.closeModal(modal);
+                this.showLoadingSpinner = false;
+                
+                // this.influencerProms = this.influencerProms.pipe(
+                //   map((array: any) =>
+                //     array.filter(
+                //       (influencer: any) => influencer.id !== this.promToreject.id
+                //     )
+                //   ),
+                //   tap(console.log)
+                // );
+                
+              }
+            });
+        }
+      }
+    })
+    
+  }
+  validateLink(prom: any) {
+    this.blockchainActions.onActionButtonClick({
+      data: { prom, campaignId: prom.cmp_hash, fromNotification: true },
+      action: EButtonActions.VALIDATE_LINK
+    });
+    this.router.navigate([`/campaign/${prom.cmp_hash}/verify-link`], {
+      queryParams: {
+        post_id: prom.link._id,
+        
+      },
+    });
   }
 
   shareOnSocialMedias(content: any) {
