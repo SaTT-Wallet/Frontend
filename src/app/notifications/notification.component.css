@@ -274,6 +274,37 @@ input[type='search']::-webkit-search-cancel-button {
   color: #4048ff;
 }
 
+/* sk */
+.btn_status{
+  width: 40px;
+  height: 40px;
+  background-color: #00CC9E;
+  border-radius: 50%;
+  border: none;
+  font-size: 1.5em;
+  justify-content: center;
+  color: white;
+  float: right;
+  margin-left: 0.4em;
+}
+
+
+
+.btn_status.reject{
+  background-color: #F52079;
+
+}
+
+.cmp-img2{
+  object-fit: cover;
+  width: 663px;
+  margin: 20px;
+  height: 242px;
+  border-radius: 30px;
+}
+
+
+
 /**************************Bouton ropdown-menu notification******************************/
 
 #dropdown-menu {

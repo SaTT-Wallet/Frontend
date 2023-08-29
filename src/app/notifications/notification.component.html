@@ -167,7 +167,6 @@
               }"
               [checked]="checkbox.toggle"
               (click)="enableDisableRulecheck(checkbox)"
- 
             />
             <label class="checkb">{{ checkbox.label }}</label>
           </div>
@@ -300,14 +299,23 @@
                               class="pic_avatar_notif"
                               *ngIf="i.type === 'cmp_candidate_accept_link'"
                             />
-                            <ng-container *ngIf="i.type === 'cmp_candidate_insert_link' && i.label.linkExist">
+                            <ng-container
+                              *ngIf="
+                                i.type === 'cmp_candidate_insert_link' &&
+                                i.label.linkExist
+                              "
+                            >
                               <img
-                                src="{{ i.label.link.type === 'waiting_for_validation' ? getLinkIconWaitingValidation(i.label.link) :  getLinkIconValidate(i.label.link.oracle)}}"
+                                src="{{
+                                  i.label.link.type === 'waiting_for_validation'
+                                    ? getLinkIconWaitingValidation(i.label.link)
+                                    : getLinkIconValidate(i.label.link.oracle)
+                                }}"
                                 alt="avtar"
                                 class="pic_avatar_notif"
-                            />
+                              />
                             </ng-container>
-                            
+
                             <img
                               src="{{
                                 getLinkIconWaitingValidation(i.label.prom)
@@ -323,7 +331,13 @@
                               class="pic_avatar_notif"
                               *ngIf="
                                 i.type != 'cmp_candidate_accept_link' &&
-                                !(i.type === 'apply_campaign' && !!i.label.prom) && !(i.type === 'cmp_candidate_insert_link' && i.label.linkExist)
+                                !(
+                                  i.type === 'apply_campaign' && !!i.label.prom
+                                ) &&
+                                !(
+                                  i.type === 'cmp_candidate_insert_link' &&
+                                  i.label.linkExist
+                                )
                               "
                             />
                           </div>
@@ -411,76 +425,105 @@
                       </div>
 
                       <!-- LINKS -->
-                      <div *ngIf="i.type === 'cmp_candidate_insert_link'" >
-                        
+                      <div *ngIf="i.type === 'cmp_candidate_insert_link'">
                         <ng-container *ngIf="i.label.linkExist">
-                          <div>
+                          <div class="testMe">
                             <img
-                            class=""
-                            alt=""
-                            *ngIf="i.label.link.typeSN === 2"
-                            [src]="generatePostThumbnail(i.label.link)"
-                            loading="lazy"
-                            class="cmp-img2"
-                          />
-                          <img
-                            *ngIf="i.label.link.typeSN === 4"
-                            [src]="i.label.link.media_url"
-                            onerror="this.src='/assets/Images/campagne/twitter_cover.svg'"
-                            class="cmp-img2"
-                          />
-                          <img
-                          *ngIf="i.label.link.typeSN === 1"
-                          [src]="i.label.link.media_url"
-                          onerror="this.src='/assets/Images/cover-fb-gain.png'"
-                          class="cmp-img2"
-                        />
+                              class=""
+                              alt=""
+                              *ngIf="i.label.link.typeSN === 2"
+                              [src]="generatePostThumbnail(i.label.link)"
+                              loading="lazy"
+                              class="cmp-img2"
+                            />
+                            <img
+                              *ngIf="i.label.link.typeSN === 4"
+                              [src]="i.label.link.media_url"
+                              onerror="this.src='/assets/Images/campagne/twitter_cover.svg'"
+                              class="cmp-img2"
+                            />
+                            <img
+                              *ngIf="i.label.link.typeSN === 1"
+                              [src]="i.label.link.media_url"
+                              onerror="this.src='/assets/Images/cover-fb-gain.png'"
+                              class="cmp-img2"
+                            />
 
-                        <ng-container  *ngIf="i.label.link.typeSN === 3 && i.label.link.media_url.includes('mp4')">
-                          <video [src]="i.label.link.media_url" autoplay loop [muted]="true"></video>
-                        </ng-container>
-                  
-                        <ng-container  *ngIf="i.label.link.typeSN === 3 && !i.label.link.media_url.includes('mp4')">
-                          <img
-                          [src]="i.label.link.media_url"
-                          onerror="this.src='/assets/Images/campagne/instagramm.svg'"
-                          class="cmp-img2"
-                        />
-                        </ng-container>
+                            <ng-container
+                              *ngIf="
+                                i.label.link.typeSN === 3 &&
+                                i.label.link.media_url.includes('mp4')
+                              "
+                            >
+                              <video
+                                [src]="i.label.link.media_url"
+                                autoplay
+                                loop
+                                [muted]="true"
+                              ></video>
+                            </ng-container>
 
-                        <img
-                        *ngIf="i.label.link.typeSN === 5"
-                        [src]="i.label.link.media_url"
-                        onerror="this.src='/assets/Images/linkedin-card.svg'"
-                        class="cmp-img2"
-                      />
-                
-                      <img
-                        *ngIf="i.label.link.typeSN === 6"
-                        [src]="i.label.link.media_url"
-                        onerror="this.src='/assets/Images/tiktoksign.svg'"
-                        class="cmp-img2"
-                      />
-                
-                      <img
-                        *ngIf="i.label.link.typeSN === 7"
-                        [src]="i.label.link.media_url.toString().startsWith('https') ? i.label.link.mediaUrl:  safeImageUrl(i.label.link.media_url)"
-                        onerror="this.src='/assets/Images/tiktoksign.svg'"
-                        class="cmp-img2"
-                      />
+                            <ng-container
+                              *ngIf="
+                                i.label.link.typeSN === 3 &&
+                                !i.label.link.media_url.includes('mp4')
+                              "
+                            >
+                              <img
+                                [src]="i.label.link.media_url"
+                                onerror="this.src='/assets/Images/campagne/instagramm.svg'"
+                                class="cmp-img2"
+                              />
+                            </ng-container>
+
+                            <img
+                              *ngIf="i.label.link.typeSN === 5"
+                              [src]="i.label.link.media_url"
+                              onerror="this.src='/assets/Images/linkedin-card.svg'"
+                              class="cmp-img2"
+                            />
+
+                            <img
+                              *ngIf="i.label.link.typeSN === 6"
+                              [src]="i.label.link.media_url"
+                              onerror="this.src='/assets/Images/tiktoksign.svg'"
+                              class="cmp-img2"
+                            />
+
+                            <img
+                              *ngIf="i.label.link.typeSN === 7"
+                              [src]="
+                                i.label.link.media_url
+                                  .toString()
+                                  .startsWith('https')
+                                  ? i.label.link.mediaUrl
+                                  : safeImageUrl(i.label.link.media_url)
+                              "
+                              onerror="this.src='/assets/Images/tiktoksign.svg'"
+                              class="cmp-img2"
+                            />
                           </div>
 
-                          <div *ngIf="i.label.link.type === 'waiting_for_validation'">
-                            
-                            <button (click)="linkAction('accept', i.label)">Accept</button>
-                            <button (click)="linkAction('reject', i.label)">Reject</button>
+                          <div
+                            *ngIf="
+                              i.label.link.type === 'waiting_for_validation'
+                            "
+                          >
+                            <button
+                              class="btn_status"
+                              (click)="linkAction('accept', i.label)"
+                            >
+                              <i class="bi bi-check2"></i>
+                            </button>
+                            <button
+                              [ngClass]="'reject'"
+                              class="btn_status"
+                              (click)="linkAction('reject', i.label)"
+                            >
+                              <i class="bi bi-x"></i>
+                            </button>
                           </div>
-                          
-                         
-
-                        
-                    </ng-container>
-                        
+                        </ng-container>
                       </div>
                     </div>
                   </div>
@@ -550,7 +593,6 @@
     </div>
   </div>
 </ng-template>
-
 
 <ng-template #rejectLinkModal>
   <div class="">
