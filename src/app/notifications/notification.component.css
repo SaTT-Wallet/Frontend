@@ -91,10 +91,7 @@
   max-width: 30px;
   box-shadow: none;
 }
-.modal-body.modal-customm {
-  max-width: 583px !important;
-  padding: 2em 3em !important;
-}
+
 .pic-profile {
   height: 110px;
   width: 132px;
