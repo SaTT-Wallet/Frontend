@@ -354,10 +354,12 @@ export class NotificationComponent implements OnInit {
     
     ) 
   }
-  getButtonClass() {
-    if (this.showNotifcationMessage === 'new_adpools_notification' || this.showNotifcationMessage === 'notif_buy_gas') {
+  getButtonClass() { 
+    if (this.showNotifcationMessage === 'showing-campaign' || this.showNotifcationMessage === 'notif_buy_gas') {
       return 'button-rounded';
-    } else {
+    } else {if (this.showNotifcationMessage === 'showing-random-number' ){
+      return 'button-random';
+    }else
       return 'button-roundedblue';
     }
   }
@@ -409,6 +411,8 @@ export class NotificationComponent implements OnInit {
           this.showSpinner2 = false;
           break;
         case 'showing-campaign':
+          //this.showNotifcationMessage = 'showing-random-number';
+          //this.notificationRandomNumber = 3;
           this.showNotifcationMessage = res.message;
           this.showNotification = true;
           this.campaignCover = res.data;
