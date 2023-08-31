@@ -302,8 +302,32 @@ input[type='search']::-webkit-search-cancel-button {
   margin: 20px;
   height: 242px;
   border-radius: 30px;
+  pointer-events: none;
 }
 
+
+.budget_button{
+  width: 191px;
+  height: 36px;
+  border-radius: 30px;
+  padding: 8px,16px,8px,16px;
+  gap: 8px;
+  font-family: "poppins";
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 19.5px;
+  letter-spacing: 3%;
+  float: right;
+  background-color: #4048FF;
+  color: white;
+  border: none;
+  pointer-events: none;
+}
+
+.budget_button.increase{
+  background-color: #F52079;
+  ;
+}
 
 
 /**************************Bouton ropdown-menu notification******************************/
@@ -462,12 +486,28 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
   }
 }
 
+.containerLogoTime{
+  width: 27%;
+  margin-top: 0.5em;
+}
+
+.description_createCampaign{
+  width: fit-content;
+  margin-top: 1em;
+  font-weight: 500;
+  letter-spacing: 3px;
+  line-height: 18.2px;
+  font-size: 14px;
+}
 /* will be uncommented */
-/* .pic_avatar_notif {
+ .pic_avatar_notif {
   bottom: 0.5em;
   position: relative;
   height: 3em;
-} */
+  border-radius: 50%;
+  width: 3em;
+  margin-top: auto;
+} 
 
 .container_perso {
   width: auto;

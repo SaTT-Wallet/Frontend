@@ -873,15 +873,16 @@ closeModal(content: any) {
     return this.router.navigateByUrl('/campaign/'+cmp._id)
   } 
   disableRetrieveButtonAction(cmp: any) {
-    const date = new Date(((cmp.endDate?.getTime() / 1000) + environment.dateRefund ) * 1000)
+    return true;
+    /*const date = new Date(((cmp.endDate?.getTime() / 1000) + environment.dateRefund ) * 1000)
     if((date.getTime() - Date.now())) {
       return true;
-    } else return false
+    } else return false*/
   }
   getCampaignRetrieveBudgetTime(cmp: any) {
-    
+      return `Congratulations ! Your AdPool ${cmp.title} is now finished`;
       // WHEN YOU GET REFUNDS ( AFTER 15 DAYS )
-      this.dateRefund = new Date(((cmp.endDate?.getTime() / 1000) + environment.dateRefund ) * 1000)
+      /*this.dateRefund = new Date(((cmp.endDate?.getTime() / 1000) + environment.dateRefund ) * 1000)
       
       if((this.dateRefund.getTime() - Date.now()) > 0) {
         return `Congratulations ! Your AdPool ${cmp.title} is now finished.
@@ -891,7 +892,7 @@ closeModal(content: any) {
          ${Math.floor(((((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  )) ) * 24) - (Math.floor(((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - (Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ))) ) * 24 ))) * 60)}min`;
       } else {
         return `Congratulations ! Your AdPool ${cmp.title} is now finished.\nYour remaining budget is currently ${cmp.cost} ${cmp.token.name}. You can now retrieve It retrieve it`;
-      }
+      }*/
       
     
   }
