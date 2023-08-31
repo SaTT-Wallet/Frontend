@@ -487,15 +487,15 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
 }
 
 .containerLogoTime{
-  width: 27%;
+  width: 50%;
   margin-top: 0.5em;
 }
 
 .description_createCampaign{
   width: fit-content;
   margin-top: 1em;
-  font-weight: 500;
-  letter-spacing: 3px;
+  font-weight: 400;
+  /* letter-spacing: 3px; */
   line-height: 18.2px;
   font-size: 14px;
 }
