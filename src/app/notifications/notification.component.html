@@ -407,7 +407,7 @@
                                 [translateParams]="{ from: i._params.from }"
                               ></span>
                               <span *ngIf="i.type === 'create_campaign'">
-                                {{ 
+                                {{
 
                                   getCampaignTitle(i.label.cmp_update)
 
@@ -439,7 +439,7 @@
                       <!-- LINKS -->
                       <div *ngIf="i.type === 'cmp_candidate_insert_link'">
                         <ng-container *ngIf="i.label.linkExist">
-                          <div class="testMe">
+                          <div class="">
                             <img
                               class=""
                               alt=""
@@ -545,25 +545,27 @@
                           [src]="'https://cloudflare-ipfs.com/ipfs/'+getCampaignCover(i.label.cmp_update.coverMobile)" 
                           height="350px"
                           width="700px"
-
+                          style="pointer-events: none; border-top-left-radius: 30px 30px ; border-top-right-radius: 30px 30px;"
                         />
-                        <div style="display: flex">
+                        <div class="containerLogoTime">
                           <img 
                           alt="avtar"
                           class="pic_avatar_notif"
                           *ngIf="i.type === 'create_campaign'"
                           [src]="'data:image/png;base64,'+i.label.cmp_update.logo"
                           width="30px"
+                          style="top: 0.5em !important; float: left;"
                         />
-                        <div style="display: block">
-                          <p>{{ i.label.cmp_update.title }}</p>
-                          <p>{{ getCampaignStartDate(i.label.cmp_update) }}</p>
+                        <div style="display: block; padding-top: 0.5em; padding-left: 3.5em; margin-top: 0.5em;">
+                          <p style="margin-bottom: 0 !important; color: #1D2337; font-weight: 600; font-family: 'poppins';">{{ i.label.cmp_update.title }}</p>
+                          <p style="margin-bottom: 0; color: #75758F">{{ getCampaignStartDate(i.label.cmp_update) }}</p>
                         </div>
                        
                         </div>
-                        <p>{{ i.label.cmp_update.resume }}</p>
-                        <button *ngIf="i.label.cmp_update.type === 'finished'" [disabled]="disableRetrieveButtonAction(i.label.cmp_update)" (click)="redirectToCampaign(i.label.cmp_update)">Retrieve Budget</button>
-                        <button *ngIf="i.label.cmp_update.type === 'apply'" (click)="redirectToCampaign(i.label.cmp_update)">Increase Budget</button>
+                        <p class="description_createCampaign">{{ i.label.cmp_update.resume }}</p>
+                        
+                        <button class="budget_button" *ngIf="i.label.cmp_update.type === 'finished'" [disabled]="disableRetrieveButtonAction(i.label.cmp_update)" (click)="redirectToCampaign(i.label.cmp_update)"> <span> <img class="svg_icons_budget" src="/assets/Images/Request1.svg" alt="down"/></span> Retrieve Budget</button>
+                        <button [ngClass]= "'increase'" class="budget_button" *ngIf="i.label.cmp_update.type === 'apply'" (click)="redirectToCampaign(i.label.cmp_update)"> <span>  <img class="svg_icons_budget" src="/assets/Images/icon_coins.svg" alt="up"/> </span> Increase Budget</button>
                         
                       </div>
                     </div>

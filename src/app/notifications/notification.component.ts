@@ -907,25 +907,31 @@ console.log(this.dataNotificationFilter)
   redirectToCampaign(cmp:any) {
     return this.router.navigateByUrl('/campaign/'+cmp._id)
   } 
+
+  convertBigNumberToNumber(number: any) {
+    return parseInt(number) / 10 **18
+  }
   disableRetrieveButtonAction(cmp: any) {
-    const date = new Date(((cmp.endDate?.getTime() / 1000) + environment.dateRefund ) * 1000)
+    
+    //return true;
+    const date = new Date((cmp.endDate + environment.dateRefund ) * 1000)
     if((date.getTime() - Date.now())) {
       return true;
     } else return false
   }
   getCampaignRetrieveBudgetTime(cmp: any) {
-    
+      
       // WHEN YOU GET REFUNDS ( AFTER 15 DAYS )
-      this.dateRefund = new Date(((cmp.endDate?.getTime() / 1000) + environment.dateRefund ) * 1000)
+      this.dateRefund = new Date((cmp.endDate + environment.dateRefund ) * 1000)
       
       if((this.dateRefund.getTime() - Date.now()) > 0) {
         return `Congratulations ! Your AdPool ${cmp.title} is now finished.
-        \nYour remaining budget is currently ${cmp.cost} ${cmp.token.name}.
+        \nYour remaining budget is currently ${parseInt(cmp.cost) / 10 **18} ${cmp.token.name.startsWith('SATT') ? 'SaTT' : cmp.token.name}.
          You can retrieve it in ${Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ))} Days 
          ${Math.floor(((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - (Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ))) ) * 24 )}Hours 
          ${Math.floor(((((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  )) ) * 24) - (Math.floor(((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - (Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ))) ) * 24 ))) * 60)}min`;
       } else {
-        return `Congratulations ! Your AdPool ${cmp.title} is now finished.\nYour remaining budget is currently ${cmp.cost} ${cmp.token.name}. You can now retrieve It retrieve it`;
+        return `Congratulations ! Your AdPool ${cmp.title} is now finished.\nYour remaining budget is currently ${parseInt(cmp.cost) / 10 **18} ${cmp.token.name.startsWith('SATT') ? 'SaTT' : cmp.token.name}. You can now retrieve It retrieve it`;
       }
       
     
