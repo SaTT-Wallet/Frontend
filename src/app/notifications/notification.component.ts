@@ -736,8 +736,6 @@ closeModal(content: any) {
     return formattedDate;
   }
 
-  
-
   getAllNotifications() {
     this.showSpinner = true;
     this.NotificationService.getAllNotifications()
@@ -750,11 +748,9 @@ closeModal(content: any) {
         }
 
         if (response !== null && response !== undefined) {
-          
           this.isloading = false;
           this.dataNotification = response.data.notifications;
-          this.dataNotification.map((notif:any) => {
-           
+          this.dataNotification.map((notif:any) => { 
           })
           if (response.data.isSeen !== 0) {
             this.seeNotification();
@@ -764,22 +760,12 @@ closeModal(content: any) {
 
             const currentTime = Date.now();
             const formattedTime = this.convertToCustomFormat(currentTime);
-            
-            
-            
             item.created =
               item.createdAt && item.createdAt !== formattedTime
                 ? item.updatedAt
                 : item.createdAt;
-
-
-
-
-
             this.siwtchFunction(item);
           });
-
-          console.log({response})
 
           this.dataNotification = _.chain(this.dataNotification)
             .sortBy((data) => data.createdInit)
@@ -798,24 +784,14 @@ closeModal(content: any) {
             }
               */
             this.dataNotification.forEach((notification: any) => {
-              
               for(let i = 0 ; i < notification.value.length; i++ ) {
                 if(notification.value[i].type === 'join_on_social' || notification.value[i].type === 'invite_friends' || notification.value[i].type === 'buy_some_gas' ) {
                   delete notification.value[i];
                 }
               }
-            
-
-            
-            
-            
             })
-console.log(this.dataNotificationFilter)
-
             this.dataNotificationFilter = this.dataNotification;
-           
             this.showSpinner = false;
-        
           }
       });
   }
@@ -864,12 +840,10 @@ console.log(this.dataNotificationFilter)
     this.setAllTogglesFalse(this.buttonData3);
     this.setAllTogglesFalsechek(this.checkboxData);
     this.setAllTogglesFalsechek(this.checkboxData1);
-    
     // Remove 'checkbck' class and add 'checkb' class to all checkboxes
     this.checkboxData.forEach(checkbox => {
       checkbox.toggle = false;
     });
-  
     this.checkboxData1.forEach(checkbox => {
       checkbox.toggle = false;
     });
@@ -894,8 +868,7 @@ console.log(this.dataNotificationFilter)
       case 'finished':
         return this.getCampaignRetrieveBudgetTime(cmp);
       default:
-        return 'error'  
-            
+        return 'error'
     }
   }
 
@@ -933,8 +906,15 @@ console.log(this.dataNotificationFilter)
       } else {
         return `Congratulations ! Your AdPool ${cmp.title} is now finished.\nYour remaining budget is currently ${parseInt(cmp.cost) / 10 **18} ${cmp.token.name.startsWith('SATT') ? 'SaTT' : cmp.token.name}. You can now retrieve It retrieve it`;
       }
-      
-    
+  }
+
+  convertTimeFormat(milliseconds: string | number | Date) {
+    const logDate = new Date(milliseconds);
+    const year = logDate.getFullYear();
+    const month = logDate.getMonth() + 1; // Months are 0-indexed
+    const day = logDate.getDate();
+    const formattedDate  = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
+    return formattedDate;
   }
 
 
@@ -957,12 +937,12 @@ console.log(this.dataNotificationFilter)
         .format(' Do MMMM  YYYY, HH:mm a z');
       item.created = itemDate;
     }
-    const logDate = new Date(item.created );
-    const year = logDate.getFullYear();
-    const month = logDate.getMonth() + 1; // Months are 0-indexed
-    const day = logDate.getDate();
+    // const logDate = new Date(item.created );
+    // const year = logDate.getFullYear();
+    // const month = logDate.getMonth() + 1; // Months are 0-indexed
+    // const day = logDate.getDate();
 
-    item.created  = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
+    item.created  = this.convertTimeFormat(item.created );
 
     // console.log(this.translate.instant(''))
     //  let typeof_data=typeof(item.label)
