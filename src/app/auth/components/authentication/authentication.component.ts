@@ -585,7 +585,6 @@ getCookie(key: string){
   }
 
   snlogin(social: string) {
-    this.tokenStorageService?.saveWalletVersion('v1');
     this.tokenStorageService?.setModaleMigrate('open');
     this.scale = true;
     this.loggedrs = true;
@@ -628,7 +627,6 @@ getCookie(key: string){
    */
   login() {
     this.tokenStorageService?.setModaleMigrate('open');
-    this.tokenStorageService?.saveWalletVersion('v1');
     this.isSubmitting = true;
     this.showSpinner = true;
     this.loggedrs = false;
