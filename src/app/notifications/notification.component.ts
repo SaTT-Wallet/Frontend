@@ -921,7 +921,6 @@ closeModal(content: any) {
 
 
   siwtchFunction(item: any) {
-    if(item.type === 'apply_campaign') console.log({item})
     const etherInWei = new Big(1000000000000000000);
     let itemDate = new Date(item.created);
     item.createdInit = item.created;
@@ -1366,7 +1365,7 @@ closeModal(content: any) {
     // }
     if(notif.type === 'cmp_candidate_insert_link' || notif.type === 'create_campaign') {
       if(notif.type === 'create_campaign') this.router.navigateByUrl(`/campaign/${notif.label.cmp_update._id}`)
-      if(notif.type === 'cmp_candidate_insert_link') console.log({notif})
+      
     } else {
       if (notif?.label?.txhash) {
         this.hashLink(notif?.label?.network, notif?.label?.txhash);
