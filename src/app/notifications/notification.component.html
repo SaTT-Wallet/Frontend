@@ -313,11 +313,11 @@
                             >
                             
                               <img
-                                src="{{
+                                [src]="
                                   i.label.link.type === 'waiting_for_validation'
                                     ? getLinkIconWaitingValidation(i.label.link)
-                                    : getLinkIconValidate(i.label.link.oracle)
-                                }}"
+                                    : (i.label.link.type === 'rejected' ? getLinkIconRejected(i.label.link.oracle) : getLinkIconValidate(i.label.link.oracle))
+                              "
                                 alt="avtar"
                                 class="pic_avatar_notif"
                               />

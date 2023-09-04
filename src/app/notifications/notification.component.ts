@@ -1449,12 +1449,14 @@ closeModal(content: any) {
         });
         let filterdArray = arrayReason.filter((ele: any) => ele !== null);
         if (filterdArray.length !== 0) {
+          console.log({link:  this.promToreject})
           this.campaignService
             .rejectLinks(
               this.promToreject.link,
               filterdArray,
               this.promToreject.cmp_hash,
-              this.promToreject.cmp_hash
+              this.promToreject.cmp_hash,
+              true
             )
             .pipe(takeUntil(this.isDestroyed))
             .subscribe((data: any) => {
