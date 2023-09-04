@@ -790,14 +790,12 @@ closeModal(content: any) {
       const data = this.dataNotification;
       this.dataNotificationFilter = data.map((notification: any) => {
         const filteredValue = notification.value.filter((item: any) => {
-          console.log({item})
           let linkFiltred = false;
           let linkStatus = '';
           if (types.some(type => type.startsWith('cmp_candidate_accept_link/')) && item.type === 'cmp_candidate_accept_link') {
             linkFiltred = true;
             linkStatus = '';
           } else if(types.some(type => type === 'create_campaign/inProgress' && item.type === 'create_campaign' &&  item.label.cmp_update.type === 'inProgress')) {
-            console.log('in progress')
             linkFiltred = false;
             linkStatus = 'inProgress'
           } else if(types.some(type => type === 'create_campaign/finished' && item.type === 'create_campaign' && item.label.cmp_update.type === 'finished')) {
