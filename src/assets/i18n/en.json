@@ -767,9 +767,9 @@
   "filtre_mycrypto_received": "Received",
   "filtre_mycrypto_requested": "Request",
   "filtre_Adpools_message": "Display only AdPools I created",
-  "filtre_choosestatus_in progress": "In Progress",
+  "filtre_choosestatus_in_pending": "Pending",
   "filtre_choosestatus_finished": "Finished",
-  "filtre_choosestatus_budget_alert": "Budget Alert",
+  "filtre_choosestatus_in_progress": "In Progress",
 
   "filtre_My_Links_to_harvest": "To Harvest",
   "filtre_My_Links_waiting": "Waiting",
