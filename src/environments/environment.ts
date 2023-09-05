@@ -112,7 +112,14 @@ export const environment = {
     tiktok: 'tiktok'
   },
   urlSocialMedia: {
-    urlTiktok: 'https://www.tiktok.com/'
+    urlTwitter: 'https://www.twitter.com/',
+    urlGoogleChannel: 'https://www.youtube.com/channel/',
+    urlFacebook: 'https://www.facebook.com/',
+    urlInstagram: 'https://www.instagram.com/',
+    urlLinkedinCompany: 'https://www.linkedin.com/company/',
+    urlTiktok: 'https://www.tiktok.com/',
+    urlthreadsAccount: 'https://threads.net/@'
+
   }
   // gmtId: 'GTM-5XW23QX'
 

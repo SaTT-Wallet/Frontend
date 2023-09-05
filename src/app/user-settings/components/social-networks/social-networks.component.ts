@@ -12,7 +12,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CustomToastComponent } from '../custom-toast/custom-toast.component';
-
+import { environment as env } from '../../../../environments/environment';
 export interface IGetSocialNetworksResponse {
   facebook: { [key: string]: string | boolean }[];
   google: { [key: string]: string | boolean }[];
@@ -172,6 +172,7 @@ export class SocialNetworksComponent implements OnInit {
           this.setUrlMsg(params, data);
          this.channelThreads = this.checkTheradsAccountExit(data)
         
+        
          
           if (this.channelGoogle?.length !== 0) {
             count++;
@@ -322,24 +323,34 @@ export class SocialNetworksComponent implements OnInit {
         this.router.url;
   }
 
-  goToAccount(network: string, userName: string) {
+goToAccount(oracle: string, userName: string) {
+    const networkUrls: { [key: string]: string } = {
+      twitter: env.urlSocialMedia.urlTwitter,
+      google: env.urlSocialMedia.urlGoogleChannel,
+      facebook: env.urlSocialMedia.urlFacebook,
+      instagram: env.urlSocialMedia.urlInstagram,
+      linkedin: env.urlSocialMedia.urlLinkedinCompany,
+      tiktok: env.urlSocialMedia.urlTiktok,
+      threads: env.urlSocialMedia.urlthreadsAccount
+    };
+  
     if (isPlatformBrowser(this.platformId)) {
-      if (network === 'twitter') {
-        window.open('https://www.twitter.com/' + userName, '_blank');
-        // window.location.href ="https://www.twitter.com/"+userName;
-      } else if (network === 'google') {
-        window.open('https://www.youtube.com/channel/' + userName, '_blank');
-        //   window.location.href ="https://www.youtube.com/channel/"+userName;
-      } else if (network === 'facebook') {
-        window.open('https://www.facebook.com/' + userName, '_blank');
-      } else if (network === 'instagram') {
-        window.open('https://www.instagram.com/' + userName, '_blank');
-      } else if (network === 'linkedin') {
-        window.open('https://www.linkedin.com/company/' + userName, '_blank');
-      } else if (network === 'tiktok') {
-        window.open('https://www.tiktok.com/' + userName.replace(/\s/g, ''));
-      } else if(network === 'threads') {
-        window.open('https://threads.net/@' + userName, '_blank')
+      const socialMediaBaseUrl = networkUrls[oracle];
+      
+      if (socialMediaBaseUrl) {
+        let url = socialMediaBaseUrl;
+  
+        if (oracle === env.oracleType.linkedin) {
+          const parts = userName.split(":");
+          const linkedinId = parts[3];
+          url += linkedinId;
+        } else if (oracle === env.oracleType.tiktok) {
+          url += userName.replace(/\s/g, '');
+        } else {
+          url += userName;
+        }
+  
+        window.open(url, '_blank');
       }
     }
   }
