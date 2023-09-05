@@ -93,12 +93,19 @@
 }
 
 .pic-profile {
-  height: 110px;
-  width: 132px;
+  height: 80px;
+  width: 100px;
   position: absolute;
   border-radius: 50%;
   display: flex;
-  align-self: center;
+  align-self: center;  
+  float: left; 
+  margin-top: 22px !important;
+  
+  /* width: 73px;  height: 73px;  float: left;  position: relative;  top: 1.5em;  margin-right: 1em; */
+}
+.img-position{
+  padding-bottom: 20px !important;
 }
 
 .prog {
@@ -106,6 +113,9 @@
   justify-content: center;
   align-items: center;
   border-radius: 50%;
+  height: 150px;
+  width: 115px;
+  margin-top: 22px !important;
 }
 .profilestyle {
   text-align: center;
@@ -730,13 +740,22 @@ input[type='date']::-webkit-calendar-picker-indicator {
 .div_notifications {
   background: #cdcfff;
   /* box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);	     */
+  margin: 0px;
   border-radius: 30px;
   width: 413px;
+  height: auto !important;
 }
 
 .notification-image {
   max-width: 100%;
   height: auto;
+}
+.title_notif { 
+  font-weight: 600;  
+  font-size: 14px;  
+  width: fit-content;  
+  font-family: 'Poppins';
+  height: 24px !important;
 }
 
 .close-button {
@@ -745,14 +764,17 @@ input[type='date']::-webkit-calendar-picker-indicator {
   border: none;
   font-size: 16px;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  font-weight: 400;
+  font-weight: 900;
   cursor: pointer;
+  Width:18px !important;
+  Height:18px !important;
 }
 
 /* //////////////////////////////////////////////////////////////////////////////// */
 
 .img-md {
   margin-left: 10px !important;
+  margin-top: 22px !important;
   width: 5rem;
   height: 6rem;
 }
@@ -772,7 +794,11 @@ input[type='date']::-webkit-calendar-picker-indicator {
 }
 .coltext {
   color: #1f2337;
-  font-weight: 600;
+  font-weight: 600; 
+  font-size: 14px; 
+  width: fit-content;
+  width: auto;
+  font-family: 'Poppins'
 }
 .formttxt {
   font-family: 'Poppins', sans-serif !important;
@@ -784,8 +810,8 @@ input[type='date']::-webkit-calendar-picker-indicator {
 /* :::::::::::::::::::::::: button */
 
 .button-rounded {
-  margin-top: 20px !important;
-  margin-bottom: 15px !important;
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
   border-radius: 30px;
   padding: 10px 60px !important;
   background-color: #f52079;
@@ -798,10 +824,20 @@ input[type='date']::-webkit-calendar-picker-indicator {
   cursor: pointer;
   height: 42px !important;
   width: 244px !important;
+
+    position: relative;
+    bottom: 1.8em;
+
+}
+.img-cover{
+  margin-bottom: 30px !important;
+  margin-top: 0px !important;
+  position: relative;
+  bottom: 1.2em;
 }
 .button-roundedblue {
-  margin-top: 20px !important;
-  margin-bottom: 15px !important;
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
   border-radius: 30px;
   padding: 10px 60px !important;
   background-color: #4048FF;
@@ -814,6 +850,26 @@ input[type='date']::-webkit-calendar-picker-indicator {
   cursor: pointer;
   height: 42px !important;
   width: 244px !important;
+  position: relative;
+  bottom: 1.8em;
+}
+.button-random {
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+  border-radius: 30px;
+  padding: 10px 60px !important;
+  background-color: #4048FF;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 700;
+  letter-spacing: 3% !important;
+  color: #fff !important;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  height: 42px !important;
+  width: auto !important;
+  position: relative;
+  bottom: 1.1em;
 }
 /* filtre */
 

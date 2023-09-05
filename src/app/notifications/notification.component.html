@@ -30,17 +30,19 @@
             <div
               class="d-flex align-items-start justify-content-between xbutton"
             >
-              <h5 *ngIf="showNotifcationMessage != 'showing-complete-profile'">
+            <div class="title_notif">
+              <p *ngIf="showNotifcationMessage != 'showing-complete-profile'">
                 {{ getNotificationTitle() | translate }}
-              </h5>
+              </p>
 
-              <h5 *ngIf="showNotifcationMessage === 'showing-complete-profile'">
+              <p *ngIf="showNotifcationMessage === 'showing-complete-profile'">
                 <span>{{ 'notif_complete_profile_1' | translate }}</span>
                 {{ percentProf }}%<span>{{
                   'notif_complete_profile_2' | translate
                 }}</span>
-              </h5>
-              <div class="close-button coltext" (click)="hideNotification()">
+              </p>
+            </div>
+              <div class="close-button " (click)="hideNotification()">
                 X
               </div>
             </div>
@@ -55,6 +57,8 @@
           *ngIf="showNotifcationMessage === 'showing-campaign'"
         >
           <img
+            class="img-cover"
+            style="border-radius: 15px"
             [src]="'https://cloudflare-ipfs.com/ipfs/' + campaignCover"
             width="305.5"
             height="163.85"
@@ -80,7 +84,7 @@
             notificationRandomNumber === 2
           "
         >
-          <div>
+          <div class="img-position">
             <img src="./assets/Images/notif-facebook.svg" />
             <img src="./assets/Images/notif-twitter.svg" />
             <img src="./assets/Images/notif-telegram.svg" />
