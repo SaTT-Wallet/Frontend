@@ -35,13 +35,12 @@ export class CryptoInfoService {
   marketChartToken(
     cryptoId: string,
     currency: string,
-    days: string,
-    interval: any
+    days: string
   ) {
   
     
     return this.http.get(
-      `https://api.coingecko.com/api/v3/coins/${cryptoId}/market_chart?vs_currency=${currency}&days=${days}&interval=${interval}`
+      `https://api.coingecko.com/api/v3/coins/${cryptoId}/market_chart?vs_currency=${currency}&days=${days}`
     );
   }
   getCryptoInfoById(cryptoId: string, currency: string) {
