@@ -329,23 +329,7 @@ input[type='search']::-webkit-search-cancel-button {
   
 }
 
-.budget_button{
-  width: 191px;
-  height: 36px;
-  border-radius: 30px;
-  padding: 8px 16px;
-  gap: 8px;
-  font-family: "poppins";
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 19.5px;
-  letter-spacing: 3%;
-  float: right;
-  background-color: #4048FF;
-  color: white;
-  border: none;
-  
-}
+
 
 .budget_button.increase{
   background-color: #F52079;
