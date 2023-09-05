@@ -1,6 +1,7 @@
 export interface IresponseAccount {
   code: number;
   data: {
+    migrated: boolean;
     idUser: number;
     email: string;
     additionalAddress: string;

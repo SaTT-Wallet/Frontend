@@ -300,18 +300,25 @@
                               class="pic_avatar_notif"
                               *ngIf="i.type === 'cmp_candidate_accept_link'"
                             />
+                            <img
+                              src="{{ getLinkIconRejected(i.label.cmp_link) }}"
+                              alt="avtar"
+                              class="pic_avatar_notif"
+                              *ngIf="i.type === 'cmp_candidate_reject_link'"
+                            />
                             <ng-container
                               *ngIf="
                                 i.type === 'cmp_candidate_insert_link' &&
                                 i.label.linkExist
                               "
                             >
+                            
                               <img
-                                src="{{
+                                [src]="
                                   i.label.link.type === 'waiting_for_validation'
                                     ? getLinkIconWaitingValidation(i.label.link)
-                                    : getLinkIconValidate(i.label.link.oracle)
-                                }}"
+                                    : (i.label.link.type === 'rejected' ? getLinkIconRejected(i.label.link.oracle) : getLinkIconValidate(i.label.link.oracle))
+                              "
                                 alt="avtar"
                                 class="pic_avatar_notif"
                               />
@@ -345,6 +352,7 @@
                                   i.type === 'cmp_candidate_insert_link' &&
                                   i.label.linkExist
                                 ) && !(i.type === 'create_campaign')
+                                && !(i.type === 'cmp_candidate_reject_link')
                               "
                             />
                           </div>
@@ -364,7 +372,8 @@
                                 i.type !== 'apply_campaign' &&
                                 i.type !== 'cmp_candidate_accept_link' &&
                                 i.type !== 'receive_transfer_event' &&
-                                i.type !== 'create_campaign'
+                                i.type !== 'create_campaign'  
+                               
                               "
                               [translate]="i._label"
                               [translateParams]="i._params"
@@ -471,6 +480,7 @@
                                 [src]="i.label.link.media_url"
                                 autoplay
                                 loop
+                                onerror="this.src='/assets/Images/campagne/instagramm.svg'"
                                 [muted]="true"
                               ></video>
                             </ng-container>

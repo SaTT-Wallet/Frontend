@@ -746,9 +746,9 @@
   "filtre_mycrypto_sent": "Envoyé",
   "filtre_mycrypto_received": "Reçu",
   "filtre_Adpools_message": "Afficher uniquement les AdPools que j’ai créés",
-  "filtre_choosestatus_in progress": "En cours",
+  "filtre_choosestatus_in_pending": "En attente",
   "filtre_choosestatus_finished": "Terminé",
-  "filtre_choosestatus_budget_alert": "Alerte budgétaire",
+  "filtre_choosestatus_in_progress": "En cours",
 
   "filtre_My_Links_to_harvest": "À la récolte",
   "filtre_My_Links_waiting": "En attente",

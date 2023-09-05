@@ -106,9 +106,9 @@ export class NotificationComponent implements OnInit {
     { text: "filtre_mycrypto_requested", toggle: true }
   ];
   buttonData2 = [
-    { text: "filtre_choosestatus_in progress", toggle: true },
+    { text: "filtre_choosestatus_in_pending", toggle: true },
     { text: "filtre_choosestatus_finished", toggle: true },
-    { text: "filtre_choosestatus_budget_alert", toggle: true }
+    { text: "filtre_choosestatus_in_progress", toggle: true }
   ];
   buttonData3 = [
     { text: "filtre_My_Links_to_harvest", toggle: true },
@@ -212,9 +212,12 @@ export class NotificationComponent implements OnInit {
       'filtre_mycrypto_sent': 'transfer_event',
       'filtre_mycrypto_received': 'receive_transfer_event',
       'filtre_mycrypto_requested': 'send_demande_satt_event',
-      'filtre_choosestatus_in progress': 'create_campaign/inProgress',
+      'filtre_choosestatus_in_pending': 'create_campaign/inProgress',
       'filtre_choosestatus_finished': 'create_campaign/finished',
-      'filtre_choosestatus_budget_alert': 'create_campaign/apply'
+      'filtre_choosestatus_in_progress': 'create_campaign/apply',
+      'filtre_My_Links_refused': 'cmp_candidate_reject_link',
+      'filtre_My_Links_to_harvest': 'cmp_candidate_accept_link',
+      'filtre_My_Links_waiting': 'apply_campaign'
     };
     const filterType = buttonTypeMappings[button.text];
     if (filterType) {
@@ -699,6 +702,22 @@ closeModal(content: any) {
     return foundMapping ? `./assets/Images/oracle-${foundMapping.icon}-validate.svg` : '';
   }
 
+  getLinkIconRejected( link: string) {
+   
+    const keywordToIconMap = [
+      { keyword: 'facebook', icon: 'facebook' },
+      { keyword: 'instagram', icon: 'instagram' },
+      { keyword: 'linkedin', icon: 'linkedin' },
+      { keyword: 'threads', icon: 'threads' },
+      { keyword: 'tiktok', icon: 'tiktok' },
+      { keyword: 'twitter', icon: 'twitter' },
+      { keyword: 'youtube', icon: 'youtube' }
+    ];
+  
+    const foundMapping = keywordToIconMap.find(mapping => link.includes(mapping.keyword));
+    return foundMapping ? `./assets/Images/oracle-${foundMapping.icon}-rejected.svg` : '';
+  }
+
 
   getOracle( link: string) {
     const keywordToOracleList = [
@@ -801,14 +820,12 @@ closeModal(content: any) {
       const data = this.dataNotification;
       this.dataNotificationFilter = data.map((notification: any) => {
         const filteredValue = notification.value.filter((item: any) => {
-          console.log({item})
           let linkFiltred = false;
           let linkStatus = '';
           if (types.some(type => type.startsWith('cmp_candidate_accept_link/')) && item.type === 'cmp_candidate_accept_link') {
             linkFiltred = true;
             linkStatus = '';
           } else if(types.some(type => type === 'create_campaign/inProgress' && item.type === 'create_campaign' &&  item.label.cmp_update.type === 'inProgress')) {
-            console.log('in progress')
             linkFiltred = false;
             linkStatus = 'inProgress'
           } else if(types.some(type => type === 'create_campaign/finished' && item.type === 'create_campaign' && item.label.cmp_update.type === 'finished')) {
@@ -1372,7 +1389,8 @@ closeModal(content: any) {
     //   });
     // }
     if(notif.type === 'cmp_candidate_insert_link' || notif.type === 'create_campaign') {
-
+      if(notif.type === 'create_campaign') this.router.navigateByUrl(`/campaign/${notif.label.cmp_update._id}`)
+      
     } else {
       if (notif?.label?.txhash) {
         this.hashLink(notif?.label?.network, notif?.label?.txhash);
@@ -1456,12 +1474,14 @@ closeModal(content: any) {
         });
         let filterdArray = arrayReason.filter((ele: any) => ele !== null);
         if (filterdArray.length !== 0) {
+          console.log({link:  this.promToreject})
           this.campaignService
             .rejectLinks(
               this.promToreject.link,
               filterdArray,
               this.promToreject.cmp_hash,
-              this.promToreject.cmp_hash
+              this.promToreject.cmp_hash,
+              true
             )
             .pipe(takeUntil(this.isDestroyed))
             .subscribe((data: any) => {

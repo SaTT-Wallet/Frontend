@@ -51,9 +51,9 @@
   border: 1px solid #d6d6e8;
 }
 
-.btn-reject:hover {
+/*.btn-reject:hover {
   background: linear-gradient(246.18deg, #f52079 54.61%, #4048ff 161.43%);
-}
+}*/
 
 .btn-reject:focus {
   background: linear-gradient(248.12deg, #f52079 -3.46%, #4048ff 143.84%);
@@ -208,15 +208,15 @@ input[type='search']::-webkit-search-cancel-button {
   border-bottom: 0.25px solid rgba(117, 117, 143, 0.3) !important;
 }
 
-.div_notification :hover {
+/*.div_notification :hover {
   background: transparent;
   cursor: pointer;
   border-radius: 30px;
-}
+}*/
 
-.div_notif :hover {
+/*.div_notif :hover {
   border-radius: 0px !important;
-}
+}*/
 
 .pic_avatar {
   width: 50px;
@@ -286,7 +286,7 @@ input[type='search']::-webkit-search-cancel-button {
   color: white;
   float: right;
   margin-left: 0.4em;
-  pointer-events: none;
+  
 }
 
 
@@ -322,6 +322,29 @@ input[type='search']::-webkit-search-cancel-button {
   color: white;
   border: none;
   pointer-events: none;
+}
+
+.budget_button.increase{
+  background-color: #F52079;
+  
+}
+
+.budget_button{
+  width: 191px;
+  height: 36px;
+  border-radius: 30px;
+  padding: 8px 16px;
+  gap: 8px;
+  font-family: "poppins";
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 19.5px;
+  letter-spacing: 3%;
+  float: right;
+  background-color: #4048FF;
+  color: white;
+  border: none;
+  
 }
 
 .budget_button.increase{
@@ -439,10 +462,10 @@ input[type='date']::-webkit-calendar-picker-indicator {
   opacity: 0.5;
 }
 
-input[type='date']::-webkit-calendar-picker-indicator:hover {
+/*input[type='date']::-webkit-calendar-picker-indicator:hover {
   background: url('assets/Images/calender.svg') right no-repeat;
   opacity: 0.8;
-}
+}*/
 
 .card_notif {
   margin-bottom: 0px !important;
@@ -695,9 +718,9 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
   background-position-y: 12px;
 }
 
-.filtre_button:hover {
+/*.filtre_button:hover {
   border: 1.47884px solid rgba(64, 72, 255, 0.2);
-}
+}*/
 
 .search-filter-wrapper {
   display: flex;
@@ -941,15 +964,15 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
     padding-right: 0% !important;
     padding-left: 0% !important;
   }
-  .div_notification :hover {
+  /*.div_notification :hover {
     background: transparent;
     cursor: pointer;
     border-radius: 30px;
-  }
+  }*/
 
-  .div_notif :hover {
+  /*.div_notif :hover {
     border-radius: 0px !important;
-  }
+  }*/
   .imgcentwh {
     width: 280px !important;
     height: 180px !important;
