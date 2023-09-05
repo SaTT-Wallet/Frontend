@@ -30,7 +30,11 @@ import { WalletStoreService } from '@core/services/wallet-store.service';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 
 import { ShowNumbersRule } from '@shared/pipes/showNumbersRule';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators
+} from '@angular/forms';
 import { pattContact } from '@config/atn.config';
 import { environment } from '@environments/environment';
 import { FilterBynamePipe } from '@shared/pipes/filter-byname.pipe';
@@ -58,7 +62,6 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   liClicked: boolean = false;
   currency: any;
   showCryptoliste: boolean = true;
-
   datalist: any;
   isBitcoinAdress: boolean = false;
   isERC20Adress: boolean = false;
@@ -111,6 +114,8 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   address: any;
   version: any;
   existV2: any;
+  addManual = false;
+  value!: string | 'tokenAdress';
   constructor(
     private Fetchservice: CryptofetchServiceService,
     public sidebarService: SidebarService,
@@ -137,7 +142,10 @@ export class CryptoListComponent implements OnInit, OnDestroy {
       }),
       symbol: new UntypedFormControl(''),
       decimal: new UntypedFormControl(''),
-      tokenName: new UntypedFormControl('')
+      tokenName: new UntypedFormControl(''),
+      smartcontract: new UntypedFormControl('', {
+        validators: [Validators.required, Validators.pattern(pattContact)]
+      })
     });
   }
 
@@ -158,8 +166,18 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     this.getusercrypto();
     this.migrateTo();
     this.existV2 = localStorage.getItem('existV2');
+    console.log(this.formToken.value);
+
     this.formToken.valueChanges.subscribe((values: any) => {
       if (values.tokenAdress !== null) {
+        this.disabled = false;
+        this.checkToken();
+      }
+    });
+
+    this.formToken.valueChanges.subscribe((values: any) => {
+      console.log('valuesvaluesvalues', values.smartcontract);
+      if (values.smartcontract !== null) {
         this.disabled = false;
         this.checkToken();
       }
@@ -187,6 +205,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
       this.tronAddressV2 = data.data.tronAddressV2;
     });
   }
+
   parseStringToInt(ch: string) {
     return parseFloat(ch).toFixed(3);
   }
@@ -288,7 +307,6 @@ export class CryptoListComponent implements OnInit, OnDestroy {
           this.cryptoList.forEach((crypto: any) => {
             crypto.selected = false;
           });
-
 
           this.dataList?.forEach((crypto: any) => {
             crypto.price = this.filterAmount(crypto.price + '');
@@ -488,7 +506,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   nonAdedCryptos: any[] = [];
   disabled = false;
   selectedNetwork = 'BEP20';
-  networkList = ['BEP20', 'ERC20', 'POLYGON', 'BTTC' ,'TRON'];
+  networkList = ['BEP20', 'ERC20', 'POLYGON', 'BTTC', 'TRON'];
   importManually = false;
 
   onBlockchainChange(event: any) {
@@ -504,6 +522,8 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     this.errorMsg = '';
     this.successMsg = '';
     this.disabled = false;
+    this.txtValue = '';
+    this.importManually = false;
     this.formToken.enable({ onlySelf: true, emitEvent: false });
     this.formToken.reset({ onlySelf: true, emitEvent: false });
     this.formToken
@@ -516,21 +536,17 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     this.disabled = false;
     this.cdref.detectChanges();
   }
-  checkToken() {
-    if (!this.formToken.valid) {
-      this.showAddBtn = false;
-    }
-    this.isSubmited = true;
-    this.isLoading = true;
-    this.errorMsg = '';
-    this.successMsg = '';
+
+  checkTokenFacade(variable: string) {
+    this.value = variable;
     this.walletFacade
       .checkToken(
         this.formToken.get('network')?.value,
-        this.formToken.get('tokenAdress')?.value
+        this.formToken.get(variable)?.value
       )
       .subscribe(
         (response: any) => {
+          this.addManual = variable === 'tokenAdress' ? false : true;
           if (!response) {
             this.successMsg = '';
             this.errorMsg = 'addToken.token-or-network-invalid';
@@ -546,13 +562,15 @@ export class CryptoListComponent implements OnInit, OnDestroy {
               .get('symbol')
               ?.setValue(response.data.symbol, { onlySelf: true });
             this.formToken
-              .get('tokenAdress')
+              .get(variable)
               ?.setValue(response.data.tokenAdress, { onlySelf: true });
             this.formToken
               .get('decimal')
               ?.setValue(response.data.decimals, { onlySelf: true });
-              this.selectedNetwork = response.data.network
-              this.formToken.get('network')?.setValue(response.data?.network, {onlySelf: true});
+            this.selectedNetwork = response.data.network;
+            this.formToken
+              .get('network')
+              ?.setValue(response.data?.network, { onlySelf: true });
             // if (
             //   ListTokens[response.data.symbol.toUpperCase()] &&
             //   ListTokens[response.data.symbol.toUpperCase()][
@@ -569,7 +587,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
             this.showAddBtn = true;
             this.isLodingBtn = false;
             /*
-              this.formToken.disable();
+        this.formToken.disable();
 */
             // }
 
@@ -589,6 +607,35 @@ export class CryptoListComponent implements OnInit, OnDestroy {
           }
         }
       );
+  }
+
+  checkToken() {
+    if (!this.formToken.valid) {
+      this.showAddBtn = false;
+    }
+    this.isSubmited = true;
+    this.isLoading = true;
+    this.errorMsg = '';
+    this.successMsg = '';
+    if (this.importManually && this.formToken.get('smartcontract')?.value)
+      this.checkTokenFacade('smartcontract');
+    else if (!/^\s*0x/i.test(this.formToken.get('tokenAdress')?.value)) {
+      this.errorMsg = '';
+      this.addManual = true;
+      this.formToken
+        .get('symbol')
+        ?.setValue(this.formToken.get('tokenAdress')?.value, {
+          onlySelf: true
+        });
+      if (
+        this.formToken.get('smartcontract')?.value &&
+        this.formToken.get('decimal')?.value
+      ) {
+        this.disabled = false;
+        this.showAddBtn = true;
+        this.isLodingBtn = false;
+      }
+    } else this.checkTokenFacade('tokenAdress');
   }
   filterAmount(input: any, nbre: any = 10) {
     if (input) {
@@ -780,13 +827,18 @@ export class CryptoListComponent implements OnInit, OnDestroy {
 
   onTextChange(value: any) {
     this.document.getElementById('key')?.setAttribute('type', 'search');
+    const inputElement = document.getElementById(
+      'smartcontractkey'
+    ) as HTMLInputElement;
+
     this.txtValue = value;
     if (this.txtValue !== '') {
       this.searched = true;
       if (
-        value.indexOf('0x') >= 0 &&
-        this.filterByNamePipe.transform(this.listToken, this.search).length ===
-          0
+        !inputElement?.value.startsWith('0x') ||
+        (value.indexOf('0x') >= 0 &&
+          this.filterByNamePipe.transform(this.listToken, this.search)
+            .length === 0)
       ) {
         this.importManually = true;
       } else {
@@ -1042,19 +1094,22 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     return false;
   }
   isValidAddress(address: string): boolean {
-    
     return pattContact.test(address);
   }
   addToken() {
     this.isSubmited = true;
     this.isLodingBtn = true;
     this.formToken.enable({ onlySelf: true, emitEvent: false });
+    const tokenAddress = this.addManual
+      ? this.formToken.get('smartcontract')?.value
+      : this.formToken.get('tokenAdress')?.value;
+
     this.walletFacade
       .addToken(
         this.token,
         this.formToken.get('symbol')?.value.toUpperCase(),
         this.formToken.get('decimal')?.value,
-        this.formToken.get('tokenAdress')?.value,
+        tokenAddress,
         this.formToken.get('network')?.value.toUpperCase()
       )
       .subscribe(
@@ -1151,17 +1206,20 @@ export class CryptoListComponent implements OnInit, OnDestroy {
       window.open(this.etherscanUrl + tokenAddress, '_blank');
     }
   }
- /**
+  /**
    * This function navigates to the details page of the specified cryptocurrency.
    *
    * @param crypto - The symbol of the cryptocurrency. This will be converted to uppercase because the details page expects an uppercase symbol.
    */
- goToCryptoDetails(crypto : any){
-  // Ensure the input is a string. If not, we can't proceed.
-  if (typeof crypto == 'string') {
-  const cryptoUpperCase = crypto.toUpperCase();
-  this.router.navigate(['/wallet/coin-detail'], { queryParams: { crypto: cryptoUpperCase } });
-}}
+  goToCryptoDetails(crypto: any) {
+    // Ensure the input is a string. If not, we can't proceed.
+    if (typeof crypto == 'string') {
+      const cryptoUpperCase = crypto.toUpperCase();
+      this.router.navigate(['/wallet/coin-detail'], {
+        queryParams: { crypto: cryptoUpperCase }
+      });
+    }
+  }
   navigateToBEP20Infos(tokenAddress: any) {
     if (isPlatformBrowser(this.platformId)) {
       window.open(this.bscanUrl + tokenAddress, '_blank');
