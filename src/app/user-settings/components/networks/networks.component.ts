@@ -222,6 +222,7 @@ export class NetworksComponent implements OnInit, OnDestroy {
   }
 
   logout(social: any) {
+    this.getDetails();
     this.profileSettingsFacade
       .logoutRS(social)
       .pipe(takeUntil(this.onDestoy$))
@@ -233,7 +234,8 @@ export class NetworksComponent implements OnInit, OnDestroy {
           this.errorMessage = '';
           this.successMessage = '';
           this.router.navigate(['home/settings/security']);
-        }, 1000);
+
+        }, 2000);
 
         // let msg="";
         // this.translate.get('deconnect_successfully').subscribe((message: any) => {

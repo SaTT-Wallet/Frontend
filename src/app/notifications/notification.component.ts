@@ -56,6 +56,8 @@ export class NotificationComponent implements OnInit {
   searchvalue: string = '';
   arrayTypeNotification: Array<{ type: string; type_notif: string }>;
   arrayContact: any;
+  dateRefund: any;
+
   user!: User;
   dataNotification: any;
   dataNotificationFilter: any;
@@ -103,9 +105,9 @@ export class NotificationComponent implements OnInit {
     { text: "filtre_mycrypto_requested", toggle: true }
   ];
   buttonData2 = [
-    { text: "filtre_choosestatus_in progress", toggle: true },
+    { text: "filtre_choosestatus_in_pending", toggle: true },
     { text: "filtre_choosestatus_finished", toggle: true },
-    { text: "filtre_choosestatus_budget_alert", toggle: true }
+    { text: "filtre_choosestatus_in_progress", toggle: true }
   ];
   buttonData3 = [
     { text: "filtre_My_Links_to_harvest", toggle: true },
@@ -176,12 +178,27 @@ export class NotificationComponent implements OnInit {
   
     if (filterType) {
       if (checkbox.toggle) {
-        this.filterListType.push(filterType);
+        if(checkbox.label === 'filtre_Adpools_message') {
+          this.filterListType.push(filterType);
+          this.filterListType.push('create_campaign')
+        } else this.filterListType.push(filterType);
       } else {
-        const index = this.filterListType.indexOf(filterType);
-        if (index > -1) {
-          this.filterListType.splice(index, 1);
+        if(checkbox.label === 'filtre_Adpools_message') {
+          const index = this.filterListType.indexOf(filterType);
+          if (index > -1) {
+            this.filterListType.splice(index, 1);
+          }
+          const index2 = this.filterListType.indexOf('create_campaign');
+          if (index2 > -1) {
+            this.filterListType.splice(index2, 1);
+          }
+        } else {
+          const index = this.filterListType.indexOf(filterType);
+          if (index > -1) {
+            this.filterListType.splice(index, 1);
+          }
         }
+        
       }
       this.filterNotificationList(this.filterListType);
     }
@@ -193,7 +210,13 @@ export class NotificationComponent implements OnInit {
     const buttonTypeMappings: { [key: string]: string } = {
       'filtre_mycrypto_sent': 'transfer_event',
       'filtre_mycrypto_received': 'receive_transfer_event',
-      'filtre_mycrypto_requested': 'send_demande_satt_event'
+      'filtre_mycrypto_requested': 'send_demande_satt_event',
+      'filtre_choosestatus_in_pending': 'create_campaign/inProgress',
+      'filtre_choosestatus_finished': 'create_campaign/finished',
+      'filtre_choosestatus_in_progress': 'create_campaign/apply',
+      'filtre_My_Links_refused': 'cmp_candidate_reject_link',
+      'filtre_My_Links_to_harvest': 'cmp_candidate_accept_link',
+      'filtre_My_Links_waiting': 'apply_campaign'
     };
     const filterType = buttonTypeMappings[button.text];
     if (filterType) {
@@ -334,10 +357,12 @@ export class NotificationComponent implements OnInit {
     
     ) 
   }
-  getButtonClass() {
-    if (this.showNotifcationMessage === 'new_adpools_notification' || this.showNotifcationMessage === 'notif_buy_gas') {
+  getButtonClass() { 
+    if (this.showNotifcationMessage === 'showing-campaign' || this.showNotifcationMessage === 'notif_buy_gas') {
       return 'button-rounded';
-    } else {
+    } else {if (this.showNotifcationMessage === 'showing-random-number' ){
+      return 'button-random';
+    }else
       return 'button-roundedblue';
     }
   }
@@ -389,6 +414,8 @@ export class NotificationComponent implements OnInit {
           this.showSpinner2 = false;
           break;
         case 'showing-campaign':
+          //this.showNotifcationMessage = 'showing-random-number';
+          //this.notificationRandomNumber = 3;
           this.showNotifcationMessage = res.message;
           this.showNotification = true;
           this.campaignCover = res.data;
@@ -563,7 +590,7 @@ export class NotificationComponent implements OnInit {
               if (filter_type_date) {
                 this.nodata = false;
                 filter_type_date.forEach((item2: any) => {
-                  this.siwtchFunction(item2);
+                  this.switchFunction(item2);
                 });
                 this.dataNotification = _.chain(filter_type_date)
                   .groupBy('created')
@@ -592,7 +619,7 @@ export class NotificationComponent implements OnInit {
               if (filter_date) {
                 this.nodata = false;
                 filter_date.forEach((item2: any) => {
-                  this.siwtchFunction(item2);
+                  this.switchFunction(item2);
                 });
                 this.dataNotification = _.chain(filter_date)
                   .groupBy('created')
@@ -615,7 +642,7 @@ export class NotificationComponent implements OnInit {
               if (filter_type) {
                 this.nodata = false;
                 filter_type.forEach((item2: any) => {
-                  this.siwtchFunction(item2);
+                  this.switchFunction(item2);
                 });
                 this.dataNotification = _.chain(filter_type)
                   .groupBy('created')
@@ -677,6 +704,38 @@ closeModal(content: any) {
     return foundMapping ? `./assets/Images/oracle-${foundMapping.icon}-validate.svg` : '';
   }
 
+  getLinkIconRejected( link: string) {
+   
+    const keywordToIconMap = [
+      { keyword: 'facebook', icon: 'facebook' },
+      { keyword: 'instagram', icon: 'instagram' },
+      { keyword: 'linkedin', icon: 'linkedin' },
+      { keyword: 'threads', icon: 'threads' },
+      { keyword: 'tiktok', icon: 'tiktok' },
+      { keyword: 'twitter', icon: 'twitter' },
+      { keyword: 'youtube', icon: 'youtube' }
+    ];
+  
+    const foundMapping = keywordToIconMap.find(mapping => link.includes(mapping.keyword));
+    return foundMapping ? `./assets/Images/oracle-${foundMapping.icon}-rejected.svg` : './assets/Images/oracle-threads-rejected.svg';
+  }
+
+
+  convertToCustomFormat(milliseconds: string | number | Date) {
+    const date = new Date(milliseconds);
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    const hours = String(date.getUTCHours()).padStart(2, '0');
+    const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+    const seconds = String(date.getUTCSeconds()).padStart(2, '0');
+    const millisecondsFormatted = String(date.getUTCMilliseconds()).padStart(3, '0');
+
+    const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${millisecondsFormatted}Z`;
+
+    return formattedDate;
+  }
+
 
   getOracle( link: string) {
     const keywordToOracleList = [
@@ -720,11 +779,13 @@ closeModal(content: any) {
           }
 
           this.dataNotification.forEach((item: any) => {
+            const currentTime = Date.now();
+            const formattedTime = this.convertToCustomFormat(currentTime);
             item.created =
-              item.created && item.created !== 'a few seconds ago'
-                ? item.created
+              item.createdAt && item.createdAt !== formattedTime
+            ? item.updatedAt
                 : item.createdAt;
-            this.siwtchFunction(item);
+            this.switchFunction(item);
           });
           this.dataNotification = _.chain(this.dataNotification)
             .sortBy((data) => data.createdInit)
@@ -765,19 +826,39 @@ closeModal(content: any) {
       });
   }
 
+  convertTimeFormat(milliseconds: string | number | Date) {
+    const logDate = new Date(milliseconds);
+    const year = logDate.getFullYear();
+    const month = logDate.getMonth() + 1; // Months are 0-indexed
+    const day = logDate.getDate();
+    const formattedDate  = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
+    return formattedDate;
+  }
+
   filterNotificationList(types: string[]) {
     if (types.length > 0) {
       const data = this.dataNotification;
       this.dataNotificationFilter = data.map((notification: any) => {
         const filteredValue = notification.value.filter((item: any) => {
           let linkFiltred = false;
+          let linkStatus = '';
           if (types.some(type => type.startsWith('cmp_candidate_accept_link/')) && item.type === 'cmp_candidate_accept_link') {
             linkFiltred = true;
-            
+            linkStatus = '';
+          } else if(types.some(type => type === 'create_campaign/inProgress' && item.type === 'create_campaign' &&  item.label.cmp_update.type === 'inProgress')) {
+            linkFiltred = false;
+            linkStatus = 'inProgress'
+          } else if(types.some(type => type === 'create_campaign/finished' && item.type === 'create_campaign' && item.label.cmp_update.type === 'finished')) {
+            linkFiltred = false;
+            linkStatus = 'finished'
+          } else if(types.some(type => type === 'create_campaign/apply' && item.type === 'create_campaign' && item.label.cmp_update.type === 'apply')) {
+            linkFiltred = false;
+            linkStatus = 'apply'
           } else {
             linkFiltred = false;
+            linkStatus = '' 
           }
-          return types.includes(linkFiltred ? `cmp_candidate_accept_link/${this.getOracle(item.label.cmp_link)}` : item.type);
+          return types.includes(linkFiltred ? `cmp_candidate_accept_link/${this.getOracle(item.label.cmp_link)}` : ( linkStatus === '' ? item.type : `create_campaign/${linkStatus}`));
         });
         return { ...notification, value: filteredValue };
       });
@@ -813,22 +894,85 @@ closeModal(content: any) {
     }
   }
 
-  siwtchFunction(item: any) {
+  getCampaignCover(cover: string) {
+    return cover.replace('ipfs:', '');
+  }
+
+  getCampaignTitle(cmp:any) {
+    switch(cmp.type) {
+      case 'inProgress':
+        return `Congratulations ! Your AdPool ${cmp.title} is now in Progress.`;
+      case 'apply':
+        return `Congratulations ! Your AdPool ${cmp.title} is now Activated.`;
+      case 'finished':
+        return this.getCampaignRetrieveBudgetTime(cmp);
+      default:
+        return 'error'  
+            
+    }
+  }
+
+  getCampaignStartDate(cmp:any) {
+    const date = new Date(cmp.startDate * 1000);
+    return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+  }
+
+  redirectToCampaign(cmp:any) {
+    return this.router.navigateByUrl('/campaign/'+cmp._id)
+  } 
+
+  convertBigNumberToNumber(number: any) {
+    return parseInt(number) / 10 **18
+  }
+  disableRetrieveButtonAction(cmp: any) {
+    
+    //return true;
+    const date = new Date((cmp.endDate + environment.dateRefund ) * 1000)
+    if((date.getTime() - Date.now())) {
+      return true;
+    } else return false
+  }
+  getCampaignRetrieveBudgetTime(cmp: any) {
+      
+      // WHEN YOU GET REFUNDS ( AFTER 15 DAYS )
+      this.dateRefund = new Date((cmp.endDate + environment.dateRefund ) * 1000)
+      
+      if((this.dateRefund.getTime() - Date.now()) > 0) {
+        return `Congratulations ! Your AdPool ${cmp.title} is now finished.
+        \nYour remaining budget is currently ${parseInt(cmp.cost) / 10 **18} ${cmp.token.name.startsWith('SATT') ? 'SaTT' : cmp.token.name}.
+         You can retrieve it in ${Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ))} Days 
+         ${Math.floor(((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - (Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ))) ) * 24 )}Hours 
+         ${Math.floor(((((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  )) ) * 24) - (Math.floor(((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - (Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ))) ) * 24 ))) * 60)}min`;
+      } else {
+        return `Congratulations ! Your AdPool ${cmp.title} is now finished.\nYour remaining budget is currently ${parseInt(cmp.cost) / 10 **18} ${cmp.token.name.startsWith('SATT') ? 'SaTT' : cmp.token.name}. You can now retrieve It retrieve it`;
+      }
+      
+    
+  }
+
+
+  switchFunction(item: any) {
     const etherInWei = new Big(1000000000000000000);
-    let itemDate = new Date(item.created);
-    item.createdInit = item.created;
+    //let itemDate = new Date(item.created);
+    //item.createdInit = item.created;
+    let itemDate = new Date(item.created);    
+    item.createdInit = itemDate
+    item.created = itemDate;
     if (this.tokenStorageService.getLocalLang() === 'en') {
       item.createdFormated = moment
         .parseZone(itemDate)
         .format(' MMMM Do YYYY, h:mm a z');
-      item.created = moment.parseZone(item.created).fromNow().slice();
+      //item.created = moment.parseZone(item.created).fromNow().slice();
+      item.created = item.created;
     } else if (this.tokenStorageService.getLocalLang() === 'fr') {
       item.createdFormated = moment
         .parseZone(itemDate)
         .locale('fr')
         .format(' Do MMMM  YYYY, HH:mm a z');
-      item.created = moment.parseZone(itemDate).locale('fr').fromNow();
+      //item.created = moment.parseZone(itemDate).locale('fr').fromNow();
+      item.created = itemDate;
     }
+    item.created  = this.convertTimeFormat(item.created );
     // console.log(this.translate.instant(''))
     //  let typeof_data=typeof(item.label)
     //  console.log(this.translate.instant(''))
@@ -842,6 +986,9 @@ closeModal(content: any) {
     const receive_satt_pic = './assets/Images/notifIcons/Reception.svg';
     const receive_satt_pic1 = './assets/Images/notifIcons/Reception1.svg';
     switch (item.type) {
+      case 'create_campaign':
+        item._label = 'create_campaign';
+        break;
       case 'buy_some_gas':
         item._label = 'buy_some_gas';
         item.img = receive_satt_pic;
@@ -1253,8 +1400,9 @@ closeModal(content: any) {
     //     queryParams: { id: 'BNB', network: 'BEP20' }
     //   });
     // }
-    if(notif.type === 'cmp_candidate_insert_link') {
-
+    if(notif.type === 'cmp_candidate_insert_link' || notif.type === 'create_campaign') {
+      if(notif.type === 'create_campaign') this.router.navigateByUrl(`/campaign/${notif.label.cmp_update._id}`)
+      
     } else {
       if (notif?.label?.txhash) {
         this.hashLink(notif?.label?.network, notif?.label?.txhash);
@@ -1338,12 +1486,14 @@ closeModal(content: any) {
         });
         let filterdArray = arrayReason.filter((ele: any) => ele !== null);
         if (filterdArray.length !== 0) {
+          console.log({link:  this.promToreject})
           this.campaignService
             .rejectLinks(
               this.promToreject.link,
               filterdArray,
               this.promToreject.cmp_hash,
-              this.promToreject.cmp_hash
+              this.promToreject.cmp_hash,
+              true
             )
             .pipe(takeUntil(this.isDestroyed))
             .subscribe((data: any) => {

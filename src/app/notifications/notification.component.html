@@ -30,17 +30,19 @@
             <div
               class="d-flex align-items-start justify-content-between xbutton"
             >
-              <h5 *ngIf="showNotifcationMessage != 'showing-complete-profile'">
+            <div class="title_notif">
+              <p *ngIf="showNotifcationMessage != 'showing-complete-profile'">
                 {{ getNotificationTitle() | translate }}
-              </h5>
+              </p>
 
-              <h5 *ngIf="showNotifcationMessage === 'showing-complete-profile'">
+              <p *ngIf="showNotifcationMessage === 'showing-complete-profile'">
                 <span>{{ 'notif_complete_profile_1' | translate }}</span>
                 {{ percentProf }}%<span>{{
                   'notif_complete_profile_2' | translate
                 }}</span>
-              </h5>
-              <div class="close-button coltext" (click)="hideNotification()">
+              </p>
+            </div>
+              <div class="close-button " (click)="hideNotification()">
                 X
               </div>
             </div>
@@ -55,6 +57,8 @@
           *ngIf="showNotifcationMessage === 'showing-campaign'"
         >
           <img
+            class="img-cover"
+            style="border-radius: 15px"
             [src]="'https://cloudflare-ipfs.com/ipfs/' + campaignCover"
             width="305.5"
             height="163.85"
@@ -80,7 +84,7 @@
             notificationRandomNumber === 2
           "
         >
-          <div>
+          <div class="img-position">
             <img src="./assets/Images/notif-facebook.svg" />
             <img src="./assets/Images/notif-twitter.svg" />
             <img src="./assets/Images/notif-telegram.svg" />
@@ -167,7 +171,6 @@
               }"
               [checked]="checkbox.toggle"
               (click)="enableDisableRulecheck(checkbox)"
- 
             />
             <label class="checkb">{{ checkbox.label }}</label>
           </div>
@@ -300,14 +303,30 @@
                               class="pic_avatar_notif"
                               *ngIf="i.type === 'cmp_candidate_accept_link'"
                             />
-                            <ng-container *ngIf="i.type === 'cmp_candidate_insert_link' && i.label.linkExist">
+                            <img
+                              src="{{ getLinkIconRejected(i.label.cmp_link) }}"
+                              alt="avtar"
+                              class="pic_avatar_notif"
+                              *ngIf="i.type === 'cmp_candidate_reject_link'"
+                            />
+                            <ng-container
+                              *ngIf="
+                                i.type === 'cmp_candidate_insert_link' &&
+                                i.label.linkExist
+                              "
+                            >
+                            
                               <img
-                                src="{{ i.label.link.type === 'waiting_for_validation' ? getLinkIconWaitingValidation(i.label.link) :  getLinkIconValidate(i.label.link.oracle)}}"
+                                [src]="
+                                  i.label.link.type === 'waiting_for_validation'
+                                    ? getLinkIconWaitingValidation(i.label.link)
+                                    : (i.label.link.type === 'rejected' ? getLinkIconRejected(i.label.link.oracle) : getLinkIconValidate(i.label.link.oracle))
+                              "
                                 alt="avtar"
                                 class="pic_avatar_notif"
-                            />
+                              />
                             </ng-container>
-                            
+
                             <img
                               src="{{
                                 getLinkIconWaitingValidation(i.label.prom)
@@ -316,14 +335,27 @@
                                 i.type === 'apply_campaign' && !!i.label.prom
                               "
                             />
-
+                              <img 
+                                alt="avtar"
+                                class="pic_avatar_notif"
+                                *ngIf="i.type === 'create_campaign'"
+                                [src]="'data:image/png;base64,'+i.label.cmp_update.logo"
+                                width="30px"
+                              />
                             <img
                               src="{{ i.img }}"
                               alt="avtar"
                               class="pic_avatar_notif"
                               *ngIf="
                                 i.type != 'cmp_candidate_accept_link' &&
-                                !(i.type === 'apply_campaign' && !!i.label.prom) && !(i.type === 'cmp_candidate_insert_link' && i.label.linkExist)
+                                !(
+                                  i.type === 'apply_campaign' && !!i.label.prom
+                                ) &&
+                                !(
+                                  i.type === 'cmp_candidate_insert_link' &&
+                                  i.label.linkExist
+                                ) && !(i.type === 'create_campaign')
+                                && !(i.type === 'cmp_candidate_reject_link')
                               "
                             />
                           </div>
@@ -342,7 +374,9 @@
                                 i.type !== 'transfer_event' &&
                                 i.type !== 'apply_campaign' &&
                                 i.type !== 'cmp_candidate_accept_link' &&
-                                i.type !== 'receive_transfer_event'
+                                i.type !== 'receive_transfer_event' &&
+                                i.type !== 'create_campaign'  
+                               
                               "
                               [translate]="i._label"
                               [translateParams]="i._params"
@@ -353,10 +387,12 @@
                                 i.type === 'transfer_event' ||
                                 i.type === 'receive_transfer_event' ||
                                 i.type === 'apply_campaign' ||
-                                i.type === 'cmp_candidate_accept_link'
+                                i.type === 'cmp_candidate_accept_link' ||
+                                i.type === 'create_campaign'
                               "
                             >
                               <span
+                                *ngIf="i.type != 'create_campaign'"
                                 [translate]="i._label"
                                 [translateParams]="i._params"
                               ></span>
@@ -382,10 +418,12 @@
                                 [translate]="'receive_event_link'"
                                 [translateParams]="{ from: i._params.from }"
                               ></span>
-                              <span
-                                *ngIf="i.type === 'cmp_candidate_insert_link'"
-                              >
-                                {{ i | json }}
+                              <span *ngIf="i.type === 'create_campaign'">
+                                {{
+
+                                  getCampaignTitle(i.label.cmp_update)
+
+                                 }}
                               </span>
                             </p>
                             <!-- <p class="label_avatar_notif p-0 m-0" *ngIf="i.type === 'apply_campaign'">
@@ -410,75 +448,137 @@
                         </div>
                       </div>
 
-                      <div *ngIf="i.type === 'cmp_candidate_insert_link'" >
-                        
+                      <!-- LINKS -->
+                      <div *ngIf="i.type === 'cmp_candidate_insert_link'">
                         <ng-container *ngIf="i.label.linkExist">
-                          <div>
+                          <div class="">
                             <img
-                            class=""
-                            alt=""
-                            *ngIf="i.label.link.typeSN === 2"
-                            [src]="generatePostThumbnail(i.label.link)"
-                            loading="lazy"
-                            class="cmp-img2"
-                          />
-                          <img
-                            *ngIf="i.label.link.typeSN === 4"
-                            [src]="i.label.link.media_url"
-                            onerror="this.src='/assets/Images/campagne/twitter_cover.svg'"
-                            class="cmp-img2"
-                          />
-                          <img
-                          *ngIf="i.label.link.typeSN === 1"
-                          [src]="i.label.link.media_url"
-                          onerror="this.src='/assets/Images/cover-fb-gain.png'"
-                          class="cmp-img2"
-                        />
+                              class=""
+                              alt=""
+                              *ngIf="i.label.link.typeSN === 2"
+                              [src]="generatePostThumbnail(i.label.link)"
+                              loading="lazy"
+                              class="cmp-img2"
+                            />
+                            <img
+                              *ngIf="i.label.link.typeSN === 4"
+                              [src]="i.label.link.media_url"
+                              onerror="this.src='/assets/Images/campagne/twitter_cover.svg'"
+                              class="cmp-img2"
+                            />
+                            <img
+                              *ngIf="i.label.link.typeSN === 1"
+                              [src]="i.label.link.media_url"
+                              onerror="this.src='/assets/Images/cover-fb-gain.png'"
+                              class="cmp-img2"
+                            />
 
-                        <ng-container  *ngIf="i.label.link.typeSN === 3 && i.label.link.media_url.includes('mp4')">
-                          <video [src]="i.label.link.media_url" autoplay loop [muted]="true"></video>
-                        </ng-container>
-                  
-                        <ng-container  *ngIf="i.label.link.typeSN === 3 && !i.label.link.media_url.includes('mp4')">
-                          <img
-                          [src]="i.label.link.media_url"
-                          onerror="this.src='/assets/Images/campagne/instagramm.svg'"
-                          class="cmp-img2"
-                        />
-                        </ng-container>
+                            <ng-container
+                              *ngIf="
+                                i.label.link.typeSN === 3 &&
+                                i.label.link.media_url.includes('mp4')
+                              "
+                            >
+                              <video
+                                [src]="i.label.link.media_url"
+                                autoplay
+                                loop
+                                onerror="this.src='/assets/Images/campagne/instagramm.svg'"
+                                [muted]="true"
+                              ></video>
+                            </ng-container>
 
-                        <img
-                        *ngIf="i.label.link.typeSN === 5"
-                        [src]="i.label.link.media_url"
-                        onerror="this.src='/assets/Images/linkedin-card.svg'"
-                        class="cmp-img2"
-                      />
-                
-                      <img
-                        *ngIf="i.label.link.typeSN === 6"
-                        [src]="i.label.link.media_url"
-                        onerror="this.src='/assets/Images/tiktoksign.svg'"
-                        class="cmp-img2"
-                      />
-                
-                      <img
-                        *ngIf="i.label.link.typeSN === 7"
-                        [src]="i.label.link.media_url.toString().startsWith('https') ? i.label.link.mediaUrl:  safeImageUrl(i.label.link.media_url)"
-                        onerror="this.src='/assets/Images/tiktoksign.svg'"
-                        class="cmp-img2"
-                      />
+                            <ng-container
+                              *ngIf="
+                                i.label.link.typeSN === 3 &&
+                                !i.label.link.media_url.includes('mp4')
+                              "
+                            >
+                              <img
+                                [src]="i.label.link.media_url"
+                                onerror="this.src='/assets/Images/campagne/instagramm.svg'"
+                                class="cmp-img2"
+                              />
+                            </ng-container>
+
+                            <img
+                              *ngIf="i.label.link.typeSN === 5"
+                              [src]="i.label.link.media_url"
+                              onerror="this.src='/assets/Images/linkedin-card.svg'"
+                              class="cmp-img2"
+                            />
+
+                            <img
+                              *ngIf="i.label.link.typeSN === 6"
+                              [src]="i.label.link.media_url"
+                              onerror="this.src='/assets/Images/tiktoksign.svg'"
+                              class="cmp-img2"
+                            />
+
+                            <img
+                              *ngIf="i.label.link.typeSN === 7"
+                              [src]="
+                                i.label.link.media_url
+                                  .toString()
+                                  .startsWith('https')
+                                  ? i.label.link.mediaUrl
+                                  : safeImageUrl(i.label.link.media_url)
+                              "
+                              onerror="this.src='/assets/Images/tiktoksign.svg'"
+                              class="cmp-img2"
+                            />
                           </div>
 
-                          <div *ngIf="i.label.link.type === 'waiting_for_validation'">
-                            
-                            <button (click)="linkAction('accept', i.label)">Accept</button>
-                            <button (click)="linkAction('reject', i.label)">Reject</button>
+                          <div
+                            *ngIf="
+                              i.label.link.type === 'waiting_for_validation'
+                            "
+                          >
+                            <button
+                              class="btn_status"
+                              (click)="linkAction('accept', i.label)"
+                            >
+                              <i class="bi bi-check2"></i>
+                            </button>
+                            <button
+                              [ngClass]="'reject'"
+                              class="btn_status"
+                              (click)="linkAction('reject', i.label)"
+                            >
+                              <i class="bi bi-x"></i>
+                            </button>
                           </div>
-                          
-                         
+                        </ng-container>
+                      </div>
 
+
+                      <!-- CAMPAIGNS -->
+                      <div *ngIf="i.type === 'create_campaign'">
+                        <img 
+                          [src]="'https://cloudflare-ipfs.com/ipfs/'+getCampaignCover(i.label.cmp_update.coverMobile)" 
+                          height="350px"
+                          width="700px"
+                          style="pointer-events: none; border-top-left-radius: 30px 30px ; border-top-right-radius: 30px 30px;"
+                        />
+                        <div class="containerLogoTime">
+                          <img 
+                          alt="avtar"
+                          class="pic_avatar_notif"
+                          *ngIf="i.type === 'create_campaign'"
+                          [src]="'data:image/png;base64,'+i.label.cmp_update.logo"
+                          width="30px"
+                          style="top: 0.5em !important; float: left;"
+                        />
+                        <div style="display: block; padding-top: 0.5em; padding-left: 3.5em; margin-top: 0.5em;">
+                          <p style="margin-bottom: 0 !important; color: #1D2337; font-weight: 600; font-family: 'poppins';">{{ i.label.cmp_update.title }}</p>
+                          <p style="margin-bottom: 0; color: #75758F">{{ getCampaignStartDate(i.label.cmp_update) }}</p>
+                        </div>
+                       
+                        </div>
+                        <p class="description_createCampaign">{{ i.label.cmp_update.resume }}</p>
                         
-                    </ng-container>
+                        <button class="budget_button" *ngIf="i.label.cmp_update.type === 'finished'" [disabled]="disableRetrieveButtonAction(i.label.cmp_update)" (click)="redirectToCampaign(i.label.cmp_update)"> <span> <img class="svg_icons_budget" src="/assets/Images/Request1.svg" alt="down"/></span> Retrieve Budget</button>
+                        <button [ngClass]= "'increase'" class="budget_button" *ngIf="i.label.cmp_update.type === 'apply'" (click)="redirectToCampaign(i.label.cmp_update)"> <span>  <img class="svg_icons_budget" src="/assets/Images/icon_coins.svg" alt="up"/> </span> Increase Budget</button>
                         
                       </div>
                     </div>
@@ -522,7 +622,6 @@
       class="spinner"
     ></app-loading-logo>
   </div>
-</div>
 <ng-template #shareSocial>
   <div
     style="border-radius: 5px; padding: 2em 4em"
@@ -549,7 +648,6 @@
     </div>
   </div>
 </ng-template>
-
 
 <ng-template #rejectLinkModal>
   <div class="">
