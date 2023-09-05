@@ -586,7 +586,7 @@ export class NotificationComponent implements OnInit {
               if (filter_type_date) {
                 this.nodata = false;
                 filter_type_date.forEach((item2: any) => {
-                  this.siwtchFunction(item2);
+                  this.switchFunction(item2);
                 });
                 this.dataNotification = _.chain(filter_type_date)
                   .groupBy('created')
@@ -615,7 +615,7 @@ export class NotificationComponent implements OnInit {
               if (filter_date) {
                 this.nodata = false;
                 filter_date.forEach((item2: any) => {
-                  this.siwtchFunction(item2);
+                  this.switchFunction(item2);
                 });
                 this.dataNotification = _.chain(filter_date)
                   .groupBy('created')
@@ -638,7 +638,7 @@ export class NotificationComponent implements OnInit {
               if (filter_type) {
                 this.nodata = false;
                 filter_type.forEach((item2: any) => {
-                  this.siwtchFunction(item2);
+                  this.switchFunction(item2);
                 });
                 this.dataNotification = _.chain(filter_type)
                   .groupBy('created')
@@ -717,6 +717,22 @@ closeModal(content: any) {
   }
 
 
+  convertToCustomFormat(milliseconds: string | number | Date) {
+    const date = new Date(milliseconds);
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    const hours = String(date.getUTCHours()).padStart(2, '0');
+    const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+    const seconds = String(date.getUTCSeconds()).padStart(2, '0');
+    const millisecondsFormatted = String(date.getUTCMilliseconds()).padStart(3, '0');
+
+    const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${millisecondsFormatted}Z`;
+
+    return formattedDate;
+  }
+
+
   getOracle( link: string) {
     const keywordToOracleList = [
       { keyword: 'facebook', oracle: 'facebook' },
@@ -759,11 +775,13 @@ closeModal(content: any) {
           }
 
           this.dataNotification.forEach((item: any) => {
+            const currentTime = Date.now();
+            const formattedTime = this.convertToCustomFormat(currentTime);
             item.created =
-              item.created && item.created !== 'a few seconds ago'
-                ? item.created
+              item.createdAt && item.createdAt !== formattedTime
+            ? item.updatedAt
                 : item.createdAt;
-            this.siwtchFunction(item);
+            this.switchFunction(item);
           });
           this.dataNotification = _.chain(this.dataNotification)
             .sortBy((data) => data.createdInit)
@@ -802,6 +820,15 @@ closeModal(content: any) {
         
           }
       });
+  }
+
+  convertTimeFormat(milliseconds: string | number | Date) {
+    const logDate = new Date(milliseconds);
+    const year = logDate.getFullYear();
+    const month = logDate.getMonth() + 1; // Months are 0-indexed
+    const day = logDate.getDate();
+    const formattedDate  = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
+    return formattedDate;
   }
 
   filterNotificationList(types: string[]) {
@@ -920,22 +947,28 @@ closeModal(content: any) {
   }
 
 
-  siwtchFunction(item: any) {
+  switchFunction(item: any) {
     const etherInWei = new Big(1000000000000000000);
-    let itemDate = new Date(item.created);
-    item.createdInit = item.created;
+    //let itemDate = new Date(item.created);
+    //item.createdInit = item.created;
+    let itemDate = new Date(item.created);    
+    item.createdInit = itemDate
+    item.created = itemDate;
     if (this.tokenStorageService.getLocalLang() === 'en') {
       item.createdFormated = moment
         .parseZone(itemDate)
         .format(' MMMM Do YYYY, h:mm a z');
-      item.created = moment.parseZone(item.created).fromNow().slice();
+      //item.created = moment.parseZone(item.created).fromNow().slice();
+      item.created = item.created;
     } else if (this.tokenStorageService.getLocalLang() === 'fr') {
       item.createdFormated = moment
         .parseZone(itemDate)
         .locale('fr')
         .format(' Do MMMM  YYYY, HH:mm a z');
-      item.created = moment.parseZone(itemDate).locale('fr').fromNow();
+      //item.created = moment.parseZone(itemDate).locale('fr').fromNow();
+      item.created = itemDate;
     }
+    item.created  = this.convertTimeFormat(item.created );
     // console.log(this.translate.instant(''))
     //  let typeof_data=typeof(item.label)
     //  console.log(this.translate.instant(''))
