@@ -751,6 +751,7 @@ closeModal(content: any) {
 
     return formattedDate;
   }
+
   getAllNotifications() {
     this.showSpinner = true;
     this.NotificationService.getAllNotifications()
@@ -763,11 +764,9 @@ closeModal(content: any) {
         }
 
         if (response !== null && response !== undefined) {
-          
           this.isloading = false;
           this.dataNotification = response.data.notifications;
-          this.dataNotification.map((notif:any) => {
-           
+          this.dataNotification.map((notif:any) => { 
           })
           if (response.data.isSeen !== 0) {
             this.seeNotification();
@@ -782,6 +781,7 @@ closeModal(content: any) {
                 : item.createdAt;
             this.siwtchFunction(item);
           });
+
           this.dataNotification = _.chain(this.dataNotification)
             .sortBy((data) => data.createdInit)
             .reverse()
@@ -799,12 +799,12 @@ closeModal(content: any) {
             }
               */
             this.dataNotification.forEach((notification: any) => {
-              
               for(let i = 0 ; i < notification.value.length; i++ ) {
                 if(notification.value[i].type === 'join_on_social' || notification.value[i].type === 'invite_friends' || notification.value[i].type === 'buy_some_gas' ) {
                   delete notification.value[i];
                 }
               }
+
             
             
             
@@ -812,11 +812,8 @@ closeModal(content: any) {
             
             })
 
-
             this.dataNotificationFilter = this.dataNotification;
-           
             this.showSpinner = false;
-        
           }
       });
   }
@@ -863,12 +860,10 @@ closeModal(content: any) {
     this.setAllTogglesFalse(this.buttonData3);
     this.setAllTogglesFalsechek(this.checkboxData);
     this.setAllTogglesFalsechek(this.checkboxData1);
-    
     // Remove 'checkbck' class and add 'checkb' class to all checkboxes
     this.checkboxData.forEach(checkbox => {
       checkbox.toggle = false;
     });
-  
     this.checkboxData1.forEach(checkbox => {
       checkbox.toggle = false;
     });
@@ -893,8 +888,7 @@ closeModal(content: any) {
       case 'finished':
         return this.getCampaignRetrieveBudgetTime(cmp);
       default:
-        return 'error'  
-            
+        return 'error'
     }
   }
 
@@ -932,9 +926,8 @@ closeModal(content: any) {
       } else {
         return `Congratulations ! Your AdPool ${cmp.title} is now finished.\nYour remaining budget is currently ${parseInt(cmp.cost) / 10 **18} ${cmp.token.name.startsWith('SATT') ? 'SaTT' : cmp.token.name}. You can now retrieve It retrieve it`;
       }
-      
-    
   }
+
   convertTimeFormat(milliseconds: string | number | Date) {
     const logDate = new Date(milliseconds);
     const year = logDate.getFullYear();
@@ -943,6 +936,7 @@ closeModal(content: any) {
     const formattedDate  = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
     return formattedDate;
   }
+
 
   siwtchFunction(item: any) {
     const etherInWei = new Big(1000000000000000000);
@@ -962,7 +956,9 @@ closeModal(content: any) {
         .format(' Do MMMM  YYYY, HH:mm a z');
         item.created = itemDate;
     }
-    item.created = this.convertTimeFormat(item.created );
+
+    item.created  = this.convertTimeFormat(item.created );
+
     // console.log(this.translate.instant(''))
     //  let typeof_data=typeof(item.label)
     //  console.log(this.translate.instant(''))
