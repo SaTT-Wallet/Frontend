@@ -713,7 +713,7 @@ closeModal(content: any) {
     ];
   
     const foundMapping = keywordToIconMap.find(mapping => link.includes(mapping.keyword));
-    return foundMapping ? `./assets/Images/oracle-${foundMapping.icon}-rejected.svg` : '';
+    return foundMapping ? `./assets/Images/oracle-${foundMapping.icon}-rejected.svg` : './assets/Images/oracle-threads-rejected.svg';
   }
 
 
