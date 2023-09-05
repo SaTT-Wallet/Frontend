@@ -766,8 +766,8 @@ input[type='date']::-webkit-calendar-picker-indicator {
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   font-weight: 900;
   cursor: pointer;
-  Width:18px !important;
-  Height:18px !important;
+  width:18px !important;
+  height:18px !important;
 }
 
 /* //////////////////////////////////////////////////////////////////////////////// */
