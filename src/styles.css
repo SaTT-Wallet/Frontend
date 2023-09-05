@@ -1646,4 +1646,5 @@ text-align: center;
   max-height: 200px;
   margin-block: 6%;
   margin-top: 2px;
+  margin-bottom: 25px ! important;
 }
