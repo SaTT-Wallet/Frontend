@@ -330,13 +330,6 @@ input[type='search']::-webkit-search-cancel-button {
 }
 
 
-
-.budget_button.increase{
-  background-color: #F52079;
-  
-}
-
-
 /**************************Bouton ropdown-menu notification******************************/
 
 #dropdown-menu {
