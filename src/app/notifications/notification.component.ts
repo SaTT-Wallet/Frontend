@@ -45,7 +45,6 @@ import { CampaignHttpApiService } from '@app/core/services/campaign/campaign.ser
   styleUrls: ['./notification.component.css']
 })
 export class NotificationComponent implements OnInit {
-  
   @ViewChild('rejectLinkModal') rejectLinkModal?: ElementRef;
   promToreject: any;
   searchTerm: any;
@@ -738,9 +737,7 @@ closeModal(content: any) {
     return this.sanitizer.bypassSecurityTrustResourceUrl(i.label.cmp_link + "embed/captioned/?cr=1&v=14&wp=540&rd=http%3A%2F%2Flocalhost%3A4200&rp=%2F#%7B%22ci%22%3A0%2C%22os%22%3A15257.489999999962%2C%22ls%22%3A1741.52000000322%2C%22le%22%3A1848.8950000028126%7D");
     
   }
-
-
-   convertToCustomFormat(milliseconds: string | number | Date) {
+  convertToCustomFormat(milliseconds: string | number | Date) {
     const date = new Date(milliseconds);
     const year = date.getUTCFullYear();
     const month = String(date.getUTCMonth() + 1).padStart(2, '0');
@@ -749,12 +746,11 @@ closeModal(content: any) {
     const minutes = String(date.getUTCMinutes()).padStart(2, '0');
     const seconds = String(date.getUTCSeconds()).padStart(2, '0');
     const millisecondsFormatted = String(date.getUTCMilliseconds()).padStart(3, '0');
-    
+
     const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${millisecondsFormatted}Z`;
-    
+
     return formattedDate;
   }
-
   getAllNotifications() {
     this.showSpinner = true;
     this.NotificationService.getAllNotifications()
@@ -767,25 +763,25 @@ closeModal(content: any) {
         }
 
         if (response !== null && response !== undefined) {
+          
           this.isloading = false;
           this.dataNotification = response.data.notifications;
-          this.dataNotification.map((notif:any) => { 
+          this.dataNotification.map((notif:any) => {
+           
           })
           if (response.data.isSeen !== 0) {
             this.seeNotification();
           }
 
           this.dataNotification.forEach((item: any) => {
-
             const currentTime = Date.now();
             const formattedTime = this.convertToCustomFormat(currentTime);
             item.created =
-              item.createdAt && item.createdAt !== formattedTime
-                ? item.updatedAt
+            item.createdAt && item.createdAt !== formattedTime
+            ? item.updatedAt
                 : item.createdAt;
             this.siwtchFunction(item);
           });
-
           this.dataNotification = _.chain(this.dataNotification)
             .sortBy((data) => data.createdInit)
             .reverse()
@@ -803,14 +799,24 @@ closeModal(content: any) {
             }
               */
             this.dataNotification.forEach((notification: any) => {
+              
               for(let i = 0 ; i < notification.value.length; i++ ) {
                 if(notification.value[i].type === 'join_on_social' || notification.value[i].type === 'invite_friends' || notification.value[i].type === 'buy_some_gas' ) {
                   delete notification.value[i];
                 }
               }
+            
+            
+            
+            
+            
             })
+
+
             this.dataNotificationFilter = this.dataNotification;
+           
             this.showSpinner = false;
+        
           }
       });
   }
@@ -857,10 +863,12 @@ closeModal(content: any) {
     this.setAllTogglesFalse(this.buttonData3);
     this.setAllTogglesFalsechek(this.checkboxData);
     this.setAllTogglesFalsechek(this.checkboxData1);
+    
     // Remove 'checkbck' class and add 'checkb' class to all checkboxes
     this.checkboxData.forEach(checkbox => {
       checkbox.toggle = false;
     });
+  
     this.checkboxData1.forEach(checkbox => {
       checkbox.toggle = false;
     });
@@ -885,7 +893,8 @@ closeModal(content: any) {
       case 'finished':
         return this.getCampaignRetrieveBudgetTime(cmp);
       default:
-        return 'error'
+        return 'error'  
+            
     }
   }
 
@@ -923,8 +932,9 @@ closeModal(content: any) {
       } else {
         return `Congratulations ! Your AdPool ${cmp.title} is now finished.\nYour remaining budget is currently ${parseInt(cmp.cost) / 10 **18} ${cmp.token.name.startsWith('SATT') ? 'SaTT' : cmp.token.name}. You can now retrieve It retrieve it`;
       }
+      
+    
   }
-
   convertTimeFormat(milliseconds: string | number | Date) {
     const logDate = new Date(milliseconds);
     const year = logDate.getFullYear();
@@ -934,33 +944,25 @@ closeModal(content: any) {
     return formattedDate;
   }
 
-
   siwtchFunction(item: any) {
     const etherInWei = new Big(1000000000000000000);
-
     let itemDate = new Date(item.created);    
-
     item.createdInit = itemDate
     item.created = itemDate;
+
     if (this.tokenStorageService.getLocalLang() === 'en') {
       item.createdFormated = moment
         .parseZone(itemDate)
         .format(' MMMM Do YYYY, h:mm a z');
-      item.created = item.created
+        item.created = item.created;
     } else if (this.tokenStorageService.getLocalLang() === 'fr') {
       item.createdFormated = moment
         .parseZone(itemDate)
         .locale('fr')
         .format(' Do MMMM  YYYY, HH:mm a z');
-      item.created = itemDate;
+        item.created = itemDate;
     }
-    // const logDate = new Date(item.created );
-    // const year = logDate.getFullYear();
-    // const month = logDate.getMonth() + 1; // Months are 0-indexed
-    // const day = logDate.getDate();
-
-    item.created  = this.convertTimeFormat(item.created );
-
+    item.created = this.convertTimeFormat(item.created );
     // console.log(this.translate.instant(''))
     //  let typeof_data=typeof(item.label)
     //  console.log(this.translate.instant(''))
