@@ -9,7 +9,7 @@ import { PublicPagesGuard } from '@core/services/public-pages.guard';
 
 const routes: Routes = [
   {
-    path: '',
+    path: ':id',
     component: CampaignDetailsContainerComponent,
     children: [
       {
