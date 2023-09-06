@@ -360,7 +360,9 @@
                               "
                             />
                           </div>
-                          <div class="col-md-11 col-lg-11 col-9 col-sm-9">
+                          <div
+                            class="container_title_notification_general col-md-11 col-lg-11 col-9 col-sm-9"
+                          >
                             <p
                               class="label_avatar_notif p-0 m-0"
                               *ngIf="i.content"
@@ -447,7 +449,7 @@
                       <!-- LINKS -->
                       <div *ngIf="i.type === 'cmp_candidate_insert_link'">
                         <ng-container *ngIf="i.label.linkExist">
-                          <div class="">
+                          <div class="campaignLinks">
                             <img
                               class=""
                               alt=""
@@ -546,10 +548,12 @@
                           </div>
                         </ng-container>
                       </div>
-
                       <!-- CAMPAIGNS -->
                       <!-- class="div_notif_child" -->
-                      <div *ngIf="i.type === 'create_campaign'">
+                      <div
+                        class="campaign_container"
+                        *ngIf="i.type === 'create_campaign'"
+                      >
                         <img
                           [src]="
                             'https://cloudflare-ipfs.com/ipfs/' +
@@ -601,38 +605,39 @@
                         <p class="description_createCampaign">
                           {{ i.label.cmp_update.resume }}
                         </p>
-
-                        <button
-                          class="budget_button"
-                          *ngIf="i.label.cmp_update.type === 'finished'"
-                          [disabled]="
-                            disableRetrieveButtonAction(i.label.cmp_update)
-                          "
-                          (click)="redirectToCampaign(i.label.cmp_update)"
-                        >
-                          <span>
-                            <img
-                              class="svg_icons_budget"
-                              src="/assets/Images/Request1.svg"
-                              alt="down"
-                          /></span>
-                          Retrieve Budget
-                        </button>
-                        <button
-                          [ngClass]="'increase'"
-                          class="budget_button"
-                          *ngIf="i.label.cmp_update.type === 'apply'"
-                          (click)="redirectToCampaign(i.label.cmp_update)"
-                        >
-                          <span>
-                            <img
-                              class="svg_icons_budget"
-                              src="/assets/Images/icon_coins.svg"
-                              alt="up"
-                            />
-                          </span>
-                          Increase Budget
-                        </button>
+                        <div style="width: 100%; height: 2em">
+                          <button
+                            class="budget_button"
+                            *ngIf="i.label.cmp_update.type === 'finished'"
+                            [disabled]="
+                              disableRetrieveButtonAction(i.label.cmp_update)
+                            "
+                            (click)="redirectToCampaign(i.label.cmp_update)"
+                          >
+                            <span>
+                              <img
+                                class="svg_icons_budget"
+                                src="/assets/Images/Request1.svg"
+                                alt="down"
+                            /></span>
+                            Retrieve Budget
+                          </button>
+                          <button
+                            [ngClass]="'increase'"
+                            class="budget_button"
+                            *ngIf="i.label.cmp_update.type === 'apply'"
+                            (click)="redirectToCampaign(i.label.cmp_update)"
+                          >
+                            <span>
+                              <img
+                                class="svg_icons_budget"
+                                src="/assets/Images/icon_coins.svg"
+                                alt="up"
+                              />
+                            </span>
+                            Increase Budget
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
