@@ -17,7 +17,7 @@ import { walletUrl, ListTokens, tronScan, youtubeThumbnail } from '@config/atn.c
 import { isPlatformBrowser } from '@angular/common';
 import { bscan, etherscan, polygonscan, bttscan } from '@app/config/atn.config';
 //import 'moment/locale/fr'
-
+import { Pipe, PipeTransform } from '@angular/core';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { Big } from 'big.js';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -39,6 +39,7 @@ import { atLastOneChecked, requiredDescription } from '@app/helpers/form-validat
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { CampaignHttpApiService } from '@app/core/services/campaign/campaign.service';
 
+ 
 @Component({
   selector: 'app-history',
   templateUrl: './notification.component.html',
@@ -358,7 +359,7 @@ export class NotificationComponent implements OnInit {
     ) 
   }
   getButtonClass() { 
-    if (this.showNotifcationMessage === 'showing-campaign' || this.showNotifcationMessage === 'notif_buy_gas') {
+    if (this.showNotifcationMessage === 'showing-campaign' || this.showNotifcationMessage === 'notif_buy_gas' || this.showNotifcationMessage === 'showing-buy-fees') {
       return 'button-rounded';
     } else {if (this.showNotifcationMessage === 'showing-random-number' ){
       return 'button-random';
@@ -414,8 +415,8 @@ export class NotificationComponent implements OnInit {
           this.showSpinner2 = false;
           break;
         case 'showing-campaign':
-          //this.showNotifcationMessage = 'showing-random-number';
-          //this.notificationRandomNumber = 3;
+          // this.showNotifcationMessage = 'showing-buy-satt';
+          // this.notificationRandomNumber = 1;
           this.showNotifcationMessage = res.message;
           this.showNotification = true;
           this.campaignCover = res.data;

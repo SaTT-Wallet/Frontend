@@ -760,14 +760,11 @@ input[type='date']::-webkit-calendar-picker-indicator {
 
 .close-button {
   background-color: transparent;
-  color: #1f2337;
-  border: none;
-  font-size: 16px;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  font-weight: 900;
   cursor: pointer;
-  width:18px !important;
-  height:18px !important;
+  position: relative;
+  bottom: 0.5em;
+  left: 0.38em !important;
+
 }
 
 /* //////////////////////////////////////////////////////////////////////////////// */
@@ -806,8 +803,16 @@ input[type='date']::-webkit-calendar-picker-indicator {
   size: 14px;
   letter-spacing: 3% !important;
 }
-
+.parg{
+  width: 287px !important;
+}
 /* :::::::::::::::::::::::: button */
+.img-cover{
+  margin-bottom: 30px !important;
+  margin-top: 0px !important;
+  position: relative;
+  bottom: 1.2em;
+}
 
 .button-rounded {
   margin-top: 0px !important;
@@ -823,18 +828,12 @@ input[type='date']::-webkit-calendar-picker-indicator {
   border: none;
   cursor: pointer;
   height: 42px !important;
-  width: 244px !important;
-
-    position: relative;
-    bottom: 1.8em;
-
-}
-.img-cover{
-  margin-bottom: 30px !important;
-  margin-top: 0px !important;
+  width: auto !important;
   position: relative;
-  bottom: 1.2em;
+  bottom: 0.8em;
+
 }
+
 .button-roundedblue {
   margin-top: 0px !important;
   margin-bottom: 0px !important;
@@ -849,7 +848,7 @@ input[type='date']::-webkit-calendar-picker-indicator {
   border: none;
   cursor: pointer;
   height: 42px !important;
-  width: 244px !important;
+  width: auto !important;
   position: relative;
   bottom: 1.8em;
 }
@@ -869,7 +868,7 @@ input[type='date']::-webkit-calendar-picker-indicator {
   height: 42px !important;
   width: auto !important;
   position: relative;
-  bottom: 1.1em;
+  bottom: 0.78em;
 }
 /* filtre */
 
