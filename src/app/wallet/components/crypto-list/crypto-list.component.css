@@ -4607,22 +4607,18 @@ color: white}
 }
 
 #key {
-   align-self: center;
-   /*
-   margin: 2em auto 2em 0;
-   */
-     background-image: url('/assets/Images/serch-hard-gray.svg');
+    align-self: center;
+    background-image: url(/assets/Images/serch-hard-gray.svg);
     background-position: 13px;
     background-repeat: no-repeat;
-    /* width: 80%; */
     margin-bottom: 1rem;
-    padding-left: 45px;
-
+    padding-left: 41px;
     height: 35px;
     border: 1px solid #d6d6e8;
     border-radius: 30px;
-    /* margin-left: 2%; */
+    padding-right: 8px;
     text-overflow: ellipsis;
+    width: -webkit-fill-available;
 }
 
 #key::placeholder {
