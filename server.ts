@@ -68,12 +68,12 @@ export function app(): express.Express {
   server.get('/campaign/**/edit', getStaticFiles);
 
   // All regular routes use the Universal engine
-  server.get('/campaign/**', (req: { baseUrl: any; }, res: { render: (arg0: string, arg1: { req: any; providers: { provide: InjectionToken<string>; useValue: any; }[]; }) => void; }) => {
+  /*server.get('/campaign/**', (req: { baseUrl: any; }, res: { render: (arg0: string, arg1: { req: any; providers: { provide: InjectionToken<string>; useValue: any; }[]; }) => void; }) => {
     res.render('index', {
       req,
       providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }]
     });
-  });
+  });*/
 
 
   server.get('*', getStaticFiles);
