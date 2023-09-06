@@ -26,7 +26,10 @@ export class AuthStoreService {
   public getAccount() {
     return this.auth.verifyAccount().pipe(
       tap((res) => {
-        const walletVersion = res.data.migrated ? 'v2' : 'v1';
+        const walletVersion =
+          res.data.migrated || (!res.data.migrated && res.data.hasWalletV2)
+            ? 'v2'
+            : 'v1';
         this.tokenStorageService.setItem('wallet_version', walletVersion);
         this.setAccount(res);
       })
