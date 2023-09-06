@@ -35,7 +35,7 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'campaign/:id',
+    path: 'campaign',
     loadChildren: () =>
       import('./campaign-details/campaign-details.module').then(
         (m) => m.CampaignDetailsModule
