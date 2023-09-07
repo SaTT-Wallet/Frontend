@@ -9,5 +9,4 @@ export class DraftMaximumParticipationComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
- 
 }
