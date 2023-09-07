@@ -3,7 +3,7 @@
   <!-- class="container-fluid page-content" -->
   <div class="row" *ngIf="!(showSpinner && showSpinner2)">
     <div class="col-md-3 mobile_gen_notif">
-      <div class="div_notifications" *ngIf="showNotification">
+      <div  [ngClass]="isPhishing()" class="div_notifications" *ngIf="showNotification">
         <!-- ///////////////////////////////// -->
 
         <div class="d-flex align-items-center position-relative pb-3">
@@ -193,7 +193,7 @@
         </div>
     </div> -->
     <!------------------------------------------------------------------------------------------------>
-    <div class="col-md-9">
+    <div class="feed_container col-md-9">
       <!-- <div class="div_filter"> -->
       <!-- <div class="d-flex justify-content-end" style="z-index: 1"> -->
       <!-- <div class="form-group"> -->
@@ -259,7 +259,7 @@
       <!-- </div> -->
       <!------------------------------------------------------------------------------------------------>
       <div
-        class="search-results mt-5"
+        class="search-results mt-5-lg"
         infiniteScroll
         [infiniteScrollDistance]="2"
         [infiniteScrollThrottle]="50"
@@ -317,13 +317,14 @@
                                 i.label.linkExist
                               "
                             >
-                            
                               <img
                                 [src]="
                                   i.label.link.type === 'waiting_for_validation'
                                     ? getLinkIconWaitingValidation(i.label.link)
-                                    : (i.label.link.type === 'rejected' ? getLinkIconRejected(i.label.link.oracle) : getLinkIconValidate(i.label.link.oracle))
-                              "
+                                    : i.label.link.type === 'rejected'
+                                    ? getLinkIconRejected(i.label.link.oracle)
+                                    : getLinkIconValidate(i.label.link.oracle)
+                                "
                                 alt="avtar"
                                 class="pic_avatar_notif"
                               />
@@ -337,13 +338,16 @@
                                 i.type === 'apply_campaign' && !!i.label.prom
                               "
                             />
-                              <img 
-                                alt="avtar"
-                                class="pic_avatar_notif"
-                                *ngIf="i.type === 'create_campaign'"
-                                [src]="'data:image/png;base64,'+i.label.cmp_update.logo"
-                                width="30px"
-                              />
+                            <img
+                              alt="avtar"
+                              class="pic_avatar_notif"
+                              *ngIf="i.type === 'create_campaign'"
+                              [src]="
+                                'data:image/png;base64,' +
+                                i.label.cmp_update.logo
+                              "
+                              width="30px"
+                            />
                             <img
                               src="{{ i.img }}"
                               alt="avtar"
@@ -356,12 +360,15 @@
                                 !(
                                   i.type === 'cmp_candidate_insert_link' &&
                                   i.label.linkExist
-                                ) && !(i.type === 'create_campaign')
-                                && !(i.type === 'cmp_candidate_reject_link')
+                                ) &&
+                                !(i.type === 'create_campaign') &&
+                                !(i.type === 'cmp_candidate_reject_link')
                               "
                             />
                           </div>
-                          <div class="col-md-11 col-lg-11 col-9 col-sm-9">
+                          <div
+                            class="container_title_notification_general col-md-11 col-lg-11 col-9 col-sm-9"
+                          >
                             <p
                               class="label_avatar_notif p-0 m-0"
                               *ngIf="i.content"
@@ -377,8 +384,7 @@
                                 i.type !== 'apply_campaign' &&
                                 i.type !== 'cmp_candidate_accept_link' &&
                                 i.type !== 'receive_transfer_event' &&
-                                i.type !== 'create_campaign'  
-                               
+                                i.type !== 'create_campaign'
                               "
                               [translate]="i._label"
                               [translateParams]="i._params"
@@ -421,11 +427,7 @@
                                 [translateParams]="{ from: i._params.from }"
                               ></span>
                               <span *ngIf="i.type === 'create_campaign'">
-                                {{
-
-                                  getCampaignTitle(i.label.cmp_update)
-
-                                 }}
+                                {{ getCampaignTitle(i.label.cmp_update) }}
                               </span>
                             </p>
                             <!-- <p class="label_avatar_notif p-0 m-0" *ngIf="i.type === 'apply_campaign'">
@@ -453,7 +455,7 @@
                       <!-- LINKS -->
                       <div *ngIf="i.type === 'cmp_candidate_insert_link'">
                         <ng-container *ngIf="i.label.linkExist">
-                          <div class="">
+                          <div class="link_container">
                             <img
                               class=""
                               alt=""
@@ -529,59 +531,124 @@
                               onerror="this.src='/assets/Images/tiktoksign.svg'"
                               class="cmp-img2"
                             />
-                          </div>
-
-                          <div
+                    
+                            <div style="width: 100%; height: 3.5em;"
+  
                             *ngIf="
-                              i.label.link.type === 'waiting_for_validation'
-                            "
-                          >
-                            <button
-                              class="btn_status"
-                              (click)="linkAction('accept', i.label)"
+                                i.label.link.type === 'waiting_for_validation'
+                              "
                             >
-                              <i class="bi bi-check2"></i>
-                            </button>
-                            <button
+                            <div style=" width: fit-content; height: 100%; float: right; justify-content: center; align-items: center;">
+
+                              <button
                               [ngClass]="'reject'"
                               class="btn_status"
                               (click)="linkAction('reject', i.label)"
-                            >
-                              <i class="bi bi-x"></i>
+                              >
+                              <i class="icon-class bi bi-x"></i>
                             </button>
+                              <button
+                              class="btn_status"
+                              (click)="linkAction('accept', i.label)"
+                              >
+                              <i class="icon-class bi bi-check2"></i>
+                              </button>
                           </div>
+                            </div>
+                          </div>
+
                         </ng-container>
                       </div>
-
-
                       <!-- CAMPAIGNS -->
-                      <div *ngIf="i.type === 'create_campaign'">
-                        <img 
-                          [src]="'https://cloudflare-ipfs.com/ipfs/'+getCampaignCover(i.label.cmp_update.coverMobile)" 
-                          height="350px"
-                          width="700px"
-                          style="pointer-events: none; border-top-left-radius: 30px 30px ; border-top-right-radius: 30px 30px;"
+                      <!-- class="div_notif_child" -->
+                      <div
+                        class="campaign_container"
+                        *ngIf="i.type === 'create_campaign'"
+                      >
+                        <img
+                          [src]="
+                            'https://cloudflare-ipfs.com/ipfs/' +
+                            getCampaignCover(i.label.cmp_update.coverMobile)
+                          "
+                          height="242px"
+                          width="663px"
+                          class="cmp-img2"
+                          style="
+                            pointer-events: none;
+                            border-top-left-radius: 30px 30px;
+                            border-top-right-radius: 30px 30px;
+                          "
                         />
                         <div class="containerLogoTime">
-                          <img 
-                          alt="avtar"
-                          class="pic_avatar_notif"
-                          *ngIf="i.type === 'create_campaign'"
-                          [src]="'data:image/png;base64,'+i.label.cmp_update.logo"
-                          width="30px"
-                          style="top: 0.5em !important; float: left;"
-                        />
-                        <div style="display: block; padding-top: 0.5em; padding-left: 3.5em; margin-top: 0.5em;">
-                          <p style="margin-bottom: 0 !important; color: #1D2337; font-weight: 600; font-family: 'poppins';">{{ i.label.cmp_update.title }}</p>
-                          <p style="margin-bottom: 0; color: #75758F">{{ getCampaignStartDate(i.label.cmp_update) }}</p>
+                          <img
+                            alt="avtar"
+                            class="pic_avatar_notif"
+                            *ngIf="i.type === 'create_campaign'"
+                            [src]="
+                              'data:image/png;base64,' + i.label.cmp_update.logo
+                            "
+                            width="30px"
+                            style="top: 0.5em !important; float: left"
+                          />
+                          <div
+                            style="
+                              display: block;
+                              padding-top: 0.5em;
+                              padding-left: 4.5em;
+                              margin-top: 0.5em;
+                            "
+                          >
+                            <p
+                              style="
+                                margin-bottom: 0 !important;
+                                color: #1d2337;
+                                font-weight: 600;
+                                font-family: 'poppins';
+                              "
+                            >
+                              {{ i.label.cmp_update.title }}
+                            </p>
+                            <p style="margin-bottom: 0; color: #75758f">
+                              {{ getCampaignStartDate(i.label.cmp_update) }}
+                            </p>
+                          </div>
                         </div>
-                       
+                        <p class="description_createCampaign">
+                          {{ i.label.cmp_update.resume }}
+                        </p>
+                        <div style="width: 100%; height: 2em">
+                          <button
+                            class="budget_button"
+                            *ngIf="i.label.cmp_update.type === 'finished'"
+                            [disabled]="
+                              disableRetrieveButtonAction(i.label.cmp_update)
+                            "
+                            (click)="redirectToCampaign(i.label.cmp_update)"
+                          >
+                            <span>
+                              <img
+                                class="svg_icons_budget"
+                                src="/assets/Images/Request1.svg"
+                                alt="down"
+                            /></span>
+                            Retrieve Budget
+                          </button>
+                          <button
+                            [ngClass]="'increase'"
+                            class="budget_button"
+                            *ngIf="i.label.cmp_update.type === 'apply'"
+                            (click)="redirectToCampaign(i.label.cmp_update)"
+                          >
+                            <span>
+                              <img
+                                class="svg_icons_budget"
+                                src="/assets/Images/icon_coins.svg"
+                                alt="up"
+                              />
+                            </span>
+                            Increase Budget
+                          </button>
                         </div>
-                        <p class="description_createCampaign">{{ i.label.cmp_update.resume }}</p>
-                        
-                        <button class="budget_button" *ngIf="i.label.cmp_update.type === 'finished'" [disabled]="disableRetrieveButtonAction(i.label.cmp_update)" (click)="redirectToCampaign(i.label.cmp_update)"> <span> <img class="svg_icons_budget" src="/assets/Images/Request1.svg" alt="down"/></span> Retrieve Budget</button>
-                        <button [ngClass]= "'increase'" class="budget_button" *ngIf="i.label.cmp_update.type === 'apply'" (click)="redirectToCampaign(i.label.cmp_update)"> <span>  <img class="svg_icons_budget" src="/assets/Images/icon_coins.svg" alt="up"/> </span> Increase Budget</button>
-                        
                       </div>
                     </div>
                   </div>
