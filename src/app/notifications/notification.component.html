@@ -618,7 +618,7 @@
                         </p>
                         <div style="width: 100%; height: 2em">
                           <button
-                            class="budget_button"
+                            [className]=" !disableRetrieveButtonAction(i.label.cmp_update) ? 'budget_button' : 'budget_button_disabled'"
                             *ngIf="i.label.cmp_update.type === 'finished'"
                             [disabled]="
                               disableRetrieveButtonAction(i.label.cmp_update)
@@ -627,11 +627,11 @@
                           >
                             <span>
                               <img
-                                class="svg_icons_budget"
-                                src="/assets/Images/Request1.svg"
+                                [className]="disableRetrieveButtonAction(i.label.cmp_update) ? 'svg_icons_budget_disabled' : 'svg_icons_budget'"
+                                [src]="disableRetrieveButtonAction(i.label.cmp_update) ? '../../../../../assets/Images/Vector-loading.svg' : '/assets/Images/Request1.svg'"
                                 alt="down"
                             /></span>
-                            Retrieve Budget
+                            {{ 'retrieveBudget'  | translate }}
                           </button>
                           <button
                             [ngClass]="'increase'"
