@@ -187,7 +187,7 @@
         </div>
     </div> -->
     <!------------------------------------------------------------------------------------------------>
-    <div class="feed_container col-md-9">
+    <div class="feed_container col-md-6">
       <!-- <div class="div_filter"> -->
       <!-- <div class="d-flex justify-content-end" style="z-index: 1"> -->
       <!-- <div class="form-group"> -->
@@ -451,7 +451,6 @@
                         <ng-container *ngIf="i.label.linkExist">
                           <div class="link_container">
                             <img
-                              class=""
                               alt=""
                               *ngIf="i.label.link.typeSN === 2"
                               [src]="generatePostThumbnail(i.label.link)"
@@ -532,21 +531,26 @@
                                 i.label.link.type === 'waiting_for_validation'
                               "
                             >
-                            <div style=" width: fit-content; height: 100%; float: right; justify-content: center; align-items: center;">
-
+                            <div style=" width: fit-content; height: 100%; float: right;  margin: auto; margin-top: 0.5em;">
+<!-- 
                               <button
                               [ngClass]="'reject'"
                               class="btn_status"
                               (click)="linkAction('reject', i.label)"
                               >
-                              <i class="test bi bi-x"></i>
+                             <img src="/assets/Images/crossNotif.svg" alt=""/>
                             </button>
                               <button
                               class="btn_status"
                               (click)="linkAction('accept', i.label)"
                               >
-                              <i class="test bi bi-check2"></i>
-                              </button>
+                              <img src="/assets/Images/tickNotif.svg" alt=""/>
+                              </button> -->
+
+                              <img (click)="linkAction('reject', i.label)" src="/assets/Images/crossFullNotif.svg" alt=""/>
+                              &nbsp;&nbsp;
+                              <img (click)="linkAction('accept', i.label)" src="/assets/Images/tickFullNotif.svg" alt=""/>
+                              &nbsp;&nbsp;
                           </div>
                             </div>
                           </div>
@@ -576,7 +580,7 @@
                         <div class="containerLogoTime">
                           <img
                             alt="avtar"
-                            class="pic_avatar_notif"
+                            class="pic_avatar_notif "
                             *ngIf="i.type === 'create_campaign'"
                             [src]="
                               'data:image/png;base64,' + i.label.cmp_update.logo

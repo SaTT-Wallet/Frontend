@@ -304,8 +304,7 @@ input[type='search']::-webkit-search-cancel-button {
   background-color: #00CC9E;
   border-radius: 50%;
   border: none;
-  font-size: 1.5em;
-  justify-content: center;
+  /* justify-content: center; */
   color: white;
   /* margin-left: 0.4em; */
   
@@ -509,6 +508,13 @@ input[type='date']::-webkit-calendar-picker-indicator {
   }
 }
 
+@media (min-width: 765.99px) and (max-width: 1600px) {
+  .feed_container{
+    margin-left: 10%
+  }
+}
+
+
 @media (min-width: 1140.99px) and (max-width: 1500.98px) {
   .page_history {
     padding-top: 6.5%;
@@ -557,6 +563,11 @@ input[type='date']::-webkit-calendar-picker-indicator {
 
 @media (max-width: 500px) {
 
+  .description_createCampaign{
+    margin: auto;
+    width: 80%;
+  }
+
   .link_container{
     background-color: white;
   }
@@ -571,7 +582,7 @@ input[type='date']::-webkit-calendar-picker-indicator {
   }
 
   .cmp-img2{
-    width: 366px !important;
+    width: 100vw !important;
   }
 
     .container_perso {
