@@ -118,7 +118,8 @@ export class NotificationComponent implements OnInit {
     { label: 'Linkedin', toggle: false },
     { label: 'Tiktok', toggle: false },
     { label: 'Twitter', toggle: false },
-    { label: 'Youtube', toggle: false }
+    { label: 'Youtube', toggle: false },
+    { label: 'Threads', toggle: false}
   ];
 
   checkboxData1 = [{ label: "filtre_Adpools_message", toggle: false }];
@@ -169,7 +170,8 @@ export class NotificationComponent implements OnInit {
       'Linkedin': 'cmp_candidate_accept_link/linkedin',
       'Tiktok': 'cmp_candidate_accept_link/tiktok',
       'Twitter': 'cmp_candidate_accept_link/twitter',
-      'Youtube': 'cmp_candidate_accept_link/youtube'
+      'Youtube': 'cmp_candidate_accept_link/youtube',
+      'Threads': 'cmp_candidate_accept_link/threads',
     };
   
     const filterType = checkboxLabelMappings[checkbox.label];
