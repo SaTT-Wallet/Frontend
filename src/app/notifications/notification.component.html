@@ -427,7 +427,18 @@
                                 [translateParams]="{ from: i._params.from }"
                               ></span>
                               <span *ngIf="i.type === 'create_campaign'">
-                                {{ getCampaignTitle(i.label.cmp_update) }}
+                                <ng-container *ngIf="getCampaignTitle(i.label.cmp_update) === 'inProgress'">
+                                  {{ 'congratulation_start_title_notif'  | translate }} <b>{{ i.label.cmp_update.title | uppercase}}</b> {{ 'statue_pools_notification_pending' | translate }}.
+                                </ng-container>
+
+                                <ng-container *ngIf="getCampaignTitle(i.label.cmp_update) === 'apply'">
+                                  {{ 'congratulation_start_title_notif'  | translate }} <b>{{ i.label.cmp_update.title | uppercase}}</b> {{ 'status_pools_notification_progress' | translate }}.
+                                </ng-container >
+
+                                <ng-container *ngIf="getCampaignTitle(i.label.cmp_update) === 'finished'">
+                                  {{ 'congratulation_start_title_notif'  | translate }} <b>{{ i.label.cmp_update.title |uppercase }}</b> {{ 'statue_pools_notification_finished' | translate }}. {{'remaining_budget_notification' | translate}} {{getRetrieveBudget(i.label.cmp_update)}} {{ i.label.cmp_update.token.name.startsWith('SATT') ? 'SaTT' : i.label.cmp_update.token.name }}. <ng-container *ngIf="getCampaignRetrieveBudgetTime(i.label.cmp_update)"> {{ 'notification_pools_retreive_now_budget' | translate }}</ng-container> <ng-container *ngIf="!getCampaignRetrieveBudgetTime(i.label.cmp_update)">{{ 'notification_pools_retreive_waiting_budget'|translate }} <b>{{getRetrieveBudgetDays(i.label.cmp_update)}} {{ "notification_pools_retreive_waiting_budget_days" | translate}} {{getRetrieveBudgetHours(i.label.cmp_update)}} {{ "notification_pools_retreive_waiting_budget_hours" | translate}} {{getRetrieveBudgetMins(i.label.cmp_update)}} {{'notification_pools_retreive_waiting_budget_mins' | translate}}</b></ng-container>
+                                </ng-container>
+                                
                               </span>
                             </p>
                             <!-- <p class="label_avatar_notif p-0 m-0" *ngIf="i.type === 'apply_campaign'">
