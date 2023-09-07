@@ -40,15 +40,17 @@
                         type="text"
                         class="styleForInputMedia"
                         aria-describedby="basic-addon2"
-                        [disabled]="!switch.checked"
-                        [placeholder]="switch.checked ? '' : '-'"
+                        [disabled]="!toggleSwitch.checked"
+                        [placeholder]="toggleSwitch.checked ? '' : '-'"  
+                        [(ngModel)]="inputValue"
+                        (input)="onInputChanged()"
                       />
-                      
                       <ui-switch
                         id="toggle"
                         class="button"
-                        #switch
-                      >
-                      </ui-switch>
+                        #toggleSwitch
+                        (change)="onInputChanged()"
+                      ></ui-switch>
+                      
                       
 </div>

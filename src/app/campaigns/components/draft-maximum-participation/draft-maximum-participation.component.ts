@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit,ViewChild } from '@angular/core';
+ 
 @Component({
   selector: 'app-draft-maximum-participation',
   templateUrl: './draft-maximum-participation.component.html',
@@ -9,5 +9,12 @@ export class DraftMaximumParticipationComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
- 
+  inputValue: string = '';
+  @ViewChild('toggleSwitch', { static: true }) toggleSwitch: any;
+  onInputChanged() {
+    if (!this.toggleSwitch.checked && this.inputValue.trim() !== '') {
+      console.log('Clearing Input Value');
+      this.inputValue = '';
+    }
+  }
 }
