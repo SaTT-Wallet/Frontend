@@ -11,13 +11,10 @@ import {
 import { NotificationService } from '@core/services/notification/notification.service';
 import { ContactService } from '@core/services/contact/contact.service';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-//import * as moment from 'moment';
 import _ from 'lodash';
 import { walletUrl, ListTokens, tronScan, youtubeThumbnail } from '@config/atn.config';
 import { isPlatformBrowser } from '@angular/common';
 import { bscan, etherscan, polygonscan, bttscan } from '@app/config/atn.config';
-//import 'moment/locale/fr'
-import { Pipe, PipeTransform } from '@angular/core';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { Big } from 'big.js';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -363,8 +360,7 @@ export class NotificationComponent implements OnInit {
       return 'button-rounded';
     } else {if (this.showNotifcationMessage === 'showing-random-number' ){
       return 'button-random';
-    }else
-      return 'button-roundedblue';
+    } else return this.showNotifcationMessage === 'showing-complete-profile' ? 'button-roundedblue-complete-profile' : 'button-roundedblue';
     }
   }
   navigateTo() {
@@ -415,8 +411,6 @@ export class NotificationComponent implements OnInit {
           this.showSpinner2 = false;
           break;
         case 'showing-campaign':
-          // this.showNotifcationMessage = 'showing-buy-satt';
-          // this.notificationRandomNumber = 1;
           this.showNotifcationMessage = res.message;
           this.showNotification = true;
           this.campaignCover = res.data;
@@ -429,8 +423,6 @@ export class NotificationComponent implements OnInit {
           this.notificationRandomNumber = res.data;
           this.showSpinner2 = false;
           break;
-
-
         default:
           this.showNotification = false;
           this.showSpinner2 = false;
