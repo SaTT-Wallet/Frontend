@@ -31,7 +31,7 @@ export class AuthStoreService {
       tap((res) => {
         const walletVersion =
           this.tokenStorageService.getNewUserV2() === 'false' &&
-          res.data.migrated === false
+          !res.data.migrated
             ? 'v1'
             : 'v2';
 
