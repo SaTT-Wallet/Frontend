@@ -964,14 +964,17 @@ closeModal(content: any) {
   }
 
   getRetrieveBudgetDays(cmp:any) {
+    this.dateRefund = new Date((cmp.endDate + environment.dateRefund ) * 1000)
     return Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ))
   }
 
   getRetrieveBudgetHours(cmp:any) {
+    this.dateRefund = new Date((cmp.endDate + environment.dateRefund ) * 1000)
     return Math.floor(((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - (Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ))) ) * 24 )
   }
 
   getRetrieveBudgetMins(cmp:any) {
+    this.dateRefund = new Date((cmp.endDate + environment.dateRefund ) * 1000)
     return Math.floor(((((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  )) ) * 24) - (Math.floor(((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - (Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ))) ) * 24 ))) * 60)
   }
 

@@ -359,7 +359,7 @@ input[type='search']::-webkit-search-cancel-button {
   gap: 8px;
   font-family: "poppins";
   font-weight: 600;
-  font-size: 15px;
+  font-size: 0.65vw;
   line-height: 19.5px;
   letter-spacing: 3%;
   float: right;
@@ -383,7 +383,7 @@ input[type='search']::-webkit-search-cancel-button {
   gap: 8px;
   font-family: "poppins";
   font-weight: 600;
-  font-size: 15px;
+  font-size: 0.65vw;
   line-height: 19.5px;
   letter-spacing: 3%;
   float: right;
