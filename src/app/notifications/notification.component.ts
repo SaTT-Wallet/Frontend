@@ -540,10 +540,20 @@ export class NotificationComponent implements OnInit {
   hideNotification() {
     this.showNotification = false;
   }
+  getStorageInformation() {
+    return window.localStorage.getItem('phishing');
+  }
+
+  isPhishing() {
+    if(this.getStorageInformation()){
+      return 'isPhish';
+    }
+    return;
+  }
+
   ngOnInit(): void {
     this.getAllNotifications();
-    this.getNotificationsDecision();
-    
+    this.getNotificationsDecision(); 
   }
   seeNotification() {
     this.NotificationService.notificationSeen()
@@ -862,6 +872,8 @@ closeModal(content: any) {
       this.showSpinner = true;
     }
   }
+
+ 
 
   getCampaignCover(cover: string) {
     return cover.replace('ipfs:', '');

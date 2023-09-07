@@ -3,7 +3,7 @@
   <!-- class="container-fluid page-content" -->
   <div class="row" *ngIf="!(showSpinner && showSpinner2)">
     <div class="col-md-3 mobile_gen_notif">
-      <div class="div_notifications" *ngIf="showNotification">
+      <div  [ngClass]="isPhishing()" class="div_notifications" *ngIf="showNotification">
         <!-- ///////////////////////////////// -->
 
         <div class="d-flex align-items-center position-relative pb-3">
@@ -187,7 +187,7 @@
         </div>
     </div> -->
     <!------------------------------------------------------------------------------------------------>
-    <div class="col-md-9">
+    <div class="feed_container col-md-9">
       <!-- <div class="div_filter"> -->
       <!-- <div class="d-flex justify-content-end" style="z-index: 1"> -->
       <!-- <div class="form-group"> -->
@@ -253,7 +253,7 @@
       <!-- </div> -->
       <!------------------------------------------------------------------------------------------------>
       <div
-        class="search-results mt-5"
+        class="search-results mt-5-lg"
         infiniteScroll
         [infiniteScrollDistance]="2"
         [infiniteScrollThrottle]="50"
@@ -449,7 +449,7 @@
                       <!-- LINKS -->
                       <div *ngIf="i.type === 'cmp_candidate_insert_link'">
                         <ng-container *ngIf="i.label.linkExist">
-                          <div class="campaignLinks">
+                          <div class="link_container">
                             <img
                               class=""
                               alt=""
@@ -525,27 +525,32 @@
                               onerror="this.src='/assets/Images/tiktoksign.svg'"
                               class="cmp-img2"
                             />
-                          </div>
-
-                          <div
+                    
+                            <div style="width: 100%; height: 3.5em;"
+  
                             *ngIf="
-                              i.label.link.type === 'waiting_for_validation'
-                            "
-                          >
-                            <button
-                              class="btn_status"
-                              (click)="linkAction('accept', i.label)"
+                                i.label.link.type === 'waiting_for_validation'
+                              "
                             >
-                              <i class="bi bi-check2"></i>
-                            </button>
-                            <button
+                            <div style=" width: fit-content; height: 100%; float: right; justify-content: center; align-items: center;">
+
+                              <button
                               [ngClass]="'reject'"
                               class="btn_status"
                               (click)="linkAction('reject', i.label)"
-                            >
-                              <i class="bi bi-x"></i>
+                              >
+                              <i class="test bi bi-x"></i>
                             </button>
+                              <button
+                              class="btn_status"
+                              (click)="linkAction('accept', i.label)"
+                              >
+                              <i class="test bi bi-check2"></i>
+                              </button>
                           </div>
+                            </div>
+                          </div>
+
                         </ng-container>
                       </div>
                       <!-- CAMPAIGNS -->
@@ -583,7 +588,7 @@
                             style="
                               display: block;
                               padding-top: 0.5em;
-                              padding-left: 3.5em;
+                              padding-left: 4.5em;
                               margin-top: 0.5em;
                             "
                           >

@@ -208,6 +208,10 @@ input[type='search']::-webkit-search-cancel-button {
   border-bottom: 0.25px solid rgba(117, 117, 143, 0.3) !important;
 }
 
+.testAlex{
+  border-style: solid;
+}
+
 /*.div_notification :hover {
   background: transparent;
   cursor: pointer;
@@ -231,6 +235,13 @@ input[type='search']::-webkit-search-cancel-button {
   border-radius: 30px;
   border-color: #D6D6E8;
   border-width: 1px;
+  }
+
+  .link_container{
+    border-style: solid;
+    border-radius: 30px;
+    border-color: #D6D6E8;
+    border-width: 1px;
   }
   
 .label_avatar_notif {
@@ -286,6 +297,8 @@ input[type='search']::-webkit-search-cancel-button {
 
 /* sk */
 .btn_status{
+  margin-right: 0.6em;
+  margin-top: 0.3em;
   width: 40px;
   height: 40px;
   background-color: #00CC9E;
@@ -294,11 +307,16 @@ input[type='search']::-webkit-search-cancel-button {
   font-size: 1.5em;
   justify-content: center;
   color: white;
-  float: right;
-  margin-left: 0.4em;
+  /* margin-left: 0.4em; */
   
 }
 
+.test{  
+  font-size: 1.5em;
+  position: relative;
+  bottom: 6px;
+  right: 3px;
+}
 
 
 .btn_status.reject{
@@ -509,15 +527,17 @@ input[type='date']::-webkit-calendar-picker-indicator {
 .containerLogoTime{
   width: 50%;
   margin-top: 0.5em;
+  margin-left: 0.5em;
 }
 
 .description_createCampaign{
-  width: fit-content;
   margin-top: 1em;
+  margin-left: 5.7em;
   font-weight: 400;
-  /* letter-spacing: 3px; */
   line-height: 18.2px;
   font-size: 14px;
+  width: 37em;
+  padding-bottom: 1em;
 }
 /* will be uncommented */
  .pic_avatar_notif {
@@ -537,16 +557,31 @@ input[type='date']::-webkit-calendar-picker-indicator {
 
 @media (max-width: 500px) {
 
+  .search-results{
+    margin-top: 10px !important;
+  }
+  .feed_container{
+    margin-top: -0.6em !important;
+  }
+
+  .cmp-img2{
+    width: 366px !important;
+  }
+
     .container_perso {
         width: 84% !important;
         margin: auto !important;
       }
 
   .div_notifications{
+    margin-top: 0em ;
     width: 120% !important;
     margin-left: -10% !important;
     border-radius: 0 !important;
     display: block !important;
+  }
+  .div_notifications.isPhish{
+    margin-top: 1em;
   }
 
   .mobile_gen_notif{    padding-right: 0px;
@@ -684,7 +719,7 @@ input[type='date']::-webkit-calendar-picker-indicator {
 }
 
 .search-results {
-  margin-top: 10px;
+  margin-top: 38px;
   margin-left: 12% !important;
   margin-right: 15% !important;
 }
