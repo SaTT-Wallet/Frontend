@@ -169,9 +169,10 @@ tr.crypto-row:hover {
 
 .crypto-market-cap-overlay {
   position: absolute;
-  top: -50%;
-  left: 40px;
+  top: 10%;
+  left: 159px;
   width: 100%;
+  padding-left: 14%;
   height: 100%;
   display: flex;
   flex-direction: column;

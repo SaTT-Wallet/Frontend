@@ -571,12 +571,24 @@ export class PasswordModalComponent implements OnInit {
     );
   }
 
-  launchCampaignWithPerPerformanceReward(campaign_info: any) {
+    // Common logic for launching campaigns, handles date conversion and common actions.
+  private commonCampaignLogic(campaign_info: any, createCampaign: boolean): Observable<any> {
+        // Convert the start date to Unix timestamp
     const startDateUnix = Math.floor(campaign_info.startDate.getTime() / 1000);
     campaign_info.startDate = startDateUnix;
-    if(campaign_info.currency === 'BNB') campaign_info.tokenAddress = null;
-    return this.campaignService.createCompaign(campaign_info).pipe(
+
+    if (campaign_info.currency === 'BNB') {
+      campaign_info.tokenAddress = null;
+    }
+    
+      // Determine which campaign method to call based on the 'createCampaign' flag
+    const campaignObservable = createCampaign
+      && this.campaignService.createCompaign(campaign_info)
+      || this.campaignService.launchCampaignWithBounties(campaign_info);
+
+    return campaignObservable.pipe(
       tap(() => {
+        // Reset common UI elements and flags after campaign launch
         this.gasError = false;
         this.showButtonSend = true;
         this.loadingButton = false;
@@ -585,20 +597,12 @@ export class PasswordModalComponent implements OnInit {
     );
   }
 
-  launchCampaignWithPerPublicationReward(campaign_info: any) {
-    const startDateUnix = Math.floor(campaign_info.startDate.getTime() / 1000);
-    campaign_info.startDate = startDateUnix
-    console.log(startDateUnix)
-    return this.campaignService.launchCampaignWithBounties(campaign_info).pipe(
-      tap(() => {
-        this.gasError = false;
+  launchCampaignWithPerPerformanceReward(campaign_info: any) : Observable<any> {
+    return this.commonCampaignLogic(campaign_info, true);
+  }
 
-        //let _campaign_Hash = Object.assign({}, this.campaign as any);
-        this.showButtonSend = true;
-        this.loadingButton = false;
-        this.passwordForm.reset();
-      })
-    );
+  launchCampaignWithPerPublicationReward(campaign_info: any) : Observable<any> {
+    return this.commonCampaignLogic(campaign_info, false);
   }
 
   handleLaunchResponseError(error: any, token: any) {
