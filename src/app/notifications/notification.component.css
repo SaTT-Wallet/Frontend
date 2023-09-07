@@ -218,6 +218,7 @@ input[type='search']::-webkit-search-cancel-button {
   border-bottom: 0.25px solid rgba(117, 117, 143, 0.3) !important;
 }
 
+
 /*.div_notification :hover {
   background: transparent;
   cursor: pointer;
@@ -232,7 +233,24 @@ input[type='search']::-webkit-search-cancel-button {
   width: 50px;
   height: 50px;
 }
+.container_title_notification_general{
+  width: 39em;
+}
 
+.campaign_container{
+  border-style: solid;
+  border-radius: 30px;
+  border-color: #D6D6E8;
+  border-width: 1px;
+  }
+
+  .link_container{
+    border-style: solid;
+    border-radius: 30px;
+    border-color: #D6D6E8;
+    border-width: 1px;
+  }
+  
 .label_avatar_notif {
   font-style: normal;
   font-weight: normal;
@@ -286,6 +304,8 @@ input[type='search']::-webkit-search-cancel-button {
 
 /* sk */
 .btn_status{
+  margin-right: 0.6em;
+  margin-top: 0.3em;
   width: 40px;
   height: 40px;
   background-color: #00CC9E;
@@ -294,11 +314,16 @@ input[type='search']::-webkit-search-cancel-button {
   font-size: 1.5em;
   justify-content: center;
   color: white;
-  float: right;
-  margin-left: 0.4em;
+  /* margin-left: 0.4em; */
   
 }
 
+.icon-class{  
+  font-size: 1.5em;
+  position: relative;
+  bottom: 6px;
+  right: 3px;
+}
 
 
 .btn_status.reject{
@@ -308,15 +333,25 @@ input[type='search']::-webkit-search-cancel-button {
 
 .cmp-img2{
   object-fit: cover;
-  width: 663px;
-  margin: 20px;
+  width: 686px;
+  /* margin: 20px; */
   height: 242px;
-  border-radius: 30px;
+  border-top-left-radius: 30px 30px;
+  border-top-right-radius: 30px 30px;
   
 }
 
+/* .cmp-img2.campagain{
+  margin: 0;
+  width: 682px ;
+} */
+/* old : 663 */
+
 
 .budget_button{
+  bottom: 1em;
+  position: relative;
+  right: 1.5em;
   width: 191px;
   height: 36px;
   border-radius: 30px;
@@ -499,15 +534,17 @@ input[type='date']::-webkit-calendar-picker-indicator {
 .containerLogoTime{
   width: 50%;
   margin-top: 0.5em;
+  margin-left: 0.5em;
 }
 
 .description_createCampaign{
-  width: fit-content;
   margin-top: 1em;
+  margin-left: 5.7em;
   font-weight: 400;
-  /* letter-spacing: 3px; */
   line-height: 18.2px;
   font-size: 14px;
+  width: 37em;
+  padding-bottom: 1em;
 }
 /* will be uncommented */
  .pic_avatar_notif {
@@ -527,16 +564,37 @@ input[type='date']::-webkit-calendar-picker-indicator {
 
 @media (max-width: 500px) {
 
+  .link_container{
+    background-color: white;
+  }
+  .campaign_container{
+    background-color: white;
+  }
+  .search-results{
+    margin-top: 10px !important;
+  }
+  .feed_container{
+    margin-top: -0.6em !important;
+  }
+
+  .cmp-img2{
+    width: 366px !important;
+  }
+
     .container_perso {
         width: 84% !important;
         margin: auto !important;
       }
 
   .div_notifications{
+    margin-top: 0em ;
     width: 120% !important;
     margin-left: -10% !important;
     border-radius: 0 !important;
     display: block !important;
+  }
+  .div_notifications.isPhish{
+    margin-top: 1em;
   }
 
   .mobile_gen_notif{    padding-right: 0px;
@@ -674,7 +732,7 @@ input[type='date']::-webkit-calendar-picker-indicator {
 }
 
 .search-results {
-  margin-top: 10px;
+  margin-top: 38px;
   margin-left: 12% !important;
   margin-right: 15% !important;
 }
@@ -760,14 +818,11 @@ input[type='date']::-webkit-calendar-picker-indicator {
 
 .close-button {
   background-color: transparent;
-  color: #1f2337;
-  border: none;
-  font-size: 16px;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  font-weight: 900;
   cursor: pointer;
-  width:18px !important;
-  height:18px !important;
+  position: relative;
+  bottom: 0.5em;
+  left: 0.38em !important;
+
 }
 
 /* //////////////////////////////////////////////////////////////////////////////// */
@@ -806,8 +861,16 @@ input[type='date']::-webkit-calendar-picker-indicator {
   size: 14px;
   letter-spacing: 3% !important;
 }
-
+.parg{
+  width: 287px !important;
+}
 /* :::::::::::::::::::::::: button */
+.img-cover{
+  margin-bottom: 30px !important;
+  margin-top: 0px !important;
+  position: relative;
+  bottom: 1.2em;
+}
 
 .button-rounded {
   margin-top: 0px !important;
@@ -823,18 +886,12 @@ input[type='date']::-webkit-calendar-picker-indicator {
   border: none;
   cursor: pointer;
   height: 42px !important;
-  width: 244px !important;
-
-    position: relative;
-    bottom: 1.8em;
-
-}
-.img-cover{
-  margin-bottom: 30px !important;
-  margin-top: 0px !important;
+  width: auto !important;
   position: relative;
-  bottom: 1.2em;
+  bottom: 0.8em;
+
 }
+
 .button-roundedblue {
   margin-top: 0px !important;
   margin-bottom: 0px !important;
@@ -849,9 +906,28 @@ input[type='date']::-webkit-calendar-picker-indicator {
   border: none;
   cursor: pointer;
   height: 42px !important;
-  width: 244px !important;
+  width: auto !important;
   position: relative;
-  bottom: 1.8em;
+  bottom: 0.8em;
+}
+
+.button-roundedblue-complete-profile {
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+  border-radius: 30px;
+  padding: 10px 60px !important;
+  background-color: #4048FF;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 700;
+  letter-spacing: 3% !important;
+  color: #fff !important;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  height: 42px !important;
+  width: auto !important;
+  position: relative;
+  bottom: 1.2em;
 }
 .button-random {
   margin-top: 0px !important;
@@ -869,7 +945,7 @@ input[type='date']::-webkit-calendar-picker-indicator {
   height: 42px !important;
   width: auto !important;
   position: relative;
-  bottom: 1.1em;
+  bottom: 0.78em;
 }
 /* filtre */
 

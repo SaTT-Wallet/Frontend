@@ -11,13 +11,10 @@ import {
 import { NotificationService } from '@core/services/notification/notification.service';
 import { ContactService } from '@core/services/contact/contact.service';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-//import * as moment from 'moment';
 import _ from 'lodash';
 import { walletUrl, ListTokens, tronScan, youtubeThumbnail } from '@config/atn.config';
 import { isPlatformBrowser } from '@angular/common';
 import { bscan, etherscan, polygonscan, bttscan } from '@app/config/atn.config';
-//import 'moment/locale/fr'
-
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { Big } from 'big.js';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -39,6 +36,7 @@ import { atLastOneChecked, requiredDescription } from '@app/helpers/form-validat
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { CampaignHttpApiService } from '@app/core/services/campaign/campaign.service';
 
+ 
 @Component({
   selector: 'app-history',
   templateUrl: './notification.component.html',
@@ -106,8 +104,8 @@ export class NotificationComponent implements OnInit {
   ];
   buttonData2 = [
     { text: "filtre_choosestatus_in_pending", toggle: true },
+    { text: "filtre_choosestatus_in_progress", toggle: true },
     { text: "filtre_choosestatus_finished", toggle: true },
-    { text: "filtre_choosestatus_in_progress", toggle: true }
   ];
   buttonData3 = [
     { text: "filtre_My_Links_to_harvest", toggle: true },
@@ -358,12 +356,11 @@ export class NotificationComponent implements OnInit {
     ) 
   }
   getButtonClass() { 
-    if (this.showNotifcationMessage === 'showing-campaign' || this.showNotifcationMessage === 'notif_buy_gas') {
+    if (this.showNotifcationMessage === 'showing-campaign' || this.showNotifcationMessage === 'notif_buy_gas' || this.showNotifcationMessage === 'showing-buy-fees') {
       return 'button-rounded';
     } else {if (this.showNotifcationMessage === 'showing-random-number' ){
       return 'button-random';
-    }else
-      return 'button-roundedblue';
+    } else return this.showNotifcationMessage === 'showing-complete-profile' ? 'button-roundedblue-complete-profile' : 'button-roundedblue';
     }
   }
   navigateTo() {
@@ -414,8 +411,6 @@ export class NotificationComponent implements OnInit {
           this.showSpinner2 = false;
           break;
         case 'showing-campaign':
-          //this.showNotifcationMessage = 'showing-random-number';
-          //this.notificationRandomNumber = 3;
           this.showNotifcationMessage = res.message;
           this.showNotification = true;
           this.campaignCover = res.data;
@@ -428,8 +423,6 @@ export class NotificationComponent implements OnInit {
           this.notificationRandomNumber = res.data;
           this.showSpinner2 = false;
           break;
-
-
         default:
           this.showNotification = false;
           this.showSpinner2 = false;
@@ -544,10 +537,20 @@ export class NotificationComponent implements OnInit {
   hideNotification() {
     this.showNotification = false;
   }
+  getStorageInformation() {
+    return window.localStorage.getItem('phishing');
+  }
+
+  isPhishing() {
+    if(this.getStorageInformation()){
+      return 'isPhish';
+    }
+    return;
+  }
+
   ngOnInit(): void {
     this.getAllNotifications();
-    this.getNotificationsDecision();
-    
+    this.getNotificationsDecision(); 
   }
   seeNotification() {
     this.NotificationService.notificationSeen()
@@ -893,6 +896,8 @@ closeModal(content: any) {
       this.showSpinner = true;
     }
   }
+
+ 
 
   getCampaignCover(cover: string) {
     return cover.replace('ipfs:', '');
