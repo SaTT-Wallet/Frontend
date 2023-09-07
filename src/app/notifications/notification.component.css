@@ -359,7 +359,7 @@ input[type='search']::-webkit-search-cancel-button {
   gap: 8px;
   font-family: "poppins";
   font-weight: 600;
-  font-size: 0.65vw;
+  
   line-height: 19.5px;
   letter-spacing: 3%;
   float: right;
@@ -369,8 +369,7 @@ input[type='search']::-webkit-search-cancel-button {
   
 }
 .svg_icons_budget_disabled {
-  width: 0.7vw;
-  height: 1vh;
+  height: 70%;
 }
 .budget_button_disabled {
   bottom: 1em;
@@ -383,7 +382,6 @@ input[type='search']::-webkit-search-cancel-button {
   gap: 8px;
   font-family: "poppins";
   font-weight: 600;
-  font-size: 0.65vw;
   line-height: 19.5px;
   letter-spacing: 3%;
   float: right;
@@ -554,6 +552,9 @@ input[type='date']::-webkit-calendar-picker-indicator {
     width: 44%;
   }
 }
+
+
+
 
 .containerLogoTime{
   width: 50%;
