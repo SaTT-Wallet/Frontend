@@ -125,6 +125,7 @@
     "css-loader": "^6.7.3",
     "currency-symbol-map": "^5.0.1",
     "domino": "^2.1.6",
+    "ethers": "^6.6.7",
     "express": "^4.17.3",
     "fast-copy": "^2.1.1",
     "file-saver": "^2.0.5",

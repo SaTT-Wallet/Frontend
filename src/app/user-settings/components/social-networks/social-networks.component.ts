@@ -12,7 +12,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CustomToastComponent } from '../custom-toast/custom-toast.component';
-
+import { environment as env } from '../../../../environments/environment';
 export interface IGetSocialNetworksResponse {
   facebook: { [key: string]: string | boolean }[];
   google: { [key: string]: string | boolean }[];
@@ -172,6 +172,7 @@ export class SocialNetworksComponent implements OnInit {
           this.setUrlMsg(params, data);
          this.channelThreads = this.checkTheradsAccountExit(data)
         
+        
          
           if (this.channelGoogle?.length !== 0) {
             count++;
@@ -246,60 +247,62 @@ export class SocialNetworksComponent implements OnInit {
   //get errors from url
  
   setUrlMsg(p: Params, data: IGetSocialNetworksResponse): void {
-    
-    
-    if (p.message) {
-      if (p.message === 'access-denied') {
-        this.errorMessage = 'access-cancel';
-        setTimeout(() => {
-          this.errorMessage = '';
-          this.router.navigate(['/home/settings/social-networks']);
-        }, 3000);
-      } else if (p.message === 'channel obligatoire') {
-        this.errorMessage = 'no_channel_found';
-        setTimeout(() => {
-          this.errorMessage = '';
-          this.router.navigate(['/home/settings/social-networks']);
-        }, 3000);
-      } else if (
-        p.message === 'account_linked_with_success' ||
-        p.message === 'account_linked_with_success_facebook' ||
-        p.message === 'account_linked_with_success_instagram_facebook' ||
-        p.message === 'required_page'
-      ) {
-        if (p.sn === 'fb' && data.facebook.length === 0) {
-          this.errorMessage = 'no_page_selected';
-        } else {
-          this.router.navigate(['/home/settings/social-networks']);
-          this.successMessage = 'account_linked_with_success';
-        }
-        setTimeout(() => {
-          this.successMessage = '';
-          this.router.navigate(['/home/settings/social-networks']);
-        }, 3000);
-      } else if (p.message === 'account exist') {
-        this.router.navigate(['/home/settings/social-networks']);
-        this.errorMessage = 'account_linked_other_account';
-        setTimeout(() => {
-          this.errorMessage = '';
-          this.router.navigate(['/home/settings/social-networks']);
-        }, 3000);
-      } else if (p.message === 'external_account') {
-        this.errorMessage = 'Your facebook page ';
-        setTimeout(() => {
-          this.errorMessage = 'account_linked_other_account';
-          this.router.navigate(['/home/settings/social-networks']);
-        }, 3000);
-      } else if (p.message === 'page already exists') {
-        this.errorMessage = 'page already exists';
-        setTimeout(() => {
-          // this.ngOnInit();
-          this.errorMessage = '';
-          this.router.navigate(['/home/settings/social-networks']);
-        }, 3000);
+    const showMessage = (message: string, type: 'error' | 'success', redirect = true): void => {
+      if (type === 'error') {
+        this.errorMessage = message;
+      } else if (type === 'success') {
+        this.successMessage = message;
       }
+      setTimeout(() => {
+        this.errorMessage = '';
+        this.successMessage = '';
+        if (redirect) {
+          this.router.navigate(['/home/settings/social-networks']);
+        }
+      }, 3000);
+    };
+  
+    switch (p.message) {
+      case 'access-denied':
+        showMessage('access-cancel', 'error');
+        break;
+  
+      case 'channel obligatoire':
+      case 'required_page':
+        showMessage('no_channel_found', 'error');
+        break;
+  
+      case 'account_linked_with_success':
+      case 'account_linked_with_success_facebook':
+      case 'account_linked_with_success_instagram_facebook':
+        if (p.sn === 'fb' && data.facebook.length === 0) {
+          showMessage('no_page_selected', 'error', false);
+        } else {
+          showMessage('account_linked_with_success', 'success');
+        }
+        break;
+  
+      case 'account exist':
+        showMessage('account_linked_other_account', 'error');
+        break;
+  
+      case 'external_account':
+        showMessage('Your facebook page', 'error', false);
+        break;
+  
+      case 'page already exists':
+        showMessage('page already exists', 'error');
+        break;
+  
+      case 'required_page':
+        showMessage('no_page_selected', 'error');
+        break;
+  
+      default:
+        break;
     }
   }
+  
 
   onReditectSocial(social: string) {
     //let url = this.router.url.split('?')[0];
@@ -320,24 +323,34 @@ export class SocialNetworksComponent implements OnInit {
         this.router.url;
   }
 
-  goToAccount(network: string, userName: string) {
+goToAccount(oracle: string, userName: string) {
+    const networkUrls: { [key: string]: string } = {
+      twitter: env.urlSocialMedia.urlTwitter,
+      google: env.urlSocialMedia.urlGoogleChannel,
+      facebook: env.urlSocialMedia.urlFacebook,
+      instagram: env.urlSocialMedia.urlInstagram,
+      linkedin: env.urlSocialMedia.urlLinkedinCompany,
+      tiktok: env.urlSocialMedia.urlTiktok,
+      threads: env.urlSocialMedia.urlthreadsAccount
+    };
+  
     if (isPlatformBrowser(this.platformId)) {
-      if (network === 'twitter') {
-        window.open('https://www.twitter.com/' + userName, '_blank');
-        // window.location.href ="https://www.twitter.com/"+userName;
-      } else if (network === 'google') {
-        window.open('https://www.youtube.com/channel/' + userName, '_blank');
-        //   window.location.href ="https://www.youtube.com/channel/"+userName;
-      } else if (network === 'facebook') {
-        window.open('https://www.facebook.com/' + userName, '_blank');
-      } else if (network === 'instagram') {
-        window.open('https://www.instagram.com/' + userName, '_blank');
-      } else if (network === 'linkedin') {
-        window.open('https://www.linkedin.com/company/' + userName, '_blank');
-      } else if (network === 'tiktok') {
-        window.open('https://www.tiktok.com/' + userName.replace(/\s/g, ''));
-      } else if(network === 'threads') {
-        window.open('https://threads.net/@' + userName, '_blank')
+      const socialMediaBaseUrl = networkUrls[oracle];
+      
+      if (socialMediaBaseUrl) {
+        let url = socialMediaBaseUrl;
+  
+        if (oracle === env.oracleType.linkedin) {
+          const parts = userName.split(":");
+          const linkedinId = parts[3];
+          url += linkedinId;
+        } else if (oracle === env.oracleType.tiktok) {
+          url += userName.replace(/\s/g, '');
+        } else {
+          url += userName;
+        }
+  
+        window.open(url, '_blank');
       }
     }
   }

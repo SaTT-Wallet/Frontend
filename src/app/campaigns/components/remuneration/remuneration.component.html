@@ -15,10 +15,74 @@
         }}</label>
       </div>
 
+      <!-- <ng-template #tokenModal>
+        <app-ad-pool-token-select
+          (tokenSelected)="onCryptoSelected($event)"
+          [selectedNetworkValue]="selectedCryptoDetails.network"
+        ></app-ad-pool-token-select>
+      </ng-template> -->
+      <!-- <button (click)="createTokenModal()">
+        Click Me : {{ selectedToken?.value.name }}
+      </button> -->
+
+      <!-- new sk -->
+      <!-- <div class="height-drop container" [formGroup]="newForm">
+        <div class="row justify-content-center">
+          <div class="col-2">
+            <select id="networkSelect" formControlName="selectedNetworkNew">
+              <option *ngFor="let network of networksNew" [value]="network">
+                {{ network }}
+              </option>
+            </select>
+          </div>
+          <div class="col-2">
+            <select id="tokenSelect" formControlName="selectedTokenNew">
+              <option
+                *ngFor="let token of selectedTokensNew"
+                [value]="token.symbol"
+              >
+                {{ token.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <ng-template #selectTokenModalNew>
+          <div class="modal_container">
+            <h3 class="modal_title w-fit mx-auto">Select token</h3>
+            <p class="modal_subtitle">
+              {{ 'your network:' | uppercase }}
+              <span class="network_selected">{{
+                form.value.selectedNetworkNew
+              }}</span>
+            </p>
+            <div class="input_search_token_container">
+              <i id="search_logo" class="bi bi-search"></i>
+              <input type="text" placeholder="..." />
+            </div>
+          </div>
+          <div class="container">
+            <div class="row">
+              <div><div>futur crypto preview</div></div>
+            </div>
+          </div>
+        </ng-template> -->
+      <!-- <div>
+          <p>You selected network: {{ form.value.selectedNetworkNew }}</p>
+          <p>You selected token: {{ form.value.selectedTokenNew }}</p>
+          <p>Token Address: {{ selectedTokenAddress() }}</p>
+          <img
+            *ngIf="selectedTokenLogoUrl()"
+            [src]="selectedTokenLogoUrl()"
+            alt="Token Logo"
+          />
+        </div>
+        <button (click)="logSelectedValues()">Create Campaign</button> -->
       <div class="height-drop">
         <app-dropdown-crypto-network
           (selectedCrypto)="linstingCrypto($event)"
-          [cryptoFromDraft]="this.draftData.currency.name"
+          [cryptoFromDraft]="this.form.get('currency')?.value"
+          [selectedNetworkValue]="selectedNetworkValue"
+          [res]="cryptodata"
         ></app-dropdown-crypto-network>
       </div>
       <div class="">
@@ -31,6 +95,7 @@
           input
           class="amount input-amount"
           placeholder="0"
+         
           (input)="convertcurrency('amount')"
           [(ngModel)]="this.amount"
         />
@@ -40,9 +105,7 @@
       >
         <!-- <p class="hard-gray-text mb-0">Balance :{{ totalAmount }} USD</p> -->
         <p class="hard-gray-text mb-0">
-          Balance :${{
-            this.selectedCryptoDetails?.total_balance | showNumbersRule
-          }}
+          Balance :${{ selectedCryptoDetails.total_balance | showNumbersRule }}
         </p>
 
         <span class="router-text" (click)="onClickAmount()">{{
@@ -58,23 +121,24 @@
             class="usd input-amount-usd"
             (keydown)="restrictZero($event)"
             (keypress)="keyPressNumbersWithDecimal($event, 'usd')"
-            onchange="saveForm()"
             placeholder="0"
             formControlName="initialBudgetInUSD"
             (input)="convertcurrency('usd')"
             #inputAmountUsd
             [(ngModel)]="this.amountUsd"
-            
           />
         </div>
       </div>
       <div
-        class="pointer row d-flex justify-content-center pt-3 mb-1"
-        [routerLink]="['/wallet/buy-token']"
-        target="_blank"
+        class=" row d-flex justify-content-center pt-3 mb-1"
+        
+        
       >
         <div
+        
           class="div-Not-enough-satt col-xxl-3 col-xl-4 col-md-12 col-lg-5 col-sm-8 col-10 d-flex align-items-center justify-content-start"
+          [routerLink]="['/wallet/buy-token']"
+          target="_blank"
         >
           <img
             src="assets/Images/exclam-attente.svg"
@@ -87,12 +151,12 @@
         </div>
       </div>
       <div
-        class="pointer row d-flex justify-content-center pt-3 mb-1"
-        [routerLink]="['/wallet']"
-        target="_blank"
+        class="row d-flex justify-content-center pt-3 mb-1"
       >
         <div
-          class="div-Not-enoughsatt col-xxl-3 col-xl-3 col-md-12 col-lg-4 col-sm-8 col-10 d-flex align-items-center justify-content-start"
+          class="div-Not-enoughsatt col-xxl-3 col-xl-3 col-md-12 col-lg-4 col-sm-8 col-10 d-flex align-items-center justify-content-start pointer"
+          [routerLink]="['/wallet']"
+          target="_blank"
         >
           <img
             src="assets/Images/exclam.svg"
@@ -109,12 +173,9 @@
           class="col-xxl-3 col-xl-3 col-md-12 col-lg-4 col-sm-8 col-10 d-flex align-items-center justify-content-center"
         >
           <div class="error d-flex initialBudgetError ml-4">
-            <span
-              *ngIf="
-              fieldRequired && validFormBudgetRemun
-              "
-              >{{ 'campaign.field_required' | translate }}</span
-            >
+            <span *ngIf="fieldRequired && validFormBudgetRemun">{{
+              'campaign.field_required' | translate
+            }}</span>
           </div>
         </div>
       </div>
@@ -129,9 +190,9 @@
               'not_enough_balance' | translate
             }}</span>
             -->
-            <span *ngIf="insufficientBalance"> {{
-              'not_enough_balance' | translate
-            }}</span>
+            <span *ngIf="insufficientBalance">
+              {{ 'not_enough_balance' | translate }}</span
+            >
           </div>
         </div>
       </div>
@@ -212,10 +273,7 @@
         </div>
         <!-------------bloc toggle------>
 
-        <div
-          class="row d-flex justify-content-center pt-3 mb-1"
-         
-        >
+        <div class="row d-flex justify-content-center pt-3 mb-1">
           <div
             class="col-xl-10 col-md-12 col-lg-10 col-sm-12 d-flex flex-row justify-content-between"
           >
@@ -334,7 +392,6 @@
                           errors: isFieldValid(ratio, 'view')
                         }"
                       >
-                      
                         <input
                         [ngStyle]="{'color':ratio.value.oracle === 'threads'? '#ADADC8': 'black'}"
                           type="text"
@@ -469,9 +526,7 @@
             </div>
           </div>
         </ng-container>
-        <div
-          class="justify-content-center error d-flex initialBudgetError"
-        >
+        <div class="justify-content-center error d-flex initialBudgetError">
           <span *ngIf="this.form.errors?.InsufficientBudget">{{
             'campaign.InsufficientBudget' | translate
           }}</span>

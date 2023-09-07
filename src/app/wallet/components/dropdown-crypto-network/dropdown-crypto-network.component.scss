@@ -5,9 +5,221 @@
   display: none;
 }
 
+.mobile_bt_tokenModal {
+  border: none;
+  background-color: transparent;
+  display: none;
+  font-size: 1.5em;
+}
+
 button:focus {
   outline: none;
   box-shadow: none;
+}
+.modal_container {
+  padding: 1em;
+  height: 693px;
+  width: 430px;
+
+  .list_crypto_container {
+    height: 17.5em;
+  }
+
+  // .list_token {
+  //   background-color: transparent;
+  // }
+}
+
+@media only screen and (max-width: 600px) {
+  .modal_container {
+    width: 100vw;
+    height: 100vh;
+  }
+  .input_search_token {
+    width: 16em;
+    background-color: transparent;
+  }
+  .img_token {
+    margin-left: 0em !important;
+    border-radius: 1em;
+  }
+  .tokens_preview {
+    justify-content: unset !important;
+  }
+
+  .list_crypto_container {
+    height: 18em !important;
+  }
+
+  .container {
+    padding-left: 0px !important;
+  }
+
+  .mobile_bt_tokenModal {
+    display: block;
+    float: right;
+  }
+  .list_token {
+    background-color: transparent !important;
+  }
+}
+
+.modal_title {
+  font-family: 'Poppins';
+  font-weight: 700;
+  line-height: 28px;
+  width: fit-content;
+  margin: auto;
+  padding: 1em;
+}
+
+.button_add_token {
+  width: fit-content;
+  margin: auto;
+  background-color: #4048ff;
+}
+.modal_subtitle {
+  margin-left: 1.4em;
+  font-weight: 600;
+  font-family: 'Poppins';
+  padding: 1em 0em;
+  text-transform: uppercase;
+}
+
+.warning_message {
+  color: #4048ff;
+}
+
+.label_title {
+  margin-left: 1.4em;
+  padding: 0;
+  font-weight: 600;
+  font-family: 'Poppins';
+  text-transform: uppercase;
+}
+
+.network_selected {
+  border-radius: 30px;
+  padding: 0.5em;
+  color: #4048ff;
+  background-color: #f6f6ff;
+  text-transform: uppercase;
+}
+
+.input_search_token_container {
+  // display: inline-block;
+  margin: auto;
+  margin-bottom: 1em;
+  // width: 23.5em;
+  width: auto;
+  border-radius: 30px;
+  border-color: #d6d6e8;
+  border-width: 1px;
+  border-style: solid;
+  padding: 0.7em;
+  // width: fit-content;
+}
+
+.input_search_token {
+  width: 15em;
+  font-weight: 400;
+  border: none;
+  outline: none;
+  // width: 100%; /* Use the full width of the container */
+}
+
+.tokens_preview {
+  cursor: pointer;
+  width: 107px;
+  height: 3em;
+  border-color: #d6d6e8;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 52px;
+}
+
+#search_logo {
+  padding: 1em 1em;
+}
+
+.list_crypto_container {
+  height: 22.5em;
+  overflow: auto;
+}
+
+.list_crypto_container::-webkit-scrollbar {
+  width: 10px;
+}
+
+.list_crypto_container::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: 75758F;
+}
+
+.warning_div {
+  width: fit-content;
+  margin: auto;
+}
+
+.list_token {
+  background-color: #f6f6ff;
+  cursor: pointer;
+  margin: auto;
+  margin-bottom: 1em;
+  border-radius: 31px;
+  height: 42px;
+  max-width: 335px; /* Set a maximum width for the token list */
+  padding: 0.3em 0 0 0;
+}
+
+.img_token {
+  // padding: 0em 1em;
+  border-radius: 1em;
+  margin-left: 1em;
+  width: 32px;
+  height: 32px;
+}
+
+.img_token.i_preview {
+  margin-left: 0em;
+}
+
+.name_token {
+  margin: 0;
+  padding: 0.5em;
+  font-family: 'Poppins';
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20.8px;
+  letter-spacing: 3%;
+}
+
+.name_token.n_preview {
+  padding: 0em;
+  margin: auto;
+}
+
+.balance_token {
+  margin-right: 1em;
+  padding: 0.5em;
+  font-size: 16px;
+  line-height: 20.8px;
+  letter-spacing: 3%;
+}
+
+.form-group {
+  padding: 0;
+  display: flex;
+  flex-direction: column; /* Display label and input in a column */
+}
+
+.form-group label {
+  margin-bottom: 5px; /* Optional: Add some space between label and input */
+}
+
+.form-group input {
+  /* Add any additional styling for the input here */
+  // width: 100%; /* Use the full width of the container */
 }
 
 .dropdown-menu {
@@ -121,7 +333,7 @@ button:focus {
   // position: relative;
   height: 48px;
   padding-left: 2%;
-  // width: 100%;
+  width: 100%;
   // width: 145px;
   text-align: initial;
 }
@@ -151,6 +363,27 @@ button:focus {
   height: 24px;
   position: absolute;
   left: 6px;
+}
+
+.add-btn {
+  /* width: 200px; */
+  width: 22%;
+  text-align: center;
+  min-width: 177px;
+  border-radius: 30px;
+  background: #4048ff;
+  color: white;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  border: none;
+  text-align: center;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto !important;
 }
 
 .width-network-erc20 {

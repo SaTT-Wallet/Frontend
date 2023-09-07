@@ -13,7 +13,8 @@ import {
   PLATFORM_ID,
   Inject,
   Renderer2,
-  AfterViewInit
+  AfterViewInit,
+  TemplateRef
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -71,6 +72,9 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
   @ViewChild('image', { static: false }) image!: ElementRef;
   @ViewChild('size', { static: false }) size!: ElementRef;
   @Input() listeningToDownloadFiles: boolean = false;
+
+  @ViewChild('calculRoi', { static: false })
+  private calculRoi!: TemplateRef<any>;
   kitsImages: any = [];
   titleTab: string = '';
   countriesListObj: any = arrayCountries;
@@ -497,6 +501,12 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
     this.budgetform.reset();
   }
 
+  caluculateRoi(id :any , event: any){
+    event.stopPropagation();
+    this.modalService.open(this.calculRoi);
+    
+  }
+
   ngOnChanges() {
     this.currencyName = this.campaign.currency.name;
     if (
@@ -871,6 +881,16 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
         }
       });
   }*/
+
+
+  closeRoi($event: any){
+  
+    
+    if ($event){
+      this.closeModal(this.calculRoi)
+    }
+
+  }
   getUrlSmartContart() {
     const scanUrls :any = {
       ERC20: environment.etherscan,

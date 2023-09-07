@@ -1,12 +1,12 @@
 <div
   class="d-flex w-100 h-100 justify-content-center align-items-start"
-  *ngIf="isLoading"
+  *ngIf="isLoading && cryptoListLoading"
 >
   <div class="mt-3">
     <img style="transform: scale(0.5)" src="/assets/Images/loadingLogo.gif" />
   </div>
 </div>
-<div *ngIf="!isLoading">
+<div *ngIf="!isLoading && !cryptoListLoading">
   <div class="wallet-page" (window:resize)="onResizeWindow($event)">
     <span id="span-top" class="span-top"></span>
 
@@ -53,6 +53,7 @@
     <!------------------------- bloc Rémunération and budget ----------------------->
     <div class="div-block mt-3 pb-3">
       <app-remuneration
+        [cryptodata]="cryptodata"
         [hidden]="campaignData.isActive && campaignData.isOwnedByUser"
         [draftData]="campaignData"
         [id]="draftId"
@@ -60,6 +61,7 @@
         [notValidMissionFromEdit]="sendErrorToMissionRemu"
         (validFormBudgetRemun)="listenForBudgetRemunChange($event)"
         (validFormMissionFromRemuToEdit)="listenForMissionChange($event)"
+        
       ></app-remuneration>
     </div>
     <div class="row w-100 justify-content-center">

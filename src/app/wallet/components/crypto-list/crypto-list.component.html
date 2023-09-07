@@ -49,7 +49,9 @@
                   class="col-2 d-flex align-items-center justify-content-start"
                   style="padding-left: 2em"
                 >
-                  <div class="col-title">{{ 'PRICE_Crypto_List' | translate }}</div>
+                  <div class="col-title">
+                    {{ 'PRICE_Crypto_List' | translate }}
+                  </div>
                 </div>
                 <div
                   class="col-2 d-flex align-items-center justify-content-start pl-4"
@@ -59,7 +61,9 @@
                 <div
                   class="col-2 d-flex align-items-center justify-content-start pl-4"
                 >
-                  <div class="col-title">{{ 'USD_VALUE_Crypto_List' | translate }}</div>
+                  <div class="col-title">
+                    {{ 'USD_VALUE_Crypto_List' | translate }}
+                  </div>
                 </div>
                 <div
                   class="col-2 d-flex align-items-center justify-content-start"
@@ -1860,7 +1864,7 @@
                   res.length === 0 &&
                   res2.length === 0 &&
                   this.searched &&
-                  search.indexOf('0x') < 0
+                  !importManually
                 "
               >
                 <img class="not-found" src="/assets/Images/not-found.svg " />
@@ -1868,6 +1872,32 @@
                 <p class="result-found make-center mt-3">
                   {{ 'No_result_found' | translate }}
                 </p>
+
+                <div
+                  class="row d-flex justify-content-center mb-3 mt-2"
+                  *ngIf="cryptoList.length !== 0"
+                  style="position: relative; padding-bottom: 11rem"
+                >
+                  <div
+                    class="d-flex justify-content-center align-items-center"
+                    style="text-align: center"
+                    *ngIf="!importManually && txtValue"
+                  >
+                    You don’t find your token in our list?<br />
+                    You can add it manually.
+                  </div>
+                  <div
+                    class="d-flex justify-content-center align-items-center mt-5"
+                    *ngIf="!importManually && txtValue"
+                  >
+                    <span
+                      class="import-manually-btn"
+                      (click)="importManually = true"
+                      >Import Manually</span
+                    >
+                  </div>
+                  <!--<div class="col-sm-8 d-flex justify-content-center" [routerLink]="['/wallet/add-token']" > <button class="white-btn mb-4" style="margin-bottom: 70px !important"> + {{ 'addToken' | translate }} </button> </div>-->
+                </div>
               </div>
               <div *ngIf="!!search">
                 <div
@@ -1939,20 +1969,16 @@
                         >
                           <span class="sr-only">Loading...</span>
                         </div>
-                        <span *ngIf="!crypto.isLoading">{{ 'importThisToken' | translate }}</span>
+                        <span *ngIf="!crypto.isLoading">{{
+                          'importThisToken' | translate
+                        }}</span>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div
-                *ngIf="
-                  res2.length === 0 &&
-                  res.length === 0 &&
-                  search?.indexOf('0x') >= 0 &&
-                  !!search
-                "
-              >
+
+              <div *ngIf="importManually && !!txtValue">
                 <form
                   [formGroup]="formToken"
                   class="d-flex justify-content-center pb-2 pt-2 row w-100"
@@ -2022,6 +2048,26 @@
                               </ul>
                             </div>
                           </div>
+
+                          <div
+                            *ngIf="errorMsg === '' && addManual"
+                            class="mt-3 d-flex justify-content-center flex-column"
+                            style="width: 80%"
+                          >
+                            <label class="label-type"
+                              >{{ 'addToken.smart_contract' | translate }}
+                            </label>
+                            <input
+                              id="smartcontractkey"
+                              type="text"
+                              formControlName="smartcontract"
+                              class="input-type"
+                              (ngModelChange)="
+                                onTextChange($event); clearInput()
+                              "
+                            />
+                          </div>
+
                           <div
                             *ngIf="errorMsg == ''"
                             class="mt-3 d-flex justify-content-center flex-column"
@@ -2057,11 +2103,10 @@
                               <span
                                 class="error_msg"
                                 *ngIf="
-                                  !this.formToken.get('tokenAdress')?.errors
+                                  !this.formToken.get(value)?.errors
                                     ?.required &&
                                   isSubmited &&
-                                  this.formToken.get('tokenAdress')?.errors
-                                    ?.pattern
+                                  this.formToken.get(value)?.errors?.pattern
                                 "
                                 >{{
                                   'addToken.token-or-network-invalid'
@@ -2072,8 +2117,7 @@
                                 class="error_msg"
                                 *ngIf="
                                   errorMsg !== '' &&
-                                  !this.formToken.get('tokenAdress')?.errors
-                                    ?.pattern
+                                  !this.formToken.get(value)?.errors?.pattern
                                 "
                               >
                                 {{ errorMsg | translate }}</span
@@ -2087,8 +2131,7 @@
                             <div
                               *ngIf="
                                 formToken.controls.tokenAdress.dirty &&
-                                !this.formToken.get('tokenAdress')?.errors
-                                  ?.required &&
+                                !this.formToken.get(value)?.errors?.required &&
                                 isLoading
                               "
                               class="spinner-border loading-spinner"
@@ -2284,8 +2327,7 @@
                               crypto.undername2
                             }}.svg"
                             alt=""
-                           (click)="goToCryptoDetails(crypto.symbol)"
-
+                            (click)="goToCryptoDetails(crypto.symbol)"
                           />
                         </div>
                         <!-- <img
@@ -3019,6 +3061,24 @@
                         </ul>
                       </div>
                     </div>
+
+                    <div
+                      *ngIf="addManual"
+                      class="mt-3 d-flex justify-content-center flex-column"
+                      style="width: 80%"
+                    >
+                      <label class="label-type"
+                        >{{ 'addToken.smart_contract' | translate }}
+                      </label>
+                      <input
+                        id="smartcontractkey"
+                        type="text"
+                        formControlName="smartcontract"
+                        class="input-type"
+                        (ngModelChange)="onTextChange($event); clearInput()"
+                      />
+                    </div>
+
                     <div
                       class="mt-3 d-flex justify-content-center flex-column w-100"
                     >
@@ -3050,10 +3110,9 @@
                         <span
                           class="error_msg"
                           *ngIf="
-                            !this.formToken.get('tokenAdress')?.errors
-                              ?.required &&
+                            !this.formToken.get(value)?.errors?.required &&
                             isSubmited &&
-                            this.formToken.get('tokenAdress')?.errors?.pattern
+                            this.formToken.get(value)?.errors?.pattern
                           "
                           >{{
                             'addToken.token-or-network-invalid' | translate
@@ -3063,7 +3122,7 @@
                           class="error_msg"
                           *ngIf="
                             errorMsg !== '' &&
-                            !this.formToken.get('tokenAdress')?.errors?.pattern
+                            !this.formToken.get(value)?.errors?.pattern
                           "
                         >
                           {{ errorMsg | translate }}</span
@@ -3075,8 +3134,7 @@
                       <div
                         *ngIf="
                           formToken.controls.tokenAdress.dirty &&
-                          !this.formToken.get('tokenAdress')?.errors
-                            ?.required &&
+                          !this.formToken.get(value)?.errors?.required &&
                           isLoading
                         "
                         class="spinner-border loading-spinner"
@@ -3126,7 +3184,6 @@
                   res.length === 0 &&
                   res2.length === 0 &&
                   this.searched &&
-                  search.indexOf('0x') < 0 &&
                   !importManually
                 "
               >

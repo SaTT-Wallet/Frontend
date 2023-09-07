@@ -10,7 +10,7 @@ export const environment = {
   ipfsURL: 'https://ipfs.io/ipfs/',
   //https://api-preprod2.satt-token.com
 
-  API_URL:  'https://api-preprod2.satt-token.com',
+  API_URL: 'https://api-preprod2.satt-token.com',
 
   url_subgraph_bsc:
     'https://api.thegraph.com/subgraphs/name/atayen/satt-testnet',
@@ -21,8 +21,8 @@ export const environment = {
   // 'https://api-preprod.satt-token.com:3014',
   addresses: {
     smartContracts: {
-      campaignERC20: '0xbc27de58DDCEd7A2BB911BE2E18D0FA1A49fF7D3',
-      campaignBEP20: '0x79Ab8dd7267F45AdF846F0dE0732759e3456Bee3',
+      campaignERC20: '0x0A40CEbd090Aedeb912903D8fDbEeb8d066807A4',
+      campaignBEP20: '0x5F8E7481303aC3Ab4ca5AB7d9a6422eA8a8b21dE',
       campaignPOLYGON: '0xD6Cb96a00b312D5930FC2E8084A98ff2Daa5aD2e',
       campaignBTT: '0x261491739e36090FC80fF1569B7E5FFe26070d77',
       campaignTRON: 'THUD3VAxyTEmMCBEjd2AcSujzbgPSu39p9',
@@ -67,7 +67,7 @@ export const environment = {
   bttscanAddr: 'https://testnet.bttcscan.com/address/',
   tronScanAddr: 'https://shasta.tronscan.org/#/address/',
   etherscanaddr: 'https://goerli.etherscan.io/address/',
-  dateRefund :1296000,
+  dateRefund: 1296000,
   simplexUrl: 'https://sandbox.test-simplexcc.com/payments/new',
   gmtId: 'GTM-5XW23QX',
 
@@ -81,7 +81,7 @@ export const environment = {
   FACEBOOK_URL: 'https://www.facebook.com/',
   M_FACEBOOK_URL: 'https://m.facebook.com/',
   TIKTOK_URL: 'https://www.tiktok.com/',
-  TIKTOK_SHORTEN_LINK:'https://vm.tiktok.com',
+  TIKTOK_SHORTEN_LINK: 'https://vm.tiktok.com',
   FACEBOOK_POST_URL:
     'https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F',
   Network: {
@@ -112,7 +112,14 @@ export const environment = {
     tiktok: 'tiktok'
   },
   urlSocialMedia: {
-    urlTiktok: 'https://www.tiktok.com/'
+    urlTwitter: 'https://www.twitter.com/',
+    urlGoogleChannel: 'https://www.youtube.com/channel/',
+    urlFacebook: 'https://www.facebook.com/',
+    urlInstagram: 'https://www.instagram.com/',
+    urlLinkedinCompany: 'https://www.linkedin.com/company/',
+    urlTiktok: 'https://www.tiktok.com/',
+    urlthreadsAccount: 'https://threads.net/@'
+
   }
   // gmtId: 'GTM-5XW23QX'
 

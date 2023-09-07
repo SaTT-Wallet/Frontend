@@ -5,7 +5,7 @@ import {
   ElementRef,
   OnDestroy,
   Inject,
-  Renderer2,
+  Renderer2
 } from '@angular/core';
 import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-service.service';
 import { GazConsumedByCampaign, ListTokens } from '@config/atn.config';
@@ -13,7 +13,11 @@ import { SidebarService } from '@core/services/sidebar/sidebar.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators
+} from '@angular/forms';
 import {
   catchError,
   filter,
@@ -180,7 +184,7 @@ export class ConvertComponent implements OnInit, OnDestroy {
     public sidebarService: SidebarService,
     public modalService: NgbModal,
     public translate: TranslateService,
-    private renderer:Renderer2,
+    private renderer: Renderer2,
     private spinner: NgxSpinnerService,
     private tokenStorageService: TokenStorageService,
     private walletFacade: WalletFacadeService,
@@ -191,7 +195,10 @@ export class ConvertComponent implements OnInit, OnDestroy {
         null,
         Validators.compose([Validators.required, Validators.min(0)])
       ),
-      AmountUsd: new UntypedFormControl(null, Validators.compose([Validators.min(0)])),
+      AmountUsd: new UntypedFormControl(
+        null,
+        Validators.compose([Validators.min(0)])
+      ),
       password: new UntypedFormControl(null, Validators.required),
       currency: new UntypedFormControl(null)
     });
@@ -256,11 +263,19 @@ export class ConvertComponent implements OnInit, OnDestroy {
     let elementinputconvert = this.inputAmountConvert?.nativeElement;
 
     if (elementinput)
-    this.renderer.setStyle(elementinput,'width', elementinput.value.length + 'ch')
-      //elementinput.style.width = elementinput.value.length + 'ch';
+      this.renderer.setStyle(
+        elementinput,
+        'width',
+        elementinput.value.length + 'ch'
+      );
+    //elementinput.style.width = elementinput.value.length + 'ch';
     if (elementinputusd)
-    this.renderer.setStyle(elementinputusd,'width', elementinputusd.value.length + 'ch')
-      //elementinputusd.style.width = elementinputusd.value.length + 'ch';
+      this.renderer.setStyle(
+        elementinputusd,
+        'width',
+        elementinputusd.value.length + 'ch'
+      );
+    //elementinputusd.style.width = elementinputusd.value.length + 'ch';
     if (elementinputreceive)
       elementinputreceive.style.width = elementinputreceive.value.length + 'ch';
     if (elementinputreceiveusd)
@@ -786,11 +801,10 @@ export class ConvertComponent implements OnInit, OnDestroy {
         return {
           bnb: this.bnb,
           Eth: this.eth,
-          matic : this.matic
-
+          matic: this.matic
         };
       }),
-      switchMap(({ bnb, Eth ,matic}) => {
+      switchMap(({ bnb, Eth, matic }) => {
         return forkJoin([
           this.walletFacade.getEtherGaz().pipe(
             tap((gaz: any) => {
@@ -825,12 +839,10 @@ export class ConvertComponent implements OnInit, OnDestroy {
             })
           ),
           this.walletFacade.getPolygonGaz().pipe(
-           
             tap((gaz: any) => {
-              this.showSpinner = false; 
+              this.showSpinner = false;
               let price;
               price = gaz.data.gasPrice;
-            
 
               this.polygonGaz = (
                 ((price * GazConsumedByCampaign) / 1000000000) *

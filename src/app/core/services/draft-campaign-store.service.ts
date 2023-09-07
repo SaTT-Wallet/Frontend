@@ -163,7 +163,7 @@ export class DraftCampaignStoreService {
     let obs = this.campaignService.updateOneById(values, id);
     obs
       .pipe(
-        map((response: any) =>  response.updatedCampaign),
+        map((response: any) => response.updatedCampaign),
         catchError(() => {
           //TODO: handle errors with error handling service instead of logging them to console.
           // console.log(err);
@@ -202,6 +202,7 @@ export class DraftCampaignStoreService {
         })
       )
       .subscribe((campaign: Campaign) => {
+        console.log('ezaeaze', campaign);
         if (campaign) {
           this.setDraft(campaign);
           this.campaignsStore.updateDraftCampaign(campaign);

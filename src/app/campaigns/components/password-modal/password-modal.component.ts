@@ -212,10 +212,13 @@ export class PasswordModalComponent implements OnInit {
 
   calculateStartDate() {
     let date = new Date();
+    let dateInSeconds = new Date(date);
 
-    date.setMinutes(date.getMinutes() + 60);
-    date.setSeconds(0);
-    let dateInSeconds = Math.floor(date.getTime() / 1000);
+
+    date.setMinutes(date.getMinutes() + 60);	  
+    dateInSeconds.setMinutes(date.getMinutes() + 60);
+    date.setSeconds(0);	  
+    dateInSeconds.setSeconds(0);
 
     return dateInSeconds;
   }
@@ -569,6 +572,8 @@ export class PasswordModalComponent implements OnInit {
   }
 
   launchCampaignWithPerPerformanceReward(campaign_info: any) {
+    const startDateUnix = Math.floor(campaign_info.startDate.getTime() / 1000);
+    campaign_info.startDate = startDateUnix;
     if(campaign_info.currency === 'BNB') campaign_info.tokenAddress = null;
     return this.campaignService.createCompaign(campaign_info).pipe(
       tap(() => {
@@ -581,6 +586,9 @@ export class PasswordModalComponent implements OnInit {
   }
 
   launchCampaignWithPerPublicationReward(campaign_info: any) {
+    const startDateUnix = Math.floor(campaign_info.startDate.getTime() / 1000);
+    campaign_info.startDate = startDateUnix
+    console.log(startDateUnix)
     return this.campaignService.launchCampaignWithBounties(campaign_info).pipe(
       tap(() => {
         this.gasError = false;

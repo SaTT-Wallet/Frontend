@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler } from '@angular/common/http';
+import {
+  HttpInterceptor,
+  HttpRequest,
+  HttpHandler
+} from '@angular/common/http';
 import { environment } from '@environments/environment';
-
-
-
 
 @Injectable()
 export class HttpInterceptorService implements HttpInterceptor {
-
-
   // List of private API endpoints
   privateEndPoints = [
-
     // AUTH API
     `${environment.API_URL}/auth/purge`,
     `${environment.API_URL}/auth/changePassword`,
@@ -21,8 +19,6 @@ export class HttpInterceptorService implements HttpInterceptor {
     `${environment.API_URL}/auth/qrCode`,
     `${environment.API_URL}/auth/verifyQrCode`,
     `${environment.API_URL}/auth/verify-token`,
-
-
 
     // WALLET API
     `${environment.API_URL}/wallet/mywallet`,
@@ -46,10 +42,7 @@ export class HttpInterceptorService implements HttpInterceptor {
     `${environment.API_URL}/wallet/export-keystore`,
     `${environment.API_URL}/wallet/getQuote`,
     `${environment.API_URL}/wallet/payementRequest`,
-
-  
-
-
+    `${environment.API_URL}/wallet/getBalance`,
 
     // CAMPAIGN API
     `${environment.API_URL}/campaign/btt/approval`,
@@ -80,11 +73,6 @@ export class HttpInterceptorService implements HttpInterceptor {
     `${environment.API_URL}/campaign/statLinkCampaign`,
     `${environment.API_URL}/campaign/reject`,
     `${environment.API_URL}/campaign/deleteDraft`,
-
-    
-
-
-
 
     // PROFILE API
     `${environment.API_URL}/profile/picture`,
@@ -120,57 +108,49 @@ export class HttpInterceptorService implements HttpInterceptor {
     `${environment.API_URL}/profile/check/threads-account`,
     `${environment.API_URL}/profile/add/threads-account`,
     `${environment.API_URL}/profile/remove/threads-account`,
-
-    
-    
-    
+    `${environment.API_URL}/profile/notifications/decision`  
   ]; 
 
   constructor() { }
 
+
   intercept(request: HttpRequest<any>, next: HttpHandler) {
-    
     // Check if the URL of the current request is in the list of private endpoints
-    if (this.privateEndPoints.some(url => request.url.startsWith(url))) {
+    if (this.privateEndPoints.some((url) => request.url.startsWith(url))) {
       // If the URL is not in the list, clone the request and add the token
-      const condition = request.url.includes('ipfs') 
-                        || request.url.includes('addKits') 
-                        || (request.url.includes('profile/picture') && request.method === 'POST') 
-                        || request.url.includes('add/Legalprofile')
+      const condition =
+        request.url.includes('ipfs') ||
+        request.url.includes('addKits') ||
+        (request.url.includes('profile/picture') &&
+          request.method === 'POST') ||
+        request.url.includes('add/Legalprofile');
       const modifiedRequest = request.clone({
-        setHeaders: this.getHeader("private",condition)
+        setHeaders: this.getHeader('private', condition)
       });
 
       // Pass the modified request to the next handler
       return next.handle(modifiedRequest);
     } else {
       const modifiedRequest = request.clone({
-        setHeaders: this.getHeader("public")
+        setHeaders: this.getHeader('public')
       });
       return next.handle(modifiedRequest);
     }
-
-   
-   
   }
-
 
   getHeader(type: string, contentType?: boolean) {
     let headers: { [header: string]: string } = {
-      'Cache-Control': 'no-store',
+      'Cache-Control': 'no-store'
     };
-    if(type === "private") {
-      if(!contentType) headers['Content-Type'] = 'application/json'
+    if (type === 'private') {
+      if (!contentType) headers['Content-Type'] = 'application/json';
       const token = window.localStorage.getItem('access_token');
       if (token) {
         headers['Authorization'] = 'Bearer ' + token;
       }
-      
     } else {
-      headers['Content-Type'] = 'application/json'
+      headers['Content-Type'] = 'application/json';
     }
     return headers;
-    
   }
 }
-

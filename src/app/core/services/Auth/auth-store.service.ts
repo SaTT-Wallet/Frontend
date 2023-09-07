@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from '@core/services/Auth/auth.service';
 import { filter, tap } from 'rxjs/operators';
+import { TokenStorageService } from '../tokenStorage/token-storage-service.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthStoreService {
-  constructor(private auth: AuthService) {}
+  constructor(private auth: AuthService, private tokenStorageService: TokenStorageService) {}
 
   private _account: BehaviorSubject<any> = new BehaviorSubject(null);
   readonly account$ = this._account
@@ -25,6 +26,8 @@ export class AuthStoreService {
   public getAccount() {
     return this.auth.verifyAccount().pipe(
       tap((res) => {
+        const walletVersion = res.data.migrated ? 'v2' : 'v1';
+        this.tokenStorageService.setItem('wallet_version', walletVersion);
         this.setAccount(res);
       })
     );

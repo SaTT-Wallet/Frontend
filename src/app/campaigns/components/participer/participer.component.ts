@@ -194,12 +194,10 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
         this.urlTronsformed = value;
         
         if (value !== '') {
-          console.log('test')
           this.linkNetorwkMutch = true;
           this.linked = false;
           this.validUrl = true;
-          console.log((this.urlTronsformed?.errors?.pattern || !this.validUrl) &&
-        !this.urlTronsformed?.errors?.required)
+          
         }
         this.spinner = true;
         this.errorResponse = '';

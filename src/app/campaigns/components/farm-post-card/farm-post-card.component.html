@@ -151,32 +151,34 @@
         </div>
         <div class="div-date">
           <h2
-            class="under_gains date"
-            *ngIf="localId === 'en' && prom.applyDate"
+          class="under_gains date"
+          *ngIf="localId === 'en' && prom.applyDate"
           >
-            <!-- h:mm:ss a -->
-            <span>
-              <img src="assets/Images/calender.svg" width="16px" />
-              {{ prom.applyDate | date: 'MM/dd/yyyy':undefined:localId || '' }}
-            </span>
-            <!-- <span class="span-hours">
-              <img src="assets/Images/clock-link.svg" width="16px" />
-              {{ prom.applyDate | date: 'h:mm ':undefined:localId || '' }}
-            </span> -->
+          <!-- h:mm:ss a -->
+          <span>
+          <img src="assets/Images/calender.svg" width="16px" />
+          {{ prom.applyDate | date: 'MM/dd/yyyy':undefined:localId || '' }}
+          </span>
+          <!-- <span class="span-hours">
+          <img src="assets/Images/clock-link.svg" width="16px" />
+          {{ prom.applyDate | date: 'h:mm ':undefined:localId || '' }}
+          </span> -->
           </h2>
           <h2
-            class="under_gains date"
-            *ngIf="localId === 'fr' && prom.applyDate"
+          class="under_gains date"
+          *ngIf="localId === 'fr' && prom.applyDate"
           >
-            <span>
-              <img src="assets/Images/calender.svg" width="16px" />
-              {{ prom.applyDate | date: 'dd/MM/yyyy ':undefined:localId || '' }}
-            </span>
-         <!--   <span class="span-hours">
-              <img src="assets/Images/clock-link.svg" width="16px" />
-              {{ prom.applyDate | date: 'h:mm ':undefined:localId || '' }}
-            </span>-->
+          <span>
+          <img src="assets/Images/calender.svg" width="16px" />
+          {{ prom.applyDate | date: 'dd/MM/yyyy ':undefined:localId || '' }}
+          </span>
+          <!-- <span class="span-hours">
+          <img src="assets/Images/clock-link.svg" width="16px" />
+          {{ prom.applyDate | date: 'h:mm ':undefined:localId || '' }}
+          </span>-->
           </h2>
+          
+         
         </div>
       </div>
 

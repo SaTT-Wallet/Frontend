@@ -148,8 +148,8 @@ export class WalletFacadeService {
     this.walletStoreService.hideWalletSpinner();
   }
 
-  transferTokens(body: ITransferTokensRequestBody,max:any) {
-    return this.walletService.transferTokens(body,max);
+  transferTokens(body: ITransferTokensRequestBody, max: any) {
+    return this.walletService.transferTokens(body, max);
   }
 
   getBalanceChart() {
@@ -365,7 +365,7 @@ export class WalletFacadeService {
     return this.walletService.createTronWallet(password);
   }
 
-  // CHECK USER HAVE ALREADY WALLET V2 
+  // CHECK USER HAVE ALREADY WALLET V2
   checkUserWalletV2() {
     return this.walletService.checkUserWalletV2();
   }
@@ -375,12 +375,10 @@ export class WalletFacadeService {
     return this.walletService.createNewWalletV2(password);
   }
 
-
-    // VERIFY SIGN
-    verifySign(password: string) {
-      return this.walletService.verifySign(password);
-    }
-  
+  // VERIFY SIGN
+  verifySign(password: string) {
+    return this.walletService.verifySign(password);
+  }
 
   checkUserIsNew() {
     return this.walletService.checkUserIsNew();
@@ -390,21 +388,20 @@ export class WalletFacadeService {
     return this.walletService.checkWalletV2Exist();
   }
 
-
-  // GET EXPORT CODE 
+  // GET EXPORT CODE
   getExportCode(network: string, version: string) {
     return this.walletService.getExportCode(network, version);
   }
-
 
   exportKeyStore(network: string, version: string, code: number) {
     return this.walletService.exportKeyStore(network, version, code);
   }
 
-
-
   verifyUserToken() {
     return this.walletService.verifyUserToken();
   }
-  
+
+  getBalanceByToken(payload: any) {
+    return this.walletService.getBalanceByToken(payload);
+  }
 }

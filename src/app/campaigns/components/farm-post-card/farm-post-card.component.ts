@@ -6,7 +6,8 @@ import {
   Input,
   OnInit,
   Output,
-  PLATFORM_ID
+  PLATFORM_ID,
+  SimpleChanges
 } from '@angular/core';
 import { BlockchainActionsService } from '@core/services/blockchain-actions.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
@@ -131,7 +132,6 @@ export class FarmPostCardComponent implements OnInit {
         switchMap(() => this.campaignService.getPromById(this.prom.hash)),
         map((data: any) => data.prom),
         map((prom: any) => {
-          console.log({prom})
           return {
             ...prom,
             safeURL: this.participationService.generatePostThumbnail(prom),
@@ -142,7 +142,7 @@ export class FarmPostCardComponent implements OnInit {
       )
       .subscribe((prom: any) => {
         this.prom = new Participation(prom);
-        console.log(this.prom)
+        
       });
     let currencyName = this.prom.campaign.currency;
     this.intervalId = setInterval(() => {
@@ -168,6 +168,8 @@ export class FarmPostCardComponent implements OnInit {
       )
     );
   }
+
+
 
   get localId(): string {
     return this.tokenStorageService.getLocale() || 'en';
@@ -220,7 +222,7 @@ export class FarmPostCardComponent implements OnInit {
   }
   validateLink(prom: any) {
     this.blockchainActions.onActionButtonClick({
-      data: { prom, campaignId: prom.campaign._id },
+      data: { prom, campaignId: prom.campaign._id, fromNotification: false },
       action: EButtonActions.VALIDATE_LINK
     });
     this.router.navigate(['verify-link'], {
