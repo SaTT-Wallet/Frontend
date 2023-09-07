@@ -208,9 +208,6 @@ input[type='search']::-webkit-search-cancel-button {
   border-bottom: 0.25px solid rgba(117, 117, 143, 0.3) !important;
 }
 
-.testAlex{
-  border-style: solid;
-}
 
 /*.div_notification :hover {
   background: transparent;
@@ -311,7 +308,7 @@ input[type='search']::-webkit-search-cancel-button {
   
 }
 
-.test{  
+.icon-class{  
   font-size: 1.5em;
   position: relative;
   bottom: 6px;
