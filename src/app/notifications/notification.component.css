@@ -557,6 +557,12 @@ input[type='date']::-webkit-calendar-picker-indicator {
 
 @media (max-width: 500px) {
 
+  .link_container{
+    background-color: white;
+  }
+  .campaign_container{
+    background-color: white;
+  }
   .search-results{
     margin-top: 10px !important;
   }
