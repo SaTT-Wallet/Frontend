@@ -555,11 +555,6 @@ input[type='date']::-webkit-calendar-picker-indicator {
 
 @media (max-width: 500px) {
 
-  .campaign_container{
-
-    margin-right: 0.4em;
-  }
-
   .description_createCampaign{
     margin: auto;
     width: 80%;
@@ -573,6 +568,7 @@ input[type='date']::-webkit-calendar-picker-indicator {
   }
   .campaign_container{
     background-color: white;
+    margin-right: 0.4em;
   }
 
   .cmp-img2.link{
