@@ -71,6 +71,8 @@ export class CryptoInfoComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.cryptoSymbol = this.route.snapshot.queryParamMap.get('crypto');
+    
+    
     this.cryptoInfoService
       .listIdToken()
       .pipe(
@@ -112,7 +114,7 @@ export class CryptoInfoComponent implements OnInit, AfterViewInit {
             )
           );
           arrayOfObs.push(
-            this.cryptoInfoService.marketChartToken(res.id, 'usd', 'max', 'max')
+            this.cryptoInfoService.marketChartToken(res.id, 'usd', 'max')
           );
           arrayOfObs.push(this.cryptoInfoService.generalTokenInfos(res.id));
           
@@ -368,8 +370,7 @@ font-size: 12px;">${item.value + '$'}</span>`;
           return this.cryptoInfoService.marketChartToken(
             res.id,
             'usd',
-            period,
-            'max'
+            period
           );
         })
       )

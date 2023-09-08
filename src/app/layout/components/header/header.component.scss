@@ -567,14 +567,13 @@ ul.dropdown-menu.notif_drop_main.show {
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
-  width: 1000px;
 }
 
 .li-menu {
   flex:auto;
   white-space: nowrap;
   padding:5px;
-  margin-left: 10px;
+  margin-left: -1%;
   align-content: center;
 }
 @media (max-height: 850px) {
@@ -789,8 +788,7 @@ ul.droptrans.show {
 }
 
 li {
-  font-size: 14px;
-}
+  font-size: 14px;}
 
 .navbar .show {
   display: block;

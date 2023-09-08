@@ -3,11 +3,9 @@
   <!-- class="container-fluid page-content" -->
   <div class="row" *ngIf="!(showSpinner && showSpinner2)">
     <div class="col-md-3 mobile_gen_notif">
-      <div
-        [ngClass]="isPhishing()"
-        class="div_notifications"
-        *ngIf="showNotification"
-      >
+
+      <div  [ngClass]="isPhishing()" class="div_notifications" *ngIf="showNotification">
+
         <!-- ///////////////////////////////// -->
 
         <div class="d-flex align-items-center position-relative pb-3">
@@ -34,23 +32,27 @@
             <div
               class="d-flex align-items-start justify-content-between xbutton"
             >
-              <h5 *ngIf="showNotifcationMessage != 'showing-complete-profile'">
+            <div class="title_notif">
+              <p *ngIf="showNotifcationMessage != 'showing-complete-profile'">
                 {{ getNotificationTitle() | translate }}
-              </h5>
+              </p>
 
-              <h5 *ngIf="showNotifcationMessage === 'showing-complete-profile'">
+              <p *ngIf="showNotifcationMessage === 'showing-complete-profile'">
                 <span>{{ 'notif_complete_profile_1' | translate }}</span>
                 {{ percentProf }}%<span>{{
                   'notif_complete_profile_2' | translate
                 }}</span>
-              </h5>
-              <div class="close-button coltext" (click)="hideNotification()">
-                X
+              </p>
+            </div>
+              <div class="close-button " (click)="hideNotification()">
+                <img src="./assets/Images/notifIcons/Xclose.svg" />
               </div>
             </div>
+            <div class="parg">
             <p class="coltext formttxt m-0">
               {{ getNotificationBody() | translate }}
             </p>
+          </div>
           </div>
         </div>
 
@@ -59,6 +61,8 @@
           *ngIf="showNotifcationMessage === 'showing-campaign'"
         >
           <img
+            class="img-cover"
+            style="border-radius: 15px"
             [src]="'https://cloudflare-ipfs.com/ipfs/' + campaignCover"
             width="305.5"
             height="163.85"
@@ -84,7 +88,7 @@
             notificationRandomNumber === 2
           "
         >
-          <div>
+          <div class="img-position">
             <img src="./assets/Images/notif-facebook.svg" />
             <img src="./assets/Images/notif-twitter.svg" />
             <img src="./assets/Images/notif-telegram.svg" />
@@ -191,7 +195,9 @@
         </div>
     </div> -->
     <!------------------------------------------------------------------------------------------------>
+
     <div class="feed_container col-md-6">
+
       <!-- <div class="div_filter"> -->
       <!-- <div class="d-flex justify-content-end" style="z-index: 1"> -->
       <!-- <div class="form-group"> -->
@@ -426,6 +432,17 @@
                               ></span>
                               <span *ngIf="i.type === 'create_campaign'">
                                 {{ getCampaignTitle(i.label.cmp_update) }}
+                                <ng-container *ngIf="getCampaignTitle(i.label.cmp_update) === 'inProgress'">
+                                  {{ 'congratulation_start_title_notif'  | translate }} <b>{{ i.label.cmp_update.title | uppercase}}</b> {{ 'statue_pools_notification_pending' | translate }}.
+                                </ng-container>
+
+                                <ng-container *ngIf="getCampaignTitle(i.label.cmp_update) === 'apply'">
+                                  {{ 'congratulation_start_title_notif'  | translate }} <b>{{ i.label.cmp_update.title | uppercase}}</b> {{ 'status_pools_notification_progress' | translate }}.
+                                </ng-container >
+
+                                <ng-container *ngIf="getCampaignTitle(i.label.cmp_update) === 'finished'">
+                                  {{ 'congratulation_start_title_notif'  | translate }} <b>{{ i.label.cmp_update.title |uppercase }}</b> {{ 'statue_pools_notification_finished' | translate }}. {{'remaining_budget_notification' | translate}} {{getRetrieveBudget(i.label.cmp_update)}} {{ i.label.cmp_update.token.name.startsWith('SATT') ? 'SaTT' : i.label.cmp_update.token.name }}. <ng-container *ngIf="getCampaignRetrieveBudgetTime(i.label.cmp_update)"> {{ 'notification_pools_retreive_now_budget' | translate }}</ng-container> <ng-container *ngIf="!getCampaignRetrieveBudgetTime(i.label.cmp_update)">{{ 'notification_pools_retreive_waiting_budget'|translate }} <b>{{getRetrieveBudgetDays(i.label.cmp_update)}} {{ "notification_pools_retreive_waiting_budget_days" | translate}} {{getRetrieveBudgetHours(i.label.cmp_update)}} {{ "notification_pools_retreive_waiting_budget_hours" | translate}} {{getRetrieveBudgetMins(i.label.cmp_update)}} {{'notification_pools_retreive_waiting_budget_mins' | translate}}</b></ng-container>
+                                </ng-container>                
                               </span>
                             </p>
                             <!-- <p class="label_avatar_notif p-0 m-0" *ngIf="i.type === 'apply_campaign'">
@@ -487,6 +504,7 @@
                                 [src]="i.label.link.media_url"
                                 autoplay
                                 loop
+                                class="cmp-img2"
                                 onerror="this.src='/assets/Images/campagne/instagramm.svg'"
                                 [muted]="true"
                               ></video>
@@ -536,6 +554,7 @@
                               [ngClass]="'link'"
                             />
 
+
                             <div
                               style="width: 100%; height: 3.5em"
                               *ngIf="
@@ -565,7 +584,10 @@
                                 &nbsp;&nbsp;
                               </div>
                             </div>
-                          </div>
+                          <!-- uncomment if error sk </div> -->
+                          <!-- </div> -->
+                      </div>
+                          
                         </ng-container>
                       </div>
                       <!-- CAMPAIGNS -->
@@ -576,6 +598,7 @@
                       >
                         <img
                           [ngClass]="'camp'"
+
                           [src]="
                             'https://cloudflare-ipfs.com/ipfs/' +
                             getCampaignCover(i.label.cmp_update.coverMobile)
@@ -628,7 +651,7 @@
                         </p>
                         <div style="width: 100%; height: 2em">
                           <button
-                            class="budget_button"
+                            [className]=" !disableRetrieveButtonAction(i.label.cmp_update) ? 'budget_button' : 'budget_button_disabled'"
                             *ngIf="i.label.cmp_update.type === 'finished'"
                             [disabled]="
                               disableRetrieveButtonAction(i.label.cmp_update)
@@ -637,11 +660,11 @@
                           >
                             <span>
                               <img
-                                class="svg_icons_budget"
-                                src="/assets/Images/Request1.svg"
+                                [className]="disableRetrieveButtonAction(i.label.cmp_update) ? 'svg_icons_budget_disabled' : 'svg_icons_budget'"
+                                [src]="disableRetrieveButtonAction(i.label.cmp_update) ? '../../../../../assets/Images/Vector-loading.svg' : '/assets/Images/Request1.svg'"
                                 alt="down"
                             /></span>
-                            Retrieve Budget
+                            {{ 'retrieveBudget'  | translate }}
                           </button>
                           <button
                             [ngClass]="'increase'"
@@ -701,7 +724,6 @@
       class="spinner"
     ></app-loading-logo>
   </div>
-</div>
 <ng-template #shareSocial>
   <div
     style="border-radius: 5px; padding: 2em 4em"
