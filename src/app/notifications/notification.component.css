@@ -563,16 +563,31 @@ input[type='date']::-webkit-calendar-picker-indicator {
 
 @media (max-width: 500px) {
 
+  .campaign_container{
+
+    margin-right: 0.4em;
+  }
+
   .description_createCampaign{
     margin: auto;
     width: 80%;
   }
 
   .link_container{
-    background-color: white;
+    border-radius: 0px;
+    border-top-left-radius: 30px 30px !important;
+    border-top-right-radius: 30px 30px !important;
+    background-color: transparent;
   }
   .campaign_container{
     background-color: white;
+  }
+
+  .cmp-img2.link{
+    width: 97.5vw !important;
+  }
+  .cmp-img2.camp{
+    width: 96vw !important;
   }
   .search-results{
     margin-top: 10px !important;
@@ -582,7 +597,7 @@ input[type='date']::-webkit-calendar-picker-indicator {
   }
 
   .cmp-img2{
-    width: 100vw !important;
+    width: 97vw !important;
   }
 
     .container_perso {
