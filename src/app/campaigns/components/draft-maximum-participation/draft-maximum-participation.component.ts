@@ -13,7 +13,6 @@ export class DraftMaximumParticipationComponent implements OnInit {
   @ViewChild('toggleSwitch', { static: true }) toggleSwitch: any;
   onInputChanged() {
     if (!this.toggleSwitch.checked && this.inputValue.trim() !== '') {
-      console.log('Clearing Input Value');
       this.inputValue = '';
     }
   }
