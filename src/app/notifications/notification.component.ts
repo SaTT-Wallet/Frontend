@@ -11,13 +11,10 @@ import {
 import { NotificationService } from '@core/services/notification/notification.service';
 import { ContactService } from '@core/services/contact/contact.service';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-//import * as moment from 'moment';
 import _ from 'lodash';
 import { walletUrl, ListTokens, tronScan, youtubeThumbnail } from '@config/atn.config';
 import { isPlatformBrowser } from '@angular/common';
 import { bscan, etherscan, polygonscan, bttscan } from '@app/config/atn.config';
-//import 'moment/locale/fr'
-
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { Big } from 'big.js';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -39,6 +36,7 @@ import { atLastOneChecked, requiredDescription } from '@app/helpers/form-validat
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { CampaignHttpApiService } from '@app/core/services/campaign/campaign.service';
 
+ 
 @Component({
   selector: 'app-history',
   templateUrl: './notification.component.html',
@@ -106,8 +104,8 @@ export class NotificationComponent implements OnInit {
   ];
   buttonData2 = [
     { text: "filtre_choosestatus_in_pending", toggle: true },
+    { text: "filtre_choosestatus_in_progress", toggle: true },
     { text: "filtre_choosestatus_finished", toggle: true },
-    { text: "filtre_choosestatus_in_progress", toggle: true }
   ];
   buttonData3 = [
     { text: "filtre_My_Links_to_harvest", toggle: true },
@@ -120,7 +118,8 @@ export class NotificationComponent implements OnInit {
     { label: 'Linkedin', toggle: false },
     { label: 'Tiktok', toggle: false },
     { label: 'Twitter', toggle: false },
-    { label: 'Youtube', toggle: false }
+    { label: 'Youtube', toggle: false },
+    { label: 'Threads', toggle: false}
   ];
 
   checkboxData1 = [{ label: "filtre_Adpools_message", toggle: false }];
@@ -171,7 +170,8 @@ export class NotificationComponent implements OnInit {
       'Linkedin': 'cmp_candidate_accept_link/linkedin',
       'Tiktok': 'cmp_candidate_accept_link/tiktok',
       'Twitter': 'cmp_candidate_accept_link/twitter',
-      'Youtube': 'cmp_candidate_accept_link/youtube'
+      'Youtube': 'cmp_candidate_accept_link/youtube',
+      'Threads': 'cmp_candidate_accept_link/threads',
     };
   
     const filterType = checkboxLabelMappings[checkbox.label];
@@ -357,11 +357,12 @@ export class NotificationComponent implements OnInit {
     
     ) 
   }
-  getButtonClass() {
-    if (this.showNotifcationMessage === 'new_adpools_notification' || this.showNotifcationMessage === 'notif_buy_gas') {
+  getButtonClass() { 
+    if (this.showNotifcationMessage === 'showing-campaign' || this.showNotifcationMessage === 'notif_buy_gas' || this.showNotifcationMessage === 'showing-buy-fees') {
       return 'button-rounded';
-    } else {
-      return 'button-roundedblue';
+    } else {if (this.showNotifcationMessage === 'showing-random-number' ){
+      return 'button-random';
+    } else return this.showNotifcationMessage === 'showing-complete-profile' ? 'button-roundedblue-complete-profile' : 'button-roundedblue';
     }
   }
   navigateTo() {
@@ -424,8 +425,6 @@ export class NotificationComponent implements OnInit {
           this.notificationRandomNumber = res.data;
           this.showSpinner2 = false;
           break;
-
-
         default:
           this.showNotification = false;
           this.showSpinner2 = false;
@@ -596,7 +595,7 @@ export class NotificationComponent implements OnInit {
               if (filter_type_date) {
                 this.nodata = false;
                 filter_type_date.forEach((item2: any) => {
-                  this.siwtchFunction(item2);
+                  this.switchFunction(item2);
                 });
                 this.dataNotification = _.chain(filter_type_date)
                   .groupBy('created')
@@ -625,7 +624,7 @@ export class NotificationComponent implements OnInit {
               if (filter_date) {
                 this.nodata = false;
                 filter_date.forEach((item2: any) => {
-                  this.siwtchFunction(item2);
+                  this.switchFunction(item2);
                 });
                 this.dataNotification = _.chain(filter_date)
                   .groupBy('created')
@@ -648,7 +647,7 @@ export class NotificationComponent implements OnInit {
               if (filter_type) {
                 this.nodata = false;
                 filter_type.forEach((item2: any) => {
-                  this.siwtchFunction(item2);
+                  this.switchFunction(item2);
                 });
                 this.dataNotification = _.chain(filter_type)
                   .groupBy('created')
@@ -723,7 +722,23 @@ closeModal(content: any) {
     ];
   
     const foundMapping = keywordToIconMap.find(mapping => link.includes(mapping.keyword));
-    return foundMapping ? `./assets/Images/oracle-${foundMapping.icon}-rejected.svg` : '';
+    return foundMapping ? `./assets/Images/oracle-${foundMapping.icon}-rejected.svg` : './assets/Images/oracle-threads-rejected.svg';
+  }
+
+
+  convertToCustomFormat(milliseconds: string | number | Date) {
+    const date = new Date(milliseconds);
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    const hours = String(date.getUTCHours()).padStart(2, '0');
+    const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+    const seconds = String(date.getUTCSeconds()).padStart(2, '0');
+    const millisecondsFormatted = String(date.getUTCMilliseconds()).padStart(3, '0');
+
+    const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${millisecondsFormatted}Z`;
+
+    return formattedDate;
   }
 
 
@@ -769,11 +784,13 @@ closeModal(content: any) {
           }
 
           this.dataNotification.forEach((item: any) => {
+            const currentTime = Date.now();
+            const formattedTime = this.convertToCustomFormat(currentTime);
             item.created =
-              item.created && item.created !== 'a few seconds ago'
-                ? item.created
+              item.createdAt && item.createdAt !== formattedTime
+            ? item.updatedAt
                 : item.createdAt;
-            this.siwtchFunction(item);
+            this.switchFunction(item);
           });
           this.dataNotification = _.chain(this.dataNotification)
             .sortBy((data) => data.createdInit)
@@ -812,6 +829,15 @@ closeModal(content: any) {
         
           }
       });
+  }
+
+  convertTimeFormat(milliseconds: string | number | Date) {
+    const logDate = new Date(milliseconds);
+    const year = logDate.getFullYear();
+    const month = logDate.getMonth() + 1; // Months are 0-indexed
+    const day = logDate.getDate();
+    const formattedDate  = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
+    return formattedDate;
   }
 
   filterNotificationList(types: string[]) {
@@ -880,7 +906,8 @@ closeModal(content: any) {
   }
 
   getCampaignTitle(cmp:any) {
-    switch(cmp.type) {
+    return cmp.type;
+    /*switch(cmp.type) {
       case 'inProgress':
         return `Congratulations ! Your AdPool ${cmp.title} is now in Progress.`;
       case 'apply':
@@ -890,7 +917,7 @@ closeModal(content: any) {
       default:
         return 'error'  
             
-    }
+    }*/
   }
 
   getCampaignStartDate(cmp:any) {
@@ -919,35 +946,63 @@ closeModal(content: any) {
       this.dateRefund = new Date((cmp.endDate + environment.dateRefund ) * 1000)
       
       if((this.dateRefund.getTime() - Date.now()) > 0) {
-        return `Congratulations ! Your AdPool ${cmp.title} is now finished.
+        return false
+        /*return `Congratulations ! Your AdPool ${cmp.title} is now finished.
         \nYour remaining budget is currently ${parseInt(cmp.cost) / 10 **18} ${cmp.token.name.startsWith('SATT') ? 'SaTT' : cmp.token.name}.
          You can retrieve it in ${Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ))} Days 
          ${Math.floor(((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - (Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ))) ) * 24 )}Hours 
-         ${Math.floor(((((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  )) ) * 24) - (Math.floor(((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - (Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ))) ) * 24 ))) * 60)}min`;
+         ${Math.floor(((((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  )) ) * 24) - (Math.floor(((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - (Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ))) ) * 24 ))) * 60)}min`;*/
       } else {
-        return `Congratulations ! Your AdPool ${cmp.title} is now finished.\nYour remaining budget is currently ${parseInt(cmp.cost) / 10 **18} ${cmp.token.name.startsWith('SATT') ? 'SaTT' : cmp.token.name}. You can now retrieve It retrieve it`;
+        return true
+        //return `Congratulations ! Your AdPool ${cmp.title} is now finished.\nYour remaining budget is currently ${parseInt(cmp.cost) / 10 **18} ${cmp.token.name.startsWith('SATT') ? 'SaTT' : cmp.token.name}. You can now retrieve It retrieve it`;
       }
       
     
   }
 
 
-  siwtchFunction(item: any) {
+  getRetrieveBudget(cmp:any) {
+    return parseInt(cmp.cost) / 10 **18
+  }
+
+  getRetrieveBudgetDays(cmp:any) {
+    this.dateRefund = new Date((cmp.endDate + environment.dateRefund ) * 1000)
+    return Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ))
+  }
+
+  getRetrieveBudgetHours(cmp:any) {
+    this.dateRefund = new Date((cmp.endDate + environment.dateRefund ) * 1000)
+    return Math.floor(((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - (Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ))) ) * 24 )
+  }
+
+  getRetrieveBudgetMins(cmp:any) {
+    this.dateRefund = new Date((cmp.endDate + environment.dateRefund ) * 1000)
+    return Math.floor(((((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  )) ) * 24) - (Math.floor(((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - (Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ))) ) * 24 ))) * 60)
+  }
+
+
+  switchFunction(item: any) {
     const etherInWei = new Big(1000000000000000000);
-    let itemDate = new Date(item.created);
-    item.createdInit = item.created;
+    //let itemDate = new Date(item.created);
+    //item.createdInit = item.created;
+    let itemDate = new Date(item.created);    
+    item.createdInit = itemDate
+    item.created = itemDate;
     if (this.tokenStorageService.getLocalLang() === 'en') {
       item.createdFormated = moment
         .parseZone(itemDate)
         .format(' MMMM Do YYYY, h:mm a z');
-      item.created = moment.parseZone(item.created).fromNow().slice();
+      //item.created = moment.parseZone(item.created).fromNow().slice();
+      item.created = item.created;
     } else if (this.tokenStorageService.getLocalLang() === 'fr') {
       item.createdFormated = moment
         .parseZone(itemDate)
         .locale('fr')
         .format(' Do MMMM  YYYY, HH:mm a z');
-      item.created = moment.parseZone(itemDate).locale('fr').fromNow();
+      //item.created = moment.parseZone(itemDate).locale('fr').fromNow();
+      item.created = itemDate;
     }
+    item.created  = this.convertTimeFormat(item.created );
     // console.log(this.translate.instant(''))
     //  let typeof_data=typeof(item.label)
     //  console.log(this.translate.instant(''))

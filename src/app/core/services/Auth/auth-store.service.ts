@@ -8,7 +8,10 @@ import { TokenStorageService } from '../tokenStorage/token-storage-service.servi
   providedIn: 'root'
 })
 export class AuthStoreService {
-  constructor(private auth: AuthService, private tokenStorageService: TokenStorageService) {}
+  constructor(
+    private auth: AuthService,
+    private tokenStorageService: TokenStorageService
+  ) {}
 
   private _account: BehaviorSubject<any> = new BehaviorSubject(null);
   readonly account$ = this._account
@@ -26,8 +29,14 @@ export class AuthStoreService {
   public getAccount() {
     return this.auth.verifyAccount().pipe(
       tap((res) => {
-        const walletVersion = res.data.migrated ? 'v2' : 'v1';
+        const walletVersion =
+          this.tokenStorageService.getNewUserV2() === 'false' &&
+          !res.data.migrated
+            ? 'v1'
+            : 'v2';
+
         this.tokenStorageService.setItem('wallet_version', walletVersion);
+
         this.setAccount(res);
       })
     );
