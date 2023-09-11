@@ -155,6 +155,7 @@ export class SlideControlComponent implements OnInit, OnDestroy {
     const _id = this.id;
     const position = query.move;
     const send: any = { _id, position };
+    //this.onValueChanged.emit(send);
     this.authService
       .verifyimagespuzzle(send)
       .pipe(
@@ -169,7 +170,7 @@ export class SlideControlComponent implements OnInit, OnDestroy {
         }),
         mergeMap((message) => {
           if (message === 'success') {
-            this.onValueChanged.emit(true);
+            this.onValueChanged.emit(send);
             query.action = this.trail;
             this.successMatch.emit(query);
             this.sliderContainer.classList.add('sliderContainer_success');

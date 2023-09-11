@@ -43,12 +43,14 @@ export class AuthService {
   confirmResetPassword(data: any) {
     return this.http.post(`${sattUrl}/auth/passrecover`, data);
   }
-  login(username: string, password: string): Observable<any> {
+  login(username: string, password: string, _id: string, position: number): Observable<any> {
     return this.http.post(
       sattUrl + '/auth/signin/mail',
       {
         username: username,
-        password: password
+        password: password,
+        _id,
+        position
       }
     );
   }

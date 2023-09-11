@@ -614,8 +614,9 @@ getCookie(key: string){
   }
 
   onValueChanged(value: boolean, puzzle: TemplateRef<ElementRef>) {
-    if (value === true) {
-      this.login();
+    console.log({value})
+    if (value != false) {
+      this.login(value);
       this.closeModal(puzzle);
     }
   }
@@ -625,7 +626,7 @@ getCookie(key: string){
   /**
    * Authenticate user
    */
-  login() {
+  login(value:any) {
     this.tokenStorageService?.setModaleMigrate('open');
     this.isSubmitting = true;
     this.showSpinner = true;
@@ -634,7 +635,7 @@ getCookie(key: string){
   
     if (this.authForm.valid && this.cookie.get('satt_cookies') === 'pass') {
       this.authService
-        .login(this.f.email?.value, this.f.password?.value)
+        .login(this.f.email?.value, this.f.password?.value, value._id, value.position)
         .pipe(
           takeUntil(this.onDestroy$),
           //( error.error.message.startsWith('ValidationError')
