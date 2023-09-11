@@ -18,11 +18,13 @@ const routes: Routes = [
       },
       {
         path: 'verify-link',
-        component: VerifyLinkComponent
+        component: VerifyLinkComponent,
+        canActivate: [AuthGuardService]
       },
       {
         path: 'recover-my-gains',
-        component: RecoverGainsComponent
+        component: RecoverGainsComponent,
+        canActivate: [AuthGuardService]
       }
     ]
   }

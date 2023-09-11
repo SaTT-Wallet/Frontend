@@ -46,6 +46,14 @@ export class CryptofetchServiceService {
     return this.http.get( sattUrl + '/wallet/cryptoPriceDetails', { params });
   }
 
+  getAllCrypto(pageNumber: number) {
+    // Configuring the HTTP params
+    const params = new HttpParams().set('cryptochunk', pageNumber);
+   
+    // Making the HTTP GET request
+    return this.http.get( sattUrl + '/wallet/getallCrypto', { params });
+  }
+
   transactionHistory() {
     return this.http.get(
       sattUrl +

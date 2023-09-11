@@ -15,6 +15,11 @@ export class CryptoMarketCapComponent implements OnInit {
 cryptoLists : any;
 filteredCryptoListId: any[]=[];
 sparklineIn7dCryptoList: any[]=[]
+currentPage: number= 1;
+calculetPage: number= 1;
+totalPages = 90;
+pagesPerPage = 8;
+pageWindows: number[];
 data: any
 globalMarketCap:any;
 searchQuery: string = '';
@@ -56,8 +61,10 @@ private ngUnsubscribe = new Subject<void>();
     private titleService: Title, private metaService: Meta
     
     ){
-  
+      
+      this.pageWindows = this.getPageWindow(this.currentPage);
    }
+ 
 
   ngOnInit(): void {
     this.titleService.setTitle('SaTT-Market Cap'); 
@@ -65,49 +72,7 @@ private ngUnsubscribe = new Subject<void>();
     this.metaService.addTag({ name: 'keywords', content: 'cryptocurrency, Coin, Market Cap, investment, crypto, earning' });
     this.metaService.addTag({ property: 'og:image', content: 'assets/Images/global-market-cap-cov.png' });
     this.metaService.addTag({ name: 'twitter:card', content: 'assets/Images/global-market-cap-cov.png' });
-    this.fetchservice.getCryptoPriceList().pipe(
-      takeUntil(this.ngUnsubscribe),
-      switchMap((data: any) => {
-        const cryptos = data?.data ? Object.entries(data.data) : [];
-        this.cryptoLists = cryptos.slice(0, 200);
-        this.cryptoLists?.forEach((crypto: any) => {
-          if (crypto && crypto[1]) {
-         
-            
-            this.filteredCryptoListId.push(crypto[1].id);
-          }
-        });
-    
-        const chunks = this.getArrayChunks(this.filteredCryptoListId, 50);
-       
-     
-        
-        return forkJoin(chunks.map(chunk => this.fetchservice.getCryptoPriceDetails(chunk)));
-      })
-    ).subscribe(
-      (data: any) => { 
-   
-       
-        const dataArray = Object.values(data)
-    
-        dataArray.forEach((response: any) => {
-          
-          const details = Object.values(response?.data) || [];
-          details.forEach((crypto: any) => {
-            if (crypto) {
-              this.sparklineIn7dCryptoList.push(crypto.sparkline_in_7d);
-            }
-          });
-        });
-   
-      },
-      (error) => {
-    
-        
-        console.error(error);
-      }
-      
-    );
+    this.getTable(this.currentPage)
 
     this.fetchservice.getGlobalCryptoMarketInfo().pipe(takeUntil(this.ngUnsubscribe)).subscribe((res: any) => {
       this.globalMarketCap = res;
@@ -134,7 +99,14 @@ private ngUnsubscribe = new Subject<void>();
     
     return results;
   }
+  generatePageArray(totalPages: number): number[] {
+    return Array.from({ length: totalPages }, (_, i) => i + 1);
+  }
 
+  
+  get pagesArray(): number[] {
+    return Array(this.totalPages).fill(0).map((_, i) => i + 1);
+  }
   filterCryptos() {
     if (!this.searchQuery) {
       return this.cryptoLists;
@@ -184,6 +156,65 @@ private ngUnsubscribe = new Subject<void>();
   
  return'0'
  }
+ getTable(n: number){
+  this.fetchservice.getAllCrypto(n).pipe(
+    takeUntil(this.ngUnsubscribe),
+    switchMap((data: any) => {
+      const cryptos = data?.data ? Object.entries(data.data) : [];
+      this.cryptoLists = cryptos.slice(0, 100);
+      this.cryptoLists?.forEach((crypto: any) => {
+        if (crypto && crypto[1]) {
+       
+          
+          this.filteredCryptoListId.push(crypto[1].id);
+        }
+      });
+  
+      const chunks = this.getArrayChunks(this.filteredCryptoListId, 50);
+     
+   
+      
+      return forkJoin(chunks.map(chunk => this.fetchservice.getCryptoPriceDetails(chunk)));
+    })
+  ).subscribe(
+    (data: any) => { 
+ 
+     
+      const dataArray = Object.values(data)
+  
+      dataArray.forEach((response: any) => {
+        
+        const details = Object.values(response?.data) || [];
+        details.forEach((crypto: any) => {
+          if (crypto) {
+            this.sparklineIn7dCryptoList.push(crypto.sparkline_in_7d);
+          }
+        });
+      });
+ 
+    },
+    (error) => {
+  
+      
+      console.error(error);
+    }
+    
+  );
+ }
+ getPageWindow(currentPage: number): number[] {
+  const startPage = Math.max(1, currentPage - Math.floor(this.pagesPerPage / 2));
+  const endPage = Math.min(this.totalPages, startPage + this.pagesPerPage - 1);
+  return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
+}
+
+onPageChanged(page: number) {
+  if (page >= 1 && page <= this.totalPages && page !== this.currentPage) {
+    this.currentPage = page;
+    this.calculetPage=((page-1)*100)+1
+    this.pageWindows = this.getPageWindow(this.currentPage);
+    this.getTable( this.calculetPage)
+  }
+}
  ngOnDestroy() {
   this.ngUnsubscribe.next();
   this.ngUnsubscribe.complete();
