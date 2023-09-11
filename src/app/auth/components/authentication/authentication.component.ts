@@ -438,12 +438,20 @@ getCookie(key: string){
               // this.spinner.hide();
             } else {
               return this.walletFacade.getUserWallet().pipe(
-                map((myWallet: IResponseWallet) => ({
-                  myWallet,
-                  response
-                })),
+                map((myWallet: IResponseWallet) => {
+                  if (myWallet.data.totalBalance) 
+                  { this.tokenStorageService.setItem('wallet_version', 'v2');
+                }
+              
+                  // Return the object after logging myWallet
+                  return {
+                    myWallet,
+                    response
+                  };
+                }),
                 takeUntil(this.onDestroy$)
               );
+              
             }
           }
           return of(null);
@@ -770,19 +778,33 @@ getCookie(key: string){
                     this.showBigSpinner = true;
                   } else {
                     return this.walletFacade.getUserWallet().pipe(
-                      map((myWallet: IResponseWallet) => ({
-                        myWallet,
-                        response
-                      })),
+                      map((myWallet: IResponseWallet) => {
+                        if (myWallet.data.totalBalance) 
+                        { this.tokenStorageService.setItem('wallet_version', 'v2');
+                      }
+                    
+                        // Return the object after logging myWallet
+                        return {
+                          myWallet,
+                          response
+                        };
+                      }),
                       takeUntil(this.onDestroy$)
                     );
                   }
                 } else {
                   return this.walletFacade.getUserWallet().pipe(
-                    map((myWallet: IResponseWallet) => ({
-                      myWallet,
-                      response
-                    })),
+                    map((myWallet: IResponseWallet) => {
+                      if (myWallet.data.totalBalance) 
+                      { this.tokenStorageService.setItem('wallet_version', 'v2');
+                    }
+                  
+                      // Return the object after logging myWallet
+                      return {
+                        myWallet,
+                        response
+                      };
+                    }),
                     takeUntil(this.onDestroy$)
                   );
                 }
