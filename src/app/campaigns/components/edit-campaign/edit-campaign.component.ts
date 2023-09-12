@@ -474,4 +474,9 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
       this.modalService.dismissAll(this.useDesktopModal);
     }
   }
+
+  handleInputValueChange(value:any){
+    console.log({value},this.campaignData)
+    this.campaignData.limitParticipation = value;
+  }
 }

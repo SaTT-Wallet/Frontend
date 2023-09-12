@@ -37,18 +37,22 @@
                   </div> 
                      <div class="right">  
                         <input
-                        type="text"
+                        type="number"
+                        pattern="[0-9]*"
+                        inputmode="numeric"
                         class="styleForInputMedia"
                         aria-describedby="basic-addon2"
-                        [disabled]="!switch.checked"
-                        [placeholder]="switch.checked ? '' : '-'"
+                        [disabled]="!toggleSwitch.checked"
+                        [placeholder]="toggleSwitch.checked ? '' : '-'"  
+                        [(ngModel)]="inputValue"
+                        (input)="onInputChanged()"
                       />
-                      
                       <ui-switch
                         id="toggle"
                         class="button"
-                        #switch
-                      >
-                      </ui-switch>
+                        #toggleSwitch
+                        (change)="onInputChanged()"
+                      ></ui-switch>
+                      
                       
 </div>

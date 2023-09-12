@@ -244,7 +244,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   
 
   ngOnInit(): void {
-    
     this.cdref.markForCheck();
     this.parentFunction().subscribe();
     this.getUserCrypto();
