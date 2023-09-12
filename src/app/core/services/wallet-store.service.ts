@@ -147,7 +147,10 @@ export class WalletStoreService {
   getAllWallet() {
     return this.walletService.getAllWallet().pipe(
       tap((res: any) => {
-        if(res.data.addressV2){localStorage.setItem('existV2','true')}
+        if (res.data.addressV2) {
+          localStorage.setItem('existV2', 'true');
+          localStorage.setItem('addressV2', res.data.addressV2);
+        }
 
         this._allWallet.next(res);
         // console.log(res);

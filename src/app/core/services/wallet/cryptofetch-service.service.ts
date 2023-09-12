@@ -46,6 +46,14 @@ export class CryptofetchServiceService {
     return this.http.get( sattUrl + '/wallet/cryptoPriceDetails', { params });
   }
 
+  getAllCrypto(pageNumber: number) {
+    // Configuring the HTTP params
+    const params = new HttpParams().set('cryptochunk', pageNumber);
+   
+    // Making the HTTP GET request
+    return this.http.get( sattUrl + '/wallet/getallCrypto', { params });
+  }
+
   transactionHistory() {
     return this.http.get(
       sattUrl +
@@ -55,17 +63,18 @@ export class CryptofetchServiceService {
   }
 
   getTotalBalance(id_wallet?: any) {
-    
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     var idwallet = id_wallet || this.tokenStorageService.getIdWallet();
-    return this.http.post(
-      sattUrl + '/wallet/totalBalance',
-      {
-        version: this.tokenStorageService?.getWalletVersion()
-      }
-    );
+    return this.http.post(sattUrl + '/wallet/totalBalance', {
+      version: this.tokenStorageService?.getWalletVersion()
+    });
   }
 
+  getTotalBalanceV2() {
+    return this.http.post(sattUrl + '/wallet/totalBalance', {
+      version: localStorage.getItem('addressV2')
+    });
+  }
   migrateTokens(tokens: any, network: string, pass: any) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     return this.http.post(

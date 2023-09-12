@@ -9,6 +9,7 @@ export interface IResponseWallet {
     tronAddress: string;
     version: number;
     err: string;
+    totalBalance: string;
   };
   message?: string;
   error?: string;
