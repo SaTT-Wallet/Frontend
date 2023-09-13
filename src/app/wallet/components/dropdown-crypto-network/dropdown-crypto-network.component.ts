@@ -189,7 +189,7 @@ export class DropdownCryptoNetworkComponent
               {
                 AddedToken: !!crypto.value.AddedToken ? crypto.AddedToken : true,
                 balance: 0,
-                contract: crypto.contract,
+                contract: (this.selectedNetworkValue === 'ERC20' && crypto.key === 'SATT') ? env.addresses.smartContracts.SATT_TOKENERC20 :  ( (this.selectedNetworkValue === 'BEP20' && crypto.key === 'SATT') ? env.addresses.smartContracts.SATT_TOKENBEP20 :crypto.contract),
                 contrat: '',
                 decimal: 18,
                 key: crypto.key,
@@ -226,7 +226,7 @@ export class DropdownCryptoNetworkComponent
             {
               AddedToken: !!crypto.value.AddedToken ? crypto.AddedToken : true,
               balance: 0,
-              contract: crypto.contract,
+              contract: (this.selectedNetworkValue === 'ERC20' && crypto.key === 'SATT') ? env.addresses.smartContracts.SATT_TOKENERC20 :  ( (this.selectedNetworkValue === 'BEP20' && crypto.key === 'SATT') ? env.addresses.smartContracts.SATT_TOKENBEP20 :crypto.contract),
               contrat: '',
               decimal: 18,
               key: crypto.key,
