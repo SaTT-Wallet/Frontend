@@ -77,7 +77,10 @@
             )
           "
         >
-          <button [class]="getButtonClass()" (click)="navigateTo()">
+          <button [class]="getButtonClass()" (click)="navigateTo()" *ngIf="!(showNotifcationMessage === 'showing-random-number' && notificationRandomNumber === 3)">
+            {{ getNotificationButtonTitle() | translate }}
+          </button>
+          <button [class]="getButtonClass()" (click)="navigateTo()" *ngIf="(showNotifcationMessage === 'showing-random-number' && notificationRandomNumber === 3)" [cdkCopyToClipboard]="'https://satt-token.com/'">
             {{ getNotificationButtonTitle() | translate }}
           </button>
         </div>
@@ -89,10 +92,10 @@
           "
         >
           <div class="img-position">
-            <img src="./assets/Images/notif-facebook.svg" />
-            <img src="./assets/Images/notif-twitter.svg" />
-            <img src="./assets/Images/notif-telegram.svg" />
-            <img src="./assets/Images/notif-btc.svg" />
+            <img src="./assets/Images/notif-facebook.svg" (click)="socialNetworkRedirection('facebook')"/>
+            <img src="./assets/Images/notif-twitter.svg" (click)="socialNetworkRedirection('twitter')"/>
+            <img src="./assets/Images/notif-telegram.svg" (click)="socialNetworkRedirection('telegram')"/>
+            <img src="./assets/Images/notif-btc.svg" (click)="socialNetworkRedirection('bitcoin')"/>
           </div>
         </div>
         <!-- //////////////////////////////// -->
