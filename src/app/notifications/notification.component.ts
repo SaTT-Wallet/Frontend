@@ -960,6 +960,10 @@ closeModal(content: any) {
       return true;
     } else return false
   }
+
+  test() {
+    console.log('test')
+  }
   getCampaignRetrieveBudgetTime(cmp: any) {
       
       // WHEN YOU GET REFUNDS ( AFTER 15 DAYS )
@@ -1002,6 +1006,7 @@ closeModal(content: any) {
 
 
   switchFunction(item: any) {
+    if(item.type === "cmp_candidate_insert_link") console.log({item})
     const etherInWei = new Big(1000000000000000000);
     //let itemDate = new Date(item.created);
     //item.createdInit = item.created;
@@ -1451,7 +1456,7 @@ closeModal(content: any) {
     //   });
     // }
     if(notif.type === 'cmp_candidate_insert_link' || notif.type === 'create_campaign') {
-      if(notif.type === 'create_campaign') this.router.navigateByUrl(`/campaign/${notif.label.cmp_update._id}`)
+      //if(notif.type === 'create_campaign') this.router.navigateByUrl(`/campaign/${notif.label.cmp_update._id}`)
       
     } else {
       if (notif?.label?.txhash) {

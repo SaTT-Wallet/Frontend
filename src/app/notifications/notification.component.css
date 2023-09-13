@@ -332,6 +332,13 @@ input[type='search']::-webkit-search-cancel-button {
 
 }
 
+.title-cmp {
+  font-family: 'Poppins';
+  font-weight: 700;
+  color: #4048FF;
+  cursor: pointer;
+}
+
 .cmp-img2{
   object-fit: cover;
   width: 686px;
