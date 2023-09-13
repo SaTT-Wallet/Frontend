@@ -256,47 +256,48 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       this.selectedNetworkValue = res.data.token.type;
      
         this.res = this.cryptodata;
-        
-        const result = Object.keys(this.res);
-        result.forEach((key: any) => {
-          typeof this.res[key].networkSupported != 'string' &&
-            this.res[key].networkSupported.forEach((value: any) => {
+        const campaignCryptoSet = new Set();
+        for(const key of Object.keys(this.res)) {
+          const cryptoData = this.res[key];
+          if(typeof cryptoData.networkSupported !== 'string') {
+            for(const value of cryptoData.networkSupported) {
               if (
                 this.selectedNetworkValue === 'ERC20' &&
                 value.platform.name === 'Ethereum'
-              ) {
-                this.campaignCryptoList.push({
-                  key,
-                  value: this.res[key],
-                  contract: value.contract_address
-                });
-              } else if(key === 'BNB' && this.selectedNetworkValue === 'BEP20') {
-                this.campaignCryptoList.push({
-                  key,
-                  value: this.res[key],
-                  contract: null
-                })
-              } else if(key === 'BTT' && this.selectedNetworkValue === 'BTTC') {
-                this.campaignCryptoList.push({
-                  key,
-                  value: this.res[key],
-                  contract: null
-                }) 
-              } else {
-                value.platform.name
-                  .toString()
-                  .toLowerCase()
-                  .includes(
-                    this.selectedNetworkValue.toString().toLowerCase()
-                  ) &&
-                  this.campaignCryptoList.push({
+                ) {
+                  campaignCryptoSet.add({
                     key,
                     value: this.res[key],
                     contract: value.contract_address
                   });
+                } else if(key === 'BNB' && this.selectedNetworkValue === 'BEP20') {
+                  campaignCryptoSet.add({
+                    key,
+                    value: this.res[key],
+                    contract: null
+                })
+                } else if(key === 'BTT' && this.selectedNetworkValue === 'BTTC') {
+                  campaignCryptoSet.add({
+                    key,
+                    value: this.res[key],
+                    contract: null
+                    }) 
+                } else {
+                value.platform.name
+                  .toString()
+                  .toLowerCase()
+                  .includes(this.selectedNetworkValue.toString().toLowerCase()) &&
+                  campaignCryptoSet.add({
+                    key,
+                    value: this.res[key],
+                    contract: value.contract_address
+                    });
+                  }
+                }
               }
-            });
-        });
+            }      
+            this.campaignCryptoList = Array.from(campaignCryptoSet);
+        
         this.campaignCryptoList.forEach((value: any) => {
           if (value.key === (this.form.get('currency')?.value === 'SATTBEP20' ?  'SATT': this.form.get('currency')?.value) ) {
             this.walletFacade
