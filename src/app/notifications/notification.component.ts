@@ -433,16 +433,11 @@ export class NotificationComponent implements OnInit {
           this.showSpinner2 = false;
           break;
         case 'showing-campaign':
-
-        this.showNotifcationMessage = 'showing-random-number';
-        this.showNotification = true;
-        this.notificationRandomNumber = 3;
-
-          /*this.showNotifcationMessage = res.message;
+          this.showNotifcationMessage = res.message;
           this.showNotification = true;
           this.campaignCover = res.data;
           this.campaignCover = this.campaignCover.replace('ipfs:', '');
-          this.showSpinner2 = false;*/
+          this.showSpinner2 = false;
           break;
         case 'showing-random-number':
           this.showNotifcationMessage = res.message;
