@@ -205,7 +205,39 @@ export class NotificationComponent implements OnInit {
     }
   }
 
-
+  getLink(prom: any) {
+    
+     // Prevent the default link behavior
+    if (isPlatformBrowser(this.platformId)) {
+      switch(prom.oracle) {
+        case 'facebook':
+          window.open('https://www.facebook.com/' + prom.idUser +'/posts/'+prom.idPost, '_blank');
+          break;
+        case 'instagram':
+          window.open('https://www.instagram.com/p/'+prom.idPost, '_blank');
+          break;  
+        case 'linkedin':
+          window.open('https://www.linkedin.com/feed/update/urn:li:share:'+prom.idPost, '_blank');
+          break;
+        case 'tiktok':
+          window.open('https://www.tiktok.com/embed/'+prom.idPost, '_blank');
+          break;
+        case 'twitter':
+          window.open('https://twitter.com/' + prom.idUser +'/status/'+prom.idPost, '_blank');
+          break;
+        case 'youtube':
+          window.open('https://www.youtube.com/watch?v='+prom.idPost, '_blank');
+          break;  
+        case 'threads':
+          window.open('https://www.threads.net/t/'+prom.idPost , '_blank');
+          break; 
+          
+        default:
+          console.error('err')  
+      }
+      
+    }
+  }
   enableDisableRule(button: any) {
     button.toggle = !button.toggle;
     const buttonTypeMappings: { [key: string]: string } = {
@@ -1006,7 +1038,7 @@ closeModal(content: any) {
 
 
   switchFunction(item: any) {
-    if(item.type === "cmp_candidate_insert_link") console.log({item})
+    if(item.type === "apply_campaign") console.log({item})
     const etherInWei = new Big(1000000000000000000);
     //let itemDate = new Date(item.created);
     //item.createdInit = item.created;
