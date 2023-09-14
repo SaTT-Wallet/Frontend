@@ -1,0 +1,58 @@
+<div class="col-12 px-3 padding-small-version">
+      <div
+        class="col-md-12 col-lg-12 col-xs-12 d-flex justify-content-center pt-4"
+      >
+        <label class="title-section">
+        {{ 'campaign.title_maximum_participation' | translate }}</label>
+      </div>
+      <div class="row d-flex justify-content-center pt-3 mb-1">
+        <div class="col-xl-10 col-md-12 col-lg-10 col-sm-12">
+          <label class="label-type">{{
+            'campaign_sous_titre_max_part' | translate
+          }}</label>
+        </div>
+      </div>
+      <div class="row d-flex">
+        <!-- <div class="cont col-xl-10 col-md-12 col-lg-10 col-sm-12">
+          <p class="small-label mb-0">{{ 'campaign_descrip-max-partic' | translate }}</p>
+          <input
+          type="text"
+          class="styleForInputMedia"
+          aria-describedby="basic-addon2"
+          style="float: right;"
+         
+         
+        />
+          <ui-switch
+                  id="toggle"
+                  
+                >
+                </ui-switch>
+        </div> -->
+
+
+        <div class="test">  
+              <div class="left col-xl-10 col-md-12 col-lg-10 col-sm-12">
+                    <p class="par small-label mb-0">{{ 'campaign_descrip-max-partic' | translate }}</p> 
+                  </div> 
+                     <div class="right">  
+                        <input
+                        type="number"
+                        pattern="[0-9]*"
+                        inputmode="numeric"
+                        class="styleForInputMedia"
+                        aria-describedby="basic-addon2"
+                        [disabled]="!toggleSwitch.checked"
+                        [placeholder]="toggleSwitch.checked ? '' : '-'"  
+                        [(ngModel)]="inputValue"
+                        (input)="onInputChanged()"
+                      />
+                      <ui-switch
+                        id="toggle"
+                        class="button"
+                        #toggleSwitch
+                        (change)="onInputChanged()"
+                      ></ui-switch>
+                      
+                      
+</div>

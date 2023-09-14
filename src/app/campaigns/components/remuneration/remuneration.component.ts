@@ -244,7 +244,6 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   
 
   ngOnInit(): void {
-    
     this.cdref.markForCheck();
     this.parentFunction().subscribe();
     this.getUserCrypto();
@@ -1323,7 +1322,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
       let x: number = +(this.amountUsd.includes(',')
         ? this.amountUsd.replaceAll(',', '')
         : this.amountUsd);
-      if (x <= this.selectedCryptoDetails.total_balance.toFixed(2)) {
+      if (x <= this.selectedCryptoDetails?.total_balance?.toFixed(2)) {
         this.insufficientBalance = false;
       } else {
         this.insufficientBalance = true;

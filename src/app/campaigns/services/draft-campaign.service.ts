@@ -84,6 +84,7 @@ export class DraftCampaignService implements OnDestroy {
         const formData = this.formatData.manipulateDataBeforeSend({
           ...campaignData
         });
+
         return { formData, id: values.id };
       }),
       switchMap((values: any) => {

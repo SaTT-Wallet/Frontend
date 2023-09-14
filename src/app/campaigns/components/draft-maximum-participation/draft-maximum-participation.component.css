@@ -1,0 +1,67 @@
+.title-section {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 28px;
+    text-align: center;
+    letter-spacing: 1px;
+    color: #1f2337;
+}
+.label-type {
+    font-style: normal;
+    font-family: 'Poppins';
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 125.9%;
+    letter-spacing: 0.03em;
+    color: #75758f;
+    text-align: center;
+    display: flow;
+    margin-bottom: 25px !important;
+}
+.small-label {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 125.9%;
+    letter-spacing: 0.03em;
+    color: #75758F;
+    padding-left: 170px !important;
+}
+.styleForInputMedia {
+    border-style: solid;
+    border-radius: 30px;
+    border-color: #D6D6E8;
+    outline: none;
+    width: 40%;
+    height: 150%;
+    text-align: start;
+    color: #323754;
+    margin-right: 30px !important;
+    position: relative;
+    bottom: 0.4em;
+    text-align: center;
+  }
+
+  /* .cont{
+    display : flex;
+    flex-direction: row;
+  } */
+
+  .test{    display: flex;    justify-content: flex-end;}
+  .left {    flex-grow: 1; }    
+  .right {        display: flex;        align-items: center;     }
+
+
+  /* Hide the spinner controls for number input */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+/* Hide the spinner controls for Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
