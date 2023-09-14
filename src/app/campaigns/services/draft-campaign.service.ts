@@ -63,6 +63,7 @@ export class DraftCampaignService implements OnDestroy {
   }
 
   autoSaveFormOnValueChanges(data: any) {
+    console.log({data})
     this.editFormChangesSubject.next(data);
   }
   autoSavekitFormOnValueChanges(data: any) {
