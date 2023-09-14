@@ -167,6 +167,7 @@
       </tbody>
     </table>
   </div>
+ 
   <!----------- mobile ------>
   <div class="table-responsive-sm d-block d-sm-none">
     <table class="table table-sm table-hover" style="border: white">
@@ -224,4 +225,28 @@
     </table>
   </div>
   <!----------- mobile ------>
+  
+<div *ngIf="filterCryptos() ">
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link" (click)="onPageChanged(currentPage - 1)" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+          <span class="sr-only">Previous</span>
+        </a>
+      </li>
+      <li class="page-item" *ngFor="let pageNumber of pageWindows" [class.active]="currentPage === pageNumber">
+        <a class="page-link" (click)="onPageChanged(pageNumber)">{{ pageNumber }}</a>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a class="page-link" (click)="onPageChanged(currentPage + 1)" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+          <span class="sr-only">Next</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
+
+
 </div>

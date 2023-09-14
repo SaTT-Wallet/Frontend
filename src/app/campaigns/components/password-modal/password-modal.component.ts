@@ -157,7 +157,8 @@ export class PasswordModalComponent implements OnInit {
       _campaign.pass = this.passwordForm.get('password')?.value;
       /*
       _campaign.ERC20token = ListTokens[this.campaign.currency.name].contract;
-*/
+*/ 
+      _campaign.limit = this.campaign.limitParticipation;
       _campaign.amount = this.campaign?.initialBudget;
       switch (ListTokens[this.campaign.currency.name].type) {
         case 'bep20': {

@@ -218,6 +218,8 @@ input[type='search']::-webkit-search-cancel-button {
   border-bottom: 0.25px solid rgba(117, 117, 143, 0.3) !important;
 }
 
+
+
 /*.div_notification :hover {
   background: transparent;
   cursor: pointer;
@@ -232,7 +234,24 @@ input[type='search']::-webkit-search-cancel-button {
   width: 50px;
   height: 50px;
 }
+.container_title_notification_general{
+  width: 39em;
+}
 
+.campaign_container{
+  border-style: solid;
+  border-radius: 30px;
+  border-color: #D6D6E8;
+  border-width: 1px;
+  }
+
+  .link_container{
+    border-style: solid;
+    border-radius: 30px;
+    border-color: #D6D6E8;
+    border-width: 1px;
+  }
+  
 .label_avatar_notif {
   font-style: normal;
   font-weight: normal;
@@ -286,19 +305,26 @@ input[type='search']::-webkit-search-cancel-button {
 
 /* sk */
 .btn_status{
+  margin-right: 0.6em;
+  margin-top: 0.3em;
   width: 40px;
   height: 40px;
   background-color: #00CC9E;
   border-radius: 50%;
   border: none;
-  font-size: 1.5em;
-  justify-content: center;
+  /* justify-content: center; */
   color: white;
-  float: right;
-  margin-left: 0.4em;
+  /* margin-left: 0.4em; */
   
 }
 
+
+.icon-class{  
+  font-size: 1.5em;
+  position: relative;
+  bottom: 6px;
+  right: 3px;
+}
 
 
 .btn_status.reject{
@@ -308,29 +334,61 @@ input[type='search']::-webkit-search-cancel-button {
 
 .cmp-img2{
   object-fit: cover;
-  width: 663px;
-  margin: 20px;
+  width: 686px;
+  /* margin: 20px; */
   height: 242px;
-  border-radius: 30px;
+  border-top-left-radius: 30px 30px;
+  border-top-right-radius: 30px 30px;
   
 }
 
+/* .cmp-img2.campagain{
+  margin: 0;
+  width: 682px ;
+} */
+/* old : 663 */
+
 
 .budget_button{
-  width: 191px;
+  bottom: 1em;
+  position: relative;
+  right: 1.5em;
+  
   height: 36px;
   border-radius: 30px;
   padding: 8px 16px;
   gap: 8px;
   font-family: "poppins";
   font-weight: 600;
-  font-size: 15px;
+  
   line-height: 19.5px;
   letter-spacing: 3%;
   float: right;
   background-color: #4048FF;
   color: white;
   border: none;
+  
+}
+.svg_icons_budget_disabled {
+  height: 70%;
+}
+.budget_button_disabled {
+  bottom: 1em;
+  position: relative;
+  right: 1.5em;
+  
+  height: 36px;
+  border-radius: 30px;
+  padding: 8px 16px;
+  gap: 8px;
+  font-family: "poppins";
+  font-weight: 600;
+  line-height: 19.5px;
+  letter-spacing: 3%;
+  float: right;
+  background-color: #f6f6ff;
+  color: #adadc8;
+  border:1px solid #adadc8
   
 }
 
@@ -481,6 +539,13 @@ input[type='date']::-webkit-calendar-picker-indicator {
   }
 }
 
+@media (min-width: 765.99px) and (max-width: 1600px) {
+  .feed_container{
+    margin-left: 10%
+  }
+}
+
+
 @media (min-width: 1140.99px) and (max-width: 1500.98px) {
   .page_history {
     padding-top: 6.5%;
@@ -496,18 +561,23 @@ input[type='date']::-webkit-calendar-picker-indicator {
   }
 }
 
+
+
+
 .containerLogoTime{
   width: 50%;
   margin-top: 0.5em;
+  margin-left: 0.5em;
 }
 
 .description_createCampaign{
-  width: fit-content;
   margin-top: 1em;
+  margin-left: 5.7em;
   font-weight: 400;
-  /* letter-spacing: 3px; */
   line-height: 18.2px;
   font-size: 14px;
+  width: 37em;
+  padding-bottom: 1em;
 }
 /* will be uncommented */
  .pic_avatar_notif {
@@ -527,16 +597,57 @@ input[type='date']::-webkit-calendar-picker-indicator {
 
 @media (max-width: 500px) {
 
+
+  .description_createCampaign{
+    margin: auto;
+    width: 80%;
+  }
+
+  .link_container{
+    border-radius: 0px;
+    border-top-left-radius: 30px 30px !important;
+    border-top-right-radius: 30px 30px !important;
+    background-color: transparent;
+  }
+  .campaign_container{
+    background-color: white;
+    margin-right: 0.4em;
+  }
+
+
+  .cmp-img2.link{
+    width: 97.5vw !important;
+  }
+  .cmp-img2.camp{
+    width: 96vw !important;
+  }
+  .search-results{
+    margin-top: 10px !important;
+  }
+  .feed_container{
+    margin-top: -0.6em !important;
+  }
+
+  .cmp-img2{
+    
+    width: 97vw !important;
+
+  }
+
     .container_perso {
         width: 84% !important;
         margin: auto !important;
       }
 
   .div_notifications{
+    margin-top: 0em ;
     width: 120% !important;
     margin-left: -10% !important;
     border-radius: 0 !important;
     display: block !important;
+  }
+  .div_notifications.isPhish{
+    margin-top: 1em;
   }
 
   .mobile_gen_notif{    padding-right: 0px;
@@ -674,7 +785,7 @@ input[type='date']::-webkit-calendar-picker-indicator {
 }
 
 .search-results {
-  margin-top: 10px;
+  margin-top: 38px;
   margin-left: 12% !important;
   margin-right: 15% !important;
 }

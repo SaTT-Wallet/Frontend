@@ -35,6 +35,7 @@ import { EButtonActions } from '@app/core/enums';
 import { atLastOneChecked, requiredDescription } from '@app/helpers/form-validators';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { CampaignHttpApiService } from '@app/core/services/campaign/campaign.service';
+import { ToastrService } from 'ngx-toastr';
 
  
 @Component({
@@ -104,8 +105,8 @@ export class NotificationComponent implements OnInit {
   ];
   buttonData2 = [
     { text: "filtre_choosestatus_in_pending", toggle: true },
+    { text: "filtre_choosestatus_in_progress", toggle: true },
     { text: "filtre_choosestatus_finished", toggle: true },
-    { text: "filtre_choosestatus_in_progress", toggle: true }
   ];
   buttonData3 = [
     { text: "filtre_My_Links_to_harvest", toggle: true },
@@ -118,7 +119,8 @@ export class NotificationComponent implements OnInit {
     { label: 'Linkedin', toggle: false },
     { label: 'Tiktok', toggle: false },
     { label: 'Twitter', toggle: false },
-    { label: 'Youtube', toggle: false }
+    { label: 'Youtube', toggle: false },
+    { label: 'Threads', toggle: false}
   ];
 
   checkboxData1 = [{ label: "filtre_Adpools_message", toggle: false }];
@@ -169,7 +171,8 @@ export class NotificationComponent implements OnInit {
       'Linkedin': 'cmp_candidate_accept_link/linkedin',
       'Tiktok': 'cmp_candidate_accept_link/tiktok',
       'Twitter': 'cmp_candidate_accept_link/twitter',
-      'Youtube': 'cmp_candidate_accept_link/youtube'
+      'Youtube': 'cmp_candidate_accept_link/youtube',
+      'Threads': 'cmp_candidate_accept_link/threads',
     };
   
     const filterType = checkboxLabelMappings[checkbox.label];
@@ -234,6 +237,7 @@ export class NotificationComponent implements OnInit {
   constructor(
     private campaignService: CampaignHttpApiService,
     private eRef: ElementRef,
+    private toastr: ToastrService,
     private renderer: Renderer2,
     private walletFacade: WalletFacadeService,
     private profileSettingsFacade: ProfileSettingsFacadeService,
@@ -379,7 +383,8 @@ export class NotificationComponent implements OnInit {
           break;
         case 'showing-random-number':
           if(this.notificationRandomNumber === 1) this.router.navigate(['/FAQ']);
-          else this.router.navigate(['/FAQ']);
+          if(this.notificationRandomNumber === 3) this.toastr.success('Link copied!');
+          //else this.router.navigate(['/FAQ']);
           
           break;
 
@@ -389,7 +394,24 @@ export class NotificationComponent implements OnInit {
     }
   }
 
-  
+  socialNetworkRedirection(network: string) {
+    switch(network) {
+      case 'facebook':
+        window.open('https://www.facebook.com/SaTT.Token', '_blank'); 
+        break;
+      case 'twitter':
+        window.open('https://twitter.com/SaTT_Token', '_blank'); 
+        break;
+      case 'telegram':
+        window.open('https://web.telegram.org/a/', '_blank'); 
+        break;
+      case 'bitcoin':
+        window.open('https://satt-token.com/', '_blank'); 
+        break;
+      default:
+        window.open('https://satt-token.com/', '_blank'); 
+      }
+  }
   getNotificationsDecision() {
     this.showSpinner2 = true;
     this.socialAccountFacadeService.notification().subscribe((res: any) => {
@@ -537,10 +559,20 @@ export class NotificationComponent implements OnInit {
   hideNotification() {
     this.showNotification = false;
   }
+  getStorageInformation() {
+    return window.localStorage.getItem('phishing');
+  }
+
+  isPhishing() {
+    if(this.getStorageInformation()){
+      return 'isPhish';
+    }
+    return;
+  }
+
   ngOnInit(): void {
     this.getAllNotifications();
-    this.getNotificationsDecision();
-    
+    this.getNotificationsDecision(); 
   }
   seeNotification() {
     this.NotificationService.notificationSeen()
@@ -887,12 +919,15 @@ closeModal(content: any) {
     }
   }
 
+ 
+
   getCampaignCover(cover: string) {
     return cover.replace('ipfs:', '');
   }
 
   getCampaignTitle(cmp:any) {
-    switch(cmp.type) {
+    return cmp.type;
+    /*switch(cmp.type) {
       case 'inProgress':
         return `Congratulations ! Your AdPool ${cmp.title} is now in Progress.`;
       case 'apply':
@@ -902,7 +937,7 @@ closeModal(content: any) {
       default:
         return 'error'  
             
-    }
+    }*/
   }
 
   getCampaignStartDate(cmp:any) {
@@ -931,16 +966,38 @@ closeModal(content: any) {
       this.dateRefund = new Date((cmp.endDate + environment.dateRefund ) * 1000)
       
       if((this.dateRefund.getTime() - Date.now()) > 0) {
-        return `Congratulations ! Your AdPool ${cmp.title} is now finished.
+        return false
+        /*return `Congratulations ! Your AdPool ${cmp.title} is now finished.
         \nYour remaining budget is currently ${parseInt(cmp.cost) / 10 **18} ${cmp.token.name.startsWith('SATT') ? 'SaTT' : cmp.token.name}.
          You can retrieve it in ${Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ))} Days 
          ${Math.floor(((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - (Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ))) ) * 24 )}Hours 
-         ${Math.floor(((((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  )) ) * 24) - (Math.floor(((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - (Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ))) ) * 24 ))) * 60)}min`;
+         ${Math.floor(((((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  )) ) * 24) - (Math.floor(((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - (Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ))) ) * 24 ))) * 60)}min`;*/
       } else {
-        return `Congratulations ! Your AdPool ${cmp.title} is now finished.\nYour remaining budget is currently ${parseInt(cmp.cost) / 10 **18} ${cmp.token.name.startsWith('SATT') ? 'SaTT' : cmp.token.name}. You can now retrieve It retrieve it`;
+        return true
+        //return `Congratulations ! Your AdPool ${cmp.title} is now finished.\nYour remaining budget is currently ${parseInt(cmp.cost) / 10 **18} ${cmp.token.name.startsWith('SATT') ? 'SaTT' : cmp.token.name}. You can now retrieve It retrieve it`;
       }
       
     
+  }
+
+
+  getRetrieveBudget(cmp:any) {
+    return parseInt(cmp.cost) / 10 **18
+  }
+
+  getRetrieveBudgetDays(cmp:any) {
+    this.dateRefund = new Date((cmp.endDate + environment.dateRefund ) * 1000)
+    return Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ))
+  }
+
+  getRetrieveBudgetHours(cmp:any) {
+    this.dateRefund = new Date((cmp.endDate + environment.dateRefund ) * 1000)
+    return Math.floor(((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - (Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ))) ) * 24 )
+  }
+
+  getRetrieveBudgetMins(cmp:any) {
+    this.dateRefund = new Date((cmp.endDate + environment.dateRefund ) * 1000)
+    return Math.floor(((((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  )) ) * 24) - (Math.floor(((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - (Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ))) ) * 24 ))) * 60)
   }
 
 

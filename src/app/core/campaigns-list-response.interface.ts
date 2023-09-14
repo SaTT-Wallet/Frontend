@@ -47,4 +47,5 @@ export interface ICampaignResponse {
   file?: string;
   urlPicUser?: string;
   missions?: [];
+  limit:number;  
 }

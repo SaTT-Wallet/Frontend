@@ -46,7 +46,7 @@ import { TokenStorageService } from '@core/services/tokenStorage/token-storage-s
 import { IApiResponse } from '@app/core/types/rest-api-responses';
 import { ICampaignResponse } from '@app/core/campaigns-list-response.interface';
 import { environment } from '@environments/environment';
-
+import { DraftMaximumParticipationComponent} from '../draft-maximum-participation/draft-maximum-participation.component';
 enum FormStatus {
   Saving = 'saving',
   Saved = 'saved',
@@ -473,5 +473,10 @@ export class EditCampaignComponent implements OnInit, OnDestroy {
       this.showModal = false;
       this.modalService.dismissAll(this.useDesktopModal);
     }
+  }
+
+  handleInputValueChange(value:any){
+    console.log({value},this.campaignData)
+    this.campaignData.limitParticipation = value;
   }
 }
