@@ -183,10 +183,11 @@
   }
   .bloc-cover {
     margin-top: 43vh;
-    margin-left: 20%;
+    margin-left: 5%;
   }
   .title-cover {
-    left: 5%;
+    // width: 14em;
+    // left: 5%;
     font-weight: 700;
     font-size: 28px;
     line-height: 120%;
@@ -199,7 +200,12 @@
     line-height: 130%;
     padding-right: 10%;
   }
+  .button_container{
+    width: fit-content;
+     margin: auto;
+  }
   .button-cover {
+    margin: auto;
     margin-top: 2.5% !important;
   }
 
