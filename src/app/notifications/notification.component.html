@@ -190,81 +190,7 @@
         </button>
       </div>
     </div>
-    <!-- <div class="row mb-4">
-        <div class="col-md-12 col-xs-12 col-lg-12">
-            <div class="">
-                <span class="title-Notif ms-2  "> Notifications </span>
-            </div>
-        </div>
-    </div> -->
-    <!------------------------------------------------------------------------------------------------>
-
     <div class="feed_container col-md-6">
-
-      <!-- <div class="div_filter"> -->
-      <!-- <div class="d-flex justify-content-end" style="z-index: 1"> -->
-      <!-- <div class="form-group"> -->
-      <!-- <div class="search-filter-wrapper"> -->
-      <!-- <input
-                type="search"
-                class="input_search mb-2"
-                [(ngModel)]="term"
-                (focus)="onFocus()"
-                (focusout)="focusOutFunction()"
-              /> -->
-      <!-- <button class="filtre_button"> </button>-->
-      <!-- <div id="dropdown-menu" class="dropdown-menu p-4">
-                        <form [formGroup]="form">
-                            <div class="col-md-12 d-flex justify-content-end "><i class="fa fa-chevron-up arrow"></i></div>
-                            <div class="row ">
-                                <div class="col-md-7 ">
-                                    <h1 class="tiltle_dropdown-menu ">{{'notification_type' |translate}}</h1>
-                                </div>
-                            </div>
-                            <div class="row ">
-                                <div class="col-md-12">
-                                    <select class="select" formControlName="type_notification" (click)="$event.stopPropagation()">
-                                        <option class="options" *ngFor="let t of arrayTypeNotification" [value]="t.type">
-                                             {{t.type_notif|translate}}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                            <h1 class="tiltle_dropdown-menu  pt-3">{{ 'select_contact' | translate}}</h1>
-                            <div class="row ">
-                                <div class="col-md-12">
-                                    <select class="select" formControlName="contact" (click)="$event.stopPropagation()">
-                                        <option class="options" *ngIf="arrayContact?.length == 0 "> {{ 'no_contact'| translate}} </option>
-                                        <option class="options" *ngFor="let c of arrayContact" [value]="c">{{c}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <h1 class="tiltle_dropdown-menu pt-4">{{ 'select_date' | translate}}</h1>
-                            <div class="row ">
-                                <div class="col-md-5">
-                                    <label class="placeholder_select_date"> {{ 'start_date' | translate}}</label>
-                                    <input type="date" class="input_date" formControlName="date_debut" (click)="$event.stopPropagation()">
-                                </div>
-                                <div class="col-md-1 justify-content-center pt-4"> <img src="/assets/Images/-.png" style="margin-top: 20px; margin-left: 18px;" /></div>
-                                <div class="col-md-5">
-                                    <label class="placeholder_select_date"> {{ 'end_date' | translate}}</label>
-                                    <input type="date" class="input_date" formControlName="date_fin" (click)="$event.stopPropagation()">
-                                </div>
-                            </div>
-                            <div class="row justify-content-md-center pt-4">
-                                <div class="col-md-7 ">
-                                    <button class="btn_filter_dropdown-menu" (click)="filtrer()">
-                                {{'campaign_list.bouton_filtre' |translate}}</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div> -->
-      <!--===================================dropdown menu end ========================================================-->
-      <!-- </div> -->
-      <!-- </div> -->
-      <!-- </div> -->
-      <!-- </div> -->
-      <!------------------------------------------------------------------------------------------------>
       <div
         class="search-results mt-5-lg"
         infiniteScroll
@@ -283,10 +209,10 @@
             let last = last
           "
         >
-          <ng-container *ngIf="!last">
+          
             <div class="col-md-12" *ngIf="notification.value.length > 0">
               <div class="div_notification">
-                <ng-container *ngIf="notification.value.length > 0">
+                
                   <div
                     class="div_notif d-flex flex-row align-items-center p-3"
                     *ngFor="let i of notification.value"
@@ -295,13 +221,6 @@
                     <div
                       class="div_notif_child"
                       style="display: 'block'"
-                      *ngIf="
-                        !(
-                          i.type === 'buy_some_gas' ||
-                          i.type === 'invite_friends' ||
-                          i.type === 'join_on_social'
-                        )
-                      "
                     >
                       <div style="display: 'block'">
                         <div style="display: 'flex'">
@@ -469,9 +388,32 @@
                           </div>
                         </div>
                       </div>
+                      <!-- LINKS REJECTED / 
+                      <div *ngIf="i.type === 'cmp_candidate_reject_link' || i.type === 'cmp_candidate_accept_link'" >
+                        
+                        <ng-container *ngIf="i.label.isTwitter === false">
+                          <embed [src]="i.label.embedLink" width="500" height="487" style="border:none;overflow:hidden" scrolling="no" frameborder="1" allowfullscreen="true" allow=" clipboard-write; encrypted-media; picture-in-picture; web-share" />  
+                        </ng-container>
+                        <ng-container *ngIf="i.label.isTwitter !== false">
+                          <ngx-tweet
+                         
+                          class="tweet-class"
+                          [tweetId]="i.label.isTwitter"
+                          style="
+                            width: 80%;
+                            text-align: -webkit-center;
+                            overflow: hidden;
+                            display: block;
+                          "
+                        ></ngx-tweet>
+                        </ng-container>
+                      
+                      </div>
+ACCEPTED -->
 
                       <!-- LINKS -->
                       <div *ngIf="i.type === 'cmp_candidate_insert_link'">
+                        
                         <ng-container *ngIf="i.label.linkExist">
                           <div class="link_container">
                             <img
@@ -557,13 +499,17 @@
                               [ngClass]="'link'"
                             />
 
-
+                            <div style="margin-left: 3%; margin-top: 1%; margin-bottom: 1%;"> 
+                              <img src="./assets/Images/views-icon.svg"/> {{i.label.link.views }}
+                            </div>
+                            
                             <div
                               style="width: 100%; height: 3.5em"
                               *ngIf="
                                 i.label.link.type === 'waiting_for_validation'
                               "
                             >
+                            
                               <div
                                 style="
                                   width: fit-content;
@@ -688,10 +634,10 @@
                       </div>
                     </div>
                   </div>
-                </ng-container>
+                
               </div>
             </div>
-          </ng-container>
+          
         </div>
       </div>
     </div>

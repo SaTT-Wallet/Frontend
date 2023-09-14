@@ -6,6 +6,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from '@app/shared/shared.module';
 import { FooterBarComponent } from './components/footer-bar/footer-bar.component';
+
 @NgModule({
   declarations: [
     LayoutComponent,
