@@ -244,23 +244,36 @@ export class SocialNetworksComponent implements OnInit {
    return this.checkThreadsExist = data.facebook.some((elem : any) => elem.threads_id )      
    }  
   
+   clearMessages = (): void => {
+    this.errorMessage = '';
+    this.successMessage = '';
+  };
+
+  redirectToSocialNetworksSettings = (): void => {
+    this.router.navigate(['/home/settings/social-networks']);
+  };
+  
   //get errors from url
- 
   setUrlMsg(p: Params, data: IGetSocialNetworksResponse): void {
-    const showMessage = (message: string, type: 'error' | 'success', redirect = true): void => {
+    const showMessage = (
+      message: string,
+      type: 'error' | 'success',
+      redirect = true
+    ): void => {
       if (type === 'error') {
         this.errorMessage = message;
       } else if (type === 'success') {
         this.successMessage = message;
       }
       setTimeout(() => {
-        this.errorMessage = '';
-        this.successMessage = '';
+        this.clearMessages();
         if (redirect) {
-          this.router.navigate(['/home/settings/social-networks']);
+          this.redirectToSocialNetworksSettings();
         }
       }, 3000);
     };
+  
+   
   
     switch (p.message) {
       case 'access-denied':
@@ -269,7 +282,7 @@ export class SocialNetworksComponent implements OnInit {
   
       case 'channel obligatoire':
       case 'required_page':
-        showMessage('no_channel_found', 'error');
+        showMessage('no_page_selected', 'error');
         break;
   
       case 'account_linked_with_success':
@@ -292,10 +305,6 @@ export class SocialNetworksComponent implements OnInit {
   
       case 'page already exists':
         showMessage('page already exists', 'error');
-        break;
-  
-      case 'required_page':
-        showMessage('no_page_selected', 'error');
         break;
   
       default:

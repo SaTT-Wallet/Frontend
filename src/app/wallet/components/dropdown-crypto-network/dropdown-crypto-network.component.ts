@@ -81,6 +81,7 @@ export class DropdownCryptoNetworkComponent
   @ViewChild('selectToken', { static: false })
   public selectTokenModal!: TemplateRef<any>;
   tokenList: any = [];
+  cryptoImageSearched: any;
 
   reset(e: any) {
     e.target.value = '';
@@ -91,6 +92,7 @@ export class DropdownCryptoNetworkComponent
   }
  
   getCryptoImage() {
+    
     if (!this.res) {
       this.getCryptoList();
     }
@@ -158,7 +160,6 @@ export class DropdownCryptoNetworkComponent
   }
 
   tokenToSelect(crypto: any) {
-    console.log({crypto})
     this.walletFacade
       .getBalanceByToken({
         network: this.selectedNetworkValue.toLowerCase(),
@@ -188,7 +189,7 @@ export class DropdownCryptoNetworkComponent
               {
                 AddedToken: !!crypto.value.AddedToken ? crypto.AddedToken : true,
                 balance: 0,
-                contract: crypto.contract,
+                contract: (this.selectedNetworkValue === 'ERC20' && crypto.key === 'SATT') ? env.addresses.smartContracts.SATT_TOKENERC20 :  ( (this.selectedNetworkValue === 'BEP20' && crypto.key === 'SATT') ? env.addresses.smartContracts.SATT_TOKENBEP20 :crypto.contract),
                 contrat: '',
                 decimal: 18,
                 key: crypto.key,
@@ -213,7 +214,8 @@ export class DropdownCryptoNetworkComponent
         (err: any) => {
           this.quantity = 0;
           
-          this.cryptoImageCamapign = crypto.value.logo;
+          this.cryptoImageCamapign =
+            crypto.value.logo || this.cryptoImageSearched;
           this.cryptoSymbolCampaign = crypto.key;
           this.closeTokenModal(this.tokenModal);
           this.selectCryptoValue(
@@ -224,7 +226,7 @@ export class DropdownCryptoNetworkComponent
             {
               AddedToken: !!crypto.value.AddedToken ? crypto.AddedToken : true,
               balance: 0,
-              contract: crypto.contract,
+              contract: (this.selectedNetworkValue === 'ERC20' && crypto.key === 'SATT') ? env.addresses.smartContracts.SATT_TOKENERC20 :  ( (this.selectedNetworkValue === 'BEP20' && crypto.key === 'SATT') ? env.addresses.smartContracts.SATT_TOKENBEP20 :crypto.contract),
               contrat: '',
               decimal: 18,
               key: crypto.key,
@@ -400,6 +402,7 @@ export class DropdownCryptoNetworkComponent
   }
 
   searchCustomToken(event: any) {
+    
     let pattern = /^0x[a-fA-F0-9]{40}$|^(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,39}$|T[A-Za-z1-9]{33}$/;
     if(pattern.test(event.target.value)) {
       this.loadingCustomToken = true;
@@ -409,6 +412,7 @@ export class DropdownCryptoNetworkComponent
           this.customTokenNotFound = false;
           this.tokenDecimal = res.data.decimals;
           this.tokenSymbol = res.data.symbol; 
+            this.cryptoImageSearched = res.data.logoimg;
           let crypto = {
             contract: this.smartContract,
             key: res.data.symbol,

@@ -35,6 +35,7 @@ import { EButtonActions } from '@app/core/enums';
 import { atLastOneChecked, requiredDescription } from '@app/helpers/form-validators';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { CampaignHttpApiService } from '@app/core/services/campaign/campaign.service';
+import { ToastrService } from 'ngx-toastr';
 
  
 @Component({
@@ -236,6 +237,7 @@ export class NotificationComponent implements OnInit {
   constructor(
     private campaignService: CampaignHttpApiService,
     private eRef: ElementRef,
+    private toastr: ToastrService,
     private renderer: Renderer2,
     private walletFacade: WalletFacadeService,
     private profileSettingsFacade: ProfileSettingsFacadeService,
@@ -381,7 +383,8 @@ export class NotificationComponent implements OnInit {
           break;
         case 'showing-random-number':
           if(this.notificationRandomNumber === 1) this.router.navigate(['/FAQ']);
-          else this.router.navigate(['/FAQ']);
+          if(this.notificationRandomNumber === 3) this.toastr.success('Link copied!');
+          //else this.router.navigate(['/FAQ']);
           
           break;
 
@@ -391,7 +394,24 @@ export class NotificationComponent implements OnInit {
     }
   }
 
-  
+  socialNetworkRedirection(network: string) {
+    switch(network) {
+      case 'facebook':
+        window.open('https://www.facebook.com/SaTT.Token', '_blank'); 
+        break;
+      case 'twitter':
+        window.open('https://twitter.com/SaTT_Token', '_blank'); 
+        break;
+      case 'telegram':
+        window.open('https://web.telegram.org/a/', '_blank'); 
+        break;
+      case 'bitcoin':
+        window.open('https://satt-token.com/', '_blank'); 
+        break;
+      default:
+        window.open('https://satt-token.com/', '_blank'); 
+      }
+  }
   getNotificationsDecision() {
     this.showSpinner2 = true;
     this.socialAccountFacadeService.notification().subscribe((res: any) => {
