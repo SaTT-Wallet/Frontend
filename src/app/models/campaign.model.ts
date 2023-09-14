@@ -50,7 +50,7 @@ export class Campaign {
     this.ownerId = data?.idNode || '';
     this.initialBudget = data?.cost || '0';
     this.initialBudgetInUSD = data?.cost_usd || '0';
-    this.limitParticipation = data?.limitParticipation || 0
+    this.limitParticipation = data?.limit || 0;
     this.budget = data?.funds
       ? (data?.funds[1] as string)
       : data?.remaining

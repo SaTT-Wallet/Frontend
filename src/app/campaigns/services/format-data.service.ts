@@ -31,7 +31,6 @@ export class FormatDataService {
   }
 
   manipulateDataBeforeSend(campaign: any): any {
-    console.log({campaign})
     let price: any;
     let object: any = {};
     if (campaign.hasOwnProperty('title')) {
@@ -72,9 +71,9 @@ export class FormatDataService {
     if (campaign.hasOwnProperty('startDate')) {
       object.startDate = new Date(campaign.startDate).getTime() / 1000;
     }
-    if (campaign.hasOwnProperty('limit')) {
-      object.limit = campaign.limit
-    }
+
+    campaign.limitParticipation && (object.limit = campaign.limitParticipation)
+
     if (campaign.hasOwnProperty('remuneration')) {
       // TODO: fix remuneration not sent to backend
       object.remuneration = campaign.remuneration;
@@ -149,7 +148,6 @@ export class FormatDataService {
     if (campaign.hasOwnProperty('missions')) {
       object.missions = campaign.missions;
     }
-
     return object;
   }
 
