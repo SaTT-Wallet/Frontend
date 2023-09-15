@@ -108,6 +108,7 @@ private ngUnsubscribe = new Subject<void>();
     return Array(this.totalPages).fill(0).map((_, i) => i + 1);
   }
   filterCryptos() {
+    console.log("this.cryptoLists;,this.cryptoLists;",this.cryptoLists)
     if (!this.searchQuery) {
       return this.cryptoLists;
     }

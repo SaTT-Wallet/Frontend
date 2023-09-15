@@ -441,7 +441,7 @@ export class CampaignHttpApiService {
     titleCampaign: string,
     fromNotif?: boolean
   ) {
-    console.log({prom: prom._id})
+    console.log({prom: prom})
     return this.http.put(
       `${sattUrl}/campaign/reject/${ fromNotif ? prom._id : prom.id}`,
       {

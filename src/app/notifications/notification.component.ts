@@ -771,7 +771,7 @@ closeModal(content: any) {
   }
 
   getLinkIconRejected( link: string) {
-   
+   console.log({link})
     const keywordToIconMap = [
       { keyword: 'facebook', icon: 'facebook' },
       { keyword: 'instagram', icon: 'instagram' },
@@ -964,6 +964,10 @@ closeModal(content: any) {
   redirectToCampaign(cmp:any) {
     return this.router.navigateByUrl('/campaign/'+cmp._id)
   } 
+  
+  redirectToCampaignById(id:any) {
+    return this.router.navigateByUrl('/campaign/'+id)
+  } 
 
   convertBigNumberToNumber(number: any) {
     return parseInt(number) / 10 **18
@@ -1081,7 +1085,42 @@ closeModal(content: any) {
       "https://www.facebook.com/plugins/post.php?href=" + encodeURIComponent(this.postUrl)
     );*/
   }
+  redirectLink(notif:any) {
+    
+      switch(notif.label.link.oracle) {
+        case 'instagram':
+          
+          window.open('https://www.instagram.com/p/'+notif.label.link.idPost, '_target');
+          break;
+        case 'facebook':
+          window.open('https://www.facebook.com/'+ notif.label.link.idUser +'/posts/'+notif.label.link.idPost, '_target');
+          break;
 
+        case 'youtube':
+          window.open('https://www.youtube.com/watch?v='+notif.label.link.idPost, '_target')
+          break;
+          
+        case 'tiktok':
+          window.open('https://www.tiktok.com/embed/'+notif.label.link.idPost, '_target')
+          break; 
+        
+        case 'twitter':
+          window.open('https://www.twitter.com/'+ notif.label.link.idUser +'/status/'+notif.label.link.idPost, '_target');
+          break; 
+          
+        case 'linkedin':
+          window.open('https://www.linkedin.com/feed/update/urn:li:share:' + notif.label.link.idPost)
+          break;
+
+        case 'threads':
+          window.open('https://www.threads.net/@'+ notif.label.link.instagramUserName +'/post/'+notif.label.link.idPost, '_target');
+          break;
+          
+        default:
+          console.log('nothing')  
+      }
+    
+  }
   switchFunction(item: any) {
     /*if(item.type === 'cmp_candidate_reject_link' || item.type === 'cmp_candidate_accept_link') {
       
@@ -1089,7 +1128,8 @@ closeModal(content: any) {
       item.label.isTwitter = item.label.cmp_link.includes('twitter') ? item.label.cmp_link.split('/').pop() : false;
       console.log({item})
     }*/
-    
+    if(item.type === 'apply_campaign') console.log({item})
+    if(item.type === 'cmp_candidate_reject_link') item.label.showReason = false
 
     const etherInWei = new Big(1000000000000000000);
     //let itemDate = new Date(item.created);
@@ -1539,10 +1579,10 @@ closeModal(content: any) {
     //     queryParams: { id: 'BNB', network: 'BEP20' }
     //   });
     // }
-    if(notif.type === 'cmp_candidate_insert_link') {
+    if(notif.type === 'cmp_candidate_insert_link' || notif.type === 'apply_campaign') {
       //if(notif.type === 'create_campaign') this.router.navigateByUrl(`/campaign/${notif.label.cmp_update._id}`)
       console.log({notif: notif.label.link})
-      switch(notif.label.link.oracle) {
+      /*switch(notif.label.link.oracle) {
         case 'instagram':
           
           window.open('https://www.instagram.com/p/'+notif.label.link.idPost, '_target');
@@ -1573,9 +1613,9 @@ closeModal(content: any) {
           
         default:
           console.log('nothing')  
-      }
+      }*/
     } else if(notif.type === 'cmp_candidate_reject_link') {
-      window.open(notif.label.cmp_link, '_target');
+     // window.open(notif.label.cmp_link, '_target');
     } else {
       if (notif?.label?.txhash) {
         this.hashLink(notif?.label?.network, notif?.label?.txhash);

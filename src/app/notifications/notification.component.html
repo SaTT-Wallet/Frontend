@@ -303,6 +303,23 @@
                             <p class="label_time_notif">
                               {{ i.createdFormated }}
                             </p>
+                            <p [ngClass]="'label_avatar_notif p-0 m-0'" *ngIf="i.type === 'cmp_candidate_reject_link'"  [ngClass]="'label_avatar_notif p-0 m-0'">
+                              {{ 'your_link' | translate}} <span style="color: blue" (click)="redirectToCampaignById(i.label.cmp_hash)">{{i.label.cmp_name | uppercase}}</span> {{'been_rejected' | translate}} <span (click)="i.label.showReason = !i.label.showReason" style="color: blue">{{ 'more_reason'| translate }}</span>
+                              <ng-container *ngIf="i.label.showReason">
+                                <br />
+                                <ng-container *ngFor="let reason of i.label.link.reason">
+                                  <br>
+                                  <span>{{ reason }}</span>
+                                  <br>
+                                </ng-container>
+                                <br>
+                              </ng-container>
+                            </p>
+
+                            <p [ngClass]="'label_avatar_notif p-0 m-0'" *ngIf="i.type === 'apply_campaign'"  [ngClass]="'label_avatar_notif p-0 m-0'">
+                              {{ 'your_link' | translate}} <span style="color: blue" (click)="redirectToCampaignById(i.label.cmp_hash)">{{i.label.cmp_name | uppercase}}</span> {{'been_waiting' | translate}} 
+                              
+                            </p>
                             <p
                               [ngClass]="'label_avatar_notif p-0 m-0'"
                               *ngIf="
@@ -310,7 +327,9 @@
                                 i.type !== 'apply_campaign' &&
                                 i.type !== 'cmp_candidate_accept_link' &&
                                 i.type !== 'receive_transfer_event' &&
-                                i.type !== 'create_campaign'
+                                i.type !== 'create_campaign' && 
+                                i.type !== 'cmp_candidate_reject_link' 
+                               
                               "
                               [translate]="i._label"
                               [translateParams]="i._params"
@@ -320,9 +339,10 @@
                               *ngIf="
                                 i.type === 'transfer_event' ||
                                 i.type === 'receive_transfer_event' ||
-                                i.type === 'apply_campaign' ||
+                                
                                 i.type === 'cmp_candidate_accept_link' ||
-                                i.type === 'create_campaign'
+                                i.type === 'create_campaign' 
+                                
                               "
                             >
                               <span
@@ -366,6 +386,8 @@
                                   {{ 'congratulation_start_title_notif'  | translate }} <span class="title-cmp" (click)="redirectToCampaign(i.label.cmp_update)">{{ i.label.cmp_update.title | uppercase}}</span> {{ 'statue_pools_notification_finished' | translate }}. {{'remaining_budget_notification' | translate}} {{getRetrieveBudget(i.label.cmp_update)}} {{ i.label.cmp_update.token.name.startsWith('SATT') ? 'SaTT' : i.label.cmp_update.token.name }}. <ng-container *ngIf="getCampaignRetrieveBudgetTime(i.label.cmp_update)"> {{ 'notification_pools_retreive_now_budget' | translate }}</ng-container> <ng-container *ngIf="!getCampaignRetrieveBudgetTime(i.label.cmp_update)">{{ 'notification_pools_retreive_waiting_budget'|translate }} <b>{{getRetrieveBudgetDays(i.label.cmp_update)}} {{ "notification_pools_retreive_waiting_budget_days" | translate}} {{getRetrieveBudgetHours(i.label.cmp_update)}} {{ "notification_pools_retreive_waiting_budget_hours" | translate}} {{getRetrieveBudgetMins(i.label.cmp_update)}} {{'notification_pools_retreive_waiting_budget_mins' | translate}}</b></ng-container>
                                 </ng-container>                
                               </span>
+
+                              
                             </p>
                             <!-- <p class="label_avatar_notif p-0 m-0" *ngIf="i.type === 'apply_campaign'">
 
@@ -412,10 +434,13 @@
 ACCEPTED -->
 
                       <!-- LINKS -->
-                      <div *ngIf="i.type === 'cmp_candidate_insert_link'">
+                      <div *ngIf="i.type === 'cmp_candidate_insert_link' || i.type === 'cmp_candidate_reject_link' || i.type === 'apply_campaign'">
                         
                         <ng-container *ngIf="i.label.linkExist">
                           <div class="link_container">
+                            <div (click)="redirectLink(i)">
+
+                            
                             <img
                               alt=""
                               *ngIf="i.label.link.typeSN === 2"
@@ -498,15 +523,15 @@ ACCEPTED -->
                               class="cmp-img2"
                               [ngClass]="'link'"
                             />
-
+                          </div>
                             <div style="margin-left: 3%; margin-top: 1%; margin-bottom: 1%;"> 
-                              <img src="./assets/Images/views-icon.svg"/> {{i.label.link.views }}
+                              <img src="./assets/Images/views-icon.svg"/> {{i.label.link.views != null && !!i.label.link.views ? i.label.link.views : 0 }}
                             </div>
                             
                             <div
                               style="width: 100%; height: 3.5em"
                               *ngIf="
-                                i.label.link.type === 'waiting_for_validation'
+                                i.label.link.type === 'waiting_for_validation' && i.type === 'cmp_candidate_insert_link'
                               "
                             >
                             
