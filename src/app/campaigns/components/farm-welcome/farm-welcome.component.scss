@@ -373,6 +373,7 @@ height: 161.16px;
 
 @media (max-width: 871px) {
   .adpool-title {
+    padding-top: 30px;
     font-size: 28px !important;
   }
 }
@@ -417,6 +418,42 @@ height: 161.16px;
   color: #f6f6ff;
   cursor: pointer;
 }
+@media (max-width: 871px) {
+  .load-more-btn {
+    text-decoration: underline;
+    margin-bottom: 15vh;
+    // background: #f52079;
+    color: #f52079 !important;
+    border-radius: 30px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 27px;
+    text-align: center;
+    letter-spacing: 0.01em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    width: 100%;
+    max-width: 350px;
+    color: #f6f6ff;
+    cursor: pointer;
+    position: relative;
+    top: 1.6em;
+  }
+    .load-more-btn-arrow {
+      text-decoration: none !important;
+      color: #f52079 !important;
+      position: relative;
+      top: 1.3em !important;
+      left: 2px;
+      font-size: 34px;
+  }
+
+
+}
+
+
 .load-more-btn-arrow {
   text-decoration: none !important;
   color: #f52079 !important;
