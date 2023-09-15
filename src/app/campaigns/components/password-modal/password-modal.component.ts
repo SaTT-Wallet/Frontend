@@ -195,7 +195,7 @@ export class PasswordModalComponent implements OnInit {
       }
 
       // A ne pas changer +60 Minute
-      _campaign.startDate = this.calculateStartDate();
+      _campaign.startDate = this.calculateStartDate(this.campaign?.updatedAt);
 
       _campaign.endDate = Math.floor(this.campaign.endDate.getTime() / 1000);
 
@@ -211,17 +211,18 @@ export class PasswordModalComponent implements OnInit {
     }
   }
 
-  calculateStartDate() {
-    let date = new Date();
-    let dateInSeconds = new Date(date);
+  calculateStartDate(startDate: any) {
+ 
+    
+    let date = new Date(startDate);
 
-
-    date.setMinutes(date.getMinutes() + 60);	  
-    dateInSeconds.setMinutes(date.getMinutes() + 60);
-    date.setSeconds(0);	  
-    dateInSeconds.setSeconds(0);
+    
+date.setMinutes(date.getMinutes() + 60);
+date.setSeconds(0);
+let dateInSeconds = Math.floor(date.getTime() / 1000);
 
     return dateInSeconds;
+
   }
 
   parentFunction() {
@@ -575,8 +576,8 @@ export class PasswordModalComponent implements OnInit {
     // Common logic for launching campaigns, handles date conversion and common actions.
   private commonCampaignLogic(campaign_info: any, createCampaign: boolean): Observable<any> {
         // Convert the start date to Unix timestamp
-    const startDateUnix = Math.floor(campaign_info.startDate.getTime() / 1000);
-    campaign_info.startDate = startDateUnix;
+    // const startDateUnix = Math.floor(campaign_info.startDate.getTime() / 1000);
+    // campaign_info.startDate = startDateUnix;
 
     if (campaign_info.currency === 'BNB') {
       campaign_info.tokenAddress = null;
