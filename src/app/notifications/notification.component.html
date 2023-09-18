@@ -280,8 +280,7 @@
                               class="pic_avatar_notif"
                               *ngIf="i.type === 'create_campaign'"
                               [src]="
-                                'data:image/png;base64,' +
-                                i.label.cmp_update.logo
+                              getCampaignLogo(i.label.cmp_update)
                               "
                               width="30px"
                             />
@@ -628,7 +627,7 @@ ACCEPTED -->
                             class="pic_avatar_notif"
                             *ngIf="i.type === 'create_campaign'"
                             [src]="
-                              'data:image/png;base64,' + i.label.cmp_update.logo
+                            getCampaignLogo(i.label.cmp_update)
                             "
                             width="30px"
                             style="top: 0.5em !important; float: left"

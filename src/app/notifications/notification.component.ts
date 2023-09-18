@@ -937,9 +937,19 @@ closeModal(content: any) {
  
 
   getCampaignCover(cover: string) {
-    return cover.replace('ipfs:', '');
-  }
+    const matchResult = cover.match(/ipfs:(.*)/);
 
+  if (matchResult && matchResult[1]) {
+    return matchResult[1];
+  } else {
+    // Handle the case where no match was found
+    return "No match found";
+  }
+  }
+  getCampaignLogo(cmp:any) {
+    if (cmp.logo.includes('data:image/png;base64,')) return cmp.logo;
+    else return 'data:image/png;base64,'+cmp.logo
+  }
   getCampaignTitle(cmp:any) {
     return cmp.type;
     /*switch(cmp.type) {
@@ -1120,7 +1130,6 @@ closeModal(content: any) {
   }
   switchFunction(item: any) {
     if(item.type === 'cmp_candidate_reject_link') item.label.showReason = false
-
     const etherInWei = new Big(1000000000000000000);
     //let itemDate = new Date(item.created);
     //item.createdInit = item.created;
