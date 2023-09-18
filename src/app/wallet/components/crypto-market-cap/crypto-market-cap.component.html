@@ -60,8 +60,8 @@
       class="search-query d-flex mt-3"
       type="text"
       name="search"
-      placeholder="{{ 'searchToken' | translate }}
-"
+      placeholder="{{ 'searchToken' | translate }}"
+      (input)="onInputChange($event)"
     />
     <span *ngIf="searchQuery" class="clear-icon" (click)="clear()">x</span>
   </div>
