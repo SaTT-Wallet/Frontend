@@ -216,7 +216,7 @@
                   <div
                     class="div_notif d-flex flex-row align-items-center p-3"
                     *ngFor="let i of notification.value"
-                    (click)="redirect(i, shareSocial)"
+                    
                   >
                     <div
                       class="div_notif_child"
@@ -224,19 +224,27 @@
                     >
                       <div style="display: 'block'">
                         <div style="display: 'flex'">
-                          <div class="p-2 h-50 my-auto" id="{{ i._id }}  ">
+
+                          
+
+                              <div class="p-2 h-50 my-auto" id="{{ i._id }}  ">
                             <img
-                              src="{{ getLinkIconValidate(i.label.cmp_link) }}"
+                              src="{{ getLinkIconValidate(i.label.link.oracle) }}"
                               alt="avtar"
                               class="pic_avatar_notif"
                               *ngIf="i.type === 'cmp_candidate_accept_link'"
                             />
+
+                           
+
                             <img
-                              src="{{ getLinkIconRejected(i.label.cmp_link) }}"
+                              src="{{ getLinkIconRejected(i.label.link.oracle) }}"
                               alt="avtar"
                               class="pic_avatar_notif"
                               *ngIf="i.type === 'cmp_candidate_reject_link'"
                             />
+
+
                             <ng-container
                               *ngIf="
                                 i.type === 'cmp_candidate_insert_link' &&
@@ -246,7 +254,7 @@
                               <img
                                 [src]="
                                   i.label.link.type === 'waiting_for_validation'
-                                    ? getLinkIconWaitingValidation(i.label.link)
+                                    ? getLinkIconWaitingValidation(i.label.link.oracle)
                                     : i.label.link.type === 'rejected'
                                     ? getLinkIconRejected(i.label.link.oracle)
                                     : getLinkIconValidate(i.label.link.oracle)
@@ -256,14 +264,17 @@
                               />
                             </ng-container>
 
+
                             <img
                               src="{{
-                                getLinkIconWaitingValidation(i.label.prom)
+                                getLinkIconWaitingValidation(i.label.link.oracle)
                               }}"
                               *ngIf="
-                                i.type === 'apply_campaign' && !!i.label.prom
+                                i.type === 'apply_campaign' 
                               "
                             />
+
+
                             <img
                               alt="avtar"
                               class="pic_avatar_notif"
@@ -281,7 +292,7 @@
                               *ngIf="
                                 i.type != 'cmp_candidate_accept_link' &&
                                 !(
-                                  i.type === 'apply_campaign' && !!i.label.prom
+                                  i.type === 'apply_campaign' 
                                 ) &&
                                 !(
                                   i.type === 'cmp_candidate_insert_link' &&
@@ -292,12 +303,21 @@
                               "
                             />
                           </div>
+                        
+
+
+                          
+                          
+                          
+
+
+
                           <div
                             class="container_title_notification_general col-md-11 col-lg-11 col-9 col-sm-9"
                           >
                             <p
                               class="label_avatar_notif p-0 m-0"
-                              *ngIf="i.content"
+                              *ngIf="i.content "
                               [translate]="i.content"
                             ></p>
                             <p class="label_time_notif">
@@ -328,7 +348,8 @@
                                 i.type !== 'cmp_candidate_accept_link' &&
                                 i.type !== 'receive_transfer_event' &&
                                 i.type !== 'create_campaign' && 
-                                i.type !== 'cmp_candidate_reject_link' 
+                                i.type !== 'cmp_candidate_reject_link' &&
+                                i.type !== 'cmp_candidate_insert_link'
                                
                               "
                               [translate]="i._label"
@@ -339,23 +360,19 @@
                               *ngIf="
                                 i.type === 'transfer_event' ||
                                 i.type === 'receive_transfer_event' ||
-                                
+                                i.type === 'cmp_candidate_insert_link' ||
                                 i.type === 'cmp_candidate_accept_link' ||
                                 i.type === 'create_campaign' 
+                            
                                 
                               "
                             >
                               <span
-                                *ngIf="i.type != 'create_campaign'"
+                                *ngIf="i.type != 'create_campaign' && i.type != 'cmp_candidate_insert_link' && i.type != 'cmp_candidate_accept_link'"
                                 [translate]="i._label"
                                 [translateParams]="i._params"
                               ></span>
-                              <span
-                                *ngIf="i.type === 'cmp_candidate_accept_link'"
-                                class="link"
-                                [translate]="'cmp_candidate_accept_link_hash'"
-                                [translateParams]="i._params"
-                              ></span>
+                            
                               <span
                                 *ngIf="i.type === 'apply_campaign'"
                                 class="link"
@@ -372,6 +389,8 @@
                                 [translate]="'receive_event_link'"
                                 [translateParams]="{ from: i._params.from }"
                               ></span>
+
+                              
                               <span *ngIf="i.type === 'create_campaign'">
                                 
                                 <ng-container *ngIf="getCampaignTitle(i.label.cmp_update) === 'inProgress'">
@@ -386,7 +405,24 @@
                                   {{ 'congratulation_start_title_notif'  | translate }} <span class="title-cmp" (click)="redirectToCampaign(i.label.cmp_update)">{{ i.label.cmp_update.title | uppercase}}</span> {{ 'statue_pools_notification_finished' | translate }}. {{'remaining_budget_notification' | translate}} {{getRetrieveBudget(i.label.cmp_update)}} {{ i.label.cmp_update.token.name.startsWith('SATT') ? 'SaTT' : i.label.cmp_update.token.name }}. <ng-container *ngIf="getCampaignRetrieveBudgetTime(i.label.cmp_update)"> {{ 'notification_pools_retreive_now_budget' | translate }}</ng-container> <ng-container *ngIf="!getCampaignRetrieveBudgetTime(i.label.cmp_update)">{{ 'notification_pools_retreive_waiting_budget'|translate }} <b>{{getRetrieveBudgetDays(i.label.cmp_update)}} {{ "notification_pools_retreive_waiting_budget_days" | translate}} {{getRetrieveBudgetHours(i.label.cmp_update)}} {{ "notification_pools_retreive_waiting_budget_hours" | translate}} {{getRetrieveBudgetMins(i.label.cmp_update)}} {{'notification_pools_retreive_waiting_budget_mins' | translate}}</b></ng-container>
                                 </ng-container>                
                               </span>
+                              
 
+                              
+                              
+                              <span *ngIf="i.type === 'cmp_candidate_insert_link'">
+                                <span *ngIf="i.label.link.type === 'waiting_for_validation'"
+                                >{{ 'insert_link_validation' | translate}} <span class="title-cmp" (click)="redirectToCampaignById(i.label.cmp_hash)">{{ i.label.cmp_name |uppercase }}</span>.</span>
+                                <span *ngIf="i.label.link.type === 'rejected'">
+                                  {{ 'insert_link_reject' | translate }} <span class="title-cmp" (click)="redirectToCampaignById(i.label.cmp_hash)">{{ i.label.cmp_name |uppercase }}</span>.
+                                </span>
+                                <span *ngIf="i.label.link.type !== 'rejected' && i.label.link.type !== 'waiting_for_validation'">
+                                  {{ 'insert_link_accept' | translate }} <span class="title-cmp" (click)="redirectToCampaignById(i.label.cmp_hash)">{{ i.label.cmp_name |uppercase }}</span>.
+                                </span>
+                              </span>
+
+                              <span *ngIf="i.type === 'cmp_candidate_accept_link'">
+                                {{ 'your_link' | translate}} <span class="title-cmp" (click)="redirectToCampaignById(i.label.cmp_hash)">{{ i.label.cmp_name | uppercase }}</span> {{ 'accept_link' | translate}}
+                              </span>
                               
                             </p>
                             <!-- <p class="label_avatar_notif p-0 m-0" *ngIf="i.type === 'apply_campaign'">
@@ -434,7 +470,7 @@
 ACCEPTED -->
 
                       <!-- LINKS -->
-                      <div *ngIf="i.type === 'cmp_candidate_insert_link' || i.type === 'cmp_candidate_reject_link' || i.type === 'apply_campaign'">
+                      <div *ngIf="i.type === 'cmp_candidate_insert_link' || i.type === 'cmp_candidate_reject_link' || i.type === 'apply_campaign' || i.type === 'cmp_candidate_accept_link'">
                         
                         <ng-container *ngIf="i.label.linkExist">
                           <div class="link_container">
@@ -662,6 +698,8 @@ ACCEPTED -->
                 
               </div>
             </div>
+
+            
           
         </div>
       </div>
@@ -672,7 +710,7 @@ ACCEPTED -->
     <!-- End div spinner -->
 
     <div
-      *ngIf="this.errorMessagecode === 'No notifications found'"
+      *ngIf="this.errorMessagecode === 'No notifications found' || dataNotificationFilter.length === 0"
       class="row pb-5"
     >
       <div

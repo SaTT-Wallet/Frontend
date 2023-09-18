@@ -732,8 +732,8 @@ export class NotificationComponent implements OnInit {
         () => {}
       );
   }
-  getLinkIconWaitingValidation(prom : any) {
-    return `./assets/Images/oracle-${prom.oracle}-waiting-validation.svg`
+  getLinkIconWaitingValidation(oracle : any) {
+    return `./assets/Images/oracle-${oracle}-waiting-validation.svg`
   }
  
 
@@ -771,7 +771,6 @@ closeModal(content: any) {
   }
 
   getLinkIconRejected( link: string) {
-   console.log({link})
     const keywordToIconMap = [
       { keyword: 'facebook', icon: 'facebook' },
       { keyword: 'instagram', icon: 'instagram' },
@@ -899,7 +898,7 @@ closeModal(content: any) {
             linkFiltred = false;
             linkStatus = '' 
           }
-          return types.includes(linkFiltred ? `cmp_candidate_accept_link/${this.getOracle(item.label.cmp_link)}` : ( linkStatus === '' ? item.type : `create_campaign/${linkStatus}`));
+          return types.includes(linkFiltred ? `cmp_candidate_accept_link/${this.getOracle(item.label.link.oracle)}` : ( linkStatus === '' ? item.type : `create_campaign/${linkStatus}`));
         });
         return { ...notification, value: filteredValue };
       });
@@ -981,9 +980,7 @@ closeModal(content: any) {
     } else return false
   }
 
-  test() {
-    console.log('test')
-  }
+ 
   getCampaignRetrieveBudgetTime(cmp: any) {
       
       // WHEN YOU GET REFUNDS ( AFTER 15 DAYS )
@@ -1045,7 +1042,7 @@ closeModal(content: any) {
 
   embedRejectedPost(notification: any) {
     // Sanitize the embedded post URL
-    console.log({notification})
+    
     if(notification.label.cmp_link.includes('facebook')) {
 
       const regexPattern = /facebook\.com\/([^\/]+)\/posts\/([^\/]+)/;
@@ -1109,7 +1106,7 @@ closeModal(content: any) {
           break; 
           
         case 'linkedin':
-          window.open('https://www.linkedin.com/feed/update/urn:li:share:' + notif.label.link.idPost)
+          window.open('https://www.linkedin.com/feed/update/urn:li:share:' + notif.label.link.idPost, 'target')
           break;
 
         case 'threads':
@@ -1117,18 +1114,11 @@ closeModal(content: any) {
           break;
           
         default:
-          console.log('nothing')  
+          window.open('https://satt-token.com/', '_target')
       }
     
   }
   switchFunction(item: any) {
-    /*if(item.type === 'cmp_candidate_reject_link' || item.type === 'cmp_candidate_accept_link') {
-      
-      item.label.embedLink = this.embedRejectedPost(item)
-      item.label.isTwitter = item.label.cmp_link.includes('twitter') ? item.label.cmp_link.split('/').pop() : false;
-      console.log({item})
-    }*/
-    if(item.type === 'apply_campaign') console.log({item})
     if(item.type === 'cmp_candidate_reject_link') item.label.showReason = false
 
     const etherInWei = new Big(1000000000000000000);
@@ -1566,54 +1556,9 @@ closeModal(content: any) {
     }
   }
 
-  redirect(notif: any, content: any): void {
-    // if (notif.type === 'join_on_social') {
-    //   this.modalReference = this.modalService.open(content);
-    // }
-    // if (notif.type === 'invite_friends') {
-    //   this.router.navigateByUrl('/wallet/buy-token');
-    // }
-
-    // if (notif.type === 'buy_some_gas') {
-    //   this.router.navigate(['/wallet/buy-token'], {
-    //     queryParams: { id: 'BNB', network: 'BEP20' }
-    //   });
-    // }
+  /*redirect(notif: any, content: any): void {
+   
     if(notif.type === 'cmp_candidate_insert_link' || notif.type === 'apply_campaign') {
-      //if(notif.type === 'create_campaign') this.router.navigateByUrl(`/campaign/${notif.label.cmp_update._id}`)
-      console.log({notif: notif.label.link})
-      /*switch(notif.label.link.oracle) {
-        case 'instagram':
-          
-          window.open('https://www.instagram.com/p/'+notif.label.link.idPost, '_target');
-          break;
-        case 'facebook':
-          window.open('https://www.facebook.com/'+ notif.label.link.idUser +'/posts/'+notif.label.link.idPost, '_target');
-          break;
-
-        case 'youtube':
-          window.open('https://www.youtube.com/watch?v='+notif.label.link.idPost, '_target')
-          break;
-          
-        case 'tiktok':
-          window.open('https://www.tiktok.com/embed/'+notif.label.link.idPost, '_target')
-          break; 
-        
-        case 'twitter':
-          window.open('https://www.twitter.com/'+ notif.label.link.idUser +'/status/'+notif.label.link.idPost, '_target');
-          break; 
-          
-        case 'linkedin':
-          window.open('https://www.linkedin.com/feed/update/urn:li:share:' + notif.label.link.idPost)
-          break;
-
-        case 'threads':
-          window.open('https://www.threads.net/@'+ notif.label.link.instagramUserName +'/post/'+notif.label.link.idPost, '_target');
-          break;
-          
-        default:
-          console.log('nothing')  
-      }*/
     } else if(notif.type === 'cmp_candidate_reject_link') {
      // window.open(notif.label.cmp_link, '_target');
     } else {
@@ -1675,7 +1620,8 @@ closeModal(content: any) {
       }
     }
     
-  }
+  }*/
+
   expiredSession() {
     this.tokenStorageService.clear();
     window.open(environment.domainName + '/auth/login', '_self');
@@ -1699,7 +1645,6 @@ closeModal(content: any) {
         });
         let filterdArray = arrayReason.filter((ele: any) => ele !== null);
         if (filterdArray.length !== 0) {
-          console.log({link:  this.promToreject})
           this.campaignService
             .rejectLinks(
               this.promToreject.link,
