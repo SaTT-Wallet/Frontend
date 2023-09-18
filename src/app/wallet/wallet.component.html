@@ -18,6 +18,7 @@
   ></app-migration>
 </ng-template>
 
+<!-- 525 Ticket working in progress SK -->
 <div class="wallet">
   <div
     *ngIf="hidePortfolio"
@@ -85,58 +86,6 @@
             </div>
           </ng-container>
         </div>
-
-
-        <!-- /// -->
-        <!-- We remove canvas chart the code commented below may be useful in other components or for futur needs  -->
-        <!-- <canvas
-          class="canV canvdaily"
-          *ngIf="showDaily"
-          #myCanvas1
-          baseChart
-          height="182px"
-          width="1652vw"
-          [datasets]="lineChartDataDaily"
-          [options]="lineChartOptionsDaily"
-          [colors]="lineChartColors"
-          [legend]="lineChartLegend"
-          [chartType]="lineChartType"
-          [plugins]="lineChartPlugins"
-          [labels]="lineChartLabelsDaily"
-        >
-        </canvas>
-        <canvas
-          class="canV"
-          *ngIf="showMonth"
-          #myCanvas3
-          baseChart
-          height="182vh"
-          width="1652vw"
-          style="width: 700px !important"
-          [datasets]="lineChartDataMonth"
-          [options]="lineChartOptionsMonthly"
-          [colors]="lineChartColors"
-          [legend]="lineChartLegend"
-          [chartType]="lineChartType"
-          [plugins]="lineChartPlugins"
-        >
-        </canvas>
-        <canvas
-          class="canV"
-          *ngIf="showSemaine"
-          #myCanvas2
-          baseChart
-          height="182px"
-          width="1652px"
-          [datasets]="lineChartDataSemaine"
-          [options]="lineChartOptionsWeekly"
-          [colors]="lineChartColors"
-          [legend]="lineChartLegend"
-          [chartType]="lineChartType"
-          [plugins]="lineChartPlugins"
-        >
-        </canvas> -->
-        <!-- /// -->
       </div>
     </div>
   </div>
