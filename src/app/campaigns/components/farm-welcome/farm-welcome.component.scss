@@ -221,8 +221,8 @@ font-size: 15px;
   .welcome_description_long {
     font-style: normal;
     font-weight: 400;
-    font-size: 15px;
-    line-height: 130%;
+    font-size: 18px;
+    line-height: 23.8px;
   }
   .welcome_btn_launch {
     width: auto;
@@ -583,12 +583,12 @@ align-items: center;
   background-color: #f52079 !important;
   color: white;
 }
+ 
 
 .btn_apply_lunch {
   font-family: 'Poppins';
   font-style: normal;
   font-weight: 600;
-
   text-align: center;
   justify-content: center;
   align-content: center;
@@ -607,8 +607,61 @@ align-items: center;
   background-color: #f52079 !important;
   color: white;
 }
+.btn_apply_lunch1 {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  text-align: center;
+  justify-content: center;
+  align-content: center;
+  border: none;
+  width: max-content;
+  height: 48px;
+  font-size: 18px;
+  color: #4048ff;
+  border-radius: 30px;
+  background: #ffffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  margin: auto;
+}
+
+.btn_apply_lunch1:hover {
+  background-color: #f52079 !important;
+  color: white;
+}
+
 
 @media (max-width: 913px) {
+
+  .btn_apply_lunch1 {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    text-align: center;
+    justify-content: center;
+    align-content: center;
+    border: none;
+    width: max-content;
+    height: 48px;
+    font-size: 18px;
+    color: #4048ff;
+    border-radius: 30px;
+    background: #ffffff;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    margin-top: 41px;
+  }
+  
+  .btn_apply_lunch1:hover {
+    background-color: #f52079 !important;
+    color: white;
+  }
+
+
+
+
+
   .bg-title {
     font-size: 35px;
   }
@@ -618,7 +671,7 @@ align-items: center;
   .welcome_footer_lunch {
     color: #ffffff;
     background-size: cover;
-    height: 717px;
+    height: 817px;
     background-image: url('~assets/Images/footer-lunch-sm.svg');
   }
   .welcome_footer_title {
