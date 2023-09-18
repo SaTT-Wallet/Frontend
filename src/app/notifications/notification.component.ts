@@ -6,7 +6,8 @@ import {
   PLATFORM_ID,
   Inject,
   ViewChild,
-  Renderer2
+  Renderer2,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { NotificationService } from '@core/services/notification/notification.service';
 import { ContactService } from '@core/services/contact/contact.service';
@@ -41,12 +42,14 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-history',
   templateUrl: './notification.component.html',
-  styleUrls: ['./notification.component.css']
+  styleUrls: ['./notification.component.css'],
+  //changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationComponent implements OnInit {
   @ViewChild('rejectLinkModal') rejectLinkModal?: ElementRef;
   promToreject: any;
   searchTerm: any;
+  embeddedPostUrls: any= [];
   term: any;
   reasonForm: UntypedFormGroup;
   public currentLang: string | undefined;
@@ -56,7 +59,7 @@ export class NotificationComponent implements OnInit {
   arrayTypeNotification: Array<{ type: string; type_notif: string }>;
   arrayContact: any;
   dateRefund: any;
-
+  @ViewChild('tweetId') tweetId?: ElementRef;
   user!: User;
   dataNotification: any;
   dataNotificationFilter: any;
@@ -135,10 +138,14 @@ export class NotificationComponent implements OnInit {
       item.toggle = false;
     }
   }
+  trackByFunction(index: number, item: any): string {
+    // Assuming that each notification has a unique identifier property, e.g., 'id'
+    return item._id; // Change 'id' to the actual property name of the unique identifier
+  }
   safeImageUrl(base64Image: string): SafeResourceUrl {
     return this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${base64Image}`);
   }
-  
+ 
   generatePostThumbnail(post: any): any {
     if (post.typeSN === '1') {
       return this.sanitizer.bypassSecurityTrustResourceUrl(
@@ -202,6 +209,40 @@ export class NotificationComponent implements OnInit {
         
       }
       this.filterNotificationList(this.filterListType);
+    }
+  }
+
+  getLink(prom: any) {
+    
+     // Prevent the default link behavior
+    if (isPlatformBrowser(this.platformId)) {
+      switch(prom.oracle) {
+        case 'facebook':
+          window.open('https://www.facebook.com/' + prom.idUser +'/posts/'+prom.idPost, '_blank');
+          break;
+        case 'instagram':
+          window.open('https://www.instagram.com/p/'+prom.idPost, '_blank');
+          break;  
+        case 'linkedin':
+          window.open('https://www.linkedin.com/feed/update/urn:li:share:'+prom.idPost, '_blank');
+          break;
+        case 'tiktok':
+          window.open('https://www.tiktok.com/embed/'+prom.idPost, '_blank');
+          break;
+        case 'twitter':
+          window.open('https://twitter.com/' + prom.idUser +'/status/'+prom.idPost, '_blank');
+          break;
+        case 'youtube':
+          window.open('https://www.youtube.com/watch?v='+prom.idPost, '_blank');
+          break;  
+        case 'threads':
+          window.open('https://www.threads.net/t/'+prom.idPost , '_blank');
+          break; 
+          
+        default:
+          console.error('err')  
+      }
+      
     }
   }
 
@@ -691,8 +732,8 @@ export class NotificationComponent implements OnInit {
         () => {}
       );
   }
-  getLinkIconWaitingValidation(prom : any) {
-    return `./assets/Images/oracle-${prom.oracle}-waiting-validation.svg`
+  getLinkIconWaitingValidation(oracle : any) {
+    return `./assets/Images/oracle-${oracle}-waiting-validation.svg`
   }
  
 
@@ -730,7 +771,6 @@ closeModal(content: any) {
   }
 
   getLinkIconRejected( link: string) {
-   
     const keywordToIconMap = [
       { keyword: 'facebook', icon: 'facebook' },
       { keyword: 'instagram', icon: 'instagram' },
@@ -820,33 +860,8 @@ closeModal(content: any) {
               return { created: key, value };
             })
             .value();
-
-            /*
-             for(let item  of notification.value; let index=i) {
-                if(item.type === 'join_on_social' || item.type === 'invite_friends' || item.type === 'buy_some_gas') {
-                  delete notification.value[index];
-                }
-            }
-              */
-            this.dataNotification.forEach((notification: any) => {
-              
-              for(let i = 0 ; i < notification.value.length; i++ ) {
-                if(notification.value[i].type === 'join_on_social' || notification.value[i].type === 'invite_friends' || notification.value[i].type === 'buy_some_gas' ) {
-                  delete notification.value[i];
-                }
-              }
-            
-            
-            
-            
-            
-            })
-
-
             this.dataNotificationFilter = this.dataNotification;
-           
             this.showSpinner = false;
-        
           }
       });
   }
@@ -883,7 +898,7 @@ closeModal(content: any) {
             linkFiltred = false;
             linkStatus = '' 
           }
-          return types.includes(linkFiltred ? `cmp_candidate_accept_link/${this.getOracle(item.label.cmp_link)}` : ( linkStatus === '' ? item.type : `create_campaign/${linkStatus}`));
+          return types.includes(linkFiltred ? `cmp_candidate_accept_link/${this.getOracle(item.label.link.oracle)}` : ( linkStatus === '' ? item.type : `create_campaign/${linkStatus}`));
         });
         return { ...notification, value: filteredValue };
       });
@@ -948,6 +963,10 @@ closeModal(content: any) {
   redirectToCampaign(cmp:any) {
     return this.router.navigateByUrl('/campaign/'+cmp._id)
   } 
+  
+  redirectToCampaignById(id:any) {
+    return this.router.navigateByUrl('/campaign/'+id)
+  } 
 
   convertBigNumberToNumber(number: any) {
     return parseInt(number) / 10 **18
@@ -960,6 +979,8 @@ closeModal(content: any) {
       return true;
     } else return false
   }
+
+ 
   getCampaignRetrieveBudgetTime(cmp: any) {
       
       // WHEN YOU GET REFUNDS ( AFTER 15 DAYS )
@@ -1001,7 +1022,105 @@ closeModal(content: any) {
   }
 
 
+  /*extractIdsFromUrlFacebook(postUrl: string) {
+    // Define a regex pattern to match the user and post IDs in the URL
+    const regexPattern = /facebook\.com\/([^\/]+)\/posts\/([^\/]+)/;
+    
+    // Use the regex pattern to extract the user and post IDs
+    const matches = this.postUrl.match(regexPattern);
+    
+    // Check if there are matches
+    if (matches && matches.length >= 3) {
+      this.userId = matches[1]; // User ID
+      this.postId = matches[2]; // Post ID
+    } else {
+      // Handle invalid URL or display an error message
+      console.error('Invalid Facebook post URL');
+    }
+  }*/
+
+
+  embedRejectedPost(notification: any) {
+    // Sanitize the embedded post URL
+    
+    if(notification.label.cmp_link.includes('facebook')) {
+
+      const regexPattern = /facebook\.com\/([^\/]+)\/posts\/([^\/]+)/;
+      const matches = notification.label.cmp_link.match(regexPattern);
+      
+        const userId = matches[1]; // User ID
+        const postId = matches[2]; // Post ID
+       return this.sanitizer.bypassSecurityTrustResourceUrl(
+        "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F"+userId+"%2Fposts%2F"+postId+"&show_text=true&appId=214777317448706"
+          //"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fama014656%2Fposts%2Fpfbid02pHsyQMzM4w7dqk5covGHwKcCSW53Lcarja3ZXynZxDoX4wMbkFQoDKZPdZNSZ66al&width=500&show_text=false&height=487&appId"
+          //environment.FACEBOOK_POST_URL + userId + '%2Fposts%2F' + postId + '&show_text=true&appId=214777317448706'
+        )
+        
+        
+     
+    } else if(notification.label.cmp_link.includes('youtube')) {
+      const match = notification.label.cmp_link.match(/(?:\?v=|\/embed\/|\/watch\?v=|\/youtu\.be\/|\/v\/|\/e\/|watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+      
+        return this.sanitizer.bypassSecurityTrustResourceUrl(environment.YOUTUBE_EMBED_LINK + match[1])
+       
+      
+    } else if(notification.label.cmp_link.includes('tiktok')) {
+      return this.sanitizer.bypassSecurityTrustResourceUrl(notification.label.cmp_link)
+    } else if(notification.label.cmp_link.includes('instagram')) {
+      return this.sanitizer.bypassSecurityTrustResourceUrl(
+        notification.label.cmp_link
+        + '/embed/captioned/?cr=1&v=14&wp=540&rd=http%3A%2F%2Flocalhost%3A4200&rp=%2F#%7B%22ci%22%3A0%2C%22os%22%3A15257.489999999962%2C%22ls%22%3A1741.52000000322%2C%22le%22%3A1848.8950000028126%7D'
+      )
+    } else if(notification.label.cmp_link.includes('linkedin')) {
+      const url = notification.label.cmp_link.replace('https://www.linkedin.com/', 'https://www.linkedin.com/embed/')
+      return this.sanitizer.bypassSecurityTrustResourceUrl(url)
+    } else return;
+    
+    
+    
+    /*this.embeddedPostUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+      "https://www.facebook.com/plugins/post.php?href=" + encodeURIComponent(this.postUrl)
+    );*/
+  }
+  redirectLink(notif:any) {
+    
+      switch(notif.label.link.oracle) {
+        case 'instagram':
+          
+          window.open('https://www.instagram.com/p/'+notif.label.link.idPost, '_target');
+          break;
+        case 'facebook':
+          window.open('https://www.facebook.com/'+ notif.label.link.idUser +'/posts/'+notif.label.link.idPost, '_target');
+          break;
+
+        case 'youtube':
+          window.open('https://www.youtube.com/watch?v='+notif.label.link.idPost, '_target')
+          break;
+          
+        case 'tiktok':
+          window.open('https://www.tiktok.com/embed/'+notif.label.link.idPost, '_target')
+          break; 
+        
+        case 'twitter':
+          window.open('https://www.twitter.com/'+ notif.label.link.idUser +'/status/'+notif.label.link.idPost, '_target');
+          break; 
+          
+        case 'linkedin':
+          window.open('https://www.linkedin.com/feed/update/urn:li:share:' + notif.label.link.idPost, 'target')
+          break;
+
+        case 'threads':
+          window.open('https://www.threads.net/@'+ notif.label.link.instagramUserName +'/post/'+notif.label.link.idPost, '_target');
+          break;
+          
+        default:
+          window.open('https://satt-token.com/', '_target')
+      }
+    
+  }
   switchFunction(item: any) {
+    if(item.type === 'cmp_candidate_reject_link') item.label.showReason = false
+
     const etherInWei = new Big(1000000000000000000);
     //let itemDate = new Date(item.created);
     //item.createdInit = item.created;
@@ -1437,22 +1556,11 @@ closeModal(content: any) {
     }
   }
 
-  redirect(notif: any, content: any): void {
-    // if (notif.type === 'join_on_social') {
-    //   this.modalReference = this.modalService.open(content);
-    // }
-    // if (notif.type === 'invite_friends') {
-    //   this.router.navigateByUrl('/wallet/buy-token');
-    // }
-
-    // if (notif.type === 'buy_some_gas') {
-    //   this.router.navigate(['/wallet/buy-token'], {
-    //     queryParams: { id: 'BNB', network: 'BEP20' }
-    //   });
-    // }
-    if(notif.type === 'cmp_candidate_insert_link' || notif.type === 'create_campaign') {
-      if(notif.type === 'create_campaign') this.router.navigateByUrl(`/campaign/${notif.label.cmp_update._id}`)
-      
+  /*redirect(notif: any, content: any): void {
+   
+    if(notif.type === 'cmp_candidate_insert_link' || notif.type === 'apply_campaign') {
+    } else if(notif.type === 'cmp_candidate_reject_link') {
+     // window.open(notif.label.cmp_link, '_target');
     } else {
       if (notif?.label?.txhash) {
         this.hashLink(notif?.label?.network, notif?.label?.txhash);
@@ -1512,7 +1620,8 @@ closeModal(content: any) {
       }
     }
     
-  }
+  }*/
+
   expiredSession() {
     this.tokenStorageService.clear();
     window.open(environment.domainName + '/auth/login', '_self');
@@ -1536,7 +1645,6 @@ closeModal(content: any) {
         });
         let filterdArray = arrayReason.filter((ele: any) => ele !== null);
         if (filterdArray.length !== 0) {
-          console.log({link:  this.promToreject})
           this.campaignService
             .rejectLinks(
               this.promToreject.link,

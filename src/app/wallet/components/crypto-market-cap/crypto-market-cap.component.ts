@@ -138,6 +138,7 @@ export class CryptoMarketCapComponent implements OnInit {
       .map((_, i) => i + 1);
   }
   filterCryptos() {
+    console.log("this.cryptoLists;,this.cryptoLists;",this.cryptoLists)
     if (!this.searchQuery) {
       return this.cryptoLists;
     }
