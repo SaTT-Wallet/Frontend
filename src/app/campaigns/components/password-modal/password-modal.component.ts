@@ -36,7 +36,8 @@ enum EOraclesID {
   'instagram',
   'twitter',
   'linkedin',
-  'tiktok'
+  'tiktok',
+  'threads'
 }
 @Component({
   selector: 'app-password-modal',
@@ -113,13 +114,6 @@ export class PasswordModalComponent implements OnInit {
     this.passwordForm = this._formBuilder.group({
       password: ['', Validators.required]
     });
-
-    // if (!this.campaign.id) {
-    //   this.route.queryParams.subscribe((params: any) => {
-    //     this.router.navigate(["home/campaign", params["id"], "edit"]);
-    //     console.log(params["id"]);
-    //   });
-    // }
     this.parentFunction().subscribe();
     if(!!this.campaign) this.network = this.campaign.currency.type;
     
@@ -578,7 +572,7 @@ let dateInSeconds = Math.floor(date.getTime() / 1000);
         // Convert the start date to Unix timestamp
     // const startDateUnix = Math.floor(campaign_info.startDate.getTime() / 1000);
     // campaign_info.startDate = startDateUnix;
-
+      console.log(campaign_info.startDate)
     if (campaign_info.currency === 'BNB') {
       campaign_info.tokenAddress = null;
     }
@@ -734,22 +728,26 @@ let dateInSeconds = Math.floor(date.getTime() / 1000);
   }
 
   handleBounties() {
-    let array: any[] = [];
-    if (!!this.campaign) {
-      this.campaign.bounties.forEach((bounty: any) => {
-        bounty.categories.forEach((category: any) => {
-          array.push(
-            category.minFollowers,
-            category.maxFollowers,
-            this.eOraclesID[bounty.oracle],
-            category.reward
-          );
-        });
-      });
+    if (!this.campaign) {
+      return [];
     }
-
-    return array;
+  
+    const bountyData: any[] = [];
+  
+    for (const bounty of this.campaign.bounties) {
+      for (const category of bounty.categories) {
+        bountyData.push(
+          category.minFollowers,
+          category.maxFollowers,
+          this.eOraclesID[bounty.oracle],
+          category.reward
+        );
+      }
+    }
+  
+    return bountyData;
   }
+
   ngOnDestroy(): void {
     this.isDestroyed.next('');
     this.isDestroyed.unsubscribe();
