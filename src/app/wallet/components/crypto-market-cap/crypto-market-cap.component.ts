@@ -1,10 +1,14 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ChartOptions, ChartType } from 'chart.js';
 import { Router } from '@angular/router';
-import {  debounceTime, distinctUntilChanged, switchMap, takeUntil } from 'rxjs/operators';
-import { Subject, forkJoin } from 'rxjs';
+import { switchMap, take, takeUntil } from 'rxjs/operators';
+import { Observable, Subject, forkJoin, of } from 'rxjs';
 import { CryptofetchServiceService } from '@app/core/services/wallet/cryptofetch-service.service';
 import { Title, Meta } from '@angular/platform-browser';
+import { Store } from '@ngrx/store';
+import * as CryptoActions from '../../store/actions/crypto.actions';
+import { selectCryptoData } from '@app/wallet/store/selectors/crypto.selectors';
+import { CryptoData } from '@app/models/crypto-data.model';
 
 @Component({
   selector: 'app-crypto-market-cap',
@@ -12,17 +16,27 @@ import { Title, Meta } from '@angular/platform-browser';
   styleUrls: ['./crypto-market-cap.component.scss']
 })
 export class CryptoMarketCapComponent implements OnInit {
+  
   cryptoLists: any;
+  cryptoData$ = this.store.select(selectCryptoData);
   filteredCryptoListId: any[] = [];
   sparklineIn7dCryptoList: any[] = [];
-  currentPage: number = 1;
-  calculetPage: number = 1;
-  totalPages = 90;
+  virtualScrollerData: any[] = [];
+  filteredCryptoList: any[] | undefined;
+  currentPage = 1;
+  itemsPerPage = 100;
+  totalItems = 0;
+  paginatedCryptoList: any[] = [];
   pagesPerPage = 8;
-  pageWindows: number[];
   data: any;
   globalMarketCap: any;
+  searchQuery: string = '';
   public chart: any;
+
+  maxButtonsPerPage = 15; 
+  currentPageRangeStart = 1;
+  currentPageRangeEnd: number = this.maxButtonsPerPage;
+
   lineChartOptions: ChartOptions = {
     aspectRatio: 2.5,
     responsive: true,
@@ -57,30 +71,22 @@ export class CryptoMarketCapComponent implements OnInit {
   };
   lineChartType: ChartType = 'line';
   lineChartLegend = false;
-
-  searchQuery: string = '';
-  private searchQueryChanged: Subject<string> = new Subject<string>();
-  @ViewChild('searchInput')
-  searchInput!: ElementRef<HTMLInputElement>;
-
   private ngUnsubscribe = new Subject<void>();
-  onSearchQueryData: any;
+  prices: any[] | undefined;
+  cryptoIds: any[] = [];
   constructor(
     private router: Router,
     private fetchservice: CryptofetchServiceService,
     private titleService: Title,
-    private metaService: Meta
+    private metaService: Meta,
+    private store: Store
   ) {
-    this.pageWindows = this.getPageWindow(this.currentPage);
-
-    this.searchQueryChanged
-      .pipe(debounceTime(300), distinctUntilChanged())
-      .subscribe((query) => {
-        this.onSearchQueryChange(query);
-      });
+    this.cryptoIds = []; 
+    // this.pageWindows = this.getPageWindow(this.currentPage);
   }
 
   ngOnInit(): void {
+    this.paginatedCryptoList = [];
     this.titleService.setTitle('SaTT-Market Cap');
     this.metaService.updateTag({
       name: 'description',
@@ -99,20 +105,40 @@ export class CryptoMarketCapComponent implements OnInit {
       name: 'twitter:card',
       content: 'assets/Images/global-market-cap-cov.png'
     });
-    this.getTable(this.currentPage);
 
-    this.fetchservice
-      .getGlobalCryptoMarketInfo()
+    this.cryptoData$ = this.store.select(selectCryptoData);
+
+    this.cryptoData$
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(
-        (res: any) => {
-          this.globalMarketCap = res;
-        },
-        (error) => {
-          console.error(error);
+      .subscribe((cryptoData) => {
+        if (!cryptoData || cryptoData.length === 0) {
+          console.log('Dispatching loadCryptoData action...');
+          this.store.dispatch(CryptoActions.loadCryptoData());
+        } else {
+          const dataArray = Object.values(cryptoData);
+          this.cryptoLists = dataArray.slice(0, 100)[2];
+          this.filterCryptos();
+
         }
-      );
+      });
+
+
+      // this.cryptoData$
+      // .pipe(
+      //   takeUntil(this.ngUnsubscribe),
+      //   switchMap(() => this.filterCryptos())
+      // )
+      // .subscribe((cryptoIds: number[]) => {
+      //   // cryptoIds is now available
+      //   this.getTable(cryptoIds);
+      // });
+
+
+
+    
   }
+
+
   /**
    * Split an array into chunks of a specific size.
    * @param arr The original array to split.
@@ -128,23 +154,88 @@ export class CryptoMarketCapComponent implements OnInit {
 
     return results;
   }
-  generatePageArray(totalPages: number): number[] {
-    return Array.from({ length: totalPages }, (_, i) => i + 1);
-  }
 
-  get pagesArray(): number[] {
-    return Array(this.totalPages)
-      .fill(0)
-      .map((_, i) => i + 1);
-  }
-  filterCryptos() {
-    console.log("this.cryptoLists;,this.cryptoLists;",this.cryptoLists)
+  // generatePageArray(totalPages: number): number[] {
+  //   return Array.from({ length: totalPages }, (_, i) => i + 1);
+  // }
+
+  // get pagesArray(): number[] {
+  //   return Array(this.totalPages)
+  //     .fill(0)
+  //     .map((_, i) => i + 1);
+  // }
+  filterCryptos(): Observable<number[]> {
+    this.totalItems = this.cryptoLists?.length;
+    // Check if the search query is empty
     if (!this.searchQuery) {
-      return this.cryptoLists;
+      if (Array.isArray(this.cryptoLists)) {
+        this.cryptoLists.sort((a, b) => Number(a[1].cmc_rank) - Number(b[1].cmc_rank));
+    
+        
+        const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+        const endIndex = startIndex + this.itemsPerPage;
+        this.paginatedCryptoList = this.cryptoLists.slice(startIndex, endIndex);
+        this.cryptoIds = this.paginatedCryptoList.map((crypto) => crypto[1].id);
+
+      } else if (
+        this.cryptoLists !== null &&
+        typeof this.cryptoLists === 'object'
+      ) {
+        this.cryptoLists = Object.keys(this.cryptoLists).map((key) => ({
+          0: key,
+          1: this.cryptoLists[key]
+        }));
+
+        const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+        const endIndex = startIndex + this.itemsPerPage;
+        this.paginatedCryptoList = this.cryptoLists.slice(startIndex, endIndex);
+      } else {
+        this.paginatedCryptoList = [];
+      }
+    } else {
+      const result = this.cryptoLists.filter((crypto: { name: string }[]) =>
+        crypto[1].name.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+
+      this.totalItems = result.length;
+
+      this.currentPage = 1;
+
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+      const endIndex = startIndex + this.itemsPerPage;
+      this.paginatedCryptoList = result.slice(startIndex, endIndex);
+
+      this.cryptoIds = this.paginatedCryptoList.map((crypto) => crypto[1].id);
+
     }
 
-    return this.onSearchQueryData;
+    return of(this.cryptoIds);
   }
+
+
+  // getTable(cryptoIds: number[] ) {
+  //   const chunks = this.getArrayChunks(cryptoIds, 50);
+  //   forkJoin(
+  //     chunks.map((chunk) => this.fetchservice.getCryptoPriceDetails(chunk))
+  //   ).subscribe(
+  //     (data: any) => {
+  //       const dataArray = Object.values(data);
+  //       dataArray.forEach((response: any) => {
+  //         const details = Object.values(response?.data) || [];
+  //         details.forEach((crypto: any) => {
+  //           if (crypto) {
+  //             this.sparklineIn7dCryptoList.push(crypto.sparkline_in_7d);
+  //           }
+  //         });
+  //       });
+  //     },
+  //     (error) => {
+  //       console.error(error);
+  //     }
+  //   );
+  // }
+  
+
   cryptoDtlails(crypto: string, cryptoName: string) {
     const cryptoUpperCase = crypto.toUpperCase();
     this.titleService.setTitle(cryptoName + ' price today');
@@ -153,6 +244,11 @@ export class CryptoMarketCapComponent implements OnInit {
     });
   }
 
+
+  getCryptoLabels(): string[] {
+    return this.paginatedCryptoList.map((crypto) => crypto[0]);
+  }
+  
   getColor(variation: number) {
     return variation > 0 ? '#00CC9E' : '#F52079';
   }
@@ -182,99 +278,55 @@ export class CryptoMarketCapComponent implements OnInit {
     return '0';
   }
 
-  onInputChange(event: Event): void {
-    const inputElement = event.target as HTMLInputElement;
-    if (inputElement) {
-      this.searchQueryChanged.next(inputElement.value);
+  totalPages(): number {
+    return Math.ceil(this.totalItems / this.itemsPerPage);
+  }
+
+  goToPage(pageNumber: number): void {
+    if (pageNumber >= 1 && pageNumber <= this.totalPages()) {
+      this.currentPage = pageNumber;
+      this.filterCryptos();
     }
   }
 
-  onSearchQueryChange(query: string): void {
-    if (query.length > 0) {
-      this.fetchservice.searchCryptoMarket(query).subscribe(
-        (response) => {
-          const dataWithoutSymbol = { ...response.data };
-          delete dataWithoutSymbol.symbol;
-
-          const result = [[response.data.symbol, dataWithoutSymbol]];
-
-          this.onSearchQueryData = result;
-        },
-        () => {
-          this.onSearchQueryData = this.cryptoLists;
-          // Handle errors here
-        }
+  nextPage() {
+    if (this.currentPageRangeEnd < this.totalPages()) {
+      this.currentPageRangeStart = this.currentPageRangeEnd + 1;
+      this.currentPageRangeEnd = Math.min(
+        this.currentPageRangeEnd + this.maxButtonsPerPage,
+        this.totalPages()
       );
-    } else {
-      // If the query is empty, display the full list.
-      this.onSearchQueryData = this.cryptoLists;
     }
+    this.currentPage++;
+    this.filterCryptos();
   }
-
-  getTable(n: number) {
-    this.fetchservice
-      .getAllCrypto(n)
-      .pipe(
-        takeUntil(this.ngUnsubscribe),
-        switchMap((data: any) => {
-          const cryptos = data?.data ? Object.entries(data.data) : [];
-          this.cryptoLists = cryptos.slice(0, 100);
-          this.cryptoLists?.forEach((crypto: any) => {
-            if (crypto && crypto[1]) {
-              this.filteredCryptoListId.push(crypto[1].id);
-            }
-          });
-
-          const chunks = this.getArrayChunks(this.filteredCryptoListId, 50);
-
-          return forkJoin(
-            chunks.map((chunk) =>
-              this.fetchservice.getCryptoPriceDetails(chunk)
-            )
-          );
-        })
-      )
-      .subscribe(
-        (data: any) => {
-          const dataArray = Object.values(data);
-
-          dataArray.forEach((response: any) => {
-            const details = Object.values(response?.data) || [];
-            details.forEach((crypto: any) => {
-              if (crypto) {
-                this.sparklineIn7dCryptoList.push(crypto.sparkline_in_7d);
-              }
-            });
-          });
-        },
-        (error) => {
-          console.error(error);
-        }
+  
+  prevPage() {
+    if (this.currentPageRangeStart > 1) {
+      this.currentPageRangeEnd = this.currentPageRangeStart - 1;
+      this.currentPageRangeStart = Math.max(
+        this.currentPageRangeStart - this.maxButtonsPerPage,
+        1
       );
-  }
-  getPageWindow(currentPage: number): number[] {
-    const startPage = Math.max(
-      1,
-      currentPage - Math.floor(this.pagesPerPage / 2)
-    );
-    const endPage = Math.min(
-      this.totalPages,
-      startPage + this.pagesPerPage - 1
-    );
-    return Array.from(
-      { length: endPage - startPage + 1 },
-      (_, i) => startPage + i
-    );
-  }
-
-  onPageChanged(page: number) {
-    if (page >= 1 && page <= this.totalPages && page !== this.currentPage) {
-      this.currentPage = page;
-      this.calculetPage = (page - 1) * 100 + 1;
-      this.pageWindows = this.getPageWindow(this.currentPage);
-      this.getTable(this.calculetPage);
     }
+    this.currentPage--;
+    this.filterCryptos();
   }
+  
+
+  pageNumbers(): number[] {
+    const pageRange = [];
+    for (
+      let i = this.currentPageRangeStart;
+      i <= this.currentPageRangeEnd;
+      i++
+    ) {
+      pageRange.push(i);
+    }
+    return pageRange;
+  }
+  
+
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();

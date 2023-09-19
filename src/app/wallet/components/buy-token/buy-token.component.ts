@@ -26,6 +26,7 @@ import { Location } from '@angular/common';
 
 import * as _ from 'lodash';
 import { Console } from 'console';
+import { TranslateService } from '@ngx-translate/core';
 
 enum EBlockchainNetwork {
   ERC20 = 'ERC20',
@@ -151,7 +152,8 @@ export class BuyTokenComponent implements OnInit, OnChanges {
     private tokenStorageService: TokenStorageService,
     @Inject(PLATFORM_ID) private platformId: string,
     private _location: Location,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private translateService: TranslateService
   ) {
     this.convertform = new UntypedFormGroup({
       Amount: new UntypedFormControl(

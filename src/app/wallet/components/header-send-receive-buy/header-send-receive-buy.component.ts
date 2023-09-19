@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-header-send-receive-buy',
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 export class HeaderSendReceiveBuyComponent implements OnInit {
   @Input() title: string = '';
   @Output() clickedBack: EventEmitter<boolean> = new EventEmitter();
-  constructor(private router: Router) {}
+  constructor(private router: Router,private translateService: TranslateService) {}
 
   ngOnInit(): void {}
   back() {

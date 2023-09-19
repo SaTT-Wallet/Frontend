@@ -6,12 +6,19 @@ import { ServerErrorComponent } from './components/server-error/server-error.com
 import { MaintenanceComponent } from './maintenance/maintenance.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { CguComponent } from './cgu/cgu.component';
+import { CryptoDataGuard } from './core/services/crypto-data.guard';
+import { CryptoMarketCapComponent } from './wallet/components/crypto-market-cap/crypto-market-cap.component';
 
 const routes: Routes = [
   {
     path: 'auth',
     loadChildren: () =>
       import('./auth/authentication.module').then((m) => m.AuthenticationModule)
+  },
+  {
+    path: 'crypto-market-cap',
+    component: CryptoMarketCapComponent,
+    canActivate: [CryptoDataGuard], 
   },
   {
     path: 'cgu',

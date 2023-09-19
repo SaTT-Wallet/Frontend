@@ -18,6 +18,7 @@ import { TransferHttpCacheModule } from '@nguniversal/common';
 import { translateBrowserLoaderFactory } from '@core/loaders/translate-browser.loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpInterceptorService } from './http-interceptor.service';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { HttpInterceptorService } from './http-interceptor.service';
   imports: [
     BrowserModule.withServerTransition({ appId: 'satt-token-atayen' }),
     BrowserAnimationsModule,
+    ChartsModule,
     AppRoutingModule,
     HttpClientModule,
     TransferHttpCacheModule,

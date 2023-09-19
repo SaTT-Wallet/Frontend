@@ -21,6 +21,15 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { FilterBynamePipe } from '@shared/pipes/filter-byname.pipe';
 import { MigrationComponent } from './components/migration/migration.component';
 import { CryptoMarketCapComponent } from './components/crypto-market-cap/crypto-market-cap.component';
+import { cryptoReducer } from './store/reducers/crypto.reducer'; 
+import { CryptoEffects } from './store/effects/crypto.effects'; 
+import { StoreModule } from '@ngrx/store'; 
+import { EffectsModule } from '@ngrx/effects';
+import { CommonModule } from '@angular/common'; 
+import { TranslateModule } from '@ngx-translate/core';
+import { ChartsModule } from 'ng2-charts';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+
 
 @NgModule({
   declarations: [
@@ -41,11 +50,18 @@ import { CryptoMarketCapComponent } from './components/crypto-market-cap/crypto-
     CryptoMarketCapComponent
   ],
   imports: [
+    CommonModule,
     SharedModule,
+    ScrollingModule,
+    ChartsModule,
     WalletRoutingModule,
     NgxIntlTelInputModule,
     ChartModule,
-    ZXingScannerModule
+    TranslateModule.forChild(),
+    ZXingScannerModule,
+    StoreModule.forFeature('crypto', cryptoReducer), 
+    EffectsModule.forFeature([CryptoEffects]),
+
   ],
   providers: [DecimalPipe, DatePipe, FilterBynamePipe]
 })
