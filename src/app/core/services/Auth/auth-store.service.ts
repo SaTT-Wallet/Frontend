@@ -41,7 +41,6 @@ export class AuthStoreService {
   }
 
   public getAccount() {
-    debugger
     return this.auth.verifyAccount().pipe(
       tap(async (res) => {
         const fetchedBalance = await this.fetchBalance();
