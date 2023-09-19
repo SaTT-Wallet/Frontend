@@ -667,7 +667,7 @@ ACCEPTED -->
                               | number) || '--.--'
                           }} <span style="font-weight: bold;">{{ getTokenSymbol(i.label.cmp_update.token)}}</span></span>
                         </p>
-                        <div style="width: 100%; height: 2em">
+                        <div style="width: 100%; height: 2em; margin-top: 25px;">
                           <button
                             [className]=" !disableRetrieveButtonAction(i.label.cmp_update) ? 'budget_button' : 'budget_button_disabled'"
                             *ngIf="i.label.cmp_update.type === 'finished'"
