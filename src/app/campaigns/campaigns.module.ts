@@ -18,7 +18,7 @@ import { ParticiperComponent } from '@app/campaigns/components/participer/partic
 import { PasswordModalComponent } from './components/password-modal/password-modal.component';
 import { TransactionMessageStatusComponent } from '@app/campaigns/components/transaction-message-status/transaction-message-status.component';
 import { NgxTweetModule } from 'ngx-tweet';
-
+import { DraftMaximumParticipationComponent } from '@app/campaigns/components/draft-maximum-participation/draft-maximum-participation.component';
 import { CampaignsSharedUiModule } from './campaigns-shared-ui.module';
 import { NpnSliderModule } from 'npn-slider';
 import { EffectsModule } from '@ngrx/effects';
@@ -56,7 +56,8 @@ import { SharedModule } from '@app/shared/shared.module';
     TransactionMessageStatusComponent,
     MissionsComponent,
     DraftPictureComponent,
-    SocialsComponent
+    SocialsComponent,
+    DraftMaximumParticipationComponent
   ],
   imports: [
     CommonModule,

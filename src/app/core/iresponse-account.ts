@@ -1,6 +1,7 @@
 export interface IresponseAccount {
   code: number;
   data: {
+    hasWalletV2: boolean;
     migrated: boolean;
     idUser: number;
     email: string;

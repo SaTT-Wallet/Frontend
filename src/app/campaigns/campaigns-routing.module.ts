@@ -40,7 +40,6 @@ const routes: Routes = [
       import('./campaign-details/campaign-details.module').then(
         (m) => m.CampaignDetailsModule
       ),
-    canLoad: [CanLoadPublicModule]
   },
   {
     path: 'welcome',

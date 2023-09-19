@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-send-receive-block',
@@ -13,7 +14,7 @@ export class SendReceiveBlockComponent {
   // @Output()
   // onReceiveClick = new EventEmitter();
 
-  constructor() { }
+  constructor(private translateService: TranslateService) { }
 
   // onSend() {
   //   this.onSendClick.emit();

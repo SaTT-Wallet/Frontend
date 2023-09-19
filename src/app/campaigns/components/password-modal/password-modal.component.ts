@@ -157,7 +157,8 @@ export class PasswordModalComponent implements OnInit {
       _campaign.pass = this.passwordForm.get('password')?.value;
       /*
       _campaign.ERC20token = ListTokens[this.campaign.currency.name].contract;
-*/
+*/ 
+      _campaign.limit = this.campaign.limitParticipation;
       _campaign.amount = this.campaign?.initialBudget;
       switch (ListTokens[this.campaign.currency.name].type) {
         case 'bep20': {
@@ -194,7 +195,7 @@ export class PasswordModalComponent implements OnInit {
       }
 
       // A ne pas changer +60 Minute
-      _campaign.startDate = this.calculateStartDate();
+      _campaign.startDate = this.calculateStartDate(this.campaign?.updatedAt);
 
       _campaign.endDate = Math.floor(this.campaign.endDate.getTime() / 1000);
 
@@ -210,17 +211,18 @@ export class PasswordModalComponent implements OnInit {
     }
   }
 
-  calculateStartDate() {
-    let date = new Date();
-    let dateInSeconds = new Date(date);
+  calculateStartDate(startDate: any) {
+ 
+    
+    let date = new Date(startDate);
 
-
-    date.setMinutes(date.getMinutes() + 60);	  
-    dateInSeconds.setMinutes(date.getMinutes() + 60);
-    date.setSeconds(0);	  
-    dateInSeconds.setSeconds(0);
+    
+date.setMinutes(date.getMinutes() + 60);
+date.setSeconds(0);
+let dateInSeconds = Math.floor(date.getTime() / 1000);
 
     return dateInSeconds;
+
   }
 
   parentFunction() {
@@ -571,12 +573,24 @@ export class PasswordModalComponent implements OnInit {
     );
   }
 
-  launchCampaignWithPerPerformanceReward(campaign_info: any) {
-    const startDateUnix = Math.floor(campaign_info.startDate.getTime() / 1000);
-    campaign_info.startDate = startDateUnix;
-    if(campaign_info.currency === 'BNB') campaign_info.tokenAddress = null;
-    return this.campaignService.createCompaign(campaign_info).pipe(
+    // Common logic for launching campaigns, handles date conversion and common actions.
+  private commonCampaignLogic(campaign_info: any, createCampaign: boolean): Observable<any> {
+        // Convert the start date to Unix timestamp
+    // const startDateUnix = Math.floor(campaign_info.startDate.getTime() / 1000);
+    // campaign_info.startDate = startDateUnix;
+      console.log(campaign_info.startDate)
+    if (campaign_info.currency === 'BNB') {
+      campaign_info.tokenAddress = null;
+    }
+    
+      // Determine which campaign method to call based on the 'createCampaign' flag
+    const campaignObservable = createCampaign
+      && this.campaignService.createCompaign(campaign_info)
+      || this.campaignService.launchCampaignWithBounties(campaign_info);
+
+    return campaignObservable.pipe(
       tap(() => {
+        // Reset common UI elements and flags after campaign launch
         this.gasError = false;
         this.showButtonSend = true;
         this.loadingButton = false;
@@ -585,20 +599,12 @@ export class PasswordModalComponent implements OnInit {
     );
   }
 
-  launchCampaignWithPerPublicationReward(campaign_info: any) {
-    const startDateUnix = Math.floor(campaign_info.startDate.getTime() / 1000);
-    campaign_info.startDate = startDateUnix
-    console.log(startDateUnix)
-    return this.campaignService.launchCampaignWithBounties(campaign_info).pipe(
-      tap(() => {
-        this.gasError = false;
+  launchCampaignWithPerPerformanceReward(campaign_info: any) : Observable<any> {
+    return this.commonCampaignLogic(campaign_info, true);
+  }
 
-        //let _campaign_Hash = Object.assign({}, this.campaign as any);
-        this.showButtonSend = true;
-        this.loadingButton = false;
-        this.passwordForm.reset();
-      })
-    );
+  launchCampaignWithPerPublicationReward(campaign_info: any) : Observable<any> {
+    return this.commonCampaignLogic(campaign_info, false);
   }
 
   handleLaunchResponseError(error: any, token: any) {

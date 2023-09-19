@@ -46,6 +46,7 @@ import { AccountFacadeService } from '@app/core/facades/account-facade/account-f
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { environment } from '@environments/environment';
 declare var $: any;
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -235,6 +236,11 @@ export class InfoComponent implements OnInit, OnDestroy {
     this.translate.use(lang);
     this.langSwiched = true;
     this.langchoosen = lang;
+    if (isPlatformBrowser(this.platformId))
+    window.open( environment.domainName + '/settings/edit', '_self');
+
+  
+   
   }
   selectedGender(gender: any) {
     this.isDirty = true;

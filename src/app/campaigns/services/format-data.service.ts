@@ -71,6 +71,9 @@ export class FormatDataService {
     if (campaign.hasOwnProperty('startDate')) {
       object.startDate = new Date(campaign.startDate).getTime() / 1000;
     }
+
+    campaign.limitParticipation && (object.limit = campaign.limitParticipation)
+
     if (campaign.hasOwnProperty('remuneration')) {
       // TODO: fix remuneration not sent to backend
       object.remuneration = campaign.remuneration;
@@ -145,7 +148,6 @@ export class FormatDataService {
     if (campaign.hasOwnProperty('missions')) {
       object.missions = campaign.missions;
     }
-
     return object;
   }
 
