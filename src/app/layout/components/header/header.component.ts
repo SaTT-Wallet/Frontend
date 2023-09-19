@@ -267,10 +267,12 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
       // @ts-ignore
       this.languageSelected = this.tokenStorageService.getLocale();
       translate.setDefaultLang(this.languageSelected);
+      this.fixMenuItemsWidth()
     } else {
       this.tokenStorageService.setLocalLang('en');
       this.languageSelected = 'en';
       translate.setDefaultLang('en');
+        this.fixMenuItemsWidth()
     }
     // translate.onLangChange
     //   .pipe(takeUntil(this.isDestroyed$))

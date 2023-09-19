@@ -1507,10 +1507,11 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
           //   this.balanceNotEnough = false;
 
           // } else {
-
+            console.log({data})
+          this.notifyLink(data?.data?._id);
           if (data?.data?.applyerSignature?.signature) {
             this.transactionHash = data?.data?.applyerSignature?.signature;
-            this.notifyLink(data?.data?.applyerSignature?.signature);
+            
             this.error = '';
             this.success = data?.data?.applyerSignature?.signature;
             this.loadingButton = false;
