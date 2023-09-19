@@ -218,7 +218,7 @@ input[type='search']::-webkit-search-cancel-button {
   border-bottom: 0.25px solid rgba(117, 117, 143, 0.3) !important;
 
   /* should add an hr under the ng for for the lline better than use border-bottom  */
-  width: 35vw;
+  width: 725px;
   /* the border bottom take the width of the div which is actually 50% of the view port to increase the border we should increase the width for the div */
   /* if there is some problem with the design please comment the line 221  */
 }
