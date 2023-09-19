@@ -20,7 +20,7 @@ import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { Big } from 'big.js';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter, map, takeUntil } from 'rxjs/operators';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
 import { INotificationsResponse } from '@app/core/notifications-response.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -966,8 +966,37 @@ closeModal(content: any) {
   }
 
   getCampaignStartDate(cmp:any) {
-    const date = new Date(cmp.startDate * 1000);
-    return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+    const startDate = new Date(cmp.startDate * 1000);
+    const currentDate = new Date();
+    
+    // Calculate the time difference in milliseconds
+    const timeDifference: number = currentDate.getTime() - startDate.getTime();
+    
+    // Calculate years, months, days, and hours
+    const years = Math.floor(timeDifference / (1000 * 60 * 60 * 24 * 365));
+    const remainingMilliseconds = timeDifference % (1000 * 60 * 60 * 24 * 365);
+    const months = Math.floor(remainingMilliseconds / (1000 * 60 * 60 * 24 * 30));
+    const remainingDays = Math.floor(remainingMilliseconds / (1000 * 60 * 60 * 24));
+    const days = remainingDays % 30;
+    const remainingHours = Math.floor((remainingMilliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    
+    // Construct the result string
+    let result = '';
+    if (years > 0) {
+        result += `${years} y`;
+    }
+    if (months > 0) {
+        result += `${months} m`;
+    }
+    if (days > 0) {
+        result += `${days} d`;
+    }
+    if (remainingHours > 0) {
+        result += `${remainingHours} h`;
+    }
+    
+    return result.trim();
+    
   }
 
   redirectToCampaign(cmp:any) {
@@ -1010,8 +1039,30 @@ closeModal(content: any) {
       
     
   }
-
-
+  getTokenSymbol(token:any) {
+    return token.name.startsWith('SATT') ? 'SaTT' : token.name
+  }
+  getStatistics(hash:string) {
+    this.campaignService.getStatisticsCampaign(hash)
+      .pipe(
+        map((response: any) => {
+          if (response.message === 'success' && response.code === 200) {
+            
+            return response.data.stat;
+          }
+        }),
+       
+      )
+      .subscribe((data: any) => {
+        let sumOfViews = 0;
+        for (const platform in data) {
+          if (data.hasOwnProperty(platform)) {
+            sumOfViews += data[platform].views;
+          }
+        }
+        return sumOfViews;
+      });
+  }
   getRetrieveBudget(cmp:any) {
     return parseInt(cmp.cost) / 10 **18
   }
@@ -1129,6 +1180,9 @@ closeModal(content: any) {
     
   }
   switchFunction(item: any) {
+    if(item.type === 'create_campaign') {
+      item.label.views = this.getStatistics(item.label.cmp_update.hash)
+    }
     if(item.type === 'cmp_candidate_reject_link') item.label.showReason = false
     const etherInWei = new Big(1000000000000000000);
     //let itemDate = new Date(item.created);

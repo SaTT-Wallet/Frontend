@@ -587,12 +587,22 @@ input[type='date']::-webkit-calendar-picker-indicator {
 
 .description_createCampaign{
   margin-top: 1em;
-  margin-left: 5.7em;
+  margin-left: 1.25em;
   font-weight: 400;
   line-height: 18.2px;
   font-size: 14px;
   width: 37em;
-  padding-bottom: 1em;
+  
+}
+
+.description_campaign_details{
+  
+  margin-left: 1.25em;
+  font-weight: 400;
+  line-height: 18.2px;
+  font-size: 14px;
+  width: 37em;
+  
 }
 /* will be uncommented */
  .pic_avatar_notif {
@@ -614,6 +624,11 @@ input[type='date']::-webkit-calendar-picker-indicator {
 
 
   .description_createCampaign{
+    margin: auto;
+    width: 80%;
+  }
+
+  .description_campaign_details{
     margin: auto;
     width: 80%;
   }
