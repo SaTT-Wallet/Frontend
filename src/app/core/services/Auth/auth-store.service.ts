@@ -52,7 +52,6 @@ export class AuthStoreService {
             : 'v2';
 
         // this.tokenStorageService.setItem('wallet_version', walletVersion);
-        // console.log(walletVersion, "haw version mte3ii stooooooore")
         this.setAccount(res);
       })
     );
