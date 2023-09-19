@@ -41,13 +41,12 @@ export class AuthStoreService {
   }
 
   public getAccount() {
+    debugger
     return this.auth.verifyAccount().pipe(
       tap(async (res) => {
         const fetchedBalance = await this.fetchBalance();
 
-        const walletVersion =
-          this.tokenStorageService.getNewUserV2() === 'false' &&
-          (fetchedBalance === 0.0 || res.data.migrated)
+        const walletVersion = fetchedBalance === 0.0
             ? 'v1'
             : 'v2';
 
