@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { ChartOptions, ChartType } from 'chart.js';
 import { Router } from '@angular/router';
 import { switchMap, take, takeUntil } from 'rxjs/operators';
@@ -34,8 +34,9 @@ export class CryptoMarketCapComponent implements OnInit {
   public chart: any;
 
   maxButtonsPerPage = 15; 
+
+  
   currentPageRangeStart = 1;
-  currentPageRangeEnd: number = this.maxButtonsPerPage;
 
   lineChartOptions: ChartOptions = {
     aspectRatio: 2.5,
@@ -74,6 +75,7 @@ export class CryptoMarketCapComponent implements OnInit {
   private ngUnsubscribe = new Subject<void>();
   prices: any[] | undefined;
   cryptoIds: any[] = [];
+  currentPageRangeEnd!: number;
   constructor(
     private router: Router,
     private fetchservice: CryptofetchServiceService,
@@ -86,6 +88,8 @@ export class CryptoMarketCapComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.setMaxButtonsPerPage();
+
     this.paginatedCryptoList = [];
     this.titleService.setTitle('SaTT-Market Cap');
     this.metaService.updateTag({
@@ -138,6 +142,28 @@ export class CryptoMarketCapComponent implements OnInit {
     
   }
 
+
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event): void {
+    this.setMaxButtonsPerPage();
+  }
+
+  private setMaxButtonsPerPage(): void {
+    const screenWidth = window.innerWidth;
+    if (screenWidth <= 530) {
+      this.maxButtonsPerPage = 5;
+    } else if (screenWidth <= 768) {
+      this.maxButtonsPerPage = 10;
+    } else if (screenWidth <= 992) {
+      this.maxButtonsPerPage = 15;
+    } else {
+      this.maxButtonsPerPage = 20;
+    }
+
+    this.currentPageRangeEnd = this.maxButtonsPerPage;
+
+  }
 
   /**
    * Split an array into chunks of a specific size.
