@@ -1064,7 +1064,7 @@ closeModal(content: any) {
       });
   }
   getRetrieveBudget(cmp:any) {
-    return parseInt(cmp.cost) / 10 **18
+    return parseFloat(cmp.cost) / 10 **18
   }
 
   getRetrieveBudgetDays(cmp:any) {
