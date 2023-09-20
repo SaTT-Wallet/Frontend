@@ -349,7 +349,7 @@ input[type='search']::-webkit-search-cancel-button {
 
 .cmp-img2{
   object-fit: cover;
-  width: 686px;
+  width: 100%;
   /* margin: 20px; */
   height: 242px;
   border-top-left-radius: 30px 30px;
@@ -645,12 +645,12 @@ input[type='date']::-webkit-calendar-picker-indicator {
   }
 
 
-  .cmp-img2.link{
+  /*.cmp-img2.link{
     width: 97.5vw !important;
   }
   .cmp-img2.camp{
     width: 96vw !important;
-  }
+  }*/
   .search-results{
     margin-top: 10px !important;
   }
@@ -658,11 +658,11 @@ input[type='date']::-webkit-calendar-picker-indicator {
     margin-top: -0.6em !important;
   }
 
-  .cmp-img2{
+  /*.cmp-img2{
     
     width: 97vw !important;
 
-  }
+  }*/
 
     .container_perso {
         width: 84% !important;
