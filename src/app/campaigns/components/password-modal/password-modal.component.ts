@@ -318,7 +318,7 @@ let dateInSeconds = Math.floor(date.getTime() / 1000);
         map((response: any) => response.data),
         switchMap((response: any) => {
           this.passwordForm.reset();
-          if (
+          /*if (
             new Big(response.allowance.amount).gt(
               new Big(this.campaign.initialBudget)
             )
@@ -330,7 +330,7 @@ let dateInSeconds = Math.floor(date.getTime() / 1000);
               //     confirmationContent
               return this.launchCampaignWithPerPublicationReward(campaign_info);
             }
-          }
+          }*/
 
           return this.campaignService
             .allowBEP20(TokenOBj, campaign_info.pass)
@@ -361,7 +361,7 @@ let dateInSeconds = Math.floor(date.getTime() / 1000);
         map((response: any) => response.data),
         switchMap((response: any) => {
           this.passwordForm.reset();
-          if (
+          /*if (
             new Big(response.allowance.amount).gt(
               new Big(this.campaign.initialBudget)
             )
@@ -373,7 +373,7 @@ let dateInSeconds = Math.floor(date.getTime() / 1000);
               //     confirmationContent
               return this.launchCampaignWithPerPublicationReward(campaign_info);
             }
-          }
+          }*/
 
           return this.campaignService
             .allowPOLYGON(TokenOBj, campaign_info.pass)
@@ -408,7 +408,7 @@ let dateInSeconds = Math.floor(date.getTime() / 1000);
         map((response: any) => response.data),
         switchMap((response: any) => {
           this.passwordForm.reset();
-          if (
+          /*if (
             new Big(response.allowance.amount).gt(
               new Big(this.campaign.initialBudget)
             )
@@ -420,7 +420,7 @@ let dateInSeconds = Math.floor(date.getTime() / 1000);
               //     confirmationContent
               return this.launchCampaignWithPerPublicationReward(campaign_info);
             }
-          }
+          }*/
 
           return this.campaignService
             .allowTRON(TokenOBj, campaign_info.pass)
@@ -453,7 +453,7 @@ let dateInSeconds = Math.floor(date.getTime() / 1000);
         map((response: any) => response.data),
         switchMap((response: any) => {
           this.passwordForm.reset();
-          if (
+          /*if (
             new Big(response.allowance.amount).gt(
               new Big(this.campaign.initialBudget)
             )
@@ -465,7 +465,7 @@ let dateInSeconds = Math.floor(date.getTime() / 1000);
               //     confirmationContent
               return this.launchCampaignWithPerPublicationReward(campaign_info);
             }
-          }
+          }*/
 
           return this.campaignService
             .allowBTT(TokenOBj, campaign_info.pass)
@@ -497,7 +497,7 @@ let dateInSeconds = Math.floor(date.getTime() / 1000);
         .pipe(
           switchMap((response: any) => {
             this.passwordForm.reset();
-            if (
+            /*if (
               new Big(response.data.allowance.amount).gt(
                 new Big(this.campaign.initialBudget)
               )
@@ -511,7 +511,7 @@ let dateInSeconds = Math.floor(date.getTime() / 1000);
                   campaign_info
                 );
               }
-            }
+            }*/
 
             return this.campaignService
               .allowERC20(TokenOBj, campaign_info.pass)
