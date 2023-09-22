@@ -1722,7 +1722,7 @@ closeModal(content: any) {
               if (data.message === 'success') {
                 this.closeModal(modal);
                 this.showLoadingSpinner = false;
-                window.open(environment.domainName + '/notification')
+                window.open(environment.domainName + '/notification','_self')
                 
                 // this.influencerProms = this.influencerProms.pipe(
                 //   map((array: any) =>
