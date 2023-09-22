@@ -440,7 +440,7 @@ getCookie(key: string){
               return this.walletFacade.getUserWallet().pipe(
                 map((myWallet: IResponseWallet) => {
                   if (myWallet.data.totalBalance) 
-                  { this.tokenStorageService.setItem('wallet_version', 'v2');
+                  { //this.tokenStorageService.setItem('wallet_version', 'v2');
                 }
               
                   // Return the object after logging myWallet
@@ -780,7 +780,7 @@ getCookie(key: string){
                     return this.walletFacade.getUserWallet().pipe(
                       map((myWallet: IResponseWallet) => {
                         if (myWallet.data.totalBalance) 
-                        { this.tokenStorageService.setItem('wallet_version', 'v2');
+                        { //this.tokenStorageService.setItem('wallet_version', 'v2');
                       }
                     
                         // Return the object after logging myWallet
@@ -796,7 +796,7 @@ getCookie(key: string){
                   return this.walletFacade.getUserWallet().pipe(
                     map((myWallet: IResponseWallet) => {
                       if (myWallet.data.totalBalance) 
-                      { this.tokenStorageService.setItem('wallet_version', 'v2');
+                      { //this.tokenStorageService.setItem('wallet_version', 'v2');
                     }
                   
                       // Return the object after logging myWallet
