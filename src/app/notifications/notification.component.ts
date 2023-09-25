@@ -1043,7 +1043,8 @@ closeModal(content: any) {
     return token.name.startsWith('SATT') ? 'SaTT' : token.name
   }
   getStatistics(hash:string) {
-    this.campaignService.getStatisticsCampaign(hash)
+    
+    return this.campaignService.getStatisticsCampaign(hash)
       .pipe(
         map((response: any) => {
           if (response.message === 'success' && response.code === 200) {
@@ -1052,16 +1053,8 @@ closeModal(content: any) {
           }
         }),
        
-      )
-      .subscribe((data: any) => {
-        let sumOfViews = 0;
-        for (const platform in data) {
-          if (data.hasOwnProperty(platform)) {
-            sumOfViews += data[platform].views;
-          }
-        }
-        return sumOfViews;
-      });
+      );
+     
   }
   getRetrieveBudget(cmp:any) {
     return parseFloat(cmp.cost) / 10 **18
@@ -1181,7 +1174,13 @@ closeModal(content: any) {
   }
   switchFunction(item: any) {
     if(item.type === 'create_campaign') {
-      item.label.views = this.getStatistics(item.label.cmp_update.hash)
+      this.getStatistics(item.label.cmp_update.hash).subscribe((data: any) => {
+        let sumOfViews = 0;
+        for (const platform in data) {
+            sumOfViews += data[platform].views;
+        }
+        item.label.views = sumOfViews;
+      });
     }
     if(item.type === 'cmp_candidate_reject_link') item.label.showReason = false
     const etherInWei = new Big(1000000000000000000);
