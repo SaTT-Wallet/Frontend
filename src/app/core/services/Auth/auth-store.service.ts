@@ -29,7 +29,7 @@ export class AuthStoreService {
   public setAccount(account: any) {
     this._account.next(account);
   }
-  async getWalletAddress() {
+  /*async getWalletAddress() {
     this.walletFacade
           .getAllWallet()
           .subscribe((data: any) => {
@@ -50,24 +50,24 @@ export class AuthStoreService {
           }, (err:any) => {
             console.error(err)
           });
-  }
+  }*/
  
 
   public getAccount() {
     return this.auth.verifyAccount().pipe(
-      tap(async (response) => {
+      tap( (response) => {
         const hasWalletV2 = response.data.hasWalletV2 || false
         if(!!response.data.migrated && response.data.migrated) this.tokenStorageService.setItem('wallet_version', 'v2');
         else {
-         
-          await this.getWalletAddress();
+          this.tokenStorageService.setItem('wallet_version', 'v1');
           
-          this.cryptofetchServiceService.getTotalBalance().subscribe((res:any) => {
+          
+          /*this.cryptofetchServiceService.getTotalBalance().subscribe((res:any) => {
             const balance = parseFloat(res.data.Total_balance)
             
             if(balance > 0) this.tokenStorageService.setItem('wallet_version', 'v1')
             else hasWalletV2 ? this.tokenStorageService.setItem('wallet_version', 'v2') : this.tokenStorageService.setItem('wallet_version', 'v1')
-          });
+          });*/
           
         }
         
