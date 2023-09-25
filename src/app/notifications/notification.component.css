@@ -614,6 +614,15 @@ input[type='date']::-webkit-calendar-picker-indicator {
   margin-top: auto;
 } 
 
+.pic_avatar_notif_social {
+  bottom: 0.5em;
+  position: relative;
+  height: 3em;
+  
+  width: 3em;
+  margin-top: auto;
+} 
+
 .container_perso {
   width: auto;
   margin: auto;

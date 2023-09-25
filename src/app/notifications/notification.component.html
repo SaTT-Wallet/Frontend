@@ -231,7 +231,7 @@
                             <img
                               src="{{ getLinkIconValidate(i.label.link.oracle) }}"
                               alt="avtar"
-                              class="pic_avatar_notif"
+                              class="pic_avatar_notif_social"
                               *ngIf="i.type === 'cmp_candidate_accept_link'"
                             />
 
@@ -240,7 +240,7 @@
                             <img
                               src="{{ getLinkIconRejected(i.label.link.oracle) }}"
                               alt="avtar"
-                              class="pic_avatar_notif"
+                              class="pic_avatar_notif_social"
                               *ngIf="i.type === 'cmp_candidate_reject_link'"
                             />
 
@@ -260,7 +260,7 @@
                                     : getLinkIconValidate(i.label.link.oracle)
                                 "
                                 alt="avtar"
-                                class="pic_avatar_notif"
+                                class="pic_avatar_notif_social"
                               />
                             </ng-container>
 
