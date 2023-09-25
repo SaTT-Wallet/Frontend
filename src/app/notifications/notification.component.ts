@@ -983,16 +983,16 @@ closeModal(content: any) {
     // Construct the result string
     let result = '';
     if (years > 0) {
-        result += `${years} y `;
+        result += `${years}y `;
     }
     if (months > 0) {
-        result += `${months} m `;
+        result += `${months}m `;
     }
     if (days > 0) {
-        result += `${days} d `;
+        result += `${days}d `;
     }
     if (remainingHours > 0) {
-        result += `${remainingHours} h`;
+        result += `${remainingHours}h`;
     }
     
     return result.trim();
