@@ -135,6 +135,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
   gazproblem: boolean = false;
   embedTiktokVideo: any;
   privacy: string = 'public';
+  errorMessageLimitParticipation: string = '';
   constructor(
     private profilService: ProfileService,
     private router: Router,
@@ -1465,6 +1466,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
   //}
 
   applyCampaign(): void {
+    this.errorMessageLimitParticipation = '';
     let application = this.application;
     if (!application) {
       application = {};
@@ -1526,6 +1528,9 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
         (error) => {
           this.loadingButton = false;
           this.showButtonSend = true;
+          if(error.error.code === 401 && error.error.error === "Limit participation reached") {
+            this.errorMessageLimitParticipation = error.error.error;
+          }
           if (
             error.error.code === 402 &&
             error.error.error === 'Returned error: already known'
