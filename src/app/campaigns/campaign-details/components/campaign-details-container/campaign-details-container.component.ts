@@ -147,10 +147,10 @@ export class CampaignDetailsContainerComponent implements OnInit {
       setTimeout(() => {
         this.showmoonboy = campaign.id === this.campaignId;
       }, 1000);
-      this.ogImageUrl = campaign.coverSrcMobile.includes('ipfs') ? ipfsURL + campaign.coverSrcMobile.substring(27, campaign.coverSrcMobile.length) : campaign.coverSrcMobile;
+      /*this.ogImageUrl = campaign.coverSrcMobile.includes('ipfs') ? ipfsURL + campaign.coverSrcMobile.substring(27, campaign.coverSrcMobile.length) : campaign.coverSrcMobile;
       this.meta.updateTag({ property: 'og:title', content: campaign.title });
       this.meta.updateTag({ property: 'og:description', content: campaign.description });
-      this.meta.updateTag({ property: 'og:image', content: this.ogImageUrl });
+      this.meta.updateTag({ property: 'og:image', content: this.ogImageUrl });*/
 
       /*this.meta.updateTag(
         {
