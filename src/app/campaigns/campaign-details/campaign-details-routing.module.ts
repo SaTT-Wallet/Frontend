@@ -8,7 +8,7 @@ import { CampaignDetailsContainerComponent } from './components/campaign-details
 import { PublicPagesGuard } from '@core/services/public-pages.guard';
 
 const routes: Routes = [
-  {
+  /*{
     path: '',
     component: CampaignDetailsContainerComponent,
     children: [
@@ -18,16 +18,14 @@ const routes: Routes = [
       },
       {
         path: 'verify-link',
-        component: VerifyLinkComponent,
-        canActivate: [AuthGuardService]
+        component: VerifyLinkComponent
       },
       {
         path: 'recover-my-gains',
-        component: RecoverGainsComponent,
-        canActivate: [AuthGuardService]
+        component: RecoverGainsComponent
       }
     ]
-  }
+  }*/
 ];
 
 @NgModule({

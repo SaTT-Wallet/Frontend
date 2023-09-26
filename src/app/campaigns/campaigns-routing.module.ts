@@ -37,7 +37,7 @@ const routes: Routes = [
       { path: '', redirectTo: '/welcome', pathMatch: 'full' }
     ]
   },
-  /*{
+  {
     path:'campaign/:id',
     component: CampaignDetailComponent
   },
@@ -50,14 +50,15 @@ const routes: Routes = [
     path: 'campaign/:id/recover-my-gains',
     component: RecoverGainsComponent,
     canActivate: [AuthGuardService]
-  },*/
-  {
+  },
+  /*{
     path: 'campaign/:id',
     loadChildren: () =>
       import('./campaign-details/campaign-details.module').then(
         (m) => m.CampaignDetailsModule
       ),
-  },
+    canLoad: [CanLoadPublicModule]
+  },*/
   {
     path: 'welcome',
     component: FarmWelcomeComponent
