@@ -37,20 +37,6 @@ const routes: Routes = [
       { path: '', redirectTo: '/welcome', pathMatch: 'full' }
     ]
   },
-  /*{
-    path:'campaign/:id',
-    component: CampaignDetailComponent
-  },
-  {
-    path: 'campaign/:id/verify-link',
-    component: VerifyLinkComponent,
-    canActivate: [AuthGuardService]
-  },
-  {
-    path: 'campaign/:id/recover-my-gains',
-    component: RecoverGainsComponent,
-    canActivate: [AuthGuardService]
-  },*/
   {
     path: 'campaign/:id',
     loadChildren: () =>
