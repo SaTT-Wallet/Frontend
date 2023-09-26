@@ -17,7 +17,7 @@
   margin-top: -5vh;
 }
 
-.bg-imag-newUser{
+.bg-imag-newUser {
   background-image: url('/assets/Images/bgAddPoolNewUser.svg');
   background-size: cover;
   background-position: center;
@@ -27,7 +27,7 @@
   height: 426px;
   margin-top: -7vh;
 }
-.bloc-cover-new-user{
+.bloc-cover-new-user {
   margin-top: 14vh;
   right: 40%;
 }
@@ -90,12 +90,12 @@
   .bg-imag-cover {
     margin-top: -12vh;
   }
-  #new_user_title{
+  #new_user_title {
     width: 100% !important;
   }
 }
 @media (max-width: 992px) {
-  .bloc-cover  {
+  .bloc-cover {
     margin-top: 15vh;
   }
   .bloc-cover-new-user {
@@ -106,15 +106,14 @@
     margin-top: -6vh;
   }
 
-  .bg-imag-newUser{
+  .bg-imag-newUser {
     background-image: url('/assets/Images/bgAddPoolNewUser922.png');
   }
-  #new_user_desc{
+  #new_user_desc {
     padding-right: 21em !important;
   }
-  #new_user_title{
+  #new_user_title {
     width: 70% !important;
-
   }
 }
 @media (max-width: 786.98px) {
@@ -131,12 +130,11 @@
     background-image: url('/assets/Images/bgAddPool576.png');
   }
 
-  .bg-imag-newUser{
+  .bg-imag-newUser {
     background-image: url('/assets/Images/bgAddPoolNewUser576.svg');
   }
-  #new_user_desc{
+  #new_user_desc {
     padding-right: 14em !important;
-
   }
 }
 @media (max-width: 576px) {
@@ -150,7 +148,7 @@
     background-image: url('/assets/Images/bgAddPool576.png');
   }
 
-  .bg-imag-newUser{
+  .bg-imag-newUser {
     background-image: url('/assets/Images/bgAddPoolNewUser576.svg');
   }
 
@@ -160,7 +158,7 @@
   .description-cover {
     font-size: 21px;
   }
-  #new_user_desc{
+  #new_user_desc {
     padding-right: 13em !important;
   }
 }
@@ -171,15 +169,15 @@
     margin-top: -8vh;
   }
 
-  .bg-imag-newUser{
+  .bg-imag-newUser {
     background-image: url('/assets/Images/bgAddPoolNewUser320.svg');
 
     height: 468px;
     margin-top: -8vh;
   }
-  .bloc-cover-new-user{
-    margin-top:30vh;
-    margin-left:10%
+  .bloc-cover-new-user {
+    margin-top: 30vh;
+    margin-left: 10%;
   }
   .bloc-cover {
     margin-top: 43vh;
@@ -200,30 +198,32 @@
     line-height: 130%;
     padding-right: 10%;
   }
-  .button_container{
+  .button_container {
     width: fit-content;
-     margin: auto;
+    margin: auto;
   }
   .button-cover {
-    margin: auto;
-    margin-top: 1% !important;
+    // margin: auto;
+    width: fit-content;
+    float: right;
+    margin-right: 6em !important;
   }
 
   @media only screen {
-    .bloc-cover-new-user{
+    .bloc-cover-new-user {
       margin-left: 4% !important;
     }
 
-    #new_user_desc{
+    #new_user_desc {
       padding-right: 2em !important;
     }
-    #new_user_title{
+    #new_user_title {
       margin-top: 15em;
       width: 100vh !important;
       font-size: 22px;
     }
   }
-  .btn_cover_container{
+  .btn_cover_container {
     width: fit-content !important;
     margin: auto;
   }
@@ -235,7 +235,6 @@
   // // #new_user_title{
   // //   width: 100% !important;
   // // }
-
 }
 .background {
   background-color: white;
@@ -248,7 +247,7 @@
   .bloc-cover {
     margin-top: 38vh;
   }
-  .bloc-cover-new-user{
+  .bloc-cover-new-user {
     margin-top: 38vh;
   }
 }

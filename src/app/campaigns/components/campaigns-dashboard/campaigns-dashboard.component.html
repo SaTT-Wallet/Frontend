@@ -36,9 +36,11 @@
           <div class="description-cover">
             {{ 'Wallet_updated_Warning' | translate }}
           </div>
-          <div class="button_container">
-            <button class="button-cover" routerLink="wallet">{{ 'Wallet_updated_migrate' | translate }}</button>
-          </div>
+          <!-- <div class="button_container"> -->
+          <button class="button-cover" routerLink="wallet">
+            {{ 'Wallet_updated_migrate' | translate }}
+          </button>
+          <!-- </div> -->
         </div>
       </div>
     </ng-container>
@@ -46,15 +48,17 @@
     <ng-container *ngIf="isNewUser === 'true'">
       <div class="bg-imag-newUser">
         <div class="bloc-cover-new-user">
-
-          <div id="new_user_title"  class="title-cover w-md-50">{{'Wallet_newuser_banner_title' | translate }}</div>
+          <div id="new_user_title" class="title-cover w-md-50">
+            {{ 'Wallet_newuser_banner_title' | translate }}
+          </div>
           <div id="new_user_desc" class="description-cover">
             {{ 'Wallet_newuser_banner_description' | translate }}
           </div>
         </div>
         <div class="btn_cover_container">
-          <button class="button-cover" routerLink="wallet">{{ 'Wallet_newuser_benner_button' | translate }}</button>
-
+          <button class="button-cover" routerLink="wallet">
+            {{ 'Wallet_newuser_benner_button' | translate }}
+          </button>
         </div>
       </div>
     </ng-container>
@@ -632,7 +636,7 @@
           color: #f52079;
         "
       >
-        {{ 'Launch_your_adpool' | translate}}
+        {{ 'Launch_your_adpool' | translate }}
       </p>
       <p
         class="d-none d-xl-block"
@@ -654,8 +658,7 @@
           color: #1f2337;
         "
       >
-        {{ 'footerText' |  translate }}
-
+        {{ 'footerText' | translate }}
       </p>
 
       <button
@@ -707,7 +710,7 @@
           color: #f52079;
         "
       >
-        {{ 'Launch_your_adpool' | translate}}
+        {{ 'Launch_your_adpool' | translate }}
       </p>
       <p
         class="d-none d-lg-block d-xl-none"
@@ -728,8 +731,7 @@
           color: balck;
         "
       >
-      {{ 'footerText' |  translate }}
-
+        {{ 'footerText' | translate }}
       </p>
       <button
         class="d-none d-lg-block d-xl-none"
@@ -758,7 +760,7 @@
           border: 0px;
         "
       >
-                {{ 'Apply_to_launch' | translate }}
+        {{ 'Apply_to_launch' | translate }}
       </button>
 
       <!--576-->
@@ -779,7 +781,7 @@
           color: #f52079;
         "
       >
-        {{ 'Launch_your_adpool' | translate}}
+        {{ 'Launch_your_adpool' | translate }}
       </p>
 
       <p
@@ -802,8 +804,7 @@
           color: balck;
         "
       >
-      {{ 'footerText' |  translate }}
-
+        {{ 'footerText' | translate }}
       </p>
 
       <button
@@ -832,7 +833,7 @@
           border: 0px;
         "
       >
-                {{ 'Apply_to_launch' | translate }}
+        {{ 'Apply_to_launch' | translate }}
       </button>
 
       <!--320-->
@@ -858,7 +859,7 @@
           color: #f52079;
         "
       >
-        {{ 'Launch_your_adpool' | translate}}
+        {{ 'Launch_your_adpool' | translate }}
       </p>
       <p
         class="d-none d-sm-block d-md-none"
@@ -881,8 +882,7 @@
           color: balck;
         "
       >
-      {{ 'footerText' |  translate }}
-
+        {{ 'footerText' | translate }}
       </p>
 
       <button
@@ -911,7 +911,7 @@
           border: 0px;
         "
       >
-                {{ 'Apply_to_launch' | translate }}
+        {{ 'Apply_to_launch' | translate }}
       </button>
 
       <!--inf 320-->
@@ -937,7 +937,7 @@
           color: #f52079;
         "
       >
-        {{ 'Launch_your_adpool' | translate}}
+        {{ 'Launch_your_adpool' | translate }}
       </p>
       <p
         class="d-block d-sm-none"
@@ -961,8 +961,7 @@
           color: balck;
         "
       >
-      {{ 'footerText' |  translate }}
-
+        {{ 'footerText' | translate }}
       </p>
 
       <button
@@ -991,7 +990,7 @@
           border: 0px;
         "
       >
-                {{ 'Apply_to_launch' | translate }}
+        {{ 'Apply_to_launch' | translate }}
       </button>
     </div>
   </div>
