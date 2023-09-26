@@ -297,7 +297,9 @@ export class CampaignDetailComponent implements OnInit {
     this.CampaignService.stat.next(true);
   }
 
-
+  getCampaignCover() {
+    return this.campaign.coverSrcMobile.includes('ipfs') ? ipfsURL + this.campaign.coverSrcMobile.substring(27, this.campaign.coverSrcMobile.length) : undefined;
+   }
 
   getRefunds(id:string) {
     this.passwordForm = this._formBuilder.group({
