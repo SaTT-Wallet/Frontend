@@ -385,7 +385,7 @@
   "insert_link_validation": "Un nouveau lien attend votre approbation pour",
   "insert_link_reject":"Un nouveau lien a été rejeté pour",
   "insert_link_accept":"Un nouveau lien a été accepté pour",
-  "error_limit_participation": "Désolé, le nombre maximal de participants à cette campagne a été atteint.",
+  "error_limit_participation": "Désolé, le nombre maximal de participants pour cette campagne avec ce compte a été atteint.",
   "accept_link":"AdPool a été approuvé",
   "more_reason":"Lire la raison >",
   "i_understand": "J’ai compris",

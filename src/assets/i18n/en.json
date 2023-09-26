@@ -622,7 +622,7 @@
   "create_campaign_form.import_cover_image_mobile": "Add a mobile cover",
   "create_campaign_form.max_weight": "Max weight",
   "create_campaign_form.activate_limit_reach": "Activate reach max",
-  "error_limit_participation": "Sorry, the maximum number of participants for this campaign has been reached.",
+  "error_limit_participation": "Sorry, the maximum number of participants for this campaign with this account has been reached",
   "create_campaign_form.choose_price": "Choose the price of the publication according to the notoriety of your creators",
   "create_campaign_form.followers_min": "Followers min",
   "create_campaign_form.followers_max": "Followers max",
