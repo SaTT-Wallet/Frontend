@@ -1,9 +1,13 @@
 
-<head>
-  <meta property="og:title" content="{{ campaign?.title}}" />
-  <meta property="og:description" content="{{ campaign?.summary }}" />
-  <meta property="og:image" content="{{ ogImageUrl }}" />
+<!--
+  <head>
+  <meta property="og:title" content="{{ 'campaign?.title'}}" />
+  <meta property="og:description" content="{{ 'campaign?.summary' }}" />
+  <meta property="og:image" content="{{ 'ogImageUrl' }}" />
 </head>
+
+-->
+
 
 <ng-container *ngIf="campaign?.id === campaignId; else loading">
   <div class="content" style="min-height: 50vh">
