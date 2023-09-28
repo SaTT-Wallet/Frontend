@@ -9,6 +9,7 @@ import { Store } from '@ngrx/store';
 import * as CryptoActions from '../../store/actions/crypto.actions';
 import { selectCryptoData } from '@app/wallet/store/selectors/crypto.selectors';
 import { CryptoData } from '@app/models/crypto-data.model';
+import { selectCryptoPriceList } from '@app/core/store/crypto-prices/selectors/crypto.selectors';
 
 @Component({
   selector: 'app-crypto-market-cap',
@@ -16,7 +17,7 @@ import { CryptoData } from '@app/models/crypto-data.model';
   styleUrls: ['./crypto-market-cap.component.scss']
 })
 export class CryptoMarketCapComponent implements OnInit {
-  
+  cryptoPriceList: any[] | null | undefined;
   cryptoLists: any;
   cryptoData$ = this.store.select(selectCryptoData);
   filteredCryptoListId: any[] = [];
@@ -126,20 +127,6 @@ export class CryptoMarketCapComponent implements OnInit {
         }
       });
 
-
-      // this.cryptoData$
-      // .pipe(
-      //   takeUntil(this.ngUnsubscribe),
-      //   switchMap(() => this.filterCryptos())
-      // )
-      // .subscribe((cryptoIds: number[]) => {
-      //   // cryptoIds is now available
-      //   this.getTable(cryptoIds);
-      // });
-
-
-
-    
   }
 
 

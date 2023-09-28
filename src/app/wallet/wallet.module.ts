@@ -29,6 +29,8 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { ChartsModule } from 'ng2-charts';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { cryptoInfoReducer } from './store/reducers/crypto-info.reducer';
+import { CryptoInfoEffects } from './store/effects/crypto-info.effects';
 
 
 @NgModule({
@@ -61,6 +63,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     ZXingScannerModule,
     StoreModule.forFeature('crypto', cryptoReducer), 
     EffectsModule.forFeature([CryptoEffects]),
+    StoreModule.forFeature('cryptoInfo', cryptoInfoReducer),
+    EffectsModule.forFeature([CryptoInfoEffects]),
 
   ],
   providers: [DecimalPipe, DatePipe, FilterBynamePipe]
