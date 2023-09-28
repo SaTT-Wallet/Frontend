@@ -6,6 +6,12 @@
 
 }
 
+.error-message-limit-participation {
+  text-align: center; 
+  color: red; 
+  margin-top: 3%;
+}
+
 .input-amount {
   -webkit-appearance: none;
   appearance: none;

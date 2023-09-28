@@ -4,6 +4,7 @@ import { AuthService } from '@core/services/Auth/auth.service';
 import { filter, tap } from 'rxjs/operators';
 import { TokenStorageService } from '../tokenStorage/token-storage-service.service';
 import { CryptofetchServiceService } from '../wallet/cryptofetch-service.service';
+import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ export class AuthStoreService {
   constructor(
     private auth: AuthService,
     private tokenStorageService: TokenStorageService,
-    private cryptofetchServiceService: CryptofetchServiceService
+    private cryptofetchServiceService: CryptofetchServiceService,
+    private walletFacade: WalletFacadeService,
   ) {}
 
   private _account: BehaviorSubject<any> = new BehaviorSubject(null);
@@ -27,31 +29,56 @@ export class AuthStoreService {
   public setAccount(account: any) {
     this._account.next(account);
   }
-
-  async fetchBalance() {
-    try {
-      const balance: any = await this.cryptofetchServiceService
-        .getTotalBalanceV2()
-        .toPromise();
-      const balanceV2 = balance.data.Total_balance;
-      return balanceV2;
-    } catch (error) {
-      console.error('Error fetching balance:', error);
-    }
-  }
+  /*async getWalletAddress() {
+    this.walletFacade
+          .getAllWallet()
+          .subscribe((data: any) => {
+            if(data.message === "success") {
+              if (this.tokenStorageService.getWalletVersion() === 'v2') {
+                this.tokenStorageService.saveIdWallet(data.data.addressV2);
+                this.tokenStorageService.saveTronWallet(data.data.tronAddressV2);
+                this.tokenStorageService.saveWalletBtc(data.data.btcAddressV2);
+              } else {
+                this.tokenStorageService.saveIdWallet(data.data.address);
+                this.tokenStorageService.saveTronWallet(data.data.tronAddress);
+                this.tokenStorageService.saveWalletBtc(data.data.btcAddress);
+               
+               
+              }
+  
+            } 
+          }, (err:any) => {
+            console.error(err)
+          });
+  }*/
+ 
 
   public getAccount() {
     return this.auth.verifyAccount().pipe(
-      tap(async (res) => {
-        const fetchedBalance = await this.fetchBalance();
-
-        const walletVersion = fetchedBalance === 0.0
-            ? 'v1'
-            : 'v2';
-
-        this.tokenStorageService.setItem('wallet_version', walletVersion);
-
-        this.setAccount(res);
+      tap( (response) => {
+        console.log({response})
+        const hasWalletV2 = response.data.hasWalletV2 || false
+        if(!!response.data.migrated && response.data.migrated) this.tokenStorageService.setItem('wallet_version', 'v2');
+        else {
+          this.walletFacade.checkUserIsNew().subscribe((res:any) => {
+            if(res.data) this.tokenStorageService.setItem('wallet_version', 'v2');
+            else this.tokenStorageService.setItem('wallet_version', 'v1');
+          }, (err) => {
+            hasWalletV2 ? this.tokenStorageService.setItem('wallet_version', 'v2') : this.tokenStorageService.setItem('wallet_version', 'v1');
+          })
+          
+          
+          
+          /*this.cryptofetchServiceService.getTotalBalance().subscribe((res:any) => {
+            const balance = parseFloat(res.data.Total_balance)
+            
+            if(balance > 0) this.tokenStorageService.setItem('wallet_version', 'v1')
+            else hasWalletV2 ? this.tokenStorageService.setItem('wallet_version', 'v2') : this.tokenStorageService.setItem('wallet_version', 'v1')
+          });*/
+          
+        }
+        
+        this.setAccount(response);
       })
     );
   }

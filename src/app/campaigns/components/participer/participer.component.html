@@ -563,7 +563,9 @@
               </div>
             </div>
           </div>
-         
+          <div *ngIf="errorMessageLimitParticipation === 'Limit participation reached'">
+            <p class="error-message-limit-participation">{{ 'error_limit_participation' | translate }}</p>
+          </div>
             <div class="row send-block ">
               <button
               class="send-button "

@@ -636,13 +636,13 @@
           </span>
                 <span
             class="btn-apply-text text-orange"
-            *ngIf="harvestAvailable === true"
+            *ngIf="harvestAvailable === true "
           >
             <img class="" src="/assets/Images/campagne/hourglass.svg" style="margin-top:-4px;" />
             <span> {{ 'wait_harvest' | translate }}</span>
           
             
-            <span> {{ harvestAvailableIn }} </span>
+            <span> {{ this.prom.campaign.remuneration === 'publication' ? countHarvestDownTimerForPublication(): harvestAvailableIn }} </span>
           </span>
         </button>
         <!--  link indisponible-->

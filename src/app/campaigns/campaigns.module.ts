@@ -40,6 +40,7 @@ import { cryptoReducerList } from '@app/core/store/crypto-prices/reducer/crypto.
 import { CryptoEffectsList } from '@app/core/store/crypto-prices/effects/crypto.effects';
 
 
+import { CampaignDetailsModule } from './campaign-details/campaign-details.module';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { CryptoEffectsList } from '@app/core/store/crypto-prices/effects/crypto.
     CommonModule,
     CampaignsRoutingModule,
     CampaignsSharedUiModule,
+    CampaignDetailsModule,
     NgxTweetModule,
     EffectsModule.forFeature([LinksListEffects]),
     StoreModule.forFeature(

@@ -135,6 +135,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
   gazproblem: boolean = false;
   embedTiktokVideo: any;
   privacy: string = 'public';
+  errorMessageLimitParticipation: string = '';
   constructor(
     private profilService: ProfileService,
     private router: Router,
@@ -1465,6 +1466,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
   //}
 
   applyCampaign(): void {
+    this.errorMessageLimitParticipation = '';
     let application = this.application;
     if (!application) {
       application = {};
@@ -1526,6 +1528,9 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
         (error) => {
           this.loadingButton = false;
           this.showButtonSend = true;
+          if(error.error.code === 401 && error.error.error === "Limit participation reached") {
+            this.errorMessageLimitParticipation = error.error.error;
+          }
           if (
             error.error.code === 402 &&
             error.error.error === 'Returned error: already known'
@@ -1598,6 +1603,15 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
               this.error = 'wallet not found';
               this.success = '';
               this.loadingButton = false;
+            } else if (error.error.code === 'Limit participation reached'){
+              this.error = 'Limit_participation_reached';
+              this.success = '';
+              this.loadingButton = false;
+              this.router.navigate([], {
+                queryParams: {
+                  errorMessage: 'error'
+                }
+              });
             }
           } else {
             this.error = 'error-message';
@@ -1736,6 +1750,11 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
               this.loadingButton = false;
             } else if (err.error.text === '{message:"Link already sent"}') {
               this.error = 'Lien_déjà_envoyé';
+              this.success = '';
+              this.loadingButton = false;
+            }
+            else if (err.error.text === '{error:"Limit participation reached"}') {
+              this.error = 'Limit_participation_reached';
               this.success = '';
               this.loadingButton = false;
             } else if (err.error.text === '{error:"account not linked"}') {

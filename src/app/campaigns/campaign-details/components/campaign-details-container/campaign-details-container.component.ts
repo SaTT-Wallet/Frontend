@@ -27,6 +27,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
   private isDestroyed = new Subject();
 
   constructor(
+    
     private campaignsStoreService: CampaignsStoreService,
     private route: ActivatedRoute,
     private meta: Meta,
@@ -54,7 +55,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
       )
       .subscribe();
     this.campaign$ = this.campaignsStoreService.campaign$;
-    if (isPlatformServer(this.platformId)) {
+    /*if (isPlatformServer(this.platformId)) {
       this.meta.addTag({
         name: 'og:image:secure_url',
         content: ``
@@ -138,7 +139,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
         name: 'twitter:image',
         content: 'https://safeimagekit.com/picture.png'
       });
-    }
+    }*/
 
     this.campaign$.pipe(takeUntil(this.isDestroyed)).subscribe((campaign) => {
       this.campaign = campaign;
@@ -146,15 +147,17 @@ export class CampaignDetailsContainerComponent implements OnInit {
       setTimeout(() => {
         this.showmoonboy = campaign.id === this.campaignId;
       }, 1000);
-      this.ogImageUrl = campaign.coverSrcMobile.includes('ipfs') ? ipfsURL + campaign.coverSrcMobile.substring(27, campaign.coverSrcMobile.length) : campaign.coverSrcMobile;
-      
+      /*this.ogImageUrl = campaign.coverSrcMobile.includes('ipfs') ? ipfsURL + campaign.coverSrcMobile.substring(27, campaign.coverSrcMobile.length) : campaign.coverSrcMobile;
+      this.meta.updateTag({ property: 'og:title', content: campaign.title });
+      this.meta.updateTag({ property: 'og:description', content: campaign.description });
+      this.meta.updateTag({ property: 'og:image', content: this.ogImageUrl });*/
 
-      this.meta.updateTag(
+      /*this.meta.updateTag(
         {
-          itemprop: 'image',
+          property: 'og:image',
           content: this.ogImageUrl
         },
-        `itemprop='image'`
+       
       );
 
       this.meta.updateTag(
@@ -279,14 +282,16 @@ export class CampaignDetailsContainerComponent implements OnInit {
           content: this.ogImageUrl
         },
         `name='twitter'`
-      );
+      );*/
     });
   }
 
   imageImported(image: any) {
     this.campaignsStoreService.updateOneById({ cover: image });
   }
-
+  limitDescription(description: string | undefined, maxLength: number = 200): string {
+    return description ? description.slice(0, maxLength) : '';
+  }
   ngOnDestroy(): void {
     this.isDestroyed.next('');
     this.isDestroyed.unsubscribe();

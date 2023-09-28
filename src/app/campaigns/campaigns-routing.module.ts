@@ -12,6 +12,9 @@ import { TransactionMessageStatusComponent } from '@app/campaigns/components/tra
 import { CanLoadPublicModule } from '@core/services/public-pages-module.guard';
 import { WelcomePageGuardService } from '@core/services/welcome-page-guard.service';
 import { SocialsComponent } from './socials/socials.component';
+import { CampaignDetailComponent } from './campaign-details/components/campaign-detail/campaign-detail.component';
+import { RecoverGainsComponent } from './components/recover-gains/recover-gains.component';
+import { VerifyLinkComponent } from './components/verify-link/verify-link.component';
 
 const routes: Routes = [
   {
@@ -35,12 +38,27 @@ const routes: Routes = [
     ]
   },
   {
+    path:'campaign/:id',
+    component: CampaignDetailComponent
+  },
+  {
+    path: 'campaign/:id/verify-link',
+    component: VerifyLinkComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'campaign/:id/recover-my-gains',
+    component: RecoverGainsComponent,
+    canActivate: [AuthGuardService]
+  },
+  /*{
     path: 'campaign/:id',
     loadChildren: () =>
       import('./campaign-details/campaign-details.module').then(
         (m) => m.CampaignDetailsModule
       ),
-  },
+    canLoad: [CanLoadPublicModule]
+  },*/
   {
     path: 'welcome',
     component: FarmWelcomeComponent

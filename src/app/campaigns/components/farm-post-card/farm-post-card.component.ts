@@ -82,6 +82,25 @@ export class FarmPostCardComponent implements OnInit {
       [atLastOneChecked(), requiredDescription()]
     );
   }
+  countHarvestDownTimerForPublication() {
+    // Provided end date in UNIX timestamp format (e.g., 1698192000)
+    const endDateTimestamp = this.prom.campaign.endDate * 1000; // Convert to milliseconds
+
+    // Current date
+    const currentDate = Date.now();
+
+    // Calculate the time difference in milliseconds
+    const timeDifference = endDateTimestamp - currentDate;
+
+    // Calculate days, hours, and minutes
+    const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+    if(days === 0 && hours === 0 && minutes === 0) {
+      this.harvestAvailable = false;
+    } else this.harvestAvailable = true;
+    return `${days}d ${hours}h ${minutes}min`;
+  }
   private countDownTimer(): void {
     const timestampAcceptedDate: number = this.prom.acceptedDate * 1000;
 
@@ -142,11 +161,12 @@ export class FarmPostCardComponent implements OnInit {
       )
       .subscribe((prom: any) => {
         this.prom = new Participation(prom);
-        
+        this.countHarvestDownTimerForPublication();
       });
     let currencyName = this.prom.campaign.currency;
     this.intervalId = setInterval(() => {
       this.countDownTimer();
+      
     }, 1000);
     if (currencyName === 'SATTBEP20') currencyName = 'SATT';
 
