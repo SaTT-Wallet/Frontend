@@ -162,6 +162,11 @@
     padding-right: 13em !important;
   }
 }
+@media (max-width: 375px) {
+  .bloc-cover {
+    margin-top: 48vh !important;
+  }
+}
 @media (max-width: 500px) {
   .bg-imag-cover {
     background-image: url('/assets/Images/bgAddPool320.png');
@@ -180,7 +185,7 @@
     margin-left: 10%;
   }
   .bloc-cover {
-    margin-top: 43vh;
+    margin-top: 40vh;
     margin-left: 5%;
   }
   .title-cover {
@@ -223,10 +228,10 @@
       font-size: 22px;
     }
   }
-  .btn_cover_container {
-    width: fit-content !important;
-    margin: auto;
-  }
+  // .btn_cover_container {
+  //   width: fit-content !important;
+  //   margin: auto;
+  // }
 
   // #new_user_desc{
   //   padding-right: 0em !important;
