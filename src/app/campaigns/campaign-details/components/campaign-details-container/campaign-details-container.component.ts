@@ -289,11 +289,8 @@ export class CampaignDetailsContainerComponent implements OnInit {
   imageImported(image: any) {
     this.campaignsStoreService.updateOneById({ cover: image });
   }
-  limitDescription(description: string | undefined): string {
-    if (description) {
-      return description.length <= 200 ? description : description.substring(0, 200);
-    }
-    return '';
+  limitDescription(description: string | undefined, maxLength: number = 200): string {
+    return description ? description.slice(0, maxLength) : '';
   }
   ngOnDestroy(): void {
     this.isDestroyed.next('');
