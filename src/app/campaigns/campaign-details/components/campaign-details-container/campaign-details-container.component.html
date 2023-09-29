@@ -5,13 +5,14 @@
   <meta property="og:description" content="{{ 'campaign?.summary' }}" />
   <meta property="og:image" content="{{ 'ogImageUrl' }}" />
 
- 
-  <!-- <meta property="og:title" content="{{ 'campaign?.title'}}" /> -->
-  <!-- <meta property="og:description" content="{{ 'campaign?.summary' }}" /> -->
-  <!-- <meta property="og:image" content="{{ 'ogImageUrl' }}" /> -->
-   <meta property="og:image:width" content="1200" />
+  <!-- <meta property="og:title" [attr.content]="campaign?.title" />
+  <meta property="og:description" [attr.content]="limitDescription(campaign?.summary)" />
+  <meta property="og:image" [attr.content]="ogImageUrl" /> -->
+  <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
+
 </head>
+
 
 
 <ng-container *ngIf="campaign?.id === campaignId; else loading">

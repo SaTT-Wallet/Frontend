@@ -25,9 +25,9 @@ export class CampaignDetailsContainerComponent implements OnInit {
   campaign: any;
   campaignId: any;
   private isDestroyed = new Subject();
+ 
 
   constructor(
-    
     private campaignsStoreService: CampaignsStoreService,
     private route: ActivatedRoute,
     private meta: Meta,
@@ -143,10 +143,15 @@ export class CampaignDetailsContainerComponent implements OnInit {
 
     this.campaign$.pipe(takeUntil(this.isDestroyed)).subscribe((campaign) => {
       this.campaign = campaign;
-     
       setTimeout(() => {
         this.showmoonboy = campaign.id === this.campaignId;
       }, 1000);
+      this.meta.updateTag({ property: 'og:title', content: campaign.title });
+      this.meta.updateTag({
+        property: 'og:description',
+        content: campaign.description
+      });
+      this.meta.updateTag({ property: 'og:image', content: this.ogImageUrl });
       /*this.ogImageUrl = campaign.coverSrcMobile.includes('ipfs') ? ipfsURL + campaign.coverSrcMobile.substring(27, campaign.coverSrcMobile.length) : campaign.coverSrcMobile;
       this.meta.updateTag({ property: 'og:title', content: campaign.title });
       this.meta.updateTag({ property: 'og:description', content: campaign.description });
