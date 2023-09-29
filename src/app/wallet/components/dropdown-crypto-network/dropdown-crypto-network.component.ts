@@ -40,6 +40,7 @@ export class DropdownCryptoNetworkComponent
   dataList: any = [];
   defaultcurr: any;
   defaultcurrbtt: any;
+  resultfilterList: any;
   quantity: any = 0;
   tokenSearch = new FormControl('');
   @Input() cryptoSymbolCampaign: string = '';
@@ -396,6 +397,16 @@ export class DropdownCryptoNetworkComponent
         return index === self.findIndex((obj:any) => obj.key === item.key);
       });
       this.filterList = this.campaignCryptoList;
+
+      const bandIndex = this.filterList.findIndex(
+        (item: { key: string; }) => item.key === 'SATT'
+      );
+
+      this.resultfilterList = this.filterList.slice(
+        Math.max(0, bandIndex - 5),
+        Math.min(bandIndex + 1, this.filterList.length)
+      );
+
       this.showSearchNewTokenContainer = false;
       this.openModal(content);
       }

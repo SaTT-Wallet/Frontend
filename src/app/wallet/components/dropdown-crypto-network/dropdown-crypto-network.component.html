@@ -223,7 +223,7 @@
       <div class="row">
         <div
           class="col-sm-4 col-4"
-          *ngFor="let crypto of filterList.slice(0, 6); let i = index"
+          *ngFor="let crypto of resultfilterList; let i = index"
           (click)="tokenToSelect(crypto)"
         >
           <div class="tokens_preview d-flex p-2 mb-2">
