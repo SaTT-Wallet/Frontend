@@ -152,7 +152,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
       setTimeout(() => {
         this.showmoonboy = campaign.id === this.campaignId;
       }, 1000);
-
+ 
       /*this.ogImageUrl = campaign.coverSrcMobile.includes('ipfs') ? ipfsURL + campaign.coverSrcMobile.substring(27, campaign.coverSrcMobile.length) : campaign.coverSrcMobile;
       this.meta.updateTag({ property: 'og:title', content: campaign.title });
       this.meta.updateTag({ property: 'og:description', content: campaign.description });
@@ -299,6 +299,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
   limitDescription(description: string | undefined, maxLength: number = 200): string {
     return description ? description.slice(0, maxLength) : '';
   }
+ 
   updateMetaTags(campaign: Campaign) {
     if (campaign) {
       this.ogImageUrl = campaign.coverSrcMobile.includes('ipfs')
@@ -316,7 +317,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
       this.meta.updateTag({ name: 'twitter:image', content: this.ogImageUrl });
     }
   }
-
+ 
   ngOnDestroy(): void {
     // Remove or update any additional meta tags when the component is destroyed
     this.meta.updateTag({ name: 'og:title', content: '' });

@@ -9,11 +9,29 @@ import { Chart } from 'angular-highcharts';
 import * as Highcharts from 'highcharts';
 // import { doc } from 'prettier';
 //import line = doc.builders.line;
-import { forkJoin } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { Observable, Subject, forkJoin } from 'rxjs';
+import {
+  filter,
+  map,
+  mergeMap,
+  skipWhile,
+  take,
+  takeUntil
+} from 'rxjs/operators';
 import { DatePipe, DOCUMENT } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
+import { Store } from '@ngrx/store';
+import { selectCryptoList } from '@app/wallet/store/selectors/crypto-info.selectors';
+
+import * as CryptoInfoActions from '../../store/actions/crypto-info.actions';
+import { SharedDataService } from '@app/shared/service/SharedDataService';
+import * as CryptoActionsList from '../../../core/store/crypto-prices/actions/crypto.actions';
+import { selectCryptoPriceList } from '@app/core/store/crypto-prices/selectors/crypto.selectors';
+
+type NetworkTranslations = {
+  [key: string]: string;
+};
 
 @Component({
   selector: 'app-crypto-info',
@@ -23,6 +41,8 @@ import { TokenStorageService } from '@app/core/services/tokenStorage/token-stora
 export class CryptoInfoComponent implements OnInit, AfterViewInit {
   cryptoSymbol: any;
   cryptoList$ = this.walletFacade.cryptoList$;
+  cryptoListinfo$: Observable<any> | undefined;
+
   crypto: any;
   data = [];
   chart: any;
@@ -34,7 +54,18 @@ export class CryptoInfoComponent implements OnInit, AfterViewInit {
   cryptoPrice: any;
   loading = true;
   disableBtn: boolean = false;
-  languageSelected : string ="";
+  languageSelected: string = '';
+  private isDestroyed = new Subject();
+  fully_diluted: any;
+  id_crypto: any;
+  crypto_network: any;
+
+  networkTranslations: NetworkTranslations = {
+    Ethereum: 'ERC20',
+    'BNB Smart Chain (BEP20)': 'ERC20',
+    Polygon: 'POLYGON',
+    Tron20: 'TRON'
+  };
 
   constructor(
     private route: ActivatedRoute,
@@ -46,12 +77,14 @@ export class CryptoInfoComponent implements OnInit, AfterViewInit {
     @Inject(DOCUMENT) private document: Document,
     private router: Router,
     private tokenStorageService: TokenStorageService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private store: Store,
+    private sharedDataService: SharedDataService
   ) {}
   state = {
     current: 'black'
   };
-  selectedPeriod: string = 'max';
+  selectedPeriod: string = 'ALL';
   dataY = [1, 10, 20, 30];
   marketCap: any;
   marketCapFD: any;
@@ -63,103 +96,101 @@ export class CryptoInfoComponent implements OnInit, AfterViewInit {
   circulatingSupplyChange: any;
   cryptoImgUrl: any;
   isLoading = true;
-  CryptoUrl!:string ;
-
-
+  CryptoUrl!: string;
+  cryptoDetails: any;
 
   ngAfterViewInit(): void {}
 
   ngOnInit(): void {
     this.cryptoSymbol = this.route.snapshot.queryParamMap.get('crypto');
-    
-    
-    this.cryptoInfoService
-      .listIdToken()
-      .pipe(
-        map((res: any) => {
-          return res.filter(
-            (element: any) => element.symbol === this.cryptoSymbol.toLowerCase()
-          )[0];
-        })
-      )
-      .pipe(
-        mergeMap((res: any) => {
-          let todayDate = new Date();
-          let yesterdayDate = new Date();
-          yesterdayDate.setDate(todayDate.getDate() - 1);
-          const todayDateFormatted = this.datePipe.transform(
-            todayDate,
-            'dd-MM-yyyy'
-          );
-          const yesterdayDateFormatted = this.datePipe.transform(
-            yesterdayDate,
-            'dd-MM-yyyy'
-          );
-          let arrayOfObs = [];
-          arrayOfObs.push(
-            this.cryptoInfoService
-              .getCryptoInfoById(res?.id, 'usd')
-              .pipe(map((res: any) => res[0]))
-          );
-          arrayOfObs.push(
-            this.cryptoInfoService.tokenMarketHistory(
-              res.id,
-              todayDateFormatted + ''
-            )
-          );
-          arrayOfObs.push(
-            this.cryptoInfoService.tokenMarketHistory(
-              res.id,
-              yesterdayDateFormatted + ''
-            )
-          );
-          arrayOfObs.push(
-            this.cryptoInfoService.marketChartToken(res.id, 'usd', 'max')
-          );
-          arrayOfObs.push(this.cryptoInfoService.generalTokenInfos(res.id));
-          
-          
-          return forkJoin(arrayOfObs);
-        })
-      )
-      .subscribe((data: any) => {
-      
-        this.CryptoUrl = data[4].links.homepage[0];
-        this.isLoading = false;
-        this.data = data[3].prices;
-        this.fillingMarketDatas(data);
-        this.drawChart();
-        let element = this.document.getElementById('crypto-description');
-        //@ts-ignore
-        element.innerHTML = data[4].description.en;
-      });
+    this.cryptoDetails = this.sharedDataService.getCryptoDetails();
 
-    this.cryptoList$.subscribe((res) => {
-      this.crypto = res.filter(
-        (element: any) => element.symbol === this.cryptoSymbol
-      )[0];
-      if (!this.crypto) {
-        this.disableBtn = true;
-        return;
-      } else {
-        this.disableBtn = false;
-      }
-    });
-    this.translate.addLangs(['en', 'fr']);
-    if (this.tokenStorageService.getLocale()) {
-      // @ts-ignore
-      this.languageSelected = this.tokenStorageService.getLocale();
-      this.translate.setDefaultLang(this.languageSelected);
-      this.translate.use(this.languageSelected);
-    } else {
-      this.tokenStorageService.setLocalLang('en');
-      this.languageSelected = 'en';
-      this.translate.setDefaultLang('en');
-      this.translate.use(this.languageSelected);
-    }
+    if (this.cryptoDetails.length === 0) {
+      this.store.dispatch(CryptoActionsList.fetchCryptoPriceList());
+      this.store
+        .select(selectCryptoPriceList)
+        .pipe(
+          takeUntil(this.isDestroyed),
+          map((response: any) => {
+            if (response && response.data) {
+              return response.data;
+            } else {
+              return null;
+            }
+          })
+        )
+        .subscribe((data: any) => {
+          if (data) {
+            this.cryptoDetails = data;
+            this.hadnelAllCrypto();
+          }
+        });
+    } else this.hadnelAllCrypto();
   }
 
-  private drawChart() {
+  public hadnelAllCrypto() {
+    this.marketCap = this.showNumbersRule.transform(
+      this.cryptoDetails[this.cryptoSymbol].market_cap
+    );
+    this.volume24h = this.showNumbersRule.transform(
+      this.cryptoDetails[this.cryptoSymbol].volume_24h,
+      true
+    );
+    this.disableBtn =
+      (this.translateNetwork(this.cryptoDetails[this.cryptoSymbol].network) ===
+        null &&
+        this.cryptoSymbol !== 'BTC') ||
+      ''
+        ? true
+        : false;
+    this.crypto_network = this.cryptoDetails[this.cryptoSymbol].network;
+    this.circulatingSupply = this.showNumbersRule.transform(
+      this.cryptoDetails[this.cryptoSymbol].circulating_supply,
+      true
+    );
+    this.fully_diluted = this.showNumbersRule.transform(
+      this.cryptoDetails[this.cryptoSymbol].fully_diluted,
+      true
+    );
+    this.cryptoPrice = this.showNumbersRule.transform(
+      this.cryptoDetails[this.cryptoSymbol].price,
+      true
+    );
+
+    this.id_crypto = this.cryptoDetails[this.cryptoSymbol].id;
+    this.CryptoUrl = this.cryptoDetails[this.cryptoSymbol].urls[0];
+    this.marketCapChange =
+      this.cryptoDetails[this.cryptoSymbol].percent_change_24h;
+    this.cryptoImgUrl = this.cryptoDetails[this.cryptoSymbol].logo;
+    this.cryptoDescription = this.cryptoDetails[this.cryptoSymbol].description;
+    this.cryptoName = this.cryptoDetails[this.cryptoSymbol].name;
+    this.volume24hChange =
+      this.cryptoDetails[this.cryptoSymbol].volume_change_24h;
+
+    this.handleCryptoList(this.cryptoDetails[this.cryptoSymbol].id, 'ALL');
+  }
+
+  public handleCryptoList(id: any, range: string): void {
+    this.selectedPeriod = range;
+
+    this.cryptoInfoService.getCharts(id, range).subscribe((res: any) => {
+      this.drawChart(res.data);
+    });
+  }
+
+  public translateNetwork(network: string): string {
+    if (this.networkTranslations[network]) {
+      return this.networkTranslations[network];
+    }
+    return network;
+  }
+
+  private drawChart(res: any) {
+    const chartData = Object.keys(res).map((timestamp) => ({
+      x: parseInt(timestamp, 10) * 1000,
+      y: res[timestamp].v[0]
+    }));
+
     this.chart = new Chart({
       credits: {
         enabled: false
@@ -186,9 +217,6 @@ export class CryptoInfoComponent implements OnInit, AfterViewInit {
               zIndex: 5,
               id: 'first'
             });
-            // let tick = document.getElementsByClassName(
-            //   'highcharts-plot-lines-5'
-            // )[0];
 
             let span = document.createElement('span');
             let innerSpan = document.createElement('span');
@@ -249,14 +277,14 @@ export class CryptoInfoComponent implements OnInit, AfterViewInit {
             formatter: (item: any) => {
               if (this.state.current === item.value) {
                 return `<span style="color: black; background: #00CC9E; border-radius: 5px; padding: 0.25rem 0.5rem;font-family: Poppins;
-font-style: normal; width: 100px; height: 70px;
-font-weight: 500;color: white;
-font-size: 12px;">${item.value.toFixed(2) + '$'}</span>`;
+              font-style: normal; width: 100px; height: 70px;
+              font-weight: 500;color: white;
+              font-size: 12px;">${item.value.toFixed(2) + '$'}</span>`;
               } else {
                 return `<span style="color: black; padding: 0.25rem 0.5rem;font-family: Poppins;
-font-style: normal; width: 100px; height: 70px;
-font-weight: 500;
-font-size: 12px;">${item.value + '$'}</span>`;
+              font-style: normal; width: 100px; height: 70px;
+              font-weight: 500;
+              font-size: 12px;">${item.value + '$'}</span>`;
               }
             }
           },
@@ -308,7 +336,7 @@ font-size: 12px;">${item.value + '$'}</span>`;
       series: [
         {
           type: 'area',
-          data: this.data
+          data: chartData // Use the parsed data for the chart series
         }
       ]
     });
@@ -324,62 +352,6 @@ font-size: 12px;">${item.value + '$'}</span>`;
     }, 300);
   }
 
-  private fillingMarketDatas(data: any) {
-    this.cryptoImgUrl = data[0].image;
-    this.cryptoName = data[4].name;
-    this.cryptoPrice = data[0].current_price;
-    this.cryptoNetwork = data[4].asset_platform_id;
-    this.cryptoEtheriumContract = data[4]?.platforms?.ethereum;
-    this.cryptoBinanceContract = data[4]?.platforms['binance-smart-chain'];
-    this.marketCap = this.showNumbersRule.transform(data[0].market_cap, true);
-    this.marketCapChange = data[0].market_cap_change_percentage_24h.toFixed(2);
-    this.volume24h = this.showNumbersRule.transform(data[0].total_volume, true);
-    this.circulatingSupply = this.showNumbersRule.transform(
-      data[0].circulating_supply,
-      true
-    );
-    this.circulatingSupplyChange = 90;
-    this.marketCapFD = this.showNumbersRule.transform(
-      data[0].fully_diluted_valuation,
-      true
-    );
-
-    this.marketCapFDChange =
-      data[0].market_cap_change_percentage_24h.toFixed(2);
-    this.volume24hChange = (
-      ((data[1].market_data.total_volume.usd -
-        data[2].market_data.total_volume.usd) *
-        100) /
-      data[2].market_data.total_volume.usd
-    ).toFixed(2);
-  }
-
-  filterChartByPeriod(period: any) {
-    this.selectedPeriod = period;
-    this.cryptoInfoService
-      .listIdToken()
-      .pipe(
-        map((res: any) => {
-          return res.filter(
-            (element: any) => element.symbol === this.cryptoSymbol.toLowerCase()
-          )[0];
-        })
-      )
-      .pipe(
-        mergeMap((res: any) => {
-          return this.cryptoInfoService.marketChartToken(
-            res.id,
-            'usd',
-            period
-          );
-        })
-      )
-      .subscribe((data: any) => {
-        this.data = data.prices;
-        this.drawChart();
-      });
-  }
-
   goToBuy(id: any, network: any) {
     if (id === 'SATT' && network === 'ERC20') {
       id = 'SATT-ERC20';
@@ -387,8 +359,11 @@ font-size: 12px;">${item.value + '$'}</span>`;
     if (id === 'SATT' && network === 'BEP20') {
       id = 'SATT-SC';
     }
+
+    const networkParam = id === 'BTC' ? 'BTC' : this.translateNetwork(network);
+
     this.router.navigate(['/wallet/buy-token'], {
-      queryParams: { id: id, network: network },
+      queryParams: { id: id, network: networkParam },
       relativeTo: this.activatedRoute
     });
   }
@@ -397,15 +372,19 @@ font-size: 12px;">${item.value + '$'}</span>`;
     if (id === 'SATT' && network === 'BEP20') {
       id = 'SATTBEP20';
     }
+
+    const networkParam = id === 'BTC' ? 'BTC' : this.translateNetwork(network);
     this.router.navigate(['/wallet/send'], {
-      queryParams: { id: id, network: network },
+      queryParams: { id: id, network: networkParam },
       relativeTo: this.activatedRoute
     });
   }
 
   goTorecieve(id: any, network: any) {
+    const networkParam = id === 'BTC' ? 'BTC' : this.translateNetwork(network);
+
     this.router.navigate(['/wallet/receive'], {
-      queryParams: { id: id, network: network },
+      queryParams: { id: id, network: networkParam },
       relativeTo: this.activatedRoute
     });
   }
@@ -431,7 +410,7 @@ font-size: 12px;">${item.value + '$'}</span>`;
     );
   }
 
-  openInBitcoinOrg(cryptoUrl: string) {    
+  openInBitcoinOrg(cryptoUrl: string) {
     window.open(cryptoUrl, '_blank');
   }
 }

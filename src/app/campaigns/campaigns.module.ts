@@ -35,6 +35,11 @@ import { DraftPictureComponent } from './components/draft-picture/draft-picture.
 import { CommonModule } from '@angular/common';
 import { SocialsComponent } from './socials/socials.component';
 import { SharedModule } from '@app/shared/shared.module';
+
+import { cryptoReducerList } from '@app/core/store/crypto-prices/reducer/crypto.reducer';
+import { CryptoEffectsList } from '@app/core/store/crypto-prices/effects/crypto.effects';
+
+
 import { CampaignDetailsModule } from './campaign-details/campaign-details.module';
 
 @NgModule({
@@ -72,7 +77,9 @@ import { CampaignDetailsModule } from './campaign-details/campaign-details.modul
       fromListLinks.linksListFeatureKey,
       fromListLinks.reducer
     ),
-    SharedModule
+    SharedModule,
+    StoreModule.forFeature('cryptoPriceList', cryptoReducerList),
+    EffectsModule.forFeature([CryptoEffectsList]),
   ],
   exports: [CampaignsRoutingModule],
   providers: [ConvertFromWei]

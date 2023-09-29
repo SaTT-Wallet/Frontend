@@ -30,7 +30,6 @@
         src="{{ cryptoImgUrl }}"
       />
       <div
-        *ngIf="cryptoName && cryptoPrice"
         class="crypto-logo-details d-flex flex-column align-items-md-start align-items-center"
       >
         <div class="crypto-logo-text">{{ cryptoName }}</div>
@@ -54,7 +53,7 @@
         <button
           [disabled]="disableBtn"
           class="send-button"
-          (click)="goTosend(crypto.symbol, crypto.network)"
+          (click)="goTosend(cryptoSymbol, crypto_network)"
         >
           <img
             src="assets/Images/sendShape.png"
@@ -70,7 +69,7 @@
         <button
           [disabled]="disableBtn"
           class="buy-button"
-          (click)="goToBuy(crypto.symbol, crypto.network)"
+          (click)="goToBuy(cryptoSymbol, crypto_network)"
         >
           <img
             src="assets/Images/buyShape.png"
@@ -86,7 +85,7 @@
         <button
           [disabled]="disableBtn"
           class="request-button"
-          (click)="goTorecieve(crypto.symbol, crypto.network)"
+          (click)="goTorecieve(cryptoSymbol, crypto_network)"
         >
           <img
             src="assets/Images/recieveshape.png"
@@ -107,43 +106,43 @@
   <div
     class="flex-column justify-content-center align-items-start crypto-info-body"
   >
-    <div class="chart-header mb-3" *ngIf="!isLoading">
+    <div class="chart-header mb-3" >
       <div class="price-title">{{'Price' | translate }}</div>
       <div class="chart-filters d-flex align-items-center justify-content-end">
         <span class="filter-box" 
-        (click)="filterChartByPeriod('1')" 
-        [ngStyle]="{'background-color': selectedPeriod === '1' ? '#4048FF' : '', 
-        'color':selectedPeriod === '1' ? 'white' : ''}">
+        (click)="handleCryptoList(id_crypto,'1D')" 
+        [ngStyle]="{'background-color': selectedPeriod === '1D' ? '#4048FF' : '', 
+        'color':selectedPeriod === '1D' ? 'white' : ''}">
         {{ 'chart.day' | translate }}
          </span>
         <span class="filter-box" 
-        (click)="filterChartByPeriod('7')" 
-        [ngStyle]="{'background-color': selectedPeriod === '7' ? '#4048FF' : '',
-         'color':selectedPeriod === '7' ? 'white' : ''}">
+        (click)="handleCryptoList(id_crypto,'7D')" 
+        [ngStyle]="{'background-color': selectedPeriod === '7D' ? '#4048FF' : '',
+         'color':selectedPeriod === '7D' ? 'white' : ''}">
         {{ 'chart.week' | translate }}
          </span>
         <span class="filter-box" 
-        (click)="filterChartByPeriod('30')" 
-        [ngStyle]="{'background-color': selectedPeriod === '30' ? '#4048FF' : '', 
-        'color':selectedPeriod === '30' ? 'white' : ''}">
+        (click)="handleCryptoList(id_crypto,'1M')" 
+        [ngStyle]="{'background-color': selectedPeriod === '1M' ? '#4048FF' : '', 
+        'color':selectedPeriod === '1M' ? 'white' : ''}">
         {{ 'chart.month' | translate }}
           </span>
         <span class="filter-box"
-         (click)="filterChartByPeriod('365')" 
-         [ngStyle]="{'background-color': selectedPeriod === '365' ? '#4048FF' : '', 
-         'color':selectedPeriod === '365' ? 'white' : ''}">
+         (click)="handleCryptoList(id_crypto,'1Y')" 
+         [ngStyle]="{'background-color': selectedPeriod === '1Y' ? '#4048FF' : '', 
+         'color':selectedPeriod === '1Y' ? 'white' : ''}">
          {{ 'chart.year' | translate }}
          </span>
         <span class="filter-box" 
-        (click)="filterChartByPeriod('max')" 
-        [ngStyle]="{'background-color': selectedPeriod === 'max' ? '#4048FF' : '', 
-        'color':selectedPeriod === 'max' ? 'white' : ''}">
+        (click)="handleCryptoList(id_crypto,'ALL')" 
+        [ngStyle]="{'background-color': selectedPeriod === 'ALL' ? '#4048FF' : '', 
+        'color':selectedPeriod === 'ALL' ? 'white' : ''}">
         {{ 'chart.all' | translate }}
          </span>
       </div>
     </div>
-    <div [chart]="chart" class="chart" *ngIf="!!chart"></div>
-    <div class="mt-4" *ngIf="!isLoading">
+    <div [chart]="chart" class="chart" ></div>
+    <div class="mt-4" >
       <div class="details-boxes-container">
         <div class="details-box border-top-sm">
           <div class="gray-title title-border-md">{{ 'MARKET_CAP' | translate }}</div>
@@ -164,7 +163,7 @@
           <div class="gray-title title-border-md">{{ 'Fully_diluted_market_cap' | translate }}</div>
           <div class="right-part-sm-details-box">
             <div class="text-value">
-              {{ !!marketCapFD ? '$' + marketCapFD : '-' }}
+              $ {{ fully_diluted }}
             </div>
             <div
               class="percent-change title-border-md"
@@ -172,8 +171,8 @@
                 color: marketCapChange >= 0 ? '#00cc9e' : '#f52079'
               }"
             >
-              <span *ngIf="marketCapChange >= 0 && !!marketCapFD">+</span
-              >{{ !!marketCapFD ? marketCapChange + '%' : '-' }}
+              <span *ngIf="marketCapChange >= 0 && marketCapChange">+</span
+              >{{ marketCapChange }}%
             </div>
           </div>
         </div>
@@ -202,17 +201,17 @@
       </div>
     </div>
     <div class="mt-5">
-      <div class="price-title" *ngIf="!isLoading">
+      <div class="price-title" >
         {{ cryptoSymbol }} {{ 'priceLiveData' | translate }}
       </div>
       <div class="crypto-text-details mt-2">
         <div class="crypto-text-details-part" id="crypto-description">
           {{ cryptoDescription }}
         </div>
-        <div class="crypto-text-details-part mt-3" *ngIf="!isLoading">
+        <div class="crypto-text-details-part mt-3" >
           {{'interestingArticles' | translate }}
         </div>
-        <ul class="mt-3" *ngIf="!isLoading">
+        <ul class="mt-3" >
           <li>
             <a
               href="https://satt-token.com/blog/2021/12/16/how-to-farm-a-tweet/"
@@ -349,7 +348,6 @@
           </li>
         </ul>
         <div
-          *ngIf="!isLoading"
           class="buttons-container d-flex w-100 justify-content-start justify-content-md-center"
           style="margin-bottom: 5rem"
         >
@@ -363,7 +361,7 @@
             <img src="assets/Images/crypto-info/visit.svg" class="ml-2" />
           </div> -->
        
-          <div   *ngIf="CryptoUrl" class="visit-button mr-2" (click)="openInBitcoinOrg(CryptoUrl)">
+          <div class="visit-button mr-2" (click)="openInBitcoinOrg(CryptoUrl)">
            {{CryptoUrl}}
             <img src="assets/Images/crypto-info/visit.svg" class="ml-2" />
           </div>
