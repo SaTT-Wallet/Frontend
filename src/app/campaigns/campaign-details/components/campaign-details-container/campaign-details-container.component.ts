@@ -55,6 +55,12 @@ export class CampaignDetailsContainerComponent implements OnInit {
       )
       .subscribe();
     this.campaign$ = this.campaignsStoreService.campaign$;
+    // this.meta.updateTag({ property: 'og:title', content: this.campaign.title });
+    // this.meta.updateTag({
+    //   property: 'og:description',
+    //   content: this.campaign.description
+    // });
+    // this.meta.updateTag({ property: 'og:image', content: this.ogImageUrl });
     /*if (isPlatformServer(this.platformId)) {
       this.meta.addTag({
         name: 'og:image:secure_url',
@@ -146,12 +152,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
       setTimeout(() => {
         this.showmoonboy = campaign.id === this.campaignId;
       }, 1000);
-      this.meta.updateTag({ property: 'og:title', content: campaign.title });
-      this.meta.updateTag({
-        property: 'og:description',
-        content: campaign.description
-      });
-      this.meta.updateTag({ property: 'og:image', content: this.ogImageUrl });
+
       /*this.ogImageUrl = campaign.coverSrcMobile.includes('ipfs') ? ipfsURL + campaign.coverSrcMobile.substring(27, campaign.coverSrcMobile.length) : campaign.coverSrcMobile;
       this.meta.updateTag({ property: 'og:title', content: campaign.title });
       this.meta.updateTag({ property: 'og:description', content: campaign.description });
@@ -288,7 +289,25 @@ export class CampaignDetailsContainerComponent implements OnInit {
         },
         `name='twitter'`
       );*/
+      this.updateMetaTags(campaign);
     });
+  }
+  updateMetaTags(campaign: Campaign) {
+    if (campaign) {
+      this.ogImageUrl = campaign.coverSrcMobile.includes('ipfs')
+        ? ipfsURL + campaign.coverSrcMobile.substring(27, campaign.coverSrcMobile.length)
+        : campaign.coverSrcMobile;
+
+      this.meta.updateTag({ property: 'og:title', content: campaign.title });
+      this.meta.updateTag({ property: 'og:description', content: campaign.description });
+      this.meta.updateTag({ property: 'og:image', content: this.ogImageUrl });
+
+      this.meta.updateTag({ property: 'og:image:width', content: '1200' });
+      this.meta.updateTag({ property: 'og:image:height', content: '630' });
+
+      this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
+      this.meta.updateTag({ name: 'twitter:image', content: this.ogImageUrl });
+    }
   }
 
   imageImported(image: any) {
@@ -297,21 +316,38 @@ export class CampaignDetailsContainerComponent implements OnInit {
   limitDescription(description: string | undefined, maxLength: number = 200): string {
     return description ? description.slice(0, maxLength) : '';
   }
+
+ 
+  updateMetaTags(campaign: Campaign) {
+    if (campaign) {
+      this.ogImageUrl = campaign.coverSrcMobile.includes('ipfs')
+        ? ipfsURL + campaign.coverSrcMobile.substring(27, campaign.coverSrcMobile.length)
+        : campaign.coverSrcMobile;
+
+      this.meta.updateTag({ property: 'og:title', content: campaign.title });
+      this.meta.updateTag({ property: 'og:description', content: campaign.description });
+      this.meta.updateTag({ property: 'og:image', content: this.ogImageUrl });
+
+
+      this.meta.updateTag({ property: 'og:image:width', content: '1200' });
+      this.meta.updateTag({ property: 'og:image:height', content: '630' });
+
+      this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
+      this.meta.updateTag({ name: 'twitter:image', content: this.ogImageUrl });
+    }
+  }
+ 
   ngOnDestroy(): void {
+    // Remove or update any additional meta tags when the component is destroyed
+    this.meta.updateTag({ name: 'og:title', content: '' });
+    this.meta.updateTag({ name: 'og:image', content: '' });
+    this.meta.updateTag({ name: 'og:description', content: '' });
+    this.meta.updateTag({ name: 'og:type', content: '' });
+    this.meta.updateTag({ name: 'twitter:card', content: '' });
+
     this.isDestroyed.next('');
     this.isDestroyed.unsubscribe();
     this.campaignsStoreService.clearDataStore();
-    // location.reload();
-    this.meta.updateTag({ name: 'og:title', content: '' }, `name='og:title'`);
-    this.meta.updateTag({ name: 'og:image', content: '' }, `name='og:image'`);
-    this.meta.updateTag(
-      { name: 'og:description', content: '' },
-      `name='og:description'`
-    );
-    this.meta.updateTag({ name: 'og:type', content: '' }, `name='og:type'`);
-    this.meta.updateTag(
-      { name: 'twitter:card', content: '' },
-      `name='twitter:card'`
-    );
   }
+
 }
