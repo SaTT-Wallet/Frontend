@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as http from 'http';
+import { Observable } from 'rxjs';
+import { IResponseWallet } from '../iresponse-wallet';
+import { sattUrl } from '@app/config/atn.config';
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +16,11 @@ export class CryptoInfoService {
     );
   }
 
-  listIdToken() {
-    return this.http.get('https://api.coingecko.com/api/v3/coins/list');
+  listIdToken(): Observable<any[]> {
+    const url = `  https://api.coingecko.com/api/v3/coins/list`;
+    return this.http.get<any[]>(url);
   }
+
   historiqueToken(
     cryptoId: string,
     currency: string,
@@ -32,13 +37,14 @@ export class CryptoInfoService {
     );
   }
 
-  marketChartToken(
-    cryptoId: string,
-    currency: string,
-    days: string
-  ) {
-  
-    
+  getCharts(id:any, range:any) {
+    return this.http.post<IResponseWallet>(sattUrl + '/wallet/getCharts', {
+      id: id,
+      range: range
+    });
+  }
+
+  marketChartToken(cryptoId: string, currency: string, days: string) {
     return this.http.get(
       `https://api.coingecko.com/api/v3/coins/${cryptoId}/market_chart?vs_currency=${currency}&days=${days}`
     );
