@@ -5,7 +5,11 @@ import { CryptofetchServiceService } from '@core/services/wallet/cryptofetch-ser
 import { Big } from 'big.js';
 import { WalletFacadeService } from '@core/facades/wallet-facade.service';
 import { Subject } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { map, take, takeUntil } from 'rxjs/operators';
+import * as CryptoActionsList from '../../core/store/crypto-prices/actions/crypto.actions';
+import { Store } from '@ngrx/store';
+import { selectCryptoPriceList } from '@app/core/store/crypto-prices/selectors/crypto.selectors';
+import { SharedDataService } from '@app/shared/service/SharedDataService';
 
 @Injectable({
   providedIn: 'root'
@@ -13,20 +17,33 @@ import { map, takeUntil } from 'rxjs/operators';
 export class FormatDataService {
   private coinsPrices: any = [];
   private isDestroyed = new Subject();
+  cryptoPriceList: any[] | null | undefined;
 
   constructor(
     private convertToWeiPipe: ConvertToWeiPipe,
     private fetchCoinsPrices: CryptofetchServiceService,
-    private walletFacade: WalletFacadeService
+    private walletFacade: WalletFacadeService,
+    private store: Store,
+    private sharedDataService: SharedDataService
   ) {
-    this.walletFacade
-      .getCryptoPriceList()
+    this.store.dispatch(CryptoActionsList.fetchCryptoPriceList());
+    this.store
+      .select(selectCryptoPriceList)
       .pipe(
-        map((response: any) => response.data),
-        takeUntil(this.isDestroyed)
+        takeUntil(this.isDestroyed),
+        map((response: any) => {
+          if (response && response.data) {
+            return response.data;
+          } else {
+            return null; 
+          }
+        })
       )
       .subscribe((data: any) => {
-        this.coinsPrices = data;
+        if (data) {
+          this.coinsPrices = data;
+          this.sharedDataService.setCryptoDetails(this.coinsPrices);
+        }
       });
   }
 
@@ -51,14 +68,14 @@ export class FormatDataService {
     if (campaign.hasOwnProperty('targetedCountries')) {
       object.countries = campaign.targetedCountries; //this.countriesCode(campaign.targetedCountries);
     }
-   if (campaign.hasOwnProperty('currency')) {
+    if (campaign.hasOwnProperty('currency')) {
       object.token = {
         name: campaign.currency.name || '',
         type: campaign.currency.type.toUpperCase() || '',
-        addr:  campaign.currency.addr || null
+        addr: campaign.currency.addr || null
       };
     }
-    
+
     if (campaign.hasOwnProperty('tags')) {
       object.tags = campaign.tags?.map((tag: any) => tag.value || tag);
     }
@@ -72,7 +89,7 @@ export class FormatDataService {
       object.startDate = new Date(campaign.startDate).getTime() / 1000;
     }
 
-    campaign.limitParticipation && (object.limit = campaign.limitParticipation)
+    campaign.limitParticipation && (object.limit = campaign.limitParticipation);
 
     if (campaign.hasOwnProperty('remuneration')) {
       // TODO: fix remuneration not sent to backend
@@ -125,7 +142,7 @@ export class FormatDataService {
     }
 
     if (campaign.hasOwnProperty('initialBudgetInUSD')) {
-      object.cost_usd =  campaign.initialBudgetInUSD.toString();
+      object.cost_usd = campaign.initialBudgetInUSD.toString();
     }
 
     if (campaign.hasOwnProperty('cover')) {
