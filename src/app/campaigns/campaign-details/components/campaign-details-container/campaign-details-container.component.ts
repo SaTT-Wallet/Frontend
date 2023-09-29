@@ -152,7 +152,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
       setTimeout(() => {
         this.showmoonboy = campaign.id === this.campaignId;
       }, 1000);
- 
+
       /*this.ogImageUrl = campaign.coverSrcMobile.includes('ipfs') ? ipfsURL + campaign.coverSrcMobile.substring(27, campaign.coverSrcMobile.length) : campaign.coverSrcMobile;
       this.meta.updateTag({ property: 'og:title', content: campaign.title });
       this.meta.updateTag({ property: 'og:description', content: campaign.description });
@@ -292,6 +292,23 @@ export class CampaignDetailsContainerComponent implements OnInit {
       this.updateMetaTags(campaign);
     });
   }
+  updateMetaTags(campaign: Campaign) {
+    if (campaign) {
+      this.ogImageUrl = campaign.coverSrcMobile.includes('ipfs')
+        ? ipfsURL + campaign.coverSrcMobile.substring(27, campaign.coverSrcMobile.length)
+        : campaign.coverSrcMobile;
+
+      this.meta.updateTag({ property: 'og:title', content: campaign.title });
+      this.meta.updateTag({ property: 'og:description', content: campaign.description });
+      this.meta.updateTag({ property: 'og:image', content: this.ogImageUrl });
+
+      this.meta.updateTag({ property: 'og:image:width', content: '1200' });
+      this.meta.updateTag({ property: 'og:image:height', content: '630' });
+
+      this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
+      this.meta.updateTag({ name: 'twitter:image', content: this.ogImageUrl });
+    }
+  }
 
   imageImported(image: any) {
     this.campaignsStoreService.updateOneById({ cover: image });
@@ -299,6 +316,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
   limitDescription(description: string | undefined, maxLength: number = 200): string {
     return description ? description.slice(0, maxLength) : '';
   }
+
  
   updateMetaTags(campaign: Campaign) {
     if (campaign) {
@@ -309,6 +327,7 @@ export class CampaignDetailsContainerComponent implements OnInit {
       this.meta.updateTag({ property: 'og:title', content: campaign.title });
       this.meta.updateTag({ property: 'og:description', content: campaign.description });
       this.meta.updateTag({ property: 'og:image', content: this.ogImageUrl });
+
 
       this.meta.updateTag({ property: 'og:image:width', content: '1200' });
       this.meta.updateTag({ property: 'og:image:height', content: '630' });
