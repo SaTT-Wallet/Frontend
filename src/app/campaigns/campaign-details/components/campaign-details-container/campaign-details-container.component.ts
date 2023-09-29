@@ -292,13 +292,6 @@ export class CampaignDetailsContainerComponent implements OnInit {
       this.updateMetaTags(campaign);
     });
   }
-
-  imageImported(image: any) {
-    this.campaignsStoreService.updateOneById({ cover: image });
-  }
-  limitDescription(description: string | undefined, maxLength: number = 200): string {
-    return description ? description.slice(0, maxLength) : '';
-  }
   updateMetaTags(campaign: Campaign) {
     if (campaign) {
       this.ogImageUrl = campaign.coverSrcMobile.includes('ipfs')
@@ -316,6 +309,14 @@ export class CampaignDetailsContainerComponent implements OnInit {
       this.meta.updateTag({ name: 'twitter:image', content: this.ogImageUrl });
     }
   }
+
+  imageImported(image: any) {
+    this.campaignsStoreService.updateOneById({ cover: image });
+  }
+  limitDescription(description: string | undefined, maxLength: number = 200): string {
+    return description ? description.slice(0, maxLength) : '';
+  }
+
 
   ngOnDestroy(): void {
     // Remove or update any additional meta tags when the component is destroyed
