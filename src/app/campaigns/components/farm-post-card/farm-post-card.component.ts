@@ -85,7 +85,7 @@ export class FarmPostCardComponent implements OnInit {
   countHarvestDownTimerForPublication() {
     // Provided end date in UNIX timestamp format (e.g., 1698192000)
     const endDateTimestamp = this.prom.campaign.endDate * 1000; // Convert to milliseconds
-
+    
     // Current date
     const currentDate = Date.now();
 
@@ -96,9 +96,9 @@ export class FarmPostCardComponent implements OnInit {
     const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
     const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
-    if(days === 0 && hours === 0 && minutes === 0) {
+    /*if(days === 0 && hours === 0 && minutes === 0) {
       this.harvestAvailable = false;
-    } else this.harvestAvailable = true;
+    } else this.harvestAvailable = true;*/
     return `${days}d ${hours}h ${minutes}min`;
   }
   private countDownTimer(): void {
