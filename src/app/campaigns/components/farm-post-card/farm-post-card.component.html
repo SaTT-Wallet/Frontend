@@ -606,12 +606,12 @@
             src="/assets/Images/shape-disabled.svg"
           />
         </button>
-        <!--   recorver gains-->
+        <!--   recorver gains for performance campaigns-->
         <button
           type="button"
           class="buttom_camp3"
           (click)="getMyGains(prom)"
-          *ngIf="prom.type === 'harvest' && !isOwner"
+          *ngIf="prom.type === 'harvest' && !isOwner && prom.campaign.remuneration !== 'publication'"
           [ngClass]="{ graybtn: harvestAvailable }"
         >
         <span class="btn-participe-gain" *ngIf="harvestAvailable === false">
@@ -645,6 +645,48 @@
             <span> {{ this.prom.campaign.remuneration === 'publication' ? countHarvestDownTimerForPublication(): harvestAvailableIn }} </span>
           </span>
         </button>
+
+        <!--   recorver gains for publication campaigns-->
+        <button
+          type="button"
+          class="buttom_camp3"
+          (click)="getMyGains(prom)"
+          *ngIf="prom.type === 'harvest' && !isOwner && prom.campaign.remuneration === 'publication'"
+          [ngClass]="{ graybtn: prom.campaign.type === 'apply' }"
+        >
+        <span class="btn-participe-gain" *ngIf="prom.campaign.type === 'finished'">
+            <img
+              class="hourglass mb-3"
+              src="/assets/Images/newImages/recover-hand.svg"
+            />
+            <span class="hide-row-desktop"
+              >{{ 'campaign_details.editor_recover_satt' | translate }}
+              {{
+                prom.totalToEarn | fromWeiTo: prom.campaign.currency || '--.--'
+              }}</span
+            >
+            <img
+              width="19px"
+              height="18px"
+              class="ms-1 crypto-logo hide-row-desktop"
+              src="/assets/Images/icons-crypto/white/{{
+                prom.campaign.currency
+              }}.svg"
+            />
+          </span>
+                <span
+            class="btn-apply-text text-orange"
+            *ngIf="prom.campaign.type === 'apply'"
+          >
+            <img class="" src="/assets/Images/campagne/hourglass.svg" style="margin-top:-4px;" />
+            <span> {{ 'wait_harvest' | translate }}</span>
+          
+            
+            <span> {{ countHarvestDownTimerForPublication()}} </span>
+          </span>
+        </button>
+
+
         <!--  link indisponible-->
         <button
           type="button"
