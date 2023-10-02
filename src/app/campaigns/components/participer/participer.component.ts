@@ -591,7 +591,10 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
           this.loadingButton = false;
         }
       }
-    } else if (media.indexOf('https://twitter.com/') !== -1) {
+    } else if (
+      media.indexOf('https://twitter.com/') !== -1 ||
+      media.indexOf('https://x.com/') !== -1
+    ) {
       this.validUrl = true;
       this.twitter = true;
       let parts = media.split('/');
