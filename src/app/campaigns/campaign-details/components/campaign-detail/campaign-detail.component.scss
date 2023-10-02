@@ -196,9 +196,9 @@
   padding-bottom: 3%;
   padding-right: 10%;
   width: max-content;
-  border-radius: 30px ;
-  background-color: #F6F6FF;
-  color: #ADADC8;
+  border-radius: 30px;
+  background-color: #f6f6ff;
+  color: #adadc8;
   font-family: 'Poppins';
   border: 1px solid #adadc8;
 }
@@ -413,6 +413,10 @@
   display: block;
 }
 
+.container_title {
+  flex-basis: max-content;
+}
+
 .campaign-title {
   display: flex;
   font-style: normal;
@@ -420,7 +424,7 @@
   font-size: 36px;
   letter-spacing: 1px;
   color: #1f2337;
-  max-width: 70%;
+  max-width: 100%;
   line-height: 40px;
   margin-top: 0.5em;
   text-transform: capitalize;
@@ -450,6 +454,14 @@
   margin-top: 0.5em;
 }
 
+@media (min-width: 1025px) and (max-width: 1396px) {
+  .campaign-title {
+    max-width: 99% !important;
+  }
+  .campaign-brand {
+    width: 75% !important;
+  }
+}
 @media (min-width: 768px) and (max-width: 1024.98px) {
   .div-footer-bar {
     display: flex !important;
@@ -460,6 +472,10 @@
 
   .modal-transaction-password {
     width: 70vw;
+  }
+
+  .campaign-title {
+    max-width: 74% !important;
   }
 }
 
@@ -727,9 +743,6 @@
 }
 
 @media (max-width: 767.98px) {
-  .campaign-title {
-    max-width: 100%;
-  }
   .desktopClass {
     display: none;
   }
@@ -753,6 +766,7 @@
     padding-top: 1rem !important;
   }
   .campaign-title {
+    max-width: 100%;
     /* flex-grow: 1; */
     /* width: 100% !important; */
     /* text-align: center; */
