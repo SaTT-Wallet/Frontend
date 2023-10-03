@@ -210,6 +210,8 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     return parseFloat(ch).toFixed(3);
   }
 
+  
+
   //get list of crypto for user
   getusercrypto() {
     this.spinner.show('showWalletSpinner');
@@ -229,7 +231,8 @@ export class CryptoListComponent implements OnInit, OnDestroy {
           this.walletFacade.hideWalletSpinner();
           this.showWalletSpinner === false;
           this.dataList = data;
-
+          
+          console.log({dataList: this.dataList})
           Object.preventExtensions(this.dataList);
           this.dataList?.forEach((crypto: any, index: any) => {
             if (crypto.symbol === 'SATTBEP20') {
@@ -274,7 +277,7 @@ export class CryptoListComponent implements OnInit, OnDestroy {
               element.symbol !== 'SATTBEP20' &&
               element.symbol !== 'SATTPOLYGON' &&
               element.symbol !== 'SATTBTT' &&
-              element.symbol !== 'SATTTRON'
+              element.symbol !== 'SATTTRON' 
           );
           this.cryptoList = [
             ...this.dataList.filter((data: any) => data.symbol === 'SATT'),
@@ -343,6 +346,41 @@ export class CryptoListComponent implements OnInit, OnDestroy {
                 crypto?.cryptoBEP20.total_balance?.toFixed(2);
             }
           });
+
+
+          const symbolMap = new Map();
+
+this.cryptoList.forEach((crypto:any) => {
+  if (!symbolMap.has(crypto.symbol)) {
+    symbolMap.set(crypto.symbol, [crypto]);
+  } else {
+    symbolMap.get(crypto.symbol).push(crypto);
+  }
+});
+
+const mergedCryptoList:any = [];
+
+symbolMap.forEach((cryptos) => {
+  if (cryptos.length === 1) {
+    // If there's only one crypto with this symbol, add it as is
+    mergedCryptoList.push(cryptos[0]);
+  } else {
+    // If there are multiple cryptos with the same symbol, merge them
+    const mergedCrypto = {
+      ...cryptos[0], // You can choose any of the objects here, as they should have the same symbol
+    };
+
+    // Create a property for each network
+    mergedCrypto.networks = cryptos.map((crypto:any) => ({
+      network: crypto.network,
+      ...crypto,
+    }));
+
+    mergedCryptoList.push(mergedCrypto);
+  }
+});
+          console.log({cryptoList: mergedCryptoList})
+          this.cryptoList = mergedCryptoList;
           setTimeout(() => {
             this.dataList.forEach((crypto) => {
               let element = this.document.getElementById(
@@ -791,12 +829,23 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     //     parseFloat(crypto.cryptoBTT.total_balance);
     //  }
     else {
-      sum = crypto.total_balance;
+      if(!!crypto.networks) {
+        
+        for(let cryptoByNetwork of crypto.networks) {
+          sum += parseFloat(cryptoByNetwork.total_balance)
+        }
+        
+      } else sum = crypto.total_balance
+      
     }
     return this.showNumbersRule.transform((!!sum ? sum : 0) + '', false);
   }
-
+  
+  cryptoTotalBalanceByNetwork(crypto:any) {
+    return this.showNumbersRule.transform((!!crypto.total_balance ? crypto.total_balance : 0) + '', false);
+  }
   quantitySum(crypto: any, modeDetails?: boolean) {
+    if(crypto.symbol === 'USDT') console.log(modeDetails, crypto)
     if (modeDetails && crypto.symbol === 'SATT') {
       return this.showNumbersRule.transform(
         (!!crypto.quantity ? crypto.quantity : 0) + '',
@@ -814,9 +863,24 @@ export class CryptoListComponent implements OnInit, OnDestroy {
         parseFloat(crypto.cryptoPOLYGON.quantity) +
         parseFloat(crypto.cryptoBEP20.quantity);
     } else {
-      sum = crypto.quantity;
+      
+        if(!!crypto.networks) {
+        
+          for(let cryptoByNetwork of crypto.networks) {
+            sum += parseFloat(cryptoByNetwork.quantity)
+          }
+          
+        } else sum = crypto.quantity
+     
+      
+      
+     
     }
     return this.showNumbersRule.transform((!!sum ? sum : 0) + '', true);
+  }
+
+  cryptoQuantityByNetwork(crypto:any) {
+    return this.showNumbersRule.transform((!!crypto.quantity ? crypto.quantity : 0) + '', true);
   }
   transformPrice(crypto: any) {
     if (crypto.symbol === 'BTT') {
