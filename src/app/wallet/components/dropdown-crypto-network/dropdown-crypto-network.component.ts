@@ -398,14 +398,12 @@ export class DropdownCryptoNetworkComponent
       });
       this.filterList = this.campaignCryptoList;
 
-      const bandIndex = this.filterList.findIndex(
-        (item: { key: string; }) => item.key === 'SATT'
+      const keysToDisplay = ['ETH', 'USDT', 'BNB', 'USDC', 'XRP', 'SATT'];
+      this.resultfilterList = this.filterList.filter((item: { key: string; }) =>
+        keysToDisplay.includes(item.key)
       );
 
-      this.resultfilterList = this.filterList.slice(
-        Math.max(0, bandIndex - 5),
-        Math.min(bandIndex + 1, this.filterList.length)
-      );
+
 
       this.showSearchNewTokenContainer = false;
       this.openModal(content);
