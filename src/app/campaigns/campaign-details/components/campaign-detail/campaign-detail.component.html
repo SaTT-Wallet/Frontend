@@ -1,9 +1,11 @@
 <head>
-  <meta property="og:title" content="{{ 'SaTT TO THE MOON' }}" />
-  <meta property="og:description" content="{{ 'SaTT TO THE MOON' }}" />
+  <meta property="og:title" content="{{ campaign.title }}" />
+  <meta property="og:description" content="{{ campaign.description | strip}}" />
+
+  <!-- <meta property="og:description" content="{{ 'SaTT TO THE MOON' }}" /> -->
   <meta
     property="og:image"
-    content="{{ 'https://satt-token.com/assets/img/share_img_200px.png' }}"
+    content="{{ campaign.logo }}"
   />
 </head>
 <div *ngIf="!isLoading">
