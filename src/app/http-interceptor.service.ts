@@ -73,6 +73,7 @@ export class HttpInterceptorService implements HttpInterceptor {
     `${environment.API_URL}/campaign/statLinkCampaign`,
     `${environment.API_URL}/campaign/reject`,
     `${environment.API_URL}/campaign/deleteDraft`,
+    `${environment.API_URL}/campaign/generate-brief`,
 
     // PROFILE API
     `${environment.API_URL}/profile/picture`,
