@@ -89,11 +89,17 @@ export class DraftCampaignPresentationComponent implements OnInit {
 
   generateBrief() {
     this.isGenerating = true;
-this.campaignFacade.generateBriefIA(this.form.get('title')?.value).subscribe((data:any) => {
-this.ai_result= data.choices[0].message.content;
-this.form.patchValue({ description: this.ai_result });
-this.isGenerating = false; 
-  })
+    this.campaignFacade.generateBriefIA(this.form.get('title')?.value).subscribe(
+      (data:any) => {
+      if(data.message === 'success') {
+        this.ai_result= data.data.choices[0].message.content;
+        this.form.patchValue({ description: this.ai_result });
+        this.isGenerating = false; 
+      } else this.isGenerating = false;
+      
+    }, (err:any) => {
+      this.isGenerating = false;
+    })
 }
 
 

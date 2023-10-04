@@ -110,19 +110,11 @@ export class CampaignHttpApiService {
     });
   }
   generateBrief(title: string) {
-    console.log(title);
-    const apiUrl = 'https://api.openai.com/v1/chat/completions';
-    const payload = {
-      "model": "gpt-3.5-turbo",
-      "messages": [{"role": "user", "content": "please create a comprehensive Influencer Campaign Brief for me that will serve as an explanatory sheet for integration into a campaign presentation platform. We need title, description, short description, rules, and examples."+ title, }],
-      "temperature": 0.7
-    };
-
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-  Authorization: 'Bearer ' +  env.API_AI,
+    
+    
+    return this.http.post(sattUrl + '/campaign/generate-brief', {
+      title
     });
-    return this.http.post(`${apiUrl}`, payload, { headers });
   }
 
   getBestInfluencerPic(id: any) {
