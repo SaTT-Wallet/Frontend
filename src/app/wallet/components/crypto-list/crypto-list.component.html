@@ -2567,11 +2567,11 @@
                 <div
                   #cryptoContainer
                   [ngClass]="{
-                    BottomBorder: crypto.symbol !== 'SATT',
+                    BottomBorder: !(!!crypto.networks && crypto.networks.length > 0),
                     BottomBorderSelected:
-                      crypto.selected && crypto.symbol !== 'SATT',
+                      crypto.selected && (crypto.symbol !== 'SATT' || !(!!crypto.networks && crypto.networks.length > 0)),
                     BottomBorderSelectedSatt:
-                      crypto.selected && crypto.symbol === 'SATT'
+                      crypto.selected && (crypto.symbol === 'SATT' || (!!crypto.networks && crypto.networks.length > 0))  
                   }"
                   class="w-100 d-flex justify-content-between align-items-center cryptoRowContainerMobile"
                   (click)="
@@ -2624,7 +2624,7 @@
                           [ngStyle]="{
                             display: !crypto.selected
                               ? 'block'
-                              : crypto.symbol === 'SATT'
+                              : crypto.symbol === 'SATT' || (!!crypto.networks && crypto.networks.length > 0)
                               ? 'block'
                               : 'block'
                           }"
@@ -2647,7 +2647,7 @@
                           class="nameCrypto noselect"
                           [ngStyle]="{
                             color: crypto.selected
-                              ? crypto.symbol !== 'SATT'
+                              ? crypto.symbol !== 'SATT' && !(!!crypto.networks && crypto.networks.length > 0)
                                 ? 'white'
                                 : 'black'
                               : 'black'
@@ -2664,7 +2664,7 @@
                           style="margin-top: 6px"
                           [ngStyle]="{
                             color: crypto.selected
-                              ? crypto.symbol !== 'SATT'
+                              ?  crypto.symbol !== 'SATT' && !(!!crypto.networks && crypto.networks.length > 0) 
                                 ? 'white'
                                 : '#75758F'
                               : '#75758F'
@@ -2690,7 +2690,7 @@
                             [ngStyle]="{
                               color: !crypto.selected
                                 ? 'black'
-                                : crypto.symbol !== 'SATT'
+                                :  crypto.symbol !== 'SATT' && !(!!crypto.networks && crypto.networks.length > 0)
                                 ? 'white'
                                 : 'black'
                             }"
@@ -2709,7 +2709,7 @@
                               [ngStyle]="{
                                 color: !crypto.selected
                                   ? '#75758F'
-                                  : crypto.symbol !== 'SATT'
+                                  :  crypto.symbol !== 'SATT' && !(!!crypto.networks && crypto.networks.length > 0)
                                   ? 'white'
                                   : '#75758F'
                               }"
@@ -2794,6 +2794,7 @@
                 <!------------------------------------------------------------------------------------------------------------------------------->
 
                 <div
+               
                   [hidden]="true"
                   #details
                   [ngStyle]="{
@@ -2801,6 +2802,7 @@
                   }"
                   class="w-100 mb-2"
                 >
+                <ng-container *ngIf="crypto.symbol === 'SATT'">
                   <div
                     (click)="toggle(crypto); selectERC20()"
                     class="d-flex w-100 justify-content-between align-items-center pt-2 pb-2 BottomBorder1 cryptoRowContainerMobile"
@@ -2893,6 +2895,59 @@
                       </span>
                     </div>
                   </div>
+                </ng-container>
+
+
+
+                <ng-container *ngIf="!!crypto.networks && crypto.networks.length > 0 && crypto.symbol !== 'SATT'">
+                  <div *ngFor="let network of crypto.networks">
+                    <div
+                    (click)="toggle(network); selectCryptoByNetwork(network)"
+                    class="d-flex w-100 justify-content-between align-items-center pt-2 pb-2 BottomBorder1 cryptoRowContainerMobile"
+                    [ngClass]="{
+                      BottomBorderSelected: network.selected
+                    }"
+                    style="border-bottom: 1px solid white"
+                  >
+                    <div class="w-50 d-flex justify-content-start">
+                      <div
+                        class="d-flex flex-column justify-content-center align-items-start"
+                        style="margin-left: 40px"
+                      >
+                        <div
+                          class="cryptoType1 noselect"
+                          [ngStyle]="{
+                            color: network.selected ? 'white' : '#75758F'
+                          }"
+                        >
+                          {{network.network}}
+                        </div>
+                        <span
+                          class="cryptoType1 noselect"
+                          [ngStyle]="{
+                            color: network.selected ? 'white' : '#75758F'
+                          }"
+                        >
+                          {{ cryptoQuantityByNetwork(network) }}
+                        </span>
+                      </div>
+                    </div>
+                    <div
+                      class="d-flex w-50 justify-content-end cryptoAmount1 noselect"
+                      style="padding-right: 2rem"
+                    >
+                      <span
+                        [ngStyle]="{ color: network.selected ? 'white' : 'black' }"
+                      >
+                        $ {{ cryptoTotalBalanceByNetwork(network) }}
+                      </span>
+                    </div>
+                  </div>
+                  </div>
+                  
+                  
+                </ng-container>
+                  
                   <!-- <div
                     (click)="toggle(crypto.cryptoPOLYGON); selectPolygon()"
                     class="d-flex w-100 justify-content-between align-items-center BottomBorder2 cryptoRowContainerMobile"
@@ -3088,6 +3143,9 @@
 
                   <div></div>-->
                 </div>
+
+
+                
                 <!--<div
                   (click)="toggle()"
                   [hidden]="true"

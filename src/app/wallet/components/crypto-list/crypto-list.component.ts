@@ -166,7 +166,6 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     this.getusercrypto();
     this.migrateTo();
     this.existV2 = localStorage.getItem('existV2');
-    console.log(this.formToken.value);
 
     this.formToken.valueChanges.subscribe((values: any) => {
       if (values.tokenAdress !== null) {
@@ -176,7 +175,6 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     });
 
     this.formToken.valueChanges.subscribe((values: any) => {
-      console.log('valuesvaluesvalues', values.smartcontract);
       if (values.smartcontract !== null) {
         this.disabled = false;
         this.checkToken();
@@ -232,7 +230,6 @@ export class CryptoListComponent implements OnInit, OnDestroy {
           this.showWalletSpinner === false;
           this.dataList = data;
           
-          console.log({dataList: this.dataList})
           Object.preventExtensions(this.dataList);
           this.dataList?.forEach((crypto: any, index: any) => {
             if (crypto.symbol === 'SATTBEP20') {
@@ -379,7 +376,7 @@ symbolMap.forEach((cryptos) => {
     mergedCryptoList.push(mergedCrypto);
   }
 });
-          console.log({cryptoList: mergedCryptoList})
+          
           this.cryptoList = mergedCryptoList;
           setTimeout(() => {
             this.dataList.forEach((crypto) => {
@@ -845,7 +842,7 @@ symbolMap.forEach((cryptos) => {
     return this.showNumbersRule.transform((!!crypto.total_balance ? crypto.total_balance : 0) + '', false);
   }
   quantitySum(crypto: any, modeDetails?: boolean) {
-    if(crypto.symbol === 'USDT') console.log(modeDetails, crypto)
+    
     if (modeDetails && crypto.symbol === 'SATT') {
       return this.showNumbersRule.transform(
         (!!crypto.quantity ? crypto.quantity : 0) + '',
@@ -914,7 +911,19 @@ symbolMap.forEach((cryptos) => {
     this.getCryptoToImport();
   }
   toggle(crypto: any) {
-    if (crypto.symbol !== 'SATT') {
+    this.bep20Selected = false;
+    this.polygonSelected = false;
+    this.bttSelected = false;
+    this.tronSelected = false;
+    this.cryptoList.map((crypto: any) => {
+      crypto.selected = false;
+      if(!!crypto.networks) {
+        for (let token of crypto.networks) {
+          token.selected = false;
+        }
+      }
+    })
+    if (crypto.symbol !== 'SATT' || !(!!crypto.networks && crypto.networks.length >0)) {
       if (crypto.selected) {
         this.sidebarService.toggleFooterMobile.next(false);
       } else {
@@ -995,7 +1004,7 @@ symbolMap.forEach((cryptos) => {
   }
 
   openDetails(details: HTMLDivElement, crypto: any) {
-    if (crypto.symbol === 'SATT') {
+    if (crypto.symbol === 'SATT' || (!!crypto.networks && crypto.networks.length > 0)) {
       details.hidden = !details.hidden;
     } else {
       details.hidden = true;
@@ -1003,10 +1012,13 @@ symbolMap.forEach((cryptos) => {
   }
 
   selectCryptoContainer(cryptoContainer: HTMLDivElement, crypto: any) {
-    if (crypto.symbol !== 'SATT') {
-      this.cryptoList[0].selected = false;
+    if(!!crypto.networks && crypto.networks.length > 0) {
+      for(let token of crypto.networks) {
+        token.selected = false;
+      }
     }
-    this.erc20Selected = false;
+    if (crypto.symbol === 'SATT') {
+      this.erc20Selected = false;
     this.bep20Selected = false;
     this.polygonSelected = false;
     this.bttSelected = false;
@@ -1026,6 +1038,29 @@ symbolMap.forEach((cryptos) => {
         }
       }
     }
+      
+    } else {
+      if(!!crypto.networks && crypto.networks.length > 0) {
+        this.cryptoList[this.cryptoList.indexOf(crypto)].selected = true;
+      } else {
+        let index = this.cryptoList
+      .map((res: any) => res.name)
+      .indexOf(crypto.name);
+    if (crypto.selected === true) {
+      this.cryptoList[index].selected = false;
+    } else {
+      this.cryptoList[
+        this.cryptoList.map((res: any) => res.name).indexOf(crypto.name)
+      ].selected = true;
+      for (let i = 0; i < this.cryptoList.length; i++) {
+        if (i !== index) {
+          this.cryptoList[i].selected = false;
+        }
+      }
+    }
+      }
+    }
+    
     /*console.log(this.cryptoList);*/
     /*if (crypto === true) {
       this.cryptoList[
@@ -1062,7 +1097,13 @@ symbolMap.forEach((cryptos) => {
       checkedIcon?.classList.add('displayBlock');
     }*/
   }
-
+  selectCryptoByNetwork(crypto:any) {
+    this.bep20Selected = false;
+    this.polygonSelected = false;
+    this.bttSelected = false;
+    this.tronSelected = false;
+    crypto.selected = !crypto.selected
+  }
   selectERC20() {
     this.erc20Selected = !this.erc20Selected;
     if (!this.erc20Selected) {
