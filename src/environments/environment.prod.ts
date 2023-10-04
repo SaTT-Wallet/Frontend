@@ -8,6 +8,7 @@ export const environment = {
     'https://api.thegraph.com/subgraphs/name/atayen/satt--bsc-mainnet',
   url_subgraph_ether:
     'https://api.thegraph.com/subgraphs/name/atayen/satt-ether-mainnet',
+    API_AI: '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',
 
   addresses: {
     smartContracts: {

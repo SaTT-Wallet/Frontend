@@ -11,7 +11,7 @@ export const environment = {
   //https://api-preprod2.satt-token.com
 
   API_URL: 'https://api-preprod2.satt-token.com',
-
+  API_AI: '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',
   url_subgraph_bsc:
     'https://api.thegraph.com/subgraphs/name/atayen/satt-testnet',
   url_subgraph_ether:

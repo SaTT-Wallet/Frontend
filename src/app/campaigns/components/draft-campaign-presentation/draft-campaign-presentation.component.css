@@ -447,3 +447,36 @@ ng-deep .cropper .resize-bar {
 ::ng-deep.CodeMirror pre {
     white-space: pre !important;
 }
+.btn-blue {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 48.4px;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.03em;
+    border: none;
+    color: #ffff;
+    background: #4048ff;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 30px;
+    width: 100%;
+    height: 48px;
+}
+
+.btn-blue:hover:enabled {
+    background: linear-gradient(85.14deg, #f52079 -1.05%, #4048ff 103.39%);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+@media(min-width: 768px) and (max-width:1024px){
+ 
+    .btn-blue {
+    }
+
+}
+
+@media (max-width: 767.98px) {
+ 
+  .btn-blue {
+    }
+}
