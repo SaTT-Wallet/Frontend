@@ -199,37 +199,31 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
           }
           
         }
+        
         const draftsArray = newCampaigns.filter((element: Campaign) => element.type === "draft");
-        const campaignsArray = newCampaigns.filter((element: Campaign) => element.type != "draft");
+        const applyCampaigns = newCampaigns.filter((element: Campaign) => element.type === 'apply');
+        const campaignsArray = newCampaigns.filter((element: Campaign) => element.type != "draft" && element.type != 'apply');
         draftsArray.sort((a: any, b: any) => {
           return <any>new Date(b.createdAt) - <any>new Date(a.createdAt);
         });
-        campaignsArray.sort((a:any, b:any) => {
-          const typeOrder:{ [key: string]: number } = { applyOwned: 1, applyNotOwned: 1, finished: 3 };
-          const typeA = a.type.toLowerCase();
-          const typeB = b.type.toLowerCase();
+        applyCampaigns.sort((a:any, b:any) => {
+          
 
-          if (typeA === "apply" && a.isOwnedByUser) {
-            if (typeB === "apply" && b.isOwnedByUser) {
+          if (a.isOwnedByUser) {
+            if (b.isOwnedByUser) {
               return 0; // Both apply and owned by user, order doesn't matter.
             }
             return -1; // a comes first, as it's apply and owned by user.
-          } else if (typeA === "apply" && !a.isOwnedByUser) {
-            if (typeB === "apply" && !b.isOwnedByUser) {
+          } else if (!a.isOwnedByUser) {
+            if (!b.isOwnedByUser) {
               return 0; // Both apply and not owned by user, order doesn't matter.
             }
             return 1; // b comes first, as a is apply and not owned by user.
-          } else if (typeA === "finished" && typeB !== "finished") {
-            return 1; // "finished" type should come after all other types.
-          } else if (typeA !== "finished" && typeB === "finished") {
-            return -1; // "finished" type should come after all other types.
-          }
-
-          return 0;
+          } else return 0
 
           
         })
-        const newCampaignsArray = concat(draftsArray, campaignsArray);
+        const newCampaignsArray = concat(draftsArray, applyCampaigns, campaignsArray);
         this.campaignsList = newCampaignsArray;
         this.campaignsList2 = newCampaignsArray;
         console.log({newCampaignsArray})
