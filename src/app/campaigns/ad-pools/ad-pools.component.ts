@@ -202,7 +202,7 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
         
         const draftsArray = newCampaigns.filter((element: Campaign) => element.type === "draft");
         const applyCampaigns = newCampaigns.filter((element: Campaign) => element.type === 'apply');
-        const campaignsArray = newCampaigns.filter((element: Campaign) => element.type != "draft" && element.type != 'apply');
+        const campaignsPendingFinished = newCampaigns.filter((element: Campaign) => element.type != "draft" && element.type != 'apply');
         draftsArray.sort((a: any, b: any) => {
           return <any>new Date(b.createdAt) - <any>new Date(a.createdAt);
         });
@@ -223,7 +223,9 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
 
           
         })
-        const newCampaignsArray = concat(draftsArray, applyCampaigns, campaignsArray);
+        const draftsAndApplyElements = concat(draftsArray, applyCampaigns);
+
+        const newCampaignsArray = concat(draftsAndApplyElements, campaignsPendingFinished);
         this.campaignsList = newCampaignsArray;
         this.campaignsList2 = newCampaignsArray;
         console.log({newCampaignsArray})
