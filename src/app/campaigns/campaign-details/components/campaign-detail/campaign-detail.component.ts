@@ -214,9 +214,21 @@ export class CampaignDetailComponent implements OnInit {
     // this._location.back();
     this.router.navigate(['home/ad-pools']);
   }
+
+  async setMetaTags(){
+    try {
+    await this.getCampaign();
+    console.log(this.campaign , "campaign data");
+  } catch (error) {
+    console.error('Error setting meta tags', error);
+    }
+    }
+
   ngOnInit(): void {
+    
+    
     this.getScreenWidth = window.innerWidth;
-   
+    
     this.refundButtonDisable = true;
     this.loadingData = true;
     this.CampaignService.isLoading.subscribe((res) => {
@@ -239,15 +251,15 @@ export class CampaignDetailComponent implements OnInit {
     // main.style.marginTop = '28%';
 
     // // cover.style.position = 'fixed';
-
+    
     this.campaignsStoreService.emitLogoCampaignUpdated
       .pipe(takeUntil(this.isDestroyed))
       .subscribe(() => {
         this.campaign = this.campaignsStoreService.campaign;
       });
-    this.spinner.show();
-    this.showInfoSpinner = true;
-
+      this.spinner.show();
+      this.showInfoSpinner = true;
+      
     this.totalG = {
       view: 0,
       view_satt: 0,
@@ -264,6 +276,7 @@ export class CampaignDetailComponent implements OnInit {
     this.campaignsFacade.loadKits(this.campaignId);
     this.getCryptoData();
     this.getCampaign();
+    this.setMetaTags();
     this.gettingAllproms();
     if (isPlatformBrowser(this.platformId)) {
       this.getKits();

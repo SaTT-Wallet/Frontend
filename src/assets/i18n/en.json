@@ -643,7 +643,8 @@
   "create_campaign_form.create_new_campaign": "Finalize my Pool",
   "create_campaign_form.alert_required": "Warning! Please fill in the necessary fields",
   "create_campaign_form.summary_maxlength": "Summary must contain a maximum of 250 characters",
-
+  "generate_campaign_Ai": "Generate brief",
+  "campaign_Ai":"Adpool Brief IA generator",
   "date": "Date",
   "description": "Description",
   "desktop": "Desktop",

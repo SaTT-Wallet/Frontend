@@ -78,4 +78,8 @@ export class CampaignsService implements CampaignsFacade {
   getWelcomePageStats() {
     return this.campaignsHttpApiService.getWelcomePageStats();
   }
+
+  generateBriefIA(title: string) {
+    return this.campaignsHttpApiService.generateBrief(title);
+  }
 }

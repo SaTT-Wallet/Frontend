@@ -199,14 +199,36 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
           }
           
         }
+        
         const draftsArray = newCampaigns.filter((element: Campaign) => element.type === "draft");
-        const campaignsArray = newCampaigns.filter((element: Campaign) => element.type != "draft");
+        const applyCampaigns = newCampaigns.filter((element: Campaign) => element.type === 'apply');
+        const campaignsPendingFinished = newCampaigns.filter((element: Campaign) => element.type != "draft" && element.type != 'apply');
         draftsArray.sort((a: any, b: any) => {
           return <any>new Date(b.createdAt) - <any>new Date(a.createdAt);
         });
-        const newCampaignsArray = concat(draftsArray, campaignsArray);
+        applyCampaigns.sort((a:any, b:any) => {
+          
+
+          if (a.isOwnedByUser) {
+            if (b.isOwnedByUser) {
+              return 0; // Both apply and owned by user, order doesn't matter.
+            }
+            return -1; // a comes first, as it's apply and owned by user.
+          } else if (!a.isOwnedByUser) {
+            if (!b.isOwnedByUser) {
+              return 0; // Both apply and not owned by user, order doesn't matter.
+            }
+            return 1; // b comes first, as a is apply and not owned by user.
+          } else return 0
+
+          
+        })
+        const draftsAndApplyElements = concat(draftsArray, applyCampaigns);
+
+        const newCampaignsArray = concat(draftsAndApplyElements, campaignsPendingFinished);
         this.campaignsList = newCampaignsArray;
         this.campaignsList2 = newCampaignsArray;
+        console.log({newCampaignsArray})
         this.campaignsList?.forEach((element: Campaign) => {
           if (
             ['SATTPOLYGON', 'SATTBEP20', 'SATTBTT'].includes(

@@ -109,6 +109,13 @@ export class CampaignHttpApiService {
       hash
     });
   }
+  generateBrief(title: string) {
+    
+    
+    return this.http.post(sattUrl + '/campaign/generate-brief', {
+      title
+    });
+  }
 
   getBestInfluencerPic(id: any) {
     return this.http.get(sattUrl + `/profile/picture?id=${id}`, {

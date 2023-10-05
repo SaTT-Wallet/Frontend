@@ -8,24 +8,52 @@
       }}</label>
     </div>
 
+ 
     <div class="row d-flex justify-content-center pt-3 mb-1">
-      <div class="col-xl-10 col-md-12 col-lg-10 col-sm-12">
+      <div class="col-xl-5 col-md-6 col-lg-5 col-sm-6 col-12">
         <label
-          class="label-type d-flex justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-start justify-content-center"
-          >{{ 'campaign_name' | translate }}</label
+        class="label-type d-flex justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-start justify-content-center"
+        >{{ 'campaign_name' | translate }}</label
+      >
+      <input type="text" name="" formControlName="title" class="input-type" />
+      <div class="error">
+        <span
+          *ngIf="
+            this.form.get('title')?.errors?.required &&
+            notValidPresentation
+          "
+          >{{ 'Profil.field_required' | translate }}</span
         >
-        <input type="text" name="" formControlName="title" class="input-type" />
-        <div class="error">
-          <span
-            *ngIf="
-              this.form.get('title')?.errors?.required &&
-              notValidPresentation
-            "
-            >{{ 'Profil.field_required' | translate }}</span
-          >
-        </div>
+      </div>
+        
+      </div>
+      <div class="col-md-6 col-md-6 col-lg-5 col-sm-6 col-12 pt-3-mobile">
+        <label
+        class="label-type d-flex justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-start justify-content-center"
+        >{{ 'campaign_Ai' | translate }}</label
+      >
+      <button
+      type="button"
+      class="btn-blue"
+      [disabled]="form.get('title')?.value.length === 0 || isGenerating"
+      (click)="generateBrief()"
+    >
+      <div *ngIf="!isGenerating">
+        <!-- Show the button label when not generating -->
+        {{ 'generate_campaign_Ai' | translate }}
+      </div>
+      <div
+ *ngIf="isGenerating"
+ class="spinner-border text-light"
+ role="status"
+ >
+ <span class="sr-only">Loading...</span>
+ </div>
+    </button>
+    
       </div>
     </div>
+
     <div class="row d-flex justify-content-center pt-3 mb-1">
       <div class="col-xl-5 col-md-6 col-lg-5 col-sm-6 col-12">
         <label
@@ -95,22 +123,12 @@
         >
           {{ 'create_campaign_form.give_description' | translate }}
         </label>
-  
-        <div
-          class="NgxEditor__Wrappe"
-          height="400"
-          minheight="200"
-          width="400"
-          minWidth="400"
-        >
-          <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
-          </ngx-editor-menu>
-          <ngx-editor
-            [editor]="editor"
-            editable="true"
-            formControlName="description"
-          ></ngx-editor>
+
+        <div class="NgxEditor__Wrappe" height="400" minheight="200" width="400" minWidth="400">
+          <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
+          <ngx-editor [editor]="editor" editable="true" formControlName="description"></ngx-editor>
         </div>
+
       </div>
     </div>
     <div class="row d-flex justify-content-center">

@@ -18,6 +18,9 @@ import { DraftCampaignService } from '@campaigns/services/draft-campaign.service
 import { Campaign } from '@app/models/campaign.model';
 import { TranslateService } from '@ngx-translate/core';
 import { ImageTransform } from 'ngx-image-cropper';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { CampaignsService } from '@app/campaigns/facade/campaigns.facade';
 
 @Component({
   selector: 'app-draft-campaign-presentation',
@@ -36,6 +39,8 @@ export class DraftCampaignPresentationComponent implements OnInit {
   @Output() validFormPresentation = new EventEmitter();
   @Output() saveFormStatus = new EventEmitter();
   private render: Renderer2;
+  isGenerating: boolean = false;
+  ai_result :any;
   containWithinAspectRatio = false;
   form = new UntypedFormGroup({});
   editor = new Editor();
@@ -52,12 +57,22 @@ export class DraftCampaignPresentationComponent implements OnInit {
   draftId: string = '';
   private isDestroyed$ = new Subject();
 
+
+ 
   constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
     private service: DraftCampaignService,
     public translate: TranslateService,
+    private campaignFacade: CampaignsService,
     rendererFactory: RendererFactory2,
+    
     @Inject(PLATFORM_ID) private platformId: string
   ) {
+    this.form = fb.group({
+      title: ['', Validators.required],
+      description: [''] // Assuming you have a description field in your form
+    });
     this.render = rendererFactory.createRenderer(null, null);
     this.form = new UntypedFormGroup({
       title: new UntypedFormControl('', Validators.required),
@@ -69,9 +84,24 @@ export class DraftCampaignPresentationComponent implements OnInit {
       ]),
       description: new UntypedFormControl('', Validators.required)
     }); 
-    
-    
   }
+
+
+  generateBrief() {
+    this.isGenerating = true;
+    this.campaignFacade.generateBriefIA(this.form.get('title')?.value).subscribe(
+      (data:any) => {
+      if(data.message === 'success') {
+        this.ai_result= data.data.choices[0].message.content;
+        this.form.patchValue({ description: this.ai_result });
+        this.isGenerating = false; 
+      } else this.isGenerating = false;
+      
+    }, (err:any) => {
+      this.isGenerating = false;
+    })
+}
+
 
   ngOnInit(): void {
     this.saveForm();
