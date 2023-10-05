@@ -94,6 +94,16 @@
                   sendform
                     .get('url')
                     ?.value?.indexOf('https://twitter.com/') === 0,
+                    xLink:
+                    !spinner &&
+                    sendform
+                      .get('url')
+                      ?.value?.indexOf('https://x.com/') === 0,
+                  xLinkSpinner:
+                    spinner &&
+                    sendform
+                      .get('url')
+                      ?.value?.indexOf('https://x.com/') === 0,
                 instaLink:
                   !spinner &&
                   sendform

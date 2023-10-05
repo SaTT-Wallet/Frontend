@@ -22,7 +22,7 @@ export const environment = {
   addresses: {
     smartContracts: {
       campaignERC20: '0x0A40CEbd090Aedeb912903D8fDbEeb8d066807A4',
-      campaignBEP20: '0x5F8E7481303aC3Ab4ca5AB7d9a6422eA8a8b21dE',
+      campaignBEP20: '0x21F27868d2E3Bbc2E3cced9c5233BA68439C03cf',
       campaignPOLYGON: '0xD6Cb96a00b312D5930FC2E8084A98ff2Daa5aD2e',
       campaignBTT: '0x261491739e36090FC80fF1569B7E5FFe26070d77',
       campaignTRON: 'THUD3VAxyTEmMCBEjd2AcSujzbgPSu39p9',

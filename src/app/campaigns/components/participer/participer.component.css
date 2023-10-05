@@ -452,6 +452,11 @@ input:-webkit-autofill:active {
   background-position: 99% 43%;
 }
 
+.xLinkSpinner {
+  background-image: url('/assets/Images/TwitterXIcon.svg');
+  background-repeat: no-repeat;
+  background-position: 99% 43%;
+}
 .transaction-width {
   width: 100%;
 }
@@ -718,6 +723,13 @@ input:-webkit-autofill:active {
   background-repeat: no-repeat;
   background-position: 99% 43%;
 }
+
+.xLink {
+  background-image: url('/assets/Images/TwitterXIcon.svg');
+  background-repeat: no-repeat;
+  background-position: 99% 43%;
+}
+
 
 .instaLink {
   background-image: url('/assets/Images/insta_icon.png');
