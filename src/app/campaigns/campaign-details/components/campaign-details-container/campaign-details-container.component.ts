@@ -319,7 +319,6 @@ export class CampaignDetailsContainerComponent implements OnInit {
   //     this.meta.updateTag({ name: 'twitter:image', content: this.ogImageUrl });
   //   }
   // }
- 
   ngOnDestroy(): void {
     // Remove or update any additional meta tags when the component is destroyed
     // this.meta.updateTag({ name: 'og:title', content: '' });
@@ -332,5 +331,4 @@ export class CampaignDetailsContainerComponent implements OnInit {
     this.isDestroyed.unsubscribe();
     this.campaignsStoreService.clearDataStore();
   }
-
 }

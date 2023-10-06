@@ -12,7 +12,7 @@ import { CampaignHttpApiService } from '@core/services/campaign/campaign.service
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { arrayCountries, socialMedia } from '@config/atn.config';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, Meta, Title } from '@angular/platform-browser';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DOCUMENT, isPlatformBrowser, ViewportScroller } from '@angular/common';
@@ -58,7 +58,6 @@ export class CampaignDetailComponent implements OnInit {
   imageBlobUrl!: string | ArrayBuffer | null;
   updateCoverResponseMsg: any;
   showPasswordModal: boolean = false;
-  meta: any;
   budgetform: UntypedFormGroup;
   passwordBlockChain: any;
   applyButton: boolean = false;
@@ -173,7 +172,9 @@ export class CampaignDetailComponent implements OnInit {
     private campaignListStoreService: CampaignsListStoreService,
     private Window: WindowRefService,
     private campaignsHttpService: CampaignHttpApiService,
-    private _location: Location
+    private _location: Location,
+    private titleService: Title,
+    private meta: Meta,
   ) {
     this.sendform = new UntypedFormGroup({
       url: new UntypedFormControl(null, Validators.required)
@@ -219,6 +220,9 @@ export class CampaignDetailComponent implements OnInit {
     try {
     await this.getCampaign();
     console.log(this.campaign , "campaign data");
+    this.titleService.setTitle(this.campaign.title);
+    this.meta.addTag({name: 'description' , content: this.campaign.description});
+    this.meta.addTag({name:'image', content: this.campaign.logo});
   } catch (error) {
     console.error('Error setting meta tags', error);
     }
