@@ -8,7 +8,9 @@ import {
   Renderer2,
   RendererFactory2,
   PLATFORM_ID,
-  Inject
+  Inject,
+  ViewChild,
+  TemplateRef
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Editor, Toolbar } from 'ngx-editor';
@@ -21,6 +23,7 @@ import { ImageTransform } from 'ngx-image-cropper';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CampaignsService } from '@app/campaigns/facade/campaigns.facade';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-draft-campaign-presentation',
@@ -32,6 +35,8 @@ import { CampaignsService } from '@app/campaigns/facade/campaigns.facade';
   //changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DraftCampaignPresentationComponent implements OnInit {
+  @ViewChild('iaModal', { static: false })
+    private iaModal!: TemplateRef<any>;
   @Input() id = '';
   transform: ImageTransform = {};
   @Input() draftData: Campaign = new Campaign();
@@ -60,11 +65,13 @@ export class DraftCampaignPresentationComponent implements OnInit {
 
  
   constructor(
+    
     private fb: FormBuilder,
     private http: HttpClient,
     private service: DraftCampaignService,
     public translate: TranslateService,
     private campaignFacade: CampaignsService,
+    public modalService: NgbModal,
     rendererFactory: RendererFactory2,
     
     @Inject(PLATFORM_ID) private platformId: string
@@ -87,6 +94,10 @@ export class DraftCampaignPresentationComponent implements OnInit {
   }
 
 
+  closeModal(content: any) {
+    this.modalService.dismissAll(content);
+  }
+
   generateBrief() {
     this.isGenerating = true;
 this.campaignFacade.generateBriefIA(this.form.get('title')?.value).subscribe((data:any) => {
@@ -96,6 +107,16 @@ this.isGenerating = false;
   })
 }
 
+
+    openModalAi(){
+      this.modalService.open(this.iaModal, {
+        backdrop: true,
+        keyboard: false
+      });
+    }
+    closeModalAi() {
+      this.closeModal(this.iaModal);
+    }
 
   ngOnInit(): void {
     this.saveForm();

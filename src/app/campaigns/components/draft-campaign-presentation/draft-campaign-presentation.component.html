@@ -29,18 +29,62 @@
       </div>
       <div class="col-md-6 col-md-6 col-lg-5 col-sm-6 col-12 pt-3-mobile">
         <label
-        class="label-type d-flex justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-start justify-content-center"
-        >{{ 'campaign_Ai' | translate }}</label
-      >
+        class="label-type d-flex justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-start justify-content-center">
+        {{ 'campaign_Ai' | translate }}</label>
+        
+        <ng-template #iaModal>
+          <div class="modal-header modal-custom">
+            <button
+              type="button"
+              class="btn-close pull-right close"
+              (click)="closeModalAi()"
+              data-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div
+            class="modal-body modal-custom flex-column"
+            style="padding: 20px 4em !important"
+          >
+            <div>
+              <img
+                class="alert-supp"
+                src="../../../../assets/Images/AiGradIcon.png"
+                alt=""
+              />
+            </div>
+            <div class="d-flex justify-content-center">
+              <h3 class="delete-token-modal-title">
+                {{ 'campaign_Ai' | translate }}
+              </h3>
+            </div>
+            <div class="d-flex justify-content-center">
+              <h5 class="delete-token-modal-title mb-4">
+                {{ 'campaign_Ai_generatev2' | translate }}
+              </h5>
+            </div>
+            <div class="row">
+          
+              <input type="text" name="" formControlName="" class="input-type" />
+                <button
+                  type="button"
+                  class="generator">
+              {{'campaign_Ai_generator' | translate}} 
+                </button>
+            </div>
+          </div>
+        </ng-template>
       <button
       type="button"
       class="btn-blue"
-      [disabled]="form.get('title')?.value.length === 0 || isGenerating"
-      (click)="generateBrief()"
-    >
+
+      (click)="openModalAi()"
+      >
+      <!-- [disabled]="form.get('title')?.value.length === 0 || isGenerating" -->
+        
       <div *ngIf="!isGenerating">
         <!-- Show the button label when not generating -->
-        {{ 'generate_campaign_Ai' | translate }}
+        {{ 'generator_campaign_Ai' | translate }}
       </div>
       <div
  *ngIf="isGenerating"
