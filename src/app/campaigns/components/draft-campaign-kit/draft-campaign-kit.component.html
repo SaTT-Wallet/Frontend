@@ -62,11 +62,12 @@
             >
           </label>
         </div>
-        <div class="p-0" *ngIf="countImages() !== 0">
-          <owl-carousel-o [options]="customOptions">
-            <ng-container
-              *ngFor="let elem of kits; index as i; trackBy: trackByKits"
-            >
+
+        <!--
+
+          <owl-carousel-o [options]="customOptions" >
+            
+            
               <ng-template
                 carouselSlide
                 id="{{ i }}"
@@ -128,8 +129,68 @@
                   </span>
                 </div>
               </ng-template>
-            </ng-container>
+           
           </owl-carousel-o>
+        -->
+        <div class="p-0" style="display: flex">
+          <ng-container
+              *ngFor="let elem of kits; index as i; trackBy: trackByKits"
+            >
+            <div
+            class="div-uploaded-pic d-flex justify-content-center align-items-center" *ngIf="!elem.link"
+          >
+            <img
+              src="/assets/Images/delete-kit-new.svg"
+              alt=""
+              class="img-kit cursor-pointer"
+              (click)="deleteKitElement(i)"
+            />
+
+            <img
+              class="uploaded-pic"
+              [src]="elem.url || elem.selectedFile"
+              *ngIf="elem.contentType !== 'application/pdf'"
+              id="imagekit{{ i }}"
+              alt="your image"
+            />
+            <img
+              class="img-responsive"
+              src="{{ pdf }}"
+              *ngIf="elem.contentType === 'application/pdf'"
+            />
+
+            <span>
+              <img
+                *ngIf="zoomIn"
+                src="/assets/Images/zoom-in-eye.svg"
+                alt=""
+                class="eye-uploaded-pic cursor-pointer"
+                data-toggle="modal"
+                data-target="#exampleModal"
+                (click)="
+                  elem.selectedFile
+                    ? openModalZoomIn(elem.selectedFile)
+                    : openModalZoomIn(elem.url)
+                "
+              />
+              <img
+                *ngIf="zoomOut"
+                src="/assets/Images/zoom-out-eye.svg"
+                alt=""
+                class="eye-uploaded-pic cursor-pointer"
+                (click)="zoomout(i)"
+              />
+
+              <img
+                src="/assets/Images/download-kit-2.svg"
+                alt=""
+                id="btn"
+                class="download-uploaded-pic cursor-pointer"
+                (click)="downloadMyFile(i, id)"
+              />
+            </span>
+          </div>
+        </ng-container>
         </div>
       </div>
     </div>

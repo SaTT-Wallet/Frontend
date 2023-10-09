@@ -228,7 +228,6 @@ export class AdPoolsComponent implements OnInit, OnDestroy {
         const newCampaignsArray = concat(draftsAndApplyElements, campaignsPendingFinished);
         this.campaignsList = newCampaignsArray;
         this.campaignsList2 = newCampaignsArray;
-        console.log({newCampaignsArray})
         this.campaignsList?.forEach((element: Campaign) => {
           if (
             ['SATTPOLYGON', 'SATTBEP20', 'SATTBTT'].includes(

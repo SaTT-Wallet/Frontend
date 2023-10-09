@@ -41,7 +41,6 @@ import FileSaver from 'file-saver';
   selector: 'app-draft-campaign-kit',
   templateUrl: './draft-campaign-kit.component.html',
   styleUrls: ['./draft-campaign-kit.component.css'],
-  providers: [DraftCampaignService]
 })
 export class DraftCampaignKitComponent implements OnInit {
   @Input()
@@ -99,8 +98,11 @@ export class DraftCampaignKitComponent implements OnInit {
   iTestData: number;
   testDataShown: any;
   images: any = [];
+  showKits: boolean = false;
   private isDestroyed = new Subject();
 
+  
+  
   pdf: String = 'assets/Images/img_satt/pdf-xs.png';
 
   @ViewChild('divUploadedFiles') divUploadedFiles: ElementRef | any;
@@ -110,6 +112,7 @@ export class DraftCampaignKitComponent implements OnInit {
   pdfZoom = false;
 
   constructor(
+    
     private service: DraftCampaignService,
     private CampaignService: CampaignHttpApiService,
     public translate: TranslateService,
@@ -120,6 +123,8 @@ export class DraftCampaignKitComponent implements OnInit {
     private windowRefService: WindowRefService,
     private renderer: Renderer2
   ) {
+    
+    
     this.form = new UntypedFormGroup({
       url: new UntypedFormControl('', [Validators.pattern(urlValidator)]),
       file: new UntypedFormControl('')
@@ -128,13 +133,15 @@ export class DraftCampaignKitComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
     this.scrollright = false;
     this.scrollrightdisable = true;
     this.saveForm();
     this.emitFormStatus();
-    this.getKits(this.id);
+    this.getKits(this.id); 
+    
   }
-
+ 
   customOptions: OwlOptions = {
     loop: false,
     mouseDrag: true,
@@ -191,12 +198,16 @@ export class DraftCampaignKitComponent implements OnInit {
   // }
 
   ngOnChanges(changes: SimpleChanges) {
+
     if (changes.draftData && changes.draftData.currentValue.id) {
       this.populateForm(this.draftData);
     }
   }
-  ngAfterViewInit() {}
+  ngAfterViewInit() {
+   
+  }
   getKits(id: string) {
+    
     this.CampaignService.getCampaignKitUrl(id)
       .pipe(
         map((res: any) => res.data),
@@ -204,6 +215,7 @@ export class DraftCampaignKitComponent implements OnInit {
           if (data) {
             data.forEach((kit: any) => {
               if (kit.link) {
+                
                 this.kits = [
                   ...this.kits,
                   {
@@ -213,6 +225,7 @@ export class DraftCampaignKitComponent implements OnInit {
                     kits: kit.id
                   }
                 ];
+               
               }
               if (!kit.link) {
                 this.firstimage = false;
@@ -224,7 +237,7 @@ export class DraftCampaignKitComponent implements OnInit {
                 ];
               }
             });
-
+            
             if (this.kits.length === 1) {
               this.firstscrol = true;
             }
@@ -262,20 +275,26 @@ export class DraftCampaignKitComponent implements OnInit {
                 arrayOfObs.push(of(null));
               }
             });
+            
             return forkJoin(arrayOfObs).pipe(
               map((resArray) => {
                 return { resArray, data };
               })
             );
+           
           }
+          
           return of(null);
         })
       )
-      .pipe(
+
+      /*.pipe(
         filter((res) => res !== null),
-        takeUntil(this.isDestroyed)
-      )
+       
+      )*/
       .subscribe(({ resArray, data }: any) => {
+        
+      
         resArray?.forEach((file: any, index: number) => {
           if (file !== null) {
             let imageUrl;
@@ -288,12 +307,10 @@ export class DraftCampaignKitComponent implements OnInit {
             this.kits[index] = data[index];
           }
         });
-        /* if (this.countImages() > 3) {
-          this.customOptions.loop = true;
-        } else {
-          this.customOptions.loop = false;
-        }*/
-        // console.log(file);
+        
+       
+
+        
       });
   }
   onFileChange(e: any) {
@@ -361,9 +378,12 @@ export class DraftCampaignKitComponent implements OnInit {
       this.isAcceptedImageFileType = false;
     }
   }
+  
   countImages() {
     let count = 0;
+    
     for (let i = 0; i < this.kits.length; i++) {
+      
       if (!this.kits[i].link) {
         count++;
       }
@@ -408,13 +428,16 @@ export class DraftCampaignKitComponent implements OnInit {
 
   addLinkToKits() {
     let url = this.form?.get('url')?.value;
+    
     if (url && this.form.controls.url.valid) {
+      
       this.kits.push({
         new: true,
         name: url,
         link: url,
         campaign: this.draftData?.id
       });
+      
       this.service.autoSavekitFormOnValueChanges({
         kits: this.kits,
         id: this.id

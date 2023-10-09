@@ -611,6 +611,7 @@
           type="button"
           class="buttom_camp3"
           (click)="getMyGains(prom)"
+          [disabled]="harvestAvailable"
           *ngIf="prom.type === 'harvest' && !isOwner && prom.campaign.remuneration !== 'publication'"
           [ngClass]="{ graybtn: harvestAvailable }"
         >
@@ -651,6 +652,7 @@
           type="button"
           class="buttom_camp3"
           (click)="getMyGains(prom)"
+          [disabled]="prom.campaign.type !== 'finished'"
           *ngIf="prom.type === 'harvest' && !isOwner && prom.campaign.remuneration === 'publication'"
           [ngClass]="{ graybtn: prom.campaign.type === 'apply' }"
         >
