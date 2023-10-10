@@ -35,6 +35,7 @@
   type="button"
   class="btn-close pull-right close"
   (click)="closeModalAi()"
+  [disabled]="isGenerating"
   data-dismiss="modal"
   aria-label="Close"
   ></button>
@@ -75,7 +76,7 @@
   
   <div *ngIf="isGenerating"
   
-  class="spinner-border text-light"
+  class="spinner-border text-primary"
   role="status"
   >
   <span class="sr-only">Loading...</span>
