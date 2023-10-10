@@ -120,13 +120,15 @@ closeModal(content: any) {
 }
 
 openModalAi(){
+  this.isGenerating = false; 
+  this.form.get('titles')?.setValue('');
   this.modalService.open(this.iaModal, {
-  backdrop: true,
+  backdrop: 'static',
   keyboard: false
   });
   }
   closeModalAi() {
-  this.closeModal(this.iaModal);
+    this.closeModal(this.iaModal);
   }
   ngOnInit(): void {
     this.saveForm();
