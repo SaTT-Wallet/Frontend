@@ -39,6 +39,7 @@ export function app(): express.Express {
     'html',
     ngExpressEngine({
       bootstrap: AppServerModule,
+      inlineCriticalCss: false,
       providers: [
         { provide: 'document', useValue: fakeWindow.document },
       ],
@@ -66,9 +67,12 @@ export function app(): express.Express {
   };
 
   server.get('/campaign/**/edit', getStaticFiles);
+  server.get('/campaign/**/recover-my-gains', getStaticFiles);
+  server.get('/campaign/**/verify-link', getStaticFiles);
+
 
   // All regular routes use the Universal engine
-  server.get('/campaign/**', (req,res) => {
+  server.get('/campaign/**', (req, res) => {
     res.render('index', {
       req,
       providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }]
