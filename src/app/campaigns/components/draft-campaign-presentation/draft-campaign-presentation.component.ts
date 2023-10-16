@@ -75,14 +75,14 @@ export class DraftCampaignPresentationComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: string
   ) {
     this.form = fb.group({
-      titles: ['', Validators.required],
+      titles: [''],
       title: ['', Validators.required],
       summary: ['', Validators.required],
       description: [''] // Assuming you have a description field in your formtitle
     });
     this.render = rendererFactory.createRenderer(null, null);
     this.form = new UntypedFormGroup({
-      titles: new UntypedFormControl('', Validators.required),
+      titles: new UntypedFormControl(''),
       title: new UntypedFormControl('', Validators.required),
       brand: new UntypedFormControl('', Validators.required),
       reference: new UntypedFormControl(''),
