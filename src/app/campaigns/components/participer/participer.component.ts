@@ -912,6 +912,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
     } else if (media.indexOf('https://www.linkedin.com/') !== -1) {
       this.validUrl = true;
       let url = media.split('activity');
+      
       let parts = url[url.length - 1];
       if (parts.includes('-') || parts.includes(':')) {
         if (!!this.idlinkedin) {
@@ -941,13 +942,14 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
               });
           }, 1000);
         }
-
-        parts = parts.includes('-') ? parts.split('-')[1] : parts.split(':')[1];
-
+        
+       
+        
+        
         myApplication.idUser = 666;
-        myApplication.linkedinUserId = parts;
+        myApplication.linkedinUserId = url[1].split(':')[1];
         myApplication.typeSN = 5;
-        this.idlinkedin = parts;
+        this.idlinkedin = url[1].split(':')[1];
         
         this.CampaignService.linkedinSharedid(this.idlinkedin)
           .pipe(takeUntil(this.isDestroyedSubject))
@@ -981,7 +983,8 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
           this.application = myApplication;
         }
         if (performance.find((ratio: any) => ratio.oracle === 'linkedin')) {
-          const copyApplication = {...this.application}
+          let copyApplication = {...this.application}
+          copyApplication.linkedinUserId = this.idlinkedin
           this.CampaignService.verifyLink(copyApplication)
             .pipe(takeUntil(this.isDestroyedSubject))
             .subscribe(
@@ -1003,6 +1006,7 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
                 }
               },
               (err) => {
+                
                 if (
                   err.error.error === 'invalid link' &&
                   err.error.code === 406
@@ -1361,7 +1365,6 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
             }
           },(err) => {
             this.spinner = false;
-            console.log({err})
             if (
               err.error.error === 'account not linked' &&
               err.error.code === 406
@@ -1438,8 +1441,6 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
     this.CampaignService.videoDescription(this.idvideo, this.oracleType)
       .pipe(takeUntil(this.isDestroyedSubject))
       .subscribe((datavideo: any) => {
-     
-        console.log({datavideo})
         this.imagevideo = datavideo.thumbnail_url;
         this.titlevideo = datavideo.title;
       });
@@ -1512,7 +1513,6 @@ export class ParticiperComponent implements OnInit, AfterContentChecked {
           //   this.balanceNotEnough = false;
 
           // } else {
-            console.log({data})
           this.notifyLink(data?.data?._id);
           if (data?.data?.applyerSignature?.signature) {
             this.transactionHash = data?.data?.applyerSignature?.signature;
