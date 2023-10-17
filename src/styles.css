@@ -1109,6 +1109,7 @@ body {
   position: relative;
 }
 
+/* modal par default prise de styles partout dans le code il faut enlever le justify content  */
 .modal-content {
   position: absolute;
   left: 50%;

@@ -78,7 +78,7 @@ export class DraftCampaignPresentationComponent implements OnInit {
       titles: [''],
       title: ['', Validators.required],
       summary: ['', Validators.required],
-      description: [''] // Assuming you have a description field in your formtitle
+      description: [''] // Assuming you have a descriptigit son field in your formtitle
     });
     this.render = rendererFactory.createRenderer(null, null);
     this.form = new UntypedFormGroup({
