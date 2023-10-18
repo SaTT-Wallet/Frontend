@@ -216,6 +216,7 @@
 }
 
 @media (max-width: 575.98px) {
+
     .pt-3-mobile {
         padding-top: 1rem !important;
     }
@@ -225,6 +226,15 @@
     border: 1px solid #d6d6e8;
     height: 0px;
     width: 100% !important;
+}
+
+.modal-body.modal-custom{
+ margin-top: 0 !important; 
+ margin-bottom: 3em !important;  
+}
+
+.btn-close{
+    z-index: 2;
 }
 
 .btn-zoom1 {

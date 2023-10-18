@@ -102,6 +102,7 @@ closeModal(content: any) {
     this.isGenerating = true;
     this.campaignFacade.generateBriefIA(this.form.get('titles')?.value).subscribe(
       (data:any) => {
+        console.log(data)
       if(data.message === 'success') {
         this.ai_result= data.data.choices[0].message.content;
         const jsonData = JSON.parse(this.ai_result);
