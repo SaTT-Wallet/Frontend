@@ -323,7 +323,7 @@
                               {{ i.createdFormated }}
                             </p>
                             <p [ngClass]="'label_avatar_notif p-0 m-0'" *ngIf="i.type === 'cmp_candidate_reject_link'"  [ngClass]="'label_avatar_notif p-0 m-0'">
-                              {{ 'your_link' | translate}} <span style="color: blue" (click)="redirectToCampaignById(i.label.cmp_hash)">{{i.label.cmp_name | uppercase}}</span> {{'been_rejected' | translate}} <span (click)="i.label.showReason = !i.label.showReason" style="color: blue">{{ 'more_reason'| translate }}</span>
+                              {{ 'your_link' | translate}} <span class="title-cmp" (click)="redirectToCampaignById(i.label.cmp_hash)">{{i.label.cmp_name | uppercase}}</span> {{'been_rejected' | translate}} <span (click)="i.label.showReason = !i.label.showReason" class="title-cmp" >{{ 'more_reason'| translate }}</span>
                               <ng-container *ngIf="i.label.showReason">
                                 <br />
                                 <ng-container *ngFor="let reason of i.label.link.reason">
@@ -336,7 +336,7 @@
                             </p>
 
                             <p [ngClass]="'label_avatar_notif p-0 m-0'" *ngIf="i.type === 'apply_campaign'"  [ngClass]="'label_avatar_notif p-0 m-0'">
-                              {{ 'your_link' | translate}} <span style="color: blue" (click)="redirectToCampaignById(i.label.cmp_hash)">{{i.label.cmp_name | uppercase}}</span> {{'been_waiting' | translate}} 
+                              {{ 'your_link' | translate}} <span class="title-cmp"  (click)="redirectToCampaignById(i.label.cmp_hash)">{{i.label.cmp_name | uppercase}}</span> {{'been_waiting' | translate}} 
                               
                             </p>
                             <p
