@@ -853,7 +853,7 @@ closeModal(content: any) {
             this.switchFunction(item);
           });
           this.dataNotification = _.chain(this.dataNotification)
-            .sortBy((data) => data.createdInit)
+            .sortBy((data) => data.createdAt)
             .reverse()
             .groupBy('created')
             .map((value: any, key: any) => {
