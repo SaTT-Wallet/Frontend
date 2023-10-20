@@ -110,7 +110,7 @@ export class FarmWelcomeComponent implements OnInit {
   }
 
   getBlogs() {
-    this.http.get<any[]>('/getBlogs').subscribe((data) => {
+    this.http.get<unknown[]>('/getBlogs').subscribe((data) => {
       this.blogs = data;
       // Now this.blogs should contain an array of blog post objects.
     });
