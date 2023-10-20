@@ -84,6 +84,7 @@ export function app(): express.Express {
       res.status(500).send('Error occurred while fetching data');
     }
   });
+  
 
   server.get('*', getStaticFiles);
 

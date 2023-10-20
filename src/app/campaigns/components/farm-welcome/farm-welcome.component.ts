@@ -108,12 +108,14 @@ export class FarmWelcomeComponent implements OnInit {
       this.smDevice = false;
     }
   }
-  
+
   getBlogs() {
-    return this.http.get('/getBlogs').subscribe((data) => {
+    this.http.get<any[]>('/getBlogs').subscribe((data) => {
       this.blogs = data;
+      // Now this.blogs should contain an array of blog post objects.
     });
   }
+  
 
   goToFarmPosts() {
     this.showSpinnerJoin = true;
