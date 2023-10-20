@@ -108,12 +108,11 @@ export class FarmWelcomeComponent implements OnInit {
       this.smDevice = false;
     }
   }
+  
   getBlogs() {
-    return this.http
-      .get('https://satt-token.com/blog/wp-json/wp/v2/posts?_embed')
-      .subscribe((data) => {
-        this.blogs = data;
-      });
+    return this.http.get('/getBlogs').subscribe((data) => {
+      this.blogs = data;
+    });
   }
 
   goToFarmPosts() {
