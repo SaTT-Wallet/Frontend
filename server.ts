@@ -95,7 +95,9 @@ export function app(): express.Express {
     }
   });
   
-  
+  server.use('/getBlogs', (req, res, next) => {
+    next();
+  });
 
   server.get('*', getStaticFiles);
 
