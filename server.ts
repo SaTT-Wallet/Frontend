@@ -78,13 +78,23 @@ export function app(): express.Express {
       const response = await axios.get(
         'https://satt-token.com/blog/wp-json/wp/v2/posts?_embed'
       );
-      res.json(response.data);
-      console.log('resssss', response);
+  
+      // Check the Content-Type header
+      const contentType = response.headers['content-type'];
+      if (contentType && contentType.includes('application/json')) {
+        // If it's JSON, send the data
+        res.json(response.data);
+      } else {
+        // If it's not JSON, handle the error
+        console.error('Response is not valid JSON.');
+        res.status(500).send('Error occurred while fetching data: Invalid response format');
+      }
     } catch (error) {
       console.error(error);
       res.status(500).send('Error occurred while fetching data');
     }
   });
+  
   
 
   server.get('*', getStaticFiles);
