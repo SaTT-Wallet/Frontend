@@ -79,6 +79,7 @@ export function app(): express.Express {
         'https://satt-token.com/blog/wp-json/wp/v2/posts?_embed'
       );
       res.json(response.data);
+      console.log('resssss', response);
     } catch (error) {
       console.error(error);
       res.status(500).send('Error occurred while fetching data');
