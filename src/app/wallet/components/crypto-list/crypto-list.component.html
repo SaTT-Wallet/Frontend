@@ -276,19 +276,13 @@
                         details.hidden="true"
                         *ngIf="
                           details.hidden &&
-                          crypto.undername !== 'SATT' &&
-                          crypto.quantity != 0 &&
+                         
+                          quantitySum(crypto) != '0' && 
                           this.version !== 'v2' &&
                           existV2 === 'true'
                         "
                         (click)="
-                          goMigrate(
-                            crypto.symbol,
-                            crypto.network,
-                            crypto.picUrl,
-                            crypto.quantity,
-                            crypto.price
-                          )
+                          details.hidden = false
                         "
                       >
                         <img
@@ -1895,24 +1889,25 @@
                               cursor: pointer;
                               background: #f6f6ff;
                             "
-                            details.hidden="true"
-                            (click)="
-                              goMigrate(
-                                crypto.symbol,
-                                crypto.network,
-                                crypto.picUrl,
-                                crypto.quantity,
-                                crypto.price
-                              )
-                            "
+                            
+                           
                           >
                             <img
                               src="./../../../assets/Images/custom_icons/clarity_error-standard-line_mobile.svg"
                               *ngIf="
-                                crypto.quantity != 0 &&
+                              cryptoQuantityByNetwork(network) != '0' &&
                                 this.version !== 'v2' &&
                                 existV2 === 'true'
                               "
+                              (click)="
+                              goMigrate(
+                                network.symbol,
+                                network.network,
+                                network.picUrl,
+                                network.quantity,
+                                network.price
+                              )
+                            "
                               style="
                                 font-size: 13px;
                                 cursor: pointer;
