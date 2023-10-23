@@ -236,156 +236,17 @@
                       </div>
                       <div
                         class="col-2 d-flex justify-content-start align-items-center"
+                        
                       >
-                        <div
-                          *ngIf="
-                            [
-                              'SATT',
-                              '(BEP20)',
-                              '(SMART CHAIN)',
-                              'BNB',
-                              'BUSD',
-                              'DAI',
-                              'BTC',
-                              'ETH',
-                              'MATIC',
-                              'CAKE',
-                              'MKR',
-                              'USDT',
-                              'TRX'
-                            ].includes(crypto.undername)
-                          "
-                        >
+                        
                           <img
+                          *ngIf="crypto.purchase === true"
                             class="buy-token border-0"
                             src="/assets/Images/new-buy-token.svg"
                             (click)="goToBuy(crypto.symbol, crypto.network)"
                           />
-                        </div>
-
-                        <a
-                          href="https://app.uniswap.org/#/swap?outputCurrency=0x70a6395650b47d94a77de4cfedf9629f6922e645 "
-                          target="_blank"
-                          rel="noopener"
-                        >
-                          <div *ngIf="crypto.undername === 'WSATT'">
-                            <!-- <button class="background3 mt-4 ms-2 pt-2 border-0">
-                              <span class="icon-ins buyIcon"></span>
-                            </button> -->
-                            <img
-                              class="buy-token border-0"
-                              src="/assets/Images/new-buy-token.svg"
-                            />
-                          </div>
-                        </a>
-                        <a
-                          href="https://app.uniswap.org/#/swap?outputCurrency=0xd26114cd6EE289AccF82350c8d8487fedB8A0C07&chain=mainnet"
-                          target="_blank"
-                          rel="noopener"
-                        >
-                          <div *ngIf="crypto.undername === 'OMG'">
-                            <!-- <button class="background3 mt-4 ms-2 pt-2 border-0">
-                              <span class="icon-ins buyIcon"></span>
-                            </button> -->
-                            <img
-                              class="buy-token border-0"
-                              src="/assets/Images/new-buy-token.svg"
-                            />
-                          </div>
-                        </a>
-
-                        <a
-                          href="https://app.uniswap.org/#/swap?outputCurrency=0xe41d2489571d322189246dafa5ebde1f4699f498"
-                          target="_blank"
-                          rel="noopener"
-                        >
-                          <div *ngIf="crypto.undername === 'ZRX'">
-                            <img
-                              class="buy-token border-0"
-                              src="/assets/Images/new-buy-token.svg"
-                            />
-                          </div>
-                        </a>
-
-                        <a
-                          href="https://sunswap.com/#/v2?lang=en-US&t0=TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t&t1=TAFjULxiVgT4qWk6UZwjqwZXTSaGaqnVp4&type=swap"
-                          target="_blank"
-                          rel="noopener"
-                        >
-                          <div *ngIf="crypto.undername === 'BTT'">
-                            <!-- <button class="background3 mt-4 ms-2 pt-2 border-0">
-                  <span class="icon-ins buyIcon"></span>
-                </button> -->
-                            <img
-                              class="buy-token border-0"
-                              src="/assets/Images/new-buy-token.svg"
-                            />
-                          </div>
-                        </a>
-                        <a
-                          href="https://app.uniswap.org/#/swap?outputCurrency=0xe41d2489571d322189246dafa5ebde1f4699f498"
-                          target="_blank"
-                          rel="noopener"
-                          *ngIf="crypto.AddedToken"
-                        >
-                          <div *ngIf="crypto.network === 'ERC20'">
-                            <!-- <button class="background3 mt-4 ms-2 pt-2 border-0">
-                            <span class="icon-ins buyIcon"></span>
-                          </button> -->
-                            <img
-                              class="buy-token border-0"
-                              src="/assets/Images/new-buy-token.svg"
-                            />
-                          </div>
-                        </a>
-                        <a
-                          href="https://pancakeswap.finance/swap#/swap?inputCurrency=USDT&outputCurrency=0x448bee2d93be708b54ee6353a7cc35c4933f1156"
-                          target="_blank"
-                          rel="noopener"
-                          *ngIf="crypto.AddedToken"
-                        >
-                          <div *ngIf="crypto.network === 'BEP20'">
-                            <!-- <button class="background3 mt-4 ms-2 pt-2 border-0">
-                          <span class="icon-ins buyIcon"></span>
-                        </button> -->
-                            <img
-                              class="buy-token border-0"
-                              src="/assets/Images/new-buy-token.svg"
-                            />
-                          </div>
-                        </a>
-
-                        <a>
-                          <div
-                            *ngIf="
-                              crypto.undername !== 'SATT' &&
-                              crypto.undername !== '(BEP20)' &&
-                              crypto.undername !== 'WSATT' &&
-                              crypto.undername !== 'BNB' &&
-                              crypto.undername !== 'ETH' &&
-                              crypto.undername !== 'BTC' &&
-                              crypto.undername !== 'DAI' &&
-                              crypto.undername !== 'BUSD' &&
-                              crypto.undername !== 'MKR' &&
-                              crypto.undername !== 'USDT' &&
-                              crypto.undername !== 'ZRX' &&
-                              crypto.undername !== 'CAKE' &&
-                              crypto.undername !== 'MATIC' &&
-                              crypto.undername !== 'BTT' &&
-                              crypto.undername !== 'OMG' &&
-                              crypto.undername !== 'OMG' &&
-                              crypto.undername !== 'TRX' &&
-                              !crypto.AddedToken
-                            "
-                          >
-                            <img
-                              (click)="buy(crypto.undername)"
-                              id="{{ crypto.symbol }}"
-                              class="buy-token border-0"
-                              src="/assets/Images/new-buy-token.svg"
-                            />
-                          </div>
-                        </a>
+                       
+                        
                       </div>
                       <div
                         class="col-1 d-flex justify-content-start align-items-center"
@@ -761,6 +622,7 @@
                               )
                             "
                           >
+                            
                             <img
                               src="./../../../assets/Images/custom_icons/clarity_error-standard-line_mobile.svg"
                               *ngIf="
@@ -2014,16 +1876,7 @@
                           >
                             <div
                               *ngIf="
-                                [
-                                  'SATT',
-                                  '(BEP20)',
-                                  '(SMART CHAIN)',
-                                  'BNB',
-                                  'BUSD',
-                                  'DAI',
-                                  'BTC',
-                                  'ETH'
-                                ].includes(crypto.undername)
+                                network.pruchase === true
                               "
                             >
                               <img
@@ -2032,51 +1885,7 @@
                                 (click)="goToBuy(crypto.symbol, crypto.network)"
                               />
                             </div>
-                            <a
-                              href="https://app.uniswap.org/#/swap?outputCurrency=0x70a6395650b47d94a77de4cfedf9629f6922e645 "
-                              target="_blank"
-                              rel="noopener"
-                            >
-                              <div *ngIf="crypto.undername === 'WSATT'">
-                                <!-- <button class="background3 mt-4 ms-2 pt-2 border-0">
-                                  <span class="icon-ins buyIcon"></span>
-                                </button> -->
-                                <img
-                                  class="buy-token border-0"
-                                  src="/assets/Images/new-buy-token.svg"
-                                />
-                              </div>
-                            </a>
-                            <a>
-                              <div
-                                *ngIf="
-                                  crypto.undername !== 'SATT' &&
-                                  crypto.undername !== '(BEP20)' &&
-                                  crypto.undername !== 'WSATT' &&
-                                  crypto.undername !== 'BNB' &&
-                                  crypto.undername !== 'ETH' &&
-                                  crypto.undername !== 'BTC' &&
-                                  crypto.undername !== 'DAI' &&
-                                  crypto.undername !== 'BUSD' &&
-                                  crypto.undername !== 'TRX' &&
-                                  !crypto.AddedToken
-                                "
-                              >
-                                <!-- <button
-                                  class="background3 mt-4 ms-2 pt-2 border-0"
-                                  id="{{ crypto.symbol }}"
-                                  (click)="buy(crypto.undername, changly)"
-                                >
-                                  <span class="icon-ins buyIcon"></span>
-                                </button> -->
-                                <img
-                                  (click)="buy(crypto.undername)"
-                                  id="{{ crypto.symbol }}"
-                                  class="buy-token border-0"
-                                  src="/assets/Images/new-buy-token.svg"
-                                />
-                              </div>
-                            </a>
+                            
                           </div>
 
                           <div
