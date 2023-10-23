@@ -246,7 +246,7 @@
       </div>
       <div class="mb-1 mt-1 d-flex justify-content-center" *ngIf="errMsg">
         <!-- <img src="assets/Images/false.svg" class="me-2" style="width: 21px" /> -->
-        <span class="error_msg"> {{ errMsg }}</span>
+        <span class="error_msg"> {{ errMsg | json }}</span>
       </div>
       <div class="text-center mt-4">
         <p class="hard-gray-text">
