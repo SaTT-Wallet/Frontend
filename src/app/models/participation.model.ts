@@ -39,6 +39,7 @@ export class Participation {
   userPic: any;
   idPost: any;
   appliedDate: any;
+  lastHarvestDate: any;
   constructor(data?: any) {
     this.id = data?._id || '';
     this.hash = !!data.id_prom ? data.id_prom : '';
@@ -75,6 +76,8 @@ export class Participation {
     this.totalToEarnInUSD = '';
     this.isAccepted = data?.isAccepted ? data?.isAccepted : data?.status;
     this.acceptedDate = data?.acceptedDate || null;
+    this.lastHarvestDate = data?.lastHarvestDate || null;
+
 
     this.type = data?.type || '';
     this.meta = data?.meta || '';
