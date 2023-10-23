@@ -19,7 +19,9 @@ export class FooterBarComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: string
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.sidebarService)
+  }
   goToBuy() {
     if (isPlatformBrowser(this.platformId))
       window.open('https://www.probit.com/app/exchange/SATT-USDT', '_blank');
@@ -46,12 +48,12 @@ export class FooterBarComponent implements OnInit {
     this.sidebarService.recieveClicked('recieve');
   }
   clickBuy() {
-    if (this.tokenStorageService.getCryptoClic() === 'true') {
+    /*if (this.tokenStorageService.getCryptoClic() === 'true') {
       this.sidebarService.buyClicked('buy');
       this.tokenStorageService.removeItem('cryptoClic');
-    } else {
+    } else {*/
       // this.sidebarService.buyClicked('buy');
       this.router.navigate(['/wallet/buy-token']);
-    }
+    //}
   }
 }

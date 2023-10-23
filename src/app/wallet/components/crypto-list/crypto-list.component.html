@@ -240,10 +240,10 @@
                       >
                         
                           <img
-                          *ngIf="crypto.purchase === true"
+                          *ngIf="canBuyToken(crypto) || crypto.symbol === 'BNB' || crypto.symbol === 'BTC' || crypto.symbol === 'ETH' || crypto.symbol === 'SATT'"
                             class="buy-token border-0"
                             src="/assets/Images/new-buy-token.svg"
-                            (click)="goToBuy(crypto.symbol, crypto.network)"
+                            (click)="(!!crypto.networks && crypto.networks.length > 0) || crypto.symbol === 'SATT'  ? details.hidden = false : goToBuy(crypto.symbol, crypto.network)"
                           />
                        
                         
@@ -1876,13 +1876,13 @@
                           >
                             <div
                               *ngIf="
-                                network.pruchase === true
+                                network.purchase || (network.symbol === 'ETH' && network.network === 'ERC20') || (network.symbol === 'BNB' && network.network === 'BEP20')
                               "
                             >
                               <img
                                 class="buy-token border-0"
                                 src="/assets/Images/new-buy-token.svg"
-                                (click)="goToBuy(crypto.symbol, crypto.network)"
+                                (click)="goToBuy(network.symbol, network.network)"
                               />
                             </div>
                             

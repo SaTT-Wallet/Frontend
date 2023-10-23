@@ -388,7 +388,7 @@ symbolMap.forEach((cryptos) => {
               }
             });
           }, 100);
-
+          console.log({cryptoList: this.cryptoList})
           let divCrypto = this.document.getElementById('cryptoList');
           if (divCrypto) {
             divCrypto.style.height = 'auto';
@@ -474,6 +474,22 @@ symbolMap.forEach((cryptos) => {
       relativeTo: this.activatedRoute
     });
   }
+  canBuyToken(crypto:any) {
+    if(crypto.purchase) return true;
+    else {
+      if(!!crypto.networks && crypto.networks.length > 0) {
+        let purchasePossible = false;
+        for(let network of crypto.networks) {
+          if(network.purchase) {
+            purchasePossible = true;
+            break;
+            
+          } else purchasePossible = false;
+        }
+        return purchasePossible
+      } else return false;
+    }
+  }
   goToBuy(id: any, network: any) {
     if (id === 'SATT' && network === 'ERC20') {
       id = 'SATT-ERC20';
@@ -488,7 +504,7 @@ symbolMap.forEach((cryptos) => {
       id = 'TETHER';
     }
     this.router.navigate(['/wallet/buy-token'], {
-      queryParams: { id: id, network: network },
+      queryParams: { id: id, network: network},
       relativeTo: this.activatedRoute
     });
   }
