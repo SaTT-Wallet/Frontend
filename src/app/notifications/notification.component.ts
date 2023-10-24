@@ -7,13 +7,25 @@ import {
   Inject,
   ViewChild,
   Renderer2,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  TemplateRef,
+  HostListener
 } from '@angular/core';
 import { NotificationService } from '@core/services/notification/notification.service';
 import { ContactService } from '@core/services/contact/contact.service';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators
+} from '@angular/forms';
 import _ from 'lodash';
-import { walletUrl, ListTokens, tronScan, youtubeThumbnail } from '@config/atn.config';
+import {
+  walletUrl,
+  ListTokens,
+  tronScan,
+  youtubeThumbnail
+} from '@config/atn.config';
 import { isPlatformBrowser } from '@angular/common';
 import { bscan, etherscan, polygonscan, bttscan } from '@app/config/atn.config';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
@@ -33,23 +45,29 @@ import { ProfileSettingsFacadeService } from '@app/core/facades/profile-settings
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { BlockchainActionsService } from '@app/core/services/blockchain-actions.service';
 import { EButtonActions } from '@app/core/enums';
-import { atLastOneChecked, requiredDescription } from '@app/helpers/form-validators';
+import {
+  atLastOneChecked,
+  requiredDescription
+} from '@app/helpers/form-validators';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { CampaignHttpApiService } from '@app/core/services/campaign/campaign.service';
 import { ToastrService } from 'ngx-toastr';
 
- 
 @Component({
   selector: 'app-history',
   templateUrl: './notification.component.html',
-  styleUrls: ['./notification.component.css'],
+  styleUrls: ['./notification.component.css']
   //changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationComponent implements OnInit {
+  @ViewChild('transactionPassword', { static: false })
+  public transactionPassword!: TemplateRef<any>;
   @ViewChild('rejectLinkModal') rejectLinkModal?: ElementRef;
+  public getScreenWidth: any;
+
   promToreject: any;
   searchTerm: any;
-  embeddedPostUrls: any= [];
+  embeddedPostUrls: any = [];
   term: any;
   reasonForm: UntypedFormGroup;
   public currentLang: string | undefined;
@@ -81,7 +99,7 @@ export class NotificationComponent implements OnInit {
   crypto: any;
   private isDestroyed = new Subject();
   showNotifcationMessage!: string;
-  showNotification: boolean  = false;
+  showNotification: boolean = false;
   percentProf: number = 0;
   private onDestoy$ = new Subject();
   private account$ = this.accountFacadeService.account$;
@@ -100,21 +118,29 @@ export class NotificationComponent implements OnInit {
   newNotification: boolean = false;
   errorMessagecode = '';
   modalReference: any;
+  errorMessage: string = '';
+  campaign: any;
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.getScreenWidth = event.target.innerWidth;
+  }
+
   //
   buttonData1 = [
-    { text: "filtre_mycrypto_sent", toggle: true },
-    { text: "filtre_mycrypto_received", toggle: true },
-    { text: "filtre_mycrypto_requested", toggle: true }
+    { text: 'filtre_mycrypto_sent', toggle: true },
+    { text: 'filtre_mycrypto_received', toggle: true },
+    { text: 'filtre_mycrypto_requested', toggle: true }
   ];
   buttonData2 = [
-    { text: "filtre_choosestatus_in_pending", toggle: true },
-    { text: "filtre_choosestatus_in_progress", toggle: true },
-    { text: "filtre_choosestatus_finished", toggle: true },
+    { text: 'filtre_choosestatus_in_pending', toggle: true },
+    { text: 'filtre_choosestatus_in_progress', toggle: true },
+    { text: 'filtre_choosestatus_finished', toggle: true }
   ];
   buttonData3 = [
-    { text: "filtre_My_Links_to_harvest", toggle: true },
-    { text:  "filtre_My_Links_waiting", toggle: true },
-    { text: "filtre_My_Links_refused", toggle: true }
+    { text: 'filtre_My_Links_to_harvest', toggle: true },
+    { text: 'filtre_My_Links_waiting', toggle: true },
+    { text: 'filtre_My_Links_refused', toggle: true }
   ];
   checkboxData = [
     { label: 'Facebook', toggle: false },
@@ -123,10 +149,15 @@ export class NotificationComponent implements OnInit {
     { label: 'Tiktok', toggle: false },
     { label: 'Twitter', toggle: false },
     { label: 'Youtube', toggle: false },
-    { label: 'Threads', toggle: false}
+    { label: 'Threads', toggle: false }
   ];
 
-  checkboxData1 = [{ label: "filtre_Adpools_message", toggle: false }];
+  checkboxData1 = [{ label: 'filtre_Adpools_message', toggle: false }];
+  passwordForm = new UntypedFormGroup({});
+  loadingButton: boolean = false;
+  successMessage: string = '';
+  refundButtonDisable: any;
+  budgetModal: boolean = false;
 
   setAllTogglesFalse(dataArray: any[]) {
     for (const item of dataArray) {
@@ -143,9 +174,11 @@ export class NotificationComponent implements OnInit {
     return item._id; // Change 'id' to the actual property name of the unique identifier
   }
   safeImageUrl(base64Image: string): SafeResourceUrl {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${base64Image}`);
+    return this.sanitizer.bypassSecurityTrustResourceUrl(
+      `data:image/png;base64, ${base64Image}`
+    );
   }
- 
+
   generatePostThumbnail(post: any): any {
     if (post.typeSN === '1') {
       return this.sanitizer.bypassSecurityTrustResourceUrl(
@@ -172,26 +205,26 @@ export class NotificationComponent implements OnInit {
     checkbox.toggle = !checkbox.toggle;
 
     const checkboxLabelMappings: { [key: string]: string } = {
-      'filtre_Adpools_message': 'cmp_candidate_insert_link',
-      'Facebook': 'cmp_candidate_accept_link/facebook',
-      'Instagram': 'cmp_candidate_accept_link/instagram',
-      'Linkedin': 'cmp_candidate_accept_link/linkedin',
-      'Tiktok': 'cmp_candidate_accept_link/tiktok',
-      'Twitter': 'cmp_candidate_accept_link/twitter',
-      'Youtube': 'cmp_candidate_accept_link/youtube',
-      'Threads': 'cmp_candidate_accept_link/threads',
+      filtre_Adpools_message: 'cmp_candidate_insert_link',
+      Facebook: 'cmp_candidate_accept_link/facebook',
+      Instagram: 'cmp_candidate_accept_link/instagram',
+      Linkedin: 'cmp_candidate_accept_link/linkedin',
+      Tiktok: 'cmp_candidate_accept_link/tiktok',
+      Twitter: 'cmp_candidate_accept_link/twitter',
+      Youtube: 'cmp_candidate_accept_link/youtube',
+      Threads: 'cmp_candidate_accept_link/threads'
     };
-  
+
     const filterType = checkboxLabelMappings[checkbox.label];
-  
+
     if (filterType) {
       if (checkbox.toggle) {
-        if(checkbox.label === 'filtre_Adpools_message') {
+        if (checkbox.label === 'filtre_Adpools_message') {
           this.filterListType.push(filterType);
-          this.filterListType.push('create_campaign')
+          this.filterListType.push('create_campaign');
         } else this.filterListType.push(filterType);
       } else {
-        if(checkbox.label === 'filtre_Adpools_message') {
+        if (checkbox.label === 'filtre_Adpools_message') {
           const index = this.filterListType.indexOf(filterType);
           if (index > -1) {
             this.filterListType.splice(index, 1);
@@ -206,59 +239,67 @@ export class NotificationComponent implements OnInit {
             this.filterListType.splice(index, 1);
           }
         }
-        
       }
       this.filterNotificationList(this.filterListType);
     }
   }
 
   getLink(prom: any) {
-    
-     // Prevent the default link behavior
+    // Prevent the default link behavior
     if (isPlatformBrowser(this.platformId)) {
-      switch(prom.oracle) {
+      switch (prom.oracle) {
         case 'facebook':
-          window.open('https://www.facebook.com/' + prom.idUser +'/posts/'+prom.idPost, '_blank');
+          window.open(
+            'https://www.facebook.com/' + prom.idUser + '/posts/' + prom.idPost,
+            '_blank'
+          );
           break;
         case 'instagram':
-          window.open('https://www.instagram.com/p/'+prom.idPost, '_blank');
-          break;  
+          window.open('https://www.instagram.com/p/' + prom.idPost, '_blank');
+          break;
         case 'linkedin':
-          window.open('https://www.linkedin.com/feed/update/urn:li:share:'+prom.idPost, '_blank');
+          window.open(
+            'https://www.linkedin.com/feed/update/urn:li:share:' + prom.idPost,
+            '_blank'
+          );
           break;
         case 'tiktok':
-          window.open('https://www.tiktok.com/embed/'+prom.idPost, '_blank');
+          window.open('https://www.tiktok.com/embed/' + prom.idPost, '_blank');
           break;
         case 'twitter':
-          window.open('https://twitter.com/' + prom.idUser +'/status/'+prom.idPost, '_blank');
+          window.open(
+            'https://twitter.com/' + prom.idUser + '/status/' + prom.idPost,
+            '_blank'
+          );
           break;
         case 'youtube':
-          window.open('https://www.youtube.com/watch?v='+prom.idPost, '_blank');
-          break;  
+          window.open(
+            'https://www.youtube.com/watch?v=' + prom.idPost,
+            '_blank'
+          );
+          break;
         case 'threads':
-          window.open('https://www.threads.net/t/'+prom.idPost , '_blank');
-          break; 
-          
+          window.open('https://www.threads.net/t/' + prom.idPost, '_blank');
+          break;
+
         default:
-          console.error('err')  
+          console.error('err');
       }
-      
     }
   }
-
 
   enableDisableRule(button: any) {
     button.toggle = !button.toggle;
     const buttonTypeMappings: { [key: string]: string } = {
-      'filtre_mycrypto_sent': 'transfer_event',
-      'filtre_mycrypto_received': 'receive_transfer_event',
-      'filtre_mycrypto_requested': 'send_demande_satt_event',
-      'filtre_choosestatus_in_pending': 'create_campaign/inProgress',
-      'filtre_choosestatus_finished': 'create_campaign/finished',
-      'filtre_choosestatus_in_progress': 'create_campaign/apply',
-      'filtre_My_Links_refused': 'cmp_candidate_reject_link',
-      'filtre_My_Links_to_harvest': 'cmp_candidate_accept_link',
-      'filtre_My_Links_waiting': 'apply_campaign'
+      filtre_mycrypto_sent: 'transfer_event',
+      filtre_mycrypto_received: 'receive_transfer_event',
+      filtre_mycrypto_requested: 'send_demande_satt_event',
+      filtre_choosestatus_in_pending: 'create_campaign/inProgress',
+      filtre_choosestatus_finished: 'create_campaign/finished',
+      filtre_choosestatus_in_progress: 'create_campaign/apply',
+      filtre_My_Links_refused: 'cmp_candidate_reject_link',
+      filtre_My_Links_to_harvest: 'cmp_candidate_accept_link',
+      filtre_My_Links_waiting: 'apply_campaign'
     };
     const filterType = buttonTypeMappings[button.text];
     if (filterType) {
@@ -273,10 +314,10 @@ export class NotificationComponent implements OnInit {
       this.filterNotificationList(this.filterListType);
     }
   }
- 
 
   constructor(
     private campaignService: CampaignHttpApiService,
+    private _formBuilder: UntypedFormBuilder,
     private eRef: ElementRef,
     private toastr: ToastrService,
     private renderer: Renderer2,
@@ -296,7 +337,6 @@ export class NotificationComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: string,
     private modalService: NgbModal
   ) {
-
     this.reasonForm = new UntypedFormGroup(
       {
         reason1: new UntypedFormControl(null),
@@ -340,161 +380,169 @@ export class NotificationComponent implements OnInit {
     }
   }
   getNotificationIcon() {
-    return this.showNotifcationMessage === 'showing-buy-satt' 
-    ? './assets/Images/notif-buy-satt.svg' 
-    : (this.showNotifcationMessage === 'showing-buy-fees' ? './assets/Images/notif-buy-gas.svg' 
-    : (this.showNotifcationMessage === 'showing-campaign' ? './assets/Images/notifIcons/tesmail.svg' 
-    : (this.showNotifcationMessage === 'showing-random-number' ? 
-    (
-      this.notificationRandomNumber === 1  ? './assets/Images/notif-faq.svg' : (this.notificationRandomNumber === 2  ?  './assets/Images/notif-social-media.svg' : './assets/Images/notif-invite-friends.svg') 
-    ) : './assets/Images/moonboy/Default_avatar_MoonBoy.png')
-    ) 
-    )
+    return this.showNotifcationMessage === 'showing-buy-satt'
+      ? './assets/Images/notif-buy-satt.svg'
+      : this.showNotifcationMessage === 'showing-buy-fees'
+      ? './assets/Images/notif-buy-gas.svg'
+      : this.showNotifcationMessage === 'showing-campaign'
+      ? './assets/Images/notifIcons/tesmail.svg'
+      : this.showNotifcationMessage === 'showing-random-number'
+      ? this.notificationRandomNumber === 1
+        ? './assets/Images/notif-faq.svg'
+        : this.notificationRandomNumber === 2
+        ? './assets/Images/notif-social-media.svg'
+        : './assets/Images/notif-invite-friends.svg'
+      : './assets/Images/moonboy/Default_avatar_MoonBoy.png';
   }
   getNotificationBody() {
-    return (this.showNotifcationMessage === 'showing-campaign' ? 'new_adpools_notification'
-    : (
-      this.showNotifcationMessage === 'showing-buy-fees' ? 'notif_buy_gas'
-      : (
-          this.showNotifcationMessage === 'showing-buy-satt' ? 'notif_buy_satt' 
-          : (this.showNotifcationMessage === 'showing-complete-profile' ? 'notif_complete_profile' 
-          : 
-          (this.showNotifcationMessage === 'showing-random-number' ? (
-
-          this.notificationRandomNumber === 1 ? 'notif_problem_faq' : (this.notificationRandomNumber === 2 ? 'notif_join_social_networks' : 'notif_invite_friends')
-          ) : '') 
-          )
-          
-        
-      )
-    )
-    
-    )
+    return this.showNotifcationMessage === 'showing-campaign'
+      ? 'new_adpools_notification'
+      : this.showNotifcationMessage === 'showing-buy-fees'
+      ? 'notif_buy_gas'
+      : this.showNotifcationMessage === 'showing-buy-satt'
+      ? 'notif_buy_satt'
+      : this.showNotifcationMessage === 'showing-complete-profile'
+      ? 'notif_complete_profile'
+      : this.showNotifcationMessage === 'showing-random-number'
+      ? this.notificationRandomNumber === 1
+        ? 'notif_problem_faq'
+        : this.notificationRandomNumber === 2
+        ? 'notif_join_social_networks'
+        : 'notif_invite_friends'
+      : '';
   }
   getNotificationTitle() {
-    return (this.showNotifcationMessage === 'showing-campaign' ? 'New_AdPools_welcome'
-                  : (
-                    this.showNotifcationMessage === 'showing-buy-fees' ? 'buy-gas'
-                    : (
-                        this.showNotifcationMessage === 'showing-buy-satt' ? 'invite_friends' 
-                        : (this.showNotifcationMessage === 'showing-random-number' ? (
-
-                        this.notificationRandomNumber === 1 ? 'problem_faq' : (this.notificationRandomNumber === 2 ? 'join_social_networks' : 'invite_friends_notif')
-                        ) : './assets/Images/moonboy/Default_avatar_MoonBoy.png') 
-                      
-                    )
-                  )
-                  
-                  ) 
+    return this.showNotifcationMessage === 'showing-campaign'
+      ? 'New_AdPools_welcome'
+      : this.showNotifcationMessage === 'showing-buy-fees'
+      ? 'buy-gas'
+      : this.showNotifcationMessage === 'showing-buy-satt'
+      ? 'invite_friends'
+      : this.showNotifcationMessage === 'showing-random-number'
+      ? this.notificationRandomNumber === 1
+        ? 'problem_faq'
+        : this.notificationRandomNumber === 2
+        ? 'join_social_networks'
+        : 'invite_friends_notif'
+      : './assets/Images/moonboy/Default_avatar_MoonBoy.png';
   }
   getNotificationButtonTitle() {
-    return (this.showNotifcationMessage === 'showing-campaign' ? 'ad_pool' 
-    : (
-      (this.showNotifcationMessage === 'showing-buy-fees' || this.showNotifcationMessage === 'showing-buy-satt') ? 'Cryptolist.acheter'
-      : (
-        this.showNotifcationMessage === 'showing-complete-profile' ? 'complete-profile' : (
-          this.notificationRandomNumber === 1 ? 'read-faq' : 'campaign.shares' 
-        )
-      )
-    )
-    
-    ) 
+    return this.showNotifcationMessage === 'showing-campaign'
+      ? 'ad_pool'
+      : this.showNotifcationMessage === 'showing-buy-fees' ||
+        this.showNotifcationMessage === 'showing-buy-satt'
+      ? 'Cryptolist.acheter'
+      : this.showNotifcationMessage === 'showing-complete-profile'
+      ? 'complete-profile'
+      : this.notificationRandomNumber === 1
+      ? 'read-faq'
+      : 'campaign.shares';
   }
-  getButtonClass() { 
-    if (this.showNotifcationMessage === 'showing-campaign' || this.showNotifcationMessage === 'notif_buy_gas' || this.showNotifcationMessage === 'showing-buy-fees') {
+  getButtonClass() {
+    if (
+      this.showNotifcationMessage === 'showing-campaign' ||
+      this.showNotifcationMessage === 'notif_buy_gas' ||
+      this.showNotifcationMessage === 'showing-buy-fees'
+    ) {
       return 'button-rounded';
-    } else {if (this.showNotifcationMessage === 'showing-random-number' ){
-      return 'button-random';
-    } else return this.showNotifcationMessage === 'showing-complete-profile' ? 'button-roundedblue-complete-profile' : 'button-roundedblue';
+    } else {
+      if (this.showNotifcationMessage === 'showing-random-number') {
+        return 'button-random';
+      } else
+        return this.showNotifcationMessage === 'showing-complete-profile'
+          ? 'button-roundedblue-complete-profile'
+          : 'button-roundedblue';
     }
   }
   navigateTo() {
-    switch(this.showNotifcationMessage) {
+    switch (this.showNotifcationMessage) {
       case 'showing-complete-profile':
-          this.router.navigate(['/settings/profile']);
-          break;
-        case 'showing-buy-satt':
-          this.router.navigate(['/wallet/buy-token']);
-          break;
-        case 'showing-buy-fees':
-          this.router.navigate(['/wallet/buy-token']);
-          break;
-        case 'showing-campaign':
-          this.router.navigate(['/ad-pools']);
-          break;
-        case 'showing-random-number':
-          if(this.notificationRandomNumber === 1) this.router.navigate(['/FAQ']);
-          if(this.notificationRandomNumber === 3) this.toastr.success('Link copied!');
-          //else this.router.navigate(['/FAQ']);
-          
-          break;
+        this.router.navigate(['/settings/profile']);
+        break;
+      case 'showing-buy-satt':
+        this.router.navigate(['/wallet/buy-token']);
+        break;
+      case 'showing-buy-fees':
+        this.router.navigate(['/wallet/buy-token']);
+        break;
+      case 'showing-campaign':
+        this.router.navigate(['/ad-pools']);
+        break;
+      case 'showing-random-number':
+        if (this.notificationRandomNumber === 1) this.router.navigate(['/FAQ']);
+        if (this.notificationRandomNumber === 3)
+          this.toastr.success('Link copied!');
+        //else this.router.navigate(['/FAQ']);
 
+        break;
 
-        default:
-          console.error('case not found')
+      default:
+        console.error('case not found');
     }
   }
 
   socialNetworkRedirection(network: string) {
-    switch(network) {
+    switch (network) {
       case 'facebook':
-        window.open('https://www.facebook.com/SaTT.Token', '_blank'); 
+        window.open('https://www.facebook.com/SaTT.Token', '_blank');
         break;
       case 'twitter':
-        window.open('https://twitter.com/SaTT_Token', '_blank'); 
+        window.open('https://twitter.com/SaTT_Token', '_blank');
         break;
       case 'telegram':
-        window.open('https://web.telegram.org/a/', '_blank'); 
+        window.open('https://web.telegram.org/a/', '_blank');
         break;
       case 'bitcoin':
-        window.open('https://satt-token.com/', '_blank'); 
+        window.open('https://satt-token.com/', '_blank');
         break;
       default:
-        window.open('https://satt-token.com/', '_blank'); 
-      }
+        window.open('https://satt-token.com/', '_blank');
+    }
   }
   getNotificationsDecision() {
     this.showSpinner2 = true;
-    this.socialAccountFacadeService.notification().subscribe((res: any) => {
-      switch(res.message) {
-        case 'showing-complete-profile':
-          this.showNotifcationMessage = res.message;
-          this.getDetails();
-          this.showNotification = true;
-          this.showSpinner2 = false;
-          break;
-        case 'showing-buy-satt':
-          this.showNotifcationMessage = res.message;
-          this.showNotification = true;
-          this.showSpinner2 = false;
-          break;
-        case 'showing-buy-fees':
-          this.showNotifcationMessage = res.message;
-          this.showNotification = true;
-          this.showSpinner2 = false;
-          break;
-        case 'showing-campaign':
-          this.showNotifcationMessage = res.message;
-          this.showNotification = true;
-          this.campaignCover = res.data;
-          this.campaignCover = this.campaignCover.replace('ipfs:', '');
-          this.showSpinner2 = false;
-          break;
-        case 'showing-random-number':
-          this.showNotifcationMessage = res.message;
-          this.showNotification = true;
-          this.notificationRandomNumber = res.data;
-          this.showSpinner2 = false;
-          break;
-        default:
-          this.showNotification = false;
-          this.showSpinner2 = false;
+    this.socialAccountFacadeService.notification().subscribe(
+      (res: any) => {
+        switch (res.message) {
+          case 'showing-complete-profile':
+            this.showNotifcationMessage = res.message;
+            this.getDetails();
+            this.showNotification = true;
+            this.showSpinner2 = false;
+            break;
+          case 'showing-buy-satt':
+            this.showNotifcationMessage = res.message;
+            this.showNotification = true;
+            this.showSpinner2 = false;
+            break;
+          case 'showing-buy-fees':
+            this.showNotifcationMessage = res.message;
+            this.showNotification = true;
+            this.showSpinner2 = false;
+            break;
+          case 'showing-campaign':
+            this.showNotifcationMessage = res.message;
+            this.showNotification = true;
+            this.campaignCover = res.data;
+            this.campaignCover = this.campaignCover.replace('ipfs:', '');
+            this.showSpinner2 = false;
+            break;
+          case 'showing-random-number':
+            this.showNotifcationMessage = res.message;
+            this.showNotification = true;
+            this.notificationRandomNumber = res.data;
+            this.showSpinner2 = false;
+            break;
+          default:
+            this.showNotification = false;
+            this.showSpinner2 = false;
+        }
+      },
+      (err: any) => {
+        this.showNotification = false;
+        this.showSpinner2 = false;
       }
-     
-    }, (err: any) => {
-      this.showNotification = false;
-      this.showSpinner2 = false;
-    })
+    );
   }
   onImgError(event: any) {
     event.target.src = 'assets/Images/moonboy/Default_avatar_MoonBoy.png';
@@ -511,7 +559,7 @@ export class NotificationComponent implements OnInit {
       .subscribe((response: any) => {
         if (response !== null && response !== undefined) {
           let count = 0;
-          
+
           this.user = new User(response);
           this.urlpic = this.user.idUser;
           this.picUserUpdated = response.photoUpdated;
@@ -549,7 +597,6 @@ export class NotificationComponent implements OnInit {
           this.percentProf = (count * 100) / 10;
 
           this.percentProf2 = this.percentProf.toFixed(0) + '%';
-
 
           if (!this.user.instagramLink) {
             $('#addInsta').css('pointer-events', 'none');
@@ -605,16 +652,63 @@ export class NotificationComponent implements OnInit {
   }
 
   isPhishing() {
-    if(this.getStorageInformation()){
+    if (this.getStorageInformation()) {
       return 'isPhish';
     }
     return;
   }
 
   ngOnInit(): void {
+    this.getScreenWidth = window.innerWidth;
+
     this.getAllNotifications();
-    this.getNotificationsDecision(); 
+    this.getNotificationsDecision();
   }
+
+  callRemaining() {
+    this.errorMessage = '';
+    this.successMessage = '';
+    if (this.passwordForm.value.password.length > 0) {
+      this.loadingButton = true;
+      this.campaignService
+        .getRefunds(
+          this.campaign.hash,
+          this.passwordForm.value.password,
+          this.campaign.token.type
+        )
+        .subscribe(
+          (res: any) => {
+            if (res.code === 200 && res.message === 'budget retrieved') {
+              this.loadingButton = false;
+              this.successMessage = 'Budget retrieved';
+              this.getCampaignRetrieveBudgetTime(this.campaign);
+              setTimeout((_) => {
+                this.closeModal(this.transactionPassword);
+              }, 3000);
+            }
+          },
+          (err) => {
+            if (
+              err.error.error ===
+              'Key derivation failed - possibly wrong password'
+            ) {
+              this.errorMessage = 'wrong password, please try again';
+              this.passwordForm.reset();
+              this.loadingButton = false;
+            } else {
+              this.errorMessage = 'Something went wrong please try again';
+              this.passwordForm.reset();
+              this.loadingButton = false;
+            }
+
+            setTimeout(() => {
+              this.errorMessage = '';
+            }, 2000);
+          }
+        );
+    }
+  }
+
   seeNotification() {
     this.NotificationService.notificationSeen()
       .pipe(takeUntil(this.isDestroyed))
@@ -636,7 +730,6 @@ export class NotificationComponent implements OnInit {
       .subscribe(
         (response: any) => {
           if (response.code === 200 && response.message === 'success') {
-            
             this.dataNotificationFilter = response.data.notifications;
             //--------------------------------filter with date and type
             if (
@@ -732,30 +825,25 @@ export class NotificationComponent implements OnInit {
         () => {}
       );
   }
-  getLinkIconWaitingValidation(oracle : any) {
-    return `./assets/Images/oracle-${oracle}-waiting-validation.svg`
+  getLinkIconWaitingValidation(oracle: any) {
+    return `./assets/Images/oracle-${oracle}-waiting-validation.svg`;
   }
- 
 
   linkAction(action: string, post: any) {
-    if(action === 'accept') {
-      this.validateLink(post)
+    if (action === 'accept') {
+      this.validateLink(post);
     } else {
-      this.openModal(this.rejectLinkModal, post)
+      this.openModal(this.rejectLinkModal, post);
     }
   }
-closeModal(content: any) {
+  closeModal(content: any) {
     this.modalService.dismissAll(content);
-    
-    
   }
   openModal(content: any, prom: any) {
     this.modalService.open(content);
     this.promToreject = prom;
-    
   }
-  getLinkIconValidate( link: string) {
-   
+  getLinkIconValidate(link: string) {
     const keywordToIconMap = [
       { keyword: 'facebook', icon: 'facebook' },
       { keyword: 'instagram', icon: 'instagram' },
@@ -765,12 +853,16 @@ closeModal(content: any) {
       { keyword: 'twitter', icon: 'twitter' },
       { keyword: 'youtube', icon: 'youtube' }
     ];
-  
-    const foundMapping = keywordToIconMap.find(mapping => link.includes(mapping.keyword));
-    return foundMapping ? `./assets/Images/oracle-${foundMapping.icon}-validate.svg` : '';
+
+    const foundMapping = keywordToIconMap.find((mapping) =>
+      link.includes(mapping.keyword)
+    );
+    return foundMapping
+      ? `./assets/Images/oracle-${foundMapping.icon}-validate.svg`
+      : '';
   }
 
-  getLinkIconRejected( link: string) {
+  getLinkIconRejected(link: string) {
     const keywordToIconMap = [
       { keyword: 'facebook', icon: 'facebook' },
       { keyword: 'instagram', icon: 'instagram' },
@@ -780,11 +872,14 @@ closeModal(content: any) {
       { keyword: 'twitter', icon: 'twitter' },
       { keyword: 'youtube', icon: 'youtube' }
     ];
-  
-    const foundMapping = keywordToIconMap.find(mapping => link.includes(mapping.keyword));
-    return foundMapping ? `./assets/Images/oracle-${foundMapping.icon}-rejected.svg` : './assets/Images/oracle-threads-rejected.svg';
-  }
 
+    const foundMapping = keywordToIconMap.find((mapping) =>
+      link.includes(mapping.keyword)
+    );
+    return foundMapping
+      ? `./assets/Images/oracle-${foundMapping.icon}-rejected.svg`
+      : './assets/Images/oracle-threads-rejected.svg';
+  }
 
   convertToCustomFormat(milliseconds: string | number | Date) {
     const date = new Date(milliseconds);
@@ -794,15 +889,17 @@ closeModal(content: any) {
     const hours = String(date.getUTCHours()).padStart(2, '0');
     const minutes = String(date.getUTCMinutes()).padStart(2, '0');
     const seconds = String(date.getUTCSeconds()).padStart(2, '0');
-    const millisecondsFormatted = String(date.getUTCMilliseconds()).padStart(3, '0');
+    const millisecondsFormatted = String(date.getUTCMilliseconds()).padStart(
+      3,
+      '0'
+    );
 
     const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${millisecondsFormatted}Z`;
 
     return formattedDate;
   }
 
-
-  getOracle( link: string) {
+  getOracle(link: string) {
     const keywordToOracleList = [
       { keyword: 'facebook', oracle: 'facebook' },
       { keyword: 'instagram', oracle: 'instagram' },
@@ -812,14 +909,18 @@ closeModal(content: any) {
       { keyword: 'twitter', oracle: 'twitter' },
       { keyword: 'youtube', oracle: 'youtube' }
     ];
-  
-    const foundMapping = keywordToOracleList.find(mapping => link.includes(mapping.keyword));
+
+    const foundMapping = keywordToOracleList.find((mapping) =>
+      link.includes(mapping.keyword)
+    );
     return foundMapping ? foundMapping.oracle : '';
   }
 
-  getSafeUrl(i:any) {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(i.label.cmp_link + "embed/captioned/?cr=1&v=14&wp=540&rd=http%3A%2F%2Flocalhost%3A4200&rp=%2F#%7B%22ci%22%3A0%2C%22os%22%3A15257.489999999962%2C%22ls%22%3A1741.52000000322%2C%22le%22%3A1848.8950000028126%7D");
-    
+  getSafeUrl(i: any) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(
+      i.label.cmp_link +
+        'embed/captioned/?cr=1&v=14&wp=540&rd=http%3A%2F%2Flocalhost%3A4200&rp=%2F#%7B%22ci%22%3A0%2C%22os%22%3A15257.489999999962%2C%22ls%22%3A1741.52000000322%2C%22le%22%3A1848.8950000028126%7D'
+    );
   }
   getAllNotifications() {
     this.showSpinner = true;
@@ -833,12 +934,9 @@ closeModal(content: any) {
         }
 
         if (response !== null && response !== undefined) {
-          
           this.isloading = false;
           this.dataNotification = response.data.notifications;
-          this.dataNotification.map((notif:any) => {
-           
-          })
+          this.dataNotification.map((notif: any) => {});
           if (response.data.isSeen !== 0) {
             this.seeNotification();
           }
@@ -848,7 +946,7 @@ closeModal(content: any) {
             const formattedTime = this.convertToCustomFormat(currentTime);
             item.created =
               item.createdAt && item.createdAt !== formattedTime
-            ? item.updatedAt
+                ? item.updatedAt
                 : item.createdAt;
             this.switchFunction(item);
           });
@@ -860,9 +958,9 @@ closeModal(content: any) {
               return { created: key, value };
             })
             .value();
-            this.dataNotificationFilter = this.dataNotification;
-            this.showSpinner = false;
-          }
+          this.dataNotificationFilter = this.dataNotification;
+          this.showSpinner = false;
+        }
       });
   }
 
@@ -871,7 +969,9 @@ closeModal(content: any) {
     const year = logDate.getFullYear();
     const month = logDate.getMonth() + 1; // Months are 0-indexed
     const day = logDate.getDate();
-    const formattedDate  = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
+    const formattedDate = `${year}-${month < 10 ? '0' : ''}${month}-${
+      day < 10 ? '0' : ''
+    }${day}`;
     return formattedDate;
   }
 
@@ -882,23 +982,57 @@ closeModal(content: any) {
         const filteredValue = notification.value.filter((item: any) => {
           let linkFiltred = false;
           let linkStatus = '';
-          if (types.some(type => type.startsWith('cmp_candidate_accept_link/')) && item.type === 'cmp_candidate_accept_link') {
+          if (
+            types.some((type) =>
+              type.startsWith('cmp_candidate_accept_link/')
+            ) &&
+            item.type === 'cmp_candidate_accept_link'
+          ) {
             linkFiltred = true;
             linkStatus = '';
-          } else if(types.some(type => type === 'create_campaign/inProgress' && item.type === 'create_campaign' &&  item.label.cmp_update.type === 'inProgress')) {
+          } else if (
+            types.some(
+              (type) =>
+                type === 'create_campaign/inProgress' &&
+                item.type === 'create_campaign' &&
+                item.label.cmp_update.type === 'inProgress'
+            )
+          ) {
             linkFiltred = false;
-            linkStatus = 'inProgress'
-          } else if(types.some(type => type === 'create_campaign/finished' && item.type === 'create_campaign' && item.label.cmp_update.type === 'finished')) {
+            linkStatus = 'inProgress';
+          } else if (
+            types.some(
+              (type) =>
+                type === 'create_campaign/finished' &&
+                item.type === 'create_campaign' &&
+                item.label.cmp_update.type === 'finished'
+            )
+          ) {
             linkFiltred = false;
-            linkStatus = 'finished'
-          } else if(types.some(type => type === 'create_campaign/apply' && item.type === 'create_campaign' && item.label.cmp_update.type === 'apply')) {
+            linkStatus = 'finished';
+          } else if (
+            types.some(
+              (type) =>
+                type === 'create_campaign/apply' &&
+                item.type === 'create_campaign' &&
+                item.label.cmp_update.type === 'apply'
+            )
+          ) {
             linkFiltred = false;
-            linkStatus = 'apply'
+            linkStatus = 'apply';
           } else {
             linkFiltred = false;
-            linkStatus = '' 
+            linkStatus = '';
           }
-          return types.includes(linkFiltred ? `cmp_candidate_accept_link/${this.getOracle(item.label.link.oracle)}` : ( linkStatus === '' ? item.type : `create_campaign/${linkStatus}`));
+          return types.includes(
+            linkFiltred
+              ? `cmp_candidate_accept_link/${this.getOracle(
+                  item.label.link.oracle
+                )}`
+              : linkStatus === ''
+              ? item.type
+              : `create_campaign/${linkStatus}`
+          );
         });
         return { ...notification, value: filteredValue };
       });
@@ -906,8 +1040,6 @@ closeModal(content: any) {
       this.dataNotificationFilter = this.dataNotification;
     }
   }
-  
-
 
   resetFilter() {
     this.filterListType = [];
@@ -917,13 +1049,13 @@ closeModal(content: any) {
     this.setAllTogglesFalse(this.buttonData3);
     this.setAllTogglesFalsechek(this.checkboxData);
     this.setAllTogglesFalsechek(this.checkboxData1);
-    
+
     // Remove 'checkbck' class and add 'checkb' class to all checkboxes
-    this.checkboxData.forEach(checkbox => {
+    this.checkboxData.forEach((checkbox) => {
       checkbox.toggle = false;
     });
-  
-    this.checkboxData1.forEach(checkbox => {
+
+    this.checkboxData1.forEach((checkbox) => {
       checkbox.toggle = false;
     });
   }
@@ -934,23 +1066,21 @@ closeModal(content: any) {
     }
   }
 
- 
-
   getCampaignCover(cover: string) {
     const matchResult = cover.match(/ipfs:(.*)/);
 
-  if (matchResult && matchResult[1]) {
-    return matchResult[1];
-  } else {
-    // Handle the case where no match was found
-    return "No match found";
+    if (matchResult && matchResult[1]) {
+      return matchResult[1];
+    } else {
+      // Handle the case where no match was found
+      return 'No match found';
+    }
   }
-  }
-  getCampaignLogo(cmp:any) {
+  getCampaignLogo(cmp: any) {
     if (cmp.logo.includes('data:image/png;base64,')) return cmp.logo;
-    else return 'data:image/png;base64,'+cmp.logo
+    else return 'data:image/png;base64,' + cmp.logo;
   }
-  getCampaignTitle(cmp:any) {
+  getCampaignTitle(cmp: any) {
     return cmp.type;
     /*switch(cmp.type) {
       case 'inProgress':
@@ -965,116 +1095,150 @@ closeModal(content: any) {
     }*/
   }
 
-  getCampaignStartDate(cmp:any) {
+  getCampaignStartDate(cmp: any) {
     const startDate = new Date(cmp.startDate * 1000);
     const currentDate = new Date();
-    
+
     // Calculate the time difference in milliseconds
     const timeDifference: number = currentDate.getTime() - startDate.getTime();
-    
+
     // Calculate years, months, days, and hours
     const years = Math.floor(timeDifference / (1000 * 60 * 60 * 24 * 365));
     const remainingMilliseconds = timeDifference % (1000 * 60 * 60 * 24 * 365);
-    const months = Math.floor(remainingMilliseconds / (1000 * 60 * 60 * 24 * 30));
-    const remainingDays = Math.floor(remainingMilliseconds / (1000 * 60 * 60 * 24));
+    const months = Math.floor(
+      remainingMilliseconds / (1000 * 60 * 60 * 24 * 30)
+    );
+    const remainingDays = Math.floor(
+      remainingMilliseconds / (1000 * 60 * 60 * 24)
+    );
     const days = remainingDays % 30;
-    const remainingHours = Math.floor((remainingMilliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    
+    const remainingHours = Math.floor(
+      (remainingMilliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+
     // Construct the result string
     let result = '';
     if (years > 0) {
-        result += `${years}y `;
+      result += `${years}y `;
     }
     if (months > 0) {
-        result += `${months}m `;
+      result += `${months}m `;
     }
     if (days > 0) {
-        result += `${days}d `;
+      result += `${days}d `;
     }
     if (remainingHours > 0) {
-        result += `${remainingHours}h`;
+      result += `${remainingHours}h`;
     }
-    
+
     return result.trim();
-    
   }
 
-  redirectToCampaign(cmp:any) {
-    return this.router.navigateByUrl('/campaign/'+cmp._id)
-  } 
-  
-  redirectToCampaignById(id:any) {
-    return this.router.navigateByUrl('/campaign/'+id)
-  } 
+  redirectToCampaign(cmp: any) {
+    return this.router.navigateByUrl('/campaign/' + cmp._id);
+  }
+
+  redirectToCampaignById(id: any) {
+    return this.router.navigateByUrl('/campaign/' + id);
+  }
 
   convertBigNumberToNumber(number: any) {
-    return parseInt(number) / 10 **18
+    return parseInt(number) / 10 ** 18;
   }
   disableRetrieveButtonAction(cmp: any) {
-    
     //return true;
-    const date = new Date((cmp.endDate + environment.dateRefund ) * 1000)
-    if((date.getTime() - Date.now())) {
+    const date = new Date((cmp.endDate + environment.dateRefund) * 1000);
+    if (date.getTime() - Date.now()) {
       return true;
-    } else return false
+    } else return false;
   }
 
- 
   getCampaignRetrieveBudgetTime(cmp: any) {
-      
-      // WHEN YOU GET REFUNDS ( AFTER 15 DAYS )
-      this.dateRefund = new Date((cmp.endDate + environment.dateRefund ) * 1000)
-      
-      if((this.dateRefund.getTime() - Date.now()) > 0) {
-        return false
-        /*return `Congratulations ! Your AdPool ${cmp.title} is now finished.
+    // WHEN YOU GET REFUNDS ( AFTER 15 DAYS )
+    this.dateRefund = new Date((cmp.endDate + environment.dateRefund) * 1000);
+    const currentDate = new Date();
+    const unixTime = Math.floor(currentDate.getTime() / 1000);
+
+    if (cmp.funds[1] > 0 && cmp.endDate + 15 * 86400 < unixTime) {
+      return true;
+      /*return `Congratulations ! Your AdPool ${cmp.title} is now finished.
         \nYour remaining budget is currently ${parseInt(cmp.cost) / 10 **18} ${cmp.token.name.startsWith('SATT') ? 'SaTT' : cmp.token.name}.
          You can retrieve it in ${Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ))} Days 
          ${Math.floor(((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - (Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ))) ) * 24 )}Hours 
          ${Math.floor(((((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  )) ) * 24) - (Math.floor(((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - (Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ))) ) * 24 ))) * 60)}min`;*/
-      } else {
-        return true
-        //return `Congratulations ! Your AdPool ${cmp.title} is now finished.\nYour remaining budget is currently ${parseInt(cmp.cost) / 10 **18} ${cmp.token.name.startsWith('SATT') ? 'SaTT' : cmp.token.name}. You can now retrieve It retrieve it`;
-      }
-      
-    
+    } else {
+      return false;
+      //return `Congratulations ! Your AdPool ${cmp.title} is now finished.\nYour remaining budget is currently ${parseInt(cmp.cost) / 10 **18} ${cmp.token.name.startsWith('SATT') ? 'SaTT' : cmp.token.name}. You can now retrieve It retrieve it`;
+    }
   }
-  getTokenSymbol(token:any) {
-    return token.name.startsWith('SATT') ? 'SaTT' : token.name
+  getTokenSymbol(token: any) {
+    return token.name.startsWith('SATT') ? 'SaTT' : token.name;
   }
-  getStatistics(hash:string) {
-    
-    return this.campaignService.getStatisticsCampaign(hash)
-      .pipe(
-        map((response: any) => {
-          if (response.message === 'success' && response.code === 200) {
-            
-            return response.data.stat;
-          }
-        }),
-       
-      );
-     
+  getStatistics(hash: string) {
+    return this.campaignService.getStatisticsCampaign(hash).pipe(
+      map((response: any) => {
+        if (response.message === 'success' && response.code === 200) {
+          return response.data.stat;
+        }
+      })
+    );
   }
-  getRetrieveBudget(cmp:any) {
-    return parseFloat(cmp.cost) / 10 **18
+  getRetrieveBudget(cmp: any) {
+    return parseFloat(cmp.cost) / 10 ** 18;
   }
 
-  getRetrieveBudgetDays(cmp:any) {
-    this.dateRefund = new Date((cmp.endDate + environment.dateRefund ) * 1000)
-    return Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ))
+  getRetrieveBudgetDays(cmp: any) {
+    this.dateRefund = new Date((cmp.endDate + environment.dateRefund) * 1000);
+    return Math.floor(
+      (this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24)
+    );
   }
 
-  getRetrieveBudgetHours(cmp:any) {
-    this.dateRefund = new Date((cmp.endDate + environment.dateRefund ) * 1000)
-    return Math.floor(((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - (Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ))) ) * 24 )
+  getRetrieveBudgetHours(cmp: any) {
+    this.dateRefund = new Date((cmp.endDate + environment.dateRefund) * 1000);
+    return Math.floor(
+      ((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24) -
+        Math.floor(
+          (this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24)
+        )) *
+        24
+    );
   }
 
-  getRetrieveBudgetMins(cmp:any) {
-    this.dateRefund = new Date((cmp.endDate + environment.dateRefund ) * 1000)
-    return Math.floor(((((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  )) ) * 24) - (Math.floor(((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - (Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ))) ) * 24 ))) * 60)
+  getRefunds(campaignData: string) {
+    this.campaign = campaignData;
+    this.passwordForm = this._formBuilder.group({
+      password: ['', Validators.required]
+    });
+    this.loadingButton = false;
+    this.successMessage = '';
+    if (!this.refundButtonDisable) {
+      this.openModalPassword(this.transactionPassword);
+    }
   }
 
+  openModalPassword(content: any) {
+    this.modalService.open(content);
+    this.budgetModal = true;
+  }
+  getRetrieveBudgetMins(cmp: any) {
+    this.dateRefund = new Date((cmp.endDate + environment.dateRefund) * 1000);
+    return Math.floor(
+      (((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24) -
+        Math.floor(
+          (this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24)
+        )) *
+        24 -
+        Math.floor(
+          ((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24) -
+            Math.floor(
+              (this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24)
+            )) *
+            24
+        )) *
+        60
+    );
+  }
 
   /*extractIdsFromUrlFacebook(postUrl: string) {
     // Define a regex pattern to match the user and post IDs in the URL
@@ -1093,101 +1257,134 @@ closeModal(content: any) {
     }
   }*/
 
-
   embedRejectedPost(notification: any) {
     // Sanitize the embedded post URL
-    
-    if(notification.label.cmp_link.includes('facebook')) {
 
+    if (notification.label.cmp_link.includes('facebook')) {
       const regexPattern = /facebook\.com\/([^\/]+)\/posts\/([^\/]+)/;
       const matches = notification.label.cmp_link.match(regexPattern);
-      
-        const userId = matches[1]; // User ID
-        const postId = matches[2]; // Post ID
-       return this.sanitizer.bypassSecurityTrustResourceUrl(
-        "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F"+userId+"%2Fposts%2F"+postId+"&show_text=true&appId=214777317448706"
-          //"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fama014656%2Fposts%2Fpfbid02pHsyQMzM4w7dqk5covGHwKcCSW53Lcarja3ZXynZxDoX4wMbkFQoDKZPdZNSZ66al&width=500&show_text=false&height=487&appId"
-          //environment.FACEBOOK_POST_URL + userId + '%2Fposts%2F' + postId + '&show_text=true&appId=214777317448706'
-        )
-        
-        
-     
-    } else if(notification.label.cmp_link.includes('youtube')) {
-      const match = notification.label.cmp_link.match(/(?:\?v=|\/embed\/|\/watch\?v=|\/youtu\.be\/|\/v\/|\/e\/|watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-      
-        return this.sanitizer.bypassSecurityTrustResourceUrl(environment.YOUTUBE_EMBED_LINK + match[1])
-       
-      
-    } else if(notification.label.cmp_link.includes('tiktok')) {
-      return this.sanitizer.bypassSecurityTrustResourceUrl(notification.label.cmp_link)
-    } else if(notification.label.cmp_link.includes('instagram')) {
+
+      const userId = matches[1]; // User ID
+      const postId = matches[2]; // Post ID
+      return this.sanitizer.bypassSecurityTrustResourceUrl(
+        'https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F' +
+          userId +
+          '%2Fposts%2F' +
+          postId +
+          '&show_text=true&appId=214777317448706'
+        //"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fama014656%2Fposts%2Fpfbid02pHsyQMzM4w7dqk5covGHwKcCSW53Lcarja3ZXynZxDoX4wMbkFQoDKZPdZNSZ66al&width=500&show_text=false&height=487&appId"
+        //environment.FACEBOOK_POST_URL + userId + '%2Fposts%2F' + postId + '&show_text=true&appId=214777317448706'
+      );
+    } else if (notification.label.cmp_link.includes('youtube')) {
+      const match = notification.label.cmp_link.match(
+        /(?:\?v=|\/embed\/|\/watch\?v=|\/youtu\.be\/|\/v\/|\/e\/|watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/
+      );
+
+      return this.sanitizer.bypassSecurityTrustResourceUrl(
+        environment.YOUTUBE_EMBED_LINK + match[1]
+      );
+    } else if (notification.label.cmp_link.includes('tiktok')) {
       return this.sanitizer.bypassSecurityTrustResourceUrl(
         notification.label.cmp_link
-        + '/embed/captioned/?cr=1&v=14&wp=540&rd=http%3A%2F%2Flocalhost%3A4200&rp=%2F#%7B%22ci%22%3A0%2C%22os%22%3A15257.489999999962%2C%22ls%22%3A1741.52000000322%2C%22le%22%3A1848.8950000028126%7D'
-      )
-    } else if(notification.label.cmp_link.includes('linkedin')) {
-      const url = notification.label.cmp_link.replace('https://www.linkedin.com/', 'https://www.linkedin.com/embed/')
-      return this.sanitizer.bypassSecurityTrustResourceUrl(url)
+      );
+    } else if (notification.label.cmp_link.includes('instagram')) {
+      return this.sanitizer.bypassSecurityTrustResourceUrl(
+        notification.label.cmp_link +
+          '/embed/captioned/?cr=1&v=14&wp=540&rd=http%3A%2F%2Flocalhost%3A4200&rp=%2F#%7B%22ci%22%3A0%2C%22os%22%3A15257.489999999962%2C%22ls%22%3A1741.52000000322%2C%22le%22%3A1848.8950000028126%7D'
+      );
+    } else if (notification.label.cmp_link.includes('linkedin')) {
+      const url = notification.label.cmp_link.replace(
+        'https://www.linkedin.com/',
+        'https://www.linkedin.com/embed/'
+      );
+      return this.sanitizer.bypassSecurityTrustResourceUrl(url);
     } else return;
-    
-    
-    
+
     /*this.embeddedPostUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       "https://www.facebook.com/plugins/post.php?href=" + encodeURIComponent(this.postUrl)
     );*/
   }
-  redirectLink(notif:any) {
-    
-      switch(notif.label.link.oracle) {
-        case 'instagram':
-          
-          window.open('https://www.instagram.com/p/'+notif.label.link.idPost, '_target');
-          break;
-        case 'facebook':
-          window.open('https://www.facebook.com/'+ notif.label.link.idUser +'/posts/'+notif.label.link.idPost, '_target');
-          break;
+  redirectLink(notif: any) {
+    switch (notif.label.link.oracle) {
+      case 'instagram':
+        window.open(
+          'https://www.instagram.com/p/' + notif.label.link.idPost,
+          '_target'
+        );
+        break;
+      case 'facebook':
+        window.open(
+          'https://www.facebook.com/' +
+            notif.label.link.idUser +
+            '/posts/' +
+            notif.label.link.idPost,
+          '_target'
+        );
+        break;
 
-        case 'youtube':
-          window.open('https://www.youtube.com/watch?v='+notif.label.link.idPost, '_target')
-          break;
-          
-        case 'tiktok':
-          window.open('https://www.tiktok.com/embed/'+notif.label.link.idPost, '_target')
-          break; 
-        
-        case 'twitter':
-          window.open('https://www.twitter.com/'+ notif.label.link.idUser +'/status/'+notif.label.link.idPost, '_target');
-          break; 
-          
-        case 'linkedin':
-          window.open('https://www.linkedin.com/feed/update/urn:li:share:' + notif.label.link.idPost, 'target')
-          break;
+      case 'youtube':
+        window.open(
+          'https://www.youtube.com/watch?v=' + notif.label.link.idPost,
+          '_target'
+        );
+        break;
 
-        case 'threads':
-          window.open('https://www.threads.net/@'+ notif.label.link.instagramUserName +'/post/'+notif.label.link.idPost, '_target');
-          break;
-          
-        default:
-          window.open('https://satt-token.com/', '_target')
-      }
-    
+      case 'tiktok':
+        window.open(
+          'https://www.tiktok.com/embed/' + notif.label.link.idPost,
+          '_target'
+        );
+        break;
+
+      case 'twitter':
+        window.open(
+          'https://www.twitter.com/' +
+            notif.label.link.idUser +
+            '/status/' +
+            notif.label.link.idPost,
+          '_target'
+        );
+        break;
+
+      case 'linkedin':
+        window.open(
+          'https://www.linkedin.com/feed/update/urn:li:share:' +
+            notif.label.link.idPost,
+          'target'
+        );
+        break;
+
+      case 'threads':
+        window.open(
+          'https://www.threads.net/@' +
+            notif.label.link.instagramUserName +
+            '/post/' +
+            notif.label.link.idPost,
+          '_target'
+        );
+        break;
+
+      default:
+        window.open('https://satt-token.com/', '_target');
+    }
   }
   switchFunction(item: any) {
-    if(item.type === 'create_campaign') {
+    if (item.type === 'create_campaign') {
       this.getStatistics(item.label.cmp_update.hash).subscribe((data: any) => {
         let sumOfViews = 0;
         for (const platform in data) {
-            sumOfViews += data[platform].views;
+          sumOfViews += data[platform].views;
         }
         item.label.views = sumOfViews;
       });
     }
-    if(item.type === 'cmp_candidate_reject_link') item.label.showReason = false
+    if (item.type === 'cmp_candidate_reject_link')
+      item.label.showReason = false;
     const etherInWei = new Big(1000000000000000000);
     //let itemDate = new Date(item.created);
     //item.createdInit = item.created;
-    let itemDate = new Date(item.created);    
-    item.createdInit = itemDate
+    let itemDate = new Date(item.created);
+    item.createdInit = itemDate;
     item.created = itemDate;
     if (this.tokenStorageService.getLocalLang() === 'en') {
       item.createdFormated = moment
@@ -1203,7 +1400,7 @@ closeModal(content: any) {
       //item.created = moment.parseZone(itemDate).locale('fr').fromNow();
       item.created = itemDate;
     }
-    item.created  = this.convertTimeFormat(item.created );
+    item.created = this.convertTimeFormat(item.created);
     // console.log(this.translate.instant(''))
     //  let typeof_data=typeof(item.label)
     //  console.log(this.translate.instant(''))
@@ -1311,7 +1508,8 @@ closeModal(content: any) {
 
       case 'transfer_event':
         if (item._label['currency']) {
-          item._label['currency'] === "SATTPOLYGON" && (item._label['decimal'] = 18)
+          item._label['currency'] === 'SATTPOLYGON' &&
+            (item._label['decimal'] = 18);
           let decimal = item._label['decimal']
             ? new Big('10').pow(item._label['decimal'])
             : ListTokens[item._label.currency].decimals;
@@ -1351,8 +1549,8 @@ closeModal(content: any) {
 
       case 'receive_transfer_event':
         if (item._label['currency']) {
-
-          item._label['currency'] === "SATTPOLYGON" && (item._label['decimal'] = 18)
+          item._label['currency'] === 'SATTPOLYGON' &&
+            (item._label['decimal'] = 18);
           let decimal = item._label['decimal']
             ? new Big('10').pow(item._label['decimal'])
             : ListTokens[item._label.currency]?.decimals;
@@ -1691,8 +1889,8 @@ closeModal(content: any) {
   rejectLink(modal: any) {
     this.showLoadingSpinner = true;
     let arrayReason: any = [];
-    this.walletFacade.verifyUserToken().subscribe((res:any) => {
-      if(res?.message !== "success") {
+    this.walletFacade.verifyUserToken().subscribe((res: any) => {
+      if (res?.message !== 'success') {
         this.expiredSession();
       } else {
         Object.keys(this.reasonForm.controls).forEach((element: any) => {
@@ -1717,12 +1915,11 @@ closeModal(content: any) {
             )
             .pipe(takeUntil(this.isDestroyed))
             .subscribe((data: any) => {
-    
               if (data.message === 'success') {
                 this.closeModal(modal);
                 this.showLoadingSpinner = false;
-                window.open(environment.domainName + '/notification','_self')
-                
+                window.open(environment.domainName + '/notification', '_self');
+
                 // this.influencerProms = this.influencerProms.pipe(
                 //   map((array: any) =>
                 //     array.filter(
@@ -1731,13 +1928,11 @@ closeModal(content: any) {
                 //   ),
                 //   tap(console.log)
                 // );
-                
               }
             });
         }
       }
-    })
-    
+    });
   }
   validateLink(prom: any) {
     this.blockchainActions.onActionButtonClick({
@@ -1746,9 +1941,8 @@ closeModal(content: any) {
     });
     this.router.navigate([`/campaign/${prom.cmp_hash}/verify-link`], {
       queryParams: {
-        post_id: prom.link._id,
-        
-      },
+        post_id: prom.link._id
+      }
     });
   }
 
