@@ -90,7 +90,7 @@ export class FarmPostCardComponent implements OnInit {
 
     const currentTime = Math.floor(new Date().getTime() / 1000);
     const timeUntilHarvest = currentTime - harvestDate;
-    const timeUntilAccepted = currentTime - timestampAcceptedDate;
+    const timeUntilAccepted = currentTime - timestampAcceptedDate + 86400;
     const endTimeCampaign = this.prom.campaign.endDate - currentTime;
 
     if (this.prom.campaign.remuneration === 'publication') {
@@ -114,7 +114,7 @@ export class FarmPostCardComponent implements OnInit {
         this.harvestAvailable = false;
       }
     }
-    if (harvestDate) {
+   else if (harvestDate) {
       if (timeUntilHarvest > 0) {
         // Harvest date is in the future
         const remainingTime = timeUntilHarvest - 24 * 60 * 60; // Subtract 24 hours
@@ -122,8 +122,9 @@ export class FarmPostCardComponent implements OnInit {
         const minutes = Math.floor((remainingTime % 3600) / 60);
         this.harvestAvailableIn = `${hours}h ${minutes}min`;
         this.harvestAvailable = false;
-      } else if (timeUntilAccepted > 0) {
-        // Harvest date is in the past, but accepted date is in the future
+      }
+    } else if (today - timestampAcceptedDate < 86400) {
+      if (timeUntilAccepted > 0) {
         const hours = Math.floor(timeUntilAccepted / 3600);
         const minutes = Math.floor((timeUntilAccepted % 3600) / 60);
         this.harvestAvailableIn = `${hours}h ${minutes}min`;

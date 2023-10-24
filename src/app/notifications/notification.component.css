@@ -25,6 +25,79 @@
   padding-bottom: 0.5em;
 }
 
+.modal-transaction-password-mobile {
+  width: 100vw;
+  text-align: center;
+}
+.campaign-password-title {
+  padding-top: 2%;
+  font-family: 'Poppins';
+}
+.error-message {
+  font-family: 'Poppins';
+  color: #f52079;
+  font-weight: 500;
+}
+.spinner-border {
+  color: #4048ff;
+}
+
+.div_input_add {
+  margin-right: 15%;
+  margin-left: 15%;
+  background-color: white;
+  border: 1px solid #d6d6e8;
+  display: flex;
+  padding: 0;
+  border-radius: 30px;
+}
+
+.div_input_add_mobile {
+  width: 100vw;
+  background-color: white;
+  border: 1px solid #d6d6e8;
+  display: flex;
+  padding: 0;
+  border-radius: 30px;
+}
+.change_btn {
+  border-radius: 30px;
+  border: none;
+  background: #00cc9e;
+  height: 50px;
+  width: 30%;
+  color: cornsilk;
+  margin-bottom: 5%;
+}
+.success-message {
+  font-family: 'Poppins';
+  color: #00cc9e;
+  font-weight: 500;
+}
+.input_oeil {
+  height: 45px;
+  padding: 6px 15px;
+  line-height: 1.57142857;
+  border: none;
+  font-size: 14px;
+  color: #162746;
+  border-radius: 30px;
+  content: '\f002';
+}
+.campaign-password-description {
+  padding-left: 15%;
+  padding-right: 15%;
+  font-family: 'Poppins';
+}
+.campaign-password-logo {
+  padding-top: 5%;
+  font-family: 'Poppins';
+}
+.modal-transaction-password {
+  width: 50vw;
+  text-align: center;
+}
+
 .btn-reject {
   max-width: max-content;
   background: #f52079;

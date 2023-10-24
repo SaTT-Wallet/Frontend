@@ -674,7 +674,7 @@ ACCEPTED -->
                             [disabled]="
                             !getCampaignRetrieveBudgetTime(i.label.cmp_update)
                             "
-                            (click)="redirectToCampaign(i.label.cmp_update)"
+                            (click)="getRefunds(i.label.cmp_update)"
                           >
                             <span>
                               <img
@@ -915,3 +915,86 @@ ACCEPTED -->
     </div>
   </div>
 </ng-template>
+
+
+<ng-template #transactionPassword>
+  <div
+    [className]="
+      getScreenWidth > 768
+        ? 'modal-transaction-password'
+        : 'modal-transaction-password-mobile'
+    "
+  >
+    <form [formGroup]="passwordForm">
+      <div class="row d-flex justif-content-center campaign-password-logo">
+        <div class="col-12">
+          <img src="/assets/Images/Password_modal_logo.svg" alt="" />
+        </div>
+      </div>
+
+      <div class="row d-flex justif-content-center campaign-password-title">
+        <div class="col-12">
+          <h3>{{ 'campaign_password.title' | translate }}</h3>
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <div
+          class="col-12 d-flex justif-content-center campaign-password-description"
+        >
+          <p>{{ 'campaign_password.description2' | translate }}</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div
+            [className]="
+              getScreenWidth > 768
+                ? 'div_input_add position-relative'
+                : 'div_input_add_mobile position-relative'
+            "
+          >
+            <img
+              src="/assets/Images/input_password_logo.svg"
+              width="46px"
+              alt=""
+            />
+            <input
+              type="password"
+              name="password"
+              formControlName="password"
+              class="input_oeil"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="errorMessage.length > 0" class="error-message">
+        <p>{{ errorMessage }}</p>
+      </div>
+
+      <div *ngIf="successMessage.length > 0" class="success-message">
+        <p>{{ successMessage }}</p>
+      </div>
+
+      <div class="row mt-5">
+        <div class="col-12">
+          <button type="button" class="change_btn" (click)="callRemaining()">
+            <div
+              *ngIf="loadingButton"
+              class="spinner-border text-white"
+              role="status"
+            >
+              <span class="sr-only">Loading...</span>
+            </div>
+            <span *ngIf="!loadingButton">
+              {{ 'campaign_password.confirm' | translate }}
+            </span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
