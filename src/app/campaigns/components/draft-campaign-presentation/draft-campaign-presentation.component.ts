@@ -108,10 +108,17 @@ closeModal(content: any) {
         const title = jsonData.title;
         const description = jsonData.description;
         const shortDescription = jsonData.short_description;
-        const rules: string[]= jsonData.rules; 
+        const rules: any= jsonData.rules; 
+        const rulesArray = rules.split(/\d+\./);
+        const formattedRules: string[] = rulesArray.filter((rule: string) => rule.trim() !== '').map((rule: string) => rule.trim());
+        const formattedString = formattedRules.join('<br>');
+        // const formattedRules = rules?.map(rule: any => `- ${rule}`).join('<br>');
+        // rules.replace('\n', '<br>')
+        // const rules: any = jsonData.rules; 
+        // const formattedRules = rules?.map((rule: any) => `- ${rule}`).join('<br>');
         this.form.patchValue({ title: title });
         this.form.patchValue({ summary: shortDescription });
-        this.form.patchValue({ description: '<p><b>DESCRIPTION: </b></p>'  + description + '<p><b>RULES: </b></p>'  + rules?.map(rule => `- ${rule}`).join('<br>') });
+        this.form.patchValue({ description: '<p><b>DESCRIPTION: </b></p>'  + description + '<p><b>RULES: </b></p>'  + formattedString });
         this.isGenerating = false; 
         this.closeModalAi();
       } else this.isGenerating = false;
@@ -119,7 +126,6 @@ closeModal(content: any) {
       this.isGenerating = false;
     })
 }
-
 openModalAi(){
   this.isGenerating = false; 
   this.form.get('titles')?.setValue('');
