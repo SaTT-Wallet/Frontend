@@ -13,7 +13,7 @@ const Blob = require('blob-polyfill').Blob;
 
 import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
-
+import axios from 'axios';
 
 export function app(): express.Express {
   const server = express();
@@ -32,17 +32,13 @@ export function app(): express.Express {
     PointerEvent: {}
   };
 
-
-
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
   server.engine(
     'html',
     ngExpressEngine({
       bootstrap: AppServerModule,
       inlineCriticalCss: false,
-      providers: [
-        { provide: 'document', useValue: fakeWindow.document },
-      ],
+      providers: [{ provide: 'document', useValue: fakeWindow.document }]
     })
   );
   server.use(helmet.noSniff());
@@ -51,8 +47,6 @@ export function app(): express.Express {
 
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });
-
-
 
   // Serve static files from /browser
   server.get(
@@ -70,7 +64,6 @@ export function app(): express.Express {
   server.get('/campaign/**/recover-my-gains', getStaticFiles);
   server.get('/campaign/**/verify-link', getStaticFiles);
 
-
   // All regular routes use the Universal engine
   server.get('/campaign/**', (req, res) => {
     res.render('index', {
@@ -79,13 +72,37 @@ export function app(): express.Express {
     });
   });
 
+  server.use(express.json());
+  server.get('/getBlogs', async (req, res) => {
+    try {
+      const response = await axios.get(
+        'https://satt-token.com/blog/wp-json/wp/v2/posts?_embed'
+      );
+  
+      // Check the Content-Type header
+      const contentType = response.headers['content-type'];
+      if (contentType && contentType.includes('application/json')) {
+        // If it's JSON, send the data
+        res.json(response.data);
+      } else {
+        // If it's not JSON, handle the error
+        console.error('Response is not valid JSON.');
+        res.status(500).send('Error occurred while fetching data: Invalid response format');
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Error occurred while fetching data');
+    }
+  });
+  
+  server.use('/getBlogs', (req, res, next) => {
+    next();
+  });
 
   server.get('*', getStaticFiles);
 
   return server;
 }
-
-
 
 function run(): void {
   const port = process.env.PORT || 4000;
@@ -93,7 +110,7 @@ function run(): void {
   // Start up the Node server
   const server = app();
   server.listen(port, () => {
-    console.log(`Node Express server listening on http://localhost:${port}`);// eslint-disable-line
+    console.log(`Node Express server listening on http://localhost:${port}`); // eslint-disable-line
   });
 }
 

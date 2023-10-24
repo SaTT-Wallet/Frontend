@@ -1,5 +1,6 @@
 import {
   Component,
+  ElementRef,
   HostListener,
   Inject,
   OnInit,
@@ -173,7 +174,8 @@ export class CampaignDetailComponent implements OnInit {
     private campaignListStoreService: CampaignsListStoreService,
     private Window: WindowRefService,
     private campaignsHttpService: CampaignHttpApiService,
-    private _location: Location
+    private _location: Location,
+    private elementRef: ElementRef
   ) {
     this.sendform = new UntypedFormGroup({
       url: new UntypedFormControl(null, Validators.required)
@@ -281,7 +283,7 @@ export class CampaignDetailComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       this.getKits();
     }
-    
+   
     setTimeout(() => {
       // WHEN YOU GET REFUNDS ( AFTER 15 DAYS )
       this.dateRefund = new Date(((this.campaign?.endDate?.getTime() / 1000) + environment.dateRefund ) * 1000)
@@ -313,7 +315,13 @@ export class CampaignDetailComponent implements OnInit {
   getCampaignCover() {
     return this.campaign.coverSrcMobile.includes('ipfs') ? ipfsURL + this.campaign.coverSrcMobile.substring(27, this.campaign.coverSrcMobile.length) : undefined;
    }
-
+   /*ngAfterViewInit() {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        setTimeout(() => this.scrollToTop(), 0);
+      }
+    });
+  }*/
   getRefunds(id:string) {
     this.passwordForm = this._formBuilder.group({
       password: ['', Validators.required]
@@ -595,12 +603,15 @@ export class CampaignDetailComponent implements OnInit {
     this.campaign$
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((campaign: Campaign) => {
+        
         if (campaign.id !== this.campaignId) {
           return;
         }
         //data logo image
         this.campaign = campaign;
         this.isLoading = false;
+        
+        
         if (!this.isErnings) {
           this.showmoonboy = true;
         }
@@ -856,12 +867,11 @@ export class CampaignDetailComponent implements OnInit {
       this.downloadFilsClick = false;
     }, 1000);
   }
+
   scrollToTop() {
-    let span = this.document.getElementsByClassName('span-top');
-    if (span.length > 0) {
-      span[0].scrollIntoView({ behavior: 'smooth' });
-    }
+    this.elementRef.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
+
   goToEditPage(id: string) {
     this.router.navigate(['home/campaign', id, 'edit']);
   }

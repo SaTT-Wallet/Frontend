@@ -52,8 +52,8 @@ export class FarmPostCardComponent implements OnInit {
   payedAmoundInUSD: any;
   private isDestroyed = new Subject();
   intervalId!: any;
-  harvestAvailableIn: any;
-  harvestAvailable: boolean = false;
+  harvestAvailableIn: any = 0;
+  harvestAvailable: boolean = true;
 
   constructor(
     private tokenStorageService: TokenStorageService,
@@ -82,53 +82,52 @@ export class FarmPostCardComponent implements OnInit {
       [atLastOneChecked(), requiredDescription()]
     );
   }
-  countHarvestDownTimerForPublication() {
-    // Provided end date in UNIX timestamp format (e.g., 1698192000)
-    const endDateTimestamp = this.prom.campaign.endDate * 1000; // Convert to milliseconds
-    
-    // Current date
-    const currentDate = Date.now();
 
-    // Calculate the time difference in milliseconds
-    const timeDifference = endDateTimestamp - currentDate;
-
-    // Calculate days, hours, and minutes
-    const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
-    /*if(days === 0 && hours === 0 && minutes === 0) {
-      this.harvestAvailable = false;
-    } else this.harvestAvailable = true;*/
-    return `${days}d ${hours}h ${minutes}min`;
-  }
   private countDownTimer(): void {
-    const timestampAcceptedDate: number = this.prom.acceptedDate * 1000;
-
-    const harvestDate: number = new Date(timestampAcceptedDate).getTime();
-
-    const harvestDateAvailable: number = new Date(
-      harvestDate + 24 * 60 * 60 * 1000
-    ).getTime();
-    const today: number = new Date().getTime();
-
-    const diffrenence: number = harvestDateAvailable - today;
-
-    if (this.prom.isAccepted && diffrenence >= 0) {
-      const h = Math.floor(
-        (diffrenence % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-      );
-
-      const m = Math.floor((diffrenence % (1000 * 60 * 60)) / (1000 * 60));
-
-      this.harvestAvailable = true;
-      const s = Math.floor((diffrenence % (1000 * 60)) / 1000);
-
-      this.harvestAvailableIn = h + 'h ' + m + 'min';
-      return this.harvestAvailableIn;
+    const harvestDate: number = this.prom.lastHarvestDate;
+    const today: number = Math.floor(new Date().getTime() / 1000);
+    const timestampAcceptedDate: number = this.prom.acceptedDate;
+  
+    const currentTime = Math.floor(new Date().getTime() / 1000);
+    const timeUntilHarvest = harvestDate - currentTime; // Corrected calculation
+    const timeUntilAccepted = timestampAcceptedDate + 86400 - currentTime; // Corrected calculation
+    const endTimeCampaign = this.prom.campaign.endDate - currentTime;
+  
+    if (this.prom.campaign.remuneration === 'publication') {
+      if (endTimeCampaign > 0) {
+        const hours = Math.floor(endTimeCampaign / 3600);
+        const minutes = Math.floor((endTimeCampaign % 3600) / 60);
+  
+        if (hours > 24) {
+          const days = Math.floor(hours / 24);
+          const remainingHours = hours % 24;
+          this.harvestAvailableIn = `${days} day${days > 1 ? 's' : ''} ${remainingHours} hour${remainingHours > 1 ? 's' : ''} ${minutes} minute${minutes > 1 ? 's' : ''}`;
+        } else {
+          this.harvestAvailableIn = `${hours} hour${hours > 1 ? 's' : ''} ${minutes} minute${minutes > 1 ? 's' : ''}`;
+        }
+        this.harvestAvailable = false;
+      }
+    } else if (harvestDate) {
+      if (timeUntilHarvest > 0) {
+        const hours = Math.floor(timeUntilHarvest / 3600);
+        const minutes = Math.floor((timeUntilHarvest % 3600) / 60);
+        this.harvestAvailableIn = `${hours}h ${minutes}min`;
+        this.harvestAvailable = false;
+      }
+    } else if (today - timestampAcceptedDate < 86400) {
+      if (timeUntilAccepted > 0) {
+        const hours = Math.floor(timeUntilAccepted / 3600);
+        const minutes = Math.floor((timeUntilAccepted % 3600) / 60);
+        this.harvestAvailableIn = `${hours}h ${minutes}min`;
+        this.harvestAvailable = false;
+      }
     }
   }
+  
   safeImageUrl(base64Image: string): SafeResourceUrl {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${base64Image}`);
+    return this.sanitizer.bypassSecurityTrustResourceUrl(
+      `data:image/png;base64, ${base64Image}`
+    );
   }
   ngOnInit(): void {
     this.getPartPic();
@@ -161,12 +160,10 @@ export class FarmPostCardComponent implements OnInit {
       )
       .subscribe((prom: any) => {
         this.prom = new Participation(prom);
-        this.countHarvestDownTimerForPublication();
       });
     let currencyName = this.prom.campaign.currency;
     this.intervalId = setInterval(() => {
       this.countDownTimer();
-      
     }, 1000);
     if (currencyName === 'SATTBEP20') currencyName = 'SATT';
 
@@ -189,8 +186,6 @@ export class FarmPostCardComponent implements OnInit {
     );
   }
 
-
-
   get localId(): string {
     return this.tokenStorageService.getLocale() || 'en';
   }
@@ -198,11 +193,14 @@ export class FarmPostCardComponent implements OnInit {
   getLink(event: Event) {
     event.preventDefault(); // Prevent the default link behavior
     if (isPlatformBrowser(this.platformId)) {
-      
-      window.open(this.prom.typeSN == 7 ? 'https://www.threads.net/t/'+this.prom.idPost :this.prom.link, '_blank');
+      window.open(
+        this.prom.typeSN == 7
+          ? 'https://www.threads.net/t/' + this.prom.idPost
+          : this.prom.link,
+        '_blank'
+      );
     }
   }
-  
 
   getMyGains(prom: any) {
     let x = prom.campaign.ratio?.length ? false : true;
@@ -214,31 +212,32 @@ export class FarmPostCardComponent implements OnInit {
       action: EButtonActions.GET_MY_GAINS
     });
 
-
     /************   FETCH NETWORK OF CAMPAIGN     ***********/
-    
-    let network = "";
-    this.campaignService.getOneById(prom.campaign._id)
-    .subscribe(
+
+    let network = '';
+    this.campaignService.getOneById(prom.campaign._id).subscribe(
       (res) => {
-      network = res.data.token.type;
-      this.router.navigate(
-        [`/home/campaign/${prom.campaign._id}/recover-my-gains`],
-        {
-          queryParams: {prom_hash: prom.hash, id: prom.campaign._id, network: network}
-        }
-      );
-    },
-      (err:any) => {
+        network = res.data.token.type;
         this.router.navigate(
           [`/home/campaign/${prom.campaign._id}/recover-my-gains`],
           {
-            queryParams: {prom_hash: prom.hash, id: prom.campaign._id}
+            queryParams: {
+              prom_hash: prom.hash,
+              id: prom.campaign._id,
+              network: network
+            }
+          }
+        );
+      },
+      (err: any) => {
+        this.router.navigate(
+          [`/home/campaign/${prom.campaign._id}/recover-my-gains`],
+          {
+            queryParams: { prom_hash: prom.hash, id: prom.campaign._id }
           }
         );
       }
-    )
-    
+    );
   }
   validateLink(prom: any) {
     this.blockchainActions.onActionButtonClick({
@@ -283,13 +282,11 @@ export class FarmPostCardComponent implements OnInit {
     window.open(environment.domainName + '/auth/login', '_self');
   }
 
-
-
   rejectLink(modal: any) {
     this.showLoadingSpinner = true;
     let arrayReason: any = [];
-    this.walletFacade.verifyUserToken().subscribe((res:any) => {
-      if(res?.message !== "success") {
+    this.walletFacade.verifyUserToken().subscribe((res: any) => {
+      if (res?.message !== 'success') {
         this.expiredSession();
       } else {
         Object.keys(this.reasonForm.controls).forEach((element: any) => {
@@ -313,7 +310,6 @@ export class FarmPostCardComponent implements OnInit {
             )
             .pipe(takeUntil(this.isDestroyed))
             .subscribe((data: any) => {
-    
               if (data.message === 'success') {
                 this.closeModal(modal);
                 this.showLoadingSpinner = false;
@@ -331,8 +327,7 @@ export class FarmPostCardComponent implements OnInit {
             });
         }
       }
-    })
-    
+    });
   }
 
   getPartPic() {

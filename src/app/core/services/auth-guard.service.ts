@@ -1,5 +1,5 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, mergeMap, take, tap } from 'rxjs/operators';
 import { TokenStorageService } from './tokenStorage/token-storage-service.service';
@@ -24,7 +24,11 @@ export class AuthGuardService implements CanActivate {
     private notificationService: NotificationService
   ) {}
 
-  canActivate() {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Observable<boolean> {
+    if (state.url === '/getBlogs') {
+      // If the route is "/getBlogs," allow access without authentication
+      return true;
+    }
     if (this.tokenStorageService.getIsAuth() !== 'true') {
       this.tokenStorageService.signOut();
       this.accountFacadeService.dispatchLogoutAccount();
