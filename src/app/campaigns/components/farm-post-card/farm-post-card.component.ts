@@ -87,39 +87,30 @@ export class FarmPostCardComponent implements OnInit {
     const harvestDate: number = this.prom.lastHarvestDate;
     const today: number = Math.floor(new Date().getTime() / 1000);
     const timestampAcceptedDate: number = this.prom.acceptedDate;
-
+  
     const currentTime = Math.floor(new Date().getTime() / 1000);
-    const timeUntilHarvest = currentTime - harvestDate;
-    const timeUntilAccepted = currentTime - timestampAcceptedDate + 86400;
+    const timeUntilHarvest = harvestDate - currentTime; // Corrected calculation
+    const timeUntilAccepted = timestampAcceptedDate + 86400 - currentTime; // Corrected calculation
     const endTimeCampaign = this.prom.campaign.endDate - currentTime;
-
+  
     if (this.prom.campaign.remuneration === 'publication') {
       if (endTimeCampaign > 0) {
         const hours = Math.floor(endTimeCampaign / 3600);
         const minutes = Math.floor((endTimeCampaign % 3600) / 60);
-
+  
         if (hours > 24) {
           const days = Math.floor(hours / 24);
           const remainingHours = hours % 24;
-          this.harvestAvailableIn = `${days} day${
-            days > 1 ? 's' : ''
-          } ${remainingHours} hour${
-            remainingHours > 1 ? 's' : ''
-          } ${minutes} minute${minutes > 1 ? 's' : ''}`;
+          this.harvestAvailableIn = `${days} day${days > 1 ? 's' : ''} ${remainingHours} hour${remainingHours > 1 ? 's' : ''} ${minutes} minute${minutes > 1 ? 's' : ''}`;
         } else {
-          this.harvestAvailableIn = `${hours} hour${
-            hours > 1 ? 's' : ''
-          } ${minutes} minute${minutes > 1 ? 's' : ''}`;
+          this.harvestAvailableIn = `${hours} hour${hours > 1 ? 's' : ''} ${minutes} minute${minutes > 1 ? 's' : ''}`;
         }
         this.harvestAvailable = false;
       }
-    }
-   else if (harvestDate) {
+    } else if (harvestDate) {
       if (timeUntilHarvest > 0) {
-        // Harvest date is in the future
-        const remainingTime = timeUntilHarvest - 24 * 60 * 60; // Subtract 24 hours
-        const hours = Math.floor(remainingTime / 3600);
-        const minutes = Math.floor((remainingTime % 3600) / 60);
+        const hours = Math.floor(timeUntilHarvest / 3600);
+        const minutes = Math.floor((timeUntilHarvest % 3600) / 60);
         this.harvestAvailableIn = `${hours}h ${minutes}min`;
         this.harvestAvailable = false;
       }
@@ -132,6 +123,7 @@ export class FarmPostCardComponent implements OnInit {
       }
     }
   }
+  
   safeImageUrl(base64Image: string): SafeResourceUrl {
     return this.sanitizer.bypassSecurityTrustResourceUrl(
       `data:image/png;base64, ${base64Image}`
