@@ -68,7 +68,6 @@ let cryptoList: { symbol: string; network: string; logo: string }[] = [
   { symbol: 'ETH', network: 'erc20', logo: 'ETH.svg' },
   { symbol: 'BTC', network: 'btc', logo: 'BTC.svg' },
   { symbol: 'DAI', network: 'erc20', logo: 'DAI.svg' },
-  { symbol: 'BUSD', network: 'bep20', logo: 'BUSD.svg' },
   { symbol: 'BNB', network: 'bep20', logo: 'BNB.svg' },
   { symbol: 'MATIC', network: 'polygon', logo: 'MATIC.svg' },
   { symbol: 'MAKER', network: 'erc20', logo: 'MKR.svg' },
