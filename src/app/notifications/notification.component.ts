@@ -1184,7 +1184,7 @@ export class NotificationComponent implements OnInit {
     );
   }
   getRetrieveBudget(cmp: any) {
-    return parseFloat(cmp.cost) / 10 ** 18;
+    return parseFloat(cmp.funds[1]) / 10 ** 18;
   }
 
   getRetrieveBudgetDays(cmp: any) {
