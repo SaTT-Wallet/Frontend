@@ -225,7 +225,7 @@ truncateTitle(title: string): string {
     let today = new Date();
 
     if (
-      start.setDate(start.getDate() + 15) >=
+      start.setDate(start.getDate()) >=
       today.setHours(0, 0, 0, 0)
     ) {
       return true;
