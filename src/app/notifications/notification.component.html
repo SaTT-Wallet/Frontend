@@ -391,6 +391,9 @@
 
                               
                               <span *ngIf="i.type === 'create_campaign'">
+                                <ng-container *ngIf="getCampaignRetreive(i.label.cmp_update) === true">
+                                  {{ 'congratulation_start_title_notif'  | translate }} <span class="title-cmp" (click)="redirectToCampaign(i.label.cmp_update)">{{ i.label.cmp_update.title | uppercase}}</span> {{ 'statue_pools_notification_finished' | translate }}. {{'remaining_budget_succes_notification' | translate}} 
+                                </ng-container>
                                 
                                 <ng-container *ngIf="getCampaignTitle(i.label.cmp_update) === 'inProgress'">
                                   {{ 'congratulation_start_title_notif'  | translate }} <span class="title-cmp" (click)="redirectToCampaign(i.label.cmp_update)">{{ i.label.cmp_update.title | uppercase}}</span> {{ 'statue_pools_notification_pending' | translate }}.
@@ -670,7 +673,7 @@ ACCEPTED -->
                         <div style="width: 100%; height: 2em; margin-top: 25px;">
                           <button
                             [className]=" getCampaignRetrieveBudgetTime(i.label.cmp_update) ? 'budget_button' : 'budget_button_disabled'"
-                            *ngIf="i.label.cmp_update.type === 'finished'"
+                            *ngIf="i.label.cmp_update.type === 'finished' && !getCampaignRetreive(i.label.cmp_update)"
                             [disabled]="
                             !getCampaignRetrieveBudgetTime(i.label.cmp_update)
                             "

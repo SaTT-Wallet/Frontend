@@ -1297,6 +1297,7 @@
   "statue_pools_notification_finished": "is now Finished",
   "status_pools_notification_progress": "is now in Progress",
   "remaining_budget_notification":"Your remaining budget is currently",
+  "remaining_budget_succes_notification":" and your remaining budget has been successfully retrieved.",
   "selectSocialMedias": "Select social medias",
   "onlyPendingApplies": "Only pending applies",
   "validateLink": "Validate link",
