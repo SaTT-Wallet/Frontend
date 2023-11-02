@@ -73,7 +73,6 @@
                 </div>
               </div>
             </div>
-
             <div *ngFor="let crypto of res; trackBy: trackByCryptoListSymbol">
               <div
                 class="w-100 row pt-2 pb-2 d-flex justify-content-center"
@@ -1977,6 +1976,7 @@
                   <!--<div class="col-sm-8 d-flex justify-content-center" [routerLink]="['/wallet/add-token']" > <button class="white-btn mb-4" style="margin-bottom: 70px !important"> + {{ 'addToken' | translate }} </button> </div>-->
                 </div>
               </div>
+
               <div *ngIf="!!search">
                 <div
                   *ngFor="let crypto of res2"
@@ -2056,7 +2056,7 @@
                 </div>
               </div>
 
-              <div *ngIf="importManually && !!txtValue">
+              <div *ngIf="importManually && !!txtValue && res2.length === 0">
                 <form
                   [formGroup]="formToken"
                   class="d-flex justify-content-center pb-2 pt-2 row w-100"

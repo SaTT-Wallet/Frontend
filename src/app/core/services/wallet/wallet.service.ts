@@ -20,10 +20,26 @@ export interface ITransferTokensRequestBody {
   tokenAddress: string;
 }
 
+type NetworkToTokenStandard = {
+  [key: string]: string;
+};
+
 @Injectable({
   providedIn: 'root'
 })
 export class WalletService {
+
+
+  
+  networkToTokenStandard: NetworkToTokenStandard = {
+    "Ethereum": "erc20",
+    "BNB Smart Chain (BEP20)": "bep20",
+    "Polygon": "polygon",
+    "Tron20": "tron",
+    "BTTC": "bttc",
+  };
+
+
   constructor(
     private http: HttpClient,
     private tokenStorageService: TokenStorageService
@@ -106,6 +122,8 @@ export class WalletService {
     tokenAdress: string,
     network: string
   ) {
+    network = this.networkToTokenStandard[network] || network;
+
     return this.http.post(`${sattUrl}/wallet/addNewToken`, {
       tokenAdress,
       decimal,
