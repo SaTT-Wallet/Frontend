@@ -1080,7 +1080,12 @@ export class NotificationComponent implements OnInit {
     if (cmp.logo.includes('data:image/png;base64,')) return cmp.logo;
     else return 'data:image/png;base64,' + cmp.logo;
   }
+
+  getCampaignRetreive(cmp: any) {
+    return cmp.retrieved
+  }
   getCampaignTitle(cmp: any) {
+    if(!cmp.retrieved)
     return cmp.type;
     /*switch(cmp.type) {
       case 'inProgress':
@@ -1184,7 +1189,7 @@ export class NotificationComponent implements OnInit {
     );
   }
   getRetrieveBudget(cmp: any) {
-    return parseFloat(cmp.cost) / 10 ** 18;
+    return parseFloat(cmp.funds[1]) / 10 ** 18;
   }
 
   getRetrieveBudgetDays(cmp: any) {

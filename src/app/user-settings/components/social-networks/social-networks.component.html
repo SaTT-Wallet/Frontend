@@ -1061,7 +1061,8 @@
     </div>
 
     <!------------------------------------------link other netwok------------------------------------------>
-    <div class="other-network" *ngIf="percentSocial < 100">
+    
+    <div class="other-network" *ngIf="percentSocial < 100 && percentSocial > 0">
       <hr />
       <p class="network-type">
         {{ 'social_networks.link_another_acc' | translate }}

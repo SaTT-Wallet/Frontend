@@ -89,7 +89,7 @@ export class FarmPostCardComponent implements OnInit {
     const timestampAcceptedDate: number = this.prom.acceptedDate;
   
     const currentTime = Math.floor(new Date().getTime() / 1000);
-    const timeUntilHarvest = harvestDate - currentTime; // Corrected calculation
+    const timeUntilHarvest = harvestDate + 84600 - currentTime; // Corrected calculation
     const timeUntilAccepted = timestampAcceptedDate + 86400 - currentTime; // Corrected calculation
     const endTimeCampaign = this.prom.campaign.endDate - currentTime;
   
