@@ -11,7 +11,8 @@ import {
   OnInit,
   PLATFORM_ID,
   ViewChild,
-  Input
+  Input,
+  TemplateRef
 } from '@angular/core';
 // import { bscan, etherscan } from '@app/config/atn.config';
 import { Router, NavigationEnd, ActivatedRoute, ResolveStart } from '@angular/router';
@@ -56,6 +57,7 @@ import { ReturnStatement } from '@angular/compiler';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { REPL_MODE_STRICT } from 'repl';
 import { Title } from '@angular/platform-browser';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 const bscan = environment.bscanaddr;
 const etherscan = environment.etherscanaddr;
 const tronScanAddr = environment.tronScanAddr;
@@ -88,7 +90,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   showMenuNotif: boolean = false;
   showMenuProfil: boolean = false;
   isTransactionHashCopiedtron = false;
-
+  private connectModal!: TemplateRef<any>;
   existV2: any;
 
   isDropdownOpen: boolean = true;
@@ -224,6 +226,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     private route: ActivatedRoute,
     private hostElement: ElementRef,
     private titleService: Title,
+    public modalService: NgbModal,
   ) {
     this.router.events.subscribe((event) => {
       if(event instanceof ResolveStart) {
@@ -854,7 +857,16 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
   }
-
+  closeModal() {
+    this.modalService.dismissAll(this.connectModal);
+  }
+  connect(content:any) {
+    this.modalService.open(content);
+  }
+  sattConnect() {
+    this.closeModal();
+    this.router.navigateByUrl('/auth/login');
+  }
   siwtchFunction(item: any) {
     const etherInWei = new Big(1000000000000000000);
     if (this.tokenStorageService.getLocale() === 'en') {
