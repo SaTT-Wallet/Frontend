@@ -689,8 +689,8 @@
         class="right_nav_side navbar-nav"
         *ngIf="isPlatformBrowser && !isConnected && showConnectButton"
       >
-        <button type="button" class="button-connect d-none d-md-block">
-          <a class="" [routerLink]="['/auth/login']">Connect</a>
+        <button type="button" class="button-connect d-none d-md-block" (click)="connect(connectModal)">
+          Connect
         </button>
         <!--
         <li class="li-menu sign-in ">
@@ -1159,3 +1159,40 @@
     </div>
   </div>
 </div>
+
+
+<ng-template #connectModal>
+  <div class="modal-header modal-custom">
+    
+    <button
+      type="button"
+      class="btn-close pull-right close" 
+      (click)="closeModal()"
+      data-dismiss="modal"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div
+  class="modal-body modal-custom flex-column"
+  style="padding: 20px 4em !important"
+  >
+  
+    <div class="d-flex justify-content-center">
+      <h3 class="delete-token-modal-title">
+        Connect Wallet
+      </h3>
+    </div>
+    <button
+      type="button"
+      (click)="sattConnect()"
+      class="generator">{{'satt_wallet' | translate}}
+    </button>
+  
+    <button
+      type="button"
+      class="generator">{{'metamask_wallet' | translate}} 
+    </button>
+ 
+ 
+  </div>
+  </ng-template>
