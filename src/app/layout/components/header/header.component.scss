@@ -150,12 +150,14 @@
   .close-button {
     position: fixed;
     right: 0;
-    left: 90%;
+    left: 85%;
     top: 0;
   }
-
+  .description-image {
+    margin-top: 10vh;
+  }
   .modal-title {
-    margin-top: 15vh;
+    margin-top: 5vh;
     text-align: center;
   }
   
