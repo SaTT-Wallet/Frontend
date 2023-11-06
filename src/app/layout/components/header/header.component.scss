@@ -108,6 +108,13 @@
   padding-bottom: 1vh;
 }
 
+.mobile-block {
+  position: fixed;
+  right: 0;
+  left: 0;
+  top: 0;
+}
+
 .modal-body.modal-custom{
   margin-top: 0 !important; 
    
@@ -136,6 +143,26 @@
 
   color: #ffffff;
   letter-spacing: 1px;
+}
+
+@media (max-width: 767px) {
+  .wallet-connect-button {
+    width: 80%
+  }
+  .close-button {
+    position: fixed;
+    right: 0;
+    left: 80%;
+    top: 0;
+  }
+
+  .modal-title {
+    margin-top: 15vh;
+    text-align: center;
+  }
+  
+
+  
 }
 @media (max-height: 780px) {
   .container-qr {

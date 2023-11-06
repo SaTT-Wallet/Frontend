@@ -195,8 +195,9 @@
       type="button"
       *ngIf="isPlatformBrowser && !isConnected && showConnectButton"
       class="d-md-block d-xl-none d-lg-none d-sm-block button-connect"
+      (click)="connect(connectModal)"
     >
-      <a class="" [routerLink]="['/auth/login']">Connect</a>
+     Connect
     </button>
 
     <!-- end mdddd-->
@@ -1162,7 +1163,7 @@
 
 
 <ng-template #connectModal>
-    <div class="d-flex">
+    <div *ngIf="getScreenWidth > 767" class="d-flex">
       <div class="d-block col-5 block-primary">
         <img src="./../../../../assets/Images/connect-wallet-icon.svg" class="description-image" >
         <h4 class="description-title">
@@ -1204,7 +1205,29 @@
       </div>
     </div>
    
+    <div *ngIf="getScreenWidth <= 767" class="mobile-block">
+      <button (click)="closeModal()" class="close-button">
+        <img src="./../../../../assets/Images/icon-close.svg" />
+      </button>
+      <h4 class="modal-title">
+        {{"available_wallets" | translate}}
+      </h4>
+      <div class="d-flex flex-column justify-content-center align-items-center buttons-block" >
+
+        <button
+      type="button"
+      
+      (click)="sattConnect()"
+      class="generator wallet-connect-button"><img src="./../../../../assets/Images/Satt.svg" class="wallet-connect-type"/> {{'satt_wallet' | translate}}
+    </button>
+  
+    <button
     
+      type="button"
+      class="generator wallet-connect-button"><img src="./../../../../assets/Images/metamask.svg" class="wallet-connect-type" /> {{'metamask_wallet' | translate}} 
+    </button>
+      </div>
+    </div>
  
  
   
