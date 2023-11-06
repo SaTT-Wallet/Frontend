@@ -600,6 +600,7 @@
   "metamask_wallet": "MetaMask",
   "satt_wallet":"SaTT Wallet",
   "connect_wallet_body": "Start by connecting with one of the following wallets",
+  "available_wallets": "Available wallets",
   "connect_wallet_title": "Connect Wallet",
   "social_networks.ch_linked_acc": "Channels linked to your account",
   "social_networks.activation": "Activation",
