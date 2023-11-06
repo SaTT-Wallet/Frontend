@@ -1162,38 +1162,30 @@
 
 
 <ng-template #connectModal>
-  <div class="modal-header modal-custom">
-    
-    <button
-      type="button"
-      class="btn-close pull-right close" 
-      (click)="closeModal()"
-      data-dismiss="modal"
-      aria-label="Close"
-    ></button>
-  </div>
-  <div
-  class="modal-body modal-custom flex-column"
-  
-  >
     <div class="d-flex">
-      <div class="d-block justify-content-center col-6">
-        <img src="./../../../../assets/Images/connect-wallet-icon.svg" >
-        <h3 class="delete-token-modal-title">
+      <div class="d-block col-5 block-primary">
+        <img src="./../../../../assets/Images/connect-wallet-icon.svg" class="description-image" >
+        <h4 class="description-title">
          
           {{ 'connect_wallet_title' | translate}}
-        </h3>
-        <p>
+        </h4>
+        <p class="description-content">
           {{ 'connect_wallet_body' | translate}}
         </p>
       </div>
-      <div class="d-block justify-content-center">
+     
+      <div class="d-block" style=" width: 100%;">
+        <div class="d-flex justify-content-between description-block" >
+          <h4 class="modal-title">
+            {{"available_wallets" | translate}}
+          </h4>
+          <button (click)="closeModal()" class="close-button" >
+            <img src="./../../../../assets/Images/icon-close.svg" />
+          </button>
+        </div>
         
-        <h3>
-          {{"available_wallets" | translate}}
-        </h3>
   
-        <div class="d-block justify-content-center">
+        <div class="d-flex flex-column justify-content-center align-items-center buttons-block" >
 
           <button
         type="button"
@@ -1215,5 +1207,5 @@
     
  
  
-  </div>
+  
   </ng-template>
