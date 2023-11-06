@@ -1162,27 +1162,43 @@
 
 
 <ng-template #connectModal>
-  <div class="modal-header modal-custom">
-    
-    <button
-      type="button"
-      class="btn-close pull-right close" 
-      (click)="closeModal()"
-      data-dismiss="modal"
-      aria-label="Close"
-    ></button>
-  </div>
+  
   <div
   class="modal-body modal-custom flex-column"
   style="padding: 20px 4em !important"
   >
-  
-    <div class="d-flex justify-content-center">
+
+    <div class="d-block justify-content-center">
+      <img src="./../../../../assets/Images/connect-wallet-icon.svg" >
       <h3 class="delete-token-modal-title">
-        Connect Wallet
+       
+        {{ 'connect_wallet_title' | translate}}
       </h3>
+      <p>
+        {{ 'connect_wallet_body' | translate}}
+      </p>
     </div>
-    <button
+    <div>
+      <div class="d-flex justify-content-center">
+        <h3>
+          Available wallets
+        </h3>
+        <div class="modal-header modal-custom">
+    
+          <button
+        type="button"
+        class="btn-close pull-right close" 
+        (click)="closeModal()"
+        data-dismiss="modal"
+        aria-label="Close"
+      ></button>
+        </div>
+        
+      </div>
+      
+
+      <div class="d-flex justify-content-center">
+        <button
       type="button"
       (click)="sattConnect()"
       class="generator">{{'satt_wallet' | translate}}
@@ -1192,6 +1208,10 @@
       type="button"
       class="generator">{{'metamask_wallet' | translate}} 
     </button>
+      </div>
+      
+    </div>
+    
  
  
   </div>
