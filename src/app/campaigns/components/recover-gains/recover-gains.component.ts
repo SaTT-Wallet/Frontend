@@ -245,6 +245,13 @@ export class RecoverGainsComponent implements OnInit {
     this.isDestroyedSubject.complete();
   }
 
+  getApplyTime(applyDate: any) {
+    const timestamp: number = new Date(applyDate).getTime();
+    const dateObject: Date = new Date(timestamp);
+    let formattedTime: string = dateObject.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+    return formattedTime
+  }
+  
   goToCampaign() {
     //  this.router.navigate([".."]);
     this.router.navigate(['/home/campaign', this.campaignId], {
