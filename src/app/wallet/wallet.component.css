@@ -559,7 +559,7 @@ select option {
 
 .blockk {
   background: linear-gradient(180deg, #4048ff 0%, #00cc9e 310.62%);
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+  
   border-radius: 20px;
   min-block-size: 135px;
   overflow-x: hidden;
