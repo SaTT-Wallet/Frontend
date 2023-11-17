@@ -28,9 +28,10 @@
       {{ 'appliedOn' | translate }}
       <span>{{ prom.applyDate | date: 'dd/MM/yyyy' }}</span>
       {{ 'at' | translate }}
-      <span>{{
-        (prom.applyDate | date: 'HH') + 'H' + (prom.applyDate | date: 'HH')
-      }}</span>
+      <span>
+        {{getApplyTime(prom.applyDate)}}
+      </span>
+      
     </p>
 
     <div class="participation-link-wrapper" *ngIf="postLink$ | async as link">
