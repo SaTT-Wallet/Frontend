@@ -265,8 +265,8 @@
           >
         </li>
         <li class="li-menu" [ngClass]="{ 'is-visited': menuTokenInfo }" id="intro7">
-          <a style="cursor: pointer" (click)="openTokenInfoInNewTab()"
-            >Token Info</a
+          <a style="cursor: pointer"  [routerLink]="['/wallet/token-info']" (click)="checkMenuTokenInfo()"
+            >{{ 'token_info' | translate }}</a
           >
         </li>
         <li class="li-menu" [ngClass]="{ 'is-visited': menuHelp }" id="intro5">

@@ -1493,10 +1493,18 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.menuAbout = false;
     this.menuBlog = false;
   }
-   openTokenInfoInNewTab() {
-    if (isPlatformBrowser(this.platformId))
-      window.open( environment.domainName + '/wallet/token-info', '_self');
+  checkMenuTokenInfo() {
+    this.menuWallet = false;
+    this.menuAdpool = false;
+    this.menuFarmPost = false;
+    this.menuHistory = false;
+    this.menuHelp = false;
+    this.menuBuyToken = false;
+    this.menuTokenInfo = true;
+    this.menuAbout = false;
+    this.menuBlog = false;
   }
+   
   checkMenuAbout() {
     this.titleService.setTitle('SaTT - Smart advertising Transaction Token');
     if (isPlatformBrowser(this.platformId))
