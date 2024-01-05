@@ -107,7 +107,7 @@
     "angularx-social-login": "^4.0.1",
     "array-shuffle": "^3.0.0",
     "autoprefixer": "^10.2.6",
-    "axios": "^1.4.0",
+    "axios": "^1.6.4",
     "big": "^0.3.1",
     "big.js": "^6.1.1",
     "bigint-typescript-definitions": "^5.5.3-0",
