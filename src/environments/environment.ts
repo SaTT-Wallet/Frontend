@@ -7,11 +7,11 @@ export const environment = {
   //API_URL: 'https://localhost:3015',
   //url:"http://localhost:4200/",
   url: 'https://testnet.satt.atayen.us/',
-  ipfsURL: 'https://ipfs.io/ipfs/',
+  ipfsURL: 'https://ad-pools.infura-ipfs.io/ipfs/',
   //https://api-preprod2.satt-token.com
 
   API_URL: 'https://api-preprod2.satt-token.com',
- 
+
   url_subgraph_bsc:
     'https://api.thegraph.com/subgraphs/name/atayen/satt-testnet',
   url_subgraph_ether:
@@ -119,7 +119,6 @@ export const environment = {
     urlLinkedinCompany: 'https://www.linkedin.com/company/',
     urlTiktok: 'https://www.tiktok.com/',
     urlthreadsAccount: 'https://threads.net/@'
-
   }
   // gmtId: 'GTM-5XW23QX'
 
