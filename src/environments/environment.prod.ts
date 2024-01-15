@@ -1,14 +1,13 @@
 export const environment = {
   production: true,
-  
+
   API_URL: 'https://api2.satt-token.com',
   url: 'https://dapp.satt.com/',
-  ipfsURL: 'https://ipfs.io/ipfs/',
+  ipfsURL: 'https://ad-pools.infura-ipfs.io/ipfs/',
   url_subgraph_bsc:
     'https://api.thegraph.com/subgraphs/name/atayen/satt--bsc-mainnet',
   url_subgraph_ether:
     'https://api.thegraph.com/subgraphs/name/atayen/satt-ether-mainnet',
-  
 
   addresses: {
     smartContracts: {
@@ -44,7 +43,7 @@ export const environment = {
     measurementId: 'G-DSJK01CZ0X'
   },
   gmtId: 'GTM-5XW23QX',
-  dateRefund :1296000,
+  dateRefund: 1296000,
   fcmredirectUrl: 'https://satt.atayen.us/#/home',
   bscan: 'https://bscscan.com/tx/',
   etherscan: 'https://etherscan.io/tx/',
@@ -105,7 +104,6 @@ export const environment = {
     urlLinkedinCompany: 'https://www.linkedin.com/company/',
     urlTiktok: 'https://www.tiktok.com/',
     urlthreadsAccount: 'https://threads.net/@'
-
   },
   FACEBOOK_URL: 'https://www.facebook.com/',
   M_FACEBOOK_URL: 'https://m.facebook.com/',
@@ -117,7 +115,6 @@ export const environment = {
   YOUTUBE_SHORTEN_LINK: 'https://youtu.be/',
 
   YOUTUBE_EMBED_LINK: 'https://www.youtube.com/embed/',
- 
 
   typeSN: {
     facebook: 1,
@@ -138,9 +135,8 @@ export const environment = {
   },
 
   TIKTOK_URL: 'https://www.tiktok.com/',
-  TIKTOK_SHORTEN_LINK:'https://vm.tiktok.com',
+  TIKTOK_SHORTEN_LINK: 'https://vm.tiktok.com',
 
-  
   Network: {
     BNB: 'BNB',
     WSAT: 'WSATT',
