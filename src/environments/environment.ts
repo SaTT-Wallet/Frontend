@@ -43,6 +43,7 @@ export const environment = {
       WBTT: '0x0000000000000000000000000000000000001010'
     }
   },
+  metaMaskDomaine: 'https://app.satt.com',
   domainName: 'https://testnet.satt.atayen.us',
   telegramBot: 'TestnetAtayenBot',
   firebase: {
