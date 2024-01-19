@@ -1343,6 +1343,7 @@ getCookie(key: string){
     // this.showBigSpinner = true;
 
     this.modalService.open(puzzle);
+    this.cookies();
   }
 
   ngOnDestroy() {
