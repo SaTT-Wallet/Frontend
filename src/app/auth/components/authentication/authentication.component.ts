@@ -595,9 +595,7 @@ getCookie(key: string){
   snlogin(social: string) {
     this.tokenStorageService?.setModaleMigrate('open');
     this.scale = true;
-    this.loggedrs = true;
-    if (this.cookie.get('satt_cookies') === 'pass') {
-      //window.location.href = sattUrl + "/snlogin/" + social;
+    this.loggedrs = true;//window.location.href = sattUrl + "/snlogin/" + social;
       if (social === 'facebook') {
         this.loginNet = 'facebook';
         window.location.href = this.authFacebook;
@@ -608,7 +606,7 @@ getCookie(key: string){
         this.loginNet = 'telegram';
         window.location.href = this.authTelegram;
       }
-    }
+    
   }
 
   /**
