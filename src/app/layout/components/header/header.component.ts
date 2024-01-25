@@ -361,7 +361,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe((e: any) => {});
   }
   metaMaskConnect() {
-    window.open(environment.metaMaskDomaine , '_self');
+    window.open(environment.metaMaskDomaine + '/welcome?redirection=true' , '_self');
   }
   goToSocials() {
     if (this.isLayoutDesktop) {
