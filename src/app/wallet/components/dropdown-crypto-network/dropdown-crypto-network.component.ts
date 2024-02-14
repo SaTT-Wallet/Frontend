@@ -78,6 +78,7 @@ export class DropdownCryptoNetworkComponent
   cryptoList: any = [];
   defaultcurrpolygon: any;
   defaultcurrtron: any;
+  defaultcurrAA:any;
   loadingCustomToken: boolean = false;
   @ViewChild('selectToken', { static: false })
   public selectTokenModal!: TemplateRef<any>;
@@ -331,6 +332,7 @@ export class DropdownCryptoNetworkComponent
     this.defaultcurrpolygon = ListTokens['MATIC'].name;
     this.defaultcurrbtt = ListTokens['BTT'].name;
     this.defaultcurrtron = ListTokens['TRX'].name;
+    this.defaultcurrAA = ListTokens['AA'].name;
   }
 
   getCryptoList() {
@@ -710,6 +712,11 @@ export class DropdownCryptoNetworkComponent
         this.cryptoName = this.defaultcurrtron;
         this.cryptoPicName = this.defaultcurrtron;
         this.cryptoDetails = 'TRX';
+      } else if(network === 'ARTHERA') {
+        this.cryptoSymbol = 'AA';
+        this.cryptoName = this.defaultcurrAA;
+        this.cryptoPicName = this.defaultcurrAA;
+        this.cryptoDetails = 'AA';
       }
 
       this.dataList.forEach((crypto: any) => {

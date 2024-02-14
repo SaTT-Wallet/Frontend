@@ -12,6 +12,7 @@ const polygonscanAddr = env.polygonscanAddr;
 const bttscanAddr = env.bttscanAddr;
 const tronscanAddr = env.tronScanAddr;
 const tronScan = env.tronScan;
+const artheraScan = env.artheraScan;
 
 const campaignSmartContractERC20 = env.addresses.smartContracts.campaignERC20;
 
@@ -916,5 +917,6 @@ export {
   cryptoList,
   tronscanAddr,
   tronScan,
+  artheraScan,
   tronPattContact
 };
