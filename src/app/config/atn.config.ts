@@ -12,6 +12,7 @@ const polygonscanAddr = env.polygonscanAddr;
 const bttscanAddr = env.bttscanAddr;
 const tronscanAddr = env.tronScanAddr;
 const tronScan = env.tronScan;
+const artheraScan = env.artheraScan;
 
 const campaignSmartContractERC20 = env.addresses.smartContracts.campaignERC20;
 
@@ -176,6 +177,14 @@ var ListTokens: { [key: string]: { [key: string]: any } } = {
     logo: 'SATT.svg',
     type: 'erc20',
     symbole: 'SATT'
+  },
+  AA: {
+    name: 'AA',
+    contract: null,
+    decimals: new Big('10').pow(18),
+    logo: 'AA.svg',
+    type: 'erc20',
+    symbole: 'AA'
   },
   SATTBEP20: {
     name: 'SATTBEP20',
@@ -916,5 +925,6 @@ export {
   cryptoList,
   tronscanAddr,
   tronScan,
+  artheraScan,
   tronPattContact
 };

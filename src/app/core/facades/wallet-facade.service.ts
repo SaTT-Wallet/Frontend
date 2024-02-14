@@ -224,6 +224,9 @@ export class WalletFacadeService {
   getTrxGaz() {
     return this.cryptofetchServiceService.getTrxGaz();
   }
+  getArtheraGaz() {
+    return this.cryptofetchServiceService.getArtheraGaz();
+  }
 
   loadBttGaz() {
     this.walletStoreService.getBttGaz();

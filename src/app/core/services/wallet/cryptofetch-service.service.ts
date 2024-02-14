@@ -106,6 +106,10 @@ export class CryptofetchServiceService {
   getTrxGaz() {
     return this.http.get(sattUrl + '/wallet/TrxGasPrice');
   }
+
+  getArtheraGaz() {
+    return this.http.get(sattUrl + '/wallet/ArtheraGasPrice');
+  }
   getBnbGaz() {
     return this.http.get(sattUrl + '/wallet/Bep20GasPrice');
   }

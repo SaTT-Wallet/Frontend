@@ -16,6 +16,7 @@ import {
   GazConsumed,
   GazConsumedByCampaign,
   ListTokens,
+  artheraScan,
   pattContact,
   tronPattContact,
   tronScan
@@ -81,6 +82,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
   eRC20Gaz: any;
   polygonGaz: any;
   bttGaz: any;
+  artheraGaz:any;
   trxGaz: any;
   max = false;
   maxNumber: number = 999999999;
@@ -175,6 +177,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     private renderer: Renderer2
   ) {
     //, Validators.max(this.maxNumber)
+    this.getusercrypto();
     this.sendform = new UntypedFormGroup({
       contact: new UntypedFormControl(null, {
         validators: [Validators.required, Validators.pattern(pattContact)]
@@ -192,7 +195,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.etcAddress = this.localStorage.getIdWallet();
     this.btcAddress = this.localStorage.getWalletBtc();
     this.sendform.get('currency')?.setValue('SATT');
-    this.getusercrypto();
+    
     this.getProfileDetails();
     this.amountdefault = this.sendform.get('currency')?.value;
   }
@@ -276,6 +279,53 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
           if (crypto.symbol === 'SATT') {
             this.sattBalance = crypto.total_balance;
             this.symbol = crypto.symbol;
+          }
+
+
+          if (this.networks === 'ERC20' || this.networks === 'BTC') {
+            this.gazsend = this.eRC20Gaz;
+            if (crypto.symbol === 'ETH') {
+              this.gasCryptoQuantity = (this.gazsend / crypto.price).toFixed(8);
+            }
+          }
+          if (this.networks === 'BEP20') {
+            this.gazsend = this.bEPGaz;
+            if (crypto.symbol === 'BNB') {
+              this.gasCryptoQuantity = (this.gazsend / crypto.price).toFixed(8);
+            }
+          }
+          if (this.networks === 'POLYGON') {
+            this.gazsend = this.polygonGaz;
+            if (crypto.symbol === 'MATIC') {
+              this.gasCryptoQuantity = (this.gazsend / crypto.price).toFixed(8);
+            }
+          }
+          if (this.networks === 'BTTC') {
+            this.gazsend = this.bttGaz;
+            if (crypto.symbol === 'BTT') {
+              this.gasCryptoQuantity = (this.gazsend / crypto.price).toFixed(8);
+            }
+          }
+          if (this.networks === 'TRON') {
+            //TODO
+            this.sendform
+              .get('contact')
+              ?.setValidators([
+                Validators.required,
+                Validators.pattern(tronPattContact)
+              ]);
+            this.gazsend = this.trxGaz;
+            if (crypto.symbol === 'TRX') {
+              this.gasCryptoQuantity = (this.gazsend / crypto.price).toFixed(8);
+            }
+          }
+  
+          if(this.networks === 'ARTHERA') {
+            this.gazsend = this.artheraGaz;
+            
+            if(crypto.symbol === 'AA') {
+              this.gasCryptoQuantity = (this.gazsend / crypto.price).toFixed(8);
+            }
           }
         });
         this.showWalletSpinner = false;
@@ -468,8 +518,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       if (this.network === 'bep20' && currency === 'SATT') {
         currency = 'SATTBEP20';
       }
-
-      tokenAddress = this.token ? this.token : ListTokens[currency].contract;
+      tokenAddress = (this.sendform.get('currency')?.value === 'AA' ? null : (this.token ? this.token : ListTokens[currency].contract)) ;
       if (tokenAddress === 'BTT') {
         tokenAddress = '0x0000000000000000000000000000000000001010';
       }
@@ -530,7 +579,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             } else {
               if (data.data.transactionHash) {
                 this.currency = currency;
-  
+                
                 this.hashtransaction = data.data.transactionHash;
                 // if (currency === 'SATTBEP20') {
                 //   let currenncySatt = 'SATT';
@@ -562,6 +611,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
                   this.routertransHash = bttscan + this.hashtransaction;
                 } else if (this.networks === 'TRON') {
                   this.routertransHash = tronScan + this.hashtransaction;
+                } else if (this.networks === 'ARTHERA') {
+                  this.routertransHash = artheraScan + this.hashtransaction;
                 }
                 this.showPwdBloc = false;
                 this.showSuccessBloc = true;
@@ -733,7 +784,7 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         const fees = (this.selectedCryptoDetails.symbol === "BNB" ? this.bEPGaz : (
           this.selectedCryptoDetails.symbol === "ETH" ? this.eRC20Gaz : (
             this.selectedCryptoDetails.symbol === "MATIC" ? this.polygonGaz : (
-              this.selectedCryptoDetails.symbol === "TRON" ? this.trxGaz : this.bttGaz
+              this.selectedCryptoDetails.symbol === "TRON" ? this.trxGaz : (this.selectedCryptoDetails.symbol === "AA" ? this.artheraGaz: this.bttGaz)
             )
           )
         ))
@@ -846,6 +897,21 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
               ).toFixed(8);
             })
           ),
+
+          this.walletFacade.getArtheraGaz().pipe(
+            take(1),
+            tap((gaz: any) => {
+              this.showSpinner = false;
+              let price;
+              price = gaz.data.gasPrice;
+
+              this.artheraGaz = (
+                ((price * GazConsumedByCampaign) / 1000000000) *
+                btt
+              ).toFixed(8);
+            })
+          ),
+
           this.walletFacade.getTrxGaz().pipe(
             take(1),
             tap((gaz: any) => {
@@ -1042,6 +1108,8 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
         ]);
       this.gazcurrency = 'TRX';
       // this.gazcurrency = 'ETH';
+    } else if(this.networks === 'ARTHERA') {
+      this.gazcurrency = 'AA';
     }
     setTimeout(() => {
       if (this.networks === 'ERC20' || this.networks === 'BTC') {
@@ -1060,10 +1128,14 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
       if (this.networks === 'TRON') {
         this.gazsend = this.trxGaz;
       }
-    }, 2000);
 
+      if(this.networks === 'ARTHERA') {
+        this.gazsend = this.artheraGaz;
+      }
+    }, 2000);
     if (this.dataList.length) {
       this.dataList?.forEach((crypto: any) => {
+        
         if (this.networks === 'ERC20' || this.networks === 'BTC') {
           this.gazsend = this.eRC20Gaz;
           if (crypto.symbol === 'ETH') {
@@ -1098,6 +1170,13 @@ export class SendComponent implements OnInit, OnDestroy, AfterViewChecked {
             ]);
           this.gazsend = this.trxGaz;
           if (crypto.symbol === 'TRX') {
+            this.gasCryptoQuantity = (this.gazsend / crypto.price).toFixed(8);
+          }
+        }
+
+        if(this.networks === 'ARTHERA') {
+          this.gazsend = this.artheraGaz;
+          if(crypto.symbol === 'AA') {
             this.gasCryptoQuantity = (this.gazsend / crypto.price).toFixed(8);
           }
         }
