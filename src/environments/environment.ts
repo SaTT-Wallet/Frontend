@@ -62,7 +62,7 @@ export const environment = {
   polygonscan: 'https://mumbai.polygonscan.com/tx/',
   bttscan: 'https://testnet.bttcscan.com/tx/',
   tronScan: 'https://shasta.tronscan.org/#/transaction/',
-
+  artheraScan: 'https://explorer-test2.arthera.net/tx/',
   bscanaddr: 'https://testnet.bscscan.com/address/',
   polygonscanAddr: 'https://mumbai.polygonscan.com/address/',
   bttscanAddr: 'https://testnet.bttcscan.com/address/',
