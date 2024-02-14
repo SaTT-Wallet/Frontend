@@ -9,6 +9,7 @@ import { Subject } from 'rxjs';
 
 const bscanaddr = environment.bscanaddr;
 const etherscanaddr = environment.etherscanaddr;
+const artherascanaddr = environment.artherascanaddr;
 const tronScanAddr = environment.tronScanAddr;
 const polygonscanAddr = environment.polygonscanAddr;
 const bttscanAddr = environment.bttscanAddr;
@@ -158,6 +159,13 @@ export class QRCodeComponent implements OnInit {
     if (isPlatformBrowser(this.platformId))
       window.open(etherscanaddr + eth, '_blank');
   }
+
+  goToArthera(eth: any) {
+    if (isPlatformBrowser(this.platformId))
+      window.open(artherascanaddr + eth, '_blank');
+  }
+
+
   goToBscan(eth: any) {
     if (isPlatformBrowser(this.platformId))
       window.open(bscanaddr + eth, '_blank');
