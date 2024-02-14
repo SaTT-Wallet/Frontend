@@ -140,14 +140,14 @@
       *ngIf="router.url.startsWith('/campaign')"
     >
       <button
-        (click)="selectToken(selectTokenModal)"
+        (click)="selectedNetworkValue != 'ARTHERA' && selectToken(selectTokenModal)"
         class="btn btntoggle dropdown-toggle btn-dropdown"
       >
         <i class="chevron fa fa-fw"></i>
         <img
           class="crypto-image"
           style="border-radius: 50%;"
-          src="{{ cryptoImageCamapign }}"
+          src="{{ selectedNetworkValue === 'ARTHERA' ? '/assets/Images/symbol_crypto/AA.svg' : cryptoImageCamapign }}"
           onerror="this.src='/assets/Images/symbol_crypto/indispo.svg'"
         />
         <span class="dropdown-text ps-3">{{ cryptoSymbolCampaign === 'SATTBEP20' ? 'SATT' : cryptoSymbolCampaign }} </span>

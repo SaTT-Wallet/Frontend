@@ -162,13 +162,14 @@ export class DropdownCryptoNetworkComponent
   }
 
   tokenToSelect(crypto: any) {
+    console.log({crypto});
     this.walletFacade
       .getBalanceByToken({
         network: this.selectedNetworkValue.toLowerCase(),
         walletAddress: this.selectedNetworkValue === 'TRON' ? window.localStorage.getItem('tron-wallet') : window.localStorage.getItem('wallet_id'),
         smartContract: (this.selectedNetworkValue === 'ERC20' && crypto.key === 'SATT') ? env.addresses.smartContracts.SATT_TOKENERC20 :  ( (this.selectedNetworkValue === 'BEP20' && crypto.key === 'SATT') ? env.addresses.smartContracts.SATT_TOKENBEP20 :crypto.contract),
         isNative:
-         ((crypto.key === 'ETH' && this.selectedNetworkValue === 'ERC20') || (crypto.key === 'BNB' && this.selectedNetworkValue === 'BEP20') || (crypto.key === 'BTT' && this.selectedNetworkValue === 'BTTC') || (crypto.key === 'TRX' && this.selectedNetworkValue === 'TRON') || (crypto.key === 'MATIC' && this.selectedNetworkValue === 'POLYGON'))
+         ((crypto.key === 'ETH' && this.selectedNetworkValue === 'ERC20') || (crypto.key === 'BNB' && this.selectedNetworkValue === 'BEP20') || (crypto.key === 'BTT' && this.selectedNetworkValue === 'BTTC') || (crypto.key === 'TRX' && this.selectedNetworkValue === 'TRON') || (crypto.key === 'MATIC' && this.selectedNetworkValue === 'POLYGON') || (crypto.key === 'AA' && this.selectedNetworkValue === 'ARTHERA'))
             ? true
             : false
       })
@@ -617,51 +618,68 @@ export class DropdownCryptoNetworkComponent
     }
     this.token = '';
     this.selectedNetworkValue = network;
-    
+    console.log({network: this.selectedNetworkValue})
     if (this.router.url.startsWith('/campaign')) {
       this.campaignCryptoList = [];
 
       const campaignCryptoSet = new Set();
-  for(const key of Object.keys(this.res)) {
-    const cryptoData = this.res[key];
-    if(typeof cryptoData.networkSupported !== 'string') {
-      for(const value of cryptoData.networkSupported) {
-        if (
-          this.selectedNetworkValue === 'ERC20' &&
-          value.platform.name === 'Ethereum'
-          ) {
+      
+      if(this.selectedNetworkValue === 'ARTHERA') {
+        this.dataList.map((crypto:any) => {
+          console.log({crypto});
+          if(crypto.key === 'AA') {
             campaignCryptoSet.add({
-              key,
-              value: this.res[key],
-              contract: value.contract_address
+              key: 'AA',
+              value: crypto,
+              contract: null
             });
-          } else if(key === 'BNB' && this.selectedNetworkValue === 'BEP20') {
-            campaignCryptoSet.add({
-              key,
-              value: this.res[key],
-              contract: null
-          })
-          } else if(key === 'BTT' && this.selectedNetworkValue === 'BTTC') {
-            campaignCryptoSet.add({
-              key,
-              value: this.res[key],
-              contract: null
-              }) 
-          } else {
-          value.platform.name
-            .toString()
-            .toLowerCase()
-            .includes(this.selectedNetworkValue.toString().toLowerCase()) &&
-            campaignCryptoSet.add({
-              key,
-              value: this.res[key],
-              contract: value.contract_address
-              });
-            }
           }
-        }
-      }      
+        })
+      } else {
+        for(const key of Object.keys(this.res)) {
+          const cryptoData = this.res[key];
+          if(typeof cryptoData.networkSupported !== 'string') {
+            for(const value of cryptoData.networkSupported) {
+              if (
+                this.selectedNetworkValue === 'ERC20' &&
+                value.platform.name === 'Ethereum'
+                ) {
+                  campaignCryptoSet.add({
+                    key,
+                    value: this.res[key],
+                    contract: value.contract_address
+                  });
+                } else if(key === 'BNB' && this.selectedNetworkValue === 'BEP20') {
+                  campaignCryptoSet.add({
+                    key,
+                    value: this.res[key],
+                    contract: null
+                })
+                } else if(key === 'BTT' && this.selectedNetworkValue === 'BTTC') {
+                  campaignCryptoSet.add({
+                    key,
+                    value: this.res[key],
+                    contract: null
+                    }) 
+                } else {
+                value.platform.name
+                  .toString()
+                  .toLowerCase()
+                  .includes(this.selectedNetworkValue.toString().toLowerCase()) &&
+                  campaignCryptoSet.add({
+                    key,
+                    value: this.res[key],
+                    contract: value.contract_address
+                    });
+                  }
+                }
+              }
+            }
+      }
+  
+          
       this.campaignCryptoList = Array.from(campaignCryptoSet);
+      console.log({list: this.campaignCryptoList});
       const crypto = this.campaignCryptoList.find((element: any) => {
         switch(this.selectedNetworkValue) {
           case 'BEP20': 
@@ -674,7 +692,8 @@ export class DropdownCryptoNetworkComponent
             return element.key === 'BTT';
           case 'POLYGON': 
             return element.key === 'MATIC';
-
+          case 'ARTHERA':
+            return element.key === 'AA';
           default: 
           return false;  
         }

@@ -178,6 +178,14 @@ var ListTokens: { [key: string]: { [key: string]: any } } = {
     type: 'erc20',
     symbole: 'SATT'
   },
+  AA: {
+    name: 'AA',
+    contract: null,
+    decimals: new Big('10').pow(18),
+    logo: 'AA.svg',
+    type: 'erc20',
+    symbole: 'AA'
+  },
   SATTBEP20: {
     name: 'SATTBEP20',
     contract: env.addresses.smartContracts.SATT_TOKENBEP20,
