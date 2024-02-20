@@ -248,10 +248,9 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.cdref.markForCheck();
     this.parentFunction().subscribe();
-    //this.getUserCrypto('123');
     this.activatedRoute.params.subscribe((params) => {
       if(!!params.id) {
-        this.getUserCrypto(params.id);
+        this.getCampaignsData(params.id);
       }
     })
     this.saveForm();
@@ -694,37 +693,8 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     return new UntypedFormArray(controls);
   }
 
-  getUserCrypto(id: string) {
-    this.walletFacade.cryptoList$
-      .pipe(takeUntil(this.isDestroyed$))
-      .subscribe((data: any) => {
-        data = JSON.parse(JSON.stringify(data));
-        this.dataList = data;
-        Object.preventExtensions(this.dataList);
-        this.cryptoQuantity = (
-          this.dataList.find(
-            (crypto: any) => crypto.symbol === this.draftData.currency.name
-          ) as any
-        )?.quantity;
-        this.dataList = [
-          ...this.dataList.filter((data: any) => data.symbol === 'SATT'),
-          ...this.dataList.filter((data: any) => data.symbol === 'USDT'),
-          ...this.dataList.filter((data: any) => data.symbol === 'DAI'),
-          ...this.dataList.filter((data: any) => data.symbol === 'SATTBEP20'),
-          ...this.dataList.filter((data: any) => data.symbol === 'BUSD'),
-          ...this.dataList.filter((data: any) => data.symbol === 'SATTPOLYGON'),
-          ...this.dataList.filter((data: any) => data.symbol === 'MATIC'),
-          ...this.dataList.filter((data: any) => data.symbol === 'SATTBTT'),
-          ...this.dataList.filter((data: any) => data.symbol === 'BTT'),
-          ...this.dataList.filter((data: any) => data.symbol === 'SATTTRON'),
-          ...this.dataList.filter((data: any) => data.symbol === 'TRX'),
-          ...this.dataList.filter((data: any) => data.symbol === 'AA'),
-        ];
-      });
-
-
+  getCampaignsData(id: string) {
       this.campaignService.getOneById(id).subscribe((response: any) => {
-        
         this.selectedNetworkValue = response.data.token.type;
           
           this.res = this.cryptodata;
