@@ -58,6 +58,7 @@ import { CampaignsService } from '@app/campaigns/facade/campaigns.facade';
 import { CampaignHttpApiService } from '@app/core/services/campaign/campaign.service';
 import { environment } from '@environments/environment';
 import { TokenStorageService } from '@app/core/services/tokenStorage/token-storage-service.service';
+import { ActivatedRoute } from '@angular/router';
 
 enum ERemunerationType {
   Publication = 'publication',
@@ -191,12 +192,13 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     private showNumbersRule: ShowNumbersRule,
     private renderer: Renderer2,
     private campaignService: CampaignHttpApiService,
+    private activatedRoute: ActivatedRoute,
     private tokenStorageService: TokenStorageService,
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: string
   ) {
    
-  
+   
     this.form = new UntypedFormGroup(
       {
         initialBudget: new UntypedFormControl('', {
@@ -246,128 +248,17 @@ export class RemunerationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.cdref.markForCheck();
     this.parentFunction().subscribe();
-    this.getUserCrypto();
+    //this.getUserCrypto('123');
+    this.activatedRoute.params.subscribe((params) => {
+      if(!!params.id) {
+        this.getUserCrypto(params.id);
+      }
+    })
     this.saveForm();
     
 
 
-    this.campaignService.getOneById(this.draftData.id).subscribe((res: any) => {
-      this.selectedNetworkValue = res.data.token.type;
-     
-        this.res = this.cryptodata;
-        const campaignCryptoSet = new Set();
-        for(const key of Object.keys(this.res)) {
-          const cryptoData = this.res[key];
-          if(typeof cryptoData.networkSupported !== 'string') {
-            for(const value of cryptoData.networkSupported) {
-              if (
-                this.selectedNetworkValue === 'ERC20' &&
-                value.platform.name === 'Ethereum'
-                ) {
-                  campaignCryptoSet.add({
-                    key,
-                    value: this.res[key],
-                    contract: value.contract_address
-                  });
-                } else if(key === 'BNB' && this.selectedNetworkValue === 'BEP20') {
-                  campaignCryptoSet.add({
-                    key,
-                    value: this.res[key],
-                    contract: null
-                })
-                } else if(key === 'BTT' && this.selectedNetworkValue === 'BTTC') {
-                  campaignCryptoSet.add({
-                    key,
-                    value: this.res[key],
-                    contract: null
-                    }) 
-                } else {
-                value.platform.name
-                  .toString()
-                  .toLowerCase()
-                  .includes(this.selectedNetworkValue.toString().toLowerCase()) &&
-                  campaignCryptoSet.add({
-                    key,
-                    value: this.res[key],
-                    contract: value.contract_address
-                    });
-                  }
-                }
-              }
-            }      
-            this.campaignCryptoList = Array.from(campaignCryptoSet);
-        
-        this.campaignCryptoList.forEach((value: any) => {
-          if (value.key === (this.form.get('currency')?.value === 'SATTBEP20' ?  'SATT': this.form.get('currency')?.value) ) {
-            this.walletFacade
-              .getBalanceByToken({
-                network: this.selectedNetworkValue.toLowerCase(),
-                walletAddress: this.selectedNetworkValue === 'TRON' ? window.localStorage.getItem('tron-wallet') : window.localStorage.getItem('wallet_id'),
-                isNative:
-         ((value.key === 'ETH' && this.selectedNetworkValue === 'ERC20') || (value.key === 'BNB' && this.selectedNetworkValue === 'BEP20') || (value.key === 'BTT' && this.selectedNetworkValue === 'BTTC') || (value.key === 'TRX' && this.selectedNetworkValue === 'TRON') || (value.key === 'MATIC' && this.selectedNetworkValue === 'POLYGON'))
-            ? true
-            : false,
-                smartContract: (this.selectedNetworkValue === 'ERC20' && value.key === 'SATT') ? environment.addresses.smartContracts.SATT_TOKENERC20 :  ( (this.selectedNetworkValue === 'BEP20' && value.key === 'SATT') ? environment.addresses.smartContracts.SATT_TOKENBEP20 :value.contract) //value.contract
-              })
-              .subscribe(
-                (res: any) => {
-                  this.selectedCryptoDetails = {
-                    AddedToken: !!value.AddedToken ? value.AddedToken : true,
-                    balance: 0,
-                    contract: value.contract,
-                    contrat: value.contract,
-                    decimal: 18,
-                    key: this.form.get('currency')?.value,
-                    network: this.selectedNetworkValue,
-                    picUrl: true,
-                    price: value.value.price,
-                    quantity: res.data,
-                    symbol: this.form.get('currency')?.value,
-                    total_balance: res.data * value.value.price,
-                    type: this.selectedNetworkValue,
-                    typetab: this.selectedNetworkValue,
-                    undername: value.value.name,
-                    undername2: value.value.name,
-                    variation: 0
-                  };
-                  this.totalBalanceExist = true;
-                  
-                  this.form.get('initialBudgetInUSD')?.setValue((this.selectedCryptoDetails.price * this.form.get('initialBudget')?.value).toFixed(2))
-                  
-
-                },
-                (error: any) => {
-                  this.selectedCryptoDetails = {
-                    AddedToken: !!value.AddedToken ? value.AddedToken : true,
-                    balance: 0,
-                    contract: value.contract,
-                    contrat: value.contract,
-                    decimal: 18,
-                    key: this.form.get('currency')?.value,
-                    network: this.selectedNetworkValue,
-                    picUrl: true,
-                    price: value.value.price,
-                    quantity: 0,
-                    symbol: this.form.get('currency')?.value,
-                    total_balance: 0,
-                    type: this.selectedNetworkValue,
-                    typetab: this.selectedNetworkValue,
-                    undername: value.value.name,
-                    undername2: value.value.name,
-                    variation: 0
-                  };
-                  this.totalBalanceExist = true;
-                  
-                  this.form.get('initialBudgetInUSD')?.setValue((this.selectedCryptoDetails.price * this.form.get('initialBudget')?.value).toFixed(2))
-                 
-                }
-              );
-          }
-        });
-      
-    });
-
-    this.validFormBudgetRemuneration();
+    
   }
  
   ngOnChanges(changes: SimpleChanges): void {
@@ -803,7 +694,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
     return new UntypedFormArray(controls);
   }
 
-  getUserCrypto() {
+  getUserCrypto(id: string) {
     this.walletFacade.cryptoList$
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe((data: any) => {
@@ -826,9 +717,145 @@ export class RemunerationComponent implements OnInit, OnDestroy {
           ...this.dataList.filter((data: any) => data.symbol === 'SATTBTT'),
           ...this.dataList.filter((data: any) => data.symbol === 'BTT'),
           ...this.dataList.filter((data: any) => data.symbol === 'SATTTRON'),
-          ...this.dataList.filter((data: any) => data.symbol === 'TRX')
+          ...this.dataList.filter((data: any) => data.symbol === 'TRX'),
+          ...this.dataList.filter((data: any) => data.symbol === 'AA'),
         ];
       });
+
+
+      this.campaignService.getOneById(id).subscribe((response: any) => {
+        
+        this.selectedNetworkValue = response.data.token.type;
+          
+          this.res = this.cryptodata;
+          
+          const campaignCryptoSet = new Set();
+          for(const key of Object.keys(this.res)) {
+            const cryptoData = this.res[key];
+            if(key === 'AA' && this.selectedNetworkValue === 'ARTHERA') {
+              campaignCryptoSet.add({
+                key,
+                value: this.res[key],
+                contract: null
+                })
+            } else {
+              if(typeof cryptoData.networkSupported !== 'string') {
+                for(const value of cryptoData.networkSupported) {
+                  if (
+                    this.selectedNetworkValue === 'ERC20' &&
+                    value.platform.name === 'Ethereum'
+                    ) {
+                      campaignCryptoSet.add({
+                        key,
+                        value: this.res[key],
+                        contract: value.contract_address
+                      });
+                    } else if(key === 'BNB' && this.selectedNetworkValue === 'BEP20') {
+                      campaignCryptoSet.add({
+                        key,
+                        value: this.res[key],
+                        contract: null
+                    })
+                    } else if(key === 'BTT' && this.selectedNetworkValue === 'BTTC') {
+                      campaignCryptoSet.add({
+                        key,
+                        value: this.res[key],
+                        contract: null
+                        }) 
+                    } else {
+                    value.platform.name
+                      .toString()
+                      .toLowerCase()
+                      .includes(this.selectedNetworkValue.toString().toLowerCase()) &&
+                      campaignCryptoSet.add({
+                        key,
+                        value: this.res[key],
+                        contract: value.contract_address
+                        });
+                      }
+                    }
+                  }
+            }
+            
+              }      
+              this.campaignCryptoList = Array.from(campaignCryptoSet);
+          
+              
+            this.campaignCryptoList.forEach((value: any) => {
+              
+              if (value.key === (this.form.get('currency')?.value === 'SATTBEP20' ?  'SATT': this.form.get('currency')?.value) ) {
+                
+                this.walletFacade
+                  .getBalanceByToken({
+                    network: this.selectedNetworkValue.toLowerCase(),
+                    walletAddress: this.selectedNetworkValue === 'TRON' ? window.localStorage.getItem('tron-wallet') : window.localStorage.getItem('wallet_id'),
+                    isNative:
+             ((value.key === 'ETH' && this.selectedNetworkValue === 'ERC20') || (value.key === 'BNB' && this.selectedNetworkValue === 'BEP20') || (value.key === 'BTT' && this.selectedNetworkValue === 'BTTC') || (value.key === 'TRX' && this.selectedNetworkValue === 'TRON') || (value.key === 'MATIC' && this.selectedNetworkValue === 'POLYGON') || (value.key === 'AA' && this.selectedNetworkValue === 'ARTHERA'))
+                ? true
+                : false,
+                    smartContract: (this.selectedNetworkValue === 'ERC20' && value.key === 'SATT') ? environment.addresses.smartContracts.SATT_TOKENERC20 :  ( (this.selectedNetworkValue === 'BEP20' && value.key === 'SATT') ? environment.addresses.smartContracts.SATT_TOKENBEP20 :value.contract) //value.contract
+                  })
+                  .subscribe(
+                    (res: any) => {
+                      this.selectedCryptoDetails = {
+                        AddedToken: !!value.AddedToken ? value.AddedToken : true,
+                        balance: 0,
+                        contract: value.contract,
+                        contrat: value.contract,
+                        decimal: 18,
+                        key: this.form.get('currency')?.value,
+                        network: this.selectedNetworkValue,
+                        picUrl: true,
+                        price: value.value.price,
+                        quantity: res.data,
+                        symbol: this.form.get('currency')?.value,
+                        total_balance: res.data * value.value.price,
+                        type: this.selectedNetworkValue,
+                        typetab: this.selectedNetworkValue,
+                        undername: value.value.name,
+                        undername2: value.value.name,
+                        variation: 0
+                      };
+                      this.totalBalanceExist = true;
+                      
+                      this.form.get('initialBudgetInUSD')?.setValue((this.selectedCryptoDetails.price * this.form.get('initialBudget')?.value).toFixed(2))
+                      
+    
+                    },
+                    (error: any) => {
+                      this.selectedCryptoDetails = {
+                        AddedToken: !!value.AddedToken ? value.AddedToken : true,
+                        balance: 0,
+                        contract: value.contract,
+                        contrat: value.contract,
+                        decimal: 18,
+                        key: this.form.get('currency')?.value,
+                        network: this.selectedNetworkValue,
+                        picUrl: true,
+                        price: value.value.price,
+                        quantity: 0,
+                        symbol: this.form.get('currency')?.value,
+                        total_balance: 0,
+                        type: this.selectedNetworkValue,
+                        typetab: this.selectedNetworkValue,
+                        undername: value.value.name,
+                        undername2: value.value.name,
+                        variation: 0
+                      };
+                      this.totalBalanceExist = true;
+                      
+                      this.form.get('initialBudgetInUSD')?.setValue((this.selectedCryptoDetails.price * this.form.get('initialBudget')?.value).toFixed(2))
+                     
+                    }
+                  );
+              }
+            });
+          
+          
+        
+      });
+  
+      this.validFormBudgetRemuneration();
   }
 
   parentFunction() {
