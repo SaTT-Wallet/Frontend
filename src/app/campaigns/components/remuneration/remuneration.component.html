@@ -77,7 +77,7 @@
           />
         </div>
         <button (click)="logSelectedValues()">Create Campaign</button> -->
-      <div class="height-drop">
+        <div class="height-drop" *ngIf="campaignCryptoList.length">
         <app-dropdown-crypto-network
           (selectedCrypto)="linstingCrypto($event)"
           [cryptoFromDraft]="this.form.get('currency')?.value"
