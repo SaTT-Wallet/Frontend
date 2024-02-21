@@ -5,7 +5,8 @@ import {
   campaignSmartContractERC20,
   campaignSmartContractBEP20,
   campaignSmartContractPOLYGON,
-  campaignSmartContractBTT
+  campaignSmartContractBTT,
+  campaignSmartContractARTHERA
 } from '@config/atn.config';
 import { TokenStorageService } from '../tokenStorage/token-storage-service.service';
 import {
@@ -342,6 +343,13 @@ export class CampaignHttpApiService {
     });
   }
 
+  approveARTHERA(arthera: any) {
+    return this.http.post(sattUrl + '/campaign/arthera/approval', {
+      tokenAddress: arthera.addr,
+      campaignAddress: campaignSmartContractARTHERA
+    });
+  }
+
   approveTRON(tron: any) {
     return this.http.post(sattUrl + '/campaign/tron/approval', {
       tokenAddress: tron.addr,
@@ -371,6 +379,16 @@ export class CampaignHttpApiService {
       campaignAddress: campaignSmartContractERC20,
       amount: amount,
       tokenAddress: erc20.addr,
+      pass: password
+    });
+  }
+  allowARTHERA(arthera: any, password: any) {
+    let amount = '999999999999999999999999999999999999999999999999999999999';
+    return this.http.post(sattUrl + '/campaign/arthera/allow', {
+      // access_token: this.tokenStorageService.getToken(),
+      campaignAddress: campaignSmartContractARTHERA,
+      amount: amount,
+      tokenAddress: arthera.addr,
       pass: password
     });
   }
@@ -448,7 +466,6 @@ export class CampaignHttpApiService {
     titleCampaign: string,
     fromNotif?: boolean
   ) {
-    console.log({prom: prom})
     return this.http.put(
       `${sattUrl}/campaign/reject/${ fromNotif ? prom._id : prom.id}`,
       {
