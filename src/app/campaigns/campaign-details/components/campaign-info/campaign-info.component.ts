@@ -898,6 +898,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
       POLYGON: environment.polygonscan,
       BTTC: environment.bttscan,
       TRON: environment.tronScan,
+      ARTHERA: environment.artheraScan
     };
   
     this.CampaignService.getOneById(this.campaign.id).pipe(
