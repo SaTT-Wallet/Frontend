@@ -16,7 +16,7 @@ export const environment = {
       campaignPOLYGON: '0xa01f80042512Cdf9355a66CBB1266240c0456513',
       campaignBTT: '0xa01f80042512Cdf9355a66CBB1266240c0456513',
       campaignTRON: 'TPeLf9WLzUD8tUoc7dtfGVqPUrnKGip2PN',
-
+      campaignARTHERA: '0x21F27868d2E3Bbc2E3cced9c5233BA68439C03cf',
       SATT_TOKENERC20: '0xdf49c9f599a0a9049d97cff34d0c30e468987389',
       SATT_TOKENBEP20: '0x448bee2d93be708b54ee6353a7cc35c4933f1156',
       SATT_TOKEN_TRON: 'TZ9mUjmxCtowj9h68NJq626qaGWiv61KWo', // testnet
