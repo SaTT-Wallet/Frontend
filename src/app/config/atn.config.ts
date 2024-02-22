@@ -16,6 +16,8 @@ const artheraScan = env.artheraScan;
 
 const campaignSmartContractERC20 = env.addresses.smartContracts.campaignERC20;
 
+const campaignSmartContractARTHERA = env.addresses.smartContracts.campaignARTHERA;
+
 const campaignSmartContractBEP20 = env.addresses.smartContracts.campaignBEP20;
 
 const campaignSmartContractPOLYGON =
@@ -74,7 +76,9 @@ let cryptoList: { symbol: string; network: string; logo: string }[] = [
   { symbol: 'MAKER', network: 'erc20', logo: 'MKR.svg' },
   { symbol: 'TETHER', network: 'erc20', logo: 'USDT.svg' },
   { symbol: 'CAKE', network: 'bep20', logo: 'CAKE.svg' },
-  { symbol: 'TRX', network: 'tron', logo: 'TRX.svg' }
+  { symbol: 'TRX', network: 'tron', logo: 'TRX.svg' },
+  { symbol: 'AA', network: 'arthera', logo: 'AA.svg' }
+
 
   // { value: 'USDT', logo: 'USDT.svg' }
   //  {value :"BNB"},
@@ -168,6 +172,7 @@ cryptoNetwork['SATTBTT'] = 'BTT';
 cryptoNetwork['BTT'] = 'BTT';
 cryptoNetwork['TRX'] = 'TRON';
 cryptoNetwork['SATTTRON'] = 'TRON';
+cryptoNetwork['AA'] = 'ARTHERA';
 
 var ListTokens: { [key: string]: { [key: string]: any } } = {
   SATT: {
@@ -183,7 +188,7 @@ var ListTokens: { [key: string]: { [key: string]: any } } = {
     contract: null,
     decimals: new Big('10').pow(18),
     logo: 'AA.svg',
-    type: 'erc20',
+    type: 'arthera',
     symbole: 'AA'
   },
   SATTBEP20: {
@@ -896,6 +901,7 @@ export {
   campaignSmartContractPOLYGON,
   campaignSmartContractBTT,
   campaignSmartContractTRON,
+  campaignSmartContractARTHERA,
   pattContact,
   pattEmail,
   pattNetwork,

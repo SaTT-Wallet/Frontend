@@ -51,6 +51,8 @@ export class HttpInterceptorService implements HttpInterceptor {
     `${environment.API_URL}/campaign/tron/allow`,
     `${environment.API_URL}/campaign/bep20/approval`,
     `${environment.API_URL}/campaign/bep20/allow`,
+    `${environment.API_URL}/campaign/arthera/approval`,
+    `${environment.API_URL}/campaign/arthera/allow`,
     `${environment.API_URL}/campaign/polygon/approval`,
     `${environment.API_URL}/campaign/polygon/allow`,
     `${environment.API_URL}/campaign/erc20/approval`,

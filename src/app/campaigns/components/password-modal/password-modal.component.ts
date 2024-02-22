@@ -11,7 +11,8 @@ import {
   GazConsumedByCampaign,
   campaignSmartContractPOLYGON,
   campaignSmartContractBTT,
-  campaignSmartContractTRON
+  campaignSmartContractTRON,
+  campaignSmartContractARTHERA
 } from '@config/atn.config';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -178,6 +179,11 @@ export class PasswordModalComponent implements OnInit {
         case 'TRON': {
           _campaign.contract = campaignSmartContractTRON;
           _campaign.network = 'TRON';
+          break;
+        }
+        case 'arthera': {
+          _campaign.contract = campaignSmartContractARTHERA;
+          _campaign.network = 'ARTHERA';
           break;
         }
       }
@@ -491,6 +497,49 @@ let dateInSeconds = Math.floor(date.getTime() / 1000);
             );
         })
       );
+    } else if(cryptoNetwork[token] === 'ARTHERA') {
+      LaunchCampaignObs = this.campaignService.approveARTHERA(TokenOBj).pipe(
+        map((response: any) => response.data),
+        switchMap((response: any) => {
+          this.passwordForm.reset();
+          /*if (
+            new Big(response.allowance.amount).gt(
+              new Big(this.campaign.initialBudget)
+            )
+          ) {
+            if (this.campaign.remuneration === 'performance') {
+              //     confirmationContent
+              return this.launchCampaignWithPerPerformanceReward(campaign_info);
+            } else if (this.campaign.remuneration === 'publication') {
+              //     confirmationContent
+              return this.launchCampaignWithPerPublicationReward(campaign_info);
+            }
+          }*/
+
+          return this.campaignService
+            .allowARTHERA(TokenOBj, campaign_info.pass)
+            .pipe(
+              tap((response: any) => {
+                if (response['error'] === 'Wrong password') {
+                  this.errorMessage = 'wrong_password';
+                }
+              }),
+              concatMap(() => {
+                if (this.campaign.remuneration === 'performance') {
+                  return this.launchCampaignWithPerPerformanceReward(
+                    campaign_info
+                  );
+                } else if (this.campaign.remuneration === 'publication') {
+                  return this.launchCampaignWithPerPublicationReward(
+                    campaign_info
+                  );
+                }
+                return of(null);
+              }),
+              takeUntil(this.isDestroyed)
+            );
+        })
+      );
     } else {
       LaunchCampaignObs = this.campaignService
         .approvalERC20(TokenOBj)
@@ -572,11 +621,12 @@ let dateInSeconds = Math.floor(date.getTime() / 1000);
         // Convert the start date to Unix timestamp
     // const startDateUnix = Math.floor(campaign_info.startDate.getTime() / 1000);
     // campaign_info.startDate = startDateUnix;
-      console.log(campaign_info.startDate)
     if (campaign_info.currency === 'BNB') {
       campaign_info.tokenAddress = null;
     }
-    
+    if(campaign_info.currency === 'AA') {
+      campaign_info.tokenAddress = null;
+    }
       // Determine which campaign method to call based on the 'createCampaign' flag
     const campaignObservable = createCampaign
       && this.campaignService.createCompaign(campaign_info)
