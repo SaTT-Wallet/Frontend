@@ -401,9 +401,7 @@
               'green-color': prom.totalToEarn !== '0'
             }"
           >
-            {{
-              prom.sum | fromWeiTo: prom.campaign.currency || '--.--' | number
-            }}
+            {{ prom.sum | fromWeiTo: prom.campaign.currency || '--.--' }}
 
             <img
               *ngIf="prom.totalToEarn === '0'"
