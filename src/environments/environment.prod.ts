@@ -57,8 +57,8 @@ export const environment = {
   bttscanAddr: 'https://bttcscan.com/address/',
   tronScanAddr: 'https://tronscan.org/#/address/',
   tronScan: 'https://tronscan.org/#/transaction/',
-  artheraScan: 'https://explorer-test2.arthera.net/tx/',
-  artherascanaddr: 'https://explorer-test2.arthera.net/address/',
+  artheraScan: 'https://explorer.arthera.net/tx/',
+  artherascanaddr: 'https://explorer.arthera.net/address/',
   /*
   DEV-ENV
 */
