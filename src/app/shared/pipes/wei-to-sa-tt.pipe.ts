@@ -33,7 +33,7 @@ export class ConvertFromWei implements PipeTransform {
     }
 
     return (
-      (!!decimals && new Big(value).div(decimals).round(digits).toString()) ||
+      (!!decimals && new Big(value).div(decimals).toString()) ||
       '0'
     );
   }
