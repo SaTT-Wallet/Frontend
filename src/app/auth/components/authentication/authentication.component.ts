@@ -595,18 +595,22 @@ getCookie(key: string){
   snlogin(social: string) {
     this.tokenStorageService?.setModaleMigrate('open');
     this.scale = true;
-    this.loggedrs = true;//window.location.href = sattUrl + "/snlogin/" + social;
-      if (social === 'facebook') {
-        this.loginNet = 'facebook';
-        window.location.href = this.authFacebook;
-      } else if (social === 'google') {
-        this.loginNet = 'google';
-        window.location.href = this.authGoogle;
-      } else if (social === 'telegram') {
-        this.loginNet = 'telegram';
-        window.location.href = this.authTelegram;
-      }
-    
+    this.loggedrs = true; //window.location.href = sattUrl + "/snlogin/" + social;
+    if (social === 'facebook') {
+      this.loginNet = 'facebook';
+      window.location.href = this.authFacebook;
+    } else if (social === 'google') {
+      this.loginNet = 'google';
+      window.location.href = this.authGoogle;
+    } else if (social === 'telegram') {
+      this.loginNet = 'telegram';
+      window.location.href = this.authTelegram;
+    } else if (social === 'metamask') {
+      window.open(
+        environment.metaMaskDomaine + '/welcome?redirection=true',
+        '_self'
+      );
+    }
   }
 
   /**

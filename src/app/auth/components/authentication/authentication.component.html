@@ -72,13 +72,41 @@
                   <div
                     #script
                     class="d-flex justify-content-center"
-                    style="cursor: pointer; opacity: 0.001; z-index: 3; width: 93%"
+                    style="
+                      cursor: pointer;
+                      opacity: 0.001;
+                      z-index: 3;
+                      width: 93%;
+                    "
                   >
                     <ng-content></ng-content>
                   </div>
                 </div>
               </a>
+
               <span class="tgm"> {{ 'continuer_avec_tgm' | translate }}</span>
+            </div>
+
+            <div class="metamask_log row" (click)="snlogin('metamask')">
+              <a
+                (click)="snlogin('metamask')"
+                class="sn-icon-googleEnglish"
+                [ngClass]="{
+                  'sn-icon-googleFrensh':
+                    this.english && this.languageSelected === 'en'
+                }"
+              >
+                <img
+                  class="icon-google"
+                  src="/assets/Images/metamask.svg"
+                  alt=""
+                  [ngClass]="{
+                    'google-icon':
+                      this.english && this.languageSelected === 'en'
+                  }"
+                />
+              </a>
+              {{ 'continuer_avec_mt' | translate }}
             </div>
           </div>
           <span class="label_login_ou">{{ 'or' | translate }}</span>
@@ -168,7 +196,7 @@
                 {{ 'field_required' | translate }}
               </p>
             </div>
-            
+
             <div
               class="d-flex justify-content-center"
               *ngIf="this.errorMessage !== ''"
@@ -402,7 +430,7 @@
                 code: !this.errorMessagecode
               }"
             >
-              {{'authentificationCode' | translate }}
+              {{ 'authentificationCode' | translate }}
             </span>
             <app-code-input-auth
               [ngClass]="{
@@ -451,11 +479,12 @@
           (click)="resetPassword()"
           rel="noopener"
           class="resend"
-          >
+        >
           {{ 'resend' | translate }}
-        </a> 
-        <a *ngIf="!this.showResendLink" style="color: red;">
-          {{ 'verifEmailSent' | translate: { timeLeft: this.timeLeft } }}  </a>
+        </a>
+        <a *ngIf="!this.showResendLink" style="color: red">
+          {{ 'verifEmailSent' | translate: { timeLeft: this.timeLeft } }}
+        </a>
       </form>
     </div>
   </div>
