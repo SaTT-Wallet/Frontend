@@ -10,26 +10,22 @@
       display: none !important;
     }
   }
-
-
-  
 }
-
-
 
 .wallet-connect-type {
   max-width: 100%;
-  height: 85% ; 
+  height: 85%;
   margin-right: 0.75vw;
 }
 
 .buttons-block {
-  margin-top: 20%; 
+  margin-top: 20%;
   margin-bottom: 20%;
 }
 
 .modal-title {
-  margin-left: 1vw; font-style: normal;
+  margin-left: 1vw;
+  font-style: normal;
   font-weight: 700;
   margin-bottom: 0px;
   line-height: 2rem;
@@ -38,41 +34,41 @@
 }
 
 .close-button {
-  border: none; 
-  background-color: transparent; 
+  border: none;
+  background-color: transparent;
   margin-right: 1vw;
 }
 
 .wallet-connect-button {
   display: flex;
   align-items: center;
-  height : 6vh;
+  height: 6vh;
   background-color: transparent;
   border-radius: 3rem;
   width: 60%;
   font-family: 'Poppins';
   color: black;
-  
+
   box-shadow: 0 4px 4px #00000040;
   font-style: normal;
   font-weight: 400;
   line-height: 24px;
   text-align: center;
-  letter-spacing: .03em;
+  letter-spacing: 0.03em;
   border: none;
   margin-top: 1vh;
   font-size: medium;
 }
 
 .block-primary {
-  background-color: rgb(238, 236, 236);  
+  background-color: rgb(238, 236, 236);
   border-right: 1px solid rgb(187, 185, 185);
   border-top-left-radius: 30px;
   border-bottom-left-radius: 30px;
 }
 
 .description-image {
-  margin-top: 5vh; 
+  margin-top: 5vh;
   margin-bottom: 2.5vh;
   display: block;
   margin-left: auto;
@@ -83,7 +79,7 @@
 .description-title {
   font-style: normal;
   font-weight: 700;
-  
+
   line-height: 2rem;
   letter-spacing: 1px;
   text-align: center;
@@ -100,9 +96,9 @@
 }
 
 .description-block {
-  border-bottom: 1px solid rgb(187, 185, 185); 
-  margin-top: 1vh; 
-  margin-bottom: 1vh; 
+  border-bottom: 1px solid rgb(187, 185, 185);
+  margin-top: 1vh;
+  margin-bottom: 1vh;
   padding-bottom: 1vh;
 }
 
@@ -113,10 +109,9 @@
   top: 0;
 }
 
-.modal-body.modal-custom{
-  margin-top: 0 !important; 
-   
- }
+.modal-body.modal-custom {
+  margin-top: 0 !important;
+}
 #title_wallet {
   // position: absolute;
   // top: 10%;
@@ -145,7 +140,7 @@
 
 @media (max-width: 767px) {
   .wallet-connect-button {
-    width: 80%
+    width: 80%;
   }
   .close-button {
     position: fixed;
@@ -153,7 +148,7 @@
     left: 85%;
     top: 0;
   }
-  
+
   .description-image {
     margin-top: 25vh;
     width: 25%;
@@ -166,8 +161,6 @@
   .buttons-block {
     margin-top: 4vh;
   }
-
-  
 }
 @media (max-height: 780px) {
   .container-qr {
@@ -691,7 +684,6 @@ ul.dropdown-menu.notif_drop_main.show {
   display: none;
 }
 
-
 .ul-left-side {
   display: flex;
   flex-wrap: wrap;
@@ -700,9 +692,9 @@ ul.dropdown-menu.notif_drop_main.show {
 }
 
 .li-menu {
-  flex:auto;
+  flex: auto;
   white-space: nowrap;
-  padding:5px;
+  padding: 5px;
   margin-left: -1%;
   align-content: center;
 }
@@ -726,7 +718,7 @@ ul.dropdown-menu.notif_drop_main.show {
   /* .right-menu {
         display: none;
     } */
-  /*.li-menu {
+/*.li-menu {
     margin: 0 !important;
     padding: 5px !important;
     width: auto;
@@ -746,10 +738,10 @@ ul.dropdown-menu.notif_drop_main.show {
     width: 45px !important;
     gap: 0 !important;
   }*/
-  /* ul.dropdown-menu.notif_drop_main.show {
+/* ul.dropdown-menu.notif_drop_main.show {
         width: 300px;
         height: 90vh;
-    } *//*
+    } */ /*
   .notifBody {
     max-width: 240px;
   }
@@ -918,7 +910,8 @@ ul.droptrans.show {
 }
 
 li {
-  font-size: 14px;}
+  font-size: 14px;
+}
 
 .navbar .show {
   display: block;
@@ -1483,6 +1476,7 @@ li:focus {
   cursor: pointer;
 }
 .img-copied {
+  padding-left: 0.5em;
   cursor: pointer;
 }
 
@@ -1748,6 +1742,25 @@ bottom: 77.54% ; */
 .wallet-address {
   text-overflow: ellipsis;
   overflow: hidden;
+}
+
+.title_wallet_btn {
+  text-decoration: underline;
+}
+.spin-animation {
+  animation: spin 2s ease-in-out 3, steps(1) 6;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
 }
 
 .title {

@@ -197,14 +197,18 @@
       class="d-md-block d-xl-none d-lg-none d-sm-block button-connect"
       (click)="connect(connectModal)"
     >
-     Connect
+      Connect
     </button>
 
     <!-- end mdddd-->
     <!--start desktop  collapse navbar-collapse-->
     <div class="desktop-menu" id="navbarSupportedContent">
       <ul class="d-flex ul-left-side">
-        <li class="li-menu" [ngClass]="{ 'is-visited': menuWallet }" id="introo">
+        <li
+          class="li-menu"
+          [ngClass]="{ 'is-visited': menuWallet }"
+          id="introo"
+        >
           <a
             *ngIf="isConnected"
             class="wallet"
@@ -219,7 +223,11 @@
             >{{ 'Sidebar.Wallet' | translate }}</a
           >
         </li>
-        <li class="li-menu" [ngClass]="{ 'is-visited': menuAdpool }" id="intro2">
+        <li
+          class="li-menu"
+          [ngClass]="{ 'is-visited': menuAdpool }"
+          id="intro2"
+        >
           <a
             class="adpools"
             [routerLink]="['/ad-pools']"
@@ -228,7 +236,11 @@
             <span>{{ 'Ad_Pools' | translate }}</span>
           </a>
         </li>
-        <li class="li-menu" [ngClass]="{ 'is-visited': menuFarmPost }" id="intro3">
+        <li
+          class="li-menu"
+          [ngClass]="{ 'is-visited': menuFarmPost }"
+          id="intro3"
+        >
           <a
             *ngIf="isConnected"
             class="farmPost"
@@ -256,7 +268,11 @@
             ><span>{{ 'Sidebar.history_transaction' | translate }}</span></a
           >
         </li>
-        <li class="li-menu" [ngClass]="{ 'is-visited': menuBuyToken }" id="intro6">
+        <li
+          class="li-menu"
+          [ngClass]="{ 'is-visited': menuBuyToken }"
+          id="intro6"
+        >
           <a
             class="farmPost"
             [routerLink]="['/wallet/buy-token']"
@@ -264,8 +280,15 @@
             >{{ 'menu_buyToken' | translate }}</a
           >
         </li>
-        <li class="li-menu" [ngClass]="{ 'is-visited': menuTokenInfo }" id="intro7">
-          <a style="cursor: pointer"  [routerLink]="['/wallet/token-info']" (click)="checkMenuTokenInfo()"
+        <li
+          class="li-menu"
+          [ngClass]="{ 'is-visited': menuTokenInfo }"
+          id="intro7"
+        >
+          <a
+            style="cursor: pointer"
+            [routerLink]="['/wallet/token-info']"
+            (click)="checkMenuTokenInfo()"
             >{{ 'token_info' | translate }}</a
           >
         </li>
@@ -690,7 +713,11 @@
         class="right_nav_side navbar-nav"
         *ngIf="isPlatformBrowser && !isConnected && showConnectButton"
       >
-        <button type="button" class="button-connect d-none d-md-block" (click)="connect(connectModal)">
+        <button
+          type="button"
+          class="button-connect d-none d-md-block"
+          (click)="connect(connectModal)"
+        >
           Connect
         </button>
         <!--
@@ -739,14 +766,19 @@
       "
       *ngIf="existV1 && existV2"
     >
-      <div class="row justify-content-center d-flex">{{ titleWallet }}</div>
+      <div style="font-weight: 500" class="row justify-content-center d-flex">
+        {{ titleWallet }}
+      </div>
       <div class="row d-flex">
         <img
-          class="col-2 offset-1 align-self-center mr-2 change-wallet-img"
+          class="col-2 offset-1 align-self-center mr-2 change-wallet-img spin-animation"
           (click)="isDisplayNew()"
           src="../../assets/Images/custom_icons/bi_arrow-repeat.svg"
         />
-        <div class="col align-self-center justify-content-center">
+        <div
+          (click)="isDisplayNew()"
+          class="col align-self-center justify-content-center title_wallet_btn"
+        >
           {{ title }}
         </div>
       </div>
@@ -802,7 +834,7 @@
               "
             >
               <span class="span-text-wallet"
-                >{{ btcCodeV2.slice(0, 2) }}...{{ btcCodeV2.slice(-12) }}</span
+                >{{ btcCodeV2.slice(0, 4) }}...{{ btcCodeV2.slice(-3) }}</span
               >
 
               <span class="pr-1 position-relative"
@@ -856,7 +888,7 @@
                 "
               >
                 <span class="span-text-wallet"
-                  >{{ erc20V2?.slice(0, 2) }}...{{ erc20V2?.slice(-12) }}</span
+                  >{{ erc20V2?.slice(0, 4) }}...{{ erc20V2?.slice(-3) }}</span
                 >
 
                 <span class="pr-1 position-relative"
@@ -935,8 +967,8 @@
               "
             >
               <span class="span-text-wallet"
-                >{{ tronAddressV2?.slice(0, 2) }}...{{
-                  tronAddressV2?.slice(-12)
+                >{{ tronAddressV2?.slice(0, 4) }}...{{
+                  tronAddressV2?.slice(-3)
                 }}</span
               >
 
@@ -967,7 +999,6 @@
         </div>
       </div>
     </div>
-
     <div *ngIf="existV1" class="container-qr">
       <div class="mobile container" id="qr-container">
         <div class="item">
@@ -993,7 +1024,7 @@
               "
             >
               <span class="span-text-wallet"
-                >{{ btcCode.slice(0, 2) }}...{{ btcCode.slice(-12) }}</span
+                >{{ btcCode.slice(0, 4) }}...{{ btcCode.slice(-3) }}</span
               >
 
               <span class="pr-1 position-relative"
@@ -1047,7 +1078,7 @@
                 "
               >
                 <span class="span-text-wallet"
-                  >{{ erc20.slice(0, 2) }}...{{ erc20.slice(-12) }}</span
+                  >{{ erc20.slice(0, 4) }}...{{ erc20.slice(-3) }}</span
                 >
 
                 <span class="pr-1 position-relative"
@@ -1126,8 +1157,8 @@
               "
             >
               <span class="span-text-wallet"
-                >{{ tronAddress.slice(0, 2) }}...{{
-                  tronAddress.slice(-12)
+                >{{ tronAddress.slice(0, 4) }}...{{
+                  tronAddress.slice(-3)
                 }}</span
               >
 
@@ -1158,78 +1189,111 @@
         </div>
       </div>
     </div>
+    <!-- <div class="row d-flex">
+        <img
+          class="col-2 offset-1 align-self-center mr-2 change-wallet-img"
+          (click)="isDisplayNew()"
+          src="../../assets/Images/custom_icons/bi_arrow-repeat.svg"
+        />
+        <div class="col align-self-center justify-content-center">
+          {{ title }}
+        </div>
+      </div> -->
   </div>
 </div>
 
-
 <ng-template #connectModal>
-    <div *ngIf="getScreenWidth > 767" class="d-flex">
-      <div class="d-block col-5 block-primary">
-        <img src="./../../../../assets/Images/connect-wallet-icon.svg" class="description-image" >
-        <h4 class="description-title">
-         
-          {{ 'connect_wallet_title' | translate}}
-        </h4>
-        <p class="description-content">
-          {{ 'connect_wallet_body' | translate}}
-        </p>
-      </div>
-     
-      <div class="d-block" style=" width: 100%;">
-        <div class="d-flex justify-content-between description-block" >
-          <h4 class="modal-title">
-            {{"available_wallets" | translate}}
-          </h4>
-          <button (click)="closeModal()" class="close-button" >
-            <img src="./../../../../assets/Images/icon-close.svg" />
-          </button>
-        </div>
-        
-  
-        <div class="d-flex flex-column justify-content-center align-items-center buttons-block" >
-
-          <button
-        type="button"
-        
-        (click)="sattConnect()"
-        class="generator wallet-connect-button"><img src="./../../../../assets/Images/Satt.svg" class="wallet-connect-type"/> {{'satt_wallet' | translate}}
-      </button>
-    
-      <button
-      (click)="metaMaskConnect()"
-        type="button"
-        class="generator wallet-connect-button"><img src="./../../../../assets/Images/metamask.svg" class="wallet-connect-type" /> {{'metamask_wallet' | translate}} 
-      </button>
-        </div>
-        
-      </div>
-    </div>
-   
-    <div *ngIf="getScreenWidth <= 767" class="mobile-block">
-      <button (click)="closeModal()" class="close-button">
-        <img src="./../../../../assets/Images/icon-close.svg" />
-      </button>
-      <img src="./../../../../assets/Images/connect-wallet-icon.svg" class="description-image" >
-      <h4 class="modal-title">
-        {{"available_wallets" | translate}}
+  <div *ngIf="getScreenWidth > 767" class="d-flex">
+    <div class="d-block col-5 block-primary">
+      <img
+        src="./../../../../assets/Images/connect-wallet-icon.svg"
+        class="description-image"
+      />
+      <h4 class="description-title">
+        {{ 'connect_wallet_title' | translate }}
       </h4>
-      <div class="d-flex flex-column justify-content-center align-items-center buttons-block" >
+      <p class="description-content">
+        {{ 'connect_wallet_body' | translate }}
+      </p>
+    </div>
+
+    <div class="d-block" style="width: 100%">
+      <div class="d-flex justify-content-between description-block">
+        <h4 class="modal-title">
+          {{ 'available_wallets' | translate }}
+        </h4>
+        <button (click)="closeModal()" class="close-button">
+          <img src="./../../../../assets/Images/icon-close.svg" />
+        </button>
+      </div>
+
+      <div
+        class="d-flex flex-column justify-content-center align-items-center buttons-block"
+      >
+        <button
+          type="button"
+          (click)="sattConnect()"
+          class="generator wallet-connect-button"
+        >
+          <img
+            src="./../../../../assets/Images/Satt.svg"
+            class="wallet-connect-type"
+          />
+          {{ 'satt_wallet' | translate }}
+        </button>
 
         <button
-      type="button"
-      
-      (click)="sattConnect()"
-      class="generator wallet-connect-button"><img src="./../../../../assets/Images/Satt.svg" class="wallet-connect-type"/> {{'satt_wallet' | translate}}
-    </button>
-  
-    <button
-    (click)="metaMaskConnect()"
-      type="button"
-      class="generator wallet-connect-button"><img src="./../../../../assets/Images/metamask.svg" class="wallet-connect-type" /> {{'metamask_wallet' | translate}} 
-    </button>
+          (click)="metaMaskConnect()"
+          type="button"
+          class="generator wallet-connect-button"
+        >
+          <img
+            src="./../../../../assets/Images/metamask.svg"
+            class="wallet-connect-type"
+          />
+          {{ 'metamask_wallet' | translate }}
+        </button>
       </div>
     </div>
- 
- 
-  
-  </ng-template>
+  </div>
+
+  <div *ngIf="getScreenWidth <= 767" class="mobile-block">
+    <button (click)="closeModal()" class="close-button">
+      <img src="./../../../../assets/Images/icon-close.svg" />
+    </button>
+    <img
+      src="./../../../../assets/Images/connect-wallet-icon.svg"
+      class="description-image"
+    />
+    <h4 class="modal-title">
+      {{ 'available_wallets' | translate }}
+    </h4>
+    <div
+      class="d-flex flex-column justify-content-center align-items-center buttons-block"
+    >
+      <button
+        type="button"
+        (click)="sattConnect()"
+        class="generator wallet-connect-button"
+      >
+        <img
+          src="./../../../../assets/Images/Satt.svg"
+          class="wallet-connect-type"
+        />
+        {{ 'satt_wallet' | translate }}
+      </button>
+
+      <button
+        (click)="metaMaskConnect()"
+        type="button"
+        class="generator wallet-connect-button"
+      >
+        <img
+          src="./../../../../assets/Images/metamask.svg"
+          class="wallet-connect-type"
+        />
+        {{ 'metamask_wallet' | translate }}
+      </button>
+    </div>
+  </div>
+</ng-template>
