@@ -12,7 +12,8 @@ import {
   campaignSmartContractPOLYGON,
   campaignSmartContractBTT,
   campaignSmartContractTRON,
-  campaignSmartContractARTHERA
+  campaignSmartContractARTHERA,
+  faucetTokenBBArthera
 } from '@config/atn.config';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -625,7 +626,7 @@ let dateInSeconds = Math.floor(date.getTime() / 1000);
       campaign_info.tokenAddress = null;
     }
     if(campaign_info.currency === 'AA') {
-      campaign_info.tokenAddress = null;
+      campaign_info.tokenAddress = faucetTokenBBArthera;
     }
       // Determine which campaign method to call based on the 'createCampaign' flag
     const campaignObservable = createCampaign
