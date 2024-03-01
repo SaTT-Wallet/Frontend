@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+
   //API_URL: 'https://localhost:3015',
   //url:"http://localhost:4200/",
   url: 'https://testnet.satt.atayen.us/',
@@ -19,6 +20,7 @@ export const environment = {
 
   //API_URL: 'https://localhost:3015',
   // 'https://api-preprod.satt-token.com:3014',
+  faucetTokenBBArthera: '0xd1120E67A2bf245B62C0aF804fFa112fd28D8e56',
   addresses: {
     smartContracts: {
       campaignERC20: '0x0A40CEbd090Aedeb912903D8fDbEeb8d066807A4',
