@@ -169,7 +169,7 @@ export class DropdownCryptoNetworkComponent
         walletAddress: this.selectedNetworkValue === 'TRON' ? window.localStorage.getItem('tron-wallet') : window.localStorage.getItem('wallet_id'),
         smartContract: (this.selectedNetworkValue === 'ERC20' && crypto.key === 'SATT') ? env.addresses.smartContracts.SATT_TOKENERC20 :  ( (this.selectedNetworkValue === 'BEP20' && crypto.key === 'SATT') ? env.addresses.smartContracts.SATT_TOKENBEP20 :crypto.contract),
         isNative:
-         ((crypto.key === 'ETH' && this.selectedNetworkValue === 'ERC20') || (crypto.key === 'BNB' && this.selectedNetworkValue === 'BEP20') || (crypto.key === 'BTT' && this.selectedNetworkValue === 'BTTC') || (crypto.key === 'TRX' && this.selectedNetworkValue === 'TRON') || (crypto.key === 'MATIC' && this.selectedNetworkValue === 'POLYGON') || (crypto.key === 'AA' && this.selectedNetworkValue === 'ARTHERA'))
+         ((crypto.key === 'ETH' && this.selectedNetworkValue === 'ERC20') || (crypto.key === 'BNB' && this.selectedNetworkValue === 'BEP20') || (crypto.key === 'BTT' && this.selectedNetworkValue === 'BTTC') || (crypto.key === 'TRX' && this.selectedNetworkValue === 'TRON') || (crypto.key === 'MATIC' && this.selectedNetworkValue === 'POLYGON') )
             ? true
             : false
       })
