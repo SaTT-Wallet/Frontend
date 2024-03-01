@@ -185,7 +185,7 @@ var ListTokens: { [key: string]: { [key: string]: any } } = {
   },
   AA: {
     name: 'AA',
-    contract: null,
+    contract: env.faucetTokenBBArthera,
     decimals: new Big('10').pow(18),
     logo: 'AA.svg',
     type: 'arthera',
