@@ -13,7 +13,7 @@ const bttscanAddr = env.bttscanAddr;
 const tronscanAddr = env.tronScanAddr;
 const tronScan = env.tronScan;
 const artheraScan = env.artheraScan;
-
+const faucetTokenBBArthera = env.faucetTokenBBArthera
 const campaignSmartContractERC20 = env.addresses.smartContracts.campaignERC20;
 
 const campaignSmartContractARTHERA = env.addresses.smartContracts.campaignARTHERA;
@@ -891,6 +891,7 @@ export {
   socialMedia,
   cryptoNetwork,
   sattUrl,
+  faucetTokenBBArthera,
   ipfsURL,
   walletUrl,
   arrayCountries,

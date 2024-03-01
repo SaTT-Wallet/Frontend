@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ListTokens } from '@app/config/atn.config';
+import { ListTokens, faucetTokenBBArthera } from '@app/config/atn.config';
 import { WalletFacadeService } from '@app/core/facades/wallet-facade.service';
 import { CryptofetchServiceService } from '@app/core/services/wallet/cryptofetch-service.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -631,7 +631,7 @@ export class DropdownCryptoNetworkComponent
             campaignCryptoSet.add({
               key: 'AA',
               value: crypto,
-              contract: null
+              contract: faucetTokenBBArthera
             });
           }
         })
