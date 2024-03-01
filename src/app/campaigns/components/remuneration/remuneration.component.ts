@@ -760,7 +760,7 @@ export class RemunerationComponent implements OnInit, OnDestroy {
                     network: this.selectedNetworkValue.toLowerCase(),
                     walletAddress: this.selectedNetworkValue === 'TRON' ? window.localStorage.getItem('tron-wallet') : window.localStorage.getItem('wallet_id'),
                     isNative:
-             ((value.key === 'ETH' && this.selectedNetworkValue === 'ERC20') || (value.key === 'BNB' && this.selectedNetworkValue === 'BEP20') || (value.key === 'BTT' && this.selectedNetworkValue === 'BTTC') || (value.key === 'TRX' && this.selectedNetworkValue === 'TRON') || (value.key === 'MATIC' && this.selectedNetworkValue === 'POLYGON') || (value.key === 'AA' && this.selectedNetworkValue === 'ARTHERA'))
+             ((value.key === 'ETH' && this.selectedNetworkValue === 'ERC20') || (value.key === 'BNB' && this.selectedNetworkValue === 'BEP20') || (value.key === 'BTT' && this.selectedNetworkValue === 'BTTC') || (value.key === 'TRX' && this.selectedNetworkValue === 'TRON') || (value.key === 'MATIC' && this.selectedNetworkValue === 'POLYGON') )
                 ? true
                 : false,
                     smartContract: (this.selectedNetworkValue === 'ERC20' && value.key === 'SATT') ? environment.addresses.smartContracts.SATT_TOKENERC20 :  ( (this.selectedNetworkValue === 'BEP20' && value.key === 'SATT') ? environment.addresses.smartContracts.SATT_TOKENBEP20 :value.contract) //value.contract
