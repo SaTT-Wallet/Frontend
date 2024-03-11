@@ -195,9 +195,9 @@
       type="button"
       *ngIf="isPlatformBrowser && !isConnected && showConnectButton"
       class="d-md-block d-xl-none d-lg-none d-sm-block button-connect"
-      (click)="connect(connectModal)"
+      [routerLink]="['/auth/login']"
     >
-      Connect
+    Connect
     </button>
 
     <!-- end mdddd-->
@@ -716,9 +716,9 @@
         <button
           type="button"
           class="button-connect d-none d-md-block"
-          (click)="connect(connectModal)"
+          [routerLink]="['/auth/login']"
         >
-          Connect
+        Connect
         </button>
         <!--
         <li class="li-menu sign-in ">
