@@ -1,24 +1,30 @@
 <head>
   <meta property="og:title" content="{{ campaign.title }}" />
-  <meta property="og:description" content="{{ campaign.description | strip}}" />
+  <meta
+    property="og:description"
+    content="{{ campaign.description | strip }}"
+  />
 
   <!-- <meta property="og:description" content="{{ 'SaTT TO THE MOON' }}" /> -->
-  <meta
-    property="og:image"
-    content="{{ campaign.logo }}"
-  />
+  <meta property="og:image" content="{{ campaign.logo }}" />
 </head>
 <div>
   <div *ngIf="!isLoading">
     <span id="span-top" class="span-top"></span>
     <div
-      style="position: absolute; top: 0; width: 100vw; height: 100vh; z-index: 1"
+      style="
+        position: absolute;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 1;
+      "
     ></div>
-  
+
     <!--
       
     -->
-  
+
     <div class="campaign-cover img-container" id="" *ngIf="!showInfoSpinner">
       <img
         class="campaign-img desktopClass"
@@ -39,7 +45,7 @@
         alt="{{ campaign.title }}"
         *ngIf="campaign && campaign.cover"
       />
-  
+
       <img
         [className]="
           campaign.coverSrcMobile.includes('ipfs')
@@ -57,7 +63,7 @@
         "
         alt="{{ campaign.title }}"
       />
-  
+
       <!-- <app-edit-cover-btn
         *ngIf="campaign.isOwnedByUser"
         class="btn-edit"
@@ -113,7 +119,7 @@
         >
           {{ 'editAdpool' | translate }}
         </button>
-  
+
         <button type="button" class="btn-scroll-top" (click)="scrollToTop()">
           <img src="/assets/Images/chevron_up.svg" />
         </button>
@@ -129,7 +135,7 @@
         <div class="div-pic">
           <img src="assets/Images/blue-icons/wallet-icon-blue.svg" width="32" />
         </div>
-  
+
         <span class="span-text blue-text">{{
           'Sidebar.Wallet' | translate
         }}</span>
@@ -140,7 +146,7 @@
         <div class="div-pic">
           <img src="assets/Images/blue-icons/list-ul.svg" />
         </div>
-  
+
         <span class="span-text blue-text">AdPool list</span>
       </div>
       <!------end div adpoooool -->
@@ -197,7 +203,7 @@
         <span class="span-text gray-text" *ngIf="campaign.inProgress"
           >Pending</span
         >
-  
+
         <!------end div pending -->
         <!------div stat -->
         <div
@@ -254,7 +260,7 @@
         >
           <img src="assets/Images/download-disabled.svg" />
         </div>
-  
+
         <span
           (click)="downloadFile()"
           class="span-text blue-text"
@@ -290,7 +296,7 @@
         >
           <img src="assets/Images/blue-icons/corbeille-blue.svg" />
         </div>
-  
+
         <span
           (click)="deleteCampaign()"
           class="span-text blue-text"
@@ -300,7 +306,7 @@
         <!------end div delete-->
       </div>
       <!------end div kit+ delete -->
-  
+
       <!----div back to top---->
       <div class="div-back-top text-center">
         <div class="div-pic" (click)="scrollToTop()">
@@ -315,7 +321,7 @@
             [hidden]="!inTop"
           />
         </div>
-  
+
         <span
           (click)="scrollToTop()"
           id="back-top-text"
@@ -352,7 +358,7 @@
           [aspectRatio]="1"
         ></app-edit-cover-btn>
       </div>
-  
+
       <div class="container pt-4">
         <div
           class="d-flex flex-xl-row flex-lg-row flex-md-row flex-sm-column flex-column align-items-center position-relative"
@@ -384,7 +390,7 @@
               <p class="date-text">
                 {{ 'from' | translate }}
                 <!-- <span class="text-nowrap text-date">{{ campaign.startDate | date: "fullDate" }}  </span> -->
-  
+
                 <span class="" *ngIf="localId === 'en'">
                   {{
                     campaign.startDate
@@ -401,12 +407,14 @@
                 <!-- <span class="text-nowrap text-date">{{ campaign.endDate | date: "fullDate" }} </span> -->
                 <span class="" *ngIf="localId === 'en'">
                   {{
-                    campaign.endDate | date: 'MM/dd/yyyy ':undefined:localId || ''
+                    campaign.endDate
+                      | date: 'MM/dd/yyyy ':undefined:localId || ''
                   }}
                 </span>
                 <span class="" *ngIf="localId === 'fr'">
                   {{
-                    campaign.endDate | date: 'dd/MM/yyyy ':undefined:localId || ''
+                    campaign.endDate
+                      | date: 'dd/MM/yyyy ':undefined:localId || ''
                   }}
                 </span>
               </p>
@@ -488,10 +496,11 @@
             <button
               type="button"
               class="btn-apply btn-apply-desk"
-              id="btn-apply"
               (click)="goParticipate(campaign.id)"
               *ngIf="
-                !campaign.isOwnedByUser && campaign.isActive && isPlatformBrowser
+                !campaign.isOwnedByUser &&
+                campaign.isActive &&
+                isPlatformBrowser
               "
             >
               <span class="padding-16" *ngIf="!this.showSpinner">{{
@@ -520,7 +529,7 @@
               <p class="date-text">
                 {{ 'from' | translate }}
                 <!-- <span class="text-nowrap text-date">{{ campaign.startDate | date: "fullDate" }}  </span> -->
-  
+
                 <span class="" *ngIf="localId === 'en'">
                   {{
                     campaign.startDate
@@ -537,12 +546,14 @@
                 <!-- <span class="text-nowrap text-date">{{ campaign.endDate | date: "fullDate" }} </span> -->
                 <span class="" *ngIf="localId === 'en'">
                   {{
-                    campaign.endDate | date: 'MM/dd/yyyy ':undefined:localId || ''
+                    campaign.endDate
+                      | date: 'MM/dd/yyyy ':undefined:localId || ''
                   }}
                 </span>
                 <span class="" *ngIf="localId === 'fr'">
                   {{
-                    campaign.endDate | date: 'dd/MM/yyyy ':undefined:localId || ''
+                    campaign.endDate
+                      | date: 'dd/MM/yyyy ':undefined:localId || ''
                   }}
                 </span>
               </p>
@@ -557,7 +568,7 @@
           </div>
         </div>
       </div>
-  
+
       <!-- *ngIf="campaign_title"-->
       <section id="campaignInfo" class="">
         <app-campaign-info
@@ -581,7 +592,10 @@
         class="col-xl-4 col-md-8 col-lg-5 col-sm-8 d-flex justify-content-center pt-3-mobile"
       >
         <button type="button" class="btn-blue" (click)="launchCampaign()">
-          <img src="/assets/Images/Rectangle-lancer_compagne.svg" class="me-4" />
+          <img
+            src="/assets/Images/Rectangle-lancer_compagne.svg"
+            class="me-4"
+          />
           {{ 'start my campaign now!' | translate | capitalizePhrase }}
         </button>
       </div>
@@ -602,18 +616,18 @@
     </div>
   </div>
   <div
-  *ngIf="isLoading && !showmoonboy"
+    *ngIf="isLoading && !showmoonboy"
     class="d-flex justify-content-center align-items-center"
     style="height: 100%; width: 100%; background: white; position: relative"
   >
-    <app-loading-logo ></app-loading-logo>
+    <app-loading-logo></app-loading-logo>
   </div>
   <div
-  *ngIf="showmoonboy"
+    *ngIf="showmoonboy"
     class="d-flex justify-content-end w-100"
     style="position: relative; background: white; min-height: 30vh"
   >
-    <div  class="div-footer">
+    <div class="div-footer">
       <app-footer-send-receive-buy
         [pageName]="'apply in'"
       ></app-footer-send-receive-buy>
@@ -621,9 +635,6 @@
     </div>
   </div>
 </div>
-
-
-
 
 <ng-template #transactionPassword>
   <div
