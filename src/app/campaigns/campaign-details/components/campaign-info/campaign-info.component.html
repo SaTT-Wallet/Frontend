@@ -329,7 +329,7 @@
                 <div class="">
                   <div
                     class="mb-0 btn-connect-google position-relative"
-                    (click)="linkAccount()"
+                    (click)="linkAccount('youtube')"
                   >
                     <img
                       src="./assets/Images/youtube-white.png"
@@ -354,7 +354,7 @@
                 <div class="">
                   <div
                     class="btn-connect-fb position-relative"
-                    (click)="linkAccount()"
+                    (click)="linkAccount('facebook')"
                   >
                     <img
                       src="/assets/Images/campagne/facebook.svg"
@@ -379,7 +379,7 @@
                 <div class="">
                   <div
                     class="btn-connect-instagram position-relative"
-                    (click)="linkAccount()"
+                    (click)="linkAccount('instagram')"
                   >
                     <img
                       src="/assets/Images/campagne/instagram-white-icon.svg"
@@ -404,7 +404,7 @@
                 <div class="">
                   <div
                     class="mb-0 btn-connect-linkedin position-relative login_img"
-                    (click)="linkAccount()"
+                    (click)="onReditectLinkedin()"
                   >
                     <img
                       src="./assets/Images/Linkedin.png"
@@ -426,7 +426,7 @@
                   bounty.oracle === 'twitter' &&
                   channelTwitter?.length === 0
                 "
-                (click)="linkAccount()"
+                (click)="linkAccount('twitter')"
               >
                 <div class="">
                   <div class="btn-connect-twitter position-relative login_img">
@@ -450,7 +450,7 @@
                   bounty.oracle === 'tiktok' &&
                   channelTikTok?.length === 0
                 "
-                (click)="linkAccount()"
+                (click)="linkAccount('tiktok')"
               >
                 <div class="">
                   <div class="btn-connect-tikTok position-relative login_img">
@@ -601,7 +601,7 @@
                 <div class="">
                   <div
                     class="mb-0 btn-connect-google position-relative"
-                    (click)="linkAccount()"
+                    (click)="linkAccount('youtube')"
                   >
                     <img
                       src="./assets/Images/youtube-white.png"
@@ -626,7 +626,7 @@
                 <div class="">
                   <div
                     class="btn-connect-fb position-relative"
-                    (click)="linkAccount()"
+                    (click)="linkAccount('facebook')"
                   >
                     <img
                       src="/assets/Images/campagne/facebook.svg"
@@ -651,7 +651,7 @@
                 <div class="">
                   <div
                     class="btn-connect-instagram position-relative"
-                    (click)="linkAccount()"
+                    (click)="linkAccount('instagram')"
                   >
                     <img
                       src="/assets/Images/campagne/instagram-white-icon.svg"
@@ -676,7 +676,7 @@
                 <div class="">
                   <div
                     class="mb-0 btn-connect-linkedin position-relative login_img"
-                    (click)="linkAccount()"
+                    (click)="onReditectLinkedin()"
                   >
                     <img
                       src="./assets/Images/Linkedin.png"
@@ -698,7 +698,7 @@
                   ratio.oracle === 'twitter' &&
                   channelTwitter?.length === 0
                 "
-                (click)="linkAccount()"
+                (click)="linkAccount('twitter')"
               >
                 <div class="">
                   <div class="btn-connect-twitter position-relative login_img">
@@ -722,7 +722,7 @@
                   ratio.oracle === 'tiktok' &&
                   channelTikTok?.length === 0
                 "
-                (click)="linkAccount()"
+                (click)="linkAccount('tiktok')"
               >
                 <div class="">
                   <div class="btn-connect-tikTok position-relative login_img">
