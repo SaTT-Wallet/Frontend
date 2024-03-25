@@ -5,11 +5,17 @@
   margin-left: -10px;
 }
 
+#aa {
+  width: 42px;
+  height: 37px;
+  margin-left: -0.9em;
+  bottom: 0.1em;
+}
+
 .logoCypto {
   display: flex;
   cursor: pointer;
 }
-
 
 .migratebtn {
   /* display: flex; */
@@ -43,27 +49,26 @@
   border: thin;
 }
 
-.textecenter{
+.textecenter {
   height: 37px;
 
   top: 181px;
-  
+
   /* DESKTOP/Titles/H3 */
-  
+
   font-family: 'Poppins';
   font-style: normal;
   font-weight: 700;
   font-size: 22px;
   line-height: 28px;
   /* or 127% */
-  
+
   display: flex;
   align-items: center;
   text-align: center;
   letter-spacing: 1px;
-  
-  color: #323754;
 
+  color: #323754;
 }
 
 .qrcode-desktop {
