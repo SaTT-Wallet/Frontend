@@ -628,6 +628,7 @@ let dateInSeconds = Math.floor(date.getTime() / 1000);
     if(campaign_info.currency === 'AA') {
       campaign_info.tokenAddress = faucetTokenBBArthera;
     }
+    
       // Determine which campaign method to call based on the 'createCampaign' flag
     const campaignObservable = createCampaign
       && this.campaignService.createCompaign(campaign_info)
