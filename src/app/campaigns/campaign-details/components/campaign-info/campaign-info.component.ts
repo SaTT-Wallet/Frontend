@@ -25,7 +25,7 @@ import {
   Validators
 } from '@angular/forms';
 import { CampaignHttpApiService } from '@core/services/campaign/campaign.service';
-import { arrayCountries, ListTokens } from '@config/atn.config';
+import { arrayCountries, ListTokens, sattUrl } from '@config/atn.config';
 import { Editor } from 'ngx-editor';
 import { WalletStoreService } from '@core/services/wallet-store.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -49,6 +49,7 @@ import { Big } from 'big.js';
 import FileSaver from 'file-saver';
 import { IGetSocialNetworksResponse } from '@user-settings/components/social-networks/social-networks.component';
 import { TranslateService } from '@ngx-translate/core';
+
 
 @Component({
   selector: 'app-campaign-info',
@@ -1014,8 +1015,31 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
         }
       });
   }*/
-  linkAccount() {
-    this.router.navigate(['/settings/social-networks']);
+  onReditectSocial(social: string) {
+    const userId = this.tokenStorageService.getUserId() as string;
+    if (isPlatformBrowser(this.platformId))
+      window.location.href =
+        sattUrl +
+        `/profile/addChannel/${social}/${userId}` +
+        '?redirect=' +
+        this.router.url + '?frontendApp=metamask';
+  }
+
+  onReditectLinkedin() {
+    const userId = this.tokenStorageService.getUserId() as string;
+
+    if (isPlatformBrowser(this.platformId))
+      window.location.href =
+        sattUrl +
+        '/profile/addChannel/linkedin/' +
+        userId +
+        '?redirect=' +
+        this.router.url;
+  }
+
+  linkAccount(social: string) {
+    social === 'linkedin' ? this.onReditectLinkedin() : this.onReditectSocial(social)
+
   }
 
   campaignMissions(oracle: any) {
