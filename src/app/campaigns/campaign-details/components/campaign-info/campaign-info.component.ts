@@ -1022,7 +1022,7 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
         sattUrl +
         `/profile/addChannel/${social}/${userId}` +
         '?redirect=' +
-        this.router.url + '?frontendApp=metamask';
+        this.router.url;
   }
 
   onReditectLinkedin() {
@@ -1038,8 +1038,9 @@ export class CampaignInfoComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   linkAccount(social: string) {
-    social === 'linkedin' ? this.onReditectLinkedin() : this.onReditectSocial(social)
-
+    social === 'linkedin'
+      ? this.onReditectLinkedin()
+      : this.onReditectSocial(social);
   }
 
   campaignMissions(oracle: any) {
