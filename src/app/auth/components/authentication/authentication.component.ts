@@ -574,22 +574,6 @@ getCookie(key: string){
           }
         }
       );
-
-    // .subscribe((data: User | null) => {
-    //   this.tokenStorageService.saveIdSn(data?.idSn);
-    //   this.tokenStorageService.saveUserId(data?.idUser);
-    //   if (
-    //     (!data?.completed && data?.idSn !== 0) ||
-    //     (data?.completed && data?.idSn !== 0 && !data?.enabled) ||
-    //     (data?.completed === undefined && data?.idSn !== 0) ||
-    //     (data?.enabled === undefined && data?.idSn !== 0)
-    //   ) {
-    //     this.router.navigate(['social-registration/completeProfile']);
-    //     this.onDestroy$.next('');
-    //   } else {
-    //     setTimeout(() => this.router.navigate(['wallet']), 2000);
-    //   }
-    // });
   }
 
   snlogin(social: string) {
@@ -675,8 +659,10 @@ getCookie(key: string){
                   }
           
                   this.blocktime = error.error.error.blockedDate + 1800;
-                  this.timeLeftToUnLock = Math.max(0, this.blocktime - Math.floor(Date.now() / 1000));
-          
+                  this.timeLeftToUnLock = Math.max(
+                    0,
+                    this.blocktime - Math.floor(Date.now() / 1000)
+                  );
                   this.f.password.reset();
                   this.blockedForgetPassword = true;
                   break;
@@ -770,13 +756,19 @@ getCookie(key: string){
                   }
                 });
               } else {
-                this.tokenStorageService.setNewUserV2(response?.passphrase !== undefined ? !response?.passphrase : true);
+                this.tokenStorageService.setNewUserV2(
+                  response?.passphrase !== undefined
+                    ? !response?.passphrase
+                    : true
+                );
                 if (response.idSn !== 0 && response.idSn !== null) {
                   if (
                     !response.completed ||
                     (response.completed && !response.enabled)
                   ) {
-                    this.router.navigate(['social-registration/completeProfile']);
+                    this.router.navigate([
+                      'social-registration/completeProfile'
+                    ]);
                     this.showBigSpinner = true;
                   } else {
                     return this.walletFacade.getUserWallet().pipe(
@@ -878,26 +870,30 @@ getCookie(key: string){
             }
             if (res.myWallet.data.address) {
               if (res.response.data?.new) {
-                this.tokenStorageService.saveIdWallet(res.myWallet.data.address);
+                this.tokenStorageService.saveIdWallet(
+                  res.myWallet.data.address
+                );
                 this.tokenStorageService.saveTronWallet(
                   res.myWallet.data?.tronAddress
                 );
                 this.notificationService.triggerFireBaseNotifications.next(
                   true
                 );
-                this.router.navigate(['/ad-pools']);
+                this.router.navigate(['/wallet']);
                 this.showBigSpinner = true;
                 this.backgroundImage = '';
                 this.backgroundColor = '';
               } else {
-                this.tokenStorageService.saveIdWallet(res.myWallet.data.address);
+                this.tokenStorageService.saveIdWallet(
+                  res.myWallet.data.address
+                );
                 this.tokenStorageService.saveTronWallet(
                   res.myWallet.data?.tronAddress
                 );
                 this.notificationService.triggerFireBaseNotifications.next(
                   true
                 );
-                this.router.navigate(['/ad-pools']);
+                this.router.navigate(['/wallet']);
                 this.showBigSpinner = true;
                 this.backgroundImage = '';
                 this.backgroundColor = '';
