@@ -15,7 +15,12 @@ import {
   TemplateRef
 } from '@angular/core';
 // import { bscan, etherscan } from '@app/config/atn.config';
-import { Router, NavigationEnd, ActivatedRoute, ResolveStart } from '@angular/router';
+import {
+  Router,
+  NavigationEnd,
+  ActivatedRoute,
+  ResolveStart
+} from '@angular/router';
 import { NotificationService } from '@core/services/notification/notification.service';
 import { TokenStorageService } from '@core/services/tokenStorage/token-storage-service.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
@@ -130,8 +135,6 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   url5: any;
   url6: any;
 
-  
-
   picUserUpdated: boolean = false;
   oldHeight: any;
   newHeight: any;
@@ -148,7 +151,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   menuCampaign: boolean = false;
   menuTokenInfo: boolean = false;
   menuBuyToken: boolean = false;
-  
+
   // successPart: boolean = false;
   // errorPart: boolean = false;
   sucess: any = false;
@@ -190,13 +193,10 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   existV1: any;
   showConnectButton: boolean = false;
   @HostListener('window:resize', ['$event'])
-
   resize(event: any) {
     this.getScreenHeight = event.target.innerHeight;
     this.getScreenWidth = event.target.innerWidth;
   }
-
-
 
   constructor(
     breakpointObserver: BreakpointObserver,
@@ -226,19 +226,21 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     private route: ActivatedRoute,
     private hostElement: ElementRef,
     private titleService: Title,
-    public modalService: NgbModal,
+    public modalService: NgbModal
   ) {
     this.router.events.subscribe((event) => {
-      if(event instanceof ResolveStart) {
-        if(this.tokenStorageService.getToken()) {
-            this.walletFacade.verifyUserToken().pipe(first()).subscribe((res:any) => {
-              if(res.message != "success") this.expiredSession();
-            }); 
+      if (event instanceof ResolveStart) {
+        if (this.tokenStorageService.getToken()) {
+          this.walletFacade
+            .verifyUserToken()
+            .pipe(first())
+            .subscribe((res: any) => {
+              if (res.message != 'success') this.expiredSession();
+            });
         }
       }
-    })
-    
-    
+    });
+
     breakpointObserver
       .observe([Breakpoints.Medium, Breakpoints.Large, Breakpoints.XLarge])
       .pipe(takeUntil(this.isDestroyed$))
@@ -270,12 +272,12 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
       // @ts-ignore
       this.languageSelected = this.tokenStorageService.getLocale();
       translate.setDefaultLang(this.languageSelected);
-      this.fixMenuItemsWidth()
+      this.fixMenuItemsWidth();
     } else {
       this.tokenStorageService.setLocalLang('en');
       this.languageSelected = 'en';
       translate.setDefaultLang('en');
-        this.fixMenuItemsWidth()
+      this.fixMenuItemsWidth();
     }
     // translate.onLangChange
     //   .pipe(takeUntil(this.isDestroyed$))
@@ -289,10 +291,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
     //detect url changes to change the background of header
     this.router.events.pipe(takeUntil(this.isDestroyed$)).subscribe((event) => {
-      
-      
       if (event instanceof NavigationEnd) {
-        
         if (event.url.includes('welcome')) {
           this.isWelcomePage = true;
         } else {
@@ -339,7 +338,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           this.isWelcomePage = false;
           this.menuBuyToken = true;
         }
- /*if (!this.isWelcomePage) {
+        /*if (!this.isWelcomePage) {
           this.renderer?.setStyle(
             this.header?.nativeElement,
             'background',
@@ -361,7 +360,10 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe((e: any) => {});
   }
   metaMaskConnect() {
-    window.open(environment.metaMaskDomaine + '/welcome?redirection=true' , '_self');
+    window.open(
+      environment.metaMaskDomaine + '/welcome?redirection=true',
+      '_self'
+    );
   }
   goToSocials() {
     if (this.isLayoutDesktop) {
@@ -378,7 +380,6 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void {
     this.getScreenWidth = window.innerWidth;
     this.getScreenHeight = window.innerHeight;
-
 
     if (isPlatformBrowser(this.platformId)) {
       /*this.authService.isAuthenticated$
@@ -414,54 +415,55 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         this.newHeight = this.oldHeight;
       }
       if (this.tokenStorageService.getToken()) {
-        this.walletFacade.verifyUserToken()
-      .subscribe((res: any) => {
-        if(res.message === "success") {
-          this.showConnectButton = false;
-          this.isConnected = true;
-          this.getProfileDetails();
-        this.getNotifications();
-        // this.parentFunction();
-        this.portfeuille();
-        // this.showPopUp()
+        this.walletFacade.verifyUserToken().subscribe(
+          (res: any) => {
+            if (res.message === 'success') {
+              this.showConnectButton = false;
+              this.isConnected = true;
+              this.getProfileDetails();
+              this.getNotifications();
+              // this.parentFunction();
+              this.portfeuille();
+              // this.showPopUp()
 
-        this.receiveMessage();
+              this.receiveMessage();
 
-        this.tokenStorageService.removeItem('visited-facebook');
-        this.tokenStorageService.removeItem('hasTwitter');
-        this.tokenStorageService.removeItem('visited-google');
-        this.tokenStorageService.removeItem('visited-twitter');
-        this.tokenStorageService.removeItem('visited-tiktok');
-        this.tokenStorageService.removeItem('visited-socialConfig');
-        this.tokenStorageService.removeItem('visited-transactionPwd');
-        this.tokenStorageService.removeItem('visited-pwd');
-        this.tokenStorageService.removeItem('visited-download');
-        this.tokenStorageService.removeItem('visited-activePass');
-        this.tokenStorageService.removeItem('visited-completeProfile');
-        this.tokenStorageService.removeItem('visited-key');
-        this.tokenStorageService.removeItem('enabled');
-        this.tokenStorageService.removeItem('visited-pass-phrase');
+              this.tokenStorageService.removeItem('visited-facebook');
+              this.tokenStorageService.removeItem('hasTwitter');
+              this.tokenStorageService.removeItem('visited-google');
+              this.tokenStorageService.removeItem('visited-twitter');
+              this.tokenStorageService.removeItem('visited-tiktok');
+              this.tokenStorageService.removeItem('visited-socialConfig');
+              this.tokenStorageService.removeItem('visited-transactionPwd');
+              this.tokenStorageService.removeItem('visited-pwd');
+              this.tokenStorageService.removeItem('visited-download');
+              this.tokenStorageService.removeItem('visited-activePass');
+              this.tokenStorageService.removeItem('visited-completeProfile');
+              this.tokenStorageService.removeItem('visited-key');
+              this.tokenStorageService.removeItem('enabled');
+              this.tokenStorageService.removeItem('visited-pass-phrase');
 
-        this.isClicked();
-        
-        this.tokenStorageService.setItem('wallet_btc', this.btcCode);
-        this.tokenStorageService.setItem('wallet_btc_v2', this.btcCodeV2);
-        this.tokenStorageService.setItem('tron-wallet', this.tronAddress);
-        this.tokenStorageService.setItem('tron-wallet_v2', this.tronAddressV2);
-        } else {
-          this.signOut();
-          this.isConnected = false;
-          this.showConnectButton = true;
-          
-        };
-      }, (err:any) => {
-        this.signOut();
-        this.isConnected = false;
-        this.showConnectButton = true;
-        
-      })
+              this.isClicked();
 
-        
+              this.tokenStorageService.setItem('wallet_btc', this.btcCode);
+              this.tokenStorageService.setItem('wallet_btc_v2', this.btcCodeV2);
+              this.tokenStorageService.setItem('tron-wallet', this.tronAddress);
+              this.tokenStorageService.setItem(
+                'tron-wallet_v2',
+                this.tronAddressV2
+              );
+            } else {
+              this.signOut();
+              this.isConnected = false;
+              this.showConnectButton = true;
+            }
+          },
+          (err: any) => {
+            this.signOut();
+            this.isConnected = false;
+            this.showConnectButton = true;
+          }
+        );
       } else {
         this.isConnected = false;
         this.showConnectButton = true;
@@ -471,8 +473,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   isDisplayNew() {
     this.displayNew = localStorage.getItem('display')?.toString();
-    
-    if (this.existV1 && this.existV2)  {
+
+    if (this.existV1 && this.existV2) {
       if (this.displayNew === 'none') {
         this.displayNew = 'block';
         this.displayOld = 'none';
@@ -510,7 +512,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
               this.tokenStorageService.setShowPopUp('true');
             }
             this.user = new User(data);
-            this.tokenStorageService.saveUserId(data.idUser);    
+            this.tokenStorageService.saveUserId(data.idUser);
             this.tokenStorageService.saveLastLogin(data.lastLogin);
             this.tokenStorageService.saveIdSn(data.idSn);
             return this.walletFacade.wallet$;
@@ -862,7 +864,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   closeModal() {
     this.modalService.dismissAll(this.connectModal);
   }
-  connect(content:any) {
+  connect(content: any) {
     this.modalService.open(content);
   }
   sattConnect() {
@@ -1272,7 +1274,6 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   toggleWallet() {
-    
     setTimeout(() => {
       let elem = this.document.getElementById('ercQrCode');
       elem?.scrollIntoView({
@@ -1286,9 +1287,12 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.sidebarService.toggleWalletMobile.value) {
       this.sidebarService.toggleWalletMobile.next(false);
     } else {
-      this.walletFacade.verifyUserToken().pipe(first()).subscribe((res:any) => {
-        if(res.message != "success") this.expiredSession();
-      }); 
+      this.walletFacade
+        .verifyUserToken()
+        .pipe(first())
+        .subscribe((res: any) => {
+          if (res.message != 'success') this.expiredSession();
+        });
       this.sidebarService.toggleWalletMobile.next(true);
     }
   }
@@ -1369,14 +1373,13 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           this.existV2 = true;
         }
 
-        if(this.existV1 && this.existV2 ) {
+        if (this.existV1 && this.existV2) {
           this.titleWallet = 'Your wallet ID';
-          this.title = 'Go to old wallet';;
-        } else{
+          this.title = 'Go to old wallet';
+        } else {
           this.titleWallet = 'Your old wallet';
           this.title = 'Go to new wallet ';
         }
-
 
         if (!!data) {
           this.btcCodeV2 = data.data.btcAddressV2;
@@ -1506,7 +1509,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.menuAbout = false;
     this.menuBlog = false;
   }
-   
+
   checkMenuAbout() {
     this.titleService.setTitle('SaTT - Smart advertising Transaction Token');
     if (isPlatformBrowser(this.platformId))
@@ -1628,27 +1631,23 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   signOut() {
     this.authStoreService.clearStore();
-    this.tokenStorageService.clear();  
-    this.tokenStorageService.logout().subscribe(
-      () => {
-        this.campaignFacade.clearLinksListStore();
-        this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
-        this.ParticipationListStoreService.clearDataFarming();
-        this.walletFacade.dispatchLogout(); //clear totalBalance and cryptoList
-        this.accountFacadeService.dispatchLogoutAccount(); //clear account user
-        this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
-        this.ParticipationListStoreService.nextPage.pageNumber = 0;
-        this.profileSettingsFacade.clearProfilePicStore();
-        this.kycFacadeService.dispatchLogoutKyc();
-        this.isConnected = false;
-        this.showConnectButton = true;
-        this.authService.setIsAuthenticated(false);
-      }
-      
-    );
+    this.tokenStorageService.clear();
+    this.tokenStorageService.logout().subscribe(() => {
+      this.campaignFacade.clearLinksListStore();
+      this.campaignDataStore.clearDataStore(); // clear globale state before logging out user.
+      this.ParticipationListStoreService.clearDataFarming();
+      this.walletFacade.dispatchLogout(); //clear totalBalance and cryptoList
+      this.accountFacadeService.dispatchLogoutAccount(); //clear account user
+      this.socialAccountFacadeService.dispatchLogoutSocialAccounts(); // clear social accounts
+      this.ParticipationListStoreService.nextPage.pageNumber = 0;
+      this.profileSettingsFacade.clearProfilePicStore();
+      this.kycFacadeService.dispatchLogoutKyc();
+      this.isConnected = false;
+      this.showConnectButton = true;
+      this.authService.setIsAuthenticated(false);
+    });
   }
   ngOnDestroy(): void {
-    
     if (!!this.isDestroyed$) {
       this.isDestroyed$.next('');
       this.isDestroyed$.complete();
@@ -1657,13 +1656,12 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     //this.translate.onLangChange.unsubscribe();
   }
 
-
   logout() {
     this.tokenStorageService.clear();
     this.authStoreService.clearStore();
     this.campaignDataStore.clearDataStore();
     this.walletFacade.dispatchLogout();
     this.accountFacadeService.dispatchLogoutAccount();
-    window.open(environment.domainName + '/auth/login', '_self');
+    window.open(environment.domainName + '/welcome', '_self');
   }
 }
