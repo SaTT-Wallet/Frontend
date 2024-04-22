@@ -37,11 +37,10 @@
                   <input
                     id="key"
                     class="key d-flex search-input-wrapper mt-3"
-                    type="password"
+                    type="search"
                     name="search"
-                    autocomplete="new-password"
-                    placeholder="{{ 'searchToken' | translate }}
- "
+                    autocomplete="on"
+                    placeholder="{{ 'searchToken' | translate }}"
                     [(ngModel)]="search"
                     (ngModelChange)="onTextChange($event); clearInput()"
                   />

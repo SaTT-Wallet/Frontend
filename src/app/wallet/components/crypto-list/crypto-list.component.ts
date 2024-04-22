@@ -902,11 +902,9 @@ export class CryptoListComponent implements OnInit, OnDestroy {
   }
 
   onTextChange(value: any) {
-    this.document.getElementById('key')?.setAttribute('type', 'search');
     const inputElement = document.getElementById(
       'smartcontractkey'
     ) as HTMLInputElement;
-
     this.txtValue = value;
     if (this.txtValue !== '') {
       this.searched = true;
