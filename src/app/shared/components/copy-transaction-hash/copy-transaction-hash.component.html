@@ -6,7 +6,7 @@
     {{ 'Your transaction hash: ' | translate }}
   </h6>
   <div class="d-flex align-items-baseline justify-content-center">
-    <a [href]="type !== 'apply' ? networkWallet : 'farm-posts'" target="_blank">
+    <a [href]="redirect(networkWallet)" target="_blank">
       <!-- <p class="trx-hash-text text-bold">{{ transactionHash }}</p> -->
       <div class="d-flex justify-content-center">
         <span class="span-wallet flex-start">{{ transactionHash }}</span>

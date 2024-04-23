@@ -1,6 +1,7 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { Clipboard } from '@angular/cdk/clipboard';
 import {
+  artheraScan,
   bscan,
   bttscan,
   etherscan,
@@ -63,5 +64,23 @@ export class CopyTransactionHashComponent {
     setTimeout(() => {
       this.isTransactionHashCopied = false;
     }, 2000);
+  }
+
+  redirect(network:string) { 
+    if (network === 'BEP20') {
+      this.urlSmartContrat = bscan + this.transactionHash;
+    } else if (network === 'ERC20') {
+      this.urlSmartContrat = etherscan + this.transactionHash;
+    } else if (network === 'POLYGON') {
+      this.urlSmartContrat = polygonscan + this.transactionHash;
+    } else if (network === 'BTTC') {
+      this.urlSmartContrat = bttscan + this.transactionHash;
+    } else if (network === 'TRON') {
+      this.urlSmartContrat = tronScan + this.transactionHash;
+    } else if(network === 'ARTHERA') {  
+      this.urlSmartContrat = artheraScan + this.transactionHash;
+    }
+    this.windowRefService.nativeWindow.open(this.urlSmartContrat, '_blank');
+
   }
 }
