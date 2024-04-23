@@ -80,7 +80,7 @@ export class CopyTransactionHashComponent {
     } else if(network === 'ARTHERA') {  
       this.urlSmartContrat = artheraScan + this.transactionHash;
     }
-    this.windowRefService.nativeWindow.open(this.urlSmartContrat, '_blank');
+    
 
   }
 }
