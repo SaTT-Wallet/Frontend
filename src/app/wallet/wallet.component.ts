@@ -121,8 +121,8 @@ export class WalletComponent implements OnInit, OnDestroy {
   successNumber = false;
   successSpecial = false;
   successWhitespaces = false;
-  successLength = false;
   isV1: Boolean = localStorage.getItem('wallet_version') === 'v1';
+  successLength = false;
   lineChartDataMonth: ChartDataSets[] = [
     {
       data: [
@@ -829,10 +829,6 @@ export class WalletComponent implements OnInit, OnDestroy {
     );
   }
   ngOnInit(): void {
-    // this.modalService.open(this.setPwdTransactionModal, {
-    //   backdrop: 'static',
-    //   keyboard: false
-    // });
     
     if (this.isV1) {
       this.lineChartColors[0].backgroundColor = '#696DE4';
@@ -888,12 +884,13 @@ export class WalletComponent implements OnInit, OnDestroy {
     this.totalbalancewallet();
 
     this.getScreenWidth = window.innerWidth;
-    if (this.tokenStorageService.getWalletVersion() === 'v2') {
-      this.versionText = 'Old Wallet';
-      this.height = '250px';
-    } else {
-      this.versionText = 'New Wallet';
-      this.height = '300px';
+      if (!this.isV1) {
+        this.versionText = 'Old Wallet';
+        this.height = '250px';
+    } else 
+    {
+        this.versionText = 'New Wallet';
+        this.height = '300px';
     }
 
     //this.verifyUserWalletV2();

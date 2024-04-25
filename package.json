@@ -20,7 +20,7 @@
     "build:ssr": "ng build  && ng run satt-token-atayen:server",
     "build-dev:ssr": "ng build --configuration dev-ssr  && ng run satt-token-atayen:server:dev-ssr",
     "prerender": "ng run satt-token-atayen:prerender",
-    "max-size": "export NODE_OPTIONS='--max-old-space-size=8192' && ng s"
+    "max-size": "set NODE_OPTIONS=\"--max-old-space-size=8192\" && ng s"
   },
   "browserslist": [
     "extends browserslist-config-openmrs"
