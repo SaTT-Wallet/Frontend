@@ -41,7 +41,6 @@ export class CopyTransactionHashComponent {
   ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(this.tokenStorageService.getNetwork());
     if (changes) {
       this.tokenStorageService.removeItem('network');
       this.tokenStorageService.setItem('network', this.networkWallet);
@@ -70,7 +69,6 @@ export class CopyTransactionHashComponent {
   }
 
   redirect(network: string) {
-    console.log(network);
     if (network === 'BEP20') {
       this.urlSmartContrat = bscan + this.transactionHash;
     } else if (this.tokenStorageService.getNetwork() === 'ERC20') {
