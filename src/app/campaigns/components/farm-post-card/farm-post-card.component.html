@@ -44,19 +44,18 @@
         onerror="this.src='/assets/Images/campagne/twitter_cover.svg'"
         class="cmp-img2"
       />
-      <ng-container  *ngIf="prom.typeSN === 3 && prom.mediaUrl.includes('mp4')">
+      <ng-container *ngIf="prom.typeSN === 3 && prom.mediaUrl.includes('mp4')">
         <video [src]="prom.mediaUrl" autoplay loop [muted]="true"></video>
       </ng-container>
 
-      <ng-container  *ngIf="prom.typeSN === 3 && !prom.mediaUrl.includes('mp4')">
+      <ng-container *ngIf="prom.typeSN === 3 && !prom.mediaUrl.includes('mp4')">
         <img
-        [src]="prom.mediaUrl"
-        onerror="this.src='/assets/Images/campagne/instagramm.svg'"
-        class="cmp-img2"
-      />
+          [src]="prom.mediaUrl"
+          onerror="this.src='/assets/Images/campagne/instagramm.svg'"
+          class="cmp-img2"
+        />
       </ng-container>
-      
-      
+
       <img
         *ngIf="prom.typeSN === 5"
         [src]="prom.mediaUrl"
@@ -73,14 +72,25 @@
 
       <img
         *ngIf="prom.typeSN === 7"
-        [src]="prom.mediaUrl.toString().startsWith('https') ? prom.mediaUrl:  safeImageUrl(prom.mediaUrl)"
+        [src]="
+          prom.mediaUrl.toString().startsWith('https')
+            ? prom.mediaUrl
+            : safeImageUrl(prom.mediaUrl)
+        "
         onerror="this.src='/assets/Images/tiktoksign.svg'"
         class="cmp-img2"
       />
 
       <!-- <img *ngIf="prom.typeSN == 1" src="/assets/Images/campagne/facebook_cover_gain.svg" class="cmp-img2"> -->
       <!-- <img *ngIf="prom.typeSN == 4" src="/assets/Images/campagne/twitter_cover.svg" class="cmp-img2" [routerLink]="['/home/campaign/', prom.campaign._id]" /> -->
-      <a [href]="prom.typeSN == 7 ? 'https://www.threads.net/@skymage.skandert/CuhaaNvIJrh' : prom.link" target="_blank" class="icon_link hide-row-version"
+      <a
+        [href]="
+          prom.typeSN === 7
+            ? 'https://www.threads.net/@skymage.skandert/CuhaaNvIJrh'
+            : prom.link
+        "
+        target="_blank"
+        class="icon_link hide-row-version"
         ><img src="/assets/Images/campagne/gains-link.svg"
       /></a>
       <img
@@ -151,34 +161,32 @@
         </div>
         <div class="div-date">
           <h2
-          class="under_gains date"
-          *ngIf="localId === 'en' && prom.applyDate"
+            class="under_gains date"
+            *ngIf="localId === 'en' && prom.applyDate"
           >
-          <!-- h:mm:ss a -->
-          <span>
-          <img src="assets/Images/calender.svg" width="16px" />
-          {{ prom.applyDate | date: 'MM/dd/yyyy':undefined:localId || '' }}
-          </span>
-          <!-- <span class="span-hours">
+            <!-- h:mm:ss a -->
+            <span>
+              <img src="assets/Images/calender.svg" width="16px" />
+              {{ prom.applyDate | date: 'MM/dd/yyyy':undefined:localId || '' }}
+            </span>
+            <!-- <span class="span-hours">
           <img src="assets/Images/clock-link.svg" width="16px" />
           {{ prom.applyDate | date: 'h:mm ':undefined:localId || '' }}
           </span> -->
           </h2>
           <h2
-          class="under_gains date"
-          *ngIf="localId === 'fr' && prom.applyDate"
+            class="under_gains date"
+            *ngIf="localId === 'fr' && prom.applyDate"
           >
-          <span>
-          <img src="assets/Images/calender.svg" width="16px" />
-          {{ prom.applyDate | date: 'dd/MM/yyyy ':undefined:localId || '' }}
-          </span>
-          <!-- <span class="span-hours">
+            <span>
+              <img src="assets/Images/calender.svg" width="16px" />
+              {{ prom.applyDate | date: 'dd/MM/yyyy ':undefined:localId || '' }}
+            </span>
+            <!-- <span class="span-hours">
           <img src="assets/Images/clock-link.svg" width="16px" />
           {{ prom.applyDate | date: 'h:mm ':undefined:localId || '' }}
           </span>-->
           </h2>
-          
-         
         </div>
       </div>
 
@@ -610,10 +618,14 @@
           class="buttom_camp3"
           (click)="getMyGains(prom)"
           [disabled]="!harvestAvailable"
-          *ngIf="prom.type === 'harvest' && !isOwner && prom.campaign.remuneration !== 'publication'"
+          *ngIf="
+            prom.type === 'harvest' &&
+            !isOwner &&
+            prom.campaign.remuneration !== 'publication'
+          "
           [ngClass]="{ graybtn: !harvestAvailable }"
         >
-        <span class="btn-participe-gain" *ngIf="harvestAvailable === true">
+          <span class="btn-participe-gain" *ngIf="harvestAvailable === true">
             <img
               class="hourglass mb-3"
               src="/assets/Images/newImages/recover-hand.svg"
@@ -633,14 +645,17 @@
               }}.svg"
             />
           </span>
-                <span
+          <span
             class="btn-apply-text text-orange"
-            *ngIf="harvestAvailable === false "
+            *ngIf="harvestAvailable === false"
           >
-            <img class="" src="/assets/Images/campagne/hourglass.svg" style="margin-top:-4px;" />
+            <img
+              class=""
+              src="/assets/Images/campagne/hourglass.svg"
+              style="margin-top: -4px"
+            />
             <span> {{ 'wait_harvest' | translate }}</span>
-          
-            
+
             <span> {{ harvestAvailableIn }} </span>
           </span>
         </button>
@@ -651,11 +666,17 @@
           class="buttom_camp3"
           (click)="getMyGains(prom)"
           [disabled]="prom.campaign.type !== 'finished' || !harvestAvailable"
-          *ngIf="prom.type === 'harvest' && !isOwner && prom.campaign.remuneration === 'publication'"
-          [ngClass]="{ graybtn: prom.campaign.type === 'apply' || !harvestAvailable }"
+          *ngIf="
+            prom.type === 'harvest' &&
+            !isOwner &&
+            prom.campaign.remuneration === 'publication'
+          "
+          [ngClass]="{
+            graybtn: prom.campaign.type === 'apply' || !harvestAvailable
+          }"
         >
-        <span class="btn-participe-gain" *ngIf=" harvestAvailable">
-          <img
+          <span class="btn-participe-gain" *ngIf="harvestAvailable">
+            <img
               class="hourglass mb-3"
               src="/assets/Images/newImages/recover-hand.svg"
             />
@@ -674,18 +695,20 @@
               }}.svg"
             />
           </span>
-                <span
+          <span
             class="btn-apply-text text-orange"
-            *ngIf="harvestAvailable === false "
+            *ngIf="harvestAvailable === false"
           >
-            <img class="" src="/assets/Images/campagne/hourglass.svg" style="margin-top:-4px;" />
+            <img
+              class=""
+              src="/assets/Images/campagne/hourglass.svg"
+              style="margin-top: -4px"
+            />
             <span> {{ 'wait_harvest' | translate }}</span>
-          
-            
-            <span> {{ harvestAvailableIn}} </span>
+
+            <span> {{ harvestAvailableIn }} </span>
           </span>
         </button>
-
 
         <!--  link indisponible-->
         <button

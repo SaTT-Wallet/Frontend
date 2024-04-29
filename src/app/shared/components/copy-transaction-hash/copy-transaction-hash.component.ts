@@ -54,6 +54,8 @@ export class CopyTransactionHashComponent {
         this.networkWallet = bttscan + this.transactionHash;
       } else if (this.tokenStorageService.getNetwork() === 'TRON') {
         this.networkWallet = tronScan + this.transactionHash;
+      } else if (this.tokenStorageService.getNetwork() === 'ARTHERA') {
+        this.networkWallet = artheraScan + this.transactionHash;
       }
     }
   }
@@ -66,21 +68,20 @@ export class CopyTransactionHashComponent {
     }, 2000);
   }
 
-  redirect(network:string) { 
+  redirect(network: string) {
     if (network === 'BEP20') {
       this.urlSmartContrat = bscan + this.transactionHash;
-    } else if (network === 'ERC20') {
+    } else if (this.tokenStorageService.getNetwork() === 'ERC20') {
       this.urlSmartContrat = etherscan + this.transactionHash;
-    } else if (network === 'POLYGON') {
+    } else if (this.tokenStorageService.getNetwork() === 'POLYGON') {
       this.urlSmartContrat = polygonscan + this.transactionHash;
-    } else if (network === 'BTTC') {
+    } else if (this.tokenStorageService.getNetwork() === 'BTTC') {
       this.urlSmartContrat = bttscan + this.transactionHash;
-    } else if (network === 'TRON') {
+    } else if (this.tokenStorageService.getNetwork() === 'TRON') {
       this.urlSmartContrat = tronScan + this.transactionHash;
-    } else if(network === 'ARTHERA') {  
+    } else if (this.tokenStorageService.getNetwork() === 'ARTHERA') {
       this.urlSmartContrat = artheraScan + this.transactionHash;
     }
-    
-
+    return this.urlSmartContrat;
   }
 }
