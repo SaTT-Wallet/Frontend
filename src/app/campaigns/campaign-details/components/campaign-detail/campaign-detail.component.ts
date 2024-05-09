@@ -286,25 +286,33 @@ export class CampaignDetailComponent implements OnInit {
    
     setTimeout(() => {
       // WHEN YOU GET REFUNDS ( AFTER 15 DAYS )
-      this.dateRefund = new Date(((this.campaign?.endDate?.getTime() / 1000) + environment.dateRefund ) * 1000)
-      
-      if((this.dateRefund.getTime() - Date.now()) > 0) {
+      this.dateRefund = new Date(
+        (this.campaign?.endDate?.getTime() / 1000 + environment.dateRefund) *
+          1000
+      );
+      let diffTime = this.dateRefund.getTime() - Date.now();
+
+      if (this.dateRefund.getTime() - Date.now() > 0) {
         this.refundButtonDisable = true;
       } else {
         this.refundButtonDisable = false;
       }
-      // CALCULATE THE DAYS : 
-      this.dateRefundDays = Math.floor((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ));
-
+      // CALCULATE THE DAYS :
+      this.dateRefundDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
       // CALCULATE THE HOURS :
-      this.dateRefundHours = Math.floor(((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - this.dateRefundDays ) * 24 )
+      this.dateRefundHours = Math.floor(
+        (diffTime / (1000 * 60 * 60 * 24) - this.dateRefundDays) * 24
+      );
 
-
-      // CALCULATE MINUTES : 
-      this.dateRefundMinutes = Math.floor(((((this.dateRefund.getTime() - Date.now()) / (1000 * 60 * 60 * 24  ) - this.dateRefundDays ) * 24) - this.dateRefundHours) * 60)
+      // CALCULATE MINUTES :
+      this.dateRefundMinutes = Math.floor(
+        ((diffTime / (1000 * 60 * 60 * 24) - this.dateRefundDays) * 24 -
+          this.dateRefundHours) *
+          60
+      );
       this.loadingData = false;
-    }, 500)
+    }, 1500)
   
     
   }
