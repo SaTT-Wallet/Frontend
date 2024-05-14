@@ -25,13 +25,14 @@
   width: 100%;
   right: 0px;
 }
-.graybtn {
+.buttom_camp3.graybtn {
+  pointer-events: none;
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
   line-height: 120%;
   position: absolute;
-  cursor: default;
+  cursor: default !important;
   border: none;
   box-shadow: 0px 2px 2px rgb(0 0 0 / 15%);
   text-align: center;
@@ -151,7 +152,10 @@ hr.new2 {
   text-transform: uppercase;
   color: #adadc8;
 }
-
+.button_camp3.disable{
+  pointer-events: none;
+  background: gray;
+}
 .buttom_camp3 {
   font-style: normal;
   font-weight: 600;

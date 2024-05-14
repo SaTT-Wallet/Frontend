@@ -795,6 +795,7 @@
   "create-comp-type-here": "Tapez ici...",
   "campaign_details.earnings": "Gains",
   "campaign_details.editor_recover_satt": "Récupérer",
+  "campaign_details.editor_recover_sattNull": "Pas de gains",
   "campaign_details.editor_stats": "Statistiques",
   "campaign_details.increase_fund": "Augmenter le budget",
   "campaign_details.media": "Média",

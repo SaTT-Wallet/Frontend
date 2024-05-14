@@ -516,6 +516,7 @@
   "social_networks.add_tiktok": "Add TikTok account",
   "campaign_details.earnings": "Earnings",
   "campaign_details.editor_recover_satt": "Harvest",
+  "campaign_details.editor_recover_sattNull": "No Gains",
   "campaign_details.editor_stats": "Statistics",
   "campaign_details.increase_fund": "Gérer mon Adpool",
   "campaign_details.media": "Media",
