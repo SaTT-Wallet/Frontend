@@ -623,7 +623,7 @@
             !isOwner &&
             prom.campaign.remuneration !== 'publication'
           "
-          [ngClass]="{ graybtn: !harvestAvailable }"
+          [ngClass]="{ graybtn: !harvestAvailable || prom.totalToEarn === '0' }"
         >
           <span
             class="btn-participe-gain"
@@ -687,19 +687,19 @@
         <button
           type="button"
           class="buttom_camp3"
+          [ngClass]="{ disable: prom.totalToearn === '0' }"
           (click)="getMyGains(prom)"
-          [disabled]="
-            prom.campaign.type !== 'finished' ||
-            !harvestAvailable ||
-            prom.totalToEarn === '0'
-          "
+          [disabled]="prom.campaign.type !== 'finished' || !harvestAvailable"
           *ngIf="
             prom.type === 'harvest' &&
             !isOwner &&
             prom.campaign.remuneration === 'publication'
           "
           [ngClass]="{
-            graybtn: prom.campaign.type === 'apply' || !harvestAvailable
+            graybtn:
+              prom.campaign.type === 'apply' ||
+              !harvestAvailable ||
+              prom.totalToEarn === '0'
           }"
         >
           <span
