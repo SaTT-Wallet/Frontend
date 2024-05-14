@@ -625,7 +625,10 @@
           "
           [ngClass]="{ graybtn: !harvestAvailable }"
         >
-          <span class="btn-participe-gain" *ngIf="harvestAvailable === true">
+          <span
+            class="btn-participe-gain"
+            *ngIf="harvestAvailable === true && prom.totalToEarn !== '0'"
+          >
             <img
               class="hourglass mb-3"
               src="/assets/Images/newImages/recover-hand.svg"
@@ -644,6 +647,26 @@
                 prom.campaign.currency
               }}.svg"
             />
+          </span>
+          <span
+            class="btn-participe-gain-disabled"
+            *ngIf="harvestAvailable === true && prom.totalToEarn === '0'"
+          >
+            <img
+              class="hourglass mb-3"
+              src="/assets/Images/newImages/recover-hand.svg"
+            />
+            <span class="hide-row-desktop"
+              >{{ 'campaign_details.editor_recover_sattNull' | translate }}
+            </span>
+            <!-- <img
+            width="19px"
+            height="18px"
+            class="ms-1 crypto-logo hide-row-desktop"
+            src="/assets/Images/icons-crypto/white/{{
+              prom.campaign.currency
+            }}.svg"
+          /> -->
           </span>
           <span
             class="btn-apply-text text-orange"
@@ -665,7 +688,11 @@
           type="button"
           class="buttom_camp3"
           (click)="getMyGains(prom)"
-          [disabled]="prom.campaign.type !== 'finished' || !harvestAvailable"
+          [disabled]="
+            prom.campaign.type !== 'finished' ||
+            !harvestAvailable ||
+            prom.totalToEarn === '0'
+          "
           *ngIf="
             prom.type === 'harvest' &&
             !isOwner &&
@@ -675,7 +702,10 @@
             graybtn: prom.campaign.type === 'apply' || !harvestAvailable
           }"
         >
-          <span class="btn-participe-gain" *ngIf="harvestAvailable">
+          <span
+            class="btn-participe-gain"
+            *ngIf="harvestAvailable && prom.totalToEarn !== '0'"
+          >
             <img
               class="hourglass mb-3"
               src="/assets/Images/newImages/recover-hand.svg"
@@ -694,6 +724,26 @@
                 prom.campaign.currency
               }}.svg"
             />
+          </span>
+          <span
+            class="btn-participe-gain-disabled"
+            *ngIf="harvestAvailable && prom.totalToEarn === '0'"
+          >
+            <img
+              class="hourglass mb-3"
+              src="/assets/Images/newImages/recover-hand.svg"
+            />
+            <span class="hide-row-desktop"
+              >{{ 'campaign_details.editor_recover_sattNull' | translate }}
+            </span>
+            <!-- <img
+              width="19px"
+              height="18px"
+              class="ms-1 crypto-logo hide-row-desktop"
+              src="/assets/Images/icons-crypto/white/{{
+                prom.campaign.currency
+              }}.svg"
+            /> -->
           </span>
           <span
             class="btn-apply-text text-orange"
